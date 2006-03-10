@@ -1,36 +1,13 @@
 /*! \page branch Branching and Branding
 
 \section branch_depot Remote Depot
-To create a new SnCore-based project in a remote depot (in your own source control) you should mirror SnCore main and then create
+To create a new SnCore-based project in a remote depot (in your own source control) you should mirror SnCore branch and then create
 a branch off that mirror. Thus you can pickup SnCore updates and integrate them to the child branch(es). This process is known as 
 reflection.
 
 \section branch_branch Branching
 <ol>
- <li>Create a new branch.
-\code
-p4 branch MyProject
-\endcode
-The branch view should be:
-\code
- //depot/sncore/main/... //depot/myproject/main/...
-\endcode
- <li>Create a client view into MyProject.
-\code
-$ p4 client myproject-mymachine-main-1
-\endcode
-The client view should be:
-\code
- //depot/myproject/main/... //myproject-mymachine-main-1/...
-\endcode
- <li>Integrate the code.
-\code
-$ p4 integrate -b myproject-main
-\endcode
- <li>Submit the code.
-\code
-$ p4 submit
-\endcode
+ <li>To do ...
 </ol>
 
 \section branch_project Configuring Project
