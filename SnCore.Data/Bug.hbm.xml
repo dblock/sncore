@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.0" schema="dbo">
+  <class name="Bug, SnCore.Data" table="Bug">
+    <id access="nosetter.pascalcase-m-underscore"  name="Id" type="Int32" column="Bug_Id">
+      <generator class="identity" />
+    </id>
+    <property name="AccountId" column="Account_Id" type="Int32" />
+    <bag lazy="true" name="BugLinks" inverse="true">
+      <key column="Bug_Id" />
+      <one-to-many class="BugLink, SnCore.Data" />
+    </bag>
+    <bag lazy="true" name="BugNotes" inverse="true">
+      <key column="Bug_Id" />
+      <one-to-many class="BugNote, SnCore.Data" />
+    </bag>
+    <property name="Created" column="Created" type="DateTime" />
+    <property name="Details" column="Details" type="String" />
+    <many-to-one name="Priority" column="Priority_Id" class="BugPriority, SnCore.Data" />
+    <many-to-one name="Project" column="Project_Id" class="BugProject, SnCore.Data" />
+    <bag lazy="true" name="RelatedBugBugLinks" inverse="true">
+      <key column="RelatedBug_Id" />
+      <one-to-many class="BugLink, SnCore.Data" />
+    </bag>
+    <many-to-one name="Resolution" column="Resolution_Id" class="BugResolution, SnCore.Data" />
+    <many-to-one name="Severity" column="Severity_Id" class="BugSeverity, SnCore.Data" />
+    <many-to-one name="Status" column="Status_Id" class="BugStatu, SnCore.Data" />
+    <property name="Subject" column="Subject" type="String" />
+    <many-to-one name="Type" column="Type_Id" class="BugType, SnCore.Data" />
+    <property name="Updated" column="Updated" type="DateTime" />
+  </class>
+</hibernate-mapping>

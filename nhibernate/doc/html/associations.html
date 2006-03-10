@@ -1,0 +1,52 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Chapter 6. Association Mappings</title><link rel="stylesheet" href="html.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.69.1"><link rel="start" href="index.html" title="NHibernate Documentation 1.0.1.0"><link rel="up" href="NHibernate.Mapping.html" title="Part I. NHibernate Mapping"><link rel="prev" href="collections.html" title="Chapter 5. Collection Mapping"><link rel="next" href="example-parentchild.html" title="Chapter 7. Example: Parent/Child"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter 6. Association Mappings</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="collections.html">Prev</a> </td><th width="60%" align="center">Part I. NHibernate Mapping</th><td width="20%" align="right"> <a accesskey="n" href="example-parentchild.html">Next</a></td></tr></table><hr></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="associations"></a>Chapter 6. Association Mappings</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="associations.html#assoc-intro">Introduction</a></span></dt><dt><span class="sect1"><a href="associations.html#assoc-unidirectional">Unidirectional associations</a></span></dt><dd><dl><dt><span class="sect2"><a href="associations.html#assoc-unidirectional-m21">many to one</a></span></dt><dt><span class="sect2"><a href="associations.html#assoc-unidirectional-121">one to one</a></span></dt><dt><span class="sect2"><a href="associations.html#assoc-unidirectional-12m">one to many</a></span></dt></dl></dd><dt><span class="sect1"><a href="associations.html#assoc-unidirectional-join">Unidirectional associations with join tables</a></span></dt><dd><dl><dt><span class="sect2"><a href="associations.html#assoc-unidirectional-join-12m">one to many</a></span></dt><dt><span class="sect2"><a href="associations.html#assoc-unidirectional-join-m21">many to one</a></span></dt><dt><span class="sect2"><a href="associations.html#assoc-unidirectional-join-121">one to one</a></span></dt><dt><span class="sect2"><a href="associations.html#assoc-unidirectional-join-m2m">many to many</a></span></dt></dl></dd><dt><span class="sect1"><a href="associations.html#assoc-bidirectional">Bidirectional associations</a></span></dt><dd><dl><dt><span class="sect2"><a href="associations.html#assoc-bidirectional-m21">one to many / many to one</a></span></dt><dt><span class="sect2"><a href="associations.html#assoc-bidirectional-121">one to one</a></span></dt></dl></dd><dt><span class="sect1"><a href="associations.html#assoc-bidirectional-join">Bidirectional associations with join tables</a></span></dt><dd><dl><dt><span class="sect2"><a href="associations.html#assoc-bidirectional-join-12m">one to many / many to one</a></span></dt><dt><span class="sect2"><a href="associations.html#assoc-bidirectional-join-121">one to one</a></span></dt><dt><span class="sect2"><a href="associations.html#assoc-bidirectional-join-m2m">many to many</a></span></dt></dl></dd></dl></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="assoc-intro"></a>Introduction</h2></div></div></div><p>
+			Association mappings are often the most difficult thing to get right.  In
+			this section we'll go through the canonical cases one by one, starting 
+			with unidirectional mappings, and then considering the bidirectional cases.
+			We'll use <code class="literal">Person</code> and <code class="literal">Address</code> in all
+			the examples.  The namespace and assembly are not included in the example
+			mappings to keep the mappings focused on the important aspects.			
+		</p><p>
+			We'll classify associations by wheter or not they map to an intervening
+			join table, and by multiplicity.
+		</p><p>
+			Nullable foreign keys are not considered good practive in traditional data
+			modeling, so all our examples use not null foreign keys.  This is not a 
+			requirement of NHibernate, and the mappings will all work if you drop the
+			nullability constraints.
+		</p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="assoc-unidirectional"></a>Unidirectional associations</h2></div></div></div><p>
+		</p><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="assoc-unidirectional-m21"></a>many to one</h3></div></div></div><p></p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="assoc-unidirectional-121"></a>one to one</h3></div></div></div><p></p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="assoc-unidirectional-12m"></a>one to many</h3></div></div></div><p></p></div></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="assoc-unidirectional-join"></a>Unidirectional associations with join tables</h2></div></div></div><p></p><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="assoc-unidirectional-join-12m"></a>one to many</h3></div></div></div><p></p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="assoc-unidirectional-join-m21"></a>many to one</h3></div></div></div><p></p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="assoc-unidirectional-join-121"></a>one to one</h3></div></div></div><p></p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="assoc-unidirectional-join-m2m"></a>many to many</h3></div></div></div><p></p></div></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="assoc-bidirectional"></a>Bidirectional associations</h2></div></div></div><p></p><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="assoc-bidirectional-m21"></a>one to many / many to one</h3></div></div></div><p>
+				A <span class="emphasis"><em>bidirectional one-to-many association</em></span> is the
+				most common kind of association.  (This is the standard parent/child
+				relationship.)
+			</p><pre class="programlisting">&lt;class name="Person"&gt;
+	&lt;id name="Id" column="personId"&gt;
+		&lt;generator class="native" /&gt;
+	&lt;/id&gt;
+	&lt;many-to-one name="Address"
+		column="addressId"
+		not-null="true"
+	/&gt;
+&lt;/class&gt;
+
+&lt;class name="Address"&gt;
+	&lt;id name="Id" column="addressId"&gt;
+		&lt;generator class="native" /&gt;
+	&lt;/id&gt;
+	&lt;set name="People" inverse="true"&gt;
+		&lt;key column="addressId" /&gt;
+		&lt;one-to-many class="Person" /&gt;
+	&lt;/set&gt;
+&lt;/class&gt;</pre><pre class="programlisting">
+create table Person 
+(
+	personId bigint not null primary key,
+	addressId bigint not null
+)
+
+create table Address
+(
+	addressId bigint not null primary key
+)
+	
+</pre></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="assoc-bidirectional-121"></a>one to one</h3></div></div></div><p></p></div></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="assoc-bidirectional-join"></a>Bidirectional associations with join tables</h2></div></div></div><p></p><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="assoc-bidirectional-join-12m"></a>one to many / many to one</h3></div></div></div><p>
+			</p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="assoc-bidirectional-join-121"></a>one to one</h3></div></div></div><p></p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="assoc-bidirectional-join-m2m"></a>many to many</h3></div></div></div><p></p></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="collections.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="NHibernate.Mapping.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="example-parentchild.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter 5. Collection Mapping </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Chapter 7. Example: Parent/Child</td></tr></table></div></body></html>

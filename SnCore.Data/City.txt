@@ -1,0 +1,8 @@
+1	New York	255	34	nyc
+2	San Francisco	255	5	sf
+3	Los Angeles	255	5	la
+4	Seattle	255	52	sea
+5	Washington DC	255	9	dc
+6	Boston	255	23	bos
+7	Portland	255	40	por
+8	Miami	255	10	mia

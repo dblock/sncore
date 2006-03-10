@@ -1,0 +1,156 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Chapter 5. Collection Mapping</title><link rel="stylesheet" href="html.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.69.1"><link rel="start" href="index.html" title="NHibernate Documentation 1.0.1.0"><link rel="up" href="NHibernate.Mapping.html" title="Part I. NHibernate Mapping"><link rel="prev" href="mapping.html" title="Chapter 4. Basic O/R Mapping"><link rel="next" href="associations.html" title="Chapter 6. Association Mappings"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter 5. Collection Mapping</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="mapping.html">Prev</a> </td><th width="60%" align="center">Part I. NHibernate Mapping</th><td width="20%" align="right"> <a accesskey="n" href="associations.html">Next</a></td></tr></table><hr></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="collections"></a>Chapter 5. Collection Mapping</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="collections.html#collections-persistent">Persistent Collections</a></span></dt><dt><span class="sect1"><a href="collections.html#collections-mapping">Mapping a Collection</a></span></dt><dt><span class="sect1"><a href="collections.html#collections-ofvalues">Collections of Values and Many-To-Many Associations</a></span></dt><dt><span class="sect1"><a href="collections.html#collections-onetomany">One-To-Many Associations</a></span></dt><dt><span class="sect1"><a href="collections.html#collections-lazy">Lazy Initialization</a></span></dt><dt><span class="sect1"><a href="collections.html#collections-sorted">Sorted Collections</a></span></dt><dt><span class="sect1"><a href="collections.html#collections-idbag">Using an &lt;idbag&gt;</a></span></dt><dt><span class="sect1"><a href="collections.html#collections-bidirectional">Bidirectional Associations</a></span></dt><dt><span class="sect1"><a href="collections.html#collections-ternary">Ternary Associations</a></span></dt><dt><span class="sect1"><a href="collections.html#collections-heterogeneous">Heterogeneous Associations</a></span></dt><dt><span class="sect1"><a href="collections.html#collections-example">Collection examples</a></span></dt></dl></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="collections-persistent"></a>Persistent Collections</h2></div></div></div><p>
+			This section does not contain much example .NET code.  We assume you already know
+			how to use .NET's collections framework and the concepts behind a Set collection.  
+			If so, there's not really anything more	to know - with a single caveat, you may 
+			use collections the same way you always have.
+		</p><p>
+			NHibernate can persist instances of 
+			<code class="literal">System.Collections.IDictionary</code>,
+			<code class="literal">System.Collections.IList</code>,
+			<code class="literal">Iesi.Collections.ISet</code>,
+			and an arry of persistent entities or values.  Properties of type
+			<code class="literal">System.Collections.ILst</code> may also
+			be persisted with "bag" semantics.
+		</p><p>
+			Now the caveat: persistent collections do not retain any extra semantics added by the class
+			implementing the collection interface (eg. iteration order of a <code class="literal">Iesi.Collections.ListSet</code>.
+			The persistent collections actually behave like
+			<code class="literal">System.Collections.Hashtable</code>,
+			<code class="literal">System.Collections.ArrayList</code>,
+			<code class="literal">Iesi.Collections.HashedSet</code> 
+			respectively.  Furthermore, the .NET type of a property holding a collection must be
+			the interface type (ie. <code class="literal">IDictionary</code>, <code class="literal">IList</code>, or
+			<code class="literal">ISet</code>).  This restriction exists because NHibernate replaces your 
+			instances of <code class="literal">IDictionary</code>, <code class="literal">IList</code>, and 
+			<code class="literal">ISet</code> with instances of its own persistent implemetations of those 
+			collection interfaces.  (So also be careful when using <code class="literal">==</code> on your
+			collections.)
+		</p><pre class="programlisting">Cat cat = new DomesticCat();
+Cat kitten = new DomesticCat();
+...
+Iesi.Collections.ISet kittens = new Iesi.Collections.HashedSet();	
+kittens.Add( kitten );
+cat.Kittens = kittens;
+session.Save( cat );
+kittens = cat.Kittens; // Okay, kittens collection is an ISet
+(Iesi.Collections.HashedSet)cat.Kittens; //Error! - a NHibernate.Collections.Set not Iesi.Collections.HashedSet</pre><p>
+			Collections obey the usual rules for value types: no shared 
+			references, created and deleted along with containing entity.  Due to the underlying
+			relational model, they do not support null value semantics; NHibernate does not
+			distinguish between a null collection reference and an empty collection.
+		</p><p>
+			Collections are automatically persisted when referenced by a persistent object
+			and automattically deleted when unreferenced.  If a collection is passed from one
+			persistent object to another, its elements might be moved from one table to
+			another.  You shouldn't have to worry much about any of this.  Just use
+			NHibernate's collections the same way you use ordinary .NET collections, but
+			make sure you understand the semantic of bidirectional associations (discussed
+			later) before using them. 
+		</p><p>
+			Collection instances are distinguished in the database by a foreign key to
+			the owning entity.  This foreign key is referred to as the 
+			<span class="emphasis"><em>collection key</em></span>.  The collection key is mapped by 
+			the <code class="literal">&lt;key&gt;</code> element.
+		</p><p>
+			Collections may contain almost any other NHibernate type, including all basic types,
+			custome types, entity types and components.  This is an important definition: An object
+			in a collection can either be handled with "pass by value" semantics (it therefore
+			fully depends on the collection owner) or it can be a reference to another entity 
+			with its own lifecycle.  Collections may not contain other collections.  The contained type
+			is referred to as the <span class="emphasis"><em>collection element type</em></span>.  Collection elements
+			are mapped by <code class="literal">&lt;element&gt;</code>, <code class="literal">&lt;composite-element&gt;</code>,
+			<code class="literal">&lt;one-to-many&gt;</code>, <code class="literal">&lt;many-to-many&gt;</code>, or
+			<code class="literal">&lt;many-to-any&gt;</code>.  The first two map elements with value semantics, 
+			the other three are used to map entity associations.
+		</p><p>
+			All collection types except <code class="literal">ISet</code> and bag have an <span class="emphasis"><em>index</em></span>
+			column - a column that maps to an array or <code class="literal">IList</code> index or 
+			<code class="literal">IDictionary</code>key.  The index of a <code class="literal">IDictionary</code> may be of any 
+			basic type, an entity type or even a composite type (it may not be a collection).  The 
+			index of an array or list is always of type	<code class="literal">Int32</code>.  Indexes are 
+			mapped using <code class="literal">&lt;index&gt;</code>, <code class="literal">&lt;index-many-to-many&gt;</code>,
+			<code class="literal">&lt;composite-index&gt;</code>, or <code class="literal">&lt;index-many-to-any&gt;</code>.
+		</p><p>
+			There are quite a range of mappings that can be generated for collections, 
+			covering many common relational models.  We suggest you experiment with the
+			schema generation tool to get a feeling for how various mapping declarations
+			translate to database tables.
+		</p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="collections-mapping"></a>Mapping a Collection</h2></div></div></div><p></p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="collections-ofvalues"></a>Collections of Values and Many-To-Many Associations</h2></div></div></div><p></p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="collections-onetomany"></a>One-To-Many Associations</h2></div></div></div><p></p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="collections-lazy"></a>Lazy Initialization</h2></div></div></div><p></p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="collections-sorted"></a>Sorted Collections</h2></div></div></div><p></p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="collections-idbag"></a>Using an &lt;idbag&gt;</h2></div></div></div><p>
+		</p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="collections-bidirectional"></a>Bidirectional Associations</h2></div></div></div><p>
+			A <span class="emphasis"><em>bidirectional association</em></span> allows navigation from both
+			"ends" of the association.  Two kinds of bidirectional association are 
+			supported:
+			
+			</p><div class="variablelist"><dl><dt><span class="term">one-to-many</span></dt><dd><p>
+							<code class="literal">&lt;set&gt;</code> or <code class="literal">&lt;bag&gt;</code> at one
+							end, single-valued at the other
+						</p></dd><dt><span class="term">many-to-many</span></dt><dd><p>
+							<code class="literal">&lt;set&gt;</code> or <code class="literal">&lt;bag&gt;</code> at both
+							ends.
+						</p></dd></dl></div><p>
+		</p><p>
+			Please note that NHibernate does not support bidirectional one-to-many associations
+			with an indexed collection (list, map, or array) as the "many" end, you have to 
+			use a set or bag mapping.
+		</p><p>
+			You may specify a bidirectional many-to-many association simply by mapping two
+			many-to-many associations to the same database table and declaring one end as 
+			<span class="emphasis"><em>inverse</em></span> (which end is your choice).  Here's an example of 
+			a bidirectional many-to-many association from a class back to <span class="emphasis"><em>itself</em></span>
+			(each category can have many items and each item can be in many categories):
+		</p><pre class="programlisting">&lt;class name name="NHibernate.Auction.Category, NHibernate.Auction"&gt;
+	&lt;id name="Id" column="ID"/&gt;
+	...
+	&lt;bag name="Items" table="CATEGORY_ITEM" lazy="true"&gt;
+		&lt;key column="CATEGORY_ID" /&gt;
+		&lt;many-to-many class="NHibernate.Auction.Category, NHibernate.Auction" column="ITEM_ID" /&gt;
+	&lt;/bag&gt;
+&lt;/class&gt;
+
+&lt;class name="NHibernate.Auction.Item, NHibernate.Auction"&gt;
+	&lt;id name="Id" column="ID" /&gt;
+	
+	&lt;!-- inverse end --&gt;
+	&lt;bag name="Categories" table="CATEGORY_ITEM" inverse="true" lazy="true"&gt;
+		&lt;key column="ITEM_ID" /&gt;
+		&lt;many-to-many class="NHibernate.Auction.Category, NHibernate.Auction" column="CATEGORY_ID" /&gt;
+	&lt;/bag&gt;
+&lt;/class&gt;
+</pre><p>
+			Changes made only to the inverse end of the association are <span class="emphasis"><em>not</em></span>
+			persisted.  This means that NHibernate has two representations in memory for every
+			bidirectional association, one link from A to B and another link from B to A.  This
+			is easier to understand if you think about the object model and how we create a 
+			many-to-many relationship in .NET:
+		</p><pre class="programlisting">
+category.Items.Add( item ); // The category now "knows" about the relationship
+item.Categories.Add( category ); // The item now "knows" about the relationship
+
+session.Update( item ); // No effect, nothing will be saved!
+session.Update( category ); // The relationship will be saved
+</pre><p>
+			The non-inverse side is used to save the in-memory representation to the database.
+			We would get an unnecessary INSERT/UPDATE and probably even a foreign key violation
+			if both would trigger changes!  This same is of course also true for bidirectional
+			one-to-many associations.
+		</p><p>
+			You may map a bidirectional one-to-many association by mapping a one-to-many association
+			to the same table column(s) as a many-to-one association and declaring the many-valued
+			end <code class="literal">inverse="true"</code>.
+		</p><pre class="programlisting">&lt;class name="Eg.Parent, Eg&gt;
+	&lt;id name="Id" column="id" /&gt;
+	...
+	&lt;set name="Children" inverse="true" lazy="true"&gt;
+		&lt;key column="parent_id" /&gt;
+		&lt;one-to-many class="Eg.Child, Eg" /&gt;
+	&lt;/set&gt;
+&lt;/class&gt;
+
+&lt;class name="Eg.Child, Eg"&gt;
+	&lt;id name="Id" column="id" /&gt;
+	....
+	&lt;many-to-one name="Parent" class="Eg.Parent, Eg" column="parent_id" /&gt;
+&lt;/class&gt;</pre><p>
+			Mapping one end of an association with <code class="literal">inverse="true"</code> doesn't
+			affect the operation of cascades, both are different concepts!
+		</p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="collections-ternary"></a>Ternary Associations</h2></div></div></div><p></p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="collections-heterogeneous"></a>Heterogeneous Associations</h2></div></div></div><p></p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="collections-example"></a>Collection examples</h2></div></div></div><p></p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="mapping.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="NHibernate.Mapping.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="associations.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter 4. Basic O/R Mapping </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Chapter 6. Association Mappings</td></tr></table></div></body></html>

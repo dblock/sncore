@@ -1,0 +1,226 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8DE2053A-247B-430A-86C3-E52B4725AA60}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>Atom.NET</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Atom.NET</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="nunit.framework">
+      <Name>nunit.framework</Name>
+      <HintPath>C:\Programmi\NUnit 2.2\bin\nunit.framework.dll</HintPath>
+      <AssemblyFolderKey>hklm\dn\nunit.framework</AssemblyFolderKey>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Web">
+      <Name>System.Web</Name>
+    </Reference>
+    <Reference Include="System.XML">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Atom.AdditionalElements\DublinCore\DcElement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Atom.AdditionalElements\ScopedElement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Atom.AdditionalElements\ScopedElementCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Atom.Core.Collections\AtomContentCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Atom.Core.Collections\AtomEntryCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Atom.Core.Collections\AtomLinkCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Atom.Core.Collections\AtomPersonConstructCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Atom.Core\AtomContent.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Atom.Core\AtomContentConstruct.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Atom.Core\AtomDateConstruct.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Atom.Core\AtomElement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Atom.Core\AtomEntry.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Atom.Core\AtomFeed.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Atom.Core\AtomGenerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Atom.Core\AtomLink.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Atom.Core\AtomPersonConstruct.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Atom.Core\Enums.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Atom.Core\Exceptions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Atom.Utils\DefaultValues.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Atom.Utils\Utils.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AtomReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AtomWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="mvpxml\XmlNamespaces.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="mvpxml\XPathNavigatorReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="tests\Atom.Core\AtomContentTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="tests\Atom.Core\AtomEntryTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="tests\Atom.Core\AtomFeedTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="tests\Atom.Core\AtomLinksTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="tests\Atom.Utils\UtilsTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <None Include="atomnet.build" />
+    <None Include="Makefile" />
+    <None Include="Makefile.Atom.NET" />
+    <Content Include="AUTHORS.txt" />
+    <Content Include="CHANGES.txt" />
+    <Content Include="COPYING.txt" />
+    <Content Include="README.txt" />
+    <Content Include="tests\entries\myblog.xml" />
+    <Content Include="tests\entries\sampleentry.xml" />
+    <Content Include="tests\feeds\atom03maximal-noerror.xml" />
+    <Content Include="tests\feeds\atom03maximal-nowarn.xml" />
+    <Content Include="tests\feeds\atom03minimal-noerror.xml" />
+    <Content Include="tests\feeds\atom03minimal-nowarn.xml" />
+    <Content Include="tests\feeds\Atom03_Max.xml" />
+    <Content Include="tests\feeds\Atom03_Min.xml" />
+    <Content Include="tests\feeds\Atom03_Multipart.xml" />
+    <Content Include="tests\feeds\blojsom-atom03-12282004.xml" />
+    <Content Include="tests\feeds\diveintomark-03-12282003.xml" />
+    <Content Include="tests\feeds\erikweblog.xml" />
+    <Content Include="tests\feeds\firedrop.xml" />
+    <Content Include="tests\feeds\first.xml" />
+    <Content Include="tests\feeds\namespacedfeed.xml" />
+    <Content Include="tests\feeds\onlyentryhaveauthor.xml" />
+    <Content Include="tests\feeds\pilgrim.xml" />
+    <Content Include="tests\feeds\randomthoughts.xml" />
+    <Content Include="tests\feeds\scottwater.xml" />
+    <Content Include="tests\feeds\second.xml" />
+    <Content Include="tests\feeds\testmonologue.xml" />
+    <Content Include="tests\feeds\third.xml" />
+    <Content Include="tests\feeds\tkachenko.xml" />
+    <Content Include="tests\feeds\withdcstuff.xml" />
+    <Content Include="tests\invalidentries\atomapi-07-sample.xml" />
+    <Content Include="tests\invalidfeeds\index.xml" />
+    <Content Include="tests\invalidfeeds\miguel.xml" />
+    <Content Include="tests\invalidfeeds\oreilly.xml" />
+    <Content Include="TODO.txt" />
+    <EmbeddedResource Include="mediatypes.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

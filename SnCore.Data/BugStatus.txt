@@ -1,0 +1,6 @@
+1	Assigned
+2	Closed
+4	InProgress
+5	Open
+6	Reopened
+7	Resolved

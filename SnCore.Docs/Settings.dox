@@ -1,0 +1,26 @@
+/*! \page settings Settings
+
+\section settings_config Configuration Settings
+
+<table class="settingTable" cellpadding="4px" cellspacing="0">
+ <tr><td class="settingLeft">SnCore.Name</td><td class="settingRight">project name, eg. <em>My Project</em></td></tr>
+ <tr><td class="settingLeft">SnCore.Domain</td><td class="settingRight">domain name used notably in e-mail notifications, eg. <em>mydomain.com</em></td></tr>
+ <tr><td class="settingLeft">SnCore.Admin.EmailAddress</td><td class="settingRight">system administrator's e-mail address</td></tr>
+ <tr><td class="settingLeft">SnCore.WebSite.Url</td><td class="settingRight">root of the website</td></tr>
+ <tr><td class="settingLeft">SnCore.Beta.Password</td><td class="settingRight">beta sign-up password</td></tr>
+ <tr><td class="settingLeft">SnCore.NewFeature.ProjectId</td><td class="settingRight">bug project id for new feature requests</td></tr>
+ <tr><td class="settingLeft">SnCore.Bug.ProjectId</td><td class="settingRight">bug project id for bug reports</td></tr>
+ <tr><td class="settingLeft">SnCore.Site.DiscussionId</td><td class="settingRight">site discussion id for link on the help page</td></tr>
+ <tr><td class="settingLeft">SnCore.Mail.Server</td><td class="settingRight">mail server, eg <em>mail.sncore.com</em></td></tr>
+ <tr><td class="settingLeft">SnCore.Mail.Port</td><td class="settingRight">mail port, eg <em>25</em></td></tr>
+ <tr><td class="settingLeft">SnCore.Mail.Delivery</td><td class="settingRight">mail delivery method, eg. <em>PickupDirectoryFromIis</em></td></tr>
+</table>
+
+\section settings_appconfig Web.config Settings
+
+<table class="settingTable" cellpadding="4px" cellspacing="0">
+ <tr><td class="settingLeft">Ads.Visible</td><td class="settingRight">true or false to enable ad panels, default is <em>true</em></td></tr>
+ <tr><td class="settingLeft">Counter.Visible</td><td class="settingRight">true or false to enable counter panels, default is <em>true</em></td></tr>
+</table>
+
+*/

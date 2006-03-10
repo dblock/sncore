@@ -1,0 +1,46 @@
+<%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="AccountSurveyView.aspx.cs"
+ Inherits="AccountSurveyView" Title="Survey" %>
+
+<%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
+<%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+ <div class="sncore_navigate">
+  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkAccount" Text="Account" runat="server" />
+  <asp:Label CssClass="sncore_navigate_item" ID="linkAccountSurvey" Text="Survey" runat="server" />
+ </div>
+ <table cellspacing="0" cellpadding="4" class="sncore_table">
+  <tr>
+   <td class="sncore_table_tr_td" style="text-align: center; vertical-align: top; width: 100px;">
+    <a runat="server" id="accountLink" href="AccountView.aspx">
+     <img border="0" src="images/AccountThumbnail.gif" runat="server" id="accountImage" />
+     <div>
+      <asp:Label ID="accountName" runat="server" />
+     </div>
+    </a>
+   </td>
+   <td valign="top" width="*">
+    <div class="sncore_h2">
+     <asp:Label ID="surveyName" runat="server" />
+    </div>
+   </td>
+  </tr>
+ </table>
+ <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="accountSurveyAnswers"
+  CssClass="sncore_table" AutoGenerateColumns="false" ShowHeader="false">
+  <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
+   PrevPageText="Prev" HorizontalAlign="Center" />
+  <Columns>
+   <asp:TemplateColumn ItemStyle-CssClass="sncore_table_tr_td">
+    <itemtemplate>
+    <b>
+     <a href='AccountSurveyQuestionView.aspx?id=<%# Eval("SurveyQuestionId") %>'>
+      <%# base.Render(Eval("SurveyQuestion")) %>
+     </a>
+    </b>
+    <br />
+    <%# base.RenderEx(Eval("Answer")) %>
+   </itemtemplate>
+   </asp:TemplateColumn>
+  </Columns>
+ </SnCoreWebControls:PagedGrid>
+</asp:Content>

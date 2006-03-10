@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.0" schema="dbo">
+  <class name="FeedType, SnCore.Data" table="FeedType">
+    <id access="nosetter.pascalcase-m-underscore"  name="Id" type="Int32" column="FeedType_Id">
+      <generator class="identity" />
+    </id>
+    <bag lazy="true" name="AccountFeeds" inverse="true">
+      <key column="FeedType_Id" />
+      <one-to-many class="AccountFeed, SnCore.Data" />
+    </bag>
+    <property name="Name" column="Name" type="String" />
+    <property name="Xsl" column="Xsl" type="String" />
+    <property name="SpanColumns" column="SpanColumns" type="Int32" />
+    <property name="SpanRows" column="SpanRows" type="Int32" />
+    <property name="SpanColumnsPreview" column="SpanColumnsPreview" type="Int32" />
+    <property name="SpanRowsPreview" column="SpanRowsPreview" type="Int32" />
+  </class>
+</hibernate-mapping>

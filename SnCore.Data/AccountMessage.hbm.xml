@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.0" schema="dbo">
+  <class name="AccountMessage, SnCore.Data" table="AccountMessage">
+    <id access="nosetter.pascalcase-m-underscore"  name="Id" type="Int32" column="AccountMessage_Id">
+      <generator class="identity" />
+    </id>
+    <many-to-one name="AccountMessageFolder" column="AccountMessageFolder_Id" class="AccountMessageFolder, SnCore.Data" />
+    <property name="Body" column="Body" type="String" />
+    <property name="SenderAccountId" column="SenderAccount_Id" type="Int32" />
+    <property name="Sent" column="Sent" type="DateTime" />
+    <property name="Subject" column="Subject" type="String" />
+    <property name="Unread" column="Unread" type="Boolean" />
+    <many-to-one name="Account" column="Account_Id" class="Account, SnCore.Data" />
+    <property name="RecepientAccountId" column="RecepientAccount_Id" type="Int32" />
+  </class>
+</hibernate-mapping>

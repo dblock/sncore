@@ -1,0 +1,203 @@
+1	Alabama	255 
+2	Alaska	255 
+3	Arizona	255 
+4	Arkansas	255 
+5	California	255 
+6	Colorado	255 
+7	Connecticut	255 
+8	Delaware	255 
+9	District of Columbia	255 
+10	Florida	255 
+11	Georgia	255 
+12	Guam	255 
+13	Hawaii	255 
+14	Idaho	255 
+15	Illinois	255 
+16	Indiana	255 
+17	Iowa	255 
+18	Kansas	255 
+19	Kentucky	255 
+20	Louisiana	255 
+21	Maine	255 
+22	Maryland	255 
+23	Massachusetts	255 
+24	Michigan	255 
+25	Minnesota	255 
+26	Mississippi	255 
+27	Missouri	255 
+28	Montana	255 
+29	Nebraska	255 
+30	Nevada	255 
+31	New Hampshire	255 
+32	New Jersey	255 
+33	New Mexico	255 
+34	New York	255 
+35	North Carolina	255 
+36	North Dakota	255 
+37	Northern Mariana Islands	255 
+38	Ohio	255 
+39	Oklahoma	255 
+40	Oregon	255 
+41	Pennsylvania	255 
+42	Puerto Rico	255 
+43	Rhode Island	255 
+44	South Carolina	255 
+45	South Dakota	255 
+46	Tennessee	255 
+47	Texas	255 
+48	Utah	255 
+49	Vermont	255 
+50	Virgin Islands	255 
+51	Virginia	255 
+52	Washington	255 
+53	West Virginia	255 
+54	Wisconsin	255 
+55	Wyoming	255 
+56	Alberta	46
+57	British Columbia	46
+58	Manitoba	46
+59	New Brunswick	46
+60	Newfoundland	46
+61	Northwest Territories	46
+62	Nova Scotia	46
+63	Nunavut	46
+64	Ontario	46
+65	Prince Edward Island	46
+66	Quebec	46
+67	Saskatchewan	46
+68	Yukon Territory	46
+69	Australian Capital Territory	17
+70	New South Wales	17
+71	Northern Territory	17
+72	Queensland	17
+73	South Australia	17
+74	Tasmania	17
+75	Victoria	17
+76	Western Australia	17
+77	Bath Avon	254
+78	Bedfordshire	254
+79	Berkshire	254
+80	Bournemouth	254
+81	Brighton and Hove	254
+82	Bristol	254
+83	Buckinghamshire	254
+84	Cambridgeshire	254
+85	Channel Isles	254
+86	Cheshire	254
+87	Cornwall	254
+88	County Durham	254
+89	Cumbria	254
+90	Darlington	254
+91	Derbyshire	254
+92	Devon	254
+93	Dorset	254
+94	Essex	254
+95	Gloucestershire	254
+96	Hampshire	254
+97	Hartlepool	254
+98	Herefordshire	254
+99	Hertfordshire	254
+100	Huntingdonshire	254
+101	Isle of Wight	254
+102	Isles of Scilly	254
+103	Kent	254
+104	Lancashire	254
+105	Leicestershire	254
+106	Lincolnshire	254
+107	London	254
+108	Luton	254
+109	Manchester	254
+110	Merseyside	254
+111	Middlesex	254
+112	Milton Keynes	254
+113	Norfolk	254
+114	Northamptonshire	254
+115	Northumberland	254
+116	Nottinghamshire	254
+117	Oxfordshire	254
+118	Poole	254
+119	Portsmouth	254
+120	Redcar and Cleveland	254
+121	Rutland	254
+122	Shropshire	254
+123	Somerset	254
+124	Southampton	254
+125	Staffordshire	254
+126	Stockton-on-Tees	254
+127	Suffolk	254
+128	Surrey	254
+129	Sussex	254
+130	Swindon	254
+131	Tyne and Wear	254
+132	Warwickshire	254
+133	West Midlands	254
+134	Westmorland	254
+135	Wiltshire	254
+136	Worcestershire	254
+137	Yorkshire	254
+138	Isle of Man 	157
+139	Antrim	121
+140	Armagh	121
+141	Belfast	121
+142	Down	121
+143	Fermanagh	121
+144	Londonderry	121
+145	Tyrone	121
+146	Aberdeenshire	254
+147	Angus	254
+148	Argyllshire	254
+149	Ayrshire	254
+150	Banffshire	254
+151	Berwickshire	254
+152	Buteshire	254
+153	Caithness	254
+154	Clackmannanshire	254
+155	Dumfriesshire	254
+156	Dunbartonshire	254
+157	Dundee City	254
+158	Edinburgh	254
+159	Falkirk	254
+160	Fife	254
+161	Highland	254
+162	Inverness-shire	254
+163	Isle of Islay	254
+164	Isle of Lewis	254
+165	Isle of Skye	254
+166	Kincardineshire	254
+167	Kinross-Shire	254
+168	Kirkcudbrightshire	254
+169	Lanarkshire	254
+170	Midlothian	254
+171	Morayshire	254
+172	Nairnshire	254
+173	Orkney	254
+174	Peeblesshire	254
+175	Perthshire	254
+176	Renfrewshire	254
+177	Ross-shire	254
+178	Roxburghshire	254
+179	Selkirkshire	254
+180	Shetland	254
+181	Stirlingshire	254
+182	Sutherland	254
+183	West Lothian	254
+184	Western Isles	254
+185	Wigtownshire	254
+186	Anglesey	254
+187	Brecknockshire	254
+188	Caernarfonshire	254
+189	Cardiff	254
+190	Cardiganshire	254
+191	Carmarthenshire	254
+192	Ceredigion	254
+193	Denbighshire	254
+194	Flintshire	254
+195	Glamorgan	254
+196	Gwynedd	254
+197	Merioneth	254
+198	Monmouthshire	254
+199	Montgomeryshire	254
+200	Newport	254
+201	Pembrokeshire	254
+202	Radnorshire	254
+203	Swansea	254

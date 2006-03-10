@@ -1,0 +1,14 @@
+/*! \page pricing Pricing
+
+A single server is a physical machine. 
+
+\li An individual or a non profit organization can download, modify, extend install and use this software for free. 
+    See \ref noncommrecial to qualify as a non-commercial entity.
+
+    For example, MyPersonalNetwork, a non-commercial organization runs three servers, one for the front-end at 
+    http://www.mypersonalnetwork.org and two back-end services for the .NET Web Services and the database at no cost.
+
+\li Commercial companies should contact dblock at dblock dot org for licensing details.
+
+
+*/

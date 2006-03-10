@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.0" schema="dbo">
+  <class name="Account, SnCore" table="Account">
+    <id name="Id" type="Int32" column="Account_Id">
+      <generator class="identity" />
+    </id>
+    <bag name="AccountAddresses" inverse="true">
+      <key column="Account_Id" />
+      <one-to-many class="AccountAddress, SnCore" />
+    </bag>
+    <bag name="AccountEmails" inverse="true">
+      <key column="Account_Id" />
+      <one-to-many class="AccountEmail, SnCore" />
+    </bag>
+    <bag name="AccountProfiles" inverse="true">
+      <key column="Account_Id" />
+      <one-to-many class="AccountProfile, SnCore" />
+    </bag>
+    <property name="Created" column="Created" type="DateTime" />
+    <property name="Enabled" column="Enabled" type="Boolean" />
+    <property name="LastLogin" column="LastLogin" type="DateTime" />
+    <property name="Modified" column="Modified" type="DateTime" />
+    <property name="Name" column="Name" type="String" />
+    <property name="Password" column="Password" type="String" />
+  </class>
+  <class name="AccountAddress, SnCore" table="AccountAddress">
+    <id name="Id" type="Int32" column="AccountAddress_Id">
+      <generator class="identity" />
+    </id>
+    <many-to-one name="Account" column="Account_Id" class="Account, SnCore" />
+    <property name="AddressId" column="Address_Id" type="Int32" />
+    <property name="Apt" column="Apt" type="String" />
+    <property name="City" column="City" type="String" />
+    <many-to-one name="Country" column="Country_Id" class="Country, SnCore" />
+    <property name="Created" column="Created" type="DateTime" />
+    <property name="Modified" column="Modified" type="DateTime" />
+    <many-to-one name="State" column="State_Id" class="State, SnCore" />
+    <property name="Street" column="Street" type="String" />
+    <property name="Zip" column="Zip" type="String" />
+  </class>
+  <class name="AccountEmail, SnCore" table="AccountEmail">
+    <id name="Id" type="Int32" column="AccountEmail_Id">
+      <generator class="identity" />
+    </id>
+    <many-to-one name="Account" column="Account_Id" class="Account, SnCore" />
+    <property name="Address" column="Address" type="String" />
+    <property name="Created" column="Created" type="DateTime" />
+    <property name="EmailId" column="Email_Id" type="Int32" />
+    <property name="Modified" column="Modified" type="DateTime" />
+    <property name="Verified" column="Verified" type="Boolean" />
+    <bag name="AccountEmailConfirmations" inverse="true">
+      <key column="AccountEmail_Id" />
+      <one-to-many class="AccountEmailConfirmation, SnCore" />
+    </bag>
+  </class>
+  <class name="AccountEmailConfirmation, SnCore" table="AccountEmailConfirmation">
+    <id name="Id" type="Int32" column="AccountEmailConfirmation_Id">
+      <generator class="identity" />
+    </id>
+    <many-to-one name="AccountEmail" column="AccountEmail_Id" class="AccountEmail, SnCore" />
+    <property name="Code" column="Code" type="String" />
+    <property name="EmailId" column="Email_Id" type="Int32" />
+  </class>
+  <class name="AccountProfile, SnCore" table="AccountProfile">
+    <id name="Id" type="Int32" column="AccountProfile_Id">
+      <generator class="identity" />
+    </id>
+    <many-to-one name="Account" column="Account_Id" class="Account, SnCore" />
+    <property name="Created" column="Created" type="DateTime" />
+    <property name="Details" column="Details" type="String" />
+    <property name="Modified" column="Modified" type="DateTime" />
+    <property name="Name" column="Name" type="String" />
+    <property name="ProfileId" column="Profile_Id" type="Int32" />
+  </class>
+  <class name="Country, SnCore" table="Country">
+    <id name="Id" type="Int32" column="Country_Id">
+      <generator class="identity" />
+    </id>
+    <bag name="AccountAddresses" inverse="true">
+      <key column="Country_Id" />
+      <one-to-many class="AccountAddress, SnCore" />
+    </bag>
+    <property name="Name" column="Name" type="String" />
+  </class>
+  <class name="State, SnCore" table="State">
+    <id name="Id" type="Int32" column="State_Id">
+      <generator class="identity" />
+    </id>
+    <bag name="AccountAddresses" inverse="true">
+      <key column="State_Id" />
+      <one-to-many class="AccountAddress, SnCore" />
+    </bag>
+    <property name="Name" column="Name" type="String" />
+    <property name="Region" column="Region" type="String" />
+  </class>
+</hibernate-mapping>

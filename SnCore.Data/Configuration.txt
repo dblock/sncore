@@ -1,0 +1,11 @@
+1	SnCore.Admin.EmailAddress	adminset@localhost.com	0
+2	SnCore.WebSite.Url	http://localhost/SnCoreWeb	0
+3	SnCore.Beta.Password	password	1
+4	SnCore.NewFeature.ProjectId	0	0
+5	SnCore.Bug.ProjectId	0	0
+6	SnCore.Site.DiscussionId	0	0
+8	SnCore.Mail.Server	localhost	0
+9	SnCore.Mail.Port	25	0
+10	SnCore.Mail.Delivery	PickupDirectoryFromIis	0
+11	SnCore.Name	SnCoreSet	0
+12	SnCore.Description	<b>SnCore</b> - the SN base foundation.	0

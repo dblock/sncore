@@ -1,0 +1,64 @@
+/*! \page unittests Unit Tests
+
+\section dev_intro Introduction
+This page will guide you through the SnCore unit testing.
+
+\section dev_req Prerequisites 
+\li NUnit 2.2, checked-in under <em>nunit</em>.
+
+\section dev_run Running Unit Tests
+<ol>
+ <li>Run <em>nunit/bin/nunit-gui.exe</em>.
+ <li>Open the <em>SnCore.nunit</em> project.
+ <li>Run.
+</ol>
+
+\section dev_write Writing Unit Tests
+SnCore unit tests live in the following assemblies: 
+\li <em>SnCore.Data.Tests</em>: straightforward N-Hibernate mappings.
+\li <em>SnCore.Services.Tests</em>: business logic tests.
+
+To write a new set of unit tests, create a class that inherits SnCore::Data::Tests::NHibernateTest. This gives you access
+to an NHibernate <em>Session</em> object to run database operations. Use <em>[TestFixure]</em> and <em>[Test]</em> attributes
+to mark test classes and unit tests.
+
+\code
+using System;
+using NUnit.Framework;
+using SnCore.Data;
+using NHibernate;
+using SnCore.Data.Tests;
+using System.Collections;
+using NHibernate.Expression;
+
+namespace SnCore.Services.Tests
+{
+    [TestFixture]
+    public class ManagedMyClassTest : NHibernateTest
+    {
+        public ManagedMyClassTest()
+        {
+
+        }
+
+        [Test]
+        public void CreateMyClass()
+        {
+            MyClass class = new MyClass(Session);
+            try
+            {
+                class.CreateOrUpdate();
+            }
+            finally
+            {
+                if (class.Id > 0)
+                {
+                    class.Delete();
+                }
+            }
+        }
+    }
+}
+\endcode
+
+*/

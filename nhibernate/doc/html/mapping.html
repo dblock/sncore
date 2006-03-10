@@ -1,0 +1,968 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Chapter 4. Basic O/R Mapping</title><link rel="stylesheet" href="html.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.69.1"><link rel="start" href="index.html" title="NHibernate Documentation 1.0.1.0"><link rel="up" href="NHibernate.Mapping.html" title="Part I. NHibernate Mapping"><link rel="prev" href="NHibernate.Mapping.html" title="Part I. NHibernate Mapping"><link rel="next" href="collections.html" title="Chapter 5. Collection Mapping"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter 4. Basic O/R Mapping</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="NHibernate.Mapping.html">Prev</a> </td><th width="60%" align="center">Part I. NHibernate Mapping</th><td width="20%" align="right"> <a accesskey="n" href="collections.html">Next</a></td></tr></table><hr></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="mapping"></a>Chapter 4. Basic O/R Mapping</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="mapping.html#mapping-declaration">Mapping declaration</a></span></dt><dd><dl><dt><span class="sect2"><a href="mapping.html#mapping-declaration-doctype">Schema</a></span></dt><dt><span class="sect2"><a href="mapping.html#mapping-declaration-mapping">hibernate-mapping</a></span></dt><dt><span class="sect2"><a href="mapping.html#mapping-declaration-class">class</a></span></dt><dt><span class="sect2"><a href="mapping.html#mapping-declaration_id">id</a></span></dt><dt><span class="sect2"><a href="mapping.html#mapping-declaration-compositeid">composite-id</a></span></dt><dt><span class="sect2"><a href="mapping.html#mapping-declaration-discriminator">discriminator</a></span></dt><dt><span class="sect2"><a href="mapping.html#mapping-declaration-version">version (optional)</a></span></dt><dt><span class="sect2"><a href="mapping.html#mapping-declaration-timestamp">timestamp (optional)</a></span></dt><dt><span class="sect2"><a href="mapping.html#mapping-declaration-property">property</a></span></dt><dt><span class="sect2"><a href="mapping.html#mapping-declaration-manytoone">many-to-one</a></span></dt><dt><span class="sect2"><a href="mapping.html#mapping-declaration-onetoone">one-to-one</a></span></dt><dt><span class="sect2"><a href="mapping.html#mapping-declaration-component">component</a></span></dt><dt><span class="sect2"><a href="mapping.html#mapping-declaration-subclass">subclass</a></span></dt><dt><span class="sect2"><a href="mapping.html#mapping-declaration-joinedsubclass">joined-subclass</a></span></dt><dt><span class="sect2"><a href="mapping.html#mapping-declaration-collections">map, set, list, bag</a></span></dt><dt><span class="sect2"><a href="mapping.html#mapping-declaration-import">import</a></span></dt></dl></dd><dt><span class="sect1"><a href="mapping.html#mapping-types">NHibernate Types</a></span></dt><dd><dl><dt><span class="sect2"><a href="mapping.html#mapping-types-entitiesvalues">Entities and values</a></span></dt><dt><span class="sect2"><a href="mapping.html#mapping-types-basictypes">Basic value types</a></span></dt><dt><span class="sect2"><a href="mapping.html#mapping-types-custom">Custom value types</a></span></dt><dt><span class="sect2"><a href="mapping.html#mapping-types-anymapping">Any type mappings</a></span></dt></dl></dd><dt><span class="sect1"><a href="mapping.html#mapping-quotedidentifiers">SQL quoted identifiers</a></span></dt><dt><span class="sect1"><a href="mapping.html#mapping-modularfiles">Modular mapping files</a></span></dt></dl></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="mapping-declaration"></a>Mapping declaration</h2></div></div></div><p>
+			Object/relational mappings are defined in an XML document. The mapping document
+			is designed to be readable and hand-editable. The mapping language is .NET-centric,
+			meaning that mappings are constructed around persistent class declarations, not
+			table declarations.
+		</p><p>
+			Note that, even though many Hibernate users choose to define XML mappings be hand,
+			a number of tools exist to generate the mapping document, including XDoclet,
+			Middlegen and AndroMDA.
+		</p><p>
+			Lets kick off with an example mapping:
+		</p><pre class="programlisting">
+&lt;?xml version="1.0" ?&gt;
+&lt;hibernate-mapping xmlns="urn:nhibernate-mapping-2.0"
+	namespace="Eg" assembly="Eg"&gt;
+
+	&lt;class name="Cat" table="CATS" discriminator-value="C"&gt;
+		&lt;id name="Id" column="uid" type="Int64"&gt;
+			&lt;generator class="hilo"/&gt;
+		&lt;/id&gt;
+		&lt;discriminator column="subclass" type="Char"/&gt;
+		&lt;property name="Birthdate" type="Date"/&gt;
+		&lt;property name="Color" not-null="true"/&gt;
+		&lt;property name="Sex" not-null="true" update="false"/&gt;
+		&lt;property name="Weight"/&gt;
+		&lt;many-to-one name="Mate" column="mate_id"/&gt;
+		&lt;set name="Kittens"&gt;
+			&lt;key column="mother_id"/&gt;
+			&lt;one-to-many class="Cat"/&gt;
+		&lt;/set&gt;
+		&lt;subclass name="DomesticCat" discriminator-value="D"&gt;
+			&lt;property name="Name" type="String"/&gt;
+		&lt;/subclass&gt;
+	&lt;/class&gt;
+
+	&lt;class name="Dog"&gt;
+		&lt;!-- mapping for Dog could go here --&gt;
+	&lt;/class&gt;
+
+&lt;/hibernate-mapping&gt;
+</pre><p>
+				We will now discuss the content of the mapping document. We will only describe the 
+				document elements and attributes that are used by Hibernate at runtime. The mapping 
+				document also contains some extra optional attributes and elements that affect the 
+				database schemas exported by the schema export tool. (For example the <code class="literal">
+				not-null</code> attribute.)
+		</p><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="mapping-declaration-doctype"></a>Schema</h3></div></div></div><p>
+				All XML mappings have to use the nhibernate-mapping-2.0 schema. The actual schema may be found 
+				in the NHibernate source directory, or as an Embedded Resource in <code class="literal">NHibernate.dll</code>. 
+				NHibernate will always use the Embedded Resource as the source for the schema.
+			</p><p>
+				To get intellisense while working with the <code class="literal">hibernate-mapping</code> xml inside of VisualStudio.NET 
+				you should copy the schema to the folder 
+				<code class="literal">C:\Program Files\Microsoft Visual Studio .NET 2003\Common7\Packages\schemas\xml</code>
+			</p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="mapping-declaration-mapping"></a>hibernate-mapping</h3></div></div></div><p>
+				This element has four optional attributes. The <code class="literal">schema</code> attribute
+				specifies that tables referred to by this mapping belong to the named schema. If specified, 
+				tablenames will be qualified by the given schema name. If missing, tablenames will be 
+				unqualified. The <code class="literal">default-cascade</code> attribute specifies what cascade style
+				should be assumed for properties and collections which do not specify a 
+				<code class="literal">cascade</code> attribute. The <code class="literal">auto-import</code> attribute lets us
+				use unqualified class names in the query language, by default.  The <code class="literal">default-access</code>
+				attribute tells us how to access property values.
+			</p><pre class="programlisting">&lt;hibernate-mapping
+	schema="schemaName" <a name="hm1-co" href="mapping.html#hm1">(1)</a>
+	default-cascade="none|save-update" <a name="hm2-co" href="mapping.html#hm2">(2)</a>
+	auto-import="true|false" <a name="hm3-co" href="mapping.html#hm3">(3)</a>
+	default-access="property|field|nosetter|ClassName" <a name="hm4-co" href="mapping.html#hm4">(4)</a>
+	assembly="assembly.name" <a name="hm5-co" href="mapping.html#hm5">(5)</a>
+	namespace="namespace.name" <a name="hm6-co" href="mapping.html#hm6">(6)</a>
+&gt; </pre><div class="calloutlist"><table border="0" summary="Callout list"><tr><td width="5%" valign="top" align="left"><a name="hm1"></a><a href="#hm1-co">(1)</a> </td><td valign="top" align="left"><p>
+							<code class="literal">schema</code> (optional): The name of a database schema.
+						</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="hm2"></a><a href="#hm2-co">(2)</a> </td><td valign="top" align="left"><p>
+							<code class="literal">default-cascade</code> (optional - defaults to <code class="literal">none</code>): 
+							A default cascade style.
+						</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="hm3"></a><a href="#hm3-co">(3)</a> </td><td valign="top" align="left"><p>
+							<code class="literal">auto-import</code> (optional - defaults to <code class="literal">true</code>):
+							Specifies whether we can use unqualified class names (of classes in this mapping)
+							in the query language.
+						</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="hm4"></a><a href="#hm4-co">(4)</a> </td><td valign="top" align="left"><p>
+							<code class="literal">default-access</code> (optional - defaults to <code class="literal">property</code>):
+							The strategy NHibernate should use for accessing the property value.
+						</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="hm5"></a><a href="#hm5-co">(5)</a> </td><td valign="top" align="left"><p>
+							<code class="literal">assembly</code> (optional):
+							Specifies an Assembly to assume for any class names that don't have the
+							Assembly specified.
+						</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="hm6"></a><a href="#hm6-co">(6)</a> </td><td valign="top" align="left"><p>
+							<code class="literal">namespace</code> (optional):  Specifies a namespace prefix 
+							to assume for unqualified class names in the mapping document.
+						</p></td></tr></table></div><p>
+				If you have two persistent classes with the same (unqualified) name, you should set 
+				<code class="literal">auto-import="false"</code>. NHibernate will throw an exception if you attempt
+				to assign two classes to the same "imported" name.
+			</p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="mapping-declaration-class"></a>class</h3></div></div></div><p>
+				You may declare a persistent class using the <code class="literal">class</code> element:
+			</p><pre class="programlisting">&lt;class
+	name="ClassName" <a name="class1-co" href="mapping.html#class1">(1)</a>
+	table="tableName"<a name="class2-co" href="mapping.html#class2">(2)</a>
+	discriminator-value="discriminator_value"<a name="class3-co" href="mapping.html#class3">(3)</a>
+	mutable="true|false"<a name="class4-co" href="mapping.html#class4">(4)</a>
+	schema="owner"<a name="class5-co" href="mapping.html#class5">(5)</a>
+	proxy="ProxyInterface"<a name="class6-co" href="mapping.html#class6">(6)</a>
+	dynamic-update="true|false"<a name="class7-co" href="mapping.html#class7">(7)</a>
+	dynamic-insert="true|false"<a name="class8-co" href="mapping.html#class8">(8)</a>
+	polymorphism="implicit|explicit"<a name="class9-co" href="mapping.html#class9">(9)</a>
+	where="arbitrary sql where condition"<a name="class10-co" href="mapping.html#class10">(10)</a>
+	persister="PersisterClass"<a name="class11-co" href="mapping.html#class11">(11)</a>
+	lazy="true|false"<a name="class12-co" href="mapping.html#class12">(12)</a>
+/&gt;</pre><div class="calloutlist"><table border="0" summary="Callout list"><tr><td width="5%" valign="top" align="left"><a name="class1"></a><a href="#class1-co">(1)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">name</code>: The fully qualified .NET Type name of the persistent class 
+						(or interface).
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="class2"></a><a href="#class2-co">(2)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">table</code>: The name of its database table.
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="class3"></a><a href="#class3-co">(3)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">discriminator-value</code> (optional - defaults to the class name): A value
+						that distiguishes individual subclasses, used for polymorphic behaviour.
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="class4"></a><a href="#class4-co">(4)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">mutable</code> (optional, defaults to <code class="literal">true</code>): Specifies 
+						that instances of the class are (not) mutable.
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="class5"></a><a href="#class5-co">(5)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">schema</code> (optional): Override the schema name specified by
+						the root <code class="literal">&lt;hibernate-mapping&gt;</code> element.
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="class6"></a><a href="#class6-co">(6)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">proxy</code> (optional): Specifies an interface to use for lazy
+						initializing proxies. You may specify the name of the class itself as long as 
+						all Properties are virtual.
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="class7"></a><a href="#class7-co">(7)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">dynamic-update</code> (optional, defaults to <code class="literal">false</code>): 
+						Specifies that <code class="literal">UPDATE</code> SQL should be generated at runtime and 
+						contain only those columns whose values have changed.
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="class8"></a><a href="#class8-co">(8)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">dynamic-insert</code> (optional, defaults to <code class="literal">false</code>): 
+						Specifies that <code class="literal">INSERT</code> SQL should be generated at runtime and 
+						contain only the columns whose values are not null.
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="class9"></a><a href="#class9-co">(9)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">polymorphism</code> (optional, defaults to <code class="literal">implicit</code>): 
+						Determines whether implicit or explicit query polymorphism is used.
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="class10"></a><a href="#class10-co">(10)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">where</code> (optional) specify an arbitrary SQL <code class="literal">WHERE</code> 
+						condition to be used when retrieving objects of this class
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="class11"></a><a href="#class11-co">(11)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">persister</code> (optional): Specifies a custom <code class="literal">IClassPersister</code>.
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="class12"></a><a href="#class12-co">(12)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">lazy</code>(optional): Setting <code class="literal">lazy="true"</code> is a shortcut 
+						equalivalent to specifying the name of the class itself as the <code class="literal">proxy</code>
+						interface.
+					</p></td></tr></table></div><p>
+				It is perfectly acceptable for the named persistent class to be an interface. You would then
+				declare implementing classes of that interface using the <code class="literal">&lt;subclass&gt;</code>
+				element. You may persist any inner class. You should specify the
+				class name using the standard form ie. <code class="literal">Eg.Foo+Bar</code>.
+			</p><p>
+				Immutable classes, <code class="literal">mutable="false"</code>, may not be updated or deleted by the 
+				application. This allows NHibernate to make some minor performance optimizations.
+			</p><p>
+				The optional <code class="literal">proxy</code> attribute enables lazy initialization of persistent
+				instances of the class. NHibernate will initially return proxies generated by Castle.DynamicProxy
+				which implement the named interface or extend the class. The actual persistent object will be 
+				loaded when a method of the proxy is invoked. See "Proxies for Lazy Initialization" below.
+			</p><p><span class="emphasis"><em>Implicit</em></span> polymorphism means that instances of the class will be returned
+				by a query that names any superclass or implemented interface or the class and that instances
+				of any subclass of the class will be returned by a query that names the class itself. 
+				<span class="emphasis"><em>Explicit</em></span> polymorphism means that class instances will be returned only
+				be queries that explicitly name that class and that queries that name the class will return
+				only instances of subclasses mapped inside this <code class="literal">&lt;class&gt;</code> declaration
+				as a <code class="literal">&lt;subclass&gt;</code> or <code class="literal">&lt;joined-subclass&gt;</code>. For
+				most purposes the default, <code class="literal">polymorphism="implicit"</code>, is appropriate.
+				Explicit polymorphism is useful when two different classes are mapped to the same table
+				(this allows a "lightweight" class that contains a subset of the table columns).
+			</p><p>
+				The <code class="literal">persister</code> attribute lets you customize the persistence strategy used for
+				the class. You may, for example, specify your own subclass of 
+				<code class="literal">NHibernate.Persister.EntityPersister</code> or you might even provide a
+				completely new implementation of the interface 
+				<code class="literal">NHibernate.Persister.IClassPersister</code> that implements persistence via,
+				for example, stored procedure calls, serialization to flat files or LDAP. See
+				<code class="literal">NHibernate.DomainModel.CustomPersister</code> for a simple example (of "persistence"
+				to a <code class="literal">Hashtable</code>).
+			</p><p>
+				Note that the <code class="literal">dynamic-update</code> and <code class="literal">dynamic-insert</code>
+				settings are not inherited by subclasses and so may also be specified on the
+				<code class="literal">&lt;subclass&gt;</code> or <code class="literal">&lt;joined-subclass&gt;</code> elements. 
+				These settings may increase performance in some cases, but might actually decrease 
+				performance in others. Use judiciously.
+			</p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="mapping-declaration_id"></a>id</h3></div></div></div><p>
+				Mapped classes <span class="emphasis"><em>must</em></span> declare the primary key column of the database 
+				table. Most classes will also have a Property holding the unique identifier 
+				of an instance. The <code class="literal">&lt;id&gt;</code> element defines the mapping from that
+				property to the primary key column.
+			</p><pre class="programlisting">&lt;id 
+	name="propertyName" <a name="id1-co" href="mapping.html#id1">(1)</a>
+	type="typename" <a name="id2-co" href="mapping.html#id2">(2)</a>
+	column="column_name" <a name="id3-co" href="mapping.html#id3">(3)</a>
+	unsaved-value="any|none|null|id_value" <a name="id4-co" href="mapping.html#id4">(4)</a>
+	access="field|property|nosetter|ClassName"&gt; <a name="id5-co" href="mapping.html#id5">(5)</a>
+
+	&lt;generator class="generatorClass"/&gt;
+&lt;/id&gt;		</pre><div class="calloutlist"><table border="0" summary="Callout list"><tr><td width="5%" valign="top" align="left"><a name="id1"></a><a href="#id1-co">(1)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">name</code> (optional): The name of the identifier property.
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="id2"></a><a href="#id2-co">(2)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">type</code> (optional): A name that indicates the NHibernate type.
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="id3"></a><a href="#id3-co">(3)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">column</code> (optional - defaults to the property name): The
+						name of the primary key column.
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="id4"></a><a href="#id4-co">(4)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">unsaved-value</code> (optional - defaults to <code class="literal">null</code>): 
+						An identifier property value that indicates that an instance is newly instantiated
+						(unsaved), distinguishing it from transient instances that were saved or loaded
+						in a previous session.
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="id5"></a><a href="#id5-co">(5)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">access</code> (optional - defaults to <code class="literal">property</code>): The
+						strategy NHibernate should use for accessing the property value.
+					</p></td></tr></table></div><p>
+				If the <code class="literal">name</code> attribute is missing, it is assumed that the class has no 
+				identifier property.
+			</p><p>
+				The <code class="literal">unsaved-value</code> attribute is important! If the identfier property of your 
+				class does not default to <code class="literal">null</code>, then you should specify the actual default.
+				This is especially important when using a <code class="literal">System.ValueType</code> such as 
+				<code class="literal">System.Int32</code> or <code class="literal">System.Guid</code> as your <code class="literal">&lt;id&gt;</code>
+				 property.  Make sure to explicity set this attribute because <code class="literal">System.ValueType</code> 
+				objects can not be <code class="literal">null</code>.
+			</p><p>
+				There is an alternative <code class="literal">&lt;composite-id&gt;</code> declaration to allow access to
+				legacy data with composite keys. We strongly discourage its use for anything else.
+			</p><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="mapping-declaration-id-generator"></a>generator</h4></div></div></div><p>
+					The required <code class="literal">&lt;generator&gt;</code> child element names a .NET type used
+					to generate unique identifiers for instances of the persistent class. If any parameters
+					are required to configure or initialize the generator instance, they are passed using the
+					<code class="literal">&lt;param&gt;</code> element.
+				</p><pre class="programlisting">&lt;id name="Id" type="Int64" column="uid" unsaved-value="0"&gt;
+	&lt;generator class="NHibernate.Id.TableHiLoGenerator"&gt;
+		&lt;param name="table"&gt;uid_table&lt;/param&gt;
+		&lt;param name="column"&gt;next_hi_value_column&lt;/param&gt;
+	&lt;/generator&gt;
+&lt;/id&gt;</pre><p>
+					All generators implement the interface <code class="literal">NHibernate.Id.IdentifierGenerator</code>.
+					This is a very simple interface; some applications may choose to provide their own specialized
+					implementations. However, NHibernate provides a range of built-in implementations. There are shortcut
+					names for the built-in generators:
+	                
+					</p><div class="variablelist"><dl><dt><span class="term"><code class="literal">identity</code></span></dt><dd><p>
+								supports identity columns in DB2, MySQL, MS SQL Server, Sybase and
+								HypersonicSQL. The returned identifier is of type <code class="literal">Int64</code>,
+								<code class="literal">Int32</code> or <code class="literal">Int16</code>.
+							</p></dd><dt><span class="term"><code class="literal">sequence</code></span></dt><dd><p>
+								uses a sequence in DB2, PostgreSQL, Oracle. The returned identifier 
+								is of type <code class="literal">Int64</code>,
+								<code class="literal">Int32</code> or <code class="literal">Int16</code>
+							</p></dd><dt><span class="term"><code class="literal">hilo</code></span></dt><dd><p>
+								uses a hi/lo algorithm to efficiently generate identifiers of
+								type <code class="literal">Int64</code>, <code class="literal">Int32</code> or <code class="literal">Int16</code>,
+								given a table and column (by default <code class="literal">hibernate_unique_key</code> and
+								<code class="literal">next</code> respectively) as a source of hi values. The hi/lo algorithm
+								generates identifiers that are unique only for a particular database.
+							</p></dd><dt><span class="term"><code class="literal">seqhilo</code></span></dt><dd><p>
+								uses a hi/lo algorithm to efficiently generate identifiers of type
+								<code class="literal">Int64</code>, <code class="literal">Int32</code> or <code class="literal">Int16</code>,
+								given a named database sequence.
+							</p></dd><dt><span class="term"><code class="literal">uuid.hex</code></span></dt><dd><p>
+								uses <code class="literal">System.Guid</code> and its <code class="literal">ToString(string format)</code> method
+								to generate identifiers of type string.  The length of the string returned depends on the 
+								configured <code class="literal">format</code>.
+							</p></dd><dt><span class="term"><code class="literal">uuid.string</code></span></dt><dd><p>
+								uses a new <code class="literal">System.Guid</code> to create a <code class="literal">byte[]</code> that is
+								converted to a string.
+							</p></dd><dt><span class="term"><code class="literal">guid</code></span></dt><dd><p>
+								uses a new <code class="literal">System.Guid</code> as the identifier.
+							</p></dd><dt><span class="term"><code class="literal">guid.comb</code></span></dt><dd><p>
+								uses the algorithm to generate a new <code class="literal">System.Guid</code>
+								described by Jimmy Nilsson in the article 
+								http://www.informit.com/articles/article.asp?p=25862.
+							</p></dd><dt><span class="term"><code class="literal">native</code></span></dt><dd><p>
+								picks <code class="literal">identity</code>, <code class="literal">sequence</code> or
+								<code class="literal">hilo</code> depending upon the capabilities of the
+								underlying database.
+							</p></dd><dt><span class="term"><code class="literal">assigned</code></span></dt><dd><p>
+								lets the application to assign an identifier to the object before
+								<code class="literal">save()</code> is called.
+							</p></dd><dt><span class="term"><code class="literal">foreign</code></span></dt><dd><p>
+								uses the identifier of another associated object. Usually used in conjunction
+								with a <code class="literal">&lt;one-to-one&gt;</code> primary key association.
+							</p></dd></dl></div><p>
+
+				</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="mapping-declaration-id-hilo"></a>Hi/Lo Algorithm</h4></div></div></div><p>
+					The <code class="literal">hilo</code> and <code class="literal">seqhilo</code> generators provide two alternate
+					implementations of the hi/lo algorithm, a favorite approach to identifier generation. The
+					first implementation requires a "special" database table to hold the next available "hi" value.
+					The second uses an Oracle-style sequence (where supported).
+				</p><pre class="programlisting">&lt;id name="Id" type="Int64" column="cat_id"&gt;
+	&lt;generator class="hilo"&gt;
+		&lt;param name="table"&gt;hi_value&lt;/param&gt;
+		&lt;param name="column"&gt;next_value&lt;/param&gt;
+		&lt;param name="max_lo"&gt;100&lt;/param&gt;
+	&lt;/generator&gt;
+&lt;/id&gt;</pre><pre class="programlisting">&lt;id name="Id" type="Int64" column="cat_id"&gt;
+	&lt;generator class="seqhilo"&gt;
+		&lt;param name="sequence"&gt;hi_value&lt;/param&gt;
+		&lt;param name="max_lo"&gt;100&lt;/param&gt;
+	&lt;/generator&gt;
+&lt;/id&gt;</pre><p>
+					Unfortunately, you can't use <code class="literal">hilo</code> when supplying your own
+					<code class="literal">Connection</code>  to NHibernate. NHibernate must be able to
+					fetch the "hi" value in a new transaction.
+				</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="mapping-declaration-id-uuid-hex"></a>UUID Hex Algorithm</h4></div></div></div><pre class="programlisting">&lt;id name="Id" type="String" column="cat_id"&gt;
+	&lt;generator class="uuid.hex"&gt;
+		&lt;param name="format"&gt;format_value&lt;/param&gt;
+		&lt;param name="seperator"&gt;seperator_value&lt;/param&gt;
+	&lt;/generator&gt;
+&lt;/id&gt;</pre><p>
+					The UUID is generated by calling <code class="literal">Guid.NewGuid().ToString(format)</code>.  The
+					valid values for format are described in the MSDN documentation.  The default 
+					<code class="literal">seperator</code> is <code class="literal">-</code> and should rarely be modified.  The
+					<code class="literal">format</code> determines if the configured <code class="literal">seperator</code> can 
+					replace the default seperator used by the <code class="literal">format</code>.
+				</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="mapping-declaration-id-uuid-string"></a>UUID String Algorithm</h4></div></div></div><p>
+					The UUID is generated by calling <code class="literal">Guid.NewGuid().ToByteArray()</code> and 
+					then converting the <code class="literal">byte[]</code> into a <code class="literal">char[]</code>.  The
+					<code class="literal">char[]</code> is returned as a <code class="literal">String</code> consisting of
+					16 characters.
+				</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="mapping-declaration-id-guid"></a>GUID Algorithms</h4></div></div></div><p>
+					The <code class="literal">guid</code> identifier is generated by calling <code class="literal">Guid.NewGuid()</code>.
+					To address some of the performance concerns with using Guids as primary keys, foreign keys, and
+					as part of indexes with MS SQL the <code class="literal">guid.comb</code> can be used.  The benefit of using  
+					the <code class="literal">guid.comb</code> with other databases that support GUIDs has not been measured.
+				</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="mapping-declaration-id-sequences"></a>Identity columns and Sequences</h4></div></div></div><p>
+					For databases which support identity columns (DB2, MySQL, Sybase, MS SQL), you
+					may use <code class="literal">identity</code> key generation. For databases that support
+					sequences (DB2, Oracle, PostgreSQL) you may use
+					<code class="literal">sequence</code> style key generation. Both these strategies usually require
+					two SQL queries to insert a new object.  When working with MS SQL and the 
+					<code class="literal">identity</code> key generator then <code class="literal">select SCOPE_IDENTITY()</code>
+					will be appended to the <code class="literal">insert</code> sql thus avoiding the executions
+					of a two distinct <code class="literal">IDbCommand</code>s.
+				</p><pre class="programlisting">&lt;id name="Id" type="Int64" column="uid"&gt;
+	&lt;generator class="sequence"&gt;
+			&lt;param name="sequence"&gt;uid_sequence&lt;/param&gt;
+	&lt;/generator&gt;
+&lt;/id&gt;</pre><pre class="programlisting">&lt;id name="Id" type="Int64" column="uid" unsaved-value="0"&gt;
+	&lt;generator class="identity"/&gt;
+&lt;/id&gt;</pre><p>
+					For cross-platform development, the <code class="literal">native</code> strategy will
+					choose from the <code class="literal">identity</code>, <code class="literal">sequence</code> and
+					<code class="literal">hilo</code> strategies, dependant upon the capabilities of the
+					underlying database.
+				</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="mapping-declaration-id-assigned"></a>Assigned Identifiers</h4></div></div></div><p>
+					If you want the application to assign identifiers (as opposed to having
+					NHibernate generate them), you may use the <code class="literal">assigned</code> generator.
+					This special generator will use the identifier value already assigned to the
+					object's identifier property. Be very careful when using this feature to not assign
+					keys with business meaning (almost always a terrible design decision).
+				</p><p>
+					Due to its inherent nature, entities that use this generator cannot be saved
+					via the ISession's <code class="literal">SaveOrUpdate()</code> method. Instead you have to 
+					explicitly specify to NHibernate if the object should be saved or updated 
+					by calling either the <code class="literal">Save()</code> or <code class="literal">Update()</code> 
+					method of the ISession.
+				</p></div></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="mapping-declaration-compositeid"></a>composite-id</h3></div></div></div><pre class="programlisting">&lt;composite-id
+	name="propertyName"<a name="composite-id1-co" href="mapping.html#composite-id1">(1)</a>
+	class="ClassName"<a name="composite-id2-co" href="mapping.html#composite-id2">(2)</a>
+	unsaved-value="any|none"<a name="composite-id3-co" href="mapping.html#composite-id3">(3)</a>
+	access="field|property|nosetter|ClassName"&gt;
+
+	&lt;key-property name="propertyName" type="typename" column="column_name"/&gt;
+	&lt;key-many-to-one name="propertyName class="ClassName" column="column_name"/&gt;
+	......
+&lt;/composite-id&gt;</pre><p>
+				For a table with a composite key, you may map multiple properties of the class
+				as identifier properties. The <code class="literal">&lt;composite-id&gt;</code> element
+				accepts <code class="literal">&lt;key-property&gt;</code> property mappings and
+				<code class="literal">&lt;key-many-to-one&gt;</code> mappings as child elements.
+			</p><pre class="programlisting">&lt;composite-id&gt;
+	&lt;key-property name="medicareNumber"/&gt;
+	&lt;key-property name="dependent"/&gt;
+&lt;/composite-id&gt;</pre><p>
+				Your persistent class <span class="emphasis"><em>must</em></span> override <code class="literal">Equals()</code>
+				and <code class="literal">GetHashCode()</code> to implement composite identifier equality. It must
+				also be <code class="literal">Serializable</code>.
+			</p><p>
+				Unfortunately, this approach to composite identifiers means that a persistent object 
+				is its own identifier. There is no convenient "handle" other than the object itself. 
+				You must instantiate an instance of the persistent class itself and populate its 
+				identifier properties before you can <code class="literal">Load()</code> the persistent state
+				associated with a composite key. We will describe a much more
+				convenient approach where the composite identifier is implemented as a seperate class
+				in TODO:LINKTOCOMPENENTS. The attributes described below apply only
+				to this alternative approach:
+			</p><div class="calloutlist"><table border="0" summary="Callout list"><tr><td width="5%" valign="top" align="left"><a name="composite-id1"></a><a href="#composite-id1-co">(1)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">name</code> (optional): A property of component type that holds the
+						composite identifier (see next section).
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="composite-id2"></a><a href="#composite-id2-co">(2)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">class</code> (optional - defaults to the property type determined by 
+						reflection): The component class used as a composite identifier (see next section).
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="composite-id3"></a><a href="#composite-id3-co">(3)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">unsaved-value</code> (optional - defaults to <code class="literal">none</code>): 
+						Indicates that transient instances should be considered newly instantiated, if set 
+						to <code class="literal">any</code>.
+					</p></td></tr></table></div></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="mapping-declaration-discriminator"></a>discriminator</h3></div></div></div><p>
+				The <code class="literal">&lt;discriminator&gt;</code> element is required for polymorphic persistence 
+				using the table-per-class-hierarchy mapping strategy and declares a discriminator column of the 
+				table. The discriminator column contains marker values that tell the persistence layer what 
+				subclass to instantiate for a particular row. A restricted set of types may be used: 
+				<code class="literal">String</code>, <code class="literal">Char</code>, <code class="literal">Int32</code>, 
+				<code class="literal">Byte</code>, <code class="literal">Int16</code>, <code class="literal">Boolean</code>, 
+				<code class="literal">YesNo</code>, <code class="literal">TrueFalse</code>.
+			</p><pre class="programlisting">&lt;discriminator
+	column="discriminator_column"<a name="discriminator1-co" href="mapping.html#discriminator1">(1)</a>
+	type="discriminator_type"<a name="discriminator2-co" href="mapping.html#discriminator2">(2)</a>
+	force="true|false"<a name="discriminator3-co" href="mapping.html#discriminator3">(3)</a>
+	insert="true|false" <a name="discriminator4-co" href="mapping.html#discriminator4">(4)</a>
+/&gt;</pre><div class="calloutlist"><table border="0" summary="Callout list"><tr><td width="5%" valign="top" align="left"><a name="discriminator1"></a><a href="#discriminator1-co">(1)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">column</code> (optional - defaults to <code class="literal">class</code>) the
+						name of the discriminator column.
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="discriminator2"></a><a href="#discriminator2-co">(2)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">type</code> (optional - defaults to <code class="literal">String</code>) a
+						name that indicates the Hibernate type
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="discriminator3"></a><a href="#discriminator3-co">(3)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">force</code> (optional - defaults to <code class="literal">false</code>) 
+						"force" NHibernate to specify allowed discriminator values even when retrieving 
+						all instances of the root class.
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="discriminator4"></a><a href="#discriminator4-co">(4)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">insert</code> (optional - defaults to <code class="literal">true</code>) 
+						set this to <code class="literal">false</code> if your discriminator column is also part
+						of a mapped composite identifier.
+					</p></td></tr></table></div><p>
+				Actual values of the discriminator column are specified by the
+				<code class="literal">discriminator-value</code> attribute of the <code class="literal">&lt;class&gt;</code> and
+				<code class="literal">&lt;subclass&gt;</code> elements.
+			</p><p>
+				The <code class="literal">force</code> attribute is (only) useful if the table contains rows with
+				"extra" discriminator values that are not mapped to a persistent class. This will not
+				usually be the case.
+			</p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="mapping-declaration-version"></a>version (optional)</h3></div></div></div><p>
+				The <code class="literal">&lt;version&gt;</code> element is optional and indicates that
+				the table contains versioned data. This is particularly useful if you plan to
+				use <span class="emphasis"><em>long transactions</em></span> (see below).
+			</p><pre class="programlisting">&lt;version
+	column="version_column"<a name="version1-co" href="mapping.html#version1">(1)</a>
+	name="propertyName"<a name="version2-co" href="mapping.html#version2">(2)</a>
+	type="typename"<a name="version3-co" href="mapping.html#version3">(3)</a>
+	access="field|property|nosetter|ClassName"<a name="version4-co" href="mapping.html#version4">(4)</a>
+	unsaved-value="null|negative|undefined|value"<a name="version5-co" href="mapping.html#version5">(5)</a>
+/&gt;</pre><div class="calloutlist"><table border="0" summary="Callout list"><tr><td width="5%" valign="top" align="left"><a name="version1"></a><a href="#version1-co">(1)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">column</code> (optional - defaults to the property name): The name
+						of the column holding the version number.
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="version2"></a><a href="#version2-co">(2)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">name</code>: The name of a property  of the persistent class.
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="version3"></a><a href="#version3-co">(3)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">type</code> (optional - defaults to <code class="literal">Int32</code>): 
+						The type of the version number.
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="version4"></a><a href="#version4-co">(4)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">access</code> (optional - defaults to <code class="literal">property</code>): The
+						strategy NHibernate should use for accessing the property value.
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="version5"></a><a href="#version5-co">(5)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">unsaved-value</code> (optional - defaults to <code class="literal">undefined</code>):
+						A version property value that indicates that an instance is newly instantiated
+						(unsaved), distinguishing it from transient instances that were saved or loaded
+						in a previous session.  (<code class="literal">undefined</code> specifies that the identifier
+						property value should be used.)
+					</p></td></tr></table></div><p>
+				Version numbers may be of type <code class="literal">Int64</code>, <code class="literal">Int32</code>,
+				<code class="literal">Int16</code>, <code class="literal">Ticks</code>, <code class="literal">Timestamp</code>, 
+				or <code class="literal">TimeSpan</code>.
+			</p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="mapping-declaration-timestamp"></a>timestamp (optional)</h3></div></div></div><p>
+				The optional <code class="literal">&lt;timestamp&gt;</code> element indicates that the table contains 
+				timestamped data. This is intended as an alternative to versioning. Timestamps are by nature
+				a less safe implementation of optimistic locking. However, sometimes the application might
+				use the timestamps in other ways.
+			</p><pre class="programlisting">&lt;timestamp
+	column="timestamp_column"<a name="timestamp1-co" href="mapping.html#timestamp1">(1)</a>
+	name="propertyName"<a name="timestamp2-co" href="mapping.html#timestamp2">(2)</a>
+	access="field|property|nosetter|ClassName"<a name="timestamp3-co" href="mapping.html#timestamp3">(3)</a>
+	unsaved-value="null|negative|undefined|value"<a name="timestamp4-co" href="mapping.html#timestamp4">(4)</a>
+/&gt;</pre><div class="calloutlist"><table border="0" summary="Callout list"><tr><td width="5%" valign="top" align="left"><a name="timestamp1"></a><a href="#timestamp1-co">(1)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">column</code> (optional - defaults to the property name): The name
+						of a column holding the timestamp.
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="timestamp2"></a><a href="#timestamp2-co">(2)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">name</code>: The name of a property of .NET type <code class="literal">DateTime</code>.
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="timestamp3"></a><a href="#timestamp3-co">(3)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">access</code> (optional - defaults to <code class="literal">property</code>): The
+						strategy NHibernate should use for accessing the property value.
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="timestamp4"></a><a href="#timestamp4-co">(4)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">unsaved-value</code> (optional - defaults to <code class="literal">undefined</code>):
+						A timestamp property value that indicates that an instance is newly instantiated
+						(unsaved), distinguishing it from transient instances that were saved or loaded
+						in a previous session.  (<code class="literal">undefined</code> specifies that the identifier
+						property value should be used.)
+					</p></td></tr></table></div><p>
+				Note that <code class="literal">&lt;timestamp&gt;</code> is equivalent to 
+				<code class="literal">&lt;version type="timestamp"&gt;</code>.
+			</p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="mapping-declaration-property"></a>property</h3></div></div></div><p>
+				The <code class="literal">&lt;property&gt;</code> element declares a persistent, 
+				property of the class.
+			</p><pre class="programlisting">&lt;property
+	name="propertyName"<a name="property1-co" href="mapping.html#property1">(1)</a>
+	column="column_name"<a name="property2-co" href="mapping.html#property2">(2)</a>
+	type="typename"<a name="property3-co" href="mapping.html#property3">(3)</a>
+	update="true|false"<a name="property4-co" href="mapping.html#property4">(4)</a>
+	insert="true|false"<a name="property5-co" href="mapping.html#property5">(5)</a>
+	formula="arbitrary SQL expression"<a name="property6-co" href="mapping.html#property6">(6)</a>
+	access="field|property|nosetter|ClassName"<a name="property7-co" href="mapping.html#property7">(7)</a>
+/&gt;</pre><div class="calloutlist"><table border="0" summary="Callout list"><tr><td width="5%" valign="top" align="left"><a name="property1"></a><a href="#property1-co">(1)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">name</code>: the name of the property in the same case as the Propery in your API
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="property2"></a><a href="#property2-co">(2)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">column</code> (optional - defaults to the property name): the name
+						of the mapped database table column.
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="property3"></a><a href="#property3-co">(3)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">type</code> (optional): a name that indicates the NHibernate type.
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="property4"></a><a href="#property4-co">(4)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">update</code> (optional - defaults to <code class="literal">true</code>) :
+						specifies that the mapped columns should be included in SQL <code class="literal">UPDATE</code> 
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="property5"></a><a href="#property5-co">(5)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">insert</code> (optional - defaults to <code class="literal">true</code>) :
+						specifies that the mapped columns should be included in SQL 
+						<code class="literal">INSERT</code> statements. Setting both <code class="literal">insert</code>
+						and <code class="literal">update</code> to <code class="literal">false</code>
+						allows a pure "derived" property whose value is initialized from some other
+						property that maps to the same colum(s) or by a trigger or other application.
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="property6"></a><a href="#property6-co">(6)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">formula</code> (optional): an SQL expression that defines the value for a
+						<span class="emphasis"><em>computed</em></span> property. Computed properties do not have a column
+						mapping of their own.
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="property7"></a><a href="#property7-co">(7)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">access</code> (optional - defaults to <code class="literal">property</code>): The
+						strategy NHibernate should use for accessing the property value.
+					</p></td></tr></table></div><p>
+				<span class="emphasis"><em>typename</em></span> could be:
+			</p><div class="orderedlist"><ol type="1" compact><li><p>
+						The name of a NHibernate basic type (eg. <code class="literal">Int32, String, Char,
+						DateTime, Timstamp, Single, Byte[], Object, ...</code>).
+					</p></li><li><p>
+						The name of a .NET type with a default basic type (eg. <code class="literal">System.Int16, System.Single,
+						System.Char, System.String, System.DateTime, System.Byte[], ...</code>).
+					</p></li><li><p>
+						The name of a your of <code class="literal">System.Enum </code> (eg. <code class="literal">Eg.Color</code>).
+					</p></li><li><p>
+						The name of a serializable .NET type.
+					</p></li><li><p>
+						The type of a custom type (eg. <code class="literal">Illflow.Type.MyCustomType, Illflow</code>).
+					</p></li></ol></div><p>
+				If you do not specify a type, NHibernate will use reflection upon the named
+				property to take a guess at the correct NHibernate type. NHibernate will try to
+				interpret the name of the return class of the property getter using rules 2, 3,
+				4 in that order. However, this is not always enough.
+				In certain cases you will still need the <code class="literal">type</code>
+				attribute. (For example, to distinguish between <code class="literal">NHibernate.DateTime</code> and
+				<code class="literal">NHibernate.Timestamp</code>, or to specify a custom type.)
+			</p><p>
+				The <code class="literal">access</code> attribute lets you control how NHibernate will access
+				the value of the property at runtime.  The value of the <code class="literal">access</code> attribute should
+				be text formatted as <code class="literal">access-strategy.naming-strategy</code>.  The 
+				<code class="literal">.naming-stragey</code> is not always required.
+				</p><div class="table"><a name="id426778"></a><p class="title"><b>Table 4.1. Access Strategy</b></p><table summary="Access Strategy" border="1"><colgroup><col><col></colgroup><thead><tr><th>Access Strategy Name</th><th>Description</th></tr></thead><tbody><tr><td><code class="literal">property</code></td><td>
+									<p>
+										The default implementation.  NHibernate uses the get/set of your Property.  No
+										Naming Strategy should be used with this Access Strategy because the 
+										<code class="literal">name</code> attribute is the name of the Property.
+									</p>
+								</td></tr><tr><td><code class="literal">field</code></td><td>
+									<p>
+										NHibernate will access the Field directly.  NHibernate uses the <code class="literal">&lt;name&gt;</code>
+										as the name of the field.  This can be used when a Property's get and set have extra
+										actions in them that you don't want to occur when NHibernate is populating or reading the object.  
+										If you want the name of the Property and not the Field to be what the consumers of your API 
+										use with HQL, then a Naming Strategy is needed.
+									</p>
+								</td></tr><tr><td><code class="literal">nosetter</code></td><td>
+									<p>
+										NHibernate will access the Field directly when setting the value and will use the
+										Property when getting the value.  This can be used when a Property only exposes a get because
+										the consumers of your API can't change the value directly.  A Naming Strategy is required
+										because NHibernate uses the <code class="literal">name</code> attribute as the Property so it needs to 
+										be told what the name of the Field is.
+									</p>
+								</td></tr><tr><td><code class="literal">ClassName</code></td><td>
+									<p>
+										If NHibernate's built in Access Strategies are not what is needed for your situation
+										then you can build your own by implementing the interface 
+										<code class="literal">NHibernate.Property.IPropertyAccessor</code>.  The value of the 
+										<code class="literal">access</code> attribute should be an Assembly Qualified Name that can be 
+										loaded with <code class="literal">Activator.CreateInstance(string AssemblyQualifiedName)</code>.
+									</p>
+								</td></tr></tbody></table></div><p>
+			</p><p>
+				</p><div class="table"><a name="id426956"></a><p class="title"><b>Table 4.2. Naming Strategy</b></p><table summary="Naming Strategy" border="1"><colgroup><col><col></colgroup><thead><tr><th>Naming Strategy Name</th><th>Description</th></tr></thead><tbody><tr><td><code class="literal">camelcase</code></td><td>
+									<p>
+										The <code class="literal">name</code> attribute is converted to CamelCase to find the Field.
+										<code class="literal">&lt;property name="Foo" ... &gt;</code> uses the Field <code class="literal">foo</code>.
+									</p>
+								</td></tr><tr><td><code class="literal">camelcase-underscore</code></td><td>
+									<p>
+										The <code class="literal">name</code> attribute is converted to CamelCase and prefixed with an
+										underscore to find the Field.
+										<code class="literal">&lt;property name="Foo" ... &gt;</code> uses the Field <code class="literal">_foo</code>.
+									</p>
+								</td></tr><tr><td><code class="literal">lowercase</code></td><td>
+									<p>
+										The <code class="literal">name</code> attribute is converted to all LowerCase to find the Field.
+										<code class="literal">&lt;property name="FooBar" ... &gt;</code> uses the Field <code class="literal">foobar</code>.
+									</p>
+								</td></tr><tr><td><code class="literal">lowercase-underscore</code></td><td>
+									<p>
+										The <code class="literal">name</code> attribute is converted to all LowerCase and prefixed with an
+										underscore to find the Field.
+										<code class="literal">&lt;property name="FooBar" ... &gt;</code> uses the Field <code class="literal">_foobar</code>.
+									</p>
+								</td></tr><tr><td><code class="literal">pascalcase-underscore</code></td><td>
+									<p>
+										The <code class="literal">name</code> attribute is prefixed with an underscore to find the Field.
+										<code class="literal">&lt;property name="Foo" ... &gt;</code> uses the Field <code class="literal">_Foo</code>.
+									</p>
+								</td></tr><tr><td><code class="literal">pascalcase-m-underscore</code></td><td>
+									<p>
+										The <code class="literal">name</code> attribute is prefixed with the character
+										<code class="literal">m</code> and an underscore to find the Field.
+										<code class="literal">&lt;property name="Foo" ... &gt;</code> uses the Field <code class="literal">m_Foo</code>.
+									</p>
+								</td></tr></tbody></table></div><p>
+			</p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="mapping-declaration-manytoone"></a>many-to-one</h3></div></div></div><p>An ordinary association to another persistent class is declared
+			using a many-to-one element. The relational model is a many-to-one
+			association. (Its really just an object reference.) </p><pre class="programlisting">&lt;many-to-one
+        name="propertyName"<a name="manytoone1-co"></a>(1)
+        column="column_name"<a name="manytoone2-co"></a>(2)
+        class="ClassName"<a name="manytoone3-co"></a>(3)
+        cascade="all|none|save-update|delete"<a name="manytoone4-co"></a>(4)
+        outer-join="true|false|auto"<a name="manytoone5-co"></a>(5)
+        update="true|false"<a name="manytoone6-co"></a>(6)
+        insert="true|false"<a name="manytoone7-co"></a>(7)
+        property-ref="propertyNameFromAssociatedClass" <a name="manytoone8-co"></a>(8)
+        access="field|property|ClassName"<a name="manytoone9-co"></a>(9)
+        unique="true|false" <a name="manytoone10-co"></a>(10)
+/&gt;</pre><div class="calloutlist"><table border="0" summary="Callout list"><tr><td width="5%" valign="top" align="left"><a name="manytoone1"></a><a href="#manytoone1-co">(1)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">name</code>: The name of the property.
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="manytoone2"></a><a href="#manytoone2-co">(2)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">column</code> (optional): The name of the column.
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="manytoone3"></a><a href="#manytoone3-co">(3)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">class</code> (optional - defaults to the property type
+						determined by reflection): The name of the associated class.
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="manytoone4"></a><a href="#manytoone4-co">(4)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">cascade</code> (optional): Specifies which operations should
+						be cascaded from the parent object to the associated object.
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="manytoone5"></a><a href="#manytoone5-co">(5)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">outer-join</code> (optional - defaults to <code class="literal">auto</code>): 
+						enables outer-join fetching for this association when 
+						<code class="literal">hibernate.use_outer_join</code> is set.
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="manytoone6"></a><a href="#manytoone6-co">(6)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">update, insert</code> (optional - defaults to <code class="literal">true</code>) 
+						specifies that the mapped columns should be included in SQL <code class="literal">UPDATE</code> 
+						and/or <code class="literal">INSERT</code> statements. Setting both to <code class="literal">false</code>
+						allows a pure "derived" association whose value is initialized from some other
+						property that maps to the same colum(s) or by a trigger or other application.
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="manytoone8"></a><a href="#manytoone8-co">(8)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">property-ref</code>: (optional) The name of a property of the associated
+						class that is joined to this foreign key.  If not specified, the primary key of the
+						associated class is used.
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="manytoone9"></a><a href="#manytoone9-co">(9)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">access</code> (optional - defaults to
+						<code class="literal">property</code>): The strategy NHibernate should use for
+						accessing the property value.
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="manytoone10"></a><a href="#manytoone10-co">(10)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">unique</code> (optional): Enable the DDL generation of a unique
+						constraint for the foreign-key column.
+					</p></td></tr></table></div><p>
+			The <code class="literal">cascade</code> attribute permits the following values: 
+			<code class="literal">all</code>, <code class="literal">save-update</code>, <code class="literal">delete</code>,
+			<code class="literal">none</code>. Setting a value other than <code class="literal">none</code>
+			will propagate certain operations to the associated (child) object.
+			See "Lifecycle Objects" below.
+		</p><p>
+			The <code class="literal">outer-join</code> attribute accepts three different values:
+		</p><div class="itemizedlist"><ul type="disc" compact><li><p>
+					<code class="literal">auto</code> (default) Fetch the association using an
+					outerjoin if the associated class has no proxy
+				</p></li><li><p>
+					<code class="literal">true</code> Always fetch the association using an 
+					outerjoin
+				</p></li><li><p>
+					<code class="literal">false</code> Never fetch the association using an
+					outerjoin
+				</p></li></ul></div><p>
+			A typical <code class="literal">many-to-one</code> declaration looks as simple as
+		</p><pre class="programlisting">&lt;many-to-one name="Product" class="Product" column="PRODUCT_ID" /&gt;</pre><p>
+			The <code class="literal">property-ref</code> attribute should only be used for mapping legacy
+			data where a foreign key refers to a unique key of the associated table other than 
+			the primary key.  This is an ugly relational model.  For example, suppose the 
+			<code class="literal">Product</code> class had a unique serial number, that is not the primary
+			key.  (The <code class="literal">unique</code> attribute controls NHibernate's DDL generation with
+			the SchemaExport tool.)
+		</p><pre class="programlisting">&lt;property name="SerialNumber" unique="true" type="String" column="SERIAL_NUMBER" </pre><p>
+			Then the mapping for <code class="literal">OrderItem</code> might use:
+		</p><pre class="programlisting">&lt;many-to-one name="Product property-ref="SerialNumber" column="PRODUCT_SERIAL_NUMBER" /&gt;</pre><p>
+			This is certainly not encouraged, however.
+		</p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="mapping-declaration-onetoone"></a>one-to-one</h3></div></div></div><p>
+			A one-to-one association to another persistent class is declared using a 
+			<code class="literal">one-to-one</code> element.
+		</p><pre class="programlisting">&lt;one-to-one
+	name="propertyName"<a name="onetoone1-co"></a>(1)
+	class="ClassName"<a name="onetoone2-co"></a>(2)
+	cascade="all|none|save-update|delete"<a name="onetoone3-co"></a>(3)
+	constrained="true|false"<a name="onetoone4-co"></a>(4)
+	outer-join="true|false|auto"<a name="onetoone5-co"></a>(5)
+	property-ref="propertyNameFromAssociatedClass" <a name="onetoone6-co"></a>(6)
+	access="field|property|ClassName"<a name="onetoone7-co"></a>(7)
+/&gt;</pre><div class="calloutlist"><table border="0" summary="Callout list"><tr><td width="5%" valign="top" align="left"><a name="onetoone1"></a><a href="#onetoone1-co">(1)</a> </td><td valign="top" align="left"><p>
+					<code class="literal">name</code>: The name of the property.
+				</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="onetoone2"></a><a href="#onetoone2-co">(2)</a> </td><td valign="top" align="left"><p>
+					<code class="literal">class</code> (optional - defaults to the property type
+					determined by reflection): The name of the associated class.
+				</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="onetoone3"></a><a href="#onetoone3-co">(3)</a> </td><td valign="top" align="left"><p>
+					<code class="literal">cascade</code> (optional) specifies which operations should
+					be cascaded from the parent object to the associated object.
+				</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="onetoone4"></a><a href="#onetoone4-co">(4)</a> </td><td valign="top" align="left"><p>
+					<code class="literal">contstrainted</code> (optional) specifies that a foreign key constraint
+					on the primary key of the mapped table references the table of the associated 
+					class.  This options affects the order in which <code class="literal">Save()</code> and 
+					<code class="literal">Delete()</code> are cascaded (and is also used by the schema export tool).
+				</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="onetoone5"></a><a href="#onetoone5-co">(5)</a> </td><td valign="top" align="left"><p>
+					<code class="literal">outer-join</code> (optional - defaults to <code class="literal">auto</code>): 
+					Enable outer-join fetching for this association when <code class="literal">hibernate.use_outer_join</code>
+					is set.
+				</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="onetoone6"></a><a href="#onetoone6-co">(6)</a> </td><td valign="top" align="left"><p>
+					<code class="literal">property-ref</code>: (optional): The name of a property of the associated class
+					that is joined to the primary key of this class.  If not specified, the primary key of
+					the associated class is used.
+				</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="onetoone7"></a><a href="#onetoone7-co">(7)</a> </td><td valign="top" align="left"><p>
+					<code class="literal">access</code> (optional - defaults to <code class="literal">property</code>): The
+					strategy NHibernate should use for accessing the property value.
+				</p></td></tr></table></div><p>
+			There are two varieties of one-to-one associations:
+		</p><div class="itemizedlist"><ul type="disc"><li><p>primary key associations</p></li><li><p>unique foreign key associations</p></li></ul></div><p>
+			Primary key associations don't need an extra table column; if two rows are related by
+			the association then the two table rows share the same primary key value.  So if you want
+			two objects to be related by a primary key association, you must make sure that they
+			are assigned the same identifier value!
+		</p><p>
+			For a primary key association, add the following mappings to <code class="literal">Employee</code> and
+			<code class="literal">Person</code>, respectively.
+		</p><pre class="programlisting">&lt;one-to-one name="Person" class="Person" /&gt;</pre><pre class="programlisting">&lt;one-to-one name="Employee" class="Employee" constrained="true" /&gt;</pre><p>
+			Now we must ensure that the primary keys of related rows in the PERSON and 
+			EMPLOYEE table are equal.  We use a special identifier generation strategy
+			call <code class="literal">foreign</code>:
+		</p><pre class="programlisting">&lt;class name="Person" table="PERSON"&gt;
+	&lt;id name="Id" column="PERSON_ID"&gt;
+		&lt;generator class="foreign"&gt;
+			&lt;param name="property"&gt;Employee&lt;/param&gt;
+		&lt;/generator&gt;
+	&lt;/id&gt;
+	...
+	&lt;one-to-one name="Employee"
+		class="Employee"
+		constrained="true" /&gt;
+&lt;/class&gt;</pre><p>
+			A newly saved instance of <code class="literal">Person</code> is then assigned the same primary
+			key value as the <code class="literal">Employee</code> instance refered with the <code class="literal">Employee</code>
+			property of that <code class="literal">Person</code>.
+		</p><p>
+			Alternatively, a foreign key with a unique constraint, from <code class="literal">Employee</code> to
+			<code class="literal">Person</code>, may be expressed as:
+		</p><pre class="programlisting">&lt;many-to-one name="Person" class="Person" column="PERSON_ID" unique="true" /&gt;</pre><p>
+			And this association may be made bidirectional by adding the following to the
+			<code class="literal">Person</code> mapping:
+		</p><pre class="programlisting">&lt;one-to-one name="Employee" class="Employee" property-ref="Person" /&gt;</pre></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="mapping-declaration-component"></a>component</h3></div></div></div><p>
+			The <code class="literal">&lt;component&gt;</code> element maps properties of a
+			child object to columns of the table of a parent class. Components may, in
+			turn, declare their own properties, components or collections. See
+			"Components" below.
+		</p><pre class="programlisting">&lt;component
+	name="propertyName"<a name="component1-co"></a>(1)
+	class="ClassName"<a name="component2-co"></a>(2)
+	insert="true|false"<a name="component3-co"></a>(3)
+	update="true|false"<a name="component4-co"></a>(4)
+	access="field|property|ClassName"<a name="component5-co"></a>(5)
+&gt;
+	&lt;parent ... /&gt;
+	&lt;property ... /&gt;
+	&lt;many-to-one ... /&gt;
+	...
+&lt;component/&gt;</pre><div class="calloutlist"><table border="0" summary="Callout list"><tr><td width="5%" valign="top" align="left"><a name="component1"></a><a href="#component1-co">(1)</a> </td><td valign="top" align="left"><p>
+					<code class="literal">name</code>: The name of the property.
+				</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="component2"></a><a href="#component2-co">(2)</a> </td><td valign="top" align="left"><p>
+					<code class="literal">class</code> (optional - defaults to the property type
+					determined by reflection): The name of the component (child) class.
+				</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="component3"></a><a href="#component3-co">(3)</a> </td><td valign="top" align="left"><p>
+					<code class="literal">insert</code>: Do the mapped columns appear in SQL 
+					<code class="literal">INSERT</code>s?
+				</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="component4"></a><a href="#component4-co">(4)</a> </td><td valign="top" align="left"><p>
+					<code class="literal">update</code>: Do the mapped columns appear in SQL 
+					<code class="literal">UPDATE</code>s?
+				</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="component5"></a><a href="#component5-co">(5)</a> </td><td valign="top" align="left"><p>
+					<code class="literal">access</code> (optional - defaults to <code class="literal">property</code>): The
+					strategy Hibernate should use for accessing the property value.
+				</p></td></tr></table></div><p>
+			The child <code class="literal">&lt;property&gt;</code> tags map properties of the 
+			child class to table columns.
+		</p><p>
+			The <code class="literal">&lt;component&gt;</code> element allows a <code class="literal">&lt;parent&gt;</code>
+			subelement that maps a property of the component class as a reference back to the 
+			containig entity.
+		</p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="mapping-declaration-subclass"></a>subclass</h3></div></div></div><p>
+			Finally, polymorphic persistence requires the declaration of each subclass of
+			the root persistent class. For the (recommended) table-per-class-hierarchy
+			mapping strategy, the <code class="literal">&lt;subclass&gt;</code> declaration is used.
+		</p><pre class="programlisting">&lt;subclass
+	name="ClassName"<a name="subclass1-co"></a>(1)
+	discriminator-value="discriminator_value"<a name="subclass2-co"></a>(2)
+	proxy="ProxyInterface"<a name="subclass3-co"></a>(3)
+	dynamic-update="true|false"
+	dynamic-insert="true|false"
+	extends="BaseMappedClassName"&gt; <a name="subclass4-co"></a>(4)
+	
+	&lt;property ... / &gt;
+	...
+&lt;subclass/&gt;</pre><div class="calloutlist"><table border="0" summary="Callout list"><tr><td width="5%" valign="top" align="left"><a name="subclass1"></a><a href="#subclass1-co">(1)</a> </td><td valign="top" align="left"><p>
+					<code class="literal">name</code>: The fully qualified .NET Type name of the persistent class. 
+				</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="subclass2"></a><a href="#subclass2-co">(2)</a> </td><td valign="top" align="left"><p>
+					<code class="literal">discriminator-value</code> (optional - defaults to the class name): A 
+					value that distinguishes individual subclasses.
+				</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="subclass3"></a><a href="#subclass3-co">(3)</a> </td><td valign="top" align="left"><p>
+					<code class="literal">proxy</code> (optional): Specifies a class or interface to use 
+					for lazy initializing proxies.
+				</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="subclass4"></a><a href="#subclass4-co">(4)</a> </td><td valign="top" align="left"><p>
+					<code class="literal">extends</code> (optional): Specifies the mapped class that this
+					subclass is extending.  This is only needed if <a href="mapping.html#mapping-modularfiles" title="Modular mapping files">
+					Modular Mapping Files</a> are used.
+				</p></td></tr></table></div></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="mapping-declaration-joinedsubclass"></a>joined-subclass</h3></div></div></div><p>
+			Alternatively, a subclass that is persisted to its own table (table-per-subclass 
+			mapping strategy) is declared using a <code class="literal">&lt;joined-subclass&gt;</code>
+			element.
+		</p><pre class="programlisting">&lt;joined-subclass
+	name="ClassName"<a name="joinedsubclass1-co"></a>(1)
+	table="tableName" <a name="joinedsubclass2-co"></a>(2)
+	proxy="ProxyInterface"<a name="joinedsubclass3-co"></a>(3)
+	dynamic-update="true|false"
+	dynamic-insert="true|false"
+	extends="BaseMappedClassName"&gt; <a name="joinedsubclass4-co"></a>(4)
+	
+	&lt;key ... &gt;
+	
+	&lt;property ... / &gt;
+	...
+&lt;joined-subclass/&gt;</pre><div class="calloutlist"><table border="0" summary="Callout list"><tr><td width="5%" valign="top" align="left"><a name="joinedsubclass1"></a><a href="#joinedsubclass1-co">(1)</a> </td><td valign="top" align="left"><p>
+					<code class="literal">name</code>: The fully qualified .NET Type name of the persistent class. 
+				</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="joinedsubclass2"></a><a href="#joinedsubclass2-co">(2)</a> </td><td valign="top" align="left"><p>
+					<code class="literal">table</code>: The name of the table that holds the data specific to this class.
+				</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="joinedsubclass3"></a><a href="#joinedsubclass3-co">(3)</a> </td><td valign="top" align="left"><p>
+					<code class="literal">proxy</code> (optional): Specifies a class or interface to use 
+					for lazy initializing proxies.
+				</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="joinedsubclass4"></a><a href="#joinedsubclass4-co">(4)</a> </td><td valign="top" align="left"><p>
+					<code class="literal">extends</code> (optional): Specifies the mapped class that this
+					joined-subclass is extending.  This is only needed if 
+					<a href="mapping.html#mapping-modularfiles" title="Modular mapping files">Modular Mapping Files</a> are used.
+				</p></td></tr></table></div><p>
+			No discriminator column is required for this mapping strategy.  Each sublcass must, 
+			however, declare a table column holding the object identifier using the 
+			<code class="literal">&lt;key&gt;</code> element.
+		</p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="mapping-declaration-collections"></a>map, set, list, bag</h3></div></div></div><p>
+				Collections are discussed later.
+			</p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="mapping-declaration-import"></a>import</h3></div></div></div><p>
+				If your application has two persistent class with the same name, and you don't want to 
+				specify the fully qualified name in NHibernate queries, then classes may be "imported"
+				explicity, rather than relying on <code class="literal">auto-import="true"</code>.  Classes and interfaces
+				that are not explicity mapped can be imported also.  This is useful when you want to query for
+				classes that implement a certain interface or want to use an unmapped class to put the results
+				of the hql in.
+			</p><pre class="programlisting">&lt;import class="System.Object, System" /&gt;</pre><pre class="programlisting">&lt;import 
+	class="className" <a name="import1-co"></a>(1)
+	rename="newName"  <a name="import2-co"></a>(2)
+/&gt;</pre><div class="calloutlist"><table border="0" summary="Callout list"><tr><td width="5%" valign="top" align="left"><a name="import1"></a><a href="#import1-co">(1)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">class</code>:  The fully qualified .NET Type name of the persistent class (or interface).
+					</p></td></tr><tr><td width="5%" valign="top" align="left"><a name="import2"></a><a href="#import2-co">(2)</a> </td><td valign="top" align="left"><p>
+						<code class="literal">rename</code> (optional - defaults to the unqualified class name): A
+						name that may be used in the query language.
+					</p></td></tr></table></div></div></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="mapping-types"></a>NHibernate Types</h2></div></div></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="mapping-types-entitiesvalues"></a>Entities and values</h3></div></div></div><p>
+				To understand the behaviour of various .NET language-level objects with respect
+				to the persistence service, we need to classify them into two groups:
+			</p><p>
+				An <span class="emphasis"><em>entity</em></span> exists independently of any other objects holding
+				references to the entity. Contrast this with the usual .NET model where an
+				unreferenced object is garbage collected. Entities must be explicitly saved and
+				deleted (except that saves and deletions may be <span class="emphasis"><em>cascaded</em></span>
+				from a parent entity to its children).  Entities support
+				circular and shared references. They may also be versioned.
+			</p><p>
+				An entity's persistent state consists of references to other entities and
+				instances of <span class="emphasis"><em>value</em></span> types. Values are structs,
+				collections, components and certain immutable objects. Unlike entities, values
+				(in particular collections and components) <span class="emphasis"><em>are</em></span>
+				persisted and deleted by reachability. Since value objects (and structs) are
+				persisted and deleted along with their containing entity they may not be
+				independently versioned. Values have no independent identity, so they cannot be
+				shared by two entities or collections.
+			</p><p>
+				All NHibernate types except collections support null semantics if the .NET type also
+				supports it.
+			</p><p>
+				Up until now, we've been using the term "persistent class" to refer to
+				entities. We will continue to do that. Strictly speaking, however, not all
+				user-defined classes with persistent state are entities. A
+				<span class="emphasis"><em>component</em></span> is a user defined class with value semantics.
+			</p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="mapping-types-basictypes"></a>Basic value types</h3></div></div></div><p>
+				The <span class="emphasis"><em>basic types</em></span> may be roughly categorized into three groups - <code class="literal">System.ValueType</code> 
+				types, <code class="literal">System.Object</code> types, and <code class="literal">System.Object</code> types for large objects.  Just like
+				the .NET Types, columns for System.ValueType types <span class="emphasis"><em>can not</em></span> store <code class="literal">null</code> values 
+				and System.Object types	<span class="emphasis"><em>can</em></span> store <code class="literal">null</code> values.
+			</p><div class="table"><a name="id428929"></a><p class="title"><b>Table 4.3. System.ValueType Mapping Types</b></p><table summary="System.ValueType Mapping Types" border="1"><colgroup><col><col><col><col></colgroup><thead><tr><th>NHibernate Type</th><th>.NET Type</th><th>Database Type</th><th>Remarks</th></tr></thead><tbody><tr><td><code class="literal">Boolean</code></td><td><code class="literal">System.Boolean</code></td><td><code class="literal">DbType.Boolean</code></td><td>Default when no <code class="literal">type</code> attribute specified.</td></tr><tr><td><code class="literal">Byte</code></td><td><code class="literal">System.Byte</code></td><td><code class="literal">DbType.Byte</code></td><td>Default when no <code class="literal">type</code> attribute specified.</td></tr><tr><td><code class="literal">Char</code></td><td><code class="literal">System.Char</code></td><td><code class="literal">DbType.StringFixedLength - 1 char</code></td><td>Default when no <code class="literal">type</code> attribute specified.</td></tr><tr><td><code class="literal">DateTime</code></td><td><code class="literal">System.DateTime</code></td><td><code class="literal">DbType.DateTime</code> - ignores the milliseconds</td><td>Default when no <code class="literal">type</code> attribute specified.</td></tr><tr><td><code class="literal">Decimal</code></td><td><code class="literal">System.Decimal</code></td><td><code class="literal">DbType.Decimal</code></td><td>Default when no <code class="literal">type</code> attribute specified.</td></tr><tr><td><code class="literal">Double</code></td><td><code class="literal">System.Double</code></td><td><code class="literal">DbType.Double</code></td><td>Default when no <code class="literal">type</code> attribute specified.</td></tr><tr><td><code class="literal">Guid</code></td><td><code class="literal">System.Guid</code></td><td><code class="literal">DbType.Guid</code></td><td>Default when no <code class="literal">type</code> attribute specified.</td></tr><tr><td><code class="literal">Int16</code></td><td><code class="literal">System.Int16</code></td><td><code class="literal">DbType.Int16</code></td><td>Default when no <code class="literal">type</code> attribute specified.</td></tr><tr><td><code class="literal">Int32</code></td><td><code class="literal">System.Int32</code></td><td><code class="literal">DbType.Int32</code></td><td>Default when no <code class="literal">type</code> attribute specified.</td></tr><tr><td><code class="literal">Int64</code></td><td><code class="literal">System.Int64</code></td><td><code class="literal">DbType.Int64</code></td><td>Default when no <code class="literal">type</code> attribute specified.</td></tr><tr><td><code class="literal">PersistentEnum</code></td><td>A <code class="literal">System.Enum</code></td><td>The <code class="literal">DbType</code> for the underlying value.</td><td>Do not specify <code class="literal">type="PersistentEnum"</code> in the mapping.  Instead 
+							specify the Assembly Qualified Name of the Enum or let NHibernate use Reflection to "guess" the Type.  
+							The UnderlyingType of the Enum is used to determine the correct <code class="literal">DbType</code>.</td></tr><tr><td><code class="literal">Single</code></td><td><code class="literal">System.Single</code></td><td><code class="literal">DbType.Single</code></td><td>Default when no <code class="literal">type</code> attribute specified.</td></tr><tr><td><code class="literal">Ticks</code></td><td><code class="literal">System.DateTime</code></td><td><code class="literal">DbType.Int64</code></td><td><code class="literal">type="Ticks"</code> must be specified.</td></tr><tr><td><code class="literal">TimeSpan</code></td><td><code class="literal">System.TimeSpan</code></td><td><code class="literal">DbType.Int64</code></td><td>Default when no <code class="literal">type</code> attribute specified.</td></tr><tr><td><code class="literal">Timestamp</code></td><td><code class="literal">System.DateTime</code></td><td><code class="literal">DbType.DateTime</code> - as specific as database supports.</td><td><code class="literal">type="Timestamp"</code> must be specified.</td></tr><tr><td><code class="literal">TrueFalse</code></td><td><code class="literal">System.Boolean</code></td><td><code class="literal">DbType.AnsiStringFixedLength</code> - 1 char either 'T' or 'F'</td><td><code class="literal">type="TrueFalse"</code> must be specified.</td></tr><tr><td><code class="literal">YesNo</code></td><td><code class="literal">System.Boolean</code></td><td><code class="literal">DbType.AnsiStringFixedLength</code> - 1 char either 'Y' or 'N'</td><td><code class="literal">type="YesNo"</code> must be specified.</td></tr></tbody></table></div><div class="table"><a name="id429561"></a><p class="title"><b>Table 4.4. System.Object Mapping Types</b></p><table summary="System.Object Mapping Types" border="1"><colgroup><col><col><col><col></colgroup><thead><tr><th>NHibernate Type</th><th>.NET Type</th><th>Database Type</th><th>Remarks</th></tr></thead><tbody><tr><td><code class="literal">AnsiString</code></td><td><code class="literal">System.String</code></td><td><code class="literal">DbType.AnsiString</code></td><td><code class="literal">type="AnsiString"</code> must be specified.</td></tr><tr><td><code class="literal">CultureInfo</code></td><td><code class="literal">System.Globalization.CultureInfo</code></td><td><code class="literal">DbType.String</code> - 5 chars for culture</td><td>Default when no <code class="literal">type</code> attribute specified.</td></tr><tr><td><code class="literal">Binary</code></td><td><code class="literal">System.Byte[]</code></td><td><code class="literal">DbType.Binary</code></td><td>Default when no <code class="literal">type</code> attribute specified.</td></tr><tr><td><code class="literal">Type</code></td><td><code class="literal">System.Type</code></td><td><code class="literal">DbType.String</code> holding Assembly Qualified Name.</td><td>Default when no <code class="literal">type</code> attribute specified.</td></tr><tr><td><code class="literal">String</code></td><td><code class="literal">System.String</code></td><td><code class="literal">DbType.String</code></td><td>Default when no <code class="literal">type</code> attribute specified.</td></tr></tbody></table></div><div class="table"><a name="id429771"></a><p class="title"><b>Table 4.5. Large Object Mapping Types</b></p><table summary="Large Object Mapping Types" border="1"><colgroup><col><col><col><col></colgroup><thead><tr><th>NHibernate Type</th><th>.NET Type</th><th>Database Type</th><th>Remarks</th></tr></thead><tbody><tr><td><code class="literal">StringClob</code></td><td><code class="literal">System.String</code></td><td><code class="literal">DbType.String</code></td><td><code class="literal">type="StringClob"</code> must be specified.  Entire field is read into memory.</td></tr><tr><td><code class="literal">BinaryBlob</code></td><td><code class="literal">System.Byte[]</code></td><td><code class="literal">DbType.Binary</code></td><td><code class="literal">type="BinaryBlob"</code> must be specified.  Entire field is read into memory.</td></tr><tr><td><code class="literal">Serializable</code></td><td>Any <code class="literal">System.Object</code> that is marked with SerializableAttribute.</td><td><code class="literal">DbType.Binary</code></td><td><code class="literal">type="Serializable"</code> should be specified.  This is the fallback type
+							if no NHibernate Type can be found for the Property.</td></tr></tbody></table></div><p>
+				For those of you coming over from Hibernate or using some of the tools to generate <code class="literal">hbm.xml</code> files
+				that are intended for Hibernate, there is a Hibernate compatiblity layer for type names.  A <code class="literal">type="integer"</code>
+				will map to an <code class="literal">Int32</code> NHibernateType, <code class="literal">type="short"</code> to an <code class="literal">Int16</code>
+				NHibernateType.  To see all of the conversions you can view the source of static constructor of the class 
+				<code class="literal">NHibernate.Type.TypeFactory</code>. 
+			</p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="mapping-types-custom"></a>Custom value types</h3></div></div></div><p>
+				It is relatively easy for developers to create their own value types. For example,
+				you might want to persist properties of type <code class="literal">Int64</code>
+				to <code class="literal">VARCHAR</code> columns. NHibernate does not provide a built-in type 
+				for this. But custom types are not limited to mapping a property (or collection element) 
+				to a single table column. So, for example, you might have a property 
+				<code class="literal">Name {get; set;}</code> of type <code class="literal">String</code> that is persisted to the columns 
+				<code class="literal">FIRST_NAME</code>, <code class="literal">INITIAL</code>, <code class="literal">SURNAME</code>. 
+			</p><p>
+				To implement a custom type, implement either <code class="literal">NHibernate.IUserType</code> 
+				or <code class="literal">NHibernate.ICompositeUserType</code> and declare properties using the 
+				fully qualified name of the type. Check out 
+				<code class="literal">NHibernate.DomainModel.DoubleStringType</code> to see the kind of things that 
+				are possible.
+			</p><pre class="programlisting">&lt;property name="TwoStrings" type="NHibernate.DomainModel.DoubleStringType, NHibernate.DomainModel"&gt;
+	&lt;column name="first_string"/&gt;
+	&lt;column name="second_string"/&gt;
+&lt;/property&gt;</pre><p>
+				Notice the use of <code class="literal">&lt;column&gt;</code> tags to map a property to multiple
+				columns.
+			</p><p>
+				Even though NHibernate's rich range of built-in types and support for components means you
+				will very rarely <span class="emphasis"><em>need</em></span> to use a custom type, it is nevertheless
+				considered good form to use custom types for (non-entity) classes that occur frequently
+				in your application. For example, a <code class="literal">MonetoryAmount</code> class is a good
+				candidate for a <code class="literal">ICompositeUserType</code>, even though it could easily be mapped 
+				as a component. One motivation for this is abstraction. With a custom type, your mapping 
+				documents would be future-proofed against possible changes in your way of representing 
+				monetory values.
+			</p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="mapping-types-anymapping"></a>Any type mappings</h3></div></div></div><p>TODO</p></div></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="mapping-quotedidentifiers"></a>SQL quoted identifiers</h2></div></div></div><p>
+			You may force NHibernate to quote an identifier in the generated SQL by enclosing the table or
+			column name in backticks in the mapping document.  NHibernate will use the correct quotation
+			style for the SQL <code class="literal">Dialect</code> (usually double quotes, but brackets for SQL
+			Server and backticks for MySQL).
+		</p><pre class="programlisting">
+&lt;class name="LineItem" table="`Line Item`"&gt;
+	&lt;id name="id" column="`Item Id`"&gt;
+		&lt;generator class="assigned"/&gt;
+	&lt;/id&gt;
+	&lt;property name="itemNumber" column="`Item #`"/&gt;
+	...
+&lt;/class&gt;</pre></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="mapping-modularfiles"></a>Modular mapping files</h2></div></div></div><p>
+			It is possible to define <code class="literal">subclass</code> and <code class="literal">joined-subclass</code>
+			mappings in seperate mapping documents, directly beneath <code class="literal">hibernate-mapping</code>.
+			This allows you to extend a class hierachy just by adding a new mapping file. You must
+			specify an <code class="literal">extends</code> attribute in the subclass mapping, naming a previously
+			mapped superclass.  If you are configuring NHibernate by using Embedded Resources then the
+			hbm.xml files are configured in the correct order.  If you are manually adding them or specifying
+			them in the cfg.xml file then the ordering of the mapping documents is important!
+		</p><pre class="programlisting">
+&lt;hibernate-mapping&gt;
+	&lt;subclass name="Eg.Subclass.DomesticCat, Eg" extends="Eg.Cat, Eg" discriminator-value="D"&gt;
+		&lt;property name="Name" type="String"/&gt;
+	&lt;/subclass&gt;
+&lt;/hibernate-mapping&gt;</pre></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="NHibernate.Mapping.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="NHibernate.Mapping.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="collections.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Part I. NHibernate Mapping </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Chapter 5. Collection Mapping</td></tr></table></div></body></html>

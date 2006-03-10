@@ -1,0 +1,501 @@
+Build 1.0.1.0
+========================
+
+Bugs Fixed:
+
+    * [NH-406] - NHibernate.Cfg.Configuration.Configure("MyAssembly.dll.config") results in System.NullReferenceException
+    * [NH-407] - session.Refresh(myObject) does not refresh/load the object from the datbase if it does not exist in the cache.
+    * [NH-414] - Need to process <cache> and <collection-cache> in configuration files
+    * [NH-417] - Column Alias bug
+    * [NH-422] - <meta-value> child tag missing from <many-to-any>
+    * [NH-440] - one-to-one unique foreign key mapping fails during query
+    * [NH-415] - AddXmlString should rethrow exceptions it catches
+    * [NH-463] - IncrementGenerator returns Int64 but uses an Int32 internally
+
+New Features:
+
+    * [NH-113] - drop table SQL will now check if the table exists on MS SQL
+      to avoid unnecessary warnings.
+    * [NH-450] - Added hbm2ddl NAnt task by James Geurts
+
+Improvements:
+    * [NH-403] - BinaryType.Get should now perform faster
+    * [NH-398] - Bulk property get/set optimization in AbstractEntityPersister
+      contributed by Roberto Paterlini. The optimization is enabled by default,
+      set hibernate.use_reflection_optimizer property to false in your
+      App.config file to disable it. Note that the property is global, thus
+      it is only possible to set it in the app.config file in <nhibernate>
+      session (see above).
+    * [NH-443] - Added more details to "broken column mapping" message
+    * [NH-448] - NHibernate configuration process is now closer to Hibernate:
+      - hibernate.properties file corresponds to <nhibernate> section
+        in app.config (mapped to NameValueSectionHandler)
+      - configuration through hibernate.cfg.xml is supported
+      - instead of hibernate.cfg.xml, <hibernate-configuration> section
+        in app.config (mapped to NHibernate.Cfg.ConfigurationSectionHandler)
+        can also be used.
+      - creating a new configuration instance in version 1.0 would cause it
+        to read <hibernate-configuration> section immediately. In 1.0.1 this
+        was changed so that the section is only read when Configure() is called
+    * HashCodeProvider is now merged into NHibernate assembly during build,
+      thus it does not have to be distributed along with NHibernate.dll.
+
+Build 1.0.0.0
+========================
+
+Improvements:
+ * ITransaction.Commit and Rollback will not wrap exceptions that derive
+   from HibernateException into TransactionExceptions, those exceptions
+   will instead be propagated untouched.
+ * FieldAccessor now includes correct type in PropertyNotFoundException.
+ * Oracle9Dialect will now generate a column of type TIMESTAMP(4)
+   for date fields mapped as "datetime".
+
+Build 0.99.3.0 (1.0-rc3)
+========================
+
+Bug Fixes:
+ * [NH-376] - Expression.In w/ an empty collection causes a SQL exception
+ * [NH-382, NH-392] - problems with ADO transactions that plagued previous
+   1.0-rcX versions should all be resolved now.
+ * [NH-391] - Bug in ReadWriteCache when session is opened with existing
+   connection
+ * [NH-394] - NullReferenceException in debug print of session objects.
+ * [NH-396] - User-provided class names should be trimmed before use
+ * [NH-397] - ConfigurationSectionHandler doesn't reads empty properties
+
+Improvements:
+ * [NH-388] - Support for the "Any", "Meta-Value" tags
+ * Added fetch attribute from Hibernate 3 with values "select"/"join".
+   fetch="select" is equivalent to outer-join="false", and fetch="join"
+   matches outer-join="true".
+
+Build 0.99.2.0 (1.0-rc2)
+========================
+
+Bug Fixes:
+ * [NH-377] - Allow whitespace around dialect name in cfg.xml
+ * [NH-380] - Error with query after comitted transaction
+ * [NH-385] - ADOException thrown instead of StaleObjectStateException when
+   updating stale record
+ * [NH-386] - Aliases generated for properties with initial underscores should
+   NOT begin with an underscore
+ * Using Expression.Eq on a many-to-one property now works again (it was broken
+   by mistake in 1.0-rc1)
+
+Improvements:
+ * [NH-329] - If unsaved-value for <id> or <version> is not specified,
+   NHibernate will now try to guess it by instantiating an empty object and
+   retrieving default property values from it (as Hibernate 3 does it).
+ * The documentation has an "installer" to integrate it in VS .NET Help.
+
+Build 0.99.1.0 (1.0-rc1)
+========================
+
+Breaking changes to external API:
+- Updated to a newer version of Castle.DynamicProxy.
+  WARNING: this new version has the same number (1.1.5.0) as the version used
+           by the previous release of NHibernate, but the binaries are in fact
+           different and the old 1.1.5.0 will not work with 1.0-rc1.
+- NHibernate no longer configures log4net internally. It is now up to the user
+  to configure logging.
+- Accessing a disposed or closed ISession or ITransaction now causes
+  an ObjectDisposedException. HibernateException or TransactionException could
+  be thrown in this case before, such cases were also changed to
+  throw ObjectDisposedException.
+- Renamed SQLExpression to SQLCriterion per Hibernate 2.1. Now, {alias} should
+  be used instead of $alias in SQL criteria.
+- Unused constructors for some exceptions were removed.
+
+Breaking changes to NHibernate extension interfaces:
+- Renamed IClassPersister.IsDefaultVersion to IsUnsavedVersion. It now takes
+  as argument an array of property values instead of an object.
+- Renamed IClassPersister.CurrentVersion to GetCurrentVersion to follow naming
+  conventions closer.
+- Fixed MatchMode.Start and MatchMode.End for Like expressions, their meanings
+  were reversed.
+- Dialect.AddIdentitySelectToInsert should now return null if the functionality
+  is not supported, instead of throwing an exception.
+
+Bug fixes and enhancements:
+- Ported almost all remaining Hibernate 2.1 features to NHibernate:
+  * subcriteria
+  * meta attributes
+  * optimistic-lock setting
+  * query cache
+  * select-before-update
+  * batch lazy loading
+  * dynamic components
+  Missing features are Databinder, ScrollableResults and SchemaUpdate.
+- Allow serializing an unflushed session (NH-292, Yves Dierick).
+- Check that composite id classes override GetHashCode and Equals.
+- Throw QueryException when attempting to fetch multiple collections in
+  a query.
+- Added a SectionHandler to allow using .cfg.xml syntax to configure NHibernate
+  from App.config files. (This was already part of 0.9.1 release but was not
+  announced in the release notes.)
+- Fixed bug when using joined-subclass with key-many-to-one (NH-369).
+- Added IType implementations and constants in NHibernateUtil for unsigned
+  integer types.
+- Added index attribute for <property>.
+- SchemaExport now generates SQL to create an index when index attribute is
+  used on <property> or <column>.
+- SchemaExport will add an "if exists" clause to "drop table" statement,
+  if supported by the dialect.
+- Heavy refactoring of the documentation; it now contains the documentation for
+  NHibernate Contributions.
+- Fixed a bug when generating a TOP clause for MS SQL Server - the whole SQL
+  string was being converted to lower case.
+
+Build 0.9.1.0
+========================
+- Fixed bug in limit clause generation on MySQL.
+- Fixed bug in Configuration.AddDocument.
+- Fixed <version unsaved-value="negative" /> not working with ints or shorts.
+- NHibernate now checks whether object identifier passed to its methods is of the right type.
+- Fixed bug with YesNo type generating CHAR(255) column, it now generates CHAR(1).
+- Implemented hibernate.show_sql feature, logging all SQL executed using NHibernate.SQL logger.
+
+Build 0.9.0.0
+========================
+- Added ISession.Clear().
+- Added configurable command timeout property (hibernate.command_timeout).
+- Added named SQL query support.
+- Allow to specify an isolation level when starting a transaction.
+- Upgraded Castle.DynamicProxy library to the latest version (1.1.5).
+- Upgraded log4net library to the latest version (1.2.9).
+- Fixed bug with Get/Load loading wrong subclasses because of class discriminant not being included in the generated query (Alexander Popov).
+- Fixed VersionNegative unsaved-value strategy not to treat 0 as the unsaved value.
+- Fixed bug in SchemaExport for a many-to-many relationship, it now generates a table with non-null columns and a primary key.
+- Added IncrementGenerator (Mark Holden).
+- Fixed bug with <discriminator> insert attribute not being declared in the schema and having a wrong default value.
+- Fixed bug in proxy Equals method always either returning true or failing with a NPE.
+- Changed LazyInitializer to match Hibernate 2.1, proxies now don't have their own special implementation of Equals and GetHashCode, either System.Object's or the real class methods are used instead.
+- Added more naming strategies (lower case, pascal-case underscored).
+- Fixed bug with custom access strategy not working for components.
+- Allow using structs (value types) as components.
+- Added ISession.Replicate().
+- Added support for using MS SQL TOP clause for paging (Yves Derrick).
+- Added persister attribute for collection mappings.
+- Fixed a NPE in Junction.ToString().
+- Disabled nullability checks when deleting an object.
+- Fixed SchemaExport not to generate duplicate foreign key constraints (this caused problems with Oracle).
+- Implemented Copy methods for various ITypes, so that SaveOrUpdateCopy actually works.
+- Changed visibility of CollectionEntry class to public to aid XML serializability of collections. It should not be expected to work in all cases since XML serialization has many limitations in .NET.
+- Several Oracle-related improvements.
+- More informative error message for a bad identifier generation strategy.
+- Fixed bug with SchemaExport ignoring foreign-key attribute sometimes.
+- Fixed bug with Get/Load not updating the internal nonExists collection of the session (Jerry Shea).
+- More informative error message for foreign key problems.
+- Throw a more informative exception when attempting to set the value of a non-existent query parameter.
+- Do not allow reconnecting a closed session.
+- More informative error message when executing ISession.Find("from NonexistentClass").
+- Added more information to the exception thrown when expected and actual row counts from a command do not match.
+- Remove underscores from the beginning of generated aliases for fields (Oracle cannot handle them).
+- Search the current AppDomain's bin directory for hibernate.cfg.xml, in addition to the application directory.
+- Added <cache> element as a synonym for <jcs-cache>.
+
+Build 0.8.4.0
+========================
+- Added limited support for storing an enum type using its string representation. See the documentation of EnumStringType and TypesTest\EnumStringTypeFixture.cs for an example.
+- Fixed bug with BatcherImpl cached commands being disposed. The caching functionality was removed.
+- Fixed bug when property paths were used in criteria queries and caused an exception.
+- Modified DB2Dialect, Oracle9Dialect and PostgreSQLDialect to use Int32 for limit and offset parameters.
+- Various code clean-ups and commenting.
+
+Build 0.8.3.0
+========================
+- Added name of Property to the PropertyNotFoundException message.
+- Fixed bug with <joined-subclass> that has a <property formula="..." />.
+- Fixed bug with extra "AND" being added to sql.
+- Fixed NullReferenceException that could occur in InstantiationException.
+- Improved efficiency of GuidCombGenerator (Marc C. Brooks).
+- Modified BinaryType to work with MySql's buggy version of GetBytes().
+
+Build 0.8.2.0
+======================== 
+- Fixed default value of "unsaved-value" for <version> in xsd.
+- Fixed default value of "unsaved-value" for <timestamp> in xsd.
+- Modified "proxy" to use "namespace" and "assembly" from <hibernate-mapping>
+
+Build 0.8.1.0
+======================== 
+- Fixed bug with <version> defaulting to "null" instead of "undefined".
+
+Build 0.8.0.0
+======================== 
+- Added "namespace" and "assembly" attributes to <hibernate-mapping>.
+- Added lazy="true" as short hand for proxy="full type name"
+- Added insert attribute to <discriminator>.
+- Added ability to set INamingStrategy on Configuration class.
+- Added property-ref attribute on <many-to-one> and <one-to-one>.
+- Added "foreign-key" attribute to <many-to-one>, <one-to-one>, <many-to-many>, key allowing a different column to be the foreign key target
+- Added check attribute to column element.
+- Added <sql-query> element.
+- Added "unsaved-value" to <version>/<timestamp> as DateTime can't support null, use 1/1/0001 to align with .NET default value for DateTime
+- Added SaveOrUpdateCopy() which allows synchronisation for detached objects
+- Added Expression.Example for Query By Example.
+- Added IDriver and Dialect for Sybase (Steve Corbin).
+- Added UniqueResult() to ICriteria and IQuery.
+- Added default value of hibernate.connection.driver_class to Dialect so most of the time this configuration is not needed.
+- Added SByteType to built in ITypes.
+- Fixed <one-to-one> so that two queries are no longer issued when one side is null.
+- Fixed bug with ISet.AddAll(ICollection) not being implemented. (Bill Hawes)
+- Fixed bug with <set> being initialized from Cache.
+- Fixed bug with hql "select new ClassName(...) from ..." where one parameter was an Enum. (Luca Altea)
+- Fixed bug in mapping that required type="full.name.of.enum" to be required instead of NH correctly inferring type. (Luca Altea) 
+- Fixed bug with a decimal <id> and unsaved-value.
+- Fixed problem with loading ADO.NET Data Providers from GAC.
+- Fixed issue with TableGenerator not disposing of IDbCommand.
+- Improved memory consumption of Configuration, smaller footprint and releases objects faster. 
+- Improved nhibernate-mapping schema to more schema constructs instead of direct dtd port.
+- Improved message from NullableType when DataProvider can't cast the database value to .net class.
+- Modified <discriminator> to use "null" or "not null" as the value.
+- Modified Dialect to use Hibernate 2.1 methods.
+- Modified Expression to return ICriterion instead of Expression class.  This will break existing code.
+- Modified nhibernate-configuration-2.0.xsd to not require <mappings>.
+- Modified TestFixtures in NHibernate.Test to only execute create/drop ddl in the TestFixtureSetUp/TestFixtureTearDown.
+- Split QueryFunctionStandard into ISQLFunction interface and StandardSQLFunction.
+- Upgraded to nant-0.85-rc3 and nunit-2.2.0.
+
+Build 0.7.0.0
+======================== 
+- Renamed class NHibernate.NHibernate to NHibernate.NHibernateUtil.  This will break alot of code if you were using ISession.Find with parameters - migrate to IQuery instead.
+- Fixed bug with DateTime type where any value less than 1/1/1753 was written to the database as null.  If you were relying on this then the Nullables library in NHibernateContrib is the way to code null values for DateTime properties.
+- Added ISession.Get() as an alternative to ISession.Load() (Sergey Koshcheyev).
+- Added IDisposable to EnumerableImpl, ISession, ITransaction, IBatcher, and IConnectionProvider.
+- Added default value of hibernate.connection.driver_class to Dialects.
+- Added default value of hibernate.prepare_sql="false" to MsSql2000Dialect.
+- Added [ComVisible(false)] to NHibernate AssemblyInfo.
+- Added OracleDataClientDriver for Oracle.DataAccess assembly (James Mills).
+- Added IDriver and Dialect for SQLite (Ioan Bizau).
+- Fixed messages in exceptions from GetGetter and GetSetter in BasicPropertyAccessor and NoSetterAccessor.
+- Fixed problem of LazyInitializationException losing InnerException.
+- Fixed problem of Collections not always getting cached.
+- Fixed Id.TableGenerator so it works with Oracle.
+- Fixed problem with SequenceHiLoGenerator and converting to Int64 (Yves Dierick). 
+- Fixed problem of some NHibernate Exceptions not being serializable.
+- Improved documentation in IQuery to explain how SetMaxResult is working.
+- Improved messages in Exceptions thrown by ISetter.
+- Improved messages in Exceptions for Persisters with problems parsing discriminator values.
+- Improved Configuration.AddAssembly() to process hbm.xml files with subclass/joined-subclass files using "extends" in correct order (Mark Traudt).   Also added overload of AddAssembly(Assembly,bool) that can be used to skip ordering.
+- Many internal cleanups from FxCop reccommendations.
+- Modified ISession.Lock() to allow reassociating transient instances like hibernate 2.1 (Sergey Koshcheyev).
+- Modified Exception thrown by Preparer when the IDbCommand.Prepare() method fails to ADOException.
+- Modified SqlCommand.Parameter to be immutable.
+- Modified how constraints are generated to work with MySql 4.1 (Bill Hawes).
+- Modified Dialect to throw an ArgumentException when an unsupported DbType is used.
+- Modified constructors on NHibernate Collections to be internal instead of public.
+- Renamed Transaction to AdoTransaction.
+
+Build 0.6.0.0
+======================== 
+- Added support for proxy="" on classes.  proxy="" must either specify an Interface or the properties that need to be proxied have to be virtual.
+- Added a configuration parameter "hibernate.prepare_sql" to turn on or off calls to IDbCommand.Prepare().
+- Added NHibernate Type for System.SByte. (Sergey Koshcheyev)
+- Added support for mapping subclasses and joined-subclasses in different files through addition of extends attribute. (Andrew Mayorov)
+- Added support for LIMIT to MySQLDialect. (Sergey Koshcheyev)
+- Improved error messages when IDbCommand and IDbConnection can't be found by the IDriver.
+- Improved error message when mapped class is missing a constructor with no args.
+- Fixed problem with spaces in sql generated from hql and MySql.
+- Fixed bug with Configuration when there is a class without a namespace.
+- Fixed bug with Sql generated for an IN clause that contains a class/subclass with a discriminator-value="null".
+- Fixed potential threading problem with QueryTranslator.
+- Modified logging in Transaction to not generate as many messages.
+- Modified how exceptions are rethrown so call stack of original exception is not lost.
+- Moved NHibernate.Tasks and NHibernate.Tool.hbm2net to the NHibernateContrib package.
+- Removed DbType {get;} from IUserType.
+
+Build 0.5.0.0
+======================== 
+- Added Iesi.Collections Library that contains an ISet.  Code was taken from http://www.codeproject.com/csharp/sets.asp.
+- Fixed hbm2net problem with spaces in arguments. (Kevin Williams)
+- Added a NHibernateContrib project that contains Nullable Types for .net 1.1 designed for WinForm Databinding. (Donald Mull)
+- Added DB2Driver and DB2Dialect to core of NHibernate. (Martijn Boland)
+- Fixed IQuery.SetParameter() when the value is an Enum
+- Updated to latest MySql Data Provider and changed classes to MySqlDataDriver.  Removed binaries from CVS since they are GPL now.
+- Isolated test and classes that use DbType.Time into their own fixtures.  Data Drivers don't implement this consistently.
+- Fixed problem where HQL was not parsing Enums correctly. (Peter Smulovics)
+- Fixed Int16 not working as a <version> Property.
+- Added CLSCompliantAttribute(true) attribute to NHibernate and Iesi.Collections.
+- Fixed how Exceptions are rethrown to not lose the stack trace.
+- Added more comments around ISession.Find and ISession.Enumerate to explain Cache usage.
+- Fixed bug with dynamic-update generating SQL for all properties. (Sergey Koshcheyev)
+- Add Clover.NET into NHibernate build process thanks to license donated by Cenqua (www.cenqua.com).
+- Modified TableGenerator to default first id to "1" instead of "0" to work better with unsaved-value. (Karl Andersson)
+
+Alpha Build 0.4.0.0
+======================== 
+- Started work on documentation.
+- Improved Cache to use pluggable CacheProviders like Hibernate 2.1. (Kevin Williams)
+- Removed properties UseScrollableResults, BatchSize, and FetchSize - not applicable to ADO.NET.
+- Fixed problem with object not getting removed from Cache when Evicted from Session.
+- Added to MySqlDialect a mapping from DbType.Guid to varchar(40) for schema-export. (Thomas Kock)
+- Added lowercase-underscore naming strategy. (Corey Behrends)
+- Fixed bug with access="field" and no type="" attribute causing Exception in ReflectHelper.
+- Removed IVersionType implementation from TimeType and DateType.
+- Moved Eg namespace from NHibernate core to NHibernate.Eg project.
+- Added guid.comb id generator. (Donald Mull)
+- Added ability to configure with a cfg.xml embedded as a resource in an assembly (Thomas Kock)
+- Fixed PostgreSQLDialect binding of Limit Parameters. (Martijn Boland)
+- Began restructure of lib folder to support net-1.0, net-1.1, net-2.0, and mono-1.0 in build.  Still only 'officially' supports net-1.1.
+
+Alpha Build 0.3.0.0
+======================== 
+- Removed property AdoTransaction from Transaction.
+- Added MsSql7Dialect.
+- Added PostgreSQL Driver and Dialect (Oliver Weichhold & Martijn Boland).
+- Fixed bug with Expression.Ge() not returning correct Expression.
+- PersistentCollection now implements ICollection (Donald Mull).
+- BatcherImpl and PreparerImpl were combined and code cleaned up thanks to problems found when using Ngpsql (Martijn Boland).
+- ITransaction is now responsible for joining IDbCommand to IDbTransaction instead of IBatcher - if applicable.
+- Modified code to help improve performance of Drivers that don't support multiple Open DataReaders on a single IDbConnection.
+- Fixed bug with hbm2net and VelocityRenderer throwing Exception (Carlos Guzmán Álvarez & Peter Smulovics).
+- Clean up of hbm2net (Peter Smulovics).
+- Modified internals of AbstractEntityPersister to help with buiding on Mono (Oliver Weichhold).
+- Renamed nhibernate.build to NHibernate.build to help with building on Mono (Oliver Weichhold).
+- Removed Dialect.GetLimitString(string) should use Dialect.GetLimitString(SqlString) instead.
+- SqlStringBuilders were modified to set an initial capacity for the ArrayList.
+- Added properties to SqlString to help with SqlStringBuilders and Hql.
+- Marked Exceptions as [Serializable].
+- Fixed bug with Hql not being able to use a constant in an imported or mapped Class.
+- DateTimeType.DeepCopyNotNull() cleaned up (Mark Traudt).
+- Added VersionProperty to IClassMetadata.
+- Renamed PrimitiveType to ValueTypeType to be more .net style consistent and fixed them up so they inherit from the appropriate class.
+- Fixed bug with caching an ObjectType.
+- Much code cleaned up for FxCop (Peter Smulovics).
+- Fixed bug with <bag lazy="true">, doing an Add, and then a Flush() resulting in the entity in there twice.
+
+Alpha Build 0.2.0.0
+======================== 
+- Removed support for <dynabean> mapping since it doesn't exist in .net.
+- Fixed bug in nhibernate.build file when not signing NHibernate.dll.
+- Fixed bug with Hql and SetParameter() where there were 2 parameters with same name.
+- Fixed bug with Hql and "IN (:namedParam)".
+- Fixed bug with Hql and multi column IType.
+- Fixed bug with Hql and scalar queries 
+- Fixed bug with NullReferenceException and TypeType class.
+- ISession.Filter() is now working.
+- Compiled Queries and Filters are now cached.
+- Refactored Hql to use a SqlString instead of string containing sql.
+- Dialect has had public API changed because of Sql to SqlCommand refactoring.
+- IPreparer has had methods removed from public API.
+- type="System.Object" no longer matches to SerializableType - instead it matches to ObjectType.  Use type="Serializable" instead.
+- Added "access" attribute for NHibernate to get to fields and properties with no setters.  See NHibernate.Property.PropertyAccessorFactory for all valid value types and how to plug in your own implementation of IPropertyAccessor.
+- Added Types to read BLOB/CLOB columns to a byte[]/string Property.
+- Modified Expression.Sql() to require use of SqlString if parameters are used.
+- TypeFactory was modified to allow the attribute "type" to be the Assembly Qualified Name, Full Name, NHibernate IType.Name, or Hibernate name to help with porting hibernate hbm.xml files and Net2Hbm that John is writing.
+- hibernate.connection.isolation configuration now affects the IDbTransaction's IsolationLevel, it is parsed as the name value of the IsolationLevel enum - "Chaos", "ReadCommitted", "ReadUncommitted", "RepeatableRead", "Serializable", and "Unspecified".
+- ICriteria.SetMaxResults() is now working.
+- IQuery.SetMaxResults().Enumerable() is now working.
+- Modifed Test Fixtures to help isolate problems caused by DataProviders.
+
+PreAlpha Build 0.1.0.0
+======================== 
+- NHibernate and HashCodeProvider are now strong named assemblies.  The key used to sign the assemblies is not in CVS.
+- Many more Tests implemented.
+- Added Examples into CVS and zip.
+- ConnectionProvider uses settings passed to it by ConnectionProviderFactory instead of default settings.
+- Hbm2Net moved from NHibernate folder to its own folder and NAnt Tasks for it contributed by Kevin Williams.
+- Adding properties to Cfg instead of using app.config/web.config or cfg.xml now supported.
+- In cfg.xml, an assembly where the resource can be found is now needed - ie: <mapping resource="" assembly="" />.
+- nhibernate-configuration-2.0.xsd schema was updated to .net friendly names and all cfg.xml files are now validated.
+- Fixed bug with classes having dynamic-insert and dynamic-update causing IndexOutOfRangeExceptions.
+- Modified length of string for CultureInfoType.
+- Added Firebird fixes contributed by Carlos Guzmán Álvarez.
+- Changed TimestampType.Set to behaive like hibernate.  Will not write a null value anymore - instead replaces it with DateTime.Now.
+- Removed IVersionType interface from DecimalType.
+- Add PropertyExpressions contributed by Carlos Guzmán Álvarez.
+- Fixed bug with referencing joined classes properties in hql.
+- Fixed IndexOutOfRangeException with NormalizedEntityPersister for versioned entities.
+- Added ObjectType to TypeFactory and NHibernate.
+- Fixed problem with hql subselects referencing a class in main query.
+- Limited support for Serializing a Session.  Sometimes a Refresh() is needed after Deserialization.      
+- Fixed bug with sending a one-to-many collection to be updated that involves inserting a new row.
+
+PreAlpha Build 6
+======================== 
+- Fixed Configuration so app.config/web.config behaives like hibernate.properties and a hibernate.cfg.xml.  Settings in app.confg/web.config are no longer required if a cfg.xml file is used.
+- Dialects now set default values for outer joins.  
+- Fixed bug in ArrayHolder with null elements.
+- Added IDisposable to ISession
+- Fixed bug with lazy loaded SortedSet during Flush().
+- Fixed problem with Loading using LockModes because of missing columns with Forumlas.
+- Added SetAnsiString to IQuery
+- Fixed bug with IDbCommands used in a Session that is Disconnected and Reconnected not being associated with the correct IDbTransaction.
+- Driver can disable calls to IDbCommand.Prepare() for Data Providers that don't support it.
+- Removed requirement to set length with type attribute - ie, can use type="String" instead of type="String(50)".
+- schema-export now functions just like it does with hibernate 2.0.3
+- Converting a SqlString to an IDbCommand is now a Driver specific function because different Driver's have different requirements for IDbCommands.
+- Added HashCodeProvider.dll to remove problems with RuntimeHelpers.GetHashCode causing MissingMethodException with App Domain reloading with ASP.NET and NUnit.
+
+PreAlpha Build 5
+======================== 
+- Added check in Configuration for 1.1 version of runtime.
+- Removed reference in NHibernate.csproj to nunit.framework.dll.
+- Fixed update="true" when values different than insert attribute.
+- Enumerable with HQL now works with multiple results.
+- Fixed NullReferenceException in EvictCollections.
+- Fixed bug with lazy loaded sorted collections not loading correctly.
+- Fixed problem with cascading deletes causing OutOfMemoryException.
+- Implemented more TestFixtures.
+
+PreAlpha Build 4
+======================== 
+- Implemented most DomainModel classes and hbms for testing 
+- Implemented more TestFixtures (both migrated and new)
+- Added Oracle Dialects and Drivers (thanks to feilng for contributing those!)
+- Modified classes in Type namespace to support reading values from Oracle Driver
+- Added DotNetMock.dll to NHibernate.Test assembly to help with testing Type namesapce
+- Fixed parameter parsing so both Named Params (:name) and ? can be used in HQL
+- Fixed problem with joins in HQL
+- Fixed problem with <set>, <map>, and <bag> where lazy="true"
+- Fixed problem with <idbag> being bound to a Bag instead of IdentifierBag
+- Fixed problem with CollectionPersister.WriteRowSelect and IdentifierBags 
+- Fixed problem with <array> when a null value was in the array
+- Fixed problem with sending an unneeded Update before a Delete
+- Fixed problem with null aliases and Parameter.Equals()
+- Cleaned up HQL parsing so it internally throws fewer exceptions 
+- ConnectionProvider's now provide internal IDbConnection cache like h2.0.3 - not on by default
+- Fixed problem with StringHelper.Replace being passed a null template
+- <property forumla="some sql forumla" ... /> is now supported
+- <class dynamic-insert="true"> is now supported
+- read only <property> and a read-write <property> can now refer to the same column without problems.
+- changed value of Dialect.SupportForUpdateOf to false, like h2.0.3 has it
+- Id generation strategies that use TableGenerator now work for all Drivers
+- Modified IdentityMap to use SequencedHashMap instead of ListDictionary (thanks to feling for finding the performance problems that ListDictionary was causing)
+- Fixed problem with Expresion.Juction.GetTypedValues() not returning correct TypedValue[]
+
+
+PreAlpha Build 3 
+======================== 
+- Synched Cache Namespace with cache package in H2.0.3 
+- Synched CollectionPersister with H2.0.3 
+- Synched Config Namespace with config package in H2.0.3. 
+- Synched Cascade strategies with H2.0.3 
+- Synched Dialect Namespace with dialect package in H2.0.3 
+- Started HQL Namespace synch with hql package in H2.0.3. There are still some issues in there. 
+- Synched Id Namespace with id package in H2.0.3 
+- Synched Mapping namespace with mapping package in H2.0.3. 
+- Added ForUpdateFragment 
+- hbm2net created. 
+- Added AnsiStringType. 
+- Added GuidType. 
+- Fixed problem with IdentityMap that caused <set lazy="true"> to not work. 
+- Added support for <bag> and <id-bag> mappings. 
+- Implemented sorted collections. 
+- Build files rewritten. 
+- MsSql Dialect now issues one statement to Insert and retrieve identity value. 
+- Fixed a bug with <generator class="sequence"> 
+- Implemented SqlExpression for Criteria queries. 
+- Initial fix of Multiple IDataReaders being opened with Entities that contain <component> mappings. 
+- Fixed problems with Alias and Ms Sql Server. 
+
+PreAlpha Build 2 
+========================
+- Continued to synchronize NHibernate with Hibernate 2.0.3's features. 
+- Modifed BooleanType to use GetBoolean instead of GetByte 
+- Modified MsSqlServer2000Dialect to maps a BooleanSqlType to a bit column type. 
+- Fixed bug with IdentityMap that caused problems with Session.Flush() loading lazy collections 
+- Added TicksType to TypeFactory 
+- Fixed bug with SchemaExport committing a non existing IDbTransaction 

@@ -1,0 +1,5 @@
+1	Damaging
+2	No Workaround
+3	Workaround Exists
+4	Embarassing
+5	Cosmetic

@@ -1,0 +1,53 @@
+/*! \page install Installation HowTo
+
+\section install_intro Introduction
+This page will guide you through the installation process. It's pretty easy. 
+
+\section install_req Prerequisites 
+\li Microsoft Windows 2000, 2003 or XP. 
+\li Microsoft SQL Server 2000.
+\li Microsoft .NET Framework 2.0
+\li Microsoft IIS running ASP.NET 2.0
+\li Microsoft Web Services Extensions (WSE) 3.0
+
+\section install_howto Installation
+
+\subsection install_howto_binaries Binaries
+There's no public distribution of the software available. You must build the <em>SnCore.Web.Deploy</em> project
+and use the generated drop.
+
+\subsection install_howto_database Database Components
+
+<ol>
+ <li>Open the <em>SQL Server Enterprise Manager</em>.
+ <li>Create a blank database called <b>SnCore</b> that will host your data. Open <em>SQL Server Group</em>, <em>Local</em>, 
+     <em>Databases</em>, right click on <em>Databases</em> and choose <em>New Database</em>. 
+ <li>Create a login for the ASP.NET user or NT AUTHORITY\\Network Services (Windows 2003). Open <em>SQL Server Group</em>, <em>Security</em>, 
+     right click on <em>Logins</em> and choose <em>New Login</em>. Browse for local ASPNET account.
+ <li>Create a user that will access the database. Open <em>SQL Server Group</em>, <em>Databases</em>, choose your newly created database, 
+     right click on <em>Users</em>. Choose <em>New Database User</em>. Choose the previously created ASPNET or NT AUTHORITY\\Network Services 
+     user in <em>Login Name</em>. Check <em>db_owner</em> and <em>Save</em>.
+ <li>Populate the database schema. Open <em>SQL Server Query Analyzer</em>. Choose the SnCore database. Open the file 
+	    <em>sql/SnCore.sql</em> from the distribution and run it. This will populate the Blog database with a number of tables, 
+	    stored procedures, etc. 
+	<li>Populate initial data for system tables. Open <em>SQL Server Query Analyzer</em>. Choose the SnCore database. Open the file 
+	    <em>sql/PopulateData.sql</em> from the distribution, edit the paths to the data files and run it.
+</ol>
+
+\subsection install_howto_web Web Components
+If you are building the code you may skip this step. Visual Studio 2005 will create the virtual directories for you.
+<ol> 
+ <li>Ensure that your web server runs ASP.NET 2.0. If necessary, run <em>aspnet_regiis.exe -i from \\WINDOWS\\Microsoft.NET\\Framework\\v2.0.50727</em>.
+ <li>Create a virtual directory in IIS called <em>SnCore</em>. Point the Home Directory to the SnCore directory in the drop.
+     This may also be the root of your website. Add Default.aspx to default documents of this site.
+</ol>
+	 
+\section install_upgrade Upgrading to a Newer Version
+If you are building the code all you have to do is update the database schema.
+<ol>
+ <li>Backup your database and files, especially web.config. 
+ <li>Open SQL query analyzer and execute sql/SnCoreSqlServer.sql. Your data will be preserved.
+ <li>Re-deploy all the content and compiled assemblies from the <em>.Deploy</em> projects.
+</ol>
+
+*/

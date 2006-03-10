@@ -1,0 +1,5 @@
+1	None
+2	By Design
+3	External
+4	Fixed
+5	Won't Fix

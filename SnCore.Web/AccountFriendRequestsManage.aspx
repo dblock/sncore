@@ -1,0 +1,105 @@
+<%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true"
+ CodeFile="AccountFriendRequestsManage.aspx.cs" Inherits="AccountFriendRequestsManage"
+ Title="Account | Friend Requests" %>
+
+<%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
+<%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
+<%@ Register TagPrefix="SnCore" TagName="AccountReminder" Src="AccountReminderControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+ <table class="sncore_table">
+  <tr>
+   <td valign="top" width="150">
+    <SnCore:AccountMenu runat="server" ID="menu" />
+   </td>
+   <td valign="top" width="*">
+    <SnCore:AccountReminder ID="accountReminder" runat="server" />
+    <SnCore:Notice ID="noticeManage" runat="server" />
+    <div class="sncore_h2">
+     Friend Requests
+    </div>
+    <asp:Panel ID="panelPending" runat="server">
+     <div class="sncore_h2">
+      Pending
+     </div>
+     <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridPending" HeaderStyle-CssClass="sncore_table_tr_th"
+      AutoGenerateColumns="false" CssClass="sncore_account_table" ShowHeader="false"
+      OnItemCommand="gridPending_ItemCommand">
+      <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
+       PrevPageText="Prev" HorizontalAlign="Center" />
+      <Columns>
+       <asp:BoundColumn DataField="Id" Visible="false" />
+       <asp:TemplateColumn ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="sncore_table_tr_td">
+        <itemtemplate>
+      <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
+       <img border="0" id="imageAccount" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" />
+       <br />
+       <%# base.Render(Eval("AccountName")) %>
+      </a>
+     </itemtemplate>
+       </asp:TemplateColumn>
+       <asp:TemplateColumn ItemStyle-CssClass="sncore_table_tr_td">
+        <itemtemplate>
+      <%# base.RenderEx(Eval("Message")) %>
+     </itemtemplate>
+       </asp:TemplateColumn>
+       <asp:TemplateColumn ItemStyle-CssClass="sncore_table_tr_td">
+        <itemtemplate>
+      <%# base.Adjust(Eval("Created")).ToString() %>
+     </itemtemplate>
+       </asp:TemplateColumn>
+       <asp:ButtonColumn ItemStyle-HorizontalAlign="Center" ButtonType="LinkButton" ItemStyle-CssClass="sncore_table_tr_td"
+        CommandName="Accept" Text="Accept"></asp:ButtonColumn>
+       <asp:ButtonColumn ItemStyle-HorizontalAlign="Center" ButtonType="LinkButton" ItemStyle-CssClass="sncore_table_tr_td"
+        CommandName="Reject" Text="Reject"></asp:ButtonColumn>
+      </Columns>
+     </SnCoreWebControls:PagedGrid>
+     <table runat="server" id="reasonTable" class="sncore_account_table">
+      <tr>
+       <td class="sncore_form_label">
+        reason:
+       </td>
+       <td class="sncore_form_value">
+        <asp:TextBox CssClass="sncore_form_textbox" TextMode="MultiLine" Rows="5" ID="inputReason"
+         runat="server" />
+        <br />
+        note: if you don't supply a reason while accepting or rejecting requests,
+        <br />
+        no e-mail will be sent
+       </td>
+      </tr>
+     </table>
+    </asp:Panel>
+    <asp:Panel ID="panelSent" runat="server">
+     <div class="sncore_h2">
+      Sent
+     </div>
+     <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridSent" AutoGenerateColumns="false"
+      CssClass="sncore_account_table" ShowHeader="false" OnItemCommand="gridSent_ItemCommand">
+      <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
+       PrevPageText="Prev" HorizontalAlign="Center" />
+      <Columns>
+       <asp:BoundColumn DataField="Id" Visible="false" />
+       <asp:TemplateColumn ItemStyle-CssClass="sncore_table_tr_td" ItemStyle-HorizontalAlign="Center">
+        <itemtemplate>
+      <a href="AccountView.aspx?id=<%# Eval("KeenId") %>">
+       <img border="0" id="imageAccount" src="AccountPictureThumbnail.aspx?id=<%# Eval("KeenPictureId") %>" />
+       <br />
+       <%# base.Render(Eval("KeenName")) %>
+      </a>
+     </itemtemplate>
+       </asp:TemplateColumn>
+       <asp:TemplateColumn ItemStyle-CssClass="sncore_table_tr_td">
+        <itemtemplate>
+      <%# base.Adjust(Eval("Created")).ToString() %>
+     </itemtemplate>
+       </asp:TemplateColumn>
+       <asp:ButtonColumn ItemStyle-HorizontalAlign="Center" ButtonType="LinkButton" ItemStyle-CssClass="sncore_table_tr_td"
+        CommandName="Cancel" Text="Cancel"></asp:ButtonColumn>
+      </Columns>
+     </SnCoreWebControls:PagedGrid>
+    </asp:Panel>
+   </td>
+  </tr>
+ </table>
+</asp:Content>

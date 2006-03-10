@@ -1,0 +1,63 @@
+<html dir="LTR">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=Windows-1252" />
+    <meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5" />
+    <title>Consumer.CreateRedirect Method</title>
+    <xml>
+    </xml>
+    <link rel="stylesheet" type="text/css" href="MSDN.css" />
+  </head>
+  <body id="bodyID" class="dtBODY">
+    <div id="nsbanner">
+      <div id="bannerrow1">
+        <table class="bannerparthead" cellspacing="0">
+          <tr id="hdr">
+            <td class="runninghead">An NDoc Documented Class Library</td>
+            <td class="product">
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div id="TitleRow">
+        <h1 class="dtH1">Consumer.CreateRedirect Method </h1>
+      </div>
+    </div>
+    <div id="nstext">
+      <p> This method is called to construct the redirect URL sent to the browser to ask the server to verify its identity. The generated redirect should be sent to the browser which initiated the authorization request. </p>
+      <div class="syntax">public <a href="ms-help://MS.NETFrameworkSDKv1.1/cpref/html/frlrfSystemUriClassTopic.htm">Uri</a> CreateRedirect(<br />   <a href="Janrain.OpenId.Consumer.Consumer.Mode.html">Mode</a> <i>mode</i>,<br />   <a href="Janrain.OpenId.Consumer.AuthRequest.html">AuthRequest</a> <i>request</i>,<br />   <a href="ms-help://MS.NETFrameworkSDKv1.1/cpref/html/frlrfSystemUriClassTopic.htm">Uri</a> <i>returnTo</i>,<br />   <a href="ms-help://MS.NETFrameworkSDKv1.1/cpref/html/frlrfSystemStringClassTopic.htm">string</a> <i>trustRoot</i><br />);</div>
+      <h4 class="dtH4">Parameters</h4>
+      <dl>
+        <dt>
+          <i>mode</i>
+        </dt>
+        <dd>
+        </dd>
+        <dt>
+          <i>request</i>
+        </dt>
+        <dd> An instance of <a href="Janrain.OpenId.Consumer.AuthRequest.html">AuthRequest</a> as returned from BeginAuth. </dd>
+        <dt>
+          <i>returnTo</i>
+        </dt>
+        <dd> The URL the identity server should redirect back to. </dd>
+        <dt>
+          <i>trustRoot</i>
+        </dt>
+        <dd> This represents the consumer to the identity server. For example, an ASP application would probably send an absolute URL using the Application path. The OpenId spec, http://www.openid.net/specs.bml#mode-checkid_immediate, has more information on what the trust_root value is for and what its form can be. </dd>
+      </dl>
+      <h4 class="dtH4">Return Value</h4>
+      <p> This method returns a <a href="ms-help://MS.NETFrameworkSDKv1.1/cpref/html/frlrfSystemUriClassTopic.htm">Uri</a> representing the URL to redirect to when such a URL is successfully constructed. </p>
+      <h4 class="dtH4">See Also</h4>
+      <p>
+        <a href="Janrain.OpenId.Consumer.Consumer.html">Consumer Class</a> | <a href="Janrain.OpenId.Consumer.html">Janrain.OpenId.Consumer Namespace</a></p>
+      <object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e" viewastext="true" style="display: none;">
+        <param name="Keyword" value="CreateRedirect method">
+        </param>
+        <param name="Keyword" value="CreateRedirect method, Consumer class">
+        </param>
+        <param name="Keyword" value="Consumer.CreateRedirect method">
+        </param>
+      </object>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,9 @@
+﻿<NUnitProject>
+  <Settings activeconfig="Debug" />
+  <Config name="Debug" binpathtype="Auto">
+    <assembly path="SnCore.Data.Tests\bin\Debug\SnCore.Data.Tests.dll" />
+    <assembly path="SnCore.Services.Tests\bin\Debug\SnCore.Services.Tests.dll" />
+    <assembly path="SnCore.Stress.Tests\bin\Debug\SnCore.Stress.Tests.dll" />
+  </Config>
+  <Config name="Release" binpathtype="Auto" />
+</NUnitProject>

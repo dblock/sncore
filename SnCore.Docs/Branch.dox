@@ -1,0 +1,73 @@
+/*! \page branch Branching and Branding
+
+\section branch_depot Remote Depot
+To create a new SnCore-based project in a remote depot (in your own source control) you should mirror SnCore main and then create
+a branch off that mirror. Thus you can pickup SnCore updates and integrate them to the child branch(es). This process is known as 
+reflection.
+
+\section branch_branch Branching
+<ol>
+ <li>Create a new branch.
+\code
+p4 branch MyProject
+\endcode
+The branch view should be:
+\code
+ //depot/sncore/main/... //depot/myproject/main/...
+\endcode
+ <li>Create a client view into MyProject.
+\code
+$ p4 client myproject-mymachine-main-1
+\endcode
+The client view should be:
+\code
+ //depot/myproject/main/... //myproject-mymachine-main-1/...
+\endcode
+ <li>Integrate the code.
+\code
+$ p4 integrate -b myproject-main
+\endcode
+ <li>Submit the code.
+\code
+$ p4 submit
+\endcode
+</ol>
+
+\section branch_project Configuring Project
+This is a little involved for right now.
+<ol>
+ <li>Edit <em>sncore.sln</em> and replace <em>http://localhost/SnCore</em> by <em>http://localhost/MyProject</em>. This sets new virtual
+     directories within IIS.
+ <li>Edit <em>SnCore.omproj</em> and replace all <em>C:\\source\\SnCore</em> by <em>C:\\source\\MyProject</em> (adjust to your directory).
+ <li>Edit <em>SnCore.Data/SnCore.npersist</em> and replace <em>Catalog=SnCore;</em> by <em>Catalog=MyProject;</em> and <em>catalog="SnCore"</em>
+     by <em>catalog="MyProject"</em>.
+ <li>Create a database <em>MyProject</em> and populate it with data from <em>SnCore.Data\\SnCoreSqlServer.sql</em> with query analyzer.
+ <li>Grant database owner access to the newly created database to the ASPNET (Windows XP) or NETWORK SERVICE (Windows 2003) user.
+ <li>Populate initial table data from <em>SnCore.Data\\PopulateData.sql</em>. You will have to insert the location of the
+     SnCore.Data directory for the BULK INSERT statement.
+ <li>It's a good time to test data to object model synchronization, see \ref data.
+ <li>Edit <em>SnCore.Docs/SnCore.Docs.doxygen</em> and replace <em>PROJECT_NAME = SnCore</em> by <em>PROJECT_NAME = MyProject</em>. You may later
+     drop most of the documentation such as licensing or pricing information and replace it with your project specifics along with images or 
+     banners, edit the Header.html and Footer.html, etc.
+ <li>Edit <em>SnCore.BackEndServices\\Web.Config<em>, <em>SnCore.Web\\Services.config</em>, <em>SnCore.Web\\Web.config</em> 
+     and <em>SnCore.WebServices\\Web.config</em> and replace references to the <em>SnCore</em> catalog by <em>MyProject</em>.
+ <li>Open <em>SnCore.sln</em> with Visual Studio. This will create the new virtual web directories. You will be prompted to upgrade these
+     to the right version of ASP.NET. Configure the <em>MyProjectWeb</em> directory to use <em>Default.aspx</em> for the home page in IIS.
+ <li>Bulk replace <em>localhost/SnCore</em> with <em>localhost/MyProject</em> in all <em>.dicso</em>, <em>.discomap</em> and <em>.wsdproj</em> files.
+ <li>You may want to switch the namespace of the web services. Bulk replace <em>http://www.vestris.com/sncore/ns/</em> with
+     <em>http://www.myproject.com/ns/</em> in all <em>SnCore.WebServices\App_Code\.cs</em> and <em>.wsdl</em> files.
+ <li>Close and reopen the solution. Visual Studio does not pickup reference url changes in files.
+ <li>Build the project starting with the <em>MyProject.BackEndService</em>. Navigate to <em>http://localhost/RJen.BackEndServices/</em> and
+     check that it runs and that the WSDL generated does not contain any references to SnCore. 
+ <li>Run \ref unittests.
+</ol>
+
+\section branch_brandhing Branding
+<ol>
+ <li>Replace <em>toplogo.jpg</em> in <em>SnCore.Web/images/site</em> and <em>SnCore.Docs\Images</em>.
+ <li>Edit <em>SnCore.master</em> for menus and general titles.
+ <li>Edit <em>Default.aspx</em> for front-page.
+ <li>Edit <em>Style.css</em> for stylesheet.
+</ol>
+
+*/

@@ -1,0 +1,11 @@
+<%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true"
+ CodeFile="AccountLogin.aspx.cs" Inherits="AccountLogin" Title="Login" %>
+
+<%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
+<%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
+<%@ Register TagPrefix="SnCore" TagName="AccountLogin" Src="AccountLoginControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="TagWordsView" Src="TagWordsViewControl.ascx" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+ <SnCore:AccountLogin runat="server" ID="loginMain" />
+</asp:Content>

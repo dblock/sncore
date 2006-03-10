@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.0" schema="dbo">
+  <class name="SurveyQuestion, SnCore.Data" table="SurveyQuestion">
+    <id access="nosetter.pascalcase-m-underscore"  name="Id" type="Int32" column="SurveyQuestion_Id">
+      <generator class="identity" />
+    </id>
+    <bag lazy="true" name="AccountSurveyAnswers" inverse="true">
+      <key column="SurveyQuestion_Id" />
+      <one-to-many class="AccountSurveyAnswer, SnCore.Data" />
+    </bag>
+    <property name="Question" column="Question" type="String" />
+    <many-to-one name="Survey" column="Survey_Id" class="Survey, SnCore.Data" />
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.0" schema="dbo">
+  <class name="Reminder, SnCore.Data" table="Reminder">
+    <id access="nosetter.pascalcase-m-underscore"  name="Id" type="Int32" column="Reminder_Id">
+      <generator class="identity" />
+    </id>
+    <property name="Body" column="Body" type="String" />
+    <many-to-one name="DataObject" column="DataObject_Id" class="DataObject, SnCore.Data" />
+    <property name="DataObjectField" column="DataObjectField" type="String" />
+    <property name="DeltaHours" column="DeltaHours" type="Int32" />
+    <property name="Recurrent" column="Recurrent" type="Boolean" />
+    <bag lazy="true" name="ReminderEvents" inverse="true">
+      <key column="Reminder_Id" />
+      <one-to-many class="ReminderEvent, SnCore.Data" />
+    </bag>
+    <property name="Subject" column="Subject" type="String" />
+    <property name="Enabled" column="Enabled" type="Boolean" />
+    <property name="LastRun" column="LastRun" type="DateTime" />
+    <property name="LastRunError" column="LastRunError" type="String" />
+  </class>
+</hibernate-mapping>

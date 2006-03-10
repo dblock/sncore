@@ -1,0 +1,41 @@
+/*! \page features Features & Technology
+
+\section features_features Features
+
+<ul>
+ <li>Personal account management, including sign-up, passwords, location, timezone, e-mail addresses, postal addresses, 
+     websites and pictures.
+ <li>Support for <a href="http://www.openid.net" target="_blank">OpenId</a>.
+ <li>Personal content management, including stories, surveys and RSS syndication.
+ <li>Social networking, including invitations, friends, friends of friends, messages and testimonials.
+ <li>Discussions framework with threading, highlight and e-mail alerts.
+ <li>Places framework with full or member ownership and delegation.
+ <li>Web-based system management with administrative access with system reminders.
+ <li>Fully integrated bug and feature tracking system.
+ <li>Rss aggregation and rollup.
+ <li>Full text search and tag indexing of rich content.
+</ul>
+
+\section features_technology Technology
+
+<ul>
+ <li>Written using <a href="http://msdn.microsoft.com/vstudio/" target="_blank">Visual Studio 2005</a> in C# with Microsoft <b>.NET 2.0</b>.
+ <li><a href="http://www.microsoft.com/sql/" target="_blank">SQL Server 2005</a> database back-end.
+ <li><a href="http://www.hibernate.org/" target="_blank">NHibernate</a> ORM using 
+     <a href="http://www.puzzleframework.com/" target="_blank">Puzzle ObjectMapper</a> to maintain the object model.
+ <li><b>Managed Business Logic</b> services layer.
+ <li>Complete <b>Web Services</b> interfaces and services.
+ <li>ASP.NET 2.0 web UI on top of NHibernate or Web Services.
+</ul>
+
+\section features_credits Credits
+
+<ul>
+ <li><a href="http://atomnet.sourceforge.net/" target="_blank">Atom.NET</a>
+ <li><a href="http://rss-net.sourceforge.net/" target="_blank">RSS.NET</a>
+ <li><a href="http://www.openidenabled.com/openid/libraries/csharp" target="_blank">JanRain OpenId.NET</a>
+ <li><a href="http://www.wilcob.com/" target="_blank">Wilco Bauwer's Wilco.Web</a>
+ <li>Chris Lovett's <a href="http://www.gotdotnet.com/Community/UserSamples/Details.aspx?SampleGuid=b90fddce-e60d-43f8-a5c4-c3bd760564bc" target="_blank">SgmlReader</a>
+</ul>
+
+*/

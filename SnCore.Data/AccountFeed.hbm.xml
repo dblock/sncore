@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.0" schema="dbo">
+  <class name="AccountFeed, SnCore.Data" table="AccountFeed">
+    <id access="nosetter.pascalcase-m-underscore"  name="Id" type="Int32" column="AccountFeed_Id">
+      <generator class="identity" />
+    </id>
+    <property name="Created" column="Created" type="DateTime" />
+    <property name="Description" column="Description" type="String" />
+    <many-to-one name="FeedType" column="FeedType_Id" class="FeedType, SnCore.Data" />
+    <property name="LastError" column="LastError" type="String" />
+    <property name="Name" column="Name" type="String" />
+    <property name="Password" column="Password" type="String" />
+    <property name="Updated" column="Updated" type="DateTime" />
+    <property name="UpdateFrequency" column="UpdateFrequency" type="Int32" />
+    <property name="Username" column="Username" type="String" />
+    <many-to-one name="Account" column="Account_Id" class="Account, SnCore.Data" />
+    <property name="FeedUrl" column="FeedUrl" type="String" />
+    <property name="LinkUrl" column="LinkUrl" type="String" />
+    <bag lazy="true" name="AccountFeedItems" inverse="true">
+      <key column="AccountFeed_Id" />
+      <one-to-many class="AccountFeedItem, SnCore.Data" />
+    </bag>
+    <property name="Publish" column="Publish" type="Boolean" />
+  </class>
+</hibernate-mapping>

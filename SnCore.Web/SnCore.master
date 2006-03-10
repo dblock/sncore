@@ -1,0 +1,118 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeFile="SnCore.master.cs" Inherits="SnCoreMasterPage" %>
+<%@ Register TagPrefix="SnCore" TagName="SearchSmall" Src="SearchSmallControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="MenuItem" Src="MenuItemControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+ <title>SnCore | sn foundation base</title>
+ <link rel="stylesheet" type="text/css" href="Style.css" />
+</head>
+<body>
+ <form style="margin-top: 0px;" id="formMain" runat="server">
+  <table align="center" width="900px" cellpadding="2px" cellspacing="5px">
+   <tr>
+    <td valign="top">
+     <table align="center" width="800px" style="background-color: White;" cellpadding="0"
+      cellspacing="0">
+      <tr>
+       <td>
+        <a href="Default.aspx"><img border="0" src="images/site/toplogo.jpg" alt="SnCore!" /></a>
+       </td>
+      </tr>
+      <tr>
+       <td valign="top" width="*">
+        <asp:Panel runat="server" ID="panelMain" CssClass="sncore_menu">
+         <SnCore:MenuItem runat="server" ID="menuHome" Text="home" NavigateUrl="Default.aspx" /><SnCore:MenuItem 
+          runat="server" ID="menuPeople" Text="people" NavigateUrl="AccountsView.aspx">
+           <Highlights>
+            <asp:ListItem>/Account.*View.aspx</asp:ListItem>
+           </Highlights>
+           <Downlights>
+            <asp:ListItem>/AccountStor.*View.aspx</asp:ListItem>
+            <asp:ListItem>/AccountFriendsView.aspx</asp:ListItem>
+            <asp:ListItem>/AccountFeed.*.aspx</asp:ListItem>
+           </Downlights>
+          </SnCore:MenuItem><SnCore:MenuItem 
+          runat="server" ID="menuFeeds" Text="feeds" NavigateUrl="AccountFeedItemsView.aspx">
+           <Highlights>
+            <asp:ListItem>/AccountFeed.*.aspx</asp:ListItem>
+           </Highlights>
+           <Downlights>
+            <asp:ListItem>/AccountFeedsManage.aspx</asp:ListItem>        
+           </Downlights>
+          </SnCore:MenuItem><SnCore:MenuItem 
+          runat="server" ID="menyPlaces" Text="places" NavigateUrl="PlacesView.aspx">
+           <Highlights>
+            <asp:ListItem>/Place.*aspx</asp:ListItem>
+           </Highlights>
+          </SnCore:MenuItem><SnCore:MenuItem 
+          runat="server" ID="menuStories" Text="stories" NavigateUrl="AccountStoriesView.aspx">
+           <Highlights>
+            <asp:ListItem>/AccountStor.*View.aspx</asp:ListItem>
+           </Highlights>
+          </SnCore:MenuItem><SnCore:MenuItem 
+          runat="server" ID="menuDiscuss" Text="forums" NavigateUrl="DiscussionsView.aspx">
+           <Highlights>
+            <asp:ListItem>/Discuss.*</asp:ListItem>
+           </Highlights>
+          </SnCore:MenuItem><SnCore:MenuItem 
+          runat="server" ID="menuSearch" Text="search" NavigateUrl="Search.aspx">
+           <Highlights>
+            <asp:ListItem>/TagWordAccountsView.aspx</asp:ListItem>
+           </Highlights>        
+          </SnCore:MenuItem><SnCore:MenuItem 
+          runat="server" ID="menuLogin" Text="login" NavigateUrl="AccountLogin.aspx">
+           <Highlights>
+            <asp:ListItem>/AccountResetPassword.aspx</asp:ListItem>
+           </Highlights>
+          </SnCore:MenuItem><SnCore:MenuItem 
+          runat="server" ID="menuMe" Text="me me" NavigateUrl="AccountPreferencesManage.aspx">
+          <Downlights>
+           <asp:ListItem>/Account.*View.aspx</asp:ListItem>
+           <asp:ListItem>/AccountInvitationsManage.aspx</asp:ListItem>
+          </Downlights>
+          <Highlights>
+           <asp:ListItem>/Account.*</asp:ListItem>
+           <asp:ListItem>/System.*</asp:ListItem>
+           <asp:ListItem>/Bug.*</asp:ListItem>
+          </Highlights>
+          </SnCore:MenuItem><SnCore:MenuItem 
+          runat="server" ID="menuInvite" CssClass="sncore_menu_item"
+          Text="invite" NavigateUrl="AccountInvitationsManage.aspx" /><asp:LinkButton 
+          runat="server" ID="menuLogout" Text="logout" CssClass="sncore_menu_item"
+          OnClick="menuLogout_Click" CausesValidation="false" /><SnCore:MenuItem runat="server" ID="menuSignUp" 
+          CssClass="sncore_menu_item" Text="join" NavigateUrl="AccountCreate.aspx" /><SnCore:MenuItem 
+          runat="server" ID="menuHelp" Text="help" NavigateUrl="Help.aspx">
+          <Highlights>
+           <asp:ListItem>/About.aspx</asp:ListItem>
+          </Highlights>
+          </SnCore:MenuItem>
+        </asp:Panel>
+       </td>
+      </tr>
+      <tr>
+       <td>     
+        <SnCore:Notice ID="noticeMenu" EnableViewState="false" runat="server" />
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        </asp:ContentPlaceHolder>
+       </td>
+      </tr>
+      <tr>
+       <td align="center" class="sncore_copyright">
+        (c) 2006 Vestris Inc. - All Rights Reserved
+       </td>
+      </tr>
+     </table>
+    </td>
+    <td valign="top" width="100px">
+     <asp:Panel ID="panelAds" runat="server">
+     </asp:Panel>
+    </td>
+   </tr>
+  </table>
+  <asp:Panel ID="panelCounter" runat="server">
+  </asp:Panel>
+ </form>
+</body>
+</html>

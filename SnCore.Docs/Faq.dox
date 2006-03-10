@@ -1,0 +1,308 @@
+/*! \page faq Frequently Asked Questions
+
+\section faq_general_top General
+\li \ref faq_general_love
+\li \ref faq_general_ask
+\li \ref faq_general_dating
+
+\section faq_ads Advertising
+\li \ref faq_ads_why
+
+\section faq_signup_top Sign-Up
+\li \ref faq_signup_birthday
+\li \ref faq_signup_beta
+
+\section faq_security_top Security
+\li \ref faq_security_md5
+\li \ref faq_security_ticket
+
+\section faq_meme_top Me Me
+\li \ref faq_meme_picsize
+
+\section faq_discussions_top Discussions
+\li \ref faq_discussions_links
+\li \ref faq_discussions_image
+\li \ref faq_discussions_tags
+\li \ref faq_discussion_othertags
+
+\section faq_stories_top Stories
+\li \ref faq_stories_old
+
+\section faq_syndication_top Syndication
+\li \ref faq_syndication_rss
+\li \ref faq_syndication_how
+
+\section faq_places Places
+\li \ref faq_places_tags
+\li \ref faq_places_owner
+
+\section faq_search_top Search and Tags
+\li \ref faq_tags_how
+
+\section faq_invite_top Invitations
+\li \ref faq_invite_friends
+
+\section faq_misc_top Miscellaneous
+\li \ref faq_misc_life
+
+<hr>
+
+\section faq_general General
+
+\subsection faq_general_love I adore this site! How can I show the love?
+Thank you. We love you too. The best way to show the love is to invite all your friends to the site and to purchase ad space.
+
+\subsection faq_general_ask Help! Where can I ask questions?
+Please use <em>Site Discussions</em>. If you are not a member, contact the administrator by following a link in 
+the <a href="/Help.aspx">Help</a> section.
+
+\subsection faq_general_dating Is this a dating site?
+This site is all about meeting people with similar interests. This can lead to dating, cooking together, marriage and sometimes even 
+children. We strongly recommend safe sex and saying no to drugs.
+
+\section faq_ads Advertising
+\subsection faq_ads_why What's up with ads? Don't you make enough money?
+No, really, I don't. Please support this site by purchasing ad space. Follow links on the front-page.
+
+\section faq_signup Sign-Up
+
+\subsection faq_signup_birthday Why do I need to give my birthday date to sign-up?
+If you forget your password you will be asked your birthday date to reset it. Hence you should supply the correct birthday date.
+This also leaves room for 18+ features.
+
+\subsection faq_signup_beta How can I get the beta password to sign-up?
+The beta system limits the number of new users in the system to a controlled flow. If you really want to join this site and do not
+know the beta password, contact the administrator by following a link in the Help section.
+ 
+\section faq_security Security
+
+\subsection faq_security_md5 How is my password stored in the system?
+Your password is not stored in the system. Instead, the system stores an MD5 hash of the password - a one-way checksum. At login,
+your clear-text password is used to calculate the MD5 and match it to the value in the database. The property of the hash is such
+that one cannot guess your password from the hash.
+
+\subsection faq_security_ticket What happens when I choose to remember my login?
+The system will store a so-called ticket in a cookie. This cookie will expire in a year and will be renewed regularly as you are active
+in the system. This ticket is an encrypted value that uniquely identifies your account. Please do not use the <em>remember me</em> 
+feature on public computers.
+
+\section faq_meme Me Me
+\subsection faq_meme_picsize How big of a picture can I upload?
+You can upload a picture of any size. Pictures larger than 640x480 will be automatically resized and compressed with 
+a 40% JPEG compression.
+
+\section faq_discussions Discussions
+
+\subsection faq_discussions_links How do I insert a link into a dicussion post?
+You do not need any markup to insert a link into a discussion post. Simply use a link as is. Anything starting with
+http:// or https:// and looking like a legitimate link will be automatically highlighted.
+
+\subsection faq_discussions_image How do I embed a picture in a discussion post?
+To embed a picture in the discussion post you must locate the address of the picture and put it in between [img] and [/img] tags. 
+You can find an address of a picture by right clicking on it and choosing <em>Properties</em>.
+For example:
+\code
+[img]http://www.mywebsite.com/images/picture.jpg[/img]
+\endcode
+
+\subsection faq_discussions_tags What other tags are supported in discussion posts?
+The following tags are supported by the system.
+
+<table class="settingTable" cellpadding="4px" cellspacing="0">
+ <tr>
+  <td class="settingLeft">[b]...[/b]</td>
+  <td class="settingRight">Makes text <b>bold</b>.
+\code
+[b]this will be bold[/b]
+\endcode
+  </td>
+ </tr>
+ <tr>
+  <td class="settingLeft">
+   [i]...[/i]
+   or [em]...[/em]
+  </td>
+  <td class="settingRight">
+   Makes text <em>italic</em>.
+\code
+[i]this will be italic[/i]
+[em]this will be italic[/em]
+\endcode
+  </td>
+ </tr>
+ <tr>
+  <td class="settingLeft">
+   [big]...[/big]
+   [h1]...[/h1]
+  </td>
+  <td class="settingRight">
+    Makes text very big.
+\code
+[h1]this will be very big[/h1]
+\endcode
+  </td>
+ </tr>
+ <tr>
+  <td class="settingLeft">
+   [h2]...[/h2]
+  </td>
+  <td class="settingRight">
+   Makes text reasonably big.
+\code
+[h2]this will be reasonably big[/h2]
+\endcode
+  </td>
+ </tr>
+ <tr>
+  <td class="settingLeft">
+   [h3]...[/h3]
+  </td>
+  <td class="settingRight">
+   Makes text a little bigger.
+\code
+[h3]this will be a little biger[/h3]
+\endcode
+  </td>
+ </tr>
+ <tr>
+  <td class="settingLeft">
+   [small]...[/small]
+  </td>
+  <td class="settingRight">
+   Makes text small.
+\code
+[small]this will be small[/small]
+\endcode
+  </td>
+ </tr>
+ <tr>
+  <td class="settingLeft">
+   [red]...[/red]
+  </td>
+  <td class="settingRight">
+   Makes text red. Other colors supported are <em>green</em> and <em>blue</em>.
+\code
+[red]this will be red[/red]
+[green]this will be green[/green]
+[blue]this will be blue[/blue]
+\endcode
+  </td>
+ </tr>
+</table>
+  
+\subsection faq_discussion_othertags What other places support tags?
+All discussion posts, stories and personal information on your profile support above-mentionned tags.
+
+\section faq_stories Stories
+
+\subsection faq_stories_old I have updated my story, why doesn't it show up on top?
+Your story creation date is used to sort stories. You may of course delete your story and create a new one. It is recommended you
+do not alter stories after posting them unless it's to add pictures or to correct bad spelling.
+
+\section faq_syndication Syndication
+
+\subsection faq_syndication_rss What is RSS, Feed and Syndication?
+Really Simple Syndication (RSS) is a lightweight XML format designed for sharing headlines and other Web content.
+In particular, it allows this site to syndicate content from, for example, your blog. This means that when you post
+a new blog entry on your blog it will appear on this site as well, automatically, within a short period of time.
+The content transported from your site to this site is called a <em>feed</em>. The feed is in the RSS format.
+
+\subsection faq_syndication_how How do I syndicate my blog?
+You can syndicate your site in the <a href="/AccountFeedsManage.aspx">Syndication</a> section of <em>Me Me</em>.
+Click <a href="/AccountFeedEdit.aspx">Syndicate New</a> and fill in the form.
+
+<table class="settingTable" cellpadding="4px" cellspacing="0">
+ <tr>
+  <td class="settingLeft">name</td>
+  <td class="settingRight">Free-formed name for your feed, for example <em>My Blog</em>.</td>
+ </tr>
+ <tr>
+  <td class="settingLeft">description</td>
+  <td class="settingRight">Free-formed description for your feed, for example <em>the daily ramblings about my life</em>.</td>
+ </tr>
+ <tr>
+  <td class="settingLeft">type</td>
+  <td class="settingRight">Several known types have extended support, notably <a href="http://www.flickr.com" target="_new">FlickR</a>
+   and <a href="http://www.dodgeball.com" target="_new">Dodgeball</a>. Choose the appropriate type or <em>Generic RSS</em> for
+   any other feed.
+  </td>
+ </tr>
+ <tr>
+  <td class="settingLeft">feed url</td>
+  <td class="settingRight">The address of your RSS feed. This depends on your blog or service provider. Look for links
+   that say <em>syndicate this content</em>, <em>rss</em> or <em>xml</em>. When you find this link, right click on it and
+   copy the shortcut. Paste it into this field. For example, <a href="http://www.livejournal.com" target="_new">LiveJournal</a>
+   feeds are in the <em>http://username.livejournal.com/data/rss</em> format.
+  </td>
+ </tr>
+ <tr>
+  <td class="settingLeft">feed link</td>
+  <td class="settingRight">Simply the address of your website. People clicking on the name of your feed will be redirected
+    to this address.</td>
+ </tr>
+ <tr>
+  <td class="settingLeft">username</td>
+  <td class="settingRight">Optional username to access the feed, when necessary.</td>
+ </tr>
+ <tr>
+  <td class="settingLeft">password</td>
+  <td class="settingRight">Optional password to access the feed, when necessary.</td>
+ </tr>
+ <tr>
+  <td class="settingLeft">update frequency</td>
+  <td class="settingRight">Choose the updating frequency that best matches the content update frequency.</td>
+ </tr>
+ <tr>
+  <td class="settingLeft">publish</td>
+  <td class="settingRight">Disable publishing to the automatic feed roll by unchecking this option if your content 
+    is off topic. Your content will still appear on your personal profile page and in search results.</td>
+ </tr>
+</table>
+
+Test the feed. Click <em>Update</em> next to your feed on the <a href="/AccountFeedsManage.aspx">Syndication</a> section.
+Then choose <em>View</em>. You should see the actual content or an error.
+
+\section faq_places Places
+
+\subsection faq_places_tags How do I reference a place in a post or story?
+To reference a place you need to write something like <em>[nyc:some new place]</em>. For example:
+\code
+[nyc:The Statue of Liberty]
+\endcode
+
+Once you place this tag, it becomes clickable. If the place doesn't exist, you are given the option to submit it with 
+all the details.
+
+The prefix is defined by the system, and the name is free-formed. Known prefixes are <em>nyc</em> for New York, 
+<em>sf</em> for San Francisco, <em>dc</em> for Washington DC and <em>sea</em> for Seattle. Contact the administrator to add
+cities. 
+
+\subsection faq_places_owner I am a business owner - can I publish content about my business?
+As a business owner you can <em>claim ownership</em> of a place. This service is provided absolutely free. Use the <em>Claim Ownership</em> 
+link on the place page. That generates a request to the system administrator and to all existing owners that have write access to the place. 
+You can request a non-author ownership, useful to identify people who work at the place but do not wish to contribute content. 
+When the request is approved by the system or by one of the existing owners, several things happen.
+<ol>
+ <li>You are listed as a contact with the place.
+ <li>The place is listed when people see your page.
+ <li>You can manage this place within your places from the <em>me me</em> page, including editing all content and pictures.
+</ol>
+
+\section faq_search Search and Tags
+
+\subsection faq_tags_how How do I tag my content?
+You don't need to tag your content. This is done automatically by the system, which periodically indexes all stories
+and surveys. The administrator then promotes context-specific tags to the the cloud. You can see most frequently used 
+and promoted tags on the front page.  
+
+\section faq_invite Invitations
+
+\subsection faq_invite_friends Should I invite all my friends to this site?
+Yes. Absolutely.
+
+\section faq_misc Miscellaneous
+
+\subsection faq_misc_life What is the meaning of Life?
+Hmmm...
+
+*/

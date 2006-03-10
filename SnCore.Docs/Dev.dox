@@ -1,0 +1,54 @@
+/*! \page dev Dev HowTo
+
+\section dev_intro Introduction
+This page will guide you through the SnCore installation and development process. It's pretty easy. 
+
+\section dev_req Prerequisites 
+\li Microsoft Windows 2000, 2003 or XP. 
+\li Microsoft SQL Server 2000
+\li Microsoft .NET Framework 2.0
+    <br>http://msdn.microsoft.com/netframework/downloads/updates/default.aspx
+\li Microsoft IIS running ASP.NET 2.0
+\li Microsoft Visual Studio 2005
+\li Microsoft Web Services Extension 3.0
+    <br>http://msdn.microsoft.com/webservices/downloads/default.aspx
+\li Microsoft Web Deployment Projects
+    <br>http://msdn.microsoft.com/asp.net/reference/infrastructure/wdp/default.aspx
+\li Perforce Client
+    <br>http://www.perforce.com
+\li Puzzle Framework (ObjectMapper)
+    <br>http://www.puzzleframework.com
+    
+\section dev_source Source Code
+<ol>
+ <li>Download and install a Perforce client from http://www.perforce.com/.
+ <li>From command line set the <em>P4CONFIG</em> variable. This will let you easily connect to multiple Perforce depots and
+     manage branches and client views.
+\code
+p4 set P4CONFIG=p4.ini
+\endcode
+ <li>Create a new directory, eg. C:\\SnCore.
+ <li>The account used to access perforce is <em>guest</em>, because Perforce licenses are $800 a pop. It has <em>open</em>
+     permissions, which means that you can checkout files and modify them, but cannot check-in. Please coordonate
+     code reviews with dB.
+ <li>Create a <b>p4.ini</b> file in this directory with the following contents. Replace parts of <em>P4CLIENT</em> with
+     values that help identify who you are (your username and machine name).
+\code
+P4PORT=perforce.vestris.com:6666
+P4USER=guest
+P4CLIENT=SnCore-yourname-main-yourmachinename-1
+\endcode
+ <li>Run <em>p4 login</em>. The password for the user <em>guest</em> is <em>guest</em>.
+ <li>Run <em>p4 client</em> and enter the following client view. Save the file and exit the editor. It should report
+     that your client was successfully created.
+\code
+    //depot/sncore/main/... //sncore-yourname-main-yourmachinename-1/...
+\endcode
+ <li>Run <em>p4 sync</em>. This will bring the files to your machine.
+</ol>
+
+\section dev_howto Installation
+
+Follow the normal \ref install. Visual Studio will create the websites for you, so you can skip that step.
+
+*/

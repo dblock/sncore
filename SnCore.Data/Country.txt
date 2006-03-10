@@ -1,0 +1,270 @@
+1	Afghanistan
+2	Akrotiri
+3	Albania
+4	Algeria
+5	American Samoa
+6	Andorra
+7	Angola
+8	Anguilla
+9	Antarctica
+10	Antigua and Barbuda
+11	Arctic Ocean
+12	Argentina
+13	Armenia
+14	Aruba
+15	Ashmore and Cartier Islands
+16	Atlantic Ocean
+17	Australia
+18	Austria
+19	Azerbaijan
+20	Bahamas, The
+21	Bahrain
+22	Baker Island
+23	Bangladesh
+24	Barbados
+25	Bassas da India
+26	Belarus
+27	Belgium
+28	Belize
+29	Benin
+30	Bermuda
+31	Bhutan
+32	Bolivia
+33	Bosnia and Herzegovina
+34	Botswana
+35	Bouvet Island
+36	Brazil
+37	British Indian Ocean Territory
+38	British Virgin Islands
+39	Brunei
+40	Bulgaria
+41	Burkina Faso
+42	Burma
+43	Burundi
+44	Cambodia
+45	Cameroon
+46	Canada
+47	Cape Verde
+48	Cayman Islands
+49	Central African Republic
+50	Chad
+51	Chile
+52	China
+53	Christmas Island
+54	Clipperton Island
+55	Cocos (Keeling) Islands
+56	Colombia
+57	Comoros
+58	Congo, Democratic Republic of the
+59	Congo, Republic of the
+60	Cook Islands
+61	Coral Sea Islands
+62	Costa Rica
+63	Cote d'Ivoire
+64	Croatia
+65	Cuba
+66	Cyprus
+67	Czech Republic
+68	Denmark
+69	Dhekelia
+70	Djibouti
+71	Dominica
+72	Dominican Republic
+73	East Timor
+74	Ecuador
+75	Egypt
+76	El Salvador
+77	Equatorial Guinea
+78	Eritrea
+79	Estonia
+80	Ethiopia
+81	Europa Island
+82	Falkland Islands (Islas Malvinas)
+83	Faroe Islands
+84	Fiji
+85	Finland
+86	France
+87	French Guiana
+88	French Polynesia
+89	French Southern and Antarctic Lands
+90	Gabon
+91	Gambia, The
+92	Gaza Strip
+93	Georgia
+94	Germany
+95	Ghana
+96	Gibraltar
+97	Glorioso Islands
+98	Greece
+99	Greenland
+100	Grenada
+101	Guadeloupe
+102	Guam
+103	Guatemala
+104	Guernsey
+105	Guinea
+106	Guinea-Bissau
+107	Guyana
+108	Haiti
+109	Heard Island and McDonald Islands
+110	Holy See (Vatican City)
+111	Honduras
+112	Hong Kong
+113	Howland Island
+114	Hungary
+115	Iceland
+116	India
+117	Indian Ocean
+118	Indonesia
+119	Iran
+120	Iraq
+121	Ireland
+122	Israel
+123	Italy
+124	Jamaica
+125	Jan Mayen
+126	Japan
+127	Jarvis Island
+128	Jersey
+129	Johnston Atoll
+130	Jordan
+131	Juan de Nova Island
+132	Kazakhstan
+133	Kenya
+134	Kingman Reef
+135	Kiribati
+136	Korea, North
+137	Korea, South
+138	Kuwait
+139	Kyrgyzstan
+140	Laos
+141	Latvia
+142	Lebanon
+143	Lesotho
+144	Liberia
+145	Libya
+146	Liechtenstein
+147	Lithuania
+148	Luxembourg
+149	Macau
+150	Macedonia
+151	Madagascar
+152	Malawi
+153	Malaysia
+154	Maldives
+155	Mali
+156	Malta
+157	Man, Isle of
+158	Marshall Islands
+159	Martinique
+160	Mauritania
+161	Mauritius
+162	Mayotte
+163	Mexico
+164	Micronesia, Federated States of
+165	Midway Islands
+166	Moldova
+167	Monaco
+168	Mongolia
+169	Montserrat
+170	Morocco
+171	Mozambique
+172	Namibia
+173	Nauru
+174	Navassa Island
+175	Nepal
+176	Netherlands
+177	Netherlands Antilles
+178	New Caledonia
+179	New Zealand
+180	Nicaragua
+181	Niger
+182	Nigeria
+183	Niue
+184	Norfolk Island
+185	Northern Mariana Islands
+186	Norway
+187	Oman
+188	Pacific Ocean
+189	Pakistan
+190	Palau
+191	Palmyra Atoll
+192	Panama
+193	Papua New Guinea
+194	Paracel Islands
+195	Paraguay
+196	Peru
+197	Philippines
+198	Pitcairn Islands
+199	Poland
+200	Portugal
+201	Puerto Rico
+202	Qatar
+203	Reunion
+204	Romania
+205	Russia
+206	Rwanda
+207	Saint Helena
+208	Saint Kitts and Nevis
+209	Saint Lucia
+210	Saint Pierre and Miquelon
+211	Saint Vincent and the Grenadines
+212	Samoa
+213	San Marino
+214	Sao Tome and Principe
+215	Saudi Arabia
+216	Senegal
+217	Serbia and Montenegro
+218	Seychelles
+219	Sierra Leone
+220	Singapore
+221	Slovakia
+222	Slovenia
+223	Solomon Islands
+224	Somalia
+225	South Africa
+226	South Georgia and the South Sandwich Islands
+227	Southern Ocean
+228	Spain
+229	Spratly Islands
+230	Sri Lanka
+231	Sudan
+232	Suriname
+233	Svalbard
+234	Swaziland
+235	Sweden
+236	Switzerland
+237	Syria
+238	Tajikistan
+239	Tanzania
+240	Thailand
+241	Togo
+242	Tokelau
+243	Tonga
+244	Trinidad and Tobago
+245	Tromelin Island
+246	Tunisia
+247	Turkey
+248	Turkmenistan
+249	Turks and Caicos Islands
+250	Tuvalu
+251	Uganda
+252	Ukraine
+253	United Arab Emirates
+254	United Kingdom
+255	United States
+256	Uruguay
+257	Uzbekistan
+258	Vanuatu
+259	Venezuela
+260	Vietnam
+261	Virgin Islands
+262	Wake Island
+263	Wallis and Futuna
+264	West Bank
+265	Western Sahara
+266	Yemen
+267	Zambia
+268	Zimbabwe
+269	Taiwan
+270	European Union

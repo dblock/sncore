@@ -1,0 +1,199 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5AEB26B1-4C6C-42ED-86A0-2E5FD6CE53E2}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>SnCore.Services</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <RootNamespace>SnCore.Services</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="NHibernate">
+      <Name>NHibernate</Name>
+      <HintPath>..\nhibernate\bin\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Security">
+      <Name>System.Security</Name>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ManagedAccountAddress.cs" />
+    <Compile Include="ManagedAccountEmailMessage.cs" />
+    <Compile Include="ManagedAccountFeed.cs" />
+    <Compile Include="ManagedAccountFeedItem.cs" />
+    <Compile Include="ManagedAccountFriend.cs" />
+    <Compile Include="ManagedAccountFriendRequest.cs" />
+    <Compile Include="ManagedAccountInvitation.cs" />
+    <Compile Include="ManagedAccountMessage.cs" />
+    <Compile Include="ManagedAccountMessageFolder.cs" />
+    <Compile Include="ManagedAccountOpenId.cs" />
+    <Compile Include="ManagedAccountPicture.cs" />
+    <Compile Include="ManagedAccountPlace.cs" />
+    <Compile Include="ManagedAccountPlaceFavorite.cs" />
+    <Compile Include="ManagedAccountPlaceRequest.cs" />
+    <Compile Include="ManagedAccountPlaceType.cs" />
+    <Compile Include="ManagedAccountProfile.cs" />
+    <Compile Include="ManagedAccountStory.cs" />
+    <Compile Include="ManagedAccountStoryPicture.cs" />
+    <Compile Include="ManagedAccountSurveyAnswer.cs" />
+    <Compile Include="ManagedBookmark.cs" />
+    <Compile Include="ManagedBug.cs" />
+    <Compile Include="ManagedBugLink.cs" />
+    <Compile Include="ManagedBugNote.cs" />
+    <Compile Include="ManagedBugPriority.cs" />
+    <Compile Include="ManagedBugProject.cs" />
+    <Compile Include="ManagedBugResolution.cs" />
+    <Compile Include="ManagedBugSeverity.cs" />
+    <Compile Include="ManagedBugStatus.cs" />
+    <Compile Include="ManagedBugType.cs" />
+    <Compile Include="ManagedCity.cs" />
+    <Compile Include="ManagedFeature.cs" />
+    <Compile Include="ManagedFeedType.cs" />
+    <Compile Include="ManagedPicture.cs" />
+    <Compile Include="ManagedPictureType.cs" />
+    <Compile Include="ManagedPlace.cs" />
+    <Compile Include="ManagedPlaceName.cs" />
+    <Compile Include="ManagedPlacePicture.cs" />
+    <Compile Include="ManagedPlaceType.cs" />
+    <Compile Include="ManagedReminder.cs" />
+    <Compile Include="ManagedReminderEvent.cs" />
+    <Compile Include="ManagedSurvey.cs" />
+    <Compile Include="ManagedSurveyQuestion.cs" />
+    <Compile Include="ManagedAccountRight.cs" />
+    <Compile Include="ManagedAccount.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ManagedAccountEmail.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ManagedAccountEmailConfirmation.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ManagedAccountWebsite.cs" />
+    <Compile Include="ManagedConfiguration.cs" />
+    <Compile Include="ManagedCountry.cs" />
+    <Compile Include="ManagedDataObject.cs" />
+    <Compile Include="ManagedDiscussion.cs" />
+    <Compile Include="ManagedDiscussionPost.cs" />
+    <Compile Include="ManagedDiscussionThread.cs" />
+    <Compile Include="ManagedService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ManagedState.cs" />
+    <Compile Include="ManagedSystem.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ManagedTagWord.cs" />
+    <Compile Include="ManagedTagWordAccount.cs" />
+    <Compile Include="TransitService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Atom.Net\Atom.NET.csproj">
+      <Project>{8DE2053A-247B-430A-86C3-E52B4725AA60}</Project>
+      <Name>Atom.NET</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenId.NET\OpenId.NET.csproj">
+      <Project>{878A1359-86B1-440B-ADE8-84DD20D88BF5}</Project>
+      <Name>OpenId.NET</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Rss.Net\RSS.NET.csproj">
+      <Project>{C42FC014-7E12-4FAF-9BC9-79BF1529440D}</Project>
+      <Name>RSS.NET</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SnCore.Data\SnCore.Data.csproj">
+      <Project>{1F9C0442-E7B5-4CCC-93ED-A0599CF1AA57}</Project>
+      <Name>SnCore.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SnCore.Tools\SnCore.Tools.csproj">
+      <Project>{53F80219-6028-406B-819A-E79AE4D56995}</Project>
+      <Name>SnCore.Tools</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

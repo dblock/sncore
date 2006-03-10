@@ -1,0 +1,117 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using SnCore.Tools.Web;
+using Wilco.Web.UI;
+using SnCore.WebServices;
+using SnCore.BackEndServices;
+using SnCore.Services;
+
+public partial class AccountFeedPreviewControl : Control
+{
+    public bool ShowTitle
+    {
+        get
+        {
+            return ViewStateUtility.GetViewStateValue<bool>(ViewState, "ShowTitle", true);
+        }
+        set
+        {
+            ViewState["ShowTitle"] = value;
+        }
+    }
+
+    public bool LinkDescription
+    {
+        get
+        {
+            return ViewStateUtility.GetViewStateValue<bool>(ViewState, "LinkDescription", false);
+        }
+        set
+        {
+            ViewState["LinkDescription"] = value;
+        }
+    }
+
+    public int FeedId
+    {
+        get
+        {
+            return ViewStateUtility.GetViewStateValue<int>(ViewState, "FeedId", 0);
+        }
+        set
+        {
+            ViewState["FeedId"] = value;
+        }
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+            if (!IsPostBack)
+            {
+                if (FeedId > 0)
+                {
+                    TransitAccountFeed f = SyndicationService.GetAccountFeedById(
+                        SessionManager.IsLoggedIn ? SessionManager.Ticket : string.Empty, FeedId);
+
+                    TransitFeedType t = SyndicationService.GetFeedTypeByName(f.FeedType);
+                    gridManage.RepeatColumns = t.SpanColumnsPreview;
+                    gridManage.RepeatRows = t.SpanRowsPreview;
+                    gridManage.VirtualItemCount = SyndicationService.GetAccountFeedItemsCountById(FeedId);
+                    gridManage_OnGetDataSource(this, null);
+                    gridManage.DataBind();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
+    void gridManage_OnGetDataSource(object sender, EventArgs e)
+    {
+        try
+        {
+            ServiceQueryOptions options = new ServiceQueryOptions();
+            options.PageNumber = gridManage.CurrentPage;
+            options.PageSize = gridManage.PageSize;
+            gridManage.DataSource = SyndicationService.GetAccountFeedItemsById(FeedId, options);
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
+    public string GetTitle(object title)
+    {
+        if (!ShowTitle)
+            return string.Empty;
+
+        return Renderer.Render(Renderer.RemoveHtml(title));
+    }
+
+    public string GetDescription(object link, object description)
+    {
+        if (LinkDescription)
+        {
+            return string.Format("<a href='{0}' target='_blank'>{1}</a>", 
+                link, RenderEx(description));
+        }
+        else
+        {
+            return Renderer.CleanHtml(description);
+        }
+    }
+}

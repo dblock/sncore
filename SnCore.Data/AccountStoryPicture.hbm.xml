@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.0" schema="dbo">
+  <class name="AccountStoryPicture, SnCore.Data" table="AccountStoryPicture">
+    <id access="nosetter.pascalcase-m-underscore"  name="Id" type="Int32" column="AccountStoryPicture_Id">
+      <generator class="identity" />
+    </id>
+    <many-to-one name="AccountStory" column="AccountStory_Id" class="AccountStory, SnCore.Data" />
+    <property name="Created" column="Created" type="DateTime" />
+    <property name="Location" column="Location" type="Int32" />
+    <property name="Modifed" column="Modifed" type="DateTime" />
+    <property name="Name" column="Name" type="String" />
+    <property name="Picture" column="Picture" type="BinaryBlob" />
+  </class>
+</hibernate-mapping>
