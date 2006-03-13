@@ -44,7 +44,7 @@
        </div>
        <br />
        <div style="font-size: smaller;">
-         <%# GetSummary((string) Eval("Summary")) %>
+         <%# base.GetSummary((string) Eval("Summary")) %>
        </div>  
       </blockquote>
     </itemtemplate>

@@ -49,7 +49,7 @@
      <%# base.Adjust(Eval("Created")).ToString("d") %>
     </div>
     <div class="sncore_description">
-     <%# GetSummary((string) Eval("Description"))%>
+     <%# base.GetSummary((string) Eval("Description"))%>
     </div>
    </ItemTemplate>
   </asp:TemplateColumn>

@@ -75,13 +75,6 @@ public partial class AccountFeaturedViewControl : Control
         }
     }
 
-    public string GetSummary(string summary)
-    {
-        string result = Renderer.RemoveHtml(summary);
-        if (result.Length > 256) result = result.Substring(0, 256) + " ...";
-        return result;
-    }
-
     public string GetDescription(int id)
     {
         TransitAccountProfile a = (TransitAccountProfile)Cache[string.Format("accountprofile:{0}", id)];

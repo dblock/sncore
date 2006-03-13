@@ -141,7 +141,7 @@ namespace SnCore.Tools.Web
                 shortenedresult = shortenedresult.Substring(0, cut) + " ...";
             }
 
-            result = ClearMarkups(result);
+            result = RemoveMarkups(result);
 
             result = string.Format("<a target=\"_blank\" href=\"{0}\">{1}</a>{2}",
                 result,
@@ -220,7 +220,7 @@ namespace SnCore.Tools.Web
             return MarkupExpression.Replace(RenderValue, MarkupHandlerDelegate);
         }
 
-        public static string ClearMarkups(string RenderValue)
+        public static string RemoveMarkups(string RenderValue)
         {
             MatchEvaluator MarkupHandlerDelegate = new MatchEvaluator(MarkupClearHandler);
             return MarkupExpression.Replace(RenderValue, MarkupHandlerDelegate);
@@ -229,6 +229,13 @@ namespace SnCore.Tools.Web
         public static string SqlEncode(string Value)
         {
             return Value.Replace("'", "''");
+        }
+
+        public static string GetSummary(string summary)
+        {
+            string result = RemoveHtml(RemoveMarkups(summary));
+            if (result.Length > 256) result = result.Substring(0, 256) + " ...";
+            return result;
         }
     }
 }

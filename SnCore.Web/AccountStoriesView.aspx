@@ -83,7 +83,7 @@
         <%# base.Adjust(Eval("Created")).ToString("d") %>     
       </div>
       <div class="sncore_summary">
-       <%# GetSummary((string) Eval("Summary")) %>
+       <%# base.GetSummary((string) Eval("Summary")) %>
       </div>  
       </blockquote>
     </itemtemplate>

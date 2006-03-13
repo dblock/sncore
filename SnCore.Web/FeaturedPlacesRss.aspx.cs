@@ -15,8 +15,6 @@ using SnCore.Services;
 
 public partial class FeaturedPlacesRss : Page
 {
-    private string mWebsiteUrl = string.Empty;
-
     protected void Page_Load(object sender, EventArgs e)
     {
         try
@@ -41,13 +39,7 @@ public partial class FeaturedPlacesRss : Page
     {
         get
         {
-            if (string.IsNullOrEmpty(mWebsiteUrl))
-            {
-                mWebsiteUrl = SystemService.GetConfigurationByNameWithDefault(
-                    "SnCore.WebSite.Url", "http://localhost/SnCoreWeb").Value;
-            }
-
-            return mWebsiteUrl;
+            return SessionManager.WebsiteUrl;
         }
     }
 
@@ -61,15 +53,8 @@ public partial class FeaturedPlacesRss : Page
     {
         get
         {
-            return WebsiteUrl + "Default.aspx";
+            return WebsiteUrl.TrimEnd('/') + "/FeaturedPlacesView.aspx";
         }
-    }
-
-    public string GetSummary(string summary)
-    {
-        string result = Renderer.RemoveHtml(summary);
-        if (result.Length > 256) result = result.Substring(0, 256) + " ...";
-        return result;
     }
 
     public TransitPlace GetPlace(int id)

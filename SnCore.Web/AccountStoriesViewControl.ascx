@@ -16,7 +16,7 @@
      </a>
     </div>
     <div style="font-size: smaller;">
-     <%# GetSummary((string) Eval("Summary")) %>
+     <%# base.GetSummary((string) Eval("Summary")) %>
     </div>
    </itemtemplate>
   </asp:TemplateColumn>

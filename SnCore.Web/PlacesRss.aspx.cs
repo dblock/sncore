@@ -15,8 +15,6 @@ using SnCore.Services;
 
 public partial class PlacesRss : Page
 {
-    private string mWebsiteUrl = string.Empty;
-
     public string SortOrder
     {
         get
@@ -113,13 +111,7 @@ public partial class PlacesRss : Page
     {
         get
         {
-            if (string.IsNullOrEmpty(mWebsiteUrl))
-            {
-                mWebsiteUrl = SystemService.GetConfigurationByNameWithDefault(
-                    "SnCore.WebSite.Url", "http://localhost/SnCoreWeb").Value;
-            }
-
-            return mWebsiteUrl;
+            return SessionManager.WebsiteUrl;
         }
     }
 
@@ -133,7 +125,7 @@ public partial class PlacesRss : Page
     {
         get
         {
-            return WebsiteUrl + "Default.aspx";
+            return WebsiteUrl.TrimEnd('/') + "/Default.aspx";
         }
     }
 }

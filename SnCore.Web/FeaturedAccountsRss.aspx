@@ -34,7 +34,7 @@
              </a>
             </div>
             <div style="color: silver">
-             <%# base.Render(GetSummary(base.GetDescription((int) Eval("DataRowId")))) %>
+             <%# base.GetSummary(base.GetDescription((int) Eval("DataRowId"))) %>
             </div>
            </td>
           </tr>

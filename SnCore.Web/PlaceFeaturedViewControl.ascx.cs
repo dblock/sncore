@@ -74,11 +74,4 @@ public partial class PlaceFeaturedViewControl : Control
             return mPlace;
         }
     }
-
-    public string GetSummary(string summary)
-    {
-        string result = Renderer.RemoveHtml(summary);
-        if (result.Length > 256) result = result.Substring(0, 256) + " ...";
-        return result;
-    }
 }

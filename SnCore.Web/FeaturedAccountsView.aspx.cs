@@ -69,13 +69,6 @@ public partial class FeaturedAccountsView : Page
         }
     }
 
-    public string GetSummary(string summary)
-    {
-        string result = Renderer.RemoveHtml(summary);
-        if (result.Length > 256) result = result.Substring(0, 256) + " ...";
-        return result;
-    }
-
     public TransitAccount GetAccount(int id)
     {
         TransitAccount a = (TransitAccount)Cache[string.Format("account:{0}", id)];

@@ -572,10 +572,10 @@ public class SessionManager
         }
     }
 
-    public string ClearMarkups(string s)
+    public string RemoveMarkups(string s)
     {
         MatchEvaluator mhd = new MatchEvaluator(MarkupClearHandler);
-        return Renderer.ClearMarkups(MarkupExpression.Replace(s, mhd));
+        return Renderer.RemoveMarkups(MarkupExpression.Replace(s, mhd));
     }
 
     public static bool ShowAds

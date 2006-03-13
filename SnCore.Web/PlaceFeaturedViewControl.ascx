@@ -36,7 +36,7 @@
      <% Response.Write(base.Render(base.Place.City)); %>
     </div>
     <div class="sncore_description">
-     <% Response.Write(GetSummary(base.Place.Description)); %>
+     <% Response.Write(base.GetSummary(base.Place.Description)); %>
     </div>
    </td>
   </tr>

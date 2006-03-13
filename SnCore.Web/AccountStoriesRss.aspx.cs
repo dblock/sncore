@@ -15,19 +15,11 @@ using SnCore.Services;
 
 public partial class AccountStoriesRss : Page
 {
-    private string mWebsiteUrl = string.Empty;
-
     public string WebsiteUrl
     {
         get
         {
-            if (string.IsNullOrEmpty(mWebsiteUrl))
-            {
-                mWebsiteUrl = SystemService.GetConfigurationByNameWithDefault(
-                    "SnCore.WebSite.Url", "http://localhost/SnCoreWeb").Value;
-            }
-
-            return mWebsiteUrl;
+            return SessionManager.WebsiteUrl;
         }
     }
 
@@ -35,7 +27,7 @@ public partial class AccountStoriesRss : Page
     {
         get
         {
-            return WebsiteUrl + "Default.aspx";
+            return WebsiteUrl.TrimEnd('/') + "/Default.aspx";
         }
     }
 

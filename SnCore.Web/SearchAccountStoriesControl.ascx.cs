@@ -76,14 +76,6 @@ public partial class SearchAccountStoriesControl : Control
         }
     }
 
-    public string GetSummary(string summary)
-    {
-        string result = SessionManager.ClearMarkups(summary);
-        result = Renderer.Render(result);
-        if (result.Length > 256) result = result.Substring(0, 256) + " ...";
-        return result;
-    }
-
     public int ResultsCount
     {
         get

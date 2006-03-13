@@ -180,4 +180,9 @@ public class Control : System.Web.UI.UserControl
         object notice = Page.Master.FindControl("noticeMenu");
         notice.GetType().GetProperty("Exception").SetValue(notice, ex, null);
     }
+
+    public string GetSummary(string summary)
+    {
+        return Renderer.GetSummary(SessionManager.RenderMarkups(summary));
+    }
 }

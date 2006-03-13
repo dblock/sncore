@@ -60,14 +60,6 @@ public partial class AccountStoriesView : Page
         }
     }
 
-    public string GetSummary(string summary)
-    {
-        string result = SessionManager.ClearMarkups(Renderer.RemoveHtml(summary));
-        result = Renderer.Render(result);
-        if (result.Length > 256) result = result.Substring(0, 256) + " ...";
-        return result;
-    }
-
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
         try

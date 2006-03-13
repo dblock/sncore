@@ -1,5 +1,5 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true"
- CodeFile="FeaturedPlacesView.aspx.cs" Inherits="FeaturedPlacesView" Title="FeaturedPlaces" %>
+ CodeFile="FeaturedPlacesView.aspx.cs" Inherits="FeaturedPlacesView" Title="Featured Places" %>
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -44,7 +44,7 @@
       featured on <%# ((DateTime) Eval("Created")).ToString("d") %>
      </div>
      <div class="sncore_description">
-      <%# base.Render(GetSummary(base.GetPlace((int) Eval("DataRowId")).Description)) %>
+      <%# base.GetSummary(base.GetPlace((int) Eval("DataRowId")).Description) %>
      </div>
     </itemtemplate>
    </asp:TemplateColumn>

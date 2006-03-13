@@ -60,13 +60,6 @@ public partial class AccountFeedItemsNewViewControl : Control
         }
     }
 
-    public string GetSummary(string summary)
-    {
-        string result = Renderer.RemoveHtml(summary);
-        if (result.Length > 256) result = result.Substring(0, 256) + " ...";
-        return result;
-    }
-
     public string GetComments(int count)
     {
         if (count == 0) return "read and comment";

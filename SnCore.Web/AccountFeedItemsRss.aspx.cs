@@ -15,8 +15,6 @@ using SnCore.Services;
 
 public partial class AccountFeedItemsRss : Page
 {
-    private string mWebsiteUrl = string.Empty;
-
     protected void Page_Load(object sender, EventArgs e)
     {
         try
@@ -41,13 +39,7 @@ public partial class AccountFeedItemsRss : Page
     {
         get
         {
-            if (string.IsNullOrEmpty(mWebsiteUrl))
-            {
-                mWebsiteUrl = SystemService.GetConfigurationByNameWithDefault(
-                    "SnCore.WebSite.Url", "http://localhost/SnCoreWeb").Value;
-            }
-
-            return mWebsiteUrl;
+            return SessionManager.WebsiteUrl;
         }
     }
 

@@ -132,7 +132,7 @@
       <%# base.Render(Eval("Country")) %>
      </div>
      <div class="sncore_summary">
-      <%# GetSummary((string)Eval("Description"))%>
+      <%# base.GetSummary((string)Eval("Description"))%>
      </div>
     </itemtemplate>
    </asp:TemplateColumn>

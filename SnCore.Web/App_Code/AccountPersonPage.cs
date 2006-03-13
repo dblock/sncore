@@ -12,7 +12,6 @@ using SnCore.Services;
 
 public class AccountPersonPage : Page
 {
-    private string mWebsiteUrl = string.Empty;
     private TransitAccount mAccount = null;
 
     public AccountPersonPage()
@@ -24,13 +23,7 @@ public class AccountPersonPage : Page
     {
         get
         {
-            if (string.IsNullOrEmpty(mWebsiteUrl))
-            {
-                mWebsiteUrl = SystemService.GetConfigurationByNameWithDefault(
-                    "SnCore.WebSite.Url", "http://localhost/SnCoreWeb").Value;
-            }
-
-            return mWebsiteUrl;
+            return SessionManager.WebsiteUrl;
         }
     }
 
@@ -53,7 +46,7 @@ public class AccountPersonPage : Page
     {
         get
         {
-            return WebsiteUrl + "Default.aspx";
+            return WebsiteUrl.TrimEnd('/') + "/Default.aspx";
         }
     }
 

@@ -14,20 +14,13 @@ using SnCore.WebServices;
 
 public partial class AccountDiscussionThreadsRss : Page
 {
-    private string mWebsiteUrl = string.Empty;
     private TransitAccount mAccount = null;
 
     public string WebsiteUrl
     {
         get
         {
-            if (string.IsNullOrEmpty(mWebsiteUrl))
-            {
-                mWebsiteUrl = SystemService.GetConfigurationByNameWithDefault(
-                    "SnCore.WebSite.Url", "http://localhost/SnCoreWeb").Value;
-            }
-
-            return mWebsiteUrl;
+            return SessionManager.WebsiteUrl;
         }
     }
 

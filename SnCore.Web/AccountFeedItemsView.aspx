@@ -78,7 +78,7 @@
        <%# base.Adjust(Eval("Created")).ToString("d") %>
       </div>
       <div class="sncore_summary">
-       <%# GetSummary((string) Eval("Description")) %>
+       <%# base.GetSummary((string) Eval("Description")) %>
       </div>
      </span>
     </itemtemplate>

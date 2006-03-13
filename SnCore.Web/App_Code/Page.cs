@@ -226,6 +226,11 @@ public class Page : System.Web.UI.Page
     {
         PageManager.SetDefaultButton(button, this.Controls);
     }
+
+    public string GetSummary(string summary)
+    {
+        return Renderer.GetSummary(SessionManager.RenderMarkups(summary));
+    }
  }
 
 public class AuthenticatedPage : Page

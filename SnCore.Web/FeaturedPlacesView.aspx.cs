@@ -69,13 +69,6 @@ public partial class FeaturedPlacesView : Page
         }
     }
 
-    public string GetSummary(string summary)
-    {
-        string result = Renderer.RemoveHtml(summary);
-        if (result.Length > 256) result = result.Substring(0, 256) + " ...";
-        return result;
-    }
-
     public TransitPlace GetPlace(int id)
     {
         TransitPlace a = (TransitPlace)Cache[string.Format("place:{0}", id)];

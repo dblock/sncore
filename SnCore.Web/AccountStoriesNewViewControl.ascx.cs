@@ -55,12 +55,4 @@ public partial class AccountStoriesNewViewControl : Control
         else if (count == 1) return "read one comment";
         else return string.Format("read {0} comments", count);
     }
-
-    public string GetSummary(string summary)
-    {
-        string result = Renderer.RemoveHtml(summary);
-        if (result.Length > 256) result = result.Substring(0, 256) + " ...";
-        return result;
-    }
-
 }

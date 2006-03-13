@@ -47,12 +47,4 @@ public partial class AccountStoriesViewControl : Control
     {
         accountStories.DataSource = StoryService.GetAccountStoriesById(AccountId);
     }
-
-    public string GetSummary(string summary)
-    {
-        string result = SessionManager.ClearMarkups(summary);
-        result = Renderer.RemoveHtml(result);
-        if (result.Length > 256) result = result.Substring(0, 256) + " ...";
-        return result;
-    }
 }
