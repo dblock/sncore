@@ -123,7 +123,7 @@
       <asp:BoundColumn DataField="Id" Visible="false" />
       <asp:TemplateColumn>
        <itemtemplate>
-     <%# Eval("Created") %>
+     <%# base.Adjust(Eval("Created")) %>
      <br />
      <b><%# base.RenderEx(Eval("Details")) %></b>
     </itemtemplate>
