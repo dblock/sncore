@@ -19,21 +19,22 @@ This is a little involved for right now.
  <li>Edit <em>SnCore.Data/SnCore.npersist</em> and replace <em>Catalog=SnCore;</em> by <em>Catalog=MyProject;</em> and <em>catalog="SnCore"</em>
      by <em>catalog="MyProject"</em>.
  <li>Create a database <em>MyProject</em> and populate it with data from <em>SnCore.Data\\SnCoreSqlServer.sql</em> with query analyzer.
+ <li>Create a full text catalog <em>MyProject</em>.
  <li>Grant database owner access to the newly created database to the ASPNET (Windows XP) or NETWORK SERVICE (Windows 2003) user.
+ <li>Edit <em>SnCore.Data\\PopulateData.sql</em> and replace <em>[SnCore]</em> full text catalog references with <em>[MyProject]</em>.
  <li>Populate initial table data from <em>SnCore.Data\\PopulateData.sql</em>. You will have to insert the location of the
      SnCore.Data directory for the BULK INSERT statement.
  <li>It's a good time to test data to object model synchronization, see \ref data.
  <li>Edit <em>SnCore.Docs/SnCore.Docs.doxygen</em> and replace <em>PROJECT_NAME = SnCore</em> by <em>PROJECT_NAME = MyProject</em>. You may later
      drop most of the documentation such as licensing or pricing information and replace it with your project specifics along with images or 
      banners, edit the Header.html and Footer.html, etc.
- <li>Edit <em>SnCore.BackEndServices\\Web.Config<em>, <em>SnCore.Web\\Services.config</em>, <em>SnCore.Web\\Web.config</em> 
-     and <em>SnCore.WebServices\\Web.config</em> and replace references to the <em>SnCore</em> catalog by <em>MyProject</em>.
+ <li>Edit <em>SnCore.Web\\Web.config</em>, replace references to the <em>SnCore</em> catalog by <em>MyProject</em>.
  <li>Open <em>SnCore.sln</em> with Visual Studio. This will create the new virtual web directories. You will be prompted to upgrade these
      to the right version of ASP.NET. Configure the <em>MyProjectWeb</em> directory to use <em>Default.aspx</em> for the home page in IIS.
- <li>Bulk replace <em>localhost/SnCore</em> with <em>localhost/MyProject</em> in all <em>.dicso</em>, <em>.discomap</em> and <em>.wsdproj</em> files.
+ <li>Replace <em>localhost/SnCore</em> with <em>localhost/MyProject</em> in <em>SnCore.Web.Deploy/SnCore.Web.Deploy.wdproj</em> files.
  <li>You may want to switch the namespace of the web services. Bulk replace <em>http://www.vestris.com/sncore/ns/</em> with
-     <em>http://www.myproject.com/ns/</em> in all <em>SnCore.WebServices\App_Code\.cs</em> and <em>.wsdl</em> files.
- <li>Close and reopen the solution. Visual Studio does not pickup reference url changes in files.
+     <em>http://www.myproject.com/ns/</em> in all <em>SnCore.Web\App_Code\.cs</em> files.
+ <li>Replace <em>SnCore</em> with <em>MyProject</em> in <em>SnCore.Deploy/Package.cmd</em>.
  <li>Build the project starting with the <em>MyProject.BackEndService</em>. Navigate to <em>http://localhost/RJen.BackEndServices/</em> and
      check that it runs and that the WSDL generated does not contain any references to SnCore. 
  <li>Run \ref unittests.
