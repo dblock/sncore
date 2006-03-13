@@ -267,11 +267,11 @@ public partial class AccountView : Page
             if (!SessionManager.IsAdministrator)
             {
                 // avoid round-trip
-                throw new Exception("You must be an administrator to feature places.");
+                throw new Exception("You must be an administrator to feature accounts.");
             }
 
             TransitFeature t_feature = new TransitFeature();
-            t_feature.DataObjectName = "Place";
+            t_feature.DataObjectName = "Account";
             t_feature.DataRowId = RequestId;
             SystemService.DeleteAllFeatures(SessionManager.Ticket, t_feature);
             Redirect(Request.Url.PathAndQuery);

@@ -16,6 +16,7 @@
 <%@ Register TagPrefix="SnCore" TagName="BookmarksView" Src="BookmarksViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountFeaturedView" Src="AccountFeaturedViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="PlaceFeaturedView" Src="PlaceFeaturedViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="AccountFeedFeaturedView" Src="AccountFeedFeaturedViewControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <SnCore:AccountReminder ID="accountreminder" runat="server" />
  <table width="100%" cellpadding="0" cellspacing="0">
@@ -35,9 +36,11 @@
     <SnCore:AccountsNewView ID="accountsNewMain" runat="server" Count="2" />
    </td>
    <td valign="top" width="50%">
-    <SnCore:AccountFeedItemsNewView ID="accountfeeditemsNewViewMain" Count="3" runat="server" />
+    <SnCore:PlacesNewView ID="placesNewMain" runat="server" Count="2" />
     <SnCore:DiscussionPostsNewView ID="discussionsNewViewMain" runat="server" />
-    <SnCore:AccountStoriesNewView ID="accountstoriesNewViewMain" Count="3" runat="server" />
+    <SnCore:AccountStoriesNewView ID="accountstoriesNewViewMain" Count="2" runat="server" />
+    <SnCore:AccountFeedFeaturedView ID="accountfeedFeatured" runat="server" />
+    <SnCore:AccountFeedItemsNewView ID="accountfeeditemsNewViewMain" Count="2" runat="server" />
     <table class="sncore_half_table">
      <tr>
       <td class="sncore_table_tr_td" align="center">
@@ -45,7 +48,6 @@
       </td>
      </tr>
     </table>
-    <SnCore:PlacesNewView ID="placesNewMain" runat="server" Count="2" />
    </td>
   </tr>
  </table>

@@ -14,6 +14,21 @@ using SnCore.WebServices;
 
 public partial class AccountFeedView : Page
 {
+    private TransitFeature mAccountFeedFeature = null;
+
+    public TransitFeature LatestAccountFeedFeature
+    {
+        get
+        {
+            if (mAccountFeedFeature == null)
+            {
+                mAccountFeedFeature = SystemService.FindLatestFeature(
+                    "AccountFeed", RequestId);
+            }
+            return mAccountFeedFeature;
+        }
+    }
+
     public void Page_Load()
     {
         try
@@ -41,6 +56,13 @@ public partial class AccountFeedView : Page
                 gridManage.VirtualItemCount = SyndicationService.GetAccountFeedItemsCountById(RequestId);
                 gridManage_OnGetDataSource(this, null);
                 gridManage.DataBind();
+
+                if (SessionManager.IsAdministrator)
+                {
+                    linkFeature.Text = (LatestAccountFeedFeature != null)
+                        ? string.Format("Feature &#187; Last on {0}", Adjust(LatestAccountFeedFeature.Created).ToString("d"))
+                        : "Feature &#187; Never Featured";
+                }
             }
         }
         catch (Exception ex)
@@ -70,4 +92,60 @@ public partial class AccountFeedView : Page
         else if (count == 1) return "1 comment";
         else return string.Format("{0} comments", count);
     }
+
+    protected override void OnPreRender(EventArgs e)
+    {
+        panelAdmin.Visible = SessionManager.IsAdministrator;
+        if (panelAdmin.Visible)
+        {
+            linkDeleteFeatures.Visible = (LatestAccountFeedFeature != null);
+        }
+        base.OnPreRender(e);
+    }
+
+    public void feature_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (!SessionManager.IsAdministrator)
+            {
+                // avoid round-trip
+                throw new Exception("You must be an administrator to feature other users.");
+            }
+
+            TransitFeature t_feature = new TransitFeature();
+            t_feature.DataObjectName = "AccountFeed";
+            t_feature.DataRowId = RequestId;
+            SystemService.CreateOrUpdateFeature(SessionManager.Ticket, t_feature);
+            Redirect(Request.Url.PathAndQuery);
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
+    public void deletefeature_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (!SessionManager.IsAdministrator)
+            {
+                // avoid round-trip
+                throw new Exception("You must be an administrator to feature feeds.");
+            }
+
+            TransitFeature t_feature = new TransitFeature();
+            t_feature.DataObjectName = "AccountFeed";
+            t_feature.DataRowId = RequestId;
+            SystemService.DeleteAllFeatures(SessionManager.Ticket, t_feature);
+            Redirect(Request.Url.PathAndQuery);
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
+
 }

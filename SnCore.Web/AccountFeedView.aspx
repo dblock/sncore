@@ -26,6 +26,14 @@
     <div class="sncore_notice_error">
      <asp:Label ID="labelFeedLastError" runat="server" />    
     </div>
+    <asp:Panel ID="panelAdmin" runat="server" HorizontalAlign="Right">
+     <div>
+      <asp:LinkButton OnClick="feature_Click" runat="server" ID="linkFeature" Text="Feature" />
+     </div>
+     <div>
+      <asp:LinkButton OnClick="deletefeature_Click" runat="server" ID="linkDeleteFeatures" Text="Delete Features" />
+     </div>
+    </asp:Panel>
    </td>
   </tr>
  </table>
