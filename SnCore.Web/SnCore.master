@@ -75,7 +75,6 @@
           <Highlights>
            <asp:ListItem>/Account.*</asp:ListItem>
            <asp:ListItem>/System.*</asp:ListItem>
-           <asp:ListItem>/Bug.*</asp:ListItem>
           </Highlights>
           </SnCore:MenuItem><SnCore:MenuItem 
           runat="server" ID="menuInvite" CssClass="sncore_menu_item"
@@ -86,6 +85,7 @@
           runat="server" ID="menuHelp" Text="help" NavigateUrl="Help.aspx">
           <Highlights>
            <asp:ListItem>/About.aspx</asp:ListItem>
+           <asp:ListItem>/Bug.*</asp:ListItem>
           </Highlights>
           </SnCore:MenuItem>
         </asp:Panel>
