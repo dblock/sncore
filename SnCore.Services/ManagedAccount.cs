@@ -1019,7 +1019,7 @@ namespace SnCore.Services
             AccountOpenId o = (AccountOpenId)session.CreateCriteria(typeof(AccountOpenId))
                     .Add(Expression.Eq("IdentityUrl", consumerid.ToString()))
                     .UniqueResult();
-
+                
             if (o == null)
             {
                 throw new SoapException(
