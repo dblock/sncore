@@ -99,10 +99,20 @@ public partial class NoticeControl : Control
             if (colon >= 0) message = message.Substring(colon + 1);
 #endif
 
-            string reportbugurl =
-                string.Format("BugEdit.aspx?pid={0}&type=Bug",
-                    SystemService.GetConfigurationByNameWithDefault(
-                        "SnCore.Bug.ProjectId", "0").Value);
+            string reportbugurl;
+            if (SessionManager.IsLoggedIn)
+            {
+                reportbugurl =
+                    string.Format("BugEdit.aspx?pid={0}&type=Bug",
+                        SystemService.GetConfigurationByNameWithDefault(
+                            "SnCore.Bug.ProjectId", "0").Value);
+            }
+            else
+            {
+                reportbugurl = string.Format("mailto:{0}",
+                        SystemService.GetConfigurationByNameWithDefault(
+                            "SnCore.Admin.EmailAddress", "admin@localhost.com").Value);
+            }
 
             Message = string.Format("{0}<br>This may be a bug. If you believe that you should not be getting this error, " + 
                 "please <a href='{1}'>click here</a> to report it.", message, reportbugurl);

@@ -16,49 +16,19 @@ public partial class AccountCreate : Page
     {
         try
         {
-            SetDefaultButton(inputLogin);
+            SetDefaultButton(inputCreate);
 
             if (!IsPostBack)
             {
+                if (!string.IsNullOrEmpty(Request["betapassword"]))
+                    inputBetaPassword.Attributes["value"] = Request["betapassword"];
+
+                panelBeta.Visible = AccountService.IsBetaPasswordSet();
+
                 linkAdministrator.OnClientClick =
                     string.Format("location.href='mailto:{0}';",
                         SystemService.GetConfigurationByNameWithDefault(
                             "SnCore.Admin.EmailAddress", "admin@localhost.com").Value);
-
-                ArrayList countries = new ArrayList();
-                countries.Add(new TransitCountry());
-                countries.AddRange(LocationService.GetCountries());
-
-                ArrayList states = new ArrayList();
-                states.Add(new TransitState());
-
-                inputCountry.DataSource = countries;
-                inputCountry.DataBind();
-
-                inputState.DataSource = states;
-                inputState.DataBind();
-
-                string openidmode = Request["openid.mode"];
-                if (!string.IsNullOrEmpty(openidmode))
-                {
-                    string consumerurl = AccountService.VerifyOpenId(SessionManager.OpenIdToken, Request.Params);
-
-                    TransitAccount ta = new TransitAccount();
-                    ta.Name = Request.Cookies["SnCore.AccountCreate.Name"].Value;
-                    ta.Country = Request.Cookies["SnCore.AccountCreate.Country"].Value;
-                    ta.City = Request.Cookies["SnCore.AccountCreate.City"].Value;
-                    ta.State = Request.Cookies["SnCore.AccountCreate.State"].Value;
-                    ta.Birthday = DateTime.Parse(Request.Cookies["SnCore.AccountCreate.Birthday"].Value);
-
-                    int id = AccountService.CreateAccountWithOpenId(
-                        Request.Cookies["SnCore.AccountCreate.BetaPassword"].Value, 
-                        consumerurl, 
-                        ta);
-
-                    string ticket = FormsAuthentication.GetAuthCookie(id.ToString(), false).Value;
-                    SessionManager.Login(ticket, false);
-                    Redirect("Default.aspx");
-                }
             }
         }
         catch (Exception ex)
@@ -71,20 +41,9 @@ public partial class AccountCreate : Page
     {
         try
         {
-            if (!string.IsNullOrEmpty(inputOpenId.Text))
-            {
-                // url root needs to be a case-sensitive match for the openid server trust
-                TransitOpenIdRedirect redirect = AccountService.GetOpenIdRedirect(inputOpenId.Text, Request.Url.ToString());
-                SessionManager.OpenIdToken = redirect.Token;
-                Response.Cookies.Add(new HttpCookie("SnCore.AccountCreate.Name", inputName.Text));
-                Response.Cookies.Add(new HttpCookie("SnCore.AccountCreate.Country", inputCountry.Text));
-                Response.Cookies.Add(new HttpCookie("SnCore.AccountCreate.City", inputCity.Text));
-                Response.Cookies.Add(new HttpCookie("SnCore.AccountCreate.State", inputState.Text));
-                Response.Cookies.Add(new HttpCookie("SnCore.AccountCreate.Birthday", inputBirthday.SelectedDate.ToString()));
-                Response.Cookies.Add(new HttpCookie("SnCore.AccountCreate.BetaPassword", inputBetaPassword.Text.ToString()));
-                Redirect(redirect.Url);
-                return;
-            }
+            inputBetaPassword.Attributes["value"] = inputBetaPassword.Text;
+            inputPassword.Attributes["value"] = inputPassword.Text;
+            inputPassword2.Attributes["value"] = inputPassword2.Text;
 
             if (inputPassword.Text != inputPassword2.Text)
             {
@@ -93,9 +52,6 @@ public partial class AccountCreate : Page
 
             TransitAccount ta = new TransitAccount();
             ta.Name = inputName.Text;
-            ta.Country = inputCountry.SelectedValue;
-            ta.City = inputCity.Text;
-            ta.State = inputState.SelectedValue;
             ta.Birthday = inputBirthday.SelectedDate;
 
             // check whether there's already an account with the same e-mail and password
@@ -133,27 +89,6 @@ public partial class AccountCreate : Page
 
                 panelCreate.Visible = false;
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
-    }
-
-    public void inputCountry_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        try
-        {
-            inputPassword.Attributes.Add("value", inputPassword.Text);
-            inputPassword2.Attributes.Add("value", inputPassword2.Text);
-            inputBetaPassword.Attributes.Add("value", inputBetaPassword.Text);
-
-            ArrayList states = new ArrayList();
-            states.Add(new TransitState());
-            states.AddRange(LocationService.GetStatesByCountry(inputCountry.SelectedValue));
-
-            inputState.DataSource = states;
-            inputState.DataBind();
         }
         catch (Exception ex)
         {

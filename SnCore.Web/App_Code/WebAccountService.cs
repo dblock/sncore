@@ -31,6 +31,41 @@ namespace SnCore.WebServices
 
         }
 
+
+        /// <summary>
+        /// Verify beta password.
+        /// </summary>
+        /// <param name="password">password</param>
+        [WebMethod(Description = "Verify beta password.")]
+        public void VerifyBetaPassword(string betapassword)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                string s = ManagedConfiguration.GetValue(session, "SnCore.Beta.Password", string.Empty);
+                if (s != betapassword)
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Check whether a beta password is set.
+        /// </summary>
+        [WebMethod(Description = "Check whether a beta password is set.", CacheDuration=60)]
+        public bool IsBetaPasswordSet()
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                string s = ManagedConfiguration.GetValue(session, "SnCore.Beta.Password", string.Empty);
+                return ! string.IsNullOrEmpty(s);
+            }
+        }
+
         /// <summary>
         /// Create an account.
         /// </summary>

@@ -63,6 +63,16 @@ public partial class SelectDateControl : System.Web.UI.UserControl
         base.OnPreRender(e);
     }
 
+    public bool HasDate
+    {
+        get
+        {
+            return (!string.IsNullOrEmpty(selectdateYear.SelectedValue)
+                    && !string.IsNullOrEmpty(selectdateMonth.SelectedValue)
+                    && !string.IsNullOrEmpty(selectdateDay.SelectedValue));
+        }
+    }
+
     public DateTime SelectedDate
     {
         get
