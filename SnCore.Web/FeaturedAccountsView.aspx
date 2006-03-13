@@ -1,5 +1,5 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true"
- CodeFile="FeaturedAccountsView.aspx.cs" Inherits="FeaturedAccountsView" Title="Featured Accounts" %>
+ CodeFile="FeaturedAccountsView.aspx.cs" Inherits="FeaturedAccountsView" Title="Featured People" %>
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
