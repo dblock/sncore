@@ -423,6 +423,40 @@ namespace SnCore.WebServices
             }
         }
 
+        /// <summary>
+        /// Get recent discussion posts.
+        /// </summary>
+        /// <param name="id">discussion id</param>
+        /// <returns></returns>
+        [WebMethod(Description = "Get recent discussion posts.", CacheDuration = 60)]
+        public List<TransitDiscussionPost> GetLatestDiscussionPostsById(int id, ServiceQueryOptions options)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                IQuery query = session.CreateQuery(string.Format(
+                    "from DiscussionPost post" +
+                    " where post.DiscussionThread.Discussion.Id = {0}" +
+                    " order by post.Created desc", id));
+
+                if (options != null)
+                {
+                    if (options.FirstResult > 0) query.SetFirstResult(options.FirstResult);
+                    if (options.PageSize > 0) query.SetMaxResults(options.PageSize);
+                }
+
+                IList posts = query.List();
+
+                List<TransitDiscussionPost> result = new List<TransitDiscussionPost>(posts.Count);
+                foreach (DiscussionPost post in posts)
+                {
+                    result.Add(new ManagedDiscussionPost(session, post).GetTransitDiscussionPost());
+                }
+
+                return result;
+            }
+        }
 
         /// <summary>
         /// Delete a discussion post.
