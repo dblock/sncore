@@ -5,7 +5,6 @@
 <table cellpadding="0" cellspacing="0" class="sncore_half_inner_table">
  <tr>
   <td>
-   <link rel="alternate" type="application/rss+xml" title="Rss" href="FeedsRss.aspx" />
    <div class="sncore_h2">
     Latest Forum Posts
    </div>
