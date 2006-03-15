@@ -483,12 +483,11 @@ public class SessionManager
         }
     }
 
-    static Regex EncodedCommentExpression = new Regex(@"^\&gt;(.*)", RegexOptions.Multiline);
     static Regex CommentExpression = new Regex(@"^>(.*)", RegexOptions.Multiline);
 
     private string CommentHandler(Match ParameterMatch)
     {
-        return "<div class='sncore_post_quote'>" + ParameterMatch.Value + "</div>";
+        return "<span class='sncore_post_quote'>" + ParameterMatch.Value + "</span>";
     }
 
     private string DeleteCommentHandler(Match ParameterMatch)
@@ -533,10 +532,16 @@ public class SessionManager
         return MarkupExpression.Replace(s, mhd);
     }
 
+    public string RenderComments(object s)
+    {
+        if (s == null) return string.Empty;
+        return RenderComments(s.ToString());
+    }
+
     public string RenderComments(string s)
     {
         MatchEvaluator mev = new MatchEvaluator(CommentHandler);
-        return EncodedCommentExpression.Replace(s, mev);
+        return CommentExpression.Replace(s, mev);
     }
 
     public string DeleteComments(string s)

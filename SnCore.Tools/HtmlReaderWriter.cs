@@ -92,7 +92,7 @@ namespace HtmlCleaner
         /// Specify which attributes are allowed. Any other attribute will be discarded
         /// </summary>
         public string[] AllowedAttributes = new string[] { "href", "target", 
-			"border", "src", "align", "width", "height", "color", "size" };
+			"border", "src", "align", "width", "height", "color", "size", "class" };
 
         public HtmlWriter(TextWriter writer)
             : base(writer)

@@ -42,7 +42,7 @@ public partial class SearchDiscussionPostsControl : Control
 
     public new string RenderEx(object s)
     {
-        return SessionManager.RenderComments(base.RenderEx(s));
+        return base.RenderEx(SessionManager.RenderComments(s));
     }
 
     public void GetResults()

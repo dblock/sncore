@@ -82,7 +82,7 @@ public partial class DiscussionPostNew : AuthenticatedPage
                     panelReplyTo.Visible = true;
                     accountlink.HRef = "AccountView.aspx?id=" + rp.AccountId.ToString();
                     replytoAccount.Text = Renderer.Render(rp.AccountName);
-                    replyToBody.Text = SessionManager.RenderComments(RenderEx(rp.Body));
+                    replyToBody.Text = base.RenderEx(SessionManager.RenderComments(rp.Body));
                     replytoCreated.Text = rp.Created.ToString();
                     replytoImage.ImageUrl = "AccountPictureThumbnail.aspx?id=" + rp.AccountPictureId.ToString();
                     replytoSubject.Text = Renderer.Render(rp.Subject);
