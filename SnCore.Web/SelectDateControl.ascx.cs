@@ -16,7 +16,7 @@ public partial class SelectDateControl : System.Web.UI.UserControl
     protected override void OnInit(EventArgs e)
     {        
         selectdateYear.Items.Add(new ListItem());
-        for (int i = 1905; i <= DateTime.Now.Year; i++)
+        for (int i = DateTime.Now.Year; i >= DateTime.Now.Year - 120; i--)
         {
             selectdateYear.Items.Add(new ListItem(i.ToString(), i.ToString()));
         }
