@@ -20,6 +20,15 @@
     </td>
    </tr>
    <tr>
+    <td>
+    </td>
+    <td>
+     <div class="sncore_description">
+      use your e-mail address to login, it will not be published to other users
+     </div>
+    </td>
+   </tr>
+   <tr>
     <td class="sncore_form_label">
      your name:
     </td>
@@ -60,20 +69,12 @@
     </td>
    </tr>
    <tr>
-    <td class="sncore_form_label">
-     city:</td>
-    <td class="sncore_form_value">
-     <asp:TextBox CssClass="sncore_form_textbox" ID="inputCity" runat="server" /></td>
-   </tr>
-   <tr>
-    <td class="sncore_form_label">
-     country and state:</td>
-    <td class="sncore_form_value">
-     <asp:DropDownList AutoPostBack="true" OnSelectedIndexChanged="inputCountry_SelectedIndexChanged"
-      CssClass="sncore_form_dropdown_small" ID="inputCountry" DataTextField="Name"
-      DataValueField="Name" runat="server" />
-     <asp:DropDownList CssClass="sncore_form_dropdown_small" ID="inputState" DataTextField="Name"
-      DataValueField="Name" runat="server" />
+    <td>
+    </td>
+    <td>
+     <div class="sncore_description">
+      your birthday is required for your protection when resetting your password
+     </div>
     </td>
    </tr>
    <tr>

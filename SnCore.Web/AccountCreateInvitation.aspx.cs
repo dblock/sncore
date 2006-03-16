@@ -21,19 +21,6 @@ public partial class AccountCreateInvitation : Page
 
             if (!IsPostBack)
             {
-                ArrayList countries = new ArrayList();
-                countries.Add(new TransitCountry());
-                countries.AddRange(LocationService.GetCountries());
-
-                ArrayList states = new ArrayList();
-                states.Add(new TransitState());
-
-                inputCountry.DataSource = countries;
-                inputCountry.DataBind();
-
-                inputState.DataSource = states;
-                inputState.DataBind();
-
                 TransitAccountInvitation invitation = AccountService.GetAccountInvitationById(
                     SessionManager.Ticket, RequestId);
 
@@ -57,9 +44,6 @@ public partial class AccountCreateInvitation : Page
 
             TransitAccount ta = new TransitAccount();
             ta.Name = inputName.Text;
-            ta.Country = inputCountry.SelectedValue;
-            ta.City = inputCity.Text;
-            ta.State = inputState.SelectedValue;
             ta.Birthday = inputBirthday.SelectedDate;
 
             AccountService.CreateAccountInvitation(
@@ -74,26 +58,6 @@ public partial class AccountCreateInvitation : Page
             string ticket = AccountService.Login(inputEmailAddress.Text, inputPassword.Text);
             SessionManager.Login(ticket, false);
             Redirect("Default.aspx");
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
-    }
-
-    public void inputCountry_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        try
-        {
-            inputPassword.Attributes.Add("value", inputPassword.Text);
-            inputPassword2.Attributes.Add("value", inputPassword2.Text);
-
-            ArrayList states = new ArrayList();
-            states.Add(new TransitState());
-            states.AddRange(LocationService.GetStatesByCountry(inputCountry.SelectedValue));
-
-            inputState.DataSource = states;
-            inputState.DataBind();
         }
         catch (Exception ex)
         {
