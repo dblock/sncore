@@ -192,9 +192,29 @@ public partial class PlaceView : Page
                 {
                     linkPlace.Text = placeName.Text = Renderer.Render(Request.QueryString["name"]);
                     TransitCity city = LocationService.GetCityByTag(Request.QueryString["city"]);
-                    linkCity.Text = placeCity.Text = Renderer.Render(city.Name);
-                    linkState.Text = placeState.Text = Renderer.Render(city.State);
-                    linkCountry.Text = placeCountry.Text = Renderer.Render(city.Country);
+                    if (city != null)
+                    {
+                        linkCity.Text = placeCity.Text = Renderer.Render(city.Name);
+                        linkState.Text = placeState.Text = Renderer.Render(city.State);
+                        linkCountry.Text = placeCountry.Text = Renderer.Render(city.Country);
+
+                        linkCity.NavigateUrl = string.Format("PlacesView.aspx?city={0}&state={1}&country={2}",
+                            Renderer.UrlEncode(city.Name),
+                            Renderer.UrlEncode(city.State),
+                            Renderer.UrlEncode(city.Country));
+
+                        linkState.NavigateUrl = string.Format("PlacesView.aspx?state={0}&country={1}",
+                            Renderer.UrlEncode(city.State),
+                            Renderer.UrlEncode(city.Country));
+
+                        linkCountry.NavigateUrl = string.Format("PlacesView.aspx?country={0}",
+                            Renderer.UrlEncode(city.Country));
+                    }
+                    else
+                    {
+                        linkCity.Text = Request.QueryString["city"];
+                    }
+
                     panelViews.Visible = false;
                     panelDetails.Visible = false;
                     panelSubmit.Visible = true;
@@ -202,18 +222,6 @@ public partial class PlaceView : Page
                     panelAddress.Visible = false;
                     discussionPlaces.Visible = false;
                     linkEdit.NavigateUrl = string.Format("PlaceEdit.aspx?{0}", Request.QueryString.ToString());
-
-                    linkCity.NavigateUrl = string.Format("PlacesView.aspx?city={0}&state={1}&country={2}",
-                        Renderer.UrlEncode(city.Name),
-                        Renderer.UrlEncode(city.State),
-                        Renderer.UrlEncode(city.Country));
-
-                    linkState.NavigateUrl = string.Format("PlacesView.aspx?state={0}&country={1}",
-                        Renderer.UrlEncode(city.State),
-                        Renderer.UrlEncode(city.Country));
-
-                    linkCountry.NavigateUrl = string.Format("PlacesView.aspx?country={0}",
-                        Renderer.UrlEncode(city.Country));
                 }
             }
         }

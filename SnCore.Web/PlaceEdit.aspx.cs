@@ -104,7 +104,14 @@ public partial class PlaceEdit : AuthenticatedPage
                     if (!string.IsNullOrEmpty(city))
                     {
                         TransitCity t_city = LocationService.GetCityByTag(city);
-                        SelectLocation(sender, new SelectLocationEventArgs(t_city));
+                        if (t_city != null)
+                        {
+                            SelectLocation(sender, new SelectLocationEventArgs(t_city));
+                        }
+                        else
+                        {
+                            inputCity.Text = city;
+                        }
                     }
                     else
                     {

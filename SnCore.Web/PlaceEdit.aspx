@@ -7,7 +7,7 @@
  <div class="sncore_navigate">
   <asp:HyperLink CssClass="sncore_navigate_item" ID="linkPlaces" NavigateUrl="PlacesManage.aspx"
    Text="Places" runat="server" />
-  <asp:Label CssClass="sncore_navigate_item" ID="linkPlaceId" Text="Place" runat="server" />
+  <asp:Label CssClass="sncore_navigate_item" ID="linkPlaceId" runat="server" />
  </div>
  <table class="sncore_inner_table">
   <tr>

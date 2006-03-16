@@ -8,11 +8,11 @@
 <%@ Register TagPrefix="SnCore" TagName="BookmarksView" Src="BookmarksViewControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <div class="sncore_navigate">
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkCountry" Text="Country" runat="server" />
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkState" Text="State" runat="server" />
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkCity" Text="City" runat="server" />
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkType" Text="" runat="server" />
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkPlace" Text="Place" runat="server" />
+  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkCountry" runat="server" />
+  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkState" runat="server" />
+  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkCity" runat="server" />
+  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkType" runat="server" />
+  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkPlace" runat="server" />
  </div>
  <asp:Panel CssClass="panel" ID="pnlPlace" runat="server">
   <table cellspacing="0" cellpadding="4" class="sncore_table">
