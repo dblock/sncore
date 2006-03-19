@@ -97,6 +97,7 @@ public partial class AccountView : Page
                 websitesView.AccountId = AccountId;
                 storiesView.AccountId = AccountId;
                 feedsView.AccountId = AccountId;
+                blogsView.AccountId = AccountId;
 
                 if (Account == null)
                 {

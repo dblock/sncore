@@ -3,7 +3,7 @@
     <ProjectType>Local</ProjectType>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1F9C0442-E7B5-4CCC-93ED-A0599CF1AA57}</ProjectGuid>
+    <ProjectGuid>{78d2ec3d-3e2d-4528-8df1-a3415eaba77b}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>
@@ -92,6 +92,15 @@
     <Compile Include="AccountAddress.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AccountBlog.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AccountBlogAuthor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AccountBlogPost.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="AccountEmail.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -141,9 +150,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AccountProfile.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="AccountRight.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AccountStory.cs">
@@ -259,6 +265,9 @@
     </Compile>
     <EmbeddedResource Include="Account.hbm.xml" />
     <EmbeddedResource Include="AccountAddress.hbm.xml" />
+    <EmbeddedResource Include="AccountBlog.hbm.xml" />
+    <EmbeddedResource Include="AccountBlogAuthor.hbm.xml" />
+    <EmbeddedResource Include="AccountBlogPost.hbm.xml" />
     <EmbeddedResource Include="AccountEmail.hbm.xml" />
     <EmbeddedResource Include="AccountEmailConfirmation.hbm.xml" />
     <EmbeddedResource Include="AccountEmailMessage.hbm.xml" />
@@ -276,7 +285,6 @@
     <EmbeddedResource Include="AccountPlaceRequest.hbm.xml" />
     <EmbeddedResource Include="AccountPlaceType.hbm.xml" />
     <EmbeddedResource Include="AccountProfile.hbm.xml" />
-    <EmbeddedResource Include="AccountRight.hbm.xml" />
     <EmbeddedResource Include="AccountStory.hbm.xml" />
     <EmbeddedResource Include="AccountStoryPicture.hbm.xml" />
     <EmbeddedResource Include="AccountSurveyAnswer.hbm.xml" />

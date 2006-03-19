@@ -102,7 +102,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AccountPictureTest.cs" />
-    <Compile Include="AccountRightsTest.cs" />
     <Compile Include="AccountTest.cs">
       <SubType>Code</SubType>
     </Compile>

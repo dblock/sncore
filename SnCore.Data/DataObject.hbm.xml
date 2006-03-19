@@ -5,10 +5,6 @@
       <generator class="identity" />
     </id>
     <property name="Name" column="Name" type="String" />
-    <bag lazy="true" name="AccountRights" inverse="true">
-      <key column="DataObject_Id" />
-      <one-to-many class="AccountRight, SnCore.Data" />
-    </bag>
     <bag lazy="true" name="Reminders" inverse="true">
       <key column="DataObject_Id" />
       <one-to-many class="Reminder, SnCore.Data" />

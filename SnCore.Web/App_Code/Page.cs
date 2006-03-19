@@ -150,6 +150,14 @@ public class Page : System.Web.UI.Page
         }
     }
 
+    public WebBlogService BlogService
+    {
+        get
+        {
+            return SessionManager.BlogService;
+        }
+    }
+
     protected SessionManager SessionManager
     {
         get

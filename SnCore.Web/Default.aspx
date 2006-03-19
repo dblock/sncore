@@ -17,6 +17,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountFeaturedView" Src="AccountFeaturedViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="PlaceFeaturedView" Src="PlaceFeaturedViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountFeedFeaturedView" Src="AccountFeedFeaturedViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="BlogView" Src="AccountBlogViewControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <SnCore:AccountReminder ID="accountreminder" runat="server" />
  <table width="100%" cellpadding="0" cellspacing="0">
@@ -30,6 +31,7 @@
      </tr>
     </table>
     <SnCore:SearchDefault runat="server" ID="searchDefault" />
+    <SnCore:BlogView ID="websiteBlog" runat="server" />
     <SnCore:AccountFeaturedView ID="accountFeatured" runat="server" />
     <SnCore:PlaceFeaturedView ID="PlaceFeaturedView" runat="server" />
     <SnCore:TagWordsView ID="tagwordsView" runat="server" Count="100" />

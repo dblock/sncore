@@ -133,6 +133,14 @@ public class Control : System.Web.UI.UserControl
         }
     }
 
+    public WebBlogService BlogService
+    {
+        get
+        {
+            return SessionManager.BlogService;
+        }
+    }
+
     protected SessionManager SessionManager
     {
         get

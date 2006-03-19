@@ -32,11 +32,13 @@
             <asp:ListItem>/AccountStor.*View.aspx</asp:ListItem>
             <asp:ListItem>/AccountFriendsView.aspx</asp:ListItem>
             <asp:ListItem>/AccountFeed.*.aspx</asp:ListItem>
+            <asp:ListItem>/AccountBlog.*.aspx</asp:ListItem>
            </Downlights>
           </SnCore:MenuItem><SnCore:MenuItem 
           runat="server" ID="menuFeeds" Text="feeds" NavigateUrl="AccountFeedItemsView.aspx">
            <Highlights>
             <asp:ListItem>/AccountFeed.*.aspx</asp:ListItem>
+            <asp:ListItem>/AccountBlog.*.aspx</asp:ListItem>
            </Highlights>
            <Downlights>
             <asp:ListItem>/AccountFeedsManage.aspx</asp:ListItem>        

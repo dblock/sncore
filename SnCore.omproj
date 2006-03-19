@@ -4,7 +4,7 @@
   <MetaData />
   <Resources>
     <Resource>
-      <FilePath>C:\source\SnCore\main\src\SnCore.Data\SnCore.npersist</FilePath>
+      <FilePath>C:\source\sncore\SnCore.Data\SnCore.npersist</FilePath>
       <HintPath>SnCore.Data\SnCore.npersist</HintPath>
       <Name>SnCore.Data</Name>
       <ResourceType>XmlDomainMap</ResourceType>
@@ -16,7 +16,7 @@
           <ClassesToCodeConfig>
             <Name />
             <MetaData />
-            <TargetFolder>C:\source\SnCore\main\src\SnCore.Data</TargetFolder>
+            <TargetFolder>C:\source\sncore\SnCore.Data</TargetFolder>
             <ImplementIInterceptable>false</ImplementIInterceptable>
             <ImplementIObjectHelper>false</ImplementIObjectHelper>
             <ImplementIObservable>false</ImplementIObservable>
@@ -39,1030 +39,1066 @@
             <EmbedXml>false</EmbedXml>
             <SourceCodeFiles>
               <SourceCodeFile>
-                <Name>AccountProfile.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountProfile.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>AccountProfile</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:54.7983664-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
                 <Name>Account.cs</Name>
                 <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\Account.cs</FilePath>
+                <FilePath>C:\source\sncore\SnCore.Data\Account.cs</FilePath>
                 <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
                 <MapObjectName>Account</MapObjectName>
                 <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:54.1774736-05:00</LastWrittenTo>
+                <LastWrittenTo>2006-03-19T10:17:32.8488256-05:00</LastWrittenTo>
               </SourceCodeFile>
               <SourceCodeFile>
                 <Name>AccountAddress.cs</Name>
                 <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountAddress.cs</FilePath>
+                <FilePath>C:\source\sncore\SnCore.Data\AccountAddress.cs</FilePath>
                 <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
                 <MapObjectName>AccountAddress</MapObjectName>
                 <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:54.2175312-05:00</LastWrittenTo>
+                <LastWrittenTo>2006-03-19T10:17:32.8888832-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountBlog.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountBlog.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>AccountBlog</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:32.8888832-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountBlogAuthor.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountBlogAuthor.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>AccountBlogAuthor</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:32.8988976-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountBlogPost.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountBlogPost.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>AccountBlogPost</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:32.8988976-05:00</LastWrittenTo>
               </SourceCodeFile>
               <SourceCodeFile>
                 <Name>AccountEmail.cs</Name>
                 <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountEmail.cs</FilePath>
+                <FilePath>C:\source\sncore\SnCore.Data\AccountEmail.cs</FilePath>
                 <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
                 <MapObjectName>AccountEmail</MapObjectName>
                 <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:54.2575888-05:00</LastWrittenTo>
+                <LastWrittenTo>2006-03-19T10:17:32.9289408-05:00</LastWrittenTo>
               </SourceCodeFile>
               <SourceCodeFile>
                 <Name>AccountEmailConfirmation.cs</Name>
                 <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountEmailConfirmation.cs</FilePath>
+                <FilePath>C:\source\sncore\SnCore.Data\AccountEmailConfirmation.cs</FilePath>
                 <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
                 <MapObjectName>AccountEmailConfirmation</MapObjectName>
                 <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:54.2876320-05:00</LastWrittenTo>
+                <LastWrittenTo>2006-03-19T10:17:33.0691424-05:00</LastWrittenTo>
               </SourceCodeFile>
               <SourceCodeFile>
                 <Name>AccountEmailMessage.cs</Name>
                 <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountEmailMessage.cs</FilePath>
+                <FilePath>C:\source\sncore\SnCore.Data\AccountEmailMessage.cs</FilePath>
                 <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
                 <MapObjectName>AccountEmailMessage</MapObjectName>
                 <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:54.3176752-05:00</LastWrittenTo>
+                <LastWrittenTo>2006-03-19T10:17:33.1292288-05:00</LastWrittenTo>
               </SourceCodeFile>
               <SourceCodeFile>
                 <Name>AccountFeed.cs</Name>
                 <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountFeed.cs</FilePath>
+                <FilePath>C:\source\sncore\SnCore.Data\AccountFeed.cs</FilePath>
                 <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
                 <MapObjectName>AccountFeed</MapObjectName>
                 <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:54.3677472-05:00</LastWrittenTo>
+                <LastWrittenTo>2006-03-19T10:17:33.2093440-05:00</LastWrittenTo>
               </SourceCodeFile>
               <SourceCodeFile>
                 <Name>AccountFeedItem.cs</Name>
                 <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountFeedItem.cs</FilePath>
+                <FilePath>C:\source\sncore\SnCore.Data\AccountFeedItem.cs</FilePath>
                 <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
                 <MapObjectName>AccountFeedItem</MapObjectName>
                 <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:54.4278336-05:00</LastWrittenTo>
+                <LastWrittenTo>2006-03-19T10:17:33.2293728-05:00</LastWrittenTo>
               </SourceCodeFile>
               <SourceCodeFile>
                 <Name>AccountFriend.cs</Name>
                 <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountFriend.cs</FilePath>
+                <FilePath>C:\source\sncore\SnCore.Data\AccountFriend.cs</FilePath>
                 <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
                 <MapObjectName>AccountFriend</MapObjectName>
                 <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:54.4478624-05:00</LastWrittenTo>
+                <LastWrittenTo>2006-03-19T10:17:33.4897472-05:00</LastWrittenTo>
               </SourceCodeFile>
               <SourceCodeFile>
                 <Name>AccountFriendRequest.cs</Name>
                 <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountFriendRequest.cs</FilePath>
+                <FilePath>C:\source\sncore\SnCore.Data\AccountFriendRequest.cs</FilePath>
                 <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
                 <MapObjectName>AccountFriendRequest</MapObjectName>
                 <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:54.4879200-05:00</LastWrittenTo>
+                <LastWrittenTo>2006-03-19T10:17:33.5298048-05:00</LastWrittenTo>
               </SourceCodeFile>
               <SourceCodeFile>
                 <Name>AccountInvitation.cs</Name>
                 <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountInvitation.cs</FilePath>
+                <FilePath>C:\source\sncore\SnCore.Data\AccountInvitation.cs</FilePath>
                 <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
                 <MapObjectName>AccountInvitation</MapObjectName>
                 <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:54.5179632-05:00</LastWrittenTo>
+                <LastWrittenTo>2006-03-19T10:17:33.5598480-05:00</LastWrittenTo>
               </SourceCodeFile>
               <SourceCodeFile>
                 <Name>AccountMessage.cs</Name>
                 <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountMessage.cs</FilePath>
+                <FilePath>C:\source\sncore\SnCore.Data\AccountMessage.cs</FilePath>
                 <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
                 <MapObjectName>AccountMessage</MapObjectName>
                 <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:54.5480064-05:00</LastWrittenTo>
+                <LastWrittenTo>2006-03-19T10:17:33.7601360-05:00</LastWrittenTo>
               </SourceCodeFile>
               <SourceCodeFile>
                 <Name>AccountMessageFolder.cs</Name>
                 <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountMessageFolder.cs</FilePath>
+                <FilePath>C:\source\sncore\SnCore.Data\AccountMessageFolder.cs</FilePath>
                 <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
                 <MapObjectName>AccountMessageFolder</MapObjectName>
                 <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:54.5880640-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>AccountPicture.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountPicture.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>AccountPicture</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:54.6281216-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>AccountRight.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountRight.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>AccountRight</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:54.8985104-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>AccountStory.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountStory.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>AccountStory</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:54.9385680-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>AccountStoryPicture.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountStoryPicture.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>AccountStoryPicture</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:54.9786256-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>AccountSurveyAnswer.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountSurveyAnswer.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>AccountSurveyAnswer</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:55.0086688-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>AccountWebsite.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountWebsite.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>AccountWebsite</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:55.0286976-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>Bug.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\Bug.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>Bug</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:55.1188272-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>BugLink.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\BugLink.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>BugLink</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:55.1688992-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>BugNote.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\BugNote.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>BugNote</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:55.1789136-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>BugPriority.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\BugPriority.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>BugPriority</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:55.2089568-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>BugProject.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\BugProject.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>BugProject</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:55.2490144-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>BugResolution.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\BugResolution.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>BugResolution</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:55.2790576-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>BugSeverity.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\BugSeverity.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>BugSeverity</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:55.3191152-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>BugStatu.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\BugStatu.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>BugStatu</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:55.3491584-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>BugType.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\BugType.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>BugType</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:55.4092448-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>Configuration.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\Configuration.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>Configuration</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:55.4893600-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>Country.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\Country.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>Country</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:55.5194032-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>DataObject.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\DataObject.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>DataObject</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:55.5294176-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>Discussion.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\Discussion.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>Discussion</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:55.5694752-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>DiscussionPost.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\DiscussionPost.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>DiscussionPost</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:55.6095328-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>DiscussionThread.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\DiscussionThread.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>DiscussionThread</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:55.6395760-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>FeedType.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\FeedType.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>FeedType</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:55.6696192-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>Picture.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\Picture.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>Picture</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:55.6896480-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>PictureType.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\PictureType.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>PictureType</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:55.7397200-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>Reminder.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\Reminder.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>Reminder</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:55.9600368-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>ReminderEvent.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\ReminderEvent.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>ReminderEvent</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:55.9900800-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>State.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\State.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>State</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:56.0201232-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>Survey.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\Survey.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>Survey</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:56.0601808-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>SurveyQuestion.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\SurveyQuestion.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>SurveyQuestion</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:56.1002384-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>TagWord.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\TagWord.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>TagWord</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:56.4407280-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>TagWordAccount.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\TagWordAccount.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>TagWordAccount</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:56.4707712-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>AssemblyInfo.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AssemblyInfo.cs</FilePath>
-                <MapObjectType />
-                <MapObjectName>AssemblyInfo</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:56.5208432-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>Account.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\Account.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.Account</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:57.5723552-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>AccountAddress.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountAddress.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.AccountAddress</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:58.0730752-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>AccountEmail.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountEmail.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.AccountEmail</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:58.1031184-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>AccountEmailConfirmation.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountEmailConfirmation.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.AccountEmailConfirmation</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:58.1331616-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>AccountEmailMessage.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountEmailMessage.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.AccountEmailMessage</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:58.1732192-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>AccountFeed.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountFeed.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.AccountFeed</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:58.2032624-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>AccountFeedItem.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountFeedItem.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.AccountFeedItem</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:58.2433200-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>AccountFriend.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountFriend.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.AccountFriend</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:58.2733632-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>AccountFriendRequest.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountFriendRequest.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.AccountFriendRequest</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:58.3034064-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>AccountInvitation.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountInvitation.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.AccountInvitation</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:58.3434640-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>AccountMessage.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountMessage.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.AccountMessage</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:58.3835216-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>AccountMessageFolder.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountMessageFolder.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.AccountMessageFolder</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:58.4636368-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>AccountPicture.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountPicture.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.AccountPicture</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:58.5036944-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>AccountProfile.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountProfile.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.AccountProfile</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:58.6739392-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>AccountRight.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountRight.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.AccountRight</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:58.7139968-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>AccountStory.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountStory.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.AccountStory</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:58.7640688-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>AccountStoryPicture.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountStoryPicture.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.AccountStoryPicture</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:58.7840976-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>AccountSurveyAnswer.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountSurveyAnswer.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.AccountSurveyAnswer</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:58.8141408-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>AccountWebsite.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountWebsite.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.AccountWebsite</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:58.8441840-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>Bug.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\Bug.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.Bug</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:58.9142848-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>BugLink.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\BugLink.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.BugLink</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:58.9443280-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>BugNote.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\BugNote.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.BugNote</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:58.9843856-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>BugPriority.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\BugPriority.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.BugPriority</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:59.0144288-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>BugProject.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\BugProject.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.BugProject</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:59.0544864-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>BugResolution.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\BugResolution.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.BugResolution</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:59.0845296-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>BugSeverity.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\BugSeverity.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.BugSeverity</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:59.1145728-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>BugStatu.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\BugStatu.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.BugStatu</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:59.1446160-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>BugType.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\BugType.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.BugType</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:59.1846736-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>Configuration.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\Configuration.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.Configuration</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:59.2547744-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>Country.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\Country.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.Country</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:59.2848176-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>DataObject.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\DataObject.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.DataObject</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:59.3148608-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>Discussion.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\Discussion.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.Discussion</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:59.3549184-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>DiscussionPost.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\DiscussionPost.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.DiscussionPost</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:59.3849616-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>DiscussionThread.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\DiscussionThread.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.DiscussionThread</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:59.4250192-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>FeedType.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\FeedType.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.FeedType</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:59.4550624-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>Picture.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\Picture.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.Picture</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:59.4851056-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>PictureType.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\PictureType.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.PictureType</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:59.5251632-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>Reminder.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\Reminder.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.Reminder</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:59.6954080-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>ReminderEvent.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\ReminderEvent.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.ReminderEvent</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:59.7254512-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>State.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\State.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.State</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:59.7655088-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>Survey.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\Survey.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.Survey</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:59.7955520-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>SurveyQuestion.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\SurveyQuestion.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.SurveyQuestion</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:59.8255952-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>TagWord.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\TagWord.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.TagWord</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:59.8556384-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>TagWordAccount.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\TagWordAccount.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.TagWordAccount</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:59.8856816-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>SnCore.Data.csproj</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\SnCore.Data.csproj</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.DomainMap</MapObjectType>
-                <MapObjectName>SnCore.Data</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:59.9758112-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>City.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\City.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>City</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:55.4493024-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>Place.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\Place.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>Place</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:55.7897920-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>PlaceType.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\PlaceType.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>PlaceType</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:55.9299936-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>City.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\City.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.City</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:59.2147168-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>Place.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\Place.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.Place</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:59.5552064-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>PlaceType.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\PlaceType.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.PlaceType</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:59.6653648-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>PlacePicture.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\PlacePicture.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>PlacePicture</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:55.8699072-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>PlacePicture.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\PlacePicture.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.PlacePicture</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:59.6253072-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>AccountPlace.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountPlace.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>AccountPlace</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:54.6581648-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>AccountPlaceType.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountPlaceType.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>AccountPlaceType</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:54.7783376-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>AccountPlace.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountPlace.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.AccountPlace</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:58.5437520-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>AccountPlaceType.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountPlaceType.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.AccountPlaceType</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:58.6438960-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>AccountPlaceRequest.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountPlaceRequest.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>AccountPlaceRequest</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:54.7382800-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>AccountPlaceRequest.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountPlaceRequest.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.AccountPlaceRequest</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:58.6138528-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>AccountPlaceFavorite.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountPlaceFavorite.cs</FilePath>
-                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>AccountPlaceFavorite</MapObjectName>
-                <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:54.6982224-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>AccountPlaceFavorite.hbm.xml</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountPlaceFavorite.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.AccountPlaceFavorite</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:58.5737952-05:00</LastWrittenTo>
+                <LastWrittenTo>2006-03-19T10:17:33.8402512-05:00</LastWrittenTo>
               </SourceCodeFile>
               <SourceCodeFile>
                 <Name>AccountOpenId.cs</Name>
                 <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountOpenId.cs</FilePath>
+                <FilePath>C:\source\sncore\SnCore.Data\AccountOpenId.cs</FilePath>
                 <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
                 <MapObjectName>AccountOpenId</MapObjectName>
                 <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:54.6181072-05:00</LastWrittenTo>
+                <LastWrittenTo>2006-03-19T10:17:33.8702944-05:00</LastWrittenTo>
               </SourceCodeFile>
               <SourceCodeFile>
-                <Name>AccountOpenId.hbm.xml</Name>
+                <Name>AccountPicture.cs</Name>
                 <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\AccountOpenId.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.AccountOpenId</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:58.4836656-05:00</LastWrittenTo>
-              </SourceCodeFile>
-              <SourceCodeFile>
-                <Name>PlaceName.cs</Name>
-                <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\PlaceName.cs</FilePath>
+                <FilePath>C:\source\sncore\SnCore.Data\AccountPicture.cs</FilePath>
                 <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
-                <MapObjectName>PlaceName</MapObjectName>
+                <MapObjectName>AccountPicture</MapObjectName>
                 <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:55.8498784-05:00</LastWrittenTo>
+                <LastWrittenTo>2006-03-19T10:17:33.9103520-05:00</LastWrittenTo>
               </SourceCodeFile>
               <SourceCodeFile>
-                <Name>PlaceName.hbm.xml</Name>
+                <Name>AccountPlace.cs</Name>
                 <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\PlaceName.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.PlaceName</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:59.5952640-05:00</LastWrittenTo>
+                <FilePath>C:\source\sncore\SnCore.Data\AccountPlace.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>AccountPlace</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:34.0805968-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountPlaceFavorite.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountPlaceFavorite.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>AccountPlaceFavorite</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:34.1006256-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountPlaceRequest.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountPlaceRequest.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>AccountPlaceRequest</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:34.1306688-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountPlaceType.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountPlaceType.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>AccountPlaceType</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:34.2007696-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountProfile.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountProfile.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>AccountProfile</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:34.3910432-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountStory.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountStory.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>AccountStory</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:34.4511296-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountStoryPicture.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountStoryPicture.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>AccountStoryPicture</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:34.4711584-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountSurveyAnswer.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountSurveyAnswer.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>AccountSurveyAnswer</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:34.5512736-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountWebsite.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountWebsite.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>AccountWebsite</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:34.7916192-05:00</LastWrittenTo>
               </SourceCodeFile>
               <SourceCodeFile>
                 <Name>Bookmark.cs</Name>
                 <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\Bookmark.cs</FilePath>
+                <FilePath>C:\source\sncore\SnCore.Data\Bookmark.cs</FilePath>
                 <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
                 <MapObjectName>Bookmark</MapObjectName>
                 <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:55.0687552-05:00</LastWrittenTo>
+                <LastWrittenTo>2006-03-19T10:17:34.8717344-05:00</LastWrittenTo>
               </SourceCodeFile>
               <SourceCodeFile>
-                <Name>Bookmark.hbm.xml</Name>
+                <Name>Bug.cs</Name>
                 <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\Bookmark.hbm.xml</FilePath>
-                <MapObjectType />
-                <MapObjectName>MapFile.Bookmark</MapObjectName>
-                <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:58.8842416-05:00</LastWrittenTo>
+                <FilePath>C:\source\sncore\SnCore.Data\Bug.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>Bug</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:34.9117920-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>BugLink.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\BugLink.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>BugLink</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:34.9318208-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>BugNote.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\BugNote.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>BugNote</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:34.9919072-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>BugPriority.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\BugPriority.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>BugPriority</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:35.1621520-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>BugProject.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\BugProject.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>BugProject</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:35.2222384-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>BugResolution.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\BugResolution.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>BugResolution</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:35.2422672-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>BugSeverity.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\BugSeverity.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>BugSeverity</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:35.3323968-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>BugStatu.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\BugStatu.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>BugStatu</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:35.6428432-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>BugType.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\BugType.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>BugType</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:35.6929152-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>City.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\City.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>City</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:35.7129440-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>Configuration.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\Configuration.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>Configuration</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:35.7429872-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>Country.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\Country.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>Country</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:35.9132320-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>DataObject.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\DataObject.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>DataObject</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:35.9833328-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>Discussion.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\Discussion.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>Discussion</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:36.0834768-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>DiscussionPost.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\DiscussionPost.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>DiscussionPost</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:36.1635920-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>DiscussionThread.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\DiscussionThread.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>DiscussionThread</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:36.2136640-05:00</LastWrittenTo>
               </SourceCodeFile>
               <SourceCodeFile>
                 <Name>Feature.cs</Name>
                 <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\Feature.cs</FilePath>
+                <FilePath>C:\source\sncore\SnCore.Data\Feature.cs</FilePath>
                 <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
                 <MapObjectName>Feature</MapObjectName>
                 <FileType>CSharp</FileType>
-                <LastWrittenTo>2006-03-08T16:10:56.5008144-05:00</LastWrittenTo>
+                <LastWrittenTo>2006-03-19T10:17:36.5741824-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>FeedType.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\FeedType.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>FeedType</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:36.6342688-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>Picture.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\Picture.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>Picture</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:36.6943552-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>PictureType.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\PictureType.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>PictureType</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:36.7444272-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>Place.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\Place.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>Place</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:36.9347008-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>PlaceName.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\PlaceName.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>PlaceName</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:36.9947872-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>PlacePicture.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\PlacePicture.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>PlacePicture</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:37.1149600-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>PlaceType.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\PlaceType.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>PlaceType</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:37.1349888-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>Reminder.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\Reminder.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>Reminder</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:37.2050896-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>ReminderEvent.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\ReminderEvent.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>ReminderEvent</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:37.2351328-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>State.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\State.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>State</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:37.4053776-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>Survey.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\Survey.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>Survey</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:37.4454352-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>SurveyQuestion.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\SurveyQuestion.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>SurveyQuestion</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:37.7658960-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>TagWord.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\TagWord.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>TagWord</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:37.8359968-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>TagWordAccount.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\TagWordAccount.cs</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.ClassMap</MapObjectType>
+                <MapObjectName>TagWordAccount</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:37.9261264-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AssemblyInfo.cs</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AssemblyInfo.cs</FilePath>
+                <MapObjectType />
+                <MapObjectName>AssemblyInfo</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:37.9461552-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>Account.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\Account.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.Account</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:37.9962272-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountAddress.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountAddress.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.AccountAddress</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.0062416-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountBlog.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountBlog.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.AccountBlog</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.0162560-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountBlogAuthor.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountBlogAuthor.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.AccountBlogAuthor</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.0162560-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountBlogPost.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountBlogPost.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.AccountBlogPost</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.0162560-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountEmail.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountEmail.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.AccountEmail</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.0262704-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountEmailConfirmation.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountEmailConfirmation.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.AccountEmailConfirmation</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.0262704-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountEmailMessage.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountEmailMessage.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.AccountEmailMessage</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.0262704-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountFeed.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountFeed.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.AccountFeed</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.0362848-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountFeedItem.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountFeedItem.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.AccountFeedItem</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.0362848-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountFriend.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountFriend.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.AccountFriend</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.0362848-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountFriendRequest.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountFriendRequest.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.AccountFriendRequest</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.0362848-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountInvitation.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountInvitation.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.AccountInvitation</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.0462992-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountMessage.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountMessage.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.AccountMessage</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.0462992-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountMessageFolder.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountMessageFolder.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.AccountMessageFolder</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.0462992-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountOpenId.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountOpenId.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.AccountOpenId</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.0563136-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountPicture.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountPicture.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.AccountPicture</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.0563136-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountPlace.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountPlace.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.AccountPlace</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.0563136-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountPlaceFavorite.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountPlaceFavorite.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.AccountPlaceFavorite</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.0663280-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountPlaceRequest.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountPlaceRequest.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.AccountPlaceRequest</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.0663280-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountPlaceType.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountPlaceType.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.AccountPlaceType</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.0663280-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountProfile.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountProfile.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.AccountProfile</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.0763424-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountStory.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountStory.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.AccountStory</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.0763424-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountStoryPicture.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountStoryPicture.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.AccountStoryPicture</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.0763424-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountSurveyAnswer.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountSurveyAnswer.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.AccountSurveyAnswer</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.0863568-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>AccountWebsite.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\AccountWebsite.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.AccountWebsite</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.0863568-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>Bookmark.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\Bookmark.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.Bookmark</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.0863568-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>Bug.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\Bug.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.Bug</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.0963712-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>BugLink.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\BugLink.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.BugLink</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.1264144-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>BugNote.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\BugNote.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.BugNote</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.1264144-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>BugPriority.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\BugPriority.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.BugPriority</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.1364288-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>BugProject.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\BugProject.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.BugProject</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.1364288-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>BugResolution.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\BugResolution.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.BugResolution</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.1364288-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>BugSeverity.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\BugSeverity.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.BugSeverity</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.1464432-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>BugStatu.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\BugStatu.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.BugStatu</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.1464432-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>BugType.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\BugType.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.BugType</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.1464432-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>City.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\City.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.City</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.1564576-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>Configuration.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\Configuration.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.Configuration</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.1564576-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>Country.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\Country.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.Country</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.1664720-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>DataObject.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\DataObject.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.DataObject</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.1664720-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>Discussion.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\Discussion.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.Discussion</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.1664720-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>DiscussionPost.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\DiscussionPost.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.DiscussionPost</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.1764864-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>DiscussionThread.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\DiscussionThread.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.DiscussionThread</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.1764864-05:00</LastWrittenTo>
               </SourceCodeFile>
               <SourceCodeFile>
                 <Name>Feature.hbm.xml</Name>
                 <MetaData />
-                <FilePath>C:\source\SnCore\main\src\SnCore.Data\Feature.hbm.xml</FilePath>
+                <FilePath>C:\source\sncore\SnCore.Data\Feature.hbm.xml</FilePath>
                 <MapObjectType />
                 <MapObjectName>MapFile.Feature</MapObjectName>
                 <FileType>Xml</FileType>
-                <LastWrittenTo>2006-03-08T16:10:59.9257392-05:00</LastWrittenTo>
+                <LastWrittenTo>2006-03-19T10:17:38.1764864-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>FeedType.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\FeedType.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.FeedType</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.1865008-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>Picture.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\Picture.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.Picture</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.1865008-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>PictureType.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\PictureType.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.PictureType</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.1865008-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>Place.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\Place.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.Place</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.1965152-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>PlaceName.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\PlaceName.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.PlaceName</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.1965152-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>PlacePicture.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\PlacePicture.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.PlacePicture</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.2165440-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>PlaceType.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\PlaceType.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.PlaceType</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.2265584-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>Reminder.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\Reminder.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.Reminder</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.2265584-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>ReminderEvent.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\ReminderEvent.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.ReminderEvent</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.2365728-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>State.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\State.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.State</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.2365728-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>Survey.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\Survey.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.Survey</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.2365728-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>SurveyQuestion.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\SurveyQuestion.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.SurveyQuestion</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.2465872-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>TagWord.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\TagWord.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.TagWord</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.2465872-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>TagWordAccount.hbm.xml</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\TagWordAccount.hbm.xml</FilePath>
+                <MapObjectType />
+                <MapObjectName>MapFile.TagWordAccount</MapObjectName>
+                <FileType>Xml</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.2465872-05:00</LastWrittenTo>
+              </SourceCodeFile>
+              <SourceCodeFile>
+                <Name>SnCore.Data.csproj</Name>
+                <MetaData />
+                <FilePath>C:\source\sncore\SnCore.Data\SnCore.Data.csproj</FilePath>
+                <MapObjectType>Puzzle.NPersist.Framework.Mapping.DomainMap</MapObjectType>
+                <MapObjectName>SnCore.Data</MapObjectName>
+                <FileType>CSharp</FileType>
+                <LastWrittenTo>2006-03-19T10:17:38.2566016-05:00</LastWrittenTo>
               </SourceCodeFile>
             </SourceCodeFiles>
             <PutAllClassesInOneFile>false</PutAllClassesInOneFile>

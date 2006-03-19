@@ -10,6 +10,7 @@
 <%@ Register TagPrefix="SnCore" TagName="WebsitesView" Src="AccountWebsitesViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="StoriesView" Src="AccountStoriesViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="FeedsView" Src="AccountFeedsViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="BlogsView" Src="AccountBlogsViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="ProfilesView" Src="AccountProfilesViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="PlacesView" Src="AccountPlacesViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="PlaceFavoritesView" Src="AccountPlaceFavoritesViewControl.ascx" %>
@@ -101,6 +102,7 @@
      <SnCore:FriendsView runat="server" ID="friendsView" />
      <SnCore:StoriesView runat="server" ID="storiesView" />
      <SnCore:PlaceFavoritesView runat="server" ID="placeFavoritesView" />
+     <SnCore:BlogsView runat="server" ID="blogsView" />
      <SnCore:FeedsView runat="server" ID="feedsView" />
      <SnCore:WebsitesView runat="server" ID="websitesView" />
      <SnCore:SurveysView runat="server" ID="surveysView" />

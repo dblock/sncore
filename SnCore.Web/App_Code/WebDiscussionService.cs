@@ -114,6 +114,24 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
+        /// Add or get the blog post discussion.
+        /// </summary>
+        /// <param name="accountblogpostid">blog post id</param>
+        [WebMethod(Description = "Add or get the blog post discussion.")]
+        public int GetAccountBlogPostDiscussionId(int id)
+        {
+            int accountid = 0;
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                AccountBlogPost i = (AccountBlogPost)session.Load(typeof(AccountBlogPost), id);
+                accountid = i.AccountBlog.Account.Id;
+            }
+
+            return GetDiscussionId(accountid, ManagedDiscussion.AccountBlogPostDiscussion, id, true);
+        }
+
+        /// <summary>
         /// Get a discussion id.
         /// </summary>
         /// <param name="accountid">account id</param>

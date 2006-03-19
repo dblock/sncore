@@ -17,7 +17,6 @@ using System;
         //Holds property values
         private System.Int32 m_Id;
         private System.String m_Name;
-        private System.Collections.IList m_AccountRights;
         private System.Collections.IList m_Reminders;
 
         //Public properties
@@ -66,37 +65,6 @@ using System;
             set
             {
                 m_Name = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent many-one reference property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts multiple references to objects of the type 'AccountRight'.
-        ///This property is part of a 'ManyToOne' relationship.
-        ///The data type for this property is 'System.Collections.IList'.
-        ///The inverse property for this property is 'AccountRight.DataObject'.
-        ///This property inherits its mapping information from its inverse property.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_AccountRights' that holds the value for this property is 'PrivateAccess'.
-        ///This property is marked as Read-Only.
-        ///
-        ///Mapping information:
-        ///This class maps to the 'AccountRight' table in the data source.
-        ///The property maps to the identity column 'DataObject_Id' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountRights
-        {
-            get
-            {
-                return m_AccountRights;
-            }
-            set
-            {
-                m_AccountRights = value;
             }
         }
 

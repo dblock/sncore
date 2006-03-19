@@ -8,6 +8,7 @@
 <%@ Register TagPrefix="SnCore" TagName="SearchPlaces" Src="SearchPlacesControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="SearchAccountStories" Src="SearchAccountStoriesControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="SearchAccountFeedItems" Src="SearchAccountFeedItemsControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="SearchAccountBlogPosts" Src="SearchAccountBlogPostsControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <div class="sncore_h2">
   Search
@@ -40,6 +41,7 @@
     | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkDiscussionPosts" Text="posts" runat="server" OnClick="linkDiscussionPosts_Click"/> 
     | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkAccountStories" Text="stories" runat="server" OnClick="linkAccountStories_Click"/> 
     | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkAccountFeedItems" Text="feeds" runat="server" OnClick="linkAccountFeedItems_Click"/> 
+    | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkAccountBlogPosts" Text="blogs" runat="server" OnClick="linkAccountBlogPosts_Click"/> 
    </td>
   </tr>
  </table>
@@ -58,6 +60,9 @@
   </asp:View>
   <asp:View runat="server" ID="viewAccountFeedItems">
    <SnCore:SearchAccountFeedItems id="searchAccountFeedItems" runat="server" />  
+  </asp:View>
+  <asp:View runat="server" ID="viewAccountBlogPosts">
+   <SnCore:SearchAccountBlogPosts id="searchAccountBlogPosts" runat="server" />  
   </asp:View>
  </asp:MultiView>
 </asp:Content>

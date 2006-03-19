@@ -28,10 +28,6 @@
       <key column="Account_Id" />
       <one-to-many class="AccountPicture, SnCore.Data" />
     </bag>
-    <bag lazy="true" name="AccountRights" inverse="true">
-      <key column="Account_Id" />
-      <one-to-many class="AccountRight, SnCore.Data" />
-    </bag>
     <bag lazy="true" name="AccountWebsites" inverse="true">
       <key column="Account_Id" />
       <one-to-many class="AccountWebsite, SnCore.Data" />
@@ -112,5 +108,14 @@
       <key column="Account_Id" />
       <one-to-many class="AccountOpenId, SnCore.Data" />
     </bag>
+    <bag lazy="true" name="AccountBlogAuthors" inverse="true">
+      <key column="Account_Id" />
+      <one-to-many class="AccountBlogAuthor, SnCore.Data" />
+    </bag>
+    <bag lazy="true" name="AccountBlogs" inverse="true">
+      <key column="Account_Id" />
+      <one-to-many class="AccountBlog, SnCore.Data" />
+    </bag>
+    <property name="IsAdministrator" column="IsAdministrator" type="Boolean" />
   </class>
 </hibernate-mapping>

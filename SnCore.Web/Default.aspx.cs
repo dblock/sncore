@@ -21,7 +21,11 @@ public partial class _Default : Page
                 labelDescription.Text = Renderer.Render(
                     SystemService.GetConfigurationByNameWithDefault(
                         "SnCore.Description", "SNCore description not set.").Value);
+                
                 accountsNewMain.DataBind();
+
+                websiteBlog.BlogId = int.Parse(SystemService.GetConfigurationByNameWithDefault(
+                        "SnCore.Blog.Id", "0").Value);
             }
         }
         catch (Exception ex)

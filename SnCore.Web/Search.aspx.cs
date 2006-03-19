@@ -31,6 +31,7 @@ public partial class Search : Page
             else if (searchDiscussionPosts.ResultsCount != 0) searchView.SetActiveView(viewDiscussionPosts);
             else if (searchAccountStories.ResultsCount != 0) searchView.SetActiveView(viewAccountStories);
             else if (searchAccountFeedItems.ResultsCount != 0) searchView.SetActiveView(viewAccountFeedItems);
+            else if (searchAccountBlogPosts.ResultsCount != 0) searchView.SetActiveView(viewAccountBlogPosts);
         }
 
         if (!IsPostBack)
@@ -40,6 +41,7 @@ public partial class Search : Page
             linkAccounts.Text = string.Format("{0} ({1})", linkAccounts.Text, searchAccounts.ResultsCount);
             linkDiscussionPosts.Text = string.Format("{0} ({1})", linkDiscussionPosts.Text, searchDiscussionPosts.ResultsCount);
             linkPlaces.Text = string.Format("{0} ({1})", linkPlaces.Text, searchPlaces.ResultsCount);
+            linkAccountBlogPosts.Text = string.Format("{0} ({1})", linkAccountBlogPosts.Text, searchAccountBlogPosts.ResultsCount);
         }
 
         linkAccounts.Enabled = !string.IsNullOrEmpty(SearchQuery) && !viewAccounts.Visible;
@@ -47,6 +49,7 @@ public partial class Search : Page
         linkAccountFeedItems.Enabled = !string.IsNullOrEmpty(SearchQuery) && !viewAccountFeedItems.Visible;
         linkDiscussionPosts.Enabled = !string.IsNullOrEmpty(SearchQuery) && !viewDiscussionPosts.Visible;
         linkPlaces.Enabled = !string.IsNullOrEmpty(SearchQuery) && !viewPlaces.Visible;
+        linkAccountBlogPosts.Enabled = !string.IsNullOrEmpty(SearchQuery) && !viewAccountBlogPosts.Visible;
 
         base.OnPreRender(e);
     }
@@ -90,6 +93,11 @@ public partial class Search : Page
     protected void linkAccountFeedItems_Click(object sender, EventArgs e)
     {
         searchView.SetActiveView(viewAccountFeedItems);
+    }
+
+    protected void linkAccountBlogPosts_Click(object sender, EventArgs e)
+    {
+        searchView.SetActiveView(viewAccountBlogPosts);
     }
 
     protected void linkPlaces_Click(object sender, EventArgs e)

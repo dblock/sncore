@@ -180,7 +180,7 @@ namespace SnCore.Services.Tests
                     o = (DataObject)dataobjects[0];
                 }
 
-                a.CreateAccountRight(o, new ManagedAccountRightBits(true));
+                a.PromoteAdministrator();
                 Session.Flush();
 
                 Account ar = (Account)Session.Load(typeof(Account), a.Id);

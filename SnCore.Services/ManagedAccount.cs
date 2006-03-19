@@ -326,8 +326,19 @@ namespace SnCore.Services
             City = a.City;
             UtcOffset = a.UtcOffset;
             Signature = a.Signature;
+            mIsAdministrator = a.IsAdministrator;
             // random picture from the account
             PictureId = ManagedService.GetRandomElementId(a.AccountPictures);
+        }
+
+        private bool mIsAdministrator = false;
+
+        public bool IsAdministrator
+        {
+            get
+            {
+                return mIsAdministrator;
+            }
         }
 
         private string mName = string.Empty;
@@ -663,6 +674,7 @@ namespace SnCore.Services
                 Session.Delete(string.Format("from AccountFriendRequest f where f.Account.Id = {0} or f.Keen.Id = {0}", Id));
                 Session.Delete(string.Format("from Feature f where f.DataObjectId = {0} AND f.DataRowId = {1}", 
                     ManagedDataObject.Find(Session, "Account"), Id));
+                Session.Delete(string.Format("from AccountBlogAuthor ba where ba.Account.Id = {0}", Id));
                 Session.Delete(mAccount);
                 t.Commit();
             }
@@ -1068,90 +1080,24 @@ namespace SnCore.Services
 
         public void PromoteAdministrator()
         {
-            DataObject o = (DataObject)Session.CreateCriteria(typeof(DataObject))
-                .Add(Expression.Eq("Name", typeof(Account).Name))
-                .UniqueResult();
-
-            if (o == null)
-            {
-                throw new InvalidProgramException();
-            }
-
-            CreateAccountRight(o, new ManagedAccountRightBits(true));
+            mAccount.IsAdministrator = true;
+            Session.Save(mAccount);
         }
 
         public void DemoteAdministrator()
         {
-            // an administrator has all access to the accounts table
-
-            if (mAccount.AccountRights == null)
+            if (! mAccount.IsAdministrator)
             {
-                throw new InvalidOperationException("Account does not have special permissions.");
+                throw new InvalidOperationException("Account does not have administrative permissions.");
             }
 
-            foreach (AccountRight r in mAccount.AccountRights)
-            {
-                if (r.DataObject.Name == typeof(Account).Name)
-                {
-                    if (r.AllowCreate
-                        && r.AllowDelete
-                        && r.AllowRetrieve
-                        && r.AllowUpdate)
-                    {
-                        mAccount.AccountRights.Remove(r);
-                        Session.Delete(r);
-                        return;
-                    }
-                }
-            }
-
-            throw new InvalidOperationException("Account does not have administrative permissions.");
+            mAccount.IsAdministrator = false;
+            Session.Save(mAccount);
         }
 
         public bool IsAdministrator()
         {
-            // an administrator has all access to the accounts table
-
-            if (mAccount.AccountRights == null)
-            {
-                return false;
-            }
-
-            foreach (AccountRight r in mAccount.AccountRights)
-            {
-                if (r.DataObject.Name == typeof(Account).Name)
-                {
-                    if (r.AllowCreate
-                        && r.AllowDelete
-                        && r.AllowRetrieve
-                        && r.AllowUpdate)
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        }
-
-        public ManagedAccountRight GetRight(string objectname)
-        {
-            foreach (AccountRight r in mAccount.AccountRights)
-            {
-                ManagedAccountRight mar = new ManagedAccountRight(Session, r);
-                if (r.DataObject.Name == typeof(Account).Name && mar.HasAllRights())
-                {
-                    return mar;
-                }
-            }
-            return null;
-        }
-
-        public ManagedAccountRight CreateAccountRight(DataObject o, ManagedAccountRightBits b)
-        {
-            ManagedAccountRight r = new ManagedAccountRight(Session);
-            r.Create(mAccount, o, b);
-            return r;
+            return mAccount.IsAdministrator;
         }
 
         #endregion
@@ -1841,7 +1787,7 @@ namespace SnCore.Services
         {
             AccountFeed feed = o.GetAccountFeed(Session);
 
-            if (Id != 0)
+            if (feed.Id != 0)
             {
                 if (feed.Account.Id != Id && !IsAdministrator())
                 {
@@ -1855,6 +1801,74 @@ namespace SnCore.Services
             if (feed.Id == 0) feed.Created = feed.Updated;
             Session.Save(feed);
             return feed.Id;
+        }
+
+        #endregion
+
+        #region Account Blog
+
+        public int CreateOrUpdate(TransitAccountBlog o)
+        {
+            AccountBlog blog = o.GetAccountBlog(Session);
+
+            if (blog.Id != 0)
+            {
+                if (blog.Account.Id != Id && !IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+            }
+
+            blog.Updated = DateTime.UtcNow;
+            if (blog.Id == 0) blog.Created = blog.Updated;
+            Session.Save(blog);
+            return blog.Id;
+        }
+
+        public int CreateOrUpdate(TransitAccountBlogPost o)
+        {
+            AccountBlogPost post = o.GetAccountBlogPost(Session);
+            ManagedAccountBlog blog = new ManagedAccountBlog(Session, post.AccountBlog);
+
+            if (post.Id != 0)
+            {
+                // always can edit your own post
+                if (post.AccountId != Id && ! blog.CanEdit(Id))
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+            }
+            else
+            {
+                if (! blog.CanPost(Id))
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+            }
+            
+            post.Modified = DateTime.UtcNow;
+            if (post.Id == 0)
+            {
+                post.Created = post.Modified;
+                post.AccountId = Id;
+                post.AccountName = Name;
+            }
+            Session.Save(post);
+            return post.Id;
+        }
+
+        public int CreateOrUpdate(TransitAccountBlogAuthor o)
+        {
+            AccountBlogAuthor author = o.GetAccountBlogAuthor(Session);
+
+            // only the blog owner can edit the blog permissions
+            if (author.AccountBlog.Account.Id != Id && !IsAdministrator())
+            {
+                throw new ManagedAccount.AccessDeniedException();
+            }
+
+            Session.Save(author);
+            return author.Id;
         }
 
         #endregion

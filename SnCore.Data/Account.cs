@@ -22,7 +22,6 @@ using System;
         private System.Collections.IList m_AccountMessageFolders;
         private System.Collections.IList m_AccountMessages;
         private System.Collections.IList m_AccountPictures;
-        private System.Collections.IList m_AccountRights;
         private System.Collections.IList m_AccountWebsites;
         private System.DateTime m_Birthday;
         private System.DateTime m_Created;
@@ -52,6 +51,9 @@ using System;
         private System.Collections.IList m_AccountPlaceFavorites;
         private System.String m_Signature;
         private System.Collections.IList m_AccountOpenIds;
+        private System.Collections.IList m_AccountBlogAuthors;
+        private System.Collections.IList m_AccountBlogs;
+        private System.Boolean m_IsAdministrator;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -260,37 +262,6 @@ using System;
             set
             {
                 m_AccountPictures = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent many-one reference property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts multiple references to objects of the type 'AccountRight'.
-        ///This property is part of a 'ManyToOne' relationship.
-        ///The data type for this property is 'System.Collections.IList'.
-        ///The inverse property for this property is 'AccountRight.Account'.
-        ///This property inherits its mapping information from its inverse property.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_AccountRights' that holds the value for this property is 'PrivateAccess'.
-        ///This property is marked as Read-Only.
-        ///
-        ///Mapping information:
-        ///This class maps to the 'AccountRight' table in the data source.
-        ///The property maps to the identity column 'Account_Id' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountRights
-        {
-            get
-            {
-                return m_AccountRights;
-            }
-            set
-            {
-                m_AccountRights = value;
             }
         }
 
@@ -1122,6 +1093,93 @@ using System;
             set
             {
                 m_AccountOpenIds = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'AccountBlogAuthor'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'AccountBlogAuthor.Account'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_AccountBlogAuthors' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as Read-Only.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'AccountBlogAuthor' table in the data source.
+        ///The property maps to the identity column 'Account_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Collections.IList AccountBlogAuthors
+        {
+            get
+            {
+                return m_AccountBlogAuthors;
+            }
+            set
+            {
+                m_AccountBlogAuthors = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'AccountBlog'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'AccountBlog.Account'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_AccountBlogs' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as Read-Only.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'AccountBlog' table in the data source.
+        ///The property maps to the identity column 'Account_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Collections.IList AccountBlogs
+        {
+            get
+            {
+                return m_AccountBlogs;
+            }
+            set
+            {
+                m_AccountBlogs = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.Boolean'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_IsAdministrator' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'IsAdministrator' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Boolean IsAdministrator
+        {
+            get
+            {
+                return m_IsAdministrator;
+            }
+            set
+            {
+                m_IsAdministrator = value;
             }
         }
 
