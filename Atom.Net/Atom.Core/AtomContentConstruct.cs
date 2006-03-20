@@ -249,8 +249,11 @@ namespace Atom.Core
 						catch {}
 						contentElement.LocalName = name;
 						XPathNavigatorReader reader = new XPathNavigatorReader(iter.Current);
-						reader.Read();
-						content = reader.ReadInnerXml();
+						bool fread = reader.Read();
+      if (iter.Current.HasChildren) // dblock: bug 149
+      {
+          content = reader.ReadInnerXml();
+      }
 						break;
 				}
 			}
