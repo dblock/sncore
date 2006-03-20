@@ -12,7 +12,7 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 
-public partial class AccountBlogPost : AuthenticatedPage
+public partial class AccountBlogPostNew : AuthenticatedPage
 {
     public int BlogId
     {
