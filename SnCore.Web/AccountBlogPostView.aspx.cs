@@ -40,7 +40,7 @@ public partial class AccountBlogPostView : Page
                 BlogTitle.NavigateUrl = linkAccountBlog.NavigateUrl = string.Format("AccountBlogView.aspx?id={0}", tfi.AccountBlogId);
 
                 BlogPostTitle.Text = Renderer.Render(tfi.Title);
-                BlogPostBody.Text = Renderer.CleanHtml(tfi.Body);
+                BlogPostBody.Text = Renderer.RenderEx(tfi.Body);
 
                 BlogPostComments.DiscussionId = DiscussionService.GetAccountBlogPostDiscussionId(RequestId);
                 BlogPostComments.DataBind();

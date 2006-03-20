@@ -5,7 +5,7 @@ a:active { color: #336699; font-weight: bold; text-decoration: none; }
 a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_h1 { color: #000000; font-family: Tahoma; font-size: 26px; font-weight: bold; background-color: #FFDD00; margin-top: 0px; margin-bottom: 0px; padding-top: 10px; padding-left: 15px; width: 100%; }
 .sncore_h1sub { color: #000000; font-family: Tahoma; font-size: 12px; background-color: #FFDD00; margin-top: 0px; margin-bottom: 0px; padding-left: 20px; padding-bottom: 15px; width: 100%; }
-.sncore_h2 { font-family: Tahoma; font-size: 18px; font-weight: normal; margin-top: 0px; margin-bottom: 10px; padding-top: 10px; padding-bottom: 3px; padding-left: 15px; }
+.sncore_h2 { background: url(images/site/head.gif) no-repeat; background-position: 0 65%; font-family: Tahoma; font-size: 18px; font-weight: normal; margin-top: 0px; margin-bottom: 10px; padding-top: 10px; padding-bottom: 3px; margin-left: 10px; padding-left: 20px; }
 .sncore_h2left { font-family: Tahoma; font-size: 18px; font-weight: normal; margin-top: 0px; margin-bottom: 10px; padding-top: 10px; padding-bottom: 3px; }
 .sncore_h2sub { color: #000000; font-family: Tahoma; font-size: 12px; margin-top: 0px; margin-bottom: 0px; padding-left: 20px; padding-bottom: 15px; width: 95%; }
 .sncore_h3 { font-family: Tahoma; font-size: 14px; font-weight: bold; margin-top: 0px; margin-bottom: 10px; padding-top: 10px; padding-bottom: 3px; padding-left: 15px; }
@@ -15,9 +15,9 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_account_table { width: 582px; margin: 10px; border: 1px #eeeeee solid; }
 .sncore_inner_table { margin: 10px; border: 1px #eeeeee solid; }
 .sncore_nopicture_table { margin: 10px; }
-.sncore_half_table { width: 360px; margin: 10px; border: 1px #eeeeee solid; }
+.sncore_half_table { width: 95%; margin: 10px; border: 1px #eeeeee solid; }
 .sncore_accountmenu_table { width: 150px; margin: 10px; border: 1px #eeeeee solid; }
-.sncore_half_inner_table { width: 360px; }
+.sncore_half_inner_table { width: 95%; }
 .sncore_table_tr_td { padding: 2px; font-family: Verdana; }
 .sncore_table_tr_th { padding: 2px; font-family: Verdana; font-weight: bold; background-color: #E5EDFB; font-size: smaller;  }
 .sncore_table_pager { padding: 2px; font-family: Verdana; font-weight: bold; }

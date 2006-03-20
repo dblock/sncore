@@ -22,14 +22,7 @@
  <SnCore:AccountReminder ID="accountreminder" runat="server" />
  <table width="100%" cellpadding="0" cellspacing="0">
   <tr>
-   <td valign="top" width="50%">
-    <table class="sncore_half_table">
-     <tr>
-      <td class="sncore_table_tr_td">
-       <asp:Label ID="labelDescription" runat="server" />
-      </td>
-     </tr>
-    </table>
+   <td valign="top" width="75%">
     <SnCore:SearchDefault runat="server" ID="searchDefault" />
     <SnCore:BlogView ID="websiteBlog" runat="server" />
     <SnCore:AccountFeaturedView ID="accountFeatured" runat="server" />
@@ -37,7 +30,7 @@
     <SnCore:TagWordsView ID="tagwordsView" runat="server" Count="100" />
     <SnCore:AccountsNewView ID="accountsNewMain" runat="server" Count="2" />
    </td>
-   <td valign="top" width="50%">
+   <td valign="top" width="25%">
     <SnCore:PlacesNewView ID="placesNewMain" runat="server" Count="2" />
     <SnCore:DiscussionPostsNewView ID="discussionsNewViewMain" runat="server" />
     <SnCore:AccountStoriesNewView ID="accountstoriesNewViewMain" Count="2" runat="server" />

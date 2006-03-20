@@ -7,18 +7,19 @@
    <td>
     <link rel="alternate" type="application/rss+xml" title="Rss" href="AccountFeedsRss.aspx" />
     <div class="sncore_h2">
-     Featured Feed
+     <a href='AccountFeedsView.aspx'>
+      Featured Feed
+      <img src="images/site/right.gif" border="0" />
+     </a>
     </div>
    </td>
   </tr>
   <tr>
    <td>
     <asp:Panel CssClass="sncore_createnew" ID="panellLinks" runat="server">
-     <span class="sncore_link">
-      <a href="AccountFeedsView.aspx">&#187; all</a> 
-      <a href="AccountFeedEdit.aspx">&#187; syndicate a feed</a> 
-      <a href="FeaturedAccountFeedsView.aspx">&#187; previously featured</a>
-      <a href="AccountFeedsRss.aspx">&#187; rss</a> </span>
+     <span class="sncore_link"><a href="AccountFeedsView.aspx">&#187; all</a> <a href="AccountFeedEdit.aspx">
+      &#187; syndicate a feed</a> <a href="FeaturedAccountFeedsView.aspx">&#187; previously
+       featured</a> <a href="AccountFeedsRss.aspx">&#187; rss</a> </span>
     </asp:Panel>
    </td>
   </tr>

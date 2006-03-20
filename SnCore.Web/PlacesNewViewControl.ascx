@@ -6,7 +6,10 @@
   <td>
    <link rel="alternate" type="application/rss+xml" title="Rss" href="PlacesRss.aspx" />
    <div class="sncore_h2">
-    New Places
+    <a href='PlacesView.aspx'>
+      New Places
+     <img src="images/site/right.gif" border="0" />
+    </a>
    </div>
   </td>
  </tr>

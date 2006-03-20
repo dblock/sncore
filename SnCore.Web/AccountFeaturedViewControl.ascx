@@ -7,7 +7,10 @@
    <td>
     <link rel="alternate" type="application/rss+xml" title="Rss" href="AccountsRss.aspx" />
     <div class="sncore_h2">
-     Featured Person
+     <a href='AccountsView.aspx'>
+      Featured Person
+      <img src="images/site/right.gif" border="0" />
+     </a>
     </div>
    </td>
   </tr>

@@ -10,7 +10,7 @@
  <tr><td class="settingLeft">SnCore.Beta.Password</td><td class="settingRight">beta sign-up password</td></tr>
  <tr><td class="settingLeft">SnCore.NewFeature.ProjectId</td><td class="settingRight">bug project id for new feature requests</td></tr>
  <tr><td class="settingLeft">SnCore.Bug.ProjectId</td><td class="settingRight">bug project id for bug reports</td></tr>
- <tr><td class="settingLeft">SnCore.Site.DiscussionId</td><td class="settingRight">site discussion id for link on the help page</td></tr>
+ <tr><td class="settingLeft">SnCore.Blog.Id</td><td class="settingRight">blog to publish to the front page</td></tr>
  <tr><td class="settingLeft">SnCore.Mail.Server</td><td class="settingRight">mail server, eg <em>mail.sncore.com</em></td></tr>
  <tr><td class="settingLeft">SnCore.Mail.Port</td><td class="settingRight">mail port, eg <em>25</em></td></tr>
  <tr><td class="settingLeft">SnCore.Mail.Delivery</td><td class="settingRight">mail delivery method, eg. <em>PickupDirectoryFromIis</em></td></tr>

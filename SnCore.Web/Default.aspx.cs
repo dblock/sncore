@@ -18,10 +18,6 @@ public partial class _Default : Page
         {
             if (!IsPostBack)
             {
-                labelDescription.Text = Renderer.Render(
-                    SystemService.GetConfigurationByNameWithDefault(
-                        "SnCore.Description", "SNCore description not set.").Value);
-                
                 accountsNewMain.DataBind();
 
                 websiteBlog.BlogId = int.Parse(SystemService.GetConfigurationByNameWithDefault(

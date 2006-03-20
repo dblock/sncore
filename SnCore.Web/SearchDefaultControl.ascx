@@ -6,7 +6,10 @@
   <td>
    <link rel="alternate" type="application/rss+xml" title="Rss" href="AccountsRss.aspx" />
    <div class="sncore_h2">
-    Search
+    <a href='Search.aspx'>
+     Search
+     <img src="images/site/right.gif" border="0" />
+    </a>
    </div>
   </td>
  </tr>
@@ -23,10 +26,10 @@
    <asp:Panel ID="panelSearch" runat="server">
     <asp:TextBox OnTextChanged="search_Click" CssClass="sncore_default_search_textbox"
      ID="inputSearch" runat="server" />
-    <asp:ImageButton runat="server" ID="search" OnClick="search_Click"
-     ImageAlign="AbsMiddle" ImageUrl="images/Search.gif" CssClass="sncore_search_link" />
+    <asp:ImageButton runat="server" ID="search" OnClick="search_Click" ImageAlign="AbsMiddle"
+     ImageUrl="images/Search.gif" CssClass="sncore_search_link" />
    </asp:Panel>
-   <div class="sncore_link" style="display: none;" ID="panelSearching" runat="server">
+   <div class="sncore_link" style="display: none;" id="panelSearching" runat="server">
     searching ...
    </div>
   </td>

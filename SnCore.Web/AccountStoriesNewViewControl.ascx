@@ -5,7 +5,10 @@
   <td>
    <link rel="alternate" type="application/rss+xml" title="Rss" href="AccountStoriesRss.aspx" />
    <div class="sncore_h2">
-    Latest Stories
+    <a href='AccountStoriesView.aspx'>
+      Latest Stories
+     <img src="images/site/right.gif" border="0" />
+    </a>
    </div>
   </td>
  </tr>

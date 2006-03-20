@@ -105,7 +105,10 @@ public partial class AccountBlogViewControl : Control
         if (mItemsShown++ >= 1)
             return string.Empty;
 
-        return Renderer.CleanHtml(description);
+        if (description == null)
+            return string.Empty;
+
+        return Renderer.GetSummary(description.ToString());
     }
 
     public string GetComments(int count)

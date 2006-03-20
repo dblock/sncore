@@ -15,6 +15,19 @@ using SnCore.WebServices;
 public partial class AccountBlogView : Page
 {
     private TransitFeature mAccountBlogFeature = null;
+    private TransitAccountBlog mAccountBlog = null;
+
+    public TransitAccountBlog AccountBlog
+    {
+        get
+        {
+            if (mAccountBlog == null)
+            {
+                mAccountBlog = BlogService.GetAccountBlogById(SessionManager.Ticket, RequestId);
+            }
+            return mAccountBlog;
+        }
+    }
 
     public TransitFeature LatestAccountBlogFeature
     {
@@ -36,7 +49,7 @@ public partial class AccountBlogView : Page
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
             if (!IsPostBack)
             {
-                TransitAccountBlog f = BlogService.GetAccountBlogById(SessionManager.Ticket, RequestId);
+                TransitAccountBlog f = AccountBlog;
                 labelBlog.Text = Renderer.Render(f.Name);
                 labelBlogDescription.Text = Renderer.Render(f.Description);
 
@@ -58,7 +71,9 @@ public partial class AccountBlogView : Page
                         : "Feature &#187; Never Featured";
                 }
 
-                linkRelRss.Attributes["href"] = linkRss.NavigateUrl = string.Format("AccountBlogRss.aspx?id={0}", RequestId);                
+                linkRelRss.Attributes["href"] = linkRss.NavigateUrl = string.Format("AccountBlogRss.aspx?id={0}", RequestId);
+
+                linkEdit.NavigateUrl = string.Format("AccountBlogEdit.aspx?id={0}", RequestId);
             }
         }
         catch (Exception ex)
@@ -96,6 +111,10 @@ public partial class AccountBlogView : Page
         {
             linkDeleteFeatures.Visible = (LatestAccountBlogFeature != null);
         }
+
+        panelOwner.Visible = SessionManager.IsAdministrator
+            || ((SessionManager.Account != null) && (SessionManager.Account.Id == AccountBlog.AccountId));
+
         base.OnPreRender(e);
     }
 

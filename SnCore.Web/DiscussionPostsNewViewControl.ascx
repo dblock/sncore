@@ -6,7 +6,10 @@
  <tr>
   <td>
    <div class="sncore_h2">
-    Latest Forum Posts
+    <a href='DiscussionsView.aspx'>
+      Latest Forum Posts
+     <img src="images/site/right.gif" border="0" />
+    </a>
    </div>
   </td>
  </tr>

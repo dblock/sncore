@@ -31,6 +31,11 @@
       <asp:LinkButton OnClick="deletefeature_Click" runat="server" ID="linkDeleteFeatures" Text="Delete Features" />
      </div>
     </asp:Panel>
+    <asp:Panel ID="panelOwner" runat="server" HorizontalAlign="Right">
+     <div>
+      <asp:HyperLink ID="linkEdit" Text="&#187; Edit Blog" runat="server" />
+     </div>
+    </asp:Panel>
    </td>   
    <td align="right" valign="middle">
     <asp:HyperLink runat="server" ID="linkRss" ImageUrl="images/rss.gif" NavigateUrl="AccountBlogRss.aspx" />
@@ -70,7 +75,7 @@
      &#187; <%# GetComments((int) Eval("CommentCount"))%></a>
    </div>
    <div>
-    <%# Renderer.CleanHtml(Eval("Body")) %>
+    <%# base.RenderEx(Eval("Body")) %>
    </div>
   </ItemTemplate>
  </SnCoreWebControls:PagedList>

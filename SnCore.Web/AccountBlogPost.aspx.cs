@@ -31,6 +31,13 @@ public partial class AccountBlogPost : AuthenticatedPage
             {
                 linkBack.NavigateUrl = string.Format("AccountBlogEdit.aspx?id={0}", BlogId);
 
+                TransitAccountBlog blog = BlogService.GetAccountBlogById(SessionManager.Ticket, BlogId);
+                labelAccountName.Text = Renderer.Render(blog.AccountName);
+                labelBlog.Text = Renderer.Render(blog.Name);
+                labelBlogDescription.Text = Renderer.Render(blog.Description);
+                linkAccount.HRef = string.Format("AccountView.aspx?id={0}", blog.AccountId);
+                imageAccount.Src = string.Format("AccountPictureThumbnail.aspx?id={0}", blog.AccountPictureId);
+
                 if (RequestId != 0)
                 {
                     TransitAccountBlogPost post = BlogService.GetAccountBlogPostById(SessionManager.Ticket, RequestId);

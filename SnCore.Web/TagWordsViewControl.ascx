@@ -2,7 +2,10 @@
  Inherits="TagWordsViewControl" %>
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
 <div class="sncore_h2">
- Tags
+ <a href='Search.aspx'>
+   Tags
+  <img src="images/site/right.gif" border="0" />
+ </a>
 </div>
 <table class="sncore_half_table" align="center" width="95%">
  <tr>
