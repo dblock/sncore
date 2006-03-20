@@ -1733,6 +1733,50 @@ namespace SnCore.WebServices
             }
         }
 
+        /// <summary>
+        /// Delete your account.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">account to delete</param>
+        /// <param name="password">current account password</param>
+        [WebMethod(Description = "Delete your account.")]
+        public void DeleteAccountById(string ticket, int id, string password)
+        {
+            int userid = GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount requester = new ManagedAccount(session, userid);
+                ManagedAccount user = new ManagedAccount(session, id);
+
+                if (user.IsAdministrator())
+                {
+                    throw new SoapException(
+                        "You cannot delete an administrative account.",
+                        SoapException.ClientFaultCode);
+                }
+
+                if (requester.Id != user.Id)
+                {
+                    if (!requester.IsAdministrator())
+                    {
+                        throw new SoapException(
+                            "You must be an administrator to delete accounts.",
+                            SoapException.ClientFaultCode);
+                    }
+                }
+
+                if (!requester.IsPasswordValid(password))
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                user.Delete();
+                SnCore.Data.Hibernate.Session.Flush();
+            }
+        }
+
+
         #region Surveys
 
         /// <summary>

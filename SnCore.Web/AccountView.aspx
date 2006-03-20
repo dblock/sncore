@@ -61,28 +61,31 @@
       </tr>
       <tr>
        <td colspan="2" class="sncore_table_tr_td" style="text-align: right;">
-        <asp:HyperLink runat="server" ID="linkNewMessage" Text="Send Message" />
+        <asp:HyperLink runat="server" ID="linkNewMessage" Text="&#187; Send Message" />
         <br />
-        <asp:HyperLink runat="server" ID="linkAddToFriends" Text="Add to Friends" />
+        <asp:HyperLink runat="server" ID="linkAddToFriends" Text="&#187; Add to Friends" />
         <br />
-        <asp:HyperLink Text="Discussion Posts" ID="linkDiscussionThreads" NavigateUrl="AccountDiscussionThreadsView.aspx"
+        <asp:HyperLink Text="&#187; Discussion Posts" ID="linkDiscussionThreads" NavigateUrl="AccountDiscussionThreadsView.aspx"
          runat="server" />
         <asp:Panel ID="panelAdmin" runat="server">
          <div>
-          <asp:LinkButton OnClick="impersonate_Click" runat="server" ID="linkImpersonate" Text="Impersonate" />
+          <asp:LinkButton OnClick="impersonate_Click" runat="server" ID="linkImpersonate" Text="&#187; Impersonate" />
          </div>
          <div>
-          <asp:LinkButton OnClick="promoteAdmin_Click" runat="server" ID="linkPromoteAdmin" Text="Promote to Admin" />
+          <asp:LinkButton OnClick="promoteAdmin_Click" runat="server" ID="linkPromoteAdmin" Text="&#187; Promote to Admin" />
          </div>
          <div>
-          <asp:LinkButton OnClick="demoteAdmin_Click" runat="server" ID="linkDemoteAdmin" Text="Demote from Admin" />
+          <asp:LinkButton OnClick="demoteAdmin_Click" runat="server" ID="linkDemoteAdmin" Text="&#187; Demote from Admin" />
          </div>
          <div>
-          <asp:LinkButton OnClick="feature_Click" runat="server" ID="linkFeature" Text="Feature" />
+          <asp:LinkButton OnClick="feature_Click" runat="server" ID="linkFeature" Text="&#187; Feature" />
          </div>
-          <div>
-           <asp:LinkButton OnClick="deletefeature_Click" runat="server" ID="linkDeleteFeatures" Text="Delete Features" />
-          </div>
+         <div>
+          <asp:LinkButton OnClick="deletefeature_Click" runat="server" ID="linkDeleteFeatures" Text="&#187; Delete Features" />
+         </div>
+         <div>
+          <asp:HyperLink runat="server" ID="linkDelete" Text="&#187; Delete Account" />
+         </div>
         </asp:Panel>
        </td>
       </tr>
