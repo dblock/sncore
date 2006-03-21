@@ -28,7 +28,7 @@ public partial class AccountBlogViewControl : Control
                 mAccountBlog = (TransitAccountBlog)
                     Cache[string.Format("accountblog:{0}", BlogId)];
 
-                if (mAccountBlog == null)
+                if (mAccountBlog == null && BlogId > 0)
                 {
                     mAccountBlog = BlogService.GetAccountBlogById(string.Empty, BlogId);
                     Cache.Insert(string.Format("accountblog:{0}", BlogId),
@@ -37,6 +37,17 @@ public partial class AccountBlogViewControl : Control
             }
 
             return mAccountBlog;
+        }
+    }
+
+    public string BlogName
+    {
+        get
+        {
+            if (BlogId == 0)
+                return string.Empty;
+
+            return Renderer.Render(Blog.Name);
         }
     }
 

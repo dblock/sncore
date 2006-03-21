@@ -3,7 +3,7 @@
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <div class="sncore_h2">
  <a href='AccountBlogView.aspx?id=<% Response.Write(BlogId); %>'>
-  <% Response.Write(base.Render(Blog.Name)); %>
+  <% Response.Write(BlogName); %>
   <img src="images/site/right.gif" border="0" />
  </a>
 </div>
