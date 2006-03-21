@@ -89,6 +89,7 @@ public partial class AccountView : Page
             {
                 linkDiscussionThreads.NavigateUrl = string.Format("AccountDiscussionThreadsView.aspx?id={0}", AccountId);
                 linkDelete.NavigateUrl = string.Format("AccountDelete.aspx?id={0}", AccountId);
+                linkResetPassword.NavigateUrl = string.Format("AccountChangePassword.aspx?id={0}", AccountId);
 
                 placeFavoritesView.AccountId = AccountId;
                 placesView.AccountId = AccountId;

@@ -25,7 +25,10 @@ public partial class AccountChangePassword : AuthenticatedPage
                 throw new ArgumentException("Passwords don't match.");
             }
 
-            AccountService.ChangePassword(SessionManager.Ticket, inputOldPassword.Text, inputNewPassword.Text);
+            AccountService.ChangePassword(
+                SessionManager.Ticket, 
+                (RequestId > 0) ? RequestId : SessionManager.Account.Id,
+                inputOldPassword.Text, inputNewPassword.Text);
             ReportInfo("Password changed.");
             panelChangePassword.Visible = false;
         }

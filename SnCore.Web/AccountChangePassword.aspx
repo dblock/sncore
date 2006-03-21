@@ -26,8 +26,6 @@
        <td class="sncore_form_value">
         <asp:TextBox CssClass="sncore_form_textbox" ID="inputOldPassword" runat="server"
          TextMode="Password" />
-        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="inputOldPassword"
-         CssClass="sncore_form_validator" ErrorMessage="old password is required" Display="Dynamic" />
        </td>
       </tr>
       <tr>

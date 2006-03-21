@@ -650,15 +650,32 @@ namespace SnCore.WebServices
         /// <param name="ticket">athentication ticket</param>
         /// <param name="oldpassword">old password</param>
         /// <param name="newpassword">new password</param>
+        /// <param name="accountid">account id</param>
         [WebMethod(Description = "Change password.")]
-        public void ChangePassword(string ticket, string oldpassword, string newpassword)
+        public void ChangePassword(string ticket, int accountid, string oldpassword, string newpassword)
         {
-            int id = GetAccountId(ticket);
+            int userid = GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount a = new ManagedAccount(session, id);
-                a.ChangePassword(oldpassword, newpassword);
+
+                if (userid != accountid)
+                {
+                    ManagedAccount requester = new ManagedAccount(session, userid);
+                    if (!requester.IsAdministrator())
+                    {
+                        throw new ManagedAccount.AccessDeniedException();
+                    }
+
+                    ManagedAccount account = new ManagedAccount(session, accountid);
+                    account.ResetPassword(newpassword);
+                }
+                else
+                {
+                    ManagedAccount account = new ManagedAccount(session, accountid);
+                    account.ChangePassword(oldpassword, newpassword);
+                }
+
                 SnCore.Data.Hibernate.Session.Flush();
             }
         }

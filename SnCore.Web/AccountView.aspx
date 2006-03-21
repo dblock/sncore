@@ -86,6 +86,9 @@
          <div>
           <asp:HyperLink runat="server" ID="linkDelete" Text="&#187; Delete Account" />
          </div>
+         <div>
+          <asp:HyperLink runat="server" ID="linkResetPassword" Text="&#187; Reset Password" />
+         </div>
         </asp:Panel>
        </td>
       </tr>
