@@ -37,6 +37,8 @@
       <td class="sncore_table_tr_td">
        <asp:HyperLink ID="linkProject2" runat="server" Text="Project" />
        |
+       <asp:HyperLink ID="linkAddNew" runat="server" Text="New Bug" />
+       |
        <asp:HyperLink ID="linkEdit" runat="server" Text="Edit Bug" />
        |
        <asp:HyperLink ID="linkAddNote" runat="server" Text="Add a Note" />
