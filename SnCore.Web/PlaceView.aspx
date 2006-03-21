@@ -57,25 +57,25 @@
         <td colspan="2" align="right">
          <div>
           <asp:LinkButton ID="linkAddToFavorites" OnClick="linkAddToFavorites_Click" runat="server"
-           Text="Add to Favorites" />
+           Text="&#187; Add to Favorites" />
          </div>
          <div>
-          <a href='PlacePicturesManage.aspx?id=<% Response.Write(base.RequestId); %>'>Upload
+          <a href='PlacePicturesManage.aspx?id=<% Response.Write(base.RequestId); %>'>&#187; Upload
            a Picture</a>
          </div>
          <div>
-          <a href='AccountPlaceRequestEdit.aspx?pid=<% Response.Write(base.RequestId); %>'>
+          <a href='AccountPlaceRequestEdit.aspx?pid=<% Response.Write(base.RequestId); %>'>&#187; 
            Claim Ownership</a>
          </div>
          <asp:Panel ID="panelAdmin" runat="server">
           <div>
-           <asp:HyperLink runat="server" ID="linkAdminEdit" Text="Edit Content" />
+           <asp:HyperLink runat="server" ID="linkAdminEdit" Text="&#187; Edit Content" />
           </div>
           <div>
-           <asp:LinkButton OnClick="feature_Click" runat="server" ID="linkFeature" Text="Feature" />
+           <asp:LinkButton OnClick="feature_Click" runat="server" ID="linkFeature" Text="&#187; Feature" />
           </div>
           <div>
-           <asp:LinkButton OnClick="deletefeature_Click" runat="server" ID="linkDeleteFeatures" Text="Delete Features" />
+           <asp:LinkButton OnClick="deletefeature_Click" runat="server" ID="linkDeleteFeatures" Text="&#187; Delete Features" />
           </div>
          </asp:Panel>
         </td>
@@ -96,9 +96,12 @@
       <table class="sncore_inner_table" width="95%">
        <tr>
         <td class="sncore_table_tr_td" style="font-size: smaller;">
-         <a href="#" onclick="showDetails();">&#187; details</a> <a href="#" onclick="showMap();">
-            &#187; map</a> &#187; <a href='<% Response.Write(DrivingDirectionsUrl); %>' target="_blank">
-            directions</a>
+         <a id="linkDetails" runat="server" href="#" onclick="showDetails();">&#187; details</a>
+         <a id="linkMap" runat="server" href="#" onclick="showMap();">&#187; map</a> 
+         <a id="linkDirection" runat="server" href="<% Response.Write(DrivingDirectionsUrl); %>" target="_blank">&#187; directions</a>
+        </td>
+        <td align="right" style="font-size: smaller;">
+         <% Response.Write(SuggestedBy); %>
         </td>
        </tr>
       </table>

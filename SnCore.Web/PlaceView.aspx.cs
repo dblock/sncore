@@ -17,6 +17,36 @@ public partial class PlaceView : Page
 {
     private TransitPlace mPlace = null;
     private TransitFeature mPlaceFeature = null;
+    private TransitAccount mPlaceAccount = null;
+
+    public TransitAccount PlaceAccount
+    {
+        get
+        {
+            if (mPlaceAccount == null && RequestId > 0 && Place != null)
+            {
+                mPlaceAccount = AccountService.GetAccountById(Place.AccountId);
+            }
+
+            return mPlaceAccount;
+        }
+    }
+
+    public string SuggestedBy
+    {
+        get
+        {
+            TransitAccount account = PlaceAccount;
+
+            if (account == null)
+                return string.Empty;
+
+            return string.Format("suggested by <a href='AccountView.aspx?id={0}'>{1}</a> on {2}",
+                account.Id,
+                Renderer.Render(account.Name),
+                base.Adjust(Place.Created).ToString("d"));
+        }
+    }
 
     public TransitPlace Place
     {
@@ -45,6 +75,11 @@ public partial class PlaceView : Page
             TransitPlace place = Place;
 
             if (place == null)
+                return string.Empty;
+
+            if (string.IsNullOrEmpty(place.Street) &&
+                string.IsNullOrEmpty(CityOrStateZip) &&
+                string.IsNullOrEmpty(place.Country))
                 return string.Empty;
 
             return Renderer.Render(string.Format("{0}, {1}, {2}",
@@ -86,6 +121,10 @@ public partial class PlaceView : Page
 
             if (! string.IsNullOrEmpty(place.Zip))
                 return place.Zip;
+
+            if (string.IsNullOrEmpty(place.City)
+                && string.IsNullOrEmpty(place.State))
+                return string.Empty;
 
             return place.City + " " + place.State;
         }
@@ -258,6 +297,7 @@ public partial class PlaceView : Page
     {
         panelAdmin.Visible = SessionManager.IsAdministrator;
         linkDeleteFeatures.Visible = (LatestPlaceFeature != null);
+        linkMap.Visible = linkDirection.Visible = (Place != null && !string.IsNullOrEmpty(Place.Street));
         base.OnPreRender(e);
     }
 
