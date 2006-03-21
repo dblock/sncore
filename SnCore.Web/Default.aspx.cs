@@ -22,6 +22,8 @@ public partial class _Default : Page
 
                 websiteBlog.BlogId = int.Parse(SystemService.GetConfigurationByNameWithDefault(
                         "SnCore.Blog.Id", "0").Value);
+
+                websiteBlog.Visible = (websiteBlog.BlogId > 0);
             }
         }
         catch (Exception ex)
