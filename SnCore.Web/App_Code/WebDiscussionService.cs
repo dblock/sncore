@@ -106,7 +106,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                AccountFeedItem i = (AccountFeedItem) session.Load(typeof(AccountFeedItem), id);
+                AccountFeedItem i = (AccountFeedItem)session.Load(typeof(AccountFeedItem), id);
                 accountid = i.AccountFeed.Account.Id;
             }
 
@@ -578,6 +578,41 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
+        /// Get discussion thread parent post.
+        /// </summary>
+        /// <param name="id">discussion thread id</param>
+        /// <returns></returns>
+        [WebMethod(Description = "Get discussion thread parent post.")]
+        public TransitDiscussionPost GetDiscussionThreadPost(string ticket, int id)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket, 0);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount acct = (userid > 0) ? new ManagedAccount(session, userid) : null;
+
+                DiscussionPost post = (DiscussionPost) session.CreateQuery(
+                    "from DiscussionPost post" +
+                    " where post.DiscussionThread.Id = " + id.ToString() +
+                    " and post.DiscussionPostParent is null").UniqueResult();
+
+                if (post == null)
+                    return null;
+
+                TransitDiscussionPost result = new ManagedDiscussionPost(session, post).GetTransitDiscussionPost();
+
+                if (acct != null)
+                {
+                    result.SetPermissions(
+                        post.DiscussionThread.Discussion, 
+                        acct);
+                }
+
+                return result;
+            }
+        }
+
+        /// <summary>
         /// Get the count of discussion threads that a user participates in.
         /// </summary>
         /// <returns></returns>
@@ -591,6 +626,45 @@ namespace SnCore.WebServices
                 return (int)query.UniqueResult();
             }
         }
+
+        /// <summary>
+        /// Move a discussion thread.
+        /// </summary>
+        /// <param name="targetid">target discussion id</param>
+        /// <param name="threadid">thread id</param>
+        /// <param name="ticket">authentication ticket</param>
+        /// <returns></returns>
+        [WebMethod(Description = "Move a discussion thread.", CacheDuration = 60)]
+        public void MoveDiscussionThread(string ticket, int threadid, int targetid)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket, 0);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount acct = new ManagedAccount(session, userid);
+
+                if (!acct.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                DiscussionThread thread = (DiscussionThread) session.Load(
+                    typeof(DiscussionThread), threadid);
+
+                if (thread.Discussion.DiscussionThreads != null)
+                    thread.Discussion.DiscussionThreads.Remove(thread);
+
+                thread.Discussion = (Discussion) session.Load(
+                    typeof(Discussion), targetid);
+
+                if (thread.Discussion.DiscussionThreads != null)
+                    thread.Discussion.DiscussionThreads.Add(thread);
+
+                session.Save(thread);
+                SnCore.Data.Hibernate.Session.Flush();
+            }
+        }
+
 
         /// <summary>
         /// Get discussion threads that a user participates in.
