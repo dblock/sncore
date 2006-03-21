@@ -62,6 +62,7 @@ public partial class BugProjectBugsManage : AuthenticatedPage
                     : TransitSortDirection.Descending;
             options.SortExpression = gridManage.SortExpression;
             options.Resolved = checkboxResolvedBugs.Checked;
+            options.Open = checkboxOpenedBugs.Checked;
             gridManage.DataSource = BugService.GetBugs(RequestId, options);
         }
         catch (Exception ex)

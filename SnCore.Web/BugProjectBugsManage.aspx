@@ -1,5 +1,5 @@
-<%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true"
- CodeFile="BugProjectBugsManage.aspx.cs" Inherits="BugProjectBugsManage" Title="Bugs | ProjectBugs" %>
+<%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="BugProjectBugsManage.aspx.cs"
+ Inherits="BugProjectBugsManage" Title="Bugs | ProjectBugs" %>
 
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
@@ -25,18 +25,25 @@
     <table class="sncore_account_table">
      <tr>
       <tr>
-       <td class="sncore_form_label">
-       </td>
        <td class="sncore_form_value">
         <asp:CheckBox CssClass="sncore_form_checkbox" ID="checkboxResolvedBugs" runat="server"
-         AutoPostBack="True" OnCheckedChanged="optionsChanged" Text="show resolved and closed bugs"
+         AutoPostBack="True" OnCheckedChanged="optionsChanged" Text="resolved"
          Checked="false" />
+       </td>
+       <td>
+        <asp:CheckBox CssClass="sncore_form_checkbox" ID="checkboxClosedBugs" runat="server"
+         AutoPostBack="True" OnCheckedChanged="optionsChanged" Text="closed" Checked="false" />
+       </td>
+       <td>
+        <asp:CheckBox CssClass="sncore_form_checkbox" ID="checkboxOpenedBugs" runat="server"
+         AutoPostBack="True" OnCheckedChanged="optionsChanged" Text="open"
+         Checked="true" />
        </td>
       </tr>
     </table>
-    <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage" PageSize="15" AllowPaging="true"
-     AutoGenerateColumns="false" HeaderStyle-CssClass="sncore_table_tr_th" CssClass="sncore_account_table"
-     HeaderStyle-HorizontalAlign="Center" ItemStyle-CssClass="sncore_table_tr_td"
+    <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage" PageSize="15"
+     AllowPaging="true" AutoGenerateColumns="false" HeaderStyle-CssClass="sncore_table_tr_th"
+     CssClass="sncore_account_table" HeaderStyle-HorizontalAlign="Center" ItemStyle-CssClass="sncore_table_tr_td"
      ItemStyle-HorizontalAlign="center" AllowSorting="True">
      <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
       PrevPageText="Prev" HorizontalAlign="Center" />

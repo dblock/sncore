@@ -17,7 +17,10 @@ namespace SnCore.Services
     {
         public string SortExpression = "Created";
         public TransitSortDirection SortDirection = TransitSortDirection.Ascending;
+        
         public bool Resolved = false;
+        public bool Closed = false;
+        public bool Open = true;
 
         public TransitBugQueryOptions()
         {

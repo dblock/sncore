@@ -766,8 +766,18 @@ namespace SnCore.WebServices
 
                 if (!options.Resolved)
                 {
-                    crit.Add(Expression.Not(Expression.Eq("Status.Id", ManagedBugStatus.FindId(session, "Closed"))));
                     crit.Add(Expression.Not(Expression.Eq("Status.Id", ManagedBugStatus.FindId(session, "Resolved"))));
+                }
+
+                if (!options.Closed)
+                {
+                    crit.Add(Expression.Not(Expression.Eq("Status.Id", ManagedBugStatus.FindId(session, "Closed"))));
+                }
+
+                if (!options.Open)
+                {
+                    crit.Add(Expression.Not(Expression.Eq("Status.Id", ManagedBugStatus.FindId(session, "Open"))));
+                    crit.Add(Expression.Not(Expression.Eq("Status.Id", ManagedBugStatus.FindId(session, "Reopened"))));
                 }
 
                 IList s = crit.List();
