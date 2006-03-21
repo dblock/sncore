@@ -45,9 +45,6 @@ using System.Security.Permissions;
 [assembly: AssemblyCulture("")]
 [assembly: AssemblyVersion("0.86.*")]
 [assembly: AssemblyDelaySign(false)]
-#if !DEBUG
-[assembly: AssemblyKeyFile("..\\..\\rss.snk")]
-#endif
 [assembly: AssemblyKeyName("")]
 [assembly: CLSCompliant(true)]
 [assembly: ComVisible(false)]
