@@ -42,8 +42,11 @@ public partial class AccountView : Page
                 if (mAccount == null)
                 {
                     mAccount = AccountService.GetAccountById(AccountId);
-                    Cache.Insert(string.Format("account:{0}", AccountId), 
-                        mAccount, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
+                    if (mAccount != null)
+                    {
+                        Cache.Insert(string.Format("account:{0}", AccountId),
+                            mAccount, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
+                    }
                 }
             }
             return mAccount;
@@ -60,8 +63,11 @@ public partial class AccountView : Page
                 if (mAccountPermissions == null)
                 {
                     mAccountPermissions = AccountService.GetAccountPermissionsById(AccountId);
-                    Cache.Insert(string.Format("accountpermissions:{0}", AccountId),
-                        mAccountPermissions, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
+                    if (mAccountPermissions != null)
+                    {
+                        Cache.Insert(string.Format("accountpermissions:{0}", AccountId),
+                            mAccountPermissions, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
+                    }
                 }
             }
             return mAccountPermissions;
@@ -143,24 +149,20 @@ public partial class AccountView : Page
                         ? string.Format("Feature &#187; Last on {0}", Adjust(LatestAccountFeature.Created).ToString("d"))
                         : "Feature &#187; Never Featured";
                 }
+
+                panelAdmin.Visible = SessionManager.IsAdministrator && (AccountId != SessionManager.Account.Id);
+                if (panelAdmin.Visible)
+                {
+                    linkPromoteAdmin.Visible = ! AccountPermissions.IsAdministrator;
+                    linkDemoteAdmin.Visible = AccountPermissions.IsAdministrator;
+                    linkDeleteFeatures.Visible = (LatestAccountFeature != null);
+                }
             }
         }
         catch (Exception ex)
         {
             ReportException(ex);
         }
-    }
-
-    protected override void OnPreRender(EventArgs e)
-    {
-        panelAdmin.Visible = SessionManager.IsAdministrator && (AccountId != SessionManager.Account.Id);
-        if (panelAdmin.Visible)
-        {
-            linkPromoteAdmin.Visible = !AccountPermissions.IsAdministrator;
-            linkDemoteAdmin.Visible = AccountPermissions.IsAdministrator;
-            linkDeleteFeatures.Visible = (LatestAccountFeature != null);
-        }
-        base.OnPreRender(e);
     }
 
     public void promoteAdmin_Click(object sender, EventArgs e)
