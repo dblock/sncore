@@ -691,6 +691,15 @@ namespace SnCore.WebServices
             return ManagedDiscussion.AccountFeedItemDiscussion;
         }
 
+        /// <summary>
+        /// Get the built-in name for a blog post discussion.
+        /// </summary>
+        [WebMethod(Description = "Get the built-in name for a blog post discussion.")]
+        public string GetAcountBlogPostDiscussionName()
+        {
+            return ManagedDiscussion.AccountBlogPostDiscussion;
+        }
+
         #endregion
 
         #region Search
