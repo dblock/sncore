@@ -480,22 +480,38 @@ public class SessionManager
     private string ReferenceHandler(Match ParameterMatch)
     {
         string tag = ParameterMatch.Groups["tag"].Value;
-        string city = ParameterMatch.Groups["name"].Value;
-        string name = ParameterMatch.Groups["value"].Value;
+        string tagname = ParameterMatch.Groups["name"].Value;
+        string tagvalue = ParameterMatch.Groups["value"].Value;
 
         if (tag == "[[")
         {
-            return string.Format("[{0}:{1}]", city, name);
+            return string.Format("[{0}:{1}]", tagname, tagvalue);
+        }
+        else if ((tagname == "user") || (tagname == "account"))
+        {
+            int userid = 0;
+            if (int.TryParse(tagvalue, out userid))
+            {
+                TransitAccount a = AccountService.GetAccountById(userid);
+                
+                if (a != null)
+                {
+                    return string.Format("<a href=\"{0}/AccountView.aspx?id={1}\">{2}</a>",
+                        WebsiteUrl, a.Id, Renderer.Render(a.Name));
+                }
+            }
+
+            return string.Format("[invalid user: {0}]", tagvalue);
         }
         else
         {
             TransitPlace p = PlaceService.FindPlace(
-                city, name);
+                tagname, tagvalue);
 
             if (p == null)
             {
                 return string.Format("<a href=\"{3}/PlaceView.aspx?city={0}&name={1}\">{2}</a>",
-                    Renderer.UrlEncode(city), Renderer.UrlEncode(name), Renderer.Render(name), WebsiteUrl);
+                    Renderer.UrlEncode(tagname), Renderer.UrlEncode(tagvalue), Renderer.Render(tagvalue), WebsiteUrl);
             }
             else
             {

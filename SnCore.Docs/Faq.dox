@@ -25,6 +25,9 @@
 \li \ref faq_discussions_tags
 \li \ref faq_discussion_othertags
 
+\section faq_people_top People
+\li \ref faq_people_tags
+
 \section faq_stories_top Stories
 \li \ref faq_stories_old
 
@@ -193,6 +196,17 @@ The following tags are supported by the system.
 \subsection faq_discussion_othertags What other places support tags?
 All discussion posts, stories and personal information on your profile support above-mentionned tags.
 
+\section faq_people People
+
+\subsection faq_people_tags How do I reference a person in a post or story?
+To reference a person you need to find out the person's ID (top right corner of the profile page) and write something like 
+<em>[user:id]</em>. For example:
+\code
+[user:201]
+\endcode
+
+Once you place this tag, it becomes clickable and the ID is replaced with the user's current name.
+
 \section faq_stories Stories
 
 \subsection faq_stories_old I have updated my story, why doesn't it show up on top?
@@ -209,7 +223,8 @@ The content transported from your site to this site is called a <em>feed</em>. T
 
 \subsection faq_syndication_how How do I syndicate my blog?
 You can syndicate your site in the <a href="/AccountFeedsManage.aspx">Syndication</a> section of <em>Me Me</em>.
-Click <a href="/AccountFeedEdit.aspx">Syndicate New</a> and fill in the form.
+Use the <a href="/AccountFeedWizard.aspx">Wizard</a> or click <a href="/AccountFeedEdit.aspx">Syndicate New</a> 
+and fill in the form.
 
 <table class="settingTable" cellpadding="4px" cellspacing="0">
  <tr>

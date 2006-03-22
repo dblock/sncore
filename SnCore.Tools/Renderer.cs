@@ -179,7 +179,7 @@ namespace SnCore.Tools.Web
                 Add("[/em]", "</em>");
                 Add("[i]", "<em>");
                 Add("[/i]", "</em>");
-                Add("[red]", "<font color=\"greed\">");
+                Add("[red]", "<font color=\"red\">");
                 Add("[/red]", "</font>");
                 Add("[green]", "<font color=\"green\">");
                 Add("[/green]", "</font>");
