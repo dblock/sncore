@@ -17,7 +17,7 @@
    <asp:Panel CssClass="sncore_createnew" ID="panelLinks" runat="server">
     <span class="sncore_link">
      <a href="AccountFeedItemsView.aspx">&#187; all</a>
-     <a href="AccountFeedEdit.aspx">&#187; syndicate a feed</a>
+     <a href="AccountFeedWizard.aspx">&#187; syndicate a feed</a>
      <a href="AccountFeedItemsRss.aspx">&#187; rss</a>
     </span>
    </asp:Panel>
