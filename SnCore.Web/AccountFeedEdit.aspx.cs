@@ -73,6 +73,39 @@ public partial class AccountFeedEdit : AuthenticatedPage
                         inputFeedType.Items.FindByValue(tf.FeedType).Selected = true;
                     }
                 }
+                else
+                {
+                    if (Request.Params["name"] != null)
+                    {
+                        inputName.Text = Request.Params["name"];
+                        inputUsername.Enabled = false;
+                        inputPassword.Enabled = false;
+                        inputUpdateFrequency.Enabled = false;
+                    }
+
+                    if (Request.Params["feed"] != null)
+                    {
+                        inputFeedUrl.Text = Request.Params["feed"];
+                        inputFeedUrl.Enabled = false;
+                    }
+
+                    if (Request.Params["link"] != null)
+                    {
+                        inputLinkUrl.Text = Request.Params["link"];
+                        inputLinkUrl.Enabled = false;
+                    }
+
+                    if (Request.Params["type"] != null)
+                    {
+                        ListItem item = inputFeedType.Items.FindByValue(Request.Params["type"]);
+                        if (item != null)
+                        {
+                            item.Selected = true;
+                            inputFeedType.Enabled = false;
+                        }
+                    }
+
+                }
             }
         }
         catch (Exception ex)
@@ -91,6 +124,13 @@ public partial class AccountFeedEdit : AuthenticatedPage
             s.Description = inputDescription.Text;
             s.AccountId = SessionManager.Account.Id;
             s.FeedType = inputFeedType.SelectedValue;
+
+            if (! string.IsNullOrEmpty(inputFeedUrl.Text) && !Uri.IsWellFormedUriString(inputFeedUrl.Text, UriKind.Absolute))
+                inputFeedUrl.Text = "http://" + inputFeedUrl.Text;
+
+            if (!string.IsNullOrEmpty(inputLinkUrl.Text) && !Uri.IsWellFormedUriString(inputLinkUrl.Text, UriKind.Absolute))
+                inputLinkUrl.Text = "http://" + inputLinkUrl.Text;
+
             s.FeedUrl = inputFeedUrl.Text;
             s.LinkUrl = inputLinkUrl.Text;
             s.Publish = inputPublish.Checked;

@@ -15,7 +15,7 @@
     <div class="sncore_h2">
      Syndicate
     </div>
-    <asp:HyperLink ID="linkBack" Text="Cancel" CssClass="sncore_cancel" NavigateUrl="AccountFeedsManage.aspx"
+    <asp:HyperLink ID="linkBack" Text="&#187; Cancel" CssClass="sncore_cancel" NavigateUrl="AccountFeedsManage.aspx"
      runat="server" />
     <table class="sncore_account_table">
      <tr>

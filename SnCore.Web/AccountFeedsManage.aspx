@@ -15,8 +15,8 @@
     <div class="sncore_h2">
      My Syndicated Content
     </div>
-    <asp:HyperLink ID="HyperLink1" Text="Syndicate New" CssClass="sncore_createnew"
-     NavigateUrl="AccountFeedEdit.aspx" runat="server" />
+    <asp:HyperLink ID="HyperLink1" Text="&#187; Syndicate Wizard" CssClass="sncore_createnew"
+     NavigateUrl="AccountFeedWizard.aspx" runat="server" />
     <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage" OnItemCommand="gridManage_ItemCommand"
      AutoGenerateColumns="false" CssClass="sncore_account_table">
      <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
