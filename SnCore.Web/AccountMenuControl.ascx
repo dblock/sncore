@@ -8,7 +8,7 @@
  <tr><td width="30" align="right"><img src="images/account/sent.gif" /></td><td width="*"><a href="AccountStoryEdit.aspx">Tell a Story</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/star.gif" /></td><td width="*"><a href="AccountSurveysManage.aspx">Surveys</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/star.gif" /></td><td width="*"><a href="AccountFeedsManage.aspx">Syndication</a></td></tr>
- <tr><td width="30" align="right"><img src="images/account/sent.gif" /></td><td width="*"><a href="AccountFeedEdit.aspx">Got a Blog?</a></td></tr>
+ <tr><td width="30" align="right"><img src="images/account/sent.gif" /></td><td width="*"><a href="AccountFeedWizard.aspx">Got a Blog?</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/star.gif" /></td><td width="*"><a href="AccountBlogsManage.aspx">Blogs</a></td></tr>
 </table>
 <table class="sncore_accountmenu_table">
