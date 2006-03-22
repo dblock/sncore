@@ -123,6 +123,21 @@ namespace SnCore.Services
             }
         }
 
+        private int mCommentCount;
+
+        public int CommentCount
+        {
+            get
+            {
+
+                return mCommentCount;
+            }
+            set
+            {
+                mCommentCount = value;
+            }
+        }
+
         public TransitPlacePicture()
         {
 
@@ -243,7 +258,11 @@ namespace SnCore.Services
         {
             get
             {
-                return new TransitPlacePicture(mPlacePicture);
+                TransitPlacePicture pic = new TransitPlacePicture(mPlacePicture);
+                pic.CommentCount = ManagedDiscussion.GetDiscussionPostCount(
+                    Session, mPlacePicture.Place.Account.Id,
+                    ManagedDiscussion.PlacePictureDiscussion, mPlacePicture.Id);
+                return pic;
             }
         }
 

@@ -26,6 +26,10 @@
       <ItemTemplate>
        <a href="PlacePictureView.aspx?id=<%# Eval("Id") %>">
         <img border="0" src="PlacePictureThumbnail.aspx?id=<%# Eval("Id") %>" alt="<%# base.Render(Eval("Name")) %>" />
+        <div>
+        <%# ((int) Eval("CommentCount") >= 1) ? Eval("CommentCount").ToString() + 
+         " comment" + (((int) Eval("CommentCount") == 1) ? "" : "s") : "" %>
+        </div>
        </a>
       </ItemTemplate>
      </asp:DataList>

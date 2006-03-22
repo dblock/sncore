@@ -122,7 +122,7 @@
       </a>
       <span style="font-size: smaller;">
        <a href="PlaceView.aspx?id=<%# Eval("Id") %>"> 
-        &#187; see and review
+        &#187; read and review
        </a>
       </span>
      </div>

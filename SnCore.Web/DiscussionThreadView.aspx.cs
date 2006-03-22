@@ -47,6 +47,11 @@ public partial class DiscussionThreadView : Page
                         Redirect(string.Format("PlaceView.aspx?id={0}&#comments", td.ObjectId));
                         return;
                     }
+                    else if (td.Name == DiscussionService.GetPlacePictureDiscussionName())
+                    {
+                        Redirect(string.Format("PlacePictureView.aspx?id={0}&#comments", td.ObjectId));
+                        return;
+                    }
                     else if (td.Name == DiscussionService.GetAcountFeedItemDiscussionName())
                     {
                         Redirect(string.Format("AccountFeedItemView.aspx?id={0}&#comments", td.ObjectId));
@@ -57,7 +62,7 @@ public partial class DiscussionThreadView : Page
                         Redirect(string.Format("AccountBlogPostView.aspx?id={0}&#comments", td.ObjectId));
                         return;
                     }
-                    else if (td.Name == DiscussionService.GetAccountStoryPictureDiscussionId())
+                    else if (td.Name == DiscussionService.GetAccountStoryPictureDiscussionName())
                     {
                         Redirect(string.Format("AccountStoryPictureView.aspx?id={0}&#comments", td.ObjectId));
                         return;

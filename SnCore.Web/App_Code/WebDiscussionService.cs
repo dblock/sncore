@@ -42,10 +42,10 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
-        /// Add or get the current account picture comment discussion.
+        /// Add or get the account picture comment discussion.
         /// </summary>
-        /// <param name="accountid">account id</param>
-        [WebMethod(Description = "Add or get the current picture comment discussion.", CacheDuration = 60)]
+        /// <param name="pictureid">picture id</param>
+        [WebMethod(Description = "Add or get the account picture comment discussion.", CacheDuration = 60)]
         public int GetAccountPictureDiscussionId(int pictureid)
         {
             int accountid = 0;
@@ -58,6 +58,25 @@ namespace SnCore.WebServices
 
             return GetDiscussionId(accountid, ManagedDiscussion.AccountPictureDiscussion, pictureid, true);
         }
+
+        /// <summary>
+        /// Add or get the place picture comment discussion.
+        /// </summary>
+        /// <param name="pictureid">picture id</param>
+        [WebMethod(Description = "Add or get the place picture comment discussion.", CacheDuration = 60)]
+        public int GetPlacePictureDiscussionId(int pictureid)
+        {
+            int accountid = 0;
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedPlacePicture p = new ManagedPlacePicture(session, pictureid);
+                accountid = p.Place.Account.Id;
+            }
+
+            return GetDiscussionId(accountid, ManagedDiscussion.PlacePictureDiscussion, pictureid, true);
+        }
+
 
         /// <summary>
         /// Add or get the current story picture comment discussion.
@@ -739,12 +758,21 @@ namespace SnCore.WebServices
         #region Specialized Discussions
 
         /// <summary>
-        /// Get the built-in name for a picture discussion.
+        /// Get the built-in name for an account picture discussion.
         /// </summary>
-        [WebMethod(Description = "Get the built-in name for a discussion.")]
+        [WebMethod(Description = "Get the built-in name for an account picture discussion.")]
         public string GetAccountPictureDiscussionName()
         {
             return ManagedDiscussion.AccountPictureDiscussion;
+        }
+
+        /// <summary>
+        /// Get the built-in name for a place picture discussion.
+        /// </summary>
+        [WebMethod(Description = "Get the built-in name for a place picture discussion.")]
+        public string GetPlacePictureDiscussionName()
+        {
+            return ManagedDiscussion.PlacePictureDiscussion;
         }
 
         /// <summary>

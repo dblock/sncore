@@ -260,6 +260,7 @@ namespace SnCore.Services
         public const string AccountTagsDiscussion = "Testimonials";
         public const string AccountFeedItemDiscussion = "Feed Entry Comments";
         public const string PlaceDiscussion = "Place Comments";
+        public const string PlacePictureDiscussion = "Place Picture Comments";
         public const string AccountBlogPostDiscussion = "Blog Post Comments";
 
         public class DiscussionNotFoundException : SoapException
