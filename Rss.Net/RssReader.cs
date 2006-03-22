@@ -458,11 +458,13 @@ namespace Rss
 										item.Description = elementText.ToString();
 										break;
 									case "author":
+         case "dc:creator":
 										item.Author = elementText.ToString();
 										break;
 									case "comments":
 										item.Comments = elementText.ToString();
 										break;
+         case "dc:date":
 									case "pubdate":
 										try
 										{

@@ -1746,13 +1746,8 @@ namespace SnCore.Services
                         tagword.TagWord = word;
                         tagword.AccountId = Id;
                         tagword.Created = tagword.Modified = DateTime.UtcNow;
+                        Session.Save(tagword);
                     }
-                    else
-                    {
-                        tagword.Modified = DateTime.UtcNow;
-                    }
-
-                    Session.SaveOrUpdate(tagword);
                 }
                 else if (tagword != null)
                 {

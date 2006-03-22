@@ -422,6 +422,7 @@ namespace SnCore.Services
                 {
                     item = (AccountFeedItem)Session.CreateCriteria(typeof(AccountFeedItem))
                         .Add(Expression.Eq("Guid", atomitem.Id.ToString()))
+                        .Add(Expression.Eq("AccountFeed.Id", Id))
                         .UniqueResult();
                 }
 
@@ -429,6 +430,25 @@ namespace SnCore.Services
                 {
                     item = new AccountFeedItem();
                     item.Created = item.Updated = DateTime.UtcNow;
+                }
+                else if (
+                    atomitem.Modified != null
+                    && atomitem.Modified.DateTime.Ticks > 0
+                    && atomitem.Modified.DateTime.ToUniversalTime() <= item.Updated)
+                {
+                    // item has not been modified since last update
+                    deleted.Remove(item);
+                    continue;
+                }
+                else if (
+                    atomitem.Modified == null
+                    && atomitem.Created != null
+                    && atomitem.Created.DateTime.Ticks > 0
+                    && atomitem.Created.DateTime.ToUniversalTime() <= item.Updated)
+                {
+                    // item creation date has not been modified since last update and there's no modified date
+                    deleted.Remove(item);
+                    continue;
                 }
                 else
                 {
@@ -474,12 +494,14 @@ namespace SnCore.Services
                     {
                         item = (AccountFeedItem)Session.CreateCriteria(typeof(AccountFeedItem))
                             .Add(Expression.Eq("Guid", rssitem.Guid.Name))
+                            .Add(Expression.Eq("AccountFeed.Id", Id))
                             .UniqueResult();
                     }
                     else if (rssitem.Link != null && !string.IsNullOrEmpty(rssitem.Link.ToString()))
                     {
                         item = (AccountFeedItem)Session.CreateCriteria(typeof(AccountFeedItem))
                             .Add(Expression.Eq("Link", rssitem.Link.ToString()))
+                            .Add(Expression.Eq("AccountFeed.Id", Id))
                             .UniqueResult();
                     }
 
@@ -487,6 +509,12 @@ namespace SnCore.Services
                     {
                         item = new AccountFeedItem();
                         item.Created = item.Updated = DateTime.UtcNow;
+                    }
+                    else if ((rssitem.PubDate.Ticks > 0) && (rssitem.PubDate.ToUniversalTime() <= item.Updated))
+                    {
+                        // item has not been modified since last update
+                        deleted.Remove(item);
+                        continue;
                     }
                     else
                     {

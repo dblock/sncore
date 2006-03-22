@@ -62,7 +62,7 @@ public partial class AccountFeedsManage : AuthenticatedPage
                     break;
                 case "Update":
                     int count = SyndicationService.UpdateAccountFeedItems(SessionManager.Ticket, id);
-                    ReportInfo(string.Format("Feed updated with {0} item{1}.", count, count == 1 ? string.Empty : "s"));
+                    ReportInfo(string.Format("Feed updated with {0} new item{1}.", count, count == 1 ? string.Empty : "s"));
                     gridManage.CurrentPageIndex = 0;
                     gridManage_OnGetDataSource(sender, e);
                     gridManage.DataBind();
