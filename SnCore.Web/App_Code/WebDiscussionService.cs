@@ -42,11 +42,11 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
-        /// Add or get the current picture comment discussion.
+        /// Add or get the current account picture comment discussion.
         /// </summary>
         /// <param name="accountid">account id</param>
         [WebMethod(Description = "Add or get the current picture comment discussion.", CacheDuration = 60)]
-        public int GetPictureDiscussionId(int pictureid)
+        public int GetAccountPictureDiscussionId(int pictureid)
         {
             int accountid = 0;
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
@@ -60,11 +60,29 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
-        /// Add or get the current story comment discussion.
+        /// Add or get the current story picture comment discussion.
+        /// </summary>
+        /// <param name="pictureid">picture id</param>
+        [WebMethod(Description = "Add or get the current story picture comment discussion.", CacheDuration = 60)]
+        public int GetAccountStoryPictureDiscussionId(int pictureid)
+        {
+            int accountid = 0;
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccountStoryPicture p = new ManagedAccountStoryPicture(session, pictureid);
+                accountid = p.AccountId;
+            }
+
+            return GetDiscussionId(accountid, ManagedDiscussion.AccountStoryPictureDiscussion, pictureid, true);
+        }
+
+        /// <summary>
+        /// Add or get the current account story comment discussion.
         /// </summary>
         /// <param name="accountid">account id</param>
-        [WebMethod(Description = "Add or get the current story comment discussion.", CacheDuration = 60)]
-        public int GetStoryDiscussionId(int storyid)
+        [WebMethod(Description = "Add or get the current account story comment discussion.", CacheDuration = 60)]
+        public int GetAccountStoryDiscussionId(int storyid)
         {
             int accountid = 0;
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
@@ -736,6 +754,15 @@ namespace SnCore.WebServices
         public string GetAccountStoryDiscussionName()
         {
             return ManagedDiscussion.AccountStoryDiscussion;
+        }
+
+        /// <summary>
+        /// Get the built-in name for a story picture discussion.
+        /// </summary>
+        [WebMethod(Description = "Get the built-in name for a story picture discussion.")]
+        public string GetAccountStoryPictureDiscussionName()
+        {
+            return ManagedDiscussion.AccountStoryPictureDiscussion;
         }
 
         /// <summary>

@@ -38,7 +38,7 @@ public partial class AccountPictureView : Page
                     (p.CommentCount > 0) ? p.CommentCount.ToString() : "no",
                     (p.CommentCount == 1) ? "" : "s");
 
-                discussionComments.DiscussionId = DiscussionService.GetPictureDiscussionId(RequestId);
+                discussionComments.DiscussionId = DiscussionService.GetAccountPictureDiscussionId(RequestId);
                 discussionComments.DataBind();
 
                 this.Title = string.Format("{0}'s {1}", Renderer.Render(a.Name), Renderer.Render(p.Name));

@@ -30,7 +30,7 @@ public partial class AccountPictureEdit : AuthenticatedPage
                     inputDescription.Text = tw.Description;
                     inputPictureThumbnail.Src = string.Format("AccountPictureThumbnail.aspx?id={0}&CacheDuration=0", tw.Id);
 
-                    discussionComments.DiscussionId = DiscussionService.GetPictureDiscussionId(id);
+                    discussionComments.DiscussionId = DiscussionService.GetAccountPictureDiscussionId(id);
                     discussionComments.DataBind();
                 }
             }

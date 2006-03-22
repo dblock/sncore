@@ -51,6 +51,21 @@ namespace SnCore.Services
 
     public class TransitAccountStoryPicture : TransitService
     {
+        private int mCommentCount;
+
+        public int CommentCount
+        {
+            get
+            {
+
+                return mCommentCount;
+            }
+            set
+            {
+                mCommentCount = value;
+            }
+        }
+
         private int mLocation = 0;
 
         public int Location
@@ -223,7 +238,11 @@ namespace SnCore.Services
         {
             get
             {
-                return new TransitAccountStoryPicture(mAccountStoryPicture);
+                TransitAccountStoryPicture pic = new TransitAccountStoryPicture(mAccountStoryPicture);
+                pic.CommentCount = ManagedDiscussion.GetDiscussionPostCount(
+                    Session, mAccountStoryPicture.AccountStory.Account.Id,
+                    ManagedDiscussion.AccountStoryPictureDiscussion, mAccountStoryPicture.Id);
+                return pic;
             }
         }
 

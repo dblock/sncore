@@ -3,6 +3,7 @@
 
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
+<%@ Register TagPrefix="SnCore" TagName="DiscussionFullView" Src="DiscussionFullViewControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <div class="sncore_navigate">
   <asp:HyperLink CssClass="sncore_navigate_item" ID="linkAccount" Text="Account"
@@ -11,6 +12,10 @@
    runat="server" />
   <asp:Label CssClass="sncore_navigate_item" ID="labelPicture" Text="Picture" runat="server" />
  </div>
+ <div class="sncore_h2">
+  Story Picture
+ </div>
+ <asp:HyperLink CssClass="sncore_createnew" ID="linkComments" runat="server" NavigateUrl="#comments" />
  <table class="sncore_table">
   <tr>
    <td class="sncore_form_label">
@@ -18,4 +23,6 @@
    </td>
   </tr>
  </table>
+ <a name="comments"></a>
+ <SnCore:DiscussionFullView runat="server" ID="discussionComments" PostNewText="&#187; Comment" />
 </asp:Content>

@@ -6,7 +6,7 @@
    <link rel="alternate" type="application/rss+xml" title="Rss" href="AccountStoriesRss.aspx" />
    <div class="sncore_h2">
     <a href='AccountStoriesView.aspx'>
-      Latest Stories
+      New Stories
      <img src="images/site/right.gif" border="0" />
     </a>
    </div>

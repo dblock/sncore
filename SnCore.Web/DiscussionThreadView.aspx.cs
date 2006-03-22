@@ -57,6 +57,11 @@ public partial class DiscussionThreadView : Page
                         Redirect(string.Format("AccountBlogPostView.aspx?id={0}&#comments", td.ObjectId));
                         return;
                     }
+                    else if (td.Name == DiscussionService.GetAccountStoryPictureDiscussionId())
+                    {
+                        Redirect(string.Format("AccountStoryPictureView.aspx?id={0}&#comments", td.ObjectId));
+                        return;
+                    }
                 }
 
                 this.Title = Renderer.Render(td.Name);

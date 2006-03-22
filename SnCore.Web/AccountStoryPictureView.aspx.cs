@@ -35,6 +35,15 @@ public partial class AccountStoryPictureView : Page
 
                 this.Title = string.Format("{0}'s {1} {2}",
                     Renderer.Render(a.Name), Renderer.Render(s.Name), Renderer.Render(p.Name));
+
+                linkComments.Visible = p.CommentCount > 0;
+                linkComments.Text = string.Format("{0} comment{1}",
+                    (p.CommentCount > 0) ? p.CommentCount.ToString() : "no",
+                    (p.CommentCount == 1) ? "" : "s");
+
+                discussionComments.DiscussionId = DiscussionService.GetAccountStoryPictureDiscussionId(RequestId);
+                discussionComments.DataBind();
+
             }
         }
         catch (Exception ex)

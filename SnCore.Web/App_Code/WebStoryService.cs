@@ -334,7 +334,7 @@ namespace SnCore.WebServices
                 List<TransitAccountStoryPicture> result = new List<TransitAccountStoryPicture>(list.Count);
                 foreach (AccountStoryPicture p in list)
                 {
-                    result.Add(new TransitAccountStoryPicture(p));
+                    result.Add(new ManagedAccountStoryPicture(session, p).TransitAccountStoryPicture);
                 }
                 SnCore.Data.Hibernate.Session.Flush();
                 return result;

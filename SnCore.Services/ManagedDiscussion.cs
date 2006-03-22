@@ -256,6 +256,7 @@ namespace SnCore.Services
     {
         public const string AccountPictureDiscussion = "Picture Comments";
         public const string AccountStoryDiscussion = "Story Comments";
+        public const string AccountStoryPictureDiscussion = "Story Picture Comments";
         public const string AccountTagsDiscussion = "Testimonials";
         public const string AccountFeedItemDiscussion = "Feed Entry Comments";
         public const string PlaceDiscussion = "Place Comments";

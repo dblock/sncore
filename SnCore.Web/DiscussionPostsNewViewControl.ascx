@@ -7,7 +7,7 @@
   <td>
    <div class="sncore_h2">
     <a href='DiscussionsView.aspx'>
-      Latest Forum Posts
+      New Forum Posts
      <img src="images/site/right.gif" border="0" />
     </a>
    </div>

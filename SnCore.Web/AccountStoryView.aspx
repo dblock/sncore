@@ -21,6 +21,10 @@
      <ItemTemplate>
       <a href='AccountStoryPictureView.aspx?id=<%# Eval("Id") %>'>
        <img border="0" alt='<%# Eval("Name") %>' src='AccountStoryPictureThumbnail.aspx?id=<%# Eval("Id") %>' />
+       <div>
+       <%# ((int) Eval("CommentCount") >= 1) ? Eval("CommentCount").ToString() + 
+        " comment" + (((int) Eval("CommentCount") == 1) ? "" : "s") : "" %>
+       </div>
       </a>
      </ItemTemplate>
     </asp:DataList>

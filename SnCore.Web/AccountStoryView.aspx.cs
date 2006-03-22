@@ -39,7 +39,7 @@ public partial class AccountStoryView : Page
 
                 if (listPictures.Items.Count == 0) storyNoPicture.Visible = true;
 
-                storyComments.DiscussionId = DiscussionService.GetStoryDiscussionId(RequestId);
+                storyComments.DiscussionId = DiscussionService.GetAccountStoryDiscussionId(RequestId);
                 storyComments.DataBind();
             }
         }
