@@ -313,7 +313,17 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccountFriendRequest req = new ManagedAccountFriendRequest(session, id);
+                ManagedAccountFriendRequest req;
+                try
+                {
+                    req = new ManagedAccountFriendRequest(session, id);
+                }
+                catch (NHibernate.ObjectNotFoundException)
+                {
+                    throw new SoapException("This friend request cannot be found. You may have already accepted it.",
+                        SoapException.ClientFaultCode);
+                }
+
                 ManagedAccount user = new ManagedAccount(session, userid);
 
                 if (req.KeenId != userid && ! user.IsAdministrator())
@@ -339,7 +349,17 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccountFriendRequest req = new ManagedAccountFriendRequest(session, id);
+                ManagedAccountFriendRequest req;
+                try
+                {
+                    req = new ManagedAccountFriendRequest(session, id);
+                }
+                catch (NHibernate.ObjectNotFoundException)
+                {
+                    throw new SoapException("This friend request cannot be found. You may have already rejected it.",
+                        SoapException.ClientFaultCode);
+                }
+
                 ManagedAccount user = new ManagedAccount(session, userid);
 
                 if (req.KeenId != userid && ! user.IsAdministrator())
