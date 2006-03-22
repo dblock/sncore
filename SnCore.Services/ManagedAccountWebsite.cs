@@ -106,7 +106,7 @@ namespace SnCore.Services
         public class InvalidUriException : SoapException
         {
             public InvalidUriException()
-                : base("Invalid url format", SoapException.ClientFaultCode)
+                : base("Invalid url format.\nPlease make sure it starts with http://.", SoapException.ClientFaultCode)
             {
 
             }

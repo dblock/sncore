@@ -44,6 +44,10 @@ public partial class AccountWebsiteEdit : AuthenticatedPage
         {
             TransitAccountWebsite tw = new TransitAccountWebsite();
             tw.Name = inputName.Text;
+
+            if (!Uri.IsWellFormedUriString(inputUrl.Text, UriKind.Absolute))
+                inputUrl.Text = "http://" + inputUrl.Text;
+
             tw.Url = inputUrl.Text;
             tw.Description = inputDescription.Text;
             tw.Id = RequestId;
