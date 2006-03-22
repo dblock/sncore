@@ -57,6 +57,12 @@ public partial class BugEdit : AuthenticatedPage
                     if (type != null) selectType.Items.FindByValue(type).Selected = true;
                     linkBugId.Text = "New Bug";
                     linkBack.NavigateUrl = string.Format("BugProjectBugsManage.aspx?id={0}", ProjectId);
+
+                    if (Request.QueryString["url"] != null)
+                        inputSubject.Text = Request.QueryString["url"];
+
+                    if (Request.QueryString["message"] != null)
+                        inputDetails.Text = Request.QueryString["message"];
                 }
             }
         }

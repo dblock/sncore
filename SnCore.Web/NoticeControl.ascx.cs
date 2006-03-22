@@ -103,18 +103,22 @@ public partial class NoticeControl : Control
             if (SessionManager.IsLoggedIn)
             {
                 reportbugurl =
-                    string.Format("BugEdit.aspx?pid={0}&type=Bug",
+                    string.Format("BugEdit.aspx?pid={0}&type=Bug&url={1}&message={2}",
                         SystemService.GetConfigurationByNameWithDefault(
-                            "SnCore.Bug.ProjectId", "0").Value);
+                            "SnCore.Bug.ProjectId", "0").Value,
+                    Renderer.UrlEncode(Request.Url.PathAndQuery),
+                    Renderer.UrlEncode(message));
             }
             else
             {
-                reportbugurl = string.Format("mailto:{0}",
+                reportbugurl = string.Format("mailto:{0}?subject={1}&body={2}",
                         SystemService.GetConfigurationByNameWithDefault(
-                            "SnCore.Admin.EmailAddress", "admin@localhost.com").Value);
+                            "SnCore.Admin.EmailAddress", "admin@localhost.com").Value,
+                            Renderer.UrlEncode(Request.Url.PathAndQuery),
+                            Renderer.UrlEncode(message));
             }
 
-            Message = string.Format("{0}<br>This may be a bug. If you believe that you should not be getting this error, " + 
+            Message = string.Format("{0}<br>This may be a bug. If you believe you shouldn't be getting this error, " + 
                 "please <a href='{1}'>click here</a> to report it.", message, reportbugurl);
 
             HtmlEncode = false;

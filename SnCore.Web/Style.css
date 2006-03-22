@@ -38,10 +38,11 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_menu_item_activated:visited { color: white; }
 .sncore_menu_item_activated:active { color: white; }
 .sncore_notice { border: solid 1px; border-color: silver; margin: 10px; padding: 3px; width: 574px; } 
-.sncore_notice_info { margin: 7px; font-weight: bold; color: green; }
-.sncore_notice_question { margin: 7px; font-weight: bold; color: blue; }
-.sncore_notice_error { margin: 7px; font-weight: bold; color: red; }
-.sncore_notice_warning { margin: 7px; font-weight: bold; color: orange; }
+.sncore_notice_info { border: dotted 2px green; margin: 10px; font-weight: bold; color: green; }
+.sncore_notice_question { border: dotted 2px blue; margin: 10px; font-weight: bold; color: blue; }
+.sncore_notice_error { border: dotted 2px red; margin: 10px; font-weight: bold; color: red; }
+.sncore_notice_warning { border: dotted 2px orange; margin: 10px; font-weight: bold; color: orange; }
+.sncore_notice_tr_td { padding: 7px; }
 .sncore_form { width: 582px; border: 1px #eeeeee solid; }
 .sncore_form_label { font-weight: bold; width: 150px; font-family: Verdana; text-align: right; }
 .sncore_form_value { font-family: Verdana; text-align: left; }
