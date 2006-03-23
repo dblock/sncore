@@ -95,6 +95,11 @@ public partial class AccountFeedEdit : AuthenticatedPage
                         inputLinkUrl.Enabled = false;
                     }
 
+                    if (Request.Params["description"] != null)
+                    {
+                        inputDescription.Text = Request.Params["description"];
+                    }
+
                     if (Request.Params["type"] != null)
                     {
                         ListItem item = inputFeedType.Items.FindByValue(Request.Params["type"]);

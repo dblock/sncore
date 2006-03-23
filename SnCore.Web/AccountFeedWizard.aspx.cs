@@ -19,6 +19,9 @@ using SnCore.Services;
 using Janrain.OpenId;
 using Janrain.OpenId.Consumer;
 using System.Collections.Specialized;
+using Rss;
+using Atom.Core;
+using System.Net;
 
 public partial class AccountFeedWizard : AuthenticatedPage
 {
@@ -54,53 +57,118 @@ public partial class AccountFeedWizard : AuthenticatedPage
         return feedtype;
     }
 
+    protected HttpWebRequest GetFeedHttpRequest(string url)
+    {
+        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+        System.Net.ServicePointManager.Expect100Continue = false;
+        request.UserAgent = "SnCore/1.0";
+        request.Timeout = 60 * 1000;
+        request.KeepAlive = false;
+        request.MaximumAutomaticRedirections = 5;
+        return request;
+    }
+
+    protected Stream GetFeedStream(string url)
+    {
+        return GetFeedHttpRequest(url).GetResponse().GetResponseStream();
+    }
+
+    protected void discoverRel(string url, ArrayList feeds)
+    {
+        SimpleFetcher fetcher = new SimpleFetcher();
+        FetchResponse response = fetcher.Get(new Uri(inputLinkUrl.Text));
+        NameValueCollection[] results = LinkParser.ParseLinkAttrs(response.data, response.length, response.charset);
+
+        foreach (NameValueCollection attrs in results)
+        {
+            string rel = attrs["rel"];
+            if (rel == null)
+                continue;
+
+            string href = attrs["href"];
+            if (href == null)
+                continue;
+
+            string type = attrs["type"];
+            if (type == null)
+                continue;
+
+            string title = attrs["title"];
+            if (title == null)
+                title = "Untitled";
+
+            switch (type)
+            {
+                case "application/rss+xml":
+                case "application/atom+xml":
+                    TransitAccountFeed feed = new TransitAccountFeed();
+                    feed.FeedUrl = new Uri(new Uri(inputLinkUrl.Text), href).ToString();
+                    feed.LinkUrl = inputLinkUrl.Text;
+                    feed.Name = title;
+                    feeds.Add(feed);
+                    break;
+            }
+        }
+    }
+
+    protected void discoverRss(string url, ArrayList feeds)
+    {
+        try
+        {
+            RssFeed rssfeed = RssFeed.Read(GetFeedHttpRequest(url));
+
+            foreach (RssChannel rsschannel in rssfeed.Channels)
+            {
+                TransitAccountFeed feed = new TransitAccountFeed();
+                feed.Description = rsschannel.Description;
+                feed.FeedUrl = url;
+                feed.LinkUrl = rsschannel.Link.ToString();
+                feed.Name = rsschannel.Title;
+                feeds.Add(feed);
+                break;
+            }
+        }
+        catch
+        {
+        }
+    }
+
+    protected void discoverAtom(string url, ArrayList feeds)
+    {
+        try
+        {
+            AtomFeed atomfeed = AtomFeed.Load(GetFeedStream(url));
+
+            TransitAccountFeed feed = new TransitAccountFeed();
+            feed.Description = atomfeed.Tagline.Content;
+            feed.FeedUrl = url;
+            feed.LinkUrl = feed.LinkUrl;
+            feed.Name = feed.Name;
+            feeds.Add(feed);
+        }
+        catch
+        {
+        }
+    }
+
     public void discover_Click(object sender, EventArgs e)
     {
         try
         {
+            inputLinkUrl.Text = inputLinkUrl.Text.Replace("feed://", "http://");
+
             if (!Uri.IsWellFormedUriString(inputLinkUrl.Text, UriKind.Absolute))
                 inputLinkUrl.Text = "http://" + inputLinkUrl.Text;
 
-            SimpleFetcher fetcher = new SimpleFetcher();
-            FetchResponse response = fetcher.Get(new Uri(inputLinkUrl.Text));
-            NameValueCollection[] results = LinkParser.ParseLinkAttrs(response.data, response.length, response.charset);
-
             ArrayList feeds = new ArrayList();
 
-            foreach (NameValueCollection attrs in results)
-            {
-                string rel = attrs["rel"];
-                if (rel == null)
-                    continue;
-
-                string href = attrs["href"];
-                if (href == null)
-                    continue;
-
-                string type = attrs["type"];
-                if (type == null)
-                    continue;
-
-                string title = attrs["title"];
-                if (title == null)
-                    title = "Untitled";
-
-                switch (type)
-                {
-                    case "application/rss+xml":
-                    case "application/atom+xml":
-                        TransitAccountFeed feed = new TransitAccountFeed();
-                        feed.FeedUrl = new Uri(new Uri(inputLinkUrl.Text), href).ToString();
-                        feed.LinkUrl = inputLinkUrl.Text;
-                        feed.Name = title;
-                        feeds.Add(feed);
-                        break;
-                }
-            }
+            discoverRel(inputLinkUrl.Text, feeds);
+            if (feeds.Count == 0) discoverRss(inputLinkUrl.Text, feeds);
+            if (feeds.Count == 0) discoverAtom(inputLinkUrl.Text, feeds);
 
             if (feeds.Count == 0)
             {
-                throw new Exception("No feeds found. Make sure the given address points to a page with " + 
+                throw new Exception("No feeds found. Make sure the given address points to a valid RSS/ATOM feed or a page with " + 
                     "&lt;link rel=\"alternate\" type=\"application/rss+xml\" ... &gt; field(s) in the body.");
             }
 
@@ -118,7 +186,8 @@ public partial class AccountFeedWizard : AuthenticatedPage
         id = 0,
         name,
         feed,
-        link
+        link,
+        description
     };
 
     public void gridFeeds_ItemCommand(object sender, DataGridCommandEventArgs e)
@@ -131,11 +200,13 @@ public partial class AccountFeedWizard : AuthenticatedPage
                     string name = e.Item.Cells[(int) Cells.name].Text;
                     string feed = e.Item.Cells[(int) Cells.feed].Text;
                     string link = e.Item.Cells[(int) Cells.link].Text;
-                    Redirect(string.Format("AccountFeedEdit.aspx?name={0}&feed={1}&link={2}&type={3}",
+                    string description = e.Item.Cells[(int)Cells.description].Text;
+                    Redirect(string.Format("AccountFeedEdit.aspx?name={0}&feed={1}&link={2}&type={3}&description={4}",
                         Renderer.UrlEncode(name),
                         Renderer.UrlEncode(feed),
                         Renderer.UrlEncode(link),
-                        Renderer.UrlEncode(GetDefaultFeedType().Name)));
+                        Renderer.UrlEncode(GetDefaultFeedType().Name),
+                        Renderer.UrlEncode(description)));
                     break;
             }
         }

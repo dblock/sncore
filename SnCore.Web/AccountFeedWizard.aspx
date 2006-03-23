@@ -22,12 +22,20 @@
     <table class="sncore_account_table">
      <tr>
       <td class="sncore_form_label">
-       your website address:
+       your website or
+       <br />
+       feed address:
       </td>
       <td class="sncore_form_value">
        <asp:TextBox ID="inputLinkUrl" runat="server" CssClass="sncore_form_textbox" />
+      </td>
+     </tr>
+     <tr>
+      <td class="sncore_form_label">
+      </td>
+      <td class="sncore_form_value">
        <div class="sncore_link_small">
-        eg. http://myblog.blogserver.com/
+        eg. http://myblog.blogserver.com/ or feed://myblog.blogserver.com/atom.xml
        </div>
       </td>
      </tr>
@@ -51,6 +59,7 @@
       <asp:BoundColumn DataField="Name" Visible="false" />
       <asp:BoundColumn DataField="FeedUrl" Visible="false" />
       <asp:BoundColumn DataField="LinkUrl" Visible="false" />
+      <asp:BoundColumn DataField="Description" Visible="false" />
       <asp:TemplateColumn HeaderText="Feed" ItemStyle-HorizontalAlign="Left" 
        HeaderStyle-HorizontalAlign="Left">
        <itemtemplate>
