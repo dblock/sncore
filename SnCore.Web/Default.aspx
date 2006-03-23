@@ -19,7 +19,6 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountFeedFeaturedView" Src="AccountFeedFeaturedViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="BlogView" Src="AccountBlogViewControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
- <SnCore:AccountReminder ID="accountreminder" runat="server" />
  <table width="100%" cellpadding="0" cellspacing="0">
   <tr>
    <td valign="top" width="75%">

@@ -13,7 +13,7 @@
     <div class="sncore_h2">
      Place Type
     </div>
-    <asp:HyperLink ID="linkBack" Text="Cancel" CssClass="sncore_cancel" NavigateUrl="PlaceTypesManage.aspx"
+    <asp:HyperLink ID="linkBack" Text="&#187; Cancel" CssClass="sncore_cancel" NavigateUrl="PlaceTypesManage.aspx"
      runat="server" />
     <asp:ValidationSummary runat="server" ID="manageValidationSummary" CssClass="sncore_form_validator"
      ShowSummary="true" />

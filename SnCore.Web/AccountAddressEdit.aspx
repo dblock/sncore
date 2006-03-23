@@ -15,7 +15,7 @@
     <div class="sncore_h2">
      Account Address
     </div>
-    <asp:HyperLink ID="linkBack" Text="Cancel" CssClass="sncore_cancel" NavigateUrl="AccountAddressesManage.aspx"
+    <asp:HyperLink ID="linkBack" Text="&#187; Cancel" CssClass="sncore_cancel" NavigateUrl="AccountAddressesManage.aspx"
      runat="server" />
     <asp:ValidationSummary runat="server" ID="manageValidationSummary" CssClass="sncore_form_validator"
      ShowSummary="true" />

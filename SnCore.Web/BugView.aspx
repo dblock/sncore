@@ -1,5 +1,5 @@
-<%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true"
- CodeFile="BugView.aspx.cs" Inherits="BugView" Title="Bug" %>
+<%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="BugView.aspx.cs"
+ Inherits="BugView" Title="Bug" %>
 
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
@@ -8,8 +8,7 @@
   <asp:Label CssClass="sncore_navigate_item" ID="linkBug" Text="Bugs" runat="server" />
   <asp:HyperLink CssClass="sncore_navigate_item" ID="linkProjects" NavigateUrl="BugProjectsManage.aspx"
    Text="Projects" runat="server" />
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkProject" Text="Project"
-   runat="server" />
+  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkProject" Text="Project" runat="server" />
   <asp:Label CssClass="sncore_navigate_item" ID="linkBugId" Text="Bug" runat="server" />
  </div>
  <table class="sncore_inner_table">
@@ -27,7 +26,7 @@
       <td width="*" class="sncore_table_tr_td">
        <asp:Label ID="bugProject" runat="server" Text="Project" CssClass="sncore_h2left" />
        <asp:Label ID="bugId" runat="server" Text="#Id" CssClass="sncore_h2left" />
-       : 
+       :
        <asp:Label ID="bugSubject" CssClass="sncore_h2left" runat="server" Text="Subject" />
       </td>
      </tr>
@@ -116,27 +115,29 @@
     </table>
     <div class="sncore_h3">
      Notes</div>
-    <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridNotes" PageSize="15" AllowPaging="true"
-     ShowHeader="false" OnItemCommand="gridNotes_ItemCommand" AutoGenerateColumns="false"
-     CssClass="sncore_account_table" ItemStyle-CssClass="sncore_table_tr_td" HeaderStyle-CssClass="sncore_table_tr_th">
+    <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridNotes" PageSize="15"
+     AllowPaging="true" ShowHeader="false" OnItemCommand="gridNotes_ItemCommand" AutoGenerateColumns="false"
+     CssClass="sncore_account_table">
+     <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
+     <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
      <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
       PrevPageText="Prev" HorizontalAlign="Center" />
      <Columns>
       <asp:BoundColumn DataField="Id" Visible="false" />
+      <asp:TemplateColumn ItemStyle-HorizontalAlign="Left">
+       <itemtemplate>
+        <div class="sncore_description">
+         <%# base.Adjust(Eval("Created")).ToString("d") %>
+        </div>
+        <b><%# base.RenderEx(Eval("Details")) %></b>
+       </itemtemplate>
+      </asp:TemplateColumn>
       <asp:TemplateColumn>
        <itemtemplate>
-     <%# base.Adjust(Eval("Created")) %>
-     <br />
-     <b><%# base.RenderEx(Eval("Details")) %></b>
-    </itemtemplate>
+        <a href='BugNoteEdit.aspx?bid=<%# Eval("BugId") %>&id=<%# Eval("Id") %>'>Edit</a>
+       </itemtemplate>
       </asp:TemplateColumn>
-      <asp:TemplateColumn ItemStyle-HorizontalAlign="center">
-       <itemtemplate>
-     <a href='BugNoteEdit.aspx?bid=<%# Eval("BugId") %>&id=<%# Eval("Id") %>'>Edit</a>
-    </itemtemplate>
-      </asp:TemplateColumn>
-      <asp:ButtonColumn ItemStyle-HorizontalAlign="Center" ButtonType="LinkButton" CommandName="Delete"
-       Text="Delete"></asp:ButtonColumn>
+      <asp:ButtonColumn ButtonType="LinkButton" CommandName="Delete" Text="Delete" />
      </Columns>
     </SnCoreWebControls:PagedGrid>
    </td>

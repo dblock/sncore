@@ -37,31 +37,33 @@
      OnItemCommand="gridManage_ItemCommand" AutoGenerateColumns="false" CssClass="sncore_account_table">
      <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
       PrevPageText="Prev" HorizontalAlign="Center" />
+     <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
+     <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
      <Columns>
       <asp:BoundColumn DataField="Id" Visible="false" />
       <asp:TemplateColumn ItemStyle-HorizontalAlign="Center">
        <itemtemplate>
-     <a href='SystemPictureView.aspx?id=<%# Eval("Id") %>'><img 
-      border="0" src='SystemPictureThumbnail.aspx?id=<%# Eval("Id") %>&CacheDuration=0' /></a>
-    </itemtemplate>
+        <a href='SystemPictureView.aspx?id=<%# Eval("Id") %>'><img 
+         border="0" src='SystemPictureThumbnail.aspx?id=<%# Eval("Id") %>&CacheDuration=0' />
+        </a>
+       </itemtemplate>
       </asp:TemplateColumn>
-      <asp:TemplateColumn ItemStyle-CssClass="sncore_table_tr_td" HeaderStyle-CssClass="sncore_table_tr_th"
-       HeaderText="Name">
+      <asp:TemplateColumn HeaderText="Name" ItemStyle-HorizontalAlign="Left">
        <itemtemplate>
-     <b><%# base.Render(Eval("Name")) %></b>
-     <br /><%# base.Render(Eval("Description")) %>
-    </itemtemplate>
+        <%# base.Render(Eval("Name")) %>
+        <div class="sncore_description">
+         <%# base.Render(Eval("Description")) %>
+        </div>
+       </itemtemplate>
       </asp:TemplateColumn>
-      <asp:TemplateColumn ItemStyle-CssClass="sncore_table_tr_td" HeaderStyle-CssClass="sncore_table_tr_th"
-       ItemStyle-Font-Bold="true" ItemStyle-HorizontalAlign="Center">
+      <asp:TemplateColumn>
        <itemtemplate>
-     <a href='SystemPictureEdit.aspx?id=<%# base.Render(Eval("Id")) %>'>
-      Edit</a>
-    </itemtemplate>
+        <a href='SystemPictureEdit.aspx?id=<%# base.Render(Eval("Id")) %>'>
+         Edit
+        </a>
+       </itemtemplate>
       </asp:TemplateColumn>
-      <asp:ButtonColumn ItemStyle-HorizontalAlign="Center" ButtonType="LinkButton" ItemStyle-CssClass="sncore_table_tr_td"
-       HeaderStyle-CssClass="sncore_table_tr_th" CommandName="Delete" Text="Delete">
-      </asp:ButtonColumn>
+      <asp:ButtonColumn ButtonType="LinkButton" CommandName="Delete" Text="Delete" />
      </Columns>
     </SnCoreWebControls:PagedGrid>
    </td>

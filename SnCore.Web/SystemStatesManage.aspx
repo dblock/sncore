@@ -13,7 +13,7 @@
     <div class="sncore_h2">
      States
     </div>
-    <asp:HyperLink ID="HyperLink1" Text="Create New" CssClass="sncore_createnew" NavigateUrl="SystemStateEdit.aspx"
+    <asp:HyperLink ID="HyperLink1" Text="&#187; Create New" CssClass="sncore_createnew" NavigateUrl="SystemStateEdit.aspx"
      runat="server" />
     <SnCoreWebControls:PagedGrid CellPadding="4" OnItemCommand="gridManage_ItemCommand"
      runat="server" ID="gridManage" AutoGenerateColumns="false" CssClass="sncore_account_table"

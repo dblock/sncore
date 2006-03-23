@@ -14,7 +14,7 @@
     <div class="sncore_h2">
      Bookmarks
     </div>
-    <asp:HyperLink ID="HyperLink1" Text="Create New" CssClass="sncore_createnew" NavigateUrl="SystemBookmarkEdit.aspx"
+    <asp:HyperLink ID="HyperLink1" Text="&#187; Create New" CssClass="sncore_createnew" NavigateUrl="SystemBookmarkEdit.aspx"
      runat="server" />
     <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage" PageSize="15"
      AllowPaging="true" OnItemCommand="gridManage_ItemCommand" AutoGenerateColumns="false"

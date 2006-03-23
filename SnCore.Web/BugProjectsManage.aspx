@@ -13,7 +13,7 @@
     <div class="sncore_h2">
      Bug Projects
     </div>
-    <asp:HyperLink ID="linkNew" Text="Create New" CssClass="sncore_createnew" NavigateUrl="BugProjectEdit.aspx"
+    <asp:HyperLink ID="linkNew" Text="&#187; Create New" CssClass="sncore_createnew" NavigateUrl="BugProjectEdit.aspx"
      runat="server" />
     <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage" PageSize="15" AllowPaging="true"
      OnItemCommand="gridManage_ItemCommand" AutoGenerateColumns="false" CssClass="sncore_account_table">

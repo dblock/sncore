@@ -34,17 +34,18 @@
    <td>
    </td>
    <td class="sncore_form_value">
-    <SnCoreWebControls:Button ID="search" runat="server" Text="Search!" CausesValidation="true" CssClass="sncore_form_button"
-     OnClick="search_Click" />
+    <SnCoreWebControls:Button ID="search" runat="server" Text="Search!" CausesValidation="true"
+     CssClass="sncore_form_button" OnClick="search_Click" />
    </td>
   </tr>
- </table> 
+ </table>
  <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage" PageSize="10"
   AllowCustomPaging="true" AllowPaging="true" AutoGenerateColumns="false" CssClass="sncore_table"
   ShowHeader="false">
   <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
    PrevPageText="Prev" HorizontalAlign="Center" />
-  <ItemStyle CssClass="sncore_table_tr_td" HorizontalAlign="Center" />
+  <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
+  <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
   <Columns>
    <asp:BoundColumn DataField="Id" Visible="false" />
    <asp:TemplateColumn ItemStyle-VerticalAlign="Top">

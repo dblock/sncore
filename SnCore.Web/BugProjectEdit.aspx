@@ -13,7 +13,7 @@
     <div class="sncore_h2">
      Bug Project
     </div>
-    <asp:HyperLink ID="linkBack" Text="Cancel" CssClass="sncore_cancel" NavigateUrl="BugProjectsManage.aspx"
+    <asp:HyperLink ID="linkBack" Text="&#187; Cancel" CssClass="sncore_cancel" NavigateUrl="BugProjectsManage.aspx"
      runat="server" />
     <asp:ValidationSummary runat="server" ID="manageValidationSummary" CssClass="sncore_form_validator"
      ShowSummary="true" />

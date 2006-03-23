@@ -1,6 +1,5 @@
-<%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true"
- CodeFile="AccountInvitationsManage.aspx.cs" Inherits="AccountInvitationsManage"
- Title="Account | Invitations" %>
+<%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="AccountInvitationsManage.aspx.cs"
+ Inherits="AccountInvitationsManage" Title="Account | Invitations" %>
 
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
@@ -26,7 +25,8 @@
        e-mail address(es):
       </td>
       <td class="sncore_form_value">
-       <asp:TextBox CssClass="sncore_form_textbox" ID="inputEmailAddress" TextMode="MultiLine" Rows="3" runat="server" />
+       <asp:TextBox CssClass="sncore_form_textbox" ID="inputEmailAddress" TextMode="MultiLine"
+        Rows="3" runat="server" />
        <asp:RequiredFieldValidator ID="inputEmailAddressRequired" runat="server" ControlToValidate="inputEmailAddress"
         CssClass="sncore_form_validator" Display="None" ErrorMessage="at least one e-mail address is required" />
        one per line or separated with semicolons
@@ -45,39 +45,38 @@
       <td>
       </td>
       <td class="sncore_form_value">
-       <SnCoreWebControls:Button ID="invite" runat="server" Text="Invite" CausesValidation="true" CssClass="sncore_form_button"
-        OnClick="invite_Click" />
+       <SnCoreWebControls:Button ID="invite" runat="server" Text="Invite" CausesValidation="true"
+        CssClass="sncore_form_button" OnClick="invite_Click" />
       </td>
      </tr>
     </table>
     <div class="sncore_h2">
      Pending Invitations
     </div>
-    <SnCoreWebControls:PagedGrid CellPadding="4" AllowPaging="true" PageSize="15" runat="server" ID="gridManage"
-     AutoGenerateColumns="false" CssClass="sncore_account_table" OnItemCommand="gridManage_ItemCommand">
+    <SnCoreWebControls:PagedGrid CellPadding="4" AllowPaging="true" PageSize="15" runat="server"
+     ID="gridManage" AutoGenerateColumns="false" CssClass="sncore_account_table" OnItemCommand="gridManage_ItemCommand">
      <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
       PrevPageText="Prev" HorizontalAlign="Center" />
+     <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
+     <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
      <Columns>
       <asp:BoundColumn DataField="Id" Visible="false" />
       <asp:TemplateColumn ItemStyle-HorizontalAlign="Center">
        <itemtemplate>
-     <img src="images/Item.gif" />
-    </itemtemplate>
+        <img src="images/Item.gif" />
+       </itemtemplate>
       </asp:TemplateColumn>
-      <asp:TemplateColumn ItemStyle-CssClass="sncore_table_tr_td" HeaderStyle-CssClass="sncore_table_tr_th"
-       HeaderText="EMail">
+      <asp:TemplateColumn HeaderText="Email Address">
        <itemtemplate>
-      <%# base.Render(Eval("Email")) %>
-    </itemtemplate>
+        <%# base.Render(Eval("Email")) %>
+       </itemtemplate>
       </asp:TemplateColumn>
-      <asp:TemplateColumn ItemStyle-CssClass="sncore_table_tr_td" HeaderStyle-CssClass="sncore_table_tr_th"
-       HeaderText="Sent">
+      <asp:TemplateColumn HeaderText="Sent">
        <itemtemplate>
-      <%# base.Adjust(Eval("Created")) %>
-    </itemtemplate>
+        <%# base.Adjust(Eval("Created")).ToString("d") %>
+       </itemtemplate>
       </asp:TemplateColumn>
-      <asp:ButtonColumn ItemStyle-HorizontalAlign="Center" ButtonType="LinkButton" ItemStyle-CssClass="sncore_table_tr_td"
-       HeaderStyle-CssClass="sncore_table_tr_th" CommandName="Delete" Text="Delete" />
+      <asp:ButtonColumn ButtonType="LinkButton" CommandName="Delete" Text="Delete" />
      </Columns>
     </SnCoreWebControls:PagedGrid>
    </td>

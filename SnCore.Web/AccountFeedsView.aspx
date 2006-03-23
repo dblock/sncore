@@ -24,7 +24,8 @@
   ShowHeader="false">
   <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
    PrevPageText="Prev" HorizontalAlign="Center" />
-  <ItemStyle CssClass="sncore_table_tr_td" HorizontalAlign="Center" />
+  <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
+  <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
   <Columns>
    <asp:BoundColumn DataField="Id" Visible="false" />
    <asp:TemplateColumn ItemStyle-VerticalAlign="Top">

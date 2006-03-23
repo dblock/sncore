@@ -15,7 +15,7 @@
     <div class="sncore_h2">
      My Stories
     </div>
-    <asp:HyperLink ID="HyperLink1" Text="Tell a Story" CssClass="sncore_createnew"
+    <asp:HyperLink ID="HyperLink1" Text="&#187; Tell a Story" CssClass="sncore_createnew"
      NavigateUrl="AccountStoryEdit.aspx" runat="server" />
     <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage" OnItemCommand="gridManage_ItemCommand"
      AutoGenerateColumns="false" CssClass="sncore_account_table">

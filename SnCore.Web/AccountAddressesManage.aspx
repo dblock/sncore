@@ -1,5 +1,5 @@
-<%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true"
- CodeFile="AccountAddressesManage.aspx.cs" Inherits="AccountAddressesManage" Title="Account | Addresses" %>
+<%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="AccountAddressesManage.aspx.cs"
+ Inherits="AccountAddressesManage" Title="Account | Addresses" %>
 
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
@@ -14,10 +14,13 @@
     <SnCore:AccountReminder ID="accountReminder" runat="server" />
     <div class="sncore_h2">
      Account Addresses</div>
-    <asp:HyperLink ID="HyperLink1" Text="Create New" CssClass="sncore_createnew" NavigateUrl="AccountAddressEdit.aspx"
+    <asp:HyperLink ID="HyperLink1" Text="&#187; Create New" CssClass="sncore_createnew" NavigateUrl="AccountAddressEdit.aspx"
      runat="server" />
-    <SnCoreWebControls:PagedGrid CellPadding="4" OnItemCommand="gridManage_ItemCommand" runat="server"
-     ID="gridManage" AutoGenerateColumns="false" CssClass="sncore_account_table" ShowHeader="False">
+    <SnCoreWebControls:PagedGrid CellPadding="4" OnItemCommand="gridManage_ItemCommand"
+     runat="server" ID="gridManage" AutoGenerateColumns="false" CssClass="sncore_account_table"
+     ShowHeader="False">
+     <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
+     <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
      <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
       PrevPageText="Prev" HorizontalAlign="Center" />
      <Columns>
@@ -28,7 +31,7 @@
      <img src="images/Item.gif" />
     </itemtemplate>
       </asp:TemplateColumn>
-      <asp:TemplateColumn ItemStyle-CssClass="sncore_table_tr_td">
+      <asp:TemplateColumn>
        <itemtemplate>
      <b>
       <%# base.Render(Eval("Name")) %>
@@ -44,14 +47,12 @@
      <%# base.Render(Eval("Country")) %>
     </itemtemplate>
       </asp:TemplateColumn>
-      <asp:TemplateColumn ItemStyle-HorizontalAlign="center" ItemStyle-CssClass="sncore_table_tr_td"
-       HeaderStyle-CssClass="sncore_table_tr_th">
+      <asp:TemplateColumn>
        <itemtemplate>
      <a href="AccountAddressEdit.aspx?id=<%# Eval("Id") %>">Edit</a>
     </itemtemplate>
       </asp:TemplateColumn>
-      <asp:ButtonColumn ItemStyle-HorizontalAlign="Center" ButtonType="LinkButton" ItemStyle-CssClass="sncore_table_tr_td"
-       CommandName="Delete" Text="Delete"></asp:ButtonColumn>
+      <asp:ButtonColumn ButtonType="LinkButton" CommandName="Delete" Text="Delete"></asp:ButtonColumn>
      </Columns>
     </SnCoreWebControls:PagedGrid>
    </td>

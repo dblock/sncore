@@ -10,7 +10,7 @@
  </div>
  <table cellspacing="0" cellpadding="4" class="sncore_table">
   <tr>
-   <td class="sncore_table_tr_td" style="text-align: center; vertical-align: top; width: 100px;">
+   <td class="sncore_table_tr_td" style="text-align: center; vertical-align: top; width: 150px;">
     <a runat="server" id="accountLink" href="AccountView.aspx">
      <img border="0" src="images/AccountThumbnail.gif" runat="server" id="accountImage" />
      <div>
@@ -29,16 +29,19 @@
   CssClass="sncore_table" AutoGenerateColumns="false" ShowHeader="false">
   <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
    PrevPageText="Prev" HorizontalAlign="Center" />
+  <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
+  <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
   <Columns>
-   <asp:TemplateColumn ItemStyle-CssClass="sncore_table_tr_td">
+   <asp:TemplateColumn ItemStyle-HorizontalAlign="Left">
     <itemtemplate>
-    <b>
-     <a href='AccountSurveyQuestionView.aspx?id=<%# Eval("SurveyQuestionId") %>'>
-      <%# base.Render(Eval("SurveyQuestion")) %>
-     </a>
-    </b>
-    <br />
-    <%# base.RenderEx(Eval("Answer")) %>
+     <b>
+      <a href='AccountSurveyQuestionView.aspx?id=<%# Eval("SurveyQuestionId") %>'>
+       <%# base.Render(Eval("SurveyQuestion")) %>
+      </a>
+     </b>
+     <div>
+      <%# base.RenderEx(Eval("Answer")) %>
+     </div>
    </itemtemplate>
    </asp:TemplateColumn>
   </Columns>

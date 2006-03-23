@@ -19,20 +19,35 @@
      CssClass="sncore_account_table">
      <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
       PrevPageText="Prev" HorizontalAlign="Center" />
+     <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
+     <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
      <Columns>
       <asp:BoundColumn DataField="Id" Visible="false" />
       <asp:TemplateColumn ItemStyle-HorizontalAlign="Center">
        <itemtemplate>
-     <img src="images/Item.gif" />
-    </itemtemplate>
+        <img src="images/Item.gif" />
+       </itemtemplate>
       </asp:TemplateColumn>
-      <asp:TemplateColumn ItemStyle-CssClass="sncore_table_tr_td" HeaderStyle-CssClass="sncore_table_tr_th"
-       HeaderText="Survey">
+      <asp:TemplateColumn ItemStyle-HorizontalAlign="Left" HeaderText="Survey">
        <itemtemplate>
-     <a href="AccountSurvey.aspx?id=<%# Eval("Id") %>">
-      <%# base.Render(Eval("Name")) %>
-     </a>
-    </itemtemplate>
+        <a href="AccountSurvey.aspx?id=<%# Eval("Id") %>">
+         <%# base.Render(Eval("Name")) %>
+        </a>
+       </itemtemplate>
+      </asp:TemplateColumn>
+      <asp:TemplateColumn>
+       <itemtemplate>
+        <a href="AccountSurveyView.aspx?id=<%# Eval("Id") %>">
+         View
+        </a>
+       </itemtemplate>
+      </asp:TemplateColumn>
+      <asp:TemplateColumn>
+       <itemtemplate>
+        <a href="AccountSurvey.aspx?id=<%# Eval("Id") %>">
+         Edit
+        </a>
+       </itemtemplate>
       </asp:TemplateColumn>
      </Columns>
     </SnCoreWebControls:PagedGrid>

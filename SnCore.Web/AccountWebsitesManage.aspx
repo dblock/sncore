@@ -1,5 +1,5 @@
-<%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true"
- CodeFile="AccountWebsitesManage.aspx.cs" Inherits="AccountWebsitesManage" Title="Account | Websites" %>
+<%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="AccountWebsitesManage.aspx.cs"
+ Inherits="AccountWebsitesManage" Title="Account | Websites" %>
 
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
@@ -15,37 +15,42 @@
     <div class="sncore_h2">
      My Websites
     </div>
-    <asp:HyperLink Text="Create New" CssClass="sncore_createnew" NavigateUrl="AccountWebsiteEdit.aspx"
+    <asp:HyperLink Text="&#187; Create New" CssClass="sncore_createnew" NavigateUrl="AccountWebsiteEdit.aspx"
      runat="server" />
-    <SnCoreWebControls:PagedGrid CellPadding="4" OnItemCommand="gridManage_ItemCommand" runat="server"
-     ID="gridManage" AutoGenerateColumns="false" CssClass="sncore_account_table" ShowHeader="false">
+    <SnCoreWebControls:PagedGrid CellPadding="4" OnItemCommand="gridManage_ItemCommand"
+     runat="server" ID="gridManage" AutoGenerateColumns="false" CssClass="sncore_account_table">
+     <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
+     <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
      <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
       PrevPageText="Prev" HorizontalAlign="Center" />
      <Columns>
       <asp:BoundColumn DataField="Id" Visible="false" />
       <asp:BoundColumn DataField="Name" Visible="false" />
-      <asp:TemplateColumn ItemStyle-HorizontalAlign="Center">
+      <asp:TemplateColumn>
        <itemtemplate>
-     <img src="images/Item.gif" />
-    </itemtemplate>
+        <img src="images/Item.gif" />
+       </itemtemplate>
       </asp:TemplateColumn>
-      <asp:TemplateColumn ItemStyle-CssClass="sncore_table_tr_td">
+      <asp:TemplateColumn ItemStyle-HorizontalAlign="Left" HeaderText="Website">
        <itemtemplate>
-     <a href="<%# base.Render(Eval("Url")) %>">
-      <%# base.Render(Eval("Name")) %>
-     </a>
-     <br />
-     <%# base.Render(Eval("Description")) %>
-    </itemtemplate>
+        <a href="<%# base.Render(Eval("Url")) %>">
+         <%# base.Render(Eval("Name")) %>
+        </a>
+        <div class="sncore_description">
+         <a href="<%# base.Render(Eval("Url")) %>">
+          <%# base.Render(Eval("Url")) %>
+         </a>
+         <br /><br />
+         <%# base.Render(Eval("Description")) %>
+        </div>
+       </itemtemplate>
       </asp:TemplateColumn>
-      <asp:TemplateColumn ItemStyle-HorizontalAlign="center" ItemStyle-CssClass="sncore_table_tr_td"
-       HeaderStyle-CssClass="sncore_table_tr_th">
+      <asp:TemplateColumn>
        <itemtemplate>
-     <a href="AccountWebsiteEdit.aspx?id=<%# Eval("Id") %>">Edit</a>
-    </itemtemplate>
+        <a href="AccountWebsiteEdit.aspx?id=<%# Eval("Id") %>">Edit</a>
+       </itemtemplate>
       </asp:TemplateColumn>
-      <asp:ButtonColumn ItemStyle-HorizontalAlign="Center" ButtonType="LinkButton" ItemStyle-CssClass="sncore_table_tr_td"
-       CommandName="Delete" Text="Delete"></asp:ButtonColumn>
+      <asp:ButtonColumn ButtonType="LinkButton" CommandName="Delete" Text="Delete" />
      </Columns>
     </SnCoreWebControls:PagedGrid>
    </td>

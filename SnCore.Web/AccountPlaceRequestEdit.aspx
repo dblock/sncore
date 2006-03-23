@@ -21,7 +21,7 @@
       You and your coworkers may claim ownership of the place which optionally gives you rights to publish,
       edit and delete content. 
      </div>
-     <asp:HyperLink ID="linkBack" Text="Cancel" CssClass="sncore_cancel" runat="server" />
+     <asp:HyperLink ID="linkBack" Text="&#187; Cancel" CssClass="sncore_cancel" runat="server" />
      <asp:ValidationSummary runat="server" ID="manageValidationSummary" CssClass="sncore_form_validator"
       ShowSummary="true" />
      <table class="sncore_account_table">

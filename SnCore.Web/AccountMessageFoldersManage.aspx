@@ -1,6 +1,5 @@
-<%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true"
- CodeFile="AccountMessageFoldersManage.aspx.cs" Inherits="AccountMessageFoldersManage"
- Title="Account | Messages" %>
+<%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="AccountMessageFoldersManage.aspx.cs"
+ Inherits="AccountMessageFoldersManage" Title="Account | Messages" %>
 
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
@@ -21,7 +20,7 @@
     </div>
 --%>
     <%--
- <asp:HyperLink ID="createNew" NavigateUrl="AccountMessageFolderEdit.aspx" Text="Create New" CssClass="sncore_createnew" runat="server" /> 
+ <asp:HyperLink ID="createNew" NavigateUrl="AccountMessageFolderEdit.aspx" Text="&#187; Create New" CssClass="sncore_createnew" runat="server" /> 
 --%>
     <%--    <SnCoreWebControls:PagedGrid CellPadding="4" showheader="false" runat="server" id="messagefoldersView"
      autogeneratecolumns="false" cssclass="sncore_account_table" onitemdatabound="messagefoldersView_ItemDataBound"
@@ -73,50 +72,54 @@
       AutoGenerateColumns="false" CssClass="sncore_account_table" OnItemCommand="messagesView_ItemCommand">
       <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
        PrevPageText="Prev" HorizontalAlign="Center" />
+      <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
+      <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
       <Columns>
        <asp:BoundColumn DataField="Id" Visible="false" />
-       <asp:TemplateColumn ItemStyle-CssClass="sncore_table_tr_td" ItemStyle-HorizontalAlign="Center">
+       <asp:TemplateColumn>
         <itemtemplate>
-      <table width="100%">
-       <tr>
-        <td valign="top" width="150" align="center">
-         <a href="AccountView.aspx?id=<%# Eval("SenderAccountId") %>">
-          <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("SenderAccountPictureId") %>" />
-          <br />
-          <b>
-           <%# base.Render(Eval("SenderAccountName")) %>
-          </b></a>
-        </td>
-        <td align="left" valign="top" width="*">
-         <b>from:</b> <a href="AccountView.aspx?id=<%# Eval("SenderAccountId") %>">
-          <%# base.Render(Eval("SenderAccountName")) %>
-         </a>
-         <br />
-         <b>to:</b> <a href="AccountView.aspx?id=<%# Eval("RecepientAccountId") %>">
-          <%# base.Render(Eval("RecepientAccountName")) %>
-         </a>
-         <br />
-         <b>subject:</b>
-         <%# base.Render(Eval("Subject"))%>
-         <br />
-         <b>posted:</b>
-         <%# base.Adjust(Eval("Sent")).ToString() %>
-         <br />
-         <br />
-         <%# base.RenderEx(Eval("Body"))%>
-        </td>
-       </tr>
-      </table>
-     </itemtemplate>
+         <table width="100%">
+          <tr>
+           <td valign="top" width="150" align="center">
+            <a href="AccountView.aspx?id=<%# Eval("SenderAccountId") %>">
+             <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("SenderAccountPictureId") %>" />
+             <br />
+             <b>
+              <%# base.Render(Eval("SenderAccountName")) %>
+             </b>
+            </a>
+           </td>
+           <td align="left" valign="top" width="*">
+            <b>from:</b> 
+            <a href="AccountView.aspx?id=<%# Eval("SenderAccountId") %>">
+             <%# base.Render(Eval("SenderAccountName")) %>
+            </a>
+            <br />
+            <b>to:</b> 
+            <a href="AccountView.aspx?id=<%# Eval("RecepientAccountId") %>">
+             <%# base.Render(Eval("RecepientAccountName")) %>
+            </a>
+            <br />
+            <b>subject:</b>
+            <%# base.Render(Eval("Subject"))%>
+            <br />
+            <b>posted:</b>
+            <%# base.Adjust(Eval("Sent")).ToString() %>
+            <br />
+            <br />
+            <%# base.RenderEx(Eval("Body"))%>
+           </td>
+          </tr>
+         </table>
+        </itemtemplate>
        </asp:TemplateColumn>
-       <asp:TemplateColumn ItemStyle-CssClass="sncore_table_tr_td" ItemStyle-HorizontalAlign="Center">
+       <asp:TemplateColumn>
         <itemtemplate>
-      <a href="AccountMessageEdit.aspx?id=<%# Eval("SenderAccountId") %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# SnCore.Tools.Web.Renderer.UrlEncode(base.ReturnUrl) %>#edit">
-       Reply</a>
-     </itemtemplate>
+         <a href="AccountMessageEdit.aspx?id=<%# Eval("SenderAccountId") %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# SnCore.Tools.Web.Renderer.UrlEncode(base.ReturnUrl) %>#edit">
+          Reply</a>
+        </itemtemplate>
        </asp:TemplateColumn>
-       <asp:ButtonColumn CommandName="Delete" ItemStyle-CssClass="sncore_table_tr_td"
-        ItemStyle-HorizontalAlign="Center" Text="Delete" />
+       <asp:ButtonColumn CommandName="Delete" Text="Delete" />
       </Columns>
      </SnCoreWebControls:PagedGrid>
     </asp:Panel>

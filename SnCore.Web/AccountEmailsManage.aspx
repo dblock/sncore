@@ -1,5 +1,5 @@
-<%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true"
- CodeFile="AccountEmailsManage.aspx.cs" Inherits="AccountEmailsManage" Title="Account | EMails" %>
+<%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="AccountEmailsManage.aspx.cs"
+ Inherits="AccountEmailsManage" Title="Account | EMails" %>
 
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
@@ -16,8 +16,11 @@
      <div class="sncore_h2">
       My Email Addresses
      </div>
-     <SnCoreWebControls:PagedGrid CellPadding="4" OnItemDataBound="gridManage_ItemDataBound" OnItemCommand="gridManage_ItemCommand"
-      runat="server" ID="gridManage" AutoGenerateColumns="false" CssClass="sncore_account_table">
+     <SnCoreWebControls:PagedGrid CellPadding="4" OnItemDataBound="gridManage_ItemDataBound"
+      OnItemCommand="gridManage_ItemCommand" runat="server" ID="gridManage" AutoGenerateColumns="false"
+      CssClass="sncore_account_table">
+      <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
+      <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
       <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
        PrevPageText="Prev" HorizontalAlign="Center" />
       <Columns>
@@ -25,27 +28,20 @@
        <asp:BoundColumn DataField="Address" Visible="false" />
        <asp:BoundColumn DataField="Verified" Visible="false" />
        <asp:BoundColumn DataField="Principal" Visible="false" />
-       <asp:BoundColumn ReadOnly="True" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="sncore_table_tr_td"
-        HeaderStyle-CssClass="sncore_table_tr_th" DataFormatString="<img src='images/AccountEmailVerified{0}.gif'>"
+       <asp:BoundColumn ReadOnly="True" DataFormatString="<img src='images/AccountEmailVerified{0}.gif'>"
         DataField="Verified"></asp:BoundColumn>
-       <asp:TemplateColumn ItemStyle-CssClass="sncore_table_tr_td" HeaderStyle-CssClass="sncore_table_tr_th"
-        HeaderText="Email Address">
+       <asp:TemplateColumn ItemStyle-HorizontalAlign="Left" HeaderText="Email Address">
         <itemtemplate>
-     <a href="mailto:<%# base.Render(Eval("Address")) %>">
-      <%# base.Render(Eval("Address")) %>
-     </a>
-    </itemtemplate>
+         <a href="mailto:<%# base.Render(Eval("Address")) %>">
+          <%# base.Render(Eval("Address")) %>
+         </a>
+        </itemtemplate>
        </asp:TemplateColumn>
-       <asp:ButtonColumn ItemStyle-HorizontalAlign="Center" ButtonType="LinkButton" ItemStyle-CssClass="sncore_table_tr_td"
-        HeaderStyle-CssClass="sncore_table_tr_th" CommandName="Delete" Text="Delete">
-       </asp:ButtonColumn>
-       <asp:ButtonColumn ItemStyle-HorizontalAlign="Center" Visible="true" ButtonType="LinkButton"
-        ItemStyle-CssClass="sncore_table_tr_td" HeaderStyle-CssClass="sncore_table_tr_th"
-        CommandName="Resend" DataTextField="Id" DataTextFormatString="Resend"></asp:ButtonColumn>
-       <asp:ButtonColumn ItemStyle-HorizontalAlign="Center" Visible="true" ButtonType="LinkButton"
-        ItemStyle-CssClass="sncore_table_tr_td" HeaderStyle-CssClass="sncore_table_tr_th"
-        CommandName="SetPrincipal" DataTextField="Id" DataTextFormatString="Set Principal">
-       </asp:ButtonColumn>
+       <asp:ButtonColumn ButtonType="LinkButton" CommandName="Delete" Text="Delete" />
+       <asp:ButtonColumn Visible="true" ButtonType="LinkButton" CommandName="Resend" DataTextField="Id"
+        DataTextFormatString="Resend" />
+       <asp:ButtonColumn Visible="true" ButtonType="LinkButton" CommandName="SetPrincipal"
+        DataTextField="Id" DataTextFormatString="Set Principal" />
       </Columns>
      </SnCoreWebControls:PagedGrid>
      <div class="sncore_h2">
@@ -70,8 +66,8 @@
        <td>
        </td>
        <td class="sncore_form_value">
-        <SnCoreWebControls:Button ID="manageAdd" runat="server" Text="Add" CausesValidation="true" CssClass="sncore_form_button"
-         OnClick="save_Click" />
+        <SnCoreWebControls:Button ID="manageAdd" runat="server" Text="Add" CausesValidation="true"
+         CssClass="sncore_form_button" OnClick="save_Click" />
        </td>
       </tr>
      </table>

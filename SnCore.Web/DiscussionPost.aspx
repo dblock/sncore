@@ -46,7 +46,7 @@
  <div class="sncore_h2sub">
   some well formed html and <a href="/docs/html/faq.html#faq_discussions_tags" target="_blank">bbtags</a> allowed
  </div>
- <asp:HyperLink ID="linkCancel" Text="Cancel" CssClass="sncore_cancel" runat="server" />
+ <asp:HyperLink ID="linkCancel" Text="&#187; Cancel" CssClass="sncore_cancel" runat="server" />
  <asp:ValidationSummary runat="server" ID="manageValidationSummary" CssClass="sncore_form_validator"
   ShowSummary="true" />
  <table class="sncore_table">
