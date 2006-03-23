@@ -19,10 +19,13 @@ public partial class PlaceTypeEdit : AuthenticatedPage
         try
         {
             SetDefaultButton(manageAdd);
-            if (RequestId > 0)
+            if (!IsPostBack)
             {
-                TransitPlaceType t = PlaceService.GetPlaceTypeById(RequestId);
-                inputName.Text = t.Name;
+                if (RequestId > 0)
+                {
+                    TransitPlaceType t = PlaceService.GetPlaceTypeById(RequestId);
+                    inputName.Text = t.Name;
+                }
             }
         }
         catch (Exception ex)
