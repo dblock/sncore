@@ -40,7 +40,6 @@ public partial class AccountFeedView : Page
                 labelFeed.Text = Renderer.Render(f.Name);
                 labelFeed.NavigateUrl = f.LinkUrl;
                 labelFeedDescription.Text = Renderer.Render(f.Description);
-                labelFeedLastError.Text = Renderer.Render(f.LastError);
 
                 TransitFeedType t = SyndicationService.GetFeedTypeByName(f.FeedType);
                 gridManage.RepeatColumns = t.SpanColumns;

@@ -65,12 +65,14 @@
        <a class="sncore_feeditem_name" href='AccountFeedItemView.aspx?id=<%# base.Render(Eval("Id")) %>'>
         <%# base.Render(GetValue(Eval("Title"), "Untitled")) %>
        </a>
-       <span style="font-size: smaller;">
-       <a href='AccountFeedItemView.aspx?id=<%# Eval("Id") %>&#comments'>
-        &#187; <%# GetComments((int) Eval("CommentCount"))%></a>       
-       </span>
       </div>
       <div class="sncore_description">
+       <a href='AccountFeedItemView.aspx?id=<%# Eval("Id") %>&#comments'>
+        &#187; <%# GetComments((int) Eval("CommentCount"))%>
+       </a>       
+       <a target="_blank" href='<%# base.Render(Eval("Link")) %>'>
+        &#187; x-posted
+       </a>
        in
        <a href='AccountFeedView.aspx?id=<%# Eval("AccountFeedId") %>'>
         <%# base.Render(GetValue(Eval("AccountFeedName"), "Untitled")) %>

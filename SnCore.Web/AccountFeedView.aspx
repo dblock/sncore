@@ -23,9 +23,6 @@
     <div class="sncore_h2sub">
      <asp:Label ID="labelFeedDescription" runat="server" />
     </div>
-    <div class="sncore_notice_error">
-     <asp:Label ID="labelFeedLastError" runat="server" />    
-    </div>
     <asp:Panel ID="panelAdmin" runat="server" HorizontalAlign="Right">
      <div>
       <asp:LinkButton OnClick="feature_Click" runat="server" ID="linkFeature" Text="Feature" />
@@ -59,8 +56,12 @@
    </div>
    <div class="sncore_h2sub" style="font-size: smaller;">
     &#187; <%# base.Adjust(Eval("Created")) %>
+    <a href='<%# base.Render(Eval("Link")) %>' target="_blank">
+     &#187; x-posted
+    </a>
     <a href='AccountFeedItemView.aspx?id=<%# Eval("Id") %>&#comments'>
-     &#187; <%# GetComments((int) Eval("CommentCount"))%></a>
+     &#187; <%# GetComments((int) Eval("CommentCount"))%>
+    </a>
    </div>
    <div>
     <%# Renderer.CleanHtml(Eval("Description")) %>

@@ -10,9 +10,14 @@
   <asp:TemplateColumn>
    <itemtemplate>
     <div class="sncore_h2left">
-     <a href='AccountFeedView.aspx?id=<%# Eval("Id") %>'>
+     <a target="_blank" href='AccountFeedView.aspx?id=<%# Eval("Id") %>'>
       <%# base.Render(Eval("Name")) %>
      </a>
+     <span class="sncore_link" style="font-size: xx-small;">
+       <a href='<%# base.Render(Eval("LinkUrl")) %>' target='_blank'> 
+        &#187; x-posted
+       </a>
+      </span> 
     </div>
     <SnCore:FeedPreview runat="server" FeedId='<%# Eval("Id") %>' />
    </itemtemplate>

@@ -7,7 +7,7 @@
   prevpagetext="Prev" horizontalalign="Center" />
  <ItemTemplate>
   <div>
-   <a target="_blank" href='<%# base.Render(Eval("Link")) %>'>
+   <a href='AccountFeedItemView.aspx?id=<%# Eval("Id") %>'>
     <%# base.GetTitle(Eval("Title")) %>
    </a>
   </div>

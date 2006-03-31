@@ -45,7 +45,12 @@
        <a href='AccountFeedView.aspx?id=<%# Eval("Id") %>'>
         <%# base.Render(Eval("Name")) %>
        </a>
-      </div>
+       <span style="font-size: xx-small">
+        <a href='<%# base.Render(Eval("LinkUrl")) %>'>
+         &#187; x-posted
+        </a>
+       </span>
+      </div>      
       <div class="sncore_h2sub">
        <%# base.Render(Eval("Description")) %>
       </div>

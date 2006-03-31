@@ -27,6 +27,8 @@
      <asp:HyperLink Target="_blank" ID="FeedItemTitle" runat="server" />
     </div>
     <div class="sncore_h2sub">
+     &#187;
+     <asp:HyperLink Target="_blank" ID="FeedXPosted" Text="x-posted" runat="server" />
      in
      <asp:HyperLink ID="FeedTitle" runat="server" />
      on

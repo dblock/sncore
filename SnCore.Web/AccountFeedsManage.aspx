@@ -36,6 +36,9 @@
         <a href="AccountFeedView.aspx?id=<%# Eval("Id") %>">
          <%# base.Render(Eval("Name")) %>
         </a>
+        <div style="color: Red; font-size: smaller;">
+         <%# base.Render(Eval("LastError")) %>
+        </div>
        </itemtemplate>
       </asp:TemplateColumn>
       <asp:TemplateColumn HeaderText="Last Update">

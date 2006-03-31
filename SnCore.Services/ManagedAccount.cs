@@ -1789,7 +1789,7 @@ namespace SnCore.Services
                     throw new ManagedAccount.AccessDeniedException();
                 }
 
-                feed.LastError = "Feed has not been updated since last save.";
+                feed.LastError = "Feed has not yet been updated since last save.";
             }
 
             feed.Updated = DateTime.UtcNow;

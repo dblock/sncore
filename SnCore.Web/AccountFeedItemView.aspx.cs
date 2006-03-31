@@ -39,6 +39,7 @@ public partial class AccountFeedItemView : Page
 
                 linkAccountView.HRef = linkAccount.NavigateUrl = string.Format("AccountView.aspx?id={0}", tfi.AccountId);
                 FeedTitle.NavigateUrl = linkAccountFeed.NavigateUrl = string.Format("AccountFeedView.aspx?id={0}", tfi.AccountFeedId);
+                FeedXPosted.NavigateUrl = Render(tfi.Link);
 
                 FeedItemTitle.Text = Renderer.Render(tfi.Title);
                 FeedItemDescription.Text = Renderer.CleanHtml(tfi.Description);
