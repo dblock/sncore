@@ -185,9 +185,14 @@ public class Page : System.Web.UI.Page
         return Renderer.Render(o);
     }
 
-    public string RenderEx(object o)
+    public virtual string RenderEx(object o)
     {
         return SessionManager.RenderMarkups(Renderer.RenderEx(o));
+    }
+
+    public virtual string RenderEx(string s)
+    {
+        return SessionManager.RenderMarkups(Renderer.RenderEx(s));
     }
 
     public string UrlEncode(object o)
