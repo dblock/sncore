@@ -467,10 +467,16 @@ namespace SnCore.Services
                     item.Description += content.Content;
                 }
 
+                if (string.IsNullOrEmpty(item.Description))
+                {
+                    item.Description = atomitem.Summary.Content;
+                }
+
                 item.Title = atomitem.Title.Content;
                 if (atomitem.Links.Count > 0) item.Link = atomitem.Links[0].HRef.ToString();
                 if (atomitem.Id != null && !string.IsNullOrEmpty(atomitem.Id.ToString())) item.Guid = atomitem.Id.ToString();
                 if (atomitem.Created != null && atomitem.Created.DateTime.Ticks > 0) item.Created = atomitem.Created.DateTime.ToUniversalTime();
+
                 updated.Add(item);
             }
 

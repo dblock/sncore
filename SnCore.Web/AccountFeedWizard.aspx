@@ -72,9 +72,13 @@
         <div style="font-size: smaller;">
          link: <a href='<%# base.Render(Eval("LinkUrl")) %>' target="_blank"><%# base.Render(Eval("LinkUrl")) %></a>
         </div>
+        <div style="font-size: smaller;">
+         description: <b><%# base.Render(Eval("Description")) %></b>
+        </div>
        </itemtemplate>
       </asp:TemplateColumn>
-      <asp:ButtonColumn ButtonType="LinkButton" CommandName="Next" Text="Next" />
+      <asp:ButtonColumn ButtonType="LinkButton" CommandName="Test" Text="&#187; Test" />
+      <asp:ButtonColumn ButtonType="LinkButton" CommandName="Choose" Text="&#187; Choose" />
      </Columns>
     </SnCoreWebControls:PagedGrid>
    </td>

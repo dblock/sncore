@@ -77,7 +77,17 @@ public partial class AccountFeedWizard : AuthenticatedPage
     {
         SimpleFetcher fetcher = new SimpleFetcher();
         FetchResponse response = fetcher.Get(new Uri(inputLinkUrl.Text));
-        NameValueCollection[] results = LinkParser.ParseLinkAttrs(response.data, response.length, response.charset);
+
+        NameValueCollection[] results = null;
+
+        try
+        {
+            results = LinkParser.ParseLinkAttrs(response.data, response.length, response.charset);
+        }
+        catch
+        {
+            return;
+        }
 
         foreach (NameValueCollection attrs in results)
         {
@@ -104,6 +114,7 @@ public partial class AccountFeedWizard : AuthenticatedPage
                     TransitAccountFeed feed = new TransitAccountFeed();
                     feed.FeedUrl = new Uri(new Uri(inputLinkUrl.Text), href).ToString();
                     feed.LinkUrl = inputLinkUrl.Text;
+                    feed.Description = string.Empty;
                     feed.Name = title;
                     feeds.Add(feed);
                     break;
@@ -140,10 +151,31 @@ public partial class AccountFeedWizard : AuthenticatedPage
             AtomFeed atomfeed = AtomFeed.Load(GetFeedStream(url));
 
             TransitAccountFeed feed = new TransitAccountFeed();
-            feed.Description = atomfeed.Tagline.Content;
+            
+            if (atomfeed.Tagline != null)
+            {
+                feed.Description = atomfeed.Tagline.Content;
+            }
+
             feed.FeedUrl = url;
-            feed.LinkUrl = feed.LinkUrl;
-            feed.Name = feed.Name;
+            
+            if (atomfeed.Links != null)
+            {
+                foreach (AtomLink link in atomfeed.Links)
+                {
+                    if (link.Rel == Relationship.Alternate)
+                    {
+                        feed.LinkUrl = link.HRef.ToString();
+                        break;
+                    }
+                }
+            }
+
+            if (atomfeed.Title != null)
+            {
+                feed.Name = atomfeed.Title.Content;
+            }
+
             feeds.Add(feed);
         }
         catch
@@ -190,17 +222,32 @@ public partial class AccountFeedWizard : AuthenticatedPage
         description
     };
 
+    protected string CleanCell(string s)
+    {
+        if (string.IsNullOrEmpty(s))
+            return string.Empty;
+
+        if (s == "&nbsp;")
+            return string.Empty;
+
+        return s.Trim();
+    }
+
     public void gridFeeds_ItemCommand(object sender, DataGridCommandEventArgs e)
     {
         try
         {
             switch (e.CommandName)
             {
-                case "Next":
-                    string name = e.Item.Cells[(int) Cells.name].Text;
-                    string feed = e.Item.Cells[(int) Cells.feed].Text;
-                    string link = e.Item.Cells[(int) Cells.link].Text;
-                    string description = e.Item.Cells[(int)Cells.description].Text;
+                case "Test":
+                    inputLinkUrl.Text = e.Item.Cells[(int)Cells.feed].Text;
+                    discover_Click(sender, e);
+                    break;
+                case "Choose":
+                    string name = CleanCell(e.Item.Cells[(int) Cells.name].Text);
+                    string feed = CleanCell(e.Item.Cells[(int) Cells.feed].Text);
+                    string link = CleanCell(e.Item.Cells[(int) Cells.link].Text);
+                    string description = CleanCell(e.Item.Cells[(int)Cells.description].Text);
                     Redirect(string.Format("AccountFeedEdit.aspx?name={0}&feed={1}&link={2}&type={3}&description={4}",
                         Renderer.UrlEncode(name),
                         Renderer.UrlEncode(feed),
