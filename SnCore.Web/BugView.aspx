@@ -105,7 +105,11 @@
      </tr>
     </table>
     <div class="sncore_h3">
-     Details</div>
+     Details
+    </div>
+    <div class="sncore_h2sub" style="font-size: smaller;">
+     <asp:LinkButton CommandArgument="Text" ID="linkSwitchMode" Text="&#187; text" runat="server" OnClick="linkSwitchMode_Click" />
+    </div>
     <table class="sncore_account_table">
      <tr>
       <td class="sncore_table_tr_td">
@@ -126,10 +130,13 @@
       <asp:BoundColumn DataField="Id" Visible="false" />
       <asp:TemplateColumn ItemStyle-HorizontalAlign="Left">
        <itemtemplate>
+        <%# base.RenderEx(Eval("Details")) %>
         <div class="sncore_description">
+         added by 
+         <a href='AccountView.aspx?id=<%# Eval("AccountId") %>'><%# base.Render(Eval("AccountName")) %></a>
+         on
          <%# base.Adjust(Eval("Created")).ToString("d") %>
         </div>
-        <b><%# base.RenderEx(Eval("Details")) %></b>
        </itemtemplate>
       </asp:TemplateColumn>
       <asp:TemplateColumn>

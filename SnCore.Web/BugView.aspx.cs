@@ -152,4 +152,52 @@ public partial class BugView : Page
         }
     }
 
+    public void linkSwitchMode_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            TransitBug bug = BugService.GetBugById(RequestId);
+            switch(linkSwitchMode.CommandArgument)
+            {
+                case "Text":
+                    linkSwitchMode.Text = "&#187; html";
+                    linkSwitchMode.CommandArgument = "Html";
+                    break;
+                case "Html":
+                    linkSwitchMode.Text = "&#187; text";
+                    linkSwitchMode.CommandArgument = "Text";
+                    break;
+            }
+
+            bugDetails.Text = RenderEx(bug.Details);
+            gridNotes_OnGetDataSource(this, null);
+            gridNotes.DataBind();
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
+    public object RenderEx(object o)
+    {
+        if (o == null)
+            return string.Empty;
+
+        return RenderEx(o.ToString());
+    }
+
+    public string RenderEx(string s)
+    {
+        switch (linkSwitchMode.CommandArgument)
+        {
+            case "Text":
+                return base.RenderEx(s);
+                break;
+            case "Html":
+                return base.Render(s);
+                break;
+        }
+        return string.Empty;
+    }
 }

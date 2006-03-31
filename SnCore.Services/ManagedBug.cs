@@ -297,11 +297,17 @@ namespace SnCore.Services
             get
             {
                 TransitBug bug = new TransitBug(mBug);
-                if (bug.AccountId > 0)
+
+                try
                 {
                     Account account = (Account)Session.Load(typeof(Account), bug.AccountId);
                     bug.AccountName = (account != null) ? account.Name : string.Empty;
                 }
+                catch (NHibernate.ObjectNotFoundException)
+                {
+                    bug.AccountName = "Unknown";
+                }
+
                 return bug;
             }
         }

@@ -44,6 +44,21 @@ namespace SnCore.Services
             }
         }
 
+        private string mAccountName;
+
+        public string AccountName
+        {
+            get
+            {
+
+                return mAccountName;
+            }
+            set
+            {
+                mAccountName = value;
+            }
+        }
+
         private int mBugId;
 
         public int BugId
@@ -94,11 +109,20 @@ namespace SnCore.Services
 
         }
 
-        public TransitBugNote(BugNote o)
+        public TransitBugNote(ISession session, BugNote o)
             : base(o.Id)
         {
             Details = o.Details;
             AccountId = o.AccountId;
+            try
+            {
+                Account account = (Account)session.Load(typeof(Account), o.AccountId);
+                AccountName = (account != null) ? account.Name : string.Empty;
+            }
+            catch (NHibernate.ObjectNotFoundException)
+            {
+                AccountName = "Unknown";
+            }
             BugId = o.Bug.Id;
             Created = o.Created;
             Modified = o.Modified;
@@ -162,7 +186,7 @@ namespace SnCore.Services
         {
             get
             {
-                return new TransitBugNote(mBugNote);
+                return new TransitBugNote(Session, mBugNote);
             }
         }
 
