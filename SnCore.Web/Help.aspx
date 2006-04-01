@@ -12,6 +12,16 @@
     <img src="images/Item.gif" />
    </td>
    <td class="sncore_table_tr_td">
+    <a href="SiteMap.aspx">Site Map</a>
+    <br />
+    Quick links around the site.
+   </td>
+  </tr>
+  <tr>
+   <td class="sncore_form_label">
+    <img src="images/Item.gif" />
+   </td>
+   <td class="sncore_table_tr_td">
     <a href="docs/html/faq.html">Frequently Asked Questions</a>
     <br />
     Please read the F.A.Q. first before asking a question.

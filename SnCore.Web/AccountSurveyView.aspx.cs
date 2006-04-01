@@ -24,16 +24,22 @@ public partial class AccountSurveyView : Page
             accountSurveyAnswers.OnGetDataSource += new EventHandler(accountSurveyAnswers_OnGetDataSource);
             if (!IsPostBack)
             {
-                
-                linkAccount.Text = accountName.Text = Renderer.Render(Account.Name);
-                accountImage.Src = string.Format("AccountPictureThumbnail.aspx?id={0}", Account.PictureId);
-                linkAccount.NavigateUrl = accountLink.HRef = string.Format("AccountView.aspx?id={0}", Account.Id);
+                if (AccountId > 0)
+                {
+                    linkAccount.Text = accountName.Text = Renderer.Render(Account.Name);
+                    accountImage.Src = string.Format("AccountPictureThumbnail.aspx?id={0}", Account.PictureId);
+                    linkAccount.NavigateUrl = accountLink.HRef = string.Format("AccountView.aspx?id={0}", Account.Id);
+                    this.Title = string.Format("{0}'s {1}", Renderer.Render(Account.Name), Renderer.Render(Survey.Name));
+                }
+                else
+                {
+                    accountcolumn.Visible = false;
+                    linkAccount.Visible = false;
+                    this.Title = string.Format("{0}", Renderer.Render(Survey.Name));
+                }
 
                 surveyName.Text = Renderer.Render(Survey.Name);
                 linkAccountSurvey.Text = Renderer.Render(Survey.Name);
-
-                this.Title = string.Format("{0}'s {1}", Renderer.Render(Account.Name), Renderer.Render(Survey.Name));
-
                 accountSurveyAnswers_OnGetDataSource(sender, e);
                 accountSurveyAnswers.DataBind();
             }

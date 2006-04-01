@@ -32,7 +32,7 @@ public partial class AccountSurveyQuestionView : Page
             accountSurveyAnswers.OnGetDataSource += new EventHandler(accountSurveyAnswers_OnGetDataSource);
             if (!IsPostBack)
             {
-                this.Title = linkSurvey.Text = Renderer.Render(Survey.Name);
+                surveyName.Text = this.Title = linkSurvey.Text = Renderer.Render(Survey.Name);
                 linkSurvey.NavigateUrl = ReturnUrl;
                 linkSurveyQuestion.Text = Renderer.Render(SurveyQuestion.Question);
                 GetData();
@@ -101,7 +101,7 @@ public partial class AccountSurveyQuestionView : Page
         {
             string result = Request.QueryString["ReturnUrl"];
             if (string.IsNullOrEmpty(result) && SessionManager.IsLoggedIn) result = string.Format("AccountSurveyView.aspx?aid={0}&id={1}", SessionManager.Account.Id, SurveyId);
-            if (string.IsNullOrEmpty(result)) return "Default.aspx";
+            if (string.IsNullOrEmpty(result)) return string.Format("AccountSurveyView.aspx?id={0}", SurveyId);
             return result;
         }
     }

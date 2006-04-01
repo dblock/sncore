@@ -10,7 +10,8 @@
  </div>
  <table cellspacing="0" cellpadding="4" class="sncore_table">
   <tr>
-   <td class="sncore_table_tr_td" style="text-align: center; vertical-align: top; width: 150px;">
+   <td runat="server" id="accountcolumn" 
+    class="sncore_table_tr_td" style="text-align: center; vertical-align: top; width: 150px;">
     <a runat="server" id="accountLink" href="AccountView.aspx">
      <img border="0" src="images/AccountThumbnail.gif" runat="server" id="accountImage" />
      <div>
