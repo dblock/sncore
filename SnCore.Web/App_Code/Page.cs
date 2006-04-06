@@ -42,6 +42,11 @@ public class Page : System.Web.UI.Page
         return SessionManager.AdjustToRFC822(dt);
     }
 
+    public DateTime ToUTC(DateTime dt)
+    {
+        return SessionManager.ToUTC(dt);
+    }
+
     public DateTime Adjust(DateTime dt)
     {
         return SessionManager.Adjust(dt);
@@ -91,6 +96,14 @@ public class Page : System.Web.UI.Page
         get
         {
             return SessionManager.SystemService;
+        }
+    }
+
+    protected WebEventService EventService
+    {
+        get
+        {
+            return SessionManager.EventService;
         }
     }
 

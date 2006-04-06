@@ -5,14 +5,14 @@
       <generator class="identity" />
     </id>
     <many-to-one name="Account" column="Account_Id" class="Account, SnCore.Data" />
-    <property name="Address" column="Address" type="String" />
-    <property name="Created" column="Created" type="DateTime" />
-    <property name="Modified" column="Modified" type="DateTime" />
-    <property name="Verified" column="Verified" type="Boolean" />
-    <bag lazy="true" name="AccountEmailConfirmations" inverse="true" cascade="none">
+    <bag lazy="true" name="AccountEmailConfirmations" inverse="true">
       <key column="AccountEmail_Id" />
       <one-to-many class="AccountEmailConfirmation, SnCore.Data" />
     </bag>
+    <property name="Address" column="Address" type="String" />
+    <property name="Created" column="Created" type="DateTime" />
+    <property name="Modified" column="Modified" type="DateTime" />
     <property name="Principal" column="Principal" type="Boolean" />
+    <property name="Verified" column="Verified" type="Boolean" />
   </class>
 </hibernate-mapping>

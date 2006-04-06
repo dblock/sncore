@@ -12,16 +12,45 @@ using System.Web.UI.HtmlControls;
 public partial class SelectDateControl : System.Web.UI.UserControl
 {
     private object mSelectedDateTime = null;
+    private bool mRequiresSelection = false;
+    private int mFutureYears = 0;
+
+    public int FutureYears
+    {
+        get
+        {
+            return mFutureYears;
+        }
+        set
+        {
+            mFutureYears = value;
+        }
+    }
+
+    public bool RequiresSelection
+    {
+        get
+        {
+            return mRequiresSelection;
+        }
+        set
+        {
+            mRequiresSelection = value;
+        }
+    }
 
     protected override void OnInit(EventArgs e)
-    {        
-        selectdateYear.Items.Add(new ListItem());
-        for (int i = DateTime.Now.Year; i >= DateTime.Now.Year - 120; i--)
+    {
+        if (! RequiresSelection)
+            selectdateYear.Items.Add(new ListItem());
+
+        for (int i = DateTime.UtcNow.Year + FutureYears; i >= DateTime.UtcNow.Year - 120; i--)
         {
             selectdateYear.Items.Add(new ListItem(i.ToString(), i.ToString()));
         }
 
-        selectdateDay.Items.Add(new ListItem());
+        if (! RequiresSelection)
+            selectdateDay.Items.Add(new ListItem());
         for (int i = 1; i <= 31; i++)
         {
             selectdateDay.Items.Add(new ListItem(i.ToString(), i.ToString()));
@@ -42,7 +71,9 @@ public partial class SelectDateControl : System.Web.UI.UserControl
                 "December"
             };
 
-        selectdateMonth.Items.Add(new ListItem());
+
+        if (! RequiresSelection)
+            selectdateMonth.Items.Add(new ListItem());
         for (int i = 0; i < months.Length; i++)
         {
             selectdateMonth.Items.Add(new ListItem(months[i], (i + 1).ToString()));
@@ -87,6 +118,11 @@ public partial class SelectDateControl : System.Web.UI.UserControl
         set
         {
             mSelectedDateTime = value;
+
+            DateTime d = (DateTime) mSelectedDateTime;
+            selectdateMonth.Items.FindByValue(d.Month.ToString()).Selected = true;
+            selectdateDay.Items.FindByValue(d.Day.ToString()).Selected = true;
+            selectdateYear.Items.FindByValue(d.Year.ToString()).Selected = true;
         }
     }
 }

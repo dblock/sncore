@@ -16,10 +16,10 @@ using System;
 
         //Holds property values
         private System.Int32 m_Id;
+        private System.Boolean m_Excluded;
         private System.Boolean m_Promoted;
         private System.Collections.IList m_TagWordAccounts;
         private System.String m_Word;
-        private System.Boolean m_Excluded;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -42,6 +42,31 @@ using System;
             get
             {
                 return m_Id;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.Boolean'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Excluded' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Excluded' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Boolean Excluded
+        {
+            get
+            {
+                return m_Excluded;
+            }
+            set
+            {
+                m_Excluded = value;
             }
         }
 
@@ -123,31 +148,6 @@ using System;
             set
             {
                 m_Word = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent primitive property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts values of the type 'System.Boolean'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Excluded' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'Excluded' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.Boolean Excluded
-        {
-            get
-            {
-                return m_Excluded;
-            }
-            set
-            {
-                m_Excluded = value;
             }
         }
 

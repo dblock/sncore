@@ -90,6 +90,7 @@ namespace SnCore.Services
         }
     };
 
+    [Serializable()]
     public class TransitPlace : TransitService
     {
         private string mName;

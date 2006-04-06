@@ -22,8 +22,8 @@ using System;
         private System.Collections.IList m_DiscussionThreads;
         private System.DateTime m_Modified;
         private System.String m_Name;
-        private System.Boolean m_Personal;
         private System.Int32 m_ObjectId;
+        private System.Boolean m_Personal;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -212,31 +212,6 @@ using System;
         ///Persistent primitive property.
         ///</summary>
         ///<remarks>
-        ///This property accepts values of the type 'System.Boolean'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Personal' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'Personal' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.Boolean Personal
-        {
-            get
-            {
-                return m_Personal;
-            }
-            set
-            {
-                m_Personal = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent primitive property.
-        ///</summary>
-        ///<remarks>
         ///This property accepts values of the type 'System.Int32'.
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_ObjectId' that holds the value for this property is 'PrivateAccess'.
@@ -254,6 +229,31 @@ using System;
             set
             {
                 m_ObjectId = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.Boolean'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Personal' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Personal' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Boolean Personal
+        {
+            get
+            {
+                return m_Personal;
+            }
+            set
+            {
+                m_Personal = value;
             }
         }
 

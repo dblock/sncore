@@ -30,6 +30,11 @@ public class Control : System.Web.UI.UserControl
         return SessionManager.Adjust(dt);
     }
 
+    public DateTime ToUTC(DateTime dt)
+    {
+        return SessionManager.ToUTC(dt);
+    }
+
     public DateTime Adjust(object dt)
     {
         return Adjust((DateTime)dt);
@@ -58,6 +63,14 @@ public class Control : System.Web.UI.UserControl
         get
         {
             return SessionManager.AccountService;
+        }
+    }
+
+    protected WebEventService EventService
+    {
+        get
+        {
+            return SessionManager.EventService;
         }
     }
 

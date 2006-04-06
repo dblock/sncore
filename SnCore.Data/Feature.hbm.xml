@@ -5,7 +5,7 @@
       <generator class="identity" />
     </id>
     <property name="Created" column="Created" type="DateTime" />
-    <property name="DataObjectId" column="DataObject_Id" type="Int32" />
+    <many-to-one name="DataObject" column="DataObject_Id" class="DataObject, SnCore.Data" />
     <property name="DataRowId" column="DataRow_Id" type="Int32" />
   </class>
 </hibernate-mapping>

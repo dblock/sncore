@@ -4,39 +4,43 @@
     <id access="nosetter.pascalcase-m-underscore"  name="Id" type="Int32" column="Place_Id">
       <generator class="identity" />
     </id>
-    <many-to-one name="City" column="City_Id" class="City, SnCore.Data" />
-    <property name="CrossStreet" column="CrossStreet" type="String" />
-    <property name="Description" column="Description" type="String" />
-    <property name="Email" column="Email" type="String" />
-    <property name="Fax" column="Fax" type="String" />
-    <property name="Name" column="Name" type="String" />
-    <property name="Phone" column="Phone" type="String" />
-    <property name="Street" column="Street" type="String" />
-    <many-to-one name="Type" column="Type" class="PlaceType, SnCore.Data" />
-    <property name="Website" column="Website" type="String" />
-    <property name="Zip" column="Zip" type="String" />
-    <property name="Created" column="Created" type="DateTime" />
-    <property name="Modified" column="Modified" type="DateTime" />
-    <bag lazy="true" name="PlacePictures" inverse="true">
-      <key column="Place_Id" />
-      <one-to-many class="PlacePicture, SnCore.Data" />
-    </bag>
     <many-to-one name="Account" column="Account_Id" class="Account, SnCore.Data" />
-    <bag lazy="true" name="AccountPlaces" inverse="true">
+    <bag lazy="true" name="AccountEvents" inverse="true">
       <key column="Place_Id" />
-      <one-to-many class="AccountPlace, SnCore.Data" />
-    </bag>
-    <bag lazy="true" name="AccountPlaceRequests" inverse="true">
-      <key column="Place_Id" />
-      <one-to-many class="AccountPlaceRequest, SnCore.Data" />
+      <one-to-many class="AccountEvent, SnCore.Data" />
     </bag>
     <bag lazy="true" name="AccountPlaceFavorites" inverse="true">
       <key column="Place_Id" />
       <one-to-many class="AccountPlaceFavorite, SnCore.Data" />
     </bag>
+    <bag lazy="true" name="AccountPlaceRequests" inverse="true">
+      <key column="Place_Id" />
+      <one-to-many class="AccountPlaceRequest, SnCore.Data" />
+    </bag>
+    <bag lazy="true" name="AccountPlaces" inverse="true">
+      <key column="Place_Id" />
+      <one-to-many class="AccountPlace, SnCore.Data" />
+    </bag>
+    <many-to-one name="City" column="City_Id" class="City, SnCore.Data" />
+    <property name="Created" column="Created" type="DateTime" />
+    <property name="CrossStreet" column="CrossStreet" type="String" />
+    <property name="Description" column="Description" type="String" />
+    <property name="Email" column="Email" type="String" />
+    <property name="Fax" column="Fax" type="String" />
+    <property name="Modified" column="Modified" type="DateTime" />
+    <property name="Name" column="Name" type="String" />
+    <property name="Phone" column="Phone" type="String" />
     <bag lazy="true" name="PlaceNames" inverse="true">
       <key column="Place_Id" />
       <one-to-many class="PlaceName, SnCore.Data" />
     </bag>
+    <bag lazy="true" name="PlacePictures" inverse="true">
+      <key column="Place_Id" />
+      <one-to-many class="PlacePicture, SnCore.Data" />
+    </bag>
+    <property name="Street" column="Street" type="String" />
+    <many-to-one name="Type" column="Type" class="PlaceType, SnCore.Data" />
+    <property name="Website" column="Website" type="String" />
+    <property name="Zip" column="Zip" type="String" />
   </class>
 </hibernate-mapping>

@@ -4,12 +4,12 @@
     <id access="nosetter.pascalcase-m-underscore"  name="Id" type="Int32" column="TagWord_Id">
       <generator class="identity" />
     </id>
+    <property name="Excluded" column="Excluded" type="Boolean" />
     <property name="Promoted" column="Promoted" type="Boolean" />
     <bag lazy="true" name="TagWordAccounts" inverse="true">
       <key column="TagWord_Id" />
       <one-to-many class="TagWordAccount, SnCore.Data" />
     </bag>
     <property name="Word" column="Word" type="String" />
-    <property name="Excluded" column="Excluded" type="Boolean" />
   </class>
 </hibernate-mapping>

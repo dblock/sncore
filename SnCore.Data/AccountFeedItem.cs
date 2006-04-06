@@ -19,10 +19,10 @@ using System;
         private AccountFeed m_AccountFeed;
         private System.DateTime m_Created;
         private System.String m_Description;
+        private System.String m_Guid;
         private System.String m_Link;
         private System.String m_Title;
         private System.DateTime m_Updated;
-        private System.String m_Guid;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -132,6 +132,31 @@ using System;
         ///<remarks>
         ///This property accepts values of the type 'System.String'.
         ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Guid' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Guid' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.String Guid
+        {
+            get
+            {
+                return m_Guid;
+            }
+            set
+            {
+                m_Guid = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.String'.
+        ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_Link' that holds the value for this property is 'PrivateAccess'.
         ///
         ///Mapping information:
@@ -197,31 +222,6 @@ using System;
             set
             {
                 m_Updated = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent primitive property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts values of the type 'System.String'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Guid' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'Guid' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.String Guid
-        {
-            get
-            {
-                return m_Guid;
-            }
-            set
-            {
-                m_Guid = value;
             }
         }
 

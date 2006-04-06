@@ -26,6 +26,7 @@
  <tr><td width="30" align="center"><img src="images/account/friends.gif" /></td><td width="*"><a href="AccountFriendsManage.aspx">Friends</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/places.gif" /></td><td width="*"><a href="AccountPlaceFavoritesManage.aspx">Favorites</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/places.gif" /></td><td width="*"><a href="AccountPlacesManage.aspx">Places</a></td></tr>
+ <tr><td width="30" align="center"><img src="images/account/events.gif" /></td><td width="*"><a href="AccountEventsManage.aspx">Events</a></td></tr>
 </table>
 
 <asp:Panel runat="server" ID="panelSystem">
@@ -35,6 +36,7 @@
  <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="SystemSurveysManage.aspx">Surveys</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="SystemPicturesManage.aspx">Pictures</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="SystemPictureTypesManage.aspx">Pic. Types</a></td></tr>
+ <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="SystemAccountEventTypesManage.aspx">Event&nbsp;Types</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="TagWordsManage.aspx">Tag&nbsp;Words</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="SystemRemindersManage.aspx">Reminders</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="SystemInvitationsManage.aspx">Invitations</a></td></tr>

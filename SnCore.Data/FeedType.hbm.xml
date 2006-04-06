@@ -9,10 +9,10 @@
       <one-to-many class="AccountFeed, SnCore.Data" />
     </bag>
     <property name="Name" column="Name" type="String" />
-    <property name="Xsl" column="Xsl" type="String" />
     <property name="SpanColumns" column="SpanColumns" type="Int32" />
-    <property name="SpanRows" column="SpanRows" type="Int32" />
     <property name="SpanColumnsPreview" column="SpanColumnsPreview" type="Int32" />
+    <property name="SpanRows" column="SpanRows" type="Int32" />
     <property name="SpanRowsPreview" column="SpanRowsPreview" type="Int32" />
+    <property name="Xsl" column="Xsl" type="String" />
   </class>
 </hibernate-mapping>

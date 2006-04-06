@@ -17,9 +17,9 @@ using System;
         //Holds property values
         private System.Int32 m_Id;
         private System.Int32 m_AccountId;
-        private TagWord m_TagWord;
         private System.DateTime m_Created;
         private System.DateTime m_Modified;
+        private TagWord m_TagWord;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -72,33 +72,6 @@ using System;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
-        ///Persistent one-many reference property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts references to objects of the type 'TagWord'.
-        ///This property is part of a 'OneToMany' relationship.
-        ///The inverse property for this property is 'TagWord.TagWordAccounts'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_TagWord' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'TagWord_Id' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  TagWord TagWord
-        {
-            get
-            {
-                return m_TagWord;
-            }
-            set
-            {
-                m_TagWord = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
         ///Persistent primitive property.
         ///</summary>
         ///<remarks>
@@ -144,6 +117,33 @@ using System;
             set
             {
                 m_Modified = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent one-many reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts references to objects of the type 'TagWord'.
+        ///This property is part of a 'OneToMany' relationship.
+        ///The inverse property for this property is 'TagWord.TagWordAccounts'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_TagWord' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'TagWord_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  TagWord TagWord
+        {
+            get
+            {
+                return m_TagWord;
+            }
+            set
+            {
+                m_TagWord = value;
             }
         }
 

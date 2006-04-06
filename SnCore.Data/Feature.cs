@@ -17,7 +17,7 @@ using System;
         //Holds property values
         private System.Int32 m_Id;
         private System.DateTime m_Created;
-        private System.Int32 m_DataObjectId;
+        private DataObject m_DataObject;
         private System.Int32 m_DataRowId;
 
         //Public properties
@@ -71,26 +71,28 @@ using System;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
-        ///Persistent primitive property.
+        ///Persistent one-many reference property.
         ///</summary>
         ///<remarks>
-        ///This property accepts values of the type 'System.Int32'.
+        ///This property accepts references to objects of the type 'DataObject'.
+        ///This property is part of a 'OneToMany' relationship.
+        ///The inverse property for this property is 'DataObject.Features'.
         ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_DataObjectId' that holds the value for this property is 'PrivateAccess'.
+        ///The accessibility level for the field 'm_DataObject' that holds the value for this property is 'PrivateAccess'.
         ///
         ///Mapping information:
         ///The property maps to the column 'DataObject_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 DataObjectId
+        public  DataObject DataObject
         {
             get
             {
-                return m_DataObjectId;
+                return m_DataObject;
             }
             set
             {
-                m_DataObjectId = value;
+                m_DataObject = value;
             }
         }
 

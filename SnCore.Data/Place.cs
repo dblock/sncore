@@ -16,25 +16,26 @@ using System;
 
         //Holds property values
         private System.Int32 m_Id;
+        private Account m_Account;
+        private System.Collections.IList m_AccountEvents;
+        private System.Collections.IList m_AccountPlaceFavorites;
+        private System.Collections.IList m_AccountPlaceRequests;
+        private System.Collections.IList m_AccountPlaces;
         private City m_City;
+        private System.DateTime m_Created;
         private System.String m_CrossStreet;
         private System.String m_Description;
         private System.String m_Email;
         private System.String m_Fax;
+        private System.DateTime m_Modified;
         private System.String m_Name;
         private System.String m_Phone;
+        private System.Collections.IList m_PlaceNames;
+        private System.Collections.IList m_PlacePictures;
         private System.String m_Street;
         private PlaceType m_Type;
         private System.String m_Website;
         private System.String m_Zip;
-        private System.DateTime m_Created;
-        private System.DateTime m_Modified;
-        private System.Collections.IList m_PlacePictures;
-        private Account m_Account;
-        private System.Collections.IList m_AccountPlaces;
-        private System.Collections.IList m_AccountPlaceRequests;
-        private System.Collections.IList m_AccountPlaceFavorites;
-        private System.Collections.IList m_PlaceNames;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -65,6 +66,157 @@ using System;
         ///Persistent one-many reference property.
         ///</summary>
         ///<remarks>
+        ///This property accepts references to objects of the type 'Account'.
+        ///This property is part of a 'OneToMany' relationship.
+        ///The inverse property for this property is 'Account.Places'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Account' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Account_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  Account Account
+        {
+            get
+            {
+                return m_Account;
+            }
+            set
+            {
+                m_Account = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'AccountEvent'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'AccountEvent.Place'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_AccountEvents' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as Read-Only.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'AccountEvent' table in the data source.
+        ///The property maps to the identity column 'Place_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Collections.IList AccountEvents
+        {
+            get
+            {
+                return m_AccountEvents;
+            }
+            set
+            {
+                m_AccountEvents = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'AccountPlaceFavorite'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'AccountPlaceFavorite.Place'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_AccountPlaceFavorites' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as Read-Only.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'AccountPlaceFavorite' table in the data source.
+        ///The property maps to the identity column 'Place_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Collections.IList AccountPlaceFavorites
+        {
+            get
+            {
+                return m_AccountPlaceFavorites;
+            }
+            set
+            {
+                m_AccountPlaceFavorites = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'AccountPlaceRequest'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'AccountPlaceRequest.Place'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_AccountPlaceRequests' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as Read-Only.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'AccountPlaceRequest' table in the data source.
+        ///The property maps to the identity column 'Place_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Collections.IList AccountPlaceRequests
+        {
+            get
+            {
+                return m_AccountPlaceRequests;
+            }
+            set
+            {
+                m_AccountPlaceRequests = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'AccountPlace'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'AccountPlace.Place'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_AccountPlaces' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as Read-Only.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'AccountPlace' table in the data source.
+        ///The property maps to the identity column 'Place_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Collections.IList AccountPlaces
+        {
+            get
+            {
+                return m_AccountPlaces;
+            }
+            set
+            {
+                m_AccountPlaces = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent one-many reference property.
+        ///</summary>
+        ///<remarks>
         ///This property accepts references to objects of the type 'City'.
         ///This property is part of a 'OneToMany' relationship.
         ///The inverse property for this property is 'City.Places'.
@@ -84,6 +236,31 @@ using System;
             set
             {
                 m_City = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.DateTime'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Created' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Created' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.DateTime Created
+        {
+            get
+            {
+                return m_Created;
+            }
+            set
+            {
+                m_Created = value;
             }
         }
 
@@ -192,6 +369,31 @@ using System;
         ///Persistent primitive property.
         ///</summary>
         ///<remarks>
+        ///This property accepts values of the type 'System.DateTime'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Modified' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Modified' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.DateTime Modified
+        {
+            get
+            {
+                return m_Modified;
+            }
+            set
+            {
+                m_Modified = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
         ///This property accepts values of the type 'System.String'.
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_Name' that holds the value for this property is 'PrivateAccess'.
@@ -234,6 +436,68 @@ using System;
             set
             {
                 m_Phone = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'PlaceName'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'PlaceName.Place'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_PlaceNames' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as Read-Only.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'PlaceName' table in the data source.
+        ///The property maps to the identity column 'Place_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Collections.IList PlaceNames
+        {
+            get
+            {
+                return m_PlaceNames;
+            }
+            set
+            {
+                m_PlaceNames = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'PlacePicture'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'PlacePicture.Place'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_PlacePictures' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as Read-Only.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'PlacePicture' table in the data source.
+        ///The property maps to the identity column 'Place_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Collections.IList PlacePictures
+        {
+            get
+            {
+                return m_PlacePictures;
+            }
+            set
+            {
+                m_PlacePictures = value;
             }
         }
 
@@ -336,238 +600,6 @@ using System;
             set
             {
                 m_Zip = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent primitive property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts values of the type 'System.DateTime'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Created' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'Created' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.DateTime Created
-        {
-            get
-            {
-                return m_Created;
-            }
-            set
-            {
-                m_Created = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent primitive property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts values of the type 'System.DateTime'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Modified' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'Modified' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.DateTime Modified
-        {
-            get
-            {
-                return m_Modified;
-            }
-            set
-            {
-                m_Modified = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent many-one reference property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts multiple references to objects of the type 'PlacePicture'.
-        ///This property is part of a 'ManyToOne' relationship.
-        ///The data type for this property is 'System.Collections.IList'.
-        ///The inverse property for this property is 'PlacePicture.Place'.
-        ///This property inherits its mapping information from its inverse property.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_PlacePictures' that holds the value for this property is 'PrivateAccess'.
-        ///This property is marked as Read-Only.
-        ///
-        ///Mapping information:
-        ///This class maps to the 'PlacePicture' table in the data source.
-        ///The property maps to the identity column 'Place_Id' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.Collections.IList PlacePictures
-        {
-            get
-            {
-                return m_PlacePictures;
-            }
-            set
-            {
-                m_PlacePictures = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent one-many reference property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts references to objects of the type 'Account'.
-        ///This property is part of a 'OneToMany' relationship.
-        ///The inverse property for this property is 'Account.Places'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Account' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'Account_Id' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  Account Account
-        {
-            get
-            {
-                return m_Account;
-            }
-            set
-            {
-                m_Account = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent many-one reference property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts multiple references to objects of the type 'AccountPlace'.
-        ///This property is part of a 'ManyToOne' relationship.
-        ///The data type for this property is 'System.Collections.IList'.
-        ///The inverse property for this property is 'AccountPlace.Place'.
-        ///This property inherits its mapping information from its inverse property.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_AccountPlaces' that holds the value for this property is 'PrivateAccess'.
-        ///This property is marked as Read-Only.
-        ///
-        ///Mapping information:
-        ///This class maps to the 'AccountPlace' table in the data source.
-        ///The property maps to the identity column 'Place_Id' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountPlaces
-        {
-            get
-            {
-                return m_AccountPlaces;
-            }
-            set
-            {
-                m_AccountPlaces = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent many-one reference property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts multiple references to objects of the type 'AccountPlaceRequest'.
-        ///This property is part of a 'ManyToOne' relationship.
-        ///The data type for this property is 'System.Collections.IList'.
-        ///The inverse property for this property is 'AccountPlaceRequest.Place'.
-        ///This property inherits its mapping information from its inverse property.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_AccountPlaceRequests' that holds the value for this property is 'PrivateAccess'.
-        ///This property is marked as Read-Only.
-        ///
-        ///Mapping information:
-        ///This class maps to the 'AccountPlaceRequest' table in the data source.
-        ///The property maps to the identity column 'Place_Id' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountPlaceRequests
-        {
-            get
-            {
-                return m_AccountPlaceRequests;
-            }
-            set
-            {
-                m_AccountPlaceRequests = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent many-one reference property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts multiple references to objects of the type 'AccountPlaceFavorite'.
-        ///This property is part of a 'ManyToOne' relationship.
-        ///The data type for this property is 'System.Collections.IList'.
-        ///The inverse property for this property is 'AccountPlaceFavorite.Place'.
-        ///This property inherits its mapping information from its inverse property.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_AccountPlaceFavorites' that holds the value for this property is 'PrivateAccess'.
-        ///This property is marked as Read-Only.
-        ///
-        ///Mapping information:
-        ///This class maps to the 'AccountPlaceFavorite' table in the data source.
-        ///The property maps to the identity column 'Place_Id' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountPlaceFavorites
-        {
-            get
-            {
-                return m_AccountPlaceFavorites;
-            }
-            set
-            {
-                m_AccountPlaceFavorites = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent many-one reference property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts multiple references to objects of the type 'PlaceName'.
-        ///This property is part of a 'ManyToOne' relationship.
-        ///The data type for this property is 'System.Collections.IList'.
-        ///The inverse property for this property is 'PlaceName.Place'.
-        ///This property inherits its mapping information from its inverse property.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_PlaceNames' that holds the value for this property is 'PrivateAccess'.
-        ///This property is marked as Read-Only.
-        ///
-        ///Mapping information:
-        ///This class maps to the 'PlaceName' table in the data source.
-        ///The property maps to the identity column 'Place_Id' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.Collections.IList PlaceNames
-        {
-            get
-            {
-                return m_PlaceNames;
-            }
-            set
-            {
-                m_PlaceNames = value;
             }
         }
 

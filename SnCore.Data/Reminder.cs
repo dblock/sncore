@@ -20,12 +20,12 @@ using System;
         private DataObject m_DataObject;
         private System.String m_DataObjectField;
         private System.Int32 m_DeltaHours;
-        private System.Boolean m_Recurrent;
-        private System.Collections.IList m_ReminderEvents;
-        private System.String m_Subject;
         private System.Boolean m_Enabled;
         private System.DateTime m_LastRun;
         private System.String m_LastRunError;
+        private System.Boolean m_Recurrent;
+        private System.Collections.IList m_ReminderEvents;
+        private System.String m_Subject;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -160,6 +160,81 @@ using System;
         ///<remarks>
         ///This property accepts values of the type 'System.Boolean'.
         ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Enabled' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Enabled' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Boolean Enabled
+        {
+            get
+            {
+                return m_Enabled;
+            }
+            set
+            {
+                m_Enabled = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.DateTime'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_LastRun' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'LastRun' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.DateTime LastRun
+        {
+            get
+            {
+                return m_LastRun;
+            }
+            set
+            {
+                m_LastRun = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.String'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_LastRunError' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'LastRunError' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.String LastRunError
+        {
+            get
+            {
+                return m_LastRunError;
+            }
+            set
+            {
+                m_LastRunError = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.Boolean'.
+        ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_Recurrent' that holds the value for this property is 'PrivateAccess'.
         ///
         ///Mapping information:
@@ -231,81 +306,6 @@ using System;
             set
             {
                 m_Subject = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent primitive property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts values of the type 'System.Boolean'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Enabled' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'Enabled' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.Boolean Enabled
-        {
-            get
-            {
-                return m_Enabled;
-            }
-            set
-            {
-                m_Enabled = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent primitive property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts values of the type 'System.DateTime'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_LastRun' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'LastRun' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.DateTime LastRun
-        {
-            get
-            {
-                return m_LastRun;
-            }
-            set
-            {
-                m_LastRun = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent primitive property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts values of the type 'System.String'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_LastRunError' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'LastRunError' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.String LastRunError
-        {
-            get
-            {
-                return m_LastRunError;
-            }
-            set
-            {
-                m_LastRunError = value;
             }
         }
 

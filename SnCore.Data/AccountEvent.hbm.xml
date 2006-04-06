@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.0" schema="dbo">
+  <class name="AccountEvent, SnCore.Data" table="AccountEvent">
+    <id access="nosetter.pascalcase-m-underscore"  name="Id" type="Int32" column="AccountEvent_Id">
+      <generator class="identity" />
+    </id>
+    <many-to-one name="Account" column="Account_Id" class="Account, SnCore.Data" />
+    <many-to-one name="AccountEventType" column="AccountEventType_Id" class="AccountEventType, SnCore.Data" />
+    <property name="Cost" column="Cost" type="String" />
+    <property name="Created" column="Created" type="DateTime" />
+    <property name="Description" column="Description" type="String" />
+    <property name="Email" column="Email" type="String" />
+    <property name="Modified" column="Modified" type="DateTime" />
+    <property name="Name" column="Name" type="String" />
+    <property name="Phone" column="Phone" type="String" />
+    <many-to-one name="Place" column="Place_Id" class="Place, SnCore.Data" />
+    <property name="Publish" column="Publish" type="Boolean" />
+    <many-to-one name="Schedule" column="Schedule_Id" class="Schedule, SnCore.Data" />
+    <property name="Website" column="Website" type="String" />
+  </class>
+</hibernate-mapping>

@@ -16,14 +16,14 @@ using System;
 
         //Holds property values
         private System.Int32 m_Id;
+        private Account m_Account;
         private AccountMessageFolder m_AccountMessageFolder;
         private System.String m_Body;
+        private System.Int32 m_RecepientAccountId;
         private System.Int32 m_SenderAccountId;
         private System.DateTime m_Sent;
         private System.String m_Subject;
         private System.Boolean m_Unread;
-        private Account m_Account;
-        private System.Int32 m_RecepientAccountId;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -46,6 +46,33 @@ using System;
             get
             {
                 return m_Id;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent one-many reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts references to objects of the type 'Account'.
+        ///This property is part of a 'OneToMany' relationship.
+        ///The inverse property for this property is 'Account.AccountMessages'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Account' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Account_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  Account Account
+        {
+            get
+            {
+                return m_Account;
+            }
+            set
+            {
+                m_Account = value;
             }
         }
 
@@ -98,6 +125,31 @@ using System;
             set
             {
                 m_Body = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.Int32'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_RecepientAccountId' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'RecepientAccount_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Int32 RecepientAccountId
+        {
+            get
+            {
+                return m_RecepientAccountId;
+            }
+            set
+            {
+                m_RecepientAccountId = value;
             }
         }
 
@@ -198,58 +250,6 @@ using System;
             set
             {
                 m_Unread = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent one-many reference property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts references to objects of the type 'Account'.
-        ///This property is part of a 'OneToMany' relationship.
-        ///The inverse property for this property is 'Account.AccountMessages'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Account' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'Account_Id' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  Account Account
-        {
-            get
-            {
-                return m_Account;
-            }
-            set
-            {
-                m_Account = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent primitive property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts values of the type 'System.Int32'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_RecepientAccountId' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'RecepientAccount_Id' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.Int32 RecepientAccountId
-        {
-            get
-            {
-                return m_RecepientAccountId;
-            }
-            set
-            {
-                m_RecepientAccountId = value;
             }
         }
 

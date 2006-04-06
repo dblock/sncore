@@ -23,10 +23,10 @@ using System;
         private Country m_Country;
         private System.DateTime m_Created;
         private System.DateTime m_Modified;
+        private System.String m_Name;
         private State m_State;
         private System.String m_Street;
         private System.String m_Zip;
-        private System.String m_Name;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -233,6 +233,31 @@ using System;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.String'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Name' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Name' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.String Name
+        {
+            get
+            {
+                return m_Name;
+            }
+            set
+            {
+                m_Name = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
         ///Persistent one-many reference property.
         ///</summary>
         ///<remarks>
@@ -305,31 +330,6 @@ using System;
             set
             {
                 m_Zip = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent primitive property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts values of the type 'System.String'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Name' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'Name' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.String Name
-        {
-            get
-            {
-                return m_Name;
-            }
-            set
-            {
-                m_Name = value;
             }
         }
 

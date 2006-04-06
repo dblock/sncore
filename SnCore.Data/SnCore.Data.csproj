@@ -110,6 +110,12 @@
     <Compile Include="AccountEmailMessage.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AccountEvent.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AccountEventType.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="AccountFeed.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -248,6 +254,9 @@
     <Compile Include="ReminderEvent.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Schedule.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="State.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -271,6 +280,8 @@
     <EmbeddedResource Include="AccountEmail.hbm.xml" />
     <EmbeddedResource Include="AccountEmailConfirmation.hbm.xml" />
     <EmbeddedResource Include="AccountEmailMessage.hbm.xml" />
+    <EmbeddedResource Include="AccountEvent.hbm.xml" />
+    <EmbeddedResource Include="AccountEventType.hbm.xml" />
     <EmbeddedResource Include="AccountFeed.hbm.xml" />
     <EmbeddedResource Include="AccountFeedItem.hbm.xml" />
     <EmbeddedResource Include="AccountFriend.hbm.xml" />
@@ -316,6 +327,7 @@
     <EmbeddedResource Include="PlaceType.hbm.xml" />
     <EmbeddedResource Include="Reminder.hbm.xml" />
     <EmbeddedResource Include="ReminderEvent.hbm.xml" />
+    <EmbeddedResource Include="Schedule.hbm.xml" />
     <EmbeddedResource Include="State.hbm.xml" />
     <EmbeddedResource Include="Survey.hbm.xml" />
     <EmbeddedResource Include="SurveyQuestion.hbm.xml" />

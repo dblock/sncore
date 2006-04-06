@@ -17,13 +17,13 @@ using System;
         //Holds property values
         private System.Int32 m_Id;
         private System.Int32 m_AccountId;
+        private System.String m_Body;
         private System.DateTime m_Created;
         private DiscussionPost m_DiscussionPostParent;
         private System.Collections.IList m_DiscussionPosts;
         private DiscussionThread m_DiscussionThread;
         private System.DateTime m_Modified;
         private System.String m_Subject;
-        private System.String m_Body;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -71,6 +71,31 @@ using System;
             set
             {
                 m_AccountId = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.String'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Body' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Body' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.String Body
+        {
+            get
+            {
+                return m_Body;
+            }
+            set
+            {
+                m_Body = value;
             }
         }
 
@@ -231,31 +256,6 @@ using System;
             set
             {
                 m_Subject = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent primitive property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts values of the type 'System.String'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Body' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'Body' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.String Body
-        {
-            get
-            {
-                return m_Body;
-            }
-            set
-            {
-                m_Body = value;
             }
         }
 

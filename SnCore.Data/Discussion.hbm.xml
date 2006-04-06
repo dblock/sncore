@@ -13,7 +13,7 @@
     </bag>
     <property name="Modified" column="Modified" type="DateTime" />
     <property name="Name" column="Name" type="String" />
-    <property name="Personal" column="Personal" type="Boolean" />
     <property name="ObjectId" column="Object_Id" type="Int32" />
+    <property name="Personal" column="Personal" type="Boolean" />
   </class>
 </hibernate-mapping>

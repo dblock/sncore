@@ -6,13 +6,13 @@
     </id>
     <many-to-one name="Account" column="Account_Id" class="Account, SnCore.Data" />
     <property name="Body" column="Body" type="String" />
+    <property name="Created" column="Created" type="DateTime" />
     <property name="DeleteSent" column="DeleteSent" type="Boolean" />
-    <property name="Sent" column="Sent" type="Boolean" />
-    <property name="Subject" column="Subject" type="String" />
     <property name="MailFrom" column="MailFrom" type="String" />
     <property name="MailTo" column="MailTo" type="String" />
-    <property name="SendError" column="SendError" type="String" />
-    <property name="Created" column="Created" type="DateTime" />
     <property name="Modified" column="Modified" type="DateTime" />
+    <property name="SendError" column="SendError" type="String" />
+    <property name="Sent" column="Sent" type="Boolean" />
+    <property name="Subject" column="Subject" type="String" />
   </class>
 </hibernate-mapping>

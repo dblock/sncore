@@ -18,11 +18,11 @@ using System;
         private System.Int32 m_Id;
         private System.Collections.IList m_AccountFeeds;
         private System.String m_Name;
-        private System.String m_Xsl;
         private System.Int32 m_SpanColumns;
-        private System.Int32 m_SpanRows;
         private System.Int32 m_SpanColumnsPreview;
+        private System.Int32 m_SpanRows;
         private System.Int32 m_SpanRowsPreview;
+        private System.String m_Xsl;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -109,31 +109,6 @@ using System;
         ///Persistent primitive property.
         ///</summary>
         ///<remarks>
-        ///This property accepts values of the type 'System.String'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Xsl' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'Xsl' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.String Xsl
-        {
-            get
-            {
-                return m_Xsl;
-            }
-            set
-            {
-                m_Xsl = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent primitive property.
-        ///</summary>
-        ///<remarks>
         ///This property accepts values of the type 'System.Int32'.
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_SpanColumns' that holds the value for this property is 'PrivateAccess'.
@@ -151,31 +126,6 @@ using System;
             set
             {
                 m_SpanColumns = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent primitive property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts values of the type 'System.Int32'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_SpanRows' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'SpanRows' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.Int32 SpanRows
-        {
-            get
-            {
-                return m_SpanRows;
-            }
-            set
-            {
-                m_SpanRows = value;
             }
         }
 
@@ -211,6 +161,31 @@ using System;
         ///<remarks>
         ///This property accepts values of the type 'System.Int32'.
         ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_SpanRows' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'SpanRows' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Int32 SpanRows
+        {
+            get
+            {
+                return m_SpanRows;
+            }
+            set
+            {
+                m_SpanRows = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.Int32'.
+        ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_SpanRowsPreview' that holds the value for this property is 'PrivateAccess'.
         ///
         ///Mapping information:
@@ -226,6 +201,31 @@ using System;
             set
             {
                 m_SpanRowsPreview = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.String'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Xsl' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Xsl' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.String Xsl
+        {
+            get
+            {
+                return m_Xsl;
+            }
+            set
+            {
+                m_Xsl = value;
             }
         }
 

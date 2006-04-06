@@ -8,14 +8,14 @@
     <many-to-one name="DataObject" column="DataObject_Id" class="DataObject, SnCore.Data" />
     <property name="DataObjectField" column="DataObjectField" type="String" />
     <property name="DeltaHours" column="DeltaHours" type="Int32" />
+    <property name="Enabled" column="Enabled" type="Boolean" />
+    <property name="LastRun" column="LastRun" type="DateTime" />
+    <property name="LastRunError" column="LastRunError" type="String" />
     <property name="Recurrent" column="Recurrent" type="Boolean" />
     <bag lazy="true" name="ReminderEvents" inverse="true">
       <key column="Reminder_Id" />
       <one-to-many class="ReminderEvent, SnCore.Data" />
     </bag>
     <property name="Subject" column="Subject" type="String" />
-    <property name="Enabled" column="Enabled" type="Boolean" />
-    <property name="LastRun" column="LastRun" type="DateTime" />
-    <property name="LastRunError" column="LastRunError" type="String" />
   </class>
 </hibernate-mapping>

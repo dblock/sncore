@@ -10,7 +10,8 @@ namespace SnCore.Services
         Ascending,
         Descending
     }
-
+    
+    [Serializable()]
     public class TransitService
     {
         private int mId;

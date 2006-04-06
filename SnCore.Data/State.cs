@@ -17,10 +17,10 @@ using System;
         //Holds property values
         private System.Int32 m_Id;
         private System.Collections.IList m_AccountAddresses;
-        private System.String m_Name;
-        private Country m_Country;
         private System.Collections.IList m_Accounts;
         private System.Collections.IList m_Cities;
+        private Country m_Country;
+        private System.String m_Name;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -74,58 +74,6 @@ using System;
             set
             {
                 m_AccountAddresses = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent primitive property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts values of the type 'System.String'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Name' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'Name' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.String Name
-        {
-            get
-            {
-                return m_Name;
-            }
-            set
-            {
-                m_Name = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent one-many reference property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts references to objects of the type 'Country'.
-        ///This property is part of a 'OneToMany' relationship.
-        ///The inverse property for this property is 'Country.States'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Country' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'Country_Id' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  Country Country
-        {
-            get
-            {
-                return m_Country;
-            }
-            set
-            {
-                m_Country = value;
             }
         }
 
@@ -188,6 +136,58 @@ using System;
             set
             {
                 m_Cities = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent one-many reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts references to objects of the type 'Country'.
+        ///This property is part of a 'OneToMany' relationship.
+        ///The inverse property for this property is 'Country.States'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Country' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Country_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  Country Country
+        {
+            get
+            {
+                return m_Country;
+            }
+            set
+            {
+                m_Country = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.String'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Name' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Name' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.String Name
+        {
+            get
+            {
+                return m_Name;
+            }
+            set
+            {
+                m_Name = value;
             }
         }
 

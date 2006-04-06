@@ -15,6 +15,7 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_table { width: 780px; margin: 10px; border: 1px #bbb solid; }
 .sncore_account_table { width: 582px; margin: 10px; border: 1px #eeeeee solid; }
 .sncore_inner_table { margin: 10px; border: 1px #eeeeee solid; }
+.sncore_inner_div { margin: 5px; }
 .sncore_nopicture_table { margin: 10px; }
 .sncore_half_table { width: 95%; margin: 10px; border: 1px #eeeeee solid; }
 .sncore_accountmenu_table { width: 150px; margin: 10px; border: 1px #eeeeee solid; }
@@ -50,6 +51,7 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_form_textbox { width: 400px; font-family: Verdana; font-size: 1em; text-align: left; border: 1px black solid; }
 .sncore_form_openid_textbox { width: 383px; background: url(images/openid.gif) no-repeat; background-color: #fff; background-position: 0 50%; color: #000; padding-left: 18px; font-family: Verdana; font-size: 1em; text-align: left; border: 1px black solid; }
 .sncore_form_checkbox { width: 100px; font-family: Verdana; }
+.sncore_form_radiobutton { width: 100px; font-family: Verdana; font-weight: bold; }
 .sncore_form_dropdown { font-family: Verdana; width: 390px; }
 .sncore_form_dropdown_small { font-family: Verdana; width: 192px; }
 .sncore_form_dropdown_auto { font-family: Verdana; }
@@ -86,3 +88,4 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_summary { margin-top: 10px; }
 .sncore_bookmarks_table { margin: 2px; }
 .sncore_bookmarks_table_tr_td { padding: 2px; }
+.sncore_schedule_summary { padding: 2px; font-family: Verdana; font-weight: bold; background-color: #E5EDFB; }

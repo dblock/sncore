@@ -99,6 +99,8 @@
     <Compile Include="ManagedAccountBlogAuthor.cs" />
     <Compile Include="ManagedAccountBlogPost.cs" />
     <Compile Include="ManagedAccountEmailMessage.cs" />
+    <Compile Include="ManagedAccountEvent.cs" />
+    <Compile Include="ManagedAccountEventType.cs" />
     <Compile Include="ManagedAccountFeed.cs" />
     <Compile Include="ManagedAccountFeedItem.cs" />
     <Compile Include="ManagedAccountFriend.cs" />
@@ -137,6 +139,7 @@
     <Compile Include="ManagedPlaceType.cs" />
     <Compile Include="ManagedReminder.cs" />
     <Compile Include="ManagedReminderEvent.cs" />
+    <Compile Include="ManagedSchedule.cs" />
     <Compile Include="ManagedSurvey.cs" />
     <Compile Include="ManagedSurveyQuestion.cs" />
     <Compile Include="ManagedAccount.cs">

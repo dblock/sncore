@@ -18,14 +18,14 @@ using System;
         private System.Int32 m_Id;
         private Account m_Account;
         private System.String m_Body;
+        private System.DateTime m_Created;
         private System.Boolean m_DeleteSent;
-        private System.Boolean m_Sent;
-        private System.String m_Subject;
         private System.String m_MailFrom;
         private System.String m_MailTo;
-        private System.String m_SendError;
-        private System.DateTime m_Created;
         private System.DateTime m_Modified;
+        private System.String m_SendError;
+        private System.Boolean m_Sent;
+        private System.String m_Subject;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -108,6 +108,31 @@ using System;
         ///Persistent primitive property.
         ///</summary>
         ///<remarks>
+        ///This property accepts values of the type 'System.DateTime'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Created' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Created' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.DateTime Created
+        {
+            get
+            {
+                return m_Created;
+            }
+            set
+            {
+                m_Created = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
         ///This property accepts values of the type 'System.Boolean'.
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_DeleteSent' that holds the value for this property is 'PrivateAccess'.
@@ -125,56 +150,6 @@ using System;
             set
             {
                 m_DeleteSent = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent primitive property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts values of the type 'System.Boolean'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Sent' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'Sent' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.Boolean Sent
-        {
-            get
-            {
-                return m_Sent;
-            }
-            set
-            {
-                m_Sent = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent primitive property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts values of the type 'System.String'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Subject' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'Subject' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.String Subject
-        {
-            get
-            {
-                return m_Subject;
-            }
-            set
-            {
-                m_Subject = value;
             }
         }
 
@@ -233,6 +208,31 @@ using System;
         ///Persistent primitive property.
         ///</summary>
         ///<remarks>
+        ///This property accepts values of the type 'System.DateTime'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Modified' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Modified' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.DateTime Modified
+        {
+            get
+            {
+                return m_Modified;
+            }
+            set
+            {
+                m_Modified = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
         ///This property accepts values of the type 'System.String'.
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_SendError' that holds the value for this property is 'PrivateAccess'.
@@ -258,23 +258,23 @@ using System;
         ///Persistent primitive property.
         ///</summary>
         ///<remarks>
-        ///This property accepts values of the type 'System.DateTime'.
+        ///This property accepts values of the type 'System.Boolean'.
         ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Created' that holds the value for this property is 'PrivateAccess'.
+        ///The accessibility level for the field 'm_Sent' that holds the value for this property is 'PrivateAccess'.
         ///
         ///Mapping information:
-        ///The property maps to the column 'Created' in the data source.
+        ///The property maps to the column 'Sent' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Created
+        public  System.Boolean Sent
         {
             get
             {
-                return m_Created;
+                return m_Sent;
             }
             set
             {
-                m_Created = value;
+                m_Sent = value;
             }
         }
 
@@ -283,23 +283,23 @@ using System;
         ///Persistent primitive property.
         ///</summary>
         ///<remarks>
-        ///This property accepts values of the type 'System.DateTime'.
+        ///This property accepts values of the type 'System.String'.
         ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Modified' that holds the value for this property is 'PrivateAccess'.
+        ///The accessibility level for the field 'm_Subject' that holds the value for this property is 'PrivateAccess'.
         ///
         ///Mapping information:
-        ///The property maps to the column 'Modified' in the data source.
+        ///The property maps to the column 'Subject' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Modified
+        public  System.String Subject
         {
             get
             {
-                return m_Modified;
+                return m_Subject;
             }
             set
             {
-                m_Modified = value;
+                m_Subject = value;
             }
         }
 

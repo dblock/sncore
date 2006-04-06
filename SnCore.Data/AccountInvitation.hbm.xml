@@ -8,7 +8,7 @@
     <property name="Code" column="Code" type="String" />
     <property name="Created" column="Created" type="DateTime" />
     <property name="Email" column="Email" type="String" />
-    <property name="Modified" column="Modified" type="DateTime" />
     <property name="Message" column="Message" type="String" />
+    <property name="Modified" column="Modified" type="DateTime" />
   </class>
 </hibernate-mapping>

@@ -4,16 +4,16 @@
     <id access="nosetter.pascalcase-m-underscore"  name="Id" type="Int32" column="AccountPlaceType_Id">
       <generator class="identity" />
     </id>
-    <bag lazy="true" name="AccountPlaces" inverse="true">
-      <key column="Type_Id" />
-      <one-to-many class="AccountPlace, SnCore.Data" />
-    </bag>
-    <property name="Name" column="Name" type="String" />
-    <property name="CanWrite" column="CanWrite" type="Boolean" />
-    <property name="Description" column="Description" type="String" />
     <bag lazy="true" name="AccountPlaceRequests" inverse="true">
       <key column="Type" />
       <one-to-many class="AccountPlaceRequest, SnCore.Data" />
     </bag>
+    <bag lazy="true" name="AccountPlaces" inverse="true">
+      <key column="Type_Id" />
+      <one-to-many class="AccountPlace, SnCore.Data" />
+    </bag>
+    <property name="CanWrite" column="CanWrite" type="Boolean" />
+    <property name="Description" column="Description" type="String" />
+    <property name="Name" column="Name" type="String" />
   </class>
 </hibernate-mapping>

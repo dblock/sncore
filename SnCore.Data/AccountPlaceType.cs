@@ -16,11 +16,11 @@ using System;
 
         //Holds property values
         private System.Int32 m_Id;
+        private System.Collections.IList m_AccountPlaceRequests;
         private System.Collections.IList m_AccountPlaces;
-        private System.String m_Name;
         private System.Boolean m_CanWrite;
         private System.String m_Description;
-        private System.Collections.IList m_AccountPlaceRequests;
+        private System.String m_Name;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -43,6 +43,37 @@ using System;
             get
             {
                 return m_Id;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'AccountPlaceRequest'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'AccountPlaceRequest.Type'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_AccountPlaceRequests' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as Read-Only.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'AccountPlaceRequest' table in the data source.
+        ///The property maps to the identity column 'Type' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Collections.IList AccountPlaceRequests
+        {
+            get
+            {
+                return m_AccountPlaceRequests;
+            }
+            set
+            {
+                m_AccountPlaceRequests = value;
             }
         }
 
@@ -74,31 +105,6 @@ using System;
             set
             {
                 m_AccountPlaces = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent primitive property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts values of the type 'System.String'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Name' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'Name' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.String Name
-        {
-            get
-            {
-                return m_Name;
-            }
-            set
-            {
-                m_Name = value;
             }
         }
 
@@ -154,32 +160,26 @@ using System;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
-        ///Persistent many-one reference property.
+        ///Persistent primitive property.
         ///</summary>
         ///<remarks>
-        ///This property accepts multiple references to objects of the type 'AccountPlaceRequest'.
-        ///This property is part of a 'ManyToOne' relationship.
-        ///The data type for this property is 'System.Collections.IList'.
-        ///The inverse property for this property is 'AccountPlaceRequest.Type'.
-        ///This property inherits its mapping information from its inverse property.
+        ///This property accepts values of the type 'System.String'.
         ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_AccountPlaceRequests' that holds the value for this property is 'PrivateAccess'.
-        ///This property is marked as Read-Only.
+        ///The accessibility level for the field 'm_Name' that holds the value for this property is 'PrivateAccess'.
         ///
         ///Mapping information:
-        ///This class maps to the 'AccountPlaceRequest' table in the data source.
-        ///The property maps to the identity column 'Type' in the data source.
+        ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountPlaceRequests
+        public  System.String Name
         {
             get
             {
-                return m_AccountPlaceRequests;
+                return m_Name;
             }
             set
             {
-                m_AccountPlaceRequests = value;
+                m_Name = value;
             }
         }
 

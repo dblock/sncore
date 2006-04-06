@@ -7,9 +7,9 @@
     <many-to-one name="AccountFeed" column="AccountFeed_Id" class="AccountFeed, SnCore.Data" />
     <property name="Created" column="Created" type="DateTime" />
     <property name="Description" column="Description" type="String" />
+    <property name="Guid" column="Guid" type="String" />
     <property name="Link" column="Link" type="String" />
     <property name="Title" column="Title" type="String" />
     <property name="Updated" column="Updated" type="DateTime" />
-    <property name="Guid" column="Guid" type="String" />
   </class>
 </hibernate-mapping>

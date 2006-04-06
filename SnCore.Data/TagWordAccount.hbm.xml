@@ -5,8 +5,8 @@
       <generator class="identity" />
     </id>
     <property name="AccountId" column="Account_Id" type="Int32" />
-    <many-to-one name="TagWord" column="TagWord_Id" class="TagWord, SnCore.Data" />
     <property name="Created" column="Created" type="DateTime" />
     <property name="Modified" column="Modified" type="DateTime" />
+    <many-to-one name="TagWord" column="TagWord_Id" class="TagWord, SnCore.Data" />
   </class>
 </hibernate-mapping>

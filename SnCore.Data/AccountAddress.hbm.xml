@@ -11,9 +11,9 @@
     <many-to-one name="Country" column="Country_Id" class="Country, SnCore.Data" />
     <property name="Created" column="Created" type="DateTime" />
     <property name="Modified" column="Modified" type="DateTime" />
+    <property name="Name" column="Name" type="String" />
     <many-to-one name="State" column="State_Id" class="State, SnCore.Data" />
     <property name="Street" column="Street" type="String" />
     <property name="Zip" column="Zip" type="String" />
-    <property name="Name" column="Name" type="String" />
   </class>
 </hibernate-mapping>

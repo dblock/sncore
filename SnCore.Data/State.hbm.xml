@@ -8,8 +8,6 @@
       <key column="State_Id" />
       <one-to-many class="AccountAddress, SnCore.Data" />
     </bag>
-    <property name="Name" column="Name" type="String" />
-    <many-to-one name="Country" column="Country_Id" class="Country, SnCore.Data" />
     <bag lazy="true" name="Accounts" inverse="true">
       <key column="State_Id" />
       <one-to-many class="Account, SnCore.Data" />
@@ -18,5 +16,7 @@
       <key column="State_Id" />
       <one-to-many class="City, SnCore.Data" />
     </bag>
+    <many-to-one name="Country" column="Country_Id" class="Country, SnCore.Data" />
+    <property name="Name" column="Name" type="String" />
   </class>
 </hibernate-mapping>

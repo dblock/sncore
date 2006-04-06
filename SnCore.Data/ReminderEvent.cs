@@ -16,10 +16,10 @@ using System;
 
         //Holds property values
         private System.Int32 m_Id;
+        private Account m_Account;
         private System.DateTime m_Created;
         private System.DateTime m_Modified;
         private Reminder m_Reminder;
-        private Account m_Account;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -42,6 +42,33 @@ using System;
             get
             {
                 return m_Id;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent one-many reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts references to objects of the type 'Account'.
+        ///This property is part of a 'OneToMany' relationship.
+        ///The inverse property for this property is 'Account.ReminderEvents'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Account' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Account_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  Account Account
+        {
+            get
+            {
+                return m_Account;
+            }
+            set
+            {
+                m_Account = value;
             }
         }
 
@@ -119,33 +146,6 @@ using System;
             set
             {
                 m_Reminder = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent one-many reference property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts references to objects of the type 'Account'.
-        ///This property is part of a 'OneToMany' relationship.
-        ///The inverse property for this property is 'Account.ReminderEvents'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Account' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'Account_Id' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  Account Account
-        {
-            get
-            {
-                return m_Account;
-            }
-            set
-            {
-                m_Account = value;
             }
         }
 

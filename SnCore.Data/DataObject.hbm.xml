@@ -4,6 +4,10 @@
     <id access="nosetter.pascalcase-m-underscore"  name="Id" type="Int32" column="DataObject_Id">
       <generator class="identity" />
     </id>
+    <bag lazy="true" name="Features" inverse="true">
+      <key column="DataObject_Id" />
+      <one-to-many class="Feature, SnCore.Data" />
+    </bag>
     <property name="Name" column="Name" type="String" />
     <bag lazy="true" name="Reminders" inverse="true">
       <key column="DataObject_Id" />

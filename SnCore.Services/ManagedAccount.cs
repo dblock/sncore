@@ -1800,6 +1800,29 @@ namespace SnCore.Services
 
         #endregion
 
+        #region Account Schedule
+
+        public int CreateOrUpdate(TransitSchedule o)
+        {
+            Schedule schedule = o.GetSchedule(Session);
+
+            if (schedule.Id != 0)
+            {
+                if (schedule.Account.Id != Id && !IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+            }
+
+            schedule.Account = mAccount;
+            schedule.Modified = DateTime.UtcNow;
+            if (schedule.Id == 0) schedule.Created = schedule.Modified;
+            Session.Save(schedule);
+            return schedule.Id;
+        }
+
+        #endregion
+
         #region Account Blog
 
         public int CreateOrUpdate(TransitAccountBlog o)
@@ -2044,6 +2067,28 @@ namespace SnCore.Services
             profile.Updated = DateTime.UtcNow;
             Session.Save(profile);
             return profile.Id;
+        }
+
+        #endregion
+
+        #region Account Event
+
+        public int CreateOrUpdate(TransitAccountEvent o)
+        {
+            AccountEvent ev = o.GetAccountEvent(Session);
+
+            if (ev.Id != 0)
+            {
+                if (ev.Account.Id != Id && !IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+            }
+
+            ev.Modified = DateTime.UtcNow;
+            if (ev.Id == 0) ev.Created = ev.Modified;
+            Session.Save(ev);
+            return ev.Id;
         }
 
         #endregion

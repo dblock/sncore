@@ -16,6 +16,7 @@ using System;
 
         //Holds property values
         private System.Int32 m_Id;
+        private System.Collections.IList m_Features;
         private System.String m_Name;
         private System.Collections.IList m_Reminders;
 
@@ -40,6 +41,37 @@ using System;
             get
             {
                 return m_Id;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'Feature'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'Feature.DataObject'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Features' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as Read-Only.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'Feature' table in the data source.
+        ///The property maps to the identity column 'DataObject_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Collections.IList Features
+        {
+            get
+            {
+                return m_Features;
+            }
+            set
+            {
+                m_Features = value;
             }
         }
 

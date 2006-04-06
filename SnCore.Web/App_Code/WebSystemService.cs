@@ -1229,7 +1229,7 @@ namespace SnCore.WebServices
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
                 ICriteria c = session.CreateCriteria(typeof(Feature))
-                    .Add(Expression.Eq("DataObjectId", ManagedDataObject.Find(session, featuretype)))
+                    .Add(Expression.Eq("DataObject.Id", ManagedDataObject.Find(session, featuretype)))
                     .AddOrder(Order.Desc("Created"));
 
                 if (serviceoptions != null)
@@ -1345,5 +1345,106 @@ namespace SnCore.WebServices
         }
 
         #endregion
+
+        #region Schedule
+
+        /// <summary>
+        /// Create or update a schedule.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="schedule">transit  schedule</param>
+        [WebMethod(Description = "Create or update a schedule.")]
+        public int CreateOrUpdateSchedule(string ticket, TransitSchedule schedule)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount user = new ManagedAccount(session, userid);
+                int result = user.CreateOrUpdate(schedule);
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Get a schedule.
+        /// </summary>
+        /// <returns>transit  schedule</returns>
+        [WebMethod(Description = "Get a schedule.")]
+        public TransitSchedule GetScheduleById(int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                TransitSchedule result = new ManagedSchedule(session, id).TransitSchedule;
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Get all  schedules.
+        /// </summary>
+        /// <returns>list of transit  schedules</returns>
+        [WebMethod(Description = "Get all schedules.")]
+        public List<TransitSchedule> GetSchedules()
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                IList schedules = session.CreateCriteria(typeof(Schedule)).List();
+                List<TransitSchedule> result = new List<TransitSchedule>(schedules.Count);
+                foreach (Schedule schedule in schedules)
+                {
+                    result.Add(new ManagedSchedule(session, schedule).TransitSchedule);
+                }
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Delete a schedule
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete a schedule.")]
+        public void DeleteSchedule(string ticket, int id)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount user = new ManagedAccount(session, userid);
+                ManagedSchedule m_schedule = new ManagedSchedule(session, id);
+
+                if (m_schedule.AccountId != userid && !user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                m_schedule.Delete();
+                SnCore.Data.Hibernate.Session.Flush();
+            }
+        }
+
+        /// <summary>
+        /// Get a humanly readable representation of a schedule.
+        /// </summary>
+        [WebMethod(Description = "Get a humanly readable representation of a schedule.")]
+        public string GetScheduleString(TransitSchedule schedule, int offset)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSchedule m_schedule = new ManagedSchedule(session, schedule.GetSchedule(session));
+                return m_schedule.ToString(offset);
+            }
+        }
+
+        #endregion
+
     }
 }

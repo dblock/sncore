@@ -40,6 +40,7 @@ public class SessionManager
     private WebBackEndService mWebBackEndService = null;
     private WebPlaceService mWebPlaceService = null;
     private WebBlogService mWebBlogService = null;
+    private WebEventService mWebEventService = null;
 
     private string mWebsiteUrl = string.Empty;
 
@@ -125,6 +126,11 @@ public class SessionManager
     public DateTime Adjust(DateTime dt)
     {
         return dt.AddHours(UtcOffset);
+    }
+
+    public DateTime ToUTC(DateTime dt)
+    {
+        return dt.AddHours(-UtcOffset);
     }
 
     public string AdjustToRFC822(DateTime dt)
@@ -399,6 +405,18 @@ public class SessionManager
                 mWebSystemService = new WebSystemService();
             }
             return mWebSystemService;
+        }
+    }
+
+    public WebEventService EventService
+    {
+        get
+        {
+            if (mWebEventService == null)
+            {
+                mWebEventService = new WebEventService();
+            }
+            return mWebEventService;
         }
     }
 

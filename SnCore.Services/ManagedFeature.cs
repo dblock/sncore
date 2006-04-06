@@ -64,7 +64,7 @@ namespace SnCore.Services
             : base(f.Id)
         {
             DataRowId = f.DataRowId;
-            DataObjectName = ((DataObject) session.Load(typeof(DataObject), f.DataObjectId)).Name;
+            DataObjectName = ((DataObject) session.Load(typeof(DataObject), f.DataObject.Id)).Name;
             Created = f.Created;
         }
 
@@ -73,9 +73,9 @@ namespace SnCore.Services
             Feature feature = (Id != 0) ? (Feature) session.Load(typeof(Feature), Id) : new Feature();
             feature.DataRowId = DataRowId;            
             if (! string.IsNullOrEmpty(DataObjectName)) 
-                feature.DataObjectId = ((DataObject) session.CreateCriteria(typeof(DataObject))
+                feature.DataObject = (DataObject) session.CreateCriteria(typeof(DataObject))
                     .Add(Expression.Eq("Name", DataObjectName))
-                    .UniqueResult()).Id;
+                    .UniqueResult();
             feature.Created = (Id != 0) ? Created : DateTime.UtcNow;
             return feature;
         }
@@ -118,7 +118,7 @@ namespace SnCore.Services
         {
             get
             {
-                return new ManagedDataObject(Session, mFeature.DataObjectId);
+                return new ManagedDataObject(Session, mFeature.DataObject);
             }
         }
 
@@ -149,7 +149,7 @@ namespace SnCore.Services
         public static int GetLatestFeatureId(ISession session, int objectid)
         {
             Feature feature = (Feature) session.CreateCriteria(typeof(Feature))
-                .Add(Expression.Eq("DataObjectId", objectid))
+                .Add(Expression.Eq("DataObject.Id", objectid))
                 .AddOrder(Order.Desc("Created"))
                 .SetMaxResults(1)
                 .UniqueResult();
@@ -168,7 +168,7 @@ namespace SnCore.Services
         public static int GetLatestFeatureId(ISession session, int objectid, int rowid)
         {
             Feature feature = (Feature)session.CreateCriteria(typeof(Feature))
-                .Add(Expression.Eq("DataObjectId", objectid))
+                .Add(Expression.Eq("DataObject.Id", objectid))
                 .Add(Expression.Eq("DataRowId", rowid))
                 .AddOrder(Order.Desc("Created"))
                 .SetMaxResults(1)

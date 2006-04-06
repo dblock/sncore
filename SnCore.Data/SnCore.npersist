@@ -3,43 +3,45 @@
   <class name="Account" table="Account">
     <property name="Id" id="true" columns="Account_Id" type="System.Int32" />
     <property name="AccountAddresses" table="AccountAddress" id-columns="Account_Id" list="true" item-type="AccountAddress" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
+    <property name="AccountBlogAuthors" table="AccountBlogAuthor" id-columns="Account_Id" list="true" item-type="AccountBlogAuthor" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
+    <property name="AccountBlogs" table="AccountBlog" id-columns="Account_Id" list="true" item-type="AccountBlog" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
     <property name="AccountEmailMessages" table="AccountEmailMessage" id-columns="Account_Id" list="true" item-type="AccountEmailMessage" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
     <property name="AccountEmails" table="AccountEmail" id-columns="Account_Id" list="true" item-type="AccountEmail" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
+    <property name="AccountEvents" table="AccountEvent" id-columns="Account_Id" list="true" item-type="AccountEvent" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
+    <property name="AccountFeeds" table="AccountFeed" id-columns="Account_Id" list="true" item-type="AccountFeed" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
+    <property name="AccountFriendRequests" table="AccountFriendRequest" id-columns="Account_Id" list="true" item-type="AccountFriendRequest" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
+    <property name="AccountFriends" table="AccountFriend" id-columns="Account_Id" list="true" item-type="AccountFriend" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
+    <property name="AccountInvitations" table="AccountInvitation" id-columns="Account_Id" list="true" item-type="AccountInvitation" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
     <property name="AccountMessageFolders" table="AccountMessageFolder" id-columns="Account_Id" list="true" item-type="AccountMessageFolder" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
     <property name="AccountMessages" table="AccountMessage" id-columns="Account_Id" list="true" item-type="AccountMessage" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
+    <property name="AccountOpenIds" table="AccountOpenId" id-columns="Account_Id" list="true" item-type="AccountOpenId" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
     <property name="AccountPictures" table="AccountPicture" id-columns="Account_Id" list="true" item-type="AccountPicture" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
+    <property name="AccountPlaceFavorites" table="AccountPlaceFavorite" id-columns="Account_Id" list="true" item-type="AccountPlaceFavorite" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
+    <property name="AccountPlaceRequests" table="AccountPlaceRequest" id-columns="Account_Id" list="true" item-type="AccountPlaceRequest" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
+    <property name="AccountPlaces" table="AccountPlace" id-columns="Account_Id" list="true" item-type="AccountPlace" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
+    <property name="AccountProfiles" table="AccountProfile" id-columns="Account_Id" list="true" item-type="AccountProfile" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
+    <property name="AccountStories" table="AccountStory" id-columns="Account_Id" list="true" item-type="AccountStory" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
+    <property name="AccountSurveyAnswers" table="AccountSurveyAnswer" id-columns="Account_Id" list="true" item-type="AccountSurveyAnswer" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
     <property name="AccountWebsites" table="AccountWebsite" id-columns="Account_Id" list="true" item-type="AccountWebsite" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
     <property name="Birthday" columns="Birthday" type="System.DateTime" />
+    <property name="City" columns="City" type="System.String" />
+    <property name="Country" columns="Country_Id" ref="OneToMany" inverse="Accounts" type="Country" />
     <property name="Created" columns="Created" type="System.DateTime" />
     <property name="Discussions" table="Discussion" id-columns="Account_Id" list="true" item-type="Discussion" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
     <property name="Enabled" columns="Enabled" type="System.Boolean" />
+    <property name="IsAdministrator" columns="IsAdministrator" type="System.Boolean" />
+    <property name="KeenAccountFriendRequests" table="AccountFriendRequest" id-columns="Keen_Id" list="true" item-type="AccountFriendRequest" read-only="true" ref="ManyToOne" inverse="Keen" inherits-inverse="true" />
+    <property name="KeenAccountFriends" table="AccountFriend" id-columns="Keen_Id" list="true" item-type="AccountFriend" read-only="true" ref="ManyToOne" inverse="Keen" inherits-inverse="true" />
     <property name="LastLogin" columns="LastLogin" type="System.DateTime" />
     <property name="Modified" columns="Modified" type="System.DateTime" />
     <property name="Name" columns="Name" type="System.String" />
     <property name="Password" columns="Password" type="System.String" />
-    <property name="AccountFriendRequests" table="AccountFriendRequest" id-columns="Account_Id" list="true" item-type="AccountFriendRequest" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
-    <property name="AccountFriends" table="AccountFriend" id-columns="Account_Id" list="true" item-type="AccountFriend" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
-    <property name="KeenAccountFriendRequests" table="AccountFriendRequest" id-columns="Keen_Id" list="true" item-type="AccountFriendRequest" read-only="true" ref="ManyToOne" inverse="Keen" inherits-inverse="true" />
-    <property name="KeenAccountFriends" table="AccountFriend" id-columns="Keen_Id" list="true" item-type="AccountFriend" read-only="true" ref="ManyToOne" inverse="Keen" inherits-inverse="true" />
-    <property name="AccountInvitations" table="AccountInvitation" id-columns="Account_Id" list="true" item-type="AccountInvitation" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
-    <property name="AccountStories" table="AccountStory" id-columns="Account_Id" list="true" item-type="AccountStory" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
-    <property name="AccountSurveyAnswers" table="AccountSurveyAnswer" id-columns="Account_Id" list="true" item-type="AccountSurveyAnswer" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
-    <property name="City" columns="City" type="System.String" />
-    <property name="Country" columns="Country_Id" ref="OneToMany" inverse="Accounts" type="Country" />
+    <property name="Places" table="Place" id-columns="Account_Id" list="true" item-type="Place" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
+    <property name="ReminderEvents" table="ReminderEvent" id-columns="Account_Id" list="true" item-type="ReminderEvent" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
+    <property name="Signature" columns="Signature" type="System.String" />
     <property name="State" columns="State_Id" ref="OneToMany" inverse="Accounts" type="State" />
     <property name="UtcOffset" columns="UtcOffset" type="System.Int32" />
-    <property name="ReminderEvents" table="ReminderEvent" id-columns="Account_Id" list="true" item-type="ReminderEvent" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
-    <property name="AccountFeeds" table="AccountFeed" id-columns="Account_Id" list="true" item-type="AccountFeed" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
-    <property name="AccountProfiles" table="AccountProfile" id-columns="Account_Id" list="true" item-type="AccountProfile" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
-    <property name="Places" table="Place" id-columns="Account_Id" list="true" item-type="Place" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
-    <property name="AccountPlaces" table="AccountPlace" id-columns="Account_Id" list="true" item-type="AccountPlace" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
-    <property name="AccountPlaceRequests" table="AccountPlaceRequest" id-columns="Account_Id" list="true" item-type="AccountPlaceRequest" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
-    <property name="AccountPlaceFavorites" table="AccountPlaceFavorite" id-columns="Account_Id" list="true" item-type="AccountPlaceFavorite" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
-    <property name="Signature" columns="Signature" type="System.String" />
-    <property name="AccountOpenIds" table="AccountOpenId" id-columns="Account_Id" list="true" item-type="AccountOpenId" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
-    <property name="AccountBlogAuthors" table="AccountBlogAuthor" id-columns="Account_Id" list="true" item-type="AccountBlogAuthor" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
-    <property name="AccountBlogs" table="AccountBlog" id-columns="Account_Id" list="true" item-type="AccountBlog" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
-    <property name="IsAdministrator" columns="IsAdministrator" type="System.Boolean" />
+    <property name="Schedules" table="Schedule" id-columns="Account_Id" list="true" item-type="Schedule" read-only="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
   </class>
   <class name="AccountAddress" table="AccountAddress">
     <property name="Id" id="true" columns="AccountAddress_Id" type="System.Int32" />
@@ -50,10 +52,10 @@
     <property name="Country" columns="Country_Id" ref="OneToMany" inverse="AccountAddresses" type="Country" />
     <property name="Created" columns="Created" type="System.DateTime" />
     <property name="Modified" columns="Modified" type="System.DateTime" />
+    <property name="Name" columns="Name" type="System.String" />
     <property name="State" columns="State_Id" ref="OneToMany" inverse="AccountAddresses" type="State" />
     <property name="Street" columns="Street" type="System.String" />
     <property name="Zip" columns="Zip" type="System.String" />
-    <property name="Name" columns="Name" type="System.String" />
   </class>
   <class name="AccountBlog" table="AccountBlog">
     <property name="Id" id="true" columns="AccountBlog_Id" type="System.Int32" />
@@ -86,14 +88,12 @@
   <class name="AccountEmail" table="AccountEmail">
     <property name="Id" id="true" columns="AccountEmail_Id" type="System.Int32" />
     <property name="Account" columns="Account_Id" ref="OneToMany" inverse="AccountEmails" type="Account" />
+    <property name="AccountEmailConfirmations" table="AccountEmailConfirmation" id-columns="AccountEmail_Id" list="true" item-type="AccountEmailConfirmation" read-only="true" ref="ManyToOne" inverse="AccountEmail" inherits-inverse="true" />
     <property name="Address" columns="Address" type="System.String" />
     <property name="Created" columns="Created" type="System.DateTime" />
     <property name="Modified" columns="Modified" type="System.DateTime" />
-    <property name="Verified" columns="Verified" type="System.Boolean" />
-    <property name="AccountEmailConfirmations" table="AccountEmailConfirmation" id-columns="AccountEmail_Id" list="true" item-type="AccountEmailConfirmation" read-only="true" ref="ManyToOne" inverse="AccountEmail" inherits-inverse="true">
-      <meta-data key="nh-cascade" value="none" />
-    </property>
     <property name="Principal" columns="Principal" type="System.Boolean" />
+    <property name="Verified" columns="Verified" type="System.Boolean" />
   </class>
   <class name="AccountEmailConfirmation" table="AccountEmailConfirmation">
     <property name="Id" id="true" columns="AccountEmailConfirmation_Id" type="System.Int32" />
@@ -104,41 +104,62 @@
     <property name="Id" id="true" columns="AccountEmailMessage_Id" type="System.Int32" />
     <property name="Account" columns="Account_Id" ref="OneToMany" inverse="AccountEmailMessages" type="Account" />
     <property name="Body" columns="Body" type="System.String" />
+    <property name="Created" columns="Created" type="System.DateTime" />
     <property name="DeleteSent" columns="DeleteSent" type="System.Boolean" />
-    <property name="Sent" columns="Sent" type="System.Boolean" />
-    <property name="Subject" columns="Subject" type="System.String" />
     <property name="MailFrom" columns="MailFrom" type="System.String" />
     <property name="MailTo" columns="MailTo" type="System.String" />
-    <property name="SendError" columns="SendError" type="System.String" />
-    <property name="Created" columns="Created" type="System.DateTime" />
     <property name="Modified" columns="Modified" type="System.DateTime" />
+    <property name="SendError" columns="SendError" type="System.String" />
+    <property name="Sent" columns="Sent" type="System.Boolean" />
+    <property name="Subject" columns="Subject" type="System.String" />
+  </class>
+  <class name="AccountEvent" table="AccountEvent">
+    <property name="Id" id="true" columns="AccountEvent_Id" type="System.Int32" />
+    <property name="Account" columns="Account_Id" ref="OneToMany" inverse="AccountEvents" type="Account" />
+    <property name="AccountEventType" columns="AccountEventType_Id" ref="OneToMany" inverse="AccountEvents" type="AccountEventType" />
+    <property name="Cost" columns="Cost" type="System.String" />
+    <property name="Created" columns="Created" type="System.DateTime" />
+    <property name="Description" columns="Description" type="System.String" />
+    <property name="Email" columns="Email" type="System.String" />
+    <property name="Modified" columns="Modified" type="System.DateTime" />
+    <property name="Name" columns="Name" type="System.String" />
+    <property name="Phone" columns="Phone" type="System.String" />
+    <property name="Place" columns="Place_Id" ref="OneToMany" inverse="AccountEvents" type="Place" />
+    <property name="Publish" columns="Publish" type="System.Boolean" />
+    <property name="Schedule" columns="Schedule_Id" ref="OneToMany" inverse="AccountEvents" type="Schedule" />
+    <property name="Website" columns="Website" type="System.String" />
+  </class>
+  <class name="AccountEventType" table="AccountEventType">
+    <property name="Id" id="true" columns="AccountEventType_Id" type="System.Int32" />
+    <property name="AccountEvents" table="AccountEvent" id-columns="AccountEventType_Id" list="true" item-type="AccountEvent" read-only="true" ref="ManyToOne" inverse="AccountEventType" inherits-inverse="true" />
+    <property name="Name" columns="Name" type="System.String" />
   </class>
   <class name="AccountFeed" table="AccountFeed">
     <property name="Id" id="true" columns="AccountFeed_Id" type="System.Int32" />
+    <property name="Account" columns="Account_Id" ref="OneToMany" inverse="AccountFeeds" type="Account" />
+    <property name="AccountFeedItems" table="AccountFeedItem" id-columns="AccountFeed_Id" list="true" item-type="AccountFeedItem" read-only="true" ref="ManyToOne" inverse="AccountFeed" inherits-inverse="true" />
     <property name="Created" columns="Created" type="System.DateTime" />
     <property name="Description" columns="Description" type="System.String" />
     <property name="FeedType" columns="FeedType_Id" ref="OneToMany" inverse="AccountFeeds" type="FeedType" />
+    <property name="FeedUrl" columns="FeedUrl" type="System.String" />
     <property name="LastError" columns="LastError" type="System.String" />
+    <property name="LinkUrl" columns="LinkUrl" type="System.String" />
     <property name="Name" columns="Name" type="System.String" />
     <property name="Password" columns="Password" type="System.String" />
+    <property name="Publish" columns="Publish" type="System.Boolean" />
     <property name="Updated" columns="Updated" type="System.DateTime" />
     <property name="UpdateFrequency" columns="UpdateFrequency" type="System.Int32" />
     <property name="Username" columns="Username" type="System.String" />
-    <property name="Account" columns="Account_Id" ref="OneToMany" inverse="AccountFeeds" type="Account" />
-    <property name="FeedUrl" columns="FeedUrl" type="System.String" />
-    <property name="LinkUrl" columns="LinkUrl" type="System.String" />
-    <property name="AccountFeedItems" table="AccountFeedItem" id-columns="AccountFeed_Id" list="true" item-type="AccountFeedItem" read-only="true" ref="ManyToOne" inverse="AccountFeed" inherits-inverse="true" />
-    <property name="Publish" columns="Publish" type="System.Boolean" />
   </class>
   <class name="AccountFeedItem" table="AccountFeedItem">
     <property name="Id" id="true" columns="AccountFeedItem_Id" type="System.Int32" />
     <property name="AccountFeed" columns="AccountFeed_Id" ref="OneToMany" inverse="AccountFeedItems" type="AccountFeed" />
     <property name="Created" columns="Created" type="System.DateTime" />
     <property name="Description" columns="Description" type="System.String" />
+    <property name="Guid" columns="Guid" type="System.String" />
     <property name="Link" columns="Link" type="System.String" />
     <property name="Title" columns="Title" type="System.String" />
     <property name="Updated" columns="Updated" type="System.DateTime" />
-    <property name="Guid" columns="Guid" type="System.String" />
   </class>
   <class name="AccountFriend" table="AccountFriend">
     <property name="Id" id="true" columns="AccountFriend_Id" type="System.Int32" />
@@ -160,30 +181,30 @@
     <property name="Code" columns="Code" type="System.String" />
     <property name="Created" columns="Created" type="System.DateTime" />
     <property name="Email" columns="Email" type="System.String" />
-    <property name="Modified" columns="Modified" type="System.DateTime" />
     <property name="Message" columns="Message" type="System.String" />
+    <property name="Modified" columns="Modified" type="System.DateTime" />
   </class>
   <class name="AccountMessage" table="AccountMessage">
     <property name="Id" id="true" columns="AccountMessage_Id" type="System.Int32" />
+    <property name="Account" columns="Account_Id" ref="OneToMany" inverse="AccountMessages" type="Account" />
     <property name="AccountMessageFolder" columns="AccountMessageFolder_Id" ref="OneToMany" inverse="AccountMessages" type="AccountMessageFolder" />
     <property name="Body" columns="Body" type="System.String" />
+    <property name="RecepientAccountId" columns="RecepientAccount_Id" type="System.Int32" />
     <property name="SenderAccountId" columns="SenderAccount_Id" type="System.Int32" />
     <property name="Sent" columns="Sent" type="System.DateTime" />
     <property name="Subject" columns="Subject" type="System.String" />
     <property name="Unread" columns="Unread" type="System.Boolean" />
-    <property name="Account" columns="Account_Id" ref="OneToMany" inverse="AccountMessages" type="Account" />
-    <property name="RecepientAccountId" columns="RecepientAccount_Id" type="System.Int32" />
   </class>
   <class name="AccountMessageFolder" table="AccountMessageFolder">
     <property name="Id" id="true" columns="AccountMessageFolder_Id" type="System.Int32" />
     <property name="Account" columns="Account_Id" ref="OneToMany" inverse="AccountMessageFolders" type="Account" />
-    <property name="Name" columns="Name" type="System.String" />
-    <property name="System" columns="System" type="System.Boolean" />
-    <property name="Created" columns="Created" type="System.DateTime" />
-    <property name="Modified" columns="Modified" type="System.DateTime" />
     <property name="AccountMessageFolderParent" columns="AccountMessageFolderParent_Id" ref="OneToMany" inverse="AccountMessageFolders" type="AccountMessageFolder" />
     <property name="AccountMessageFolders" table="AccountMessageFolder" id-columns="AccountMessageFolderParent_Id" list="true" item-type="AccountMessageFolder" read-only="true" ref="ManyToOne" inverse="AccountMessageFolderParent" inherits-inverse="true" />
     <property name="AccountMessages" table="AccountMessage" id-columns="AccountMessageFolder_Id" list="true" item-type="AccountMessage" read-only="true" ref="ManyToOne" inverse="AccountMessageFolder" inherits-inverse="true" />
+    <property name="Created" columns="Created" type="System.DateTime" />
+    <property name="Modified" columns="Modified" type="System.DateTime" />
+    <property name="Name" columns="Name" type="System.String" />
+    <property name="System" columns="System" type="System.Boolean" />
   </class>
   <class name="AccountOpenId" table="AccountOpenId">
     <property name="Id" id="true" columns="AccountOpenId_Id" type="System.Int32" />
@@ -195,9 +216,7 @@
   <class name="AccountPicture" table="AccountPicture">
     <property name="Id" id="true" columns="AccountPicture_Id" type="System.Int32" />
     <property name="Account" columns="Account_Id" ref="OneToMany" inverse="AccountPictures" type="Account" />
-    <property name="Bitmap" columns="Bitmap" type="System.Byte()">
-      <meta-data key="nh-length" value="1048576" />
-    </property>
+    <property name="Bitmap" columns="Bitmap" type="System.Byte()" />
     <property name="Created" columns="Created" type="System.DateTime" />
     <property name="Description" columns="Description" type="System.String" />
     <property name="Modified" columns="Modified" type="System.DateTime" />
@@ -228,11 +247,11 @@
   </class>
   <class name="AccountPlaceType" table="AccountPlaceType">
     <property name="Id" id="true" columns="AccountPlaceType_Id" type="System.Int32" />
+    <property name="AccountPlaceRequests" table="AccountPlaceRequest" id-columns="Type" list="true" item-type="AccountPlaceRequest" read-only="true" ref="ManyToOne" inverse="Type" inherits-inverse="true" />
     <property name="AccountPlaces" table="AccountPlace" id-columns="Type_Id" list="true" item-type="AccountPlace" read-only="true" ref="ManyToOne" inverse="Type" inherits-inverse="true" />
-    <property name="Name" columns="Name" type="System.String" />
     <property name="CanWrite" columns="CanWrite" type="System.Boolean" />
     <property name="Description" columns="Description" type="System.String" />
-    <property name="AccountPlaceRequests" table="AccountPlaceRequest" id-columns="Type" list="true" item-type="AccountPlaceRequest" read-only="true" ref="ManyToOne" inverse="Type" inherits-inverse="true" />
+    <property name="Name" columns="Name" type="System.String" />
   </class>
   <class name="AccountProfile" table="AccountProfile">
     <property name="Id" id="true" columns="AccountProfile_Id" type="System.Int32" />
@@ -275,13 +294,13 @@
   </class>
   <class name="Bookmark" table="Bookmark">
     <property name="Id" id="true" columns="Bookmark_Id" type="System.Int32" />
+    <property name="Created" columns="Created" type="System.DateTime" />
     <property name="Description" columns="Description" type="System.String" />
     <property name="FullBitmap" columns="FullBitmap" type="System.Byte()" />
     <property name="LinkBitmap" columns="LinkBitmap" type="System.Byte()" />
+    <property name="Modified" columns="Modified" type="System.DateTime" />
     <property name="Name" columns="Name" type="System.String" />
     <property name="Url" columns="Url" type="System.String" />
-    <property name="Created" columns="Created" type="System.DateTime" />
-    <property name="Modified" columns="Modified" type="System.DateTime" />
   </class>
   <class name="Bug" table="Bug">
     <property name="Id" id="true" columns="Bug_Id" type="System.Int32" />
@@ -363,13 +382,14 @@
   <class name="Country" table="Country">
     <property name="Id" id="true" columns="Country_Id" type="System.Int32" />
     <property name="AccountAddresses" table="AccountAddress" id-columns="Country_Id" list="true" item-type="AccountAddress" read-only="true" ref="ManyToOne" inverse="Country" inherits-inverse="true" />
-    <property name="Name" columns="Name" type="System.String" />
-    <property name="States" table="State" id-columns="Country_Id" list="true" item-type="State" read-only="true" ref="ManyToOne" inverse="Country" inherits-inverse="true" />
     <property name="Accounts" table="Account" id-columns="Country_Id" list="true" item-type="Account" read-only="true" ref="ManyToOne" inverse="Country" inherits-inverse="true" />
     <property name="Cities" table="City" id-columns="Country_Id" list="true" item-type="City" read-only="true" ref="ManyToOne" inverse="Country" inherits-inverse="true" />
+    <property name="Name" columns="Name" type="System.String" />
+    <property name="States" table="State" id-columns="Country_Id" list="true" item-type="State" read-only="true" ref="ManyToOne" inverse="Country" inherits-inverse="true" />
   </class>
   <class name="DataObject" table="DataObject">
     <property name="Id" id="true" columns="DataObject_Id" type="System.Int32" />
+    <property name="Features" table="Feature" id-columns="DataObject_Id" list="true" item-type="Feature" read-only="true" ref="ManyToOne" inverse="DataObject" inherits-inverse="true" />
     <property name="Name" columns="Name" type="System.String" />
     <property name="Reminders" table="Reminder" id-columns="DataObject_Id" list="true" item-type="Reminder" read-only="true" ref="ManyToOne" inverse="DataObject" inherits-inverse="true" />
   </class>
@@ -381,19 +401,19 @@
     <property name="DiscussionThreads" table="DiscussionThread" id-columns="Discussion_Id" list="true" item-type="DiscussionThread" read-only="true" ref="ManyToOne" inverse="Discussion" inherits-inverse="true" />
     <property name="Modified" columns="Modified" type="System.DateTime" />
     <property name="Name" columns="Name" type="System.String" />
-    <property name="Personal" columns="Personal" type="System.Boolean" />
     <property name="ObjectId" columns="Object_Id" type="System.Int32" />
+    <property name="Personal" columns="Personal" type="System.Boolean" />
   </class>
   <class name="DiscussionPost" table="DiscussionPost">
     <property name="Id" id="true" columns="DiscussionPost_Id" type="System.Int32" />
     <property name="AccountId" columns="Account_Id" type="System.Int32" />
+    <property name="Body" columns="Body" type="System.String" />
     <property name="Created" columns="Created" type="System.DateTime" />
     <property name="DiscussionPostParent" columns="DiscussionPostParent_Id" ref="OneToMany" inverse="DiscussionPosts" type="DiscussionPost" />
     <property name="DiscussionPosts" table="DiscussionPost" id-columns="DiscussionPostParent_Id" list="true" item-type="DiscussionPost" read-only="true" ref="ManyToOne" inverse="DiscussionPostParent" inherits-inverse="true" />
     <property name="DiscussionThread" columns="DiscussionThread_Id" ref="OneToMany" inverse="DiscussionPosts" type="DiscussionThread" />
     <property name="Modified" columns="Modified" type="System.DateTime" />
     <property name="Subject" columns="Subject" type="System.String" />
-    <property name="Body" columns="Body" type="System.String" />
   </class>
   <class name="DiscussionThread" table="DiscussionThread">
     <property name="Id" id="true" columns="DiscussionThread_Id" type="System.Int32" />
@@ -405,18 +425,18 @@
   <class name="Feature" table="Feature">
     <property name="Id" id="true" columns="Feature_Id" type="System.Int32" />
     <property name="Created" columns="Created" type="System.DateTime" />
-    <property name="DataObjectId" columns="DataObject_Id" type="System.Int32" />
+    <property name="DataObject" columns="DataObject_Id" ref="OneToMany" inverse="Features" type="DataObject" />
     <property name="DataRowId" columns="DataRow_Id" type="System.Int32" />
   </class>
   <class name="FeedType" table="FeedType">
     <property name="Id" id="true" columns="FeedType_Id" type="System.Int32" />
     <property name="AccountFeeds" table="AccountFeed" id-columns="FeedType_Id" list="true" item-type="AccountFeed" read-only="true" ref="ManyToOne" inverse="FeedType" inherits-inverse="true" />
     <property name="Name" columns="Name" type="System.String" />
-    <property name="Xsl" columns="Xsl" type="System.String" />
     <property name="SpanColumns" columns="SpanColumns" type="System.Int32" />
-    <property name="SpanRows" columns="SpanRows" type="System.Int32" />
     <property name="SpanColumnsPreview" columns="SpanColumnsPreview" type="System.Int32" />
+    <property name="SpanRows" columns="SpanRows" type="System.Int32" />
     <property name="SpanRowsPreview" columns="SpanRowsPreview" type="System.Int32" />
+    <property name="Xsl" columns="Xsl" type="System.String" />
   </class>
   <class name="Picture" table="Picture">
     <property name="Id" id="true" columns="Picture_Id" type="System.Int32" />
@@ -434,25 +454,26 @@
   </class>
   <class name="Place" table="Place">
     <property name="Id" id="true" columns="Place_Id" type="System.Int32" />
+    <property name="Account" columns="Account_Id" ref="OneToMany" inverse="Places" type="Account" />
+    <property name="AccountEvents" table="AccountEvent" id-columns="Place_Id" list="true" item-type="AccountEvent" read-only="true" ref="ManyToOne" inverse="Place" inherits-inverse="true" />
+    <property name="AccountPlaceFavorites" table="AccountPlaceFavorite" id-columns="Place_Id" list="true" item-type="AccountPlaceFavorite" read-only="true" ref="ManyToOne" inverse="Place" inherits-inverse="true" />
+    <property name="AccountPlaceRequests" table="AccountPlaceRequest" id-columns="Place_Id" list="true" item-type="AccountPlaceRequest" read-only="true" ref="ManyToOne" inverse="Place" inherits-inverse="true" />
+    <property name="AccountPlaces" table="AccountPlace" id-columns="Place_Id" list="true" item-type="AccountPlace" read-only="true" ref="ManyToOne" inverse="Place" inherits-inverse="true" />
     <property name="City" columns="City_Id" ref="OneToMany" inverse="Places" type="City" />
+    <property name="Created" columns="Created" type="System.DateTime" />
     <property name="CrossStreet" columns="CrossStreet" type="System.String" />
     <property name="Description" columns="Description" type="System.String" />
     <property name="Email" columns="Email" type="System.String" />
     <property name="Fax" columns="Fax" type="System.String" />
+    <property name="Modified" columns="Modified" type="System.DateTime" />
     <property name="Name" columns="Name" type="System.String" />
     <property name="Phone" columns="Phone" type="System.String" />
+    <property name="PlaceNames" table="PlaceName" id-columns="Place_Id" list="true" item-type="PlaceName" read-only="true" ref="ManyToOne" inverse="Place" inherits-inverse="true" />
+    <property name="PlacePictures" table="PlacePicture" id-columns="Place_Id" list="true" item-type="PlacePicture" read-only="true" ref="ManyToOne" inverse="Place" inherits-inverse="true" />
     <property name="Street" columns="Street" type="System.String" />
     <property name="Type" columns="Type" ref="OneToMany" inverse="Places" type="PlaceType" />
     <property name="Website" columns="Website" type="System.String" />
     <property name="Zip" columns="Zip" type="System.String" />
-    <property name="Created" columns="Created" type="System.DateTime" />
-    <property name="Modified" columns="Modified" type="System.DateTime" />
-    <property name="PlacePictures" table="PlacePicture" id-columns="Place_Id" list="true" item-type="PlacePicture" read-only="true" ref="ManyToOne" inverse="Place" inherits-inverse="true" />
-    <property name="Account" columns="Account_Id" ref="OneToMany" inverse="Places" type="Account" />
-    <property name="AccountPlaces" table="AccountPlace" id-columns="Place_Id" list="true" item-type="AccountPlace" read-only="true" ref="ManyToOne" inverse="Place" inherits-inverse="true" />
-    <property name="AccountPlaceRequests" table="AccountPlaceRequest" id-columns="Place_Id" list="true" item-type="AccountPlaceRequest" read-only="true" ref="ManyToOne" inverse="Place" inherits-inverse="true" />
-    <property name="AccountPlaceFavorites" table="AccountPlaceFavorite" id-columns="Place_Id" list="true" item-type="AccountPlaceFavorite" read-only="true" ref="ManyToOne" inverse="Place" inherits-inverse="true" />
-    <property name="PlaceNames" table="PlaceName" id-columns="Place_Id" list="true" item-type="PlaceName" read-only="true" ref="ManyToOne" inverse="Place" inherits-inverse="true" />
   </class>
   <class name="PlaceName" table="PlaceName">
     <property name="Id" id="true" columns="PlaceName_Id" type="System.Int32" />
@@ -481,27 +502,53 @@
     <property name="DataObject" columns="DataObject_Id" ref="OneToMany" inverse="Reminders" type="DataObject" />
     <property name="DataObjectField" columns="DataObjectField" type="System.String" />
     <property name="DeltaHours" columns="DeltaHours" type="System.Int32" />
-    <property name="Recurrent" columns="Recurrent" type="System.Boolean" />
-    <property name="ReminderEvents" table="ReminderEvent" id-columns="Reminder_Id" list="true" item-type="ReminderEvent" read-only="true" ref="ManyToOne" inverse="Reminder" inherits-inverse="true" />
-    <property name="Subject" columns="Subject" type="System.String" />
     <property name="Enabled" columns="Enabled" type="System.Boolean" />
     <property name="LastRun" columns="LastRun" type="System.DateTime" />
     <property name="LastRunError" columns="LastRunError" type="System.String" />
+    <property name="Recurrent" columns="Recurrent" type="System.Boolean" />
+    <property name="ReminderEvents" table="ReminderEvent" id-columns="Reminder_Id" list="true" item-type="ReminderEvent" read-only="true" ref="ManyToOne" inverse="Reminder" inherits-inverse="true" />
+    <property name="Subject" columns="Subject" type="System.String" />
   </class>
   <class name="ReminderEvent" table="ReminderEvent">
     <property name="Id" id="true" columns="ReminderEvent_Id" type="System.Int32" />
+    <property name="Account" columns="Account_Id" ref="OneToMany" inverse="ReminderEvents" type="Account" />
     <property name="Created" columns="Created" type="System.DateTime" />
     <property name="Modified" columns="Modified" type="System.DateTime" />
     <property name="Reminder" columns="Reminder_Id" ref="OneToMany" inverse="ReminderEvents" type="Reminder" />
-    <property name="Account" columns="Account_Id" ref="OneToMany" inverse="ReminderEvents" type="Account" />
+  </class>
+  <class name="Schedule" table="Schedule">
+    <property name="Id" id="true" columns="Schedule_Id" type="System.Int32" />
+    <property name="AccountEvents" table="AccountEvent" id-columns="Schedule_Id" list="true" item-type="AccountEvent" read-only="true" ref="ManyToOne" inverse="Schedule" inherits-inverse="true" />
+    <property name="AllDay" columns="AllDay" type="System.Boolean" />
+    <property name="DailyEveryNDays" columns="Daily_EveryNDays" type="System.Int32" />
+    <property name="EndDateTime" columns="EndDateTime" type="System.DateTime" />
+    <property name="Endless" columns="Endless" type="System.Boolean" />
+    <property name="EndOccurrences" columns="EndOccurrences" type="System.Int32" />
+    <property name="MonthlyDay" columns="Monthly_Day" type="System.Int32" />
+    <property name="MonthlyExDayIndex" columns="MonthlyEx_DayIndex" type="System.Int32" />
+    <property name="MonthlyExDayName" columns="MonthlyEx_DayName" type="System.Int32" />
+    <property name="MonthlyExMonth" columns="MonthlyEx_Month" type="System.Int32" />
+    <property name="MonthlyMonth" columns="Monthly_Month" type="System.Int32" />
+    <property name="RecurrencePattern" columns="RecurrencePattern" type="System.Int16" />
+    <property name="StartDateTime" columns="StartDateTime" type="System.DateTime" />
+    <property name="WeeklyDaysOfWeek" columns="Weekly_DaysOfWeek" type="System.Int16" />
+    <property name="WeeklyEveryNWeeks" columns="Weekly_EveryNWeeks" type="System.Int32" />
+    <property name="YearlyDay" columns="Yearly_Day" type="System.Int32" />
+    <property name="YearlyExDayIndex" columns="YearlyEx_DayIndex" type="System.Int32" />
+    <property name="YearlyExDayName" columns="YearlyEx_DayName" type="System.Int32" />
+    <property name="YearlyExMonth" columns="YearlyEx_Month" type="System.Int32" />
+    <property name="YearlyMonth" columns="Yearly_Month" type="System.Int32" />
+    <property name="Account" columns="Account_Id" ref="OneToMany" inverse="Schedules" type="Account" />
+    <property name="Created" columns="Created" type="System.DateTime" />
+    <property name="Modified" columns="Modified" type="System.DateTime" />
   </class>
   <class name="State" table="State">
     <property name="Id" id="true" columns="State_Id" type="System.Int32" />
     <property name="AccountAddresses" table="AccountAddress" id-columns="State_Id" list="true" item-type="AccountAddress" read-only="true" ref="ManyToOne" inverse="State" inherits-inverse="true" />
-    <property name="Name" columns="Name" type="System.String" />
-    <property name="Country" columns="Country_Id" ref="OneToMany" inverse="States" type="Country" />
     <property name="Accounts" table="Account" id-columns="State_Id" list="true" item-type="Account" read-only="true" ref="ManyToOne" inverse="State" inherits-inverse="true" />
     <property name="Cities" table="City" id-columns="State_Id" list="true" item-type="City" read-only="true" ref="ManyToOne" inverse="State" inherits-inverse="true" />
+    <property name="Country" columns="Country_Id" ref="OneToMany" inverse="States" type="Country" />
+    <property name="Name" columns="Name" type="System.String" />
   </class>
   <class name="Survey" table="Survey">
     <property name="Id" id="true" columns="Survey_Id" type="System.Int32" />
@@ -516,17 +563,17 @@
   </class>
   <class name="TagWord" table="TagWord">
     <property name="Id" id="true" columns="TagWord_Id" type="System.Int32" />
+    <property name="Excluded" columns="Excluded" type="System.Boolean" />
     <property name="Promoted" columns="Promoted" type="System.Boolean" />
     <property name="TagWordAccounts" table="TagWordAccount" id-columns="TagWord_Id" list="true" item-type="TagWordAccount" read-only="true" ref="ManyToOne" inverse="TagWord" inherits-inverse="true" />
     <property name="Word" columns="Word" type="System.String" />
-    <property name="Excluded" columns="Excluded" type="System.Boolean" />
   </class>
   <class name="TagWordAccount" table="TagWordAccount">
     <property name="Id" id="true" columns="TagWordAccount_Id" type="System.Int32" />
     <property name="AccountId" columns="Account_Id" type="System.Int32" />
-    <property name="TagWord" columns="TagWord_Id" ref="OneToMany" inverse="TagWordAccounts" type="TagWord" />
     <property name="Created" columns="Created" type="System.DateTime" />
     <property name="Modified" columns="Modified" type="System.DateTime" />
+    <property name="TagWord" columns="TagWord_Id" ref="OneToMany" inverse="TagWordAccounts" type="TagWord" />
   </class>
   <source name="SnCore" type="MSSqlServer" provider="SqlClient" schema="dbo" catalog="SnCore">
     <connection-string>Data Source=localhost;Initial Catalog=SnCore;Integrated Security=SSPI</connection-string>
@@ -537,6 +584,7 @@
       <column name="Country_Id" type="Int32" prec="10" allow-null="true" length="4" scale="0" foreign="true" primary-table="Country" primary-column="Country_Id" foreign-key="FK_Account_Country" />
       <column name="Created" type="DateTime" prec="23" length="8" scale="3" default="(getdate())" />
       <column name="Enabled" type="Boolean" prec="1" length="1" scale="0" default="(1)" />
+      <column name="IsAdministrator" type="Boolean" prec="1" allow-null="true" length="1" scale="0" default="((0))" />
       <column name="LastLogin" type="DateTime" prec="23" allow-null="true" length="8" scale="3" />
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" default="(getdate())" />
       <column name="Name" type="String" prec="128" length="256" scale="0" />
@@ -544,7 +592,6 @@
       <column name="Signature" type="String" prec="128" allow-null="true" length="256" scale="0" />
       <column name="State_Id" type="Int32" prec="10" allow-null="true" length="4" scale="0" foreign="true" primary-table="State" primary-column="State_Id" foreign-key="FK_Account_State" />
       <column name="UtcOffset" type="Int32" prec="10" allow-null="true" length="4" scale="0" />
-      <column name="IsAdministrator" type="Boolean" prec="1" allow-null="true" length="1" scale="0" default="((0))" />
     </table>
     <table name="AccountAddress">
       <column name="AccountAddress_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
@@ -612,6 +659,26 @@
       <column name="Subject" type="String" prec="256" length="512" scale="0" />
       <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
+    </table>
+    <table name="AccountEvent">
+      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountEvent_Account" />
+      <column name="AccountEvent_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="AccountEventType_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="AccountEventType" primary-column="AccountEventType_Id" foreign-key="FK_AccountEvent_AccountEventType" />
+      <column name="Cost" type="String" prec="128" allow-null="true" length="256" scale="0" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Description" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
+      <column name="Email" type="AnsiString" prec="128" allow-null="true" length="128" scale="0" />
+      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Name" type="String" prec="128" length="256" scale="0" />
+      <column name="Phone" type="AnsiString" prec="24" allow-null="true" length="24" scale="0" />
+      <column name="Place_Id" type="Int32" prec="10" allow-null="true" length="4" scale="0" foreign="true" primary-table="Place" primary-column="Place_Id" foreign-key="FK_AccountEvent_Place" />
+      <column name="Publish" type="Boolean" prec="1" length="1" scale="0" default="((1))" />
+      <column name="Schedule_Id" type="Int32" prec="10" allow-null="true" length="4" scale="0" foreign="true" primary-table="Schedule" primary-column="Schedule_Id" foreign-key="FK_AccountEvent_Schedule" />
+      <column name="Website" type="AnsiString" prec="128" allow-null="true" length="128" scale="0" />
+    </table>
+    <table name="AccountEventType">
+      <column name="AccountEventType_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Name" type="String" prec="128" length="256" scale="0" />
     </table>
     <table name="AccountFeed">
       <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountFeed_Account" />
@@ -959,6 +1026,31 @@
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Reminder_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Reminder" primary-column="Reminder_Id" foreign-key="FK_ReminderEvent_Reminder" />
       <column name="ReminderEvent_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+    </table>
+    <table name="Schedule">
+      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_Schedule_Account" />
+      <column name="AllDay" type="Boolean" prec="1" allow-null="true" length="1" scale="0" default="((0))" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Daily_EveryNDays" type="Int32" prec="10" allow-null="true" length="4" scale="0" />
+      <column name="EndDateTime" type="DateTime" prec="23" allow-null="true" length="8" scale="3" />
+      <column name="Endless" type="Boolean" prec="1" allow-null="true" length="1" scale="0" default="((0))" />
+      <column name="EndOccurrences" type="Int32" prec="10" allow-null="true" length="4" scale="0" />
+      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Monthly_Day" type="Int32" prec="10" allow-null="true" length="4" scale="0" />
+      <column name="Monthly_Month" type="Int32" prec="10" allow-null="true" length="4" scale="0" />
+      <column name="MonthlyEx_DayIndex" type="Int32" prec="10" allow-null="true" length="4" scale="0" />
+      <column name="MonthlyEx_DayName" type="Int32" prec="10" allow-null="true" length="4" scale="0" />
+      <column name="MonthlyEx_Month" type="Int32" prec="10" allow-null="true" length="4" scale="0" />
+      <column name="RecurrencePattern" type="Int16" prec="5" length="2" scale="0" />
+      <column name="Schedule_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="StartDateTime" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Weekly_DaysOfWeek" type="Int16" prec="5" allow-null="true" length="2" scale="0" />
+      <column name="Weekly_EveryNWeeks" type="Int32" prec="10" allow-null="true" length="4" scale="0" />
+      <column name="Yearly_Day" type="Int32" prec="10" allow-null="true" length="4" scale="0" />
+      <column name="Yearly_Month" type="Int32" prec="10" allow-null="true" length="4" scale="0" />
+      <column name="YearlyEx_DayIndex" type="Int32" prec="10" allow-null="true" length="4" scale="0" />
+      <column name="YearlyEx_DayName" type="Int32" prec="10" allow-null="true" length="4" scale="0" />
+      <column name="YearlyEx_Month" type="Int32" prec="10" allow-null="true" length="4" scale="0" />
     </table>
     <table name="State">
       <column name="Country_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Country" primary-column="Country_Id" foreign-key="FK_State_Country" />

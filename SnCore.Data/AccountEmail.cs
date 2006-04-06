@@ -17,12 +17,12 @@ using System;
         //Holds property values
         private System.Int32 m_Id;
         private Account m_Account;
+        private System.Collections.IList m_AccountEmailConfirmations;
         private System.String m_Address;
         private System.DateTime m_Created;
         private System.DateTime m_Modified;
-        private System.Boolean m_Verified;
-        private System.Collections.IList m_AccountEmailConfirmations;
         private System.Boolean m_Principal;
+        private System.Boolean m_Verified;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -72,6 +72,37 @@ using System;
             set
             {
                 m_Account = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'AccountEmailConfirmation'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'AccountEmailConfirmation.AccountEmail'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_AccountEmailConfirmations' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as Read-Only.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'AccountEmailConfirmation' table in the data source.
+        ///The property maps to the identity column 'AccountEmail_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Collections.IList AccountEmailConfirmations
+        {
+            get
+            {
+                return m_AccountEmailConfirmations;
+            }
+            set
+            {
+                m_AccountEmailConfirmations = value;
             }
         }
 
@@ -157,62 +188,6 @@ using System;
         ///<remarks>
         ///This property accepts values of the type 'System.Boolean'.
         ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Verified' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'Verified' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.Boolean Verified
-        {
-            get
-            {
-                return m_Verified;
-            }
-            set
-            {
-                m_Verified = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent many-one reference property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts multiple references to objects of the type 'AccountEmailConfirmation'.
-        ///This property is part of a 'ManyToOne' relationship.
-        ///The data type for this property is 'System.Collections.IList'.
-        ///The inverse property for this property is 'AccountEmailConfirmation.AccountEmail'.
-        ///This property inherits its mapping information from its inverse property.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_AccountEmailConfirmations' that holds the value for this property is 'PrivateAccess'.
-        ///This property is marked as Read-Only.
-        ///
-        ///Mapping information:
-        ///This class maps to the 'AccountEmailConfirmation' table in the data source.
-        ///The property maps to the identity column 'AccountEmail_Id' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountEmailConfirmations
-        {
-            get
-            {
-                return m_AccountEmailConfirmations;
-            }
-            set
-            {
-                m_AccountEmailConfirmations = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent primitive property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts values of the type 'System.Boolean'.
-        ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_Principal' that holds the value for this property is 'PrivateAccess'.
         ///
         ///Mapping information:
@@ -228,6 +203,31 @@ using System;
             set
             {
                 m_Principal = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.Boolean'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Verified' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Verified' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Boolean Verified
+        {
+            get
+            {
+                return m_Verified;
+            }
+            set
+            {
+                m_Verified = value;
             }
         }
 

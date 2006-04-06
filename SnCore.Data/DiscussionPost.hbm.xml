@@ -5,6 +5,7 @@
       <generator class="identity" />
     </id>
     <property name="AccountId" column="Account_Id" type="Int32" />
+    <property name="Body" column="Body" type="String" />
     <property name="Created" column="Created" type="DateTime" />
     <many-to-one name="DiscussionPostParent" column="DiscussionPostParent_Id" class="DiscussionPost, SnCore.Data" />
     <bag lazy="true" name="DiscussionPosts" inverse="true">
@@ -14,6 +15,5 @@
     <many-to-one name="DiscussionThread" column="DiscussionThread_Id" class="DiscussionThread, SnCore.Data" />
     <property name="Modified" column="Modified" type="DateTime" />
     <property name="Subject" column="Subject" type="String" />
-    <property name="Body" column="Body" type="String" />
   </class>
 </hibernate-mapping>
