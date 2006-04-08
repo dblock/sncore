@@ -13,8 +13,93 @@ using SnCore.Tools.Web;
 
 namespace SnCore.Services
 {
+    public class TransitAccountEventQueryOptions
+    {
+        public string SortOrder = "Created";
+        public bool SortAscending = false;
+        public string Country;
+        public string State;
+        public string City;
+        public string Name;
+        public string Type;
+
+        public TransitAccountEventQueryOptions()
+        {
+        }
+
+        public string CreateSubQuery(ISession session)
+        {
+            StringBuilder b = new StringBuilder();
+
+            if (!string.IsNullOrEmpty(City))
+            {
+                b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                b.AppendFormat("e.Place.City.Id = '{0}'", ManagedCity.GetCityId(session, City, State, Country));
+            }
+
+            if (!string.IsNullOrEmpty(Country))
+            {
+                b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                b.AppendFormat("e.Place.City.Country.Id = {0}", ManagedCountry.GetCountryId(session, Country));
+            }
+
+            if (!string.IsNullOrEmpty(State))
+            {
+                b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                b.AppendFormat("e.Place.City.State.Id = {0}", ManagedState.GetStateId(session, State, Country));
+            }
+
+            if (!string.IsNullOrEmpty(Name))
+            {
+                b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                b.AppendFormat("e.Name LIKE '%{0}%'", Renderer.SqlEncode(Name));
+            }
+
+            if (!string.IsNullOrEmpty(Type))
+            {
+                b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                b.AppendFormat("e.AccountEventType.Id = {0}", ManagedAccountEventType.FindId(session, Type));
+            }
+
+            return b.ToString();
+        }
+
+        public IQuery CreateCountQuery(ISession session)
+        {
+            return session.CreateQuery("SELECT COUNT(e) FROM AccountEvent e " + CreateSubQuery(session));
+        }
+
+        public IQuery CreateQuery(ISession session)
+        {
+            StringBuilder b = new StringBuilder();
+            b.Append("SELECT e FROM AccountEvent e");
+            b.Append(CreateSubQuery(session));
+            if (!string.IsNullOrEmpty(SortOrder))
+            {
+                b.AppendFormat(" ORDER BY {0} {1}", SortOrder, SortAscending ? "ASC" : "DESC");
+            }
+
+            return session.CreateQuery(b.ToString());
+        }
+    };
+
     public class TransitAccountEvent : TransitService
     {
+        private int mPictureId = 0;
+
+        public int PictureId
+        {
+            get
+            {
+
+                return mPictureId;
+            }
+            set
+            {
+                mPictureId = value;
+            }
+        }
+
         private int mPlaceId;
 
         public int PlaceId
@@ -40,6 +125,48 @@ namespace SnCore.Services
             set
             {
                 mPlaceName = value;
+            }
+        }
+
+        private string mPlaceCity;
+
+        public string PlaceCity
+        {
+            get
+            {
+                return mPlaceCity;
+            }
+            set
+            {
+                mPlaceCity = value;
+            }
+        }
+
+        private string mPlaceState;
+
+        public string PlaceState
+        {
+            get
+            {
+                return mPlaceState;
+            }
+            set
+            {
+                mPlaceState = value;
+            }
+        }
+
+        private string mPlaceCountry;
+
+        public string PlaceCountry
+        {
+            get
+            {
+                return mPlaceCountry;
+            }
+            set
+            {
+                mPlaceCountry = value;
             }
         }
 
@@ -263,35 +390,45 @@ namespace SnCore.Services
             ScheduleId = o.Schedule.Id;
             PlaceId = o.Place.Id;
             PlaceName = o.Place.Name;
+            PlaceCity = o.Place.City.Name;
+            PlaceCountry = o.Place.City.Country.Name;
+            PlaceState = o.Place.City.State.Name;
             Name = o.Name;
             Phone = o.Phone;
             Email = o.Email;
             Website = o.Website;
             Cost = o.Cost;
             Publish = o.Publish;
+            PictureId = ManagedService.GetRandomElementId(o.AccountEventPictures);
         }
 
         public AccountEvent GetAccountEvent(ISession session)
         {
-            AccountEvent p = (Id != 0) ? (AccountEvent)session.Load(typeof(AccountEvent), Id) : new AccountEvent();
-            p.Description = this.Description;
-            p.Name = this.Name;
-            p.Phone = this.Phone;
-            p.Email = this.Email;
-            p.Website = this.Website;
-            p.Cost = this.Cost;
-            p.Publish = this.Publish;
-            p.AccountEventType = ManagedAccountEventType.Find(session, this.AccountEventType);
+            AccountEvent e = (Id != 0) ? (AccountEvent)session.Load(typeof(AccountEvent), Id) : new AccountEvent();
+            e.Description = this.Description;
+            e.Name = this.Name;
+            e.Phone = this.Phone;
+            e.Email = this.Email;
+            e.Website = this.Website;
+            e.Cost = this.Cost;
+            e.Publish = this.Publish;
+            e.AccountEventType = ManagedAccountEventType.Find(session, this.AccountEventType);
 
             if (Id == 0)
             {
                 // the account and the Event cannot be switched after the relationship is created
-                if (AccountId > 0) p.Account = (Account)session.Load(typeof(Account), AccountId);
-                if (PlaceId > 0) p.Place = (Place)session.Load(typeof(Place), PlaceId);
-                if (ScheduleId > 0) p.Schedule = (Schedule)session.Load(typeof(Schedule), ScheduleId);
+                if (AccountId > 0) e.Account = (Account)session.Load(typeof(Account), AccountId);
+                if (PlaceId > 0) e.Place = (Place)session.Load(typeof(Place), PlaceId);
+                if (ScheduleId > 0) e.Schedule = (Schedule)session.Load(typeof(Schedule), ScheduleId);
             }
 
-            return p;
+            return e;
+        }
+
+        public void CreateSchedule(ISession session, int offset)
+        {
+            ManagedSchedule s = new ManagedSchedule(session, ScheduleId);
+            Schedule = s.ToString(offset);
         }
     }
 

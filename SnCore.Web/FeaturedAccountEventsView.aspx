@@ -1,5 +1,5 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true"
- CodeFile="FeaturedAccountFeedsView.aspx.cs" Inherits="FeaturedAccountFeedsView" Title="Featured People" %>
+ CodeFile="FeaturedAccountEventsView.aspx.cs" Inherits="FeaturedAccountEventsView" Title="Featured People" %>
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -7,14 +7,14 @@
   <tr>
    <td>
     <div class="sncore_h2">
-     Featured Feeds
+     Featured Events
     </div>
     <asp:Label ID="labelCount" runat="server" CssClass="sncore_h2sub" />
    </td>
    <td align="right" valign="middle">
-    <asp:HyperLink runat="server" ID="linkRss" ImageUrl="images/rss.gif" NavigateUrl="FeaturedAccountFeedsRss.aspx" />
+    <asp:HyperLink runat="server" ID="linkRss" ImageUrl="images/rss.gif" NavigateUrl="FeaturedAccountEventsRss.aspx" />
     <link runat="server" id="linkRelRss" rel="alternate" type="application/rss+xml" title="Rss"
-     href="FeaturedAccountFeedsRss.aspx" />
+     href="FeaturedAccountEventsRss.aspx" />
    </td>
   </tr>
  </table>
@@ -28,23 +28,35 @@
    <asp:BoundColumn DataField="Id" Visible="false" />
    <asp:TemplateColumn ItemStyle-VerticalAlign="Middle" ItemStyle-Width="200px">
     <itemtemplate>
-     <a href="AccountFeedView.aspx?id=<%# Eval("DataRowId") %>">
-      <img border="0" src="AccountPictureThumbnail.aspx?id=<%# base.GetAccountFeed((int) Eval("DataRowId")).AccountPictureId %>" />
+     <a href="AccountEventView.aspx?id=<%# Eval("DataRowId") %>">
+      <img border="0" src="AccountEventPictureThumbnail.aspx?id=<%# base.GetAccountEvent((int) Eval("DataRowId")).PictureId %>" />
      </a>
     </itemtemplate>
    </asp:TemplateColumn>
    <asp:TemplateColumn ItemStyle-VerticalAlign="Middle" ItemStyle-HorizontalAlign="Left">
     <itemtemplate>
      <div>
-      <a class="sncore_AccountFeed_name" href="AccountFeedView.aspx?id=<%# Eval("DataRowId") %>">
-       <%# base.Render(base.GetAccountFeed((int) Eval("DataRowId")).Name) %>
+      <a class="sncore_AccountEvent_name" href="AccountEventView.aspx?id=<%# Eval("DataRowId") %>">
+       <%# base.Render(base.GetAccountEvent((int) Eval("DataRowId")).Name) %>
       </a>
-     </div>     
+     </div>
      <div class="sncore_description">
       featured on <%# ((DateTime) Eval("Created")).ToString("d") %>
      </div>
      <div class="sncore_description">
-      <%# base.Render(base.GetAccountFeed((int)Eval("DataRowId")).Description) %>
+      at 
+      <a href='PlaceView.aspx?id=<%# base.GetAccountEvent((int)Eval("DataRowId")).PlaceId %>'><%# base.Render(base.GetAccountEvent((int)Eval("DataRowId")).PlaceName) %></a>      
+     </div>
+     <div class="sncore_description">
+      <%# base.Render(base.GetAccountEvent((int)Eval("DataRowId")).Schedule) %>
+     </div>
+     <div class="sncore_description">
+      <%# base.Render(base.GetAccountEvent((int)Eval("DataRowId")).PlaceCity) %>
+      <%# base.Render(base.GetAccountEvent((int)Eval("DataRowId")).PlaceState) %>
+      <%# base.Render(base.GetAccountEvent((int)Eval("DataRowId")).PlaceCountry) %>
+     </div>
+     <div class="sncore_description">
+      <%# base.Render(base.GetAccountEvent((int)Eval("DataRowId")).Description) %>
      </div>
     </itemtemplate>
    </asp:TemplateColumn>

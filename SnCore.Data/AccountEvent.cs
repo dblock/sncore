@@ -29,6 +29,7 @@ using System;
         private System.Boolean m_Publish;
         private Schedule m_Schedule;
         private System.String m_Website;
+        private System.Collections.IList m_AccountEventPictures;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -384,6 +385,37 @@ using System;
             set
             {
                 m_Website = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'AccountEventPicture'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'AccountEventPicture.AccountEvent'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_AccountEventPictures' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as Read-Only.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'AccountEventPicture' table in the data source.
+        ///The property maps to the identity column 'AccountEvent_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Collections.IList AccountEventPictures
+        {
+            get
+            {
+                return m_AccountEventPictures;
+            }
+            set
+            {
+                m_AccountEventPictures = value;
             }
         }
 

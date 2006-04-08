@@ -60,6 +60,24 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
+        /// Add or get the account event picture comment discussion.
+        /// </summary>
+        /// <param name="eventpictureid">event picture id</param>
+        [WebMethod(Description = "Add or get the account event picture comment discussion.", CacheDuration = 60)]
+        public int GetAccountEventPictureDiscussionId(int pictureid)
+        {
+            int accountid = 0;
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccountEventPicture p = new ManagedAccountEventPicture(session, pictureid);
+                accountid = p.AccountId;
+            }
+
+            return GetDiscussionId(accountid, ManagedDiscussion.AccountEventPictureDiscussion, pictureid, true);
+        }
+
+        /// <summary>
         /// Add or get the place picture comment discussion.
         /// </summary>
         /// <param name="pictureid">picture id</param>
@@ -130,6 +148,24 @@ namespace SnCore.WebServices
             }
 
             return GetDiscussionId(accountid, ManagedDiscussion.PlaceDiscussion, id, true);
+        }
+
+        /// <summary>
+        /// Add or get the account event comment discussion.
+        /// </summary>
+        /// <param name="eventid">event id</param>
+        [WebMethod(Description = "Add or get the account event comment discussion.", CacheDuration = 60)]
+        public int GetAccountEventDiscussionId(int eventid)
+        {
+            int accountid = 0;
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccountEvent evt = new ManagedAccountEvent(session, eventid);
+                accountid = evt.Account.Id;
+            }
+
+            return GetDiscussionId(accountid, ManagedDiscussion.AccountEventDiscussion, eventid, true);
         }
 
         /// <summary>
@@ -756,6 +792,24 @@ namespace SnCore.WebServices
         #endregion
 
         #region Specialized Discussions
+
+        /// <summary>
+        /// Get the built-in name for an account event discussion.
+        /// </summary>
+        [WebMethod(Description = "Get the built-in name for an account event discussion.")]
+        public string GetAccountEventDiscussionName()
+        {
+            return ManagedDiscussion.AccountEventDiscussion;
+        }
+
+        /// <summary>
+        /// Get the built-in name for an account event picture discussion.
+        /// </summary>
+        [WebMethod(Description = "Get the built-in name for an account event picture discussion.")]
+        public string GetAccountEventPictureDiscussionName()
+        {
+            return ManagedDiscussion.AccountEventPictureDiscussion;
+        }
 
         /// <summary>
         /// Get the built-in name for an account picture discussion.

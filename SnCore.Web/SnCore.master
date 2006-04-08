@@ -33,6 +33,7 @@
             <asp:ListItem>/AccountFriendsView.aspx</asp:ListItem>
             <asp:ListItem>/AccountFeed.*.aspx</asp:ListItem>
             <asp:ListItem>/AccountBlog.*.aspx</asp:ListItem>
+            <asp:ListItem>/AccountEvent.*.aspx</asp:ListItem>
            </Downlights>
           </SnCore:MenuItem><SnCore:MenuItem 
           runat="server" ID="menuFeeds" Text="feeds" NavigateUrl="AccountFeedItemsView.aspx">
@@ -49,6 +50,11 @@
             <asp:ListItem>/Place.*aspx</asp:ListItem>
            </Highlights>
           </SnCore:MenuItem><SnCore:MenuItem 
+          runat="server" ID="menuEvents" Text="events" NavigateUrl="AccountEventsView.aspx">
+           <Highlights>
+            <asp:ListItem>/AccountEvent.*</asp:ListItem>
+           </Highlights>        
+          </SnCore:MenuItem><SnCore:MenuItem 
           runat="server" ID="menuStories" Text="stories" NavigateUrl="AccountStoriesView.aspx">
            <Highlights>
             <asp:ListItem>/AccountStor.*View.aspx</asp:ListItem>
@@ -58,11 +64,6 @@
            <Highlights>
             <asp:ListItem>/Discuss.*</asp:ListItem>
            </Highlights>
-          </SnCore:MenuItem><SnCore:MenuItem 
-          runat="server" ID="menuSearch" Text="search" NavigateUrl="Search.aspx">
-           <Highlights>
-            <asp:ListItem>/TagWordAccountsView.aspx</asp:ListItem>
-           </Highlights>        
           </SnCore:MenuItem><SnCore:MenuItem 
           runat="server" ID="menuLogin" Text="login" NavigateUrl="AccountLogin.aspx">
            <Highlights>

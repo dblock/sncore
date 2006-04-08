@@ -65,8 +65,7 @@ namespace SnCore.WebServices
                 foreach (AccountEvent e in list)
                 {
                     TransitAccountEvent evt = new TransitAccountEvent(e);
-                    ManagedSchedule schedule = new ManagedSchedule(session, evt.ScheduleId);
-                    evt.Schedule = schedule.ToString(user.TransitAccount.UtcOffset);
+                    evt.CreateSchedule(session, user.TransitAccount.UtcOffset);
                     result.Add(evt);
                 }
 
@@ -88,7 +87,11 @@ namespace SnCore.WebServices
             {
                 // todo: permissions for Event
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return new ManagedAccountEvent(session, id).TransitAccountEvent;
+                int user_id = ManagedAccount.GetAccountId(ticket);
+                int user_utcoffset = (user_id > 0) ? new ManagedAccount(session, user_id).TransitAccount.UtcOffset : 0;
+                TransitAccountEvent tav = new ManagedAccountEvent(session, id).TransitAccountEvent;
+                tav.CreateSchedule(session, user_utcoffset);
+                return tav;
             }
         }
 
@@ -229,6 +232,256 @@ namespace SnCore.WebServices
             }
         }
 
+        #endregion
+
+        #region Event Pictures
+
+        /// <summary>
+        /// Create or update an event picture.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="eventpicture">transit event picture</param>
+        [WebMethod(Description = "Create or update an event picture.")]
+        public int CreateOrUpdateAccountEventPicture(string ticket, TransitAccountEventPicture eventpicture)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount user = new ManagedAccount(session, userid);
+
+                if ((eventpicture.Id != 0) && (!user.IsAdministrator()))
+                {
+                    // deny unless event owner
+                    ManagedAccountEvent m_event = new ManagedAccountEvent(session, eventpicture.AccountEventId);
+                    if (m_event.Account.Id != user.Id)
+                    {
+                        throw new ManagedAccount.AccessDeniedException();
+                    }
+                }
+
+                ManagedAccountEventPicture m_eventpicture = new ManagedAccountEventPicture(session);
+                m_eventpicture.CreateOrUpdate(eventpicture);
+                SnCore.Data.Hibernate.Session.Flush();
+                return m_eventpicture.Id;
+            }
+        }
+
+        /// <summary>
+        /// Get account event picture by id.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">event picture id</param>
+        /// <returns>transit account event picture</returns>
+        [WebMethod(Description = "Get account event picture by id.")]
+        public TransitAccountEventPicture GetAccountEventPictureById(string ticket, int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                // todo: persmissions for event picture
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return new ManagedAccountEventPicture(session, id).TransitAccountEventPicture;
+            }
+        }
+
+        /// <summary>
+        /// Delete a event picture.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="eventpictureid">event picture id</param>
+        [WebMethod(Description = "Delete a event picture.")]
+        public void DeleteAccountEventPicture(string ticket, int eventpictureid)
+        {
+            int id = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccountEventPicture s = new ManagedAccountEventPicture(session, eventpictureid);
+                ManagedAccount acct = new ManagedAccount(session, id);
+                if (acct.Id != s.AccountId && !acct.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+                s.Delete();
+                SnCore.Data.Hibernate.Session.Flush();
+            }
+        }
+
+        /// <summary>
+        /// Get event pictures.
+        /// </summary>
+        /// <param name="event">event id</param>
+        /// <returns>transit event pictures</returns>
+        [WebMethod(Description = "Get event pictures.")]
+        public List<TransitAccountEventPicture> GetAccountEventPictures(string ticket, int eventid)
+        {
+            return GetAccountEventPicturesById(eventid);
+        }
+
+        /// <summary>
+        /// Get event pictures by account id.
+        /// </summary>
+        /// <param name="eventid">event id</param>
+        /// <returns>transit event pictures</returns>
+        [WebMethod(Description = "Get event pictures.", CacheDuration = 60)]
+        public List<TransitAccountEventPicture> GetAccountEventPicturesById(int eventid)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                IList list = session.CreateCriteria(typeof(AccountEventPicture))
+                    .Add(Expression.Eq("AccountEvent.Id", eventid))
+                    .List();
+
+                List<TransitAccountEventPicture> result = new List<TransitAccountEventPicture>(list.Count);
+                foreach (AccountEventPicture p in list)
+                {
+                    result.Add(new ManagedAccountEventPicture(session, p).TransitAccountEventPicture);
+                }
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Get event picture picture data.
+        /// </summary>
+        /// <param name="id">event picture id</param>
+        /// <param name="ticket">authentication ticket</param>
+        /// <returns>transit picture</returns>
+        [WebMethod(Description = "Get event picture picture data.", BufferResponse = true)]
+        public TransitAccountEventPictureWithPicture GetAccountEventPictureWithPictureById(string ticket, int id)
+        {
+            // todo: check permissions with ticket
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return new ManagedAccountEventPicture(session, id).TransitAccountEventPictureWithPicture;
+            }
+        }
+
+        /// <summary>
+        /// Get event picture picture data if modified since.
+        /// </summary>
+        /// <param name="id">event picture id</param>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="ifModifiedSince">last update date/time</param>
+        /// <returns>transit picture</returns>
+        [WebMethod(Description = "Get event picture picture data if modified since.", BufferResponse = true)]
+        public TransitAccountEventPictureWithPicture GetAccountEventPictureWithPictureIfModifiedSinceById(string ticket, int id, DateTime ifModifiedSince)
+        {
+            // todo: check permissions with ticket
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                TransitAccountEventPictureWithPicture p = new ManagedAccountEventPicture(session, id).TransitAccountEventPictureWithPicture;
+
+                if (p.Modified <= ifModifiedSince)
+                {
+                    return null;
+                }
+
+                return p;
+            }
+        }
+
+        /// <summary>
+        /// Get event picture thumbnail data.
+        /// </summary>
+        /// <param name="id">event picture id</param>
+        /// <param name="ticket">authentication ticket</param>
+        /// <returns>transit event picture with thumbnail</returns>
+        [WebMethod(Description = "Get event picture Thumbnail data.", BufferResponse = true)]
+        public TransitAccountEventPictureWithThumbnail GetAccountEventPictureWithThumbnailById(string ticket, int id)
+        {
+            // todo: check permissions with ticket
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return new ManagedAccountEventPicture(session, id).TransitAccountEventPictureWithThumbnail;
+            }
+        }
+
+        /// <summary>
+        /// Get event picture thumbnail data if modified since.
+        /// </summary>
+        /// <param name="id">event picture id</param>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="ifModifiedSince">last update date/time</param>
+        /// <returns>transit event picture with thumbnail</returns>
+        [WebMethod(Description = "Get event picture thumbnail data if modified since.", BufferResponse = true)]
+        public TransitAccountEventPictureWithThumbnail GetAccountEventPictureWithThumbnailIfModifiedSinceById(string ticket, int id, DateTime ifModifiedSince)
+        {
+            // todo: check permissions with ticket
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                TransitAccountEventPictureWithThumbnail p = new ManagedAccountEventPicture(session, id).TransitAccountEventPictureWithThumbnail;
+
+                if (p.Modified <= ifModifiedSince)
+                {
+                    return null;
+                }
+
+                return p;
+            }
+        }
+
+        #endregion
+
+        #region All Account Events
+        /// <summary>
+        /// Get account event count.
+        /// </summary>
+        /// <returns>transit account envets count</returns>
+        [WebMethod(Description = "Get all account events count.", CacheDuration = 60)]
+        public int GetAccountEventsCount(TransitAccountEventQueryOptions queryoptions)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return (int)queryoptions.CreateCountQuery(session).UniqueResult();
+            }
+        }
+
+        /// <summary>
+        /// Get all account events.
+        /// </summary>
+        /// <returns>list of transit account events</returns>
+        [WebMethod(Description = "Get all account events.", CacheDuration = 60)]
+        public List<TransitAccountEvent> GetAccountEvents(
+            string ticket,
+            TransitAccountEventQueryOptions queryoptions, 
+            ServiceQueryOptions serviceoptions)
+        {            
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                int user_id = ManagedAccount.GetAccountId(ticket);
+                int user_utcoffset = (user_id > 0) ? new ManagedAccount(session, user_id).TransitAccount.UtcOffset : 0;
+
+                IQuery q = queryoptions.CreateQuery(session);
+
+                if (serviceoptions != null)
+                {
+                    q.SetMaxResults(serviceoptions.PageSize);
+                    q.SetFirstResult(serviceoptions.PageNumber * serviceoptions.PageSize);
+                }
+
+                IList list = q.List();
+
+                List<TransitAccountEvent> result = new List<TransitAccountEvent>(list.Count);
+                foreach (AccountEvent p in list)
+                {
+                    TransitAccountEvent tav = new ManagedAccountEvent(session, p).TransitAccountEvent;
+                    tav.CreateSchedule(session, user_utcoffset);
+                    result.Add(tav);
+                }
+
+                return result;
+            }
+        }
         #endregion
 
     }

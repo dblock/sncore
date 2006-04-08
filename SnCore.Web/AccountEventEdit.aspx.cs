@@ -32,9 +32,13 @@ public partial class AccountEventEdit : AuthenticatedPage
                 if (id > 0)
                 {
                     TransitAccountEvent tav = EventService.GetAccountEventById(SessionManager.Ticket, id);
-                    inputName.Text = Renderer.Render(tav.Name);
-                    inputWebsite.Text = Renderer.Render(tav.Website);
+                    inputName.Text = tav.Name;
+                    inputWebsite.Text = tav.Website;
                     inputDescription.Text = tav.Description;
+                    inputPhone.Text = tav.Phone;
+                    inputEmail.Text = tav.Email;
+                    inputCost.Text = tav.Cost;
+                    inputPublish.Checked = tav.Publish;
                     selectType.Items.FindByValue(tav.AccountEventType).Selected = true;
                     schedule.Schedule = SystemService.GetScheduleById(tav.ScheduleId);
                     place.Place = PlaceService.GetPlaceById(tav.PlaceId);
@@ -68,6 +72,10 @@ public partial class AccountEventEdit : AuthenticatedPage
 
             tav.Website = inputWebsite.Text;
             tav.Description = inputDescription.Text;
+            tav.Email = inputEmail.Text;
+            tav.Cost = inputCost.Text;
+            tav.Phone = inputPhone.Text;
+            tav.Publish = inputPublish.Checked;
 
             // create place
             if (place.Place.Id == 0)

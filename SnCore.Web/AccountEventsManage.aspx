@@ -50,6 +50,11 @@
       </asp:TemplateColumn>
       <asp:TemplateColumn>
        <itemtemplate>
+        <a href="AccountEventView.aspx?id=<%# Eval("Id") %>">View</a>
+       </itemtemplate>
+      </asp:TemplateColumn>
+      <asp:TemplateColumn>
+       <itemtemplate>
         <a href="AccountEventEdit.aspx?id=<%# Eval("Id") %>">Edit</a>
        </itemtemplate>
       </asp:TemplateColumn>

@@ -18,6 +18,7 @@
 <%@ Register TagPrefix="SnCore" TagName="PlaceFeaturedView" Src="PlaceFeaturedViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountFeedFeaturedView" Src="AccountFeedFeaturedViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="BlogView" Src="AccountBlogViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="AccountEventFeaturedView" Src="AccountEventFeaturedViewControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <table width="100%" cellpadding="0" cellspacing="0">
   <tr>
@@ -33,6 +34,7 @@
    <td valign="top" width="25%">
     <SnCore:PlacesNewView ID="placesNewMain" runat="server" Count="2" />
     <SnCore:DiscussionPostsNewView ID="discussionsNewViewMain" runat="server" />
+    <SnCore:AccountEventFeaturedView ID="accounteventsFeatured" runat="server" />
     <SnCore:AccountStoriesNewView ID="accountstoriesNewViewMain" Count="2" runat="server" />
     <SnCore:AccountFeedItemsNewView ID="accountfeeditemsNewViewMain" Count="2" runat="server" />
     <table class="sncore_half_table">

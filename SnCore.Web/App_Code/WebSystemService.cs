@@ -1212,7 +1212,7 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 return (int) session.CreateQuery(string.Format(
-                    "SELECT COUNT(f) FROM Feature f WHERE f.DataObjectId = {0}",
+                    "SELECT COUNT(f) FROM Feature f WHERE f.DataObject.Id = {0}",
                     ManagedDataObject.Find(session, featuretype))).UniqueResult();
             }
         }

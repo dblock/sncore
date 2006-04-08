@@ -122,6 +122,10 @@ public partial class SiteMap : Page
             listPlaces.DataSource = GetPagedList(PlaceService.GetPlacesCount(pqo));
             listPlaces.DataBind();
 
+            TransitAccountEventQueryOptions aeqo = new TransitAccountEventQueryOptions();
+            listAccountEvents.DataSource = GetPagedList(EventService.GetAccountEventsCount(aeqo));
+            listAccountEvents.DataBind();
+
             listStories.DataSource = GetPagedList(StoryService.GetLatestAccountStoriesCount());
             listStories.DataBind();
 

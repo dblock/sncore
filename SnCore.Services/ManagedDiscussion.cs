@@ -262,6 +262,8 @@ namespace SnCore.Services
         public const string PlaceDiscussion = "Place Comments";
         public const string PlacePictureDiscussion = "Place Picture Comments";
         public const string AccountBlogPostDiscussion = "Blog Post Comments";
+        public const string AccountEventDiscussion = "Event Comments";
+        public const string AccountEventPictureDiscussion = "Event Picture Comments";
 
         public class DiscussionNotFoundException : SoapException
         {

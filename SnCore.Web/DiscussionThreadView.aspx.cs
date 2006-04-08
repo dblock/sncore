@@ -67,6 +67,16 @@ public partial class DiscussionThreadView : Page
                         Redirect(string.Format("AccountStoryPictureView.aspx?id={0}&#comments", td.ObjectId));
                         return;
                     }
+                    else if (td.Name == DiscussionService.GetAccountEventDiscussionName())
+                    {
+                        Redirect(string.Format("AccountEventView.aspx?id={0}&#comments", td.ObjectId));
+                        return;
+                    }
+                    else if (td.Name == DiscussionService.GetAccountEventPictureDiscussionName())
+                    {
+                        Redirect(string.Format("AccountEventPictureView.aspx?id={0}&#comments", td.ObjectId));
+                        return;
+                    }
                 }
 
                 this.Title = Renderer.Render(td.Name);

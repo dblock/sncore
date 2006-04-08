@@ -17,5 +17,9 @@
     <property name="Publish" column="Publish" type="Boolean" />
     <many-to-one name="Schedule" column="Schedule_Id" class="Schedule, SnCore.Data" />
     <property name="Website" column="Website" type="String" />
+    <bag lazy="true" name="AccountEventPictures" inverse="true">
+      <key column="AccountEvent_Id" />
+      <one-to-many class="AccountEventPicture, SnCore.Data" />
+    </bag>
   </class>
 </hibernate-mapping>

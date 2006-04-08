@@ -59,6 +59,7 @@ public partial class SelectPlaceControl : Control
                     chosenPlace.DataSource = a;
                     chosenPlace.DataBind();
                     panelAdd.Visible = false;
+                    panelLookup.Visible = false;
                     lookupPlace.Enabled = true;
                     addPlace.Enabled = true;
                     IsChosen = true;

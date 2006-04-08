@@ -3,7 +3,7 @@
     <ProjectType>Local</ProjectType>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1F9C0442-E7B5-4CCC-93ED-A0599CF1AA57}</ProjectGuid>
+    <ProjectGuid>{c7fb0fbf-b844-4caf-a929-1797619c7d94}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>
@@ -111,6 +111,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AccountEvent.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AccountEventPicture.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AccountEventType.cs">
@@ -281,6 +284,7 @@
     <EmbeddedResource Include="AccountEmailConfirmation.hbm.xml" />
     <EmbeddedResource Include="AccountEmailMessage.hbm.xml" />
     <EmbeddedResource Include="AccountEvent.hbm.xml" />
+    <EmbeddedResource Include="AccountEventPicture.hbm.xml" />
     <EmbeddedResource Include="AccountEventType.hbm.xml" />
     <EmbeddedResource Include="AccountFeed.hbm.xml" />
     <EmbeddedResource Include="AccountFeedItem.hbm.xml" />
