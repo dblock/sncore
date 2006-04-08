@@ -87,7 +87,7 @@ namespace SnCore.WebServices
             {
                 // todo: permissions for Event
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                int user_id = ManagedAccount.GetAccountId(ticket);
+                int user_id = ManagedAccount.GetAccountId(ticket, 0);
                 int user_utcoffset = (user_id > 0) ? new ManagedAccount(session, user_id).TransitAccount.UtcOffset : 0;
                 TransitAccountEvent tav = new ManagedAccountEvent(session, id).TransitAccountEvent;
                 tav.CreateSchedule(session, user_utcoffset);
@@ -458,7 +458,7 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
-                int user_id = ManagedAccount.GetAccountId(ticket);
+                int user_id = ManagedAccount.GetAccountId(ticket, 0);
                 int user_utcoffset = (user_id > 0) ? new ManagedAccount(session, user_id).TransitAccount.UtcOffset : 0;
 
                 IQuery q = queryoptions.CreateQuery(session);
