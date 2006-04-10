@@ -94,8 +94,19 @@
        <asp:CheckBox CssClass="sncore_form_checkbox" ID="inputPublish" Checked="true" runat="server" />
       </td>
      </tr>
+    </table>
+    <asp:Panel ID="panelReminder" runat="server" visible="false">
+     <table class="sncore_account_table">
+      <tr>
+       <td align="center" class="sncore_notice_warning">
+        this event has changed, don't forget to save it
+       </td>
+      </tr>
+     </table>
+    </asp:Panel>
+    <table class="sncore_account_table">
      <tr>
-      <td>
+      <td class="sncore_form_label">
       </td>
       <td class="sncore_form_value">
        <SnCoreWebControls:Button ID="manageAdd" runat="server" Text="Save" CausesValidation="true"

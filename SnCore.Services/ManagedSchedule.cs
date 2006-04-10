@@ -559,10 +559,11 @@ namespace SnCore.Services
                 else
                 {
                     TimeSpan delta = (mSchedule.EndDateTime - mSchedule.StartDateTime);
-                    result.AppendFormat("Runs {0} to {1} (for {2} hour(s) {3} minute(s)).",
+                    result.AppendFormat("Runs {0} to {1} ({2} hour{3}).",
                         start.ToString("f"),
                         end.ToString(start.Date == end.Date ? "hh:mm tt" : "f"),
-                        (int)delta.TotalHours, delta.Minutes);
+                        delta.TotalHours,
+                        delta.TotalHours != 1 ? "s" : string.Empty);
                 }
                 return result.ToString();
             }

@@ -7,7 +7,7 @@
  <tr>
   <td colspan="2">
    <asp:LinkButton CausesValidation="false" ID="editCurrent" runat="server" Text="&#187; edit schedule"
-    CssClass="sncore_link" OnClick="addOneTime_Click" Enabled="false" />
+    CssClass="sncore_link" OnClick="editCurrent_Click" Enabled="false" />
    <asp:LinkButton CausesValidation="false" ID="addOneTime" runat="server" Text="&#187; schedule a one-time event"
     CssClass="sncore_link" OnClick="addOneTime_Click" Enabled="false" />
    <asp:LinkButton CausesValidation="false" ID="addRecurrent" runat="server" Text="&#187; schedule a recurrent event (coming soon)"

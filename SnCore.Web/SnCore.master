@@ -45,7 +45,7 @@
             <asp:ListItem>/AccountFeedsManage.aspx</asp:ListItem>        
            </Downlights>
           </SnCore:MenuItem><SnCore:MenuItem 
-          runat="server" ID="menyPlaces" Text="places" NavigateUrl="PlacesView.aspx">
+          runat="server" ID="menuPlaces" Text="places" NavigateUrl="PlacesView.aspx">
            <Highlights>
             <asp:ListItem>/Place.*aspx</asp:ListItem>
            </Highlights>
@@ -54,6 +54,9 @@
            <Highlights>
             <asp:ListItem>/AccountEvent.*</asp:ListItem>
            </Highlights>        
+           <Downlights>
+            <asp:ListItem>/AccountEventsManage.aspx</asp:ListItem>        
+           </Downlights>
           </SnCore:MenuItem><SnCore:MenuItem 
           runat="server" ID="menuStories" Text="stories" NavigateUrl="AccountStoriesView.aspx">
            <Highlights>

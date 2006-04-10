@@ -14,6 +14,8 @@ using Wilco.Web.UI;
 
 public partial class SelectPlaceControl : Control
 {
+    public event EventHandler Choose;
+
     public TransitPlace Place
     {
         get
@@ -103,6 +105,7 @@ public partial class SelectPlaceControl : Control
             chosenPlace.DataBind();
             panelAdd.Visible = false;
             IsChosen = true;
+            if (Choose != null) Choose(sender, e);
         }
         catch (Exception ex)
         {

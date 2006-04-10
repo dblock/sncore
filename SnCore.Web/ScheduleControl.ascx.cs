@@ -14,6 +14,8 @@ using Wilco.Web.UI;
 
 public partial class ScheduleControl : Control
 {
+    public event EventHandler Confirm;
+
     public enum HighLevelRecurrencePattern
     {
         None,
@@ -235,6 +237,7 @@ public partial class ScheduleControl : Control
                 labelConfirmed.Text = this.ToString();
                 addRecurrent.Enabled = false; // true;
                 addOneTime.Enabled = true;
+                editCurrent.Enabled = true;
                 panelConfirmed.Visible = true;
                 panelSchedule.Visible = false;
                 IsConfirmed = true;
@@ -250,6 +253,29 @@ public partial class ScheduleControl : Control
         SelectMonthly();
         SelectYearly();
         SelectRange();
+    }
+
+    public void VerifySchedule()
+    {
+        switch (Schedule.RecurrencePattern)
+        {
+            case RecurrencePattern.None:
+                if (Schedule.AllDay)
+                {
+                    if (Schedule.EndDateTime.Date < Schedule.StartDateTime.Date)
+                    {
+                        throw new Exception("End date must be same or after start date.");
+                    }
+                }
+                else
+                {
+                    if (Schedule.EndDateTime <= Schedule.StartDateTime)
+                    {
+                        throw new Exception("End date/time must be after start date/time.");
+                    }
+                }
+                break;
+        }
     }
 
     public void UpdateSchedule()
@@ -328,10 +354,23 @@ public partial class ScheduleControl : Control
         base.OnPreRender(e);
     }
 
+    public void editCurrent_Click(object sender, EventArgs e)
+    {
+        if (Schedule.RecurrencePattern == RecurrencePattern.None)
+        {
+            addOneTime_Click(sender, e);
+        }
+        else 
+        {
+            addRecurrent_Click(sender, e);
+        }
+    }
+
     public void addOneTime_Click(object sender, EventArgs e)
     {
         addRecurrent.Enabled = false; //  true;
         addOneTime.Enabled = false;
+        editCurrent.Enabled = false;
         Schedule.RecurrencePattern = RecurrencePattern.None;
         panelSchedule.Visible = true;
         panelStandard.Visible = true;
@@ -344,6 +383,7 @@ public partial class ScheduleControl : Control
     {
         addRecurrent.Enabled = false;
         addOneTime.Enabled = true;
+        editCurrent.Enabled = false;
         Schedule.RecurrencePattern = RecurrencePattern.Daily_EveryNDays;
         UpdateSelection();
         panelSchedule.Visible = true;
@@ -358,12 +398,15 @@ public partial class ScheduleControl : Control
         try
         {
             UpdateSchedule();
+            VerifySchedule();
             labelConfirmed.Text = this.ToString();
             addRecurrent.Enabled = false; // true;
             addOneTime.Enabled = true;
+            editCurrent.Enabled = true;
             panelConfirmed.Visible = true;
             panelSchedule.Visible = false;
             IsConfirmed = true;
+            if (Confirm != null) Confirm(sender, e);
         }
         catch (Exception ex)
         {

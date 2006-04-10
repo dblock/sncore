@@ -19,6 +19,8 @@ public partial class AccountEventEdit : AuthenticatedPage
         try
         {
             SetDefaultButton(manageAdd);
+            place.Choose += new EventHandler(event_Changed);
+            schedule.Confirm += new EventHandler(event_Changed);
             if (!IsPostBack)
             {
                 ArrayList types = new ArrayList();
@@ -51,10 +53,17 @@ public partial class AccountEventEdit : AuthenticatedPage
         }
     }
 
+    void event_Changed(object sender, EventArgs e)
+    {
+        panelReminder.Visible = true;
+    }
+
     public void save_Click(object sender, EventArgs e)
     {
         try
         {
+            panelReminder.Visible = false;
+
             TransitAccountEvent tav = new TransitAccountEvent();
             tav.Name = inputName.Text;
             
