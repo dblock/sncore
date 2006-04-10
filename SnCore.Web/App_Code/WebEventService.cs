@@ -108,6 +108,12 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedAccount a = new ManagedAccount(session, id);
+
+                if (ev.RecurrencePattern != RecurrencePattern.None)
+                {
+                    throw new NotImplementedException();
+                }
+
                 int result = a.CreateOrUpdate(ev);
                 SnCore.Data.Hibernate.Session.Flush();
                 return result;
@@ -474,14 +480,19 @@ namespace SnCore.WebServices
                 List<TransitAccountEvent> result = new List<TransitAccountEvent>(list.Count);
                 foreach (AccountEvent p in list)
                 {
-                    TransitAccountEvent tav = new ManagedAccountEvent(session, p).TransitAccountEvent;
-                    tav.CreateSchedule(session, user_utcoffset);
-                    result.Add(tav);
+                    ManagedAccountEvent mav = new ManagedAccountEvent(session, p);
+                    if (mav.IsInRange(queryoptions.StartDateTime, queryoptions.EndDateTime))
+                    {
+                        TransitAccountEvent tav = mav.TransitAccountEvent;
+                        tav.CreateSchedule(session, user_utcoffset);
+                        result.Add(tav);
+                    }
                 }
 
                 return result;
             }
         }
+
         #endregion
 
     }

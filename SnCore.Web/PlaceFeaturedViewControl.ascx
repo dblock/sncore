@@ -8,7 +8,7 @@
     <link rel="alternate" type="application/rss+xml" title="Rss" href="PlacesRss.aspx" />
     <div class="sncore_h2">
      <a href='PlacesView.aspx'>
-       Featured Places
+       Featured Place
       <img src="images/site/right.gif" border="0" />
      </a>
     </div>

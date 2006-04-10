@@ -45,6 +45,7 @@
        </ItemTemplate>
       </asp:DataList>
       </li></ul>
+      <li><a href="AccountEventsToday.aspx">Today's Events</a></li>
       <li><a href="AccountEventsView.aspx">Events</a></li>
       <ul><li>
       <asp:DataList RepeatLayout="Flow" RepeatDirection="Horizontal" ID="listAccountEvents" runat="server">

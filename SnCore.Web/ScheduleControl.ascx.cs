@@ -79,7 +79,7 @@ public partial class ScheduleControl : Control
             TransitSchedule result = (TransitSchedule)ViewState["Schedule"];
             if (result == null)
             {
-                DateTime at = base.Adjust(DateTime.UtcNow);
+                DateTime at = DateTime.UtcNow;
                 result = new TransitSchedule();
 
                 result.StartDateTime = at;
@@ -207,8 +207,8 @@ public partial class ScheduleControl : Control
 
     protected void SelectRange()
     {
-        recStartDate.SelectedDate = Schedule.StartDateTime;
-        recEndByDate.SelectedDate = Schedule.EndDateTime;
+        recStartDate.SelectedDate = base.ToUTC(Schedule.StartDateTime);
+        recEndByDate.SelectedDate = base.ToUTC(Schedule.EndDateTime);
         recEndAfterNOccurences.Text = Schedule.EndOccurrences.ToString();
     }
 
@@ -217,21 +217,23 @@ public partial class ScheduleControl : Control
         PageManager.SetDefaultButton(confirmSchedule, this.Controls);
         if (!IsPostBack)
         {
-            stdStartDate.SelectedDate = Schedule.StartDateTime;
-            stdStartTime.SelectedTime = Schedule.StartDateTime.TimeOfDay;
+            stdStartDate.SelectedDate = base.Adjust(Schedule.StartDateTime);
+            stdStartTime.SelectedTime = base.Adjust(Schedule.StartDateTime).TimeOfDay;
 
-            stdEndDate.SelectedDate = Schedule.EndDateTime;
-            stdEndTime.SelectedTime = Schedule.EndDateTime.TimeOfDay;
+            stdEndDate.SelectedDate = base.Adjust(Schedule.EndDateTime);
+            stdEndTime.SelectedTime = base.Adjust(Schedule.EndDateTime).TimeOfDay;
 
-            recStartTime.SelectedTime = Schedule.StartDateTime.TimeOfDay;
-            recEndTime.SelectedTime = Schedule.EndDateTime.TimeOfDay;
+            stdAllDay.Checked = Schedule.AllDay;
+
+            recStartTime.SelectedTime = base.Adjust(Schedule.StartDateTime).TimeOfDay;
+            recEndTime.SelectedTime = base.Adjust(Schedule.EndDateTime).TimeOfDay;
 
             UpdateSelection();
 
             if (Schedule.Id != 0)
             {
                 labelConfirmed.Text = this.ToString();
-                addRecurrent.Enabled = true;
+                addRecurrent.Enabled = false; // true;
                 addOneTime.Enabled = true;
                 panelConfirmed.Visible = true;
                 panelSchedule.Visible = false;
@@ -328,7 +330,7 @@ public partial class ScheduleControl : Control
 
     public void addOneTime_Click(object sender, EventArgs e)
     {
-        addRecurrent.Enabled = true;
+        addRecurrent.Enabled = false; //  true;
         addOneTime.Enabled = false;
         Schedule.RecurrencePattern = RecurrencePattern.None;
         panelSchedule.Visible = true;
@@ -357,7 +359,7 @@ public partial class ScheduleControl : Control
         {
             UpdateSchedule();
             labelConfirmed.Text = this.ToString();
-            addRecurrent.Enabled = true;
+            addRecurrent.Enabled = false; // true;
             addOneTime.Enabled = true;
             panelConfirmed.Visible = true;
             panelSchedule.Visible = false;

@@ -13,25 +13,49 @@ public partial class SelectTimeControl : System.Web.UI.UserControl
 {
     private object mSelectedTime = null;
 
+    internal string ToString(TimeSpan ts)
+    {
+        return string.Format("{0}:{1} {2}",
+            (ts.Hours > 12 ? ts.Hours - 12 : ts.Hours).ToString(),
+            ts.Minutes.ToString("00"),
+            (ts.Hours >= 12) ? "PM" : "AM"); 
+    }
+
     protected override void OnInit(EventArgs e)
     {
         TimeSpan ts = new TimeSpan(0);
 
         do
         {
-            selecttimeDropdown.Items.Add(new ListItem(string.Format("{0}:{1}", ts.Hours.ToString("00"), ts.Minutes.ToString("00"))));
+            selecttimeDropdown.Items.Add(new ListItem(ToString(ts), ts.Ticks.ToString()));
             ts = ts.Add(new TimeSpan(0, 15, 0));
         } while (ts.Hours != 0 || ts.Minutes != 0);
 
         base.OnInit(e);
     }
 
+    internal void SelectTime()
+    {
+        selecttimeDropdown.ClearSelection();
+
+        if (mSelectedTime == null)
+            return;
+
+        TimeSpan ts = (TimeSpan)mSelectedTime;
+
+        ListItem item = selecttimeDropdown.Items.FindByValue(ts.Ticks.ToString());
+        
+        if (item == null)
+            return;
+
+        item.Selected = true;
+    }
+
     protected override void OnPreRender(EventArgs e)
     {
-        if (!IsPostBack && mSelectedTime != null)
+        if (!IsPostBack)
         {
-            selecttimeDropdown.Items.FindByValue(string.Format("{0}:{1}",
-                ((TimeSpan)mSelectedTime).Hours.ToString("00"), ((TimeSpan)mSelectedTime).Minutes.ToString("00"))).Selected = true;
+            SelectTime();
         }
         base.OnPreRender(e);
     }
@@ -59,33 +83,23 @@ public partial class SelectTimeControl : System.Web.UI.UserControl
     {
         get
         {
-            string[] tm = selecttimeDropdown.SelectedValue.Split(":".ToCharArray());
-            mSelectedTime = new TimeSpan(
-                int.Parse(tm[0]),
-                int.Parse(tm[1]),
-                0);
-
+            mSelectedTime = new TimeSpan(long.Parse(selecttimeDropdown.SelectedValue));
             return (TimeSpan)mSelectedTime;
         }
         set
         {
-            if (value.Seconds != 0)
-                value = value.Subtract(new TimeSpan(0, 0, value.Seconds));
+            TimeSpan nv = new TimeSpan(value.Hours, value.Minutes, 0);
 
             int rem = 0;
-            Math.DivRem(value.Minutes, 15, out rem);
+            Math.DivRem(nv.Minutes, 15, out rem);
             while (rem != 0)
             {
-                value = value.Subtract(new TimeSpan(0, 1, 0));
-                Math.DivRem(value.Minutes, 15, out rem);
+                nv = nv.Subtract(new TimeSpan(0, 1, 0));
+                Math.DivRem(nv.Minutes, 15, out rem);
             };
 
-            mSelectedTime = value;
-
-            selecttimeDropdown.ClearSelection();
-
-            selecttimeDropdown.Items.FindByValue(string.Format("{0}:{1}",
-                ((TimeSpan)mSelectedTime).Hours.ToString("00"), ((TimeSpan)mSelectedTime).Minutes.ToString("00"))).Selected = true;        
+            mSelectedTime = nv;
+            SelectTime();
         }
     }
 }

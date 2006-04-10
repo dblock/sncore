@@ -6,10 +6,12 @@
 <table class="sncore_account_table">
  <tr>
   <td colspan="2">
+   <asp:LinkButton CausesValidation="false" ID="editCurrent" runat="server" Text="&#187; edit schedule"
+    CssClass="sncore_link" OnClick="addOneTime_Click" Enabled="false" />
    <asp:LinkButton CausesValidation="false" ID="addOneTime" runat="server" Text="&#187; schedule a one-time event"
     CssClass="sncore_link" OnClick="addOneTime_Click" Enabled="false" />
-   <asp:LinkButton CausesValidation="false" ID="addRecurrent" runat="server" Text="&#187; schedule a recurrent event"
-    CssClass="sncore_link" OnClick="addRecurrent_Click" />
+   <asp:LinkButton CausesValidation="false" ID="addRecurrent" runat="server" Text="&#187; schedule a recurrent event (coming soon)"
+    CssClass="sncore_link" OnClick="addRecurrent_Click" Enabled="false" />
   </td>
  </tr>
 </table>

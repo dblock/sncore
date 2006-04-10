@@ -22,6 +22,8 @@ namespace SnCore.Services
         public string City;
         public string Name;
         public string Type;
+        public DateTime StartDateTime = DateTime.MinValue;
+        public DateTime EndDateTime = DateTime.MaxValue;
 
         public TransitAccountEventQueryOptions()
         {
@@ -373,6 +375,291 @@ namespace SnCore.Services
             }
         }
 
+        private bool mAllDay = false;
+
+        public bool AllDay
+        {
+            get
+            {
+
+                return mAllDay;
+            }
+            set
+            {
+                mAllDay = value;
+            }
+        }
+
+        private int mDailyEveryNDays = 1;
+
+        public int DailyEveryNDays
+        {
+            get
+            {
+
+                return mDailyEveryNDays;
+            }
+            set
+            {
+                mDailyEveryNDays = value;
+            }
+        }
+
+        private DateTime mEndDateTime = DateTime.UtcNow.AddHours(1);
+
+        public DateTime EndDateTime
+        {
+            get
+            {
+
+                return mEndDateTime;
+            }
+            set
+            {
+                mEndDateTime = value;
+            }
+        }
+
+        private bool mEndless = true;
+
+        public bool Endless
+        {
+            get
+            {
+
+                return mEndless;
+            }
+            set
+            {
+                mEndless = value;
+            }
+        }
+
+        private int mEndOccurrences = 10;
+
+        public int EndOccurrences
+        {
+            get
+            {
+
+                return mEndOccurrences;
+            }
+            set
+            {
+                mEndOccurrences = value;
+            }
+        }
+
+        private int mMonthlyDay = 1;
+
+        public int MonthlyDay
+        {
+            get
+            {
+
+                return mMonthlyDay;
+            }
+            set
+            {
+                mMonthlyDay = value;
+            }
+        }
+
+        private int mMonthlyExDayIndex = 0;
+
+        public int MonthlyExDayIndex
+        {
+            get
+            {
+
+                return mMonthlyExDayIndex;
+            }
+            set
+            {
+                mMonthlyExDayIndex = value;
+            }
+        }
+
+        private int mMonthlyExDayName = (int)DateTime.UtcNow.DayOfWeek;
+
+        public int MonthlyExDayName
+        {
+            get
+            {
+
+                return mMonthlyExDayName;
+            }
+            set
+            {
+                mMonthlyExDayName = value;
+            }
+        }
+
+        private int mMonthlyExMonth = 1;
+
+        public int MonthlyExMonth
+        {
+            get
+            {
+
+                return mMonthlyExMonth;
+            }
+            set
+            {
+                mMonthlyExMonth = value;
+            }
+        }
+
+        private int mMonthlyMonth = 1;
+
+        public int MonthlyMonth
+        {
+            get
+            {
+
+                return mMonthlyMonth;
+            }
+            set
+            {
+                mMonthlyMonth = value;
+            }
+        }
+
+        private RecurrencePattern mRecurrencePattern = RecurrencePattern.None;
+
+        public RecurrencePattern RecurrencePattern
+        {
+            get
+            {
+
+                return mRecurrencePattern;
+            }
+            set
+            {
+                mRecurrencePattern = value;
+            }
+        }
+
+        private DateTime mStartDateTime = DateTime.UtcNow;
+
+        public DateTime StartDateTime
+        {
+            get
+            {
+
+                return mStartDateTime;
+            }
+            set
+            {
+                mStartDateTime = value;
+            }
+        }
+
+        private short mWeeklyDaysOfWeek = (short)Math.Pow(2, (double)DateTime.UtcNow.DayOfWeek);
+
+        public short WeeklyDaysOfWeek
+        {
+            get
+            {
+
+                return mWeeklyDaysOfWeek;
+            }
+            set
+            {
+                mWeeklyDaysOfWeek = value;
+            }
+        }
+
+        private int mWeeklyEveryNWeeks = 1;
+
+        public int WeeklyEveryNWeeks
+        {
+            get
+            {
+
+                return mWeeklyEveryNWeeks;
+            }
+            set
+            {
+                mWeeklyEveryNWeeks = value;
+            }
+        }
+
+        private int mYearlyDay = DateTime.UtcNow.Day;
+
+        public int YearlyDay
+        {
+            get
+            {
+
+                return mYearlyDay;
+            }
+            set
+            {
+                mYearlyDay = value;
+            }
+        }
+
+        private int mYearlyExDayIndex = 0;
+
+        public int YearlyExDayIndex
+        {
+            get
+            {
+
+                return mYearlyExDayIndex;
+            }
+            set
+            {
+                mYearlyExDayIndex = value;
+            }
+        }
+
+        private int mYearlyExDayName = (int)DateTime.UtcNow.DayOfWeek;
+
+        public int YearlyExDayName
+        {
+            get
+            {
+
+                return mYearlyExDayName;
+            }
+            set
+            {
+                mYearlyExDayName = value;
+            }
+        }
+
+        private int mYearlyExMonth = DateTime.UtcNow.Month;
+
+        public int YearlyExMonth
+        {
+            get
+            {
+
+                return mYearlyExMonth;
+            }
+            set
+            {
+                mYearlyExMonth = value;
+            }
+        }
+
+        private int mYearlyMonth = DateTime.UtcNow.Month;
+
+        public int YearlyMonth
+        {
+            get
+            {
+
+                return mYearlyMonth;
+            }
+            set
+            {
+                mYearlyMonth = value;
+            }
+        }
+
         public TransitAccountEvent()
         {
 
@@ -427,8 +714,49 @@ namespace SnCore.Services
 
         public void CreateSchedule(ISession session, int offset)
         {
-            ManagedSchedule s = new ManagedSchedule(session, ScheduleId);
-            Schedule = s.ToString(offset);
+            ManagedSchedule m_s = new ManagedSchedule(session, ScheduleId);
+            Schedule = m_s.ToString(offset);
+
+            TransitSchedule s = m_s.TransitSchedule;
+
+            switch ((RecurrencePattern)s.RecurrencePattern)
+            {
+                case RecurrencePattern.None:
+                    this.AllDay = s.AllDay;
+                    break;
+                case RecurrencePattern.Daily_EveryNDays:
+                    this.DailyEveryNDays = s.DailyEveryNDays;
+                    break;
+                case RecurrencePattern.Daily_EveryWeekday:
+                    break;
+                case RecurrencePattern.Weekly:
+                    this.WeeklyDaysOfWeek = s.WeeklyDaysOfWeek;
+                    this.WeeklyEveryNWeeks = s.WeeklyEveryNWeeks;
+                    break;
+                case RecurrencePattern.Monthly_DayNOfEveryNMonths:
+                    this.MonthlyDay = s.MonthlyDay;
+                    this.MonthlyMonth = s.MonthlyMonth;
+                    break;
+                case RecurrencePattern.Monthly_NthWeekDayOfEveryNMonth:
+                    this.MonthlyExDayIndex = s.MonthlyExDayIndex;
+                    this.MonthlyExDayName = s.MonthlyExDayName;
+                    this.MonthlyExMonth = s.MonthlyExMonth;
+                    break;
+                case RecurrencePattern.Yearly_DayNOfMonth:
+                    this.YearlyDay = s.YearlyDay;
+                    this.YearlyMonth = s.YearlyMonth;
+                    break;
+                case RecurrencePattern.Yearly_NthWeekDayOfMonth:
+                    this.YearlyExDayIndex = s.YearlyExDayIndex;
+                    this.YearlyExDayName = s.YearlyExDayName;
+                    this.YearlyExMonth = s.YearlyExMonth;
+                    break;
+            }
+
+            this.EndDateTime = s.EndDateTime.AddHours(offset);
+            this.Endless = s.Endless;
+            this.EndOccurrences = s.EndOccurrences;
+            this.StartDateTime = s.StartDateTime.AddHours(offset);
         }
     }
 
@@ -488,6 +816,11 @@ namespace SnCore.Services
         {
             mAccountEvent.Account.AccountEvents.Remove(mAccountEvent);
             Session.Delete(mAccountEvent);
+        }
+
+        public bool IsInRange(DateTime start, DateTime end)
+        {
+            return new ManagedSchedule(Session, mAccountEvent.Schedule).IsInRange(start, end);
         }
     }
 }

@@ -18,7 +18,7 @@
    <td>
     <asp:Panel CssClass="sncore_createnew" ID="panellLinks" runat="server">
      <span class="sncore_link"><a href="AccountEventsView.aspx">&#187; all</a> <a href="AccountEventEdit.aspx">
-      &#187; submit</a> <a href="FeaturedAccountEventsView.aspx">&#187; previously
+      &#187; submit an event</a> <a href="FeaturedAccountEventsView.aspx">&#187; previously
        featured</a> <a href="AccountEventsRss.aspx">&#187; rss</a> </span>
     </asp:Panel>
    </td>
@@ -35,6 +35,13 @@
     <a class="sncore_AccountEvent_name" href="AccountEventView.aspx?id=<% Response.Write(base.AccountEvent.Id); %>">
      <% Response.Write(base.Render(base.AccountEvent.Name)); %>
     </a>
+    <div class="sncore_description">
+     at 
+     <a href='<% Response.Write(base.AccountEvent.PlaceId); %>'>
+      <% Response.Write(base.AccountEvent.PlaceName); %>
+     </a>
+     <% Response.Write(base.AccountEvent.PlaceCity); %>
+    </div>
     <div class="sncore_description">
      <% Response.Write(GetSummary(base.AccountEvent.Description)); %>
     </div>

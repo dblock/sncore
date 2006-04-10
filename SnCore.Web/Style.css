@@ -92,3 +92,5 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_bookmarks_table { margin: 2px; }
 .sncore_bookmarks_table_tr_td { padding: 2px; }
 .sncore_schedule_summary { padding: 2px; font-family: Verdana; font-weight: bold; background-color: #E5EDFB; }
+.sncore_calendar_toolbar_item { font-family: Verdana; font-size: .9em; }
+.sncore_calendar_toolbar_selecteditem { font-family: Verdana; font-size: .9em; font-weight: bold; }

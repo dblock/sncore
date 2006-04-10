@@ -128,6 +128,7 @@
     <property name="Publish" columns="Publish" type="System.Boolean" />
     <property name="Schedule" columns="Schedule_Id" ref="OneToMany" inverse="AccountEvents" type="Schedule" />
     <property name="Website" columns="Website" type="System.String" />
+    <property name="AccountEventPictures" table="AccountEventPicture" id-columns="AccountEvent_Id" list="true" item-type="AccountEventPicture" read-only="true" ref="ManyToOne" inverse="AccountEvent" inherits-inverse="true" />
   </class>
   <class name="AccountEventType" table="AccountEventType">
     <property name="Id" id="true" columns="AccountEventType_Id" type="System.Int32" />
@@ -574,6 +575,15 @@
     <property name="Created" columns="Created" type="System.DateTime" />
     <property name="Modified" columns="Modified" type="System.DateTime" />
     <property name="TagWord" columns="TagWord_Id" ref="OneToMany" inverse="TagWordAccounts" type="TagWord" />
+  </class>
+  <class name="AccountEventPicture" table="AccountEventPicture">
+    <property name="Id" id="true" columns="AccountEventPicture_Id" type="System.Int32" />
+    <property name="AccountEvent" columns="AccountEvent_Id" ref="OneToMany" inverse="AccountEventPictures" type="AccountEvent" />
+    <property name="Created" columns="Created" type="System.DateTime" />
+    <property name="Description" columns="Description" type="System.String" />
+    <property name="Modified" columns="Modified" type="System.DateTime" />
+    <property name="Name" columns="Name" type="System.String" />
+    <property name="Picture" columns="Picture" type="System.Byte()" />
   </class>
   <source name="SnCore" type="MSSqlServer" provider="SqlClient" schema="dbo" catalog="SnCore">
     <connection-string>Data Source=localhost;Initial Catalog=SnCore;Integrated Security=SSPI</connection-string>
@@ -1078,6 +1088,15 @@
       <column name="TagWord_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="TagWord" primary-column="TagWord_Id" foreign-key="FK_TagWordAccount_TagWord" />
       <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
+    </table>
+    <table name="AccountEventPicture">
+      <column name="AccountEventPicture_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="AccountEvent_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="AccountEvent" primary-column="AccountEvent_Id" foreign-key="FK_AccountEventPicture_AccountEvent" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Description" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
+      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Name" type="String" prec="128" length="256" scale="0" />
+      <column name="Picture" type="Object" prec="0" allow-null="true" length="16" scale="0" />
     </table>
   </source>
 </domain>

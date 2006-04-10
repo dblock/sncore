@@ -27,6 +27,7 @@
     <SnCore:BlogView ID="websiteBlog" runat="server" />
     <SnCore:AccountFeaturedView ID="accountFeatured" runat="server" />
     <SnCore:PlaceFeaturedView ID="PlaceFeaturedView" runat="server" />
+    <SnCore:AccountEventFeaturedView ID="accounteventsFeatured" runat="server" />
     <SnCore:AccountFeedFeaturedView ID="accountfeedFeatured" runat="server" />
     <SnCore:TagWordsView ID="tagwordsView" runat="server" Count="100" />
     <SnCore:AccountsNewView ID="accountsNewMain" runat="server" Count="2" />
@@ -34,7 +35,6 @@
    <td valign="top" width="25%">
     <SnCore:PlacesNewView ID="placesNewMain" runat="server" Count="2" />
     <SnCore:DiscussionPostsNewView ID="discussionsNewViewMain" runat="server" />
-    <SnCore:AccountEventFeaturedView ID="accounteventsFeatured" runat="server" />
     <SnCore:AccountStoriesNewView ID="accountstoriesNewViewMain" Count="2" runat="server" />
     <SnCore:AccountFeedItemsNewView ID="accountfeeditemsNewViewMain" Count="2" runat="server" />
     <table class="sncore_half_table">

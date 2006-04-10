@@ -50,7 +50,7 @@
             <asp:ListItem>/Place.*aspx</asp:ListItem>
            </Highlights>
           </SnCore:MenuItem><SnCore:MenuItem 
-          runat="server" ID="menuEvents" Text="events" NavigateUrl="AccountEventsView.aspx">
+          runat="server" ID="menuEvents" Text="events" NavigateUrl="AccountEventsToday.aspx">
            <Highlights>
             <asp:ListItem>/AccountEvent.*</asp:ListItem>
            </Highlights>        
@@ -73,6 +73,7 @@
           runat="server" ID="menuMe" Text="me me" NavigateUrl="AccountPreferencesManage.aspx">
           <Downlights>
            <asp:ListItem>/Account.*View.aspx</asp:ListItem>
+           <asp:ListItem>/Account.*Today.aspx</asp:ListItem>
            <asp:ListItem>/AccountInvitationsManage.aspx</asp:ListItem>
           </Downlights>
           <Highlights>
