@@ -554,6 +554,42 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountEventPicture]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[AccountEventPicture](
+	[AccountEventPicture_Id] [int] IDENTITY(1,1) NOT NULL,
+	[Picture] [image] NULL,
+	[AccountEvent_Id] [int] NOT NULL,
+	[Created] [datetime] NOT NULL,
+	[Modified] [datetime] NOT NULL,
+	[Name] [nvarchar](128) NOT NULL,
+	[Description] [ntext] NULL,
+ CONSTRAINT [PK_AccountEventPicture] PRIMARY KEY CLUSTERED 
+(
+	[AccountEventPicture_Id] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountEventPicture]') AND name = N'IX_AccountEventPicture')
+CREATE NONCLUSTERED INDEX [IX_AccountEventPicture] ON [dbo].[AccountEventPicture] 
+(
+	[AccountEvent_Id] DESC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountEventPicture]') AND name = N'UK_AccountEventPicture')
+CREATE UNIQUE NONCLUSTERED INDEX [UK_AccountEventPicture] ON [dbo].[AccountEventPicture] 
+(
+	[AccountEvent_Id] ASC,
+	[Name] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountStoryPicture]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[AccountStoryPicture](
@@ -719,28 +755,6 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[State]') AND type in (N'U'))
-BEGIN
-CREATE TABLE [dbo].[State](
-	[State_Id] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [nvarchar](64) NOT NULL,
-	[Country_Id] [int] NOT NULL,
- CONSTRAINT [PK_State] PRIMARY KEY CLUSTERED 
-(
-	[State_Id] ASC
-)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY],
- CONSTRAINT [UK_State] UNIQUE NONCLUSTERED 
-(
-	[Name] ASC,
-	[Country_Id] ASC
-)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-END
-GO
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountAddress]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[AccountAddress](
@@ -804,6 +818,28 @@ CREATE FULLTEXT INDEX ON [dbo].[Account](
 KEY INDEX [PK_Account] ON [SnCore]
 WITH CHANGE_TRACKING AUTO
 
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[State]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[State](
+	[State_Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](64) NOT NULL,
+	[Country_Id] [int] NOT NULL,
+ CONSTRAINT [PK_State] PRIMARY KEY CLUSTERED 
+(
+	[State_Id] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY],
+ CONSTRAINT [UK_State] UNIQUE NONCLUSTERED 
+(
+	[Name] ASC,
+	[Country_Id] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+END
 GO
 SET ANSI_NULLS ON
 GO
@@ -1652,6 +1688,11 @@ IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo
 ALTER TABLE [dbo].[AccountPlaceFavorite]  WITH CHECK ADD  CONSTRAINT [FK_AccountPlaceFavorite_Place] FOREIGN KEY([Place_Id])
 REFERENCES [dbo].[Place] ([Place_Id])
 GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountEventPicture_AccountEvent]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountEventPicture]'))
+ALTER TABLE [dbo].[AccountEventPicture]  WITH CHECK ADD  CONSTRAINT [FK_AccountEventPicture_AccountEvent] FOREIGN KEY([AccountEvent_Id])
+REFERENCES [dbo].[AccountEvent] ([AccountEvent_Id])
+ON DELETE CASCADE
+GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountStoryPicture_AccountStory]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountStoryPicture]'))
 ALTER TABLE [dbo].[AccountStoryPicture]  WITH CHECK ADD  CONSTRAINT [FK_AccountStoryPicture_AccountStory] FOREIGN KEY([AccountStory_Id])
 REFERENCES [dbo].[AccountStory] ([AccountStory_Id])
@@ -1721,13 +1762,6 @@ REFERENCES [dbo].[State] ([State_Id])
 GO
 ALTER TABLE [dbo].[City] CHECK CONSTRAINT [FK_City_State]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_State_Country]') AND parent_object_id = OBJECT_ID(N'[dbo].[State]'))
-ALTER TABLE [dbo].[State]  WITH NOCHECK ADD  CONSTRAINT [FK_State_Country] FOREIGN KEY([Country_Id])
-REFERENCES [dbo].[Country] ([Country_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[State] CHECK CONSTRAINT [FK_State_Country]
-GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountAddress_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountAddress]'))
 ALTER TABLE [dbo].[AccountAddress]  WITH CHECK ADD  CONSTRAINT [FK_AccountAddress_Account] FOREIGN KEY([Account_Id])
 REFERENCES [dbo].[Account] ([Account_Id])
@@ -1748,6 +1782,13 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Account_State]') AND parent_object_id = OBJECT_ID(N'[dbo].[Account]'))
 ALTER TABLE [dbo].[Account]  WITH CHECK ADD  CONSTRAINT [FK_Account_State] FOREIGN KEY([State_Id])
 REFERENCES [dbo].[State] ([State_Id])
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_State_Country]') AND parent_object_id = OBJECT_ID(N'[dbo].[State]'))
+ALTER TABLE [dbo].[State]  WITH NOCHECK ADD  CONSTRAINT [FK_State_Country] FOREIGN KEY([Country_Id])
+REFERENCES [dbo].[Country] ([Country_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[State] CHECK CONSTRAINT [FK_State_Country]
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Feature_DataObject]') AND parent_object_id = OBJECT_ID(N'[dbo].[Feature]'))
 ALTER TABLE [dbo].[Feature]  WITH CHECK ADD  CONSTRAINT [FK_Feature_DataObject] FOREIGN KEY([DataObject_Id])
