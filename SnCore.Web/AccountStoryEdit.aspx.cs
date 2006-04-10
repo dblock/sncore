@@ -31,6 +31,15 @@ public partial class AccountStoryEdit : Page
             {
                 GetData();
             }
+
+            if (!AccountService.HasVerifiedEmail(SessionManager.Ticket))
+            {
+                ReportWarning("You don't have any verified e-mail addresses.\n" +
+                    "You must add/confirm a valid e-mail address before posting stories.");
+
+                picturesAdd.Enabled = false;
+                linkSave.Enabled = false;                
+            }
         }
         catch (Exception ex)
         {

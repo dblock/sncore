@@ -55,7 +55,6 @@ public partial class DiscussionPostNew : AuthenticatedPage
             SetDefaultButton(post);
             if (!IsPostBack)
             {
-
                 string ReturnUrl = Request.Params["ReturnUrl"];
                 if (ReturnUrl.Length == 0 && DiscussionId > 0) ReturnUrl = "DiscussionView.aspx?id=" + DiscussionId.ToString();
                 linkCancel.NavigateUrl = ReturnUrl;
@@ -106,6 +105,14 @@ public partial class DiscussionPostNew : AuthenticatedPage
                 }
 
                 inputBody.Focus();
+            }
+
+            if (!AccountService.HasVerifiedEmail(SessionManager.Ticket))
+            {
+                ReportWarning("You don't have any verified e-mail addresses.\n" +
+                    "You must add/confirm a valid e-mail address before posting messages.");
+
+                post.Enabled = false;
             }
         }
         catch (Exception ex)

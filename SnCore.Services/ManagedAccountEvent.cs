@@ -814,6 +814,8 @@ namespace SnCore.Services
 
         public void Delete()
         {
+            Session.Delete(string.Format("from Feature f where f.DataObjectId = {0} AND f.DataRowId = {1}",
+                ManagedDataObject.Find(Session, "AccountEvent"), Id));
             mAccountEvent.Account.AccountEvents.Remove(mAccountEvent);
             Session.Delete(mAccountEvent);
         }

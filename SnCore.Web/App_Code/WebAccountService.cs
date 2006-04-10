@@ -1473,6 +1473,10 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedAccount a = new ManagedAccount(session, id);
+
+                if (!a.HasVerifiedEmail)
+                    throw new ManagedAccount.NoVerifiedEmailException();
+
                 message.SenderAccountId = id;
                 a.SendAccountMessage(message);
                 SnCore.Data.Hibernate.Session.Flush();
@@ -1612,6 +1616,10 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedAccount a = new ManagedAccount(session, id);
+
+                if (!a.HasVerifiedEmail)
+                    throw new ManagedAccount.NoVerifiedEmailException();
+
                 int result = a.CreateOrUpdate(invitation);
                 SnCore.Data.Hibernate.Session.Flush();
                 return result;
@@ -2084,6 +2092,21 @@ namespace SnCore.WebServices
                 ManagedAccount a = new ManagedAccount(session, id);
                 a.Create(openid);
                 SnCore.Data.Hibernate.Session.Flush();
+            }
+        }
+
+        /// <summary>
+        /// Check whether a user has a verified e-mail address.
+        /// </summary>
+        [WebMethod(Description = "Check whether the user has a verified e-mail address.")]
+        public bool HasVerifiedEmail(string ticket)
+        {
+            int id = GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount a = new ManagedAccount(session, id);
+                return a.HasVerifiedEmail;
             }
         }
 

@@ -46,6 +46,14 @@ public partial class AccountEventEdit : AuthenticatedPage
                     place.Place = PlaceService.GetPlaceById(tav.PlaceId);
                 }
             }
+
+            if (!AccountService.HasVerifiedEmail(SessionManager.Ticket))
+            {
+                ReportWarning("You don't have any verified e-mail addresses.\n" +
+                    "You must add/confirm a valid e-mail address before posting.");
+
+                manageAdd.Enabled = false;
+            }
         }
         catch (Exception ex)
         {

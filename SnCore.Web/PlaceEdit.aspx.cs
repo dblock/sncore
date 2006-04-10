@@ -121,6 +121,14 @@ public partial class PlaceEdit : AuthenticatedPage
                     linkPlaceId.Text = "New Place";
                 }
             }
+
+            if (!AccountService.HasVerifiedEmail(SessionManager.Ticket))
+            {
+                ReportWarning("You don't have any verified e-mail addresses.\n" +
+                    "You must add/confirm a valid e-mail address before submitting places.");
+
+                manageAdd.Enabled = false;
+            }
         }
         catch (Exception ex)
         {

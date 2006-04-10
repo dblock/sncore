@@ -109,6 +109,9 @@ namespace SnCore.WebServices
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedAccount a = new ManagedAccount(session, id);
 
+                if (!a.HasVerifiedEmail)
+                    throw new ManagedAccount.NoVerifiedEmailException();
+
                 if (ev.RecurrencePattern != RecurrencePattern.None)
                 {
                     throw new NotImplementedException();

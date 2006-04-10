@@ -498,6 +498,16 @@ namespace SnCore.Services
             }
         }
 
+        public class NoVerifiedEmailException : SoapException
+        {
+            public NoVerifiedEmailException()
+                : base("You don't have any verified e-mail addresses", SoapException.ClientFaultCode)
+            {
+
+            }
+        }
+
+
         public class AccountNotFoundException : SoapException
         {
             public AccountNotFoundException()
@@ -876,6 +886,25 @@ namespace SnCore.Services
             email.Modified = DateTime.UtcNow;
             email.Principal = o.Principal;
             Session.SaveOrUpdate(email);
+        }
+
+        public bool HasVerifiedEmail
+        {
+            get
+            {
+                if (mAccount.AccountEmails != null)
+                {
+                    foreach (AccountEmail e in mAccount.AccountEmails)
+                    {
+                        if (e.Verified)
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                return false;
+            }
         }
 
         public string ActiveEmailAddress

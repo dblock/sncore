@@ -380,6 +380,9 @@ namespace SnCore.WebServices
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedAccount a = new ManagedAccount(session, userid);
 
+                if (!a.HasVerifiedEmail)
+                    throw new ManagedAccount.NoVerifiedEmailException();
+
                 if (post.AccountId == 0) post.AccountId = userid;
 
                 if (post.AccountId != a.Id)

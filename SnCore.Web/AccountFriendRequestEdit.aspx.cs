@@ -31,6 +31,14 @@ public partial class AccountFriendRequestEdit : AuthenticatedPage
                     inputMessage.Text = "Dear " + account.Name + "\n\nI would like to be your friend.\n\nThanks!\n";
                 }
             }
+
+            if (!AccountService.HasVerifiedEmail(SessionManager.Ticket))
+            {
+                ReportWarning("You don't have any verified e-mail addresses.\n" +
+                    "You must add/confirm a valid e-mail address before making friends.");
+
+                manageAdd.Enabled = false;
+            }
         }
         catch (Exception ex)
         {

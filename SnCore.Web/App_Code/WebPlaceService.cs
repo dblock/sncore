@@ -140,6 +140,9 @@ namespace SnCore.WebServices
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedAccount user = new ManagedAccount(session, userid);
 
+                if (!user.HasVerifiedEmail)
+                    throw new ManagedAccount.NoVerifiedEmailException();
+
                 if ((place.Id != 0) && (!user.IsAdministrator()))
                 {
                     ManagedPlace m_place = new ManagedPlace(session, place.Id);

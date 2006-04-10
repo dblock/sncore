@@ -188,6 +188,10 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedAccount a = new ManagedAccount(session, id);
+
+                if (!a.HasVerifiedEmail)
+                    throw new ManagedAccount.NoVerifiedEmailException();
+
                 int result = a.CreateOrUpdate(story);
                 SnCore.Data.Hibernate.Session.Flush();
                 return result;
@@ -207,6 +211,10 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedAccount a = new ManagedAccount(session, id);
+
+                if (!a.HasVerifiedEmail)
+                    throw new ManagedAccount.NoVerifiedEmailException();
+
                 int result = a.CreateOrUpdateWithPictures(story, pictures);
                 SnCore.Data.Hibernate.Session.Flush();
                 return result;
@@ -226,6 +234,10 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedAccount a = new ManagedAccount(session, id);
+
+                if (!a.HasVerifiedEmail)
+                    throw new ManagedAccount.NoVerifiedEmailException();
+
                 int result = a.CreateOrUpdateWithPictures(story, pictures);
                 SnCore.Data.Hibernate.Session.Flush();
                 return result;

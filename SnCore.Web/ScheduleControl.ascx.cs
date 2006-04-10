@@ -43,7 +43,7 @@ public partial class ScheduleControl : Control
     public RecurrencePattern SelectedRecurrencePattern
     {
         get
-        {            
+        {
             HighLevelRecurrencePattern hrp = SelectedHighLevelRecurrencePattern;
 
             switch (hrp)
@@ -284,9 +284,18 @@ public partial class ScheduleControl : Control
 
         if (Schedule.RecurrencePattern == RecurrencePattern.None)
         {
-            Schedule.StartDateTime = base.ToUTC(stdStartDate.SelectedDate.Add(stdStartTime.SelectedTime));
-            Schedule.EndDateTime = base.ToUTC(stdEndDate.SelectedDate.Add(stdEndTime.SelectedTime));
             Schedule.AllDay = stdAllDay.Checked;
+
+            if (Schedule.AllDay)
+            {
+                Schedule.StartDateTime = base.ToUTC(stdStartDate.SelectedDate.Add(stdStartTime.SelectedTime));
+                Schedule.EndDateTime = base.ToUTC(stdEndDate.SelectedDate.Add(stdEndTime.SelectedTime));
+            }
+            else
+            {
+                Schedule.StartDateTime = base.ToUTC(stdStartDate.SelectedDate);
+                Schedule.EndDateTime = base.ToUTC(stdEndDate.SelectedDate);
+            }
         }
         else
         {
@@ -305,7 +314,7 @@ public partial class ScheduleControl : Control
                     Schedule.WeeklyDaysOfWeek = 0;
                     for (int i = 0; i < 7; i++)
                         if (recWeeklyDaysOfWeek.Items[i].Selected)
-                            Schedule.WeeklyDaysOfWeek += (short) Math.Pow(2, i);
+                            Schedule.WeeklyDaysOfWeek += (short)Math.Pow(2, i);
                     Schedule.WeeklyEveryNWeeks = int.Parse(recWeeklyEveryNWeeks.Text);
                     break;
                 case RecurrencePattern.Monthly_DayNOfEveryNMonths:
@@ -360,7 +369,7 @@ public partial class ScheduleControl : Control
         {
             addOneTime_Click(sender, e);
         }
-        else 
+        else
         {
             addRecurrent_Click(sender, e);
         }

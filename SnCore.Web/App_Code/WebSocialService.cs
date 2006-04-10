@@ -294,6 +294,10 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedAccount acct = new ManagedAccount(session, userid);
+
+                if (!acct.HasVerifiedEmail)
+                    throw new ManagedAccount.NoVerifiedEmailException();
+
                 int result = acct.CreateAccountFriendRequest(friendid, message);
                 SnCore.Data.Hibernate.Session.Flush();
                 return result;
