@@ -1,5 +1,5 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="SiteMap.aspx.cs"
- Inherits="SiteMap" Title="Site Map" %>
+ Inherits="SiteMap2" Title="Site Map" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <div class="sncore_h2">

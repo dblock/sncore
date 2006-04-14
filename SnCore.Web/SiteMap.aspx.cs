@@ -11,7 +11,7 @@ using System.Web.UI.HtmlControls;
 using System.Collections.Generic;
 using SnCore.Services;
 
-public partial class SiteMap : Page
+public partial class SiteMap2 : Page
 {
     public class PagedListItem
     {
