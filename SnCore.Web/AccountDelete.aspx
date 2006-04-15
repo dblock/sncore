@@ -21,7 +21,7 @@
        <td class="sncore_table_tr_td">
         <asp:Label runat="server" ID="accountName" CssClass="sncore_account_name" Text="Welcome!" />
         <p>
-         This will <b>permanently</b> remove your account from <b>SnCore</b>. We're sad
+         This will <b>permanently</b> remove your account. We're sad
          to see you go. This cannot be undone. All your personal data will be deleted. Your
          forum posts and tags will remain anonymous in the system.
         </p>
