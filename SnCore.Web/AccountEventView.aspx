@@ -61,6 +61,10 @@
           <a href='AccountEventPicturesManage.aspx?id=<% Response.Write(base.RequestId); %>'>
            &#187; Upload a Picture</a>
          </div>
+         <div>
+          <asp:LinkButton ID="linkExportVCalendar" runat="server" OnClick="linkExportVCalendar_Click" 
+           Text="&#187; Export to Outlook" />
+         </div>
          <asp:Panel ID="panelOwner" runat="server">
           <div>
            <asp:HyperLink runat="server" ID="linkEdit" Text="&#187; Edit Content" />

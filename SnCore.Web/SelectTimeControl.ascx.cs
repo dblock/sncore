@@ -33,6 +33,9 @@ public partial class SelectTimeControl : System.Web.UI.UserControl
             ts = ts.Add(new TimeSpan(0, 15, 0));
         } while (ts.Hours != 0 || ts.Minutes != 0);
 
+        ts = new TimeSpan(11, 59, 0);
+        selecttimeDropdown.Items.Add(new ListItem(ToString(ts), ts.Ticks.ToString()));
+
         base.OnInit(e);
     }
 
@@ -92,13 +95,16 @@ public partial class SelectTimeControl : System.Web.UI.UserControl
         {
             TimeSpan nv = new TimeSpan(value.Hours, value.Minutes, 0);
 
-            int rem = 0;
-            Math.DivRem(nv.Minutes, 15, out rem);
-            while (rem != 0)
+            if (value.Hours != 11 && value.Minutes != 59)
             {
-                nv = nv.Subtract(new TimeSpan(0, 1, 0));
+                int rem = 0;
                 Math.DivRem(nv.Minutes, 15, out rem);
-            };
+                while (rem != 0)
+                {
+                    nv = nv.Subtract(new TimeSpan(0, 1, 0));
+                    Math.DivRem(nv.Minutes, 15, out rem);
+                };
+            }
 
             mSelectedTime = nv;
             SelectTime();

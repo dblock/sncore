@@ -96,6 +96,26 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
+        /// Get account event VCalendar by id.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">event id</param>
+        /// <returns>account event VCalendar</returns>
+        [WebMethod(Description = "Get account event VCalendar by id.")]
+        public string GetAccountEventVCalendarById(string ticket, int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                // todo: permissions for Event
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                int user_id = ManagedAccount.GetAccountId(ticket, 0);
+                int user_utcoffset = (user_id > 0) ? new ManagedAccount(session, user_id).TransitAccount.UtcOffset : 0;
+                ManagedAccountEvent mav = new ManagedAccountEvent(session, id);
+                return mav.ToVCalendarString();
+            }
+        }
+
+        /// <summary>
         /// Create or update an event.
         /// </summary>
         /// <param name="ticket">authentication ticket</param>

@@ -9,6 +9,7 @@ using System.Xml;
 using System.Resources;
 using System.Net.Mail;
 using System.IO;
+using SnCore.Tools;
 using SnCore.Tools.Web;
 
 namespace SnCore.Services
@@ -829,6 +830,63 @@ namespace SnCore.Services
         public bool IsInRange(DateTime start, DateTime end)
         {
             return new ManagedSchedule(Session, mAccountEvent.Schedule).IsInRange(start, end);
+        }
+
+        public string ToVCalendarString()
+        {
+            StringBuilder b = new StringBuilder();            
+            b.AppendLine("BEGIN:VCALENDAR");
+            b.AppendLine("PRODID:-//Vestris Inc.//SnCore//EN");
+            b.AppendLine("BEGIN:VEVENT");
+
+            switch ((RecurrencePattern) mAccountEvent.Schedule.RecurrencePattern)
+            {
+                case RecurrencePattern.None:
+                    if (mAccountEvent.Schedule.AllDay)
+                    {
+                        b.AppendFormat("DTSTART;VALUE=DATE:{0}", mAccountEvent.Schedule.StartDateTime.ToString(@"yyyyMMdd"));
+                        b.AppendLine();
+                        b.AppendFormat("DTEND;VALUE=DATE:{0}", mAccountEvent.Schedule.EndDateTime.ToString(@"yyyyMMdd"));
+                        b.AppendLine();
+                    }
+                    else
+                    {
+                        b.AppendFormat("DTSTART:{0}", mAccountEvent.Schedule.StartDateTime.ToString(@"yyyyMMdd\THHmmss\Z"));
+                        b.AppendLine();
+                        b.AppendFormat("DTEND:{0}", mAccountEvent.Schedule.EndDateTime.ToString(@"yyyyMMdd\THHmmss\Z"));
+                        b.AppendLine();
+                    }
+                    break;
+                case RecurrencePattern.Daily_EveryNDays:
+                case RecurrencePattern.Daily_EveryWeekday:
+                case RecurrencePattern.Weekly:
+                case RecurrencePattern.Monthly_DayNOfEveryNMonths:
+                case RecurrencePattern.Monthly_NthWeekDayOfEveryNMonth:
+                case RecurrencePattern.Yearly_DayNOfMonth:
+                case RecurrencePattern.Yearly_NthWeekDayOfMonth:
+                    throw new NotImplementedException();
+            }
+
+            b.AppendFormat("LOCATION;ENCODING=QUOTED-PRINTABLE:{0}", QuotedPrintable.Encode(mAccountEvent.Place.Name));
+            b.AppendLine();
+            b.AppendFormat("SUMMARY;ENCODING=QUOTED-PRINTABLE:{0}", QuotedPrintable.Encode(mAccountEvent.Name));
+            b.AppendLine();
+            b.AppendFormat("DESCRIPTION;ENCODING=QUOTED-PRINTABLE:{0}", 
+                QuotedPrintable.Encode(
+                    string.Format("{0}\r\n{1}/AccountEventView.aspx?id={2}", 
+                        Renderer.RemoveHtml(mAccountEvent.Description),
+                        ManagedConfiguration.GetValue(Session, "SnCore.WebSite.Url", "http://localhost/SnCore"),
+                        mAccountEvent.Id)));
+            b.AppendLine();
+            b.AppendLine("PRIORITY:3");
+            if (!string.IsNullOrEmpty(mAccountEvent.Email))
+            {
+                b.AppendFormat("ORGANIZER:MAILTO:{0}", mAccountEvent.Email);
+                b.AppendLine();
+            }
+            b.AppendLine("END:VEVENT");
+            b.AppendLine("END:VCALENDAR"); 
+            return b.ToString();
         }
     }
 }

@@ -240,4 +240,22 @@ public partial class AccountEventView : Page
             return mAccountEventFeature;
         }
     }
+
+    public void linkExportVCalendar_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            string vcsContent = EventService.GetAccountEventVCalendarById(SessionManager.Ticket, RequestId);
+            Response.Clear(); // clear the current output content from the buffer
+            Response.AppendHeader("Content-Disposition", string.Format("attachment; filename={0}.ics", AccountEvent.Name));
+            Response.AppendHeader("Content-Length", vcsContent.Length.ToString());
+            Response.ContentType = "application/octet-stream";
+            Response.Write(vcsContent);
+            Response.End();
+        }
+        catch(Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
 }
