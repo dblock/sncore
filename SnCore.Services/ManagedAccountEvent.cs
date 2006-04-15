@@ -63,6 +63,12 @@ namespace SnCore.Services
                 b.AppendFormat("e.AccountEventType.Id = {0}", ManagedAccountEventType.FindId(session, Type));
             }
 
+            // exclude non-published events
+            {
+                b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                b.AppendFormat("e.Publish = 1");
+            }
+
             return b.ToString();
         }
 
