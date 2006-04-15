@@ -11,6 +11,8 @@ using System.Web.UI.HtmlControls;
 
 public partial class SelectTimeControl : System.Web.UI.UserControl
 {
+    public event EventHandler SelectionChanged;
+
     private object mSelectedTime = null;
 
     internal string ToString(TimeSpan ts)
@@ -101,5 +103,10 @@ public partial class SelectTimeControl : System.Web.UI.UserControl
             mSelectedTime = nv;
             SelectTime();
         }
+    }
+
+    public void selectionChanged(object s, EventArgs e)
+    {
+        if (SelectionChanged != null) SelectionChanged(s, e);
     }
 }

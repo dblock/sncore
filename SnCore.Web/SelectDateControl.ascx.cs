@@ -11,6 +11,8 @@ using System.Web.UI.HtmlControls;
 
 public partial class SelectDateControl : System.Web.UI.UserControl
 {
+    public event EventHandler SelectionChanged;
+
     private object mSelectedDateTime = null;
     private bool mRequiresSelection = false;
     private int mFutureYears = 0;
@@ -37,6 +39,19 @@ public partial class SelectDateControl : System.Web.UI.UserControl
         {
             mRequiresSelection = value;
         }
+    }
+
+    public void selectDateCalendar_SelectionChanged(object s, EventArgs e)
+    {
+        SelectedDate = selectDateCalendar.SelectedDate;
+        panelCalender.Visible = false;
+        if (SelectionChanged != null) SelectionChanged(s, e);
+    }
+
+    public void linkCalendar_Click(object s, EventArgs e)
+    {
+        panelCalender.Visible = !panelCalender.Visible;
+        selectDateCalendar.SelectedDate = SelectedDate;
     }
 
     protected override void OnInit(EventArgs e)
@@ -119,10 +134,19 @@ public partial class SelectDateControl : System.Web.UI.UserControl
         {
             mSelectedDateTime = value;
 
+            selectdateMonth.ClearSelection();
+            selectdateDay.ClearSelection();
+            selectdateYear.ClearSelection();
+
             DateTime d = (DateTime) mSelectedDateTime;
             selectdateMonth.Items.FindByValue(d.Month.ToString()).Selected = true;
             selectdateDay.Items.FindByValue(d.Day.ToString()).Selected = true;
             selectdateYear.Items.FindByValue(d.Year.ToString()).Selected = true;
         }
+    }
+
+    public void selectionChanged(object s, EventArgs e)
+    {
+        if (SelectionChanged != null) SelectionChanged(s, e);
     }
 }

@@ -23,8 +23,10 @@
      start time:
     </td>
     <td class="sncore_form_value">
-     <SnCore:SelectDate FutureYears="10" RequiresSelection="true" ID="stdStartDate" runat="server" />
-     <SnCore:SelectTime ID="stdStartTime" runat="server" />
+     <SnCore:SelectDate OnSelectionChanged="stdStart_SelectionChanged" FutureYears="10"
+      RequiresSelection="true" ID="stdStartDate" runat="server" />
+     <SnCore:SelectTime OnSelectionChanged="stdStart_SelectionChanged" ID="stdStartTime"
+      runat="server" />
     </td>
    </tr>
    <tr>
@@ -83,8 +85,7 @@
        day(s)
       </div>
       <div class="sncore_inner_div">
-       <asp:RadioButton ID="recDaily_EveryWeekday" runat="server" Text="Every weekday"
-        GroupName="recDailyType" />
+       <asp:RadioButton ID="recDaily_EveryWeekday" runat="server" Text="Every weekday" GroupName="recDailyType" />
       </div>
      </asp:Panel>
      <asp:Panel ID="recWeekly" runat="server" Visible="false">
@@ -106,8 +107,8 @@
      </asp:Panel>
      <asp:Panel ID="recMonthly" runat="server" Visible="false">
       <div class="sncore_inner_div">
-       <asp:RadioButton ID="recMonthly_DayNOfEveryNMonths" runat="server" Text="Day"
-        GroupName="recMonthlyType" Checked="true" />
+       <asp:RadioButton ID="recMonthly_DayNOfEveryNMonths" runat="server" Text="Day" GroupName="recMonthlyType"
+        Checked="true" />
        <asp:TextBox CssClass="sncore_form_textbox" Width="50px" runat="server" ID="recMonthlyDay" />
        of every
        <asp:TextBox CssClass="sncore_form_textbox" Width="50px" runat="server" ID="recMonthlyMonth"
@@ -166,8 +167,7 @@
        <asp:TextBox CssClass="sncore_form_textbox" Width="50px" runat="server" ID="recYearlyDay" />
       </div>
       <div class="sncore_inner_div">
-       <asp:RadioButton ID="recYearly_NthWeekDayOfMonth" runat="server" Text="The"
-        GroupName="recYearlyType" />
+       <asp:RadioButton ID="recYearly_NthWeekDayOfMonth" runat="server" Text="The" GroupName="recYearlyType" />
        <asp:DropDownList CssClass="sncore_form_dropdown" Width="75px" ID="recYearlyExDayIndex"
         runat="server">
         <asp:ListItem Text="first" Selected="true" Value="0" />
@@ -216,8 +216,7 @@
      start:
     </td>
     <td class="sncore_form_value">
-     <SnCore:SelectDate FutureYears="10" RequiresSelection="true" ID="recStartDate"
-      runat="server" />
+     <SnCore:SelectDate FutureYears="10" RequiresSelection="true" ID="recStartDate" runat="server" />
     </td>
    </tr>
   </table>
@@ -239,8 +238,7 @@
      </div>
      <div class="sncore_inner_div">
       <asp:RadioButton ID="recEndBy" runat="server" Text="End by" GroupName="recRange" />
-      <SnCore:SelectDate FutureYears="10" RequiresSelection="true" ID="recEndByDate"
-       runat="server" />
+      <SnCore:SelectDate FutureYears="10" RequiresSelection="true" ID="recEndByDate" runat="server" />
      </div>
     </td>
    </tr>

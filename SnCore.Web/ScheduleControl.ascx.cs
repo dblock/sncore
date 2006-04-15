@@ -288,13 +288,13 @@ public partial class ScheduleControl : Control
 
             if (Schedule.AllDay)
             {
-                Schedule.StartDateTime = base.ToUTC(stdStartDate.SelectedDate.Add(stdStartTime.SelectedTime));
-                Schedule.EndDateTime = base.ToUTC(stdEndDate.SelectedDate.Add(stdEndTime.SelectedTime));
+                Schedule.StartDateTime = base.ToUTC(stdStartDate.SelectedDate);
+                Schedule.EndDateTime = base.ToUTC(stdEndDate.SelectedDate);
             }
             else
             {
-                Schedule.StartDateTime = base.ToUTC(stdStartDate.SelectedDate);
-                Schedule.EndDateTime = base.ToUTC(stdEndDate.SelectedDate);
+                Schedule.StartDateTime = base.ToUTC(stdStartDate.SelectedDate.Add(stdStartTime.SelectedTime));
+                Schedule.EndDateTime = base.ToUTC(stdEndDate.SelectedDate.Add(stdEndTime.SelectedTime));
             }
         }
         else
@@ -420,6 +420,17 @@ public partial class ScheduleControl : Control
         catch (Exception ex)
         {
             ReportException(ex);
+        }
+    }
+
+    public void stdStart_SelectionChanged(object sender, EventArgs e)
+    {
+        DateTime projectedEndDateTime = stdStartDate.SelectedDate.Add(stdStartTime.SelectedTime).AddHours(1);
+        DateTime currentEndDateTime = stdEndDate.SelectedDate.Add(stdEndTime.SelectedTime);
+        if (currentEndDateTime < projectedEndDateTime)
+        {
+            stdEndDate.SelectedDate = projectedEndDateTime.Date;
+            stdEndTime.SelectedTime = projectedEndDateTime.TimeOfDay;
         }
     }
 }
