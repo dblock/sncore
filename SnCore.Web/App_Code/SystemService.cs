@@ -53,8 +53,9 @@ namespace SnCore.BackEndServices
 
         public static void ThreadProc(object service)
         {
-            System.Threading.Thread.CurrentThread.Priority = ThreadPriority.Lowest;
+            Thread.CurrentThread.Priority = ThreadPriority.Lowest;
             SystemService s = (SystemService) service;
+            Thread.Sleep(1000 * 30); // let the system come up
             s.Run();
         }
 

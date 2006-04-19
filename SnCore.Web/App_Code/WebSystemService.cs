@@ -1337,9 +1337,7 @@ namespace SnCore.WebServices
                     throw new ManagedAccount.AccessDeniedException();
                 }
 
-                session.Delete(string.Format("from Feature f where f.DataObjectId = {0} AND f.DataRowId = {1}",
-                    ManagedDataObject.Find(session, token.DataObjectName), token.DataRowId));
-
+                ManagedFeature.Delete(session, token.DataObjectName, token.DataRowId);
                 SnCore.Data.Hibernate.Session.Flush();
             }
         }

@@ -296,9 +296,7 @@ namespace SnCore.Services
 
             }
 
-            Session.Delete(string.Format("from Feature f where f.DataObjectId = {0} AND f.DataRowId = {1}",
-                ManagedDataObject.Find(Session, "AccountFeedItem"), Id));
-
+            ManagedFeature.Delete(Session, "AccountFeedItem", Id);
             Session.Delete(mAccountFeedItem);
         }
     }

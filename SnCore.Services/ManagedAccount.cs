@@ -682,8 +682,7 @@ namespace SnCore.Services
 
                 Session.Delete(string.Format("from AccountFriend f where f.Account.Id = {0} or f.Keen.Id = {0}", Id));
                 Session.Delete(string.Format("from AccountFriendRequest f where f.Account.Id = {0} or f.Keen.Id = {0}", Id));
-                Session.Delete(string.Format("from Feature f where f.DataObjectId = {0} AND f.DataRowId = {1}", 
-                    ManagedDataObject.Find(Session, "Account"), Id));
+                ManagedFeature.Delete(Session, "Account", Id);
                 Session.Delete(string.Format("from AccountBlogAuthor ba where ba.Account.Id = {0}", Id));
                 Session.Delete(mAccount);
                 t.Commit();

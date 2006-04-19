@@ -6,7 +6,7 @@
  Favorite Places</div>
 <SnCoreWebControls:PagedList CssClass="sncore_inner_table" runat="server" ID="placesList" Width="0px"
  ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" ItemStyle-CssClass="sncore_table_tr_td"
- RepeatColumns="6" RepeatRows="1">
+ RepeatColumns="4" RepeatRows="1">
  <PagerStyle CssClass="sncore_table_pager" Position="Bottom" NextPageText="Next" PrevPageText="Prev"
 		HorizontalAlign="Center" />
  <ItemTemplate>

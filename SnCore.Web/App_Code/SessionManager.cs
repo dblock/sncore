@@ -541,6 +541,7 @@ public class SessionManager
 
     public string RenderMarkups(string s)
     {
+        if (string.IsNullOrEmpty(s)) return string.Empty;
         MatchEvaluator mhd = new MatchEvaluator(ReferenceHandler);
         return MarkupExpression.Replace(s, mhd);
     }
@@ -553,6 +554,7 @@ public class SessionManager
 
     public string RenderComments(string s)
     {
+        if (string.IsNullOrEmpty(s)) return string.Empty;
         MatchEvaluator mev = new MatchEvaluator(CommentHandler);
         return CommentExpression.Replace(s, mev);
     }
@@ -592,6 +594,7 @@ public class SessionManager
 
     public string RemoveMarkups(string s)
     {
+        if (string.IsNullOrEmpty(s)) return string.Empty;
         MatchEvaluator mhd = new MatchEvaluator(MarkupClearHandler);
         return Renderer.RemoveMarkups(MarkupExpression.Replace(s, mhd));
     }

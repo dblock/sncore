@@ -179,5 +179,11 @@ namespace SnCore.Services
 
             return feature.Id;
         }
+
+        public static int Delete(ISession session, string table, int id)
+        {
+            return session.Delete(string.Format("from Feature f where f.DataObject.Id = {0} AND f.DataRowId = {1}",
+                ManagedDataObject.Find(session, table), id));
+        }
     }
 }

@@ -85,12 +85,11 @@ public partial class SelectPlaceControl : Control
                 throw new Exception("Missing type.");
             }
             Place.Name = inputName.Text;
-            if (string.IsNullOrEmpty(Place.Name))
-            {
-                throw new Exception("Missing name.");
-            }
             Place.Country = inputCountry.SelectedValue;
             Place.City = inputCity.Text;
+            if (string.IsNullOrEmpty(Place.Name)) throw new Exception("Missing name.");
+            if (string.IsNullOrEmpty(Place.Country)) throw new Exception("Missing country.");
+            if (string.IsNullOrEmpty(Place.City)) throw new Exception("Missing city.");
             Place.State = inputState.Text;
             Place.Street = inputStreet.Text;
             Place.Zip = inputZip.Text;
@@ -104,6 +103,8 @@ public partial class SelectPlaceControl : Control
             chosenPlace.DataSource = a;
             chosenPlace.DataBind();
             panelAdd.Visible = false;
+            lookupPlace.Enabled = true;
+            addPlace.Enabled = true;
             IsChosen = true;
             if (Choose != null) Choose(sender, e);
         }

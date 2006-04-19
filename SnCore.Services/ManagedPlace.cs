@@ -455,9 +455,7 @@ namespace SnCore.Services
 
             }
 
-            Session.Delete(string.Format("from Feature f where f.DataObjectId = {0} AND f.DataRowId = {1}",
-                ManagedDataObject.Find(Session, "Place"), Id));
-
+            ManagedFeature.Delete(Session, "Place", Id);
             Session.Delete(mPlace);
         }
 

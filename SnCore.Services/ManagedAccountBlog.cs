@@ -213,8 +213,7 @@ namespace SnCore.Services
 
         public void Delete()
         {
-            Session.Delete(string.Format("from Feature f where f.DataObjectId = {0} AND f.DataRowId = {1}",
-                ManagedDataObject.Find(Session, "AccountBlog"), Id));
+            ManagedFeature.Delete(Session, "AccountBlog", Id);
             Session.Delete(mAccountBlog);
         }
 

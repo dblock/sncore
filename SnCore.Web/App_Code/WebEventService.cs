@@ -466,11 +466,8 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all account events count.", CacheDuration = 60)]
         public int GetAccountEventsCount(TransitAccountEventQueryOptions queryoptions)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)queryoptions.CreateCountQuery(session).UniqueResult();
-            }
+            // range expression can't count
+            return GetAccountEvents(null, queryoptions, null).Count;
         }
 
         /// <summary>
