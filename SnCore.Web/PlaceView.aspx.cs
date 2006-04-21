@@ -163,7 +163,7 @@ public partial class PlaceView : Page
                         return;
                     }
 
-                    this.Title = Renderer.Render(place.Name);
+                    this.Title = Renderer.Render(string.Format("{0}, {1}", place.Name, place.City));
 
                     linkType.NavigateUrl = string.Format("PlacesView.aspx?city={0}&state={1}&country={2}&type={3}",
                         Renderer.UrlEncode(place.City),
