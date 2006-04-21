@@ -11,7 +11,7 @@ using System;
     ///--------------------------------------------------------------------------------
     public class Account
     {
-#region " : Generated Code Region "
+#region " Generated Code Region "
         //Private field variables
 
         //Holds property values
@@ -94,6 +94,7 @@ using System;
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_AccountAddresses' that holds the value for this property is 'PrivateAccess'.
         ///This property is marked as Read-Only.
+        ///This property is marked as slave.
         ///
         ///Mapping information:
         ///This class maps to the 'AccountAddress' table in the data source.
@@ -125,6 +126,7 @@ using System;
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_AccountBlogAuthors' that holds the value for this property is 'PrivateAccess'.
         ///This property is marked as Read-Only.
+        ///This property is marked as slave.
         ///
         ///Mapping information:
         ///This class maps to the 'AccountBlogAuthor' table in the data source.
@@ -156,6 +158,7 @@ using System;
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_AccountBlogs' that holds the value for this property is 'PrivateAccess'.
         ///This property is marked as Read-Only.
+        ///This property is marked as slave.
         ///
         ///Mapping information:
         ///This class maps to the 'AccountBlog' table in the data source.
@@ -187,6 +190,7 @@ using System;
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_AccountEmailMessages' that holds the value for this property is 'PrivateAccess'.
         ///This property is marked as Read-Only.
+        ///This property is marked as slave.
         ///
         ///Mapping information:
         ///This class maps to the 'AccountEmailMessage' table in the data source.
@@ -218,6 +222,7 @@ using System;
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_AccountEmails' that holds the value for this property is 'PrivateAccess'.
         ///This property is marked as Read-Only.
+        ///This property is marked as slave.
         ///
         ///Mapping information:
         ///This class maps to the 'AccountEmail' table in the data source.
@@ -249,6 +254,7 @@ using System;
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_AccountEvents' that holds the value for this property is 'PrivateAccess'.
         ///This property is marked as Read-Only.
+        ///This property is marked as slave.
         ///
         ///Mapping information:
         ///This class maps to the 'AccountEvent' table in the data source.
@@ -280,6 +286,7 @@ using System;
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_AccountFeeds' that holds the value for this property is 'PrivateAccess'.
         ///This property is marked as Read-Only.
+        ///This property is marked as slave.
         ///
         ///Mapping information:
         ///This class maps to the 'AccountFeed' table in the data source.
@@ -311,6 +318,7 @@ using System;
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_AccountFriendRequests' that holds the value for this property is 'PrivateAccess'.
         ///This property is marked as Read-Only.
+        ///This property is marked as slave.
         ///
         ///Mapping information:
         ///This class maps to the 'AccountFriendRequest' table in the data source.
@@ -342,6 +350,7 @@ using System;
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_AccountFriends' that holds the value for this property is 'PrivateAccess'.
         ///This property is marked as Read-Only.
+        ///This property is marked as slave.
         ///
         ///Mapping information:
         ///This class maps to the 'AccountFriend' table in the data source.
@@ -373,6 +382,7 @@ using System;
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_AccountInvitations' that holds the value for this property is 'PrivateAccess'.
         ///This property is marked as Read-Only.
+        ///This property is marked as slave.
         ///
         ///Mapping information:
         ///This class maps to the 'AccountInvitation' table in the data source.
@@ -404,6 +414,7 @@ using System;
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_AccountMessageFolders' that holds the value for this property is 'PrivateAccess'.
         ///This property is marked as Read-Only.
+        ///This property is marked as slave.
         ///
         ///Mapping information:
         ///This class maps to the 'AccountMessageFolder' table in the data source.
@@ -435,6 +446,7 @@ using System;
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_AccountMessages' that holds the value for this property is 'PrivateAccess'.
         ///This property is marked as Read-Only.
+        ///This property is marked as slave.
         ///
         ///Mapping information:
         ///This class maps to the 'AccountMessage' table in the data source.
@@ -466,6 +478,7 @@ using System;
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_AccountOpenIds' that holds the value for this property is 'PrivateAccess'.
         ///This property is marked as Read-Only.
+        ///This property is marked as slave.
         ///
         ///Mapping information:
         ///This class maps to the 'AccountOpenId' table in the data source.
@@ -497,6 +510,7 @@ using System;
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_AccountPictures' that holds the value for this property is 'PrivateAccess'.
         ///This property is marked as Read-Only.
+        ///This property is marked as slave.
         ///
         ///Mapping information:
         ///This class maps to the 'AccountPicture' table in the data source.
@@ -528,6 +542,7 @@ using System;
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_AccountPlaceFavorites' that holds the value for this property is 'PrivateAccess'.
         ///This property is marked as Read-Only.
+        ///This property is marked as slave.
         ///
         ///Mapping information:
         ///This class maps to the 'AccountPlaceFavorite' table in the data source.
@@ -559,6 +574,7 @@ using System;
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_AccountPlaceRequests' that holds the value for this property is 'PrivateAccess'.
         ///This property is marked as Read-Only.
+        ///This property is marked as slave.
         ///
         ///Mapping information:
         ///This class maps to the 'AccountPlaceRequest' table in the data source.
@@ -590,6 +606,7 @@ using System;
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_AccountPlaces' that holds the value for this property is 'PrivateAccess'.
         ///This property is marked as Read-Only.
+        ///This property is marked as slave.
         ///
         ///Mapping information:
         ///This class maps to the 'AccountPlace' table in the data source.
@@ -621,6 +638,7 @@ using System;
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_AccountProfiles' that holds the value for this property is 'PrivateAccess'.
         ///This property is marked as Read-Only.
+        ///This property is marked as slave.
         ///
         ///Mapping information:
         ///This class maps to the 'AccountProfile' table in the data source.
@@ -652,6 +670,7 @@ using System;
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_AccountStories' that holds the value for this property is 'PrivateAccess'.
         ///This property is marked as Read-Only.
+        ///This property is marked as slave.
         ///
         ///Mapping information:
         ///This class maps to the 'AccountStory' table in the data source.
@@ -683,6 +702,7 @@ using System;
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_AccountSurveyAnswers' that holds the value for this property is 'PrivateAccess'.
         ///This property is marked as Read-Only.
+        ///This property is marked as slave.
         ///
         ///Mapping information:
         ///This class maps to the 'AccountSurveyAnswer' table in the data source.
@@ -714,6 +734,7 @@ using System;
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_AccountWebsites' that holds the value for this property is 'PrivateAccess'.
         ///This property is marked as Read-Only.
+        ///This property is marked as slave.
         ///
         ///Mapping information:
         ///This class maps to the 'AccountWebsite' table in the data source.
@@ -847,6 +868,7 @@ using System;
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_Discussions' that holds the value for this property is 'PrivateAccess'.
         ///This property is marked as Read-Only.
+        ///This property is marked as slave.
         ///
         ///Mapping information:
         ///This class maps to the 'Discussion' table in the data source.
@@ -928,6 +950,7 @@ using System;
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_KeenAccountFriendRequests' that holds the value for this property is 'PrivateAccess'.
         ///This property is marked as Read-Only.
+        ///This property is marked as slave.
         ///
         ///Mapping information:
         ///This class maps to the 'AccountFriendRequest' table in the data source.
@@ -959,6 +982,7 @@ using System;
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_KeenAccountFriends' that holds the value for this property is 'PrivateAccess'.
         ///This property is marked as Read-Only.
+        ///This property is marked as slave.
         ///
         ///Mapping information:
         ///This class maps to the 'AccountFriend' table in the data source.
@@ -1090,6 +1114,7 @@ using System;
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_Places' that holds the value for this property is 'PrivateAccess'.
         ///This property is marked as Read-Only.
+        ///This property is marked as slave.
         ///
         ///Mapping information:
         ///This class maps to the 'Place' table in the data source.
@@ -1121,6 +1146,7 @@ using System;
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_ReminderEvents' that holds the value for this property is 'PrivateAccess'.
         ///This property is marked as Read-Only.
+        ///This property is marked as slave.
         ///
         ///Mapping information:
         ///This class maps to the 'ReminderEvent' table in the data source.
@@ -1229,6 +1255,7 @@ using System;
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_Schedules' that holds the value for this property is 'PrivateAccess'.
         ///This property is marked as Read-Only.
+        ///This property is marked as slave.
         ///
         ///Mapping information:
         ///This class maps to the 'Schedule' table in the data source.
@@ -1247,17 +1274,17 @@ using System;
             }
         }
 
-#endregion //: Generated Code Region
+#endregion //Generated Code Region
 
         //Add your synchronized custom code here:
-#region " : Synchronized Custom Code Region "
-#endregion //: Synchronized Custom Code Region
+#region " Synchronized Custom Code Region "
+#endregion //Synchronized Custom Code Region
 
         //Add your unsynchronized custom code here:
-#region " : Unsynchronized Custom Code Region "
+#region " Unsynchronized Custom Code Region "
 
 
 
-#endregion //: Unsynchronized Custom Code Region
+#endregion //Unsynchronized Custom Code Region
 
     }

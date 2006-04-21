@@ -49,15 +49,23 @@ public partial class AccountEventView : Page
     {
         get
         {
-            TransitAccount account = AccountEventAccount;
+            try
+            {
+                TransitAccount account = AccountEventAccount;
 
-            if (account == null)
+                if (account == null)
+                    return string.Empty;
+
+                return string.Format("posted by <a href='AccountView.aspx?id={0}'>{1}</a> on {2}",
+                    account.Id,
+                    Renderer.Render(account.Name),
+                    base.Adjust(AccountEvent.Created).ToString("d"));
+            }
+            catch (Exception ex)
+            {
+                ReportException(ex);
                 return string.Empty;
-
-            return string.Format("posted by <a href='AccountView.aspx?id={0}'>{1}</a> on {2}",
-                account.Id,
-                Renderer.Render(account.Name),
-                base.Adjust(AccountEvent.Created).ToString("d"));
+            }
         }
     }
 

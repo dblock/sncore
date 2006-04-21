@@ -37,6 +37,8 @@ public partial class SnCoreMasterPage : MasterPage
             menuLogout.Visible = SessionManager.IsLoggedIn;
             menuSignUp.Visible = !SessionManager.IsLoggedIn;
             menuInvite.Visible = SessionManager.IsLoggedIn;
+            menuLogin.NavigateUrl = string.Format("AccountLogin.aspx?ReturnUrl={0}",
+                Renderer.UrlEncode(Request.Url.PathAndQuery));
         }
         catch (Exception ex)
         {

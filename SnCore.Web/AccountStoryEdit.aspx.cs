@@ -17,7 +17,7 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 
-public partial class AccountStoryEdit : Page
+public partial class AccountStoryEdit : AuthenticatedPage
 {
     private List<TransitAccountStoryPicture> mps;
 

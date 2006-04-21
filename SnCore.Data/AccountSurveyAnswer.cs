@@ -11,7 +11,7 @@ using System;
     ///--------------------------------------------------------------------------------
     public class AccountSurveyAnswer
     {
-#region " : Generated Code Region "
+#region " Generated Code Region "
         //Private field variables
 
         //Holds property values
@@ -175,17 +175,17 @@ using System;
             }
         }
 
-#endregion //: Generated Code Region
+#endregion //Generated Code Region
 
         //Add your synchronized custom code here:
-#region " : Synchronized Custom Code Region "
-#endregion //: Synchronized Custom Code Region
+#region " Synchronized Custom Code Region "
+#endregion //Synchronized Custom Code Region
 
         //Add your unsynchronized custom code here:
-#region " : Unsynchronized Custom Code Region "
+#region " Unsynchronized Custom Code Region "
 
 
 
-#endregion //: Unsynchronized Custom Code Region
+#endregion //Unsynchronized Custom Code Region
 
     }

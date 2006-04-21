@@ -11,7 +11,7 @@ using System;
     ///--------------------------------------------------------------------------------
     public class DataObject
     {
-#region " : Generated Code Region "
+#region " Generated Code Region "
         //Private field variables
 
         //Holds property values
@@ -57,6 +57,7 @@ using System;
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_Features' that holds the value for this property is 'PrivateAccess'.
         ///This property is marked as Read-Only.
+        ///This property is marked as slave.
         ///
         ///Mapping information:
         ///This class maps to the 'Feature' table in the data source.
@@ -113,6 +114,7 @@ using System;
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_Reminders' that holds the value for this property is 'PrivateAccess'.
         ///This property is marked as Read-Only.
+        ///This property is marked as slave.
         ///
         ///Mapping information:
         ///This class maps to the 'Reminder' table in the data source.
@@ -131,17 +133,17 @@ using System;
             }
         }
 
-#endregion //: Generated Code Region
+#endregion //Generated Code Region
 
         //Add your synchronized custom code here:
-#region " : Synchronized Custom Code Region "
-#endregion //: Synchronized Custom Code Region
+#region " Synchronized Custom Code Region "
+#endregion //Synchronized Custom Code Region
 
         //Add your unsynchronized custom code here:
-#region " : Unsynchronized Custom Code Region "
+#region " Unsynchronized Custom Code Region "
 
 
 
-#endregion //: Unsynchronized Custom Code Region
+#endregion //Unsynchronized Custom Code Region
 
     }
