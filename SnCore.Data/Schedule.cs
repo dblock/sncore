@@ -39,6 +39,7 @@ using System;
         private Account m_Account;
         private System.DateTime m_Created;
         private System.DateTime m_Modified;
+        private System.Collections.IList m_ScheduleInstances;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -645,6 +646,37 @@ using System;
             set
             {
                 m_Modified = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'ScheduleInstance'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'ScheduleInstance.Schedule'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_ScheduleInstances' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as slave.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'ScheduleInstance' table in the data source.
+        ///The property maps to the identity column 'Schedule_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Collections.IList ScheduleInstances
+        {
+            get
+            {
+                return m_ScheduleInstances;
+            }
+            set
+            {
+                m_ScheduleInstances = value;
             }
         }
 

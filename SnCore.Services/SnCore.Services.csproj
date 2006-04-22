@@ -101,6 +101,7 @@
     <Compile Include="ManagedAccountEmailMessage.cs" />
     <Compile Include="ManagedAccountEvent.cs" />
     <Compile Include="ManagedAccountEventPicture.cs" />
+    <Compile Include="ManagedAccountEventInstance.cs" />
     <Compile Include="ManagedAccountEventType.cs" />
     <Compile Include="ManagedAccountFeed.cs" />
     <Compile Include="ManagedAccountFeedItem.cs" />

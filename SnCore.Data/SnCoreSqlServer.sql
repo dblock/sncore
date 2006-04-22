@@ -998,6 +998,43 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ScheduleInstance]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[ScheduleInstance](
+	[ScheduleInstance_Id] [int] IDENTITY(1,1) NOT NULL,
+	[Schedule_Id] [int] NOT NULL,
+	[Instance] [int] NOT NULL,
+	[StartDateTime] [datetime] NOT NULL,
+	[Created] [datetime] NOT NULL,
+	[Modified] [datetime] NOT NULL,
+	[EndDateTime] [datetime] NOT NULL,
+ CONSTRAINT [PK_ScheduleInstance] PRIMARY KEY CLUSTERED 
+(
+	[ScheduleInstance_Id] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[ScheduleInstance]') AND name = N'IX_ScheduleInstance_DateTime')
+CREATE NONCLUSTERED INDEX [IX_ScheduleInstance_DateTime] ON [dbo].[ScheduleInstance] 
+(
+	[StartDateTime] ASC,
+	[EndDateTime] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[ScheduleInstance]') AND name = N'UK_ScheduleInstance')
+CREATE UNIQUE NONCLUSTERED INDEX [UK_ScheduleInstance] ON [dbo].[ScheduleInstance] 
+(
+	[Schedule_Id] ASC,
+	[Instance] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[SurveyQuestion]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[SurveyQuestion](
@@ -1822,6 +1859,11 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_ReminderEvent_Reminder]') AND parent_object_id = OBJECT_ID(N'[dbo].[ReminderEvent]'))
 ALTER TABLE [dbo].[ReminderEvent]  WITH CHECK ADD  CONSTRAINT [FK_ReminderEvent_Reminder] FOREIGN KEY([Reminder_Id])
 REFERENCES [dbo].[Reminder] ([Reminder_Id])
+ON DELETE CASCADE
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_ScheduleInstance_Schedule]') AND parent_object_id = OBJECT_ID(N'[dbo].[ScheduleInstance]'))
+ALTER TABLE [dbo].[ScheduleInstance]  WITH CHECK ADD  CONSTRAINT [FK_ScheduleInstance_Schedule] FOREIGN KEY([Schedule_Id])
+REFERENCES [dbo].[Schedule] ([Schedule_Id])
 ON DELETE CASCADE
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_SurveyQuestion_Survey]') AND parent_object_id = OBJECT_ID(N'[dbo].[SurveyQuestion]'))

@@ -95,11 +95,11 @@
    <asp:TemplateColumn ItemStyle-VerticalAlign="Middle" ItemStyle-HorizontalAlign="Left">
     <itemtemplate>
      <div>
-      <a class="sncore_event_name" href="AccountEventView.aspx?id=<%# Eval("Id") %>">
+      <a class="sncore_event_name" href="AccountEventView.aspx?id=<%# Eval("AccountEventId") %>">
        <%# base.Render(Eval("Name")) %>
       </a>
       <span style="font-size: smaller;">
-       <a href="AccountEventView.aspx?id=<%# Eval("Id") %>"> 
+       <a href="AccountEventView.aspx?id=<%# Eval("AccountEventId") %>"> 
         &#187; event details
        </a>
       </span>
@@ -109,7 +109,10 @@
       <a href='PlaceView.aspx?id=<%# Eval("PlaceId") %>'><%# base.Render(Eval("PlaceName")) %></a>      
      </div>
      <div class="sncore_description">
-      <%# base.Render(Eval("Schedule")) %>      
+      Starts: <%# base.Adjust(Eval("StartDateTime")) %>
+     </div>
+     <div class="sncore_description">
+      Ends: <%# base.Adjust(Eval("EndDateTime")) %>
      </div>
      <div class="sncore_description">
       <%# base.Render(Eval("PlaceCity")) %>

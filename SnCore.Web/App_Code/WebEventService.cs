@@ -132,11 +132,6 @@ namespace SnCore.WebServices
                 if (!a.HasVerifiedEmail)
                     throw new ManagedAccount.NoVerifiedEmailException();
 
-                if (ev.RecurrencePattern != RecurrencePattern.None)
-                {
-                    throw new NotImplementedException();
-                }
-
                 int result = a.CreateOrUpdate(ev);
                 SnCore.Data.Hibernate.Session.Flush();
                 return result;
@@ -466,8 +461,11 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all account events count.", CacheDuration = 60)]
         public int GetAccountEventsCount(TransitAccountEventQueryOptions queryoptions)
         {
-            // range expression can't count
-            return GetAccountEvents(null, queryoptions, null).Count;
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return (int) queryoptions.CreateCountQuery(session).UniqueResult();
+            }
         }
 
         /// <summary>
@@ -479,7 +477,7 @@ namespace SnCore.WebServices
             string ticket,
             TransitAccountEventQueryOptions queryoptions, 
             ServiceQueryOptions serviceoptions)
-        {            
+        {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
@@ -496,17 +494,14 @@ namespace SnCore.WebServices
                 }
 
                 IList list = q.List();
-
                 List<TransitAccountEvent> result = new List<TransitAccountEvent>(list.Count);
+
                 foreach (AccountEvent p in list)
                 {
                     ManagedAccountEvent mav = new ManagedAccountEvent(session, p);
-                    if (mav.IsInRange(queryoptions.StartDateTime, queryoptions.EndDateTime))
-                    {
-                        TransitAccountEvent tav = mav.TransitAccountEvent;
-                        tav.CreateSchedule(session, user_utcoffset);
-                        result.Add(tav);
-                    }
+                    TransitAccountEvent tav = mav.TransitAccountEvent;
+                    tav.CreateSchedule(session, user_utcoffset);
+                    result.Add(tav);
                 }
 
                 return result;
@@ -515,5 +510,34 @@ namespace SnCore.WebServices
 
         #endregion
 
+        /// <summary>
+        /// Get all account event instances.
+        /// </summary>
+        /// <returns>list of transit account event instances</returns>
+        [WebMethod(Description = "Get all account event instances.", CacheDuration = 60)]
+        public List<TransitAccountEventInstance> GetAccountEventInstances(
+            string ticket,
+            TransitAccountEventInstanceQueryOptions queryoptions)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                int user_id = ManagedAccount.GetAccountId(ticket, 0);
+                int user_utcoffset = (user_id > 0) ? new ManagedAccount(session, user_id).TransitAccount.UtcOffset : 0;
+
+                IQuery q = queryoptions.CreateQuery(session);
+
+                IList list = q.List();
+                List<TransitAccountEventInstance> result = new List<TransitAccountEventInstance>(list.Count);
+
+                foreach (ScheduleInstance si in list)
+                {
+                    result.Add(new TransitAccountEventInstance(si));
+                }
+
+                return result;
+            }
+        }
     }
 }

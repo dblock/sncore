@@ -235,7 +235,7 @@ public partial class ScheduleControl : Control
             if (Schedule.Id != 0)
             {
                 labelConfirmed.Text = this.ToString();
-                addRecurrent.Enabled = false; // true;
+                addRecurrent.Enabled = true;
                 addOneTime.Enabled = true;
                 editCurrent.Enabled = true;
                 panelConfirmed.Visible = true;
@@ -377,7 +377,7 @@ public partial class ScheduleControl : Control
 
     public void addOneTime_Click(object sender, EventArgs e)
     {
-        addRecurrent.Enabled = false; //  true;
+        addRecurrent.Enabled = true;
         addOneTime.Enabled = false;
         editCurrent.Enabled = false;
         Schedule.RecurrencePattern = RecurrencePattern.None;
@@ -409,7 +409,7 @@ public partial class ScheduleControl : Control
             UpdateSchedule();
             VerifySchedule();
             labelConfirmed.Text = this.ToString();
-            addRecurrent.Enabled = false; // true;
+            addRecurrent.Enabled = true;
             addOneTime.Enabled = true;
             editCurrent.Enabled = true;
             panelConfirmed.Visible = true;

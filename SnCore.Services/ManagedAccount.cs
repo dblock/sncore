@@ -1846,6 +1846,10 @@ namespace SnCore.Services
             schedule.Modified = DateTime.UtcNow;
             if (schedule.Id == 0) schedule.Created = schedule.Modified;
             Session.Save(schedule);
+
+            ManagedSchedule m_s = new ManagedSchedule(Session, schedule);
+            m_s.UpdateInstances();
+
             return schedule.Id;
         }
 

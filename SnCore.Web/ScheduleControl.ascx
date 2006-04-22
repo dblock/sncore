@@ -10,8 +10,8 @@
     CssClass="sncore_link" OnClick="editCurrent_Click" Enabled="false" />
    <asp:LinkButton CausesValidation="false" ID="addOneTime" runat="server" Text="&#187; schedule a one-time event"
     CssClass="sncore_link" OnClick="addOneTime_Click" Enabled="false" />
-   <asp:LinkButton CausesValidation="false" ID="addRecurrent" runat="server" Text="&#187; schedule a recurrent event (coming soon)"
-    CssClass="sncore_link" OnClick="addRecurrent_Click" Enabled="false" />
+   <asp:LinkButton CausesValidation="false" ID="addRecurrent" runat="server" Text="&#187; schedule a recurrent event"
+    CssClass="sncore_link" OnClick="addRecurrent_Click" Enabled="true" />
   </td>
  </tr>
 </table>

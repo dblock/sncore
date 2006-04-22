@@ -826,11 +826,6 @@ namespace SnCore.Services
             Session.Delete(mAccountEvent);
         }
 
-        public bool IsInRange(DateTime start, DateTime end)
-        {
-            return new ManagedSchedule(Session, mAccountEvent.Schedule).IsInRange(start, end);
-        }
-
         public string ToVCalendarString()
         {
             StringBuilder b = new StringBuilder();            

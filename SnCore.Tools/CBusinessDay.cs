@@ -240,5 +240,31 @@ namespace SnCore.Tools
             }
         }
 
+        /// <summary>
+        /// Occurrence of the day of week this month. 
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public static int GetDayOfWeekOccurrenceThisMonth(DateTime dt)
+        {
+            int result = 0;
+            DateTime qt = dt.AddDays(-7);
+            while (qt.Month == dt.Month)
+            {
+                result++;
+                qt = qt.AddDays(-7);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Is last day of week occurrence this month.
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public static bool IsLastDayOfWeekOccurrenceThisMonth(DateTime dt)
+        {
+            return (dt.AddDays(7).Month != dt.Month);
+        }
     }
 }

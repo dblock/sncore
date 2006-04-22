@@ -3,7 +3,7 @@
     <ProjectType>Local</ProjectType>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{30b4f312-024e-4faa-98c6-07f8b8399be8}</ProjectGuid>
+    <ProjectGuid>{c9fcbb31-5a0a-4c5b-a73c-71236ee4884b}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>
@@ -260,6 +260,9 @@
     <Compile Include="Schedule.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ScheduleInstance.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="State.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -332,6 +335,7 @@
     <EmbeddedResource Include="Reminder.hbm.xml" />
     <EmbeddedResource Include="ReminderEvent.hbm.xml" />
     <EmbeddedResource Include="Schedule.hbm.xml" />
+    <EmbeddedResource Include="ScheduleInstance.hbm.xml" />
     <EmbeddedResource Include="State.hbm.xml" />
     <EmbeddedResource Include="Survey.hbm.xml" />
     <EmbeddedResource Include="SurveyQuestion.hbm.xml" />

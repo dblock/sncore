@@ -636,175 +636,292 @@ namespace SnCore.Services
             Session.Delete(mSchedule);
         }
 
-        public bool IsInRange(DateTime start)
+        public RecurrencePattern RecurrencePattern
         {
-            return IsInRange(start, start);
+            get
+            {
+                return (RecurrencePattern)mSchedule.RecurrencePattern;
+            }
         }
 
-        public bool IsInRange(DateTime start, DateTime end)
+        /// <summary>
+        /// Update is needed if there're no schedule instances or schedule instances
+        /// that have been modified before this schedule was last saved.
+        /// </summary>
+        public bool NeedsUpdate
         {
-            if (start == DateTime.MinValue && end == DateTime.MaxValue)
+            get
+            {
+                if (mSchedule.ScheduleInstances == null)
+                    return true;
+
+                foreach (ScheduleInstance instance in mSchedule.ScheduleInstances)
+                {
+                    if (instance.Modified < mSchedule.Modified)
+                        return true;
+                }
+
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Generate/update instances of schedule.
+        /// Reuse existing instances when possible.
+        /// </summary>
+        /// <returns>number of instances generated</returns>
+        public int UpdateInstances()
+        {
+            int result = 
+                (RecurrencePattern == RecurrencePattern.None) ? 
+                    UpdateInstances_None() : UpdateInstances_Recurrent();
+
+            Session.Save(mSchedule);
+            return result;
+        }
+
+        /// <summary>
+        /// Get or create a schedule instance.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        private ScheduleInstance GetOrCreateScheduleInstance(int index)
+        {
+            if (mSchedule.ScheduleInstances == null)
+            {
+                mSchedule.ScheduleInstances = new ArrayList();
+            }
+
+            if (index < mSchedule.ScheduleInstances.Count)
+            {
+                ScheduleInstance instance = (ScheduleInstance) mSchedule.ScheduleInstances[index];
+                instance.Modified = mSchedule.Modified;
+                return instance;
+            }
+
+            ScheduleInstance result = new ScheduleInstance();
+            result.Schedule = mSchedule;
+            result.Instance = index;
+            result.Created = result.Modified = mSchedule.Modified;
+            
+            mSchedule.ScheduleInstances.Add(result);
+
+            return result;
+        }
+
+        private int UpdateInstances_None()
+        {
+            ScheduleInstance instance = GetOrCreateScheduleInstance(0);
+            instance.StartDateTime = mSchedule.StartDateTime;
+            instance.EndDateTime = mSchedule.AllDay ? mSchedule.EndDateTime.AddDays(1) : mSchedule.EndDateTime;
+            Session.Save(instance);
+            return 1;
+        }
+
+        private const int ScheduleInstancesAhead = 25;
+
+        public bool IsRecurrentPastDate(DateTime current, int instance)
+        {
+            // only schedule ScheduleInstancesAhead instances ahead
+            if (instance >= ScheduleInstancesAhead)
                 return true;
 
-            if (start == DateTime.MinValue || end == DateTime.MaxValue)
-            {
-                throw new ArgumentOutOfRangeException("Missing start or end date.");
-            }
+            // end after X occurrences
+            if (mSchedule.EndOccurrences > 0 && ! mSchedule.Endless && (instance >= mSchedule.EndOccurrences))
+                return true;
 
-            if (start > end)
-            {
-                throw new ArgumentOutOfRangeException("Start date cannot be greater than end date.");
-            }
+            // an event that is not endless ends on EndDateTime
+            if ((mSchedule.EndOccurrences == 0 && ! mSchedule.Endless && (current > mSchedule.EndDateTime)))
+                return true;
 
-
-            switch((RecurrencePattern)mSchedule.RecurrencePattern)
-            {
-                case RecurrencePattern.None:
-                    
-                    // an event that starts after the end?
-                    if (mSchedule.StartDateTime > end)
-                        return false;
-
-                    // an event that ends before the start?
-                    if (mSchedule.EndDateTime < start)
-                        return false;
-
-                    return true;
-            }
-
-            throw new NotImplementedException();
-
-            //// an event that ends before start?
-            //if ((RecurrencePattern)mSchedule.RecurrencePattern != RecurrencePattern.None
-            //    && mSchedule.EndOccurrences == 0 
-            //    && mSchedule.EndDateTime < start
-            //    && ! mSchedule.Endless)
-            //{
-            //    return false;
-            //}
-
-            //DateTime current = start;
-            //while (current <= end)
-            //{
-            //    switch ((RecurrencePattern)mSchedule.RecurrencePattern)
-            //    {
-            //        case RecurrencePattern.Daily_EveryNDays:
-            //            {
-            //                // event occurs every n days
-            //                TimeSpan elapsed = current.Subtract(mSchedule.StartDateTime);
-
-            //                int nthday = 0;
-            //                int occurrences = Math.DivRem((int)elapsed.TotalDays, mSchedule.DailyEveryNDays, out nthday);
-
-            //                if (!mSchedule.Endless && mSchedule.EndOccurrences > 0)
-            //                {
-            //                    // too many occurrences already
-            //                    if (occurrences >= mSchedule.EndOccurrences)
-            //                        return false;
-            //                }
-
-            //                // n'th day of week
-            //                if (nthday == 0)
-            //                    return true;
-            //            }
-            //            break;
-            //        case RecurrencePattern.Daily_EveryWeekday:
-            //            {
-            //                if (!mSchedule.Endless && mSchedule.EndOccurrences > 0)
-            //                {
-            //                    // event occurs every business day
-            //                    double totaloccurences = CBusinessDay.CalculateBDay(
-            //                        mSchedule.StartDateTime,
-            //                        current,
-            //                        5,
-            //                        0);
-
-            //                    // too many occurrences already
-            //                    if (totaloccurences >= mSchedule.EndOccurrences)
-            //                        return false;
-            //                }
-
-            //                if (current.DayOfWeek != DayOfWeek.Saturday && current.DayOfWeek != DayOfWeek.Sunday)
-            //                    return true;
-
-            //            }
-            //            break;
-
-            //        case RecurrencePattern.Weekly:
-            //            {
-            //                // weekly, every N weeks on certain days
-
-            //                // not any of the selected days of week?
-            //                if (((short)Math.Pow(2, (short)current.DayOfWeek) & mSchedule.WeeklyDaysOfWeek) == 0)
-            //                    return false;
-
-            //                // n-th week
-            //                int elapsedweeks = CBusinessDay.GetWeeks(mSchedule.StartDateTime, current);
-
-            //                if (!mSchedule.Endless && mSchedule.EndOccurrences > 0)
-            //                {
-            //                    // TODO: dumb
-            //                    int totaloccurrences = 0;
-            //                    DateTime _current = mSchedule.StartDateTime;
-            //                    while (_current < current)
-            //                    {
-            //                        if ((mSchedule.WeeklyDaysOfWeek & (short)Math.Pow(2, (short) _current.DayOfWeek)) > 0)
-            //                        {
-            //                            if (++totaloccurrences > mSchedule.EndOccurrences)
-            //                                return false;
-            //                        }
-
-            //                        _current = _current.AddDays(1);
-
-            //                        // skip a number of weeks for every n-th week
-            //                        if (_current.DayOfWeek == mSchedule.StartDateTime.DayOfWeek && mSchedule.WeeklyEveryNWeeks > 0)
-            //                            _current = _current.AddDays((mSchedule.WeeklyEveryNWeeks - 1) * 7);
-            //                    }
-            //                }
-
-            //                // every week
-            //                if (mSchedule.WeeklyEveryNWeeks <= 1)
-            //                    return true;
-
-            //                int nthweek = 0;
-            //                Math.DivRem(elapsedweeks, mSchedule.WeeklyEveryNWeeks, out nthweek);
-
-            //                if (nthweek == 0)
-            //                    return true;
-            //            }
-            //            break;
-            //        case RecurrencePattern.Monthly_DayNOfEveryNMonths:
-            //            {
-            //                // is this Day N of the month
-            //                if (current.Day != mSchedule.MonthlyDay)
-            //                    return false;                            
-
-            //                //this.MonthlyDay = s.MonthlyDay;
-            //                //this.MonthlyMonth = s.MonthlyMonth;
-            //            }
-            //            break;
-            //        case RecurrencePattern.Monthly_NthWeekDayOfEveryNMonth:
-            //            //this.MonthlyExDayIndex = s.MonthlyExDayIndex;
-            //            //this.MonthlyExDayName = s.MonthlyExDayName;
-            //            //this.MonthlyExMonth = s.MonthlyExMonth;
-            //            break;
-            //        case RecurrencePattern.Yearly_DayNOfMonth:
-            //            //this.YearlyDay = s.YearlyDay;
-            //            //this.YearlyMonth = s.YearlyMonth;
-            //            break;
-            //        case RecurrencePattern.Yearly_NthWeekDayOfMonth:
-            //            //this.YearlyExDayIndex = s.YearlyExDayIndex;
-            //            //this.YearlyExDayName = s.YearlyExDayName;
-            //            //this.YearlyExMonth = s.YearlyExMonth;
-            //            break;
-            //    }
-
-            //    current = current.AddDays(1);
-            //}
-
-            //return false;
+            return false;
         }
 
+        public DateTime GetNextRecurrence(DateTime current)
+        {
+            switch (RecurrencePattern)
+            {
+                // every n days, simply adds number of days
+                case RecurrencePattern.Daily_EveryNDays:
+                    {
+                        current = current.AddDays(mSchedule.DailyEveryNDays);
+                        break;
+                    }
+                // every week-day skips week-end days
+                case RecurrencePattern.Daily_EveryWeekday:
+                    {
+                        do
+                        {
+                            current = current.AddDays(1);
+                        }
+                        while (current.DayOfWeek == DayOfWeek.Saturday || current.DayOfWeek == DayOfWeek.Sunday);
+                        break;
+                    }
+                // weekly occurs on certain days only
+                case RecurrencePattern.Weekly:
+                    {
+                        // if doesn't ever occur (should be disallowed by UI)
+                        if (mSchedule.WeeklyDaysOfWeek == 0)
+                        {
+                            throw new Exception("No days of week selected for a weekly schedule.");
+                        }
+                        else
+                        {
+                            do
+                            {
+                                current = current.AddDays(1);
+                            } while (((short)Math.Pow(2, (short)current.DayOfWeek) & mSchedule.WeeklyDaysOfWeek) == 0) ;
+                        }
+
+                        break;
+                    }
+                // occurs on a certain day of every N months
+                case RecurrencePattern.Monthly_DayNOfEveryNMonths:
+                    {
+                        int skipped = 0;
+                        do
+                        {
+                            do
+                            {
+                                current = current.AddDays(1);
+                            }
+                            while (current.Day != mSchedule.MonthlyDay);
+
+                            skipped++;
+                        }
+                        while (mSchedule.MonthlyMonth != 0 && skipped != mSchedule.MonthlyMonth);
+                        break;
+                    }
+
+                // the ((DayIndex)mSchedule.MonthlyExDayIndex) 
+                // (DayName)mSchedule.MonthlyExDayName 
+                // of every mSchedule.MonthlyExMonth month(s)
+                case RecurrencePattern.Monthly_NthWeekDayOfEveryNMonth:
+                    {
+                        int skipped_matchingmonth = 0;
+                        do
+                        {
+                            while(true)
+                            {
+                                current = current.AddDays(1);
+
+                                // is this a matching day name
+                                if (
+                                    mSchedule.MonthlyExDayName == (int) current.DayOfWeek ||
+                                    mSchedule.MonthlyExDayName == (short) DayName.day ||
+                                    (mSchedule.MonthlyExDayName == (short) DayName.weekday 
+                                        && current.DayOfWeek != DayOfWeek.Sunday 
+                                        && current.DayOfWeek != DayOfWeek.Saturday) ||
+                                    (mSchedule.MonthlyExDayName == (short) DayName.weekendday 
+                                        && (current.DayOfWeek == DayOfWeek.Sunday 
+                                            || current.DayOfWeek == DayOfWeek.Saturday))
+                                   )
+                                {
+                                    // is it the last occurence this month?
+                                    if (mSchedule.MonthlyExDayIndex == (short)DayIndex.last &&
+                                        CBusinessDay.IsLastDayOfWeekOccurrenceThisMonth(current))
+                                        break;
+                                    
+                                    // which occurrence is it this month?
+                                    if (CBusinessDay.GetDayOfWeekOccurrenceThisMonth(current) == mSchedule.MonthlyExDayIndex)
+                                        break;
+                                }
+                            }
+
+                            skipped_matchingmonth++;
+                        }
+                        while (mSchedule.MonthlyExMonth != 0 && skipped_matchingmonth != mSchedule.MonthlyExMonth);
+                        break;
+                    }
+
+                 // yearly every ((MonthName)mSchedule.YearlyMonth) YearlyDay
+                case RecurrencePattern.Yearly_DayNOfMonth:
+                    {
+                        current = current.AddDays(1); // skip the current instance
+
+                        // instance this year
+                        DateTime result = current.AddYears(-1);
+
+                        do
+                        {
+                            // get the instance next year
+                            result = new DateTime(result.Year + 1, mSchedule.YearlyMonth, mSchedule.YearlyDay)
+                                .Add(current.TimeOfDay);
+
+                        } while (current > result);
+
+                        current = result;
+                        break;
+                    }
+
+                // yearly the ((DayIndex)mSchedule.YearlyExDayIndex) ((DayName)mSchedule.YearlyExDayName) of ((MonthName)mSchedule.YearlyExMonth)
+                case RecurrencePattern.Yearly_NthWeekDayOfMonth:
+                    {
+                        current = current.AddDays(1); // skip the current instance
+
+                        // start a year ago, gets incremented in the first loop
+                        DateTime result = current.AddYears(-1);
+
+                        do
+                        {
+                            // get the instance next year
+                            result = new DateTime(result.Year + 1, mSchedule.YearlyExMonth, 1)
+                                .Add(current.TimeOfDay);
+
+                            while (true)
+                            {
+                                if ((short) result.DayOfWeek == mSchedule.YearlyExDayName)
+                                {
+                                    // is it the last occurence this month?
+                                    if (mSchedule.YearlyExDayIndex == (short)DayIndex.last &&
+                                        CBusinessDay.IsLastDayOfWeekOccurrenceThisMonth(result))
+                                        break;
+
+                                    // which occurrence is it this month?
+                                    if (CBusinessDay.GetDayOfWeekOccurrenceThisMonth(result) == mSchedule.YearlyExDayIndex)
+                                        break;
+                                }
+
+                                result = result.AddDays(1);
+                            }
+                        } while (current > result);
+
+                        current = result;
+                        break;
+                    }
+            }
+
+            return current;
+        }
+
+        public int UpdateInstances_Recurrent()
+        {
+            // find the first occurrence starting with yesterday (this morning)
+
+            // daily schedule is an exception, it's not a search and starts today
+            DateTime current = (RecurrencePattern == RecurrencePattern.Daily_EveryNDays) 
+                ? mSchedule.StartDateTime 
+                : GetNextRecurrence(mSchedule.StartDateTime.AddDays(-1));
+        
+            int instance = 0;
+            while (! IsRecurrentPastDate(current, instance))
+            {
+                ScheduleInstance si = GetOrCreateScheduleInstance(instance);
+                // starts on the date, with a timeofday delta (days may have 23 hours for daylight saving)
+                si.StartDateTime = current.Date.Add(mSchedule.StartDateTime.TimeOfDay);
+                // add the duration of the recurrent event
+                si.EndDateTime = current.Add(mSchedule.EndDateTime.TimeOfDay - mSchedule.StartDateTime.TimeOfDay);
+                // instance number
+                si.Instance = instance;
+                // save
+                Session.Save(si);
+                // next occurence + every N days
+                current = GetNextRecurrence(current);
+                instance++;
+            }
+
+            return instance;
+        }
     }
 
 }

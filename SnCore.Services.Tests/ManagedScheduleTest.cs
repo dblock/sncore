@@ -6,6 +6,7 @@ using SnCore.Data.Tests;
 using System.Collections;
 using NHibernate.Expression;
 using System.Diagnostics;
+using SnCore.Tools;
 
 namespace SnCore.Services.Tests
 {
@@ -18,114 +19,460 @@ namespace SnCore.Services.Tests
         }
 
         [Test]
-        public void TestRecurrent_Daily_EveryNDays()
+        public void TestNoRecurrence_StartEnd()
         {
-            DateTime utcnow = DateTime.UtcNow;
+            Console.WriteLine("TestNoRecurrence_StartEnd");
 
-            Schedule ts = new Schedule();
-            ts.StartDateTime = utcnow;
-            ts.Endless = false;
-            ts.EndOccurrences = 4;
-            ts.DailyEveryNDays = 2;
-            ts.RecurrencePattern = (short)RecurrencePattern.Daily_EveryNDays;
+            ManagedAccount a = new ManagedAccount(Session);
 
-            ManagedSchedule s = new ManagedSchedule(Session, ts);
-            for (int i = 0; i < 7; i+=2)
+            try
             {
-                DateTime start = utcnow.AddDays(i);
-                Assert.IsTrue(s.IsInRange(start));
-                Assert.IsFalse(s.IsInRange(start.AddDays(1)));
-            }
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
 
-            DateTime afteroccurrences = utcnow.AddDays(ts.EndOccurrences * ts.DailyEveryNDays);
-            Assert.IsFalse(s.IsInRange(afteroccurrences));
-            Assert.IsFalse(s.IsInRange(afteroccurrences.AddDays(1)));
-        }
+                TransitSchedule ts = new TransitSchedule();
 
-        [Test]
-        public void TestRecurrent_Daily_EveryWeekday()
-        {
-            DateTime utcnow = DateTime.UtcNow;
+                ts.AccountId = a.Id;
+                ts.StartDateTime = DateTime.UtcNow;
+                ts.RecurrencePattern = RecurrencePattern.None;
+                ts.EndDateTime = ts.StartDateTime.AddHours(1);
 
-            Schedule ts = new Schedule();
-            ts.StartDateTime = utcnow;
-            ts.Endless = true;
-            ts.RecurrencePattern = (short)RecurrencePattern.Daily_EveryWeekday;
+                int schedule_id = a.CreateOrUpdate(ts);
 
-            ManagedSchedule s = new ManagedSchedule(Session, ts);
-            for (int i = 0; i < 7; i ++)
-            {
-                DateTime start = utcnow.AddDays(i);
-                if (start.DayOfWeek == DayOfWeek.Saturday || start.DayOfWeek == DayOfWeek.Sunday)
+                Schedule s = (Schedule)Session.Load(typeof(Schedule), schedule_id);
+                ManagedSchedule m_s = new ManagedSchedule(Session, s);
+
+                Assert.AreEqual(s.ScheduleInstances.Count, 1, "There's more than one instance on a non-recurrent schedule.");
+
                 {
-                    Assert.IsFalse(s.IsInRange(start));
+                    ScheduleInstance ts_instance = (ScheduleInstance)s.ScheduleInstances[0];
+
+                    Assert.AreEqual(ts_instance.StartDateTime, s.StartDateTime, "Schedule instance start date/time doesn't match.");
+                    Assert.AreEqual(ts_instance.EndDateTime, s.EndDateTime, "Schedule instance end date/time doesn't match.");
+                    Assert.AreEqual(ts_instance.Schedule, s, "Schedule instance schedule object doesn't match.");
+                    Assert.AreEqual(ts_instance.Instance, 0, "Instance index is not zero.");
+                    Assert.AreEqual(ts_instance.Modified, s.Created, "Instance creation date/time doesn't match schedule.");
                 }
-                else
+
+                // force update again
+                Assert.AreEqual(m_s.UpdateInstances(), 1, "More than one event instance has been generated.");
+
                 {
-                    Assert.IsTrue(s.IsInRange(start));
+                    Assert.AreEqual(s.ScheduleInstances.Count, 1, "There's more than one instance on a non-recurrent schedule.");
+
+                    ScheduleInstance ts_instance = (ScheduleInstance)s.ScheduleInstances[0];
+
+                    Assert.AreEqual(ts_instance.StartDateTime, s.StartDateTime, "Schedule instance start date/time doesn't match.");
+                    Assert.AreEqual(ts_instance.EndDateTime, s.EndDateTime, "Schedule instance end date/time doesn't match.");
+                    Assert.AreEqual(ts_instance.Schedule, s, "Schedule instance schedule object doesn't match.");
+                    Assert.AreEqual(ts_instance.Instance, 0, "Instance index is not zero.");
+                    Assert.AreEqual(ts_instance.Modified, s.Created, "Instance creation date/time doesn't match schedule.");
                 }
             }
-
-            ts.Endless = false;
-            ts.EndOccurrences = 5;
-            DateTime afteroccurrences = utcnow.AddDays(7);
-            Assert.IsFalse(s.IsInRange(afteroccurrences));
-            Assert.IsFalse(s.IsInRange(afteroccurrences.AddDays(1)));
-        }
-
-        [Test]
-        public void TestRecurrent_Weekly_EveryNWeeks()
-        {
-            DateTime utcnow = DateTime.UtcNow;
-
-            Schedule ts = new Schedule();
-            ts.StartDateTime = utcnow;
-            ts.Endless = true;
-            ts.RecurrencePattern = (short)RecurrencePattern.Weekly;
-
-            // every day of the week
-            ts.WeeklyDaysOfWeek = 0;
-            for (int i = 0; i < 7; i++)
+            finally
             {
-                ts.WeeklyDaysOfWeek |= (short)Math.Pow(2, i);
-            }
-
-            ts.WeeklyEveryNWeeks = 2;
-
-            ManagedSchedule s = new ManagedSchedule(Session, ts);
-            for (int i = 0; i < 4; i+=2)
-            {
-                DateTime start = utcnow.AddDays(i * 7);
-                Assert.IsTrue(s.IsInRange(start));
-                Assert.IsFalse(s.IsInRange(start.AddDays(7)));
+                a.Delete();
             }
         }
 
         [Test]
-        public void TestRecurrent_Weekly_EveryNWeeks_WithEndOccurrences()
+        public void TestNoRecurrence_AllDay()
         {
-            DateTime utcnow = DateTime.UtcNow;
+            Console.WriteLine("TestNoRecurrence_AllDay");
 
-            Schedule ts = new Schedule();
-            ts.StartDateTime = utcnow;
-            ts.Endless = false;
-            ts.RecurrencePattern = (short)RecurrencePattern.Weekly;
-            ts.EndOccurrences = 2 * 7;
-            ts.WeeklyEveryNWeeks = 2;
+            ManagedAccount a = new ManagedAccount(Session);
 
-            // every day of the week
-            ts.WeeklyDaysOfWeek = 0;
-            for (int i = 0; i < 7; i++)
+            try
             {
-                ts.WeeklyDaysOfWeek |= (short)Math.Pow(2, i);
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+
+                TransitSchedule ts = new TransitSchedule();
+
+                ts.AccountId = a.Id;
+                ts.StartDateTime = DateTime.UtcNow;
+                ts.RecurrencePattern = RecurrencePattern.None;
+                ts.AllDay = true;
+                ts.EndDateTime = ts.StartDateTime.AddDays(1);
+
+                int schedule_id = a.CreateOrUpdate(ts);
+
+                Schedule s = (Schedule)Session.Load(typeof(Schedule), schedule_id);
+                ManagedSchedule m_s = new ManagedSchedule(Session, s);
+
+                m_s.UpdateInstances();
+
+                Assert.AreEqual(s.ScheduleInstances.Count, 1, "There's more than one instance on a non-recurrent schedule.");
+
+                ScheduleInstance ts_instance = (ScheduleInstance)s.ScheduleInstances[0];
+
+                Assert.AreEqual(ts_instance.StartDateTime, s.StartDateTime, "Schedule instance start date/time doesn't match.");
+                Assert.AreEqual(ts_instance.EndDateTime, s.EndDateTime, "Schedule instance end date/time doesn't match.");
+                Assert.AreEqual(ts_instance.Schedule, s, "Schedule instance schedule object doesn't match.");
+                Assert.AreEqual(ts_instance.Instance, 0, "Instance index is not zero.");
+                Assert.AreEqual(ts_instance.Modified, s.Created, "Instance creation date/time doesn't match schedule.");
             }
-
-            ManagedSchedule s = new ManagedSchedule(Session, ts);
-            DateTime start = utcnow.AddDays(4 * 7);
-
-            Assert.IsTrue(s.IsInRange(start));
-            Assert.IsFalse(s.IsInRange(start.AddDays(1)));
-            Assert.IsFalse(s.IsInRange(start.AddDays(7)));
+            finally
+            {
+                a.Delete();
+            }
         }
+
+        [Test]
+        public void TestRecurrence_Daily_EveryNDays()
+        {
+            Console.WriteLine("TestRecurrence_Daily_EveryNDays");
+
+            ManagedAccount a = new ManagedAccount(Session);
+
+            try
+            {
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+
+                TransitSchedule ts = new TransitSchedule();
+
+                ts.AccountId = a.Id;
+                ts.StartDateTime = DateTime.UtcNow;
+                ts.RecurrencePattern = RecurrencePattern.Daily_EveryNDays;
+                ts.Endless = false;
+                ts.DailyEveryNDays = 2;
+                ts.EndOccurrences = 10;
+                ts.EndDateTime = DateTime.UtcNow.AddHours(1);
+
+                int schedule_id = a.CreateOrUpdate(ts);
+
+                Schedule s = (Schedule)Session.Load(typeof(Schedule), schedule_id);
+                ManagedSchedule m_s = new ManagedSchedule(Session, s);
+
+                Assert.AreEqual(ts.EndOccurrences, s.ScheduleInstances.Count, "There's more than ten instance on this schedule.");
+
+                ScheduleInstance ts_instance = (ScheduleInstance)s.ScheduleInstances[0];
+
+                Assert.AreEqual(ts_instance.StartDateTime.TimeOfDay, s.StartDateTime.TimeOfDay, "Schedule instance start date/time doesn't match.");
+                Assert.AreEqual(ts_instance.EndDateTime.TimeOfDay, s.EndDateTime.TimeOfDay, "Schedule instance end date/time doesn't match.");
+                Assert.AreEqual(ts_instance.Schedule, s, "Schedule instance schedule object doesn't match.");
+                Assert.AreEqual(ts_instance.Instance, 0, "Instance index is not zero.");
+                Assert.AreEqual(ts_instance.Modified, s.Modified, "Instance creation date/time doesn't match schedule.");
+
+                ScheduleInstance ts_instance_1 = (ScheduleInstance)s.ScheduleInstances[5];
+                ScheduleInstance ts_instance_2 = (ScheduleInstance)s.ScheduleInstances[6];
+
+                Assert.AreEqual(ts_instance_1.StartDateTime.TimeOfDay, ts_instance_2.StartDateTime.TimeOfDay, "Schedule instance start date/time doesn't match.");
+                Assert.AreEqual(ts_instance_1.Instance + 1, ts_instance_2.Instance, "Sequent schedule instance indexes are wrong.");
+                Assert.AreEqual(ts_instance_2.StartDateTime.Subtract(ts_instance_1.StartDateTime), new TimeSpan(2, 0, 0, 0), "Schedule interval is wrong.");
+            }
+            finally
+            {
+                a.Delete();
+            }
+        }
+
+        [Test]
+        public void TestRecurrence_EveryWeekday()
+        {
+            Console.WriteLine("TestRecurrence_EveryWeekday");
+
+            // event occurs every week-day
+
+            ManagedAccount a = new ManagedAccount(Session);
+
+            try
+            {
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+
+                TransitSchedule ts = new TransitSchedule();
+
+                ts.AccountId = a.Id;
+                ts.StartDateTime = DateTime.UtcNow;
+                ts.RecurrencePattern = RecurrencePattern.Daily_EveryWeekday;
+                ts.Endless = true;
+                ts.EndDateTime = DateTime.UtcNow.AddHours(1);
+
+                int schedule_id = a.CreateOrUpdate(ts);
+
+                Schedule s = (Schedule)Session.Load(typeof(Schedule), schedule_id);
+                ManagedSchedule m_s = new ManagedSchedule(Session, s);
+
+                Assert.IsNotNull(s.ScheduleInstances, "Schedule instances cannot be null.");
+
+                foreach (ScheduleInstance ts_instance in s.ScheduleInstances)
+                {
+                    Console.WriteLine(string.Format("Event on {0}.", ts_instance.StartDateTime.ToLongDateString()));
+                    Assert.IsTrue(ts_instance.StartDateTime.DayOfWeek != DayOfWeek.Saturday, "Event cannot occur Sunday.");
+                    Assert.IsTrue(ts_instance.StartDateTime.DayOfWeek != DayOfWeek.Saturday, "Event cannot occur Saturday.");
+                }
+            }
+            finally
+            {
+                a.Delete();
+            }
+        }
+
+        [Test]
+        public void TestRecurrence_Weekly()
+        {
+            Console.WriteLine("TestRecurrence_Weekly");
+
+            // event occurs weekly on tuesday and friday
+
+            ManagedAccount a = new ManagedAccount(Session);
+
+            try
+            {
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+
+                TransitSchedule ts = new TransitSchedule();
+
+                ts.AccountId = a.Id;
+                ts.StartDateTime = DateTime.UtcNow;
+                ts.RecurrencePattern = RecurrencePattern.Weekly;
+                ts.WeeklyDaysOfWeek = (short)
+                    ((short)Math.Pow(2, (short)DayOfWeek.Tuesday) + (short)Math.Pow(2, (short)DayOfWeek.Friday));
+                ts.Endless = true;
+                ts.EndDateTime = DateTime.UtcNow.AddHours(1);
+
+                int schedule_id = a.CreateOrUpdate(ts);
+
+                Schedule s = (Schedule)Session.Load(typeof(Schedule), schedule_id);
+                ManagedSchedule m_s = new ManagedSchedule(Session, s);
+
+                Assert.IsNotNull(s.ScheduleInstances, "Schedule instances cannot be null.");
+
+                foreach (ScheduleInstance ts_instance in s.ScheduleInstances)
+                {
+                    Console.WriteLine(string.Format("Event on {0}.", ts_instance.StartDateTime.ToLongDateString()));
+                    Assert.IsTrue(ts_instance.StartDateTime.DayOfWeek == DayOfWeek.Tuesday 
+                        || ts_instance.StartDateTime.DayOfWeek == DayOfWeek.Friday, 
+                        "Event cannot occur any other day than Tuesday and Friday.");
+                }
+            }
+            finally
+            {
+                a.Delete();
+            }
+        }
+
+        [Test]
+        public void TestRecurrence_Monthly_DayNOfEveryNMonths()
+        {
+            Console.WriteLine("TestRecurrence_Monthly_DayNOfEveryNMonths");
+
+            // event occurs weekly on tuesday and friday
+
+            ManagedAccount a = new ManagedAccount(Session);
+
+            try
+            {
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+
+                TransitSchedule ts = new TransitSchedule();
+
+                ts.AccountId = a.Id;
+                ts.StartDateTime = DateTime.UtcNow;
+                ts.RecurrencePattern = RecurrencePattern.Monthly_DayNOfEveryNMonths;
+                ts.MonthlyDay = 3;
+                ts.MonthlyMonth = 2;
+                ts.Endless = true;
+                ts.EndDateTime = DateTime.UtcNow.AddHours(1);
+
+                int schedule_id = a.CreateOrUpdate(ts);
+
+                Schedule s = (Schedule)Session.Load(typeof(Schedule), schedule_id);
+                ManagedSchedule m_s = new ManagedSchedule(Session, s);
+
+                Assert.IsNotNull(s.ScheduleInstances, "Schedule instances cannot be null.");
+
+                ScheduleInstance ts_previous_instance = null;
+                foreach (ScheduleInstance ts_instance in s.ScheduleInstances)
+                {
+                    Console.WriteLine(string.Format("Event on {0}.", ts_instance.StartDateTime.ToLongDateString()));
+                    Assert.AreEqual(ts_instance.StartDateTime.Day, ts.MonthlyDay, "Day of month is wrong.");
+                    if (ts_previous_instance != null)
+                    {
+                        Assert.AreEqual(
+                            ts_instance.StartDateTime, ts_previous_instance.StartDateTime.AddMonths(ts.MonthlyMonth), 
+                            "Previous instance delta is incorrect.");
+                    }
+                    ts_previous_instance = ts_instance;
+                }
+            }
+            finally
+            {
+                a.Delete();
+            }
+        }
+
+        [Test]
+        public void TestRecurrence_Monthly_NthWeekDayOfEveryNMonth_Last()
+        {
+            Console.WriteLine("TestRecurrence_Monthly_NthWeekDayOfEveryNMonth_Last");
+
+            // event occurs on every last Thursday of every month
+
+            ManagedAccount a = new ManagedAccount(Session);
+
+            try
+            {
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+
+                TransitSchedule ts = new TransitSchedule();
+
+                ts.AccountId = a.Id;
+                ts.StartDateTime = DateTime.UtcNow;
+                ts.RecurrencePattern = RecurrencePattern.Monthly_NthWeekDayOfEveryNMonth;
+                ts.MonthlyExDayIndex = (short) DayIndex.last;
+                ts.MonthlyExDayName = (short)DayName.Thursday;
+                ts.Endless = true;
+                ts.EndDateTime = DateTime.UtcNow.AddHours(1);
+
+                int schedule_id = a.CreateOrUpdate(ts);
+
+                Schedule s = (Schedule)Session.Load(typeof(Schedule), schedule_id);
+                ManagedSchedule m_s = new ManagedSchedule(Session, s);
+
+                Assert.IsNotNull(s.ScheduleInstances, "Schedule instances cannot be null.");
+
+                foreach (ScheduleInstance ts_instance in s.ScheduleInstances)
+                {
+                    Console.WriteLine(string.Format("Event on {0}.", ts_instance.StartDateTime.ToLongDateString()));
+                    Assert.AreEqual(ts_instance.StartDateTime.DayOfWeek, (DayOfWeek) ts.MonthlyExDayName, "Day of month is wrong.");
+                    Assert.IsTrue(CBusinessDay.IsLastDayOfWeekOccurrenceThisMonth(ts_instance.StartDateTime), "Day of month is not the last instance.");
+                }
+            }
+            finally
+            {
+                a.Delete();
+            }
+        }
+
+        [Test]
+        public void TestRecurrence_Monthly_NthWeekDayOfEveryNMonth_First()
+        {
+            Console.WriteLine("TestRecurrence_Monthly_NthWeekDayOfEveryNMonth_First");
+
+            // event occurs on every last Thursday of every month
+
+            ManagedAccount a = new ManagedAccount(Session);
+
+            try
+            {
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+
+                TransitSchedule ts = new TransitSchedule();
+
+                ts.AccountId = a.Id;
+                ts.StartDateTime = DateTime.UtcNow;
+                ts.RecurrencePattern = RecurrencePattern.Monthly_NthWeekDayOfEveryNMonth;
+                ts.MonthlyExDayIndex = (short)DayIndex.first;
+                ts.MonthlyExDayName = (short)DayName.Tuesday;
+                ts.Endless = true;
+                ts.EndDateTime = DateTime.UtcNow.AddHours(1);
+
+                int schedule_id = a.CreateOrUpdate(ts);
+
+                Schedule s = (Schedule)Session.Load(typeof(Schedule), schedule_id);
+                ManagedSchedule m_s = new ManagedSchedule(Session, s);
+
+                Assert.IsNotNull(s.ScheduleInstances, "Schedule instances cannot be null.");
+
+                foreach (ScheduleInstance ts_instance in s.ScheduleInstances)
+                {
+                    Console.WriteLine(string.Format("Event on {0}.", ts_instance.StartDateTime.ToLongDateString()));
+                    Assert.AreEqual(ts_instance.StartDateTime.DayOfWeek, (DayOfWeek)ts.MonthlyExDayName, "Day of month is wrong.");
+                    Assert.IsTrue(CBusinessDay.GetDayOfWeekOccurrenceThisMonth(ts_instance.StartDateTime) == 0, "Day of month is not the first instance.");
+                }
+            }
+            finally
+            {
+                a.Delete();
+            }
+        }
+
+        [Test]
+        public void TestRecurrence_Yearly_DayNOfMonth()
+        {
+            Console.WriteLine("TestRecurrence_Yearly_DayNOfMonth");
+
+            // event occurs yearly every May 21st (Mishamishka's birthday)
+
+            ManagedAccount a = new ManagedAccount(Session);
+
+            try
+            {
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+
+                TransitSchedule ts = new TransitSchedule();
+
+                ts.AccountId = a.Id;
+                ts.StartDateTime = DateTime.UtcNow;
+                ts.RecurrencePattern = RecurrencePattern.Yearly_DayNOfMonth;
+                ts.YearlyDay = 21;
+                ts.YearlyMonth = (short) MonthName.May;
+                ts.Endless = true;
+                ts.EndDateTime = DateTime.UtcNow.AddHours(1);
+
+                int schedule_id = a.CreateOrUpdate(ts);
+
+                Schedule s = (Schedule)Session.Load(typeof(Schedule), schedule_id);
+                ManagedSchedule m_s = new ManagedSchedule(Session, s);
+
+                Assert.IsNotNull(s.ScheduleInstances, "Schedule instances cannot be null.");
+
+                foreach (ScheduleInstance ts_instance in s.ScheduleInstances)
+                {
+                    Console.WriteLine(string.Format("Event on {0}.", ts_instance.StartDateTime.ToLongDateString()));
+                    Assert.AreEqual(ts_instance.StartDateTime.Day, ts.YearlyDay, "Day is wrong.");
+                    Assert.AreEqual(ts_instance.StartDateTime.Month, ts.YearlyMonth, "Month is wrong.");
+                }
+            }
+            finally
+            {
+                a.Delete();
+            }
+        }
+
+        [Test]
+        public void TestRecurrence_Yearly_NthWeekDayOfMonth_First()
+        {
+            Console.WriteLine("TestRecurrence_Yearly_NthWeekDayOfMonth");
+
+            // event occurs yearly every first Thursday of February
+
+            ManagedAccount a = new ManagedAccount(Session);
+
+            try
+            {
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+
+                TransitSchedule ts = new TransitSchedule();
+
+                ts.AccountId = a.Id;
+                ts.StartDateTime = DateTime.UtcNow;
+                ts.RecurrencePattern = RecurrencePattern.Yearly_NthWeekDayOfMonth;
+                ts.YearlyExDayIndex = (short) DayIndex.first;
+                ts.YearlyExDayName = (short) DayName.Thursday;
+                ts.YearlyExMonth = (short) MonthName.February;
+                ts.Endless = true;
+                ts.EndDateTime = DateTime.UtcNow.AddHours(1);
+
+                int schedule_id = a.CreateOrUpdate(ts);
+
+                Schedule s = (Schedule)Session.Load(typeof(Schedule), schedule_id);
+                ManagedSchedule m_s = new ManagedSchedule(Session, s);
+
+                Assert.IsNotNull(s.ScheduleInstances, "Schedule instances cannot be null.");
+
+                foreach (ScheduleInstance ts_instance in s.ScheduleInstances)
+                {
+                    Console.WriteLine(string.Format("Event on {0}.", ts_instance.StartDateTime.ToLongDateString()));
+                    Assert.AreEqual((int) ts_instance.StartDateTime.DayOfWeek, ts.YearlyExDayName, "Day of week is wrong.");
+                    Assert.AreEqual(ts_instance.StartDateTime.Month, ts.YearlyExMonth, "Month is wrong.");
+                    Assert.IsTrue(CBusinessDay.GetDayOfWeekOccurrenceThisMonth(ts_instance.StartDateTime) == 0, "Day of month is not the first instance.");
+                }
+            }
+            finally
+            {
+                a.Delete();
+            }
+        }
+
     }
 }

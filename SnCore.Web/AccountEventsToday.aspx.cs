@@ -47,7 +47,7 @@ public partial class AccountEventsToday : Page
         }
     }
 
-    private TransitAccountEventQueryOptions mOptions = null;
+    private TransitAccountEventInstanceQueryOptions mOptions = null;
 
     public void Page_Load(object sender, EventArgs e)
     {
@@ -92,8 +92,8 @@ public partial class AccountEventsToday : Page
     {
         mOptions = null;
 
+        gridManage.AllowPaging = false;
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = EventService.GetAccountEventsCount(QueryOptions);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
 
@@ -115,11 +115,8 @@ public partial class AccountEventsToday : Page
     {
         try
         {
-            TransitAccountEventQueryOptions options = QueryOptions;
-            ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
-            serviceoptions.PageSize = gridManage.PageSize;
-            serviceoptions.PageNumber = gridManage.CurrentPageIndex;
-            gridManage.DataSource = EventService.GetAccountEvents(SessionManager.Ticket, options, serviceoptions);
+            TransitAccountEventInstanceQueryOptions options = QueryOptions;
+            gridManage.DataSource = EventService.GetAccountEventInstances(SessionManager.Ticket, options);
         }
         catch (Exception ex)
         {
@@ -161,13 +158,13 @@ public partial class AccountEventsToday : Page
         }
     }
 
-    private TransitAccountEventQueryOptions QueryOptions
+    private TransitAccountEventInstanceQueryOptions QueryOptions
     {
         get
         {
             if (mOptions == null)
             {
-                mOptions = new TransitAccountEventQueryOptions();
+                mOptions = new TransitAccountEventInstanceQueryOptions();
                 mOptions.City = inputCity.Text;
                 mOptions.Country = inputCountry.SelectedValue;
                 mOptions.State = inputState.SelectedValue;
@@ -183,8 +180,9 @@ public partial class AccountEventsToday : Page
                         if (mOptions.StartDateTime == DateTime.MinValue || d < mOptions.StartDateTime)
                             mOptions.StartDateTime = d;
 
-                        if (mOptions.EndDateTime == DateTime.MaxValue || d > mOptions.EndDateTime)
-                            mOptions.EndDateTime = d;
+                        // include the entire day (adddays(1))
+                        if (mOptions.EndDateTime == DateTime.MaxValue || d.AddDays(1) > mOptions.EndDateTime)
+                            mOptions.EndDateTime = d.AddDays(1);
                     }
                 }
                 else
