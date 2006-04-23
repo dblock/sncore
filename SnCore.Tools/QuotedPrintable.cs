@@ -8,63 +8,20 @@ namespace SnCore.Tools
 {
     /// <summary>
     /// <para>
+    /// Based on 
     /// Bill Gearhart
     /// http://www.aspemporium.com/classes.aspx?cid=4
     /// </para>
-    /// <para>
-    /// Robust and fast implementation of Quoted Printable
-    /// Multipart Internet Mail Encoding (MIME) which encodes every 
-    /// character, not just "special characters" for transmission over 
-    /// SMTP.
-    /// </para>
-    /// <para>
-    /// More information on the quoted-printable encoding can be found
-    /// here: http://www.freesoft.org/CIE/RFC/1521/6.htm
-    /// </para>
-    /// </summary>
-    /// <remarks>
-    /// <para>
-    /// detailed in: RFC 1521
-    /// </para>
-    /// <para>
-    /// more info: http://www.freesoft.org/CIE/RFC/1521/6.htm
-    /// </para>
-    /// <para>
-    /// The QuotedPrintable class encodes and decodes strings and files
-    /// that either were encoded or need encoded in the Quoted-Printable
-    /// MIME encoding for Internet mail. The encoding methods of the class
-    /// use pointers wherever possible to guarantee the fastest possible 
-    /// encoding times for any size file or string. The decoding methods 
-    /// use only the .NET framework classes.
-    /// </para>
-    /// <para>
-    /// The Quoted-Printable implementation
-    /// is robust which means it encodes every character to ensure that the
-    /// information is decoded properly regardless of machine or underlying
-    /// operating system or protocol implementation. The decode can recognize
-    /// robust encodings as well as minimal encodings that only encode special
-    /// characters and any implementation in between. Internally, the
-    /// class uses a regular expression replace pattern to decode a quoted-
-    /// printable string or file.
-    /// </para>
-    /// </remarks>
-    /// <example>
-    /// This example shows how to quoted-printable encode an html file and then
-    /// decode it.
-    /// <code>
-    /// string encoded = QuotedPrintable.EncodeFile(
-    /// 	@"C:\WEBS\wwwroot\index.html"
-    /// 	);
-    /// 
-    /// string decoded = QuotedPrintable.Decode(encoded);
-    /// 
-    /// Console.WriteLine(decoded);
-    /// </code>
-    /// </example>
     public class QuotedPrintable
     {
         private QuotedPrintable()
         {
+        }
+
+        public static string Fold(string s)
+        {
+            s = s.Replace("\r\n", "\\n");
+            return FormatEncodedString(s, RFC_1521_MAX_CHARS_PER_LINE, null);
         }
 
         /// <summary>
@@ -159,130 +116,7 @@ namespace SnCore.Tools
             if (charsperline <= 0)
                 throw new ArgumentOutOfRangeException();
 
-            string line, encodedHtml = "";
-            StringReader sr = new StringReader(toencode);
-            try
-            {
-                while ((line = sr.ReadLine()) != null)
-                    encodedHtml += EncodeSmallLine(line);
-
-                return FormatEncodedString(encodedHtml, charsperline);
-            }
-            finally
-            {
-                sr.Close();
-                sr = null;
-            }
-        }
-
-        /// <summary>
-        /// Encodes a file's contents into a string using
-        /// the Quoted-Printable encoding.
-        /// </summary>
-        /// <param name="filepath">
-        /// The path to the file to encode.
-        /// </param>
-        /// <returns>The Quoted-Printable encoded string</returns>
-        /// <exception cref="ObjectDisposedException">
-        /// A problem occurred while attempting to encode the 
-        /// string.
-        /// </exception>
-        /// <exception cref="OutOfMemoryException">
-        /// There is insufficient memory to allocate a buffer for the
-        /// returned string. 
-        /// </exception>
-        /// <exception cref="ArgumentNullException">
-        /// A string is passed in as a null reference.
-        /// </exception>
-        /// <exception cref="IOException">
-        /// An I/O error occurs, such as the stream being closed.
-        /// </exception>  
-        /// <exception cref="FileNotFoundException">
-        /// The file was not found.
-        /// </exception>
-        /// <exception cref="SecurityException">
-        /// The caller does not have the required permission to open
-        /// the file specified in filepath.
-        /// </exception>
-        /// <exception cref="UnauthorizedAccessException">
-        /// filepath is read-only or a directory.
-        /// </exception>
-        /// <remarks>
-        /// This method encodes a file's text into the quoted-printable
-        /// encoding and then properly formats it into lines of 76 characters
-        /// using the <see cref="FormatEncodedString"/> method.
-        /// </remarks>
-        public static string EncodeFile(string filepath)
-        {
-            return EncodeFile(filepath, RFC_1521_MAX_CHARS_PER_LINE);
-        }
-
-        /// <summary>
-        /// Encodes a file's contents into a string using
-        /// the Quoted-Printable encoding.
-        /// </summary>
-        /// <param name="filepath">
-        /// The path to the file to encode.
-        /// </param>
-        /// <param name="charsperline">
-        /// the number of chars per line after encoding
-        /// </param>
-        /// <returns>The Quoted-Printable encoded string</returns>
-        /// <exception cref="ObjectDisposedException">
-        /// A problem occurred while attempting to encode the 
-        /// string.
-        /// </exception>
-        /// <exception cref="OutOfMemoryException">
-        /// There is insufficient memory to allocate a buffer for the
-        /// returned string. 
-        /// </exception>
-        /// <exception cref="ArgumentNullException">
-        /// A string is passed in as a null reference.
-        /// </exception>
-        /// <exception cref="IOException">
-        /// An I/O error occurs, such as the stream being closed.
-        /// </exception>  
-        /// <exception cref="FileNotFoundException">
-        /// The file was not found.
-        /// </exception>
-        /// <exception cref="SecurityException">
-        /// The caller does not have the required permission to open
-        /// the file specified in filepath.
-        /// </exception>
-        /// <exception cref="UnauthorizedAccessException">
-        /// filepath is read-only or a directory.
-        /// </exception>
-        /// <remarks>
-        /// This method encodes a file's text into the quoted-printable
-        /// encoding and then properly formats it into lines of 
-        /// charsperline characters using the <see cref="FormatEncodedString"/> 
-        /// method.
-        /// </remarks>
-        public static string EncodeFile(string filepath, int charsperline)
-        {
-            if (filepath == null)
-                throw new ArgumentNullException();
-
-            string encodedHtml = "", line;
-            FileInfo f = new FileInfo(filepath);
-
-            if (!f.Exists)
-                throw new FileNotFoundException();
-
-            StreamReader sr = f.OpenText();
-            try
-            {
-                while ((line = sr.ReadLine()) != null)
-                    encodedHtml += EncodeSmallLine(line);
-
-                return FormatEncodedString(encodedHtml, charsperline);
-            }
-            finally
-            {
-                sr.Close();
-                sr = null;
-                f = null;
-            }
+            return FormatEncodedString(EncodeSmall(toencode), charsperline);
         }
 
         /// <summary>
@@ -304,51 +138,27 @@ namespace SnCore.Tools
         /// into lined results using the <see cref="FormatEncodedString"/>
         /// method.
         /// </remarks>
-        public unsafe static string EncodeSmall(string s)
+        public static string EncodeSmall(string s)
         {
             if (s == null)
                 throw new ArgumentNullException();
 
-            string result = "";
-            fixed (char* pChar = s)
+            StringBuilder result = new StringBuilder();
+            for (int i = 0; i < s.Length; i++)
             {
-                char* pCurrent = pChar;
-                do
+                int code = s[i];
+
+                if (((code >= 33) && (code <= 60)) || ((code >= 62) && (code <= 126)))
                 {
-                    int code = (*pCurrent);
-                    result += String.Format("={0}", code.ToString("X2"));
-                    pCurrent++;
+                    result.Append((char)code);
                 }
-                while (*pCurrent != 0);
+                else
+                {
+                    result.AppendFormat("={0}", code.ToString("X2"));
+                }
             }
-            return result;
-        }
 
-        /// <summary>
-        /// Encodes a small string with an appended newline into the 
-        /// Quoted-Printable encoding for transmission via SMTP. The 
-        /// string is not split into lines of X characters like the 
-        /// string that the Encode or the EncodeFile methods return.
-        /// </summary>
-        /// <param name="s">
-        /// The string to encode.
-        /// </param>
-        /// <returns>The Quoted-Printable encoded string</returns>
-        /// <exception cref="ArgumentNullException">
-        /// A string is passed in as a null reference.
-        /// </exception>
-        /// <remarks>
-        /// This method encodes a small string into the quoted-printable
-        /// encoding. The resultant encoded string has NOT been separated
-        /// into lined results using the <see cref="FormatEncodedString"/>
-        /// method.
-        /// </remarks>
-        public static string EncodeSmallLine(string s)
-        {
-            if (s == null)
-                throw new ArgumentNullException();
-
-            return EncodeSmall(s + "\r\n");
+            return result.ToString();
         }
 
         /// <summary>
@@ -375,45 +185,35 @@ namespace SnCore.Tools
         /// Formats a quoted-printable encoded string into lines of
         /// maxcharlen characters for transmission via SMTP.
         /// </remarks>
-        public unsafe static string FormatEncodedString(string qpstr, int maxcharlen)
+        public static string FormatEncodedString(string s, int maxcharlen)
         {
-            if (qpstr == null)
+            return FormatEncodedString(s, maxcharlen, "=");
+        }
+
+        public static string FormatEncodedString(string s, int maxcharlen, string linesep)
+        {
+            if (s == null)
                 throw new ArgumentNullException();
 
-            string strout = "";
-            StringWriter qpsw = new StringWriter();
-            try
+            StringBuilder result = new StringBuilder();
+            
+            int i = 0;
+            int j = 0;
+            while (i < s.Length)
             {
-                fixed (char* pChr = qpstr)
+                if (j == maxcharlen)
                 {
-                    char* pCurrent = pChr;
-                    int i = 0;
-                    do
-                    {
-                        strout += pCurrent->ToString();
-                        i++;
-                        if (i == maxcharlen)
-                        {
-                            qpsw.WriteLine("{0}=", strout);
-                            qpsw.Flush();
-
-                            i = 0;
-                            strout = "";
-                        }
-                        pCurrent++;
-                    }
-                    while (*pCurrent != 0);
+                    result.AppendLine(linesep);
+                    j = 0;
                 }
-                qpsw.WriteLine(strout);
-                qpsw.Flush();
 
-                return qpsw.ToString();
+                result.Append(s[i]);
+
+                j++;
+                i++;
             }
-            finally
-            {
-                qpsw.Close();
-                qpsw = null;
-            }
+
+            return result.ToString();
         }
 
         static string HexDecoderEvaluator(Match m)
@@ -435,69 +235,6 @@ namespace SnCore.Tools
              RegexOptions.IgnoreCase
             );
             return re.Replace(line, new MatchEvaluator(HexDecoderEvaluator));
-        }
-
-        /// <summary>
-        /// decodes an entire file's contents into plain text that 
-        /// was encoded with quoted-printable.
-        /// </summary>
-        /// <param name="filepath">
-        /// The path to the quoted-printable encoded file to decode.
-        /// </param>
-        /// <returns>The decoded string.</returns>
-        /// <exception cref="ObjectDisposedException">
-        /// A problem occurred while attempting to decode the 
-        /// encoded string.
-        /// </exception>
-        /// <exception cref="OutOfMemoryException">
-        /// There is insufficient memory to allocate a buffer for the
-        /// returned string. 
-        /// </exception>
-        /// <exception cref="ArgumentNullException">
-        /// A string is passed in as a null reference.
-        /// </exception>
-        /// <exception cref="IOException">
-        /// An I/O error occurs, such as the stream being closed.
-        /// </exception>  
-        /// <exception cref="FileNotFoundException">
-        /// The file was not found.
-        /// </exception>
-        /// <exception cref="SecurityException">
-        /// The caller does not have the required permission to open
-        /// the file specified in filepath.
-        /// </exception>
-        /// <exception cref="UnauthorizedAccessException">
-        /// filepath is read-only or a directory.
-        /// </exception>
-        /// <remarks>
-        /// Decodes a quoted-printable encoded file into a string
-        /// of unencoded text of any size.
-        /// </remarks>
-        public static string DecodeFile(string filepath)
-        {
-            if (filepath == null)
-                throw new ArgumentNullException();
-
-            string decodedHtml = "", line;
-            FileInfo f = new FileInfo(filepath);
-
-            if (!f.Exists)
-                throw new FileNotFoundException();
-
-            StreamReader sr = f.OpenText();
-            try
-            {
-                while ((line = sr.ReadLine()) != null)
-                    decodedHtml += Decode(line);
-
-                return decodedHtml;
-            }
-            finally
-            {
-                sr.Close();
-                sr = null;
-                f = null;
-            }
         }
 
         /// <summary>
@@ -528,9 +265,13 @@ namespace SnCore.Tools
                 while ((line = sr.ReadLine()) != null)
                 {
                     if (line.EndsWith("="))
+                    {
                         sw.Write(HexDecoder(line.Substring(0, line.Length - 1)));
+                    }
                     else
-                        sw.WriteLine(HexDecoder(line));
+                    {
+                        sw.Write(HexDecoder(line));
+                    }
 
                     sw.Flush();
                 }

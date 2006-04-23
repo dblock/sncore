@@ -472,7 +472,7 @@ namespace SnCore.Services
             }
         }
 
-        private int mMonthlyExDayIndex = 0;
+        private int mMonthlyExDayIndex = (int) DayIndex.first;
 
         public int MonthlyExDayIndex
         {
@@ -830,53 +830,143 @@ namespace SnCore.Services
         {
             StringBuilder b = new StringBuilder();            
             b.AppendLine("BEGIN:VCALENDAR");
-            b.AppendLine("PRODID:-//Vestris Inc.//SnCore//EN");
+            b.AppendLine("PRODID:-//Vestris Inc.//SnCore 1.0 MIME//EN");
+            b.AppendLine("VERSION:2.0");
+            b.AppendLine("METHOD:PUBLISH");
             b.AppendLine("BEGIN:VEVENT");
+            b.AppendLine(string.Format("DTSTAMP:{0}", DateTime.UtcNow.ToString(@"yyyyMMdd\THHmmss\Z")));
+            b.AppendLine(string.Format("UID:{0}", Id.ToString()));
+
+            StringBuilder fb = new StringBuilder();
+            if (! mAccountEvent.Schedule.Endless)
+            {
+                fb.Append((mAccountEvent.Schedule.EndOccurrences > 0)
+                    ? string.Format("COUNT={0};", mAccountEvent.Schedule.EndOccurrences)
+                    : string.Format("UNTIL={0};", mAccountEvent.Schedule.EndDateTime.ToString(@"yyyyMMdd\THHmmss\Z")));
+            }
+
+            if (mAccountEvent.Schedule.AllDay)
+            {
+                b.AppendLine(string.Format("DTSTART;VALUE=DATE:{0}", mAccountEvent.Schedule.StartDateTime.ToString(@"yyyyMMdd")));
+                b.AppendLine(string.Format("DTEND;VALUE=DATE:{0}", mAccountEvent.Schedule.EndDateTime.AddDays(1).ToString(@"yyyyMMdd")));
+            }
+            else
+            {
+                b.AppendLine(string.Format("DTSTART:{0}", mAccountEvent.Schedule.StartDateTime.ToString(@"yyyyMMdd\THHmmss\Z")));
+                b.AppendLine(string.Format("DTEND:{0}", mAccountEvent.Schedule.EndDateTime.ToString(@"yyyyMMdd\THHmmss\Z")));
+            }
 
             switch ((RecurrencePattern) mAccountEvent.Schedule.RecurrencePattern)
             {
                 case RecurrencePattern.None:
-                    if (mAccountEvent.Schedule.AllDay)
-                    {
-                        b.AppendFormat("DTSTART;VALUE=DATE:{0}", mAccountEvent.Schedule.StartDateTime.ToString(@"yyyyMMdd"));
-                        b.AppendLine();
-                        b.AppendFormat("DTEND;VALUE=DATE:{0}", mAccountEvent.Schedule.EndDateTime.ToString(@"yyyyMMdd"));
-                        b.AppendLine();
-                    }
-                    else
-                    {
-                        b.AppendFormat("DTSTART:{0}", mAccountEvent.Schedule.StartDateTime.ToString(@"yyyyMMdd\THHmmss\Z"));
-                        b.AppendLine();
-                        b.AppendFormat("DTEND:{0}", mAccountEvent.Schedule.EndDateTime.ToString(@"yyyyMMdd\THHmmss\Z"));
-                        b.AppendLine();
-                    }
                     break;
                 case RecurrencePattern.Daily_EveryNDays:
+                    b.Append("RRULE:FREQ=DAILY;");
+                    b.Append(fb.ToString());
+                    b.AppendLine(string.Format("INTERVAL={0}", mAccountEvent.Schedule.DailyEveryNDays));
+                    break;
                 case RecurrencePattern.Daily_EveryWeekday:
+                    b.AppendFormat("RRULE:FREQ=DAILY;");
+                    b.Append(fb.ToString());
+                    b.AppendLine("INTERVAL=1;BYDAY=MO,TU,WE,TH,FR;WKST=SU");
+                    break;
                 case RecurrencePattern.Weekly:
+                    b.AppendFormat("RRULE:FREQ=WEEKLY;");
+                    b.Append(fb.ToString());
+                    b.Append(string.Format("INTERVAL={0};", mAccountEvent.Schedule.WeeklyEveryNWeeks));
+                    StringBuilder wb = new StringBuilder();
+                    for (int i = 0; i < 7; i++)
+                    {
+                        if ((mAccountEvent.Schedule.WeeklyDaysOfWeek & (short) Math.Pow(2, i)) > 0)
+                        {
+                            if (wb.Length > 0) wb.Append(",");
+                            wb.Append(((DayOfWeek) i).ToString().Substring(0, 2).ToUpper());
+                        }
+                    }
+                    b.Append("BYDAY=");
+                    b.Append(wb.ToString());
+                    b.AppendLine(";WKST=SU");
+                    break;
                 case RecurrencePattern.Monthly_DayNOfEveryNMonths:
+                    b.Append("RRULE:FREQ=MONTHLY;");
+                    b.Append(fb.ToString());
+                    b.AppendLine(string.Format("INTERVAL={1};BYMONTHDAY={0};WKST=SU", 
+                        mAccountEvent.Schedule.MonthlyDay, mAccountEvent.Schedule.MonthlyMonth));
+                    break;
                 case RecurrencePattern.Monthly_NthWeekDayOfEveryNMonth:
+                    // first thursday of every 2 months: RRULE:FREQ=MONTHLY;INTERVAL=2;BYDAY=TH;BYSETPOS=1;WKST=SU
+                    // first day of every 2 months: RRULE:FREQ=MONTHLY;INTERVAL=2;BYDAY=SU,MO,TU,WE,TH,FR,SA;BYSETPOS=1;WKST=SU
+                    // second day of every 2 months: RRULE:FREQ=MONTHLY;INTERVAL=2;BYDAY=SU,MO,TU,WE,TH,FR,SA;BYSETPOS=2;WKST=SU
+                    // second weekday of every 2 months: RRULE:FREQ=MONTHLY;INTERVAL=2;BYDAY=MO,TU,WE,TH,FR;BYSETPOS=2;WKST=SU
+                    // last monday of every 2 months: RRULE:FREQ=MONTHLY;INTERVAL=2;BYDAY=MO;BYSETPOS=-1;WKST=SU
+                    b.Append("RRULE:FREQ=MONTHLY;");
+                    b.Append(fb.ToString());
+                    b.Append(string.Format("INTERVAL={0};", mAccountEvent.Schedule.MonthlyExMonth));
+                    switch ((DayName)mAccountEvent.Schedule.MonthlyExDayName)
+                    {
+                        case DayName.day:
+                            b.Append("BYDAY=SU,MO,TU,WE,TH,FR,SA;");
+                            break;
+                        case DayName.weekday:
+                            b.Append("BYDAY=MO,TU,WE,TH,FR;");
+                            break;
+                        case DayName.weekendday:
+                            b.Append("BYDAY=SU,SA;");
+                            break;
+                        default:
+                            b.Append(string.Format("BYDAY={0};", ((DayOfWeek)mAccountEvent.Schedule.MonthlyExDayName)
+                                .ToString().Substring(0, 2).ToUpper()));
+                            break;
+                    }
+                    b.Append(string.Format("BYSETPOS={0};", mAccountEvent.Schedule.MonthlyExDayIndex));
+                    b.AppendLine("WKST=SU");
+                    break;
                 case RecurrencePattern.Yearly_DayNOfMonth:
+                    // every april 23 RRULE:FREQ=YEARLY;INTERVAL=1;BYMONTHDAY=23;BYMONTH=4;WKST=SU
+                    b.Append("RRULE:FREQ=YEARLY;INTERVAL=1;");
+                    b.Append(fb.ToString());
+                    b.AppendFormat("BYMONTHDAY={0};", mAccountEvent.Schedule.YearlyDay);
+                    b.AppendFormat("BYMONTH={0};", mAccountEvent.Schedule.YearlyMonth);
+                    b.AppendLine("WKST=SU");
+                    break;
                 case RecurrencePattern.Yearly_NthWeekDayOfMonth:
-                    throw new NotImplementedException();
+                    // every first sunday of every fifth month RRULE:FREQ=YEARLY;COUNT=10;INTERVAL=1;BYDAY=SU;BYMONTH=5;BYSETPOS=1;WKST=SU
+                    b.Append("RRULE:FREQ=YEARLY;INTERVAL=1;");
+                    b.Append(fb.ToString());
+                    switch ((DayName)mAccountEvent.Schedule.YearlyExDayName)
+                    {
+                        case DayName.day:
+                            b.Append("BYDAY=SU,MO,TU,WE,TH,FR,SA;");
+                            break;
+                        case DayName.weekday:
+                            b.Append("BYDAY=MO,TU,WE,TH,FR;");
+                            break;
+                        case DayName.weekendday:
+                            b.Append("BYDAY=SU,SA;");
+                            break;
+                        default:
+                            b.Append(string.Format("BYDAY={0};", ((DayOfWeek)mAccountEvent.Schedule.MonthlyExDayName)
+                                .ToString().Substring(0, 2).ToUpper()));
+                            break;
+                    }
+                    b.AppendFormat("BYSETPOS={0};", mAccountEvent.Schedule.YearlyExDayIndex);
+                    b.AppendFormat("BYMONTH={0};", mAccountEvent.Schedule.YearlyExMonth);
+                    b.AppendLine("WKST=SU");
+                    break;
             }
 
-            b.AppendFormat("LOCATION;ENCODING=QUOTED-PRINTABLE:{0}", QuotedPrintable.Encode(mAccountEvent.Place.Name));
-            b.AppendLine();
-            b.AppendFormat("SUMMARY;ENCODING=QUOTED-PRINTABLE:{0}", QuotedPrintable.Encode(mAccountEvent.Name));
-            b.AppendLine();
-            b.AppendFormat("DESCRIPTION;ENCODING=QUOTED-PRINTABLE:{0}", 
+            b.AppendLine(string.Format("LOCATION;ENCODING=QUOTED-PRINTABLE:{0}", QuotedPrintable.Encode(mAccountEvent.Place.Name)));
+            b.AppendLine(string.Format("SUMMARY;ENCODING=QUOTED-PRINTABLE:{0}", QuotedPrintable.Encode(mAccountEvent.Name)));
+            b.AppendLine(string.Format("DESCRIPTION;ENCODING=QUOTED-PRINTABLE:{0}", 
                 QuotedPrintable.Encode(
                     string.Format("{0}\r\n{1}/AccountEventView.aspx?id={2}", 
                         Renderer.RemoveHtml(mAccountEvent.Description),
                         ManagedConfiguration.GetValue(Session, "SnCore.WebSite.Url", "http://localhost/SnCore"),
-                        mAccountEvent.Id)));
-            b.AppendLine();
+                        mAccountEvent.Id))));
             b.AppendLine("PRIORITY:3");
             if (!string.IsNullOrEmpty(mAccountEvent.Email))
             {
-                b.AppendFormat("ORGANIZER:MAILTO:{0}", mAccountEvent.Email);
-                b.AppendLine();
+                b.AppendLine(string.Format("ORGANIZER:MAILTO:{0}", mAccountEvent.Email));
             }
             b.AppendLine("END:VEVENT");
             b.AppendLine("END:VCALENDAR"); 

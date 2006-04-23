@@ -118,6 +118,7 @@
     </Compile>
     <Compile Include="ManagedAccountEmailMessageTest.cs" />
     <Compile Include="ManagedAccountEmailTest.cs" />
+    <Compile Include="ManagedAccountEventTest.cs" />
     <Compile Include="ManagedAccountFriendTest.cs" />
     <Compile Include="ManagedAccountMessageFolderTest.cs" />
     <Compile Include="ManagedAccountStoryTest.cs" />

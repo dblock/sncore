@@ -143,8 +143,6 @@ public partial class AccountEventView : Page
                     }
                     AccountEventCost.Text = Renderer.Render(evt.Cost);
 
-                    panelDetails.Visible = SessionManager.IsLoggedIn;
-
                     picturesView.DataSource = EventService.GetAccountEventPictures(SessionManager.Ticket, RequestId);
                     picturesView.DataBind();
 

@@ -38,11 +38,11 @@ namespace SnCore.Services
 
     public enum DayIndex
     {
-        first = 0,
-        second = 1,
-        third = 2,
-        fourth = 3,
-        last = 4
+        first = 1,
+        second = 2,
+        third = 3,
+        fourth = 4,
+        last = -1
     }
 
     public enum DayName
@@ -183,7 +183,7 @@ namespace SnCore.Services
             }
         }
 
-        private int mMonthlyExDayIndex = 0;
+        private int mMonthlyExDayIndex = (int) DayIndex.first;
 
         public int MonthlyExDayIndex
         {

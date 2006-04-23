@@ -120,11 +120,11 @@
         GroupName="recMonthlyType" />
        <asp:DropDownList CssClass="sncore_form_dropdown" Width="75px" ID="recMonthlyDayIndex"
         runat="server">
-        <asp:ListItem Text="first" Selected="true" Value="0" />
-        <asp:ListItem Text="second" Value="1" />
-        <asp:ListItem Text="third" Value="2" />
-        <asp:ListItem Text="fourth" Value="3" />
-        <asp:ListItem Text="last" Value="4" />
+        <asp:ListItem Text="first" Selected="true" Value="1" />
+        <asp:ListItem Text="second" Value="2" />
+        <asp:ListItem Text="third" Value="3" />
+        <asp:ListItem Text="fourth" Value="4" />
+        <asp:ListItem Text="last" Value="-1" />
        </asp:DropDownList>
        <asp:DropDownList CssClass="sncore_form_dropdown" Width="75px" ID="recMonthlyDayName"
         runat="server">
