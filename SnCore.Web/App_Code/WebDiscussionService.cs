@@ -620,11 +620,15 @@ namespace SnCore.WebServices
 
                 Discussion d = (Discussion)session.Load(typeof(Discussion), id);
 
-                IQuery query = session.CreateQuery(
-                    "from DiscussionPost post" +
-                    " where post.DiscussionThread.Discussion.Id = " + id.ToString() +
-                    " and post.DiscussionPostParent is null" +
-                    " order by post.DiscussionThread.Id desc, post.Modified asc");
+                IQuery query = session.CreateSQLQuery(
+                    "SELECT {Post.*} FROM DiscussionPost {Post}, DiscussionThread Thread, Discussion Discussion" +
+                    " WHERE Post.DiscussionThread_Id = Thread.DiscussionThread_Id" +
+                    " AND Thread.Discussion_Id = Discussion.Discussion_Id" +
+                    " AND Discussion.Discussion_Id = " + id.ToString() +
+                    " AND Post.DiscussionPostParent_Id IS NULL" +
+                    " ORDER BY Thread.Modified DESC",
+                    "Post",
+                    typeof(DiscussionPost));
 
                 if (options != null)
                 {

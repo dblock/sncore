@@ -65,7 +65,7 @@
   </asp:TemplateColumn>
   <asp:TemplateColumn HeaderText="Last Post">
    <itemtemplate>
-     <%# base.Adjust(Eval("DiscussionThreadModified")).ToString()%>     
+     <%# base.Adjust(Eval("DiscussionThreadModified")).ToString("D") %>     
    </itemtemplate>
   </asp:TemplateColumn>
   <asp:ButtonColumn CommandName="Delete" Text="Delete" />
