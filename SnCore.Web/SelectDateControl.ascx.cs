@@ -52,6 +52,7 @@ public partial class SelectDateControl : System.Web.UI.UserControl
     {
         panelCalender.Visible = !panelCalender.Visible;
         selectDateCalendar.SelectedDate = SelectedDate;
+        selectDateCalendar.VisibleDate = SelectedDate;
     }
 
     protected override void OnInit(EventArgs e)
