@@ -11,7 +11,6 @@
     <SnCore:AccountMenu runat="server" ID="menu" />
    </td>
    <td valign="top" width="*">
-    <SnCore:AccountReminder ID="accountReminder" runat="server" />
     <div class="sncore_h2">
      Account Addresses</div>
     <asp:HyperLink ID="HyperLink1" Text="&#187; Create New" CssClass="sncore_createnew" NavigateUrl="AccountAddressEdit.aspx"
@@ -55,6 +54,7 @@
       <asp:ButtonColumn ButtonType="LinkButton" CommandName="Delete" Text="Delete"></asp:ButtonColumn>
      </Columns>
     </SnCoreWebControls:PagedGrid>
+    <SnCore:AccountReminder ID="accountReminder" runat="server" Style="width: 582px;" />
    </td>
   </tr>
  </table>

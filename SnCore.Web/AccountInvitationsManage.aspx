@@ -12,7 +12,6 @@
     <SnCore:AccountMenu runat="server" ID="menu" />
    </td>
    <td valign="top">
-    <SnCore:AccountReminder ID="accountReminder" runat="server" />
     <div class="sncore_h2">
      Invite Friends
     </div>
@@ -79,6 +78,7 @@
       <asp:ButtonColumn ButtonType="LinkButton" CommandName="Delete" Text="Delete" />
      </Columns>
     </SnCoreWebControls:PagedGrid>
+    <SnCore:AccountReminder ID="accountReminder" runat="server" Style="width: 582px;" />
    </td>
   </tr>
  </table>

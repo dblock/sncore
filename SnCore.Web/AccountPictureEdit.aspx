@@ -12,7 +12,6 @@
     <SnCore:AccountMenu runat="server" ID="menu" />
    </td>
    <td valign="top" width="*">
-    <SnCore:AccountReminder ID="accountReminder" runat="server" />
     <div class="sncore_h2">
      Account Picture
     </div>
@@ -59,6 +58,7 @@
      </tr>
     </table>
     <SnCore:DiscussionFullView runat="server" ID="discussionComments" PostNewText="&#187; Post a Comment" />
+    <SnCore:AccountReminder ID="accountReminder" runat="server" Style="width: 582px;" />
    </td>
   </tr>
  </table>

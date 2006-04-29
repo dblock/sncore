@@ -11,7 +11,6 @@
     <SnCore:AccountMenu runat="server" ID="menu" />
    </td>
    <td valign="top" width="*">
-    <SnCore:AccountReminder ID="accountReminder" runat="server" />
     <div class="sncore_h2">
      My Surveys
     </div>
@@ -51,6 +50,7 @@
       </asp:TemplateColumn>
      </Columns>
     </SnCoreWebControls:PagedGrid>
+    <SnCore:AccountReminder ID="accountReminder" runat="server" Style="width: 582px;" />
    </td>
   </tr>
  </table>

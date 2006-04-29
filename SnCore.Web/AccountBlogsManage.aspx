@@ -11,14 +11,13 @@
     <SnCore:AccountMenu runat="server" ID="menu" />
    </td>
    <td valign="top">
-    <SnCore:AccountReminder ID="accountReminder" runat="server" />
     <div class="sncore_h2">
      My Blogs
     </div>
-    <asp:HyperLink ID="HyperLink2" Text="&#187; i already have a blog" CssClass="sncore_createnew"
+    <asp:HyperLink ID="HyperLink2" Text="&#187; I Already Have a Blog" CssClass="sncore_createnew"
      NavigateUrl="AccountFeedEdit.aspx" runat="server" />
     <br />
-    <asp:HyperLink ID="HyperLink1" Text="&#187; create a new blog" CssClass="sncore_createnew"
+    <asp:HyperLink ID="HyperLink1" Text="&#187; Create a New Blog" CssClass="sncore_createnew"
      NavigateUrl="AccountBlogEdit.aspx" runat="server" />
     <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage" OnItemCommand="gridManage_ItemCommand"
      AutoGenerateColumns="false" CssClass="sncore_account_table">
@@ -88,6 +87,7 @@
       </asp:TemplateColumn>
      </Columns>
     </SnCoreWebControls:PagedGrid>
+    <SnCore:AccountReminder ID="accountReminder" runat="server" Style="width: 582px;" />
    </td>
   </tr>
  </table>

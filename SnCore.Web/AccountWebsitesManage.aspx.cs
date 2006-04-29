@@ -22,11 +22,6 @@ public partial class AccountWebsitesManage : AuthenticatedPage
             {
                 gridManage_OnGetDataSource(this, null);
                 gridManage.DataBind();
-
-                if (gridManage.Items.Count == 0)
-                {
-                    ReportInfo("Do you have a website? Tell us about it!");
-                }
             }
         }
         catch (Exception ex)

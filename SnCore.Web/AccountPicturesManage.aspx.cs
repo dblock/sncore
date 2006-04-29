@@ -29,11 +29,6 @@ public partial class AccountPicturesManage : AuthenticatedPage
             {
                 gridManage_OnGetDataSource(sender, e);
                 gridManage.DataBind();
-
-                if (gridManage.Items.Count == 0)
-                {
-                    ReportInfo("Why not upload a picture?");
-                }
             }
         }
         catch (Exception ex)

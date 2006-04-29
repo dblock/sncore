@@ -12,7 +12,6 @@
     <SnCore:AccountMenu runat="server" ID="menu" />
    </td>
    <td valign="top" width="*">
-    <SnCore:AccountReminder ID="accountReminder" runat="server" />
     <div class="sncore_h2">
      Tell a Story
     </div>
@@ -82,6 +81,7 @@
       </ItemTemplate>
      </asp:DataList>
     </asp:Panel>
+    <SnCore:AccountReminder ID="accountReminder" runat="server" Style="width: 582px;" />
    </td>
   </tr>
  </table>

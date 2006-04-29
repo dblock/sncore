@@ -12,7 +12,6 @@
     <SnCore:AccountMenu runat="server" ID="menu" />
    </td>
    <td valign="top" width="*">
-    <SnCore:AccountReminder ID="accountReminder" runat="server" />
     <SnCore:Notice ID="noticeManage" runat="server" />
     <div class="sncore_h2">
      Friend Requests
@@ -98,6 +97,7 @@
       </Columns>
      </SnCoreWebControls:PagedGrid>
     </asp:Panel>
+    <SnCore:AccountReminder ID="accountReminder" runat="server" Style="width: 582px;" />
    </td>
   </tr>
  </table>

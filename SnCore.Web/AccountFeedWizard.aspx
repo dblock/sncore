@@ -11,7 +11,6 @@
     <sncore:accountmenu runat="server" id="menu" />
    </td>
    <td valign="top" width="*">
-    <sncore:accountreminder id="accountReminder" runat="server" />
     <div class="sncore_h2">
      Syndicate Wizard
     </div>
@@ -81,6 +80,7 @@
       <asp:ButtonColumn ButtonType="LinkButton" CommandName="Choose" Text="&#187; Choose" />
      </Columns>
     </SnCoreWebControls:PagedGrid>
+    <SnCore:AccountReminder ID="accountReminder" runat="server" Style="width: 582px;" />
    </td>
   </tr>
  </table> 

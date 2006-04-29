@@ -14,6 +14,18 @@ using System.Collections.Generic;
 
 public partial class AccountReminder : Control
 {
+    public string Style
+    {
+        get
+        {
+            return noticeReminder.Style;
+        }
+        set
+        {
+            noticeReminder.Style = value;
+        }
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
         try

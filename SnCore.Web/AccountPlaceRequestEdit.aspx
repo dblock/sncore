@@ -12,7 +12,6 @@
    </td>
    <td valign="top" width="*">
     <asp:Panel ID="panelRequest" runat="server">
-     <SnCore:AccountReminder ID="accountReminder" runat="server" />
      <div class="sncore_h2">
       Claim Ownership
      </div>
@@ -61,6 +60,7 @@
       </tr>
      </table>
     </asp:Panel>
+    <SnCore:AccountReminder ID="accountReminder" runat="server" Style="width: 582px;" />
    </td>
   </tr>
  </table>

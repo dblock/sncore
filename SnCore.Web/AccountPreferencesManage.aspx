@@ -13,7 +13,6 @@
     <SnCore:AccountMenu runat="server" ID="menu" />
    </td>
    <td valign="top">
-    <SnCore:AccountReminder ID="accountReminder" runat="server" />
     <table cellspacing="0" cellpadding="4" class="sncore_account_table">
      <tr>
       <td class="sncore_table_tr_td" style="text-align: center; vertical-align: top; width: 100px;">
@@ -137,6 +136,7 @@
       </td>
      </tr>
     </table>
+    <SnCore:AccountReminder ID="accountReminder" runat="server" Style="width: 582px;" />
    </td>
   </tr>
  </table>

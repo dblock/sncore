@@ -11,7 +11,6 @@
     <SnCore:AccountMenu runat="server" ID="menu" />
    </td>
    <td valign="top" width="*">
-    <SnCore:AccountReminder ID="accountReminder" runat="server" />
     <div class="sncore_h2">
      <asp:Label ID="surveyName" runat="server" Text="Survey" />
     </div>
@@ -29,6 +28,7 @@
       </asp:WizardStep>
      </WizardSteps>
     </asp:Wizard>
+    <SnCore:AccountReminder ID="accountReminder" runat="server" Style="width: 582px;" />
    </td>
   </tr>
  </table>

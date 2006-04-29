@@ -20,7 +20,6 @@
   <asp:Label CssClass="sncore_navigate_item" ID="linkAccount" Text="Account" runat="server" />
  </div>
  <asp:Panel CssClass="panel" ID="pnlAccount" runat="server">
-  <SnCore:AccountReminder ID="accountReminder" runat="server" />
   <table cellspacing="0" cellpadding="4" class="sncore_table">
    <tr>
     <td class="sncore_table_tr_td" style="text-align: center; vertical-align: top; width: 100px;">
@@ -93,6 +92,7 @@
        </td>
       </tr>
      </table>
+     <SnCore:AccountReminder Style="width: 95%;" ID="accountReminder" runat="server" />
      <table class="sncore_inner_table" width="95%">
       <tr>
        <td class="sncore_table_tr_td" style="font-size: smaller;" align="right">

@@ -16,6 +16,7 @@ using System.Diagnostics;
 public partial class NoticeControl : Control
 {
     private string mCssClass = "sncore_notice";
+    private string mStyle = string.Empty;
     private bool mHtmlEncode = true;
     private string mMessage = string.Empty;
     private NoticeKind mNoticeKind = NoticeKind.Info;
@@ -58,6 +59,24 @@ public partial class NoticeControl : Control
     protected void Page_Load(object sender, EventArgs e)
     {
 
+    }
+
+    public string Style
+    {
+        get
+        {
+            if (EnableViewState)
+            {
+                return ViewStateUtility.GetViewStateValue<string>(
+                    ViewState, "Style", mStyle);
+            }
+
+            return mStyle;
+        }
+        set
+        {
+            ViewState["Style"] = value;
+        }
     }
 
     public string CssClass

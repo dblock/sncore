@@ -8,7 +8,7 @@
  <table class="sncore_table">
   <tr>
    <td valign="top">
-    <SnCore:AccountReminder ID="accountReminder" runat="server" />
+    <SnCore:AccountReminder ID="accountReminder" runat="server" Style="width: 582px;" />
    </td>
   </tr>
  </table>
