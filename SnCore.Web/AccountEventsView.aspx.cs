@@ -94,19 +94,6 @@ public partial class AccountEventsView : Page
         gridManage.VirtualItemCount = EventService.GetAccountEventsCount(QueryOptions);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
-
-        if (gridManage.VirtualItemCount == 0)
-        {
-            labelCount.Text = "no events";
-        }
-        else if (gridManage.VirtualItemCount == 1)
-        {
-            labelCount.Text = "1 event";
-        }
-        else
-        {
-            labelCount.Text = string.Format("{0} events", gridManage.VirtualItemCount);
-        }
     }
 
     public void inputCountry_SelectedIndexChanged(object sender, EventArgs e)
@@ -214,6 +201,23 @@ public partial class AccountEventsView : Page
     {
         try
         {
+            GetData();
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
+    public void linkShowAll_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            inputName.Text = string.Empty;
+            inputCountry.ClearSelection();
+            inputState.ClearSelection();
+            inputCity.ClearSelection();
+            inputType.ClearSelection();
             GetData();
         }
         catch (Exception ex)

@@ -153,7 +153,7 @@ public class SessionManager
     {
         get
         {
-            return IsLoggedIn ? Account.UtcOffset : TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now).Hours;
+            return IsLoggedIn ? Account.UtcOffset : System.TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now).Hours;
         }
     }
 
@@ -511,7 +511,7 @@ public class SessionManager
             if (int.TryParse(tagvalue, out userid))
             {
                 TransitAccount a = AccountService.GetAccountById(userid);
-                
+
                 if (a != null)
                 {
                     return string.Format("<a href=\"{0}/AccountView.aspx?id={1}\">{2}</a>",
@@ -614,6 +614,44 @@ public class SessionManager
         {
             object counter = ConfigurationManager.AppSettings["Counter.Visible"];
             return (counter == null) || bool.Parse(counter.ToString());
+        }
+    }
+
+    public string TimeZone
+    {
+        get
+        {
+            switch (UtcOffset)
+            {
+                case -12: return "(GMT -12:00 hours)";
+                case -11: return "(GMT -11:00 hours)";
+                case -10: return "(GMT -10:00 hours) Hawaii";
+                case -9: return "(GMT -9:00 hours) Alaska";
+                case -8: return "(GMT -8:00 hours) Pacific Time (US & Canada)";
+                // case -7: return "(GMT -7:00 hours) Arizona";
+                case -7: return "(GMT -7:00 hours) Mountain Standard Time (US & Canada)";
+                case -6: return "(GMT -6:00 hours) Central Time (US & Canada)";
+                case -5: return "(GMT -5:00 hours) Eastern Time (US & Canada)";
+                case -4: return "(GMT -4:00 hours) Atlantic Time (Canada)";
+                case -3: return "(GMT -3:00 hours)";
+                case -2: return "(GMT -2:00 hours) Mid-Atlantic";
+                case -1: return "(GMT -1:00 hours)";
+                case 0: return "(GMT) Western Europe Time, London";
+                case 1: return "(GMT +1:00 hours) CET(Central Europe Time)";
+                case 2: return "(GMT +2:00 hours) EET(Eastern Europe Time)";
+                case 3: return "(GMT +3:00 hours) Moscow";
+                case 4: return "(GMT +4:00 hours)";
+                case 5: return "(GMT +5:00 hours)";
+                case 6: return "(GMT +6:00 hours)";
+                case 7: return "(GMT +7:00 hours) Bangkok, Jakarta";
+                case 8: return "(GMT +8:00 hours) Singapore";
+                case 9: return "(GMT +9:00 hours) Tokyo";
+                case 10: return "(GMT +10:00 hours)";
+                case 11: return "(GMT +11:00 hours)";
+                case 12: return "(GMT +12:00 hours)";
+            }
+
+            return string.Empty;
         }
     }
 }

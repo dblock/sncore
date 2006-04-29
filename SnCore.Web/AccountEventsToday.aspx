@@ -7,13 +7,13 @@
   <tr>
    <td>
     <div class="sncore_h2">
-     Today's Events
+     Events This Week
     </div>
     <div class="sncore_h2sub">
-     <a href="AccountEventEdit.aspx">&#187; Suggest an Event</a>
+     <asp:LinkButton ID="linkShowAll" runat="server" Text="&#187; All Events This Week" OnClick="linkShowAll_Click" />
      <a href="AccountEventsView.aspx">&#187; All Events</a>
+     <a href="AccountEventEdit.aspx">&#187; Suggest an Event</a>
     </div>
-    <asp:Label ID="labelCount" runat="server" CssClass="sncore_h2sub" />
    </td>
   </tr>
  </table>
@@ -65,7 +65,7 @@
      BorderWidth="1px" DayNameFormat="Shortest" Font-Names="Verdana" Font-Size="8pt"
      ForeColor="#663399" Height="200px" ShowGridLines="True" Width="220px" NextMonthText="&#187;" 
      OnSelectionChanged="calendarEvents_SelectionChanged" PrevMonthText="&#171;" SelectionMode="DayWeekMonth" 
-     SelectMonthText="&#187;&#187;" SelectWeekText="&#187;">
+     SelectMonthText="&#187;&#187;" SelectWeekText="&#187;" FirstDayOfWeek="Monday">     
      <SelectedDayStyle BackColor="#CCCCFF" Font-Bold="True" />
      <TodayDayStyle BackColor="#FFCC66" ForeColor="White" />
      <SelectorStyle BackColor="#FFCC66" />
@@ -74,6 +74,15 @@
      <DayHeaderStyle BackColor="#FFCC66" Font-Bold="True" Height="1px" />
      <TitleStyle BackColor="#990000" Font-Bold="True" Font-Size="9pt" ForeColor="#FFFFCC" />
     </asp:Calendar>
+   </td>
+  </tr>
+ </table>
+ <table class="sncore_table">
+  <tr>
+   <td style="font-size: smaller;">
+    your current timezone is
+    <% Response.Write(base.SessionManager.TimeZone); %>
+    <a href="AccountPreferencesManage.aspx" target="_blank">&#187; change</a>
    </td>
   </tr>
  </table>
@@ -109,10 +118,10 @@
       <a href='PlaceView.aspx?id=<%# Eval("PlaceId") %>'><%# base.Render(Eval("PlaceName")) %></a>      
      </div>
      <div class="sncore_description">
-      Starts: <%# base.Adjust(Eval("StartDateTime")) %>
+      Starts: <%# base.Adjust(Eval("StartDateTime")).ToString("f") %>
      </div>
      <div class="sncore_description">
-      Ends: <%# base.Adjust(Eval("EndDateTime")) %>
+      Ends: <%# base.Adjust(Eval("EndDateTime")).ToString("f") %>
      </div>
      <div class="sncore_description">
       <%# base.Render(Eval("PlaceCity")) %>

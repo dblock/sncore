@@ -98,6 +98,7 @@ public partial class SelectPlaceControl : Control
             Place.Fax = inputFax.Text;
             Place.Email = inputEmail.Text;
             Place.Website = inputWebsite.Text;
+            Place.Description = string.Empty;
             ArrayList a = new ArrayList();
             a.Add(Place);
             chosenPlace.DataSource = a;

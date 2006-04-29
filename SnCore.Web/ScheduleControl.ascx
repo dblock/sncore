@@ -16,6 +16,14 @@
  </tr>
 </table>
 <asp:Panel ID="panelSchedule" runat="server">
+ <table class="sncore_account_table">
+  <tr>
+   <td style="font-size: smaller;">
+    your current timezone is <% Response.Write(base.SessionManager.TimeZone); %>
+    <a href="AccountPreferencesManage.aspx">&#187 change</a>
+   </td>
+  </tr>
+ </table>
  <asp:Panel ID="panelStandard" runat="server">
   <table class="sncore_account_table">
    <tr>

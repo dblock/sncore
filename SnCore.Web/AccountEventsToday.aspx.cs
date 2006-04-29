@@ -77,8 +77,7 @@ public partial class AccountEventsToday : Page
                     SelectLocation(sender, new SelectLocationEventArgs(Request));
                 }
 
-                calendarEvents.SelectedDate = base.Adjust(DateTime.UtcNow).Date;
-                calendarEvents.SelectedDates.Add(base.Adjust(DateTime.UtcNow).Date);
+                SelectWeek();
                 GetData();
             }
         }
@@ -86,6 +85,19 @@ public partial class AccountEventsToday : Page
         {
             ReportException(ex);
         }
+    }
+
+    private void SelectWeek()
+    {
+        DateTime adjustedNow = base.Adjust(DateTime.UtcNow);
+
+        calendarEvents.VisibleDate = adjustedNow;
+
+        do
+        {
+            calendarEvents.SelectedDates.Add(adjustedNow.Date);
+            adjustedNow = adjustedNow.AddDays(1);
+        } while (adjustedNow.DayOfWeek != DayOfWeek.Monday);
     }
 
     private void GetData()
@@ -96,19 +108,6 @@ public partial class AccountEventsToday : Page
         gridManage.CurrentPageIndex = 0;
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
-
-        if (gridManage.VirtualItemCount == 0)
-        {
-            labelCount.Text = "no events";
-        }
-        else if (gridManage.VirtualItemCount == 1)
-        {
-            labelCount.Text = "1 event";
-        }
-        else
-        {
-            labelCount.Text = string.Format("{0} events", gridManage.VirtualItemCount);
-        }
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
@@ -236,6 +235,23 @@ public partial class AccountEventsToday : Page
     {
         try
         {
+            GetData();
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
+    public void linkShowAll_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            inputCountry.ClearSelection();
+            inputState.ClearSelection();
+            inputCity.ClearSelection();
+            inputType.ClearSelection();
+            SelectWeek();
             GetData();
         }
         catch (Exception ex)

@@ -10,9 +10,10 @@
      Events
     </div>
     <div class="sncore_h2sub">
+     <a href="AccountEventsToday.aspx">&#187; Events This Week</a>
+     <asp:LinkButton ID="linkShowAll" runat="server" Text="&#187; Show All" OnClick="linkShowAll_Click" />
      <a href="AccountEventEdit.aspx">&#187; Suggest an Event</a>
     </div>
-    <asp:Label ID="labelCount" runat="server" CssClass="sncore_h2sub" />
    </td>
    <td align="right" valign="middle">
     <asp:HyperLink runat="server" ID="linkRss" ImageUrl="images/rss.gif" NavigateUrl="AccountEventsRss.aspx" />
@@ -62,7 +63,8 @@
      ID="inputCountry" DataTextField="Name" AutoPostBack="true" DataValueField="Name"
      runat="server" />
     <asp:DropDownList CssClass="sncore_form_dropdown_small" ID="inputState" OnSelectedIndexChanged="inputState_SelectedIndexChanged"
-     AutoPostBack="true" DataTextField="Name" DataValueField="Name" runat="server" /></td>
+     AutoPostBack="true" DataTextField="Name" DataValueField="Name" runat="server" />
+   </td>
   </tr>
   <tr>
    <td class="sncore_form_label">
@@ -88,6 +90,15 @@
    <td class="sncore_form_value">
     <SnCoreWebControls:Button ID="search" runat="server" Text="Search" CssClass="sncore_form_button"
      OnClick="search_Click" EnableViewState="false" />
+   </td>
+  </tr>
+ </table>
+ <table class="sncore_table">
+  <tr>
+   <td style="font-size: smaller;">
+    your current timezone is
+    <% Response.Write(base.SessionManager.TimeZone); %>
+    <a href="AccountPreferencesManage.aspx" target="_blank">&#187; change</a>
    </td>
   </tr>
  </table>

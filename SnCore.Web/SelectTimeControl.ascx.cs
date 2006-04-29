@@ -95,7 +95,7 @@ public partial class SelectTimeControl : System.Web.UI.UserControl
         {
             TimeSpan nv = new TimeSpan(value.Hours, value.Minutes, 0);
 
-            if (value.Hours != 11 && value.Minutes != 59)
+            if ((value.Hours != 11) || (value.Minutes != 59))
             {
                 int rem = 0;
                 Math.DivRem(nv.Minutes, 15, out rem);
