@@ -96,7 +96,7 @@
    <asp:BoundColumn DataField="Id" Visible="false" />
    <asp:TemplateColumn ItemStyle-VerticalAlign="Middle">
     <itemtemplate>
-     <a href="AccountEventView.aspx?id=<%# Eval("Id") %>">
+     <a href="AccountEventView.aspx?id=<%# Eval("AccountEventId") %>">
       <img border="0" src="AccountEventPictureThumbnail.aspx?id=<%# Eval("PictureId") %>" />
      </a>
     </itemtemplate>
