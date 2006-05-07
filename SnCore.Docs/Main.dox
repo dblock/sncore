@@ -16,7 +16,7 @@ SnCore, it's like being shot out of a cannon, at very low cost.
 \li \subpage settings
 
 \section main_dev Developer Reference
-\li <a href="Source/sncore">Browse Source Code</a>
+\li <a class="el" href="Source/sncore">Browse Source Code</a>
 \li \subpage dev
 \li \subpage data
 \li \subpage unittests
@@ -34,6 +34,7 @@ SnCore, it's like being shot out of a cannon, at very low cost.
 \li \subpage SnCore::WebServices::WebSyndicationService "Syndication Services"
 \li \subpage SnCore::WebServices::WebPlaceService "Place Services"
 \li \subpage SnCore::BackEndServices::WebBackEndService "Back-End Services"
+\li \subpage SnCore::WebServices::WebBlogService "Blogging Services"
 
 \section main_money Licensing
 \li \subpage license
