@@ -353,7 +353,7 @@ namespace SnCore.Services
             Session.Delete(mAccountFeed);
         }
 
-        protected HttpWebRequest GetFeedHttpRequest()
+        public HttpWebRequest GetFeedHttpRequest()
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(mAccountFeed.FeedUrl);
             System.Net.ServicePointManager.Expect100Continue = false;
@@ -373,7 +373,7 @@ namespace SnCore.Services
             return request;
         }
 
-        protected Stream GetFeedStream()
+        public Stream GetFeedStream()
         {
             return GetFeedHttpRequest().GetResponse().GetResponseStream();
         }
@@ -410,6 +410,15 @@ namespace SnCore.Services
         {
             if (feed.Entries.Count == 0)
                 return false;
+
+            if (string.IsNullOrEmpty(mAccountFeed.Name))
+                mAccountFeed.Name = feed.Title.Content;
+
+            if (string.IsNullOrEmpty(mAccountFeed.Description))
+                mAccountFeed.Description = feed.Tagline.Content;
+
+            if (string.IsNullOrEmpty(mAccountFeed.LinkUrl) && feed.Links.Count > 0)
+                mAccountFeed.LinkUrl = feed.Links[0].HRef.ToString();
 
             foreach (AtomEntry atomitem in feed.Entries)
             {
@@ -489,6 +498,15 @@ namespace SnCore.Services
 
             foreach (RssChannel rsschannel in feed.Channels)
             {
+                if (string.IsNullOrEmpty(mAccountFeed.Name))
+                    mAccountFeed.Name = rsschannel.Title;
+
+                if (string.IsNullOrEmpty(mAccountFeed.Description))
+                    mAccountFeed.Description = rsschannel.Description;
+
+                if (string.IsNullOrEmpty(mAccountFeed.LinkUrl))
+                    mAccountFeed.LinkUrl = rsschannel.Link.ToString();
+
                 foreach (RssItem rssitem in rsschannel.Items)
                 {
                     // fetch an existing item if any
@@ -529,7 +547,7 @@ namespace SnCore.Services
                     }
 
                     item.AccountFeed = mAccountFeed;
-                    item.Description = rssitem.Description;
+                    item.Description = string.IsNullOrEmpty(rssitem.Content) ? rssitem.Description : rssitem.Content;
                     item.Title = rssitem.Title;
                     if (rssitem.Link != null) item.Link = rssitem.Link.ToString();
                     if (rssitem.Guid != null) item.Guid = rssitem.Guid.Name;

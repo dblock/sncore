@@ -88,6 +88,14 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
+    <ProjectReference Include="..\Atom.Net\Atom.NET.csproj">
+      <Project>{8DE2053A-247B-430A-86C3-E52B4725AA60}</Project>
+      <Name>Atom.NET</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Rss.Net\RSS.NET.csproj">
+      <Project>{C42FC014-7E12-4FAF-9BC9-79BF1529440D}</Project>
+      <Name>RSS.NET</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SnCore.Data.Tests\SnCore.Data.Tests.csproj">
       <Name>SnCore.Data.Tests</Name>
       <Project>{67A52AD0-9E51-4899-82A8-D2E2E7455069}</Project>
@@ -119,6 +127,7 @@
     <Compile Include="ManagedAccountEmailMessageTest.cs" />
     <Compile Include="ManagedAccountEmailTest.cs" />
     <Compile Include="ManagedAccountEventTest.cs" />
+    <Compile Include="ManagedAccountFeedTest.cs" />
     <Compile Include="ManagedAccountFriendTest.cs" />
     <Compile Include="ManagedAccountMessageFolderTest.cs" />
     <Compile Include="ManagedAccountStoryTest.cs" />
