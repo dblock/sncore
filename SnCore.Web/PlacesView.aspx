@@ -1,5 +1,5 @@
-<%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true"
- CodeFile="PlacesView.aspx.cs" Inherits="PlacesView" Title="Places" %>
+<%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="PlacesView.aspx.cs"
+ Inherits="PlacesView" Title="Places" %>
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -35,8 +35,7 @@
     sort by:
    </td>
    <td class="sncore_form_value">
-    <asp:DropDownList CssClass="sncore_form_dropdown" ID="listboxSelectSortOrder"
-     runat="server">
+    <asp:DropDownList CssClass="sncore_form_dropdown" ID="listboxSelectSortOrder" runat="server">
      <asp:ListItem Text="Name" Value="Name" />
      <asp:ListItem Text="Date Created" Selected="True" Value="Created" />
     </asp:DropDownList>
@@ -99,43 +98,35 @@
    </td>
   </tr>
  </table>
- <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage" PageSize="10"
+ <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage" PageSize="10"
   AllowCustomPaging="true" AllowPaging="true" AutoGenerateColumns="false" CssClass="sncore_table"
-  ShowHeader="false">
-  <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
-   PrevPageText="Prev" HorizontalAlign="Center" />
-  <ItemStyle CssClass="sncore_table_tr_td" HorizontalAlign="Center" />
-  <Columns>
-   <asp:BoundColumn DataField="Id" Visible="false" />
-   <asp:TemplateColumn ItemStyle-VerticalAlign="Middle">
-    <itemtemplate>
-     <a href="PlaceView.aspx?id=<%# Eval("Id") %>">
-      <img border="0" src="PlacePictureThumbnail.aspx?id=<%# Eval("PictureId") %>" />
-     </a>
-    </itemtemplate>
-   </asp:TemplateColumn>
-   <asp:TemplateColumn ItemStyle-VerticalAlign="Middle" ItemStyle-HorizontalAlign="Left">
-    <itemtemplate>
-     <div>
-      <a class="sncore_place_name" href="PlaceView.aspx?id=<%# Eval("Id") %>">
-       <%# base.Render(Eval("Name")) %>
-      </a>
-      <span style="font-size: smaller;">
-       <a href="PlaceView.aspx?id=<%# Eval("Id") %>"> 
-        &#187; read and review
-       </a>
-      </span>
-     </div>
-     <div class="sncore_description">
-      <%# base.Render(Eval("City")) %>
-      <%# base.Render(Eval("State")) %>
-      <%# base.Render(Eval("Country")) %>
-     </div>
-     <div class="sncore_summary">
-      <%# base.GetSummary((string)Eval("Description"))%>
-     </div>
-    </itemtemplate>
-   </asp:TemplateColumn>
-  </Columns>
- </SnCoreWebControls:PagedGrid>
+  ShowHeader="false" RepeatColumns="4" RepeatRows="4">
+  <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
+   prevpagetext="Prev" horizontalalign="Center" />
+  <ItemStyle CssClass="sncore_description" HorizontalAlign="Center" />
+  <ItemTemplate>
+   <div>
+    <a href="PlaceView.aspx?id=<%# Eval("Id") %>">
+     <img border="0" src="PlacePictureThumbnail.aspx?id=<%# Eval("PictureId") %>" />
+    </a>
+   </div>
+   <div>
+    <a href="PlaceView.aspx?id=<%# Eval("Id") %>">
+     <%# base.Render(Eval("Name")) %>
+    </a>
+   </div>
+   <div>
+    <a href="PlaceView.aspx?id=<%# Eval("Id") %>">
+     &#187; read and review
+    </a>
+   </div>
+   <div class="sncore_description">
+    <%# base.Render(Eval("City")) %>
+    <%# base.Render(Eval("State")) %>
+   </div>
+   <div>
+    <%# base.Render(Eval("Country")) %>
+   </div>
+  </ItemTemplate>
+ </SnCoreWebControls:PagedList>
 </asp:Content>

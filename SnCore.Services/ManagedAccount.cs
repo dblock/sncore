@@ -78,6 +78,14 @@ namespace SnCore.Services
                 b.AppendFormat("e.Address = '{0}'", Renderer.SqlEncode(Email));
             }
 
+            // delay accounts, prevent bots from pushing accounts on top
+            // and avoid privacy violation of showing someone online
+            if (b.Length == 0 && SortOrder == "LastLogin")
+            {
+                b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                b.AppendFormat("LastLogin < '{0}'", DateTime.UtcNow.AddMinutes(-15));
+            }
+
             b.Append(b.Length > 0 ? " AND " : " WHERE ");
             b.Append("e.Account.Id = a.Id");
 
@@ -965,7 +973,7 @@ namespace SnCore.Services
 
         public bool UpdateLastLogin()
         {
-            if (mAccount.LastLogin.AddMinutes(10) < DateTime.UtcNow)
+            if (mAccount.LastLogin.AddMinutes(30) < DateTime.UtcNow)
             {
                 mAccount.LastLogin = DateTime.UtcNow;
                 Session.SaveOrUpdate(mAccount);
