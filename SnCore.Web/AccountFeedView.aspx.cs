@@ -15,6 +15,7 @@ using SnCore.WebServices;
 public partial class AccountFeedView : Page
 {
     private TransitFeature mAccountFeedFeature = null;
+    private TransitAccountFeed mAccountFeed = null;
 
     public TransitFeature LatestAccountFeedFeature
     {
@@ -29,6 +30,19 @@ public partial class AccountFeedView : Page
         }
     }
 
+    public TransitAccountFeed AccountFeed
+    {
+        get
+        {
+            if (mAccountFeed == null)
+            {
+                mAccountFeed = SyndicationService.GetAccountFeedById(
+                    SessionManager.Ticket, RequestId);
+            }
+            return mAccountFeed;
+        }
+    }
+
     public void Page_Load()
     {
         try
@@ -36,7 +50,7 @@ public partial class AccountFeedView : Page
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
             if (!IsPostBack)
             {
-                TransitAccountFeed f = SyndicationService.GetAccountFeedById(SessionManager.Ticket, RequestId);
+                TransitAccountFeed f = AccountFeed;
                 labelFeed.Text = Renderer.Render(f.Name);
                 labelFeed.NavigateUrl = f.LinkUrl;
                 labelFeedDescription.Text = Renderer.Render(f.Description);
@@ -146,5 +160,9 @@ public partial class AccountFeedView : Page
         }
     }
 
-
+    public string GetDescription(string value)
+    {
+        return Renderer.CleanHtml(value,
+            Uri.IsWellFormedUriString(AccountFeed.LinkUrl, UriKind.Absolute) ? new Uri(AccountFeed.LinkUrl) : null);
+    }
 }

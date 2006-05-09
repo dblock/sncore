@@ -64,7 +64,7 @@
     </a>
    </div>
    <div>
-    <%# Renderer.CleanHtml(Eval("Description")) %>
+    <%# GetDescription((string) Eval("Description")) %>
    </div>
   </ItemTemplate>
  </SnCoreWebControls:PagedList>
