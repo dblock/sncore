@@ -9,9 +9,89 @@ using Rss;
 using Atom.Core;
 using System.Net;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using Sgml;
+using System.Xml;
+using System.Text;
+using SnCore.Tools.Web;
 
 namespace SnCore.Services.Tests
 {
+    public class HtmlBaseUriVerifierWriter : XmlTextWriter
+    {
+        public HtmlBaseUriVerifierWriter(TextWriter writer)
+            : base(writer)
+        {
+        }
+        public HtmlBaseUriVerifierWriter(StringBuilder builder)
+            : base(new StringWriter(builder))
+        {
+        }
+        public HtmlBaseUriVerifierWriter(Stream stream, Encoding enc)
+            : base(stream, enc)
+        {
+        }
+
+        public override void WriteString(string text)
+        {
+            base.WriteRaw(text);
+        }
+
+        public override void WriteAttributes(XmlReader reader, bool defattr)
+        {
+            // The following code is copied from implementation of XmlWriter's
+            // WriteAttributes method. 
+            if (reader == null)
+            {
+                throw new ArgumentNullException("reader");
+            }
+            if ((reader.NodeType == XmlNodeType.Element) || (reader.NodeType == XmlNodeType.XmlDeclaration))
+            {
+                if (reader.MoveToFirstAttribute())
+                {
+                    this.WriteAttributes(reader, defattr);
+                    reader.MoveToElement();
+                }
+            }
+            else
+            {
+                if (reader.NodeType != XmlNodeType.Attribute)
+                {
+                    throw new XmlException("Xml_InvalidPosition");
+                }
+                do
+                {
+                    if (defattr || !reader.IsDefault)
+                    {
+                        this.WriteStartAttribute(reader.Prefix, reader.LocalName, reader.NamespaceURI);
+
+                        while (reader.ReadAttributeValue())
+                        {
+                            if (reader.NodeType == XmlNodeType.EntityReference)
+                            {
+                                this.WriteEntityRef(reader.Name);
+                                continue;
+                            }
+
+                            string value = reader.Value;
+
+                            switch (reader.LocalName)
+                            {
+                                case "src":
+                                case "href":
+                                    break;
+                            }
+
+                            this.WriteString(value);
+                        }
+                        this.WriteEndAttribute();
+                    }
+                } while (reader.MoveToNextAttribute());
+            }
+        }
+    }
+
     [TestFixture]
     public class ManagedAccountFeedTest : NHibernateTest
     {
@@ -37,7 +117,7 @@ namespace SnCore.Services.Tests
             AccountFeed feed = new AccountFeed();
             feed.FeedUrl = url;
 
-            IList deleted = (IList) feed.AccountFeedItems;
+            IList deleted = (IList)feed.AccountFeedItems;
             List<AccountFeedItem> updated = new List<AccountFeedItem>();
 
             ManagedAccountFeed m_feed = new ManagedAccountFeed(Session, feed);
@@ -79,7 +159,20 @@ namespace SnCore.Services.Tests
             Assert.IsFalse(string.IsNullOrEmpty(feed.Name), "Feed name was not updated.");
             Assert.IsFalse(string.IsNullOrEmpty(feed.Description), "Feed description was not updated.");
             Assert.IsFalse(string.IsNullOrEmpty(feed.LinkUrl), "Feed link url was not updated.");
+        }
 
+        [Test]
+        public void TestRSSRelativeUri()
+        {
+            string raw =
+                "<img src='http://absolute.url.com/image.gif'>" +
+                "<img src='relative/path/image.gif'>" +
+                "<a href='http://absolute.url.com/page.html'>link</a>" +
+                "<a href='relative/path/page.html'>link</a>";
+
+            string rebased = Renderer.CleanHtml(raw, new Uri("http://absolute.rebased.com/"));
+
+            Console.WriteLine(rebased);
         }
     }
 }

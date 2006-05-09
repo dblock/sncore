@@ -75,11 +75,17 @@ namespace SnCore.Tools.Web
 
         public static string CleanHtml(string html)
         {
+            return CleanHtml(html, null);
+        }
+
+        public static string CleanHtml(string html, Uri basehref)
+        {
             try
             {
                 HtmlCleaner.HtmlReader r = new HtmlCleaner.HtmlReader(html);
                 StringWriter sw = new StringWriter();
                 HtmlCleaner.HtmlWriter w = new HtmlCleaner.HtmlWriter(sw);
+                w.BaseHref = basehref;
                 while (! r.EOF)
                 {
                     w.WriteNode(r, true);

@@ -96,6 +96,10 @@
       <Project>{C42FC014-7E12-4FAF-9BC9-79BF1529440D}</Project>
       <Name>RSS.NET</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SgmlReader\sgmlreaderdll\SgmlReaderDll8.csproj">
+      <Project>{499527FF-AE52-450F-B3E3-4AD53E1712AD}</Project>
+      <Name>SgmlReaderDll8</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SnCore.Data.Tests\SnCore.Data.Tests.csproj">
       <Name>SnCore.Data.Tests</Name>
       <Project>{67A52AD0-9E51-4899-82A8-D2E2E7455069}</Project>

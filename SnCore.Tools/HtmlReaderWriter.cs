@@ -94,6 +94,11 @@ namespace HtmlCleaner
         public string[] AllowedAttributes = new string[] { "href", "target", 
 			"border", "src", "align", "width", "height", "color", "size", "class" };
 
+        /// <summary>
+        /// Base href to adjust images and links
+        /// </summary>
+        public Uri BaseHref = null;
+
         public HtmlWriter(TextWriter writer)
             : base(writer)
         {
@@ -204,8 +209,10 @@ namespace HtmlCleaner
                     {
                         if (defattr || !reader.IsDefault)
                         {
+                            string attributename = reader.LocalName.ToLower();
+
                             // Check if the attribute is allowed 
-                            bool canWrite = (Array.IndexOf(AllowedAttributes, reader.LocalName.ToLower()) >= 0);
+                            bool canWrite = (Array.IndexOf(AllowedAttributes, attributename) >= 0);
 
                             // If allowed, write the attribute
                             if (canWrite)
@@ -220,7 +227,24 @@ namespace HtmlCleaner
                                     if (canWrite) this.WriteEntityRef(reader.Name);
                                     continue;
                                 }
-                                if (canWrite) this.WriteString(reader.Value);
+                                if (canWrite)
+                                {
+                                    string value = reader.Value;
+
+                                    // adjust any src or href attribute 
+                                    if (BaseHref != null)
+                                    {
+                                        switch (attributename)
+                                        {
+                                            case "src":
+                                            case "href":
+                                                value = new Uri(BaseHref, reader.Value).ToString();
+                                                break;
+                                        }
+                                    }
+
+                                    this.WriteString(value);
+                                }
                             }
                             if (canWrite) this.WriteEndAttribute();
                         }

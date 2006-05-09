@@ -42,7 +42,8 @@ public partial class AccountFeedItemView : Page
                 FeedXPosted.NavigateUrl = Render(tfi.Link);
 
                 FeedItemTitle.Text = Renderer.Render(tfi.Title);
-                FeedItemDescription.Text = Renderer.CleanHtml(tfi.Description);
+                FeedItemDescription.Text = Renderer.CleanHtml(tfi.Description, 
+                    Uri.IsWellFormedUriString(tfi.Link, UriKind.Absolute) ? new Uri(tfi.Link) : null);
 
                 FeedItemComments.DiscussionId = DiscussionService.GetAccountFeedItemDiscussionId(RequestId);
                 FeedItemComments.DataBind();
