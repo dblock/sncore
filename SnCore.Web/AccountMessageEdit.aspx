@@ -17,6 +17,9 @@
      </a>
     </td>
     <td style="text-align: left; vertical-align: top;" class="sncore_table_tr_td">
+     <b>from:</b>
+     <asp:Label ID="replytoAccount2" runat="server" />
+     <br />
      <b>subject:</b>
      <asp:Label ID="replytoSubject" runat="server" />
      <br />
@@ -38,7 +41,9 @@
  <table class="sncore_table">
   <tr>
    <td class="sncore_table_tr_td" style="text-align: center;">
-    <asp:Image ID="imageAccountTo" ImageUrl="images/AccountThumbnail.gif" runat="server" /><br />
+    <a runat="server" ID="linkAccountTo2">
+     <asp:Image BorderStyle="None" ID="imageAccountTo" ImageUrl="images/AccountThumbnail.gif" runat="server" /><br />
+    </a>
     <asp:HyperLink ID="linkAccountTo" runat="server" />
    </td>
    <td>

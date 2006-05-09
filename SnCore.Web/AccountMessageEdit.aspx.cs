@@ -32,7 +32,7 @@ public partial class AccountMessageEdit : AuthenticatedPage
                 TransitAccount ta = AccountService.GetAccountById(RequestId);
                 imageAccountTo.ImageUrl = "AccountPictureThumbnail.aspx?id=" + ta.PictureId.ToString();
                 linkAccountTo.Text = Renderer.Render(ta.Name);
-                linkAccountTo.NavigateUrl = "AccountView.aspx?id=" + ta.Id.ToString();
+                linkAccountTo.NavigateUrl = linkAccountTo2.HRef = "AccountView.aspx?id=" + ta.Id.ToString();
                 linkBack.NavigateUrl = Renderer.UrlDecode(Request.QueryString["ReturnUrl"]);
 
                 if (ParentId != 0)
@@ -40,8 +40,8 @@ public partial class AccountMessageEdit : AuthenticatedPage
                     TransitAccountMessage rp = AccountService.GetAccountMessageById(
                         SessionManager.Ticket, ParentId);
                     panelReplyTo.Visible = true;
-                    accountlink.HRef = "AccountView.aspx?id=" + rp.AccountId.ToString();
-                    replytoAccount.Text = Renderer.Render(rp.SenderAccountName);
+                    accountlink.HRef = "AccountView.aspx?id=" + rp.SenderAccountId.ToString();
+                    replytoAccount.Text = replytoAccount2.Text = Renderer.Render(rp.SenderAccountName);
                     replyToBody.Text = RenderEx(rp.Body);
                     replytoCreated.Text = rp.Sent.ToString();
                     replytoImage.ImageUrl = "AccountPictureThumbnail.aspx?id=" + rp.SenderAccountPictureId.ToString();
