@@ -16,6 +16,8 @@ using SnCore.Services;
 
 public partial class AccountFeedPreviewControl : Control
 {
+    private TransitAccountFeed mAccountFeed = null;
+
     public bool ShowTitle
     {
         get
@@ -52,6 +54,20 @@ public partial class AccountFeedPreviewControl : Control
         }
     }
 
+    public TransitAccountFeed Feed
+    {
+        get
+        {
+            if (mAccountFeed == null)
+            {
+                mAccountFeed = SyndicationService.GetAccountFeedById(
+                    SessionManager.IsLoggedIn ? SessionManager.Ticket : string.Empty, FeedId);
+            }
+
+            return mAccountFeed;
+        }
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
         try
@@ -61,8 +77,7 @@ public partial class AccountFeedPreviewControl : Control
             {
                 if (FeedId > 0)
                 {
-                    TransitAccountFeed f = SyndicationService.GetAccountFeedById(
-                        SessionManager.IsLoggedIn ? SessionManager.Ticket : string.Empty, FeedId);
+                    TransitAccountFeed f = Feed;
 
                     TransitFeedType t = SyndicationService.GetFeedTypeByName(f.FeedType);
                     gridManage.RepeatColumns = t.SpanColumnsPreview;
@@ -111,7 +126,7 @@ public partial class AccountFeedPreviewControl : Control
         }
         else
         {
-            return Renderer.CleanHtml(description);
+            return Renderer.CleanHtml(description.ToString(), new Uri(Feed.LinkUrl));
         }
     }
 }
