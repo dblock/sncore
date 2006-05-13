@@ -37,7 +37,7 @@
     </a>
     <div class="sncore_description">
      at 
-     <a href='<% Response.Write(base.AccountEvent.PlaceId); %>'>
+     <a href='PlaceView.aspx?id=<% Response.Write(base.AccountEvent.PlaceId); %>'>
       <% Response.Write(base.AccountEvent.PlaceName); %>
      </a>
      <% Response.Write(base.AccountEvent.PlaceCity); %>
