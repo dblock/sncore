@@ -311,10 +311,12 @@ namespace SnCore.WebServices
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedAccount user = new ManagedAccount(session, userid);
 
+                Place place = (Place) session.Load(typeof(Place), placepicture.PlaceId);
+
                 if ((placepicture.Id != 0) && (!user.IsAdministrator()))
                 {
-                    ManagedPlace place = new ManagedPlace(session, placepicture.PlaceId);
-                    if (!place.CanWrite(userid))
+                    ManagedPlace m_place = new ManagedPlace(session, place);
+                    if (!m_place.CanWrite(userid))
                     {
                         throw new ManagedAccount.AccessDeniedException();
                     }
@@ -322,6 +324,41 @@ namespace SnCore.WebServices
 
                 ManagedPlacePicture m_placepicture = new ManagedPlacePicture(session);
                 m_placepicture.CreateOrUpdate(placepicture);
+
+                // send a message to place owner TODO: a place picture should have an AccountId of who posted it
+
+                if (user.Id != place.Account.Id)
+                {
+                    ManagedAccount acct = new ManagedAccount(session, place.Account);
+
+                    string url = string.Format(
+                        "{0}/PlacePictureView.aspx?id={1}",
+                        ManagedConfiguration.GetValue(session, "SnCore.WebSite.Url", "http://localhost/SnCore"),
+                        m_placepicture.Id);
+
+                    string messagebody =
+                        "<html>" +
+                        "<style>body { font-size: .80em; font-family: Verdana; }</style>" +
+                        "<body>" +
+                        "Dear " + Renderer.Render(acct.Name) + ",<br>" +
+                        "<br>A new picture has been uploaded to <b>" + Renderer.Render(place.Name) + "</b> that you have suggested." +
+                        "<br><br>" +
+                        "<blockquote>" +
+                        "<a href=\"" + url + "\">View</a> this picture." +
+                        "</blockquote>" +
+                        "</body>" +
+                        "</html>";
+
+                    acct.SendAccountMailMessage(
+                        ManagedConfiguration.GetValue(session, "SnCore.Admin.EmailAddress", "admin@localhost.com"),
+                        acct.ActiveEmailAddress,
+                        string.Format("{0}: a new picture has been uploaded to {1}.",
+                            ManagedConfiguration.GetValue(session, "SnCore.Name", "SnCore"),
+                            Renderer.Render(place.Name)),
+                        messagebody,
+                        true);
+                }
+
                 SnCore.Data.Hibernate.Session.Flush();
                 return m_placepicture.Id;
             }
