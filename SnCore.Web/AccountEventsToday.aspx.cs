@@ -68,6 +68,13 @@ public partial class AccountEventsToday : Page
                 inputCountry.DataSource = countries;
                 inputCountry.DataBind();
 
+                linkLocal.Visible = SessionManager.IsLoggedIn && !string.IsNullOrEmpty(SessionManager.Account.City);
+
+                if (SessionManager.IsLoggedIn)
+                {
+                    linkLocal.Text = string.Format("&#187; {0} Events", Renderer.Render(SessionManager.Account.City));
+                }
+
                 if (SessionManager.IsLoggedIn && (Request.QueryString.Count == 0))
                 {
                     SelectLocation(sender, new SelectLocationEventArgs(SessionManager.Account));
@@ -252,6 +259,22 @@ public partial class AccountEventsToday : Page
             inputCity.ClearSelection();
             inputType.ClearSelection();
             SelectWeek();
+            GetData();
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
+    public void linkLocal_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (!SessionManager.IsLoggedIn)
+                return;
+
+            SelectLocation(sender, new SelectLocationEventArgs(SessionManager.Account));
             GetData();
         }
         catch (Exception ex)

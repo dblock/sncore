@@ -10,9 +10,10 @@
      Places
     </div>
     <div class="sncore_h2sub">
+     <asp:LinkButton ID="linkAll" OnClick="linkAll_Click" runat="server" Text="&#187; All Places" />
+     <asp:LinkButton ID="linkLocal" OnClick="linkLocal_Click" runat="server" Text="&#187; All Local Places" />
      <a href="PlaceEdit.aspx">&#187; Suggest a Place</a>
     </div>
-    <asp:Label ID="labelCount" runat="server" CssClass="sncore_h2sub" />
    </td>
    <td align="right" valign="middle">
     <asp:HyperLink runat="server" ID="linkRss" ImageUrl="images/rss.gif" NavigateUrl="PlacesRss.aspx" />

@@ -12,6 +12,7 @@
     <div class="sncore_h2sub">
      <asp:LinkButton ID="linkShowAll" runat="server" Text="&#187; All Events This Week" OnClick="linkShowAll_Click" />
      <a href="AccountEventsView.aspx">&#187; All Events</a>
+     <asp:LinkButton ID="linkLocal" OnClick="linkLocal_Click" runat="server" Text="&#187; Local Events" />
      <a href="AccountEventEdit.aspx">&#187; Suggest an Event</a>
     </div>
    </td>

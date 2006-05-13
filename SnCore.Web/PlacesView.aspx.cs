@@ -69,6 +69,13 @@ public partial class PlacesView : Page
                 inputCountry.DataSource = countries;
                 inputCountry.DataBind();
 
+                linkLocal.Visible = SessionManager.IsLoggedIn && ! string.IsNullOrEmpty(SessionManager.Account.City);
+
+                if (SessionManager.IsLoggedIn)
+                {
+                    linkLocal.Text = string.Format("&#187; All {0} Places", Renderer.Render(SessionManager.Account.City));
+                }
+
                 if (SessionManager.IsLoggedIn && (Request.QueryString.Count == 0))
                 {
                     SelectLocation(sender, new SelectLocationEventArgs(SessionManager.Account));
@@ -94,19 +101,6 @@ public partial class PlacesView : Page
         gridManage.VirtualItemCount = PlaceService.GetPlacesCount(QueryOptions);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
-
-        if (gridManage.VirtualItemCount == 0)
-        {
-            labelCount.Text = "no places";
-        }
-        else if (gridManage.VirtualItemCount == 1)
-        {
-            labelCount.Text = "1 place";
-        }
-        else
-        {
-            labelCount.Text = string.Format("{0} places !", gridManage.VirtualItemCount);
-        }
     }
 
     public void inputCountry_SelectedIndexChanged(object sender, EventArgs e)
@@ -126,6 +120,39 @@ public partial class PlacesView : Page
         }
     }
 
+    public void linkLocal_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (!SessionManager.IsLoggedIn)
+                return;
+
+            inputName.Text = string.Empty;
+            SelectLocation(sender, new SelectLocationEventArgs(SessionManager.Account));
+            GetData();
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
+    public void linkAll_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            inputCountry.ClearSelection();
+            inputState.ClearSelection();
+            inputCity.ClearSelection();
+            inputType.ClearSelection();
+            inputName.Text = string.Empty;
+            GetData();
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
 
     public void inputState_SelectedIndexChanged(object sender, EventArgs e)
     {

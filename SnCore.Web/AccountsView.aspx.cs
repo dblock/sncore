@@ -61,8 +61,11 @@ public partial class AccountsView : AccountPersonPage
                 inputState.DataSource = states;
                 inputState.DataBind();
 
+                linkLocal.Visible = SessionManager.IsLoggedIn && !string.IsNullOrEmpty(SessionManager.Account.City);
+
                 if (SessionManager.IsLoggedIn)
                 {
+                    linkLocal.Text = string.Format("&#187; All {0} People", Renderer.Render(SessionManager.Account.City)); 
                     SelectLocation(sender, new SelectLocationEventArgs(
                         Request["country"],
                         Request["state"],
@@ -178,6 +181,40 @@ public partial class AccountsView : AccountPersonPage
         catch
         {
 
+        }
+    }
+
+    public void linkLocal_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (!SessionManager.IsLoggedIn)
+                return;
+
+            inputName.Text = string.Empty;
+            inputCity.Text = string.Empty;
+            SelectLocation(sender, new SelectLocationEventArgs(SessionManager.Account));
+            GetData();
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
+    public void linkAll_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            inputCountry.ClearSelection();
+            inputState.ClearSelection();
+            inputCity.Text = string.Empty;
+            inputName.Text = string.Empty;
+            GetData();
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
         }
     }
 }
