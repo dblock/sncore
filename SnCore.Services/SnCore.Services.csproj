@@ -142,6 +142,7 @@
     <Compile Include="ManagedReminder.cs" />
     <Compile Include="ManagedReminderEvent.cs" />
     <Compile Include="ManagedSchedule.cs" />
+    <Compile Include="ManagedStats.cs" />
     <Compile Include="ManagedSurvey.cs" />
     <Compile Include="ManagedSurveyQuestion.cs" />
     <Compile Include="ManagedAccount.cs">

@@ -171,7 +171,15 @@ public class Page : System.Web.UI.Page
         }
     }
 
-    protected SessionManager SessionManager
+    public WebStatsService StatsService
+    {
+        get
+        {
+            return SessionManager.StatsService;
+        }
+    }
+
+    public SessionManager SessionManager
     {
         get
         {

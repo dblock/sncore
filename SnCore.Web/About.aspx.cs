@@ -8,12 +8,33 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using SnCore.Services;
 
 public partial class About : Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {   
 
+    }
+
+    private TransitStatsSummary mSummary = null;
+
+    public TransitStatsSummary Summary
+    {
+        get
+        {
+            if (mSummary == null)
+            {
+                mSummary = (TransitStatsSummary)Cache["stats:summary"];
+                if (mSummary == null)
+                {
+                    mSummary = StatsService.GetSummary();
+                    Cache.Insert("stats:summary",
+                        mSummary, null, DateTime.Now.AddMinutes(5), TimeSpan.Zero);
+                }
+            }
+            return mSummary;
+        }
     }
 
     public string Copyright

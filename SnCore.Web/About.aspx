@@ -74,4 +74,20 @@
    </td>
   </tr>
  </table>
+ <div class="sncore_h2">
+  Stats
+ </div>
+ <div class="sncore_h2sub">
+  <a href="SystemStatsHits.aspx">&#187; Detailed Stats</a>
+ </div>
+ <table class="sncore_table">
+  <tr>
+   <td class="sncore_form_label">
+    Total hits:
+   </td>
+   <td class="sncore_form_value">
+    <% Response.Write(Summary.TotalHits); %>
+   </td>
+  </tr>
+ </table> 
 </asp:Content>

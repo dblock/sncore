@@ -154,13 +154,20 @@ public class Control : System.Web.UI.UserControl
         }
     }
 
-    protected SessionManager SessionManager
+    public SessionManager SessionManager
     {
         get
         {
             if (mSessionManager == null)
             {
-                mSessionManager = new SessionManager(Page);
+                if (Page is Page)
+                {
+                    mSessionManager = ((Page)Page).SessionManager;
+                }
+                else
+                {
+                    mSessionManager = new SessionManager(Page);
+                }
             }
             return mSessionManager;
         }

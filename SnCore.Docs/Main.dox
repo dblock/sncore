@@ -35,6 +35,7 @@ SnCore, it's like being shot out of a cannon, at very low cost.
 \li \subpage SnCore::WebServices::WebPlaceService "Place Services"
 \li \subpage SnCore::BackEndServices::WebBackEndService "Back-End Services"
 \li \subpage SnCore::WebServices::WebBlogService "Blogging Services"
+\li \subpage SnCore::WebServices::WebStatsService "Stats and Tracking Services"
 
 \section main_money Licensing
 \li \subpage license

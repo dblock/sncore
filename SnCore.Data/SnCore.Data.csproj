@@ -3,7 +3,7 @@
     <ProjectType>Local</ProjectType>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1F9C0442-E7B5-4CCC-93ED-A0599CF1AA57}</ProjectGuid>
+    <ProjectGuid>{3d5110a4-59c2-43f2-a6fa-fb254b479e7c}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>
@@ -212,6 +212,24 @@
     <Compile Include="Configuration.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Counter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CounterDaily.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CounterHourly.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CounterMonthly.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CounterWeekly.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CounterYearly.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Country.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -249,6 +267,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PlaceType.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ReferrerHost.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ReferrerQuery.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Reminder.cs">
@@ -319,6 +343,12 @@
     <EmbeddedResource Include="BugType.hbm.xml" />
     <EmbeddedResource Include="City.hbm.xml" />
     <EmbeddedResource Include="Configuration.hbm.xml" />
+    <EmbeddedResource Include="Counter.hbm.xml" />
+    <EmbeddedResource Include="CounterDaily.hbm.xml" />
+    <EmbeddedResource Include="CounterHourly.hbm.xml" />
+    <EmbeddedResource Include="CounterMonthly.hbm.xml" />
+    <EmbeddedResource Include="CounterWeekly.hbm.xml" />
+    <EmbeddedResource Include="CounterYearly.hbm.xml" />
     <EmbeddedResource Include="Country.hbm.xml" />
     <EmbeddedResource Include="DataObject.hbm.xml" />
     <EmbeddedResource Include="Discussion.hbm.xml" />
@@ -332,6 +362,8 @@
     <EmbeddedResource Include="PlaceName.hbm.xml" />
     <EmbeddedResource Include="PlacePicture.hbm.xml" />
     <EmbeddedResource Include="PlaceType.hbm.xml" />
+    <EmbeddedResource Include="ReferrerHost.hbm.xml" />
+    <EmbeddedResource Include="ReferrerQuery.hbm.xml" />
     <EmbeddedResource Include="Reminder.hbm.xml" />
     <EmbeddedResource Include="ReminderEvent.hbm.xml" />
     <EmbeddedResource Include="Schedule.hbm.xml" />

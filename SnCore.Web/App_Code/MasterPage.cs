@@ -103,7 +103,14 @@ public class MasterPage : System.Web.UI.MasterPage
         {
             if (mSessionManager == null)
             {
-                mSessionManager = new SessionManager(this);
+                if (Page is Page)
+                {
+                    mSessionManager = ((Page)Page).SessionManager;
+                }
+                else
+                {
+                    mSessionManager = new SessionManager(this);
+                }
             }
             return mSessionManager;
         }

@@ -1,6 +1,7 @@
 using System;
 using NHibernate;
 using System.Collections;
+using System.Web.Hosting;
 
 namespace SnCore.Services
 {
@@ -36,5 +37,6 @@ namespace SnCore.Services
             object resultobject = collection[new Random().Next() % collection.Count];
             return (int)resultobject.GetType().GetProperty("Id").GetValue(resultobject, null);
         }
+
     }
 }

@@ -6,6 +6,8 @@ using Microsoft.Web.Services3.Messaging;
 using Microsoft.Web.Services3.Design;
 using SnCore.Data.Hibernate;
 using System.Web.Services.Protocols;
+using System.Diagnostics;
+using System.Web.Hosting;
 
 namespace SnCore.WebServices
 {
@@ -35,9 +37,33 @@ namespace SnCore.WebServices
 
     public class WebService : SoapService
     {
+        private EventLog mEventLog = null;
+
         public WebService()
         {
 
+        }
+
+        public EventLog EventLog
+        {
+            get
+            {
+                if (mEventLog == null)
+                {
+                    string eventLogName = HostingEnvironment.ApplicationVirtualPath.Trim("/".ToCharArray());
+                    if (eventLogName.Length == 0) eventLogName = HostingEnvironment.SiteName;
+                    if (eventLogName.Length == 0) eventLogName = "Application";
+
+                    if (!EventLog.SourceExists(eventLogName))
+                    {
+                        EventLog.CreateEventSource(eventLogName, "Application");
+                    }
+
+                    mEventLog = new EventLog();
+                    mEventLog.Source = eventLogName;
+                }
+                return mEventLog;
+            }
         }
 
         public static IDbConnection GetNewConnection()

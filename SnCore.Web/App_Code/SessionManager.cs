@@ -13,9 +13,14 @@ using System.Web.Caching;
 using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.BackEndServices;
+using System.Collections.Generic;
 
 public class SessionManager
 {
+    static TimeSpan s_RequestCommitInterval = new TimeSpan(0, 0, 5); // commit every minute
+    private static DateTime s_RequestsLastCommit = DateTime.UtcNow;
+    private static List<TransitStatsRequest> s_Requests = new List<TransitStatsRequest>(1024);
+    
     const string sSnCoreOpenIdTokenCookieName = "SnCore.openidtoken";
     const string sSnCoreAuthCookieName = "SnCore.authcookie";
     const string sSnCoreImpersonateCookieName = "SnCore.impersonatecookie";
@@ -41,6 +46,7 @@ public class SessionManager
     private WebPlaceService mWebPlaceService = null;
     private WebBlogService mWebBlogService = null;
     private WebEventService mWebEventService = null;
+    private WebStatsService mWebStatsService = null;
 
     private string mWebsiteUrl = string.Empty;
 
@@ -119,6 +125,20 @@ public class SessionManager
             }
             catch
             {
+            }
+        }
+
+        // track request
+        TransitStatsRequest tsr = new TransitStatsRequest(request);
+        lock (s_Requests)
+        {
+            s_Requests.Add(tsr);
+
+            if (s_RequestsLastCommit.Add(s_RequestCommitInterval) < tsr.Timestamp)
+            {
+                StatsService.TrackMultipleRequests(s_Requests.ToArray());
+                s_Requests.Clear();
+                s_RequestsLastCommit = tsr.Timestamp;
             }
         }
     }
@@ -340,6 +360,18 @@ public class SessionManager
                 mWebBugService = new WebBugService();
             }
             return mWebBugService;
+        }
+    }
+
+    public WebStatsService StatsService
+    {
+        get
+        {
+            if (mWebStatsService == null)
+            {
+                mWebStatsService = new WebStatsService();
+            }
+            return mWebStatsService;
         }
     }
 

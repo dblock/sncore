@@ -1,0 +1,28 @@
+<%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="SystemStatsHits.aspx.cs"
+ Inherits="SystemStatsHits" Title="System Statistics - Hits" %>
+
+<%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+ <div class="sncore_h2">
+  <asp:Label ID="labelChartType" runat="server" Text="Daily" />
+ </div>
+ <div class="sncore_h2sub">
+  <asp:LinkButton OnClick="linkHourly_Click" ID="linkHourly" runat="server" Text="&#187; Hourly" />
+  <asp:LinkButton OnClick="linkDaily_Click" ID="linkDaily" runat="server" Text="&#187; Daily" />
+  <asp:LinkButton OnClick="linkWeekly_Click" ID="linkWeekly" runat="server" Text="&#187; Weekly" />
+  <asp:LinkButton OnClick="linkMonthly_Click" ID="linkMonthly" runat="server" Text="&#187; Monthly" />
+  <asp:LinkButton OnClick="linkYearly_Click" ID="linkYearly" runat="server" Text="&#187; Yearly" />
+ </div>
+ <table class="sncore_inner_table">
+  <tr>
+   <td>
+    <img runat="server" id="imageStats" src="SystemStatsChart.aspx?type=Daily" />
+   </td>
+  </tr>
+ </table>
+ <table class="sncore_table">
+  <tr>
+   <td class="sncore_description">note: all counter times are UTC</td>
+  </tr>
+ </table>
+</asp:Content>
