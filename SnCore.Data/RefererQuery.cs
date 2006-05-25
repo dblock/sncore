@@ -1,15 +1,15 @@
 using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
-    ///Persistent domain entity class representing 'ReferrerQuery' entities.
+    ///Persistent domain entity class representing 'RefererQuery' entities.
     ///</summary>
     ///<remarks>
     ///
     ///Mapping information:
-    ///This class maps to the 'ReferrerQuery' table in the data source.
+    ///This class maps to the 'RefererQuery' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class ReferrerQuery
+    public class RefererQuery
     {
 #region " Generated Code Region "
         //Private field variables
@@ -34,7 +34,7 @@ using System;
         ///The accessibility level for the field 'm_Id' that holds the value for this property is 'PrivateAccess'.
         ///
         ///Mapping information:
-        ///The property maps to the column 'ReferrerQuery_Id' in the data source.
+        ///The property maps to the column 'RefererQuery_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
         public  System.Int32 Id

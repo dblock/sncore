@@ -3,7 +3,7 @@
     <ProjectType>Local</ProjectType>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{3d5110a4-59c2-43f2-a6fa-fb254b479e7c}</ProjectGuid>
+    <ProjectGuid>{140e6994-f31a-442c-83dd-566af91ea047}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>
@@ -269,10 +269,10 @@
     <Compile Include="PlaceType.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ReferrerHost.cs">
+    <Compile Include="RefererHost.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ReferrerQuery.cs">
+    <Compile Include="RefererQuery.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Reminder.cs">
@@ -362,8 +362,8 @@
     <EmbeddedResource Include="PlaceName.hbm.xml" />
     <EmbeddedResource Include="PlacePicture.hbm.xml" />
     <EmbeddedResource Include="PlaceType.hbm.xml" />
-    <EmbeddedResource Include="ReferrerHost.hbm.xml" />
-    <EmbeddedResource Include="ReferrerQuery.hbm.xml" />
+    <EmbeddedResource Include="RefererHost.hbm.xml" />
+    <EmbeddedResource Include="RefererQuery.hbm.xml" />
     <EmbeddedResource Include="Reminder.hbm.xml" />
     <EmbeddedResource Include="ReminderEvent.hbm.xml" />
     <EmbeddedResource Include="Schedule.hbm.xml" />

@@ -1,15 +1,15 @@
 using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
-    ///Persistent domain entity class representing 'ReferrerHost' entities.
+    ///Persistent domain entity class representing 'RefererHost' entities.
     ///</summary>
     ///<remarks>
     ///
     ///Mapping information:
-    ///This class maps to the 'ReferrerHost' table in the data source.
+    ///This class maps to the 'RefererHost' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class ReferrerHost
+    public class RefererHost
     {
 #region " Generated Code Region "
         //Private field variables
@@ -18,10 +18,10 @@ using System;
         private System.Int32 m_Id;
         private System.DateTime m_Created;
         private System.String m_Host;
-        private System.String m_LastUri;
+        private System.String m_LastRefererUri;
+        private System.String m_LastRequestUri;
         private System.Int64 m_Total;
         private System.DateTime m_Updated;
-        private System.String m_LastReferrerUri;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -36,7 +36,7 @@ using System;
         ///The accessibility level for the field 'm_Id' that holds the value for this property is 'PrivateAccess'.
         ///
         ///Mapping information:
-        ///The property maps to the column 'ReferrerHost_Id' in the data source.
+        ///The property maps to the column 'RefererHost_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
         public  System.Int32 Id
@@ -104,21 +104,46 @@ using System;
         ///<remarks>
         ///This property accepts values of the type 'System.String'.
         ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_LastUri' that holds the value for this property is 'PrivateAccess'.
+        ///The accessibility level for the field 'm_LastRefererUri' that holds the value for this property is 'PrivateAccess'.
         ///
         ///Mapping information:
-        ///The property maps to the column 'LastUri' in the data source.
+        ///The property maps to the column 'LastRefererUri' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String LastUri
+        public  System.String LastRefererUri
         {
             get
             {
-                return m_LastUri;
+                return m_LastRefererUri;
             }
             set
             {
-                m_LastUri = value;
+                m_LastRefererUri = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.String'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_LastRequestUri' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'LastRequestUri' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.String LastRequestUri
+        {
+            get
+            {
+                return m_LastRequestUri;
+            }
+            set
+            {
+                m_LastRequestUri = value;
             }
         }
 
@@ -169,31 +194,6 @@ using System;
             set
             {
                 m_Updated = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent primitive property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts values of the type 'System.String'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_LastReferrerUri' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'LastReferrerUri' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.String LastReferrerUri
-        {
-            get
-            {
-                return m_LastReferrerUri;
-            }
-            set
-            {
-                m_LastReferrerUri = value;
             }
         }
 

@@ -13,7 +13,7 @@ namespace SnCore.Services
         public TransitCounter(DateTime ts, long total)
         {
             mTimestamp = ts;
-            mTotal = total; 
+            mTotal = total;
         }
 
         private DateTime mTimestamp;
@@ -141,10 +141,18 @@ namespace SnCore.Services
 
         public TransitStatsRequest(HttpRequest request)
         {
-            ReferrerQuery = request.Params["q"];
-            if (string.IsNullOrEmpty(ReferrerQuery)) ReferrerQuery = request.Params["search"];
             RequestUri = request.Url;
-            ReferrerUri = request.UrlReferrer;
+            RefererUri = request.UrlReferrer;
+
+            if (RefererUri != null)
+            {                
+			             HttpRequest q = new HttpRequest(null, RefererUri.ToString(), RefererUri.Query.TrimStart("?".ToCharArray()));
+			             RefererQuery = q.Params["q"];
+                if (string.IsNullOrEmpty(RefererQuery)) RefererQuery = q.Params["s"];
+                if (string.IsNullOrEmpty(RefererQuery)) RefererQuery = q.Params["query"];
+			             if (string.IsNullOrEmpty(RefererQuery)) RefererQuery = q.Params["search"];                
+            }
+
             SinkException = true;
             Timestamp = DateTime.UtcNow;
         }
@@ -191,31 +199,31 @@ namespace SnCore.Services
             }
         }
 
-        private Uri mReferrerUri;
+        private Uri mRefererUri;
 
-        public Uri ReferrerUri
+        public Uri RefererUri
         {
             get
             {
-                return mReferrerUri;
+                return mRefererUri;
             }
             set
             {
-                mReferrerUri = value;
+                mRefererUri = value;
             }
         }
 
-        private string mReferrerQuery;
+        private string mRefererQuery;
 
-        public string ReferrerQuery
+        public string RefererQuery
         {
             get
             {
-                return mReferrerQuery;
+                return mRefererQuery;
             }
             set
             {
-                mReferrerQuery = value;
+                mRefererQuery = value;
             }
         }
     }
@@ -245,10 +253,10 @@ namespace SnCore.Services
                 IncrementYearlyCounter();
                 // per-uri page counter
                 IncrementRawCounter(request);
-                // referrer hosts
-                UpdateReferrerHost(request);
-                // referrer query
-                UpdateReferrerQuery(request);
+                // Referer hosts
+                UpdateRefererHost(request);
+                // Referer query
+                UpdateRefererQuery(request);
 
                 trans.Commit();
             }
@@ -259,50 +267,50 @@ namespace SnCore.Services
             }
         }
 
-        private void UpdateReferrerHost(TransitStatsRequest request)
+        private void UpdateRefererHost(TransitStatsRequest request)
         {
-            if (request.ReferrerUri == null)
+            if (request.RefererUri == null)
                 return;
 
             // don't track navigation between pages
-            if (request.ReferrerUri.Host == request.RequestUri.Host)
+            if (request.RefererUri.Host == request.RequestUri.Host)
                 return;
 
-            ReferrerHost host = (ReferrerHost)Session.CreateCriteria(typeof(ReferrerHost))
-                .Add(Expression.Eq("Host", request.ReferrerUri.Host))
+            RefererHost host = (RefererHost)Session.CreateCriteria(typeof(RefererHost))
+                .Add(Expression.Eq("Host", request.RefererUri.Host))
                 .UniqueResult();
 
             if (host == null)
             {
-                host = new ReferrerHost();
+                host = new RefererHost();
                 host.Created = DateTime.UtcNow;
-                host.Host = request.ReferrerUri.Host;
+                host.Host = request.RefererUri.Host;
                 host.Total = 0;
             }
 
             host.Updated = DateTime.UtcNow;
-            host.LastReferrerUri = request.ReferrerUri.ToString();
-            host.LastUri = request.RequestUri.ToString();
+            host.LastRefererUri = request.RefererUri.ToString();
+            host.LastRequestUri = request.RequestUri.ToString();
             host.Total++;
 
             Session.Save(host);
         }
 
-        private void UpdateReferrerQuery(TransitStatsRequest request)
+        private void UpdateRefererQuery(TransitStatsRequest request)
         {
-            if (string.IsNullOrEmpty(request.ReferrerQuery))
+            if (string.IsNullOrEmpty(request.RefererQuery))
                 return;
 
-            ReferrerQuery query = (ReferrerQuery)Session.CreateCriteria(typeof(ReferrerQuery))
-                .Add(Expression.Eq("Keywords", request.ReferrerQuery))
+            RefererQuery query = (RefererQuery)Session.CreateCriteria(typeof(RefererQuery))
+                .Add(Expression.Eq("Keywords", request.RefererQuery))
                 .UniqueResult();
 
             if (query == null)
             {
-                query = new ReferrerQuery();
+                query = new RefererQuery();
                 query.Created = DateTime.UtcNow;
                 query.Total = 0;
-                query.Keywords = request.ReferrerQuery;
+                query.Keywords = request.RefererQuery;
             }
 
             query.Updated = DateTime.UtcNow;
@@ -429,6 +437,113 @@ namespace SnCore.Services
             Session.Save(cntr);
         }
 
+        public List<TransitCounter> GetSummaryHourly()
+        {
+            List<TransitCounter> result = new List<TransitCounter>();
+            DateTime now = DateTime.UtcNow;
+            DateTime ts = now.AddHours(-24);
+            while (ts <= now)
+            {
+                DateTime ts_current = new DateTime(ts.Year, ts.Month, ts.Day, ts.Hour, 0, 0);
+                CounterHourly c = (CounterHourly)Session.CreateCriteria(typeof(CounterHourly))
+                    .Add(Expression.Eq("Timestamp", ts_current))
+                    .UniqueResult();
+
+                result.Add((c == null) ? new TransitCounter(ts_current, 0) : new TransitCounter(c.Timestamp, c.Total));
+                ts = ts.AddHours(1);
+            }
+
+            return result;
+        }
+
+        public List<TransitCounter> GetSummaryDaily()
+        {
+            List<TransitCounter> result = new List<TransitCounter>();
+            DateTime now = DateTime.UtcNow;
+            DateTime ts = now.AddDays(-14);
+            while (ts <= now)
+            {
+                DateTime ts_current = new DateTime(ts.Year, ts.Month, ts.Day, 0, 0, 0);
+                CounterDaily c = (CounterDaily)Session.CreateCriteria(typeof(CounterDaily))
+                    .Add(Expression.Eq("Timestamp", ts_current))
+                    .UniqueResult();
+
+                result.Add((c == null) ? new TransitCounter(ts_current, 0) : new TransitCounter(c.Timestamp, c.Total));
+                ts = ts.AddDays(1);
+            }
+
+            return result;
+        }
+
+        public List<TransitCounter> GetSummaryWeekly()
+        {
+            List<TransitCounter> result = new List<TransitCounter>();
+            DateTime now = DateTime.UtcNow;
+            DateTime ts = now.AddMonths(-2);
+
+            while (ts.DayOfWeek != DayOfWeek.Sunday)
+                ts = ts.AddDays(-1);
+
+            while (ts <= now)
+            {
+                DateTime ts_current = new DateTime(ts.Year, ts.Month, ts.Day, 0, 0, 0);
+                CounterWeekly c = (CounterWeekly)Session.CreateCriteria(typeof(CounterWeekly))
+                    .Add(Expression.Eq("Timestamp", ts_current))
+                    .UniqueResult();
+
+                result.Add((c == null) ? new TransitCounter(ts_current, 0) : new TransitCounter(c.Timestamp, c.Total));
+                ts = ts.AddDays(7);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Monthly hits, twelve months.
+        /// </summary>
+        /// <returns></returns>
+        public List<TransitCounter> GetSummaryMonthly()
+        {
+            List<TransitCounter> result = new List<TransitCounter>();
+            DateTime now = DateTime.UtcNow;
+            DateTime ts = now.AddMonths(-12);
+
+            while (ts <= now)
+            {
+                DateTime ts_current = new DateTime(ts.Year, ts.Month, 1, 0, 0, 0);
+                CounterMonthly c = (CounterMonthly)Session.CreateCriteria(typeof(CounterMonthly))
+                    .Add(Expression.Eq("Timestamp", ts_current))
+                    .UniqueResult();
+
+                result.Add((c == null) ? new TransitCounter(ts_current, 0) : new TransitCounter(c.Timestamp, c.Total));
+                ts = ts.AddMonths(1);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Yearly hits, five years.
+        /// </summary>
+        /// <returns></returns>
+        public List<TransitCounter> GetSummaryYearly()
+        {
+            List<TransitCounter> result = new List<TransitCounter>();
+            DateTime now = DateTime.UtcNow;
+
+            for (int i = -5; i <= 0; i++)
+            {
+                DateTime ts_current = new DateTime(now.Year + i, 1, 1, 0, 0, 0);
+                CounterYearly c = (CounterYearly)Session.CreateCriteria(typeof(CounterYearly))
+                    .Add(Expression.Eq("Timestamp", ts_current))
+                    .UniqueResult();
+
+                result.Add((c == null) ? new TransitCounter(ts_current, 0) : new TransitCounter(c.Timestamp, c.Total));
+            }
+
+            return result;
+        }
+
         public TransitStatsSummary GetSummary()
         {
             TransitStatsSummary summary = new TransitStatsSummary();
@@ -437,81 +552,11 @@ namespace SnCore.Services
 
             DateTime now = DateTime.UtcNow;
 
-            // hourly hits, -24 hours
-            {
-                DateTime ts = now.AddHours(-24);
-                while (ts <= now)
-                {
-                    DateTime ts_current = new DateTime(ts.Year, ts.Month, ts.Day, ts.Hour, 0, 0);
-                    CounterHourly c = (CounterHourly)Session.CreateCriteria(typeof(CounterHourly))
-                        .Add(Expression.Eq("Timestamp", ts_current))
-                        .UniqueResult();
-
-                    summary.Hourly.Add((c == null) ? new TransitCounter(ts_current, 0) : new TransitCounter(c.Timestamp, c.Total));
-                    ts = ts.AddHours(1);
-                }
-            }
-
-            // daily hits, -14 days
-            {
-                DateTime ts = now.AddDays(-14);
-                while (ts <= now)
-                {
-                    DateTime ts_current = new DateTime(ts.Year, ts.Month, ts.Day, 0, 0, 0);
-                    CounterDaily c = (CounterDaily)Session.CreateCriteria(typeof(CounterDaily))
-                        .Add(Expression.Eq("Timestamp", ts_current))
-                        .UniqueResult();
-
-                    summary.Daily.Add((c == null) ? new TransitCounter(ts_current, 0) : new TransitCounter(c.Timestamp, c.Total));
-                    ts = ts.AddDays(1);
-                }
-            }
-
-            // weekly hits, two months
-            {
-                DateTime ts = now.AddMonths(-2);
-                
-                while (ts.DayOfWeek != DayOfWeek.Sunday)
-                    ts = ts.AddDays(-1);
-
-                while (ts <= now)
-                {
-                    DateTime ts_current = new DateTime(ts.Year, ts.Month, ts.Day, 0, 0, 0);
-                    CounterWeekly c = (CounterWeekly)Session.CreateCriteria(typeof(CounterWeekly))
-                        .Add(Expression.Eq("Timestamp", ts_current))
-                        .UniqueResult();
-
-                    summary.Weekly.Add((c == null) ? new TransitCounter(ts_current, 0) : new TransitCounter(c.Timestamp, c.Total));
-                    ts = ts.AddDays(7);
-                }
-            }
-
-            // monthly hits, twelve months
-            {
-                DateTime ts = now.AddMonths(-12);
-
-                while (ts <= now)
-                {
-                    DateTime ts_current = new DateTime(ts.Year, ts.Month, 1, 0, 0, 0);
-                    CounterMonthly c = (CounterMonthly)Session.CreateCriteria(typeof(CounterMonthly))
-                        .Add(Expression.Eq("Timestamp", ts_current))
-                        .UniqueResult();
-
-                    summary.Monthly.Add((c == null) ? new TransitCounter(ts_current, 0) : new TransitCounter(c.Timestamp, c.Total));
-                    ts = ts.AddMonths(1);
-                }
-            }
-
-            // yearly hits, five years
-            for (int i = -5; i <= 0; i++)
-            {
-                DateTime ts_current = new DateTime(now.Year + i, 1, 1, 0, 0, 0);
-                    CounterYearly c = (CounterYearly)Session.CreateCriteria(typeof(CounterYearly))
-                        .Add(Expression.Eq("Timestamp", ts_current))
-                        .UniqueResult();
-
-                summary.Yearly.Add((c == null) ? new TransitCounter(ts_current, 0) : new TransitCounter(c.Timestamp, c.Total));
-            }
+            summary.Hourly.AddRange(GetSummaryHourly());
+            summary.Daily.AddRange(GetSummaryDaily());
+            summary.Weekly.AddRange(GetSummaryWeekly());
+            summary.Monthly.AddRange(GetSummaryMonthly());
+            summary.Yearly.AddRange(GetSummaryYearly());
 
             return summary;
         }

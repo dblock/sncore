@@ -1,10 +1,3 @@
-IF NOT EXISTS (SELECT * FROM sys.database_principals WHERE name = N'DBLOCK-BLACK\ASPNET')
-CREATE USER [DBLOCK-BLACK\ASPNET] FOR LOGIN [DBLOCK-BLACK\ASPNET] WITH DEFAULT_SCHEMA=[DBLOCK-BLACK\ASPNET]
-GO
-IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = N'DBLOCK-BLACK\ASPNET')
-EXEC sys.sp_executesql N'CREATE SCHEMA [DBLOCK-BLACK\ASPNET] AUTHORIZATION [DBLOCK-BLACK\ASPNET]'
-
-GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -475,19 +468,19 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ReferrerQuery]') AND type in (N'U'))
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[RefererQuery]') AND type in (N'U'))
 BEGIN
-CREATE TABLE [dbo].[ReferrerQuery](
-	[ReferrerQuery_Id] [int] IDENTITY(1,1) NOT NULL,
+CREATE TABLE [dbo].[RefererQuery](
+	[RefererQuery_Id] [int] IDENTITY(1,1) NOT NULL,
 	[Keywords] [nvarchar](128) NOT NULL,
 	[Created] [datetime] NOT NULL,
 	[Updated] [datetime] NOT NULL,
 	[Total] [int] NOT NULL,
- CONSTRAINT [PK_ReferrerQuery] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_RefererQuery] PRIMARY KEY CLUSTERED 
 (
-	[ReferrerQuery_Id] ASC
+	[RefererQuery_Id] ASC
 )WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY],
- CONSTRAINT [UK_ReferrerQuery] UNIQUE NONCLUSTERED 
+ CONSTRAINT [UK_RefererQuery] UNIQUE NONCLUSTERED 
 (
 	[Keywords] ASC
 )WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
@@ -495,8 +488,8 @@ CREATE TABLE [dbo].[ReferrerQuery](
 END
 GO
 
-IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[ReferrerQuery]') AND name = N'IX_ReferrerQuery_Total')
-CREATE NONCLUSTERED INDEX [IX_ReferrerQuery_Total] ON [dbo].[ReferrerQuery] 
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[RefererQuery]') AND name = N'IX_RefererQuery_Total')
+CREATE NONCLUSTERED INDEX [IX_RefererQuery_Total] ON [dbo].[RefererQuery] 
 (
 	[Total] DESC
 )WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
@@ -505,33 +498,33 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ReferrerHost]') AND type in (N'U'))
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[RefererHost]') AND type in (N'U'))
 BEGIN
-CREATE TABLE [dbo].[ReferrerHost](
-	[ReferrerHost_Id] [int] IDENTITY(1,1) NOT NULL,
-	[Host] [nchar](64) NOT NULL,
-	[LastReferrerUri] [nchar](128) NOT NULL,
-	[LastUri] [nchar](128) NULL,
+CREATE TABLE [dbo].[RefererHost](
+	[RefererHost_Id] [int] IDENTITY(1,1) NOT NULL,
+	[Host] [nvarchar](64) NOT NULL,
+	[LastRefererUri] [nvarchar](128) NOT NULL,
+	[LastRequestUri] [nvarchar](128) NOT NULL,
 	[Total] [bigint] NOT NULL,
 	[Created] [datetime] NOT NULL,
 	[Updated] [datetime] NOT NULL,
- CONSTRAINT [PK_ReferrerHost] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_RefererHost] PRIMARY KEY CLUSTERED 
 (
-	[ReferrerHost_Id] ASC
+	[RefererHost_Id] ASC
 )WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
 
-IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[ReferrerHost]') AND name = N'IX_ReferrerHost_Total')
-CREATE NONCLUSTERED INDEX [IX_ReferrerHost_Total] ON [dbo].[ReferrerHost] 
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[RefererHost]') AND name = N'IX_RefererHost_Total')
+CREATE NONCLUSTERED INDEX [IX_RefererHost_Total] ON [dbo].[RefererHost] 
 (
 	[Total] DESC
 )WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 GO
 
-IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[ReferrerHost]') AND name = N'UK_ReferrerHost')
-CREATE UNIQUE NONCLUSTERED INDEX [UK_ReferrerHost] ON [dbo].[ReferrerHost] 
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[RefererHost]') AND name = N'UK_RefererHost')
+CREATE UNIQUE NONCLUSTERED INDEX [UK_RefererHost] ON [dbo].[RefererHost] 
 (
 	[Host] ASC
 )WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]

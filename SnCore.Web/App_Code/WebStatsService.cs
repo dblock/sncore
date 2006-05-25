@@ -49,7 +49,7 @@ namespace SnCore.WebServices
                     {
                         EventLog.WriteEntry(string.Format("Error tracking {0} from {1}.\n{2}",
                             (request.RequestUri != null) ? request.RequestUri.ToString() : "an unknown url",
-                            (request.ReferrerUri != null) ? request.ReferrerUri.ToString() : "an unknown referrer",
+                            (request.RefererUri != null) ? request.RefererUri.ToString() : "an unknown referer",
                             ex.Message), 
                             EventLogEntryType.Warning);
                     }
@@ -86,7 +86,7 @@ namespace SnCore.WebServices
                         {
                             EventLog.WriteEntry(string.Format("Error tracking {0} from {1}.\n{2}",
                                 (request.RequestUri != null) ? request.RequestUri.ToString() : "an unknown url", 
-                                (request.ReferrerUri != null) ? request.ReferrerUri.ToString() : "an unknown referrer",
+                                (request.RefererUri != null) ? request.RefererUri.ToString() : "an unknown Referer",
                                 ex.Message),
                                 EventLogEntryType.Warning);
                         }
@@ -114,5 +114,68 @@ namespace SnCore.WebServices
                 return stats.GetSummary();                
             }
         }
+
+        /// <summary>
+        /// Get referer hosts.
+        /// </summary>
+        /// <returns>transit referer hosts</returns>
+        [WebMethod(Description = "Get referer hosts.", CacheDuration = 60)]
+        public List<TransitRefererHost> GetRefererHosts(ServiceQueryOptions options)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ICriteria c = session.CreateCriteria(typeof(RefererHost))
+                    .AddOrder(Order.Desc("Total"));
+
+                if (options != null)
+                {
+                    c.SetMaxResults(options.PageSize);
+                    c.SetFirstResult(options.FirstResult);
+                }
+
+                IList refererhosts = c.List();
+                List<TransitRefererHost> result = new List<TransitRefererHost>(refererhosts.Count);
+                foreach (RefererHost h in refererhosts)
+                {
+                    result.Add(new ManagedRefererHost(session, h).TransitRefererHost);
+                }
+
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Get referer queries.
+        /// </summary>
+        /// <returns>transit referer queries</returns>
+        [WebMethod(Description = "Get referer queries.", CacheDuration = 60)]
+        public List<TransitRefererQuery> GetRefererQueries(ServiceQueryOptions options)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ICriteria c = session.CreateCriteria(typeof(RefererQuery))
+                    .AddOrder(Order.Desc("Total"));
+
+                if (options != null)
+                {
+                    c.SetMaxResults(options.PageSize);
+                    c.SetFirstResult(options.FirstResult);
+                }
+
+                IList refererqueries = c.List();
+                List<TransitRefererQuery> result = new List<TransitRefererQuery>(refererqueries.Count);
+                foreach (RefererQuery q in refererqueries)
+                {
+                    result.Add(new ManagedRefererQuery(session, q).TransitRefererQuery);
+                }
+
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
     }
 }

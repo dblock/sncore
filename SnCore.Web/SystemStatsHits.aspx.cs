@@ -10,7 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Services;
 
-public partial class SystemStatsHits: Page
+public partial class SystemStatsHits: AuthenticatedPage
 {
     public enum ChartType
     {
@@ -23,13 +23,22 @@ public partial class SystemStatsHits: Page
 
     public void Page_Load()
     {
-        
+        if (!IsPostBack)
+        {
+            SetChartType(ChartType.Daily);
+        }
     }
 
     void SetChartType(ChartType type)
     {
         imageStats.Src = string.Format("SystemStatsChart.aspx?type={0}", type);
         labelChartType.Text = type.ToString();
+
+        linkDaily.Enabled = (type != ChartType.Daily);
+        linkHourly.Enabled = (type != ChartType.Hourly);
+        linkMonthly.Enabled = (type != ChartType.Monthly);
+        linkYearly.Enabled = (type != ChartType.Yearly);
+        linkWeekly.Enabled = (type != ChartType.Weekly);
     }
 
     public void linkYearly_Click(object sender, EventArgs e)

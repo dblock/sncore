@@ -74,7 +74,7 @@ public partial class SystemStatsChart2 : PicturePage
     public override TransitPicture GetPictureWithBitmap(int id, string ticket)
     {
         ChartEngine engine = new ChartEngine();
-        engine.Size = new Size(770, 300);
+        engine.Size = new Size(570, 300);
         engine.GridLines = WebChart.GridLines.None;
         engine.ShowXValues = true;
         engine.ShowYValues = true;

@@ -62,4 +62,9 @@
  <tr><td width="30" align="center"><img src="images/account/star.gif" /></td><td width="*"><a href="BugStatusesManage.aspx">Statuses</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/star.gif" /></td><td width="*"><a href="BugTypesManage.aspx">Types</a></td></tr>
 </table>
+<table class="sncore_accountmenu_table">
+ <tr><td width="30" align="center"><img src="images/account/star.gif" /></td><td width="*"><a href="SystemStatsHits.aspx">Hit Stats</a></td></tr>
+ <tr><td width="30" align="center"><img src="images/account/star.gif" /></td><td width="*"><a href="SystemRefererHosts.aspx">Ref. Hosts</a></td></tr>
+ <tr><td width="30" align="center"><img src="images/account/star.gif" /></td><td width="*"><a href="SystemRefererQueries.aspx">Ref. Queries</a></td></tr>
+</table>
 </asp:Panel>

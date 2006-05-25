@@ -139,6 +139,8 @@
     <Compile Include="ManagedPlaceName.cs" />
     <Compile Include="ManagedPlacePicture.cs" />
     <Compile Include="ManagedPlaceType.cs" />
+    <Compile Include="ManagedRefererHost.cs" />
+    <Compile Include="ManagedRefererQuery.cs" />
     <Compile Include="ManagedReminder.cs" />
     <Compile Include="ManagedReminderEvent.cs" />
     <Compile Include="ManagedSchedule.cs" />
