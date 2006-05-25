@@ -334,7 +334,7 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Co
 BEGIN
 CREATE TABLE [dbo].[Counter](
 	[Counter_Id] [int] IDENTITY(1,1) NOT NULL,
-	[Uri] [nchar](128) NOT NULL,
+	[Uri] [nvarchar](256) NOT NULL,
 	[Total] [bigint] NOT NULL,
 	[Created] [datetime] NOT NULL,
 	[Modified] [datetime] NOT NULL,
@@ -502,9 +502,9 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Re
 BEGIN
 CREATE TABLE [dbo].[RefererHost](
 	[RefererHost_Id] [int] IDENTITY(1,1) NOT NULL,
-	[Host] [nvarchar](64) NOT NULL,
-	[LastRefererUri] [nvarchar](128) NOT NULL,
-	[LastRequestUri] [nvarchar](128) NOT NULL,
+	[Host] [varchar](128) NOT NULL,
+	[LastRefererUri] [varchar](256) NOT NULL,
+	[LastRequestUri] [varchar](256) NOT NULL,
 	[Total] [bigint] NOT NULL,
 	[Created] [datetime] NOT NULL,
 	[Updated] [datetime] NOT NULL,
@@ -1549,7 +1549,7 @@ CREATE TABLE [dbo].[AccountWebsite](
 	[AccountWebsite_Id] [int] IDENTITY(1,1) NOT NULL,
 	[Name] [nvarchar](64) NOT NULL,
 	[Description] [ntext] NULL,
-	[Url] [nchar](128) NOT NULL,
+	[Url] [nvarchar](128) NOT NULL,
 	[Account_Id] [int] NOT NULL,
  CONSTRAINT [PK_AccountWebsite] PRIMARY KEY CLUSTERED 
 (

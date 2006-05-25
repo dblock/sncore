@@ -42,6 +42,7 @@ namespace SnCore.WebServices
                 try
                 {
                     stats.Track(request);
+                    SnCore.Data.Hibernate.Session.Flush();
                 }
                 catch (Exception ex)
                 {
@@ -58,7 +59,6 @@ namespace SnCore.WebServices
                         throw;
                     }
                 }
-                SnCore.Data.Hibernate.Session.Flush();
             }
         }
 
@@ -74,6 +74,7 @@ namespace SnCore.WebServices
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 
                 ManagedStats stats = new ManagedStats(session);
+                bool fException = false;
                 foreach (TransitStatsRequest request in requests)
                 {
                     try
@@ -82,11 +83,12 @@ namespace SnCore.WebServices
                     }
                     catch (Exception ex)
                     {
+                        fException = true;
                         if (request.SinkException)
                         {
                             EventLog.WriteEntry(string.Format("Error tracking {0} from {1}.\n{2}",
                                 (request.RequestUri != null) ? request.RequestUri.ToString() : "an unknown url", 
-                                (request.RefererUri != null) ? request.RefererUri.ToString() : "an unknown Referer",
+                                (request.RefererUri != null) ? request.RefererUri.ToString() : "an unknown referer",
                                 ex.Message),
                                 EventLogEntryType.Warning);
                         }
@@ -97,7 +99,10 @@ namespace SnCore.WebServices
                     }
                 }
 
-                SnCore.Data.Hibernate.Session.Flush();
+                if (!fException)
+                {
+                    SnCore.Data.Hibernate.Session.Flush();
+                }
             }
         }
 
