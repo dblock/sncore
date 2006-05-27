@@ -25,6 +25,7 @@ public partial class SystemRefererHosts : AuthenticatedPage
 
             if (!IsPostBack)
             {
+                gridManage.VirtualItemCount = StatsService.GetRefererHostsCount();
                 gridManage_OnGetDataSource(this, null);
                 gridManage.DataBind();
             }

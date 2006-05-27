@@ -127,6 +127,20 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
+        /// Get referer hosts count.
+        /// </summary>
+        /// <returns>transit referer hosts</returns>
+        [WebMethod(Description = "Get referer hosts count.", CacheDuration = 60)]
+        public int GetRefererHostsCount()
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return (int)session.CreateQuery("SELECT COUNT(rh) from RefererHost rh").UniqueResult();
+            }
+        }
+
+        /// <summary>
         /// Get referer hosts.
         /// </summary>
         /// <returns>transit referer hosts</returns>
@@ -154,6 +168,20 @@ namespace SnCore.WebServices
 
                 SnCore.Data.Hibernate.Session.Flush();
                 return result;
+            }
+        }
+
+        /// <summary>
+        /// Get referer queries count.
+        /// </summary>
+        /// <returns>transit referer queries count</returns>
+        [WebMethod(Description = "Get referer queries count.", CacheDuration = 60)]
+        public int GetRefererQueriesCount()
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return (int)session.CreateQuery("SELECT COUNT(rq) from RefererQuery rq").UniqueResult();
             }
         }
 

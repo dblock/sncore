@@ -25,6 +25,7 @@ public partial class SystemRefererQueries : AuthenticatedPage
 
             if (!IsPostBack)
             {
+                gridManage.VirtualItemCount = StatsService.GetRefererQueriesCount();
                 gridManage_OnGetDataSource(this, null);
                 gridManage.DataBind();
             }
