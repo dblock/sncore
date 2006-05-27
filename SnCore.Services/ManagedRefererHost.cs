@@ -137,6 +137,15 @@ namespace SnCore.Services
     /// </summary>
     public class ManagedRefererHost : ManagedService
     {
+        public class InvalidRefererHostException : SoapException
+        {
+            public InvalidRefererHostException()
+                : base("Invalid Referer Host", SoapException.ClientFaultCode)
+            {
+
+            }
+        }
+
         private RefererHost mRefererHost = null;
 
         public ManagedRefererHost(ISession session)
@@ -183,5 +192,25 @@ namespace SnCore.Services
         {
             Session.Delete(mRefererHost);
         }
+
+        public static RefererHost Find(ISession session, string host)
+        {
+            RefererHost h = (RefererHost)session.CreateCriteria(typeof(RefererHost))
+                .Add(Expression.Eq("Host", host))
+                .UniqueResult();
+
+            if (h == null)
+            {
+                throw new ManagedRefererHost.InvalidRefererHostException();
+            }
+
+            return h;
+        }
+
+        public static int GetRefererHostId(ISession session, string host)
+        {
+            return Find(session, host).Id;
+        }
+
     }
 }

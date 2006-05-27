@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.0" schema="dbo">
+  <class name="RefererHostDup, SnCore.Data" table="RefererHostDup">
+    <id name="Id" type="Int32" column="RefererHostDup_Id" access="field.pascalcase-m-underscore">
+      <generator class="identity" />
+    </id>
+    <property name="Created" column="Created" type="DateTime" />
+    <property name="Host" column="Host" type="String" />
+    <property name="Modified" column="Modified" type="DateTime" />
+    <many-to-one name="RefererHost" column="RefererHost_Id" class="RefererHost, SnCore.Data" />
+  </class>
+</hibernate-mapping>

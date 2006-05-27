@@ -3,7 +3,7 @@
     <ProjectType>Local</ProjectType>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{81d0cb93-8ddd-4820-ae6a-a45efd9ca336}</ProjectGuid>
+    <ProjectGuid>{10c8c7d1-f87c-4a82-885d-e75041324933}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>
@@ -224,6 +224,9 @@
     <Compile Include="CounterMonthly.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CounterReturningDaily.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="CounterWeekly.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -270,6 +273,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="RefererHost.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RefererHostDup.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="RefererQuery.cs">
@@ -347,6 +353,7 @@
     <EmbeddedResource Include="CounterDaily.hbm.xml" />
     <EmbeddedResource Include="CounterHourly.hbm.xml" />
     <EmbeddedResource Include="CounterMonthly.hbm.xml" />
+    <EmbeddedResource Include="CounterReturningDaily.hbm.xml" />
     <EmbeddedResource Include="CounterWeekly.hbm.xml" />
     <EmbeddedResource Include="CounterYearly.hbm.xml" />
     <EmbeddedResource Include="Country.hbm.xml" />
@@ -363,6 +370,7 @@
     <EmbeddedResource Include="PlacePicture.hbm.xml" />
     <EmbeddedResource Include="PlaceType.hbm.xml" />
     <EmbeddedResource Include="RefererHost.hbm.xml" />
+    <EmbeddedResource Include="RefererHostDup.hbm.xml" />
     <EmbeddedResource Include="RefererQuery.hbm.xml" />
     <EmbeddedResource Include="Reminder.hbm.xml" />
     <EmbeddedResource Include="ReminderEvent.hbm.xml" />

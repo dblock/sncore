@@ -61,6 +61,34 @@ namespace SnCore.Services
             }
         }
 
+        private List<TransitCounter> mReturningDaily = new List<TransitCounter>(14);
+
+        public List<TransitCounter> ReturningDaily
+        {
+            get
+            {
+                return mReturningDaily;
+            }
+            set
+            {
+                mReturningDaily = value;
+            }
+        }
+
+        private List<TransitCounter> mNewDaily = new List<TransitCounter>(14);
+
+        public List<TransitCounter> NewDaily
+        {
+            get
+            {
+                return mNewDaily;
+            }
+            set
+            {
+                mNewDaily = value;
+            }
+        }
+
         private List<TransitCounter> mDaily = new List<TransitCounter>(14);
 
         public List<TransitCounter> Daily
@@ -139,25 +167,56 @@ namespace SnCore.Services
 
         }
 
-        public TransitStatsRequest(HttpRequest request)
+        public TransitStatsRequest(HttpRequest request, Nullable<DateTime> lastseen)
         {
             RequestUri = request.Url;
             RefererUri = request.UrlReferrer;
 
             if (RefererUri != null)
-            {                
-			             HttpRequest q = new HttpRequest(null, RefererUri.ToString(), RefererUri.Query.TrimStart("?".ToCharArray()));
-			             RefererQuery = q.Params["q"];
+            {
+                HttpRequest q = new HttpRequest(null, RefererUri.ToString(), RefererUri.Query.TrimStart("?".ToCharArray()));
+                RefererQuery = q.Params["q"];
                 if (string.IsNullOrEmpty(RefererQuery)) RefererQuery = q.Params["s"];
                 if (string.IsNullOrEmpty(RefererQuery)) RefererQuery = q.Params["query"];
-			             if (string.IsNullOrEmpty(RefererQuery)) RefererQuery = q.Params["search"];                
+                if (string.IsNullOrEmpty(RefererQuery)) RefererQuery = q.Params["search"];
             }
+
+            if (!lastseen.HasValue) IncrementNewUser = true;
+            else if (lastseen.Value.AddDays(1) < DateTime.UtcNow) IncrementReturningUser = true;
 
             SinkException = true;
             Timestamp = DateTime.UtcNow;
         }
 
-        private bool mSinkException;
+        private bool mIncrementNewUser = false;
+
+        public bool IncrementNewUser
+        {
+            get
+            {
+                return mIncrementNewUser;
+            }
+            set
+            {
+                mIncrementNewUser = value;
+            }
+        }
+
+        private bool mIncrementReturningUser = false;
+
+        public bool IncrementReturningUser
+        {
+            get
+            {
+                return mIncrementReturningUser;
+            }
+            set
+            {
+                mIncrementReturningUser = value;
+            }
+        }
+
+        private bool mSinkException = true;
 
         public bool SinkException
         {
@@ -251,13 +310,14 @@ namespace SnCore.Services
                 IncrementWeeklyCounter();
                 IncrementMonthlyCounter();
                 IncrementYearlyCounter();
+                // per-user counter
+                IncrementReturningDailyCounter(request);
                 // per-uri page counter
                 IncrementRawCounter(request);
                 // Referer hosts
                 UpdateRefererHost(request);
                 // Referer query
                 UpdateRefererQuery(request);
-
                 trans.Commit();
             }
             catch
@@ -279,6 +339,19 @@ namespace SnCore.Services
             RefererHost host = (RefererHost)Session.CreateCriteria(typeof(RefererHost))
                 .Add(Expression.Eq("Host", request.RefererUri.Host))
                 .UniqueResult();
+
+            if (host == null)
+            {
+                // find whether this is a dup host
+                RefererHostDup duphost = (RefererHostDup)Session.CreateCriteria(typeof(RefererHostDup))
+                    .Add(Expression.Eq("Host", request.RefererUri.Host))
+                    .UniqueResult();
+
+                if (duphost != null)
+                {
+                    host = duphost.RefererHost;
+                }
+            }
 
             if (host == null)
             {
@@ -373,6 +446,31 @@ namespace SnCore.Services
             }
 
             cntr.Total++;
+            Session.Save(cntr);
+        }
+
+        private void IncrementReturningDailyCounter(TransitStatsRequest request)
+        {
+            if (!request.IncrementNewUser && !request.IncrementReturningUser)
+                return;
+
+            DateTime now = DateTime.UtcNow;
+            DateTime ts = new DateTime(now.Year, now.Month, now.Day);
+            CounterReturningDaily cntr = (CounterReturningDaily)Session.CreateCriteria(typeof(CounterReturningDaily))
+                .Add(Expression.Eq("Timestamp", ts))
+                .UniqueResult();
+
+            if (cntr == null)
+            {
+                cntr = new CounterReturningDaily();
+                cntr.Timestamp = ts;
+                cntr.ReturningTotal = 0;
+                cntr.NewTotal = 0;
+            }
+
+            if (request.IncrementReturningUser) cntr.ReturningTotal++;
+            if (request.IncrementNewUser) cntr.NewTotal++;
+
             Session.Save(cntr);
         }
 
@@ -475,6 +573,44 @@ namespace SnCore.Services
             return result;
         }
 
+        public List<TransitCounter> GetSummaryReturningDaily()
+        {
+            List<TransitCounter> result = new List<TransitCounter>();
+            DateTime now = DateTime.UtcNow;
+            DateTime ts = now.AddDays(-14);
+            while (ts <= now)
+            {
+                DateTime ts_current = new DateTime(ts.Year, ts.Month, ts.Day, 0, 0, 0);
+                CounterReturningDaily c = (CounterReturningDaily)Session.CreateCriteria(typeof(CounterReturningDaily))
+                    .Add(Expression.Eq("Timestamp", ts_current))
+                    .UniqueResult();
+
+                result.Add((c == null) ? new TransitCounter(ts_current, 0) : new TransitCounter(c.Timestamp, c.ReturningTotal));
+                ts = ts.AddDays(1);
+            }
+
+            return result;
+        }
+
+        public List<TransitCounter> GetSummaryNewDaily()
+        {
+            List<TransitCounter> result = new List<TransitCounter>();
+            DateTime now = DateTime.UtcNow;
+            DateTime ts = now.AddDays(-14);
+            while (ts <= now)
+            {
+                DateTime ts_current = new DateTime(ts.Year, ts.Month, ts.Day, 0, 0, 0);
+                CounterReturningDaily c = (CounterReturningDaily)Session.CreateCriteria(typeof(CounterReturningDaily))
+                    .Add(Expression.Eq("Timestamp", ts_current))
+                    .UniqueResult();
+
+                result.Add((c == null) ? new TransitCounter(ts_current, 0) : new TransitCounter(c.Timestamp, c.NewTotal));
+                ts = ts.AddDays(1);
+            }
+
+            return result;
+        }
+
         public List<TransitCounter> GetSummaryWeekly()
         {
             List<TransitCounter> result = new List<TransitCounter>();
@@ -557,6 +693,8 @@ namespace SnCore.Services
             summary.Weekly.AddRange(GetSummaryWeekly());
             summary.Monthly.AddRange(GetSummaryMonthly());
             summary.Yearly.AddRange(GetSummaryYearly());
+            summary.ReturningDaily.AddRange(GetSummaryReturningDaily());
+            summary.NewDaily.AddRange(GetSummaryNewDaily());
 
             return summary;
         }

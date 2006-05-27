@@ -20,11 +20,12 @@ public class SessionManager
     static TimeSpan s_RequestCommitInterval = new TimeSpan(0, 0, 5); // commit every minute
     private static DateTime s_RequestsLastCommit = DateTime.UtcNow;
     private static List<TransitStatsRequest> s_Requests = new List<TransitStatsRequest>(1024);
-    
+
     const string sSnCoreOpenIdTokenCookieName = "SnCore.openidtoken";
     const string sSnCoreAuthCookieName = "SnCore.authcookie";
     const string sSnCoreImpersonateCookieName = "SnCore.impersonatecookie";
     const string sSnCoreRememberLogin = "SnCore.rememberlogin";
+    const string sSnCoreLastVisit = "SnCore.lastvisit";
 
     private Cache mCache = null;
     private HttpRequest mRequest = null;
@@ -128,8 +129,19 @@ public class SessionManager
             }
         }
 
-        // track request
-        TransitStatsRequest tsr = new TransitStatsRequest(request);
+        Nullable<DateTime> lastVisit = GetLastVisit(request);
+
+        if ((!lastVisit.HasValue) || (lastVisit.Value.AddDays(1) < DateTime.UtcNow))
+        {
+            // cookie doesn't exist or exists with an invalid value
+            // cookie older than a day
+            HttpCookie lastVisitCookie = new HttpCookie(sSnCoreLastVisit, DateTime.UtcNow.ToString());
+            lastVisitCookie.Expires = DateTime.UtcNow.AddYears(1);
+            response.Cookies.Add(lastVisitCookie);
+        }
+
+        TransitStatsRequest tsr = new TransitStatsRequest(request, lastVisit);
+
         lock (s_Requests)
         {
             s_Requests.Add(tsr);
@@ -141,6 +153,23 @@ public class SessionManager
                 s_RequestsLastCommit = tsr.Timestamp;
             }
         }
+    }
+
+    protected Nullable<DateTime> GetLastVisit(HttpRequest request)
+    {
+        // track request
+        Nullable<DateTime> lastVisit = new Nullable<DateTime>();
+        HttpCookie lastVisitCookie = request.Cookies[sSnCoreLastVisit];
+        if (lastVisitCookie != null)
+        {
+            DateTime lvcDt;
+            if (DateTime.TryParse(request.Cookies[sSnCoreLastVisit].Value, out lvcDt))
+            {
+                lastVisit = lvcDt;
+            }
+        }
+
+        return lastVisit;
     }
 
     public DateTime Adjust(DateTime dt)

@@ -140,6 +140,7 @@
     <Compile Include="ManagedPlacePicture.cs" />
     <Compile Include="ManagedPlaceType.cs" />
     <Compile Include="ManagedRefererHost.cs" />
+    <Compile Include="ManagedRefererHostDup.cs" />
     <Compile Include="ManagedRefererQuery.cs" />
     <Compile Include="ManagedReminder.cs" />
     <Compile Include="ManagedReminderEvent.cs" />

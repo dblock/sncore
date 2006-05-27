@@ -16,6 +16,7 @@ public partial class SystemStatsHits: AuthenticatedPage
     {
         Hourly,
         Daily,
+        DailyUnique,
         Weekly,
         Monthly,
         Yearly
@@ -32,13 +33,27 @@ public partial class SystemStatsHits: AuthenticatedPage
     void SetChartType(ChartType type)
     {
         imageStats.Src = string.Format("SystemStatsChart.aspx?type={0}", type);
-        labelChartType.Text = type.ToString();
+        switch (type)
+        {
+            case ChartType.DailyUnique:
+                labelChartType.Text = "Unique Visitors (Returning/New)";
+                break;
+            default:
+                labelChartType.Text = type.ToString();
+                break;
+        }
 
         linkDaily.Enabled = (type != ChartType.Daily);
         linkHourly.Enabled = (type != ChartType.Hourly);
         linkMonthly.Enabled = (type != ChartType.Monthly);
         linkYearly.Enabled = (type != ChartType.Yearly);
         linkWeekly.Enabled = (type != ChartType.Weekly);
+        linkDailyUnique.Enabled = (type != ChartType.DailyUnique);
+    }
+
+    public void linkDailyUnique_Click(object sender, EventArgs e)
+    {
+        SetChartType(ChartType.DailyUnique);
     }
 
     public void linkYearly_Click(object sender, EventArgs e)

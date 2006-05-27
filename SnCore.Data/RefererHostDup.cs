@@ -1,15 +1,15 @@
 using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
-    ///Persistent domain entity class representing 'RefererHost' entities.
+    ///Persistent domain entity class representing 'RefererHostDup' entities.
     ///</summary>
     ///<remarks>
     ///
     ///Mapping information:
-    ///This class maps to the 'RefererHost' table in the data source.
+    ///This class maps to the 'RefererHostDup' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class RefererHost
+    public class RefererHostDup
     {
 #region " Generated Code Region "
         //Private field variables
@@ -18,11 +18,8 @@ using System;
         private System.Int32 m_Id;
         private System.DateTime m_Created;
         private System.String m_Host;
-        private System.String m_LastRefererUri;
-        private System.String m_LastRequestUri;
-        private System.Int64 m_Total;
-        private System.DateTime m_Updated;
-        private System.Collections.IList m_RefererHostDups;
+        private System.DateTime m_Modified;
+        private RefererHost m_RefererHost;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -37,7 +34,7 @@ using System;
         ///The accessibility level for the field 'm_Id' that holds the value for this property is 'PrivateAccess'.
         ///
         ///Mapping information:
-        ///The property maps to the column 'RefererHost_Id' in the data source.
+        ///The property maps to the column 'RefererHostDup_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
         public  System.Int32 Id
@@ -103,129 +100,50 @@ using System;
         ///Persistent primitive property.
         ///</summary>
         ///<remarks>
-        ///This property accepts values of the type 'System.String'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_LastRefererUri' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'LastRefererUri' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.String LastRefererUri
-        {
-            get
-            {
-                return m_LastRefererUri;
-            }
-            set
-            {
-                m_LastRefererUri = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent primitive property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts values of the type 'System.String'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_LastRequestUri' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'LastRequestUri' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.String LastRequestUri
-        {
-            get
-            {
-                return m_LastRequestUri;
-            }
-            set
-            {
-                m_LastRequestUri = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent primitive property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts values of the type 'System.Int64'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Total' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'Total' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.Int64 Total
-        {
-            get
-            {
-                return m_Total;
-            }
-            set
-            {
-                m_Total = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent primitive property.
-        ///</summary>
-        ///<remarks>
         ///This property accepts values of the type 'System.DateTime'.
         ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Updated' that holds the value for this property is 'PrivateAccess'.
+        ///The accessibility level for the field 'm_Modified' that holds the value for this property is 'PrivateAccess'.
         ///
         ///Mapping information:
-        ///The property maps to the column 'Updated' in the data source.
+        ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Updated
+        public  System.DateTime Modified
         {
             get
             {
-                return m_Updated;
+                return m_Modified;
             }
             set
             {
-                m_Updated = value;
+                m_Modified = value;
             }
         }
 
         ///--------------------------------------------------------------------------------
         ///<summary>
-        ///Persistent many-one reference property.
+        ///Persistent one-many reference property.
         ///</summary>
         ///<remarks>
-        ///This property accepts multiple references to objects of the type 'RefererHostDup'.
-        ///This property is part of a 'ManyToOne' relationship.
-        ///The data type for this property is 'System.Collections.IList'.
-        ///The inverse property for this property is 'RefererHostDup.RefererHost'.
-        ///This property inherits its mapping information from its inverse property.
+        ///This property accepts references to objects of the type 'RefererHost'.
+        ///This property is part of a 'OneToMany' relationship.
+        ///The inverse property for this property is 'RefererHost.RefererHostDups'.
         ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_RefererHostDups' that holds the value for this property is 'PrivateAccess'.
-        ///This property is marked as slave.
+        ///The accessibility level for the field 'm_RefererHost' that holds the value for this property is 'PrivateAccess'.
         ///
         ///Mapping information:
-        ///This class maps to the 'RefererHostDup' table in the data source.
-        ///The property maps to the identity column 'RefererHost_Id' in the data source.
+        ///The property maps to the column 'RefererHost_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList RefererHostDups
+        public  RefererHost RefererHost
         {
             get
             {
-                return m_RefererHostDups;
+                return m_RefererHost;
             }
             set
             {
-                m_RefererHostDups = value;
+                m_RefererHost = value;
             }
         }
 

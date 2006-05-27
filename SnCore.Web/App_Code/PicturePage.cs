@@ -108,7 +108,7 @@ public abstract class PicturePage : Page
                 }
             }
 
-            Response.Cache.SetLastModified(p.Modified.ToLocalTime());
+            Response.Cache.SetLastModified(p.Modified);
             Response.Cache.SetCacheability(HttpCacheability.Private);
 
             p.Name = (string.IsNullOrEmpty(p.Name)) ? p.Id.ToString() + ".jpg" : p.Id.ToString() + "-" + p.Name;

@@ -28,6 +28,8 @@ namespace SnCore.WebServices
         {
         }
 
+        #region Track Requests
+
         /// <summary>
         /// Track a single request.
         /// </summary>
@@ -106,6 +108,10 @@ namespace SnCore.WebServices
             }
         }
 
+        #endregion
+
+        #region Stats
+
         /// <summary>
         /// Get stats summary.
         /// </summary>
@@ -181,6 +187,102 @@ namespace SnCore.WebServices
                 return result;
             }
         }
+
+        #endregion
+
+        #region Referer Host Dups
+
+        /// <summary>
+        /// Create or update a referer host dup.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="refererhostdup">transit referer host dup</param>
+        [WebMethod(Description = "Create or update a referer host dup.")]
+        public int CreateOrUpdateRefererHostDup(string ticket, TransitRefererHostDup refererhostdup)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount user = new ManagedAccount(session, userid);
+
+                if (!user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ManagedRefererHostDup m_refererhostdup = new ManagedRefererHostDup(session);
+                m_refererhostdup.CreateOrUpdate(refererhostdup);
+                SnCore.Data.Hibernate.Session.Flush();
+                return m_refererhostdup.Id;
+            }
+        }
+
+        /// <summary>
+        /// Get a referer host dup.
+        /// </summary>
+        /// <returns>transit referer host dup</returns>
+        [WebMethod(Description = "Get a referer host dup.")]
+        public TransitRefererHostDup GetRefererHostDupById(int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                TransitRefererHostDup result = new ManagedRefererHostDup(session, id).TransitRefererHostDup;
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Get all referer host dups.
+        /// </summary>
+        /// <returns>list of transit referer host dups</returns>
+        [WebMethod(Description = "Get all referer host dups.", CacheDuration = 60)]
+        public List<TransitRefererHostDup> GetRefererHostDups()
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                IList refererhostdup = session.CreateCriteria(typeof(RefererHostDup)).List();
+                List<TransitRefererHostDup> result = new List<TransitRefererHostDup>(refererhostdup.Count);
+                foreach (RefererHostDup rhd in refererhostdup)
+                {
+                    result.Add(new ManagedRefererHostDup(session, rhd).TransitRefererHostDup);
+                }
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Delete a referer host dup.
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete a referer host dup.")]
+        public void DeleteRefererHostDup(string ticket, int id)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                ManagedAccount user = new ManagedAccount(session, userid);
+
+                if (!user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ManagedRefererHostDup m_refererhostdup = new ManagedRefererHostDup(session, id);
+                m_refererhostdup.Delete();
+                SnCore.Data.Hibernate.Session.Flush();
+            }
+        }
+
+        #endregion
 
     }
 }

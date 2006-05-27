@@ -40,6 +40,7 @@ public partial class SystemStatsChart2 : PicturePage
     {
         Hourly,
         Daily,
+        DailyUnique,
         Weekly,
         Monthly,
         Yearly
@@ -87,50 +88,60 @@ public partial class SystemStatsChart2 : PicturePage
         ChartCollection charts = new ChartCollection(engine);
         engine.Charts = charts;
 
-        List<TransitCounter> counters = null;
+        List<List<TransitCounter>> counters = new List<List<TransitCounter>>();
         string format;
 
         switch (RequestType)
         {
+            case ChartType.DailyUnique:
+                counters.Add(Summary.ReturningDaily);
+                counters.Add(Summary.NewDaily);
+                format = "MMM d";
+                break;
             case ChartType.Daily:
-                counters = Summary.Daily;
+                counters.Add(Summary.Daily);
                 format = "MMM d";
                 break;
             case ChartType.Hourly:
-                counters = Summary.Hourly;
+                counters.Add(Summary.Hourly);
                 format = "htt";
                 break;
             case ChartType.Monthly:
-                counters = Summary.Monthly;
+                counters.Add(Summary.Monthly);
                 format = "MMM";
                 break;
             case ChartType.Weekly:
-                counters = Summary.Weekly;
+                counters.Add(Summary.Weekly);
                 format = "MMM dd";
                 break;
             case ChartType.Yearly:
-                counters = Summary.Yearly;
+                counters.Add(Summary.Yearly);
                 format = "yyyy";
                 break;
             default:
                 throw new ArgumentOutOfRangeException("type");
         }
 
-        ColumnChart chart = new ColumnChart();
-        chart.ShowLineMarkers = false;
-        chart.ShowLegend = true;
-        chart.Line.Color = Color.White;
-        chart.Line.Width = 2;
-        chart.Fill.Color = engine.Border.Color = Color.FromArgb(0x9F, 0x6, 0x15);
-        chart.Fill.LinearGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-        chart.MaxColumnWidth = 100;
-
-        foreach (TransitCounter counter in counters)
+        Color fill = Color.FromArgb(0x9F, 0x6, 0x15);
+        foreach (List<TransitCounter> clist in counters)
         {
-            chart.Data.Add(new ChartPoint(counter.Timestamp.ToString(format), counter.Total));
-        }
+            ColumnChart chart = new ColumnChart();
+            chart.ShowLineMarkers = false;
+            chart.ShowLegend = true;
+            chart.Line.Color = Color.White;
+            chart.Line.Width = 2;
+            chart.Fill.Color = engine.Border.Color = fill;
+            chart.Fill.LinearGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            chart.MaxColumnWidth = 100;
 
-        charts.Add(chart);
+            foreach (TransitCounter counter in clist)
+            {
+                chart.Data.Add(new ChartPoint(counter.Timestamp.ToString(format), counter.Total));
+            }
+
+            charts.Add(chart);
+            fill = Color.FromArgb(fill.R + 0x30, fill.G + 0x30, fill.B + 0x30);           
+        }
 
         TransitPicture picture = new TransitPicture();
         picture.Id = 0;

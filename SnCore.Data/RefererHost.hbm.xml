@@ -10,5 +10,9 @@
     <property name="LastRequestUri" column="LastRequestUri" type="String" />
     <property name="Total" column="Total" type="Int64" />
     <property name="Updated" column="Updated" type="DateTime" />
+    <bag lazy="true" name="RefererHostDups" inverse="true">
+      <key column="RefererHost_Id" />
+      <one-to-many class="RefererHostDup, SnCore.Data" />
+    </bag>
   </class>
 </hibernate-mapping>

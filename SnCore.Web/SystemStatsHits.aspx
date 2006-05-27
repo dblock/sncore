@@ -19,6 +19,7 @@
      <asp:LinkButton OnClick="linkWeekly_Click" ID="linkWeekly" runat="server" Text="&#187; Weekly" />
      <asp:LinkButton OnClick="linkMonthly_Click" ID="linkMonthly" runat="server" Text="&#187; Monthly" />
      <asp:LinkButton OnClick="linkYearly_Click" ID="linkYearly" runat="server" Text="&#187; Yearly" />
+     <asp:LinkButton OnClick="linkDailyUnique_Click" ID="linkDailyUnique" runat="server" Text="&#187; Unique" />
      <asp:HyperLink ID="linkRefererHosts" runat="server" Text="&#187; Referer Hosts" NavigateUrl="SystemRefererHosts.aspx" />
      <asp:HyperLink ID="linkRefererQueries" runat="server" Text="&#187; Referer Queries" NavigateUrl="SystemRefererQueries.aspx" />
     </div>
