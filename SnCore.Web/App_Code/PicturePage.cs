@@ -49,11 +49,14 @@ public abstract class PicturePage : Page
 
             if (ifmodifiedsince != null && CacheDuration > 0)
             {
-                DateTime ifmodifiedsincedt = DateTime.Parse(ifmodifiedsince.ToString());
-                if (ifmodifiedsincedt.AddSeconds(CacheDuration) < DateTime.UtcNow)
+                DateTime ifmodifiedsincedt;
+                if (DateTime.TryParse(ifmodifiedsince.ToString(), out ifmodifiedsincedt))
                 {
-                    Response.StatusCode = 304;
-                    return;
+                    if (ifmodifiedsincedt.ToUniversalTime().AddSeconds(CacheDuration) < DateTime.UtcNow)
+                    {
+                        Response.StatusCode = 304;
+                        return;
+                    }
                 }
             }
 
