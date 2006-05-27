@@ -111,7 +111,7 @@ public abstract class PicturePage : Page
                 }
             }
 
-            Response.Cache.SetLastModified(p.Modified);
+            Response.Cache.SetLastModified(p.Modified.ToLocalTime());
             Response.Cache.SetCacheability(HttpCacheability.Private);
 
             p.Name = (string.IsNullOrEmpty(p.Name)) ? p.Id.ToString() + ".jpg" : p.Id.ToString() + "-" + p.Name;
@@ -125,8 +125,8 @@ public abstract class PicturePage : Page
 
             Response.ContentType = "image/" + Path.GetExtension(p.Name).TrimStart(".".ToCharArray());
             Response.AddHeader("Content-disposition", "attachment; filename=" + p.Name);
-            Response.AddHeader("Created", p.Created.ToString());
-            Response.AddHeader("Modified", p.Modified.ToString());
+            Response.AddHeader("Created", p.Created.ToString("r"));
+            Response.AddHeader("Modified", p.Modified.ToString("r"));
             Response.BinaryWrite(p.Bitmap);
             Response.End();
         }
