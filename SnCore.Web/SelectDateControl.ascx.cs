@@ -51,8 +51,23 @@ public partial class SelectDateControl : System.Web.UI.UserControl
     public void linkCalendar_Click(object s, EventArgs e)
     {
         panelCalender.Visible = !panelCalender.Visible;
-        selectDateCalendar.SelectedDate = SelectedDate;
-        selectDateCalendar.VisibleDate = SelectedDate;
+        if (HasSelection)
+        {
+            selectDateCalendar.SelectedDate = SelectedDate;
+            selectDateCalendar.VisibleDate = SelectedDate;
+        }
+    }
+
+    public bool HasSelection
+    {
+        get
+        {
+            int tmpresult;
+            return
+                int.TryParse(selectdateYear.SelectedValue, out tmpresult) &&
+                int.TryParse(selectdateMonth.SelectedValue, out tmpresult) &&
+                int.TryParse(selectdateDay.SelectedValue, out tmpresult);
+        }
     }
 
     protected override void OnInit(EventArgs e)
@@ -100,6 +115,13 @@ public partial class SelectDateControl : System.Web.UI.UserControl
 
     protected override void OnPreRender(EventArgs e)
     {
+        if (SelectionChanged == null)
+        {
+            selectdateDay.AutoPostBack = false;
+            selectdateMonth.AutoPostBack = false;
+            selectdateYear.AutoPostBack = false;
+        }
+
         if (!IsPostBack && mSelectedDateTime != null)
         {
             DateTime d = (DateTime) mSelectedDateTime;

@@ -30,6 +30,12 @@ public partial class AccountCreate : Page
                         SystemService.GetConfigurationByNameWithDefault(
                             "SnCore.Admin.EmailAddress", "admin@localhost.com").Value);
             }
+            else
+            {
+                inputBetaPassword.Attributes["value"] = inputBetaPassword.Text;
+                inputPassword.Attributes["value"] = inputPassword.Text;
+                inputPassword2.Attributes["value"] = inputPassword2.Text;
+            }
         }
         catch (Exception ex)
         {

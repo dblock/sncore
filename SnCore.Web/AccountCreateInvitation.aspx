@@ -39,6 +39,15 @@
     </td>
    </tr>
    <tr>
+    <td>
+    </td>
+    <td>
+     <div class="sncore_description">
+      this is how other users will see you
+     </div>
+    </td>
+   </tr>
+   <tr>
     <td class="sncore_form_label">
      password:
     </td>
@@ -73,7 +82,7 @@
     </td>
     <td>
      <div class="sncore_description">
-      your birthday is required for your protection when resetting your password
+      your birthday is required for your protection when resetting passwords
      </div>
     </td>
    </tr>
