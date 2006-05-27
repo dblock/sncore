@@ -319,46 +319,6 @@ CREATE TABLE [dbo].[TagWord](
 ) ON [PRIMARY]
 END
 GO
-IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[TagWord]'))
-CREATE FULLTEXT INDEX ON [dbo].[TagWord](
-[Word] LANGUAGE [English])
-KEY INDEX [PK_TagWord] ON [SnCore]
-WITH CHANGE_TRACKING AUTO
-
-GO
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Counter]') AND type in (N'U'))
-BEGIN
-CREATE TABLE [dbo].[Counter](
-	[Counter_Id] [int] IDENTITY(1,1) NOT NULL,
-	[Uri] [nvarchar](256) NOT NULL,
-	[Total] [bigint] NOT NULL,
-	[Created] [datetime] NOT NULL,
-	[Modified] [datetime] NOT NULL,
- CONSTRAINT [PK_Counter] PRIMARY KEY CLUSTERED 
-(
-	[Counter_Id] ASC
-)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-END
-GO
-
-IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Counter]') AND name = N'IX_Counter_Total')
-CREATE NONCLUSTERED INDEX [IX_Counter_Total] ON [dbo].[Counter] 
-(
-	[Total] DESC
-)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
-GO
-
-IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Counter]') AND name = N'UK_Counter')
-CREATE UNIQUE NONCLUSTERED INDEX [UK_Counter] ON [dbo].[Counter] 
-(
-	[Uri] ASC
-)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
-GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -533,22 +493,6 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountEventType]') AND type in (N'U'))
-BEGIN
-CREATE TABLE [dbo].[AccountEventType](
-	[AccountEventType_Id] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [nvarchar](128) NOT NULL,
- CONSTRAINT [PK_AccountEventType] PRIMARY KEY CLUSTERED 
-(
-	[AccountEventType_Id] ASC
-)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-END
-GO
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Configuration]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Configuration](
@@ -565,6 +509,77 @@ CREATE TABLE [dbo].[Configuration](
 	[OptionName] ASC
 )WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Counter]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[Counter](
+	[Counter_Id] [int] IDENTITY(1,1) NOT NULL,
+	[Uri] [nvarchar](256) NOT NULL,
+	[Total] [bigint] NOT NULL,
+	[Created] [datetime] NOT NULL,
+	[Modified] [datetime] NOT NULL,
+ CONSTRAINT [PK_Counter] PRIMARY KEY CLUSTERED 
+(
+	[Counter_Id] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Counter]') AND name = N'IX_Counter_Total')
+CREATE NONCLUSTERED INDEX [IX_Counter_Total] ON [dbo].[Counter] 
+(
+	[Total] DESC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Counter]') AND name = N'UK_Counter')
+CREATE UNIQUE NONCLUSTERED INDEX [UK_Counter] ON [dbo].[Counter] 
+(
+	[Uri] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountEventType]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[AccountEventType](
+	[AccountEventType_Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](128) NOT NULL,
+ CONSTRAINT [PK_AccountEventType] PRIMARY KEY CLUSTERED 
+(
+	[AccountEventType_Id] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+END
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CounterReturningDaily]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[CounterReturningDaily](
+	[CounterReturningDaily_Id] [int] IDENTITY(1,1) NOT NULL,
+	[ReturningTotal] [int] NOT NULL,
+	[NewTotal] [int] NOT NULL,
+	[Timestamp] [datetime] NOT NULL,
+ CONSTRAINT [PK_CounterReturningDaily] PRIMARY KEY CLUSTERED 
+(
+	[CounterReturningDaily_Id] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY],
+ CONSTRAINT [UK_CounterReturningDaily] UNIQUE NONCLUSTERED 
+(
+	[Timestamp] DESC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
 END
 GO
 SET ANSI_NULLS ON
@@ -637,12 +652,6 @@ CREATE UNIQUE NONCLUSTERED INDEX [UK_PlaceName] ON [dbo].[PlaceName]
 	[Name] ASC,
 	[Place_Id] ASC
 )WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
-GO
-IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[PlaceName]'))
-CREATE FULLTEXT INDEX ON [dbo].[PlaceName]
-KEY INDEX [PK_PlaceName] ON [SnCore]
-WITH CHANGE_TRACKING AUTO
-
 GO
 SET ANSI_NULLS ON
 GO
@@ -907,21 +916,6 @@ CREATE NONCLUSTERED INDEX [IX_Place_Name] ON [dbo].[Place]
 	[Name] ASC
 )WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 GO
-IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[Place]'))
-CREATE FULLTEXT INDEX ON [dbo].[Place](
-[CrossStreet] LANGUAGE [English], 
-[Description] LANGUAGE [English], 
-[Email] LANGUAGE [English], 
-[Fax] LANGUAGE [English], 
-[Name] LANGUAGE [English], 
-[Phone] LANGUAGE [English], 
-[Street] LANGUAGE [English], 
-[Website] LANGUAGE [English], 
-[Zip] LANGUAGE [English])
-KEY INDEX [PK_Place] ON [SnCore]
-WITH CHANGE_TRACKING AUTO
-
-GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -973,32 +967,6 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountAddress]') AND type in (N'U'))
-BEGIN
-CREATE TABLE [dbo].[AccountAddress](
-	[AccountAddress_Id] [int] IDENTITY(1,1) NOT NULL,
-	[Account_Id] [int] NOT NULL,
-	[Address_Id] [int] NOT NULL,
-	[Apt] [nvarchar](24) NULL,
-	[City] [nvarchar](64) NULL,
-	[Country_Id] [int] NOT NULL,
-	[Created] [datetime] NOT NULL CONSTRAINT [DF_AccountAddress_Created]  DEFAULT (getdate()),
-	[Modified] [datetime] NOT NULL CONSTRAINT [DF_AccountAddress_Modified]  DEFAULT (getdate()),
-	[State_Id] [int] NULL,
-	[Street] [nvarchar](128) NULL,
-	[Zip] [nvarchar](24) NULL,
-	[Name] [nvarchar](64) NULL,
- CONSTRAINT [PK_AccountAddress] PRIMARY KEY CLUSTERED 
-(
-	[AccountAddress_Id] ASC
-)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-END
-GO
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Account]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Account](
@@ -1030,12 +998,31 @@ CREATE NONCLUSTERED INDEX [IX_LastLogin] ON [dbo].[Account]
 	[LastLogin] ASC
 )WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 GO
-IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[Account]'))
-CREATE FULLTEXT INDEX ON [dbo].[Account](
-[Name] LANGUAGE [English])
-KEY INDEX [PK_Account] ON [SnCore]
-WITH CHANGE_TRACKING AUTO
-
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountAddress]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[AccountAddress](
+	[AccountAddress_Id] [int] IDENTITY(1,1) NOT NULL,
+	[Account_Id] [int] NOT NULL,
+	[Address_Id] [int] NOT NULL,
+	[Apt] [nvarchar](24) NULL,
+	[City] [nvarchar](64) NULL,
+	[Country_Id] [int] NOT NULL,
+	[Created] [datetime] NOT NULL CONSTRAINT [DF_AccountAddress_Created]  DEFAULT (getdate()),
+	[Modified] [datetime] NOT NULL CONSTRAINT [DF_AccountAddress_Modified]  DEFAULT (getdate()),
+	[State_Id] [int] NULL,
+	[Street] [nvarchar](128) NULL,
+	[Zip] [nvarchar](24) NULL,
+	[Name] [nvarchar](64) NULL,
+ CONSTRAINT [PK_AccountAddress] PRIMARY KEY CLUSTERED 
+(
+	[AccountAddress_Id] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+END
 GO
 SET ANSI_NULLS ON
 GO
@@ -1108,14 +1095,6 @@ CREATE TABLE [dbo].[DiscussionPost](
 )WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
-GO
-IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[DiscussionPost]'))
-CREATE FULLTEXT INDEX ON [dbo].[DiscussionPost](
-[Body] LANGUAGE [English], 
-[Subject] LANGUAGE [English])
-KEY INDEX [PK_DiscussionPost] ON [SnCore]
-WITH CHANGE_TRACKING AUTO
-
 GO
 SET ANSI_NULLS ON
 GO
@@ -1299,13 +1278,6 @@ CREATE TABLE [dbo].[AccountSurveyAnswer](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
 GO
-IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[AccountSurveyAnswer]'))
-CREATE FULLTEXT INDEX ON [dbo].[AccountSurveyAnswer](
-[Answer] LANGUAGE [English])
-KEY INDEX [PK_AccountSurveyAnswer] ON [SnCore]
-WITH CHANGE_TRACKING AUTO
-
-GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1360,14 +1332,6 @@ CREATE NONCLUSTERED INDEX [IX_AccountBlogPost] ON [dbo].[AccountBlogPost]
 	[AccountBlog_Id] ASC
 )WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 GO
-IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[AccountBlogPost]'))
-CREATE FULLTEXT INDEX ON [dbo].[AccountBlogPost](
-[Body] LANGUAGE [English], 
-[Title] LANGUAGE [English])
-KEY INDEX [PK_AccountBlogPost] ON [SnCore]
-WITH CHANGE_TRACKING AUTO
-
-GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1400,118 +1364,32 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountProfile]') AND type in (N'U'))
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[RefererHostDup]') AND type in (N'U'))
 BEGIN
-CREATE TABLE [dbo].[AccountProfile](
-	[AccountProfile_Id] [int] IDENTITY(1,1) NOT NULL,
-	[Account_Id] [int] NULL,
-	[AboutSelf] [ntext] NULL,
-	[Updated] [datetime] NOT NULL,
- CONSTRAINT [PK_AccountProfile] PRIMARY KEY CLUSTERED 
-(
-	[AccountProfile_Id] ASC
-)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY],
- CONSTRAINT [UK_AccountProfile] UNIQUE NONCLUSTERED 
-(
-	[Account_Id] ASC
-)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-END
-GO
-IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[AccountProfile]'))
-CREATE FULLTEXT INDEX ON [dbo].[AccountProfile](
-[AboutSelf] LANGUAGE [English])
-KEY INDEX [PK_AccountProfile] ON [SnCore]
-WITH CHANGE_TRACKING AUTO
-
-GO
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountStory]') AND type in (N'U'))
-BEGIN
-CREATE TABLE [dbo].[AccountStory](
-	[AccountStory_Id] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [nvarchar](256) NOT NULL,
-	[Summary] [ntext] NOT NULL,
+CREATE TABLE [dbo].[RefererHostDup](
+	[RefererHostDup_Id] [int] IDENTITY(1,1) NOT NULL,
+	[RefererHost_Id] [int] NOT NULL,
+	[Host] [varchar](128) NOT NULL,
 	[Created] [datetime] NOT NULL,
 	[Modified] [datetime] NOT NULL,
-	[Account_Id] [int] NOT NULL,
- CONSTRAINT [PK_Story] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_RefererHostDup] PRIMARY KEY CLUSTERED 
 (
-	[AccountStory_Id] ASC
+	[RefererHostDup_Id] ASC
 )WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY],
- CONSTRAINT [UK_AccountStory] UNIQUE NONCLUSTERED 
+ CONSTRAINT [UK_RefererHostDup] UNIQUE NONCLUSTERED 
 (
-	[Name] ASC,
-	[Account_Id] ASC
-)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-END
-GO
-
-IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountStory]') AND name = N'IX_Created')
-CREATE NONCLUSTERED INDEX [IX_Created] ON [dbo].[AccountStory] 
-(
-	[Created] DESC
-)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
-GO
-IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[AccountStory]'))
-CREATE FULLTEXT INDEX ON [dbo].[AccountStory](
-[Name] LANGUAGE [English], 
-[Summary] LANGUAGE [English])
-KEY INDEX [PK_Story] ON [SnCore]
-WITH CHANGE_TRACKING AUTO
-
-GO
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountMessageFolder]') AND type in (N'U'))
-BEGIN
-CREATE TABLE [dbo].[AccountMessageFolder](
-	[AccountMessageFolder_Id] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [nvarchar](64) NOT NULL,
-	[AccountMessageFolderParent_Id] [int] NULL,
-	[System] [bit] NOT NULL CONSTRAINT [DF_MessageFolder_System]  DEFAULT (0),
-	[Account_Id] [int] NOT NULL,
-	[Created] [datetime] NOT NULL,
-	[Modified] [datetime] NOT NULL,
- CONSTRAINT [PK_AccountMessageFolder] PRIMARY KEY CLUSTERED 
-(
-	[AccountMessageFolder_Id] ASC
-)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY],
- CONSTRAINT [UK_AccountMessageFolder] UNIQUE NONCLUSTERED 
-(
-	[Name] ASC,
-	[AccountMessageFolderParent_Id] ASC,
-	[Account_Id] ASC
+	[RefererHost_Id] ASC,
+	[Host] ASC
 )WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountPicture]') AND type in (N'U'))
-BEGIN
-CREATE TABLE [dbo].[AccountPicture](
-	[AccountPicture_Id] [int] IDENTITY(1,1) NOT NULL,
-	[Account_Id] [int] NOT NULL,
-	[Bitmap] [image] NOT NULL,
-	[Name] [nvarchar](64) NULL,
-	[Description] [ntext] NULL,
-	[Created] [datetime] NOT NULL,
-	[Modified] [datetime] NOT NULL,
- CONSTRAINT [PK_AccountPicture] PRIMARY KEY CLUSTERED 
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[RefererHostDup]') AND name = N'IX_RefererHostDup')
+CREATE NONCLUSTERED INDEX [IX_RefererHostDup] ON [dbo].[RefererHostDup] 
 (
-	[AccountPicture_Id] ASC
+	[Host] ASC
 )WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-END
 GO
 SET ANSI_NULLS ON
 GO
@@ -1538,30 +1416,6 @@ CREATE UNIQUE NONCLUSTERED INDEX [UK_AccountOpenId] ON [dbo].[AccountOpenId]
 (
 	[IdentityUrl] ASC
 )WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
-GO
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountWebsite]') AND type in (N'U'))
-BEGIN
-CREATE TABLE [dbo].[AccountWebsite](
-	[AccountWebsite_Id] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [nvarchar](64) NOT NULL,
-	[Description] [ntext] NULL,
-	[Url] [nvarchar](128) NOT NULL,
-	[Account_Id] [int] NOT NULL,
- CONSTRAINT [PK_AccountWebsite] PRIMARY KEY CLUSTERED 
-(
-	[AccountWebsite_Id] ASC
-)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY],
- CONSTRAINT [UK_AccountWebsite] UNIQUE NONCLUSTERED 
-(
-	[Url] ASC,
-	[Account_Id] ASC
-)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-END
 GO
 SET ANSI_NULLS ON
 GO
@@ -1663,6 +1517,132 @@ CREATE TABLE [dbo].[Discussion](
 	[Name] ASC,
 	[Account_Id] ASC,
 	[Object_Id] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountProfile]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[AccountProfile](
+	[AccountProfile_Id] [int] IDENTITY(1,1) NOT NULL,
+	[Account_Id] [int] NULL,
+	[AboutSelf] [ntext] NULL,
+	[Updated] [datetime] NOT NULL,
+ CONSTRAINT [PK_AccountProfile] PRIMARY KEY CLUSTERED 
+(
+	[AccountProfile_Id] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY],
+ CONSTRAINT [UK_AccountProfile] UNIQUE NONCLUSTERED 
+(
+	[Account_Id] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountStory]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[AccountStory](
+	[AccountStory_Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](256) NOT NULL,
+	[Summary] [ntext] NOT NULL,
+	[Created] [datetime] NOT NULL,
+	[Modified] [datetime] NOT NULL,
+	[Account_Id] [int] NOT NULL,
+ CONSTRAINT [PK_Story] PRIMARY KEY CLUSTERED 
+(
+	[AccountStory_Id] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY],
+ CONSTRAINT [UK_AccountStory] UNIQUE NONCLUSTERED 
+(
+	[Name] ASC,
+	[Account_Id] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountStory]') AND name = N'IX_Created')
+CREATE NONCLUSTERED INDEX [IX_Created] ON [dbo].[AccountStory] 
+(
+	[Created] DESC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountMessageFolder]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[AccountMessageFolder](
+	[AccountMessageFolder_Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](64) NOT NULL,
+	[AccountMessageFolderParent_Id] [int] NULL,
+	[System] [bit] NOT NULL CONSTRAINT [DF_MessageFolder_System]  DEFAULT (0),
+	[Account_Id] [int] NOT NULL,
+	[Created] [datetime] NOT NULL,
+	[Modified] [datetime] NOT NULL,
+ CONSTRAINT [PK_AccountMessageFolder] PRIMARY KEY CLUSTERED 
+(
+	[AccountMessageFolder_Id] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY],
+ CONSTRAINT [UK_AccountMessageFolder] UNIQUE NONCLUSTERED 
+(
+	[Name] ASC,
+	[AccountMessageFolderParent_Id] ASC,
+	[Account_Id] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+END
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountPicture]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[AccountPicture](
+	[AccountPicture_Id] [int] IDENTITY(1,1) NOT NULL,
+	[Account_Id] [int] NOT NULL,
+	[Bitmap] [image] NOT NULL,
+	[Name] [nvarchar](64) NULL,
+	[Description] [ntext] NULL,
+	[Created] [datetime] NOT NULL,
+	[Modified] [datetime] NOT NULL,
+ CONSTRAINT [PK_AccountPicture] PRIMARY KEY CLUSTERED 
+(
+	[AccountPicture_Id] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountWebsite]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[AccountWebsite](
+	[AccountWebsite_Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](64) NOT NULL,
+	[Description] [ntext] NULL,
+	[Url] [varchar](128) NOT NULL,
+	[Account_Id] [int] NOT NULL,
+ CONSTRAINT [PK_AccountWebsite] PRIMARY KEY CLUSTERED 
+(
+	[AccountWebsite_Id] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY],
+ CONSTRAINT [UK_AccountWebsite] UNIQUE NONCLUSTERED 
+(
+	[Url] ASC,
+	[Account_Id] ASC
 )WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
@@ -1842,14 +1822,6 @@ CREATE NONCLUSTERED INDEX [IX_Created] ON [dbo].[AccountFeedItem]
 	[Created] DESC
 )WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 GO
-IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[AccountFeedItem]'))
-CREATE FULLTEXT INDEX ON [dbo].[AccountFeedItem](
-[Description] LANGUAGE [English], 
-[Title] LANGUAGE [English])
-KEY INDEX [PK_AccountFeedItem] ON [SnCore]
-WITH CHANGE_TRACKING AUTO
-
-GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountMessage_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountMessage]'))
 ALTER TABLE [dbo].[AccountMessage]  WITH CHECK ADD  CONSTRAINT [FK_AccountMessage_Account] FOREIGN KEY([Account_Id])
 REFERENCES [dbo].[Account] ([Account_Id])
@@ -2002,6 +1974,14 @@ ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[State] CHECK CONSTRAINT [FK_State_Country]
 GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Account_Country]') AND parent_object_id = OBJECT_ID(N'[dbo].[Account]'))
+ALTER TABLE [dbo].[Account]  WITH CHECK ADD  CONSTRAINT [FK_Account_Country] FOREIGN KEY([Country_Id])
+REFERENCES [dbo].[Country] ([Country_Id])
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Account_State]') AND parent_object_id = OBJECT_ID(N'[dbo].[Account]'))
+ALTER TABLE [dbo].[Account]  WITH CHECK ADD  CONSTRAINT [FK_Account_State] FOREIGN KEY([State_Id])
+REFERENCES [dbo].[State] ([State_Id])
+GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountAddress_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountAddress]'))
 ALTER TABLE [dbo].[AccountAddress]  WITH CHECK ADD  CONSTRAINT [FK_AccountAddress_Account] FOREIGN KEY([Account_Id])
 REFERENCES [dbo].[Account] ([Account_Id])
@@ -2013,14 +1993,6 @@ REFERENCES [dbo].[Country] ([Country_Id])
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Address_State]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountAddress]'))
 ALTER TABLE [dbo].[AccountAddress]  WITH CHECK ADD  CONSTRAINT [FK_Address_State] FOREIGN KEY([State_Id])
-REFERENCES [dbo].[State] ([State_Id])
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Account_Country]') AND parent_object_id = OBJECT_ID(N'[dbo].[Account]'))
-ALTER TABLE [dbo].[Account]  WITH CHECK ADD  CONSTRAINT [FK_Account_Country] FOREIGN KEY([Country_Id])
-REFERENCES [dbo].[Country] ([Country_Id])
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Account_State]') AND parent_object_id = OBJECT_ID(N'[dbo].[Account]'))
-ALTER TABLE [dbo].[Account]  WITH CHECK ADD  CONSTRAINT [FK_Account_State] FOREIGN KEY([State_Id])
 REFERENCES [dbo].[State] ([State_Id])
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Feature_DataObject]') AND parent_object_id = OBJECT_ID(N'[dbo].[Feature]'))
@@ -2106,6 +2078,31 @@ ALTER TABLE [dbo].[AccountBlogAuthor]  WITH CHECK ADD  CONSTRAINT [FK_AccountBlo
 REFERENCES [dbo].[AccountBlog] ([AccountBlog_Id])
 ON DELETE CASCADE
 GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_RefererHostDup_RefererHost]') AND parent_object_id = OBJECT_ID(N'[dbo].[RefererHostDup]'))
+ALTER TABLE [dbo].[RefererHostDup]  WITH CHECK ADD  CONSTRAINT [FK_RefererHostDup_RefererHost] FOREIGN KEY([RefererHost_Id])
+REFERENCES [dbo].[RefererHost] ([RefererHost_Id])
+ON DELETE CASCADE
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountOpenId_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountOpenId]'))
+ALTER TABLE [dbo].[AccountOpenId]  WITH CHECK ADD  CONSTRAINT [FK_AccountOpenId_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Schedule_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[Schedule]'))
+ALTER TABLE [dbo].[Schedule]  WITH CHECK ADD  CONSTRAINT [FK_Schedule_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountBlog_AccountBlog]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountBlog]'))
+ALTER TABLE [dbo].[AccountBlog]  WITH CHECK ADD  CONSTRAINT [FK_AccountBlog_AccountBlog] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Discussion_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[Discussion]'))
+ALTER TABLE [dbo].[Discussion]  WITH CHECK ADD  CONSTRAINT [FK_Discussion_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountProfile_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountProfile]'))
 ALTER TABLE [dbo].[AccountProfile]  WITH CHECK ADD  CONSTRAINT [FK_AccountProfile_Account] FOREIGN KEY([Account_Id])
 REFERENCES [dbo].[Account] ([Account_Id])
@@ -2130,28 +2127,8 @@ ALTER TABLE [dbo].[AccountPicture]  WITH CHECK ADD  CONSTRAINT [FK_AccountPictur
 REFERENCES [dbo].[Account] ([Account_Id])
 ON DELETE CASCADE
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountOpenId_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountOpenId]'))
-ALTER TABLE [dbo].[AccountOpenId]  WITH CHECK ADD  CONSTRAINT [FK_AccountOpenId_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountWebsite_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountWebsite]'))
 ALTER TABLE [dbo].[AccountWebsite]  WITH CHECK ADD  CONSTRAINT [FK_AccountWebsite_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Schedule_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[Schedule]'))
-ALTER TABLE [dbo].[Schedule]  WITH CHECK ADD  CONSTRAINT [FK_Schedule_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountBlog_AccountBlog]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountBlog]'))
-ALTER TABLE [dbo].[AccountBlog]  WITH CHECK ADD  CONSTRAINT [FK_AccountBlog_AccountBlog] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Discussion_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[Discussion]'))
-ALTER TABLE [dbo].[Discussion]  WITH CHECK ADD  CONSTRAINT [FK_Discussion_Account] FOREIGN KEY([Account_Id])
 REFERENCES [dbo].[Account] ([Account_Id])
 ON DELETE CASCADE
 GO
