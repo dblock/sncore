@@ -319,6 +319,13 @@ CREATE TABLE [dbo].[TagWord](
 ) ON [PRIMARY]
 END
 GO
+IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[TagWord]'))
+CREATE FULLTEXT INDEX ON [dbo].[TagWord](
+[Word] LANGUAGE [English])
+KEY INDEX [PK_TagWord] ON [SnCore]
+WITH CHANGE_TRACKING AUTO
+
+GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -653,6 +660,12 @@ CREATE UNIQUE NONCLUSTERED INDEX [UK_PlaceName] ON [dbo].[PlaceName]
 	[Place_Id] ASC
 )WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 GO
+IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[PlaceName]'))
+CREATE FULLTEXT INDEX ON [dbo].[PlaceName]
+KEY INDEX [PK_PlaceName] ON [SnCore]
+WITH CHANGE_TRACKING AUTO
+
+GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -916,6 +929,21 @@ CREATE NONCLUSTERED INDEX [IX_Place_Name] ON [dbo].[Place]
 	[Name] ASC
 )WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 GO
+IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[Place]'))
+CREATE FULLTEXT INDEX ON [dbo].[Place](
+[CrossStreet] LANGUAGE [English], 
+[Description] LANGUAGE [English], 
+[Email] LANGUAGE [English], 
+[Fax] LANGUAGE [English], 
+[Name] LANGUAGE [English], 
+[Phone] LANGUAGE [English], 
+[Street] LANGUAGE [English], 
+[Website] LANGUAGE [English], 
+[Zip] LANGUAGE [English])
+KEY INDEX [PK_Place] ON [SnCore]
+WITH CHANGE_TRACKING AUTO
+
+GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -997,6 +1025,13 @@ CREATE NONCLUSTERED INDEX [IX_LastLogin] ON [dbo].[Account]
 (
 	[LastLogin] ASC
 )WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+GO
+IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[Account]'))
+CREATE FULLTEXT INDEX ON [dbo].[Account](
+[Name] LANGUAGE [English])
+KEY INDEX [PK_Account] ON [SnCore]
+WITH CHANGE_TRACKING AUTO
+
 GO
 SET ANSI_NULLS ON
 GO
@@ -1095,6 +1130,14 @@ CREATE TABLE [dbo].[DiscussionPost](
 )WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
+GO
+IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[DiscussionPost]'))
+CREATE FULLTEXT INDEX ON [dbo].[DiscussionPost](
+[Body] LANGUAGE [English], 
+[Subject] LANGUAGE [English])
+KEY INDEX [PK_DiscussionPost] ON [SnCore]
+WITH CHANGE_TRACKING AUTO
+
 GO
 SET ANSI_NULLS ON
 GO
@@ -1278,6 +1321,13 @@ CREATE TABLE [dbo].[AccountSurveyAnswer](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
 GO
+IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[AccountSurveyAnswer]'))
+CREATE FULLTEXT INDEX ON [dbo].[AccountSurveyAnswer](
+[Answer] LANGUAGE [English])
+KEY INDEX [PK_AccountSurveyAnswer] ON [SnCore]
+WITH CHANGE_TRACKING AUTO
+
+GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1331,6 +1381,14 @@ CREATE NONCLUSTERED INDEX [IX_AccountBlogPost] ON [dbo].[AccountBlogPost]
 	[Modified] DESC,
 	[AccountBlog_Id] ASC
 )WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+GO
+IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[AccountBlogPost]'))
+CREATE FULLTEXT INDEX ON [dbo].[AccountBlogPost](
+[Body] LANGUAGE [English], 
+[Title] LANGUAGE [English])
+KEY INDEX [PK_AccountBlogPost] ON [SnCore]
+WITH CHANGE_TRACKING AUTO
+
 GO
 SET ANSI_NULLS ON
 GO
@@ -1543,6 +1601,13 @@ CREATE TABLE [dbo].[AccountProfile](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
 GO
+IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[AccountProfile]'))
+CREATE FULLTEXT INDEX ON [dbo].[AccountProfile](
+[AboutSelf] LANGUAGE [English])
+KEY INDEX [PK_AccountProfile] ON [SnCore]
+WITH CHANGE_TRACKING AUTO
+
+GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1574,6 +1639,14 @@ CREATE NONCLUSTERED INDEX [IX_Created] ON [dbo].[AccountStory]
 (
 	[Created] DESC
 )WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+GO
+IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[AccountStory]'))
+CREATE FULLTEXT INDEX ON [dbo].[AccountStory](
+[Name] LANGUAGE [English], 
+[Summary] LANGUAGE [English])
+KEY INDEX [PK_Story] ON [SnCore]
+WITH CHANGE_TRACKING AUTO
+
 GO
 SET ANSI_NULLS ON
 GO
@@ -1821,6 +1894,14 @@ CREATE NONCLUSTERED INDEX [IX_Created] ON [dbo].[AccountFeedItem]
 (
 	[Created] DESC
 )WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+GO
+IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[AccountFeedItem]'))
+CREATE FULLTEXT INDEX ON [dbo].[AccountFeedItem](
+[Description] LANGUAGE [English], 
+[Title] LANGUAGE [English])
+KEY INDEX [PK_AccountFeedItem] ON [SnCore]
+WITH CHANGE_TRACKING AUTO
+
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountMessage_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountMessage]'))
 ALTER TABLE [dbo].[AccountMessage]  WITH CHECK ADD  CONSTRAINT [FK_AccountMessage_Account] FOREIGN KEY([Account_Id])
