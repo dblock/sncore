@@ -6,6 +6,8 @@ using NHibernate.Expression;
 using NHibernate.Collection;
 using System.Diagnostics;
 using System.Web;
+using SnCore.Tools.Web;
+
 namespace SnCore.Services
 {
     public class TransitCounter
@@ -343,9 +345,12 @@ namespace SnCore.Services
             if (host == null)
             {
                 // find whether this is a dup host
-                RefererHostDup duphost = (RefererHostDup)Session.CreateCriteria(typeof(RefererHostDup))
-                    .Add(Expression.Like("Host", request.RefererUri.Host))
-                    .UniqueResult();
+                RefererHostDup duphost = (RefererHostDup)
+                    Session.CreateSQLQuery(
+                        "SELECT {R.*} FROM RefererHostDup {R}" +
+                        " WHERE '" + Renderer.SqlEncode(request.RefererUri.Host) + "' LIKE Host",
+                        "R",
+                        typeof(RefererHostDup)).SetMaxResults(1).UniqueResult();
 
                 if (duphost != null)
                 {
