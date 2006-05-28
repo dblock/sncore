@@ -20,8 +20,7 @@
      <asp:HyperLink ID="linkRefererQueries" runat="server" Text="&#187; Referer Queries" NavigateUrl="SystemRefererQueries.aspx" />
     </div>
     <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage" PageSize="15"
-     AllowPaging="true" AutoGenerateColumns="false"
-     CssClass="sncore_account_table">
+     AllowPaging="true" AutoGenerateColumns="false" AllowCustomPaging="true" CssClass="sncore_account_table">
      <ItemStyle CssClass="sncore_table_tr_td" HorizontalAlign="Center" />
      <HeaderStyle CssClass="sncore_table_tr_th" HorizontalAlign="Center" />
      <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"

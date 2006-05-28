@@ -25,15 +25,21 @@ public partial class SystemRefererHosts : AuthenticatedPage
 
             if (!IsPostBack)
             {
-                gridManage.VirtualItemCount = StatsService.GetRefererHostsCount();
-                gridManage_OnGetDataSource(this, null);
-                gridManage.DataBind();
+                GetData();
             }
         }
         catch (Exception ex)
         {
             ReportException(ex);
         }
+    }
+
+    private void GetData()
+    {
+        gridManage.CurrentPageIndex = 0;
+        gridManage.VirtualItemCount = StatsService.GetRefererHostsCount();
+        gridManage_OnGetDataSource(this, null);
+        gridManage.DataBind();
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
