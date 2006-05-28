@@ -158,12 +158,15 @@ namespace SnCore.Services
 
             // merge existing dup hosts
             IList hosts = Session.CreateCriteria(typeof(RefererHost))
-                .Add(Expression.Eq("Host", mRefererHostDup.Host)).List();
+                .Add(Expression.Like("Host", mRefererHostDup.Host)).List();
 
             foreach (RefererHost host in hosts)
             {
-                mRefererHostDup.RefererHost.Total += host.Total;
-                Session.Delete(host);
+                if (host != mRefererHostDup.RefererHost)
+                {
+                    mRefererHostDup.RefererHost.Total += host.Total;
+                    Session.Delete(host);
+                }
             }
 
             Session.Save(mRefererHostDup);

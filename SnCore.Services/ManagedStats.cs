@@ -344,7 +344,7 @@ namespace SnCore.Services
             {
                 // find whether this is a dup host
                 RefererHostDup duphost = (RefererHostDup)Session.CreateCriteria(typeof(RefererHostDup))
-                    .Add(Expression.Eq("Host", request.RefererUri.Host))
+                    .Add(Expression.Like("Host", request.RefererUri.Host))
                     .UniqueResult();
 
                 if (duphost != null)
