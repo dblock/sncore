@@ -183,6 +183,8 @@ public partial class PlaceView : Page
                     linkCountry.NavigateUrl = string.Format("PlacesView.aspx?country={0}",
                         Renderer.UrlEncode(place.Country));
 
+                    linkDirections.HRef = DrivingDirectionsUrl;
+
                     placeAccounts.PlaceId = RequestId;
                     placeFriends.PlaceId = RequestId;
 
@@ -297,7 +299,7 @@ public partial class PlaceView : Page
     {
         panelAdmin.Visible = SessionManager.IsAdministrator;
         linkDeleteFeatures.Visible = (LatestPlaceFeature != null);
-        linkMap.Visible = linkDirection.Visible = (Place != null && !string.IsNullOrEmpty(Place.Street));
+        linkMap.Visible = linkDirections.Visible = (Place != null && !string.IsNullOrEmpty(Place.Street));
         base.OnPreRender(e);
     }
 

@@ -102,7 +102,7 @@
         <td class="sncore_table_tr_td" style="font-size: smaller;">
          <a id="linkDetails" runat="server" href="#" onclick="showDetails();">&#187; details</a>
          <a id="linkMap" runat="server" href="#" onclick="showMap();">&#187; map</a> 
-         <a id="linkDirection" runat="server" href="<% Response.Write(DrivingDirectionsUrl); %>" target="_blank">&#187; directions</a>
+         <a id="linkDirections" runat="server" target="_blank">&#187; directions</a>
         </td>
         <td align="right" style="font-size: smaller;">
          <% Response.Write(SuggestedBy); %>
@@ -221,10 +221,12 @@
   
    function createYahooMarker() 
    { 
-     var myImage = new YImage(); 
-     var marker = new YMarker("<% Response.Write(base.Render(base.Address)); %>"); 
+     var myImage = new YImage();
+     myImage.src = 'http://us.i1.yimg.com/us.yimg.com/i/us/map/gr/mt_ic_c.gif';
+     myImage.size = new YSize(20, 20);
+     myImage.offsetSmartWindow = new YCoordPoint(0, 0);
+     var marker = new YMarker("<% Response.Write(base.Render(base.Address)); %>", myImage, "2"); 
      marker.addLabel("<img src='images/account/star.gif'>");
-
      YEvent.Capture(marker, EventsList.MouseClick, function() { marker.openSmartWindow("<% Response.Write(MarkerText); %>") }); 
      return marker; 
    } 
