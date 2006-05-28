@@ -32,7 +32,7 @@ public partial class SystemStatsHits: AuthenticatedPage
 
     void SetChartType(ChartType type)
     {
-        imageStats.Src = string.Format("SystemStatsChart.aspx?type={0}", type);
+        imageStats.Src = string.Format("SystemStatsChart.aspx?type={0}&CacheDuration=300", type);
         switch (type)
         {
             case ChartType.DailyUnique:

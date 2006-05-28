@@ -52,7 +52,7 @@ public abstract class PicturePage : Page
                 DateTime ifmodifiedsincedt;
                 if (DateTime.TryParse(ifmodifiedsince.ToString(), out ifmodifiedsincedt))
                 {
-                    if (ifmodifiedsincedt.ToUniversalTime().AddSeconds(CacheDuration) < DateTime.UtcNow)
+                    if (ifmodifiedsincedt.ToUniversalTime().AddSeconds(CacheDuration) > DateTime.UtcNow)
                     {
                         Response.StatusCode = 304;
                         return;
