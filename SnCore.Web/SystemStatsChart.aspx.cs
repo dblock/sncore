@@ -79,7 +79,7 @@ public partial class SystemStatsChart2 : PicturePage
         engine.GridLines = WebChart.GridLines.None;
         engine.ShowXValues = true;
         engine.ShowYValues = true;
-        engine.LeftChartPadding = 20;
+        engine.LeftChartPadding = 50;
         engine.BottomChartPadding = 50;       
         engine.XAxisFont.StringFormat.LineAlignment = StringAlignment.Center;
         engine.XAxisFont.StringFormat.FormatFlags = StringFormatFlags.DirectionVertical;
