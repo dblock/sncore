@@ -145,4 +145,16 @@ public abstract class PicturePage : Page
             return int.Parse(duration.ToString());
         }
     }
+
+    public override SessionManager SessionManager
+    {
+        get
+        {
+            if (mSessionManager == null)
+            {
+                mSessionManager = new SessionManager(this);
+            }
+            return mSessionManager;
+        }
+    }
 }

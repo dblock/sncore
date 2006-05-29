@@ -94,16 +94,21 @@ public class SessionManager
     }
 
     public SessionManager(System.Web.UI.Page page)
-        : this(page.Cache, page.Request, page.Response)
+        : this(page.Cache, page.Request, page.Response, true)
     {
     }
 
     public SessionManager(System.Web.UI.MasterPage page)
-        : this(page.Cache, page.Request, page.Response)
+        : this(page.Cache, page.Request, page.Response, true)
     {
     }
 
-    public SessionManager(Cache cache, HttpRequest request, HttpResponse response)
+    public SessionManager(PicturePage page)
+        : this(page.Cache, page.Request, page.Response, false)
+    {
+    }
+
+    public SessionManager(Cache cache, HttpRequest request, HttpResponse response, bool track)
     {
         mCache = cache;
         mRequest = request;
@@ -129,7 +134,10 @@ public class SessionManager
             }
         }
 
-        Track(request, response);
+        if (track)
+        {
+            Track(request, response);
+        }
     }
 
     private void Track(HttpRequest request, HttpResponse response)

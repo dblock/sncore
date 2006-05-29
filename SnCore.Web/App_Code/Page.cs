@@ -15,7 +15,7 @@ using SnCore.BackEndServices;
 
 public class Page : System.Web.UI.Page
 {
-    private SessionManager mSessionManager = null;
+    protected SessionManager mSessionManager = null;
 
     public int RequestId
     {
@@ -179,7 +179,7 @@ public class Page : System.Web.UI.Page
         }
     }
 
-    public SessionManager SessionManager
+    public virtual SessionManager SessionManager
     {
         get
         {
