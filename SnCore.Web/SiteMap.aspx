@@ -94,6 +94,7 @@
        <li><a href="FeaturedAccountFeedsView.aspx">Feeds</a></li>
        <li><a href="FeaturedAccountsView.aspx">People</a></li>
        <li><a href="FeaturedPlacesView.aspx">Places</a></li>
+       <li><a href="FeaturedAccountEventsView.aspx">Events</a></li>
       </ul>
       <li>RSS Syndication</li>
       <ul>
