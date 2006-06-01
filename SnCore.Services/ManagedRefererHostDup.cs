@@ -152,6 +152,7 @@ namespace SnCore.Services
 
         public void CreateOrUpdate(TransitRefererHostDup o)
         {
+            Session.Save(ManagedRefererHost.FindOrCreate(Session, o.RefererHost));
             mRefererHostDup = o.GetRefererHostDup(Session);
             mRefererHostDup.Modified = DateTime.UtcNow;
             if (Id == 0) mRefererHostDup.Created = mRefererHostDup.Modified;

@@ -193,6 +193,24 @@ namespace SnCore.Services
             Session.Delete(mRefererHost);
         }
 
+        public static RefererHost FindOrCreate(ISession session, string host)
+        {
+            RefererHost h = (RefererHost)session.CreateCriteria(typeof(RefererHost))
+                .Add(Expression.Eq("Host", host))
+                .UniqueResult();
+
+            if (h == null)
+            {
+                h = new RefererHost();
+                h.Created = h.Updated = DateTime.UtcNow;
+                h.LastRefererUri = h.LastRequestUri = "http://localhost/";
+                h.Host = host;
+                h.Total = 0;
+            }
+
+            return h;
+        }
+
         public static RefererHost Find(ISession session, string host)
         {
             RefererHost h = (RefererHost)session.CreateCriteria(typeof(RefererHost))
