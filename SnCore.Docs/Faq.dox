@@ -4,6 +4,8 @@
 \li \ref faq_general_love
 \li \ref faq_general_ask
 \li \ref faq_general_dating
+\li \ref faq_general_contribute_dev
+\li \ref faq_general_contribute_content
 
 \section faq_ads Advertising
 \li \ref faq_ads_why
@@ -19,11 +21,12 @@
 \section faq_meme_top Me Me
 \li \ref faq_meme_picsize
 
-\section faq_discussions_top Discussions
-\li \ref faq_discussions_links
-\li \ref faq_discussions_image
-\li \ref faq_discussions_tags
-\li \ref faq_discussion_othertags
+\section faq_posting_top Posting
+\li \ref faq_posting_html
+\li \ref faq_posting_links
+\li \ref faq_posting_image
+\li \ref faq_posting_tags
+\li \ref faq_posting_othertags
 
 \section faq_people_top People
 \li \ref faq_people_tags
@@ -34,6 +37,9 @@
 \section faq_syndication_top Syndication
 \li \ref faq_syndication_rss
 \li \ref faq_syndication_how
+
+\section faq_events_top Events
+\li \ref faq_events_how
 
 \section faq_places Places
 \li \ref faq_places_tags
@@ -62,6 +68,12 @@ the <a href="/Help.aspx">Help</a> section.
 \subsection faq_general_dating Is this a dating site?
 This site is all about meeting people with similar interests. This can lead to dating, cooking together, marriage and sometimes even 
 children. We strongly recommend safe sex and saying no to drugs.
+
+\subsection faq_general_contribute_dev I am a software engineer. How can I contribute?
+You can contribute to this site through the social networking core SDK. See \ref dev for details.
+
+\subsection faq_general_contribute_content How do I contribute with my time, content or services?
+We appreciate your time. Please contact the site administrator through the <a href="/Help.aspx">Help</a> section.
 
 \section faq_ads Advertising
 \subsection faq_ads_why What's up with ads? Don't you make enough money?
@@ -94,21 +106,27 @@ feature on public computers.
 You can upload a picture of any size. Pictures larger than 640x480 will be automatically resized and compressed with 
 a 40% JPEG compression.
 
-\section faq_discussions Discussions
+\section faq_posting Posting Content
 
-\subsection faq_discussions_links How do I insert a link into a dicussion post?
+\subsection faq_posting_html Is HTML allowed in posts?
+Yes, a limited well-formed subset of HTML is allowed in posts. This includes complex tables and styles, images and links, etc.
+Script or any other potentially harmful content is removed. If some content doesn't render, check the HTML source: illegal tags are 
+replaced with &lt;stripped /&gt;.
+
+\subsection faq_posting_links How do I insert a link into discussions, stories and other kinds of posts?
 You do not need any markup to insert a link into a discussion post. Simply use a link as is. Anything starting with
 http:// or https:// and looking like a legitimate link will be automatically highlighted.
 
-\subsection faq_discussions_image How do I embed a picture in a discussion post?
-To embed a picture in the discussion post you must locate the address of the picture and put it in between [img] and [/img] tags. 
-You can find an address of a picture by right clicking on it and choosing <em>Properties</em>.
+\subsection faq_posting_image How do I embed a picture in a discussion post?
+You an use plain HTML or the [img] bbtag. To embed a picture in the discussion post with a bbtag you must locate the address 
+of the picture and put it in between [img] and [/img] tags. You can find an address of a picture by right clicking on it and 
+choosing <em>Properties</em>.
 For example:
 \code
 [img]http://www.mywebsite.com/images/picture.jpg[/img]
 \endcode
 
-\subsection faq_discussions_tags What other tags are supported in discussion posts?
+\subsection faq_posting_tags What other tags are supported in discussion posts?
 The following tags are supported by the system.
 
 <table class="settingTable" cellpadding="4px" cellspacing="0">
@@ -193,8 +211,9 @@ The following tags are supported by the system.
  </tr>
 </table>
   
-\subsection faq_discussion_othertags What other places support tags?
-All discussion posts, stories and personal information on your profile support above-mentionned tags.
+\subsection faq_posting_othertags What other places support tags or HTML?
+All discussion posts, stories, blogs, personal information on your profile and basically everything that allows multiple lines of
+content support above-mentionned tags, limited HTML and automatically highlighted links.
 
 \section faq_people People
 
@@ -277,6 +296,38 @@ and fill in the form.
 Test the feed. Click <em>Update</em> next to your feed on the <a href="/AccountFeedsManage.aspx">Syndication</a> section.
 Then choose <em>View</em>. You should see the actual content or an error.
 
+\section faq_events Events
+
+\subsection faq_events_how How do I post a new event?
+An event occurs at a given place at a given time. It may occur once or recur over a period of up to six months. Event instances appear in 
+the events calendar. Every time you save an event, it will generate all its instances, six months ahead.
+
+To post an event follow these simple steps.
+<ol>
+ <li>You must be a member to post events. If you delete your account all your events will be deleted.
+ <li>Before posting events make sure to double-check your timezone in account preferences. All specified times are set in your local 
+     timezone and users in other timezones will see time adjusted to their location. Note that since events are attached to places they are
+     geographically restricted and a user in Seattle typically doesn't see events in New York unless he explicitly chooses to do so.   
+ <li>Follow the <em>suggest an event</em> link.
+ <li>Enter the event <em>name</em>, choose an event <em>type</em> and enter a short description. The description may contain links or 
+     limited HTML content.
+ <li>By default you will schedule a <em>one-time</em> event. That is, an event that occurs once. You must choose the <em>start and end 
+     time and dates</em>. You may choose to have an <em>all day</em> event.
+ <li>To schedule a recurrent event choose <em>schedule a recurrent event</em>. Recurrent events mimic exactly Microsoft Outlook's
+     scheduler with daily, weekly, monthly and yearly events that may or may not have an end date or a limited number of occurences.
+ <li>Once you're satisfied with the event schedule choose <em>Confirm</em>. This does not save the event but translates the occurence or
+     the recurrence into English. Verify that the event schedule is correct or choose <em>edit schedule</em> to make changes.
+ <li>All events are attached to locations. You must choose or create a new location before an event can be posted. By default you may
+     use an <em>existing location</em>. Enter a location name and choose <em>Lookup</em>. You will be shown options that match
+     the name closest. Click <em>choose</em> to confirm a selection.
+ <li>You may add a new location. Locations don't get saved until you effectively save the event. You must fill the location <em>type</em>,
+     <em>name</em>, <em>country</em>, optional <em>state</em> and <em>city</em>. Choose <em>Save</em> to confirm the location.
+ <li>Enter additional information about the event, such as <em>phone</em>, <em>email</em> or <em>cost to attend</em>. Note that the 
+     email address will not be rendered as is and hence cannot be collected by robots.
+ <li><em>Save</em> the event. You may verify that an event is properly posted by navigating to the event date in today's events or by finding
+     your event in all events. You may edit your event under <em>Events</em> in <em>Me Me</em>.
+</ol>
+
 \section faq_places Places
 
 \subsection faq_places_tags How do I reference a place in a post or story?
@@ -318,6 +369,6 @@ Yes. Absolutely.
 \section faq_misc Miscellaneous
 
 \subsection faq_misc_life What is the meaning of Life?
-Hmmm...
+I wish I knew.
 
 */

@@ -1,7 +1,9 @@
 /*! \page dev Dev HowTo
 
 \section dev_intro Introduction
-This page will guide you through the SnCore development process. It's pretty easy. 
+This page will guide you through the SnCore development process. At first it may look complicated, but it's actually extremely easy
+to get going and it's event easier to write useful code since a large portion of the infrastructure has been completely figured out 
+for you.
 
 \section dev_req Prerequisites 
 \li Microsoft Windows 2000, 2003 or XP. 
@@ -27,8 +29,35 @@ This page will guide you through the SnCore development process. It's pretty eas
  <li>Check out the source code with <em>svn checkout svn://svn.vestris.com/sncore</em>
 </ol>
 
-\section dev_howto Installation
+\section dev_install Installation
 
-Follow the normal \ref install. Visual Studio will create the websites for you, so you can skip that step.
+Follow the normal \ref install. Visual Studio will create the websites for you, so you can skip that step. Once you have your
+SnCore website running you're ready to go.
+
+\section dev_datalifecycle Data LifeCycle
+
+<ol>
+ <li>Add a new SQL table and generate NHibernate class and mapping for it. This is all you have to do to be able to create, retrieve
+     update and delete rows in the database. The generated code is entirely in the automatically generated SnCore.Data project. 
+     You never have to deal with actual SQL code. For example, add a <em>Thing</em> table, which generates a <em>Thing</em> C# class.
+     Read \ref data for implenentation details. Write unit tests for the data and managed layer in the SnCore.Data.Tests project.
+ <li>Create a managed layer for your new class in SnCore.Services. You must create a so called transit class, in this case 
+     <em>TransitThing</em> and a managed class <em>ManagedTransitThing</em>. This layer is usuall a straightforward stub with several 
+     interesting methods.
+     <ul>
+      <li>The managed object is aware of the NHibernate session (the data connection). It can hence implement any side effects needed for
+          <em>CreateOrUpdate</em> and <em>Delete</em>. These are typically updating the <em>Modified</em> column of the class, but may
+          be more complex when an object has relationships.
+      <li>The transit object can be constructed from the managed object with a, for the purpose of our example, <em>GetTransitThing</em> 
+          method. The transit object is used to return a flat structure through web services. It seems redundant, but it is the easiest 
+          way to strip any sensitive data and to combine multiple objects in one to expose to ASP.NET data binding and to separate 
+          what goes between layers.
+     </ul>
+     You should write unit tests for the data and managed layer in the SnCore.Services.Tests project.
+ <li>Create a new web service or methods within an existing web service. These are typically, for a class <em>Thing</em>, 
+     <em>GetThingById</em>, <em>CreateOrUpdateThing</em>, <em>DeleteThingById</em>, <em>GetThings</em>, etc. Permissions are checked
+     within the web services using the user ticket.
+ <li>Create ASP.NET pages, such as <em>ThingsManage.aspx</em>, <em>ThingEdit.aspx</em>, etc.
+</ol>
 
 */
