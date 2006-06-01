@@ -39,7 +39,8 @@
  <li><a href="http://www.openidenabled.com/openid/libraries/csharp" target="_blank">JanRain OpenId.NET</a>
  <li>Wilco Bauwer's <a href="http://www.wilcob.com/" target="_blank">Wilco.Web</a>
  <li>Chris Lovett's <a href="http://www.gotdotnet.com/Community/UserSamples/Details.aspx?SampleGuid=b90fddce-e60d-43f8-a5c4-c3bd760564bc" target="_blank">SgmlReader</a>
- <li>Carlos Aguilar Mares' <a href="http://www.carlosag.net/Tools/WebChart/Default.aspx">WebChart</a>
+ <li>Carlos Aguilar Mares' <a href="http://www.carlosag.net/Tools/WebChart/Default.aspx" target="_blank">WebChart</a>
+ <li><a href="http://www.nunit.org/" target="_blank">NUnit</a>
 </ul>
 
 */
