@@ -39,7 +39,7 @@
    </td>
   </tr>
  </table>
- <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage" PageSize="10"
+ <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage" PageSize="5"
   AllowCustomPaging="true" AllowPaging="true" AutoGenerateColumns="false" CssClass="sncore_table"
   ShowHeader="false">
   <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
@@ -81,7 +81,7 @@
        <%# base.Adjust(Eval("Created")).ToString("d") %>
       </div>
       <div class="sncore_summary">
-       <%# base.GetSummary((string) Eval("Description")) %>
+       <%# base.GetSummary((string) Eval("Description"), (string) Eval("AccountFeedLinkUrl")) %>
       </div>
      </span>
     </itemtemplate>

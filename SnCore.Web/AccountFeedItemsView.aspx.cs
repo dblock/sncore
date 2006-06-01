@@ -105,4 +105,9 @@ public partial class AccountFeedItemsView : Page
         else if (count == 1) return "read 1 comment";
         else return string.Format("read {0} comments", count);
     }
+
+    public string GetSummary(string summary, string link)
+    {
+        return Renderer.CleanHtml(summary, new Uri(link));
+    }
 }

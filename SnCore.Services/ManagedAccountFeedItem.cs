@@ -165,6 +165,20 @@ namespace SnCore.Services
             }
         }
 
+        private string mAccountFeedLinkUrl;
+
+        public string AccountFeedLinkUrl
+        {
+            get
+            {
+                return mAccountFeedLinkUrl;
+            }
+            set
+            {
+                mAccountFeedLinkUrl = value;
+            }
+        }
+
         private string mAccountFeedName;
 
         public string AccountFeedName
@@ -213,6 +227,7 @@ namespace SnCore.Services
             AccountPictureId = ManagedService.GetRandomElementId(o.AccountFeed.Account.AccountPictures);
             AccountName = o.AccountFeed.Account.Name;
             AccountFeedName = o.AccountFeed.Name;
+            AccountFeedLinkUrl = o.AccountFeed.LinkUrl;
             CommentCount = ManagedDiscussion.GetDiscussionPostCount(
                 session, o.AccountFeed.Account.Id, ManagedDiscussion.AccountFeedItemDiscussion, o.Id);
         }
@@ -286,7 +301,7 @@ namespace SnCore.Services
             try
             {
                 int DiscussionId = ManagedDiscussion.GetDiscussionId(
-                    Session, mAccountFeedItem.AccountFeed.Account.Id, ManagedDiscussion.AccountFeedItemDiscussion, 
+                    Session, mAccountFeedItem.AccountFeed.Account.Id, ManagedDiscussion.AccountFeedItemDiscussion,
                     mAccountFeedItem.Id, false);
                 Discussion mDiscussion = (Discussion)Session.Load(typeof(Discussion), DiscussionId);
                 Session.Delete(mDiscussion);
