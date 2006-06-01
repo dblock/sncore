@@ -102,10 +102,12 @@
        <li><a href="PlacesRss.aspx">Places RSS</a></li>
        <li><a href="AccountFeedsRss.aspx">Feeds RSS</a></li>
        <li><a href="AccountStoriesRss.aspx">Stories RSS</a></li>
+       <li><a href="AccountEventsRss.aspx">Events RSS</a></li>
        <li><a href="AccountFeedItemsRss.aspx">Aggregated Feeds RSS</a></li>
        <li><a href="FeaturedAccountsRss.aspx">Featured People RSS</a></li>
        <li><a href="FeaturedPlacesRss.aspx">Featured Places RSS</a></li>
        <li><a href="FeaturedAccountFeedsRss.aspx">Featured Feeds RSS</a></li>
+       <li><a href="FeaturedAccountEventsRss.aspx">Featured Events RSS</a></li>
       </ul>
       <li><a href="Search.aspx">Search</a></li>
      </ul>
