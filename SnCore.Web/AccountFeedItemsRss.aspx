@@ -33,7 +33,7 @@
             </div>            
            </td>
            <td>
-            <%# Renderer.CleanHtml(Eval("Description")) %>
+            <%# base.GetSummary((string) Eval("Description"), (string) Eval("AccountFeedLinkUrl")) %>
            </td>
           </tr>
          </table>

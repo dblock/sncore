@@ -108,6 +108,8 @@ public partial class AccountFeedItemsView : Page
 
     public string GetSummary(string summary, string link)
     {
-        return Renderer.CleanHtml(summary, new Uri(link));
+        Uri uri = null;
+        Uri.TryCreate(link, UriKind.Absolute, out uri);
+        return Renderer.CleanHtml(summary, uri);
     }
 }

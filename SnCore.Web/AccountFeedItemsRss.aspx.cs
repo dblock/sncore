@@ -56,4 +56,11 @@ public partial class AccountFeedItemsRss : Page
             return WebsiteUrl + "AccountFeedItemsView.aspx";
         }
     }
+
+    public string GetSummary(string summary, string link)
+    {
+        Uri uri = null;
+        Uri.TryCreate(link, UriKind.Absolute, out uri);
+        return Renderer.CleanHtml(summary, uri);
+    }
 }
