@@ -30,7 +30,7 @@
            <td>
             <div>
              at
-             <a href="<% Response.Write(WebsiteUrl); %>/AccountPlaceView.aspx?id=<%# Eval("PlaceId") %>">
+             <a href="<% Response.Write(WebsiteUrl); %>/PlaceView.aspx?id=<%# Eval("PlaceId") %>">
               <%# base.Render(Eval("PlaceName")) %>             
              </a>        
             </div>
