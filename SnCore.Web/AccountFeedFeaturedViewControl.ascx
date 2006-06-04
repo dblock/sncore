@@ -32,7 +32,7 @@
     </a>
    </td>
    <td width="*" valign="top">
-    <a class="sncore_AccountFeed_name" href="AccountFeedView.aspx?id=<% Response.Write(base.AccountFeed.Id); %>">
+    <a href="AccountFeedView.aspx?id=<% Response.Write(base.AccountFeed.Id); %>">
      <% Response.Write(base.Render(base.AccountFeed.Name)); %>
     </a>
     <div class="sncore_description">

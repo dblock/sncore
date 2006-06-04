@@ -32,7 +32,7 @@
     </a>
    </td>
    <td width="*" valign="top">
-    <a class="sncore_place_name" href="PlaceView.aspx?id=<% Response.Write(base.Place.Id); %>">
+    <a href="PlaceView.aspx?id=<% Response.Write(base.Place.Id); %>">
      <% Response.Write(base.Render(base.Place.Name)); %>
     </a>
     <div class="sncore_description">
