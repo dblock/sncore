@@ -27,7 +27,7 @@
         <%# base.Render(Eval("FriendName")) %>
        </b>
        <div style="font-size: smaller;">
-        <asp:LinkButton Text="Delete" ID="deleteFriend" runat="server" OnClientClick="return confirm('Are you sure you want to do this?')"
+        <asp:LinkButton Text="&#187; delete" ID="deleteFriend" runat="server" OnClientClick="return confirm('Are you sure you want to do this?')"
          CommandName="Delete" CommandArgument='<%# Eval("Id") %>' />
        </div>
       </a>
