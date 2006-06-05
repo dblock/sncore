@@ -35,13 +35,21 @@ public class Global : SnCore.Tools.Web.HostedApplication
             CreateAdministrator();
         }
 
+        if (! SystemService.SystemServicesEnabled)
+        {
+            EventLog.WriteEntry(string.Format("System services disabled by configuration setting.",
+                EventLogEntryType.Warning));
+
+            return;
+        }
+
         mMailMessageService.Start();
         mTagWordService.Start();
         mSystemReminderService.Start();
         mSystemSyndicationService.Start();
 
         WebBackEndService backend = new WebBackEndService();
-        EventLog.WriteEntry(string.Format("Running with back-end services {0}.", backend.GetVersion()), EventLogEntryType.Information); 
+        EventLog.WriteEntry(string.Format("Running with back-end services {0}.", backend.GetVersion()), EventLogEntryType.Information);
 
         WebSystemService system = new WebSystemService();
         EventLog.WriteEntry(string.Format("Running with web services {0}.", system.GetVersion()), EventLogEntryType.Information);

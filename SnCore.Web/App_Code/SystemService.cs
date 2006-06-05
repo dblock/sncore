@@ -2,6 +2,8 @@ using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading;
+using System.Diagnostics;
+using System.Configuration;
 
 namespace SnCore.BackEndServices
 {
@@ -28,6 +30,15 @@ namespace SnCore.BackEndServices
             return new SqlConnection(
                 SnCore.Data.Hibernate.Session.Configuration.GetProperty(
                     "hibernate.connection.connection_string"));
+        }
+
+        public static bool SystemServicesEnabled
+        {
+            get
+            {
+                object enabled = ConfigurationManager.AppSettings["SystemServices.Enabled"];
+                return (enabled == null) || bool.Parse(enabled.ToString());
+            }
         }
 
         public void Start()
