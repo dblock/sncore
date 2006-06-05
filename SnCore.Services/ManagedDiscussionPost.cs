@@ -369,6 +369,7 @@ namespace SnCore.Services
                 }
 
                 mDiscussionPost.DiscussionPosts = null;
+                mDiscussionPost.DiscussionThread.DiscussionPosts.Remove(mDiscussionPost);
             }
 
             Session.Delete(mDiscussionPost);
@@ -420,6 +421,9 @@ namespace SnCore.Services
 
         public List<TransitDiscussionPost> GetPosts()
         {
+            if (mDiscussionPost.DiscussionPosts == null)
+                return new List<TransitDiscussionPost>();
+
             List<TransitDiscussionPost> result = new List<TransitDiscussionPost>(mDiscussionPost.DiscussionPosts.Count);
             foreach (DiscussionPost post in mDiscussionPost.DiscussionPosts)
             {
