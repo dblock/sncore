@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using Wilco.Web.UI;
 using SnCore.Tools.Web;
+using SnCore.WebServices;
 
 public partial class AccountStoriesViewControl : Control
 {
@@ -45,6 +46,14 @@ public partial class AccountStoriesViewControl : Control
 
     void accountStories_OnGetDataSource(object sender, EventArgs e)
     {
-        accountStories.DataSource = StoryService.GetAccountStoriesById(AccountId);
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageNumber = accountStories.CurrentPageIndex;
+        options.PageSize = accountStories.PageSize;
+        accountStories.DataSource = StoryService.GetAccountStoriesById(AccountId, options);
+    }
+
+    public string GetDescription(object description)
+    {
+        return Renderer.RenderEx(Renderer.CleanHtml(description));
     }
 }

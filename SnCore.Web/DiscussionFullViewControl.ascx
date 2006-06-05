@@ -21,40 +21,38 @@
       <td width="<%# (int) Eval("Level") * 20 %>px">
        <img src="images/Spacer.gif" width="<%# (int) Eval("Level") * 20 %>px" />
       </td>
+      <td align="left" valign="top" width="*">
+       <div><b>subject:</b> <%# base.Render(Eval("Subject"))%></div>
+       <div><b>posted:</b> <%# base.Adjust(Eval("Created")).ToString() %></div>
+       <div style="margin: 10px 0px 10px 0px;">
+        <%# base.RenderEx(Eval("Body"))%>
+       </div>
+      </td>
       <td width="150" align="center" valign="top">
        <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
         <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" />
-        <br />
-        <b>
+        <div class="sncore_description">
          <%# base.Render(Eval("AccountName")) %>
-        </b></a>
+        </div>
+       </a>
       </td>
-      <td align="left" valign="top" width="*">
-       <b>subject:</b>
-       <%# base.Render(Eval("Subject"))%>
-       <br />
-       <b>posted:</b>
-       <%# base.Adjust(Eval("Created")).ToString() %>
-       <br />
-       <br />
-       <%# base.RenderEx(Eval("Body"))%>
+     </tr>
+     <tr>
+      <td width="<%# (int) Eval("Level") * 20 %>px">
+       <img src="images/Spacer.gif" width="<%# (int) Eval("Level") * 20 %>px" />
+      </td>
+      <td colspan="2" style="font-size: smaller; text-align: left; padding-left: 10px;">
+       <a href="DiscussionPost.aspx?did=<%# base.DiscussionId %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>&#edit">
+        &#187; reply</a>
+       <a href="DiscussionPost.aspx?did=<%# base.DiscussionId %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>&Quote=true&#edit">
+        &#187; quote</a>
+       <a id="linkEdit" runat="server">
+        &#187; edit</a>
+       <asp:LinkButton CommandName="Delete" id="linkDelete" runat="server" Text="&#187; delete" />
       </td>
      </tr>
     </table>
    </ItemTemplate>
   </asp:TemplateColumn>
-  <asp:TemplateColumn ItemStyle-CssClass="sncore_table_tr_td" ItemStyle-HorizontalAlign="Center">
-   <ItemTemplate>
-    <a href="DiscussionPost.aspx?did=<%# base.DiscussionId %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>&#edit">
-     Reply</a>    
-    <hr noshade width="30px" size="1px" />
-    <a href="DiscussionPost.aspx?did=<%# base.DiscussionId %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>&Quote=true&#edit">
-     Quote</a>
-   </ItemTemplate>
-  </asp:TemplateColumn>
-  <asp:ButtonColumn Text="Edit" CommandName="Edit" ItemStyle-CssClass="sncore_table_tr_td"
-   ItemStyle-HorizontalAlign="Center" />
-  <asp:ButtonColumn CommandName="Delete" ItemStyle-CssClass="sncore_table_tr_td"
-   ItemStyle-HorizontalAlign="Center" Text="Delete" />
  </Columns>
 </asp:DataGrid>

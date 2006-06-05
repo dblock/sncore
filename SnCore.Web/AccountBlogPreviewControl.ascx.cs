@@ -101,6 +101,6 @@ public partial class AccountBlogPreviewControl : Control
 
     public string GetDescription(object description)
     {
-        return Renderer.CleanHtml(description);
+        return Renderer.RenderEx(Renderer.CleanHtml(description));
     }
 }

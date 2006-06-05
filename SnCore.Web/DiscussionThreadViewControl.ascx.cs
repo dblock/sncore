@@ -64,19 +64,9 @@ public partial class DiscussionThreadViewControl : Control
         {
             switch (e.CommandName)
             {
-                case "Edit":
-                    {
-                        int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                        Redirect(
-                            string.Format("DiscussionPost.aspx?did={0}&id={1}&ReturnUrl={2}&#edit",
-                                DiscussionId,
-                                id,
-                                Renderer.UrlEncode(Request.Url.PathAndQuery)));
-                        break;
-                    }
                 case "Delete":
                     {
-                        int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
+                        int id = int.Parse(e.CommandArgument.ToString());
                         DiscussionService.DeleteDiscussionPost(SessionManager.Ticket, id);
                         discussionThreadView.CurrentPageIndex = 0;
                         discussionThreadView_OnGetDataSource(sender, e);
@@ -138,12 +128,15 @@ public partial class DiscussionThreadViewControl : Control
                 bool canedit = bool.Parse(e.Item.Cells[(int)Cells.canedit].Text);
                 bool candelete = bool.Parse(e.Item.Cells[(int)Cells.candelete].Text);
 
-                LinkButton deleteButton = (LinkButton)e.Item.Cells[(int)Cells.delete].Controls[0];
-                deleteButton.Visible = candelete;
-                deleteButton.Attributes.Add("onclick", "return confirm('Are you sure you want to delete this post?');");
+                HtmlAnchor linkEdit = (HtmlAnchor)e.Item.FindControl("linkEdit");
+                linkEdit.Visible = canedit;
+                linkEdit.HRef = string.Format("DiscussionPost.aspx?did={0}&id={1}&ReturnUrl={2}&#edit",
+                    DiscussionId, id, Renderer.UrlEncode(Request.Url.PathAndQuery));
 
-                LinkButton editButton = (LinkButton)e.Item.Cells[(int)Cells.edit].Controls[0];
-                editButton.Visible = canedit;
+                LinkButton linkDelete = (LinkButton)e.Item.FindControl("linkDelete");
+                linkDelete.CommandArgument = id.ToString();
+                linkDelete.Attributes.Add("onclick", "return confirm('Are you sure you want to delete this post?');");
+                linkDelete.Visible = candelete;
 
                 break;
         }

@@ -33,41 +33,41 @@
    <itemtemplate>
     <table width="100%">
      <tr>
-      <td style="width: <%# (int) Eval("Level") * 20 %>px;">
-       <img alt="" src="images/Spacer.gif" style="width: <%# (int) Eval("Level") * 20 %>px" />
+      <td width="<%# (int) Eval("Level") * 20 %>px">
+       <img src="images/Spacer.gif" width="<%# (int) Eval("Level") * 20 %>px" />
+      </td>
+      <td align="left" valign="top" width="*">
+       <div><b>subject:</b> <%# base.Render(Eval("Subject"))%></div>
+       <div><b>posted:</b> <%# base.Adjust(Eval("Created")).ToString() %></div>
+       <div style="margin: 10px 0px 10px 0px;">
+        <%# base.RenderEx(Eval("Body"))%>
+       </div>
       </td>
       <td width="150" align="center" valign="top">
        <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
-        <img alt="" border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>">
-        <div>
+        <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" />
+        <div class="sncore_description">
          <%# base.Render(Eval("AccountName")) %>
         </div>
        </a>
       </td>
-      <td align="left" valign="top" width="*">
-       <b>subject:</b>
-       <%# base.Render(Eval("Subject"))%>
-       <br />
-       <b>posted:</b>
-       <%# base.Adjust(Eval("Created")).ToString() %>
-       <br />
-       <br />
-       <%# base.RenderEx(Eval("Body"))%>
+     </tr>
+     <tr>
+      <td width="<%# (int) Eval("Level") * 20 %>px">
+       <img src="images/Spacer.gif" width="<%# (int) Eval("Level") * 20 %>px" />
+      </td>
+      <td colspan="2" style="font-size: smaller; text-align: left; padding-left: 10px;">
+       <a href="DiscussionPost.aspx?did=<%# base.DiscussionId %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>&#edit">
+        &#187; reply</a>
+       <a href="DiscussionPost.aspx?did=<%# base.DiscussionId %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>&Quote=true&#edit">
+        &#187; quote</a>
+       <a id="linkEdit" runat="server">
+        &#187; edit</a>
+       <asp:LinkButton CommandName="Delete" id="linkDelete" runat="server" Text="&#187; delete" />
       </td>
      </tr>
     </table>
    </itemtemplate>
   </asp:TemplateColumn>
-  <asp:TemplateColumn>
-   <itemtemplate>
-    <a href="DiscussionPost.aspx?did=<%# base.DiscussionId %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>#edit">
-     Reply</a>
-    <hr noshade width="30px" size="1px" />
-    <a href="DiscussionPost.aspx?did=<%# base.DiscussionId %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>&Quote=true&#edit">
-     Quote</a>
-   </itemtemplate>
-  </asp:TemplateColumn>
-  <asp:ButtonColumn Text="Edit" CommandName="Edit" />
-  <asp:ButtonColumn CommandName="Delete" Text="Delete" />
  </Columns>
 </SnCoreWebControls:PagedGrid>

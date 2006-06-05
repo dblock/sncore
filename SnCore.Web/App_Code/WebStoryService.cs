@@ -38,7 +38,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account stories.")]
         public List<TransitAccountStory> GetAccountStories(string ticket)
         {
-            return GetAccountStoriesById(ManagedAccount.GetAccountId(ticket));
+            return GetAccountStoriesById(ManagedAccount.GetAccountId(ticket), null);
         }
 
         /// <summary>
@@ -47,15 +47,23 @@ namespace SnCore.WebServices
         /// <param name="id">account id</param>
         /// <returns>transit account stories</returns>
         [WebMethod(Description = "Get account stories.", CacheDuration = 60)]
-        public List<TransitAccountStory> GetAccountStoriesById(int id)
+        public List<TransitAccountStory> GetAccountStoriesById(int id, ServiceQueryOptions options)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                IList list = session.CreateCriteria(typeof(AccountStory))
+
+                ICriteria crit = session.CreateCriteria(typeof(AccountStory))
                     .Add(Expression.Eq("Account.Id", id))
-                    .AddOrder(Order.Desc("Created"))
-                    .List();
+                    .AddOrder(Order.Desc("Created"));
+
+                if (options != null)
+                {
+                    crit.SetFirstResult(options.FirstResult);
+                    crit.SetMaxResults(options.PageSize);
+                }
+
+                IList list = crit.List();
 
                 List<TransitAccountStory> result = new List<TransitAccountStory>(list.Count);
                 foreach (AccountStory e in list)
