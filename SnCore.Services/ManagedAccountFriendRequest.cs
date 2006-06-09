@@ -221,7 +221,7 @@ namespace SnCore.Services
                         "<br><br>" +
                         Renderer.Render(message) +
                         "<blockquote>" +
-                        "<a href=\"" + url + "\">View</a> his profile." +
+                        "<a href=\"" + url + "\">View " + Renderer.Render(approver.Name) + "'s profile</a>." +
                         "</blockquote>" +
                         "</body>" +
                         "</html>";
@@ -291,7 +291,7 @@ namespace SnCore.Services
                     "<br><br>" +
                     Renderer.Render(message) +
                     "<blockquote>" +
-                    "<a href=\"" + url + "\">View</a> his profile." +
+                    "<a href=\"" + url + "\">View " + Renderer.Render(friend.Keen.Name) + "'s profile</a>." +
                     "</blockquote>" +
                     "</body>" +
                     "</html>";
