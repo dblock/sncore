@@ -1326,12 +1326,12 @@ namespace SnCore.Services
 
                 recepient.SendAccountMailMessage(
                     string.Format("{0} <noreply@{1}>",
-                        Renderer.Render(mAccount.Name),
+                        mAccount.Name,
                         ManagedConfiguration.GetValue(Session, "SnCore.Domain", "vestris.com")),
                     sentto,
                     string.Format("{0}: {1} has sent you a message.",
                         ManagedConfiguration.GetValue(Session, "SnCore.Name", "SnCore"),
-                        Renderer.Render(mAccount.Name)),
+                        mAccount.Name),
                     messagebody,
                     true);
             }
@@ -1617,12 +1617,12 @@ namespace SnCore.Services
 
                 recepient.SendAccountMailMessage(
                     string.Format("{0} <noreply@{1}>",
-                        Renderer.Render(mAccount.Name),
+                        mAccount.Name,
                         ManagedConfiguration.GetValue(Session, "SnCore.Domain", "vestris.com")),
                     sentto,
                     string.Format("{0}: {1} wants to be your friend.",
                         ManagedConfiguration.GetValue(Session, "SnCore.Name", "SnCore"),
-                        Renderer.Render(mAccount.Name)),
+                        mAccount.Name),
                     messagebody,
                     true);
             }
@@ -2035,12 +2035,13 @@ namespace SnCore.Services
 
                 acct.SendAccountMailMessage(
                     string.Format("{0} <noreply@{1}>",
-                        Renderer.Render(mAccount.Name),
+                        mAccount.Name,
                         ManagedConfiguration.GetValue(Session, "SnCore.Domain", "vestris.com")),
                     sentto,
                     string.Format("{0}: {1} wants to own {2}.",
                         ManagedConfiguration.GetValue(Session, "SnCore.Name", "SnCore"),
-                        Renderer.Render(mAccount.Name), request.Place.Name),
+                        mAccount.Name, 
+                        request.Place.Name),
                     messagebody,
                     true);
             }

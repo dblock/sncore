@@ -354,7 +354,7 @@ namespace SnCore.WebServices
                         acct.ActiveEmailAddress,
                         string.Format("{0}: a new picture has been uploaded to {1}.",
                             ManagedConfiguration.GetValue(session, "SnCore.Name", "SnCore"),
-                            Renderer.Render(place.Name)),
+                            place.Name),
                         messagebody,
                         true);
                 }

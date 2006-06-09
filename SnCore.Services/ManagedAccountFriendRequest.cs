@@ -228,12 +228,12 @@ namespace SnCore.Services
 
                     recepient.SendAccountMailMessage(
                     string.Format("{0} <noreply@{1}>",
-                        Renderer.Render(requester.Name),
+                        requester.Name,
                         ManagedConfiguration.GetValue(Session, "SnCore.Domain", "vestris.com")),
                         sentto,
                         string.Format("{0}: {1} declined your friend request.",
                             ManagedConfiguration.GetValue(Session, "SnCore.Name", "SnCore"),
-                            Renderer.Render(approver.Name)),
+                            approver.Name),
                         messagebody,
                         true);
                 }
@@ -298,12 +298,12 @@ namespace SnCore.Services
 
                 recepient.SendAccountMailMessage(
                     string.Format("{0} <noreply@{1}>",
-                        Renderer.Render(friend.Account.Name),
+                        friend.Account.Name,
                         ManagedConfiguration.GetValue(Session, "SnCore.Domain", "vestris.com")),
                     sentto,
                     string.Format("{0}: {1} is now your friend.",
                         ManagedConfiguration.GetValue(Session, "SnCore.Name", "SnCore"),
-                        Renderer.Render(friend.Keen.Name)),
+                        friend.Keen.Name),
                     messagebody,
                     true);
             }

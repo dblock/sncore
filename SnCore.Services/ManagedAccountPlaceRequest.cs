@@ -239,7 +239,7 @@ namespace SnCore.Services
                     sentto,
                     string.Format("{0}: your ownership request for {1} has been declined.",
                         ManagedConfiguration.GetValue(Session, "SnCore.Name", "SnCore"),
-                        Renderer.Render(mAccountPlaceRequest.Place.Name)),
+                        mAccountPlaceRequest.Place.Name),
                     messagebody,
                     true);
             }
@@ -293,7 +293,7 @@ namespace SnCore.Services
                     sentto,
                     string.Format("{0}: your ownership request for {1} has been approved.",
                         ManagedConfiguration.GetValue(Session, "SnCore.Name", "SnCore"),
-                        Renderer.Render(mAccountPlaceRequest.Place.Name)),
+                        mAccountPlaceRequest.Place.Name),
                     messagebody,
                     true);
             }

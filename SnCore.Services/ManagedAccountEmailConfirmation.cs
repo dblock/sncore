@@ -119,11 +119,13 @@ namespace SnCore.Services
                 mAccountEmailConfirmation.Id,
                 mAccountEmailConfirmation.Code);
 
+            string subject = string.Format("{0}: Please confirm your e-mail address.",
+                ManagedConfiguration.GetValue(Session, "SnCore.Name", "SnCore"));
+
             ManagedAccountEmail.Account.SendAccountMailMessage(
                 ManagedConfiguration.GetValue(Session, "SnCore.Admin.EmailAddress", "admin@localhost.com"),
                 mAccountEmailConfirmation.AccountEmail.Address,
-                ManagedConfiguration.GetValue(Session, "SnCore.Name", "SnCore") +
-                ": Please confirm your e-mail address.",
+                subject,
                 "<html>" +
                 "<style>body { font-size: .80em; font-family: Verdana; }</style>" +
                 "<body>" +

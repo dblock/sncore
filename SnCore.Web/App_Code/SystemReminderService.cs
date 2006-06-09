@@ -149,7 +149,7 @@ namespace SnCore.BackEndServices
                                             "SnCore.Admin.EmailAddress",
                                             "admin@localhost.com"),
                                         ma.ActiveEmailAddress,
-                                        Renderer.Render(reminder.Subject),
+                                        reminder.Subject,
                                         "<html>" +
                                         "<style>body { font-size: .80em; font-family: Verdana; }</style>" +
                                         "<body>" +

@@ -462,7 +462,7 @@ namespace SnCore.Services
 
                         ra.SendAccountMailMessage(
                         string.Format("{0} <noreply@{1}>",
-                            Renderer.Render(ra.Name),
+                            ra.Name,
                             ManagedConfiguration.GetValue(Session, "SnCore.Domain", "vestris.com")),
                             replyTo,
                             string.Format("{0}: {1} has posted a new message for you.",

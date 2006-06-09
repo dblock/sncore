@@ -233,7 +233,7 @@ namespace SnCore.Services
                 mAccountInvitation.Email,
                 string.Format("{0}: {1} has invited you to {0}!",
                     ManagedConfiguration.GetValue(Session, "SnCore.Name", "SnCore"),
-                    Renderer.Render(mAccountInvitation.Account.Name)),
+                    mAccountInvitation.Account.Name),
                 "<html>" +
                 "<style>body { font-size: .80em; font-family: Verdana; }</style>" +
                 "<body>" +

@@ -38,7 +38,7 @@ public partial class AccountPreferencesManage : AuthenticatedPage
         {
             if (!IsPostBack)
             {
-                inputName.Text = Renderer.Render(SessionManager.Account.Name);
+                inputName.Text = SessionManager.Account.Name;
 
                 List<TransitAccountProfile> profiles = AccountService.GetAccountProfilesById(SessionManager.Account.Id);
                 foreach (TransitAccountProfile profile in profiles)

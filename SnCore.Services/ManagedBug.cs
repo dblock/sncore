@@ -380,7 +380,7 @@ namespace SnCore.Services
                     acct.ActiveEmailAddress,
                     string.Format("{0}: {1} #{2} has been closed.",
                         ManagedConfiguration.GetValue(Session, "SnCore.Name", "SnCore"),
-                        Renderer.Render(mBug.Type.Name), mBug.Id),
+                        mBug.Type.Name, mBug.Id),
                     messagebody,
                     true);
             }
