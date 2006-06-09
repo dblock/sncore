@@ -28,17 +28,29 @@ public partial class SnCoreMasterPage : MasterPage
         }
     }
 
+    public string ReturnUrl
+    {
+        get
+        {
+            string returnurl = Request["ReturnUrl"];
+            if (string.IsNullOrEmpty(returnurl)) returnurl = "Default.aspx";
+            return returnurl;
+        }
+    }
+
     protected override void OnPreRender(EventArgs e)
     {
         try
         {
             menuMe.Visible = SessionManager.IsLoggedIn; 
-            menuLogin.Visible = !SessionManager.IsLoggedIn;
             menuLogout.Visible = SessionManager.IsLoggedIn;
             menuSignUp.Visible = !SessionManager.IsLoggedIn;
             menuInvite.Visible = SessionManager.IsLoggedIn;
+            menuLogin.Visible = !SessionManager.IsLoggedIn;
+            
             menuLogin.NavigateUrl = string.Format("AccountLogin.aspx?ReturnUrl={0}",
-                Renderer.UrlEncode(Request.Url.PathAndQuery));
+                Renderer.UrlEncode(Request.Url.PathAndQuery.Contains("/AccountLogin.aspx") 
+                    ? ReturnUrl : Request.Url.PathAndQuery));
         }
         catch (Exception ex)
         {

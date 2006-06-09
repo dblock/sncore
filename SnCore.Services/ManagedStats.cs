@@ -371,7 +371,15 @@ namespace SnCore.Services
             host.LastRequestUri = request.RequestUri.ToString();
             host.Total++;
 
-            Session.Save(host);
+            try
+            {
+                Session.Save(host);
+            }
+            catch
+            {
+                Session.Evict(host);
+                throw;
+            }
         }
 
         private void UpdateRefererQuery(TransitStatsRequest request)
@@ -394,7 +402,15 @@ namespace SnCore.Services
             query.Updated = DateTime.UtcNow;
             query.Total++;
 
-            Session.Save(query);
+            try
+            {
+                Session.Save(query);
+            }
+            catch
+            {
+                Session.Evict(query);
+                throw;
+            }
         }
 
         private void IncrementRawCounter(TransitStatsRequest request)
@@ -413,7 +429,15 @@ namespace SnCore.Services
 
             counter_raw.Total++;
             counter_raw.Modified = DateTime.UtcNow;
-            Session.Save(counter_raw);
+            try
+            {
+                Session.Save(counter_raw);
+            }
+            catch
+            {
+                Session.Evict(counter_raw);
+                throw;
+            }
         }
 
         private void IncrementHourlyCounter()
