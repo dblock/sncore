@@ -352,7 +352,7 @@ namespace SnCore.WebServices
                     acct.SendAccountMailMessage(
                         ManagedConfiguration.GetValue(session, "SnCore.Admin.EmailAddress", "admin@localhost.com"),
                         acct.ActiveEmailAddress,
-                        string.Format("{0}: a new picture has been uploaded to {1}.",
+                        string.Format("{0}: a new picture has been added to {1}.",
                             ManagedConfiguration.GetValue(session, "SnCore.Name", "SnCore"),
                             place.Name),
                         messagebody,
