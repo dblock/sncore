@@ -38,7 +38,6 @@
     <%# Eval("RefererHostTotal") %>
    </div>
    <div>
-    website:
     <a target="_blank" href='<%# base.Render(Eval("RefererHostLastRefererUri")) %>'>
      <%# base.Render(Eval("RefererHostName")) %>
     </a>
