@@ -23,6 +23,7 @@ using System;
         private System.Int64 m_Total;
         private System.DateTime m_Updated;
         private System.Collections.IList m_RefererHostDups;
+        private System.Collections.IList m_RefererAccounts;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -226,6 +227,37 @@ using System;
             set
             {
                 m_RefererHostDups = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'RefererAccount'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'RefererAccount.RefererHost'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_RefererAccounts' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as slave.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'RefererAccount' table in the data source.
+        ///The property maps to the identity column 'RefererHost_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Collections.IList RefererAccounts
+        {
+            get
+            {
+                return m_RefererAccounts;
+            }
+            set
+            {
+                m_RefererAccounts = value;
             }
         }
 

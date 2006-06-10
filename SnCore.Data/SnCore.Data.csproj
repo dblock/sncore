@@ -3,7 +3,7 @@
     <ProjectType>Local</ProjectType>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1F9C0442-E7B5-4CCC-93ED-A0599CF1AA57}</ProjectGuid>
+    <ProjectGuid>{8f4626f1-cf7f-4e6e-a8bc-30251c76e68e}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>
@@ -272,6 +272,9 @@
     <Compile Include="PlaceType.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="RefererAccount.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="RefererHost.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -369,6 +372,7 @@
     <EmbeddedResource Include="PlaceName.hbm.xml" />
     <EmbeddedResource Include="PlacePicture.hbm.xml" />
     <EmbeddedResource Include="PlaceType.hbm.xml" />
+    <EmbeddedResource Include="RefererAccount.hbm.xml" />
     <EmbeddedResource Include="RefererHost.hbm.xml" />
     <EmbeddedResource Include="RefererHostDup.hbm.xml" />
     <EmbeddedResource Include="RefererQuery.hbm.xml" />

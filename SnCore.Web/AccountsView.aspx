@@ -15,6 +15,7 @@
      <asp:LinkButton ID="linkAll" OnClick="linkAll_Click" runat="server" Text="&#187; All People" />
      <asp:LinkButton ID="linkLocal" OnClick="linkLocal_Click" runat="server" Text="&#187; All Local People" />
      <a href="AccountInvitationsManage.aspx">&#187; Invite a Friend</a>
+     <a href="RefererAccountsView.aspx">&#187; Top Traffickers</a>
     </div>
    </td>
    <td>

@@ -42,6 +42,7 @@
     <property name="State" columns="State_Id" ref="OneToMany" inverse="Accounts" type="State" />
     <property name="UtcOffset" columns="UtcOffset" type="System.Int32" />
     <property name="Schedules" table="Schedule" id-columns="Account_Id" list="true" item-type="Schedule" read-only="true" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
+    <property name="RefererAccounts" table="RefererAccount" id-columns="Account_Id" list="true" item-type="RefererAccount" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
   </class>
   <class name="AccountAddress" table="AccountAddress">
     <property name="Id" id="true" columns="AccountAddress_Id" type="System.Int32" />
@@ -544,6 +545,13 @@
     <property name="Name" columns="Name" type="System.String" />
     <property name="Places" table="Place" id-columns="Type" list="true" item-type="Place" read-only="true" slave="true" ref="ManyToOne" inverse="Type" inherits-inverse="true" />
   </class>
+  <class name="RefererAccount" table="RefererAccount">
+    <property name="Id" id="true" columns="RefererAccount_Id" type="System.Int32" />
+    <property name="Account" columns="Account_Id" ref="OneToMany" inverse="RefererAccounts" type="Account" />
+    <property name="Created" columns="Created" type="System.DateTime" />
+    <property name="Modified" columns="Modified" type="System.DateTime" />
+    <property name="RefererHost" columns="RefererHost_Id" ref="OneToMany" inverse="RefererAccounts" type="RefererHost" />
+  </class>
   <class name="RefererHost" table="RefererHost">
     <property name="Id" id="true" columns="RefererHost_Id" type="System.Int32" />
     <property name="Created" columns="Created" type="System.DateTime" />
@@ -553,6 +561,7 @@
     <property name="Total" columns="Total" type="System.Int64" />
     <property name="Updated" columns="Updated" type="System.DateTime" />
     <property name="RefererHostDups" table="RefererHostDup" id-columns="RefererHost_Id" list="true" item-type="RefererHostDup" slave="true" ref="ManyToOne" inverse="RefererHost" inherits-inverse="true" />
+    <property name="RefererAccounts" table="RefererAccount" id-columns="RefererHost_Id" list="true" item-type="RefererAccount" slave="true" ref="ManyToOne" inverse="RefererHost" inherits-inverse="true" />
   </class>
   <class name="RefererHostDup" table="RefererHostDup">
     <property name="Id" id="true" columns="RefererHostDup_Id" type="System.Int32" />
@@ -1239,6 +1248,13 @@
       <column name="TagWord_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="TagWord" primary-column="TagWord_Id" foreign-key="FK_TagWordAccount_TagWord" />
       <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
+    </table>
+    <table name="RefererAccount">
+      <column name="RefererAccount_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_RefererAccount_Account" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="RefererHost_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="RefererHost" primary-column="RefererHost_Id" foreign-key="FK_RefererAccount_RefererHost" />
     </table>
   </source>
 </domain>

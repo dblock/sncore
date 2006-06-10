@@ -20,6 +20,7 @@
      <a href="AccountsView.aspx">&#187; all</a>
      <a href="AccountInvitationsManage.aspx">&#187; invite a friend</a>
      <a href="FeaturedAccountsView.aspx">&#187; featured</a>
+     <a href="RefererAccountsView.aspx">&#187; top</a>
      <a href="AccountsRss.aspx">&#187; rss</a>
     </span>
    </asp:Panel>

@@ -14,5 +14,9 @@
       <key column="RefererHost_Id" />
       <one-to-many class="RefererHostDup, SnCore.Data" />
     </bag>
+    <bag lazy="true" name="RefererAccounts" inverse="true">
+      <key column="RefererHost_Id" />
+      <one-to-many class="RefererAccount, SnCore.Data" />
+    </bag>
   </class>
 </hibernate-mapping>

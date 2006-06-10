@@ -125,5 +125,9 @@
       <key column="Account_Id" />
       <one-to-many class="Schedule, SnCore.Data" />
     </bag>
+    <bag lazy="true" name="RefererAccounts" inverse="true">
+      <key column="Account_Id" />
+      <one-to-many class="RefererAccount, SnCore.Data" />
+    </bag>
   </class>
 </hibernate-mapping>

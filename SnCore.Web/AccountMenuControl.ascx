@@ -67,5 +67,6 @@
  <tr><td width="30" align="center"><img src="images/account/star.gif" /></td><td width="*"><a href="SystemRefererHosts.aspx">Ref. Hosts</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/star.gif" /></td><td width="*"><a href="SystemRefererQueries.aspx">Ref. Queries</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/star.gif" /></td><td width="*"><a href="SystemRefererHostDupsManage.aspx">Host Dups</a></td></tr>
+ <tr><td width="30" align="center"><img src="images/account/star.gif" /></td><td width="*"><a href="SystemRefererAccountsManage.aspx">Ref. Accounts</a></td></tr>
 </table>
 </asp:Panel>

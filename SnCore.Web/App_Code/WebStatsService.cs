@@ -53,7 +53,7 @@ namespace SnCore.WebServices
                         EventLog.WriteEntry(string.Format("Error tracking {0} from {1}.\n{2}",
                             (request.RequestUri != null) ? request.RequestUri.ToString() : "an unknown url",
                             (request.RefererUri != null) ? request.RefererUri.ToString() : "an unknown referer",
-                            ex.Message), 
+                            ex.Message),
                             EventLogEntryType.Warning);
                     }
                     else
@@ -74,7 +74,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                
+
                 ManagedStats stats = new ManagedStats(session);
                 bool fException = false;
                 foreach (TransitStatsRequest request in requests)
@@ -89,7 +89,7 @@ namespace SnCore.WebServices
                         if (request.SinkException)
                         {
                             EventLog.WriteEntry(string.Format("Error tracking {0} from {1}.\n{2}",
-                                (request.RequestUri != null) ? request.RequestUri.ToString() : "an unknown url", 
+                                (request.RequestUri != null) ? request.RequestUri.ToString() : "an unknown url",
                                 (request.RefererUri != null) ? request.RefererUri.ToString() : "an unknown referer",
                                 ex.Message),
                                 EventLogEntryType.Warning);
@@ -122,7 +122,7 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedStats stats = new ManagedStats(session);
-                return stats.GetSummary();                
+                return stats.GetSummary();
             }
         }
 
@@ -312,5 +312,127 @@ namespace SnCore.WebServices
 
         #endregion
 
+        #region Referer Accounts
+
+        /// <summary>
+        /// Create or update a referer account.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="refererhostaccount">transit referer account</param>
+        [WebMethod(Description = "Create or update a referer account.")]
+        public int CreateOrUpdateRefererAccount(string ticket, TransitRefererAccount refererhostaccount)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount user = new ManagedAccount(session, userid);
+
+                if (!user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ManagedRefererAccount m_refererhostaccount = new ManagedRefererAccount(session);
+                m_refererhostaccount.CreateOrUpdate(refererhostaccount);
+                SnCore.Data.Hibernate.Session.Flush();
+                return m_refererhostaccount.Id;
+            }
+        }
+
+        /// <summary>
+        /// Get a referer account.
+        /// </summary>
+        /// <returns>transit referer account</returns>
+        [WebMethod(Description = "Get a referer account.")]
+        public TransitRefererAccount GetRefererAccountById(int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                TransitRefererAccount result = new ManagedRefererAccount(session, id).TransitRefererAccount;
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Get referer account count.
+        /// </summary>
+        /// <returns>number of referer accounts</returns>
+        [WebMethod(Description = "Get referer accounts count.")]
+        public int GetRefererAccountsCount()
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return (int)session.CreateQuery("SELECT COUNT(ra) from RefererAccount ra").UniqueResult();
+            }
+        }
+
+        /// <summary>
+        /// Get all referer accounts.
+        /// </summary>
+        /// <returns>list of transit referer accounts</returns>
+        [WebMethod(Description = "Get all referer accounts.", CacheDuration = 60)]
+        public List<TransitRefererAccount> GetRefererAccounts(ServiceQueryOptions options)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                IQuery query = session.CreateSQLQuery(
+                    "SELECT {ra.*} FROM RefererAccount {ra}, RefererHost rh" +
+                    " WHERE ra.RefererHost_Id = rh.RefererHost_Id" +
+                    " ORDER BY rh.Total DESC",
+                    "ra",
+                    typeof(RefererAccount));
+
+                if (options != null)
+                {
+                    query.SetMaxResults(options.PageSize);
+                    query.SetFirstResult(options.FirstResult);
+                }
+
+                IList refererhostaccount = query.List();
+                List<TransitRefererAccount> result = new List<TransitRefererAccount>(refererhostaccount.Count);
+                foreach (RefererAccount rhd in refererhostaccount)
+                {
+                    result.Add(new ManagedRefererAccount(session, rhd).TransitRefererAccount);
+                }
+
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Delete a referer account.
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete a referer account.")]
+        public void DeleteRefererAccount(string ticket, int id)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                ManagedAccount user = new ManagedAccount(session, userid);
+
+                if (!user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ManagedRefererAccount m_refererhostaccount = new ManagedRefererAccount(session, id);
+                m_refererhostaccount.Delete();
+                SnCore.Data.Hibernate.Session.Flush();
+            }
+        }
+
+        #endregion
     }
 }
