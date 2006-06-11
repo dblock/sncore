@@ -27,7 +27,7 @@
       <asp:BoundColumn DataField="Name" Visible="false" />
       <asp:TemplateColumn>
        <itemtemplate>
-        <img src="images/Item.gif" />
+        <img src="images/account/events.gif" />
        </itemtemplate>
       </asp:TemplateColumn>
       <asp:TemplateColumn ItemStyle-HorizontalAlign="Left" HeaderText="Event">

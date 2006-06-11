@@ -24,7 +24,7 @@
       <asp:BoundColumn DataField="Id" Visible="false" />
       <asp:TemplateColumn ItemStyle-HorizontalAlign="Center">
        <itemtemplate>
-        <img src="images/Item.gif" />
+        <img src="images/account/surveys.gif" />
        </itemtemplate>
       </asp:TemplateColumn>
       <asp:TemplateColumn ItemStyle-HorizontalAlign="Left" HeaderText="Survey">

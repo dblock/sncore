@@ -26,7 +26,7 @@
       <asp:BoundColumn DataField="Id" Visible="false" />
       <asp:TemplateColumn ItemStyle-HorizontalAlign="Center">
        <itemtemplate>
-     <img src="images/Item.gif" />
+     <img src="images/account/stories.gif" />
     </itemtemplate>
       </asp:TemplateColumn>
       <asp:TemplateColumn HeaderText="Story" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left">

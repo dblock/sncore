@@ -6,12 +6,12 @@
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
- <table class="sncore_inner_table">
+ <table class="sncore_table">
   <tr>
-   <td valign="top">
+   <td valign="top" width="150">
     <SnCore:AccountMenu runat="server" ID="menu" />
    </td>
-   <td valign="top">
+   <td valign="top" width="100%">
     <div class="sncore_h2">
      Pending Account Place Requests
     </div>

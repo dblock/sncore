@@ -17,7 +17,7 @@
     <asp:HyperLink ID="HyperLink2" Text="&#187; I Already Have a Blog" CssClass="sncore_createnew"
      NavigateUrl="AccountFeedEdit.aspx" runat="server" />
     <br />
-    <asp:HyperLink ID="HyperLink1" Text="&#187; Create a New Blog" CssClass="sncore_createnew"
+    <asp:HyperLink ID="HyperLink1" Text="&#187; Start a Blog" CssClass="sncore_createnew"
      NavigateUrl="AccountBlogEdit.aspx" runat="server" />
     <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage" OnItemCommand="gridManage_ItemCommand"
      AutoGenerateColumns="false" CssClass="sncore_account_table">
@@ -29,7 +29,7 @@
       <asp:BoundColumn DataField="Id" Visible="false" />
       <asp:TemplateColumn ItemStyle-HorizontalAlign="Center">
        <itemtemplate>
-        <img src="images/Item.gif" />
+        <img src="images/account/blogs.gif" />
        </itemtemplate>
       </asp:TemplateColumn>
       <asp:TemplateColumn HeaderText="Blog" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left">
