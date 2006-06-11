@@ -68,7 +68,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitPlaceType result = new ManagedPlaceType(session, id).TransitPlaceType;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -171,7 +170,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitPlace result = new ManagedPlace(session, id).TransitPlace;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -375,7 +373,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitPlacePicture result = new ManagedPlacePicture(session, id).TransitPlacePicture;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -567,7 +564,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitAccountPlaceType result = new ManagedAccountPlaceType(session, id).TransitAccountPlaceType;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -680,7 +676,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitAccountPlace result = new ManagedAccountPlace(session, id).TransitAccountPlace;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -819,7 +814,6 @@ namespace SnCore.WebServices
                 }
 
                 TransitAccountPlaceRequest result = request.TransitAccountPlaceRequest;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -1034,6 +1028,28 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
+        /// Is a place your favorite?
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="place_id">place id</param>
+        /// <returns>account place favorite id</returns>
+        [WebMethod(Description = "Is a place your favorite?")]
+        public bool IsAccountPlaceFavorite(string ticket, int place_id)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                AccountPlaceFavorite apf = (AccountPlaceFavorite) session.CreateCriteria(typeof(AccountPlaceFavorite))
+                    .Add(Expression.Eq("Account.Id", userid))
+                    .Add(Expression.Eq("Place.Id", place_id))
+                    .UniqueResult();
+
+                return (apf != null);
+            }
+        }
+
+        /// <summary>
         /// Get an account place favorite.
         /// </summary>
         /// <returns>transit account place favorite</returns>
@@ -1044,7 +1060,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitAccountPlaceFavorite result = new ManagedAccountPlaceFavorite(session, id).TransitAccountPlaceFavorite;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -1241,7 +1256,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitPlaceName result = new ManagedPlaceName(session, id).TransitPlaceName;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }

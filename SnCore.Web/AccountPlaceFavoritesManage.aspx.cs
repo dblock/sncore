@@ -15,12 +15,12 @@ public partial class AccountPlaceFavoritesManage : AuthenticatedPage
     {
         try
         {
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+            favoritesList.OnGetDataSource += new EventHandler(favoritesList_OnGetDataSource);
 
             if (!IsPostBack)
             {
-                gridManage_OnGetDataSource(this, null);
-                gridManage.DataBind();
+                favoritesList_OnGetDataSource(this, null);
+                favoritesList.DataBind();
             }
         }
         catch (Exception ex)
@@ -29,11 +29,11 @@ public partial class AccountPlaceFavoritesManage : AuthenticatedPage
         }
     }
 
-    void gridManage_OnGetDataSource(object sender, EventArgs e)
+    void favoritesList_OnGetDataSource(object sender, EventArgs e)
     {
         try
         {
-            gridManage.DataSource = PlaceService.GetAccountPlaceFavoritesByAccountId(SessionManager.Account.Id);
+            favoritesList.DataSource = PlaceService.GetAccountPlaceFavoritesByAccountId(SessionManager.Account.Id);
         }
         catch (Exception ex)
         {
@@ -46,28 +46,18 @@ public partial class AccountPlaceFavoritesManage : AuthenticatedPage
         id = 0
     };
 
-    public void gridManage_ItemCommand(object source, DataGridCommandEventArgs e)
+    public void favoritesList_Command(object source, DataListCommandEventArgs e)
     {
         try
         {
-            switch (e.Item.ItemType)
+            switch (e.CommandName)
             {
-                case ListItemType.AlternatingItem:
-                case ListItemType.Item:
-                case ListItemType.SelectedItem:
-                case ListItemType.EditItem:
-
-                    int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                    switch (e.CommandName)
-                    {
-                        case "Delete":
-                            PlaceService.DeleteAccountPlaceFavorite(SessionManager.Ticket, id);
-                            ReportInfo("Place favorite deleted.");
-                            gridManage.CurrentPageIndex = 0;
-                            gridManage_OnGetDataSource(source, e);
-                            gridManage.DataBind();
-                            break;
-                    }
+                case "Delete":
+                    PlaceService.DeleteAccountPlaceFavorite(SessionManager.Ticket, int.Parse(e.CommandArgument.ToString()));
+                    ReportInfo("Favorite place deleted.");
+                    favoritesList.CurrentPage = 0;
+                    favoritesList_OnGetDataSource(source, e);
+                    favoritesList.DataBind();
                     break;
             }
         }

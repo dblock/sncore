@@ -284,10 +284,15 @@ public partial class PlaceView : Page
     {
         try
         {
+            if (PlaceService.IsAccountPlaceFavorite(SessionManager.Ticket, RequestId))
+            {
+                throw new Exception("This place is already your favorite.");
+            }
+
             TransitAccountPlaceFavorite apf = new TransitAccountPlaceFavorite();
             apf.PlaceId = RequestId;
             PlaceService.CreateOrUpdateAccountPlaceFavorite(SessionManager.Ticket, apf);
-            Redirect(Request.Url.PathAndQuery);
+            Redirect("AccountPlaceFavoritesManage.aspx");
         }
         catch (Exception ex)
         {
@@ -297,9 +302,16 @@ public partial class PlaceView : Page
 
     protected override void OnPreRender(EventArgs e)
     {
-        panelAdmin.Visible = SessionManager.IsAdministrator;
-        linkDeleteFeatures.Visible = (LatestPlaceFeature != null);
-        linkMap.Visible = linkDirections.Visible = (Place != null && !string.IsNullOrEmpty(Place.Street));
+        try
+        {
+            panelAdmin.Visible = SessionManager.IsAdministrator;
+            linkDeleteFeatures.Visible = (LatestPlaceFeature != null);
+            linkMap.Visible = linkDirections.Visible = (Place != null && !string.IsNullOrEmpty(Place.Street));
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
         base.OnPreRender(e);
     }
 

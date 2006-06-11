@@ -10,7 +10,7 @@
    <td valign="top" width="150">
     <SnCore:AccountMenu runat="server" ID="menu" />
    </td>
-   <td valign="top" width="*">
+   <td valign="top" width="100%">
     <div class="sncore_h2">
      My Friends
     </div>
@@ -18,7 +18,7 @@
      ID="friendsList" Width="0px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Top"
      OnItemCommand="friendsList_Command" ItemStyle-CssClass="sncore_table_tr_td" RepeatColumns="3"
      RepeatRows="4">
-     <pagerstyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
+     <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
       prevpagetext="Prev" horizontalalign="Center" />
      <ItemTemplate>
       <a href="AccountView.aspx?id=<%# Eval("FriendId") %>">
@@ -26,12 +26,11 @@
        <div style="font-size: smaller;">
         <%# base.Render(Eval("FriendName")) %>
        </div>
-
-       <div style="font-size: smaller;">
-        <asp:LinkButton Text="&#187; delete" ID="deleteFriend" runat="server" OnClientClick="return confirm('Are you sure you want to do this?')"
-         CommandName="Delete" CommandArgument='<%# Eval("Id") %>' />
-       </div>
       </a>
+      <div style="font-size: smaller;">
+       <asp:LinkButton Text="&#187; delete" ID="deleteFriend" runat="server" OnClientClick="return confirm('Are you sure you want to do this?')"
+        CommandName="Delete" CommandArgument='<%# Eval("Id") %>' />
+      </div>
      </ItemTemplate>
     </SnCoreWebControls:PagedList>
     <SnCore:AccountReminder ID="accountReminder" runat="server" Style="width: 582px;" />
