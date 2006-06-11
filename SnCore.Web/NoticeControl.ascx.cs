@@ -168,6 +168,8 @@ public partial class NoticeControl : Control
             {
                 mMessage = value;
             }
+
+            panelNotice.Visible = ! string.IsNullOrEmpty(value);
         }
     }
 

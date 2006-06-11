@@ -22,10 +22,21 @@ namespace SnCore.Tools.Drawing
         {
 
         }
+
+        public InvalidImageSizeException(string filename, int width, int height, int minwidth, int minheight)
+            : base(string.Format("Image {0} is {1}x{2}, which is too small.\nIt needs to be at least {3}x{4}.",
+                filename, width, height, minwidth, minheight))
+        {
+
+        }
+
     }
 
     public class ThumbnailBitmap
     {
+        public const int ThumbnailWidth = 100;
+        public const int ThumbnailHeight = 150;
+
         byte[] mThumbnail = null;
         byte[] mBitmap = null;
 
@@ -86,7 +97,14 @@ namespace SnCore.Tools.Drawing
 
         public static byte[] GetThumbnail(Bitmap originalimage)
         {
-            return GetResizedImageBytes(originalimage, 100, 150, 40);
+            if (originalimage.Width < ThumbnailWidth && originalimage.Height < ThumbnailHeight)
+            {
+                throw new InvalidImageSizeException(
+                    string.Empty, originalimage.Width, originalimage.Height, 
+                    ThumbnailWidth, ThumbnailHeight);
+            }
+
+            return GetResizedImageBytes(originalimage, ThumbnailWidth, ThumbnailHeight, 40);
         }
 
         private static Size GetNewSize(Bitmap originalimage, int widthtarget, int heighttarget)
