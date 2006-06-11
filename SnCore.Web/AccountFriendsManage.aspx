@@ -22,10 +22,11 @@
       prevpagetext="Prev" horizontalalign="Center" />
      <ItemTemplate>
       <a href="AccountView.aspx?id=<%# Eval("FriendId") %>">
-       <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("FriendPictureId") %>" /><br />
-       <b>
+       <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("FriendPictureId") %>" />
+       <div style="font-size: smaller;">
         <%# base.Render(Eval("FriendName")) %>
-       </b>
+       </div>
+
        <div style="font-size: smaller;">
         <asp:LinkButton Text="&#187; delete" ID="deleteFriend" runat="server" OnClientClick="return confirm('Are you sure you want to do this?')"
          CommandName="Delete" CommandArgument='<%# Eval("Id") %>' />
