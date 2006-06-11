@@ -80,8 +80,8 @@ namespace HtmlCleaner
         /// Set the tag names in lower case which are allowed to go to output
         /// </summary>
         public string[] AllowedTags = new string[] { "p", "b", "i", "u", "em", "big", "small", "strike",
-			"div", "img", "span", "blockquote", "code", "pre", "br", "hr", "table", "tr", "td", "th", "h1", "h2", "h3",
-			"ul", "ol", "li", "del", "ins", "strong", "a", "font", "dd", "dt"};
+			        "div", "img", "span", "blockquote", "code", "pre", "br", "hr", "table", "tr", "td", "th", "h1", "h2", "h3",
+			        "ul", "ol", "li", "del", "ins", "strong", "a", "font", "dd", "dt", "object", "param", "embed"};
 
         /// <summary>
         /// New lines \r\n are replaced with space which saves space and makes the
@@ -92,7 +92,7 @@ namespace HtmlCleaner
         /// Specify which attributes are allowed. Any other attribute will be discarded
         /// </summary>
         public string[] AllowedAttributes = new string[] { "href", "target", 
-			"border", "src", "align", "width", "height", "color", "size", "class", "style" };
+        			"border", "src", "align", "width", "height", "color", "size", "class", "style", "type", "name", "value" };
 
         /// <summary>
         /// Base href to adjust images and links

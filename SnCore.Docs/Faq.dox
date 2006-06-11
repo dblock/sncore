@@ -109,9 +109,9 @@ a 40% JPEG compression.
 \section faq_posting Posting Content
 
 \subsection faq_posting_html Is HTML allowed in posts?
-Yes, a limited well-formed subset of HTML is allowed in posts. This includes complex tables and styles, images and links, etc.
-Script or any other potentially harmful content is removed. If some content doesn't render, check the HTML source: illegal tags are 
-replaced with &lt;stripped /&gt;.
+Yes, a limited well-formed subset of HTML is allowed in posts. This includes complex tables and styles, images and links and 
+some embedded objects. Script or any other potentially harmful content is removed. If some content doesn't render, check the 
+HTML source: illegal tags are replaced with &lt;stripped /&gt; and illegal properties are removed.
 
 \subsection faq_posting_links How do I insert a link into discussions, stories and other kinds of posts?
 You do not need any markup to insert a link into a discussion post. Simply use a link as is. Anything starting with
