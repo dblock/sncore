@@ -418,6 +418,10 @@ namespace SnCore.WebControls
             set
             {
                 this.ViewState["CurrentPage"] = value;
+                if (mPagedDataSource != null)
+                {
+                    PagedDataSource.CurrentPageIndex = value;
+                }
             }
         }
 
@@ -431,7 +435,10 @@ namespace SnCore.WebControls
             set
             {
                 this.ViewState["VirtualItemCount"] = value;
-                PagedDataSource.VirtualCount = value;
+                if (mPagedDataSource != null)
+                {
+                    PagedDataSource.VirtualCount = value;
+                }
             }
         }
 
@@ -445,6 +452,26 @@ namespace SnCore.WebControls
             set
             {
                 this.ViewState["RepeatRows"] = value;
+                if (mPagedDataSource != null)
+                {
+                    PagedDataSource.PageSize = PageSize;
+                }
+            }
+        }
+
+        public override int RepeatColumns
+        {
+            get
+            {
+                return base.RepeatColumns;
+            }
+            set
+            {
+                base.RepeatColumns = value;
+                if (mPagedDataSource != null)
+                {
+                    PagedDataSource.PageSize = PageSize;
+                }
             }
         }
     }
