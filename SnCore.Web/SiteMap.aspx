@@ -78,7 +78,7 @@
         </ItemTemplate>
        </asp:Repeater>
       </ul>
-      <li>Surveys</li>
+      <li><b>Surveys</b></li>
       <ul>
        <asp:DataList RepeatLayout="Flow" RepeatDirection="Horizontal" ID="listSurveys" runat="server">
         <ItemTemplate>
@@ -89,25 +89,25 @@
         </ItemTemplate>
        </asp:DataList>
       </ul>
-      <li>Featured</li>
+      <li><b>Featured</b></li>
       <ul>
        <li><a href="FeaturedAccountFeedsView.aspx">Feeds</a></li>
        <li><a href="FeaturedAccountsView.aspx">People</a></li>
        <li><a href="FeaturedPlacesView.aspx">Places</a></li>
        <li><a href="FeaturedAccountEventsView.aspx">Events</a></li>
       </ul>
-      <li>RSS Syndication</li>
+      <li><b>Rss Syndication</b></li>
       <ul>
-       <li><a href="AccountsRss.aspx">People RSS</a></li>
-       <li><a href="PlacesRss.aspx">Places RSS</a></li>
-       <li><a href="AccountFeedsRss.aspx">Feeds RSS</a></li>
-       <li><a href="AccountStoriesRss.aspx">Stories RSS</a></li>
-       <li><a href="AccountEventsRss.aspx">Events RSS</a></li>
-       <li><a href="AccountFeedItemsRss.aspx">Aggregated Feeds RSS</a></li>
-       <li><a href="FeaturedAccountsRss.aspx">Featured People RSS</a></li>
-       <li><a href="FeaturedPlacesRss.aspx">Featured Places RSS</a></li>
-       <li><a href="FeaturedAccountFeedsRss.aspx">Featured Feeds RSS</a></li>
-       <li><a href="FeaturedAccountEventsRss.aspx">Featured Events RSS</a></li>
+       <li><a href="AccountsRss.aspx">People</a></li>
+       <li><a href="PlacesRss.aspx">Places</a></li>
+       <li><a href="AccountFeedsRss.aspx">Feeds</a></li>
+       <li><a href="AccountStoriesRss.aspx">Stories</a></li>
+       <li><a href="AccountEventsRss.aspx">Events</a></li>
+       <li><a href="AccountFeedItemsRss.aspx">Aggregated Feeds</a></li>
+       <li><a href="FeaturedAccountsRss.aspx">Featured People</a></li>
+       <li><a href="FeaturedPlacesRss.aspx">Featured Places</a></li>
+       <li><a href="FeaturedAccountFeedsRss.aspx">Featured Feeds</a></li>
+       <li><a href="FeaturedAccountEventsRss.aspx">Featured Events</a></li>
       </ul>
       <li><a href="Search.aspx">Search</a></li>
      </ul>
@@ -115,7 +115,7 @@
    </td>
    <td valign="top" width="50%">
     <ul>    
-     <li>Member Services</li>
+     <li><b>Member Services</b></li>
      <ul>
       <li><a href="AccountCreate.aspx">Join</a></li>
       <li><a href="AccountLogin.aspx">Login</a></li>
@@ -151,6 +151,13 @@
        <li><a runat="server" id="linkSuggestFeature" href="BugEdit.aspx?pid=0&type=Suggestion">Suggest a Feature</a></li>
        <li><a href="docs/html/index.html">Developer Documentation</a></li>
        <li><a href="About.aspx">About</a></li>
+      </ul>
+     <li><a href="SystemStatsHits.aspx">Statistics</a></li>
+      <ul>
+       <li><a href="RefererAccountsView.aspx">Top Traffickers</a></li>
+       <li><a href="SystemStatsHits.aspx">Page Hits</a></li>
+       <li><a href="SystemRefererHosts.aspx">Referer Hosts</a></li>
+       <li><a href="SystemRefererQueries.aspx">Referer Queries</a></li>
       </ul>
     </ul>
    </td>
