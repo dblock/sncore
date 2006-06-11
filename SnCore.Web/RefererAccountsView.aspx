@@ -12,14 +12,14 @@
      Top Traffickers
     </div>
     <div class="sncore_h2sub">
-     <a href="AccountsView.aspx">&#187; All Accounts</a>
+     <a href="AccountsView.aspx">&#187; All People</a>
      <a href="AccountInvitationsManage.aspx">&#187; Invite a Friend</a>
     </div>
    </td>
   </tr>
  </table>
  <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage" PageSize="10"
-  AllowCustomPaging="true" RepeatColumns="4" RepeatRows="4"
+  AllowCustomPaging="true" RepeatColumns="4" RepeatRows="4" RepeatDirection="Horizontal"
   CssClass="sncore_table" ShowHeader="false">
   <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
    prevpagetext="Prev" horizontalalign="Center" />
@@ -32,10 +32,7 @@
     <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
      <%# base.Render(Eval("AccountName")) %>
     </a>
-   </div>
-   <div>
-    visits:
-    <%# Eval("RefererHostTotal") %>
+   (<%# Eval("RefererHostTotal") %>)
    </div>
    <div>
     <a target="_blank" href='<%# base.Render(Eval("RefererHostLastRefererUri")) %>'>

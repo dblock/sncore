@@ -250,4 +250,16 @@ public partial class PlacesView : Page
             ReportException(ex);
         }
     }
+
+    public void linkSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            panelSearch.Visible = !panelSearch.Visible;
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
 }

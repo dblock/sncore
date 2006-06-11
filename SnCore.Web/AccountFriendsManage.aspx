@@ -14,7 +14,7 @@
     <div class="sncore_h2">
      My Friends
     </div>
-    <SnCoreWebControls:PagedList CssClass="sncore_account_table" runat="server"
+    <SnCoreWebControls:PagedList CssClass="sncore_account_table" runat="server" RepeatDirection="Horizontal"
      ID="friendsList" Width="0px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Top"
      OnItemCommand="friendsList_Command" ItemStyle-CssClass="sncore_table_tr_td" RepeatColumns="3"
      RepeatRows="4">

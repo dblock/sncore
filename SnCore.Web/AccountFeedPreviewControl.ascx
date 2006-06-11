@@ -3,7 +3,7 @@
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage" RepeatColumns="2"
  RepeatRows="3" ShowHeader="false" AllowCustomPaging="true">
- <pagerstyle cssclass="sncore_table_pager" position="Bottom" nextpagetext="Next"
+ <PagerStyle cssclass="sncore_table_pager" position="Bottom" nextpagetext="Next"
   prevpagetext="Prev" horizontalalign="Center" />
  <ItemTemplate>
   <div>

@@ -16,6 +16,7 @@
      <asp:LinkButton ID="linkLocal" OnClick="linkLocal_Click" runat="server" Text="&#187; All Local People" />
      <a href="AccountInvitationsManage.aspx">&#187; Invite a Friend</a>
      <a href="RefererAccountsView.aspx">&#187; Top Traffickers</a>
+     <asp:LinkButton ID="linkSearch" OnClick="linkSearch_Click" runat="server" Text="&#187; Search" />
     </div>
    </td>
    <td>
@@ -28,85 +29,87 @@
    </td>
   </tr>
  </table>
- <table class="sncore_table">
-  <tr>
-   <td class="sncore_form_label">
-    name:
-   </td>
-   <td class="sncore_form_value">
-    <asp:TextBox CssClass="sncore_form_textbox" ID="inputName" runat="server" />
-   </td>
-  </tr>
-  <tr>
-   <td class="sncore_form_label">
-    e-mail address:
-   </td>
-   <td class="sncore_form_value">
-    <asp:TextBox CssClass="sncore_form_textbox" ID="inputEmailAddress" runat="server" />
-   </td>
-  </tr>
-  <tr>
-   <td class="sncore_form_label">
-    sort by:
-   </td>
-   <td class="sncore_form_value">
-    <asp:DropDownList CssClass="sncore_form_dropdown" ID="listboxSelectSortOrder" runat="server">
-     <asp:ListItem Selected="True" Text="Last Activity" Value="LastLogin" />
-     <asp:ListItem Text="Name" Value="Name" />
-     <asp:ListItem Text="Date Joined" Value="Created" />
-    </asp:DropDownList>
-   </td>
-  </tr>
-  <tr>
-   <td class="sncore_form_label">
-    order by:
-   </td>
-   <td class="sncore_form_value">
-    <asp:DropDownList CssClass="sncore_form_dropdown" ID="listboxSelectOrderBy" runat="server"
-     AutoPostBack="True">
-     <asp:ListItem Selected="True" Text="Descending" Value="false" />
-     <asp:ListItem Text="Ascending" Value="true" />
-    </asp:DropDownList>
-   </td>
-  </tr>
-  <tr>
-   <td class="sncore_form_label">
-    country and state:
-   </td>
-   <td class="sncore_form_value">
-    <asp:DropDownList CssClass="sncore_form_dropdown_small" OnSelectedIndexChanged="inputCountry_SelectedIndexChanged"
-     ID="inputCountry" DataTextField="Name" AutoPostBack="true" DataValueField="Name"
-     runat="server" />
-    <asp:DropDownList CssClass="sncore_form_dropdown_small" ID="inputState" AutoPostBack="true"
-     DataTextField="Name" DataValueField="Name" runat="server" /></td>
-  </tr>
-  <tr>
-   <td class="sncore_form_label">
-    city:
-   </td>
-   <td class="sncore_form_value">
-    <asp:TextBox CssClass="sncore_form_textbox" ID="inputCity" runat="server" />
-   </td>
-  </tr>
-  <tr>
-   <td class="sncore_form_label">
-   </td>
-   <td class="sncore_form_value">
-    <asp:CheckBox CssClass="sncore_form_checkbox" ID="checkboxPicturesOnly" runat="server"
-     Text="show people with pictures only" Checked="false" />
-   </td>
-  </tr>
-  <tr>
-   <td class="sncore_form_label">
-   </td>
-   <td class="sncore_form_value">
-    <SnCoreWebControls:Button ID="search" runat="server" Text="Search" CssClass="sncore_form_button"
-     OnClick="search_Click" />
-   </td>
-  </tr>
- </table>
- <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage" PageSize="10"
-  AllowCustomPaging="true" RepeatColumns="4" RepeatRows="4"
+ <asp:Panel ID="panelSearch" runat="server" Visible="false" EnableViewState="true">
+  <table class="sncore_table">
+   <tr>
+    <td class="sncore_form_label">
+     name:
+    </td>
+    <td class="sncore_form_value">
+     <asp:TextBox CssClass="sncore_form_textbox" ID="inputName" runat="server" />
+    </td>
+   </tr>
+   <tr>
+    <td class="sncore_form_label">
+     e-mail address:
+    </td>
+    <td class="sncore_form_value">
+     <asp:TextBox CssClass="sncore_form_textbox" ID="inputEmailAddress" runat="server" />
+    </td>
+   </tr>
+   <tr>
+    <td class="sncore_form_label">
+     sort by:
+    </td>
+    <td class="sncore_form_value">
+     <asp:DropDownList CssClass="sncore_form_dropdown" ID="listboxSelectSortOrder" runat="server">
+      <asp:ListItem Selected="True" Text="Last Activity" Value="LastLogin" />
+      <asp:ListItem Text="Name" Value="Name" />
+      <asp:ListItem Text="Date Joined" Value="Created" />
+     </asp:DropDownList>
+    </td>
+   </tr>
+   <tr>
+    <td class="sncore_form_label">
+     order by:
+    </td>
+    <td class="sncore_form_value">
+     <asp:DropDownList CssClass="sncore_form_dropdown" ID="listboxSelectOrderBy" runat="server"
+      AutoPostBack="True">
+      <asp:ListItem Selected="True" Text="Descending" Value="false" />
+      <asp:ListItem Text="Ascending" Value="true" />
+     </asp:DropDownList>
+    </td>
+   </tr>
+   <tr>
+    <td class="sncore_form_label">
+     country and state:
+    </td>
+    <td class="sncore_form_value">
+     <asp:DropDownList CssClass="sncore_form_dropdown_small" OnSelectedIndexChanged="inputCountry_SelectedIndexChanged"
+      ID="inputCountry" DataTextField="Name" AutoPostBack="true" DataValueField="Name"
+      runat="server" />
+     <asp:DropDownList CssClass="sncore_form_dropdown_small" ID="inputState" AutoPostBack="true"
+      DataTextField="Name" DataValueField="Name" runat="server" /></td>
+   </tr>
+   <tr>
+    <td class="sncore_form_label">
+     city:
+    </td>
+    <td class="sncore_form_value">
+     <asp:TextBox CssClass="sncore_form_textbox" ID="inputCity" runat="server" />
+    </td>
+   </tr>
+   <tr>
+    <td class="sncore_form_label">
+    </td>
+    <td class="sncore_form_value">
+     <asp:CheckBox CssClass="sncore_form_checkbox" ID="checkboxPicturesOnly" runat="server"
+      Text="show people with pictures only" Checked="false" />
+    </td>
+   </tr>
+   <tr>
+    <td class="sncore_form_label">
+    </td>
+    <td class="sncore_form_value">
+     <SnCoreWebControls:Button ID="search" runat="server" Text="Search" CssClass="sncore_form_button"
+      OnClick="search_Click" />
+    </td>
+   </tr>
+  </table>
+ </asp:Panel>
+ <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage"
+  AllowCustomPaging="true" RepeatColumns="4" RepeatRows="4" RepeatDirection="Horizontal"
   CssClass="sncore_table" ShowHeader="false">
   <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
    prevpagetext="Prev" horizontalalign="Center" />
