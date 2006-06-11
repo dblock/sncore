@@ -202,6 +202,7 @@ namespace SnCore.WebControls
     {
         private int mFirst = -1;
         private List<Pager> mPagers = new List<Pager>();
+        private List<DataListItem> mPagerListItems = new List<DataListItem>();
         private PagedDataSource mPagedDataSource = null;
         private DataListPagerStyle mPagerStyle = new DataListPagerStyle();
         private bool mAllowCustomPaging = false;
@@ -229,13 +230,6 @@ namespace SnCore.WebControls
         {
             get
             {
-                if (mPagers.Count != PagerStyle.PagersCount)
-                {
-                    for (int i = 0; i < PagerStyle.PagersCount; i++)
-                    {
-                        mPagers.Add(new Pager(PagedDataSource, PagerStyle));
-                    }
-                }
                 return mPagers;
             }
         }
@@ -329,6 +323,8 @@ namespace SnCore.WebControls
             DataListItem item = new DataListItem(0, ListItemType.Pager);
             item.Controls.Add(pager.Navigator);
             Controls.Add(item);
+
+            mPagerListItems.Add(item);
         }
 
         public void Pager_PageIndexChanged(object sender, DataGridPageChangedEventArgs e)
@@ -359,6 +355,7 @@ namespace SnCore.WebControls
             {
                 pager.PreRenderCommands();
             }
+
             base.OnPreRender(e);
         }
 
@@ -375,19 +372,27 @@ namespace SnCore.WebControls
             {
                 PagedDataSource.DataSource = new DummyDataSource(VirtualItemCount);                
             }
+            
+            ClearPagers();
 
-            try
+            for (int i = 0; i < PagerStyle.PagersCount; i++)
             {
-                base.CreateControlHierarchy(useDataSource);
-            }
-            catch
-            {
-            }
-
-            foreach (Pager pager in Pagers)
-            {
+                Pager pager = new Pager(PagedDataSource, PagerStyle);
+                mPagers.Add(pager);
                 InitializePager(pager);
             }
+
+            base.CreateControlHierarchy(useDataSource);
+        }
+
+        private void ClearPagers()
+        {
+            foreach (DataListItem item in mPagerListItems)
+                Controls.Remove(item);
+
+            mPagerListItems.Clear();
+
+            mPagers.Clear();
         }
 
         public int PageSize
@@ -421,6 +426,7 @@ namespace SnCore.WebControls
             set
             {
                 this.ViewState["VirtualItemCount"] = value;
+                PagedDataSource.VirtualCount = value;
             }
         }
 
