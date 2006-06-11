@@ -126,7 +126,9 @@ public partial class AccountFeedPreviewControl : Control
         }
         else
         {
-            return Renderer.CleanHtml(description.ToString(), new Uri(Feed.LinkUrl));
+            Uri feedlinkUri = null;
+            Uri.TryCreate(Feed.LinkUrl, UriKind.Absolute, out feedlinkUri); 
+            return Renderer.CleanHtml(description.ToString(), feedlinkUri);
         }
     }
 }

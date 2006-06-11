@@ -120,7 +120,12 @@ namespace SnCore.WebControls
 
     internal sealed class DummyDataSource : ICollection
     {
-        private int dataItemCount;
+        private int dataItemCount = 0;
+
+        public DummyDataSource()
+        {
+
+        }
 
         public DummyDataSource(int dataItemCount)
         {
@@ -246,7 +251,7 @@ namespace SnCore.WebControls
                     mPagedDataSource.CurrentPageIndex = CurrentPage;
                     mPagedDataSource.VirtualCount = VirtualItemCount;
                     mPagedDataSource.PageSize = PageSize;
-                    mPagedDataSource.DataSource = (IEnumerable)base.DataSource;
+                    mPagedDataSource.DataSource = base.DataSource == null ? new DummyDataSource() : (IEnumerable) base.DataSource;
                 }
                 return mPagedDataSource;
             }
