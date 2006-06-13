@@ -17,8 +17,8 @@
     <asp:HyperLink ID="HyperLink1" Text="&#187; Create New" CssClass="sncore_createnew" NavigateUrl="SystemRefererAccountEdit.aspx"
      runat="server" />
     <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage" PageSize="15"
-     AllowPaging="true" OnItemCommand="gridManage_ItemCommand" AutoGenerateColumns="false"
-     CssClass="sncore_account_table">
+     AllowPaging="true" OnItemCommand="gridManage_ItemCommand" AutoGenerateColumns="false" 
+     AllowCustomPaging="true" CssClass="sncore_account_table">
      <ItemStyle CssClass="sncore_table_tr_td" HorizontalAlign="Center" />
      <HeaderStyle CssClass="sncore_table_tr_th" HorizontalAlign="Center" />
      <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"

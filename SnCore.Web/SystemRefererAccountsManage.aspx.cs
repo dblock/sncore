@@ -25,7 +25,7 @@ public partial class SystemRefererAccountsManage : AuthenticatedPage
 
             if (!IsPostBack)
             {
-
+                gridManage.VirtualItemCount = StatsService.GetRefererAccountsCount();
                 gridManage_OnGetDataSource(this, null);
                 gridManage.DataBind();
             }
