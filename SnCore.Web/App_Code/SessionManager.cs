@@ -49,8 +49,6 @@ public class SessionManager
     private WebEventService mWebEventService = null;
     private WebStatsService mWebStatsService = null;
 
-    private string mWebsiteUrl = string.Empty;
-
     public Cache Cache
     {
         get
@@ -79,18 +77,19 @@ public class SessionManager
     {
         get
         {
-            if (string.IsNullOrEmpty(mWebsiteUrl))
-            {
-                mWebsiteUrl = (string)Cache["settings:WebSiteUrl"];
-                if (string.IsNullOrEmpty(mWebsiteUrl))
-                {
-                    Cache["settings:WebSiteUrl"] = mWebsiteUrl = SystemService.GetConfigurationByNameWithDefault(
-                        "SnCore.WebSite.Url", "http://localhost/SnCoreWeb").Value;
-                }
-            }
-
-            return mWebsiteUrl;
+            return GetCachedConfiguration("SnCore.WebSite.Url", "http://localhost/SnCoreWeb");
         }
+    }
+
+    public string GetCachedConfiguration(string name, string defaultvalue)
+    {
+        object result = Cache[string.Format("settings:{0}", name)];
+        if (result == null)
+        {
+            result = SystemService.GetConfigurationByNameWithDefault(name, defaultvalue).Value;
+            Cache.Insert(string.Format("settings:{0}", name), result, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
+        }
+        return result.ToString();
     }
 
     public SessionManager(System.Web.UI.Page page)

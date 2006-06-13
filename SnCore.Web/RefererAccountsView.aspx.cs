@@ -23,8 +23,8 @@ public partial class RefererAccountsView : AccountPersonPage
             {
                 linkAdministrator.OnClientClick =
                     string.Format("location.href='mailto:{0}';",
-                        SystemService.GetConfigurationByNameWithDefault(
-                            "SnCore.Admin.EmailAddress", "admin@localhost.com").Value);
+                       SessionManager.GetCachedConfiguration(
+                            "SnCore.Admin.EmailAddress", "admin@localhost.com"));
                 GetData();
             }
         }

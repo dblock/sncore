@@ -123,16 +123,16 @@ public partial class NoticeControl : Control
             {
                 reportbugurl =
                     string.Format("BugEdit.aspx?pid={0}&type=Bug&url={1}&message={2}",
-                        SystemService.GetConfigurationByNameWithDefault(
-                            "SnCore.Bug.ProjectId", "0").Value,
+                       SessionManager.GetCachedConfiguration(
+                            "SnCore.Bug.ProjectId", "0"),
                     Renderer.UrlEncode(Request.Url.PathAndQuery),
                     Renderer.UrlEncode(message));
             }
             else
             {
                 reportbugurl = string.Format("mailto:{0}?subject={1}&body={2}",
-                        SystemService.GetConfigurationByNameWithDefault(
-                            "SnCore.Admin.EmailAddress", "admin@localhost.com").Value,
+                       SessionManager.GetCachedConfiguration(
+                            "SnCore.Admin.EmailAddress", "admin@localhost.com"),
                             Renderer.UrlEncode(Request.Url.PathAndQuery),
                             Renderer.UrlEncode(message));
             }

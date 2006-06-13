@@ -27,8 +27,8 @@ public partial class AccountCreateOpenId : Page
 
                 linkAdministrator.OnClientClick =
                     string.Format("location.href='mailto:{0}';",
-                        SystemService.GetConfigurationByNameWithDefault(
-                            "SnCore.Admin.EmailAddress", "admin@localhost.com").Value);
+                       SessionManager.GetCachedConfiguration(
+                            "SnCore.Admin.EmailAddress", "admin@localhost.com"));
 
                 string openidmode = Request["openid.mode"];
                 if (!string.IsNullOrEmpty(openidmode))

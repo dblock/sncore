@@ -93,23 +93,23 @@ public partial class SiteMap2 : Page
         {
             linkSuggestFeature.HRef =
                 string.Format("BugEdit.aspx?pid={0}&type=Suggestion",
-                    SystemService.GetConfigurationByNameWithDefault(
-                        "SnCore.NewFeature.ProjectId", "0").Value);
+                       SessionManager.GetCachedConfiguration(
+                        "SnCore.NewFeature.ProjectId", "0"));
 
             linkReportBug.HRef =
                 string.Format("BugEdit.aspx?pid={0}&type=Bug",
-                    SystemService.GetConfigurationByNameWithDefault(
-                        "SnCore.Bug.ProjectId", "0").Value);
+                       SessionManager.GetCachedConfiguration(
+                        "SnCore.Bug.ProjectId", "0"));
 
             linkSiteDiscussion.HRef =
                 string.Format("DiscussionView.aspx?id={0}",
-                    SystemService.GetConfigurationByNameWithDefault(
-                        "SnCore.Site.DiscussionId", "0").Value);
+                       SessionManager.GetCachedConfiguration(
+                        "SnCore.Site.DiscussionId", "0"));
 
             linkBlog.HRef = 
                 string.Format("AccountBlogView.aspx?id={0}",
-                    SystemService.GetConfigurationByNameWithDefault(
-                        "SnCore.Blog.Id", "0").Value);
+                       SessionManager.GetCachedConfiguration(
+                        "SnCore.Blog.Id", "0"));
 
             AccountActivityQueryOptions aaqo = new AccountActivityQueryOptions();
             listAccounts.DataSource = GetPagedList(SocialService.GetAccountActivityCount(aaqo));

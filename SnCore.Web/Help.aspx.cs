@@ -19,23 +19,23 @@ public partial class Help : Page
             {
                 linkAdministrator.OnClientClick = 
                     string.Format("location.href='mailto:{0}';",
-                        SystemService.GetConfigurationByNameWithDefault(
-                            "SnCore.Admin.EmailAddress", "admin@localhost.com").Value);
+                       SessionManager.GetCachedConfiguration(
+                            "SnCore.Admin.EmailAddress", "admin@localhost.com"));
                         
                 linkSuggestFeature.NavigateUrl =
                     string.Format("BugEdit.aspx?pid={0}&type=Suggestion",
-                        SystemService.GetConfigurationByNameWithDefault(
-                            "SnCore.NewFeature.ProjectId", "0").Value);
+                       SessionManager.GetCachedConfiguration(
+                            "SnCore.NewFeature.ProjectId", "0"));
 
                 linkReportBug.NavigateUrl =
                     string.Format("BugEdit.aspx?pid={0}&type=Bug",
-                        SystemService.GetConfigurationByNameWithDefault(
-                            "SnCore.Bug.ProjectId", "0").Value);
+                       SessionManager.GetCachedConfiguration(
+                            "SnCore.Bug.ProjectId", "0"));
 
                 linkSiteDiscussion.NavigateUrl=
                     string.Format("DiscussionView.aspx?id={0}",
-                        SystemService.GetConfigurationByNameWithDefault(
-                            "SnCore.Site.DiscussionId", "0").Value);
+                       SessionManager.GetCachedConfiguration(
+                            "SnCore.Site.DiscussionId", "0"));
 
             }
         }

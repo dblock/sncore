@@ -163,7 +163,12 @@ public partial class PlaceView : Page
                         return;
                     }
 
-                    this.Title = Renderer.Render(string.Format("{0}, {1}", place.Name, place.City));
+                    Title = Renderer.Render(string.Format("{0}, {1}", place.Name, place.City));
+
+                    MetaDescription.Content = string.Format("Get photos, information and reviews on {0} and other places in {1} on {2}.",
+                        Renderer.Render(place.Name),
+                        Renderer.Render(place.City),
+                        Renderer.Render(SessionManager.GetCachedConfiguration("SnCore.Title", "SnCore")));
 
                     linkType.NavigateUrl = string.Format("PlacesView.aspx?city={0}&state={1}&country={2}&type={3}",
                         Renderer.UrlEncode(place.City),

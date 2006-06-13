@@ -4,6 +4,8 @@
 
 <table class="settingTable" cellpadding="4px" cellspacing="0">
  <tr><td class="settingLeft">SnCore.Name</td><td class="settingRight">project name, eg. <em>My Project</em></td></tr>
+ <tr><td class="settingLeft">SnCore.Title</td><td class="settingRight">project title, inserted into every page title</td></tr>
+ <tr><td class="settingLeft">SnCore.Description</td><td class="settingRight">project description, appears in meta tags</td></tr>
  <tr><td class="settingLeft">SnCore.Domain</td><td class="settingRight">domain name used notably in e-mail notifications, eg. <em>mydomain.com</em></td></tr>
  <tr><td class="settingLeft">SnCore.Admin.EmailAddress</td><td class="settingRight">system administrator's e-mail address</td></tr>
  <tr><td class="settingLeft">SnCore.WebSite.Url</td><td class="settingRight">root of the website</td></tr>

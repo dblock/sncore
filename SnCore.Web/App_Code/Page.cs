@@ -15,7 +15,18 @@ using SnCore.BackEndServices;
 
 public class Page : System.Web.UI.Page
 {
+    private HtmlMeta mMetaDescription = null;
     protected SessionManager mSessionManager = null;
+
+    protected override void OnLoad(EventArgs e)
+    {
+        if (Header != null)
+        {
+            Header.Controls.Add(MetaDescription);
+        }
+
+        base.OnLoad(e);
+    }
 
     public int RequestId
     {
@@ -243,6 +254,21 @@ public class Page : System.Web.UI.Page
         notice.GetType().GetProperty("HtmlEncode").SetValue(notice, htmlencode, null);
     }
 
+    public HtmlMeta MetaDescription
+    {
+        get
+        {
+            if (mMetaDescription == null)
+            {
+                mMetaDescription = new HtmlMeta();
+                mMetaDescription.Name = "description";
+                mMetaDescription.Content = SessionManager.GetCachedConfiguration(
+                    "SnCore.Description", string.Empty);
+            }
+            return mMetaDescription;
+        }
+    }
+
     public void ReportInfo(string message)
     {
         ReportInfo(message, false);
@@ -265,7 +291,7 @@ public class Page : System.Web.UI.Page
     {
         return Renderer.GetSummary(SessionManager.RenderMarkups(summary));
     }
- }
+}
 
 public class AuthenticatedPage : Page
 {

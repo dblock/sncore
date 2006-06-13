@@ -24,8 +24,8 @@ public partial class AccountLoginControl : Control
             {
                 linkAdministrator.OnClientClick =
                     string.Format("location.href='mailto:{0}';",
-                        SystemService.GetConfigurationByNameWithDefault(
-                            "SnCore.Admin.EmailAddress", "admin@localhost.com").Value);
+                       SessionManager.GetCachedConfiguration(
+                            "SnCore.Admin.EmailAddress", "admin@localhost.com"));
 
                 string openidmode = Request["openid.mode"];
                 string openidtoken = SessionManager.OpenIdToken;

@@ -18,8 +18,11 @@ public partial class SnCoreMasterPage : MasterPage
         {
             if (!IsPostBack)
             {
+                Page.Title = string.Format("{0} - {1}", SystemService.GetConfigurationByNameWithDefault(
+                    "SnCore.Title", "SnCore").Value, Page.Title);
+
                 panelAds.Visible = SessionManager.ShowAds;
-                panelCounter.Visible = SessionManager.ShowCounter;
+                panelCounter.Visible = SessionManager.ShowCounter;                
             }
         }
         catch (Exception ex)
