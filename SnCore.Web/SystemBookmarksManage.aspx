@@ -28,13 +28,13 @@
       <asp:TemplateColumn ItemStyle-HorizontalAlign="Center">
        <itemtemplate>
      <a href='SystemBookmarkEdit.aspx?id=<%# Eval("Id") %>'><img 
-      border="0" src='SystemBookmark.aspx?id=<%# Eval("Id") %>&CacheDuration=0' /></a>
+      style='<%# (bool) Eval("HasFullBitmap") ? "" : "display:none" %>' border="0" src='SystemBookmark.aspx?id=<%# Eval("Id") %>&CacheDuration=0' /></a>
     </itemtemplate>
       </asp:TemplateColumn>
       <asp:TemplateColumn ItemStyle-HorizontalAlign="Center">
        <itemtemplate>
      <a href='SystemBookmarkEdit.aspx?id=<%# Eval("Id") %>'><img 
-      border="0" src='SystemBookmark.aspx?id=<%# Eval("Id") %>&CacheDuration=0&ShowThumbnail=true' /></a>
+      style='<%# (bool) Eval("HasLinkBitmap") ? "" : "display:none" %>' border="0" src='SystemBookmark.aspx?id=<%# Eval("Id") %>&CacheDuration=0&ShowThumbnail=true' /></a>
     </itemtemplate>
       </asp:TemplateColumn>
       <asp:TemplateColumn HeaderText="Name" ItemStyle-HorizontalAlign="Left">

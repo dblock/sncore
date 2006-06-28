@@ -44,6 +44,26 @@ namespace SnCore.Services
 
     public class TransitBookmark : TransitService
     {
+        private bool mHasFullBitmap;
+
+        public bool HasFullBitmap
+        {
+            get
+            {
+                return mHasFullBitmap;
+            }
+        }
+
+        private bool mHasLinkBitmap;
+
+        public bool HasLinkBitmap
+        {
+            get
+            {
+                return mHasLinkBitmap;
+            }
+        }
+
         private string mName;
 
         public string Name
@@ -129,6 +149,8 @@ namespace SnCore.Services
             Url = b.Url;
             Created = b.Created;
             Modified = b.Modified;
+            mHasFullBitmap = (b.FullBitmap != null);
+            mHasLinkBitmap = (b.LinkBitmap != null);
         }
 
         public virtual Bookmark GetBookmark(ISession session)

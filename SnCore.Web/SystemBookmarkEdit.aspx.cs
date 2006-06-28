@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using System.Drawing;
 using SnCore.Tools.Drawing;
 using System.IO;
 
@@ -30,7 +31,9 @@ public partial class SystemBookmarkEdit : AuthenticatedPage
                     inputDescription.Text = t.Description;
                     inputUrl.Text = t.Url;
                     imageFullBitmap.ImageUrl = string.Format("SystemBookmark.aspx?id={0}&CacheDuration=0", t.Id);
+                    imageFullBitmap.Visible = t.HasFullBitmap;
                     imageLinkBitmap.ImageUrl = string.Format("SystemBookmark.aspx?id={0}&CacheDuration=0&ShowThumbnail=true", t.Id);
+                    imageLinkBitmap.Visible = t.HasLinkBitmap;
                 }
                 else
                 {
@@ -54,8 +57,8 @@ public partial class SystemBookmarkEdit : AuthenticatedPage
             t.Description = inputDescription.Text;
             t.Url = inputUrl.Text;
             t.Id = RequestId;
-            if (inputFullBitmap.HasFile) t.FullBitmap = new ThumbnailBitmap(inputFullBitmap.FileContent).Bitmap;
-            if (inputLinkBitmap.HasFile) t.LinkBitmap = new ThumbnailBitmap(inputLinkBitmap.FileContent).Bitmap;
+            if (inputFullBitmap.HasFile) t.FullBitmap = new ThumbnailBitmap(inputFullBitmap.FileContent, new Size(16, 16)).Bitmap;
+            if (inputLinkBitmap.HasFile) t.LinkBitmap = new ThumbnailBitmap(inputLinkBitmap.FileContent, new Size(16, 16)).Bitmap;
             SystemService.CreateOrUpdateBookmark(SessionManager.Ticket, t);
             Redirect("SystemBookmarksManage.aspx");
         }

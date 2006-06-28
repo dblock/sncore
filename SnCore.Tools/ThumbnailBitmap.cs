@@ -17,15 +17,15 @@ namespace SnCore.Tools.Drawing
     public class InvalidImageSizeException : Exception
     {
         public InvalidImageSizeException(string filename, int size, int maxbytes)
-            : base(string.Format("Image {0} is {1} Kb., which is too big.\nIt needs to be less than {2} Kb.", 
-                filename, (int) (size / 1024), (int)(maxbytes / 1024)))
+            : base(string.Format("Image {0} is {1} Kb., which is too big.\nIt needs to be less than {2} Kb.",
+                filename, (int)(size / 1024), (int)(maxbytes / 1024)))
         {
 
         }
 
-        public InvalidImageSizeException(string filename, int width, int height, int minwidth, int minheight)
+        public InvalidImageSizeException(string filename, Size cur, Size min)
             : base(string.Format("Image {0} is {1}x{2}, which is too small.\nIt needs to be at least {3}x{4}.",
-                filename, width, height, minwidth, minheight))
+                filename, cur.Width, cur.Height, min.Width, min.Height))
         {
 
         }
@@ -34,8 +34,7 @@ namespace SnCore.Tools.Drawing
 
     public class ThumbnailBitmap
     {
-        public const int ThumbnailWidth = 100;
-        public const int ThumbnailHeight = 150;
+        public static Size ThumbnailSize = new Size(100, 150);
 
         byte[] mThumbnail = null;
         byte[] mBitmap = null;
@@ -56,13 +55,23 @@ namespace SnCore.Tools.Drawing
             }
         }
 
-        public ThumbnailBitmap(byte[] bitmap)
+        public ThumbnailBitmap(byte[] bitmap, Size min)
         {
             mBitmap = bitmap;
-            mThumbnail = GetThumbnail(new Bitmap(new MemoryStream(bitmap)));
+            mThumbnail = GetThumbnail(new Bitmap(new MemoryStream(bitmap)), min);
         }
 
-        public ThumbnailBitmap(Stream bitmap)
+        public ThumbnailBitmap(byte[] bitmap) : this(bitmap, ThumbnailSize)
+        {
+
+        }
+
+        public ThumbnailBitmap(Stream bitmap) : this(bitmap, ThumbnailSize)
+        {
+
+        }
+
+        public ThumbnailBitmap(Stream bitmap, Size min)
         {
             Bitmap b = null;
 
@@ -76,13 +85,17 @@ namespace SnCore.Tools.Drawing
             }
 
             mBitmap = GetResizedImageBytes(b, 640, 480, 40);
-            mThumbnail = GetThumbnail(bitmap);
+            mThumbnail = GetThumbnail(bitmap, min);
         }
 
-        public ThumbnailBitmap(Bitmap bitmap)
+        public ThumbnailBitmap(Bitmap bitmap) : this(bitmap, ThumbnailSize)
+        {
+        }
+
+        public ThumbnailBitmap(Bitmap bitmap, Size min)
         {
             mBitmap = GetResizedImageBytes(bitmap, 640, 480, 40);
-            mThumbnail = GetThumbnail(bitmap);
+            mThumbnail = GetThumbnail(bitmap, min);
         }
 
         public static byte[] GetBitmap(Bitmap originalimage)
@@ -95,16 +108,15 @@ namespace SnCore.Tools.Drawing
             return result;
         }
 
-        public static byte[] GetThumbnail(Bitmap originalimage)
+        public static byte[] GetThumbnail(Bitmap originalimage, Size min)
         {
-            if (originalimage.Width < ThumbnailWidth && originalimage.Height < ThumbnailHeight)
+            if (min != null && originalimage.Width < min.Width && originalimage.Height < min.Height)
             {
                 throw new InvalidImageSizeException(
-                    string.Empty, originalimage.Width, originalimage.Height, 
-                    ThumbnailWidth, ThumbnailHeight);
+                    string.Empty, originalimage.Size, min);
             }
 
-            return GetResizedImageBytes(originalimage, ThumbnailWidth, ThumbnailHeight, 40);
+            return GetResizedImageBytes(originalimage, ThumbnailSize.Width, ThumbnailSize.Height, 40);
         }
 
         private static Size GetNewSize(Bitmap originalimage, int widthtarget, int heighttarget)
@@ -233,7 +245,7 @@ namespace SnCore.Tools.Drawing
             return GetJpegBits(resizedimage, quality);
         }
 
-        public static byte[] GetThumbnail(Stream stream)
+        public static byte[] GetThumbnail(Stream stream, Size min)
         {
             if (stream.Length == 0)
             {
@@ -241,7 +253,7 @@ namespace SnCore.Tools.Drawing
             }
             else
             {
-                return GetThumbnail(new Bitmap(stream));
+                return GetThumbnail(new Bitmap(stream), min);
             }
         }
 
