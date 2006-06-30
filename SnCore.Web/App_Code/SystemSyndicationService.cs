@@ -86,6 +86,7 @@ namespace SnCore.BackEndServices
 
                                 ManagedAccountFeed m_feed = new ManagedAccountFeed(session, feed);
                                 m_feed.Update();
+                                m_feed.UpdateImages();
                             }
                             catch (Exception ex)
                             {

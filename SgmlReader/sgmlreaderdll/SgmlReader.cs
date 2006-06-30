@@ -282,7 +282,7 @@ namespace Sgml {
         WhitespaceHandling whitespaceHandling;
         CaseFolding folding = CaseFolding.None;
         bool stripDocType = true;      
-        string startTag;
+        string startTag = string.Empty;
 
         public SgmlReader() {
             Init();    

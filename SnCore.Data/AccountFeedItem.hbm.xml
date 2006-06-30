@@ -11,5 +11,9 @@
     <property name="Link" column="Link" type="String" />
     <property name="Title" column="Title" type="String" />
     <property name="Updated" column="Updated" type="DateTime" />
+    <bag lazy="true" name="AccountFeedItemImgs" inverse="true">
+      <key column="AccountFeedItem_Id" />
+      <one-to-many class="AccountFeedItemImg, SnCore.Data" />
+    </bag>
   </class>
 </hibernate-mapping>

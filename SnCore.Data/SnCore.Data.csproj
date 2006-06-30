@@ -3,7 +3,7 @@
     <ProjectType>Local</ProjectType>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1F9C0442-E7B5-4CCC-93ED-A0599CF1AA57}</ProjectGuid>
+    <ProjectGuid>{62d4232a-d1c2-4720-b7ba-a6a8ce4e6b0a}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>
@@ -123,6 +123,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AccountFeedItem.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AccountFeedItemImg.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AccountFriend.cs">
@@ -324,6 +327,7 @@
     <EmbeddedResource Include="AccountEventType.hbm.xml" />
     <EmbeddedResource Include="AccountFeed.hbm.xml" />
     <EmbeddedResource Include="AccountFeedItem.hbm.xml" />
+    <EmbeddedResource Include="AccountFeedItemImg.hbm.xml" />
     <EmbeddedResource Include="AccountFriend.hbm.xml" />
     <EmbeddedResource Include="AccountFriendRequest.hbm.xml" />
     <EmbeddedResource Include="AccountInvitation.hbm.xml" />

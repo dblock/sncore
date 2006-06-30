@@ -61,8 +61,11 @@ public partial class AccountFeedsManage : AuthenticatedPage
                     gridManage.DataBind();
                     break;
                 case "Update":
-                    int count = SyndicationService.UpdateAccountFeedItems(SessionManager.Ticket, id);
-                    ReportInfo(string.Format("Feed updated with {0} new item{1}.", count, count == 1 ? string.Empty : "s"));
+                    int item_count = SyndicationService.UpdateAccountFeedItems(SessionManager.Ticket, id);
+                    int image_count = SyndicationService.UpdateAccountFeedItemImgs(SessionManager.Ticket, id);
+                    ReportInfo(string.Format("Feed updated with {0} new item{1} and {2} new image{3}.", 
+                        item_count, item_count == 1 ? string.Empty : "s",
+                        image_count, image_count == 1 ? string.Empty : "s"));
                     gridManage.CurrentPageIndex = 0;
                     gridManage_OnGetDataSource(sender, e);
                     gridManage.DataBind();

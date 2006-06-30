@@ -16,7 +16,7 @@ using Sgml;
 using System.Xml;
 using System.Text;
 
-namespace HtmlCleaner
+namespace SnCore.Tools.Web.Html
 {
     /// <summary>
     /// This class skips all nodes which has some kind of prefix. This trick does the job 

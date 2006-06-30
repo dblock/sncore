@@ -18,7 +18,7 @@ using SnCore.Tools.Web;
 namespace SnCore.WebServices
 {
     /// <summary>
-    /// Managed web story services.
+    /// Managed web syndication services.
     /// </summary>
     [WebService(Namespace = "http://www.vestris.com/sncore/ns/", Name = "WebSyndicationService")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
@@ -195,6 +195,32 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
+        /// Update account feed item images.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="feedid">feed id</param>
+        [WebMethod(Description = "Create or update account feed item images.")]
+        public int UpdateAccountFeedItemImgs(string ticket, int feedid)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount user = new ManagedAccount(session, userid);
+                ManagedAccountFeed m_feed = new ManagedAccountFeed(session, feedid);
+
+                if ((m_feed.AccountId != 0) && (m_feed.AccountId != user.Id) && (!user.IsAdministrator()))
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                int result = m_feed.UpdateImages();
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+        /// <summary>
         /// Get an account feed.
         /// </summary>
         /// <returns>transit account feed</returns>
@@ -342,7 +368,7 @@ namespace SnCore.WebServices
         }
         #endregion
 
-        #region AccountFeedItems
+        #region AccountFeedItem
 
         /// <summary>
         /// Get account feed items count.
@@ -522,6 +548,101 @@ namespace SnCore.WebServices
                 return query.List().Count;
             }
         }
+
+        #endregion
+
+        #region AccountFeedItemImg
+
+        /// <summary>
+        /// Get account feed item images count.
+        /// </summary>
+        /// <returns>transit account feed item images count</returns>
+        [WebMethod(Description = "Get account feed item images count.", CacheDuration = 60)]
+        public int GetAccountFeedItemImgsCount(TransitAccountFeedItemImgQueryOptions options)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return (int) options.CreateCountQuery(session).UniqueResult();
+            }
+        }
+
+        /// <summary>
+        /// Get account feed item images.
+        /// </summary>
+        /// <returns>transit account feed item images</returns>
+        [WebMethod(Description = "Get account feed item images.", CacheDuration = 60)]
+        public List<TransitAccountFeedItemImg> GetAccountFeedItemImgs(TransitAccountFeedItemImgQueryOptions qopt, ServiceQueryOptions options)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                IQuery q = qopt.CreateQuery(session);
+
+                if (options != null)
+                {
+                    q.SetMaxResults(options.PageSize);
+                    q.SetFirstResult(options.FirstResult);
+                }
+
+                IList list = q.List();
+
+                List<TransitAccountFeedItemImg> result = new List<TransitAccountFeedItemImg>(list.Count);
+
+                foreach (AccountFeedItemImg item in list)
+                {
+                    TransitAccountFeedItemImg img = new ManagedAccountFeedItemImg(session, item).TransitAccountFeedItemImg;
+                    img.Thumbnail = null;
+                    result.Add(img);
+                }
+
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Get account feed item image by id.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">feed item image id</param>
+        /// <returns>transit account feed item image</returns>
+        [WebMethod(Description = "Get account feed item image by id.")]
+        public TransitAccountFeedItemImg GetAccountFeedItemImgById(string ticket, int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return new ManagedAccountFeedItemImg(session, id).TransitAccountFeedItemImg;
+            }
+        }
+
+        /// <summary>
+        /// Create or update an account feed item image.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="type">transit account feed item image</param>
+        [WebMethod(Description = "Create or update an account feed item image.")]
+        public int CreateOrUpdateAccountFeedItemImg(string ticket, TransitAccountFeedItemImg img)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount user = new ManagedAccount(session, userid);
+
+                if (!user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ManagedAccountFeedItemImg m_img = new ManagedAccountFeedItemImg(session);
+                m_img.CreateOrUpdate(img);
+                SnCore.Data.Hibernate.Session.Flush();
+                return img.Id;
+            }
+        }
+
 
         #endregion
     }

@@ -34,6 +34,7 @@
        </ItemTemplate>
       </asp:DataList>
       </li></ul>
+      <li><a href="AccountFeedItemImgsView.aspx">Feed Pictures</a></li>
       <li><a href="PlacesView.aspx">Places</a></li>
       <ul><li>
       <asp:DataList RepeatLayout="Flow" RepeatDirection="Horizontal" ID="listPlaces" runat="server">
@@ -104,6 +105,7 @@
        <li><a href="AccountStoriesRss.aspx">Stories</a></li>
        <li><a href="AccountEventsRss.aspx">Events</a></li>
        <li><a href="AccountFeedItemsRss.aspx">Aggregated Feeds</a></li>
+       <li><a href="AccountFeedItemImgsRss.aspx">Aggregated Feed Pictures</a></li>
        <li><a href="FeaturedAccountsRss.aspx">Featured People</a></li>
        <li><a href="FeaturedPlacesRss.aspx">Featured Places</a></li>
        <li><a href="FeaturedAccountFeedsRss.aspx">Featured Feeds</a></li>

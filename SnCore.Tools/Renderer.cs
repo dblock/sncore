@@ -82,9 +82,9 @@ namespace SnCore.Tools.Web
         {
             try
             {
-                HtmlCleaner.HtmlReader r = new HtmlCleaner.HtmlReader(html);
+                Html.HtmlReader r = new Html.HtmlReader(html);
                 StringWriter sw = new StringWriter();
-                HtmlCleaner.HtmlWriter w = new HtmlCleaner.HtmlWriter(sw);
+                Html.HtmlWriter w = new Html.HtmlWriter(sw);
                 w.BaseHref = basehref;
                 while (! r.EOF)
                 {

@@ -1930,6 +1930,34 @@ KEY INDEX [PK_AccountFeedItem] ON [SnCore]
 WITH CHANGE_TRACKING AUTO
 
 GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountFeedItemImg]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[AccountFeedItemImg](
+	[AccountFeedItemImg_Id] [int] IDENTITY(1,1) NOT NULL,
+	[AccountFeedItem_Id] [int] NOT NULL,
+	[Url] [varchar](256) NOT NULL,
+	[Description] [ntext] NOT NULL,
+	[Created] [datetime] NOT NULL,
+	[Modified] [datetime] NOT NULL,
+	[Visible] [bit] NOT NULL CONSTRAINT [DF_AccountFeedItemImg_Visible]  DEFAULT ((1)),
+	[Interesting] [bit] NOT NULL CONSTRAINT [DF_AccountFeedItemImg_Interesting]  DEFAULT ((0)),
+	[LastError] [ntext] NULL,
+	[Thumbnail] [image] NULL,
+ CONSTRAINT [PK_AccountFeedItemImg] PRIMARY KEY CLUSTERED 
+(
+	[AccountFeedItemImg_Id] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY],
+ CONSTRAINT [UK_AccountFeedItemImg] UNIQUE NONCLUSTERED 
+(
+	[Url] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
+GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountMessage_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountMessage]'))
 ALTER TABLE [dbo].[AccountMessage]  WITH CHECK ADD  CONSTRAINT [FK_AccountMessage_Account] FOREIGN KEY([Account_Id])
 REFERENCES [dbo].[Account] ([Account_Id])
@@ -2289,4 +2317,9 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountFeedItem_AccountFeed]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountFeedItem]'))
 ALTER TABLE [dbo].[AccountFeedItem]  WITH CHECK ADD  CONSTRAINT [FK_AccountFeedItem_AccountFeed] FOREIGN KEY([AccountFeed_Id])
 REFERENCES [dbo].[AccountFeed] ([AccountFeed_Id])
+ON DELETE CASCADE
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountFeedItemImg_AccountFeedItem]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountFeedItemImg]'))
+ALTER TABLE [dbo].[AccountFeedItemImg]  WITH CHECK ADD  CONSTRAINT [FK_AccountFeedItemImg_AccountFeedItem] FOREIGN KEY([AccountFeedItem_Id])
+REFERENCES [dbo].[AccountFeedItem] ([AccountFeedItem_Id])
 ON DELETE CASCADE

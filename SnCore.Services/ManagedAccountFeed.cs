@@ -17,6 +17,9 @@ using System.Xml.XPath;
 using System.Net;
 using Rss;
 using Atom.Core;
+using System.Web.UI.HtmlControls;
+using SnCore.Tools.Web.Html;
+using SnCore.Tools.Drawing;
 
 namespace SnCore.Services
 {
@@ -589,6 +592,73 @@ namespace SnCore.Services
             }
 
             return updated.Count;
+        }
+
+        public int UpdateImages()
+        {
+            int result = 0;
+            Uri basehref = null;
+            Uri.TryCreate(mAccountFeed.LinkUrl, UriKind.Absolute, out basehref);
+
+            foreach (AccountFeedItem item in mAccountFeed.AccountFeedItems)
+            {
+                IList<HtmlImage> images = null;
+
+                try
+                {
+                    images = HtmlImageExtractor.Extract(item.Description, basehref);
+                }
+                catch
+                {
+                    continue;
+                }
+
+                foreach (HtmlImage image in images)
+                {
+                    AccountFeedItemImg x_img = null;
+
+                    // images may appear only once, repeating images don't get updated
+                    // nor images linked from multiple feeds or feed items
+
+                    x_img = (AccountFeedItemImg)Session.CreateCriteria(typeof(AccountFeedItemImg))
+                            .Add(Expression.Eq("Url", image.Src)).UniqueResult();
+
+                    if (x_img != null)
+                    {
+                        // image already exists
+                        continue;
+                    }
+
+                    x_img = new AccountFeedItemImg();
+                    x_img.Created = item.Created;
+                    x_img.Modified = DateTime.UtcNow;
+                    x_img.AccountFeedItem = item;
+                    x_img.Description = image.Alt;
+                    x_img.Interesting = false;
+                    x_img.Url = image.Src;
+
+                    // fetch the image to get its size
+                    try
+                    {
+                        WebClient client = new WebClient();
+                        byte[] data = client.DownloadData(x_img.Url);
+                        if (data == null) throw new Exception("Missing file data.");
+                        ThumbnailBitmap bitmap = new ThumbnailBitmap(data);
+                        x_img.Thumbnail = bitmap.Thumbnail;
+                        x_img.Visible = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        x_img.LastError = ex.Message;
+                        x_img.Visible = false;
+                    }
+
+                    Session.Save(x_img);
+                    result++;
+                }
+            }
+
+            return result;
         }
     }
 }

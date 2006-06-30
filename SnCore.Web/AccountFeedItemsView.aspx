@@ -10,6 +10,12 @@
     <div class="sncore_h2">
      Feeds
     </div>
+    <div class="sncore_h2sub">
+     <a href="AccountFeedsView.aspx">&#187; Feeds</a>
+     <a href="AccountFeedItemImgsView.aspx">&#187; Pictures</a>
+    </div>
+   </td>
+   <td>
     <asp:Label ID="labelCount" runat="server" CssClass="sncore_h2sub" />
    </td>
    <td align="right" valign="middle">

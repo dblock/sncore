@@ -5,6 +5,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnCore.Data.Tests", "SnCore.Data.Tests\SnCore.Data.Tests.csproj", "{67A52AD0-9E51-4899-82A8-D2E2E7455069}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnCore.Services", "SnCore.Services\SnCore.Services.csproj", "{5AEB26B1-4C6C-42ED-86A0-2E5FD6CE53E2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{499527FF-AE52-450F-B3E3-4AD53E1712AD} = {499527FF-AE52-450F-B3E3-4AD53E1712AD}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnCore.Services.Tests", "SnCore.Services.Tests\SnCore.Services.Tests.csproj", "{474046C4-CACC-4CDD-AA24-CD02E1787C26}"
 EndProject
@@ -49,6 +52,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atom.NET", "Atom.Net\Atom.NET.csproj", "{8DE2053A-247B-430A-86C3-E52B4725AA60}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenId.NET", "OpenId.NET\OpenId.NET.csproj", "{878A1359-86B1-440B-ADE8-84DD20D88BF5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnCore.Tools.Tests", "SnCore.Tools.Tests\SnCore.Tools.Tests.csproj", "{92289CC0-C427-4C06-B0F1-68973CD3EF3D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -268,6 +273,18 @@ Global
 		{878A1359-86B1-440B-ADE8-84DD20D88BF5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{878A1359-86B1-440B-ADE8-84DD20D88BF5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{878A1359-86B1-440B-ADE8-84DD20D88BF5}.Release|Win32.ActiveCfg = Release|Any CPU
+		{92289CC0-C427-4C06-B0F1-68973CD3EF3D}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{92289CC0-C427-4C06-B0F1-68973CD3EF3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92289CC0-C427-4C06-B0F1-68973CD3EF3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92289CC0-C427-4C06-B0F1-68973CD3EF3D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{92289CC0-C427-4C06-B0F1-68973CD3EF3D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{92289CC0-C427-4C06-B0F1-68973CD3EF3D}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{92289CC0-C427-4C06-B0F1-68973CD3EF3D}.Release|.NET.ActiveCfg = Release|Any CPU
+		{92289CC0-C427-4C06-B0F1-68973CD3EF3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92289CC0-C427-4C06-B0F1-68973CD3EF3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92289CC0-C427-4C06-B0F1-68973CD3EF3D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{92289CC0-C427-4C06-B0F1-68973CD3EF3D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{92289CC0-C427-4C06-B0F1-68973CD3EF3D}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

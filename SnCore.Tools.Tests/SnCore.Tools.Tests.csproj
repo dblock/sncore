@@ -4,11 +4,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{53F80219-6028-406B-819A-E79AE4D56995}</ProjectGuid>
+    <ProjectGuid>{92289CC0-C427-4C06-B0F1-68973CD3EF3D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SnCore.Tools</RootNamespace>
-    <AssemblyName>SnCore.Tools</AssemblyName>
+    <RootNamespace>SnCore.Tools.Tests</RootNamespace>
+    <AssemblyName>SnCore.Tools.Tests</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -18,7 +18,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -27,31 +26,26 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework, Version=2.2.0.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CBusinessDay.cs" />
-    <Compile Include="HostedApplication.cs" />
     <Compile Include="HtmlImageExtractor.cs" />
-    <Compile Include="HtmlReaderWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QuotedPrintable.cs" />
-    <Compile Include="Renderer.cs" />
-    <Compile Include="ThumbnailBitmap.cs" />
-    <Compile Include="Tree.cs" />
-    <Compile Include="UriBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SgmlReader\sgmlreaderdll\SgmlReaderDll8.csproj">
       <Project>{499527FF-AE52-450F-B3E3-4AD53E1712AD}</Project>
       <Name>SgmlReaderDll8</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SnCore.Tools\SnCore.Tools.csproj">
+      <Project>{53F80219-6028-406B-819A-E79AE4D56995}</Project>
+      <Name>SnCore.Tools</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

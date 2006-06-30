@@ -1,29 +1,30 @@
 using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
-    ///Persistent domain entity class representing 'AccountFeedItem' entities.
+    ///Persistent domain entity class representing 'AccountFeedItemImg' entities.
     ///</summary>
     ///<remarks>
     ///
     ///Mapping information:
-    ///This class maps to the 'AccountFeedItem' table in the data source.
+    ///This class maps to the 'AccountFeedItemImg' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountFeedItem
+    public class AccountFeedItemImg
     {
 #region " Generated Code Region "
         //Private field variables
 
         //Holds property values
         private System.Int32 m_Id;
-        private AccountFeed m_AccountFeed;
+        private AccountFeedItem m_AccountFeedItem;
         private System.DateTime m_Created;
         private System.String m_Description;
-        private System.String m_Guid;
-        private System.String m_Link;
-        private System.String m_Title;
-        private System.DateTime m_Updated;
-        private System.Collections.IList m_AccountFeedItemImgs;
+        private System.Boolean m_Interesting;
+        private System.DateTime m_Modified;
+        private System.String m_Url;
+        private System.Boolean m_Visible;
+        private System.String m_LastError;
+        private System.Byte[] m_Thumbnail;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -38,7 +39,7 @@ using System;
         ///The accessibility level for the field 'm_Id' that holds the value for this property is 'PrivateAccess'.
         ///
         ///Mapping information:
-        ///The property maps to the column 'AccountFeedItem_Id' in the data source.
+        ///The property maps to the column 'AccountFeedItemImg_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
         public  System.Int32 Id
@@ -54,25 +55,25 @@ using System;
         ///Persistent one-many reference property.
         ///</summary>
         ///<remarks>
-        ///This property accepts references to objects of the type 'AccountFeed'.
+        ///This property accepts references to objects of the type 'AccountFeedItem'.
         ///This property is part of a 'OneToMany' relationship.
-        ///The inverse property for this property is 'AccountFeed.AccountFeedItems'.
+        ///The inverse property for this property is 'AccountFeedItem.AccountFeedItemImgs'.
         ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_AccountFeed' that holds the value for this property is 'PrivateAccess'.
+        ///The accessibility level for the field 'm_AccountFeedItem' that holds the value for this property is 'PrivateAccess'.
         ///
         ///Mapping information:
-        ///The property maps to the column 'AccountFeed_Id' in the data source.
+        ///The property maps to the column 'AccountFeedItem_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  AccountFeed AccountFeed
+        public  AccountFeedItem AccountFeedItem
         {
             get
             {
-                return m_AccountFeed;
+                return m_AccountFeedItem;
             }
             set
             {
-                m_AccountFeed = value;
+                m_AccountFeedItem = value;
             }
         }
 
@@ -131,73 +132,23 @@ using System;
         ///Persistent primitive property.
         ///</summary>
         ///<remarks>
-        ///This property accepts values of the type 'System.String'.
+        ///This property accepts values of the type 'System.Boolean'.
         ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Guid' that holds the value for this property is 'PrivateAccess'.
+        ///The accessibility level for the field 'm_Interesting' that holds the value for this property is 'PrivateAccess'.
         ///
         ///Mapping information:
-        ///The property maps to the column 'Guid' in the data source.
+        ///The property maps to the column 'Interesting' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Guid
+        public  System.Boolean Interesting
         {
             get
             {
-                return m_Guid;
+                return m_Interesting;
             }
             set
             {
-                m_Guid = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent primitive property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts values of the type 'System.String'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Link' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'Link' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.String Link
-        {
-            get
-            {
-                return m_Link;
-            }
-            set
-            {
-                m_Link = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent primitive property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts values of the type 'System.String'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Title' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'Title' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.String Title
-        {
-            get
-            {
-                return m_Title;
-            }
-            set
-            {
-                m_Title = value;
+                m_Interesting = value;
             }
         }
 
@@ -208,52 +159,121 @@ using System;
         ///<remarks>
         ///This property accepts values of the type 'System.DateTime'.
         ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Updated' that holds the value for this property is 'PrivateAccess'.
+        ///The accessibility level for the field 'm_Modified' that holds the value for this property is 'PrivateAccess'.
         ///
         ///Mapping information:
-        ///The property maps to the column 'Updated' in the data source.
+        ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Updated
+        public  System.DateTime Modified
         {
             get
             {
-                return m_Updated;
+                return m_Modified;
             }
             set
             {
-                m_Updated = value;
+                m_Modified = value;
             }
         }
 
         ///--------------------------------------------------------------------------------
         ///<summary>
-        ///Persistent many-one reference property.
+        ///Persistent primitive property.
         ///</summary>
         ///<remarks>
-        ///This property accepts multiple references to objects of the type 'AccountFeedItemImg'.
-        ///This property is part of a 'ManyToOne' relationship.
-        ///The data type for this property is 'System.Collections.IList'.
-        ///The inverse property for this property is 'AccountFeedItemImg.AccountFeedItem'.
-        ///This property inherits its mapping information from its inverse property.
+        ///This property accepts values of the type 'System.String'.
         ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_AccountFeedItemImgs' that holds the value for this property is 'PrivateAccess'.
-        ///This property is marked as slave.
+        ///The accessibility level for the field 'm_Url' that holds the value for this property is 'PrivateAccess'.
         ///
         ///Mapping information:
-        ///This class maps to the 'AccountFeedItemImg' table in the data source.
-        ///The property maps to the identity column 'AccountFeedItem_Id' in the data source.
+        ///The property maps to the column 'Url' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountFeedItemImgs
+        public  System.String Url
         {
             get
             {
-                return m_AccountFeedItemImgs;
+                return m_Url;
             }
             set
             {
-                m_AccountFeedItemImgs = value;
+                m_Url = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.Boolean'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Visible' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Visible' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Boolean Visible
+        {
+            get
+            {
+                return m_Visible;
+            }
+            set
+            {
+                m_Visible = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.String'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_LastError' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'LastError' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.String LastError
+        {
+            get
+            {
+                return m_LastError;
+            }
+            set
+            {
+                m_LastError = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.Byte()'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Thumbnail' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Thumbnail' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Byte[] Thumbnail
+        {
+            get
+            {
+                return m_Thumbnail;
+            }
+            set
+            {
+                m_Thumbnail = value;
             }
         }
 
