@@ -43,6 +43,7 @@
            </Highlights>
            <Downlights>
             <asp:ListItem>/AccountFeedsManage.aspx</asp:ListItem>        
+            <asp:ListItem>/AccountFeedWizard.aspx</asp:ListItem>        
            </Downlights>
           </SnCore:MenuItem><SnCore:MenuItem 
           runat="server" ID="menuPlaces" Text="places" NavigateUrl="PlacesView.aspx">

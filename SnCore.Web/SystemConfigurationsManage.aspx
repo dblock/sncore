@@ -31,7 +31,7 @@
       </asp:TemplateColumn>
       <asp:TemplateColumn HeaderText="Name">
        <itemtemplate>
-        <a href="SystemConfigurationEdit.aspx?id=<%# base.Render(Eval("Id")) %>">
+        <a href="SystemConfigurationEdit.aspx?id=<%# Eval("Id") %>">
          <%# base.Render(Eval("Name")) %>
         </a>
        </itemtemplate>

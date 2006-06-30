@@ -52,9 +52,7 @@
         <%# base.Render(Eval("Name")) %>
        </a>
        <span style="font-size: xx-small">
-        <a href='<%# base.Render(Eval("LinkUrl")) %>'>
-         &#187; x-posted
-        </a>
+        <%# Renderer.GetLink(Renderer.Render(Eval("LinkUrl")), "&#187; x-posted") %>
        </span>
       </div>      
       <div class="sncore_h2sub">

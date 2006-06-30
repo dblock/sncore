@@ -1,5 +1,7 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="AccountWebsitesViewControl.ascx.cs"
  Inherits="AccountWebsitesViewControl" %>
+
+<%@ Import Namespace="SnCore.Tools.Web" %>
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <div class="sncore_h2">
@@ -11,9 +13,7 @@
  <Columns>
   <asp:TemplateColumn ItemStyle-CssClass="sncore_table_tr_td">
    <itemtemplate>
-    <a href="<%# base.Render(Eval("Url")) %>" target="_blank">
-     <%# base.Render(Eval("Name")) %>
-    </a>
+    <%# Renderer.GetLink(Renderer.Render(Eval("Url")), Renderer.Render(Eval("Name"))) %>
     <div style="font-size: smaller;">
      <%# base.Render(Eval("Description")) %>
     </div>

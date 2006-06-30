@@ -1,5 +1,6 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="AccountFeedsViewControl.ascx.cs"
  Inherits="AccountFeedsViewControl" %>
+<%@ Import Namespace="SnCore.Tools.Web" %>
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="FeedPreview" Src="AccountFeedPreviewControl.ascx" %>
@@ -14,9 +15,7 @@
       <%# base.Render(Eval("Name")) %>
      </a>
      <span class="sncore_link" style="font-size: xx-small;">
-       <a href='<%# base.Render(Eval("LinkUrl")) %>' target='_blank'> 
-        &#187; x-posted
-       </a>
+       <%# Renderer.GetLink(Renderer.Render(Eval("LinkUrl")), "&#187; x-posted") %>
       </span> 
     </div>
     <SnCore:FeedPreview runat="server" FeedId='<%# Eval("Id") %>' />

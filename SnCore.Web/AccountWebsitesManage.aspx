@@ -1,6 +1,7 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="AccountWebsitesManage.aspx.cs"
  Inherits="AccountWebsitesManage" Title="Account | Websites" %>
 
+<%@ Import Namespace="SnCore.Tools.Web" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountReminder" Src="AccountReminderControl.ascx" %>
@@ -32,16 +33,13 @@
       </asp:TemplateColumn>
       <asp:TemplateColumn ItemStyle-HorizontalAlign="Left" HeaderText="Website">
        <itemtemplate>
-        <a href="<%# base.Render(Eval("Url")) %>">
-         <%# base.Render(Eval("Name")) %>
-        </a>
+        <%# Renderer.GetLink(Renderer.Render(Eval("Url")), Renderer.Render(Eval("Name"))) %>
         <div class="sncore_description">
-         <a href="<%# base.Render(Eval("Url")) %>">
-          <%# base.Render(Eval("Url")) %>
-         </a>
-         <br /><br />
-         <%# base.Render(Eval("Description")) %>
+         <%# Renderer.GetLink(Renderer.Render(Eval("Url")), Renderer.Render(Eval("Url"))) %>
         </div>
+        <div class="sncore_description">
+         <%# base.Render(Eval("Description")) %>
+        </div>        
        </itemtemplate>
       </asp:TemplateColumn>
       <asp:TemplateColumn>

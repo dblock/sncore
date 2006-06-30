@@ -1,6 +1,7 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="SystemRefererHosts.aspx.cs"
  Inherits="SystemRefererHosts" Title="Referer Hosts" %>
 
+<%@ Import Namespace="SnCore.Tools.Web" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="WilcoWebControls" Namespace="Wilco.Web.UI.WebControls" Assembly="Wilco.Web" %>
@@ -39,16 +40,12 @@
       </asp:TemplateColumn>
       <asp:TemplateColumn HeaderText="Host">
        <itemtemplate>
-        <a target='_blank' href='<%# base.Render(Eval("LastRefererUri")) %>'>
-         <%# base.Render(Eval("Host")) %>
-        </a>
+        <%# Renderer.GetLink(Renderer.Render(Eval("LastRefererUri")), Renderer.Render(Eval("Host"))) %>
        </itemtemplate>
       </asp:TemplateColumn>
       <asp:TemplateColumn>
        <itemtemplate>
-        <a href='<%# base.Render(Eval("LastRequestUri")) %>'>
-         Link
-        </a>
+        <%# Renderer.GetLink(Renderer.Render(Eval("LastRefererUri")), "Link") %>
        </itemtemplate>
       </asp:TemplateColumn>
      </Columns>

@@ -36,7 +36,7 @@
       </asp:TemplateColumn>
       <asp:TemplateColumn>
        <itemtemplate>
-        <a href='BugStatusEdit.aspx?id=<%# base.Render(Eval("Id")) %>'>
+        <a href='BugStatusEdit.aspx?id=<%# Eval("Id") %>'>
          Edit
         </a>
        </itemtemplate>

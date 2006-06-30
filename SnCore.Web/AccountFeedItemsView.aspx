@@ -68,7 +68,7 @@
     <itemtemplate>
      <span>
       <div>
-       <a class="sncore_feeditem_name" href='AccountFeedItemView.aspx?id=<%# base.Render(Eval("Id")) %>'>
+       <a class="sncore_feeditem_name" href='AccountFeedItemView.aspx?id=<%# Eval("Id") %>'>
         <%# base.Render(GetValue(Eval("Title"), "Untitled")) %>
        </a>
       </div>

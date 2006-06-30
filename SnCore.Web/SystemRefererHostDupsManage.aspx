@@ -33,7 +33,7 @@
       </asp:TemplateColumn>
       <asp:TemplateColumn ItemStyle-HorizontalAlign="Center">
        <itemtemplate>
-        <a href='SystemRefererHostDupEdit.aspx?id=<%# base.Render(Eval("Id")) %>'>
+        <a href='SystemRefererHostDupEdit.aspx?id=<%# Eval("Id") %>'>
          Edit</a>
        </itemtemplate>
       </asp:TemplateColumn>

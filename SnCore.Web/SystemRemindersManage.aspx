@@ -48,7 +48,7 @@
       </asp:TemplateColumn>
       <asp:TemplateColumn ItemStyle-Font-Bold="true">
        <itemtemplate>
-     <a href='SystemReminderEdit.aspx?id=<%# base.Render(Eval("Id")) %>'>
+     <a href='SystemReminderEdit.aspx?id=<%# Eval("Id") %>'>
       Edit</a>
     </itemtemplate>
       </asp:TemplateColumn>

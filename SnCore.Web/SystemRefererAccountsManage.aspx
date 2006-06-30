@@ -44,7 +44,7 @@
       </asp:TemplateColumn>
       <asp:TemplateColumn ItemStyle-HorizontalAlign="Center">
        <itemtemplate>
-        <a href='SystemRefererAccountEdit.aspx?id=<%# base.Render(Eval("Id")) %>'>
+        <a href='SystemRefererAccountEdit.aspx?id=<%# Eval("Id") %>'>
          Edit</a>
        </itemtemplate>
       </asp:TemplateColumn>

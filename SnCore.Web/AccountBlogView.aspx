@@ -60,7 +60,7 @@
    prevpagetext="Prev" horizontalalign="Center" />
   <ItemTemplate>
    <div class="sncore_h2left">
-    <a href='AccountBlogPostView.aspx?id=<%# base.Render(Eval("Id")) %>'>
+    <a href='AccountBlogPostView.aspx?id=<%# Eval("Id") %>'>
      <%# base.Render(GetValue(Eval("Title"), "Untitled")) %>
     </a>
    </div>

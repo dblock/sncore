@@ -58,7 +58,7 @@
       </asp:TemplateColumn>
       <asp:TemplateColumn>
        <itemtemplate>
-        <a href='SystemPictureEdit.aspx?id=<%# base.Render(Eval("Id")) %>'>
+        <a href='SystemPictureEdit.aspx?id=<%# Eval("Id") %>'>
          Edit
         </a>
        </itemtemplate>

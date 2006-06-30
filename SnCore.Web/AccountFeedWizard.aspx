@@ -1,6 +1,7 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="AccountFeedWizard.aspx.cs"
  Inherits="AccountFeedWizard" Title="Syndicate Wizard" %>
 
+<%@ Import Namespace="SnCore.Tools.Web" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountReminder" Src="AccountReminderControl.ascx" %>
@@ -66,10 +67,10 @@
          <%# base.Render(Eval("Name")) %>
         </div>
         <div style="font-size: smaller;">
-         feed: <a href='<%# base.Render(Eval("FeedUrl")) %>' target="_blank"><%# base.Render(Eval("FeedUrl")) %></a>
+         feed: <%# Renderer.GetLink(Renderer.Render(Eval("FeedUrl")), Renderer.Render(Eval("FeedUrl"))) %>
         </div>
         <div style="font-size: smaller;">
-         link: <a href='<%# base.Render(Eval("LinkUrl")) %>' target="_blank"><%# base.Render(Eval("LinkUrl")) %></a>
+         link: <%# Renderer.GetLink(Renderer.Render(Eval("LinkUrl")), Renderer.Render(Eval("LinkUrl"))) %>
         </div>
         <div style="font-size: smaller;">
          description: <b><%# base.Render(Eval("Description")) %></b>

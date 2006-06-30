@@ -32,7 +32,7 @@
   <asp:TemplateColumn>
    <ItemTemplate>
     <div class="sncore_title">
-     <a href='AccountFeedItemView.aspx?id=<%# base.Render(Eval("Id")) %>'>
+     <a href='AccountFeedItemView.aspx?id=<%# Eval("Id") %>'>
       <%# base.Render(GetValue(Eval("Title"), "Untitled"))%>
      </a>
      <span style="font-size: smaller;">

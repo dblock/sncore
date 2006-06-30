@@ -243,5 +243,10 @@ namespace SnCore.Tools.Web
             if (result.Length > 256) result = result.Substring(0, 256) + " ...";
             return result;
         }
+
+        public static string GetLink(string uri, string text)
+        {
+            return string.Format("<a href=\"{0}\" target=\"_blank\">{1}</a>", uri, text);
+        }
     }
 }

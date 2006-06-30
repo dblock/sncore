@@ -45,7 +45,7 @@
       </asp:TemplateColumn>
       <asp:TemplateColumn ItemStyle-HorizontalAlign="Center">
        <itemtemplate>
-     <a href='SystemBookmarkEdit.aspx?id=<%# base.Render(Eval("Id")) %>'>
+     <a href='SystemBookmarkEdit.aspx?id=<%# Eval("Id") %>'>
       Edit</a>
     </itemtemplate>
       </asp:TemplateColumn>

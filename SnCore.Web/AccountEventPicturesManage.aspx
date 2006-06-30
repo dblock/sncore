@@ -59,7 +59,7 @@
       </asp:TemplateColumn>
       <asp:TemplateColumn>
        <itemtemplate>
-        <a href='AccountEventPictureEdit.aspx?pid=<%# base.RequestId %>&id=<%# base.Render(Eval("Id")) %>'>Edit</a>
+        <a href='AccountEventPictureEdit.aspx?pid=<%# base.RequestId %>&id=<%# Eval("Id") %>'>Edit</a>
        </itemtemplate>
       </asp:TemplateColumn>
       <asp:ButtonColumn ButtonType="LinkButton" CommandName="Delete" Text="Delete"></asp:ButtonColumn>

@@ -36,7 +36,7 @@
       </asp:TemplateColumn>
       <asp:TemplateColumn>
        <itemtemplate>
-        <a href='PlaceTypeEdit.aspx?id=<%# base.Render(Eval("Id")) %>'>Edit</a>
+        <a href='PlaceTypeEdit.aspx?id=<%# Eval("Id") %>'>Edit</a>
        </itemtemplate>
       </asp:TemplateColumn>
       <asp:ButtonColumn ButtonType="LinkButton" CommandName="Delete" Text="Delete" />
