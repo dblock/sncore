@@ -30,8 +30,8 @@
       </td>
       <td width="150" align="center" valign="top">
        <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
-        <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" />
-        <div class="sncore_description">
+        <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" style='<%# (((string) Eval("Body")).Length < 64) ? "height:50px;" : "" %>' />
+        <div class="sncore_link_description">
          <%# base.Render(Eval("AccountName")) %>
         </div>
        </a>
