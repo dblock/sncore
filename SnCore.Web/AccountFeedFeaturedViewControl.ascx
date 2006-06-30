@@ -17,9 +17,13 @@
   <tr>
    <td>
     <asp:Panel CssClass="sncore_createnew" ID="panellLinks" runat="server">
-     <span class="sncore_link"><a href="AccountFeedsView.aspx">&#187; all</a> <a href="AccountFeedEdit.aspx">
-      &#187; syndicate a feed</a> <a href="FeaturedAccountFeedsView.aspx">&#187; previously
-       featured</a> <a href="AccountFeedsRss.aspx">&#187; rss</a> </span>
+     <span class="sncore_link">
+      <a href="AccountFeedsView.aspx">&#187; all</a>
+      <a href="AccountFeedItemImgsView.aspx">&#187; pictures</a>
+      <a href="AccountFeedEdit.aspx">&#187; syndicate a feed</a>
+      <a href="FeaturedAccountFeedsView.aspx">&#187; previously featured</a>
+      <a href="AccountFeedsRss.aspx">&#187; rss</a> 
+     </span>
     </asp:Panel>
    </td>
   </tr>
