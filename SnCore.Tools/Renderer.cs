@@ -157,7 +157,7 @@ namespace SnCore.Tools.Web
             return result;
         }
 
-        public static Regex HrefExpression = new Regex(@"[\'\""]{0,1}[\w]+://[a-zA-Z0-9\/\,\(\)\.\?\&+\##\%~=:;_-]*[\'\""]{0,1}", RegexOptions.IgnoreCase);
+        public static Regex HrefExpression = new Regex(@"[\'\""]{0,1}[\w]+://[a-zA-Z0-9\/\,\(\)\.\?\&+\##\%~=:;_\-\@]*[\'\""]{0,1}", RegexOptions.IgnoreCase);
 
         public static string RenderHref(string RenderValue)
         {

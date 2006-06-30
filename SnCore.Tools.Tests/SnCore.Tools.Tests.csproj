@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="HtmlImageExtractor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Renderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SgmlReader\sgmlreaderdll\SgmlReaderDll8.csproj">
