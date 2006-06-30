@@ -32,12 +32,12 @@
  <ItemTemplate>
   <a href="AccountView.aspx?id=<%# Eval("Id") %>">
    <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("PictureId") %>" />
-    <div style="font-weight: bold;">
+    <div class="sncore_link_description">
      <%# base.Render(Eval("Name")) %>
     </div>
    </a>
-  <div style="color: silver;">
-   <%# base.Render(Eval("City"))%>
-  </div>
+   <div class="sncore_description" style="color: silver;">
+    <%# base.Render(Eval("City"))%>
+   </div>
  </ItemTemplate>
 </asp:DataList>

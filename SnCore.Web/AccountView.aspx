@@ -32,7 +32,7 @@
        <a href="AccountPictureView.aspx?id=<%# Eval("Id").ToString() %>">
         <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("Id").ToString() %>"
          alt="<%# base.Render(Eval("Name")) %>" />
-         <div>
+         <div class="sncore_link_description">
          <%# ((int) Eval("CommentCount") >= 1) ? Eval("CommentCount").ToString() + 
           " comment" + (((int) Eval("CommentCount") == 1) ? "" : "s") : "" %>
          </div>

@@ -12,9 +12,10 @@
   prevpagetext="Prev" horizontalalign="Center" />
  <ItemTemplate>
   <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
-   <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" /><br />
-   <b>
+   <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" />
+   <div class="sncore_link_description">
     <%# base.Render(Eval("AccountName")) %>
-   </b></a>
+   </div>
+  </a>
  </ItemTemplate>
 </SnCoreWebControls:PagedList>

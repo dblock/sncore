@@ -10,6 +10,7 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_h2sub { color: #000000; font-family: Tahoma; font-size: 12px; margin-top: 0px; margin-bottom: 0px; padding-left: 20px; padding-bottom: 15px; width: 95%; }
 .sncore_h3 { font-family: Tahoma; font-size: 14px; font-weight: bold; margin-top: 0px; margin-bottom: 10px; padding-top: 10px; padding-bottom: 3px; padding-left: 15px; }
 .sncore_title { font-family: Verdana; font-weight: bold; background-color: #E5EDFB; padding: 2px; }
+.sncore_link_description { font-size: 10px; padding: 2px; }
 .sncore_description { font-size: 10px; color: Gray; padding: 2px; }
 .sncore_li_description { font-size: 10px; color: Gray; margin-left: 16px; }
 .sncore_table { width: 780px; margin: 10px; border: 1px #bbb solid; }

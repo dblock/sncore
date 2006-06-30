@@ -11,9 +11,10 @@
 		HorizontalAlign="Center" />
  <ItemTemplate>
   <a href="PlaceView.aspx?id=<%# Eval("PlaceId") %>">
-   <img border="0" src="PlacePictureThumbnail.aspx?id=<%# Eval("PlacePictureId") %>" /><br />
-   <b>
+   <img border="0" src="PlacePictureThumbnail.aspx?id=<%# Eval("PlacePictureId") %>" />
+   <div class="sncore_link_description">
     <%# base.Render(Eval("PlaceName")) %>
-   </b></a>
+   </div>
+  </a>
  </ItemTemplate>
 </SnCoreWebControls:PagedList>

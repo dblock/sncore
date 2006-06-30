@@ -32,11 +32,11 @@
  <ItemTemplate>
   <a href="PlaceView.aspx?id=<%# Eval("Id") %>">
    <img border="0" src="PlacePictureThumbnail.aspx?id=<%# Eval("PictureId") %>" />
-   <div style="font-weight: bold;">
+   <div class="sncore_link_description">
     <%# base.Render(Eval("Name")) %>
    </div>
   </a>
-  <div style="color: silver;">
+  <div class="sncore_description">
    <%# base.Render(Eval("City"))%>
   </div>
  </ItemTemplate>

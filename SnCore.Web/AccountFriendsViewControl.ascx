@@ -11,9 +11,10 @@
 		HorizontalAlign="Center" />
  <ItemTemplate>
   <a href="AccountView.aspx?id=<%# Eval("FriendId") %>">
-   <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("FriendPictureId") %>" /><br />
-   <b>
+   <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("FriendPictureId") %>" />
+   <div class="sncore_link_description">
     <%# base.Render(Eval("FriendName")) %>
-   </b></a>
+   </div>
+  </a>
  </ItemTemplate>
 </SnCoreWebControls:PagedList>
