@@ -645,7 +645,7 @@ namespace SnCore.Services
                         if (data == null) throw new Exception("Missing file data.");
                         ThumbnailBitmap bitmap = new ThumbnailBitmap(data);
                         x_img.Thumbnail = bitmap.Thumbnail;
-                        x_img.Visible = true;
+                        x_img.Visible = mAccountFeed.Publish;
                     }
                     catch (Exception ex)
                     {
