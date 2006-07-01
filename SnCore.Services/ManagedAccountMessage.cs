@@ -314,5 +314,11 @@ namespace SnCore.Services
             mAccountMessage.Account.AccountMessages.Remove(mAccountMessage);
             Session.Delete(mAccountMessage);
         }
+
+        public void MarkMessageAsReadUnread(bool value)
+        {
+            mAccountMessage.Unread = value;
+            Session.SaveOrUpdate(mAccountMessage);
+        }
     }
 }

@@ -1,6 +1,7 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="AccountMessageFoldersManage.aspx.cs"
  Inherits="AccountMessageFoldersManage" Title="Account | Messages" %>
 
+<%@ Import Namespace="SnCore.Tools.Web" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountReminder" Src="AccountReminderControl.ascx" %>
@@ -12,57 +13,55 @@
     <SnCore:AccountMenu runat="server" ID="menu" />
    </td>
    <td valign="top" width="*">
-    <SnCore:Notice ID="noticeFolder" Style="width: 582px;" runat="server" />
-    <%--    
-   <div class="sncore_h2">
+    <div class="sncore_h2">
      Folders
     </div>
---%>
-    <%--
- <asp:HyperLink ID="createNew" NavigateUrl="AccountMessageFolderEdit.aspx" Text="&#187; Create New" CssClass="sncore_createnew" runat="server" /> 
---%>
-    <%--    <SnCoreWebControls:PagedGrid CellPadding="4" showheader="false" runat="server" id="messagefoldersView"
-     autogeneratecolumns="false" cssclass="sncore_account_table" onitemdatabound="messagefoldersView_ItemDataBound"
-     onitemcommand="messagefoldersView_ItemCommand">
-  <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next" PrevPageText="Prev"
-  		HorizontalAlign="Center" />
-  <Columns>
-   <asp:BoundColumn DataField="Id" Visible="false" />
-   <asp:BoundColumn DataField="System" Visible="false" />
-   <asp:TemplateColumn ItemStyle-CssClass="sncore_table_tr_td" ItemStyle-HorizontalAlign="Left">
-    <ItemTemplate>
-     <table>
-      <tr>
-       <td width="<%# (int) Eval("Level") * 10 %>px">
-        <img src="images/Spacer.gif" width="<%# (int) Eval("Level") * 10 %>px" />
-       </td>
-       <td width="*" align="left">
-        <img src="images/Folder.gif" style="vertical-align: middle;" />
-        <asp:LinkButton CommandArgument='<%# Eval("Id") %>' ID="linkFolder" Text='<%# Eval("Name") %>'
-         runat="server" OnCommand="linkFolder_Click" />
-       </td>
-      </tr>
-     </table>
-    </ItemTemplate>
-   </asp:TemplateColumn>
-   <asp:ButtonColumn Visible="false" Text="New" CommandName="New" ItemStyle-CssClass="sncore_table_tr_td"
-    ItemStyle-HorizontalAlign="Center" />
-   <asp:ButtonColumn Text="Edit" CommandName="Edit" ItemStyle-CssClass="sncore_table_tr_td"
-    ItemStyle-HorizontalAlign="Center" />
-   <asp:ButtonColumn CommandName="Delete" ItemStyle-CssClass="sncore_table_tr_td"
-    ItemStyle-HorizontalAlign="Center" Text="Delete" />
-  </Columns>
- </SnCorewebcontrols:pagedgrid>
-    <br />
-    <br />
---%>
+    <asp:HyperLink ID="createNew" NavigateUrl="AccountMessageFolderEdit.aspx" Text="&#187; Create New"
+     CssClass="sncore_createnew" runat="server" />
+    <SnCoreWebControls:PagedGrid CellPadding="4" ShowHeader="false" runat="server" ID="messagefoldersView"
+     AutoGenerateColumns="false" CssClass="sncore_account_table" OnItemDataBound="messagefoldersView_ItemDataBound"
+     OnItemCommand="messagefoldersView_ItemCommand">
+     <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
+      PrevPageText="Prev" HorizontalAlign="Center" />
+     <Columns>
+      <asp:BoundColumn DataField="Id" Visible="false" />
+      <asp:BoundColumn DataField="System" Visible="false" />
+      <asp:TemplateColumn ItemStyle-CssClass="sncore_table_tr_td" ItemStyle-HorizontalAlign="Left">
+       <itemtemplate>
+        <table>
+         <tr>
+          <td width="<%# (int) Eval("Level") * 10 %>px">
+           <img src="images/Spacer.gif" width="<%# (int) Eval("Level") * 10 %>px" />
+          </td>
+          <td width="*" align="left">
+           <img src="<%# base.GetFolderPicture((string) Eval("Name"), (bool) Eval("System")) %>" style="vertical-align: middle;" />
+           <asp:LinkButton CommandArgument='<%# Eval("Id") %>' ID="linkFolder" Text='<%# Eval("Name") %>'
+            runat="server" OnCommand="linkFolder_Click" />
+          </td>
+          <td>
+           <img src="images/account/star.gif" style='<%# ((int) Eval("Id") == base.FolderId) ? "" : "display:none" %>' />
+          </td>
+         </tr>
+        </table>
+       </itemtemplate>
+      </asp:TemplateColumn>
+      <asp:ButtonColumn Text="New" CommandName="New" ItemStyle-CssClass="sncore_table_tr_td"
+       ItemStyle-HorizontalAlign="Center" />
+      <asp:ButtonColumn Text="Rename" CommandName="Edit" ItemStyle-CssClass="sncore_table_tr_td"
+       ItemStyle-HorizontalAlign="Center" />
+      <asp:ButtonColumn CommandName="Delete" ItemStyle-CssClass="sncore_table_tr_td" ItemStyle-HorizontalAlign="Center"
+       Text="Delete" />
+     </Columns>
+    </SnCoreWebControls:PagedGrid>
+    <SnCore:Notice ID="noticeFolder" Style="width: 582px;" runat="server" />
+    <br /><br />
     <asp:Panel ID="messagesPanel" runat="server">
      <asp:Label ID="labelFolderName" runat="server" CssClass="sncore_h2" Text="Messages"></asp:Label>
      <asp:Panel ID="emptyPanel" runat="server">
       <table class="sncore_account_table" width="100%">
        <tr>
         <td colspan="2" class="sncore_table_tr_td" style="text-align: right;">
-         <asp:LinkButton runat="server" ID="linkEmpty" OnClick="linkEmpty_Click" Text="Empty Folder" />
+         <asp:LinkButton runat="server" ID="linkEmpty" OnClick="linkEmpty_Click" Text="&#187; Empty Folder" />
         </td>
        </tr>
       </table>
@@ -79,46 +78,59 @@
         <itemtemplate>
          <table width="100%">
           <tr>
-           <td valign="top" width="150" align="center">
-            <a href="AccountView.aspx?id=<%# Eval("SenderAccountId") %>">
-             <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("SenderAccountPictureId") %>" />
-             <br />
-             <b>
-              <%# base.Render(Eval("SenderAccountName")) %>
-             </b>
+           <td>
+            <a href='AccountMessageView.aspx?id=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(base.ReturnUrl) %>'>
+             <img border="0" alt="Unread message" src="images/account/star.gif" 
+              style='<%# (bool) Eval("Unread") ? "" : "display:none" %>' />
             </a>
            </td>
            <td align="left" valign="top" width="*">
-            <b>from:</b> 
-            <a href="AccountView.aspx?id=<%# Eval("SenderAccountId") %>">
-             <%# base.Render(Eval("SenderAccountName")) %>
+            <div>
+             <b>from:</b> 
+             <a href="AccountView.aspx?id=<%# Eval("SenderAccountId") %>">
+              <%# base.Render(Eval("SenderAccountName")) %>
+             </a>
+            </div>            
+            <div>
+             <b>to:</b> 
+             <a href="AccountView.aspx?id=<%# Eval("RecepientAccountId") %>">
+              <%# base.Render(Eval("RecepientAccountName")) %>
+             </a>
+            </div>
+            <div>            
+             <b>subject:</b>
+             <a href='AccountMessageView.aspx?id=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(base.ReturnUrl) %>'>
+              <%# base.Render(Eval("Subject"))%>
+             </a>
+            </div>
+            <div>            
+             <b>sent:</b>
+             <%# base.Adjust(Eval("Sent")).ToString() %>
+            </div>
+           </td>
+           <td width="150" align="center" valign="top">
+            <a href="AccountMessageView.aspx?id=<%# Eval("Id") %>">
+             <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("SenderAccountPictureId") %>" style="height:50px;" />
+             <div class="sncore_link_description">
+              <%# base.Render(Eval("SenderAccountName")) %>
+             </div>
             </a>
-            <br />
-            <b>to:</b> 
-            <a href="AccountView.aspx?id=<%# Eval("RecepientAccountId") %>">
-             <%# base.Render(Eval("RecepientAccountName")) %>
-            </a>
-            <br />
-            <b>subject:</b>
-            <%# base.Render(Eval("Subject"))%>
-            <br />
-            <b>posted:</b>
-            <%# base.Adjust(Eval("Sent")).ToString() %>
-            <br />
-            <br />
-            <%# base.RenderEx(Eval("Body"))%>
+           </td>
+          </tr>
+          <tr>
+           <td colspan="2" style="font-size: smaller; text-align: left; padding-left: 10px;">
+            <a href="AccountMessageView.aspx?id=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(base.ReturnUrl) %>#edit">
+             &#187; read</a>
+            <a href="AccountMessageEdit.aspx?id=<%# Eval("SenderAccountId") %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(base.ReturnUrl) %>#edit">
+             &#187; reply</a>
+            <a href="AccountMessageMove.aspx?id=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(base.ReturnUrl) %>">
+             &#187; move</a>
+            <asp:LinkButton CommandName="Delete" id="linkDelete" runat="server" Text="&#187; delete" OnClientClick="return confirm('Are you sure you want to do this?')" />
            </td>
           </tr>
          </table>
         </itemtemplate>
        </asp:TemplateColumn>
-       <asp:TemplateColumn>
-        <itemtemplate>
-         <a href="AccountMessageEdit.aspx?id=<%# Eval("SenderAccountId") %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# SnCore.Tools.Web.Renderer.UrlEncode(base.ReturnUrl) %>#edit">
-          Reply</a>
-        </itemtemplate>
-       </asp:TemplateColumn>
-       <asp:ButtonColumn CommandName="Delete" Text="Delete" />
       </Columns>
      </SnCoreWebControls:PagedGrid>
     </asp:Panel>

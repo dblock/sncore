@@ -1424,6 +1424,7 @@ namespace SnCore.WebServices
                 IList list = session.CreateCriteria(typeof(AccountMessage))
                     .Add(Expression.Eq("Account.Id", id))
                     .Add(Expression.Eq("AccountMessageFolder.Id", folderid))
+                    .AddOrder(Order.Desc("Sent"))
                     .List();
 
                 List<TransitAccountMessage> result = new List<TransitAccountMessage>(list.Count);
@@ -1479,6 +1480,32 @@ namespace SnCore.WebServices
 
                 message.SenderAccountId = id;
                 a.SendAccountMessage(message);
+                SnCore.Data.Hibernate.Session.Flush();
+            }
+        }
+
+        /// <summary>
+        /// Mark message as read/unread.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">message id</param>
+        /// <param name="unread">value of unread flag</param>
+        [WebMethod(Description = "Mark message as read or unread.")]
+        public void MarkMessageAsReadUnread(string ticket, int id, bool unread)
+        {
+            int user_id = GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount user = new ManagedAccount(session, user_id);
+                ManagedAccountMessage m_message = new ManagedAccountMessage(session, id);
+
+                if (m_message.AccountId != user_id && !user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                m_message.MarkMessageAsReadUnread(unread);
                 SnCore.Data.Hibernate.Session.Flush();
             }
         }

@@ -1279,6 +1279,7 @@ namespace SnCore.Services
                 throw new ManagedAccount.AccessDeniedException();
             }
 
+            message.Unread = true;
             message.Sent = DateTime.UtcNow;
             message.SenderAccountId = Id;
             message.RecepientAccountId = message.Account.Id;
@@ -1292,8 +1293,8 @@ namespace SnCore.Services
             if (sentto != null)
             {
                 string partialurl = string.Format(
-                    "AccountMessageFoldersManage.aspx?id={0}",
-                    message.AccountMessageFolder.Id);
+                    "AccountMessageView.aspx?id={0}",
+                    message.Id);
 
                 string url = string.Format(
                     "{0}/{1}",
@@ -1461,6 +1462,12 @@ namespace SnCore.Services
                 {
                     throw new AccessDeniedException();
                 }
+            }
+
+            // don't allow moving folder between users
+            if (e.AccountMessageFolderParent != null && e.AccountMessageFolderParent.Account.Id != e.Account.Id)
+            {
+                throw new ManagedAccount.AccessDeniedException();
             }
 
             try

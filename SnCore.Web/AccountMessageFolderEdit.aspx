@@ -13,7 +13,7 @@
    </td>
    <td valign="top" width="*">
     <div class="sncore_h2">
-     Account Message Folder
+     Message Folder
     </div>
     <asp:HyperLink ID="linkBack" Text="&#187; Cancel" CssClass="sncore_cancel" NavigateUrl="AccountMessageFoldersManage.aspx"
      runat="server" />

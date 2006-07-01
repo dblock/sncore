@@ -8,6 +8,20 @@ namespace SnCore.Services
 {
     public class TransitAccountMessageFolder : TransitService
     {
+        private string mFullPath;
+
+        public string FullPath
+        {
+            get
+            {
+                return mFullPath;
+            }
+            set
+            {
+                mFullPath = value;
+            }
+        }
+
         private string mName;
 
         public string Name
@@ -144,10 +158,12 @@ namespace SnCore.Services
             AccountMessageFolderParentId = (p.AccountMessageFolderParent != null) ?
                 p.AccountMessageFolderParent.Id : 0;
 
+            FullPath = Name;
             AccountMessageFolder parent = p.AccountMessageFolderParent;
             while (parent != null)
             {
                 Level++;
+                FullPath = FullPath.Insert(0, parent.Name + "/");
                 parent = parent.AccountMessageFolderParent;
             }
         }
@@ -168,11 +184,6 @@ namespace SnCore.Services
                 (this.AccountMessageFolderParentId != 0) ?
                 (AccountMessageFolder)session.Load(typeof(AccountMessageFolder), this.AccountMessageFolderParentId) :
                 null;
-
-            if (p.AccountMessageFolderParent != null && p.AccountMessageFolderParent.Account.Id != p.Account.Id)
-            {
-                throw new ManagedAccount.AccessDeniedException();
-            }
 
             return p;
         }
@@ -269,25 +280,27 @@ namespace SnCore.Services
 
         public void Delete()
         {
-            foreach (AccountMessageFolder accountmessagefolder in mAccountMessageFolder.AccountMessageFolders)
+            if (mAccountMessageFolder.AccountMessageFolders != null)
             {
-                new ManagedAccountMessageFolder(Session, accountmessagefolder).Delete();
+                foreach (AccountMessageFolder accountmessagefolder in mAccountMessageFolder.AccountMessageFolders)
+                {
+                    new ManagedAccountMessageFolder(Session, accountmessagefolder).Delete();
+                }
             }
 
+            DeleteAccountMessages();
             mAccountMessageFolder.Account.AccountMessageFolders.Remove(mAccountMessageFolder);
             Session.Delete(mAccountMessageFolder);
         }
 
         public void DeleteAccountMessages()
         {
-            foreach (AccountMessageFolder accountmessagefolder in mAccountMessageFolder.AccountMessageFolders)
+            if (mAccountMessageFolder.AccountMessages != null)
             {
-                new ManagedAccountMessageFolder(Session, accountmessagefolder).Delete();
-            }
-
-            foreach (AccountMessage accountmessage in mAccountMessageFolder.AccountMessages)
-            {
-                Session.Delete(accountmessage);
+                foreach (AccountMessage accountmessage in mAccountMessageFolder.AccountMessages)
+                {
+                    Session.Delete(accountmessage);
+                }
             }
 
             mAccountMessageFolder.AccountMessages = null;

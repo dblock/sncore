@@ -63,7 +63,7 @@
         &#187; quote</a>
        <a id="linkEdit" runat="server">
         &#187; edit</a>
-       <asp:LinkButton CommandName="Delete" id="linkDelete" runat="server" Text="&#187; delete" />
+       <asp:LinkButton CommandName="Delete" id="linkDelete" runat="server" Text="&#187; delete" OnClientClick="return confirm('Are you sure you want to do this?')" />
       </td>
      </tr>
     </table>
