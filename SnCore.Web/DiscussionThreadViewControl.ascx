@@ -19,7 +19,7 @@
  </table>
 </asp:Panel>
 <SnCoreWebControls:PagedGrid CellPadding="4" ShowHeader="false" runat="server" ID="discussionThreadView"
- AutoGenerateColumns="false" CssClass="sncore_table" OnItemDataBound="discussionThreadView_ItemDataBound"
+ AutoGenerateColumns="false" CssClass="sncore_table" BorderWidth="0" OnItemDataBound="discussionThreadView_ItemDataBound"
  OnItemCommand="discussionThreadView_ItemCommand">
  <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
  <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
@@ -31,41 +31,44 @@
   <asp:BoundColumn DataField="CanDelete" Visible="false" />
   <asp:TemplateColumn>
    <itemtemplate>
-    <table width="100%">
-     <tr>
-      <td width="<%# (int) Eval("Level") * 20 %>px">
-       <img src="images/Spacer.gif" width="<%# (int) Eval("Level") * 20 %>px" />
-      </td>
-      <td align="left" valign="top" width="*">
-       <div><b>subject:</b> <%# base.Render(Eval("Subject"))%></div>
-       <div><b>posted:</b> <%# base.Adjust(Eval("Created")).ToString() %></div>
-       <div style="margin: 10px 0px 10px 0px;">
-        <%# base.RenderEx(Eval("Body"))%>
-       </div>
-      </td>
-      <td width="150" align="center" valign="top">
-       <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
-        <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" style='<%# (((string) Eval("Body")).Length < 64) ? "height:50px;" : "" %>' />
-        <div class="sncore_link_description">
-         <%# base.Render(Eval("AccountName")) %>
+     <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+       <td width="<%# (int) Eval("Level") * 20 %>px">
+        <img src="images/Spacer.gif" width="<%# (int) Eval("Level") * 20 %>px" />
+       </td>
+       <td align="left" valign="top" width="*" class="sncore_message_left">
+        <div class="sncore_message_header">
+         <div class="sncore_message_subject">
+          <%# base.Render(Eval("Subject"))%>
+         </div>
+         <div class="sncore_description">
+          posted <%# base.Adjust(Eval("Created")).ToString() %>
+         </div>
+         <div class="sncore_description">
+          <a href="DiscussionPost.aspx?did=<%# base.DiscussionId %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>&#edit">
+           &#187; reply</a>
+          <a href="DiscussionPost.aspx?did=<%# base.DiscussionId %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>&Quote=true&#edit">
+           &#187; quote</a>
+          <a id="linkEdit" runat="server">
+           &#187; edit</a>
+          <asp:LinkButton CommandName="Delete" id="linkDelete" runat="server" Text="&#187; delete" OnClientClick="return confirm('Are you sure you want to do this?')" />
+         </div>
         </div>
-       </a>
-      </td>
-     </tr>
-     <tr>
-      <td width="<%# (int) Eval("Level") * 20 %>px">
-       <img src="images/Spacer.gif" width="<%# (int) Eval("Level") * 20 %>px" />
-      </td>
-      <td colspan="2" style="font-size: smaller; text-align: left; padding-left: 10px;">
-       <a href="DiscussionPost.aspx?did=<%# base.DiscussionId %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>&#edit">
-        &#187; reply</a>
-       <a href="DiscussionPost.aspx?did=<%# base.DiscussionId %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>&Quote=true&#edit">
-        &#187; quote</a>
-       <a id="linkEdit" runat="server">
-        &#187; edit</a>
-       <asp:LinkButton CommandName="Delete" id="linkDelete" runat="server" Text="&#187; delete" OnClientClick="return confirm('Are you sure you want to do this?')" />
-      </td>
-     </tr>
+        <div class="sncore_message_body">
+         <%# base.RenderEx(Eval("Body"))%>
+        </div>
+       </td>
+       <td width="150" align="center" valign="top" class="sncore_message_right">
+        <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
+         <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" style="<%# (((string) Eval("Body")).Length < 64) ? "height:50px;" : "" %>" />
+        </a>
+        <div class="sncore_link_description">
+         <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
+          <%# base.Render(Eval("AccountName")) %>
+         </a>
+        </div>
+       </td>
+      </tr>
     </table>
    </itemtemplate>
   </asp:TemplateColumn>

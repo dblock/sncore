@@ -21,21 +21,22 @@
   </div>
   <table class="sncore_table">
    <tr>
-    <td align="center" style="width: 120px;" class="sncore_table_tr_td">
+    <td align="center" valign="top" class="sncore_table_tr_td" style="padding-top: 10px; width: 120px;">
      <a runat="server" id="accountlink">
       <asp:Image Width="100px" runat="server" ID="replytoImage" />
       <asp:Label ID="replytoAccount" runat="server" />
      </a>
     </td>
     <td style="text-align: left; vertical-align: top;" class="sncore_table_tr_td">
-     <b>subject:</b>
-     <asp:Label ID="replytoSubject" runat="server" />
-     <br />
-     <b>posted:</b>
-     <asp:Label ID="replytoCreated" runat="server" />
-     <br />
-     <br />
-     <asp:Label ID="replyToBody" runat="server" />
+     <div class="sncore_message_subject">
+      <asp:Label ID="replytoSubject" runat="server" />
+     </div>
+     <div class="sncore_description">
+      posted by <asp:HyperLink ID="replytoSenderName" runat="server" /> on <asp:Label ID="replytoCreated" runat="server" />
+     </div>
+     <div style="margin: 10px 0px 10px 0px;">
+      <asp:Label ID="replyToBody" runat="server" />
+     </div>
     </td>
    </tr>
   </table>
@@ -73,7 +74,7 @@
    <td class="sncore_form_label">
     signature:
     <br />
-    <a class="sncore_link_small" href="AccountPreferencesManage.aspx">edit</a>
+    <a class="sncore_link_small" href="AccountPreferencesManage.aspx">&#187; edit</a>
    </td>
    <td class="sncore_form_value">
     <asp:TextBox CssClass="sncore_form_textbox" ID="inputSignature" TextMode="MultiLine"

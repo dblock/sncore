@@ -19,22 +19,20 @@
     <table class="sncore_account_table">
      <tr>
       <td style="text-align: left; vertical-align: top;" class="sncore_table_tr_td">
-       <div>
-        <b>from:</b>
-        <asp:HyperLink ID="messageFrom" runat="server" />
-       </div>
-       <div>
-        <b>to:</b>
-        <asp:HyperLink ID="messageTo" runat="server" />
-       </div>
-       <div>
-        <b>subject:</b>
+       <div class="sncore_message_subject">
         <asp:Label ID="messageSubject" runat="server" />
        </div>
-       <div>
-        <b>sent:</b>
-        <asp:Label ID="messageSent" runat="server" />
+       <div class="sncore_description">
+        <asp:Label ID="labelMessageFrom" runat="server" Text="from" /> <asp:HyperLink ID="messageFrom" runat="server" />
+        <asp:Label ID="labelMessageTo" runat="server" Text="to" /> <asp:HyperLink ID="messageTo" runat="server" />
+        on <asp:Label ID="messageSent" runat="server" />        
        </div>
+       <div class="sncore_description">
+        <asp:HyperLink id="linkReply" runat="server" text="&#187; reply" />
+        <asp:HyperLink id="linkMove" runat="server" text="&#187; move" />
+        <asp:LinkButton id="linkDelete" OnClick="linkDelete_Click" runat="server" text="&#187; delete" 
+         OnClientClick="return confirm('Are you sure you want to do this?')" />
+       </div>       
        <div style="margin: 10px 0px 10px 0px;">
         <asp:Label ID="messageBody" runat="server" />
        </div>
@@ -44,14 +42,6 @@
         <asp:Image Width="100px" runat="server" ID="messageSenderImage" />
         <asp:Label ID="messageSenderName" runat="server" />
        </a>
-      </td>
-     </tr>
-     <tr>
-      <td colspan="2" style="font-size: smaller; text-align: left; padding-left: 10px;">
-       <asp:HyperLink id="linkReply" runat="server" text="&#187; reply" />
-       <asp:HyperLink id="linkMove" runat="server" text="&#187; move" />
-       <asp:LinkButton id="linkDelete" OnClick="linkDelete_Click" runat="server" text="&#187; delete" 
-        OnClientClick="return confirm('Are you sure you want to do this?')" />
       </td>
      </tr>
     </table>               

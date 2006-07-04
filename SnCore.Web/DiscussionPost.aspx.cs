@@ -79,8 +79,8 @@ public partial class DiscussionPostNew : AuthenticatedPage
                 {
                     TransitDiscussionPost rp = DiscussionService.GetDiscussionPostById(SessionManager.Ticket, ParentId);
                     panelReplyTo.Visible = true;
-                    accountlink.HRef = "AccountView.aspx?id=" + rp.AccountId.ToString();
-                    replytoAccount.Text = Renderer.Render(rp.AccountName);
+                    replytoSenderName.NavigateUrl = accountlink.HRef = "AccountView.aspx?id=" + rp.AccountId.ToString();
+                    replytoSenderName.Text = replytoAccount.Text = Renderer.Render(rp.AccountName);                    
                     replyToBody.Text = base.RenderEx(SessionManager.RenderComments(rp.Body));
                     replytoCreated.Text = rp.Created.ToString();
                     replytoImage.ImageUrl = "AccountPictureThumbnail.aspx?id=" + rp.AccountPictureId.ToString();

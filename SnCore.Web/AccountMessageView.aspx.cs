@@ -54,6 +54,9 @@ public partial class AccountMessageView : AuthenticatedPage
                 messageSubject.Text = Renderer.Render(message.Subject);
                 messageBody.Text = base.RenderEx(message.Body);
 
+                messageFrom.Visible = labelMessageFrom.Visible = (message.SenderAccountId != SessionManager.Account.Id);
+                messageTo.Visible = labelMessageTo.Visible = (message.RecepientAccountId != SessionManager.Account.Id);
+
                 linkReply.NavigateUrl = string.Format("AccountMessageEdit.aspx?id={0}&pid={1}&ReturnUrl={2}#edit",
                     message.SenderAccountId, message.Id, UrlEncode(Request.Url.PathAndQuery));
 

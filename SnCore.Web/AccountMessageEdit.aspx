@@ -17,17 +17,17 @@
      </a>
     </td>
     <td style="text-align: left; vertical-align: top;" class="sncore_table_tr_td">
-     <b>from:</b>
-     <asp:Label ID="replytoAccount2" runat="server" />
-     <br />
-     <b>subject:</b>
-     <asp:Label ID="replytoSubject" runat="server" />
-     <br />
-     <b>posted:</b>
-     <asp:Label ID="replytoCreated" runat="server" />
-     <br />
-     <br />
-     <asp:Label ID="replyToBody" runat="server" />
+     <div class="sncore_message_subject">
+      <asp:Label ID="messageSubject" runat="server" />
+     </div>
+     <div class="sncore_description">
+      <asp:Label ID="labelMessageFrom" runat="server" Text="from" /> <asp:HyperLink ID="messageFrom" runat="server" />
+      <asp:Label ID="labelMessageTo" runat="server" Text="to" /> <asp:HyperLink ID="messageTo" runat="server" />
+      on <asp:Label ID="messageSent" runat="server" />        
+     </div>
+     <div style="margin: 10px 0px 10px 0px;">
+      <asp:Label ID="messageBody" runat="server" />
+     </div>
     </td>
    </tr>
   </table>

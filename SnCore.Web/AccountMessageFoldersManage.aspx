@@ -80,32 +80,40 @@
           <tr>
            <td>
             <a href='AccountMessageView.aspx?id=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(base.ReturnUrl) %>'>
-             <img border="0" alt="Unread message" src="images/account/star.gif" 
-              style='<%# (bool) Eval("Unread") ? "" : "display:none" %>' />
+             <img border="0" alt="Unread message" 
+              src="<%# (bool) Eval("Unread") ? "images/account/star.gif" : "images/account/inbox.gif" %>" />
             </a>
            </td>
            <td align="left" valign="top" width="*">
-            <div>
-             <b>from:</b> 
-             <a href="AccountView.aspx?id=<%# Eval("SenderAccountId") %>">
-              <%# base.Render(Eval("SenderAccountName")) %>
-             </a>
-            </div>            
-            <div>
-             <b>to:</b> 
-             <a href="AccountView.aspx?id=<%# Eval("RecepientAccountId") %>">
-              <%# base.Render(Eval("RecepientAccountName")) %>
-             </a>
-            </div>
-            <div>            
-             <b>subject:</b>
+            <div class="sncore_message_subject">            
              <a href='AccountMessageView.aspx?id=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(base.ReturnUrl) %>'>
               <%# base.Render(Eval("Subject"))%>
              </a>
             </div>
-            <div>            
-             <b>sent:</b>
+            <div class="sncore_description">
+             <span style="<%# ((int) Eval("SenderAccountId") ==  base.SessionManager.Account.Id) ? "display: none;" : "" %>">
+              from
+              <a href="AccountView.aspx?id=<%# Eval("SenderAccountId") %>">
+               <%# base.Render(Eval("SenderAccountName")) %>
+              </a>
+             </span>
+             <span style="<%# ((int) Eval("RecepientAccountId") ==  base.SessionManager.Account.Id) ? "display: none;" : "" %>">
+              sent to
+              <a href="AccountView.aspx?id=<%# Eval("RecepientAccountId") %>">
+               <%# base.Render(Eval("RecepientAccountName")) %>
+              </a>
+             </span>
+             on
              <%# base.Adjust(Eval("Sent")).ToString() %>
+            </div>
+            <div class="sncore_description">
+             <a href="AccountMessageView.aspx?id=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(base.ReturnUrl) %>#edit">
+              &#187; read</a>
+             <a href="AccountMessageEdit.aspx?id=<%# Eval("SenderAccountId") %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(base.ReturnUrl) %>#edit">
+              &#187; reply</a>
+             <a href="AccountMessageMove.aspx?id=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(base.ReturnUrl) %>">
+              &#187; move</a>
+             <asp:LinkButton CommandName="Delete" id="linkDelete" runat="server" Text="&#187; delete" OnClientClick="return confirm('Are you sure you want to do this?')" />
             </div>
            </td>
            <td width="150" align="center" valign="top">
@@ -115,17 +123,6 @@
               <%# base.Render(Eval("SenderAccountName")) %>
              </div>
             </a>
-           </td>
-          </tr>
-          <tr>
-           <td colspan="2" style="font-size: smaller; text-align: left; padding-left: 10px;">
-            <a href="AccountMessageView.aspx?id=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(base.ReturnUrl) %>#edit">
-             &#187; read</a>
-            <a href="AccountMessageEdit.aspx?id=<%# Eval("SenderAccountId") %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(base.ReturnUrl) %>#edit">
-             &#187; reply</a>
-            <a href="AccountMessageMove.aspx?id=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(base.ReturnUrl) %>">
-             &#187; move</a>
-            <asp:LinkButton CommandName="Delete" id="linkDelete" runat="server" Text="&#187; delete" OnClientClick="return confirm('Are you sure you want to do this?')" />
            </td>
           </tr>
          </table>

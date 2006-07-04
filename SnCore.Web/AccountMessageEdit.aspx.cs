@@ -40,12 +40,17 @@ public partial class AccountMessageEdit : AuthenticatedPage
                     TransitAccountMessage rp = AccountService.GetAccountMessageById(
                         SessionManager.Ticket, ParentId);
                     panelReplyTo.Visible = true;
-                    accountlink.HRef = "AccountView.aspx?id=" + rp.SenderAccountId.ToString();
-                    replytoAccount.Text = replytoAccount2.Text = Renderer.Render(rp.SenderAccountName);
-                    replyToBody.Text = RenderEx(rp.Body);
-                    replytoCreated.Text = rp.Sent.ToString();
+                    
+                    messageFrom.NavigateUrl = accountlink.HRef = "AccountView.aspx?id=" + rp.SenderAccountId.ToString();
+
+                    messageFrom.Visible = labelMessageFrom.Visible = (rp.SenderAccountId != SessionManager.Account.Id);
+                    messageTo.Visible = labelMessageTo.Visible = (rp.RecepientAccountId != SessionManager.Account.Id);
+
+                    replytoAccount.Text = messageFrom.Text = Renderer.Render(rp.SenderAccountName);
+                    messageBody.Text = RenderEx(rp.Body);
+                    messageSent.Text = rp.Sent.ToString();
                     replytoImage.ImageUrl = "AccountPictureThumbnail.aspx?id=" + rp.SenderAccountPictureId.ToString();
-                    replytoSubject.Text = Renderer.Render(rp.Subject);
+                    messageSubject.Text = Renderer.Render(rp.Subject);
                     inputSubject.Text = rp.Subject.StartsWith("Re:") ? rp.Subject : "Re: " + rp.Subject;
                     inputBody.Text =
                         "> " + rp.SenderAccountName + " wrote:\n" +

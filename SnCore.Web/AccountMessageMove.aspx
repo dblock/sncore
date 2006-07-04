@@ -25,24 +25,18 @@
        </a>
       </td>
       <td style="text-align: left; vertical-align: top;" class="sncore_table_tr_td">
-       <div>
-        <b>from:</b>
-        <asp:HyperLink ID="messageFrom" runat="server" />
-       </div>
-       <div>
-        <b>to:</b>
-        <asp:HyperLink ID="messageTo" runat="server" />
-       </div>
-       <div>
-        <b>subject:</b>
+       <div class="sncore_message_subject">
         <asp:Label ID="messageSubject" runat="server" />
        </div>
-       <div>
-        <b>sent:</b>
-        <asp:Label ID="messageSent" runat="server" />
+       <div class="sncore_description">
+        <asp:Label ID="labelMessageFrom" runat="server" Text="from" /> <asp:HyperLink ID="messageFrom" runat="server" />
+        <asp:Label ID="labelMessageTo" runat="server" Text="to" /> <asp:HyperLink ID="messageTo" runat="server" />
+        on <asp:Label ID="messageSent" runat="server" />        
+       </div>
+       <div style="margin-top: 10px;">
+        <b>move to:</b>
        </div>
        <div style="margin: 10px 0px 10px 0px;">
-        <b>move to:</b>
         <asp:DropDownList CssClass="sncore_form_dropdown" ID="listFolders" DataTextField="FullPath" 
          DataValueField="Id" runat="server" AutoPostBack="true" OnSelectedIndexChanged="listFolders_SelectedIndexChanged" />
        </div>
