@@ -1310,7 +1310,11 @@ namespace SnCore.WebServices
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 Account a = (Account)session.Load(typeof(Account), userid);
                 // sort the tree
-                AccountMessageFolderTree tree = new AccountMessageFolderTree(a.AccountMessageFolders);
+                IList folders = session.CreateCriteria(typeof(AccountMessageFolder))
+                    .Add(Expression.Eq("Account.Id", a.Id))
+                    .AddOrder(Order.Asc("Name"))
+                    .List();
+                AccountMessageFolderTree tree = new AccountMessageFolderTree(folders);
                 IEnumerator<AccountMessageFolder> enumerator = tree.GetDepthFirstEnumerator();
                 List<TransitAccountMessageFolder> result = new List<TransitAccountMessageFolder>();
                 while (enumerator.MoveNext())
