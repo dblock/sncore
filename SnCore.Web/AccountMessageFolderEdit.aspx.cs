@@ -40,10 +40,12 @@ public partial class AccountMessageFolderEdit : AuthenticatedPage
     {
         try
         {
-            TransitAccountMessageFolder tw = new TransitAccountMessageFolder();
+            TransitAccountMessageFolder tw = (RequestId > 0) 
+                ? AccountService.GetAccountMessageFolderById(SessionManager.Ticket, RequestId) 
+                : new TransitAccountMessageFolder();
+            
             tw.Name = inputName.Text;
-            tw.Id = RequestId;
-            tw.AccountMessageFolderParentId = GetId("pid");
+            if (RequestId == 0) tw.AccountMessageFolderParentId = GetId("pid");
             AccountService.AddAccountMessageFolder(SessionManager.Ticket, tw);
             Redirect("AccountMessageFoldersManage.aspx");
         }
