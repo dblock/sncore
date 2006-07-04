@@ -26,7 +26,7 @@
       <ItemTemplate>
        <a href="PlacePictureView.aspx?id=<%# Eval("Id") %>">
         <img border="0" src="PlacePictureThumbnail.aspx?id=<%# Eval("Id") %>" alt="<%# base.Render(Eval("Name")) %>" />
-        <div>
+        <div style="font-size: smaller;">
         <%# ((int) Eval("CommentCount") >= 1) ? Eval("CommentCount").ToString() + 
          " comment" + (((int) Eval("CommentCount") == 1) ? "" : "s") : "" %>
         </div>
@@ -48,6 +48,13 @@
         </div>
         <div>
          <asp:Label ID="placeCountry" CssClass="sncore_place_location" runat="server" />
+        </div>
+        <div style="font-size: smaller;">
+         <asp:Label ID="placePhone2" runat="server" />
+         <asp:ImageButton ImageUrl="images/account/inbox.gif" ImageAlign="AbsMiddle" runat="server" ID="imageEmail" />
+        </div>
+        <div style="font-size: smaller;">
+         <asp:HyperLink ID="placeWebsite" runat="server" />
         </div>
        </td>
        <td class="sncore_table_tr_td" valign="top" align="right">
@@ -127,30 +134,6 @@
        <table class="sncore_inner_table" width="95%">
         <tr>
          <td class="sncore_form_label">
-          website:
-         </td>
-         <td class="sncore_form_value">
-          <asp:HyperLink ID="placeWebsite" runat="server" />
-         </td>
-        </tr>
-        <tr>
-         <td class="sncore_form_label">
-          phone:
-         </td>
-         <td class="sncore_form_value">
-          <asp:Label ID="placePhone" runat="server" />
-         </td>
-        </tr>
-        <tr>
-         <td class="sncore_form_label">
-          fax:
-         </td>
-         <td class="sncore_form_value">
-          <asp:Label ID="placeFax" runat="server" />
-         </td>
-        </tr>
-        <tr>
-         <td class="sncore_form_label">
           address:
          </td>
          <td class="sncore_form_value">
@@ -171,6 +154,22 @@
          </td>
          <td class="sncore_form_value">
           <asp:Label ID="placeCrossStreet" runat="server" />
+         </td>
+        </tr>
+        <tr>
+         <td class="sncore_form_label">
+          phone:
+         </td>
+         <td class="sncore_form_value">
+          <asp:Label ID="placePhone" runat="server" />
+         </td>
+        </tr>
+        <tr>
+         <td class="sncore_form_label">
+          fax:
+         </td>
+         <td class="sncore_form_value">
+          <asp:Label ID="placeFax" runat="server" />
          </td>
         </tr>
        </table>

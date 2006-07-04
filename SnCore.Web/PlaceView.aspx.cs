@@ -210,9 +210,14 @@ public partial class PlaceView : Page
                     placeAddress.Text = Renderer.Render(place.Street);
                     placeZip.Text = Renderer.Render(place.Zip);
                     placeFax.Text = Renderer.Render(place.Fax);
-                    placePhone.Text = Renderer.Render(place.Phone);
+                    placePhone2.Text = placePhone.Text = Renderer.Render(place.Phone);
                     placeCrossStreet.Text = Renderer.Render(place.CrossStreet);
                     placeType.Text = Renderer.Render(place.Type);
+
+                    imageEmail.OnClientClick = string.Format("location.href='mailto:{0}';",
+                       Renderer.Render(place.Email));
+                    imageEmail.AlternateText = string.Format("E-Mail {0}", Renderer.Render(place.Name));
+                    imageEmail.Visible = ! string.IsNullOrEmpty(place.Email);
 
                     panelDetails.Visible = SessionManager.IsLoggedIn;
 
@@ -265,7 +270,6 @@ public partial class PlaceView : Page
                     panelDetails.Visible = false;
                     panelSubmit.Visible = true;
                     panelDescription.Visible = false;
-                    panelAddress.Visible = false;
                     discussionPlaces.Visible = false;
                     linkEdit.NavigateUrl = string.Format("PlaceEdit.aspx?{0}", Request.QueryString.ToString());
                 }
