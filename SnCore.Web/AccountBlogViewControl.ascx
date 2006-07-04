@@ -23,7 +23,7 @@
       </a>
      </div>
      <div style="font-size: smaller;">
-      &#187; by <a href='AccountView.aspx?id=<%# Eval("AccountId") %>'>
+      by <a href='AccountView.aspx?id=<%# Eval("AccountId") %>'>
        <%# base.Render(Eval("AccountName")) %>
       </a>on
       <%# base.Adjust(Eval("Created")).ToString("d") %>
