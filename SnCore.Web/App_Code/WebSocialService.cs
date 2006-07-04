@@ -377,13 +377,43 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
-        /// Get total friend requests.
+        /// Get total incoming friend requests.
         /// </summary>
         /// <param name="ticket">authentication ticket</param>
         [WebMethod(Description = "Get friend request count.")]
         public int GetAccountFriendRequestsCount(string ticket)
         {
             return GetAccountFriendRequestsCountById(ManagedAccount.GetAccountId(ticket));
+        }
+
+        /// <summary>
+        /// Get total friend requests sent.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        [WebMethod(Description = "Get friend request sent count.")]
+        public int GetAccountFriendRequestsSentCount(string ticket)
+        {
+            return GetAccountFriendRequestsSentCountById(ManagedAccount.GetAccountId(ticket));
+        }
+
+        /// <summary>
+        /// Get total friend requests sent count by account id.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        [WebMethod(Description = "Get friend request sent count by account id.", CacheDuration = 60)]
+        public int GetAccountFriendRequestsSentCountById(int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                return (int)session.CreateQuery(
+                    string.Format(
+                        "select count(*)" +
+                        " from AccountFriendRequest r" +
+                        " where r.Account.Id = {0}",
+                        id)).UniqueResult();
+            }
         }
 
         /// <summary>
@@ -401,27 +431,33 @@ namespace SnCore.WebServices
                     string.Format(
                         "select count(*)" +
                         " from AccountFriendRequest r" +
-                        " where r.Account.Id = {0}" +
-                        " or (r.Keen.Id = {0} and r.Rejected = 0)",
+                        " where r.Keen.Id = {0} and r.Rejected = 0",
                         id)).UniqueResult();
             }
         }
-
 
         /// <summary>
         /// Get sent friend requests.
         /// </summary>
         /// <param name="ticket">authentication ticket</param>
         [WebMethod(Description = "Get sent friend requests.")]
-        public List<TransitAccountFriendRequest> GetAccountFriendRequestsSent(string ticket)
+        public List<TransitAccountFriendRequest> GetAccountFriendRequestsSent(string ticket, ServiceQueryOptions options)
         {
             int userid = ManagedAccount.GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                IList list = session.CreateCriteria(typeof(AccountFriendRequest))
-                    .Add(Expression.Eq("Account.Id", userid))
-                    .List();
+
+                ICriteria c = session.CreateCriteria(typeof(AccountFriendRequest))
+                    .Add(Expression.Eq("Account.Id", userid));
+ 
+                if (options != null)
+                {
+                    c.SetFirstResult(options.FirstResult);
+                    c.SetMaxResults(options.PageSize);
+                }
+
+                IList list = c.List();
 
                 List<TransitAccountFriendRequest> result = new List<TransitAccountFriendRequest>(list.Count);
                 foreach (AccountFriendRequest request in list)
@@ -437,16 +473,24 @@ namespace SnCore.WebServices
         /// </summary>
         /// <param name="ticket">authentication ticket</param>
         [WebMethod(Description = "Get outstanding friend requests.")]
-        public List<TransitAccountFriendRequest> GetAccountFriendRequests(string ticket)
+        public List<TransitAccountFriendRequest> GetAccountFriendRequests(string ticket, ServiceQueryOptions options)
         {
             int userid = ManagedAccount.GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                IList list = session.CreateCriteria(typeof(AccountFriendRequest))
+
+                ICriteria c = session.CreateCriteria(typeof(AccountFriendRequest))
                     .Add(Expression.Eq("Keen.Id", userid))
-                    .Add(Expression.Eq("Rejected", false))
-                    .List();
+                    .Add(Expression.Eq("Rejected", false));
+
+                if (options != null)
+                {
+                    c.SetFirstResult(options.FirstResult);
+                    c.SetMaxResults(options.PageSize);
+                }
+
+                IList list = c.List();
 
                 List<TransitAccountFriendRequest> result = new List<TransitAccountFriendRequest>(list.Count);
                 foreach (AccountFriendRequest request in list)

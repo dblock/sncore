@@ -14,89 +14,55 @@
    <td valign="top" width="*">
     <SnCore:Notice ID="noticeManage" runat="server" />
     <div class="sncore_h2">
-     Friend Requests
+     Pending Friend Requests
     </div>
-    <asp:Panel ID="panelPending" runat="server">
-     <div class="sncore_h2">
-      Pending
-     </div>
-     <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridPending" HeaderStyle-CssClass="sncore_table_tr_th"
-      AutoGenerateColumns="false" CssClass="sncore_account_table" ShowHeader="false" OnItemCommand="gridPending_ItemCommand">
-      <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
-       PrevPageText="Prev" HorizontalAlign="Center" />
-      <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
-      <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
-      <Columns>
-       <asp:BoundColumn DataField="Id" Visible="false" />
-       <asp:TemplateColumn>
-        <itemtemplate>
-         <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
-          <img border="0" id="imageAccount" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" />
-          <br />
-          <%# base.Render(Eval("AccountName")) %>
-         </a>
-        </itemtemplate>
-       </asp:TemplateColumn>
-       <asp:TemplateColumn ItemStyle-HorizontalAlign="Left">
-        <itemtemplate>
-         <%# base.RenderEx(Eval("Message")) %>
-        </itemtemplate>
-       </asp:TemplateColumn>
-       <asp:TemplateColumn>
-        <itemtemplate>
-         <%# base.Adjust(Eval("Created")).ToString() %>
-        </itemtemplate>
-       </asp:TemplateColumn>
-       <asp:ButtonColumn ButtonType="LinkButton" CommandName="Accept" Text="Accept" />
-       <asp:ButtonColumn ButtonType="LinkButton" CommandName="Reject" Text="Reject" />
-      </Columns>
-     </SnCoreWebControls:PagedGrid>
-     <table runat="server" id="reasonTable" class="sncore_account_table">
-      <tr>
-       <td class="sncore_form_label">
-        reason:
-       </td>
-       <td class="sncore_form_value">
-        <asp:TextBox CssClass="sncore_form_textbox" TextMode="MultiLine" Rows="5" ID="inputReason"
-         runat="server" />
-        <br />
+    <div class="sncore_h2sub">
+     <a href="AccountFriendRequestsSentManage.aspx">&#187; Sent</a>
+    </div>
+    <SnCoreWebControls:PagedList CssClass="sncore_account_table" runat="server" RepeatDirection="Horizontal"
+     ID="listPending" Width="0px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Top"
+     OnItemCommand="listPending_ItemCommand" ItemStyle-CssClass="sncore_table_tr_td" RepeatColumns="3"
+     RepeatRows="2" AllowCustomPaging="true">
+     <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
+      prevpagetext="Prev" horizontalalign="Center" />
+     <ItemTemplate>
+      <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
+       <img alt="<%# base.Render(Eval("Message")) %>" border="0" 
+        src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" />
+       <div style="font-size: smaller;">
+        <%# base.Render(Eval("AccountName")) %>
+       </div>
+      </a>
+      <div class="sncore_description">
+       <%# base.Adjust(Eval("Created")).ToString() %>
+      </div>
+      <div style="font-size: smaller;">
+       <div>
+        <asp:LinkButton Text="&#187; accept" ID="linkAccept" runat="server"
+         CommandName="Accept" CommandArgument='<%# Eval("Id") %>' />
+       </div>
+       <div>
+        <asp:LinkButton Text="&#187; reject" ID="linkReject" runat="server" OnClientClick="return confirm('Are you sure you want to reject this request?')"
+         CommandName="Reject" CommandArgument='<%# Eval("Id") %>' />
+       </div>
+      </div>
+     </ItemTemplate>
+    </SnCoreWebControls:PagedList>     
+    <table runat="server" id="reasonTable" class="sncore_account_table">
+     <tr>
+      <td class="sncore_form_label">
+       reason:
+      </td>
+      <td class="sncore_form_value">
+       <asp:TextBox CssClass="sncore_form_textbox" TextMode="MultiLine" Rows="5" ID="inputReason"
+        runat="server" />
+       <div class="sncore_description">
         note: if you don't supply a reason while accepting or rejecting requests,
-        <br />
         no e-mail will be sent
-       </td>
-      </tr>
-     </table>
-    </asp:Panel>
-    <asp:Panel ID="panelSent" runat="server">
-     <div class="sncore_h2">
-      Sent
-     </div>
-     <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridSent" AutoGenerateColumns="false"
-      CssClass="sncore_account_table" ShowHeader="false" OnItemCommand="gridSent_ItemCommand">
-      <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
-       PrevPageText="Prev" HorizontalAlign="Center" />
-      <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
-      <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
-      <Columns>
-       <asp:BoundColumn DataField="Id" Visible="false" />
-       <asp:TemplateColumn>
-        <itemtemplate>
-         <a href="AccountView.aspx?id=<%# Eval("KeenId") %>">
-          <img border="0" id="imageAccount" src="AccountPictureThumbnail.aspx?id=<%# Eval("KeenPictureId") %>" />
-          <br />
-          <%# base.Render(Eval("KeenName")) %>
-         </a>
-        </itemtemplate>
-       </asp:TemplateColumn>
-       <asp:TemplateColumn>
-        <itemtemplate>
-         <%# base.Adjust(Eval("Created")).ToString() %>
-        </itemtemplate>
-       </asp:TemplateColumn>
-       <asp:ButtonColumn ButtonType="LinkButton" CommandName="Cancel" Text="&#187; Cancel" />
-      </Columns>
-     </SnCoreWebControls:PagedGrid>
-    </asp:Panel>
+       </div>
+      </td>
+     </tr>
+    </table>
     <SnCore:AccountReminder ID="accountReminder" runat="server" Style="width: 582px;" />
    </td>
   </tr>

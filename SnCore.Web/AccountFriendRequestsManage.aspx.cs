@@ -8,6 +8,8 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using SnCore.Services;
+using SnCore.WebServices;
 
 public partial class AccountFriendRequestsManage : AuthenticatedPage
 {
@@ -15,11 +17,11 @@ public partial class AccountFriendRequestsManage : AuthenticatedPage
     {
         try
         {
-            gridSent.OnGetDataSource += new EventHandler(gridSent_OnGetDataSource);
-            gridPending.OnGetDataSource += new EventHandler(gridPending_OnGetDataSource);
+            listPending.OnGetDataSource += new EventHandler(listPending_OnGetDataSource);
             
             if (!IsPostBack)
             {
+                listPending.VirtualItemCount = SocialService.GetAccountFriendRequestsCount(SessionManager.Ticket);
                 GetData(sender, e);
             }
         }
@@ -29,34 +31,27 @@ public partial class AccountFriendRequestsManage : AuthenticatedPage
         }
     }
 
-    void gridPending_OnGetDataSource(object sender, EventArgs e)
+    void listPending_OnGetDataSource(object sender, EventArgs e)
     {
-        gridPending.DataSource = SocialService.GetAccountFriendRequests(SessionManager.Ticket);
-    }
-
-    void gridSent_OnGetDataSource(object sender, EventArgs e)
-    {
-        gridSent.DataSource = SocialService.GetAccountFriendRequestsSent(SessionManager.Ticket);
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageNumber = listPending.CurrentPage;
+        options.PageSize = listPending.PageSize;
+        listPending.DataSource = SocialService.GetAccountFriendRequests(SessionManager.Ticket, options);
     }
 
     public void GetData(object sender, EventArgs e)
     {
-        gridPending_OnGetDataSource(sender, e);
-        gridSent_OnGetDataSource(sender, e);
+        listPending.CurrentPage = 0;
+        listPending_OnGetDataSource(sender, e);
+        listPending.DataBind();
 
-        gridSent.DataBind();       
-        gridPending.DataBind();
-
-        panelSent.Visible = gridSent.Items.Count > 0;
-        panelPending.Visible = gridPending.Items.Count > 0;
-
-        if (gridSent.Items.Count + gridPending.Items.Count == 0)
+        if (listPending.Items.Count == 0)
         {
-            noticeManage.Info = "You don't have any pending or outstanding requests.";
+            noticeManage.Info = "You don't have any pending requests.";
         }
     }
 
-    public void gridPending_ItemCommand(object sender, DataGridCommandEventArgs e)
+    public void listPending_ItemCommand(object sender, DataListCommandEventArgs e)
     {
         try
         {
@@ -64,7 +59,7 @@ public partial class AccountFriendRequestsManage : AuthenticatedPage
             {
                 case "Accept":
                     {
-                        int id = int.Parse(e.Item.Cells[(int)gridSentCells.id].Text);
+                        int id = int.Parse(e.CommandArgument.ToString());
                         SocialService.AcceptAccountFriendRequest(SessionManager.Ticket, id, inputReason.Text);
                         GetData(sender, e);
                         noticeManage.Info = "Friend request accepted.";
@@ -72,40 +67,12 @@ public partial class AccountFriendRequestsManage : AuthenticatedPage
                     }
                 case "Reject":
                     {
-                        int id = int.Parse(e.Item.Cells[(int)gridSentCells.id].Text);
+                        int id = int.Parse(e.CommandArgument.ToString());
                         SocialService.RejectAccountFriendRequest(SessionManager.Ticket, id, inputReason.Text);
                         GetData(sender, e);
                         noticeManage.Info = "Friend request rejected.";
                         break;
                     }
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
-    }
-
-    public enum gridSentCells
-    {
-        id = 0,
-        data,
-        created,
-        cancel
-    };
-
-    public void gridSent_ItemCommand(object sender, DataGridCommandEventArgs e)
-    {
-        try
-        {
-            switch (e.CommandName)
-            {
-                case "Cancel":
-                    int id = int.Parse(e.Item.Cells[(int)gridSentCells.id].Text);
-                    SocialService.DeleteAccountFriendRequest(SessionManager.Ticket, id);
-                    GetData(sender, e);
-                    noticeManage.Info = "Request cancelled.";
-                    break;
             }
         }
         catch (Exception ex)
