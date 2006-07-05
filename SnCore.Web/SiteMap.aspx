@@ -132,7 +132,8 @@
       <li><a href="AccountPlacesManage.aspx">Places</a></li>       
       <li><a href="AccountFriendsManage.aspx">Friends</a></li>
       <li><a href="AccountInvitationsManage.aspx">Invite Friends</a></li>
-      <li><a href="AccountFriendRequestsManage.aspx">Friend Requests</a></li>
+      <li><a href="AccountFriendRequestsManage.aspx">Pending Friend Requests</a></li>
+      <li><a href="AccountFriendRequestsSentManage.aspx">Sent Friend Requests</a></li>
       <li><a href="AccountStoriesManage.aspx">Stories</a></li>
       <li><a href="AccountSurveysManage.aspx">Surveys</a></li>
       <li><a href="AccountFeedsManage.aspx">Syndication</a></li>
