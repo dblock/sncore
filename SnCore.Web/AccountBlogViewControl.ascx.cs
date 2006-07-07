@@ -13,10 +13,13 @@ using Wilco.Web.UI;
 using SnCore.WebServices;
 using SnCore.BackEndServices;
 using SnCore.Services;
+using SnCore.Tools.Web.Html;
+using System.Collections.Generic;
 
 public partial class AccountBlogViewControl : Control
 {
     private int mItemsShown = 0;
+    private int mImagesShown = 0;
     private TransitAccountBlog mAccountBlog = null;
 
     public TransitAccountBlog Blog
@@ -103,23 +106,39 @@ public partial class AccountBlogViewControl : Control
         }
     }
 
-    public string GetTitle(object title)
+    public string GetTitle(string title)
     {
-        if (title == null || string.IsNullOrEmpty(title.ToString()))
+        if (string.IsNullOrEmpty(title))
             return "Untitled";
 
         return Renderer.Render(Renderer.RemoveHtml(title));
     }
 
-    public string GetDescription(object description)
+    public string GetDescription(string description)
     {
         if (mItemsShown++ >= 1)
             return string.Empty;
 
-        if (description == null)
+        if (string.IsNullOrEmpty(description))
             return string.Empty;
 
-        return Renderer.GetSummary(description.ToString());
+        return Renderer.GetSummary(description);
+    }
+
+    public string GetImage(string description)
+    {
+        if (mImagesShown++ >= 1)
+            return string.Empty;
+
+        if (string.IsNullOrEmpty(description))
+            return string.Empty;
+
+        List<HtmlImage> list = HtmlImageExtractor.Extract(description);
+
+        if (list.Count == 0)
+            return string.Empty;
+
+        return string.Format("<img class='sncore_blog_image' border='0' src='{0}'>", list[0].Src);
     }
 
     public string GetComments(int count)

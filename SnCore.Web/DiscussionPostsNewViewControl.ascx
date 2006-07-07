@@ -51,6 +51,7 @@
          <%# base.Render(Eval("Subject"))%>
         </a>
        </div>
+       <!--
        <div style="font-size: smaller;">
         by 
         <a href='AccountView.aspx?id=<%# Eval("AccountId") %>'>
@@ -59,6 +60,7 @@
         on
         <%# base.Adjust(Eval("Created")).ToString("d") %>
        </div>
+       -->
       </td>
      </tr>
     </table>

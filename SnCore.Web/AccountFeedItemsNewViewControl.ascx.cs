@@ -17,6 +17,7 @@ using System.Collections.Generic;
 
 public partial class AccountFeedItemsNewViewControl : Control
 {
+    private int mItemsShown = 0;
     private int mCount = 5;
 
     public int Count
@@ -60,11 +61,22 @@ public partial class AccountFeedItemsNewViewControl : Control
         }
     }
 
+    public string GetDescription(string description)
+    {
+        if (mItemsShown++ >= 1)
+            return string.Empty;
+
+        if (string.IsNullOrEmpty(description))
+            return string.Empty;
+
+        return Renderer.GetSummary(description);
+    }
+
     public string GetComments(int count)
     {
-        if (count == 0) return "read and comment";
-        else if (count == 1) return "read one comment";
-        else return string.Format("read {0} comments", count);
+        if (count == 0) return "read";
+        else if (count == 1) return "one comment";
+        else return string.Format("{0} comments", count);
     }
 
 }

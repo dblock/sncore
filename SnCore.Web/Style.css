@@ -21,6 +21,7 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_half_table { width: 95%; margin: 10px; border: 1px #eeeeee solid; }
 .sncore_accountmenu_table { width: 150px; margin: 10px; border: 1px #eeeeee solid; }
 .sncore_half_inner_table { width: 95%; }
+.sncore_featured_tr_td { padding: 2px; padding-top: 10px; background: url(images/site/back.jpg) no-repeat; font-family: Verdana; }
 .sncore_table_tr_td { padding: 2px; font-family: Verdana; }
 .sncore_table_tr_th { padding: 2px; font-family: Verdana; font-weight: bold; background-color: #E5EDFB; font-size: smaller;  }
 .sncore_table_pager { padding: 2px; font-family: Verdana; font-weight: bold; }
@@ -100,3 +101,4 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_schedule_summary { padding: 2px; font-family: Verdana; font-weight: bold; background-color: #E5EDFB; }
 .sncore_calendar_toolbar_item { font-family: Verdana; font-size: .9em; }
 .sncore_calendar_toolbar_selecteditem { font-family: Verdana; font-size: .9em; font-weight: bold; }
+.sncore_blog_image { width: 150px; border: none; margin-right: 15px; }

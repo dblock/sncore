@@ -39,6 +39,7 @@
       <a href='AccountFeedItemView.aspx?id=<%# Eval("Id") %>&#comments'>&#187; <%# GetComments((int) Eval("CommentCount"))%></a>
      </span>
     </div>
+    <!--
     <div style="font-size: smaller;">
      by 
      <a href='AccountView.aspx?id=<%# Eval("AccountId") %>'>
@@ -51,8 +52,9 @@
      on
      <%# base.Adjust(Eval("Created")).ToString("d") %>
     </div>
+    -->
     <div class="sncore_description">
-     <%# base.GetSummary((string) Eval("Description"))%>
+     <%# base.GetDescription((string) Eval("Description"))%>
     </div>
    </ItemTemplate>
   </asp:TemplateColumn>

@@ -41,6 +41,7 @@
       </a>
      </span>     
     </div>
+    <!--
     <div style="font-size: smaller;">
      by 
      <a href='AccountView.aspx?id=<%# Eval("AccountId") %>'>
@@ -49,8 +50,9 @@
      on
      <%# base.Adjust(Eval("Created")).ToString("d") %>
     </div>
+    -->
     <div class="sncore_description">
-     <%# base.GetSummary((string) Eval("Summary"))%>
+     <%# base.GetDescription((string) Eval("Summary"))%>
     </div>
    </ItemTemplate>
   </asp:TemplateColumn>

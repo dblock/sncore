@@ -16,6 +16,7 @@ using SnCore.Tools.Web;
 
 public partial class AccountStoriesNewViewControl : Control
 {
+    private int mItemsShown = 0;
     private int mCount = 5;
 
     public int Count
@@ -47,6 +48,17 @@ public partial class AccountStoriesNewViewControl : Control
         {
             ReportException(ex);
         }
+    }
+
+    public string GetDescription(string description)
+    {
+        if (mItemsShown++ >= 1)
+            return string.Empty;
+
+        if (string.IsNullOrEmpty(description))
+            return string.Empty;
+
+        return Renderer.GetSummary(description);
     }
 
     public string GetComments(int count)

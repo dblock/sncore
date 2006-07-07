@@ -8,44 +8,31 @@
   <asp:Label CssClass="sncore_navigate_item" ID="linkPeople" Text="People" runat="server" />
  </div>
  <div class="sncore_h2">
-  Tag
+  Tags
  </div>
  <asp:Label ID="tagSubtitle" runat="server" CssClass="sncore_h2sub" />
- <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage" PageSize="10" AllowPaging="true"
-  AutoGenerateColumns="false" CssClass="sncore_table" ShowHeader="false">
-  <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
-   PrevPageText="Prev" HorizontalAlign="Center" />
-  <ItemStyle CssClass="sncore_table_tr_td" HorizontalAlign="Center" />
-  <Columns>
-   <asp:BoundColumn DataField="Id" Visible="false" />
-   <asp:TemplateColumn>
-    <itemtemplate>
-     <a href="AccountView.aspx?id=<%# Eval("Id") %>">
-      <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("PictureId") %>" />
-     </a>
-    </itemtemplate>
-   </asp:TemplateColumn>
-   <asp:TemplateColumn ItemStyle-HorizontalAlign="Left">
-    <itemtemplate>
-     <a href="AccountView.aspx?id=<%# Eval("Id") %>">
-      <%# base.Render(Eval("Name")) %>
-     </a>
-     <font style="font-size: .8em">
-     <br />
-     Location: 
-     <b>
-      <%# base.Render(Eval("City")) %>
-      <%# base.Render(Eval("State")) %>
-      <%# base.Render(Eval("Country")) %>
-     </b>
-     <br />
-     Last activity: 
-     <b>
-      <%# base.Adjust(Eval("LastLogin")).ToString() %>
-     </b>
-     </font>
-    </itemtemplate>
-   </asp:TemplateColumn>
-  </Columns>
- </SnCoreWebControls:PagedGrid>
+ <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage"
+  AllowCustomPaging="true" RepeatColumns="4" RepeatRows="4" RepeatDirection="Horizontal"
+  CssClass="sncore_table" ShowHeader="false">
+  <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
+   prevpagetext="Prev" horizontalalign="Center" />
+  <ItemStyle CssClass="sncore_description" HorizontalAlign="Center" Width="25%" />
+  <ItemTemplate>
+   <a href="AccountView.aspx?id=<%# Eval("Id") %>">
+    <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("PictureId") %>" />
+   </a>
+   <div>
+    <a href="AccountView.aspx?id=<%# Eval("Id") %>">
+     <%# base.Render(Eval("Name")) %>
+    </a>
+   </div>
+   <div>
+    <%# base.Render(Eval("City")) %>
+    <%# base.Render(Eval("State")) %>
+   </div>
+   <div>
+    <%# base.Render(Eval("Country")) %>
+   </div>
+  </ItemTemplate>
+ </SnCoreWebControls:PagedList>
 </asp:Content>

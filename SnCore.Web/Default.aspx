@@ -10,7 +10,6 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountStoriesNewView" Src="AccountStoriesNewViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountFeedItemsNewView" Src="AccountFeedItemsNewViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountReminder" Src="AccountReminderControl.ascx" %>
-<%@ Register TagPrefix="SnCore" TagName="TagWordsView" Src="TagWordsViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="FeedPreview" Src="AccountFeedPreviewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="SearchDefault" Src="SearchDefaultControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="BookmarksView" Src="BookmarksViewControl.ascx" %>
@@ -29,7 +28,6 @@
     <SnCore:PlaceFeaturedView ID="PlaceFeaturedView" runat="server" />
     <SnCore:AccountEventFeaturedView ID="accounteventsFeatured" runat="server" />
     <SnCore:AccountFeedFeaturedView ID="accountfeedFeatured" runat="server" />
-    <SnCore:TagWordsView ID="tagwordsView" runat="server" Count="100" />
    </td>
    <td valign="top" width="25%">
     <SnCore:PlacesNewView ID="placesNewMain" runat="server" Count="2" />

@@ -17,26 +17,39 @@
    <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage" RepeatColumns="1"
     RepeatRows="3" ShowHeader="false" AllowCustomPaging="true">
     <ItemTemplate>
-     <div class="sncore_title">
-      <a href='AccountBlogPostView.aspx?id=<%# Eval("Id") %>'>
-       <%# base.GetTitle(Eval("Title")) %>
-      </a>
-     </div>
-     <div style="font-size: smaller;">
-      by <a href='AccountView.aspx?id=<%# Eval("AccountId") %>'>
-       <%# base.Render(Eval("AccountName")) %>
-      </a>on
-      <%# base.Adjust(Eval("Created")).ToString("d") %>
-     </div>
-     <div class="sncore_description">
-      <%# base.GetDescription(Eval("Body")) %>
-     </div>
-     <div style="font-size: smaller;">
-      <a href='AccountBlogPostView.aspx?id=<%# Eval("Id") %>&#comments'>&#187; read</a>
-      <a href='AccountBlogPostView.aspx?id=<%# Eval("Id") %>&#comments'>&#187;
-       <%# GetComments((int) Eval("CommentCount"))%>
-      </a>
-     </div>
+     <table cellpadding="0" cellspacing="0" width="100%">
+      <tr>
+       <td valign="top">
+         <a href='AccountBlogPostView.aspx?id=<%# Eval("Id") %>'>
+          <%# base.GetImage((string) Eval("Body")) %>
+         </a>
+       </td>
+       <td valign="top">
+        <div class="sncore_title">
+         <a href='AccountBlogPostView.aspx?id=<%# Eval("Id") %>'>
+          <%# base.GetTitle((string) Eval("Title")) %>
+         </a>
+        </div>
+        <!--
+        <div style="font-size: smaller;">
+         by <a href='AccountView.aspx?id=<%# Eval("AccountId") %>'>
+          <%# base.Render(Eval("AccountName")) %>
+         </a>on
+         <%# base.Adjust(Eval("Created")).ToString("d") %>
+        </div>
+        -->
+        <div style="font-size: smaller;">
+         <a href='AccountBlogPostView.aspx?id=<%# Eval("Id") %>&#comments'>&#187; read</a>
+         <a href='AccountBlogPostView.aspx?id=<%# Eval("Id") %>&#comments'>&#187;
+          <%# GetComments((int) Eval("CommentCount"))%>
+         </a>
+        </div>
+        <div style="margin-top: 10px;">
+         <%# base.GetDescription((string) Eval("Body")) %>
+        </div>
+       </td>
+      </tr>
+     </table>
     </ItemTemplate>
    </SnCoreWebControls:PagedList>
   </td>
