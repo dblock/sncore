@@ -47,6 +47,16 @@
         <div>
          <asp:Label ID="AccountEventCountry" CssClass="sncore_event_location" runat="server" />
         </div>
+        <div style="font-size: smaller;">
+         <asp:HyperLink ID="AccountEventWebsite" runat="server" />
+        </div>
+        <div style="font-size: smaller;">
+         <asp:Label ID="AccountEventPhone" runat="server" />
+         <asp:ImageButton Visible="False" ImageUrl="images/account/inbox.gif" ImageAlign="AbsMiddle" runat="server" ID="AccountEventEmail" />
+        </div>
+        <div style="font-size: smaller; font-weight: bold;">
+         <asp:Label ID="AccountEventCost" runat="server" />
+        </div>
        </td>
        <td class="sncore_table_tr_td" valign="top" align="right">
         <asp:Label ID="AccountEventId" CssClass="sncore_event_id" runat="server" />
@@ -142,46 +152,6 @@
           <asp:Label ID="placeState" runat="server" />
           <asp:Label ID="placeCountry" runat="server" />
          </div>
-         <div class="sncore_description">
-          <asp:Label ID="placeDescription" runat="server" />
-         </div>
-        </td>
-       </tr>
-      </table>
-      <div class="sncore_h2">
-       Contact
-      </div>
-      <table class="sncore_inner_table" width="95%">
-       <tr>
-        <td class="sncore_form_label">
-         website:
-        </td>
-        <td class="sncore_form_value">
-         <asp:HyperLink ID="AccountEventWebsite" runat="server" />
-        </td>
-       </tr>
-       <tr>
-        <td class="sncore_form_label">
-         contact phone:
-        </td>
-        <td class="sncore_form_value">
-         <asp:Label ID="AccountEventPhone" runat="server" />
-        </td>
-       </tr>
-       <tr>
-        <td class="sncore_form_label">
-         contact e-mail:
-        </td>
-        <td class="sncore_form_value">
-         <asp:LinkButton ID="AccountEventEmail" runat="server" />
-        </td>
-       </tr>
-       <tr>
-        <td class="sncore_form_label">
-         cost to attend:
-        </td>
-        <td class="sncore_form_value">
-         <asp:Label ID="AccountEventCost" runat="server" />
         </td>
        </tr>
       </table>

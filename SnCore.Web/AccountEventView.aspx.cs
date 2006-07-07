@@ -135,12 +135,9 @@ public partial class AccountEventView : Page
                     AccountEventWebsite.Text = Renderer.Render(evt.Website);
                     AccountEventPhone.Text = Renderer.Render(evt.Phone);
                     AccountEventType.Text = Renderer.Render(evt.AccountEventType);
-                    if (!string.IsNullOrEmpty(evt.Email))
-                    {
-                        AccountEventEmail.Text = evt.Email.Replace("@", " at ").Replace(".", " dot ");
-                        AccountEventEmail.OnClientClick = string.Format("location.href='mailto:{0}';",
-                            Renderer.Render(evt.Email));
-                    }
+                    AccountEventEmail.OnClientClick = string.Format("location.href='mailto:{0}';",
+                        Renderer.Render(evt.Email));
+                    AccountEventEmail.Visible = ! string.IsNullOrEmpty(evt.Email);
                     AccountEventCost.Text = Renderer.Render(evt.Cost);
 
                     picturesView.DataSource = EventService.GetAccountEventPictures(SessionManager.Ticket, RequestId);
@@ -168,7 +165,6 @@ public partial class AccountEventView : Page
                     placeImage.Src = string.Format("PlacePictureThumbnail.aspx?id={0}", pl.PictureId);
                     placeLink2.HRef = placeLink.HRef = string.Format("PlaceView.aspx?id={0}", pl.Id);
                     placeName.Text = Renderer.Render(pl.Name);
-                    placeDescription.Text = base.GetSummary(pl.Description);
                     placeCity.Text = Renderer.Render(pl.City);
                     placeState.Text = Renderer.Render(pl.State);
                     placeCountry.Text = Renderer.Render(pl.Country);
@@ -259,7 +255,7 @@ public partial class AccountEventView : Page
             Response.Write(vcsContent);
             Response.End();
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             ReportException(ex);
         }

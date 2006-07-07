@@ -1,3 +1,4 @@
+
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="PlaceView.aspx.cs"
  Inherits="PlaceView" Title="Place | View" %>
 
@@ -51,7 +52,7 @@
         </div>
         <div style="font-size: smaller;">
          <asp:Label ID="placePhone2" runat="server" />
-         <asp:ImageButton ImageUrl="images/account/inbox.gif" ImageAlign="AbsMiddle" runat="server" ID="imageEmail" />
+         <asp:ImageButton Visible="False" ImageUrl="images/account/inbox.gif" ImageAlign="AbsMiddle" runat="server" ID="imageEmail" />
         </div>
         <div style="font-size: smaller;">
          <asp:HyperLink ID="placeWebsite" runat="server" />
