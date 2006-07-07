@@ -77,7 +77,7 @@
          </div>
          <asp:Panel ID="panelOwner" runat="server">
           <div>
-           <asp:HyperLink runat="server" ID="linkEdit" Text="&#187; Edit Content" />
+           <asp:HyperLink runat="server" ID="linkEdit" Text="&#187; Edit Event" />
           </div>
          </asp:Panel>
          <asp:Panel ID="panelAdmin" runat="server">
@@ -88,10 +88,10 @@
            <asp:LinkButton OnClick="deletefeature_Click" runat="server" ID="linkDeleteFeatures"
             Text="&#187; Delete Features" />
           </div>
-         </asp:Panel>
-        </td>
-       </tr>
-      </table>
+         </td>
+        </tr>
+       </table>
+      </asp:Panel>
       <table class="sncore_inner_table" width="95%">
        <tr>
         <td class="sncore_table_tr_td" style="font-size: smaller;" align="right">
