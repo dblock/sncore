@@ -209,9 +209,9 @@ public partial class PlaceView : Page
                     placeWebsite.Text = Renderer.Render(place.Website);
                     placeAddress.Text = Renderer.Render(place.Street);
                     placeZip.Text = Renderer.Render(place.Zip);
-                    placeFax.Text = Renderer.Render(place.Fax);
-                    placePhone2.Text = placePhone.Text = Renderer.Render(place.Phone);
-                    placeCrossStreet.Text = Renderer.Render(place.CrossStreet);
+                    if (! string.IsNullOrEmpty(place.Fax)) placeFax.Text = string.Format("{0} (fax)", Renderer.Render(place.Fax));
+                    if (! string.IsNullOrEmpty(place.Phone)) placePhone.Text = string.Format("{0} (phone)", Renderer.Render(place.Phone));
+                    if (! string.IsNullOrEmpty(place.CrossStreet)) placeCrossStreet.Text = string.Format("cross-street: {0}", Renderer.Render(place.CrossStreet));
                     placeType.Text = Renderer.Render(place.Type);
 
                     imageEmail.OnClientClick = string.Format("location.href='mailto:{0}';",

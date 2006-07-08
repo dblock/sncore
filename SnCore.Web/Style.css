@@ -84,7 +84,6 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_feeditem_name { margin-top: 5px; margin-bottom: 5px; font-size: large; font-weight: bold; color: maroon; }
 .sncore_story_name { margin-top: 5px; margin-bottom: 5px; font-size: large; font-weight: bold; color: maroon; }
 .sncore_place_name { margin-top: 5px; margin-bottom: 5px; font-size: large; font-weight: bold; color: maroon; }
-.sncore_place_location { font-weight: bold; }
 .sncore_place_id { font-weight: bold; font-size: .8em; }
 .sncore_event_name { margin-top: 5px; margin-bottom: 5px; font-size: large; font-weight: bold; color: maroon; }
 .sncore_event_location { font-weight: bold; }

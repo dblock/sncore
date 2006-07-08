@@ -40,22 +40,34 @@
       <tr>
        <td class="sncore_table_tr_td">
         <asp:Label CssClass="sncore_place_name" ID="placeName" runat="server" />
-        <div>
-         <asp:Label ID="placeType" CssClass="sncore_account_lastlogin" runat="server" />
+        <div class="sncore_description">
+         <asp:Label ID="placeType" runat="server" />
         </div>
-        <div>
-         <asp:Label ID="placeCity" CssClass="sncore_place_location" runat="server" />
-         <asp:Label ID="placeState" CssClass="sncore_place_location" runat="server" />
-        </div>
-        <div>
-         <asp:Label ID="placeCountry" CssClass="sncore_place_location" runat="server" />
-        </div>
-        <div style="font-size: smaller;">
-         <asp:Label ID="placePhone2" runat="server" />
-         <asp:ImageButton Visible="False" ImageUrl="images/account/inbox.gif" ImageAlign="AbsMiddle" runat="server" ID="imageEmail" />
-        </div>
-        <div style="font-size: smaller;">
-         <asp:HyperLink ID="placeWebsite" runat="server" />
+        <div class="sncore_link">
+         <div>
+           <asp:Label ID="placeAddress" runat="server" />
+         </div>
+         <div>
+          <asp:Label ID="placeCity" runat="server" />
+          <asp:Label ID="placeState" runat="server" />
+         </div>
+         <div>
+          <asp:Label ID="placeCountry" runat="server" />
+          <asp:Label ID="placeZip" runat="server" />
+         </div>
+         <div>
+           <asp:Label ID="placeCrossStreet" runat="server" />
+         </div>
+         <div>
+          <asp:Label ID="placePhone" runat="server" />
+         </div>
+         <div>
+          <asp:Label ID="placeFax" runat="server" />
+         </div>
+         <div>
+          <asp:HyperLink ID="placeWebsite" runat="server" />
+          <asp:ImageButton Visible="False" ImageUrl="images/account/inbox.gif" ImageAlign="AbsMiddle" runat="server" ID="imageEmail" />
+         </div>
         </div>
        </td>
        <td class="sncore_table_tr_td" valign="top" align="right">
@@ -131,50 +143,6 @@
         </tr>
        </table>
       </asp:Panel>
-      <asp:Panel ID="panelAddress" runat="server">
-       <table class="sncore_inner_table" width="95%">
-        <tr>
-         <td class="sncore_form_label">
-          address:
-         </td>
-         <td class="sncore_form_value">
-          <asp:Label ID="placeAddress" runat="server" />
-         </td>
-        </tr>
-        <tr>
-         <td class="sncore_form_label">
-          zip:
-         </td>
-         <td class="sncore_form_value">
-          <asp:Label ID="placeZip" runat="server" />
-         </td>
-        </tr>
-        <tr>
-         <td class="sncore_form_label">
-          cross-street:
-         </td>
-         <td class="sncore_form_value">
-          <asp:Label ID="placeCrossStreet" runat="server" />
-         </td>
-        </tr>
-        <tr>
-         <td class="sncore_form_label">
-          phone:
-         </td>
-         <td class="sncore_form_value">
-          <asp:Label ID="placePhone" runat="server" />
-         </td>
-        </tr>
-        <tr>
-         <td class="sncore_form_label">
-          fax:
-         </td>
-         <td class="sncore_form_value">
-          <asp:Label ID="placeFax" runat="server" />
-         </td>
-        </tr>
-       </table>
-      </asp:Panel>
       <asp:Panel ID="panelOwners" runat="server">
        <SnCore:PlaceAccountsView ID="placeAccounts" runat="server" />
       </asp:Panel>
@@ -191,9 +159,7 @@
         </td>
        </tr>
       </table>
-
       <script type="text/javascript" src="http://api.maps.yahoo.com/ajaxymap?v=2.0&appid=SnCore"></script>
-
      </div>
      <a name="Comments" />
      <SnCore:DiscussionFullView runat="server" ID="discussionPlaces" Text="Reviews" PostNewText="&#187; Post a Review" />
