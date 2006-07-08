@@ -651,8 +651,8 @@ public class SessionManager
     private string ReferenceHandler(Match ParameterMatch)
     {
         string tag = ParameterMatch.Groups["tag"].Value;
-        string tagname = ParameterMatch.Groups["name"].Value;
-        string tagvalue = ParameterMatch.Groups["value"].Value;
+        string tagname = ParameterMatch.Groups["name"].Value.Trim();
+        string tagvalue = ParameterMatch.Groups["value"].Value.Trim();
 
         if (tag == "[[")
         {

@@ -232,7 +232,7 @@ public partial class PlaceEdit : AuthenticatedPage
             switch (e.CommandName)
             {
                 case "Delete":
-                    PlaceService.DeletePlace(SessionManager.Ticket, id);
+                    PlaceService.DeletePlaceName(SessionManager.Ticket, id);
                     ReportInfo("Alternate place name deleted.");
                     gridPlaceNamesManage.CurrentPageIndex = 0;
                     gridPlaceNamesManage_OnGetDataSource(sender, e);
