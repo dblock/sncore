@@ -63,6 +63,7 @@ public partial class BugProjectBugsManage : AuthenticatedPage
             options.SortExpression = gridManage.SortExpression;
             options.Resolved = checkboxResolvedBugs.Checked;
             options.Open = checkboxOpenedBugs.Checked;
+            options.Closed = checkboxClosedBugs.Checked;
             gridManage.DataSource = BugService.GetBugs(RequestId, options);
         }
         catch (Exception ex)
