@@ -100,6 +100,20 @@ namespace SnCore.Services
             }
         }
 
+        private int mAccountStoryPictureId;
+
+        public int AccountStoryPictureId
+        {
+            get
+            {
+                return mAccountStoryPictureId;
+            }
+            set
+            {
+                mAccountStoryPictureId = value;
+            }
+        }
+
         private int mAccountPictureId;
 
         public int AccountPictureId
@@ -143,6 +157,7 @@ namespace SnCore.Services
             AccountId = s.Account.Id;
             AccountName = s.Account.Name;
             AccountPictureId = ManagedService.GetRandomElementId(s.Account.AccountPictures);
+            AccountStoryPictureId = ManagedService.GetRandomElementId(s.AccountStoryPictures);
             Created = s.Created;
             Modified = s.Modified;
             CommentCount = ManagedDiscussion.GetDiscussionPostCount(session, s.Account.Id,

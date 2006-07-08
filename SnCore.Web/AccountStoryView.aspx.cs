@@ -41,6 +41,11 @@ public partial class AccountStoryView : Page
 
                 storyComments.DiscussionId = DiscussionService.GetAccountStoryDiscussionId(RequestId);
                 storyComments.DataBind();
+
+                linkEdit.NavigateUrl = string.Format("AccountStoryEdit.aspx?id={0}", ts.Id);
+
+                panelOwner.Visible = SessionManager.IsLoggedIn &&
+                    (SessionManager.IsAdministrator || ts.AccountId == SessionManager.Account.Id);
             }
         }
         catch (Exception ex)

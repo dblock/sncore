@@ -48,11 +48,11 @@ public partial class AccountStoriesView : Page
     {
         if (count == 0)
         {
-            return string.Empty;
+            return "no comments";
         }
         else if (count == 1)
         {
-            return "1 comment";
+            return "one comment";
         }
         else
         {
@@ -65,7 +65,7 @@ public partial class AccountStoriesView : Page
         try
         {
             ServiceQueryOptions options = new ServiceQueryOptions();
-            options.PageNumber = gridManage.CurrentPageIndex;
+            options.PageNumber = gridManage.CurrentPage;
             options.PageSize = gridManage.PageSize;
 
             if (string.IsNullOrEmpty(SearchQuery))

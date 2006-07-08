@@ -42,52 +42,41 @@
    </td>
   </tr>
  </table> 
- <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage" PageSize="10" AllowCustomPaging="true"
-  AllowPaging="true" AutoGenerateColumns="false" CssClass="sncore_table" ShowHeader="false">
-  <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
-   PrevPageText="Prev" HorizontalAlign="Center" />
-  <ItemStyle CssClass="sncore_table_tr_td" HorizontalAlign="Center" />
-  <Columns>
-   <asp:BoundColumn DataField="Id" Visible="false" />
-   <asp:TemplateColumn ItemStyle-VerticalAlign="Top">
-    <itemtemplate>
-     <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
-      <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" />
-      <div>
-       <%# base.Render(Eval("AccountName")) %>
-      </div>
-     </a>
-     <div style="font-size: smaller; font-weight: bold;">
-       <%# GetComments((int) Eval("CommentCount")) %>
-     </div>
-    </itemtemplate>
-   </asp:TemplateColumn>
-   <asp:TemplateColumn ItemStyle-VerticalAlign="Middle" ItemStyle-HorizontalAlign="Left">
-    <itemtemplate>
+ <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage"
+  AllowCustomPaging="true" RepeatColumns="2" RepeatRows="4" RepeatDirection="Horizontal"
+  CssClass="sncore_table" ShowHeader="false">
+  <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
+   prevpagetext="Prev" horizontalalign="Center" />
+  <ItemStyle CssClass="sncore_table_tr_td" HorizontalAlign="Center" Width="25%" />
+  <ItemTemplate>
+   <table width="100%">
+    <tr>
+     <td width="150px">
+      <a href="AccountStoryView.aspx?id=<%# Eval("Id") %>">
+       <img border="0" src="AccountStoryPictureThumbnail.aspx?id=<%# Eval("AccountStoryPictureId") %>" />
+      </a>
+      <a href="AccountStoryView.aspx?id=<%# Eval("Id") %>">
+       <div class="sncore_link">
+        <%# base.Render(Eval("AccountName")) %>
+       </div>
+      </a>
+     </td>
+     <td width="*" align="left">
       <div>
        <a class="sncore_story_name" href="AccountStoryView.aspx?id=<%# Eval("Id") %>">
         <%# base.Render(Eval("Name")) %>
        </a>
-       <span style="font-size: smaller;">
-        <a href="AccountStoryView.aspx?id=<%# Eval("Id") %>">
-         &#187; read and comment
-        </a>
-       </span>
+      </div>
+      <div class="sncore_link">
+       <a href="AccountStoryView.aspx?id=<%# Eval("Id") %>">&#187; read</a>
+       <a href="AccountStoryView.aspx?id=<%# Eval("Id") %>">&#187; <%# GetComments((int) Eval("CommentCount")) %></a>
       </div>
       <div class="sncore_description">
-        posted by 
-        <a href='AccountView.aspx?id=<%# Eval("AccountId") %>'>
-         <%# base.Render(Eval("AccountName")) %>
-        </a>
-        on 
-        <%# base.Adjust(Eval("Created")).ToString("d") %>     
+        posted on <%# base.Adjust(Eval("Created")).ToString("d") %>     
       </div>
-      <div class="sncore_summary">
-       <%# base.GetSummary((string) Eval("Summary")) %>
-      </div>  
-      </blockquote>
-    </itemtemplate>
-   </asp:TemplateColumn>
-  </Columns>
- </SnCoreWebControls:PagedGrid>
+     </td>
+    </tr>
+   </table>
+  </itemtemplate>
+ </SnCoreWebControls:PagedList>
 </asp:Content>

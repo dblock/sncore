@@ -7,6 +7,7 @@
 <%@ Register TagPrefix="SnCore" TagName="BookmarksView" Src="BookmarksViewControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <div class="sncore_navigate">
+  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkStories" Text="Stories" NavigateUrl="AccountStoriesView.aspx" runat="server" />
   <asp:HyperLink CssClass="sncore_navigate_item" ID="linkAccount" Text="Account" runat="server" />
   <asp:Label CssClass="sncore_navigate_item" ID="linkAccountStory" Text="Story" runat="server" />
  </div>
@@ -21,7 +22,7 @@
      <ItemTemplate>
       <a href='AccountStoryPictureView.aspx?id=<%# Eval("Id") %>'>
        <img border="0" alt='<%# Eval("Name") %>' src='AccountStoryPictureThumbnail.aspx?id=<%# Eval("Id") %>' />
-       <div>
+       <div class="sncore_link">
        <%# ((int) Eval("CommentCount") >= 1) ? Eval("CommentCount").ToString() + 
         " comment" + (((int) Eval("CommentCount") == 1) ? "" : "s") : "" %>
        </div>
@@ -33,6 +34,17 @@
     <div class="sncore_h2">
      <asp:Label ID="storyName" runat="server" />
     </div>
+    <asp:Panel ID="panelOwner" runat="server">
+     <table class="sncore_inner_table" width="95%">
+      <tr>
+       <td align="right">
+        <div>
+         <asp:HyperLink runat="server" ID="linkEdit" Text="&#187; Edit Story" />
+        </div>
+       </td>
+      </tr>
+     </table>
+    </asp:Panel>
     <table class="sncore_inner_table" width="95%">
      <tr>
       <td class="sncore_table_tr_td">
