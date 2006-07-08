@@ -66,7 +66,7 @@
      <asp:Panel ID="panelDetails" runat="server">
       <table class="sncore_inner_table" width="95%">
        <tr>
-        <td colspan="2" align="right">
+        <td align="right">
          <div>
           <a href='AccountEventPicturesManage.aspx?id=<% Response.Write(base.RequestId); %>'>
            &#187; Upload a Picture</a>
@@ -88,21 +88,21 @@
            <asp:LinkButton OnClick="deletefeature_Click" runat="server" ID="linkDeleteFeatures"
             Text="&#187; Delete Features" />
           </div>
-         </td>
-        </tr>
-       </table>
-      </asp:Panel>
-      <table class="sncore_inner_table" width="95%">
-       <tr>
-        <td class="sncore_table_tr_td" style="font-size: smaller;" align="right">
-         socially bookmark this event:
-        </td>
-        <td class="sncore_table_tr_td">
-         <SnCore:BookmarksView ID="bookmarksView" ShowThumbnail="true" runat="server" RepeatColumns="-1" />
+         </asp:Panel>
         </td>
        </tr>
       </table>
      </asp:Panel>
+     <table class="sncore_inner_table" width="95%">
+      <tr>
+       <td class="sncore_table_tr_td" style="font-size: smaller;" align="right">
+        socially bookmark this event:
+       </td>
+       <td class="sncore_table_tr_td">
+        <SnCore:BookmarksView ID="bookmarksView" ShowThumbnail="true" runat="server" RepeatColumns="-1" />
+       </td>
+      </tr>
+     </table>
      <asp:Panel ID="panelViews" runat="server">
       <table class="sncore_inner_table" width="95%">
        <tr>
