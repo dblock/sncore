@@ -5,7 +5,7 @@
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="accountStories" ShowHeader="false"
- AutoGenerateColumns="false" CssClass="sncore_inner_table" BorderWidth="0" Width="95%" PageSize="3">
+ AutoGenerateColumns="false" CssClass="sncore_inner_table" BorderWidth="0" Width="95%" PageSize="1">
  <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
   PrevPageText="Prev" HorizontalAlign="Center" />
  <Columns>
