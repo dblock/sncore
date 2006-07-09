@@ -33,7 +33,7 @@ public partial class AccountFeedsView : Page
 
     private void GetData()
     {
-        gridManage.CurrentPageIndex = 0;
+        gridManage.CurrentPage = 0;
         gridManage.VirtualItemCount = SyndicationService.GetUpdatedAccountFeedsCount();
 
         int feedItemsCount = SyndicationService.GetAccountFeedItemsCount();
@@ -52,12 +52,17 @@ public partial class AccountFeedsView : Page
         {
             ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
             serviceoptions.PageSize = gridManage.PageSize;
-            serviceoptions.PageNumber = gridManage.CurrentPageIndex;
+            serviceoptions.PageNumber = gridManage.CurrentPage;
             gridManage.DataSource = SyndicationService.GetUpdatedAccountFeeds(serviceoptions);
         }
         catch (Exception ex)
         {
             ReportException(ex);
         }
+    }
+
+    public void gridManage_DataBinding(object sender, EventArgs e)
+    {
+        panelGrid.Update();
     }
 }

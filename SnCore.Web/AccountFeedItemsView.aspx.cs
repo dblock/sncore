@@ -23,6 +23,15 @@ public partial class AccountFeedItemsView : Page
             SetDefaultButton(search);
             if (!IsPostBack)
             {
+                if (!string.IsNullOrEmpty(Request.QueryString["q"]))
+                {
+                    inputSearch.Text = Request.QueryString["q"];
+                }
+                else
+                {
+                    panelSearchInternal.Attributes.Add("style", "display: none;");
+                }
+
                 GetData();
             }
         }
@@ -36,14 +45,9 @@ public partial class AccountFeedItemsView : Page
     {
         gridManage.CurrentPageIndex = 0;
         
-        if (string.IsNullOrEmpty(SearchQuery))
-        {
-            gridManage.VirtualItemCount = SyndicationService.GetAccountFeedItemsCount();
-        }
-        else
-        {
-            gridManage.VirtualItemCount = SyndicationService.SearchAccountFeedItemsCount(SearchQuery);
-        }
+        gridManage.VirtualItemCount = string.IsNullOrEmpty(inputSearch.Text) 
+            ? SyndicationService.GetAccountFeedItemsCount()
+            : SyndicationService.SearchAccountFeedItemsCount(inputSearch.Text);
 
         int feedsCount = SyndicationService.GetUpdatedAccountFeedsCount();
 
@@ -62,14 +66,9 @@ public partial class AccountFeedItemsView : Page
             ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
             serviceoptions.PageSize = gridManage.PageSize;
             serviceoptions.PageNumber = gridManage.CurrentPageIndex;
-            if (string.IsNullOrEmpty(SearchQuery))
-            {
-                gridManage.DataSource = SyndicationService.GetAccountFeedItems(serviceoptions);
-            }
-            else
-            {
-                gridManage.DataSource = SyndicationService.SearchAccountFeedItems(SearchQuery, serviceoptions);
-            }
+            gridManage.DataSource = string.IsNullOrEmpty(inputSearch.Text)
+                ? SyndicationService.GetAccountFeedItems(serviceoptions)
+                : SyndicationService.SearchAccountFeedItems(inputSearch.Text, serviceoptions);
         }
         catch (Exception ex)
         {
@@ -77,21 +76,12 @@ public partial class AccountFeedItemsView : Page
         }
     }
 
-    public string SearchQuery
-    {
-        get
-        {
-            object query = Request.QueryString["q"];
-            return query == null ? string.Empty : query.ToString();
-        }
-    }
-
     protected void search_Click(object sender, EventArgs e)
     {
         try
         {
-            Redirect(string.Format("AccountFeedItemsView.aspx?q={0}",
-                Renderer.UrlEncode(inputSearch.Text)));
+            GetData();
+            panelLinks.Update();
         }
         catch (Exception ex)
         {
@@ -111,5 +101,25 @@ public partial class AccountFeedItemsView : Page
         Uri uri = null;
         Uri.TryCreate(link, UriKind.Absolute, out uri);
         return Renderer.CleanHtml(summary, uri);
+    }
+
+    public void linkSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            panelSearchInternal.Attributes["style"] =
+                (string.IsNullOrEmpty(panelSearchInternal.Attributes["style"]) ? "display: none;" : string.Empty);
+
+            panelSearch.Update();
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
+    public void gridManage_DataBinding(object sender, EventArgs e)
+    {
+        panelGrid.Update();
     }
 }
