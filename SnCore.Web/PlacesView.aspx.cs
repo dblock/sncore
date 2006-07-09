@@ -57,6 +57,8 @@ public partial class PlacesView : Page
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
             if (!IsPostBack)
             {
+                panelSearchInternal.Attributes.Add("style", "display: none;");
+
                 ArrayList types = new ArrayList();
                 types.Add(new TransitPlaceType());
                 types.AddRange(PlaceService.GetPlaceTypes());
@@ -91,6 +93,11 @@ public partial class PlacesView : Page
         {
             ReportException(ex);
         }
+    }
+
+    public void gridManage_DataBinding(object sender, EventArgs e)
+    {
+        panelGrid.Update();
     }
 
     private void GetData()
@@ -257,7 +264,10 @@ public partial class PlacesView : Page
     {
         try
         {
-            panelSearch.Visible = !panelSearch.Visible;
+            panelSearchInternal.Attributes["style"] =
+                (string.IsNullOrEmpty(panelSearchInternal.Attributes["style"]) ? "display: none;" : string.Empty);
+
+            panelSearch.Update();
         }
         catch (Exception ex)
         {
