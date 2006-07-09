@@ -76,11 +76,15 @@
      country and state:
     </td>
     <td class="sncore_form_value">
-     <asp:DropDownList CssClass="sncore_form_dropdown_small" OnSelectedIndexChanged="inputCountry_SelectedIndexChanged"
-      ID="inputCountry" DataTextField="Name" AutoPostBack="true" DataValueField="Name"
-      runat="server" />
-     <asp:DropDownList CssClass="sncore_form_dropdown_small" ID="inputState" AutoPostBack="true"
-      DataTextField="Name" DataValueField="Name" runat="server" /></td>
+     <atlas:UpdatePanel runat="server" ID="panelCountryState" Mode="Conditional">
+      <ContentTemplate>
+       <asp:DropDownList CssClass="sncore_form_dropdown_small" OnSelectedIndexChanged="inputCountry_SelectedIndexChanged"
+        ID="inputCountry" DataTextField="Name" AutoPostBack="true" DataValueField="Name"
+        runat="server" />
+       <asp:DropDownList CssClass="sncore_form_dropdown_small" ID="inputState" AutoPostBack="true"
+        DataTextField="Name" DataValueField="Name" runat="server" /></td>
+      </ContentTemplate>
+     </atlas:UpdatePanel>
    </tr>
    <tr>
     <td class="sncore_form_label">

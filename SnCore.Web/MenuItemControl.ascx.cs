@@ -26,8 +26,9 @@ public partial class MenuItemControl : System.Web.UI.UserControl
     protected override void OnLoad(EventArgs e)
     {
         StringBuilder sb = new StringBuilder();
-        sb.Append("this.attributes['class'].value = '" + CssClassActivated + "';");
-        sb.Append(Page.ClientScript.GetPostBackEventReference(this, string.Empty));
+        sb.Append(string.Format("document.getElementById('{0}').attributes['class'].value = '{1}';",
+            labelItem.ClientID, CssClassActivated));
+        // sb.Append(Page.ClientScript.GetPostBackEventReference(this, string.Empty));
         sb.Append(";");
         menuItem.Attributes.Add("onclick", sb.ToString()); 
         base.OnLoad(e);
@@ -148,9 +149,9 @@ public partial class MenuItemControl : System.Web.UI.UserControl
 
     protected override void OnPreRender(EventArgs e)
     {
-        menuItem.Text = Text;
-        menuItem.NavigateUrl = NavigateUrl;
-        menuItem.CssClass = CurrentCssClass;
+        labelItem.Text = Text;
+        labelItem.CssClass = CurrentCssClass;
+        menuItem.HRef = NavigateUrl;
         base.OnPreRender(e);
     }
 }

@@ -113,6 +113,7 @@ public partial class PlacesView : Page
             inputState.DataSource = states;
             inputState.DataBind();
             inputState_SelectedIndexChanged(sender, e);
+            panelCountryState.Update();
         }
         catch (Exception ex)
         {
@@ -163,6 +164,7 @@ public partial class PlacesView : Page
             cities.AddRange(LocationService.GetCitiesByLocation(inputCountry.SelectedValue, inputState.SelectedValue));
             inputCity.DataSource = cities;
             inputCity.DataBind();
+            panelCity.Update();
         }
         catch (Exception ex)
         {

@@ -11,6 +11,7 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.BackEndServices;
+using Microsoft.Web.UI;
 
 public class MasterPage : System.Web.UI.MasterPage
 {
@@ -130,6 +131,8 @@ public class MasterPage : System.Web.UI.MasterPage
     {
         object notice = FindControl("noticeMenu");
         notice.GetType().GetProperty("Exception").SetValue(notice, ex, null);
+        UpdatePanel panel = (UpdatePanel) FindControl("panelNoticeMenu");
+        panel.Update();
     }
 }
 

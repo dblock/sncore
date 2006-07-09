@@ -165,6 +165,8 @@ public partial class AccountPreferencesManage : AuthenticatedPage
 
             inputState.DataSource = states;
             inputState.DataBind();
+
+            panelCountryState.Update();
         }
         catch (Exception ex)
         {

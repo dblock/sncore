@@ -432,5 +432,7 @@ public partial class ScheduleControl : Control
             stdEndDate.SelectedDate = projectedEndDateTime.Date;
             stdEndTime.SelectedTime = projectedEndDateTime.TimeOfDay;
         }
+
+        panelStandard.Update();
     }
 }

@@ -205,6 +205,8 @@ public partial class SelectPlaceControl : Control
             inputState.DataSource = LocationService.GetStatesByCountry(
                 inputCountry.SelectedValue);
             inputState.DataBind();
+
+            panelSelectCountryState.Update();
         }
         catch (Exception ex)
         {

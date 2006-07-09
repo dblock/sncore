@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using Microsoft.Web.UI;
 
 public partial class AccountFeedItemImgsView : AccountPersonPage
 {
@@ -72,7 +73,7 @@ public partial class AccountFeedItemImgsView : AccountPersonPage
         }
     }
 
-    public void gridManage_ItemCommand(object sender, CommandEventArgs e)
+    public void gridManage_ItemCommand(object sender, DataListCommandEventArgs e)
     {
         try
         {
@@ -84,8 +85,10 @@ public partial class AccountFeedItemImgsView : AccountPersonPage
                     img.Visible = !img.Visible;
                     if (!img.Visible) img.Interesting = false;
                     SyndicationService.CreateOrUpdateAccountFeedItemImg(SessionManager.Ticket, img);
-                    gridManage_OnGetDataSource(sender, e);
-                    gridManage.DataBind();
+                    LinkButton lb = (LinkButton)e.Item.FindControl("linkToggleVisible");
+                    lb.Text = img.Visible ? "&#187; Hide" : "&#187; Show";
+                    UpdatePanel up = (UpdatePanel)e.Item.FindControl("panelShowHide");
+                    up.Update();
                     break;
             }
         }

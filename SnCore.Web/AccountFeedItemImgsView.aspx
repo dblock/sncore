@@ -47,10 +47,14 @@
     </a>    
    </div>
    <div>
-    <asp:LinkButton Text='<%# (bool) Eval("Visible") ? "&#187; Hide" : "&#187; Show" %>' ID="linkToggleVisible" runat="server"
-     Visible='<%# base.SessionManager.IsAdministrator %>' CommandName="Toggle" CommandArgument='<%# Eval("Id") %>' />
+    <atlas:UpdatePanel ID='panelShowHide' Mode="Conditional" runat="Server">
+     <ContentTemplate>
+      <asp:LinkButton Text='<%# (bool) Eval("Visible") ? "&#187; Hide" : "&#187; Show" %>' ID="linkToggleVisible" runat="server"
+       Visible='<%# base.SessionManager.IsAdministrator %>' CommandName="Toggle" CommandArgument='<%# Eval("Id") %>' />
+     </ContentTemplate>
+    </atlas:UpdatePanel>
    </div>
    <br />
   </ItemTemplate>
  </SnCoreWebControls:PagedList>
-</asp:Content>
+ </asp:Content>

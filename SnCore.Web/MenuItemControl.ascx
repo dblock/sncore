@@ -1,3 +1,3 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="MenuItemControl.ascx.cs"
- Inherits="MenuItemControl" %><asp:HyperLink CssClass="sncore_menu_item" 
- ID="menuItem" runat="server" Text="Menu" />
+ Inherits="MenuItemControl" %><a runat="server" ID="menuItem"><asp:Label ID="labelItem" runat="server" 
+ CssClass="sncore_menu_item" Text="Menu" /></a>

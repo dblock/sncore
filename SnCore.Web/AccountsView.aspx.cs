@@ -112,6 +112,7 @@ public partial class AccountsView : AccountPersonPage
             states.AddRange(LocationService.GetStatesByCountry(inputCountry.SelectedValue));
             inputState.DataSource = states;
             inputState.DataBind();
+            panelCountryState.Update();
         }
         catch (Exception ex)
         {

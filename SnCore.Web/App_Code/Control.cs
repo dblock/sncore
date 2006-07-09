@@ -10,6 +10,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.WebServices;
 using SnCore.BackEndServices;
+using Microsoft.Web.UI;
 
 public class Control : System.Web.UI.UserControl
 {
@@ -207,6 +208,8 @@ public class Control : System.Web.UI.UserControl
     {
         object notice = Page.Master.FindControl("noticeMenu");
         notice.GetType().GetProperty("Exception").SetValue(notice, ex, null);
+        UpdatePanel panel = (UpdatePanel) Page.Master.FindControl("panelNoticeMenu");
+        panel.Update();
     }
 
     public string GetSummary(string summary)

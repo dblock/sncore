@@ -57,6 +57,7 @@
            </Highlights>        
            <Downlights>
             <asp:ListItem>/AccountEventsManage.aspx</asp:ListItem>        
+            <asp:ListItem>/AccountEventEdit.aspx</asp:ListItem>
            </Downlights>
           </SnCore:MenuItem><SnCore:MenuItem 
           runat="server" ID="menuStories" Text="stories" NavigateUrl="AccountStoriesView.aspx">
@@ -101,7 +102,12 @@
       </tr>
       <tr>
        <td>     
-        <SnCore:Notice ID="noticeMenu" EnableViewState="false" runat="server" />
+        <atlas:ScriptManager ID="scriptmanager1" EnablePartialRendering="true" runat="Server" />
+        <atlas:UpdatePanel Mode="Conditional" runat="server" ID="panelNoticeMenu" RenderMode="Inline">
+         <ContentTemplate>
+          <SnCore:Notice ID="noticeMenu" EnableViewState="false" runat="server" />
+         </ContentTemplate>
+        </atlas:UpdatePanel>
         <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
         </asp:ContentPlaceHolder>
        </td>

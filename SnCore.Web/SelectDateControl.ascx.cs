@@ -46,6 +46,7 @@ public partial class SelectDateControl : System.Web.UI.UserControl
         SelectedDate = selectDateCalendar.SelectedDate;
         panelCalender.Visible = false;
         if (SelectionChanged != null) SelectionChanged(s, e);
+        updatePanelCalendar.Update();
     }
 
     public void linkCalendar_Click(object s, EventArgs e)
@@ -56,6 +57,7 @@ public partial class SelectDateControl : System.Web.UI.UserControl
             selectDateCalendar.SelectedDate = SelectedDate;
             selectDateCalendar.VisibleDate = SelectedDate;
         }
+        updatePanelCalendar.Update();
     }
 
     public bool HasSelection
