@@ -5,164 +5,176 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
- <table cellpadding="0" cellspacing="0" width="784">
-  <tr>
-   <td>
-    <div class="sncore_h2">
-     People
-    </div>
-    <div class="sncore_h2sub">
-     <asp:LinkButton ID="linkAll" OnClick="linkAll_Click" runat="server" Text="&#187; All People" />
-     <asp:LinkButton ID="linkLocal" OnClick="linkLocal_Click" runat="server" Text="&#187; All Local People" />
-     <a href="AccountInvitationsManage.aspx">&#187; Invite a Friend</a>
-     <a href="RefererAccountsView.aspx">&#187; Top Traffickers</a>
-     <asp:LinkButton ID="linkSearch" OnClick="linkSearch_Click" runat="server" Text="&#187; Search" />
-    </div>
-   </td>
-   <td>
-    <asp:Label ID="labelCount" runat="server" CssClass="sncore_h2sub" />
-   </td>
-   <td align="right" valign="middle">
-    <asp:HyperLink runat="server" ID="linkRss" ImageUrl="images/rss.gif" NavigateUrl="AccountsRss.aspx" />
-    <link runat="server" id="linkRelRss" rel="alternate" type="application/rss+xml" title="Rss"
-     href="AccountsRss.aspx" />
-   </td>
-  </tr>
- </table>
- <asp:Panel ID="panelSearch" runat="server" Visible="false" EnableViewState="true">
-  <table class="sncore_table">
-   <tr>
-    <td class="sncore_form_label">
-     name:
-    </td>
-    <td class="sncore_form_value">
-     <asp:TextBox CssClass="sncore_form_textbox" ID="inputName" runat="server" />
-    </td>
-   </tr>
-   <tr>
-    <td class="sncore_form_label">
-     e-mail address:
-    </td>
-    <td class="sncore_form_value">
-     <asp:TextBox CssClass="sncore_form_textbox" ID="inputEmailAddress" runat="server" />
-    </td>
-   </tr>
-   <tr>
-    <td class="sncore_form_label">
-     sort by:
-    </td>
-    <td class="sncore_form_value">
-     <asp:DropDownList CssClass="sncore_form_dropdown" ID="listboxSelectSortOrder" runat="server">
-      <asp:ListItem Selected="True" Text="Last Activity" Value="LastLogin" />
-      <asp:ListItem Text="Name" Value="Name" />
-      <asp:ListItem Text="Date Joined" Value="Created" />
-     </asp:DropDownList>
-    </td>
-   </tr>
-   <tr>
-    <td class="sncore_form_label">
-     order by:
-    </td>
-    <td class="sncore_form_value">
-     <asp:DropDownList CssClass="sncore_form_dropdown" ID="listboxSelectOrderBy" runat="server"
-      AutoPostBack="True">
-      <asp:ListItem Selected="True" Text="Descending" Value="false" />
-      <asp:ListItem Text="Ascending" Value="true" />
-     </asp:DropDownList>
-    </td>
-   </tr>
-   <tr>
-    <td class="sncore_form_label">
-     country and state:
-    </td>
-    <td class="sncore_form_value">
-     <atlas:UpdatePanel runat="server" ID="panelCountryState" Mode="Conditional">
-      <ContentTemplate>
-       <asp:DropDownList CssClass="sncore_form_dropdown_small" OnSelectedIndexChanged="inputCountry_SelectedIndexChanged"
-        ID="inputCountry" DataTextField="Name" AutoPostBack="true" DataValueField="Name"
-        runat="server" />
-       <asp:DropDownList CssClass="sncore_form_dropdown_small" ID="inputState" AutoPostBack="true"
-        DataTextField="Name" DataValueField="Name" runat="server" /></td>
-      </ContentTemplate>
-     </atlas:UpdatePanel>
-   </tr>
-   <tr>
-    <td class="sncore_form_label">
-     city:
-    </td>
-    <td class="sncore_form_value">
-     <asp:TextBox CssClass="sncore_form_textbox" ID="inputCity" runat="server" />
-    </td>
-   </tr>
-   <tr>
-    <td class="sncore_form_label">
-    </td>
-    <td class="sncore_form_value">
-     <asp:CheckBox CssClass="sncore_form_checkbox" ID="checkboxPicturesOnly" runat="server"
-      Text="show people with pictures only" Checked="false" />
-    </td>
-   </tr>
-   <tr>
-    <td class="sncore_form_label">
-    </td>
-    <td class="sncore_form_value">
-     <SnCoreWebControls:Button ID="search" runat="server" Text="Search" CssClass="sncore_form_button"
-      OnClick="search_Click" />
-    </td>
-   </tr>
-  </table>
- </asp:Panel>
- <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage"
-  AllowCustomPaging="true" RepeatColumns="4" RepeatRows="4" RepeatDirection="Horizontal"
-  CssClass="sncore_table" ShowHeader="false">
-  <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
-   prevpagetext="Prev" horizontalalign="Center" />
-  <ItemStyle CssClass="sncore_description" HorizontalAlign="Center" Width="25%" />
-  <ItemTemplate>
-   <a href="AccountView.aspx?id=<%# Eval("Id") %>">
-    <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("PictureId") %>" />
-   </a>
-   <div>
-    <a href="AccountView.aspx?id=<%# Eval("Id") %>">
-     <%# base.Render(Eval("Name")) %>
-    </a>
-   </div>
-   <div>
-    last activity:
-    <%# base.Adjust(Eval("LastLogin")).ToString("d") %>
-   </div>
-   <div>
-    <%# base.Render(Eval("City")) %>
-    <%# base.Render(Eval("State")) %>
-   </div>
-   <div>
-    <%# base.Render(Eval("Country")) %>
-   </div>
-   <div>
-    <a href='AccountPicturesView.aspx?id=<%# Eval("Id") %>'>
-     <%# GetNewPictures((int) Eval("NewPictures")) %>
-    </a>
-   </div>
-   <div>
-    <a href='AccountStoryView.aspx?id=<%# GetAccountStoryId((TransitAccountStory) Eval("LatestStory")) %>'>
-     <%# GetAccountStory((TransitAccountStory)Eval("LatestStory"))%>
-    </a>
-   </div>
-   <div>
-    <a href='AccountSurveyView.aspx?aid=<%# Eval("Id") %>&id=<%# GetSurveyId((TransitSurvey) Eval("LatestSurvey")) %>'>
-     <%# GetSurvey((TransitSurvey)Eval("LatestSurvey"))%>
-    </a>
-   </div>
-   <div>
-    <a href='AccountDiscussionThreadsView.aspx?id=<%# Eval("Id") %>'>
-     <%# GetNewDiscussionPosts((int) Eval("NewDiscussionPosts")) %>
-    </a>
-   </div>
-   <div>
-    <a href='AccountView.aspx?id=<%# Eval("Id") %>'>
-     <%# GetNewSyndicatedContent((int) Eval("NewSyndicatedContent")) %>
-    </a>
-   </div>
-  </ItemTemplate>
- </SnCoreWebControls:PagedList>
+ <atlas:UpdatePanel Mode="Conditional" ID="panelLinks" RenderMode="Inline" runat="server">
+  <ContentTemplate>
+   <table cellpadding="0" cellspacing="0" width="784">
+    <tr>
+     <td>
+      <div class="sncore_h2">
+       People
+      </div>
+      <div class="sncore_h2sub">
+       <asp:LinkButton ID="linkAll" OnClick="linkAll_Click" runat="server" Text="&#187; All People" />
+       <asp:LinkButton ID="linkLocal" OnClick="linkLocal_Click" runat="server" Text="&#187; All Local People" />
+       <a href="AccountInvitationsManage.aspx">&#187; Invite a Friend</a>
+       <a href="RefererAccountsView.aspx">&#187; Top Traffickers</a>
+       <asp:LinkButton ID="linkSearch" OnClick="linkSearch_Click" runat="server" Text="&#187; Search" />
+      </div>
+     </td>
+     <td>
+      <asp:Label ID="labelCount" runat="server" CssClass="sncore_h2sub" />
+     </td>
+     <td align="right" valign="middle">
+      <asp:HyperLink runat="server" ID="linkRss" ImageUrl="images/rss.gif" NavigateUrl="AccountsRss.aspx" />
+      <link runat="server" id="linkRelRss" rel="alternate" type="application/rss+xml" title="Rss"
+       href="AccountsRss.aspx" />
+     </td>
+    </tr>
+   </table>
+  </ContentTemplate>
+ </atlas:UpdatePanel>
+ <atlas:UpdatePanel ID="panelSearch" runat="server" Mode="Conditional" EnableViewState="true">
+  <ContentTemplate>
+   <asp:Panel ID="panelSearchInternal" runat="server" EnableViewState="True">
+    <table class="sncore_table">
+     <tr>
+      <td class="sncore_form_label">
+       name:
+      </td>
+      <td class="sncore_form_value">
+       <asp:TextBox CssClass="sncore_form_textbox" ID="inputName" runat="server" />
+      </td>
+     </tr>
+     <tr>
+      <td class="sncore_form_label">
+       e-mail address:
+      </td>
+      <td class="sncore_form_value">
+       <asp:TextBox CssClass="sncore_form_textbox" ID="inputEmailAddress" runat="server" />
+      </td>
+     </tr>
+     <tr>
+      <td class="sncore_form_label">
+       sort by:
+      </td>
+      <td class="sncore_form_value">
+       <asp:DropDownList CssClass="sncore_form_dropdown" ID="listboxSelectSortOrder" runat="server">
+        <asp:ListItem Selected="True" Text="Last Activity" Value="LastLogin" />
+        <asp:ListItem Text="Name" Value="Name" />
+        <asp:ListItem Text="Date Joined" Value="Created" />
+       </asp:DropDownList>
+      </td>
+     </tr>
+     <tr>
+      <td class="sncore_form_label">
+       order by:
+      </td>
+      <td class="sncore_form_value">
+       <asp:DropDownList CssClass="sncore_form_dropdown" ID="listboxSelectOrderBy" runat="server"
+        AutoPostBack="True">
+        <asp:ListItem Selected="True" Text="Descending" Value="false" />
+        <asp:ListItem Text="Ascending" Value="true" />
+       </asp:DropDownList>
+      </td>
+     </tr>
+     <tr>
+      <td class="sncore_form_label">
+       country and state:
+      </td>
+      <td class="sncore_form_value">
+       <atlas:UpdatePanel runat="server" ID="panelCountryState" Mode="Conditional">
+        <ContentTemplate>
+         <asp:DropDownList CssClass="sncore_form_dropdown_small" OnSelectedIndexChanged="inputCountry_SelectedIndexChanged"
+          ID="inputCountry" DataTextField="Name" AutoPostBack="true" DataValueField="Name"
+          runat="server" />
+         <asp:DropDownList CssClass="sncore_form_dropdown_small" ID="inputState" AutoPostBack="true"
+          DataTextField="Name" DataValueField="Name" runat="server" /></td>
+        </ContentTemplate>
+       </atlas:UpdatePanel>
+     </tr>
+     <tr>
+      <td class="sncore_form_label">
+       city:
+      </td>
+      <td class="sncore_form_value">
+       <asp:TextBox CssClass="sncore_form_textbox" ID="inputCity" runat="server" />
+      </td>
+     </tr>
+     <tr>
+      <td class="sncore_form_label">
+      </td>
+      <td class="sncore_form_value">
+       <asp:CheckBox CssClass="sncore_form_checkbox" ID="checkboxPicturesOnly" runat="server"
+        Text="show people with pictures only" Checked="false" />
+      </td>
+     </tr>
+     <tr>
+      <td class="sncore_form_label">
+      </td>
+      <td class="sncore_form_value">
+       <SnCoreWebControls:Button ID="search" runat="server" Text="Search" CssClass="sncore_form_button"
+        OnClick="search_Click" />
+      </td>
+     </tr>
+    </table>
+   </asp:Panel>
+  </ContentTemplate>
+ </atlas:UpdatePanel>
+ <atlas:UpdatePanel runat="server" ID="panelGrid" RenderMode="Inline" Mode="Conditional">
+  <ContentTemplate> 
+   <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage" OnDataBinding="gridManage_DataBinding"
+    AllowCustomPaging="true" RepeatColumns="4" RepeatRows="4" RepeatDirection="Horizontal"
+    CssClass="sncore_table" ShowHeader="false">
+    <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
+     prevpagetext="Prev" horizontalalign="Center" />
+    <ItemStyle CssClass="sncore_description" HorizontalAlign="Center" Width="25%" />
+    <ItemTemplate>
+     <a href="AccountView.aspx?id=<%# Eval("Id") %>">
+      <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("PictureId") %>" />
+     </a>
+     <div>
+      <a href="AccountView.aspx?id=<%# Eval("Id") %>">
+       <%# base.Render(Eval("Name")) %>
+      </a>
+     </div>
+     <div>
+      last activity:
+      <%# base.Adjust(Eval("LastLogin")).ToString("d") %>
+     </div>
+     <div>
+      <%# base.Render(Eval("City")) %>
+      <%# base.Render(Eval("State")) %>
+     </div>
+     <div>
+      <%# base.Render(Eval("Country")) %>
+     </div>
+     <div>
+      <a href='AccountPicturesView.aspx?id=<%# Eval("Id") %>'>
+       <%# GetNewPictures((int) Eval("NewPictures")) %>
+      </a>
+     </div>
+     <div>
+      <a href='AccountStoryView.aspx?id=<%# GetAccountStoryId((TransitAccountStory) Eval("LatestStory")) %>'>
+       <%# GetAccountStory((TransitAccountStory)Eval("LatestStory"))%>
+      </a>
+     </div>
+     <div>
+      <a href='AccountSurveyView.aspx?aid=<%# Eval("Id") %>&id=<%# GetSurveyId((TransitSurvey) Eval("LatestSurvey")) %>'>
+       <%# GetSurvey((TransitSurvey)Eval("LatestSurvey"))%>
+      </a>
+     </div>
+     <div>
+      <a href='AccountDiscussionThreadsView.aspx?id=<%# Eval("Id") %>'>
+       <%# GetNewDiscussionPosts((int) Eval("NewDiscussionPosts")) %>
+      </a>
+     </div>
+     <div>
+      <a href='AccountView.aspx?id=<%# Eval("Id") %>'>
+       <%# GetNewSyndicatedContent((int) Eval("NewSyndicatedContent")) %>
+      </a>
+     </div>
+    </ItemTemplate>
+   </SnCoreWebControls:PagedList>
+  </ContentTemplate>
+ </atlas:UpdatePanel>
 </asp:Content>

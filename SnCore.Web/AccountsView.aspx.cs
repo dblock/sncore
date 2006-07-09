@@ -46,8 +46,11 @@ public partial class AccountsView : AccountPersonPage
             SetDefaultButton(search);
 
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+
             if (!IsPostBack)
             {
+                panelSearchInternal.Attributes.Add("style", "display: none;");
+
                 ArrayList countries = new ArrayList();
                 countries.Add(new TransitCountry());
                 countries.AddRange(LocationService.GetCountries());
@@ -81,11 +84,18 @@ public partial class AccountsView : AccountPersonPage
         }
     }
 
+    public void gridManage_DataBinding(object sender, EventArgs e)
+    {
+        panelGrid.Update();
+    }
+
     public void search_Click(object sender, EventArgs e)
     {
         try
         {
             GetData();
+            panelGrid.Update();
+            panelLinks.Update();
         }
         catch (Exception ex)
         {
@@ -223,7 +233,10 @@ public partial class AccountsView : AccountPersonPage
     {
         try
         {
-            panelSearch.Visible = !panelSearch.Visible;
+            panelSearchInternal.Attributes["style"] = 
+                (string.IsNullOrEmpty(panelSearchInternal.Attributes["style"]) ? "display: none;" : string.Empty);
+
+            panelSearch.Update();
         }
         catch (Exception ex)
         {
