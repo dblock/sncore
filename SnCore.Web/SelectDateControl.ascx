@@ -1,5 +1,6 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="SelectDateControl.ascx.cs"
  Inherits="SelectDateControl" %>
+<%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <atlas:UpdatePanel ID="updatePanelCalendar" RenderMode="Inline" Mode="Conditional" runat="Server">
  <ContentTemplate>
   <asp:DropDownList ID="selectdateYear" runat="server" CssClass="sncore_form_dropdown_auto"
@@ -10,13 +11,7 @@
    OnSelectedIndexChanged="selectionChanged" AutoPostBack="true" />
   <asp:ImageButton ID="linkCalendar" CausesValidation="false" runat="server" OnClick="linkCalendar_Click"
    ImageUrl="images/calendar.gif" ImageAlign="AbsMiddle" />
-  <asp:RequiredFieldValidator ID="selectdateYearRequired" runat="server" ControlToValidate="selectdateYear"
-   CssClass="sncore_form_validator" ErrorMessage="year is required" Display="None" />
-  <asp:RequiredFieldValidator ID="selectdateMonthRequired" runat="server" ControlToValidate="selectdateMonth"
-   CssClass="sncore_form_validator" ErrorMessage="month is required" Display="None" />
-  <asp:RequiredFieldValidator ID="selectdateDayRequired" runat="server" ControlToValidate="selectdateDay"
-   CssClass="sncore_form_validator" ErrorMessage="day is required" Display="None" />
-  <asp:Panel ID="panelCalender" runat="server" Visible="false" CssClass="sncore_inner_div">
+  <SnCoreWebControls:PersistentPanel ID="panelCalender" runat="server" Visible="false" CssClass="sncore_inner_div">
    <asp:Calendar ID="selectDateCalendar" runat="server" BackColor="#FFFFCC" BorderColor="#FFCC66"
     BorderWidth="1px" DayNameFormat="Shortest" Font-Names="Verdana" Font-Size="8pt"
     ForeColor="#663399" Height="200px" ShowGridLines="True" Width="220px" NextMonthText="&#187;"
@@ -30,6 +25,6 @@
     <DayHeaderStyle BackColor="#FFCC66" Font-Bold="True" Height="1px" />
     <TitleStyle BackColor="#990000" Font-Bold="True" Font-Size="9pt" ForeColor="#FFFFCC" />
    </asp:Calendar>
-  </asp:Panel>
+  </SnCoreWebControls:PersistentPanel>
  </ContentTemplate>
 </atlas:UpdatePanel>

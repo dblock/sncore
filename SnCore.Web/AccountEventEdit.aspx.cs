@@ -64,6 +64,7 @@ public partial class AccountEventEdit : AuthenticatedPage
     void event_Changed(object sender, EventArgs e)
     {
         panelReminder.Visible = true;
+        panelReminderUpdate.Update();
     }
 
     public void save_Click(object sender, EventArgs e)
@@ -71,6 +72,7 @@ public partial class AccountEventEdit : AuthenticatedPage
         try
         {
             panelReminder.Visible = false;
+            panelReminderUpdate.Update();
 
             TransitAccountEvent tav = new TransitAccountEvent();
             tav.Name = inputName.Text;

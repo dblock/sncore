@@ -517,16 +517,19 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all account event instances.", CacheDuration = 60)]
         public List<TransitAccountEventInstance> GetAccountEventInstances(
             string ticket,
-            TransitAccountEventInstanceQueryOptions queryoptions)
+            TransitAccountEventInstanceQueryOptions queryoptions,
+            ServiceQueryOptions options)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                int user_id = ManagedAccount.GetAccountId(ticket, 0);
-                int user_utcoffset = (user_id > 0) ? new ManagedAccount(session, user_id).TransitAccount.UtcOffset : 0;
-
                 IQuery q = queryoptions.CreateQuery(session);
+
+                if (options != null)
+                {
+                    q.SetFirstResult(options.FirstResult);
+                    q.SetMaxResults(options.PageSize);
+                }
 
                 IList list = q.List();
                 List<TransitAccountEventInstance> result = new List<TransitAccountEventInstance>(list.Count);
@@ -539,5 +542,21 @@ namespace SnCore.WebServices
                 return result;
             }
         }
+
+        /// <summary>
+        /// Get all account event instances count.
+        /// </summary>
+        /// <returns>number of account event instances</returns>
+        [WebMethod(Description = "Get all account event instances count.", CacheDuration = 60)]
+        public int GetAccountEventInstancesCount(
+            string ticket,
+            TransitAccountEventInstanceQueryOptions queryoptions)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return (int) queryoptions.CreateCountQuery(session).UniqueResult();
+            }
+        } 
     }
 }

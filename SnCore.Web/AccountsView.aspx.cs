@@ -49,8 +49,6 @@ public partial class AccountsView : AccountPersonPage
 
             if (!IsPostBack)
             {
-                panelSearchInternal.Attributes.Add("style", "display: none;");
-
                 ArrayList countries = new ArrayList();
                 countries.Add(new TransitCountry());
                 countries.AddRange(LocationService.GetCountries());
@@ -95,7 +93,6 @@ public partial class AccountsView : AccountPersonPage
         {
             GetData();
             panelGrid.Update();
-            panelLinks.Update();
         }
         catch (Exception ex)
         {
@@ -233,9 +230,7 @@ public partial class AccountsView : AccountPersonPage
     {
         try
         {
-            panelSearchInternal.Attributes["style"] = 
-                (string.IsNullOrEmpty(panelSearchInternal.Attributes["style"]) ? "display: none;" : string.Empty);
-
+            panelSearchInternal.PersistentVisible = !panelSearchInternal.PersistentVisible;
             panelSearch.Update();
         }
         catch (Exception ex)

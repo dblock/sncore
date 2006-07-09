@@ -1,13 +1,14 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="NoticeControl.ascx.cs" Inherits="NoticeControl" %>
-<asp:Panel id="panelNotice" runat="server">
- <table class='<% Response.Write(base.CssClass); %>_<% Response.Write(base.Kind.ToString().ToLower()); %>' style='<% Response.Write(base.Style); %>'>
+<%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
+<SnCoreWebControls:PersistentPanel id="panelNotice" runat="server" Visible="false">
+ <table width="100%">
   <tr>
-   <td class="sncore_notice_tr_td">
-    <img src='images/site/<% Response.Write(base.Kind.ToString().ToLower()); %>.gif' width="24" height="24" />
+   <td>
+    <asp:Image ID="imageMessage" Width="24" Height="24" runat="server" />
    </td>
-   <td class="sncore_notice_tr_td">   
-    <% Response.Write(base.HtmlEncode ? base.Render(Message) : Message); %>
+   <td>
+    <asp:Label ID="labelMessage" runat="server" />
    </td>
   </tr>
  </table>
-</asp:Panel>
+</SnCoreWebControls:PersistentPanel>

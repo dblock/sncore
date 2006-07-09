@@ -32,7 +32,7 @@ public partial class ScheduleControl : Control
             if (string.IsNullOrEmpty(recPattern.SelectedValue))
                 return HighLevelRecurrencePattern.None;
 
-            if (panelStandard.Visible)
+            if (panelStandard.PersistentVisible)
                 return HighLevelRecurrencePattern.None;
 
             return (HighLevelRecurrencePattern)Enum.Parse(
@@ -416,6 +416,8 @@ public partial class ScheduleControl : Control
             panelSchedule.Visible = false;
             IsConfirmed = true;
             if (Confirm != null) Confirm(sender, e);
+            panelSelectSchedule.Update();
+            panelConfirmedUpdate.Update();
         }
         catch (Exception ex)
         {
@@ -432,7 +434,6 @@ public partial class ScheduleControl : Control
             stdEndDate.SelectedDate = projectedEndDateTime.Date;
             stdEndTime.SelectedTime = projectedEndDateTime.TimeOfDay;
         }
-
-        panelStandard.Update();
+        panelSelectSchedule.Update();
     }
 }

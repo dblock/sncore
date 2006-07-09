@@ -55,6 +55,7 @@ public partial class AccountEventsView : Page
         {
             SetDefaultButton(search);
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+
             if (!IsPostBack)
             {
                 ArrayList types = new ArrayList();
@@ -202,6 +203,8 @@ public partial class AccountEventsView : Page
         try
         {
             GetData();
+            panelGrid.Update();
+            panelLinks.Update();
         }
         catch (Exception ex)
         {
@@ -219,6 +222,25 @@ public partial class AccountEventsView : Page
             inputCity.ClearSelection();
             inputType.ClearSelection();
             GetData();
+            panelSearch.Update();
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
+    public void gridManage_DataBinding(object sender, EventArgs e)
+    {
+        panelGrid.Update();
+    }
+
+    public void linkSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            panelSearchInternal.PersistentVisible = !panelSearchInternal.PersistentVisible;
+            panelSearch.Update();
         }
         catch (Exception ex)
         {

@@ -131,8 +131,6 @@ public class MasterPage : System.Web.UI.MasterPage
     {
         object notice = FindControl("noticeMenu");
         notice.GetType().GetProperty("Exception").SetValue(notice, ex, null);
-        UpdatePanel panel = (UpdatePanel) FindControl("panelNoticeMenu");
-        panel.Update();
     }
 }
 

@@ -32,7 +32,7 @@
  </atlas:UpdatePanel>
  <atlas:UpdatePanel runat="server" ID="panelSearch" Mode="Conditional" RenderMode="Inline">
   <ContentTemplate> 
-   <asp:Panel ID="panelSearchInternal" runat="server">
+   <SnCoreWebControls:PersistentPanel Visible="False" ID="panelSearchInternal" runat="server">
     <table class="sncore_table">
      <tr>
       <td class="sncore_form_label">
@@ -51,7 +51,7 @@
       </td>
      </tr>
     </table>
-   </asp:Panel>
+   </SnCoreWebControls:PersistentPanel>
   </ContentTemplate>
  </atlas:UpdatePanel>
  <atlas:UpdatePanel runat="server" ID="panelGrid" Mode="Conditional" RenderMode="Inline">

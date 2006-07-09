@@ -27,11 +27,8 @@ public partial class AccountFeedItemsView : Page
                 {
                     inputSearch.Text = Request.QueryString["q"];
                 }
-                else
-                {
-                    panelSearchInternal.Attributes.Add("style", "display: none;");
-                }
 
+                panelSearchInternal.Visible = ! string.IsNullOrEmpty(inputSearch.Text);
                 GetData();
             }
         }
@@ -107,9 +104,7 @@ public partial class AccountFeedItemsView : Page
     {
         try
         {
-            panelSearchInternal.Attributes["style"] =
-                (string.IsNullOrEmpty(panelSearchInternal.Attributes["style"]) ? "display: none;" : string.Empty);
-
+            panelSearchInternal.PersistentVisible = !panelSearchInternal.PersistentVisible;
             panelSearch.Update();
         }
         catch (Exception ex)

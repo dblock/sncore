@@ -26,11 +26,8 @@ public partial class AccountStoriesView : Page
                 {
                     inputSearch.Text = Request.QueryString["q"];
                 }
-                else
-                {
-                    panelSearchInternal.Attributes.Add("style", "display: none;");
-                }
 
+                panelSearchInternal.Visible = ! string.IsNullOrEmpty(inputSearch.Text);
                 GetData();
             }
         }
@@ -112,7 +109,7 @@ public partial class AccountStoriesView : Page
     {
         try
         {
-            panelSearchInternal.Attributes["style"] = "display: none;";
+            panelSearchInternal.Visible = false;
             inputSearch.Text = string.Empty;
             GetData();
             panelSearch.Update();
@@ -127,9 +124,7 @@ public partial class AccountStoriesView : Page
     {
         try
         {
-            panelSearchInternal.Attributes["style"] =
-                (string.IsNullOrEmpty(panelSearchInternal.Attributes["style"]) ? "display: none;" : string.Empty);
-
+            panelSearchInternal.PersistentVisible = !panelSearchInternal.PersistentVisible;
             panelSearch.Update();
         }
         catch (Exception ex)

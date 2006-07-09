@@ -94,15 +94,19 @@
       </td>
      </tr>
     </table>
-    <asp:Panel ID="panelReminder" runat="server" visible="false">
-     <table class="sncore_account_table">
-      <tr>
-       <td align="center" class="sncore_notice_warning">
-        this event has changed, please don't forget to save it
-       </td>
-      </tr>
-     </table>
-    </asp:Panel>
+    <atlas:UpdatePanel runat="server" ID="panelReminderUpdate" Mode="Conditional">
+     <ContentTemplate>
+      <SnCoreWebControls:PersistentPanel ID="panelReminder" runat="server" visible="false">
+       <table class="sncore_account_table">
+        <tr>
+         <td align="center" class="sncore_notice_warning">
+          this event has changed, please don't forget to save it
+         </td>
+        </tr>
+       </table>
+      </SnCoreWebControls:PersistentPanel>
+     </ContentTemplate>
+    </atlas:UpdatePanel>
     <table class="sncore_account_table">
      <tr>
       <td class="sncore_form_label">

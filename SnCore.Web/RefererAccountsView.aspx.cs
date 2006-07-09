@@ -55,4 +55,9 @@ public partial class RefererAccountsView : AccountPersonPage
             ReportException(ex);
         }
     }
+
+    public void gridManage_DataBinding(object sender, EventArgs e)
+    {
+        panelGrid.Update();
+    }
 }

@@ -11,6 +11,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Services;
 using Wilco.Web.UI;
+using Microsoft.Web.UI;
 
 public partial class SelectPlaceControl : Control
 {
@@ -108,6 +109,7 @@ public partial class SelectPlaceControl : Control
             addPlace.Enabled = true;
             IsChosen = true;
             if (Choose != null) Choose(sender, e);
+            panelSelectPlace.Update();
         }
         catch (Exception ex)
         {
@@ -125,6 +127,7 @@ public partial class SelectPlaceControl : Control
         lookupPlace.Enabled = true;
         addPlace.Enabled = false;
         IsChosen = false;
+        panelSelectPlace.Update();
     }
 
     public void lookupPlace_Click(object sender, EventArgs e)
@@ -138,6 +141,7 @@ public partial class SelectPlaceControl : Control
         lookupPlace.Enabled = false;
         addPlace.Enabled = true;
         IsChosen = false;
+        panelSelectPlace.Update();
     }
 
     public bool IsChosen
@@ -165,6 +169,7 @@ public partial class SelectPlaceControl : Control
             lookupPlace.Enabled = true;
             addPlace.Enabled = true;
             IsChosen = true;
+            panelSelectPlace.Update();
         }
         catch (Exception ex)
         {
@@ -191,6 +196,8 @@ public partial class SelectPlaceControl : Control
                 labelLookup.Text = string.Format("Cannot find any place matching '{0}'.",
                     base.Render(inputLookupName.Text));
             }
+
+            panelSelectPlace.Update();
         }
         catch (Exception ex)
         {

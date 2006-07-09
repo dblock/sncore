@@ -54,6 +54,8 @@ public partial class AccountEventsToday : Page
         try
         {
             SetDefaultButton(search);
+            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+
             if (!IsPostBack)
             {
                 ArrayList types = new ArrayList();
@@ -110,9 +112,8 @@ public partial class AccountEventsToday : Page
     private void GetData()
     {
         mOptions = null;
-
-        gridManage.AllowPaging = false;
         gridManage.CurrentPageIndex = 0;
+        gridManage.VirtualItemCount = EventService.GetAccountEventInstancesCount(SessionManager.Ticket, QueryOptions);        
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
@@ -121,8 +122,11 @@ public partial class AccountEventsToday : Page
     {
         try
         {
-            TransitAccountEventInstanceQueryOptions options = QueryOptions;
-            gridManage.DataSource = EventService.GetAccountEventInstances(SessionManager.Ticket, options);
+            ServiceQueryOptions options = new ServiceQueryOptions();
+            options.PageNumber = gridManage.CurrentPageIndex;
+            options.PageSize = gridManage.PageSize;
+            gridManage.DataSource = EventService.GetAccountEventInstances(
+                SessionManager.Ticket, QueryOptions, options);
         }
         catch (Exception ex)
         {
@@ -226,6 +230,8 @@ public partial class AccountEventsToday : Page
         {
 
         }
+
+        panelSearch.Update();
     }
 
     public void search_Click(object sender, EventArgs e)
@@ -283,5 +289,10 @@ public partial class AccountEventsToday : Page
         {
             ReportException(ex);
         }
+    }
+
+    public void gridManage_DataBinding(object sender, EventArgs e)
+    {
+        panelGrid.Update();
     }
 }

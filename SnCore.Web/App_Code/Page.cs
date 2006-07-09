@@ -244,8 +244,6 @@ public class Page : System.Web.UI.Page
         object notice = Master.FindControl("noticeMenu");
         if (notice == null) throw ex;
         notice.GetType().GetProperty("Exception").SetValue(notice, ex, null);
-        UpdatePanel panel = (UpdatePanel) Master.FindControl("panelNoticeMenu");
-        panel.Update();
     }
 
     public void ReportInfo(string message, bool htmlencode)

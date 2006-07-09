@@ -51,7 +51,7 @@ public partial class SelectDateControl : System.Web.UI.UserControl
 
     public void linkCalendar_Click(object s, EventArgs e)
     {
-        panelCalender.Visible = !panelCalender.Visible;
+        panelCalender.PersistentVisible = ! panelCalender.PersistentVisible;
         if (HasSelection)
         {
             selectDateCalendar.SelectedDate = SelectedDate;
