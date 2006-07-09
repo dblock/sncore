@@ -22,26 +22,30 @@ public partial class AccountStoriesView : Page
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
             if (!IsPostBack)
             {
-                if (string.IsNullOrEmpty(SearchQuery))
+                if (!string.IsNullOrEmpty(Request.QueryString["q"]))
                 {
-                    gridManage.VirtualItemCount = StoryService.GetLatestAccountStoriesCount();
+                    inputSearch.Text = Request.QueryString["q"];
                 }
                 else
                 {
-                    gridManage.VirtualItemCount = StoryService.SearchAccountStoriesCount(SearchQuery);
+                    panelSearchInternal.Attributes.Add("style", "display: none;");
                 }
 
-                labelCount.Text = string.Format("{0} {1}",
-                    gridManage.VirtualItemCount, gridManage.VirtualItemCount != 1 ? "stories" : "story");
-                
-                gridManage_OnGetDataSource(this, null);
-                gridManage.DataBind();
+                GetData();
             }
         }
         catch (Exception ex)
         {
             ReportException(ex);
         }
+    }
+
+    protected override void OnPreRender(EventArgs e)
+    {
+        labelCount.Text = string.Format("{0} {1}",
+            gridManage.VirtualItemCount, gridManage.VirtualItemCount != 1 ? "stories" : "story");
+
+        base.OnPreRender(e);
     }
 
     public string GetComments(int count)
@@ -67,15 +71,9 @@ public partial class AccountStoriesView : Page
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridManage.CurrentPage;
             options.PageSize = gridManage.PageSize;
-
-            if (string.IsNullOrEmpty(SearchQuery))
-            {
-                gridManage.DataSource = StoryService.GetLatestAccountStories(options);
-            }
-            else
-            {
-                gridManage.DataSource = StoryService.SearchAccountStories(SearchQuery, options);
-            }
+            gridManage.DataSource = string.IsNullOrEmpty(inputSearch.Text)
+                ? StoryService.GetLatestAccountStories(options)
+                : StoryService.SearchAccountStories(inputSearch.Text, options);
         }
         catch (Exception ex)
         {
@@ -83,25 +81,65 @@ public partial class AccountStoriesView : Page
         }
     }
 
-    public string SearchQuery
+    public void GetData()
     {
-        get
-        {
-            object query = Request.QueryString["q"];
-            return query == null ? string.Empty : query.ToString();
-        }
+        gridManage.VirtualItemCount = string.IsNullOrEmpty(inputSearch.Text)
+            ? StoryService.GetLatestAccountStoriesCount()
+            : StoryService.SearchAccountStoriesCount(inputSearch.Text);
+
+        gridManage_OnGetDataSource(this, null);
+        gridManage.DataBind();
     }
 
     protected void search_Click(object sender, EventArgs e)
     {
         try
         {
-            Redirect(string.Format("AccountStoriesView.aspx?q={0}", 
-                Renderer.UrlEncode(inputSearch.Text)));
+            GetData();
+
+            labelCount.Text = string.Format("{0} {1}",
+                gridManage.VirtualItemCount, gridManage.VirtualItemCount != 1 ? "stories" : "story");
+
+            panelLinks.Update();
         }
         catch (Exception ex)
         {
             ReportException(ex);
         }
+    }
+
+    public void linkAll_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            panelSearchInternal.Attributes["style"] = "display: none;";
+            inputSearch.Text = string.Empty;
+            GetData();
+            panelSearch.Update();
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
+    public void linkSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            panelSearchInternal.Attributes["style"] =
+                (string.IsNullOrEmpty(panelSearchInternal.Attributes["style"]) ? "display: none;" : string.Empty);
+
+            panelSearch.Update();
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
+    public void gridManage_DataBinding(object sender, EventArgs e)
+    {
+        panelGrid.Update();
     }
 }
