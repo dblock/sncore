@@ -64,11 +64,11 @@ public partial class SearchAccountStoriesControl : Control
     {
         if (count == 0)
         {
-            return string.Empty;
+            return "no comments";
         }
         else if (count == 1)
         {
-            return "1 comment";
+            return "one comment";
         }
         else
         {

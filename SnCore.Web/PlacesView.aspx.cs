@@ -102,7 +102,7 @@ public partial class PlacesView : Page
     {
         mOptions = null;
 
-        gridManage.CurrentPage = 0;
+        gridManage.CurrentPageIndex = 0;
         gridManage.VirtualItemCount = PlaceService.GetPlacesCount(QueryOptions);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
@@ -216,7 +216,7 @@ public partial class PlacesView : Page
 
             ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
             serviceoptions.PageSize = gridManage.PageSize;
-            serviceoptions.PageNumber = gridManage.CurrentPage;
+            serviceoptions.PageNumber = gridManage.CurrentPageIndex;
             gridManage.DataSource = PlaceService.GetPlaces(options, serviceoptions);
         }
         catch (Exception ex)

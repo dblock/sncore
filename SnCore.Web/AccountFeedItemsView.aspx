@@ -58,49 +58,48 @@
   <ContentTemplate>
    <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage" PageSize="5"
     AllowCustomPaging="true" AllowPaging="true" AutoGenerateColumns="false" CssClass="sncore_table"
-    ShowHeader="false" OnDataBinding="gridManage_DataBinding">
+    ShowHeader="false" OnDataBinding="gridManage_DataBinding" BorderWidth="0">
     <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
      PrevPageText="Prev" HorizontalAlign="Center" />
     <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
     <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
     <Columns>
      <asp:BoundColumn DataField="Id" Visible="false" />
-     <asp:TemplateColumn ItemStyle-VerticalAlign="Top">
-      <itemtemplate>
-       <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
-        <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" />
-        <div>
-         <%# base.Render(Eval("AccountName")) %>
-        </div>
-       </a>
-      </itemtemplate>
-     </asp:TemplateColumn>
      <asp:TemplateColumn ItemStyle-VerticalAlign="Middle" ItemStyle-HorizontalAlign="Left">
       <itemtemplate>
-       <span>
-        <div>
-         <a class="sncore_feeditem_name" href='AccountFeedItemView.aspx?id=<%# Eval("Id") %>'>
-          <%# base.Render(GetValue(Eval("Title"), "Untitled")) %>
-         </a>
-        </div>
-        <div class="sncore_description">
-         <a href='AccountFeedItemView.aspx?id=<%# Eval("Id") %>&#comments'>
-          &#187; <%# GetComments((int) Eval("CommentCount"))%>
-         </a>       
-         <a target="_blank" href='<%# base.Render(Eval("Link")) %>'>
-          &#187; x-posted
-         </a>
-         in
-         <a href='AccountFeedView.aspx?id=<%# Eval("AccountFeedId") %>'>
-          <%# base.Render(GetValue(Eval("AccountFeedName"), "Untitled")) %>
-         </a>
-         on
-         <%# base.Adjust(Eval("Created")).ToString("d") %>
-        </div>
-        <div class="sncore_summary">
-         <%# base.GetSummary((string) Eval("Description"), (string) Eval("AccountFeedLinkUrl")) %>
-        </div>
-       </span>
+       <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+         <td align="left" valign="top" width="*" class="sncore_message_left">
+          <div class="sncore_message_header">
+           <div class="sncore_message_subject">
+            <a href='AccountFeedItemView.aspx?id=<%# Eval("Id") %>'>
+             <%# base.Render(GetValue(Eval("Title"), "Untitled")) %>
+            </a>
+           </div>
+           <div class="sncore_description">
+            <a href='AccountFeedItemView.aspx?id=<%# Eval("Id") %>&#comments'>
+             &#187; <%# GetComments((int) Eval("CommentCount"))%>
+            </a>       
+            <a target="_blank" href='<%# base.Render(Eval("Link")) %>'>
+             &#187; x-posted
+            </a>
+            in
+            <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
+             <%# base.Render(Eval("AccountName")) %>
+            </a>'s       
+            <a href='AccountFeedView.aspx?id=<%# Eval("AccountFeedId") %>'>
+             <%# base.Render(GetValue(Eval("AccountFeedName"), "Untitled")) %>
+            </a>
+            on
+            <%# base.Adjust(Eval("Created")).ToString("d") %>
+           </div>
+          </div>
+          <div class="sncore_message_body">
+           <%# base.GetSummary((string) Eval("Description"), (string) Eval("AccountFeedLinkUrl")) %>
+          </div>
+         </td>
+        </tr>
+       </table>
       </itemtemplate>
      </asp:TemplateColumn>
     </Columns>

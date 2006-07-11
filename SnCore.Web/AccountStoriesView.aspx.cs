@@ -66,7 +66,7 @@ public partial class AccountStoriesView : Page
         try
         {
             ServiceQueryOptions options = new ServiceQueryOptions();
-            options.PageNumber = gridManage.CurrentPage;
+            options.PageNumber = gridManage.CurrentPageIndex;
             options.PageSize = gridManage.PageSize;
             gridManage.DataSource = string.IsNullOrEmpty(inputSearch.Text)
                 ? StoryService.GetLatestAccountStories(options)

@@ -102,7 +102,7 @@ public partial class AccountsView : AccountPersonPage
 
     private void GetData()
     {
-        gridManage.CurrentPage = 0;
+        gridManage.CurrentPageIndex = 0;
         gridManage.VirtualItemCount = SocialService.GetAccountActivityCount(QueryOptions);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
@@ -166,7 +166,7 @@ public partial class AccountsView : AccountPersonPage
 
             ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
             serviceoptions.PageSize = gridManage.PageSize;
-            serviceoptions.PageNumber = gridManage.CurrentPage;
+            serviceoptions.PageNumber = gridManage.CurrentPageIndex;
             gridManage.DataSource = SocialService.GetAccountActivity(options, serviceoptions);
         }
         catch (Exception ex)

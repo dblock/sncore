@@ -45,7 +45,7 @@ public partial class AccountFriendsManage : AuthenticatedPage
             {
                 case "Delete":
                     SocialService.DeleteAccountFriend(SessionManager.Ticket, int.Parse(e.CommandArgument.ToString()));
-                    friendsList.CurrentPage = 0;
+                    friendsList.CurrentPageIndex = 0;
                     friendsList_OnGetDataSource(sender, e);
                     friendsList.DataBind();
                     ReportInfo("Friend deleted.");

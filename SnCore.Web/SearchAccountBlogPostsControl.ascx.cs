@@ -68,6 +68,13 @@ public partial class SearchAccountBlogPostsControl : Control
         }
     }
 
+    public string GetComments(int count)
+    {
+        if (count == 0) return "post a comment";
+        else if (count == 1) return "1 comment";
+        else return string.Format("{0} comments", count);
+    }
+
     void gridResults_OnGetDataSource(object sender, EventArgs e)
     {
         try

@@ -33,36 +33,40 @@
    </td>
   </tr>
  </table>
- <table class="sncore_table">
-  <tr>
-   <td colspan="2" class="sncore_table_tr_td">
-    <asp:LinkButton CausesValidation="false" CssClass="sncore_link" Enabled="false" ID="linkAccounts" Text="people" runat="server" OnClick="linkAccounts_Click" />
-    | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkPlaces" Text="places" runat="server" OnClick="linkPlaces_Click"/> 
-    | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkDiscussionPosts" Text="posts" runat="server" OnClick="linkDiscussionPosts_Click"/> 
-    | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkAccountStories" Text="stories" runat="server" OnClick="linkAccountStories_Click"/> 
-    | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkAccountFeedItems" Text="feeds" runat="server" OnClick="linkAccountFeedItems_Click"/> 
-    | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkAccountBlogPosts" Text="blogs" runat="server" OnClick="linkAccountBlogPosts_Click"/> 
-   </td>
-  </tr>
- </table>
- <asp:MultiView ID="searchView" runat="server">
-  <asp:View runat="server" ID="viewAccounts">
-   <SnCore:SearchAccounts id="searchAccounts" runat="server" />
-  </asp:View>
-  <asp:View runat="server" ID="viewPlaces">
-   <SnCore:SearchPlaces id="searchPlaces" runat="server" />  
-  </asp:View>
-  <asp:View runat="server" ID="viewDiscussionPosts">
-   <SnCore:SearchDiscussionPosts id="searchDiscussionPosts" runat="server" />  
-  </asp:View>
-  <asp:View runat="server" ID="viewAccountStories">
-   <SnCore:SearchAccountStories id="searchAccountStories" runat="server" />  
-  </asp:View>
-  <asp:View runat="server" ID="viewAccountFeedItems">
-   <SnCore:SearchAccountFeedItems id="searchAccountFeedItems" runat="server" />  
-  </asp:View>
-  <asp:View runat="server" ID="viewAccountBlogPosts">
-   <SnCore:SearchAccountBlogPosts id="searchAccountBlogPosts" runat="server" />  
-  </asp:View>
- </asp:MultiView>
+ <atlas:UpdatePanel runat="server" ID="panelSearch" Mode="Always" RenderMode="Inline">
+  <ContentTemplate>
+   <table class="sncore_table">
+    <tr>
+     <td colspan="2" class="sncore_table_tr_td">
+      <asp:LinkButton CausesValidation="false" CssClass="sncore_link" Enabled="false" ID="linkAccounts" Text="people" runat="server" OnClick="linkAccounts_Click" />
+      | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkPlaces" Text="places" runat="server" OnClick="linkPlaces_Click"/> 
+      | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkDiscussionPosts" Text="posts" runat="server" OnClick="linkDiscussionPosts_Click"/> 
+      | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkAccountStories" Text="stories" runat="server" OnClick="linkAccountStories_Click"/> 
+      | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkAccountFeedItems" Text="feeds" runat="server" OnClick="linkAccountFeedItems_Click"/> 
+      | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkAccountBlogPosts" Text="blogs" runat="server" OnClick="linkAccountBlogPosts_Click"/> 
+     </td>
+    </tr>
+   </table>
+   <asp:MultiView ID="searchView" runat="server">
+    <asp:View runat="server" ID="viewAccounts">
+     <SnCore:SearchAccounts id="searchAccounts" runat="server" />
+    </asp:View>
+    <asp:View runat="server" ID="viewPlaces">
+     <SnCore:SearchPlaces id="searchPlaces" runat="server" />  
+    </asp:View>
+    <asp:View runat="server" ID="viewDiscussionPosts">
+     <SnCore:SearchDiscussionPosts id="searchDiscussionPosts" runat="server" />  
+    </asp:View>
+    <asp:View runat="server" ID="viewAccountStories">
+     <SnCore:SearchAccountStories id="searchAccountStories" runat="server" />  
+    </asp:View>
+    <asp:View runat="server" ID="viewAccountFeedItems">
+     <SnCore:SearchAccountFeedItems id="searchAccountFeedItems" runat="server" />  
+    </asp:View>
+    <asp:View runat="server" ID="viewAccountBlogPosts">
+     <SnCore:SearchAccountBlogPosts id="searchAccountBlogPosts" runat="server" />  
+    </asp:View>
+   </asp:MultiView>
+  </ContentTemplate>
+ </atlas:UpdatePanel>
 </asp:Content>

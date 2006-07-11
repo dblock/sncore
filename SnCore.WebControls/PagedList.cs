@@ -248,7 +248,7 @@ namespace SnCore.WebControls
                     mPagedDataSource = new PagedDataSource();
                     mPagedDataSource.AllowPaging = true;
                     mPagedDataSource.AllowCustomPaging = AllowCustomPaging;
-                    mPagedDataSource.CurrentPageIndex = CurrentPage;
+                    mPagedDataSource.CurrentPageIndex = CurrentPageIndex;
                     mPagedDataSource.VirtualCount = VirtualItemCount;
                     mPagedDataSource.PageSize = PageSize;
                     mPagedDataSource.DataSource = base.DataSource == null ? new DummyDataSource() : (IEnumerable) base.DataSource;
@@ -336,7 +336,7 @@ namespace SnCore.WebControls
         {
             First = ((Pager)sender).First;
             PagedDataSource.CurrentPageIndex = e.NewPageIndex;
-            CurrentPage = e.NewPageIndex;
+            CurrentPageIndex = e.NewPageIndex;
 
             if (OnGetDataSource != null)
             {
@@ -408,16 +408,16 @@ namespace SnCore.WebControls
             }
         }
 
-        public int CurrentPage
+        public int CurrentPageIndex
         {
             get
             {
-                object o = this.ViewState["CurrentPage"];
+                object o = this.ViewState["CurrentPageIndex"];
                 return o == null ? 0 : (int)o;
             }
             set
             {
-                this.ViewState["CurrentPage"] = value;
+                this.ViewState["CurrentPageIndex"] = value;
                 if (mPagedDataSource != null)
                 {
                     PagedDataSource.CurrentPageIndex = value;

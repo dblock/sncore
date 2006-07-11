@@ -35,7 +35,7 @@ public partial class RefererAccountsView : AccountPersonPage
     }
     private void GetData()
     {
-        gridManage.CurrentPage = 0;
+        gridManage.CurrentPageIndex = 0;
         gridManage.VirtualItemCount = StatsService.GetRefererAccountsCount();
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
@@ -47,7 +47,7 @@ public partial class RefererAccountsView : AccountPersonPage
         {
             ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
             serviceoptions.PageSize = gridManage.PageSize;
-            serviceoptions.PageNumber = gridManage.CurrentPage;
+            serviceoptions.PageNumber = gridManage.CurrentPageIndex;
             gridManage.DataSource = StatsService.GetRefererAccounts(serviceoptions);
         }
         catch (Exception ex)

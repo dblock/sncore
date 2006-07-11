@@ -43,6 +43,7 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_menu_item_activated:active { color: white; }
 .sncore_message_header { padding: 10px; }
 .sncore_message_subject { font-size: large; margin-bottom: 5px;}
+.sncore_message_table { padding: 10px; margin: 10px 0px 10px 0px; border: solid 1px; }
 .sncore_message_body { padding: 10px; margin: 10px 0px 10px 0px; }
 .sncore_message_left { border-left: solid 1px; border-top: solid 1px; border-bottom: solid 1px; border-right: none; margin: 0px 0px 10px 0px; padding: 3px; } 
 .sncore_message_right { border-left: none; border-top: solid 1px; border-bottom: solid 1px; border-right: solid 1px; margin: 0px 0px 10px 0px; padding-top: 10px; } 

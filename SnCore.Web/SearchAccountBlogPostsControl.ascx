@@ -7,7 +7,7 @@
   Blog Posts
  </div>
  <asp:Label ID="labelResults" runat="server" CssClass="sncore_h2sub" />
- <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridResults" PageSize="10"
+ <SnCoreWebControls:PagedGrid CellPadding="0" BorderWidth="0" runat="server" ID="gridResults" PageSize="5"
   AllowCustomPaging="true" AllowPaging="true" AutoGenerateColumns="false" CssClass="sncore_table"
   ShowHeader="false">
   <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
@@ -17,32 +17,31 @@
    <asp:BoundColumn DataField="Id" Visible="false" />
    <asp:TemplateColumn ItemStyle-VerticalAlign="Top">
     <ItemTemplate>
-     <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
-      <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" />
-      <div>
-       <%# base.Render(Eval("AccountName")) %>
-      </div>
-     </a>
-    </ItemTemplate>
-   </asp:TemplateColumn>
-   <asp:TemplateColumn ItemStyle-VerticalAlign="Middle" ItemStyle-HorizontalAlign="Left">
-    <ItemTemplate>
-     <span>
-      <div class="sncore_h2left">
-       <a href='AccountBlogPostView.aspx?id=<%# Eval("Id") %>'>
-        <%# base.Render(Eval("Title")) %>
-       </a>
-      </div>
-      <div class="sncore_h2sub">
-       in
-       <a href='AccountBlogView.aspx?id=<%# Eval("AccountBlogId") %>'>
-        <%# base.Render(Eval("AccountBlogName")) %>
-       </a>
-      </div>
-      <div>
-       <%# Renderer.CleanHtml(Eval("Body")) %>
-      </div>
-     </span>
+     <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+       <td align="left" valign="top" width="*" class="sncore_message_table">
+        <div class="sncore_message_header">
+         <div class="sncore_message_subject">
+          <a href='AccountBlogPostView.aspx?id=<%# Eval("Id") %>'>
+           <%# base.Render(GetValue(Eval("Title"), "Untitled")) %>
+          </a>
+         </div>
+         <div class="sncore_description">
+          by <a href='AccountView.aspx?id=<%# Eval("AccountId") %>'>
+           <%# base.Render(Eval("AccountName")) %>
+          </a>
+          on 
+          <%# base.Adjust(Eval("Created")) %>
+          <a href='AccountBlogPostView.aspx?id=<%# Eval("Id") %>&#comments'>
+           &#187; <%# GetComments((int) Eval("CommentCount"))%></a>
+         </div>
+        </div>
+        <div class="sncore_message_body">
+         <%# base.RenderEx(Eval("Body")) %>
+        </div>
+       </td>
+      </tr>
+     </table>
     </ItemTemplate>
    </asp:TemplateColumn>
   </Columns>

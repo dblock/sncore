@@ -82,4 +82,18 @@ public partial class SearchAccountFeedItemsControl : Control
             ReportException(ex);
         }
     }
+
+    public string GetComments(int count)
+    {
+        if (count == 0) return "read and comment";
+        else if (count == 1) return "read 1 comment";
+        else return string.Format("read {0} comments", count);
+    }
+
+    public string GetSummary(string summary, string link)
+    {
+        Uri uri = null;
+        Uri.TryCreate(link, UriKind.Absolute, out uri);
+        return Renderer.CleanHtml(summary, uri);
+    }
 }

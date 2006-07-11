@@ -55,7 +55,7 @@ public partial class AccountPlaceFavoritesManage : AuthenticatedPage
                 case "Delete":
                     PlaceService.DeleteAccountPlaceFavorite(SessionManager.Ticket, int.Parse(e.CommandArgument.ToString()));
                     ReportInfo("Favorite place deleted.");
-                    favoritesList.CurrentPage = 0;
+                    favoritesList.CurrentPageIndex = 0;
                     favoritesList_OnGetDataSource(source, e);
                     favoritesList.DataBind();
                     break;

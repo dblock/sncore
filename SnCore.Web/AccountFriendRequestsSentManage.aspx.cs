@@ -17,7 +17,8 @@ public partial class AccountFriendRequestsSentManage : AuthenticatedPage
     {
         try
         {
-            listSent.OnGetDataSource += new EventHandler(listSent_OnGetDataSource);            if (!IsPostBack)
+            listSent.OnGetDataSource += new EventHandler(listSent_OnGetDataSource);
+            if (!IsPostBack)
             {
                 listSent.VirtualItemCount = SocialService.GetAccountFriendRequestsSentCount(SessionManager.Ticket);                
                 GetData(sender, e);
@@ -32,14 +33,14 @@ public partial class AccountFriendRequestsSentManage : AuthenticatedPage
     void listSent_OnGetDataSource(object sender, EventArgs e)
     {
         ServiceQueryOptions options = new ServiceQueryOptions();
-        options.PageNumber = listSent.CurrentPage;
+        options.PageNumber = listSent.CurrentPageIndex;
         options.PageSize = listSent.PageSize;
         listSent.DataSource = SocialService.GetAccountFriendRequestsSent(SessionManager.Ticket, options);
     }
 
     public void GetData(object sender, EventArgs e)
     {
-        listSent.CurrentPage = 0;
+        listSent.CurrentPageIndex = 0;
         listSent_OnGetDataSource(sender, e);
         listSent.DataBind();
 

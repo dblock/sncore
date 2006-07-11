@@ -87,7 +87,7 @@ public partial class AccountBlogView : Page
         try
         {
             ServiceQueryOptions options = new ServiceQueryOptions();
-            options.PageNumber = gridManage.CurrentPage;
+            options.PageNumber = gridManage.CurrentPageIndex;
             options.PageSize = gridManage.PageSize;
             gridManage.DataSource = BlogService.GetAccountBlogPostsById(RequestId, options);
         }

@@ -34,14 +34,14 @@ public partial class AccountFriendRequestsManage : AuthenticatedPage
     void listPending_OnGetDataSource(object sender, EventArgs e)
     {
         ServiceQueryOptions options = new ServiceQueryOptions();
-        options.PageNumber = listPending.CurrentPage;
+        options.PageNumber = listPending.CurrentPageIndex;
         options.PageSize = listPending.PageSize;
         listPending.DataSource = SocialService.GetAccountFriendRequests(SessionManager.Ticket, options);
     }
 
     public void GetData(object sender, EventArgs e)
     {
-        listPending.CurrentPage = 0;
+        listPending.CurrentPageIndex = 0;
         listPending_OnGetDataSource(sender, e);
         listPending.DataBind();
 
