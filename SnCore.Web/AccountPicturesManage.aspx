@@ -31,39 +31,30 @@
       </td>
      </tr>
     </table>
-    <SnCoreWebControls:PagedGrid CellPadding="4" OnItemCommand="gridManage_ItemCommand"
-     runat="server" ID="gridManage" AutoGenerateColumns="false" ShowHeader="true" CssClass="sncore_account_table">
-     <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
-      PrevPageText="Prev" HorizontalAlign="Center" />
-     <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
-     <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
-     <Columns>
-      <asp:BoundColumn DataField="Id" Visible="false" />
-      <asp:BoundColumn DataField="Name" Visible="false" />
-      <asp:TemplateColumn>
-       <itemtemplate>
-        <a href="AccountPictureEdit.aspx?id=<%# Eval("Id").ToString() %>">
-         <img src="AccountPictureThumbnail.aspx?id=<%# Eval("Id").ToString() %>&CacheDuration=0" style="border: 0px;" />
+    <atlas:UpdatePanel ID="panelGrid" runat="server" Mode="Always">
+     <ContentTemplate>
+      <SnCoreWebControls:PagedList CssClass="sncore_account_table" runat="server" RepeatDirection="Horizontal"
+       ID="gridManage" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Top"
+       OnItemCommand="gridManage_ItemCommand" ItemStyle-CssClass="sncore_table_tr_td" RepeatColumns="3"
+       RepeatRows="4" AllowCustomPaging="true">
+       <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
+        prevpagetext="Prev" horizontalalign="Center" />
+       <ItemTemplate>
+        <a href="AccountPictureEdit.aspx?id=<%# Eval("Id") %>">
+         <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("Id") %>&CacheDuration=0" alt="<%# base.Render(Eval("Name")) %>" />
         </a>
-       </itemtemplate>
-      </asp:TemplateColumn>
-      <asp:TemplateColumn HeaderText="Name & Description">
-       <itemtemplate>
-        <b>
-         <%# base.Render(Eval("Name")) %>
-        </b>
-        <br />
-        <%# base.Render(Eval("Description")) %>
-       </itemtemplate>
-      </asp:TemplateColumn>
-      <asp:TemplateColumn>
-       <itemtemplate>
-        <a href="AccountPictureEdit.aspx?id=<%# Eval("Id") %>">Edit</a>
-       </itemtemplate>
-      </asp:TemplateColumn>
-      <asp:ButtonColumn ButtonType="LinkButton" CommandName="Delete" Text="Delete" />
-     </Columns>
-    </SnCoreWebControls:PagedGrid>
+        <div style="font-size: smaller;">
+        <a href="AccountPictureEdit.aspx?id=<%# Eval("Id") %>">
+         &#187; Edit
+        </div>
+        <div style="font-size: smaller;">
+         <asp:LinkButton Text="&#187; Delete" ID="deletePicture" runat="server" OnClientClick="return confirm('Are you sure you want to do this?')"
+          CommandName="Delete" CommandArgument='<%# Eval("Id") %>' />
+        </div>
+       </ItemTemplate>
+      </SnCoreWebControls:PagedList>
+     </ContentTemplate>
+    </atlas:UpdatePanel>
     <SnCore:AccountReminder ID="accountReminder" runat="server" Style="width: 582px;" />
    </td>
   </tr>

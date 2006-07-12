@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using SnCore.WebServices;
 
 public partial class AccountWebsitesManage : AuthenticatedPage
 {
@@ -20,14 +21,21 @@ public partial class AccountWebsitesManage : AuthenticatedPage
 
             if (!IsPostBack)
             {
-                gridManage_OnGetDataSource(this, null);
-                gridManage.DataBind();
+                GetData(sender, e);
             }
         }
         catch (Exception ex)
         {
             ReportException(ex);
         }
+    }
+
+    public void GetData(object sender, EventArgs e)
+    {
+        gridManage.CurrentPageIndex = 0;
+        gridManage.VirtualItemCount = AccountService.GetAccountWebsitesCount(SessionManager.Ticket);
+        gridManage_OnGetDataSource(this, null);
+        gridManage.DataBind();
     }
 
     private enum Cells
@@ -39,7 +47,10 @@ public partial class AccountWebsitesManage : AuthenticatedPage
     {
         try
         {
-            gridManage.DataSource = AccountService.GetAccountWebsites(SessionManager.Ticket);
+            ServiceQueryOptions options = new ServiceQueryOptions();
+            options.PageSize = gridManage.PageSize;
+            options.PageNumber = gridManage.CurrentPageIndex;
+            gridManage.DataSource = AccountService.GetAccountWebsites(SessionManager.Ticket, options);
         }
         catch (Exception ex)
         {
@@ -51,10 +62,10 @@ public partial class AccountWebsitesManage : AuthenticatedPage
     {
         try
         {
-            int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
             switch (e.CommandName)
             {
                 case "Delete":
+                    int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
                     AccountService.DeleteAccountWebsite(SessionManager.Ticket, id);
                     ReportInfo("Website deleted.");
                     gridManage.CurrentPageIndex = 0;

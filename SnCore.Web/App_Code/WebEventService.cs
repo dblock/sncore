@@ -57,7 +57,7 @@ namespace SnCore.WebServices
         /// <summary>
         /// Get account avents count by account id.
         /// </summary>
-        [WebMethod(Description = "Get account avents count by account id.")]
+        [WebMethod(Description = "Get account events count by account id.")]
         public int GetAccountEventsCountById(int id)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))

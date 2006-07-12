@@ -17,39 +17,44 @@
     </div>
     <asp:HyperLink Text="&#187; Create New" CssClass="sncore_createnew" NavigateUrl="AccountWebsiteEdit.aspx"
      runat="server" />
-    <SnCoreWebControls:PagedGrid CellPadding="4" OnItemCommand="gridManage_ItemCommand"
-     runat="server" ID="gridManage" AutoGenerateColumns="false" CssClass="sncore_account_table">
-     <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
-     <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
-     <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
-      PrevPageText="Prev" HorizontalAlign="Center" />
-     <Columns>
-      <asp:BoundColumn DataField="Id" Visible="false" />
-      <asp:BoundColumn DataField="Name" Visible="false" />
-      <asp:TemplateColumn>
-       <itemtemplate>
-        <img src="images/account/websites.gif" />
-       </itemtemplate>
-      </asp:TemplateColumn>
-      <asp:TemplateColumn ItemStyle-HorizontalAlign="Left" HeaderText="Website">
-       <itemtemplate>
-        <%# Renderer.GetLink(Renderer.Render(Eval("Url")), Renderer.Render(Eval("Name"))) %>
-        <div class="sncore_description">
-         <%# Renderer.GetLink(Renderer.Render(Eval("Url")), Renderer.Render(Eval("Url"))) %>
-        </div>
-        <div class="sncore_description">
-         <%# base.Render(Eval("Description")) %>
-        </div>        
-       </itemtemplate>
-      </asp:TemplateColumn>
-      <asp:TemplateColumn>
-       <itemtemplate>
-        <a href="AccountWebsiteEdit.aspx?id=<%# Eval("Id") %>">Edit</a>
-       </itemtemplate>
-      </asp:TemplateColumn>
-      <asp:ButtonColumn ButtonType="LinkButton" CommandName="Delete" Text="Delete" />
-     </Columns>
-    </SnCoreWebControls:PagedGrid>
+    <atlas:UpdatePanel ID="panelGrid" runat="server" Mode="Always">
+     <ContentTemplate>
+      <SnCoreWebControls:PagedGrid CellPadding="4" OnItemCommand="gridManage_ItemCommand"
+       runat="server" ID="gridManage" AutoGenerateColumns="false" CssClass="sncore_account_table"
+       AllowPaging="true" AllowCustomPaging="true" PageSize="5">
+       <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
+       <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
+       <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
+        PrevPageText="Prev" HorizontalAlign="Center" />
+       <Columns>
+        <asp:BoundColumn DataField="Id" Visible="false" />
+        <asp:BoundColumn DataField="Name" Visible="false" />
+        <asp:TemplateColumn>
+         <itemtemplate>
+          <img src="images/account/websites.gif" />
+         </itemtemplate>
+        </asp:TemplateColumn>
+        <asp:TemplateColumn ItemStyle-HorizontalAlign="Left" HeaderText="Website">
+         <itemtemplate>
+          <%# Renderer.GetLink(Renderer.Render(Eval("Url")), Renderer.Render(Eval("Name"))) %>
+          <div class="sncore_description">
+           <%# Renderer.GetLink(Renderer.Render(Eval("Url")), Renderer.Render(Eval("Url"))) %>
+          </div>
+          <div class="sncore_description">
+           <%# base.Render(Eval("Description")) %>
+          </div>        
+         </itemtemplate>
+        </asp:TemplateColumn>
+        <asp:TemplateColumn>
+         <itemtemplate>
+          <a href="AccountWebsiteEdit.aspx?id=<%# Eval("Id") %>">Edit</a>
+         </itemtemplate>
+        </asp:TemplateColumn>
+        <asp:ButtonColumn ButtonType="LinkButton" CommandName="Delete" Text="Delete" />
+       </Columns>
+      </SnCoreWebControls:PagedGrid>
+     </ContentTemplate>
+    </atlas:UpdatePanel>
     <SnCore:AccountReminder ID="accountReminder" runat="server" Style="width: 582px;" />
    </td>
   </tr>

@@ -726,20 +726,45 @@ namespace SnCore.WebServices
 
 
         /// <summary>
-        /// Get e-mail addresses.
+        /// Get e-mail addresses count.
         /// </summary>
         /// <param name="ticket">authentication ticket</param>
-        /// <returns>transit e-mail</returns>
-        [WebMethod(Description = "Get e-mail addresses.")]
-        public List<TransitAccountEmail> GetAccountEmails(string ticket)
+        /// <returns>number of account e-mails</returns>
+        [WebMethod(Description = "Get e-mail addresses count.")]
+        public int GetAccountEmailsCount(string ticket)
         {
             int id = GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                IList list = session.CreateCriteria(typeof(AccountEmail))
-                    .Add(Expression.Eq("Account.Id", id))
-                    .List();
+                return (int)session.CreateQuery(string.Format(
+                    "SELECT COUNT(s) FROM AccountEmail s WHERE s.Account.Id = {0}",
+                    id)).UniqueResult();
+            }
+        }
+
+        /// <summary>
+        /// Get e-mail addresses.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <returns>transit e-mail</returns>
+        [WebMethod(Description = "Get e-mail addresses.")]
+        public List<TransitAccountEmail> GetAccountEmails(string ticket, ServiceQueryOptions options)
+        {
+            int id = GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ICriteria c = session.CreateCriteria(typeof(AccountEmail))
+                    .Add(Expression.Eq("Account.Id", id));
+
+                if (options != null)
+                {
+                    c.SetFirstResult(options.FirstResult);
+                    c.SetMaxResults(options.PageSize);
+                }
+
+                IList list = c.List();
 
                 List<TransitAccountEmail> result = new List<TransitAccountEmail>(list.Count);
                 foreach (AccountEmail e in list)
@@ -1148,14 +1173,38 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
+        /// Get account pictures count.
+        /// </summary>
+        [WebMethod(Description = "Get account pictures count.")]
+        public int GetAccountPicturesCount(string ticket)
+        {
+            return GetAccountPicturesCountById(ManagedAccount.GetAccountId(ticket));
+        }
+
+        /// <summary>
+        /// Get account pictures count.
+        /// </summary>
+        [WebMethod(Description = "Get account pictures count.")]
+        public int GetAccountPicturesCountById(int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return (int)session.CreateQuery(string.Format(
+                    "SELECT COUNT(s) FROM AccountPicture s WHERE s.Account.Id = {0}",
+                    id)).UniqueResult();
+            }
+        }
+
+        /// <summary>
         /// Get account pictures.
         /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <returns>transit account pictures</returns>
         [WebMethod(Description = "Get account pictures.")]
-        public List<TransitAccountPicture> GetAccountPictures(string ticket)
+        public List<TransitAccountPicture> GetAccountPictures(string ticket, ServiceQueryOptions options)
         {
-            return GetAccountPicturesById(GetAccountId(ticket));
+            return GetAccountPicturesById(GetAccountId(ticket), options);
         }
 
         /// <summary>
@@ -1164,14 +1213,21 @@ namespace SnCore.WebServices
         /// <param name="id">account id</param>
         /// <returns>transit account pictures</returns>
         [WebMethod(Description = "Get account pictures.", CacheDuration = 60)]
-        public List<TransitAccountPicture> GetAccountPicturesById(int id)
+        public List<TransitAccountPicture> GetAccountPicturesById(int id, ServiceQueryOptions options)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                IList list = session.CreateCriteria(typeof(AccountPicture))
-                    .Add(Expression.Eq("Account.Id", id))
-                    .List();
+                ICriteria c = session.CreateCriteria(typeof(AccountPicture))
+                    .Add(Expression.Eq("Account.Id", id));
+
+                if (options != null)
+                {
+                    c.SetFirstResult(options.FirstResult);
+                    c.SetMaxResults(options.PageSize);
+                }
+
+                IList list = c.List();
 
                 List<TransitAccountPicture> result = new List<TransitAccountPicture>(list.Count);
                 foreach (AccountPicture e in list)
@@ -1184,14 +1240,38 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
+        /// Get account websites count.
+        /// </summary>
+        [WebMethod(Description = "Get account websites count.")]
+        public int GetAccountWebsitesCount(string ticket)
+        {
+            return GetAccountWebsitesCountById(ManagedAccount.GetAccountId(ticket));
+        }
+
+        /// <summary>
+        /// Get account websites count by account id.
+        /// </summary>
+        [WebMethod(Description = "Get account websites count by account id.")]
+        public int GetAccountWebsitesCountById(int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return (int)session.CreateQuery(string.Format(
+                    "SELECT COUNT(s) FROM AccountWebsite s WHERE s.Account.Id = {0}",
+                    id)).UniqueResult();
+            }
+        }
+
+        /// <summary>
         /// Get account websites.
         /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <returns>transit account websites</returns>
         [WebMethod(Description = "Get account websites.")]
-        public List<TransitAccountWebsite> GetAccountWebsites(string ticket)
+        public List<TransitAccountWebsite> GetAccountWebsites(string ticket, ServiceQueryOptions options)
         {
-            return GetAccountWebsitesById(GetAccountId(ticket));
+            return GetAccountWebsitesById(GetAccountId(ticket), options);
         }
 
         /// <summary>
@@ -1200,14 +1280,21 @@ namespace SnCore.WebServices
         /// <param name="id">account id</param>
         /// <returns>transit account websites</returns>
         [WebMethod(Description = "Get account websites.", CacheDuration = 60)]
-        public List<TransitAccountWebsite> GetAccountWebsitesById(int id)
+        public List<TransitAccountWebsite> GetAccountWebsitesById(int id, ServiceQueryOptions options)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                IList list = session.CreateCriteria(typeof(AccountWebsite))
-                    .Add(Expression.Eq("Account.Id", id))
-                    .List();
+                ICriteria c = session.CreateCriteria(typeof(AccountWebsite))
+                    .Add(Expression.Eq("Account.Id", id));
+
+                if (options != null)
+                {
+                    c.SetMaxResults(options.PageSize);
+                    c.SetFirstResult(options.FirstResult);
+                }
+
+                IList list = c.List();
 
                 List<TransitAccountWebsite> result = new List<TransitAccountWebsite>(list.Count);
                 foreach (AccountWebsite e in list)
