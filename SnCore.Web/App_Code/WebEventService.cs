@@ -38,9 +38,35 @@ namespace SnCore.WebServices
         /// <param name="ticket">authentication ticket</param>
         /// <returns>transit account events</returns>
         [WebMethod(Description = "Get account events.")]
-        public List<TransitAccountEvent> GetAccountEvents(string ticket)
+        public List<TransitAccountEvent> GetAccountEvents(string ticket, ServiceQueryOptions options)
         {
-            return GetAccountEventsById(ManagedAccount.GetAccountId(ticket));
+            return GetAccountEventsById(ManagedAccount.GetAccountId(ticket), options);
+        }
+
+        /// <summary>
+        /// Get account events count.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <returns>number of account events</returns>
+        [WebMethod(Description = "Get account events count.")]
+        public int GetAccountEventsCount(string ticket)
+        {
+            return GetAccountEventsCountById(ManagedAccount.GetAccountId(ticket));
+        }
+
+        /// <summary>
+        /// Get account avents count by account id.
+        /// </summary>
+        [WebMethod(Description = "Get account avents count by account id.")]
+        public int GetAccountEventsCountById(int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return (int)session.CreateQuery(string.Format(
+                    "SELECT COUNT(s) FROM AccountEvent s WHERE s.Account.Id = {0}",
+                    id)).UniqueResult();
+            }
         }
 
         /// <summary>
@@ -49,15 +75,22 @@ namespace SnCore.WebServices
         /// <param name="id">account id</param>
         /// <returns>transit account events</returns>
         [WebMethod(Description = "Get account events.", CacheDuration = 60)]
-        public List<TransitAccountEvent> GetAccountEventsById(int id)
+        public List<TransitAccountEvent> GetAccountEventsById(int id, ServiceQueryOptions options)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                IList list = session.CreateCriteria(typeof(AccountEvent))
+                ICriteria c = session.CreateCriteria(typeof(AccountEvent))
                     .Add(Expression.Eq("Account.Id", id))
-                    .AddOrder(Order.Desc("Created"))
-                    .List();
+                    .AddOrder(Order.Desc("Created"));
+
+                if (options != null)
+                {
+                    c.SetFirstResult(options.FirstResult);
+                    c.SetMaxResults(options.PageSize);
+                }
+
+                IList list = c.List();
 
                 ManagedAccount user = new ManagedAccount(session, id);
 

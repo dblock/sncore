@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using SnCore.WebServices;
 
 public partial class AccountStoriesManage : AuthenticatedPage
 {
@@ -19,6 +20,7 @@ public partial class AccountStoriesManage : AuthenticatedPage
 
             if (!IsPostBack)
             {
+                gridManage.VirtualItemCount = StoryService.GetAccountStoriesCount(SessionManager.Ticket);
                 gridManage_OnGetDataSource(this, null);
                 gridManage.DataBind();
             }
@@ -38,7 +40,10 @@ public partial class AccountStoriesManage : AuthenticatedPage
     {
         try
         {
-            gridManage.DataSource = StoryService.GetAccountStories(SessionManager.Ticket);
+            ServiceQueryOptions options = new ServiceQueryOptions();
+            options.PageNumber = gridManage.CurrentPageIndex;
+            options.PageSize = gridManage.PageSize;
+            gridManage.DataSource = StoryService.GetAccountStories(SessionManager.Ticket, options);
         }
         catch (Exception ex)
         {
@@ -50,10 +55,10 @@ public partial class AccountStoriesManage : AuthenticatedPage
     {
         try
         {
-            int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
             switch (e.CommandName)
             {
                 case "Delete":
+                    int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
                     StoryService.DeleteAccountStory(SessionManager.Ticket, id);
                     ReportInfo("Story deleted.");
                     gridManage.CurrentPageIndex = 0;

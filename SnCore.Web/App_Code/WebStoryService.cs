@@ -36,9 +36,9 @@ namespace SnCore.WebServices
         /// <param name="ticket">authentication ticket</param>
         /// <returns>transit account stories</returns>
         [WebMethod(Description = "Get account stories.")]
-        public List<TransitAccountStory> GetAccountStories(string ticket)
+        public List<TransitAccountStory> GetAccountStories(string ticket, ServiceQueryOptions options)
         {
-            return GetAccountStoriesById(ManagedAccount.GetAccountId(ticket), null);
+            return GetAccountStoriesById(ManagedAccount.GetAccountId(ticket), options);
         }
 
         /// <summary>

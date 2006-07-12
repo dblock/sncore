@@ -22,6 +22,7 @@ public partial class AccountFriendsManage : AuthenticatedPage
 
             if (!IsPostBack)
             {
+                friendsList.VirtualItemCount = SocialService.GetFriendsCount(SessionManager.Ticket);
                 friendsList_OnGetDataSource(this, null);
                 friendsList.DataBind();
             }
@@ -34,7 +35,10 @@ public partial class AccountFriendsManage : AuthenticatedPage
 
     void friendsList_OnGetDataSource(object sender, EventArgs e)
     {
-        friendsList.DataSource = SocialService.GetFriends(SessionManager.Ticket);
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageNumber = friendsList.CurrentPageIndex;
+        options.PageSize = friendsList.PageSize;
+        friendsList.DataSource = SocialService.GetFriends(SessionManager.Ticket, options);
     }
 
     public void friendsList_Command(object sender, DataListCommandEventArgs e)

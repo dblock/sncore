@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using SnCore.WebServices;
 
 public partial class AccountEventsManage : AuthenticatedPage
 {
@@ -20,8 +21,7 @@ public partial class AccountEventsManage : AuthenticatedPage
 
             if (!IsPostBack)
             {
-                gridManage_OnGetDataSource(this, null);
-                gridManage.DataBind();
+                GetData();
             }
         }
         catch (Exception ex)
@@ -35,11 +35,22 @@ public partial class AccountEventsManage : AuthenticatedPage
         id = 0
     };
 
+    public void GetData()
+    {
+        gridManage.CurrentPageIndex = 0;
+        gridManage.VirtualItemCount = EventService.GetAccountEventsCount(SessionManager.Ticket);
+        gridManage_OnGetDataSource(this, null);
+        gridManage.DataBind();
+    }
+
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
         try
         {
-            gridManage.DataSource = EventService.GetAccountEvents(SessionManager.Ticket);
+            ServiceQueryOptions options = new ServiceQueryOptions();
+            options.PageSize = gridManage.PageSize;
+            options.PageNumber = gridManage.CurrentPageIndex;
+            gridManage.DataSource = EventService.GetAccountEvents(SessionManager.Ticket, options);
         }
         catch (Exception ex)
         {
@@ -51,15 +62,13 @@ public partial class AccountEventsManage : AuthenticatedPage
     {
         try
         {
-            int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
             switch (e.CommandName)
             {
                 case "Delete":
+                    int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
                     EventService.DeleteAccountEvent(SessionManager.Ticket, id);
                     ReportInfo("Event deleted.");
-                    gridManage.CurrentPageIndex = 0;
-                    gridManage_OnGetDataSource(sender, e);
-                    gridManage.DataBind();
+                    GetData();
                     break;
             }
         }

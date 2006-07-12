@@ -19,35 +19,39 @@
     <div class="sncore_h2sub">
      <a href="AccountFriendRequestsSentManage.aspx">&#187; Sent</a>
     </div>
-    <SnCoreWebControls:PagedList CssClass="sncore_account_table" runat="server" RepeatDirection="Horizontal"
-     ID="listPending" Width="0px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Top"
-     OnItemCommand="listPending_ItemCommand" ItemStyle-CssClass="sncore_table_tr_td" RepeatColumns="3"
-     RepeatRows="2" AllowCustomPaging="true">
-     <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
-      prevpagetext="Prev" horizontalalign="Center" />
-     <ItemTemplate>
-      <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
-       <img alt="<%# base.Render(Eval("Message")) %>" border="0" 
-        src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" />
-       <div style="font-size: smaller;">
-        <%# base.Render(Eval("AccountName")) %>
-       </div>
-      </a>
-      <div class="sncore_description">
-       <%# base.Adjust(Eval("Created")).ToString() %>
-      </div>
-      <div style="font-size: smaller;">
-       <div>
-        <asp:LinkButton Text="&#187; accept" ID="linkAccept" runat="server"
-         CommandName="Accept" CommandArgument='<%# Eval("Id") %>' />
-       </div>
-       <div>
-        <asp:LinkButton Text="&#187; reject" ID="linkReject" runat="server" OnClientClick="return confirm('Are you sure you want to reject this request?')"
-         CommandName="Reject" CommandArgument='<%# Eval("Id") %>' />
-       </div>
-      </div>
-     </ItemTemplate>
-    </SnCoreWebControls:PagedList>     
+    <atlas:UpdatePanel ID="panelGrid" runat="server" Mode="Always">
+     <ContentTemplate>
+      <SnCoreWebControls:PagedList CssClass="sncore_account_table" runat="server" RepeatDirection="Horizontal"
+       ID="listPending" Width="0px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Top"
+       OnItemCommand="listPending_ItemCommand" ItemStyle-CssClass="sncore_table_tr_td" RepeatColumns="3"
+       RepeatRows="2" AllowCustomPaging="true">
+       <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
+        prevpagetext="Prev" horizontalalign="Center" />
+       <ItemTemplate>
+        <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
+         <img alt="<%# base.Render(Eval("Message")) %>" border="0" 
+          src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" />
+         <div style="font-size: smaller;">
+          <%# base.Render(Eval("AccountName")) %>
+         </div>
+        </a>
+        <div class="sncore_description">
+         <%# base.Adjust(Eval("Created")).ToString() %>
+        </div>
+        <div style="font-size: smaller;">
+         <div>
+          <asp:LinkButton Text="&#187; Accept" ID="linkAccept" runat="server"
+           CommandName="Accept" CommandArgument='<%# Eval("Id") %>' />
+         </div>
+         <div>
+          <asp:LinkButton Text="&#187; Reject" ID="linkReject" runat="server" OnClientClick="return confirm('Are you sure you want to reject this request?')"
+           CommandName="Reject" CommandArgument='<%# Eval("Id") %>' />
+         </div>
+        </div>
+       </ItemTemplate>
+      </SnCoreWebControls:PagedList>     
+     </ContentTemplate>
+    </atlas:UpdatePanel>
     <table runat="server" id="reasonTable" class="sncore_account_table">
      <tr>
       <td class="sncore_form_label">

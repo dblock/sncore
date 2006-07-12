@@ -21,7 +21,6 @@ public partial class AccountFriendRequestsManage : AuthenticatedPage
             
             if (!IsPostBack)
             {
-                listPending.VirtualItemCount = SocialService.GetAccountFriendRequestsCount(SessionManager.Ticket);
                 GetData(sender, e);
             }
         }
@@ -42,6 +41,7 @@ public partial class AccountFriendRequestsManage : AuthenticatedPage
     public void GetData(object sender, EventArgs e)
     {
         listPending.CurrentPageIndex = 0;
+        listPending.VirtualItemCount = SocialService.GetAccountFriendRequestsCount(SessionManager.Ticket);
         listPending_OnGetDataSource(sender, e);
         listPending.DataBind();
 

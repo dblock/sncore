@@ -548,13 +548,37 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
+        /// Get friends count.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        [WebMethod(Description = "Get friends count.")]
+        public int GetFriendsCount(string ticket)
+        {
+            return GetFriendsCountById(ManagedAccount.GetAccountId(ticket));
+        }
+
+        /// <summary>
+        /// Get friends count.
+        /// </summary>
+        [WebMethod(Description = "Get friends count.")]
+        public int GetFriendsCountById(int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return (int)session.CreateQuery(string.Format("SELECT COUNT(f) FROM AccountFriend f " +
+                        "WHERE (f.Account.Id = {0} OR f.Keen.Id = {0})", id)).UniqueResult();
+            }
+        }
+
+        /// <summary>
         /// Get friends.
         /// </summary>
         /// <param name="ticket">authentication ticket</param>
         [WebMethod(Description = "Get friends.")]
-        public List<TransitAccountFriend> GetFriends(string ticket)
+        public List<TransitAccountFriend> GetFriends(string ticket, ServiceQueryOptions options)
         {
-            return GetFriendsById(ticket, ManagedAccount.GetAccountId(ticket));
+            return GetFriendsById(ticket, ManagedAccount.GetAccountId(ticket), options);
         }
 
         /// <summary>
@@ -563,7 +587,7 @@ namespace SnCore.WebServices
         /// <param name="ticket">authentication ticket</param>
         /// <param name="account id">account id</param>
         [WebMethod(Description = "Get friends.", CacheDuration = 60)]
-        public List<TransitAccountFriend> GetFriendsById(string ticket, int accountid)
+        public List<TransitAccountFriend> GetFriendsById(string ticket, int accountid, ServiceQueryOptions options)
         {
             // anyone can see everyone's friends (for now)
             // int userid = ManagedAccount.GetAccountId(ticket);
@@ -571,11 +595,18 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
-                IList list = session.CreateQuery(
+                IQuery q = session.CreateQuery(
                     string.Format("SELECT FROM AccountFriend f " +
                         "WHERE (f.Account.Id = {0} OR f.Keen.Id = {0}) " +
-                        "ORDER BY f.Created DESC", accountid))
-                    .List();
+                        "ORDER BY f.Created DESC", accountid));
+
+                if (options != null)
+                {
+                    q.SetFirstResult(options.FirstResult);
+                    q.SetMaxResults(options.PageSize);
+                }
+
+                IList list = q.List();
 
                 List<TransitAccountFriend> result = new List<TransitAccountFriend>(list.Count);
                 foreach (AccountFriend friend in list)

@@ -253,26 +253,60 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>list of account feeds</returns>
         [WebMethod(Description = "Get account feeds.")]
-        public List<TransitAccountFeed> GetAccountFeeds(string ticket)
+        public List<TransitAccountFeed> GetAccountFeeds(string ticket, ServiceQueryOptions options)
         {
-            return GetAccountFeedsById(ticket, ManagedAccount.GetAccountId(ticket));
+            return GetAccountFeedsById(ticket, ManagedAccount.GetAccountId(ticket), options);
         }
+
+        /// <summary>
+        /// Get account feeds count.
+        /// </summary>
+        /// <returns>number of account feeds</returns>
+        [WebMethod(Description = "Get account feeds count.")]
+        public int GetAccountFeedsCount(string ticket)
+        {
+            return GetAccountFeedsCountById(ManagedAccount.GetAccountId(ticket));
+        }
+
+        /// <summary>
+        /// Get account feeds count.
+        /// </summary>
+        /// <returns>number of account feeds</returns>
+        [WebMethod(Description = "Get account feeds count.", CacheDuration = 60)]
+        public int GetAccountFeedsCountById(int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return (int)session.CreateQuery(string.Format(
+                    "SELECT COUNT(i) FROM AccountFeed i WHERE i.Account.Id = {0}",
+                        id)).UniqueResult();
+            }
+        }
+
 
         /// <summary>
         /// Get account feeds.
         /// </summary>
         /// <returns>list of account feeds</returns>
         [WebMethod(Description = "Get account feeds.", CacheDuration = 60)]
-        public List<TransitAccountFeed> GetAccountFeedsById(string ticket, int id)
+        public List<TransitAccountFeed> GetAccountFeedsById(string ticket, int id, ServiceQueryOptions options)
         {
             int userid = ManagedAccount.GetAccountId(ticket, 0);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedAccount user = (userid > 0) ? new ManagedAccount(session, userid) : null;
-                IList feeds = session.CreateCriteria(typeof(AccountFeed))
-                    .Add(Expression.Eq("Account.Id", id))
-                    .List();
+                ICriteria c = session.CreateCriteria(typeof(AccountFeed))
+                    .Add(Expression.Eq("Account.Id", id));
+
+                if (options != null)
+                {
+                    c.SetFirstResult(options.FirstResult);
+                    c.SetMaxResults(options.PageSize);
+                }
+
+                IList feeds = c.List();
                 List<TransitAccountFeed> result = new List<TransitAccountFeed>(feeds.Count);
                 foreach (AccountFeed feed in feeds)
                 {

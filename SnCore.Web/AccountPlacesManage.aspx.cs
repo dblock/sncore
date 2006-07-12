@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using SnCore.WebServices;
 
 public partial class AccountPlacesManage : AuthenticatedPage
 {
@@ -19,8 +20,7 @@ public partial class AccountPlacesManage : AuthenticatedPage
 
             if (!IsPostBack)
             {
-                gridManage_OnGetDataSource(this, null);
-                gridManage.DataBind();
+                GetData();
             }
         }
         catch (Exception ex)
@@ -29,11 +29,22 @@ public partial class AccountPlacesManage : AuthenticatedPage
         }
     }
 
+    public void GetData()
+    {
+        gridManage.CurrentPageIndex = 0;
+        gridManage.VirtualItemCount = PlaceService.GetAccountPlacesCount(SessionManager.Ticket);
+        gridManage_OnGetDataSource(this, null);
+        gridManage.DataBind();
+    }
+
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
         try
         {
-            gridManage.DataSource = PlaceService.GetAccountPlacesByAccountId(SessionManager.Account.Id);
+            ServiceQueryOptions options = new ServiceQueryOptions();
+            options.PageNumber = gridManage.CurrentPageIndex;
+            options.PageSize = gridManage.PageSize;
+            gridManage.DataSource = PlaceService.GetAccountPlaces(SessionManager.Ticket, options);
         }
         catch (Exception ex)
         {
@@ -46,7 +57,7 @@ public partial class AccountPlacesManage : AuthenticatedPage
         id = 0
     };
 
-    public void gridManage_ItemCommand(object source, DataGridCommandEventArgs e)
+    public void gridManage_ItemCommand(object source, DataListCommandEventArgs e)
     {
         try
         {
@@ -57,15 +68,13 @@ public partial class AccountPlacesManage : AuthenticatedPage
                 case ListItemType.SelectedItem:
                 case ListItemType.EditItem:
 
-                    int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
+                    int id = int.Parse(e.CommandArgument.ToString());
                     switch (e.CommandName)
                     {
                         case "Delete":
                             PlaceService.DeleteAccountPlace(SessionManager.Ticket, id);
                             ReportInfo("Place deleted.");
-                            gridManage.CurrentPageIndex = 0;
-                            gridManage_OnGetDataSource(source, e);
-                            gridManage.DataBind();
+                            GetData();
                             break;
                     }
                     break;

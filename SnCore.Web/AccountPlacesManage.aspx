@@ -16,42 +16,50 @@
     </div>
     <asp:HyperLink ID="HyperLink1" Text="&#187; Create New" CssClass="sncore_createnew" NavigateUrl="PlaceEdit.aspx"
      runat="server" />
-    <SnCoreWebControls:PagedGrid CellPadding="4" OnItemCommand="gridManage_ItemCommand"
-     runat="server" ID="gridManage" AutoGenerateColumns="false" CssClass="sncore_account_table"
-     AllowPaging="True" PageSize="20">
-     <PagerStyle CssClass="sncore_account_table_pager" Position="TopAndBottom" NextPageText="Next"
-      PrevPageText="Prev" HorizontalAlign="Center" />
-     <ItemStyle CssClass="sncore_table_tr_td" HorizontalAlign="Center" />
-     <HeaderStyle CssClass="sncore_table_tr_th" HorizontalAlign="Center" />
-     <Columns>
-      <asp:BoundColumn DataField="Id" Visible="false" />
-      <asp:TemplateColumn>
-       <itemtemplate>
-        <img src="images/Item.gif" />
-       </itemtemplate>
-      </asp:TemplateColumn>
-      <asp:TemplateColumn HeaderText="Place">
-       <itemtemplate>
-        <a href="PlaceView.aspx?id=<%# Eval("PlaceId") %>">
-         <img border="0" src="PlacePictureThumbnail.aspx?id=<%# Eval("PlacePictureId") %>" />
-         <div>
-          <b>
-           <%# base.Render(Eval("PlaceName")) %>
-          </b>
-         </div>
-        </a>
-       </itemtemplate>
-      </asp:TemplateColumn>
-      <asp:TemplateColumn>
-       <itemtemplate>
-        <a href='PlaceEdit.aspx?id=<%# Eval("PlaceId") %>'>Edit</a>
-        <br /><a href='PlacePicturesManage.aspx?id=<%# Eval("PlaceId") %>'>Pictures</a>
-        <br /><a href='SystemAccountPlaceRequestsManage.aspx?id=<%# Eval("PlaceId") %>'>Requests</a>
-       </itemtemplate>
-      </asp:TemplateColumn>
-      <asp:ButtonColumn ButtonType="LinkButton" CommandName="Delete" Text="Delete" />
-     </Columns>
-    </SnCoreWebControls:PagedGrid>
+    <atlas:UpdatePanel ID="panelGrid" runat="server" Mode="Always">
+     <ContentTemplate>
+      <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage" PageSize="10"
+       AllowCustomPaging="true" AllowPaging="true" AutoGenerateColumns="false" CssClass="sncore_account_table"
+       ShowHeader="false" RepeatColumns="2" RepeatRows="4" RepeatDirection="Horizontal" OnItemCommand="gridManage_ItemCommand">
+       <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
+        prevpagetext="Prev" horizontalalign="Center" />
+       <ItemStyle CssClass="sncore_description" HorizontalAlign="Center" />
+       <ItemTemplate>
+        <table width="100%">
+         <tr>
+          <td>
+           <div>
+            <a href="PlaceView.aspx?id=<%# Eval("PlaceId") %>">
+             <img border="0" src="PlacePictureThumbnail.aspx?id=<%# Eval("PlacePictureId") %>" />
+            </a>
+           </div>
+           <div>
+            <a href="PlaceView.aspx?id=<%# Eval("PlaceId") %>">
+             <%# base.Render(Eval("PlaceName")) %>
+            </a>
+           </div>
+          </td>
+          <td align="left">
+           <div>
+            <a href='PlaceEdit.aspx?id=<%# Eval("PlaceId") %>'>&#187; Edit</a>
+           </div>
+           <div>
+            <a href='PlacePicturesManage.aspx?id=<%# Eval("PlaceId") %>'>&#187; Pictures</a>
+           </div>
+           <div>
+            <a href='SystemAccountPlaceRequestsManage.aspx?id=<%# Eval("PlaceId") %>'>&#187; Requests</a>
+           </div>
+           <div>
+            <asp:LinkButton ID="linkDelete" runat="server" CommandArgument='<%# Eval("Id") %>' CommandName="Delete" 
+             Text="&#187; Delete" OnClientClick="return confirm('Are you sure you want to do this?')" />
+           </div>
+          </td>
+         </tr>
+        </table>
+       </ItemTemplate>
+      </SnCoreWebControls:PagedList>
+     </ContentTemplate>
+    </atlas:UpdatePanel>
     <SnCore:AccountReminder ID="accountReminder" runat="server" Style="width: 582px;" />
    </td>
   </tr>

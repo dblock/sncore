@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using SnCore.WebServices;
 
 public partial class AccountPlaceFavoritesManage : AuthenticatedPage
 {
@@ -19,6 +20,7 @@ public partial class AccountPlaceFavoritesManage : AuthenticatedPage
 
             if (!IsPostBack)
             {
+                favoritesList.VirtualItemCount = PlaceService.GetAccountPlaceFavoritesCount(SessionManager.Ticket);
                 favoritesList_OnGetDataSource(this, null);
                 favoritesList.DataBind();
             }
@@ -33,7 +35,10 @@ public partial class AccountPlaceFavoritesManage : AuthenticatedPage
     {
         try
         {
-            favoritesList.DataSource = PlaceService.GetAccountPlaceFavoritesByAccountId(SessionManager.Account.Id);
+            ServiceQueryOptions options = new ServiceQueryOptions();
+            options.PageNumber = favoritesList.CurrentPageIndex;
+            options.PageSize = favoritesList.PageSize;
+            favoritesList.DataSource = PlaceService.GetAccountPlaceFavorites(SessionManager.Ticket, options);
         }
         catch (Exception ex)
         {
