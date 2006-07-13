@@ -24,7 +24,7 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_featured_tr_td { padding: 2px; padding-top: 10px; background: url(images/site/back.jpg) no-repeat; font-family: Verdana; }
 .sncore_table_tr_td { padding: 2px; font-family: Verdana; }
 .sncore_table_tr_th { padding: 2px; font-family: Verdana; font-weight: bold; background-color: #E5EDFB; font-size: smaller;  }
-.sncore_table_pager { padding: 2px; font-family: Verdana; font-size: smaller; font-weight: bold; }
+.sncore_table_pager { padding: 2px; font-family: Verdana; font-size: 10px; font-weight: bold; }
 .sncore_menu { margin-left: 10px; margin-right: 10px; border-top: 2px solid #9F0615; border-bottom: 2px solid #9F0615; background-color: #9F0615; padding: 2px; text-align: left; }
 .sncore_menu_item { color: white; font-family: Verdana; font-weight: bold; padding: 10px; padding-bottom: 2px; border-right: solid 1px white; }
 .sncore_menu_item:hover { background-color: red; color: white; font-family: Verdana; font-weight: bold; padding: 10px; border-right: solid 1px white; padding-top: 4px; padding-bottom: 4px; }
