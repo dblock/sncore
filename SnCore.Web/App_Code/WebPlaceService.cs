@@ -681,18 +681,41 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
-        /// Get account places by place id.
+        /// Get account places count by place id.
         /// </summary>
-        /// <returns>transit account places</returns>
-        [WebMethod(Description = "Get account place by place id.")]
-        public List<TransitAccountPlace> GetAccountPlacesByPlaceId(int id)
+        /// <returns>number of account places</returns>
+        [WebMethod(Description = "Get account places count by place id.")]
+        public int GetAccountPlacesCountByPlaceId(int id)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                IList places = session.CreateCriteria(typeof(AccountPlace))
-                    .Add(Expression.Eq("Place.Id", id))
-                    .List();
+                return (int)session.CreateQuery(string.Format(
+                    "SELECT COUNT(s) FROM AccountPlace s WHERE s.Place.Id = {0}",
+                    id)).UniqueResult();
+            }
+        }
+
+        /// <summary>
+        /// Get account places by place id.
+        /// </summary>
+        /// <returns>transit account places</returns>
+        [WebMethod(Description = "Get account places by place id.")]
+        public List<TransitAccountPlace> GetAccountPlacesByPlaceId(int id, ServiceQueryOptions options)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ICriteria c = session.CreateCriteria(typeof(AccountPlace))
+                    .Add(Expression.Eq("Place.Id", id));
+
+                if (options != null)
+                {
+                    c.SetMaxResults(options.PageSize);
+                    c.SetFirstResult(options.FirstResult);
+                }
+
+                IList places = c.List();
 
                 List<TransitAccountPlace> result = new List<TransitAccountPlace>(places.Count);
                 foreach (AccountPlace place in places)
@@ -1107,18 +1130,41 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
-        /// Get account place favorites by place id.
+        /// Get account place favorites count by place id.
         /// </summary>
-        /// <returns>transit account place favorites</returns>
-        [WebMethod(Description = "Get account place favorites by place id.")]
-        public List<TransitAccountPlaceFavorite> GetAccountPlaceFavoritesByPlaceId(int id)
+        /// <returns>number of account place favorites</returns>
+        [WebMethod(Description = "Get account place favorites count by place id.")]
+        public int GetAccountPlaceFavoritesCountByPlaceId(int id)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                IList places = session.CreateCriteria(typeof(AccountPlaceFavorite))
-                    .Add(Expression.Eq("Place.Id", id))
-                    .List();
+                return (int)session.CreateQuery(string.Format(
+                    "SELECT COUNT(s) FROM AccountPlaceFavorite s WHERE s.Place.Id = {0}",
+                    id)).UniqueResult();
+            }
+        }
+
+        /// <summary>
+        /// Get account place favorites by place id.
+        /// </summary>
+        /// <returns>transit account place favorites</returns>
+        [WebMethod(Description = "Get account place favorites by place id.")]
+        public List<TransitAccountPlaceFavorite> GetAccountPlaceFavoritesByPlaceId(int id, ServiceQueryOptions options)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ICriteria c = session.CreateCriteria(typeof(AccountPlaceFavorite))
+                    .Add(Expression.Eq("Place.Id", id));
+
+                if (options != null)
+                {
+                    c.SetFirstResult(options.FirstResult);
+                    c.SetMaxResults(options.PageSize);
+                }
+
+                IList places = c.List();
 
                 List<TransitAccountPlaceFavorite> result = new List<TransitAccountPlaceFavorite>(places.Count);
                 foreach (AccountPlaceFavorite place in places)

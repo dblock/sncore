@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using Wilco.Web.UI;
 using Wilco.Web.UI.WebControls;
+using SnCore.WebServices;
 
 public partial class AccountWebsitesViewControl : Control
 {
@@ -32,9 +33,7 @@ public partial class AccountWebsitesViewControl : Control
             accountWebsites.OnGetDataSource += new EventHandler(accountWebsites_OnGetDataSource);
             if (!IsPostBack)
             {
-                accountWebsites_OnGetDataSource(sender, e);
-                accountWebsites.DataBind();
-                this.Visible = accountWebsites.Items.Count > 0;
+                GetData(sender, e);
             }
         }
         catch (Exception ex)
@@ -43,8 +42,21 @@ public partial class AccountWebsitesViewControl : Control
         }
     }
 
+    void GetData(object sender, EventArgs e)
+    {
+        accountWebsites.CurrentPageIndex = 0;
+        accountWebsites.VirtualItemCount = AccountService.GetAccountWebsitesCountById(AccountId);
+        accountWebsites_OnGetDataSource(sender, e);
+        accountWebsites.DataBind();
+        this.Visible = (accountWebsites.VirtualItemCount > 0);
+    }
+
     void accountWebsites_OnGetDataSource(object sender, EventArgs e)
     {
-        accountWebsites.DataSource = AccountService.GetAccountWebsitesById(AccountId);
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageNumber = accountWebsites.CurrentPageIndex;
+        options.PageSize = accountWebsites.PageSize;
+        accountWebsites.DataSource = AccountService.GetAccountWebsitesById(AccountId, options);
+        panelGrid.Update();
     }
 }

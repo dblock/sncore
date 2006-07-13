@@ -126,19 +126,19 @@
     OnDataBinding="gridManage_DataBinding">
     <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
      prevpagetext="Prev" horizontalalign="Center" />
-    <ItemStyle CssClass="sncore_description" HorizontalAlign="Center" />
+    <ItemStyle CssClass="sncore_table_tr_td" HorizontalAlign="Center" />
     <ItemTemplate>
-     <div>
+     <div class="sncore_link">
       <a href="PlaceView.aspx?id=<%# Eval("Id") %>">
        <img border="0" src="PlacePictureThumbnail.aspx?id=<%# Eval("PictureId") %>" />
       </a>
      </div>
-     <div>
+     <div class="sncore_link">
       <a href="PlaceView.aspx?id=<%# Eval("Id") %>">
        <%# base.Render(Eval("Name")) %>
       </a>
      </div>
-     <div>
+     <div class="sncore_link">
       <a href="PlaceView.aspx?id=<%# Eval("Id") %>">
        &#187; read and review
       </a>
@@ -147,7 +147,7 @@
       <%# base.Render(Eval("City")) %>
       <%# base.Render(Eval("State")) %>
      </div>
-     <div>
+     <div class="sncore_description">
       <%# base.Render(Eval("Country")) %>
      </div>
     </ItemTemplate>

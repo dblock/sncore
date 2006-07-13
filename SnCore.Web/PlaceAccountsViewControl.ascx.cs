@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using Wilco.Web.UI;
+using SnCore.WebServices;
 using System.Collections.Generic;
 
 public partial class PlaceAccountsViewControl : Control
@@ -33,9 +34,7 @@ public partial class PlaceAccountsViewControl : Control
 
             if (!IsPostBack)
             {
-                accountsList_OnGetDataSource(this, null);
-                accountsList.DataBind();
-                this.Visible = accountsList.Items.Count > 0;
+                GetData(sender, e);
             }
         }
         catch (Exception ex)
@@ -44,11 +43,24 @@ public partial class PlaceAccountsViewControl : Control
         }
     }
 
+    void GetData(object sender, EventArgs e)
+    {
+        accountsList.CurrentPageIndex = 0;
+        accountsList.VirtualItemCount = PlaceService.GetAccountPlacesCountByPlaceId(PlaceId);
+        accountsList_OnGetDataSource(sender, e);
+        accountsList.DataBind();
+        this.Visible = (accountsList.VirtualItemCount > 0);
+    }
+
     void accountsList_OnGetDataSource(object sender, EventArgs e)
     {
         try
         {
-            accountsList.DataSource = PlaceService.GetAccountPlacesByPlaceId(PlaceId);
+            ServiceQueryOptions options = new ServiceQueryOptions();
+            options.PageNumber = accountsList.CurrentPageIndex;
+            options.PageSize = accountsList.PageSize;
+            accountsList.DataSource = PlaceService.GetAccountPlacesByPlaceId(PlaceId, options);
+            panelGrid.Update();
         }
         catch (Exception ex)
         {

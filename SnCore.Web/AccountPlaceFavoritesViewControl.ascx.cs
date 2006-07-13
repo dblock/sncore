@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using Wilco.Web.UI;
 using System.Collections.Generic;
+using SnCore.WebServices;
 
 public partial class AccountPlaceFavoritesViewControl : Control
 {
@@ -33,9 +34,7 @@ public partial class AccountPlaceFavoritesViewControl : Control
 
             if (!IsPostBack)
             {
-                placesList_OnGetDataSource(this, null);
-                placesList.DataBind();
-                this.Visible = placesList.Items.Count > 0;
+                GetData(sender, e);
             }
         }
         catch (Exception ex)
@@ -44,11 +43,24 @@ public partial class AccountPlaceFavoritesViewControl : Control
         }
     }
 
+    void GetData(object sender, EventArgs e)
+    {
+        placesList.CurrentPageIndex = 0;
+        placesList.VirtualItemCount = PlaceService.GetAccountPlaceFavoritesCountById(AccountId);
+        placesList_OnGetDataSource(sender, e);
+        placesList.DataBind();
+        this.Visible = (placesList.VirtualItemCount > 0);
+    }
+
     void placesList_OnGetDataSource(object sender, EventArgs e)
     {
         try
         {
-            placesList.DataSource = PlaceService.GetAccountPlaceFavoritesByAccountId(AccountId);
+            ServiceQueryOptions options = new ServiceQueryOptions();
+            options.PageNumber = placesList.CurrentPageIndex;
+            options.PageSize = placesList.PageSize;
+            placesList.DataSource = PlaceService.GetAccountPlaceFavoritesByAccountId(AccountId, options);
+            panelGrid.Update();
         }
         catch (Exception ex)
         {

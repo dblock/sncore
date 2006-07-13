@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using System.Collections.Generic;
 using Wilco.Web.UI;
 using SnCore.Services;
+using SnCore.WebServices;
 
 public partial class PlaceFavoriteAccountsViewControl : Control
 {
@@ -34,9 +35,7 @@ public partial class PlaceFavoriteAccountsViewControl : Control
 
             if (!IsPostBack)
             {
-                accountsList_OnGetDataSource(this, null);
-                accountsList.DataBind();
-                this.Visible = accountsList.Items.Count > 0;
+                GetData(sender, e);
             }
         }
         catch (Exception ex)
@@ -45,12 +44,23 @@ public partial class PlaceFavoriteAccountsViewControl : Control
         }
     }
 
+    void GetData(object sender, EventArgs e)
+    {
+        accountsList.CurrentPageIndex = 0;
+        accountsList.VirtualItemCount = PlaceService.GetAccountPlaceFavoritesCountByPlaceId(PlaceId);
+        accountsList_OnGetDataSource(sender, e);
+        accountsList.DataBind();
+        this.Visible = (accountsList.VirtualItemCount > 0);
+    }
+
     void accountsList_OnGetDataSource(object sender, EventArgs e)
     {
         try
         {
-            List<TransitAccountPlaceFavorite> accounts = PlaceService.GetAccountPlaceFavoritesByPlaceId(PlaceId);
-            accountsList.DataSource = accounts;
+            ServiceQueryOptions options = new ServiceQueryOptions();
+            options.PageNumber = accountsList.CurrentPageIndex;
+            options.PageSize = accountsList.PageSize;
+            accountsList.DataSource = PlaceService.GetAccountPlaceFavoritesByPlaceId(PlaceId, options);
         }
         catch (Exception ex)
         {

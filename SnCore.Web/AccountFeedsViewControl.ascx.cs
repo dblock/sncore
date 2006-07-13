@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using Wilco.Web.UI;
+using SnCore.WebServices;
 
 public partial class AccountFeedsViewControl : Control
 {
@@ -31,9 +32,7 @@ public partial class AccountFeedsViewControl : Control
             accountFeeds.OnGetDataSource += new EventHandler(accountFeeds_OnGetDataSource);
             if (!IsPostBack)
             {
-                accountFeeds_OnGetDataSource(sender, e);
-                accountFeeds.DataBind();
-                this.Visible = accountFeeds.Items.Count > 0;
+                GetData(sender, e);
             }
         }
         catch (Exception ex)
@@ -42,8 +41,21 @@ public partial class AccountFeedsViewControl : Control
         }
     }
 
+    void GetData(object sender, EventArgs e)
+    {
+        accountFeeds.CurrentPageIndex = 0;
+        accountFeeds.VirtualItemCount = SyndicationService.GetAccountFeedsCountById(AccountId);
+        accountFeeds_OnGetDataSource(sender, e);
+        accountFeeds.DataBind();
+        this.Visible = (accountFeeds.VirtualItemCount > 0);
+    }
+
     void accountFeeds_OnGetDataSource(object sender, EventArgs e)
     {
-        accountFeeds.DataSource = SyndicationService.GetAccountFeedsById(SessionManager.Ticket, AccountId);
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageNumber = accountFeeds.CurrentPageIndex;
+        options.PageSize = accountFeeds.PageSize;
+        accountFeeds.DataSource = SyndicationService.GetAccountFeedsById(SessionManager.Ticket, AccountId, options);
+        panelGrid.Update();
     }
 }

@@ -118,7 +118,7 @@ public partial class AccountView : Page
 
                 this.Title = linkAccount.Text = Renderer.Render(Account.Name);
 
-                picturesView.DataSource = AccountService.GetAccountPicturesById(Account.Id);
+                picturesView.DataSource = AccountService.GetAccountPicturesById(Account.Id, null);
                 picturesView.DataBind();
 
                 if (picturesView.Items.Count == 0) accountNoPicture.Visible = true;

@@ -18,19 +18,21 @@ public partial class AccountPicturesView : Page
     {
         try
         {
+            if (RequestId == 0)
+            {
+                throw new Exception("Missing account.");
+            }
+
+            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+
             if (!IsPostBack)
             {
-                if (RequestId > 0)
-                {
-                    TransitAccount a = AccountService.GetAccountById(RequestId);
-                    linkAccount.Text = Renderer.Render(a.Name);
-                    linkAccount.NavigateUrl = "AccountView.aspx?id=" + a.Id;
-                    listView.DataSource = (RequestId != 0)
-                        ? AccountService.GetAccountPicturesById(RequestId)
-                        : AccountService.GetAccountPictures(SessionManager.Ticket);
-                    listView.DataBind();
-                    this.Title = string.Format("{0}'s Pictures", Renderer.Render(a.Name));
-                }
+                TransitAccount a = AccountService.GetAccountById(RequestId);
+                linkAccount.Text = Renderer.Render(a.Name);
+                linkAccount.NavigateUrl = string.Format("AccountView.aspx?id={0}", a.Id);
+                this.Title = string.Format("{0}'s Pictures", Renderer.Render(a.Name));
+        
+                GetData(sender, e);
             }
         }
         catch (Exception ex)
@@ -38,4 +40,28 @@ public partial class AccountPicturesView : Page
             ReportException(ex);
         }
     }
+
+    void GetData(object sender, EventArgs e)
+    {
+        gridManage.CurrentPageIndex = 0;
+        gridManage.VirtualItemCount = AccountService.GetAccountPicturesCountById(RequestId);
+        gridManage_OnGetDataSource(sender, e);
+        gridManage.DataBind();
+    }
+
+    void gridManage_OnGetDataSource(object sender, EventArgs e)
+    {
+        try
+        {
+            ServiceQueryOptions options = new ServiceQueryOptions();
+            options.PageSize = gridManage.PageSize;
+            options.PageNumber = gridManage.CurrentPageIndex;
+            gridManage.DataSource = AccountService.GetAccountPicturesById(RequestId, options);
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
 }

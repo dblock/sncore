@@ -23,8 +23,7 @@ public partial class AccountInvitationsManage : AuthenticatedPage
             SetDefaultButton(invite);
             if (!IsPostBack)
             {
-                gridManage_OnGetDataSource(this, null);
-                gridManage.DataBind();
+                GetData(sender, e);
             }
         }
         catch (Exception ex)
@@ -33,11 +32,22 @@ public partial class AccountInvitationsManage : AuthenticatedPage
         }
     }
 
+    void GetData(object sender, EventArgs e)
+    {
+        gridManage.CurrentPageIndex = 0;
+        gridManage.VirtualItemCount = AccountService.GetAccountInvitationsCount(SessionManager.Ticket);
+        gridManage_OnGetDataSource(sender, e);
+        gridManage.DataBind();
+    }
+
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
         try
         {
-            gridManage.DataSource = AccountService.GetAccountInvitations(SessionManager.Ticket);
+            ServiceQueryOptions options = new ServiceQueryOptions();
+            options.PageNumber = gridManage.CurrentPageIndex;
+            options.PageSize = gridManage.PageSize;
+            gridManage.DataSource = AccountService.GetAccountInvitations(SessionManager.Ticket, options);
         }
         catch (Exception ex)
         {
@@ -138,10 +148,10 @@ public partial class AccountInvitationsManage : AuthenticatedPage
                 case ListItemType.Item:
                 case ListItemType.SelectedItem:
                 case ListItemType.EditItem:
-                    int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
                     switch (e.CommandName)
                     {
                         case "Delete":
+                            int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
                             AccountService.DeleteAccountInvitation(SessionManager.Ticket, id);
                             ReportInfo("Invitation deleted.");
                             gridManage.CurrentPageIndex = 0;

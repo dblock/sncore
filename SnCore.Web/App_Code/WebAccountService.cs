@@ -1750,16 +1750,23 @@ namespace SnCore.WebServices
         /// <param name="id">account id</param>
         /// <returns>transit account invitations</returns>
         [WebMethod(Description = "Get account invitations.")]
-        public List<TransitAccountInvitation> GetAccountInvitations(string ticket)
+        public List<TransitAccountInvitation> GetAccountInvitations(string ticket, ServiceQueryOptions options)
         {
             int userid = ManagedAccount.GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                IList list = session.CreateCriteria(typeof(AccountInvitation))
+                ICriteria c = session.CreateCriteria(typeof(AccountInvitation))
                     .Add(Expression.Eq("Account.Id", userid))
-                    .AddOrder(Order.Desc("Created"))
-                    .List();
+                    .AddOrder(Order.Desc("Created"));
+
+                if (options != null)
+                {
+                    c.SetFirstResult(options.FirstResult);
+                    c.SetMaxResults(options.PageSize);
+                }
+
+                IList list = c.List();
 
                 List<TransitAccountInvitation> result = new List<TransitAccountInvitation>(list.Count);
                 foreach (AccountInvitation e in list)

@@ -5,17 +5,21 @@
 <div class="sncore_h2">
  Friends
 </div>
-<SnCoreWebControls:PagedList CssClass="sncore_inner_table" runat="server" ID="accountsList"
- Width="0px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle"
- ItemStyle-CssClass="sncore_table_tr_td" RepeatColumns="6" RepeatRows="1">
- <pagerstyle cssclass="sncore_table_pager" position="Bottom" nextpagetext="Next"
-  prevpagetext="Prev" horizontalalign="Center" />
- <ItemTemplate>
-  <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
-   <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" />
-   <div class="sncore_link_description">
-    <%# base.Render(Eval("AccountName")) %>
-   </div>
-  </a>
- </ItemTemplate>
-</SnCoreWebControls:PagedList>
+<atlas:UpdatePanel ID="panelGrid" runat="server" Mode="Conditional" RenderMode="Inline">
+ <ContentTemplate>
+  <SnCoreWebControls:PagedList CssClass="sncore_account_table" runat="server" ID="accountsList"
+   ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle"
+   ItemStyle-CssClass="sncore_table_tr_td" RepeatColumns="4" RepeatRows="1" AllowCustomPaging="true">
+   <pagerstyle cssclass="sncore_table_pager" position="Bottom" nextpagetext="Next"
+    prevpagetext="Prev" horizontalalign="Center" />
+   <ItemTemplate>
+    <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
+     <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" />
+     <div class="sncore_link_description">
+      <%# base.Render(Eval("AccountName")) %>
+     </div>
+    </a>
+   </ItemTemplate>
+  </SnCoreWebControls:PagedList>
+ </ContentTemplate>
+</atlas:UpdatePanel>

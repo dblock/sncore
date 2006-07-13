@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using Wilco.Web.UI;
+using SnCore.WebServices;
 
 public partial class AccountFriendsViewControl : Control
 {
@@ -32,9 +33,7 @@ public partial class AccountFriendsViewControl : Control
 
             if (!IsPostBack)
             {
-                friendsList_OnGetDataSource(this, null);
-                friendsList.DataBind();
-                this.Visible = friendsList.Items.Count > 0;
+                GetData(sender, e);
             }
         }
         catch (Exception ex)
@@ -43,11 +42,24 @@ public partial class AccountFriendsViewControl : Control
         }
     }
 
+    void GetData(object sender, EventArgs e)
+    {
+        friendsList.CurrentPageIndex = 0;
+        friendsList.VirtualItemCount = SocialService.GetFriendsCountById(AccountId);
+        friendsList_OnGetDataSource(sender, e);
+        friendsList.DataBind();
+        this.Visible = (friendsList.VirtualItemCount > 0);
+    }
+
     void friendsList_OnGetDataSource(object sender, EventArgs e)
     {
         try
         {
-            friendsList.DataSource = SocialService.GetFriendsById(SessionManager.Ticket, AccountId);
+            ServiceQueryOptions options = new ServiceQueryOptions();
+            options.PageNumber = friendsList.CurrentPageIndex;
+            options.PageSize = friendsList.PageSize;
+            friendsList.DataSource = SocialService.GetFriendsById(SessionManager.Ticket, AccountId, options);
+            panelGrid.Update();
         }
         catch (Exception ex)
         {
