@@ -13,6 +13,14 @@
  </div>
  <asp:ValidationSummary runat="server" ID="inputValidationSummary" CssClass="sncore_form_validator"
   ShowSummary="true" />
+ <table class="sncore_notice_error">
+  <tr>
+   <td>
+    If you are using Safari or Opera browsers you will run into many known issues. Clicking on some buttons
+    will appear to hang. Please switch to Internet Explorer or Firefox. We are working on resolving this.
+   </td>
+  </tr>
+ </table>
  <asp:Panel ID="panelCreate" runat="server">
   <asp:Panel ID="panelBeta" runat="server">
    <table class="sncore_table">
@@ -137,4 +145,13 @@
    </tr>
   </table>
  </asp:Panel>
+ <table class="sncore_notice_warning">
+  <tr>
+   <td>
+    Before you can post anything you will have to confirm your e-mail address. We will send you an e-mail to do
+    so. Sometimes Junk Mail filters treat the confirmation e-mail as unwanted spam. Please make sure to double-check 
+    your Junk Mail folder.    
+   </td>
+  </tr>
+ </table>
 </asp:Content>
