@@ -31,6 +31,18 @@ public partial class SnCoreMasterPage : MasterPage
         }
     }
 
+    public override void OnPagePreInit(EventArgs e)
+    {
+        switch (Request.Browser.Browser)
+        {
+            case "Safari":
+                scriptmanager1.EnablePartialRendering = false;
+                break;
+        }
+
+        base.OnPagePreInit(e);
+    }
+
     public string ReturnUrl
     {
         get

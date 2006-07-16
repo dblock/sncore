@@ -102,7 +102,7 @@
       </tr>
       <tr>
        <td>     
-        <atlas:ScriptManager ID="scriptmanager1" EnablePartialRendering="true" runat="Server" />
+        <atlas:ScriptManager ID="scriptmanager1" EnableScriptGlobalization="false" EnablePartialRendering="true" runat="Server" />
         <atlas:UpdatePanel Mode="Always" runat="server" ID="panelNoticeMenu" RenderMode="Inline">
          <ContentTemplate>
           <SnCore:Notice ID="noticeMenu" EnableViewState="false" runat="server" />

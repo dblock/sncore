@@ -132,5 +132,10 @@ public class MasterPage : System.Web.UI.MasterPage
         object notice = FindControl("noticeMenu");
         notice.GetType().GetProperty("Exception").SetValue(notice, ex, null);
     }
+
+    public virtual void OnPagePreInit(EventArgs e)
+    {
+
+    }
 }
 

@@ -19,6 +19,16 @@ public class Page : System.Web.UI.Page
     private HtmlMeta mMetaDescription = null;
     protected SessionManager mSessionManager = null;
 
+    protected override void OnPreInit(EventArgs e)
+    {
+        if (Master != null && Master is MasterPage)
+        {
+            ((MasterPage)Master).OnPagePreInit(e);
+        }
+
+        base.OnPreInit(e);
+    }
+
     protected override void OnLoad(EventArgs e)
     {
         if (Header != null)
