@@ -52,9 +52,12 @@
  </tr>
  <tr>
   <td>
-   <a class="sncore_link" href="AccountResetPassword.aspx">forgot password?</a>
-   <br />
-   <a class="sncore_link" href="AccountCreate.aspx">not a member? join!</a>
+   <div>
+    <a class="sncore_link" href="AccountResetPassword.aspx">&#187; forgot password?</a>
+   </div>
+   <div>
+    <a class="sncore_link" href="AccountCreate.aspx">not a member? &#187; join!</a>
+   </div>
   </td>
   <td class="sncore_form_value">
    <SnCoreWebControls:Button ID="loginLogin" runat="server" Text="Log In" CausesValidation="true"

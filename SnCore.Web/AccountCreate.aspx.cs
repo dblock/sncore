@@ -51,9 +51,24 @@ public partial class AccountCreate : Page
             inputPassword.Attributes["value"] = inputPassword.Text;
             inputPassword2.Attributes["value"] = inputPassword2.Text;
 
+            if (string.IsNullOrEmpty(inputName.Text))
+            {
+                throw new ArgumentException("Please enter a name.");
+            }
+
             if (inputPassword.Text != inputPassword2.Text)
             {
                 throw new ArgumentException("Passwords don't match.");
+            }
+
+            if (! inputBirthday.HasDate)
+            {
+                throw new ArgumentException("Please select a valid date.");
+            }
+
+            if (string.IsNullOrEmpty(inputPassword.Text))
+            {
+                throw new ArgumentException("Please enter a password.");
             }
 
             TransitAccount ta = new TransitAccount();

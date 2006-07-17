@@ -59,6 +59,16 @@ public partial class AccountCreateOpenId : Page
     {
         try
         {
+            if (string.IsNullOrEmpty(inputName.Text))
+            {
+                throw new ArgumentException("Please enter your name.");
+            }
+
+            if (string.IsNullOrEmpty(inputOpenId.Text))
+            {
+                throw new ArgumentException("Please enter your open-id.");
+            }
+
             // url root needs to be a case-sensitive match for the openid server trust
             TransitOpenIdRedirect redirect = AccountService.GetOpenIdRedirect(inputOpenId.Text, Request.Url.ToString());
             SessionManager.OpenIdToken = redirect.Token;

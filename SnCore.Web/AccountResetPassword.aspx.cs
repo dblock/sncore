@@ -20,8 +20,20 @@ public partial class AccountResetPassword : Page
     {
         try
         {
+            if (string.IsNullOrEmpty(resetpasswordEmailAddress.Text))
+            {
+                throw new Exception("Please enter your e-mail address.");
+            }
+
+            if (!resetpasswordBirthday.HasDate)
+            {
+                throw new Exception("Please select a valid date.");
+            }
+
             AccountService.ResetPassword(resetpasswordEmailAddress.Text, resetpasswordBirthday.SelectedDate);
             ReportInfo("A new password has been sent to '" + resetpasswordEmailAddress.Text + "'.");
+            panelReset.Visible = false;
+            panelResetUpdate.Update();
         }
         catch (Exception ex)
         {
