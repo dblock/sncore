@@ -133,9 +133,11 @@ public partial class PlacesView : Page
             if (!SessionManager.IsLoggedIn)
                 return;
 
+            checkboxPicturesOnly.Checked = false;
             inputName.Text = string.Empty;
             SelectLocation(sender, new SelectLocationEventArgs(SessionManager.Account));
             GetData();
+            panelSearch.Update();
         }
         catch (Exception ex)
         {
@@ -147,12 +149,14 @@ public partial class PlacesView : Page
     {
         try
         {
+            checkboxPicturesOnly.Checked = false;
             inputCountry.ClearSelection();
             inputState.ClearSelection();
             inputCity.ClearSelection();
             inputType.ClearSelection();
             inputName.Text = string.Empty;
             GetData();
+            panelSearch.Update();
         }
         catch (Exception ex)
         {

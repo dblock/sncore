@@ -33,7 +33,7 @@
    </table>
   </ContentTemplate>
  </atlas:UpdatePanel>
- <atlas:UpdatePanel ID="panelSearch" runat="server" Mode="Conditional" EnableViewState="true">
+ <atlas:UpdatePanel ID="panelSearch" runat="server" Mode="Conditional">
   <ContentTemplate>
    <SnCoreWebControls:PersistentPanel Visible="False" ID="panelSearchInternal" runat="server">
     <table class="sncore_table">
@@ -105,7 +105,7 @@
       </td>
       <td class="sncore_form_value">
        <asp:CheckBox CssClass="sncore_form_checkbox" ID="checkboxPicturesOnly" runat="server"
-        Text="show people with pictures only" Checked="false" />
+        Text="show people with pictures only" Checked="true" />
       </td>
      </tr>
      <tr>
@@ -123,7 +123,7 @@
  <atlas:UpdatePanel runat="server" ID="panelGrid" RenderMode="Inline" Mode="Conditional">
   <ContentTemplate> 
    <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage" OnDataBinding="gridManage_DataBinding"
-    AllowCustomPaging="true" RepeatColumns="4" RepeatRows="4" RepeatDirection="Horizontal"
+    AllowCustomPaging="true" RepeatColumns="4" RepeatRows="3" RepeatDirection="Horizontal"
     CssClass="sncore_table" ShowHeader="false">
     <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
      prevpagetext="Prev" horizontalalign="Center" />

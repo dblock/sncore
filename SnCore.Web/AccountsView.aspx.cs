@@ -100,14 +100,29 @@ public partial class AccountsView : AccountPersonPage
         }
     }
 
+    public int AccountsCount
+    {
+        get
+        {
+            object result = Cache["accounts:count"];
+            if (result == null)
+            {
+                result = SocialService.GetAccountsCount();
+                Cache.Insert("accounts:count", result, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
+            }
+            return (int) result;
+        }
+    }
+
     private void GetData()
     {
         gridManage.CurrentPageIndex = 0;
         gridManage.VirtualItemCount = SocialService.GetAccountActivityCount(QueryOptions);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
-        labelCount.Text = string.Format("{0} {1}",
-            gridManage.VirtualItemCount, gridManage.VirtualItemCount != 1 ? "people" : "person");
+        labelCount.Text = string.Format("{0}/{1} people",
+            gridManage.VirtualItemCount,
+            AccountsCount);
     }
 
     public void inputCountry_SelectedIndexChanged(object sender, EventArgs e)
@@ -199,10 +214,12 @@ public partial class AccountsView : AccountPersonPage
             if (!SessionManager.IsLoggedIn)
                 return;
 
+            checkboxPicturesOnly.Checked = false;
             inputName.Text = string.Empty;
             inputCity.Text = string.Empty;
             SelectLocation(sender, new SelectLocationEventArgs(SessionManager.Account));
             GetData();
+            panelSearch.Update();
         }
         catch (Exception ex)
         {
@@ -214,11 +231,13 @@ public partial class AccountsView : AccountPersonPage
     {
         try
         {
+            checkboxPicturesOnly.Checked = false;
             inputCountry.ClearSelection();
             inputState.ClearSelection();
             inputCity.Text = string.Empty;
             inputName.Text = string.Empty;
             GetData();
+            panelSearch.Update();
         }
         catch (Exception ex)
         {
