@@ -11,6 +11,9 @@
  <div class="sncore_h2">
   Forums
  </div> 
+ <div class="sncore_h2sub">
+  <a href="DiscussionThreadsView.aspx">&#187; Latest Posts</a>
+ </div>
  <table class="sncore_table">
   <tr>
    <td class="sncore_form_label">

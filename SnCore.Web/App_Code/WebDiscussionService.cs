@@ -592,7 +592,7 @@ namespace SnCore.WebServices
         /// <param name="id">discussion id</param>
         /// <returns></returns>
         [WebMethod(Description = "Get discussion threads count.")]
-        public int GetDiscussionThreadsCount(int id)
+        public int GetDiscussionThreadsCountById(int id)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
@@ -605,12 +605,75 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
+        /// Get discussion threads count.
+        /// </summary>
+        /// <param name="id">discussion id</param>
+        /// <returns></returns>
+        [WebMethod(Description = "Get all discussion threads count.")]
+        public int GetDiscussionThreadsCount()
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return (int)session.CreateQuery(
+                    "SELECT COUNT(t) from DiscussionThread t, Discussion d" +
+                        " WHERE t.Discussion.Id = d.Id " +
+                        " AND d.Personal = 0").UniqueResult();
+            }
+        }
+
+        /// <summary>
+        /// Get discussion threads.
+        /// </summary>
+        /// <returns></returns>
+        [WebMethod(Description = "Get discussion threads.")]
+        public List<TransitDiscussionPost> GetDiscussionThreads(string ticket, ServiceQueryOptions options)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                IQuery query = session.CreateSQLQuery(
+                    "SELECT {Post.*} FROM DiscussionPost {Post}, DiscussionThread, Discussion" +
+                    " WHERE DiscussionThread.Discussion_Id = Discussion.Discussion_Id" +
+                    " AND Post.DiscussionThread_Id = DiscussionThread.DiscussionThread_Id" +
+                    " AND Discussion.Personal = 0" +
+                    " AND Post.DiscussionPost_Id IN ( " +
+                    " SELECT MAX(DiscussionPost_Id) FROM DiscussionPost dp1" +
+                    "  GROUP BY dp1.DiscussionThread_Id" +
+                    " ) " +
+                    " ORDER BY Post.Modified DESC",
+                    "Post",
+                    typeof(DiscussionPost));
+
+                if (options != null)
+                {
+                    query.SetMaxResults(options.PageSize);
+                    query.SetFirstResult(options.FirstResult);
+                }
+
+                IList posts = query.List();
+
+                List<TransitDiscussionPost> result = new List<TransitDiscussionPost>();
+                if (posts != null)
+                {
+                    foreach (DiscussionPost p in posts)
+                    {
+                        TransitDiscussionPost post = new ManagedDiscussionPost(session, p).GetTransitDiscussionPost();
+                        result.Add(post);
+                    }
+                }
+                return result;
+            }
+        }
+
+        /// <summary>
         /// Get discussion threads.
         /// </summary>
         /// <param name="id">discussion id</param>
         /// <returns></returns>
         [WebMethod(Description = "Get discussion threads.")]
-        public List<TransitDiscussionPost> GetDiscussionThreads(string ticket, int id, ServiceQueryOptions options)
+        public List<TransitDiscussionPost> GetDiscussionThreadsById(string ticket, int id, ServiceQueryOptions options)
         {
             int userid = ManagedAccount.GetAccountId(ticket, 0);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))

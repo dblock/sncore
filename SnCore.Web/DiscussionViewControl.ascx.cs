@@ -32,7 +32,7 @@ public partial class DiscussionViewControl : Control
     void GetData()
     {
         discussionView.CurrentPageIndex = 0;
-        discussionView.VirtualItemCount = DiscussionService.GetDiscussionThreadsCount(DiscussionId);
+        discussionView.VirtualItemCount = DiscussionService.GetDiscussionThreadsCountById(DiscussionId);
         gridManage_OnGetDataSource(this, null);
         discussionView.DataBind();
     }
@@ -52,7 +52,7 @@ public partial class DiscussionViewControl : Control
                 ServiceQueryOptions options = new ServiceQueryOptions();
                 options.PageNumber = discussionView.CurrentPageIndex;
                 options.PageSize = discussionView.PageSize;
-                discussionView.DataSource = DiscussionService.GetDiscussionThreads(SessionManager.Ticket, DiscussionId, options);
+                discussionView.DataSource = DiscussionService.GetDiscussionThreadsById(SessionManager.Ticket, DiscussionId, options);
             }
         }
         catch (Exception ex)
