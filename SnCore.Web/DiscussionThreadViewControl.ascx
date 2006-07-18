@@ -13,10 +13,12 @@
   </td>
  </tr>
 </table>
-<asp:HyperLink ID="linkBack" Text="&#187; Back" CssClass="sncore_createnew" runat="server" />
-<asp:Panel ID="panelAdmin" runat="server">
- <asp:HyperLink ID="linkMove" runat="server" CssClass="sncore_createnew" Text="&#187; Move Thread" />
-</asp:Panel>
+<div class="sncore_h2sub">
+ <asp:HyperLink ID="linkBack" Text="&#187; Back" runat="server" />
+ <a href="DiscussionThreadsView.aspx">&#187; New Posts</a>
+ <a href="DiscussionsView.aspx">&#187; All Forums</a>
+ <asp:HyperLink ID="linkMove" runat="server" Text="&#187; Move Thread" />
+</div>
 <SnCoreWebControls:PagedGrid CellPadding="4" ShowHeader="false" runat="server" ID="discussionThreadView"
  AutoGenerateColumns="false" CssClass="sncore_table" BorderWidth="0" OnItemDataBound="discussionThreadView_ItemDataBound"
  OnItemCommand="discussionThreadView_ItemCommand">

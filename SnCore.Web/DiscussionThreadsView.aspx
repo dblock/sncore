@@ -6,11 +6,11 @@
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <div class="sncore_navigate">
-  <asp:Label CssClass="sncore_navigate_item" ID="linkDiscussionThreads" Text="Latest Posts"
+  <asp:Label CssClass="sncore_navigate_item" ID="linkDiscussionThreads" Text="New Posts"
    runat="server" />
  </div>
  <div class="sncore_h2">
-  Latest Posts
+  New Posts
  </div> 
  <div class="sncore_h2sub">
   <a href="DiscussionsView.aspx">&#187; All Forums</a>

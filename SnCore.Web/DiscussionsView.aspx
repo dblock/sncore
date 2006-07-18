@@ -12,7 +12,7 @@
   Forums
  </div> 
  <div class="sncore_h2sub">
-  <a href="DiscussionThreadsView.aspx">&#187; Latest Posts</a>
+  <a href="DiscussionThreadsView.aspx">&#187; New Posts</a>
  </div>
  <table class="sncore_table">
   <tr>

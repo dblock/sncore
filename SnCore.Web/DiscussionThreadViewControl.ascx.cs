@@ -39,7 +39,7 @@ public partial class DiscussionThreadViewControl : Control
 
                 discussionThreadView_OnGetDataSource(sender, e);
 
-                panelAdmin.Visible = SessionManager.IsAdministrator;
+                linkMove.Visible = SessionManager.IsAdministrator;
                 linkMove.NavigateUrl = string.Format("DiscussionThreadMove.aspx?id={0}", DiscussionThreadId);
             }
         }
