@@ -593,29 +593,6 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountMessage]') AND type in (N'U'))
-BEGIN
-CREATE TABLE [dbo].[AccountMessage](
-	[AccountMessage_Id] [int] IDENTITY(1,1) NOT NULL,
-	[Account_Id] [int] NOT NULL,
-	[Sent] [datetime] NOT NULL,
-	[SenderAccount_Id] [int] NOT NULL,
-	[Unread] [bit] NOT NULL CONSTRAINT [DF_Message_MessageRead]  DEFAULT (0),
-	[Subject] [nvarchar](256) NOT NULL,
-	[Body] [ntext] NOT NULL,
-	[AccountMessageFolder_Id] [int] NOT NULL,
-	[RecepientAccount_Id] [int] NOT NULL,
- CONSTRAINT [PK_AccountMessage] PRIMARY KEY CLUSTERED 
-(
-	[AccountMessage_Id] ASC
-)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-END
-GO
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[PlacePicture]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[PlacePicture](
@@ -1131,6 +1108,21 @@ CREATE TABLE [dbo].[DiscussionPost](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
 GO
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[DiscussionPost]') AND name = N'IX_DiscussionThread_Id')
+CREATE NONCLUSTERED INDEX [IX_DiscussionThread_Id] ON [dbo].[DiscussionPost] 
+(
+	[DiscussionThread_Id] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[DiscussionPost]') AND name = N'IX_Modified_DiscussionPost_Id')
+CREATE NONCLUSTERED INDEX [IX_Modified_DiscussionPost_Id] ON [dbo].[DiscussionPost] 
+(
+	[DiscussionPost_Id] ASC,
+	[Modified] DESC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+GO
 IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[DiscussionPost]'))
 CREATE FULLTEXT INDEX ON [dbo].[DiscussionPost](
 [Body] LANGUAGE [English], 
@@ -1554,6 +1546,29 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountMessage]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[AccountMessage](
+	[AccountMessage_Id] [int] IDENTITY(1,1) NOT NULL,
+	[Account_Id] [int] NOT NULL,
+	[Sent] [datetime] NOT NULL,
+	[SenderAccount_Id] [int] NOT NULL,
+	[Unread] [bit] NOT NULL CONSTRAINT [DF_Message_MessageRead]  DEFAULT (0),
+	[Subject] [nvarchar](256) NOT NULL,
+	[Body] [ntext] NOT NULL,
+	[AccountMessageFolder_Id] [int] NOT NULL,
+	[RecepientAccount_Id] [int] NOT NULL,
+ CONSTRAINT [PK_AccountMessage] PRIMARY KEY CLUSTERED 
+(
+	[AccountMessage_Id] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountWebsite]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[AccountWebsite](
@@ -1958,15 +1973,6 @@ CREATE TABLE [dbo].[AccountFeedItemImg](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountMessage_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountMessage]'))
-ALTER TABLE [dbo].[AccountMessage]  WITH CHECK ADD  CONSTRAINT [FK_AccountMessage_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountMessage_AccountMessageFolder]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountMessage]'))
-ALTER TABLE [dbo].[AccountMessage]  WITH CHECK ADD  CONSTRAINT [FK_AccountMessage_AccountMessageFolder] FOREIGN KEY([AccountMessageFolder_Id])
-REFERENCES [dbo].[AccountMessageFolder] ([AccountMessageFolder_Id])
-GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PlacePicture_Place]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlacePicture]'))
 ALTER TABLE [dbo].[PlacePicture]  WITH CHECK ADD  CONSTRAINT [FK_PlacePicture_Place] FOREIGN KEY([Place_Id])
 REFERENCES [dbo].[Place] ([Place_Id])
@@ -2247,6 +2253,11 @@ REFERENCES [dbo].[Account] ([Account_Id])
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountInvitation_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountInvitation]'))
 ALTER TABLE [dbo].[AccountInvitation]  WITH CHECK ADD  CONSTRAINT [FK_AccountInvitation_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountMessage_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountMessage]'))
+ALTER TABLE [dbo].[AccountMessage]  WITH CHECK ADD  CONSTRAINT [FK_AccountMessage_Account] FOREIGN KEY([Account_Id])
 REFERENCES [dbo].[Account] ([Account_Id])
 ON DELETE CASCADE
 GO
