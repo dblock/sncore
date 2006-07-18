@@ -14,6 +14,22 @@ using SnCore.WebServices;
 
 public partial class AcountDiscussionThreadsView : Page
 {
+    private DiscussionQueryOptions mOptions = null;
+
+    public DiscussionQueryOptions QueryOptions
+    {
+        get
+        {
+            if (mOptions == null)
+            {
+                mOptions = new DiscussionQueryOptions();
+                mOptions.AccountId = AccountId;
+                mOptions.TopOfThreadOnly = showTopLevel.Checked;
+            }
+            return mOptions;
+        }
+    }
+
     public int AccountId
     {
         get
@@ -28,29 +44,22 @@ public partial class AcountDiscussionThreadsView : Page
         }
     }
 
-    void GetData()
+    void GetData(object sender, EventArgs e)
     {
-        DiscussionQueryOptions queryoptions = new DiscussionQueryOptions();
-        queryoptions.AccountId = AccountId;
-        queryoptions.TopOfThreadOnly = showTopLevel.Checked;
-        discussionView.CurrentPageIndex = 0;
-        discussionView.VirtualItemCount = DiscussionService.GetUserDiscussionThreadsCount(queryoptions);
-        gridManage_OnGetDataSource(this, null);
-        discussionView.DataBind();
+        discussionThreadView.CurrentPageIndex = 0;
+        discussionThreadView.VirtualItemCount = DiscussionService.GetUserDiscussionThreadsCount(QueryOptions);
+        gridManage_OnGetDataSource(sender, e);
+        discussionThreadView.DataBind();
     }
-
-   
+ 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
         try
         {
-            DiscussionQueryOptions queryoptions = new DiscussionQueryOptions();
-            queryoptions.AccountId = AccountId;
-            queryoptions.TopOfThreadOnly = showTopLevel.Checked;
             ServiceQueryOptions options = new ServiceQueryOptions();
-            options.PageNumber = discussionView.CurrentPageIndex;
-            options.PageSize = discussionView.PageSize;
-            discussionView.DataSource = DiscussionService.GetUserDiscussionThreads(queryoptions, options);
+            options.PageNumber = discussionThreadView.CurrentPageIndex;
+            options.PageSize = discussionThreadView.PageSize;
+            discussionThreadView.DataSource = DiscussionService.GetUserDiscussionThreads(QueryOptions, options);
         }
         catch (Exception ex)
         {
@@ -62,7 +71,7 @@ public partial class AcountDiscussionThreadsView : Page
     {
         try
         {
-            GetData();
+            GetData(sender, e);
         }
         catch (Exception ex)
         {
@@ -72,7 +81,7 @@ public partial class AcountDiscussionThreadsView : Page
 
     public void Page_Load(object sender, EventArgs e)
     {
-        discussionView.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+        discussionThreadView.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
         try
         {
@@ -82,7 +91,7 @@ public partial class AcountDiscussionThreadsView : Page
                 linkAccount.Text = Renderer.Render(ta.Name);
                 linkAccount.NavigateUrl = string.Format("AccountView.aspx?id={0}", ta.Id);
                 this.Title = labelHeader.Text = string.Format("{0}'s Discussion Posts", Renderer.Render(ta.Name));
-                GetData();
+                GetData(sender, e);
             }
         }
         catch (Exception ex)
