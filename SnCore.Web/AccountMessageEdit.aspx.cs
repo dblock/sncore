@@ -81,7 +81,7 @@ public partial class AccountMessageEdit : AuthenticatedPage
             TransitAccountMessage tw = new TransitAccountMessage();
 
             tw.Subject = inputSubject.Text;
-            if (string.IsNullOrEmpty(tw.Subject)) tw.Subject = "[no subject]";
+            if (string.IsNullOrEmpty(tw.Subject)) tw.Subject = "Untitled";
             tw.Body = inputBody.Text;
             tw.AccountId = RequestId;
             tw.AccountMessageFolderId = 0;

@@ -70,6 +70,7 @@
       </asp:DataList>
       </li></ul>
       <li><a href="DiscussionsView.aspx">Forums</a></li>
+      <li><a href="DiscussionThreadsView.aspx">Latest Forum Posts</a></li>
       <ul>
        <asp:Repeater ID="listDiscussions" runat="server">
         <ItemTemplate>

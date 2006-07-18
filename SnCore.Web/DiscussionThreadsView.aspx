@@ -13,7 +13,7 @@
   Latest Posts
  </div> 
  <div class="sncore_h2sub">
-  <a href="DiscussionsView.aspx">&#187; Forums</a>
+  <a href="DiscussionsView.aspx">&#187; All Forums</a>
  </div>
  <atlas:UpdatePanel runat="server" ID="panelThreads" Mode="Always" RenderMode="Inline">
   <ContentTemplate>
@@ -28,7 +28,7 @@
       <tr>
        <td>
         <div>
-         <a class="sncore_message_subject" href="DiscussionThreadView.aspx?id=<%# Eval("DiscussionThreadId") %>&did=<%# Eval("DiscussionId") %>">
+         <a class="sncore_message_subject" href="DiscussionThreadView.aspx?id=<%# Eval("DiscussionThreadId") %>&did=<%# Eval("DiscussionId") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>">
           <%# base.Render(Eval("Subject")) %>
          </a>
         </div>

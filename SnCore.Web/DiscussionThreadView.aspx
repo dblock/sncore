@@ -13,7 +13,7 @@
   <asp:Label CssClass="sncore_navigate_item" ID="linkThread" Text="Thread" runat="server" />
  </div>
  <SnCore:DiscussionThreadView runat="server" ID="discussionMain" />
- <table class="sncore_table">
+ <table class="sncore_half_inner_table">
   <tr>
    <td class="sncore_table_tr_td" style="font-size: smaller;" align="right">
     socially bookmark this thread:

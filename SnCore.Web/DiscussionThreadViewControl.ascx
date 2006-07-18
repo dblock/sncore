@@ -3,20 +3,19 @@
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
-<br />
-<asp:Label CssClass="sncore_h2" ID="discussionLabel" runat="server" />
-<br />
-<asp:Label CssClass="sncore_h2sub" ID="discussionDescription" runat="server" />
-<br />
+<table width="100%">
+ <tr>
+  <td>
+   <asp:Label CssClass="sncore_h2" ID="discussionLabel" runat="server" />
+  </td>
+  <td>
+   <asp:Label CssClass="sncore_description" ID="discussionDescription" runat="server" />
+  </td>
+ </tr>
+</table>
 <asp:HyperLink ID="linkBack" Text="&#187; Back" CssClass="sncore_createnew" runat="server" />
 <asp:Panel ID="panelAdmin" runat="server">
- <table class="sncore_table">
-  <tr>
-   <td class="sncore_table_tr_td" align="right">
-    <asp:HyperLink ID="linkMove" runat="server" Text="&#187; Move Thread" />
-   </td>
-  </tr>
- </table>
+ <asp:HyperLink ID="linkMove" runat="server" CssClass="sncore_createnew" Text="&#187; Move Thread" />
 </asp:Panel>
 <SnCoreWebControls:PagedGrid CellPadding="4" ShowHeader="false" runat="server" ID="discussionThreadView"
  AutoGenerateColumns="false" CssClass="sncore_table" BorderWidth="0" OnItemDataBound="discussionThreadView_ItemDataBound"
@@ -51,7 +50,8 @@
            &#187; quote</a>
           <a id="linkEdit" runat="server">
            &#187; edit</a>
-          <asp:LinkButton CommandName="Delete" id="linkDelete" runat="server" Text="&#187; delete" OnClientClick="return confirm('Are you sure you want to do this?')" />
+          <asp:LinkButton CommandName="Delete" id="linkDelete" runat="server" Text="&#187; delete" CommandArgument='<%# Eval("Id") %>'
+           OnClientClick="return confirm('Are you sure you want to do this?')" />
          </div>
         </div>
         <div class="sncore_message_body">

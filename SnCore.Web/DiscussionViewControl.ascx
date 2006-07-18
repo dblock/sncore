@@ -1,73 +1,56 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="DiscussionViewControl.ascx.cs"
  Inherits="DiscussionViewControl" %>
+<%@ Import Namespace="SnCore.Tools.Web" %>
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
-<br />
-<asp:Label CssClass="sncore_h2" ID="discussionLabel" runat="server" />
-<br />
-<asp:Label CssClass="sncore_h2sub" ID="discussionDescription" runat="server" />
-<br />
-<asp:HyperLink ID="postNew" Text="Post New" CssClass="sncore_createnew" runat="server" />
-<table class="sncore_table">
- <tr>
-  <td class="sncore_form_label">
-   search:
-  </td>
-  <td class="sncore_form_value">
-   <asp:TextBox CssClass="sncore_form_textbox" ID="inputSearch" runat="server" />
-   <asp:RequiredFieldValidator ID="inputSearchRequired" runat="server" ControlToValidate="inputSearch"
-    CssClass="sncore_form_validator" ErrorMessage="search string is required" Display="Dynamic" />
-  </td>
- </tr>
+<table width="100%">
  <tr>
   <td>
+   <asp:Label CssClass="sncore_h2" ID="discussionLabel" runat="server" />
   </td>
-  <td class="sncore_form_value">
-   <SnCoreWebControls:Button ID="search" runat="server" Text="Search!" CausesValidation="true"
-    CssClass="sncore_form_button" OnClick="search_Click" />
+  <td align="center">
+   <asp:Label CssClass="sncore_description" ID="discussionDescription" runat="server" />
+  </td>
+  <td>
+   <link rel="alternate" type="application/rss+xml" title="Rss" href="DiscussionRss.aspx?id=<% Response.Write(DiscussionId); %>" />
+   <asp:HyperLink ImageUrl="images/rss.gif" runat="server" ToolTip="Rss" ID="linkRss" />
   </td>
  </tr>
 </table>
-<SnCoreWebControls:PagedGrid CellPadding="4" AllowPaging="true" AllowCustomPaging="True"
- PageSize="25" ShowHeader="true" runat="server" ID="discussionView" AutoGenerateColumns="false"
- CssClass="sncore_table" OnItemDataBound="discussionView_ItemDataBound" OnItemCommand="discussionView_ItemCommand">
- <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
-  PrevPageText="Prev" HorizontalAlign="Center" />
- <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
- <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
- <Columns>
-  <asp:BoundColumn DataField="Id" Visible="false" />
-  <asp:BoundColumn DataField="CanEdit" Visible="false" />
-  <asp:BoundColumn DataField="CanDelete" Visible="false" />
-  <asp:TemplateColumn>
-   <itemtemplate>
-    <img src="images/Item.gif" />
-   </itemtemplate>
-  </asp:TemplateColumn>
-  <asp:TemplateColumn HeaderText="Subject" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left">
-   <itemtemplate>
-     <a href="DiscussionThreadView.aspx?did=<%# base.DiscussionId %>&id=<%# Eval("DiscussionThreadId") %>&ReturnUrl=<%# SnCore.Tools.Web.Renderer.UrlEncode(Request.Url.PathAndQuery) %>">
-      <%# base.Render(Eval("Subject"))%>
-     </a>
-   </itemtemplate>
-  </asp:TemplateColumn>
-  <asp:TemplateColumn HeaderText="Posts">
-   <itemtemplate>
-    <%# Eval("DiscussionThreadCount") %>
-   </itemtemplate>
-  </asp:TemplateColumn>
-  <asp:TemplateColumn>
-   <itemtemplate>
-     <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
-      <%# base.Render(Eval("AccountName").ToString())%>
-     </a>
-   </itemtemplate>
-  </asp:TemplateColumn>
-  <asp:TemplateColumn HeaderText="Last Post">
-   <itemtemplate>
-     <%# base.Adjust(Eval("DiscussionThreadModified")).ToString("D") %>     
-   </itemtemplate>
-  </asp:TemplateColumn>
-  <asp:ButtonColumn CommandName="Delete" Text="Delete" />
- </Columns>
-</SnCoreWebControls:PagedGrid>
+<div class="sncore_createnew">
+ <asp:HyperLink ID="postNew" Text="&#187; Post New" runat="server" />
+ <asp:HyperLink ID="linkSearch" Text="&#187; Search" runat="server" />
+</div>
+<atlas:UpdatePanel runat="server" ID="panelThreads" Mode="Always" RenderMode="Inline">
+ <ContentTemplate>
+  <SnCoreWebControls:PagedList BorderWidth="0px" CellPadding="4" runat="server" ID="gridManage"
+   AllowCustomPaging="true" RepeatColumns="1" RepeatRows="7" RepeatDirection="Horizontal"
+   CssClass="sncore_table" ShowHeader="false">
+   <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
+    prevpagetext="Prev" horizontalalign="Center" />
+   <ItemStyle CssClass="sncore_table_tr_td" />
+   <ItemTemplate>
+    <table class="sncore_message_table" width="100%" cellspacing="0" cellpadding="0">
+     <tr>
+      <td>
+       <div>
+        <a class="sncore_message_subject" href="DiscussionThreadView.aspx?id=<%# Eval("DiscussionThreadId") %>&did=<%# Eval("DiscussionId") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>">
+         <%# base.Render(Eval("Subject")) %>
+        </a>
+       </div>
+       <div class="sncore_link">
+        <a href="DiscussionThreadView.aspx?id=<%# Eval("DiscussionThreadId") %>&did=<%# Eval("DiscussionId") %>">
+         &#187; read <%# Eval("DiscussionThreadCount") %> post<%# (int) Eval("DiscussionThreadCount") != 1 ? "s" : string.Empty %>
+        </a>        
+        &#187; last on <%# base.Adjust(Eval("DiscussionThreadModified")).ToString("d")%>
+        by <a href='AccountView.aspx?id=<%# Eval("AccountId") %>'><%# Renderer.Render(Eval("AccountName")) %></a>
+       </div>
+      </td>
+     </tr>
+    </table>
+   </ItemTemplate>    
+  </SnCoreWebControls:PagedList>
+ </ContentTemplate>
+</atlas:UpdatePanel>
+
+

@@ -20,7 +20,6 @@ public partial class DiscussionView : Page
         {
             if (!IsPostBack)
             {
-                linkRss.NavigateUrl = string.Format("DiscussionRss.aspx?id={0}", RequestId);
                 discussionMain.DiscussionId = RequestId;
                 discussionMain.DataBind();
                 TransitDiscussion td = DiscussionService.GetDiscussionById(RequestId);

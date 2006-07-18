@@ -134,8 +134,6 @@ public partial class DiscussionThreadViewControl : Control
                     DiscussionId, id, Renderer.UrlEncode(Request.Url.PathAndQuery));
 
                 LinkButton linkDelete = (LinkButton)e.Item.FindControl("linkDelete");
-                linkDelete.CommandArgument = id.ToString();
-                linkDelete.Attributes.Add("onclick", "return confirm('Are you sure you want to delete this post?');");
                 linkDelete.Visible = candelete;
 
                 break;

@@ -127,7 +127,7 @@ public partial class DiscussionPostNew : AuthenticatedPage
         {
             TransitDiscussionPost tw = new TransitDiscussionPost();
             tw.Subject = inputSubject.Text;
-            if (string.IsNullOrEmpty(tw.Subject)) tw.Subject = "[no subject]";
+            if (string.IsNullOrEmpty(tw.Subject)) tw.Subject = "Untitled";
             tw.Body = inputBody.Text;
             if (!string.IsNullOrEmpty(inputSignature.Text))
             {
