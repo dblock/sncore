@@ -43,9 +43,6 @@
           &#187; reply</a>
          <a href="DiscussionPost.aspx?did=<%# Eval("DiscussionId") %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>&Quote=true&#edit">
           &#187; quote</a>
-         <a id="linkEdit" runat="server">
-          &#187; edit</a>
-         <asp:LinkButton CommandName="Delete" id="linkDelete" runat="server" Text="&#187; delete" OnClientClick="return confirm('Are you sure you want to do this?')" />
         </div>
         <div class="sncore_message_body">
          <%# RenderEx(Eval("Body")) %>
