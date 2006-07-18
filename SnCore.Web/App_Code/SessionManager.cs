@@ -645,7 +645,7 @@ public class SessionManager
         return string.Empty;
     }
 
-    static Regex MarkupExpression = new Regex(@"(?<tag>[\[]+)(?<name>[\w\s]*):(?<value>[\w\s\']*)[\]]+",
+    static Regex MarkupExpression = new Regex(@"(?<tag>[\[]+)(?<name>[\w\s]*):(?<value>[\w\s\'\-!]*)[\]]+",
         RegexOptions.IgnoreCase);
 
     private string ReferenceHandler(Match ParameterMatch)
@@ -663,7 +663,18 @@ public class SessionManager
             int userid = 0;
             if (int.TryParse(tagvalue, out userid))
             {
-                TransitAccount a = AccountService.GetAccountById(userid);
+                TransitAccount a = (TransitAccount) Cache[string.Format("account:{0}", userid)];
+
+                if (a == null)
+                {
+                    a = AccountService.GetAccountById(userid);
+
+                    if (a != null)
+                    {
+                        Cache.Insert(string.Format("account:{0}", userid), 
+                            a, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
+                    }
+                }
 
                 if (a != null)
                 {
@@ -676,8 +687,18 @@ public class SessionManager
         }
         else
         {
-            TransitPlace p = PlaceService.FindPlace(
-                tagname, tagvalue);
+            TransitPlace p = (TransitPlace)Cache[string.Format("place:{0}:{1}", tagname, tagvalue)];
+
+            if (p == null)
+            {
+                p = PlaceService.FindPlace(tagname, tagvalue);
+
+                if (p != null)
+                {
+                    Cache.Insert(string.Format(string.Format("place:{0}:{1}", tagname, tagvalue)), 
+                        p, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
+                }
+            }
 
             if (p == null)
             {
