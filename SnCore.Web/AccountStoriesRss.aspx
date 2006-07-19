@@ -1,7 +1,7 @@
 <%@ Page Language="C#" AutoEventWireup="true" CodeFile="AccountStoriesRss.aspx.cs" Inherits="AccountStoriesRss" %>
 <rss version="2.0">
   <channel>
-    <title>Stories</title>
+    <title><% Response.Write(Name); %></title>
     <description>all stories</description>
     <link><% Response.Write(Link); %></link>
     <generator>sncore/sncore.vestris.com</generator>

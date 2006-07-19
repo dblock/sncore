@@ -2,7 +2,7 @@
 
 <rss version="2.0">
   <channel>
-    <title>Places</title>
+    <title><% Response.Write(RssTitle); %></title>
     <description>all places</description>
     <link><% Response.Write(Link); %></link>
     <generator>sncore/sncore.vestris.com</generator>

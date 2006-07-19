@@ -16,6 +16,15 @@ using System.Collections.Generic;
 
 public partial class FeaturedAccountEventsRss : Page
 {
+    public string Name
+    {
+        get
+        {
+            return Renderer.Render(string.Format("{0} Featured Events",
+                SessionManager.GetCachedConfiguration("SnCore.Title", "SnCore")));
+        }
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
         try

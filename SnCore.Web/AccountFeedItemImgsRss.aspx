@@ -3,7 +3,7 @@
 <%@ Import Namespace="SnCore.Services" %>
 <rss version="2.0">
   <channel>
-    <title>Images</title>
+    <title><% Response.Write(Name); %></title>
     <description>all syndicated images</description>
     <link><% Response.Write(Link); %></link>
     <generator>sncore/sncore.vestris.com</generator>

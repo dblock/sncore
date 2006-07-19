@@ -25,6 +25,15 @@ public partial class AccountContentGroupRss : Page
         }
     }
 
+    public string Name
+    {
+        get
+        {
+            return Renderer.Render(string.Format("{0} {1}",
+                SessionManager.GetCachedConfiguration("SnCore.Title", "SnCore"), ContentGroup.Name));
+        }
+    }
+
     public string Link
     {
         get

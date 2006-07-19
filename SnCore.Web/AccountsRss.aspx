@@ -3,7 +3,7 @@
 <%@ Import Namespace="SnCore.Services" %>
 <rss version="2.0">
   <channel>
-    <title>People</title>
+    <title><% Response.Write(RssTitle); %></title>
     <description>all people</description>
     <link><% Response.Write(Link); %></link>
     <generator>sncore/sncore.vestris.com</generator>

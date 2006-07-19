@@ -15,6 +15,15 @@ using SnCore.Services;
 
 public partial class AccountFeedItemsRss : Page
 {
+    public string Name
+    {
+        get
+        {
+            return Renderer.Render(string.Format("{0} Feed Items",
+                SessionManager.GetCachedConfiguration("SnCore.Title", "SnCore")));
+        }
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
         try

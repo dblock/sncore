@@ -15,6 +15,15 @@ using SnCore.Services;
 
 public partial class AccountStoriesRss : Page
 {
+    public string Name
+    {
+        get
+        {
+            return Renderer.Render(string.Format("{0} Stories",
+                SessionManager.GetCachedConfiguration("SnCore.Title", "SnCore")));
+        }
+    }
+
     public string WebsiteUrl
     {
         get

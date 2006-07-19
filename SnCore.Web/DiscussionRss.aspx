@@ -1,7 +1,7 @@
 <%@ Page Language="C#" AutoEventWireup="true" CodeFile="DiscussionRss.aspx.cs" Inherits="DiscussionRss" %>
 <rss version="2.0">
   <channel>
-    <title><% Response.Write(Title); %></title>
+    <title><% Response.Write(RssTitle); %></title>
     <description><% Response.Write(Description); %></description>
     <link><% Response.Write(Link); %></link>
     <generator>sncore/sncore.vestris.com</generator>

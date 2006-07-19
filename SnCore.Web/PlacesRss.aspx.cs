@@ -15,6 +15,15 @@ using SnCore.Services;
 
 public partial class PlacesRss : Page
 {
+    public string RssTitle
+    {
+        get
+        {
+            return Renderer.Render(string.Format("{0} Places",
+                SessionManager.GetCachedConfiguration("SnCore.Title", "SnCore")));
+        }
+    }
+
     public string SortOrder
     {
         get

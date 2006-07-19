@@ -15,6 +15,15 @@ using SnCore.Services;
 
 public partial class AccountFeedItemImgsRss : AccountPersonPage
 {
+    public string Name
+    {
+        get
+        {
+            return Renderer.Render(string.Format("{0} Images",
+                SessionManager.GetCachedConfiguration("SnCore.Title", "SnCore")));
+        }
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
         try

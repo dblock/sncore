@@ -12,6 +12,15 @@ using SnCore.Tools.Web;
 
 public partial class AccountFriendsRss : AccountPersonPage
 {
+    public string Name
+    {
+        get
+        {
+            return Renderer.Render(string.Format("{0} {1}'s Friends",
+                SessionManager.GetCachedConfiguration("SnCore.Title", "SnCore"), Account.Name));
+        }
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
         try

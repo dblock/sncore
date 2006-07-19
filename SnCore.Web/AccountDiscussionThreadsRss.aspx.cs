@@ -40,7 +40,8 @@ public partial class AccountDiscussionThreadsRss : Page
     {
         get
         {
-            return string.Format("{0}'s Discussion Posts", Renderer.Render(Account.Name));
+            return Renderer.Render(string.Format("{0} {1}' Discussion Posts",
+                SessionManager.GetCachedConfiguration("SnCore.Title", "SnCore"), Account.Name));
         }
     }
 

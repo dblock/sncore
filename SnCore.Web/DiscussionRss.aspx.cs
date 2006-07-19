@@ -44,11 +44,12 @@ public partial class DiscussionRss : Page
         }
     }
 
-    public new string Title
+    public string RssTitle
     {
         get
         {
-            return Renderer.Render(Discussion.Name);
+            return Renderer.Render(string.Format("{0} {1}",
+                SessionManager.GetCachedConfiguration("SnCore.Title", "SnCore"), Discussion.Name));
         }
     }
 

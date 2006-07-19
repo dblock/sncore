@@ -33,7 +33,8 @@ public partial class AccountBlogRss : Page
     {
         get
         {
-            return Renderer.Render(Blog.Name);
+            return Renderer.Render(string.Format("{0} {1}", 
+                SessionManager.GetCachedConfiguration("SnCore.Title", "SnCore"), Blog.Name));
         }
     }
 

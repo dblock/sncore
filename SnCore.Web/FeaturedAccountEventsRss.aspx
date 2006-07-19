@@ -2,7 +2,7 @@
 
 <rss version="2.0">
   <channel>
-    <title>Featured Events</title>
+    <title><% Response.Write(Name); %></title>
     <description>all featured events</description>
     <link><% Response.Write(Link); %></link>
     <generator>sncore/sncore.vestris.com</generator>
