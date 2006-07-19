@@ -89,6 +89,14 @@ public class Page : System.Web.UI.Page
         return SessionManager.GetValue(s, defaultvalue);
     }
 
+    protected WebContentService ContentService
+    {
+        get
+        {
+            return SessionManager.ContentService;
+        }
+    }
+
     protected WebAccountService AccountService
     {
         get

@@ -34,6 +34,7 @@ public class SessionManager
     private TransitAccountPermissions mAccountPermissions = null;
     private TransitAccount mAccount = null;
 
+    private WebContentService mContentService = null;
     private WebAccountService mAccountService = null;
     private WebLocationService mWebLocationService = null;
     private WebSystemService mWebSystemService = null;
@@ -390,6 +391,23 @@ public class SessionManager
             HttpCookie c = new HttpCookie(sSnCoreRememberLogin);
             c.Value = value.ToString();
             Response.Cookies.Add(c);
+        }
+    }
+
+    public WebContentService ContentService
+    {
+        get
+        {
+            if (mContentService == null)
+            {
+                mContentService = (WebContentService)HttpContext.Current.Cache["SnCore.SessionManager.ContentService"];
+                if (mContentService == null)
+                {
+                    mContentService = new WebContentService();
+                    HttpContext.Current.Cache["SnCore.SessionManager.ContentService"] = mContentService;
+                }
+            }
+            return mContentService;
         }
     }
 

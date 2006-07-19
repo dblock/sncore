@@ -98,6 +98,8 @@
     <Compile Include="ManagedAccountBlog.cs" />
     <Compile Include="ManagedAccountBlogAuthor.cs" />
     <Compile Include="ManagedAccountBlogPost.cs" />
+    <Compile Include="ManagedAccountContent.cs" />
+    <Compile Include="ManagedAccountContentGroup.cs" />
     <Compile Include="ManagedAccountEmailMessage.cs" />
     <Compile Include="ManagedAccountEvent.cs" />
     <Compile Include="ManagedAccountEventPicture.cs" />

@@ -2141,5 +2141,54 @@ namespace SnCore.Services
 
         #endregion
 
+        #region Account Content Group
+
+        public int CreateOrUpdate(TransitAccountContentGroup o)
+        {
+            AccountContentGroup group = o.GetAccountContentGroup(Session);
+
+            if (group.Id != 0)
+            {
+                if (group.Account.Id != Id && !IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+            }
+            else
+            {
+                group.Account = mAccount;
+            }
+
+            if (!IsAdministrator() && group.Trusted)
+            {
+                throw new Exception("Only administrators can create trusted content.");
+            }
+
+            group.Modified = DateTime.UtcNow;
+            if (group.Id == 0) group.Created = group.Modified;
+            Session.Save(group);
+            return group.Id;
+        }
+
+        public int CreateOrUpdate(TransitAccountContent o)
+        {
+            AccountContent content = o.GetAccountContent(Session);
+            ManagedAccountContentGroup group = new ManagedAccountContentGroup(Session, content.AccountContentGroup);
+
+            if (content.Id != 0)
+            {
+                if (content.AccountContentGroup.Account.Id != Id && !IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+            }
+
+            content.Modified = DateTime.UtcNow;
+            if (content.Id == 0) content.Created = content.Modified;
+            Session.Save(content);
+            return content.Id;
+        }
+
+        #endregion
     }
 }

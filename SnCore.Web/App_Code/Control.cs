@@ -51,6 +51,14 @@ public class Control : System.Web.UI.UserControl
         return SessionManager.AdjustToRFC822(dt);
     }
 
+    protected WebContentService ContentService
+    {
+        get
+        {
+            return SessionManager.ContentService;
+        }
+    }
+
     protected WebTagWordService TagWordService
     {
         get

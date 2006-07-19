@@ -3,7 +3,7 @@
     <ProjectType>Local</ProjectType>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1F9C0442-E7B5-4CCC-93ED-A0599CF1AA57}</ProjectGuid>
+    <ProjectGuid>{ed0e4a10-8bce-4dfa-9bd5-cfe3b7e56430}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>
@@ -99,6 +99,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AccountBlogPost.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AccountContent.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AccountContentGroup.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AccountEmail.cs">
@@ -319,6 +325,8 @@
     <EmbeddedResource Include="AccountBlog.hbm.xml" />
     <EmbeddedResource Include="AccountBlogAuthor.hbm.xml" />
     <EmbeddedResource Include="AccountBlogPost.hbm.xml" />
+    <EmbeddedResource Include="AccountContent.hbm.xml" />
+    <EmbeddedResource Include="AccountContentGroup.hbm.xml" />
     <EmbeddedResource Include="AccountEmail.hbm.xml" />
     <EmbeddedResource Include="AccountEmailConfirmation.hbm.xml" />
     <EmbeddedResource Include="AccountEmailMessage.hbm.xml" />
