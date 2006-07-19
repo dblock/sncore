@@ -134,6 +134,12 @@ public partial class SiteMap2 : Page
 
             listSurveys.DataSource = SystemService.GetSurveys();
             listSurveys.DataBind();
+
+            listContentGroups.DataSource = ContentService.GetAllAccountContentGroups(null);
+            listContentGroups.DataBind();
+
+            listContentGroupNumbers.DataSource = GetPagedList(ContentService.GetAllAccountContentGroupsCount());
+            listContentGroupNumbers.DataBind();
         }
     }
 }

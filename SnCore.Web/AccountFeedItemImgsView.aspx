@@ -3,6 +3,7 @@
 
 <%@ Import Namespace="SnCore.Services" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
+<%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <atlas:UpdatePanel ID="panelLinks" Mode="Conditional" RenderMode="Inline" runat="server">
   <ContentTemplate>
@@ -15,6 +16,7 @@
       <div class="sncore_h2sub">
        <a href="AccountFeedItemsView.aspx">&#187; Feeds</a>
        <a href="AccountFeedItemsView.aspx">&#187; Content</a>
+       <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />       
       </div>
      </td>
      <td>

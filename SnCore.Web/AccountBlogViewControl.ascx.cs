@@ -66,6 +66,18 @@ public partial class AccountBlogViewControl : Control
         }
     }
 
+    public string LinkAddConfigurationName
+    {
+        get
+        {
+            return linkAddGroup.ConfigurationName;
+        }
+        set
+        {
+            linkAddGroup.ConfigurationName = value;
+        }
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
         try

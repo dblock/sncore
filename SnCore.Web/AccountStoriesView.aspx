@@ -3,6 +3,7 @@
 
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
+<%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <atlas:UpdatePanel ID="panelLinks" Mode="Conditional" RenderMode="Inline" runat="server">
   <ContentTemplate>
@@ -16,6 +17,7 @@
        <a href="AccountStoryEdit.aspx">&#187; Tell a Story</a>
        <asp:LinkButton ID="linkSearch" OnClick="linkSearch_Click" runat="server" Text="&#187; Search" />
        <asp:LinkButton ID="linkAll" OnClick="linkAll_Click" runat="server" Text="&#187; All Stories" />
+       <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
       </div>
      </td>
      <td>
@@ -24,7 +26,7 @@
      <td align="right" valign="middle">
       <asp:HyperLink runat="server" ID="HyperLink1" ImageUrl="images/rss.gif" NavigateUrl="AccountStoriesRss.aspx" />
       <link runat="server" id="linkRelRss" rel="alternate" type="application/rss+xml" title="Rss"
-       href="PlacesRss.aspx" />
+       href="AccountStoriesRss.aspx" />
      </td>
     </tr>
    </table>

@@ -23,7 +23,7 @@
   <tr>
    <td valign="top" width="75%">
     <SnCore:SearchDefault runat="server" ID="searchDefault" />
-    <SnCore:BlogView ID="websiteBlog" runat="server" />
+    <SnCore:BlogView ID="websiteBlog" LinkAddConfigurationName="SnCore.AddContentGroup.Id" runat="server" />
     <SnCore:AccountFeaturedView ID="accountFeatured" runat="server" />
     <SnCore:PlaceFeaturedView ID="PlaceFeaturedView" runat="server" />
     <SnCore:AccountEventFeaturedView ID="accounteventsFeatured" runat="server" />

@@ -97,6 +97,20 @@ namespace SnCore.Services
             }
         }
 
+        private string mAccountName;
+
+        public string AccountName
+        {
+            get
+            {
+                return mAccountName;
+            }
+            set
+            {
+                mAccountName = value;
+            }
+        }
+
         public TransitAccountContentGroup()
         {
 
@@ -110,6 +124,7 @@ namespace SnCore.Services
             Created = o.Created;
             Modified = o.Modified;
             AccountId = o.Account.Id;
+            AccountName = o.Account.Name;
             Trusted = o.Trusted;
         }
 

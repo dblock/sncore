@@ -2,6 +2,7 @@
  CodeFile="AccountEventsView.aspx.cs" Inherits="AccountEventsView" Title="Events" %>
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
+<%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <atlas:UpdatePanel Mode="Conditional" ID="panelLinks" RenderMode="Inline" runat="server">
   <ContentTemplate>
@@ -16,6 +17,7 @@
        <asp:LinkButton ID="linkShowAll" runat="server" Text="&#187; All Events" OnClick="linkShowAll_Click" />
        <asp:LinkButton ID="linkSearch" runat="server" Text="&#187; Search" OnClick="linkSearch_Click" />
        <a href="AccountEventEdit.aspx">&#187; Suggest an Event</a>
+       <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
       </div>
      </td>
      <td align="right" valign="middle">

@@ -1,6 +1,7 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="AccountBlogViewControl.ascx.cs"
  Inherits="AccountBlogViewControl" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
+<%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <div class="sncore_h2">
  <a href='AccountBlogView.aspx?id=<% Response.Write(BlogId); %>'>
   <% Response.Write(BlogName); %>
@@ -8,8 +9,12 @@
  </a>
 </div>
 <div class="sncore_createnew">
- <span class="sncore_link"><a href='AccountBlogView.aspx?id=<% Response.Write(BlogId); %>'>
-  &#187; view blog </a></span>
+ <div class="sncore_link">
+  <a href='AccountBlogView.aspx?id=<% Response.Write(BlogId); %>'>
+   &#187; view blog
+  </a>
+  <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" LowerCase="true" />
+ </div>
 </div>
 <table class="sncore_half_table">
  <tr>

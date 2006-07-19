@@ -67,7 +67,45 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
-        /// Get account content groupss.
+        /// Get all account content groups count.
+        /// </summary>
+        [WebMethod(Description = "Get all account content groups count.", CacheDuration = 60)]
+        public int GetAllAccountContentGroupsCount()
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return (int)session.CreateQuery("SELECT COUNT(g) FROM AccountContentGroup g").UniqueResult();
+            }
+        }
+
+        /// <summary>
+        /// Get all account content groups.
+        /// </summary>
+        /// <returns>transit account content groups</returns>
+        [WebMethod(Description = "Get all account content groups.", CacheDuration = 60)]
+        public List<TransitAccountContentGroup> GetAllAccountContentGroups(ServiceQueryOptions options)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                IList list = session.CreateCriteria(typeof(AccountContentGroup))
+                    .AddOrder(Order.Desc("Created"))
+                    .List();
+
+                List<TransitAccountContentGroup> result = new List<TransitAccountContentGroup>(list.Count);
+                foreach (AccountContentGroup group in list)
+                {
+                    result.Add(new TransitAccountContentGroup(group));
+                }
+
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Get account content groups.
         /// </summary>
         /// <param name="id">account id</param>
         /// <returns>transit account content groups</returns>

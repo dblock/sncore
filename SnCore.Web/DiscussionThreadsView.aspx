@@ -2,7 +2,7 @@
  CodeFile="DiscussionThreadsView.aspx.cs" Inherits="DiscussionThreadsView" Title="Discussion Threads" %>
 
 <%@ Import Namespace="SnCore.Tools.Web" %>
-
+<%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <div class="sncore_navigate">
@@ -14,6 +14,7 @@
  </div> 
  <div class="sncore_h2sub">
   <a href="DiscussionsView.aspx">&#187; All Forums</a>
+  <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
  </div>
  <atlas:UpdatePanel runat="server" ID="panelThreads" Mode="Always" RenderMode="Inline">
   <ContentTemplate>
