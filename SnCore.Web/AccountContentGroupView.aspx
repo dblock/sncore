@@ -28,7 +28,7 @@
     CssClass="sncore_table" BorderWidth="0" ShowHeader="false">
     <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
      prevpagetext="Prev" horizontalalign="Center" />
-    <ItemStyle CssClass="sncore_table_tr_td" HorizontalAlign="Center" Width="25%" />
+    <ItemStyle CssClass="sncore_table_tr_td" />
     <ItemTemplate>
      <div class="sncore_message_table">
       <div class="sncore_message_body">
