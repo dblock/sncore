@@ -19,9 +19,9 @@ using System;
         private AccountContentGroup m_AccountContentGroup;
         private System.DateTime m_Created;
         private System.DateTime m_Modified;
-        private System.Int32 m_Position;
         private System.String m_Tag;
         private System.String m_Text;
+        private System.DateTime m_Timestamp;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -129,31 +129,6 @@ using System;
         ///Persistent primitive property.
         ///</summary>
         ///<remarks>
-        ///This property accepts values of the type 'System.Int32'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Position' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'Position' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.Int32 Position
-        {
-            get
-            {
-                return m_Position;
-            }
-            set
-            {
-                m_Position = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent primitive property.
-        ///</summary>
-        ///<remarks>
         ///This property accepts values of the type 'System.String'.
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_Tag' that holds the value for this property is 'PrivateAccess'.
@@ -196,6 +171,31 @@ using System;
             set
             {
                 m_Text = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.DateTime'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Timestamp' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Timestamp' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.DateTime Timestamp
+        {
+            get
+            {
+                return m_Timestamp;
+            }
+            set
+            {
+                m_Timestamp = value;
             }
         }
 

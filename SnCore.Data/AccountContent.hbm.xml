@@ -7,8 +7,8 @@
     <many-to-one name="AccountContentGroup" column="AccountContentGroup_Id" class="AccountContentGroup, SnCore.Data" />
     <property name="Created" column="Created" type="DateTime" />
     <property name="Modified" column="Modified" type="DateTime" />
-    <property name="Position" column="Position" type="Int32" />
     <property name="Tag" column="Tag" type="String" />
     <property name="Text" column="Text" type="String" />
+    <property name="Timestamp" column="Timestamp" type="DateTime" />
   </class>
 </hibernate-mapping>

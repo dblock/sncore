@@ -23,20 +23,24 @@
  </table>
  <atlas:UpdatePanel runat="server" ID="panelGrid" Mode="Always" RenderMode="Inline">
   <ContentTemplate>
-   <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage"
-    AllowCustomPaging="true" RepeatColumns="1" RepeatRows="4" RepeatDirection="Horizontal"
-    CssClass="sncore_table" BorderWidth="0" ShowHeader="false">
-    <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
-     prevpagetext="Prev" horizontalalign="Center" />
-    <ItemStyle CssClass="sncore_table_tr_td" />
-    <ItemTemplate>
-     <div class="sncore_message_table">
-      <div class="sncore_message_body">
-       <%# ((bool) Eval("AccountContentGroupTrusted")) ? Eval("Text") : base.RenderEx(Eval("Text"))  %>
-      </div>
-     </div>
-    </itemtemplate>
-   </SnCoreWebControls:PagedList>
+   <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage"
+    AutoGenerateColumns="false" CssClass="sncore_table" AllowPaging="true" AllowCustomPaging="true" 
+    PageSize="5" BorderWidth="0" ShowHeader="false">
+    <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
+    <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
+     PrevPageText="Prev" HorizontalAlign="Center" />
+    <Columns>
+     <asp:TemplateColumn ItemStyle-HorizontalAlign="Left">
+      <ItemTemplate>
+       <div class="sncore_message_table">
+        <div class="sncore_message_body">
+         <%# ((bool) Eval("AccountContentGroupTrusted")) ? Eval("Text") : base.RenderEx(Eval("Text"))  %>
+        </div>
+       </div>
+      </ItemTemplate>
+     </asp:TemplateColumn>
+    </Columns>
+   </SnCoreWebControls:PagedGrid>
   </ContentTemplate>
  </atlas:UpdatePanel>   
 </asp:Content>

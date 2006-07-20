@@ -1,3 +1,7 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountPlaceType]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[AccountPlaceType](
@@ -1216,7 +1220,7 @@ CREATE TABLE [dbo].[AccountContent](
 	[Text] [ntext] NOT NULL,
 	[Created] [datetime] NOT NULL,
 	[Modified] [datetime] NOT NULL,
-	[Position] [int] NOT NULL,
+	[Timestamp] [datetime] NOT NULL,
  CONSTRAINT [PK_AccountContent] PRIMARY KEY CLUSTERED 
 (
 	[AccountContent_Id] ASC
@@ -1229,7 +1233,7 @@ IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Ac
 CREATE NONCLUSTERED INDEX [IX_AccountContent] ON [dbo].[AccountContent] 
 (
 	[AccountContentGroup_Id] ASC,
-	[Position] DESC
+	[Timestamp] DESC
 )WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON

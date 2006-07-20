@@ -43,6 +43,17 @@ public partial class AccountReminder : Control
                     return;
                 }
 
+                int invitationscount = AccountService.GetAccountInvitationsCountById(SessionManager.Account.Id);
+
+                if (invitationscount == 0)
+                {
+                    noticeReminder.HtmlEncode = false;
+                    noticeReminder.Info =
+                        "Invite your friends to participate! " +
+                        "<a href='AccountInvitationsManage.aspx'>Click here!</a>";
+                    return;
+                }
+
                 List<TransitSurvey> surveys = SystemService.GetSurveys();
 
                 if (surveys != null)
@@ -64,28 +75,6 @@ public partial class AccountReminder : Control
                             return;
                         }
                     }
-                }
-
-                int storiescount = StoryService.GetAccountStoriesCountById(SessionManager.Account.Id);
-
-                if (storiescount == 0)
-                {
-                    noticeReminder.HtmlEncode = false;
-                    noticeReminder.Info = 
-                        "Participate! Post a story with pictures. " +
-                        "<a href='AccountStoryEdit.aspx'>Click here!</a>";
-                    return;
-                }
-
-                int invitationscount = AccountService.GetAccountInvitationsCountById(SessionManager.Account.Id);
-
-                if (invitationscount == 0)
-                {
-                    noticeReminder.HtmlEncode = false;
-                    noticeReminder.Info =
-                        "Invite your friends to participate! " +
-                        "<a href='AccountInvitationsManage.aspx'>Click here!</a>";
-                    return;
                 }
             }
         }

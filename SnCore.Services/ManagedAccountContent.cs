@@ -82,17 +82,17 @@ namespace SnCore.Services
             }
         }
 
-        private int mPosition;
+        private DateTime mTimestamp;
 
-        public int Position
+        public DateTime Timestamp
         {
             get
             {
-                return mPosition;
+                return mTimestamp;
             }
             set
             {
-                mPosition = value;
+                mTimestamp = value;
             }
         }
 
@@ -134,7 +134,7 @@ namespace SnCore.Services
         {
             Tag = o.Tag;
             Text = o.Text;
-            Position = o.Position;
+            Timestamp = o.Timestamp;
             AccountContentGroupId = o.AccountContentGroup.Id;
             AccountContentGroupTrusted = o.AccountContentGroup.Trusted;
             Created = o.Created;
@@ -147,7 +147,7 @@ namespace SnCore.Services
             p.AccountContentGroup = (AccountContentGroup)session.Load(typeof(AccountContentGroup), AccountContentGroupId);
             p.Tag = this.Tag;
             p.Text = this.Text;
-            p.Position = this.Position;
+            p.Timestamp = this.Timestamp;
             return p;
         }
     }

@@ -41,12 +41,13 @@ public partial class AccountContentEdit : AuthenticatedPage
 
                     inputTag.Text = tf.Tag;
                     inputText.Text = tf.Text;
-                    inputPosition.Text = tf.Position.ToString();
+                    inputTimestamp.SelectedDate = Adjust(tf.Timestamp);
 
                     linkPreview.NavigateUrl = string.Format("AccountContentView.aspx?id={0}", RequestId);
                 }
                 else
                 {
+                    inputTimestamp.SelectedDate = Adjust(DateTime.UtcNow);
                     linkPreview.Visible = false;
                 }
 
@@ -75,13 +76,12 @@ public partial class AccountContentEdit : AuthenticatedPage
 
             s.Text = inputText.Text;
 
-            int position = 0;
-            if (!int.TryParse(inputPosition.Text, out position))
+            if (!inputTimestamp.HasDate)
             {
-                throw new ArgumentException("Position must be a number.");
+                throw new ArgumentException("Missing timestamp.");
             }
 
-            s.Position = position;
+            s.Timestamp = base.ToUTC(inputTimestamp.SelectedDate);
 
             ContentService.CreateOrUpdateAccountContent(SessionManager.Ticket, s);
             Redirect(string.Format("AccountContentGroupEdit.aspx?id={0}", AccountContentGroupId));

@@ -1,6 +1,6 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="Help.aspx.cs"
  Inherits="Help" Title="Help" %>
-
+<%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <%@ register tagprefix="SnCore" tagname="Notice" src="NoticeControl.ascx" %>
  <div class="sncore_h2">
@@ -99,6 +99,17 @@
     <asp:HyperLink ID="linkAbout" runat="server" NavigateUrl="About.aspx" Text="About" />
     <br />
     Information about the system.
+   </td>
+  </tr>
+  <tr>
+   <td class="sncore_form_label">
+    <img src="images/Item.gif" />
+   </td>
+   <td class="sncore_table_tr_td">
+    <SnCore:AccountContentGroupLink ID="linkPress" ShowLinkPrefix="false" runat="server" 
+     ConfigurationName="SnCore.PressContentGroup.Id" />
+    <br />
+    Press and cuts.
    </td>
   </tr>
  </table>

@@ -2,20 +2,21 @@
  Inherits="AccountBlogViewControl" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
-<div class="sncore_h2">
+<div class="sncore_h2" runat="server">
  <a href='AccountBlogView.aspx?id=<% Response.Write(BlogId); %>'>
   <% Response.Write(BlogName); %>
   <img src="images/site/right.gif" border="0" />
  </a>
 </div>
-<div class="sncore_createnew">
- <div class="sncore_link">
-  <a href='AccountBlogView.aspx?id=<% Response.Write(BlogId); %>'>
-   &#187; view blog
-  </a>
-  <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" LowerCase="true" />
+<asp:Panel ID="panelLinks" runat="server" CssClass="sncore_createnew">
+ <div id="divLinks" class="sncore_link" runat="server">
+  <span id="spanLinkViewBlog" runat="server">
+   <a href='AccountBlogView.aspx?id=<% Response.Write(BlogId); %>'>
+    &#187; view blog
+   </a>
+  </span>
  </div>
-</div>
+</asp:Panel>
 <table class="sncore_half_table">
  <tr>
   <td class="sncore_table_tr_td">

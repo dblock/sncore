@@ -238,7 +238,7 @@ namespace SnCore.WebServices
 
                 ICriteria c = session.CreateCriteria(typeof(AccountContent))
                     .Add(Expression.Eq("AccountContentGroup.Id", id))
-                    .AddOrder(Order.Asc("Position"));
+                    .AddOrder(Order.Desc("Timestamp"));
 
                 if (options != null)
                 {

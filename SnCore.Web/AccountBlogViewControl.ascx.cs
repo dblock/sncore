@@ -21,6 +21,7 @@ public partial class AccountBlogViewControl : Control
     private int mItemsShown = 0;
     private int mImagesShown = 0;
     private TransitAccountBlog mAccountBlog = null;
+    private ListItemCollection mContentLinkIds = new ListItemCollection();
 
     public TransitAccountBlog Blog
     {
@@ -66,15 +67,28 @@ public partial class AccountBlogViewControl : Control
         }
     }
 
-    public string LinkAddConfigurationName
+    public ListItemCollection ContentLinkIds
     {
         get
         {
-            return linkAddGroup.ConfigurationName;
+            return mContentLinkIds;
         }
         set
         {
-            linkAddGroup.ConfigurationName = value;
+            mContentLinkIds = value;
+        }
+    }
+
+    protected override void OnLoad(EventArgs e)
+    {
+        base.OnLoad(e);
+
+        foreach (ListItem item in ContentLinkIds)
+        {
+            AccountContentGroupLinkControl link = (AccountContentGroupLinkControl) Page.LoadControl("AccountContentGroupLinkControl.ascx");
+            link.LowerCase = true;
+            link.ConfigurationName = item.Value;
+            divLinks.Controls.Add(link);
         }
     }
 
@@ -83,6 +97,7 @@ public partial class AccountBlogViewControl : Control
         try
         {
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+
             if (!IsPostBack)
             {
                 if (BlogId > 0)

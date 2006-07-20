@@ -4,6 +4,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountReminder" Src="AccountReminderControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="SelectDate" Src="SelectDateControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <table class="sncore_table">
   <tr>
@@ -29,7 +30,7 @@
       </td>
       <td class="sncore_form_value">
        <asp:TextBox ID="inputTag" runat="server" CssClass="sncore_form_textbox" />
-       <div class="sncore_link_small">
+       <div class="sncore_description">
         content tag
        </div>
       </td>
@@ -40,19 +41,19 @@
       </td>
       <td class="sncore_form_value">
        <asp:TextBox TextMode="MultiLine" Rows="5" ID="inputText" runat="server" CssClass="sncore_form_textbox" />
-       <div class="sncore_link_small">
+       <div class="sncore_description">
         trusted content groups allow un-encoded html and support bb-tags
        </div>
       </td>
      </tr>
      <tr>
       <td class="sncore_form_label">
-       position:
+       timestamp:
       </td>
       <td class="sncore_form_value">
-       <asp:TextBox Text="0" ID="inputPosition" runat="server" CssClass="sncore_form_textbox" />
-       <div class="sncore_link_small">
-        desired position within other content
+       <SnCore:SelectDate ID="inputTimestamp" runat="server" />
+       <div class="sncore_description">
+        content is sorted in reverse order by timestamp
        </div>
       </td>
      </tr>

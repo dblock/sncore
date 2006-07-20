@@ -44,7 +44,7 @@
       <td class="sncore_form_label">
       </td>
       <td class="sncore_form_value">
-       <asp:CheckBox ID="inputTrusted" runat="server" CssClass="sncore_form_checkbox" />
+       <asp:CheckBox ID="inputTrusted" runat="server" Text="trusted content" CssClass="sncore_form_checkbox" />
       </td>
      </tr>
      <tr>
@@ -61,7 +61,7 @@
       Contents
      </div>
      <div class="sncore_cancel">
-      <asp:HyperLink ID="linkView" Text="&#187; View" NavigateUrl="AccountContentGroupView.aspx" 
+      <asp:HyperLink ID="linkView" Text="&#187; Preview" NavigateUrl="AccountContentGroupView.aspx" 
        runat="server" />
       <asp:HyperLink ID="linkNew" Text="&#187; Create New" NavigateUrl="AccountContentEdit.aspx"
        runat="server" />
@@ -78,9 +78,11 @@
        <asp:TemplateColumn HeaderText="Content" ItemStyle-HorizontalAlign="Left">
         <itemtemplate>        
          <div class="sncore_link">
-          &#187; <a href='AccountContentEdit.aspx?id=<%# Eval("Id") %>&gid=<%# base.RequestId %>'>
-           <%# base.Render(Eval("Tag")) %>
+          <a href='AccountContentEdit.aspx?id=<%# Eval("Id") %>&gid=<%# base.RequestId %>'>
+           &#187; <%# base.Render(Eval("Tag")) %>
+           &#187; edit
           </a>
+          &#187; <%# base.Adjust(Eval("Timestamp")).ToString("d") %>
           <asp:LinkButton id="linkDelete" Text="&#187; delete" runat="server" CommandName="Delete" 
            CommandArgument='<%# Eval("Id") %>' OnClientClick="return confirm('Are you sure you want to delete this content?')" />
          </div>

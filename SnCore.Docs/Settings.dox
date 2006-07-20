@@ -17,6 +17,7 @@
  <tr><td class="settingLeft">SnCore.Mail.Port</td><td class="settingRight">mail port, eg <em>25</em></td></tr>
  <tr><td class="settingLeft">SnCore.Mail.Delivery</td><td class="settingRight">mail delivery method, eg. <em>PickupDirectoryFromIis</em></td></tr>
  <tr><td class="settingLeft">SnCore.AddContentGroup.Id</td><td class="settingRight">additional content group id to link throughout top links</em></td></tr> 
+ <tr><td class="settingLeft">SnCore.PressContentGroup.Id</td><td class="settingRight">additional content group id to link press reports</td></tr>
 </table>
 
 \section settings_appconfig Web.config Settings
