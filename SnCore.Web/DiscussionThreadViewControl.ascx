@@ -39,7 +39,7 @@
        </td>
        <td align="left" valign="top" width="*" class="sncore_message_left_border">
         <div class="sncore_message_subject">
-         <%# base.Render(Eval("Subject"))%>
+         <%# base.Render(GetSubject((string) Eval("Subject")))%>
         </div>
         <div class="sncore_description">
          posted <%# base.Adjust(Eval("Created")).ToString() %>

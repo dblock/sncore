@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
+using SnCore.WebServices;
 
 public partial class DiscussionsView : Page
 {
@@ -17,16 +18,31 @@ public partial class DiscussionsView : Page
         try
         {
             SetDefaultButton(search);
+            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+
             if (!IsPostBack)
             {
-                gridView.DataSource = DiscussionService.GetDiscussions();
-                gridView.DataBind();
+                GetData(sender, e);
             }
         }
         catch (Exception ex)
         {
             ReportException(ex);
         }
+    }
+
+    private void GetData(object sender, EventArgs e)
+    {
+        gridManage.CurrentPageIndex = 0;
+        gridManage.VirtualItemCount = DiscussionService.GetDiscussionsCount();
+        gridManage_OnGetDataSource(sender, e);
+        gridManage.DataBind();
+    }
+
+    void gridManage_OnGetDataSource(object sender, EventArgs e)
+    {
+        ServiceQueryOptions options = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
+        gridManage.DataSource = DiscussionService.GetDiscussions(options);
     }
 
     protected void search_Click(object sender, EventArgs e)

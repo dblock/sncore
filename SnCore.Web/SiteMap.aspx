@@ -150,7 +150,7 @@
      <li><a href="Help.aspx">Help</a></li>
       <ul>
        <li><a href="docs/html/faq.html">Frequently Asked Questions</a></li>
-       <li><a runat="server" id="linkSiteDiscussion" href="DiscussionView.aspx?id=0">Site Discussions</a></li>
+       <li><a runat="server" id="linkSiteDiscussion" href="DiscussionView.aspx?id=0">Site Discussion Forum</a></li>
        <li><a runat="server" id="linkReportBug" href="BugEdit.aspx?pid=0&type=Bug">Report a Bug</a></li>
        <li><a runat="server" id="linkSuggestFeature" href="BugEdit.aspx?pid=0&type=Suggestion">Suggest a Feature</a></li>
        <li><a href="docs/html/index.html">Developer Documentation</a></li>

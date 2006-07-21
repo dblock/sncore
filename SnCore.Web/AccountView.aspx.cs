@@ -129,14 +129,19 @@ public partial class AccountView : Page
                 accountCountry.Text = Renderer.Render(Account.Country);
                 accountName.Text = Renderer.Render(Account.Name);
                 accountId.Text = "#" + Account.Id.ToString();
+
+                string returnurl = string.Format("AccountView.aspx?id={0}", Account.Id);
+
                 linkNewMessage.NavigateUrl = string.Format("AccountMessageEdit.aspx?id={0}&ReturnUrl={1}&#edit",
-                    Account.Id.ToString(),
-                    Renderer.UrlEncode(string.Format("AccountView.aspx?id={0}", Account.Id)));
+                    Account.Id.ToString(), returnurl);
+
                 linkAddToFriends.NavigateUrl = string.Format("AccountFriendRequestEdit.aspx?pid={0}&ReturnUrl={1}",
-                    Account.Id.ToString(),
-                    Renderer.UrlEncode(string.Format("AccountView.aspx?id={0}", Account.Id)));
+                    Account.Id.ToString(), returnurl);
 
                 discussionTags.DiscussionId = DiscussionService.GetTagDiscussionId(Account.Id);
+
+                linkLeaveTestimonial.NavigateUrl = string.Format("DiscussionPost.aspx?did={0}&ReturnUrl={1}&#edit",
+                    discussionTags.DiscussionId, returnurl);
 
                 websitesView.DataBind();
                 surveysView.DataBind();

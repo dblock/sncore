@@ -297,15 +297,15 @@ namespace SnCore.Services
                 return;
 
             CanEdit =
-                (AccountId == a.Id) ||
+                (AccountId == a.Id) || // can edit your own posts
                 a.IsAdministrator();
 
             if (d == null)
                 return;
 
             CanDelete =
-                (CanEdit && RepliesCount == 0) ||
-                (a.Id == d.Account.Id && d.Personal) ||
+                (CanEdit && RepliesCount == 0) || // can delete your own posts that have no replies
+                (a.Id == d.Account.Id) || // can delete any post in your own discussion
                 a.IsAdministrator();
         }
     }

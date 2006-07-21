@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using SnCore.WebServices;
 
 public partial class SystemDiscussionsManage : AuthenticatedPage
 {
@@ -18,8 +19,7 @@ public partial class SystemDiscussionsManage : AuthenticatedPage
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
             if (!IsPostBack)
             {
-                gridManage_OnGetDataSource(sender, e);
-                gridManage.DataBind();
+                GetData(sender, e);
             }
         }
         catch (Exception ex)
@@ -28,9 +28,18 @@ public partial class SystemDiscussionsManage : AuthenticatedPage
         }
     }
 
+    private void GetData(object sender, EventArgs e)
+    {
+        gridManage.CurrentPageIndex = 0;
+        gridManage.VirtualItemCount = DiscussionService.GetAccountDiscussionsCount(SessionManager.Ticket);
+        gridManage_OnGetDataSource(sender, e);
+        gridManage.DataBind();
+    }
+
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        gridManage.DataSource = DiscussionService.GetDiscussions();
+        ServiceQueryOptions options = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
+        gridManage.DataSource = DiscussionService.GetAccountDiscussions(SessionManager.Ticket, options);
     }
 
 
@@ -48,10 +57,8 @@ public partial class SystemDiscussionsManage : AuthenticatedPage
             {
                 case "Delete":
                     DiscussionService.DeleteDiscussion(SessionManager.Ticket, id);
-                    ReportInfo("Discussion deleted.");
-                    gridManage.CurrentPageIndex = 0;
-                    gridManage_OnGetDataSource(sender, e);
-                    gridManage.DataBind();
+                    ReportInfo("Forum deleted.");
+                    GetData(sender, e);
                     break;
             }
         }

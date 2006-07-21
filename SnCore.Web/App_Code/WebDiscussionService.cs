@@ -246,15 +246,9 @@ namespace SnCore.WebServices
                     discussion.AccountId = id;
                 }
 
-                if (discussion.AccountId != a.Id)
+                if (discussion.AccountId != a.Id && ! a.IsAdministrator())
                 {
                     // the discussion will belong to the current user
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                if (!discussion.Personal && !a.IsAdministrator())
-                {
-                    // only administrators can create global discussions
                     throw new ManagedAccount.AccessDeniedException();
                 }
 
@@ -272,21 +266,96 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>list of discussions</returns>
         [WebMethod(Description = "Get all discussions.", CacheDuration = 30)]
-        public List<TransitDiscussion> GetDiscussions()
+        public List<TransitDiscussion> GetDiscussions(ServiceQueryOptions options)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                IList discussions = session.CreateCriteria(typeof(Discussion))
-                    .Add(Expression.Eq("Personal", false))
-                    .List();
-                List<TransitDiscussion> result = new List<TransitDiscussion>(discussions.Count);
-                foreach (Discussion c in discussions)
+                ICriteria c = session.CreateCriteria(typeof(Discussion))
+                    .Add(Expression.Eq("Personal", false));
+
+                if (options != null)
                 {
-                    result.Add(new ManagedDiscussion(session, c).TransitDiscussion);
+                    c.SetFirstResult(options.FirstResult);
+                    c.SetMaxResults(options.PageSize);
+                }
+
+                IList discussions = c.List();
+                List<TransitDiscussion> result = new List<TransitDiscussion>(discussions.Count);
+                foreach (Discussion d in discussions)
+                {
+                    result.Add(new ManagedDiscussion(session, d).TransitDiscussion);
                 }
                 session.Flush();
                 return result;
+            }
+        }
+
+        /// <summary>
+        /// Get discussions count.
+        /// </summary>
+        /// <returns>number of account discussions</returns>
+        [WebMethod(Description = "Get discussions count.")]
+        public int GetDiscussionsCount()
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return (int)session.CreateQuery(
+                    "SELECT COUNT(*) from Discussion d" +
+                    " WHERE d.Personal = 0").UniqueResult();
+            }
+        }
+
+        /// <summary>
+        /// Get all discussions.
+        /// </summary>
+        /// <returns>list of discussions</returns>
+        [WebMethod(Description = "Get account discussions.")]
+        public List<TransitDiscussion> GetAccountDiscussions(string ticket, ServiceQueryOptions options)
+        {
+            int user_id = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ICriteria c = session.CreateCriteria(typeof(Discussion))
+                    .Add(Expression.Eq("Personal", false))
+                    .Add(Expression.Eq("Account.Id", user_id));
+
+                if (options != null)
+                {
+                    c.SetFirstResult(options.FirstResult);
+                    c.SetMaxResults(options.PageSize);
+                }
+
+                IList discussions = c.List();
+
+                List<TransitDiscussion> result = new List<TransitDiscussion>(discussions.Count);
+                foreach (Discussion d in discussions)
+                {
+                    result.Add(new ManagedDiscussion(session, d).TransitDiscussion);
+                }
+                session.Flush();
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Get account discussions count.
+        /// </summary>
+        /// <param name="id">account id</param>
+        /// <returns>number of account discussions</returns>
+        [WebMethod(Description = "Get account discussions count.")]
+        public int GetAccountDiscussionsCount(string ticket)
+        {
+            int user_id = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return (int)session.CreateQuery(
+                    "SELECT COUNT(*) from Discussion d" +
+                    " where d.Account.Id = " + user_id.ToString() +
+                    " and d.Personal = 0").UniqueResult();
             }
         }
 

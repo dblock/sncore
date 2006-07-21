@@ -27,6 +27,9 @@
     <ItemTemplate>
      <table class="sncore_message_table" width="100%" cellspacing="0" cellpadding="0">
       <tr>
+       <td valign="top" width="18">
+        <img src="images/account/discussions.gif" />
+       </td>
        <td>
         <div>
          <a class="sncore_message_subject" href="DiscussionThreadView.aspx?id=<%# Eval("DiscussionThreadId") %>&did=<%# Eval("DiscussionId") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>">

@@ -1,5 +1,5 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="SystemDiscussionsManage.aspx.cs"
- Inherits="SystemDiscussionsManage" Title="System | Discussions" %>
+ Inherits="SystemDiscussionsManage" Title="Forums" %>
 
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
@@ -11,12 +11,13 @@
    </td>
    <td valign="top">
     <div class="sncore_h2">
-     Discussions
+     Forums
     </div>
     <asp:HyperLink ID="HyperLink1" Text="&#187; Create New" CssClass="sncore_createnew" NavigateUrl="SystemDiscussionEdit.aspx"
      runat="server" />
     <SnCoreWebControls:PagedGrid CellPadding="4" OnItemCommand="gridManage_ItemCommand"
-     runat="server" ID="gridManage" AutoGenerateColumns="false" CssClass="sncore_account_table">
+     runat="server" ID="gridManage" AutoGenerateColumns="false" CssClass="sncore_account_table"
+     AllowPaging="true" AllowCustomPaging="true" PageSize="5">
      <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
      <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
      <PagerStyle CssClass="sncore_account_table_pager" Position="TopAndBottom" NextPageText="Next"
@@ -29,7 +30,7 @@
         <img src="images/Item.gif" />
        </itemtemplate>
       </asp:TemplateColumn>
-      <asp:TemplateColumn HeaderText="Discussion" ItemStyle-HorizontalAlign="Left">
+      <asp:TemplateColumn HeaderText="Forum" ItemStyle-HorizontalAlign="Left">
        <itemtemplate>
         <a href="DiscussionView.aspx?id=<%# Eval("Id") %>">
          <%# base.Render(Eval("Name")) %>

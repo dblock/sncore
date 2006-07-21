@@ -60,12 +60,20 @@
       </tr>
       <tr>
        <td colspan="2" class="sncore_table_tr_td" style="text-align: right;">
-        <asp:HyperLink runat="server" ID="linkNewMessage" Text="&#187; Send Message" />
-        <br />
-        <asp:HyperLink runat="server" ID="linkAddToFriends" Text="&#187; Add to Friends" />
-        <br />
-        <asp:HyperLink Text="&#187; Discussion Posts" ID="linkDiscussionThreads" NavigateUrl="AccountDiscussionThreadsView.aspx"
-         runat="server" />
+        <div>
+         <asp:HyperLink runat="server" ID="linkNewMessage" Text="&#187; Send Message" />
+        </div>
+        <div>
+         <asp:HyperLink runat="server" ID="linkAddToFriends" Text="&#187; Add to Friends" />
+        </div>
+        <div>
+         <asp:HyperLink Text="&#187; Discussion Posts" ID="linkDiscussionThreads" NavigateUrl="AccountDiscussionThreadsView.aspx"
+          runat="server" />
+        </div>
+        <div>
+         <a href="#Testimonials">Testimonials</a>
+         <asp:HyperLink runat="server" ID="linkLeaveTestimonial" Text="&#187; Leave a Testimonial" />
+        </div>
         <asp:Panel ID="panelAdmin" runat="server">
          <div>
           <asp:LinkButton OnClick="impersonate_Click" runat="server" ID="linkImpersonate" Text="&#187; Impersonate" />
@@ -113,7 +121,7 @@
      <SnCore:WebsitesView runat="server" ID="websitesView" />
      <SnCore:SurveysView runat="server" ID="surveysView" />
      <a name="Testimonials" />
-     <SnCore:DiscussionFullView runat="server" ID="discussionTags" PostNewText="&#187; Post a Testimonial" />
+     <SnCore:DiscussionFullView runat="server" ID="discussionTags" PostNewText="&#187; Leave a Testimonial" />
     </td>
    </tr>
   </table>

@@ -144,4 +144,17 @@ public partial class DiscussionFullViewControl : Control
         }
     }
 
+    public string GetSubject(string subject)
+    {
+        switch (subject)
+        {
+            case "Untitled":
+            case "[no subject]":
+            case "Re: Untitled":
+            case "Re: [no subject]":
+                return string.Empty;
+        }
+
+        return subject;
+    }
 }
