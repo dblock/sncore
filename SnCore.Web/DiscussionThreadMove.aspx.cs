@@ -37,7 +37,7 @@ public partial class DiscussionThreadMove : Page
                 linkDiscussion.Text = Renderer.Render(td.Name);
                 linkThread.Text = Renderer.Render(tp.Subject);
 
-                listDiscussions.DataSource = DiscussionService.GetDiscussions();
+                listDiscussions.DataSource = DiscussionService.GetDiscussions(null);
                 listDiscussions.DataBind();
 
                 listDiscussions.Items.FindByValue(tt.DiscussionId.ToString()).Selected = true;

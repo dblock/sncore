@@ -129,7 +129,7 @@ public partial class SiteMap2 : Page
             listStories.DataSource = GetPagedList(StoryService.GetLatestAccountStoriesCount());
             listStories.DataBind();
 
-            listDiscussions.DataSource = DiscussionService.GetDiscussions();
+            listDiscussions.DataSource = DiscussionService.GetDiscussions(null);
             listDiscussions.DataBind();
 
             listSurveys.DataSource = SystemService.GetSurveys();

@@ -1,5 +1,5 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true"
- CodeFile="AccountPlacesManage.aspx.cs" Inherits="AccountPlacesManage" Title="Places" %>
+ CodeFile="AccountPropertyManage.aspx.cs" Inherits="AccountPropertyManage" Title="Property" %>
 
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
@@ -12,8 +12,13 @@
    </td>
    <td valign="top">
     <div class="sncore_h2">
-     Places
+     Property
     </div>
+    <div class="sncore_li_description">
+     To own a place you must follow a Claim Ownership link on the place page. Only existing place owners and system administrators 
+     may grant place ownership.
+    </div>
+    <br />
     <asp:HyperLink ID="linkSuggest" Text="&#187; Suggest a New Place" CssClass="sncore_createnew" NavigateUrl="PlaceEdit.aspx"
      runat="server" />
     <atlas:UpdatePanel ID="panelGrid" runat="server" Mode="Always">
@@ -29,25 +34,25 @@
          <tr>
           <td>
            <div>
-            <a href="PlaceView.aspx?id=<%# Eval("Id") %>">
-             <img border="0" src="PlacePictureThumbnail.aspx?id=<%# Eval("PictureId") %>" />
+            <a href="PlaceView.aspx?id=<%# Eval("PlaceId") %>">
+             <img border="0" src="PlacePictureThumbnail.aspx?id=<%# Eval("PlacePictureId") %>" />
             </a>
            </div>
            <div>
-            <a href="PlaceView.aspx?id=<%# Eval("Id") %>">
-             <%# base.Render(Eval("Name")) %>
+            <a href="PlaceView.aspx?id=<%# Eval("PlaceId") %>">
+             <%# base.Render(Eval("PlaceName")) %>
             </a>
            </div>
           </td>
           <td align="left">
            <div>
-            <a href='PlaceEdit.aspx?id=<%# Eval("Id") %>'>&#187; Edit</a>
+            <a href='PlaceEdit.aspx?id=<%# Eval("PlaceId") %>'>&#187; Edit</a>
            </div>
            <div>
-            <a href='PlacePicturesManage.aspx?id=<%# Eval("Id") %>'>&#187; Pictures</a>
+            <a href='PlacePicturesManage.aspx?id=<%# Eval("PlaceId") %>'>&#187; Pictures</a>
            </div>
            <div>
-            <a href='SystemAccountPlaceRequestsManage.aspx?id=<%# Eval("Id") %>'>&#187; Requests</a>
+            <a href='SystemAccountPlaceRequestsManage.aspx?id=<%# Eval("PlaceId") %>'>&#187; Requests</a>
            </div>
            <div>
             <asp:LinkButton ID="linkDelete" runat="server" CommandArgument='<%# Eval("Id") %>' CommandName="Delete" 

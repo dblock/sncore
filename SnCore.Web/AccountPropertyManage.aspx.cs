@@ -9,12 +9,9 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.WebServices;
-using SnCore.Services;
 
-public partial class AccountPlacesManage : AuthenticatedPage
+public partial class AccountPropertyManage : AuthenticatedPage
 {
-    private TransitPlaceQueryOptions mOptions = null;
-
     public void Page_Load(object sender, EventArgs e)
     {
         try
@@ -32,23 +29,10 @@ public partial class AccountPlacesManage : AuthenticatedPage
         }
     }
 
-    public TransitPlaceQueryOptions QueryOptions
-    {
-        get
-        {
-            if (mOptions == null)
-            {
-                mOptions = new TransitPlaceQueryOptions();
-                mOptions.AccountId = SessionManager.Account.Id;
-            }
-            return mOptions;
-        }
-    }
-
     public void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = PlaceService.GetPlacesCount(QueryOptions);
+        gridManage.VirtualItemCount = PlaceService.GetAccountPlacesCount(SessionManager.Ticket);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
@@ -60,7 +44,7 @@ public partial class AccountPlacesManage : AuthenticatedPage
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridManage.CurrentPageIndex;
             options.PageSize = gridManage.PageSize;
-            gridManage.DataSource = PlaceService.GetPlaces(QueryOptions, options);
+            gridManage.DataSource = PlaceService.GetAccountPlaces(SessionManager.Ticket, options);
         }
         catch (Exception ex)
         {
@@ -88,8 +72,8 @@ public partial class AccountPlacesManage : AuthenticatedPage
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            PlaceService.DeletePlace(SessionManager.Ticket, id);
-                            ReportInfo("Place deleted.");
+                            PlaceService.DeleteAccountPlace(SessionManager.Ticket, id);
+                            ReportInfo("Property deleted.");
                             GetData(source, e);
                             break;
                     }

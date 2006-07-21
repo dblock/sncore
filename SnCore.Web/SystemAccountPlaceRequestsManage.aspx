@@ -13,7 +13,7 @@
    </td>
    <td valign="top" width="100%">
     <div class="sncore_h2">
-     Pending Account Place Requests
+     Pending Property Requests
     </div>
     <SnCore:Notice ID="noticeRequests" runat="server" />
     <asp:Panel ID="panelRequests" runat="server">

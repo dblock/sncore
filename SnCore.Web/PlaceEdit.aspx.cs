@@ -119,6 +119,7 @@ public partial class PlaceEdit : AuthenticatedPage
                     }
 
                     linkPlaceId.Text = "New Place";
+                    linkDelete.Visible = false;
                 }
             }
 
@@ -239,6 +240,19 @@ public partial class PlaceEdit : AuthenticatedPage
                     gridPlaceNamesManage.DataBind();
                     break;
             }
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
+    public void linkDelete_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            PlaceService.DeletePlace(SessionManager.Ticket, RequestId);
+            Redirect("AccountPlacesManage.aspx");
         }
         catch (Exception ex)
         {

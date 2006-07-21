@@ -18,8 +18,12 @@
     <div class="sncore_h2">
      Place
     </div>
-    <asp:HyperLink ID="linkBack" Text="&#187; Cancel" CssClass="sncore_cancel" NavigateUrl="PlacesManage.aspx"
-     runat="server" />
+    <div class="sncore_cancel">
+     <asp:HyperLink ID="linkBack" Text="&#187; Cancel" NavigateUrl="PlacesManage.aspx"
+      runat="server" />
+     <asp:LinkButton runat="server" ID="linkDelete" Text="&#187; Delete" OnClick="linkDelete_Click" 
+      OnClientClick="return confirm('Are you sure you want to delete this place?')"/>
+    </div>
     <asp:ValidationSummary runat="server" ID="manageValidationSummary" CssClass="sncore_form_validator"
      ShowSummary="true" />
     <table class="sncore_account_table">

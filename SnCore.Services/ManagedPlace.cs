@@ -23,6 +23,7 @@ namespace SnCore.Services
         public string Name;
         public string Type;
         public bool PicturesOnly = false;
+        public int AccountId = 0;
 
         public TransitPlaceQueryOptions()
         {
@@ -60,6 +61,12 @@ namespace SnCore.Services
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
                 b.AppendFormat("p.Type.Id = {0}", ManagedPlaceType.FindId(session, Type));
+            }
+
+            if (AccountId != 0)
+            {
+                b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                b.AppendFormat("p.Account.Id = {0}", AccountId);
             }
 
             if (PicturesOnly)
@@ -455,6 +462,25 @@ namespace SnCore.Services
 
             }
 
+            if (mPlace.PlacePictures != null)
+            {
+                foreach (PlacePicture pic in mPlace.PlacePictures)
+                {
+                    new ManagedPlacePicture(Session, pic).Delete();
+                }
+            }
+
+            if (mPlace.AccountEvents != null)
+            {
+                foreach (AccountEvent evt in mPlace.AccountEvents)
+                {
+                    new ManagedAccountEvent(Session, evt).Delete();
+                }
+            }
+
+            Session.Delete(string.Format("FROM AccountPlace f WHERE f.Place.Id = {0}", Id));
+            Session.Delete(string.Format("FROM AccountPlaceRequest f WHERE f.Place.Id = {0}", Id));
+            Session.Delete(string.Format("FROM AccountPlaceFavorite f WHERE f.Place.Id = {0}", Id));
             ManagedFeature.Delete(Session, "Place", Id);
             Session.Delete(mPlace);
         }

@@ -234,12 +234,13 @@ namespace SnCore.WebServices
 
                 ManagedAccount user = new ManagedAccount(session, userid);
 
-                if (!user.IsAdministrator())
+                ManagedPlace m_place = new ManagedPlace(session, id);
+
+                if (! m_place.CanWrite(userid) && !user.IsAdministrator())
                 {
                     throw new ManagedAccount.AccessDeniedException();
                 }
 
-                ManagedPlace m_place = new ManagedPlace(session, id);
                 m_place.Delete();
                 SnCore.Data.Hibernate.Session.Flush();
             }
