@@ -17,7 +17,7 @@
      runat="server" />
     <SnCoreWebControls:PagedGrid CellPadding="4" OnItemCommand="gridManage_ItemCommand"
      runat="server" ID="gridManage" AutoGenerateColumns="false" CssClass="sncore_account_table"
-     AllowPaging="true" AllowCustomPaging="true" PageSize="5">
+     AllowPaging="true" AllowCustomPaging="true" PageSize="10">
      <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
      <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
      <PagerStyle CssClass="sncore_account_table_pager" Position="TopAndBottom" NextPageText="Next"
@@ -27,7 +27,7 @@
       <asp:BoundColumn DataField="Name" Visible="false" />
       <asp:TemplateColumn>
        <itemtemplate>
-        <img src="images/Item.gif" />
+        <img src="images/account/discussions.gif" />
        </itemtemplate>
       </asp:TemplateColumn>
       <asp:TemplateColumn HeaderText="Forum" ItemStyle-HorizontalAlign="Left">

@@ -52,10 +52,10 @@ public partial class SystemDiscussionsManage : AuthenticatedPage
     {
         try
         {
-            int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
             switch (e.CommandName)
             {
                 case "Delete":
+                    int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
                     DiscussionService.DeleteDiscussion(SessionManager.Ticket, id);
                     ReportInfo("Forum deleted.");
                     GetData(sender, e);
