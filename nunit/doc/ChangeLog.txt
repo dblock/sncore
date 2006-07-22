@@ -1,7 +1,106 @@
-Change Log for NUnit 2.2 Final Release
-August 8, 2004
+NUnit 2.2.5 Release
 
-NUnit 2.2 Final Release
+Bugs Fixed
+* 1382389 NUnit 2.2.4 source package won't build
+* 1383680 2.2.4 NullReferenceException in Project on Add Assembly
+* 1383523 Assert.Contains bug for empty IList
+* 1383546 2.2.4 installer desktop shortcut incorrect
+
+NUnit 2.2.4 Release
+
+Bugs Fixed
+* 1220723 Tests always fail after first run
+
+Feature Requests Implemented
+* ExpectedExceptionAttribute Constructor with Type as String
+
+NUnit 2.2.3 Iteration Release 
+
+Bugs Fixed
+* 1099669 Missing function in framework
+* 1076043 Assert.AreEqual and boxing
+* 1077941 Custom Identity prevents test from completing
+* 1107950 NullReferenceException on Tools -> Framework info...
+* 1104326 Clicking Stop during test requires restart of GUI
+* 1103744 Ctrl-A to select exception stack trace
+* 1071502 NullReference exception on reload
+* 1063359 System.IO.IOException after run with unmanaged C++
+* 1060639 Dll does not unload properly when testing unmanaged C++
+* 1115605 Cannot open solution file that contains a makefile project
+* 1124049 params-keyword is missing in overloaded Assert.Ignore
+* 1116442 Cannot open C++ project file [with macros in paths]
+* 1109309 Cannot add assemblies from directories below AppBase
+* 1031617 Crash when repeatedly running tests in same session 
+* 1169186 The tab order of the controls in the Categories tab is wrong
+* 1173204 Incorrect XML Documentation for Assert.IsNull/IsNotNull
+* 1182239 NUnit GUI cannot load VS Proj. with non-English named files
+* 1156923 The message "assembly was not built ..." is confusing
+* 1203077 Cannot install NUnit - needs Framework 2.0.40607
+* 1189808 Build fails without VS.Net Installed
+* 1056946 TestFixtureSetUp and TestFixtureTearDown run between tests
+* 1236483 Nunit.build references unavailable registry keys
+* 1292875 double.NaN equals fails
+*  823573 NullReferenceException handling a COM exception
+* 1224378 Can't specify an absolute path to an assembly on unix
+* 1073539 Create Summary Document error
+* 1311644 Unprintable chars in Assert.AreEqual parms causes errors
+* 1242836 Exception in CreateSummaryDocument()
+* 1020791 PositionOutOfBounds failed
+* 1265810 Crash when saving project to project file marked read-only
+*  919674 Custom Exceptions Cause Error in gui
+* 1022105 ExpectedException yields NullReference bug
+* 1222749 "Index was outside the bounds of the array." Exception
+* 1214117 NullReferenceException is thrown
+* 1276193 Errors and Failures Tooltip makes errors hard to read
+* 1036266 Tests are no longer repeatable
+
+Feature Requests Implemented
+* 1006156 Assert.IsType() Would be very helpful
+*  644012 Adjusting task priority (actually fixed earlier)
+* 1159528 Assemblies must be strong named
+*  780114 Display full type name for running test
+*  836512 Report with information about current...
+
+NUnit 2.2.2 Iteration Release - December 7, 2004
+
+Bugs Fixed
+* 1010869 Exception when running with VS .NET 2005
+* 1058229 /fixture argument suppresses namespace hierarchy
+* 1023349 Gui's tooltip window throws an exception
+* 1040523 Exception by opening .sln with non-.NET projects
+* 1051632 NUnit does not properly handle absolute UNC paths
+* 1020855 one timing test fails
+* 1028529 Globalization issues in results.xml
+
+Feature Requests Implemented
+*  676154 AssertEqualsIgnoreCase method for strings
+* 1032799 Assert.AreNotEqual
+*  871799 Detect older NUnit version reference
+*  783604 Run test on specific platform only
+
+NUnit 2.2.1 Iteration Release - October 26, 2004
+
+Bugs Fixed
+
+* 1006909 Label test cases in test output
+* 1008777 Cache directories in drive root
+* 1006902 Console.Out pane does not clear always
+* 1020504 Assert has no protected constructor
+* 1017335 TipWindow problems
+* 1034527 No AttributeUsage specified on TestBuilder attribute
+* 1026207 Loading VS.NET 2005 .csproj
+* 1026552 NotSupportedException when loading solution file
+* 1020817 exception running NUnit.sln
+* 1029041 2.2 Help out of date
+* 1055124 Method names beginning with 'Test' will be shown
+
+Feature Requests Implemented
+* 848853 - Display results in GUI while running
+* 978781 - Make using old 'introspection' test style an option
+* 615499 - GUI and Console as DLL
+* 807193 - Support VS.NET solutions with web projects with virtual root
+
+NUnit 2.2 Final Release - August 8, 2004
 
 Bugs Fixed or Closed
 
