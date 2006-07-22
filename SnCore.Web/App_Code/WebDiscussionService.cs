@@ -272,7 +272,8 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ICriteria c = session.CreateCriteria(typeof(Discussion))
-                    .Add(Expression.Eq("Personal", false));
+                    .Add(Expression.Eq("Personal", false))
+                    .AddOrder(Order.Desc("Modified"));
 
                 if (options != null)
                 {
@@ -562,24 +563,25 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
-                IList discussions = session.CreateCriteria(typeof(Discussion))
-                    .Add(Expression.Eq("Personal", false))
-                    .List();
+                IQuery query = session.CreateSQLQuery(
+                    "SELECT {Post.*} FROM DiscussionPost {Post}" +
+                    " WHERE Post.DiscussionPost_Id IN ( " +
+                    "  SELECT MAX(DiscussionPost_Id) FROM DiscussionPost dp, DiscussionThread dt, Discussion d" +
+                    "   WHERE dp.DiscussionThread_Id = dt.DiscussionThread_Id" +
+                    "   AND dp.Created > DATEADD(\"day\", -7, getdate())" +
+                    "   AND d.Discussion_Id = dt.Discussion_Id" +
+                    "   AND d.Personal = 0" +
+                    "   GROUP BY d.Discussion_Id" +
+                    " ) ORDER BY Post.Modified DESC",
+                    "Post",
+                    typeof(DiscussionPost));
 
-                List<TransitDiscussionPost> result = new List<TransitDiscussionPost>(discussions.Count);
-                foreach (Discussion discussion in discussions)
+                IList posts = query.List();
+
+                List<TransitDiscussionPost> result = new List<TransitDiscussionPost>(posts.Count);
+                foreach (DiscussionPost post in posts)
                 {
-                    DiscussionPost post = (DiscussionPost)session.CreateQuery(
-                        "from DiscussionPost post" +
-                        " where post.DiscussionThread.Discussion.Id = " + discussion.Id.ToString() +
-                        " order by post.Created desc")
-                        .SetMaxResults(1)
-                        .UniqueResult();
-
-                    if (post != null && post.Created.AddDays(7) > DateTime.UtcNow)
-                    {
-                        result.Add(new ManagedDiscussionPost(session, post).GetTransitDiscussionPost());
-                    }
+                    result.Add(new ManagedDiscussionPost(session, post).GetTransitDiscussionPost());
                 }
 
                 return result;
@@ -678,7 +680,7 @@ namespace SnCore.WebServices
         /// </summary>
         /// <param name="id">discussion id</param>
         /// <returns></returns>
-        [WebMethod(Description = "Get all discussion threads count.")]
+        [WebMethod(Description = "Get discussion threads count.")]
         public int GetDiscussionThreadsCount()
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
@@ -695,7 +697,7 @@ namespace SnCore.WebServices
         /// Get discussion threads.
         /// </summary>
         /// <returns></returns>
-        [WebMethod(Description = "Get discussion threads.")]
+        [WebMethod(Description = "Get discussion threads, newest first.")]
         public List<TransitDiscussionPost> GetDiscussionThreads(string ticket, ServiceQueryOptions options)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
@@ -703,15 +705,14 @@ namespace SnCore.WebServices
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
                 IQuery query = session.CreateSQLQuery(
-                    "SELECT {Post.*} FROM DiscussionPost {Post}, DiscussionThread, Discussion" +
-                    " WHERE DiscussionThread.Discussion_Id = Discussion.Discussion_Id" +
-                    " AND Post.DiscussionThread_Id = DiscussionThread.DiscussionThread_Id" +
-                    " AND Discussion.Personal = 0" +
-                    " AND Post.DiscussionPost_Id IN ( " +
-                    " SELECT MAX(DiscussionPost_Id) FROM DiscussionPost dp1" +
-                    "  GROUP BY dp1.DiscussionThread_Id" +
-                    " ) " +
-                    " ORDER BY Post.Modified DESC",
+                    "SELECT {Post.*} FROM DiscussionPost {Post}" +
+                    " WHERE Post.DiscussionPost_Id IN ( " +
+                    " SELECT MAX(DiscussionPost_Id) FROM DiscussionPost dp, DiscussionThread dt, Discussion d" + 
+                    "  WHERE dp.DiscussionThread_Id = dt.DiscussionThread_Id" + 
+                    "  AND d.Discussion_Id = dt.Discussion_Id" + 
+                    "  AND d.Personal = 0" +
+                    "  GROUP BY dt.DiscussionThread_Id" + 
+                    " ) ORDER BY Post.Modified DESC",
                     "Post",
                     typeof(DiscussionPost));
 
@@ -723,15 +724,13 @@ namespace SnCore.WebServices
 
                 IList posts = query.List();
 
-                List<TransitDiscussionPost> result = new List<TransitDiscussionPost>();
-                if (posts != null)
+                List<TransitDiscussionPost> result = new List<TransitDiscussionPost>(posts.Count);
+                foreach (DiscussionPost p in posts)
                 {
-                    foreach (DiscussionPost p in posts)
-                    {
-                        TransitDiscussionPost post = new ManagedDiscussionPost(session, p).GetTransitDiscussionPost();
-                        result.Add(post);
-                    }
+                    TransitDiscussionPost post = new ManagedDiscussionPost(session, p).GetTransitDiscussionPost();
+                    result.Add(post);
                 }
+
                 return result;
             }
         }

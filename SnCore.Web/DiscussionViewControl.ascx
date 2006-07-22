@@ -42,7 +42,7 @@
         </a>
        </div>
        <div class="sncore_link">
-        <a href="DiscussionThreadView.aspx?id=<%# Eval("DiscussionThreadId") %>&did=<%# Eval("DiscussionId") %>">
+        <a href="DiscussionThreadView.aspx?id=<%# Eval("DiscussionThreadId") %>&did=<%# Eval("DiscussionId") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>">
          &#187; read <%# Eval("DiscussionThreadCount") %> post<%# (int) Eval("DiscussionThreadCount") != 1 ? "s" : string.Empty %>
         </a>        
         &#187; last on <%# base.Adjust(Eval("DiscussionThreadModified")).ToString("d")%>
