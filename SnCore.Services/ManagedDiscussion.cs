@@ -415,6 +415,10 @@ namespace SnCore.Services
             result.Subject = subject;
             result.Body = body;
             Session.Save(result);
+
+            mDiscussion.Modified = DateTime.UtcNow;
+            Session.Save(mDiscussion);
+
             Session.Flush();
 
             if (thread.DiscussionPosts == null) thread.DiscussionPosts = new ArrayList();
