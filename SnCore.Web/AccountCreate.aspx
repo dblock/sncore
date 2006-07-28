@@ -20,14 +20,6 @@
    </tr>
   </table>
  </div>
- <table class="sncore_notice_error">
-  <tr>
-   <td>
-    If you are using Safari or Opera browsers you will run into many known issues. Clicking on some buttons
-    will appear to hang. Please switch to Internet Explorer or Firefox. We are working on resolving this.
-   </td>
-  </tr>
- </table>
  <atlas:UpdatePanel ID="panelJoin" runat="server" Mode="Always">
   <ContentTemplate>
    <asp:Panel ID="panelCreate" runat="server">
