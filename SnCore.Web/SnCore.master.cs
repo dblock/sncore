@@ -35,7 +35,7 @@ public partial class SnCoreMasterPage : MasterPage
     {
         switch (Request.Browser.Browser)
         {
-            case "Safari":
+            case "AppleMAC-Safari":
                 scriptmanager1.EnablePartialRendering = false;
                 break;
         }
