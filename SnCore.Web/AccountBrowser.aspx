@@ -29,7 +29,7 @@
      <li><% Response.Write(string.Format("Supports Tables: {0}", Request.Browser.Tables)); %>
      <li><% Response.Write(string.Format("Supports Cookies: {0}", Request.Browser.Cookies)); %>
      <li><% Response.Write(string.Format("Supports VB Script: {0}", Request.Browser.VBScript)); %>
-     <li><% Response.Write(string.Format("Supports JavaScript: {0}", Request.Browser.JavaScript)); %>
+     <li><% Response.Write(string.Format("Ecma Script Version: {0}", Request.Browser.EcmaScriptVersion)); %>
      <li><% Response.Write(string.Format("Supports Java Applets: {0}", Request.Browser.JavaApplets)); %>
      <li><% Response.Write(string.Format("CDF: {0}", Request.Browser.CDF)); %>  
     </ul>
