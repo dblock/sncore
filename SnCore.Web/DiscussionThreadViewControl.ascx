@@ -21,7 +21,7 @@
 </div>
 <SnCoreWebControls:PagedGrid CellPadding="4" ShowHeader="false" runat="server" ID="discussionThreadView"
  AutoGenerateColumns="false" CssClass="sncore_table" BorderWidth="0" OnItemDataBound="discussionThreadView_ItemDataBound"
- OnItemCommand="discussionThreadView_ItemCommand" AllowPaging="true" AllowCustomPaging="true">
+ OnItemCommand="discussionThreadView_ItemCommand" AllowPaging="false" AllowCustomPaging="false">
  <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
  <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
  <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"

@@ -37,7 +37,7 @@ public partial class DiscussionThreadViewControl : Control
                     discussionDescription.Text = Renderer.Render(d.Description);
                 }
 
-                discussionThreadView_OnGetDataSource(sender, e);
+                GetData(sender, e);
 
                 linkMove.Visible = SessionManager.IsAdministrator;
                 linkMove.NavigateUrl = string.Format("DiscussionThreadMove.aspx?id={0}", DiscussionThreadId);
@@ -49,13 +49,25 @@ public partial class DiscussionThreadViewControl : Control
         }
     }
 
+    protected void GetData(object sender, EventArgs e)
+    {
+        if (DiscussionThreadId <= 0)
+            return;
+
+        discussionThreadView.CurrentPageIndex = 0;
+        discussionThreadView.VirtualItemCount = DiscussionService.GetDiscussionThreadPostsCount(
+            SessionManager.Ticket, DiscussionThreadId);
+        discussionThreadView_OnGetDataSource(sender, e);
+        discussionThreadView.DataBind();
+    }
+
     void discussionThreadView_OnGetDataSource(object sender, EventArgs e)
     {
-        if (DiscussionThreadId > 0)
-        {
-            discussionThreadView.DataSource = DiscussionService.GetDiscussionThreadPosts(SessionManager.Ticket, DiscussionThreadId);
-            discussionThreadView.DataBind();
-        }
+        if (DiscussionThreadId <= 0)
+            return;
+
+        discussionThreadView.DataSource = DiscussionService.GetDiscussionThreadPosts(
+            SessionManager.Ticket, DiscussionThreadId);
     }
 
     public void discussionThreadView_ItemCommand(object sender, DataGridCommandEventArgs e)
@@ -68,9 +80,7 @@ public partial class DiscussionThreadViewControl : Control
                     {
                         int id = int.Parse(e.CommandArgument.ToString());
                         DiscussionService.DeleteDiscussionPost(SessionManager.Ticket, id);
-                        discussionThreadView.CurrentPageIndex = 0;
-                        discussionThreadView_OnGetDataSource(sender, e);
-                        discussionThreadView.DataBind();
+                        GetData(sender, e);
                         break;
                     }
             }

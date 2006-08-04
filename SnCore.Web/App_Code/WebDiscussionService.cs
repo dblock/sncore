@@ -408,6 +408,24 @@ namespace SnCore.WebServices
         #region Discussion Posts
 
         /// <summary>
+        /// Get discussion thread posts count.
+        /// </summary>
+        /// <param name="id">discussion thread id</param>
+        /// <returns></returns>
+        [WebMethod(Description = "Get discussion thread posts count.")]
+        public int GetDiscussionThreadPostsCount(string ticket, int id)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket, 0);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return (int) session.CreateQuery(string.Format(
+                    "SELECT COUNT(p) FROM DiscussionPost p WHERE p.DiscussionThread.Id = {0}", id))
+                    .UniqueResult();                    
+            }
+        }
+
+        /// <summary>
         /// Get discussion thread posts.
         /// </summary>
         /// <param name="id">discussion thread id</param>
