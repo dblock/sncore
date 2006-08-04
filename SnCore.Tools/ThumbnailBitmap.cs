@@ -35,6 +35,7 @@ namespace SnCore.Tools.Drawing
     public class ThumbnailBitmap
     {
         public static Size ThumbnailSize = new Size(100, 150);
+        public static int ImageQuality = 80;
 
         byte[] mThumbnail = null;
         byte[] mBitmap = null;
@@ -84,7 +85,7 @@ namespace SnCore.Tools.Drawing
                 throw new Exception("I don't understand this picture format.");
             }
 
-            mBitmap = GetResizedImageBytes(b, 640, 480, 40);
+            mBitmap = GetResizedImageBytes(b, 640, 480, ImageQuality);
             mThumbnail = GetThumbnail(bitmap, min);
         }
 
@@ -94,7 +95,7 @@ namespace SnCore.Tools.Drawing
 
         public ThumbnailBitmap(Bitmap bitmap, Size min)
         {
-            mBitmap = GetResizedImageBytes(bitmap, 640, 480, 40);
+            mBitmap = GetResizedImageBytes(bitmap, 640, 480, ImageQuality);
             mThumbnail = GetThumbnail(bitmap, min);
         }
 
@@ -116,7 +117,7 @@ namespace SnCore.Tools.Drawing
                     string.Empty, originalimage.Size, min);
             }
 
-            return GetResizedImageBytes(originalimage, ThumbnailSize.Width, ThumbnailSize.Height, 40);
+            return GetResizedImageBytes(originalimage, ThumbnailSize.Width, ThumbnailSize.Height, ImageQuality);
         }
 
         private static Size GetNewSize(Bitmap originalimage, int widthtarget, int heighttarget)
