@@ -26,79 +26,79 @@
         <asp:Panel runat="server" ID="panelMain" CssClass="sncore_menu">
          <SnCore:MenuItem runat="server" ID="menuHome" Text="home" NavigateUrl="Default.aspx" /><SnCore:MenuItem 
           runat="server" ID="menuPeople" Text="people" NavigateUrl="AccountsView.aspx">
-          <highlights>
-            <asp:ListItem>/Account.*View.aspx</asp:ListItem>
-           </highlights>
-          <downlights>
-            <asp:ListItem>/AccountStor.*View.aspx</asp:ListItem>
-            <asp:ListItem>/AccountFriendsView.aspx</asp:ListItem>
-            <asp:ListItem>/AccountFeed.*.aspx</asp:ListItem>
-            <asp:ListItem>/AccountBlog.*.aspx</asp:ListItem>
-            <asp:ListItem>/AccountEvent.*.aspx</asp:ListItem>
-           </downlights>
+          <Highlights>
+           <asp:ListItem>/Account.*View.aspx</asp:ListItem>
+          </Highlights>
+          <Downlights>
+           <asp:ListItem>/AccountStor.*View.aspx</asp:ListItem>
+           <asp:ListItem>/AccountFriendsView.aspx</asp:ListItem>
+           <asp:ListItem>/AccountFeed.*.aspx</asp:ListItem>
+           <asp:ListItem>/AccountBlog.*.aspx</asp:ListItem>
+           <asp:ListItem>/AccountEvent.*.aspx</asp:ListItem>
+          </Downlights>
          </SnCore:MenuItem><SnCore:MenuItem 
           runat="server" ID="menuFeeds" Text="feeds" NavigateUrl="AccountFeedItemsView.aspx">
-          <highlights>
-            <asp:ListItem>/AccountFeed.*.aspx</asp:ListItem>
-            <asp:ListItem>/AccountBlog.*.aspx</asp:ListItem>
-           </highlights>
-          <downlights>
-            <asp:ListItem>/AccountFeedsManage.aspx</asp:ListItem>        
-            <asp:ListItem>/AccountFeedWizard.aspx</asp:ListItem>        
-           </downlights>
+          <Highlights>
+           <asp:ListItem>/AccountFeed.*.aspx</asp:ListItem>
+           <asp:ListItem>/AccountBlog.*.aspx</asp:ListItem>
+          </Highlights>
+          <Downlights>
+           <asp:ListItem>/AccountFeedsManage.aspx</asp:ListItem>        
+           <asp:ListItem>/AccountFeedWizard.aspx</asp:ListItem>        
+          </Downlights>
          </SnCore:MenuItem><SnCore:MenuItem 
           runat="server" ID="menuPlaces" Text="places" NavigateUrl="PlacesView.aspx">
-          <highlights>
-            <asp:ListItem>/Place.*aspx</asp:ListItem>
-           </highlights>
+          <Highlights>
+           <asp:ListItem>/Place.*aspx</asp:ListItem>
+          </Highlights>
          </SnCore:MenuItem><SnCore:MenuItem 
           runat="server" ID="menuEvents" Text="events" NavigateUrl="AccountEventsToday.aspx">
-          <highlights>
-            <asp:ListItem>/AccountEvent.*</asp:ListItem>
-           </highlights>
-          <downlights>
-            <asp:ListItem>/AccountEventsManage.aspx</asp:ListItem>        
-            <asp:ListItem>/AccountEventEdit.aspx</asp:ListItem>
-           </downlights>
+          <Highlights>
+           <asp:ListItem>/AccountEvent.*</asp:ListItem>
+          </Highlights>
+          <Downlights>
+           <asp:ListItem>/AccountEventsManage.aspx</asp:ListItem>        
+           <asp:ListItem>/AccountEventEdit.aspx</asp:ListItem>
+          </Downlights>
          </SnCore:MenuItem><SnCore:MenuItem 
           runat="server" ID="menuStories" Text="stories" NavigateUrl="AccountStoriesView.aspx">
-          <highlights>
-            <asp:ListItem>/AccountStor.*View.aspx</asp:ListItem>
-           </highlights>
+          <Highlights>
+           <asp:ListItem>/AccountStor.*View.aspx</asp:ListItem>
+          </Highlights>
          </SnCore:MenuItem><SnCore:MenuItem 
           runat="server" ID="menuDiscuss" Text="forums" NavigateUrl="DiscussionThreadsView.aspx">
-          <highlights>
-            <asp:ListItem>/Discuss.*</asp:ListItem>
-           </highlights>
+          <Highlights>
+           <asp:ListItem>/Discuss.*</asp:ListItem>
+          </Highlights>
          </SnCore:MenuItem><SnCore:MenuItem 
           runat="server" ID="menuLogin" Text="login" NavigateUrl="AccountLogin.aspx">
-          <highlights>
-            <asp:ListItem>/AccountResetPassword.aspx</asp:ListItem>
-           </highlights>
+          <Highlights>
+           <asp:ListItem>/AccountResetPassword.aspx</asp:ListItem>
+          </Highlights>
          </SnCore:MenuItem><SnCore:MenuItem 
           runat="server" ID="menuMe" Text="me me" NavigateUrl="AccountPreferencesManage.aspx">
-          <downlights>
+          <Downlights>
            <asp:ListItem>/Account.*View.aspx</asp:ListItem>
            <asp:ListItem>/Account.*Today.aspx</asp:ListItem>
            <asp:ListItem>/AccountInvitationsManage.aspx</asp:ListItem>
-          </downlights>
-          <highlights>
+          </Downlights>
+          <Highlights>
            <asp:ListItem>/Account.*</asp:ListItem>
            <asp:ListItem>/System.*</asp:ListItem>
-          </highlights>
+          </Highlights>
          </SnCore:MenuItem><SnCore:MenuItem 
           runat="server" ID="menuInvite" CssClass="sncore_menu_item" Text="invite"
-          NavigateUrl="AccountInvitationsManage.aspx" />
-         <asp:LinkButton runat="server" ID="menuLogout" Text="logout" CssClass="sncore_menu_item"
+          NavigateUrl="AccountInvitationsManage.aspx" /><asp:LinkButton 
+          runat="server" ID="menuLogout" Text="logout" CssClass="sncore_menu_item"
           OnClick="menuLogout_Click" CausesValidation="false" /><SnCore:MenuItem 
            runat="server"
            ID="menuSignUp" CssClass="sncore_menu_item" Text="join" 
            NavigateUrl="AccountCreate.aspx" /><SnCore:MenuItem 
             runat="server" ID="menuHelp" Text="help" NavigateUrl="Help.aspx">
-          <highlights>
+          <Highlights>
            <asp:ListItem>/About.aspx</asp:ListItem>
            <asp:ListItem>/Bug.*</asp:ListItem>
-          </highlights>
+          </Highlights>
          </SnCore:MenuItem>
         </asp:Panel>
        </td>
