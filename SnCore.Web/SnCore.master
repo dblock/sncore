@@ -141,5 +141,6 @@
   <asp:Panel ID="panelCounter" runat="server">
   </asp:Panel>
  </form>
+ <style type="text/css" />
 </body>
 </html>
