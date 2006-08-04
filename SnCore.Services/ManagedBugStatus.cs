@@ -115,7 +115,8 @@ namespace SnCore.Services
 
         public static int FindId(ISession session, string name)
         {
-            return Find(session, name).Id;
+            BugStatu status = Find(session, name);
+            return status == null ? 0 : status.Id;
         }
 
     }

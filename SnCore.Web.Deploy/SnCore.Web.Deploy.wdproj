@@ -46,6 +46,32 @@
       <Section>appSettings</Section>
     </WebConfigReplacementFiles>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SnCore.Data.Hibernate\SnCore.Data.Hibernate.csproj">
+      <Project>{437F9693-8C20-49BD-A4FD-68A88E9A92C0}</Project>
+      <Name>SnCore.Data.Hibernate</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SnCore.Data\SnCore.Data.csproj">
+      <Project>{1F9C0442-E7B5-4CCC-93ED-A0599CF1AA57}</Project>
+      <Name>SnCore.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SnCore.Services\SnCore.Services.csproj">
+      <Project>{5AEB26B1-4C6C-42ED-86A0-2E5FD6CE53E2}</Project>
+      <Name>SnCore.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SnCore.Tools\SnCore.Tools.csproj">
+      <Project>{53F80219-6028-406B-819A-E79AE4D56995}</Project>
+      <Name>SnCore.Tools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SnCore.WebControls\SnCore.WebControls.csproj">
+      <Project>{6AA41A44-B048-4370-A084-E7BE64DF2811}</Project>
+      <Name>SnCore.WebControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Wilco.Web\Wilco.Web\Wilco.Web.csproj">
+      <Project>{3E4122EA-09F7-4D3A-BD40-3AE4D54A3DA0}</Project>
+      <Name>Wilco.Web</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WebDeployment\v8.0\Microsoft.WebDeployment.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.WebDeployment.targets.
