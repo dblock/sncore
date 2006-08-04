@@ -88,6 +88,7 @@ public partial class PlaceEdit : AuthenticatedPage
                     inputZip.Text = place.Zip;
                     selectType.Items.FindByValue(place.Type).Selected = true;
                     SelectLocation(sender, new SelectLocationEventArgs(place));
+                    inputCity.Text = place.City;
                     linkPlaceId.Text = Renderer.Render(place.Name);
                 }
                 else
@@ -146,7 +147,6 @@ public partial class PlaceEdit : AuthenticatedPage
             inputCountry_SelectedIndexChanged(sender, e);
             inputState.ClearSelection();
             inputState.Items.FindByValue(e.State).Selected = true;
-            inputCity.Text = e.City;
         }
         catch
         {
