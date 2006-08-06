@@ -10,6 +10,7 @@ using System.Resources;
 using System.Net.Mail;
 using System.IO;
 using SnCore.Tools.Web;
+using SnCore.Tools;
 
 namespace SnCore.Services
 {
@@ -24,6 +25,11 @@ namespace SnCore.Services
         public string Type;
         public bool PicturesOnly = false;
         public int AccountId = 0;
+
+        public override int GetHashCode()
+        {
+            return PersistentlyHashable.GetHashCode(this);
+        }
 
         public TransitPlaceQueryOptions()
         {

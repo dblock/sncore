@@ -68,16 +68,13 @@ public partial class AccountContentGroupLinkControl : Control
                         throw new Exception(string.Format("Invalid id {0} for configuration {1}", id, ConfigurationName)); 
                     }
 
-                    TransitAccountContentGroup group = (TransitAccountContentGroup) Cache[string.Format("cg:{0}", id)];
-                    if (group == null)
-                    {
-                        group = ContentService.GetAccountContentGroupById(SessionManager.Ticket, id);
-                        Cache[string.Format("cg:{0}", id)] = group;
-                    }
+                    object[] args = { SessionManager.Ticket, id };
+                    TransitAccountContentGroup group = SessionManager.GetCachedItem<TransitAccountContentGroup>(ContentService, "GetAccountContentGroupById", args);
 
                     linkContentGroup.Text = string.Format("{0}{1}", 
                         ShowLinkPrefix ? "&#187; " : string.Empty,
                         Render(LowerCase ? group.Name.ToLower() : group.Name));
+
                     linkContentGroup.ToolTip = Render(group.Description);
                     linkContentGroup.NavigateUrl = string.Format("AccountContentGroupView.aspx?id={0}", id);
                 }

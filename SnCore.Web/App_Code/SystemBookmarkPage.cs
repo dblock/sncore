@@ -20,11 +20,9 @@ public abstract class SystemBookmarkPage : PicturePage
 
     public override TransitPicture GetPictureWithBitmap(int id, string ticket, DateTime ifModifiedSince)
     {
-        TransitBookmarkWithBitmaps p =
-            SystemService.GetBookmarkWithBitmapsByIdIfModifiedSince(
-                ticket,
-                id,
-                ifModifiedSince);
+        object[] args = { ticket, id, ifModifiedSince };
+        TransitBookmarkWithBitmaps p = SessionManager.GetCachedItem<TransitBookmarkWithBitmaps>(
+            SystemService, "GetBookmarkWithBitmapsByIdIfModifiedSince", args);
 
         if (p == null)
             return null;
@@ -40,11 +38,9 @@ public abstract class SystemBookmarkPage : PicturePage
 
     public override TransitPicture GetPictureWithThumbnail(int id, string ticket, DateTime ifModifiedSince)
     {
-        TransitBookmarkWithBitmaps p =
-            SystemService.GetBookmarkWithBitmapsByIdIfModifiedSince(
-                ticket,
-                id,
-                ifModifiedSince);
+        object[] args = { ticket, id, ifModifiedSince };
+        TransitBookmarkWithBitmaps p = SessionManager.GetCachedItem<TransitBookmarkWithBitmaps>(
+            SystemService, "GetBookmarkWithBitmapsByIdIfModifiedSince", args);
 
         if (p == null)
             return null;
@@ -60,10 +56,9 @@ public abstract class SystemBookmarkPage : PicturePage
 
     public override TransitPicture GetPictureWithBitmap(int id, string ticket)
     {
-        TransitBookmarkWithBitmaps p =
-            SystemService.GetBookmarkWithBitmapsById(
-                ticket,
-                id);
+        object[] args = { ticket, id };
+        TransitBookmarkWithBitmaps p = SessionManager.GetCachedItem<TransitBookmarkWithBitmaps>(
+            SystemService, "GetBookmarkWithBitmapsById", args);
 
         if (p == null)
             return null;
@@ -79,10 +74,9 @@ public abstract class SystemBookmarkPage : PicturePage
 
     public override TransitPicture GetPictureWithThumbnail(int id, string ticket)
     {
-        TransitBookmarkWithBitmaps p =
-            SystemService.GetBookmarkWithBitmapsById(
-                ticket,
-                id);
+        object[] args = { ticket, id };
+        TransitBookmarkWithBitmaps p = SessionManager.GetCachedItem<TransitBookmarkWithBitmaps>(
+            SystemService, "GetBookmarkWithBitmapsById", args);
 
         if (p == null)
             return null;

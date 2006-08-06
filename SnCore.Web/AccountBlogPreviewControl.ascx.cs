@@ -61,10 +61,8 @@ public partial class AccountBlogPreviewControl : Control
             {
                 if (BlogId > 0)
                 {
-                    TransitAccountBlog f = BlogService.GetAccountBlogById(
-                        SessionManager.IsLoggedIn ? SessionManager.Ticket : string.Empty, BlogId);
-
-                    gridManage.VirtualItemCount = BlogService.GetAccountBlogPostsCountById(BlogId);
+                    object[] args = { BlogId };
+                    gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(BlogService, "GetAccountBlogPostsCountById", args);
                     gridManage_OnGetDataSource(this, null);
                     gridManage.DataBind();
                 }
@@ -80,10 +78,9 @@ public partial class AccountBlogPreviewControl : Control
     {
         try
         {
-            ServiceQueryOptions options = new ServiceQueryOptions();
-            options.PageNumber = gridManage.CurrentPageIndex;
-            options.PageSize = gridManage.PageSize;
-            gridManage.DataSource = BlogService.GetAccountBlogPostsById(BlogId, options);
+            ServiceQueryOptions options = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
+            object[] args = { BlogId, options };
+            gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountBlogPost>(BlogService, "GetAccountBlogPostsById", args);
         }
         catch (Exception ex)
         {

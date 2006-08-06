@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using Wilco.Web.UI;
 using SnCore.WebServices;
 using System.Collections.Generic;
+using SnCore.Services;
 
 public partial class PlaceAccountsViewControl : Control
 {
@@ -46,7 +47,9 @@ public partial class PlaceAccountsViewControl : Control
     void GetData(object sender, EventArgs e)
     {
         accountsList.CurrentPageIndex = 0;
-        accountsList.VirtualItemCount = PlaceService.GetAccountPlacesCountByPlaceId(PlaceId);
+        object[] args = { PlaceId };
+        accountsList.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+            PlaceService, "GetAccountPlacesCountByPlaceId", args);
         accountsList_OnGetDataSource(sender, e);
         accountsList.DataBind();
         this.Visible = (accountsList.VirtualItemCount > 0);
@@ -59,7 +62,9 @@ public partial class PlaceAccountsViewControl : Control
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = accountsList.CurrentPageIndex;
             options.PageSize = accountsList.PageSize;
-            accountsList.DataSource = PlaceService.GetAccountPlacesByPlaceId(PlaceId, options);
+            object[] args = { PlaceId, options };
+            accountsList.DataSource = SessionManager.GetCachedCollection<TransitAccountPlace>(
+                PlaceService, "GetAccountPlacesByPlaceId", args);
             panelGrid.Update();
         }
         catch (Exception ex)

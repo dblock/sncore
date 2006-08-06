@@ -59,13 +59,13 @@ public partial class PlacesView : Page
             {
                 ArrayList types = new ArrayList();
                 types.Add(new TransitPlaceType());
-                types.AddRange(PlaceService.GetPlaceTypes());
+                types.AddRange(SessionManager.GetCachedCollection<TransitPlaceType>(PlaceService, "GetPlaceTypes", null));
                 inputType.DataSource = types;
                 inputType.DataBind();
 
                 ArrayList countries = new ArrayList();
                 countries.Add(new TransitCountry());
-                countries.AddRange(LocationService.GetCountries());
+                countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(LocationService, "GetCountries", null));
                 inputCountry.DataSource = countries;
                 inputCountry.DataBind();
 
@@ -103,7 +103,8 @@ public partial class PlacesView : Page
         mOptions = null;
 
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = PlaceService.GetPlacesCount(QueryOptions);
+        object[] args = { QueryOptions };
+        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(PlaceService, "GetPlacesCount", args);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
@@ -114,7 +115,8 @@ public partial class PlacesView : Page
         {
             ArrayList states = new ArrayList();
             states.Add(new TransitState());
-            states.AddRange(LocationService.GetStatesByCountry(inputCountry.SelectedValue));
+            object[] args = { inputCountry.SelectedValue };
+            states.AddRange(SessionManager.GetCachedCollection<TransitState>(LocationService, "GetStatesByCountry", args));
             inputState.DataSource = states;
             inputState.DataBind();
             inputState_SelectedIndexChanged(sender, e);
@@ -170,7 +172,8 @@ public partial class PlacesView : Page
         {
             ArrayList cities = new ArrayList();
             cities.Add(new TransitCity());
-            cities.AddRange(LocationService.GetCitiesByLocation(inputCountry.SelectedValue, inputState.SelectedValue));
+            object[] args = { inputCountry.SelectedValue, inputState.SelectedValue };
+            cities.AddRange(SessionManager.GetCachedCollection<TransitCity>(LocationService, "GetCitiesByLocation", args));
             inputCity.DataSource = cities;
             inputCity.DataBind();
             panelCity.Update();
@@ -218,10 +221,9 @@ public partial class PlacesView : Page
                     Renderer.UrlEncode(QueryOptions.Type),
                     Renderer.UrlEncode(QueryOptions.PicturesOnly));
 
-            ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
-            serviceoptions.PageSize = gridManage.PageSize;
-            serviceoptions.PageNumber = gridManage.CurrentPageIndex;
-            gridManage.DataSource = PlaceService.GetPlaces(options, serviceoptions);
+            ServiceQueryOptions serviceoptions = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
+            object[] args = { options, serviceoptions };
+            gridManage.DataSource = SessionManager.GetCachedCollection<TransitPlace>(PlaceService, "GetPlaces", args);
         }
         catch (Exception ex)
         {

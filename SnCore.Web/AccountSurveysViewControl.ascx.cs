@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using Wilco.Web.UI;
+using SnCore.Services;
 
 public partial class AccountSurveysViewControl : Control
 {
@@ -44,7 +45,9 @@ public partial class AccountSurveysViewControl : Control
 
     void accountSurveys_OnGetDataSource(object sender, EventArgs e)
     {
-        accountSurveys.DataSource = AccountService.GetAccountSurveysById(AccountId);
+        object[] args = { AccountId };
+        accountSurveys.DataSource = SessionManager.GetCachedCollection<TransitSurvey>(
+            AccountService, "GetAccountSurveysById", args);
     }
 
 }

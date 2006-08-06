@@ -4,6 +4,7 @@ using System.Text;
 using NHibernate;
 using NHibernate.Expression;
 using SnCore.Tools.Web;
+using SnCore.Tools;
 
 namespace SnCore.Services
 {
@@ -100,6 +101,11 @@ namespace SnCore.Services
             }
 
             return session.CreateQuery(b.ToString());
+        }
+
+        public override int GetHashCode()
+        {
+            return PersistentlyHashable.GetHashCode(this);
         }
     };
 

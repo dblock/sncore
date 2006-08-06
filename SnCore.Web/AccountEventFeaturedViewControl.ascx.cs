@@ -38,15 +38,11 @@ public partial class AccountEventFeaturedViewControl : Control
         {
             if (mFeature == null)
             {
-                mFeature = (TransitFeature)Cache["feature:accountevent"];
-                if (mFeature == null)
-                {
-                    mFeature = SystemService.GetLatestFeature("AccountEvent");
-                    if (mFeature == null)
-                        return null;
+                object[] args = { "AccountEvent" };
+                mFeature = SessionManager.GetCachedItem<TransitFeature>(SystemService, "GetLatestFeature", args);
 
-                    Cache.Insert("feature:accountevent", mFeature, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
-                }
+                if (mFeature == null)
+                    return null;
             }
 
             return mFeature;
@@ -59,16 +55,8 @@ public partial class AccountEventFeaturedViewControl : Control
         {
             if (mAccountEvent == null)
             {
-                mAccountEvent = (TransitAccountEvent) Cache[string.Format("accountevent:{0}", Feature.DataRowId)];
-                if (mAccountEvent == null)
-                {
-                    mAccountEvent = EventService.GetAccountEventById(SessionManager.Ticket, Feature.DataRowId);
-                    if (mAccountEvent == null)
-                        return null;
-
-                    Cache.Insert(string.Format("accountevent:{0}", Feature.DataRowId), 
-                        mAccountEvent, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
-                }
+                object[] args = { SessionManager.Ticket, Feature.DataRowId };
+                mAccountEvent = SessionManager.GetCachedItem<TransitAccountEvent>(EventService, "GetAccountEventById", args);
             }
 
             return mAccountEvent;

@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using SnCore.Services;
 
 public partial class SystemCountriesManage : AuthenticatedPage
 {
@@ -33,7 +34,7 @@ public partial class SystemCountriesManage : AuthenticatedPage
     {
         try
         {
-            gridManage.DataSource = LocationService.GetCountries();
+            gridManage.DataSource = SessionManager.GetCachedCollection<TransitCountry>(LocationService, "GetCountries", null);
         }
         catch (Exception ex)
         {

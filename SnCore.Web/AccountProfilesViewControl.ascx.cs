@@ -33,7 +33,9 @@ public partial class AccountProfilesViewControl : Control
         {
             if (!IsPostBack)
             {
-                List<TransitAccountProfile> profiles = AccountService.GetAccountProfilesById(AccountId);
+                object[] args = { AccountId };
+                List<TransitAccountProfile> profiles = SessionManager.GetCachedCollection<TransitAccountProfile>(
+                    AccountService, "GetAccountProfilesById", args);
                 foreach (TransitAccountProfile profile in profiles)
                 {
                     labelAboutMe.Text = RenderEx(profile.AboutSelf);

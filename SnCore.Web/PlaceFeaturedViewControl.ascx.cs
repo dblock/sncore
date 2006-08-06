@@ -38,15 +38,8 @@ public partial class PlaceFeaturedViewControl : Control
         {
             if (mFeature == null)
             {
-                mFeature = (TransitFeature)Cache["feature:Place"];
-                if (mFeature == null)
-                {
-                    mFeature = SystemService.GetLatestFeature("Place");
-                    if (mFeature == null)
-                        return null;
-
-                    Cache.Insert("feature:Place", mFeature, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
-                }
+                object[] args = { "Place" };
+                mFeature = SessionManager.GetCachedItem<TransitFeature>(SystemService, "GetLatestFeature", args);
             }
 
             return mFeature;
@@ -59,16 +52,8 @@ public partial class PlaceFeaturedViewControl : Control
         {
             if (mPlace == null)
             {
-                mPlace = (TransitPlace) Cache[string.Format("Place:{0}", Feature.DataRowId)];
-                if (mPlace == null)
-                {
-                    mPlace = PlaceService.GetPlaceById(Feature.DataRowId);
-                    if (mPlace == null)
-                        return null;
-
-                    Cache.Insert(string.Format("Place:{0}", Feature.DataRowId), 
-                        mPlace, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
-                }
+                object[] args = { Feature.DataRowId };
+                mPlace = SessionManager.GetCachedItem<TransitPlace>(PlaceService, "GetPlaceById", args);
             }
 
             return mPlace;

@@ -27,17 +27,10 @@ public partial class AccountBlogViewControl : Control
     {
         get
         {
-            if (mAccountBlog == null)
+            if (mAccountBlog == null && BlogId > 0)
             {
-                mAccountBlog = (TransitAccountBlog)
-                    Cache[string.Format("accountblog:{0}", BlogId)];
-
-                if (mAccountBlog == null && BlogId > 0)
-                {
-                    mAccountBlog = BlogService.GetAccountBlogById(string.Empty, BlogId);
-                    Cache.Insert(string.Format("accountblog:{0}", BlogId),
-                        mAccountBlog, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
-                }
+                object[] args = { SessionManager.Ticket, BlogId };
+                mAccountBlog = SessionManager.GetCachedItem<TransitAccountBlog>(BlogService, "GetAccountBlogById", args);
             }
 
             return mAccountBlog;
@@ -102,11 +95,12 @@ public partial class AccountBlogViewControl : Control
             {
                 if (BlogId > 0)
                 {
-                    TransitAccountBlog f = BlogService.GetAccountBlogById(
-                        SessionManager.IsLoggedIn ? SessionManager.Ticket : string.Empty, BlogId);
+                    object[] args1 = { SessionManager.IsLoggedIn ? SessionManager.Ticket : string.Empty, BlogId };
+                    TransitAccountBlog f = SessionManager.GetCachedItem<TransitAccountBlog>(BlogService, "GetAccountBlogById", args1);
 
                     // limit number of items
-                    gridManage.VirtualItemCount = Math.Min(gridManage.PageSize, BlogService.GetAccountBlogPostsCountById(BlogId));
+                    object[] args2 = { BlogId };
+                    gridManage.VirtualItemCount = Math.Min(gridManage.PageSize, SessionManager.GetCachedCollectionCount(BlogService, "GetAccountBlogPostsCountById", args2));
                     gridManage_OnGetDataSource(this, null);
                     gridManage.DataBind();
                 }
@@ -122,10 +116,10 @@ public partial class AccountBlogViewControl : Control
     {
         try
         {
-            ServiceQueryOptions options = new ServiceQueryOptions();
-            options.PageNumber = gridManage.CurrentPageIndex;
-            options.PageSize = gridManage.PageSize;
-            gridManage.DataSource = BlogService.GetAccountBlogPostsById(BlogId, options);
+            ServiceQueryOptions options = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
+            object[] args = { BlogId, options };
+            gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountBlogPost>(
+                BlogService, "GetAccountBlogPostsById", args);
         }
         catch (Exception ex)
         {

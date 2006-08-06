@@ -69,14 +69,8 @@ public partial class FeaturedAccountFeedsRss : Page
 
     public TransitAccountFeed GetAccountFeed(int id)
     {
-        TransitAccountFeed a = (TransitAccountFeed)Cache[string.Format("accountfeed:{0}", id)];
-        if (a == null)
-        {
-            a = SyndicationService.GetAccountFeedById(SessionManager.Ticket, id);
-            Cache.Insert(string.Format("accountfeed:{0}", id),
-                a, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
-        }
-
-        return a;
+        object[] args = { SessionManager.Ticket, id };
+        return SessionManager.GetCachedItem<TransitAccountFeed>(
+            AccountService, "GetAccountFeedById", args);
     }
 }

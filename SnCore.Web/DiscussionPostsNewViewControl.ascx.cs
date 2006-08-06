@@ -21,16 +21,8 @@ public partial class DiscussionPostsNewViewControl : Control
         {
             if (!IsPostBack)
             {
-                List<TransitDiscussionPost> items = (List<TransitDiscussionPost>)
-                    Cache[string.Format("activeDiscussionPosts:{0}", ClientID)];
-
-                if (items == null)
-                {
-                    items = DiscussionService.GetLatestDiscussionPosts();
-                    Cache.Insert(string.Format("activeDiscussionPosts:{0}", ClientID),
-                        items, null, DateTime.Now.AddMinutes(15), TimeSpan.Zero);
-                }
-
+                List<TransitDiscussionPost> items = SessionManager.GetCachedCollection<TransitDiscussionPost>(
+                    DiscussionService, "GetLatestDiscussionPosts", null);
                 discussionView.DataSource = items;
                 discussionView.DataBind();
             }

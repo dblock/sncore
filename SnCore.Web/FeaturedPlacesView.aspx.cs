@@ -71,14 +71,7 @@ public partial class FeaturedPlacesView : Page
 
     public TransitPlace GetPlace(int id)
     {
-        TransitPlace a = (TransitPlace)Cache[string.Format("place:{0}", id)];
-        if (a == null)
-        {
-            a = PlaceService.GetPlaceById(id);
-            Cache.Insert(string.Format("place:{0}", id),
-                a, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
-        }
-
-        return a;
+        object[] args = { id };
+        return SessionManager.GetCachedItem<TransitPlace>(PlaceService, "GetPlaceById", args);
     }
 }

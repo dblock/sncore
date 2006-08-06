@@ -12,6 +12,7 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 using System.Collections.Generic;
+using System.Web.Caching;
 
 public partial class AccountPreferencesManage : AuthenticatedPage
 {
@@ -62,8 +63,8 @@ public partial class AccountPreferencesManage : AuthenticatedPage
                     options.AccountId = SessionManager.Account.Id;
                     numbers.PostsCount = DiscussionService.GetUserDiscussionThreadsCount(options);
 
-                    Cache.Insert(string.Format("accountnumbers:{0}", SessionManager.Ticket), 
-                        numbers, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
+                    Cache.Insert(string.Format("accountnumbers:{0}", SessionManager.Ticket),
+                        numbers, null, Cache.NoAbsoluteExpiration, SessionManager.DefaultCacheTimeSpan);
                 }
 
                 accountFirstDegree.Text = string.Format("{0} friend{1} in your personal network",
@@ -88,7 +89,7 @@ public partial class AccountPreferencesManage : AuthenticatedPage
 
                 ArrayList countries = new ArrayList();
                 if (SessionManager.Account.Country.Length == 0) countries.Add(new TransitCountry());
-                countries.AddRange(LocationService.GetCountries());
+                countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(LocationService, "GetCountries", null));
 
                 ArrayList states = new ArrayList();
                 if (SessionManager.Account.State.Length == 0) states.Add(new TransitState());
@@ -161,7 +162,8 @@ public partial class AccountPreferencesManage : AuthenticatedPage
         {
             ArrayList states = new ArrayList();
             states.Add(new TransitState());
-            states.AddRange(LocationService.GetStatesByCountry(inputCountry.SelectedValue));
+            object[] args = { inputCountry.SelectedValue };
+            states.AddRange(SessionManager.GetCachedCollection<TransitState>(LocationService, "GetStatesByCountry", args));
 
             inputState.DataSource = states;
             inputState.DataBind();

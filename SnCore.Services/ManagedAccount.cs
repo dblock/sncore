@@ -19,6 +19,7 @@ using Janrain.OpenId.Store.Net;
 using Janrain.OpenId.Store;
 using Janrain.OpenId;
 using Janrain.OpenId.Consumer;
+using SnCore.Tools;
 
 namespace SnCore.Services
 {
@@ -108,6 +109,11 @@ namespace SnCore.Services
             }
 
             return session.CreateQuery(b.ToString());
+        }
+
+        public override int GetHashCode()
+        {
+            return PersistentlyHashable.GetHashCode(this);
         }
     };
 

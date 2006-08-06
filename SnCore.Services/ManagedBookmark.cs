@@ -3,6 +3,7 @@ using NHibernate;
 using System.Collections;
 using System.IO;
 using SnCore.Tools.Drawing;
+using SnCore.Tools;
 
 namespace SnCore.Services
 {
@@ -13,6 +14,11 @@ namespace SnCore.Services
 
         public BookmarkQueryOptions()
         {
+        }
+
+        public override int GetHashCode()
+        {
+            return PersistentlyHashable.GetHashCode(this);
         }
     }
 

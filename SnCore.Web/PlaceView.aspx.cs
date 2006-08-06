@@ -25,7 +25,9 @@ public partial class PlaceView : Page
         {
             if (mPlaceAccount == null && RequestId > 0 && Place != null)
             {
-                mPlaceAccount = AccountService.GetAccountById(Place.AccountId);
+                object[] args = { Place.AccountId };
+                mPlaceAccount = SessionManager.GetCachedItem<TransitAccount>(
+                    AccountService, "GetAccountById", args);
             }
 
             return mPlaceAccount;
@@ -56,7 +58,9 @@ public partial class PlaceView : Page
             {
                 try
                 {
-                    mPlace = PlaceService.GetPlaceById(RequestId);
+                    object[] args = { RequestId };
+                    mPlace = SessionManager.GetCachedItem<TransitPlace>(
+                        PlaceService, "GetPlaceById", args);
                 }
                 catch (NHibernate.ObjectNotFoundException)
                 {
@@ -229,7 +233,9 @@ public partial class PlaceView : Page
                         panelNoPicture.Visible = true;
                     }
 
-                    discussionPlaces.DiscussionId = DiscussionService.GetPlaceDiscussionId(RequestId);
+                    object[] args = { RequestId };
+                    discussionPlaces.DiscussionId = SessionManager.GetCachedCollectionCount(
+                        DiscussionService, "GetPlaceDiscussionId", args);
                     discussionPlaces.DataBind();
 
                     if (SessionManager.IsAdministrator)

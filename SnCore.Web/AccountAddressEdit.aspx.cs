@@ -37,11 +37,11 @@ public partial class AccountAddressEdit : AuthenticatedPage
 
                 ArrayList countries = new ArrayList();
                 if (tw == null || tw.Country.Length == 0) countries.Add(new TransitCountry());
-                countries.AddRange(LocationService.GetCountries());
+                countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(LocationService, "GetCountries", null));
 
                 ArrayList states = new ArrayList();
                 if (tw == null || tw.State.Length == 0) states.Add(new TransitState());
-                states.AddRange(LocationService.GetStates());
+                states.AddRange(SessionManager.GetCachedCollection<TransitState>(LocationService, "GetStates", null));
 
                 inputCountry.DataSource = countries;
                 inputCountry.DataBind();

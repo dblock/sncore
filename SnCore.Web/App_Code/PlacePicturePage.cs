@@ -20,11 +20,9 @@ public abstract class PlacePicturePage : PicturePage
 
     public override TransitPicture GetPictureWithBitmap(int id, string ticket, DateTime ifModifiedSince)
     {
-        TransitPlacePictureWithBitmap p =
-            PlaceService.GetPlacePictureWithBitmapByIdIfModifiedSince(
-                ticket,
-                id,
-                ifModifiedSince);
+        object[] args = { ticket, id, ifModifiedSince };
+        TransitPlacePictureWithBitmap p = SessionManager.GetCachedItem<TransitPlacePictureWithBitmap>(
+            PlaceService, "GetPlacePictureWithBitmapByIdIfModifiedSince", args);
 
         if (p == null)
             return null;
@@ -40,11 +38,9 @@ public abstract class PlacePicturePage : PicturePage
 
     public override TransitPicture GetPictureWithThumbnail(int id, string ticket, DateTime ifModifiedSince)
     {
-        TransitPlacePictureWithThumbnail p =
-            PlaceService.GetPlacePictureWithThumbnailByIdIfModifiedSince(
-                ticket,
-                id,
-                ifModifiedSince);
+        object[] args = { ticket, id, ifModifiedSince };
+        TransitPlacePictureWithThumbnail p = SessionManager.GetCachedItem<TransitPlacePictureWithThumbnail>(
+            PlaceService, "GetPlacePictureWithThumbnailByIdIfModifiedSince", args);
 
         if (p == null)
             return null;
@@ -60,10 +56,9 @@ public abstract class PlacePicturePage : PicturePage
 
     public override TransitPicture GetPictureWithBitmap(int id, string ticket)
     {
-        TransitPlacePictureWithBitmap p =
-            PlaceService.GetPlacePictureWithBitmapById(
-                ticket,
-                id);
+        object[] args = { ticket, id };
+        TransitPlacePictureWithBitmap p = SessionManager.GetCachedItem<TransitPlacePictureWithBitmap>(
+            PlaceService, "GetPlacePictureWithBitmapById", args);
 
         if (p == null)
             return null;
@@ -79,10 +74,9 @@ public abstract class PlacePicturePage : PicturePage
 
     public override TransitPicture GetPictureWithThumbnail(int id, string ticket)
     {
-        TransitPlacePictureWithThumbnail p =
-            PlaceService.GetPlacePictureWithThumbnailById(
-                ticket,
-                id);
+        object[] args = { ticket, id };
+        TransitPlacePictureWithThumbnail p = SessionManager.GetCachedItem<TransitPlacePictureWithThumbnail>(
+            PlaceService, "GetPlacePictureWithThumbnailById", args);
 
         if (p == null)
             return null;

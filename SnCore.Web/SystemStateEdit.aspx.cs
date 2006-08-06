@@ -23,7 +23,7 @@ public partial class SystemStateEdit : AuthenticatedPage
 
                 int id = RequestId;
 
-                inputCountry.DataSource = LocationService.GetCountries();
+                inputCountry.DataSource = SessionManager.GetCachedCollection<TransitCountry>(LocationService, "GetCountries", null);
                 inputCountry.DataBind();
 
                 if (id > 0)

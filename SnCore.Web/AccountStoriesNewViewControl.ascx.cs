@@ -37,10 +37,9 @@ public partial class AccountStoriesNewViewControl : Control
         {
             if (!IsPostBack)
             {
-                ServiceQueryOptions options = new ServiceQueryOptions();
-                options.PageSize = Count;
-                options.PageNumber = 0;
-                storiesView.DataSource = StoryService.GetLatestAccountStories(options);
+                ServiceQueryOptions options = new ServiceQueryOptions(Count, 0);
+                object[] args = { options };
+                storiesView.DataSource = SessionManager.GetCachedCollection<TransitAccountStory>(StoryService, "GetLatestAccountStories", args);
                 storiesView.DataBind();
             }
         }

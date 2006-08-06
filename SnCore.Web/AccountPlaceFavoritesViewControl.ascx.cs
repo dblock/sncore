@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using Wilco.Web.UI;
 using System.Collections.Generic;
 using SnCore.WebServices;
+using SnCore.Services;
 
 public partial class AccountPlaceFavoritesViewControl : Control
 {
@@ -46,7 +47,9 @@ public partial class AccountPlaceFavoritesViewControl : Control
     void GetData(object sender, EventArgs e)
     {
         placesList.CurrentPageIndex = 0;
-        placesList.VirtualItemCount = PlaceService.GetAccountPlaceFavoritesCountById(AccountId);
+        object[] args = { AccountId };
+        placesList.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+            PlaceService, "GetAccountPlaceFavoritesCountById", args);
         placesList_OnGetDataSource(sender, e);
         placesList.DataBind();
         this.Visible = (placesList.VirtualItemCount > 0);
@@ -59,7 +62,9 @@ public partial class AccountPlaceFavoritesViewControl : Control
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = placesList.CurrentPageIndex;
             options.PageSize = placesList.PageSize;
-            placesList.DataSource = PlaceService.GetAccountPlaceFavoritesByAccountId(AccountId, options);
+            object[] args = { AccountId, options };
+            placesList.DataSource = SessionManager.GetCachedCollection<TransitAccountPlaceFavorite>(
+                PlaceService, "GetAccountPlaceFavoritesByAccountId", args);
             panelGrid.Update();
         }
         catch (Exception ex)

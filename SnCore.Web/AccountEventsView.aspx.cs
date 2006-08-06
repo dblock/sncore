@@ -66,7 +66,7 @@ public partial class AccountEventsView : Page
 
                 ArrayList countries = new ArrayList();
                 countries.Add(new TransitCountry());
-                countries.AddRange(LocationService.GetCountries());
+                countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(LocationService, "GetCountries", null));
                 inputCountry.DataSource = countries;
                 inputCountry.DataBind();
 
@@ -103,7 +103,8 @@ public partial class AccountEventsView : Page
         {
             ArrayList states = new ArrayList();
             states.Add(new TransitState());
-            states.AddRange(LocationService.GetStatesByCountry(inputCountry.SelectedValue));
+            object[] args = { inputCountry.SelectedValue };
+            states.AddRange(SessionManager.GetCachedCollection<TransitState>(LocationService, "GetStatesByCountry", args));
             inputState.DataSource = states;
             inputState.DataBind();
             inputState_SelectedIndexChanged(sender, e);
@@ -121,7 +122,8 @@ public partial class AccountEventsView : Page
         {
             ArrayList cities = new ArrayList();
             cities.Add(new TransitCity());
-            cities.AddRange(LocationService.GetCitiesByLocation(inputCountry.SelectedValue, inputState.SelectedValue));
+            object[] args = { inputCountry.SelectedValue, inputState.SelectedValue };
+            cities.AddRange(SessionManager.GetCachedCollection<TransitCity>(LocationService, "GetCitiesByLocation", args));
             inputCity.DataSource = cities;
             inputCity.DataBind();
         }

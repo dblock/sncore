@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using Wilco.Web.UI;
 using SnCore.Tools.Web;
 using SnCore.WebServices;
+using SnCore.Services;
 
 public partial class AccountStoriesViewControl : Control
 {
@@ -49,7 +50,9 @@ public partial class AccountStoriesViewControl : Control
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = accountStories.CurrentPageIndex;
         options.PageSize = accountStories.PageSize;
-        accountStories.DataSource = StoryService.GetAccountStoriesById(AccountId, options);
+        object[] args = { AccountId, options };
+        accountStories.DataSource = SessionManager.GetCachedCollection<TransitAccountStory>(
+            StoryService, "GetAccountStoriesById", args);
     }
 
     public string GetDescription(object description)

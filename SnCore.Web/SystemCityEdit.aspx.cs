@@ -22,7 +22,7 @@ public partial class SystemCityEdit : AuthenticatedPage
             if (!IsPostBack)
             {
 
-                inputCountry.DataSource = LocationService.GetCountries();
+                inputCountry.DataSource = SessionManager.GetCachedCollection<TransitCountry>(LocationService, "GetCountries", null);
                 inputCountry.DataBind();
 
                 if (RequestId > 0)
@@ -50,7 +50,8 @@ public partial class SystemCityEdit : AuthenticatedPage
     {
         try
         {
-            inputState.DataSource = LocationService.GetStatesByCountry(inputCountry.SelectedValue);
+            object[] args = { inputCountry.SelectedValue };
+            inputState.DataSource = SessionManager.GetCachedCollection<TransitState>(LocationService, "GetStatesByCountry", args);
             inputState.DataBind();
         }
         catch (Exception ex)

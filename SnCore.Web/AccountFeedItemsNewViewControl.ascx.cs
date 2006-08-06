@@ -38,20 +38,9 @@ public partial class AccountFeedItemsNewViewControl : Control
         {
             if (!IsPostBack)
             {
-                List<TransitAccountFeedItem> items = (List<TransitAccountFeedItem>)
-                    Cache[string.Format("feeditems:{0}", ClientID)];
-
-                if (items == null)
-                {
-                    ServiceQueryOptions options = new ServiceQueryOptions();
-                    options.PageSize = Count;
-                    options.PageNumber = 0;
-                    items = SyndicationService.GetAccountFeedItems(options);
-                    Cache.Insert(string.Format("feeditems:{0}", ClientID),
-                        items, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
-                }
-
-                FeedsView.DataSource = items;
+                object[] args = { new ServiceQueryOptions(Count, 0) };
+                FeedsView.DataSource = SessionManager.GetCachedCollection<TransitAccountFeedItem>(
+                    SyndicationService, "GetAccountFeedItems", args);
                 FeedsView.DataBind();
             }
         }

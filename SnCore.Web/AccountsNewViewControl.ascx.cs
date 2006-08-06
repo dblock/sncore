@@ -32,19 +32,11 @@ public partial class AccountsNewViewControl : Control
         try
         {
             if (!IsPostBack)
-            {                
-                List<TransitAccount> items = (List<TransitAccount>)
-                    Cache[string.Format("accounts:{0}", ClientID)];
-
-                if (items == null)
-                {
-                    items = SocialService.GetNewAccounts(Count);
-                    Cache.Insert(string.Format("accounts:{0}", ClientID),
-                        items, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
-                }
-
+            {
+                object[] args = { Count };
+                accounts.DataSource = SessionManager.GetCachedCollection<TransitAccount>(
+                    SocialService, "GetNewAccounts", args);
                 accounts.RepeatColumns = Count;
-                accounts.DataSource = items;
                 accounts.DataBind();
             }
         }

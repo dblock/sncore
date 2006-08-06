@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using Wilco.Web.UI;
 using Wilco.Web.UI.WebControls;
 using SnCore.WebServices;
+using SnCore.Services;
 
 public partial class AccountWebsitesViewControl : Control
 {
@@ -45,7 +46,9 @@ public partial class AccountWebsitesViewControl : Control
     void GetData(object sender, EventArgs e)
     {
         accountWebsites.CurrentPageIndex = 0;
-        accountWebsites.VirtualItemCount = AccountService.GetAccountWebsitesCountById(AccountId);
+        object[] args = { AccountId };
+        accountWebsites.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+            AccountService, "GetAccountWebsitesCountById", args);
         accountWebsites_OnGetDataSource(sender, e);
         accountWebsites.DataBind();
         this.Visible = (accountWebsites.VirtualItemCount > 0);
@@ -53,10 +56,10 @@ public partial class AccountWebsitesViewControl : Control
 
     void accountWebsites_OnGetDataSource(object sender, EventArgs e)
     {
-        ServiceQueryOptions options = new ServiceQueryOptions();
-        options.PageNumber = accountWebsites.CurrentPageIndex;
-        options.PageSize = accountWebsites.PageSize;
-        accountWebsites.DataSource = AccountService.GetAccountWebsitesById(AccountId, options);
+        ServiceQueryOptions options = new ServiceQueryOptions(accountWebsites.PageSize, accountWebsites.CurrentPageIndex);
+        object[] args = { AccountId, options };
+        accountWebsites.DataSource = SessionManager.GetCachedCollection<TransitAccountWebsite>(
+            AccountService, "GetAccountWebsitesById", args);
         panelGrid.Update();
     }
 }

@@ -9,6 +9,7 @@ using System.Xml;
 using System.Resources;
 using System.Net.Mail;
 using System.IO;
+using SnCore.Tools;
 using SnCore.Tools.Web;
 
 namespace SnCore.Services
@@ -17,6 +18,11 @@ namespace SnCore.Services
     {
         public int AccountId;
         public bool TopOfThreadOnly = true;
+
+        public override int GetHashCode()
+        {
+            return PersistentlyHashable.GetHashCode(this);
+        }
 
         public string CountQuery
         {

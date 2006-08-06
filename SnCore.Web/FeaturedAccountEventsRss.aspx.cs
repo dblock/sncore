@@ -69,14 +69,7 @@ public partial class FeaturedAccountEventsRss : Page
 
     public TransitAccountEvent GetAccountEvent(int id)
     {
-        TransitAccountEvent a = (TransitAccountEvent)Cache[string.Format("accountevent:{0}", id)];
-        if (a == null)
-        {
-            a = EventService.GetAccountEventById(SessionManager.Ticket, id);
-            Cache.Insert(string.Format("accountevent:{0}", id),
-                a, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
-        }
-
-        return a;
+        object[] args = { SessionManager.Ticket, id };
+        return SessionManager.GetCachedItem<TransitAccountEvent>(AccountService, "GetAccountEventById", args);
     }
 }

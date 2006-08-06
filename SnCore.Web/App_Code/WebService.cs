@@ -33,6 +33,12 @@ namespace SnCore.WebServices
             PageSize = pagesize;
             PageNumber = pagenumber;
         }
+
+        public override int GetHashCode()
+        {
+            string hash = string.Format("{0}:{1}", PageSize, PageNumber);
+            return hash.GetHashCode();
+        }
     };
 
     public class WebService : SoapService

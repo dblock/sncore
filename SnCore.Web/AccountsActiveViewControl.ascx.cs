@@ -33,18 +33,10 @@ public partial class AccountsActiveViewControl : Control
         {
             if (!IsPostBack)
             {
-                List<TransitAccount> items = (List<TransitAccount>)
-                    Cache[string.Format("activeaccounts:{0}", ClientID)];
-
-                if (items == null)
-                {
-                    items = SocialService.GetActiveAccounts(Count);
-                    Cache.Insert(string.Format("activeaccounts:{0}", ClientID),
-                        items, null, DateTime.Now.AddMinutes(5), TimeSpan.Zero);
-                }
-
+                object[] args = { Count };
+                accounts.DataSource = SessionManager.GetCachedCollection<TransitAccount>(
+                    SocialService, "GetActiveAccounts", args);
                 accounts.RepeatColumns = Count;
-                accounts.DataSource = items;
                 accounts.DataBind();
             }
         }

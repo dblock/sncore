@@ -50,7 +50,7 @@ public partial class SelectPlaceControl : Control
                 selectType.DataSource = types;
                 selectType.DataBind();
 
-                inputCountry.DataSource = LocationService.GetCountries();
+                inputCountry.DataSource = SessionManager.GetCachedCollection<TransitCountry>(LocationService, "GetCountries", null);
                 inputCountry.DataBind();
 
                 inputCountry_SelectedIndexChanged(sender, e);
@@ -209,8 +209,8 @@ public partial class SelectPlaceControl : Control
     {
         try
         {
-            inputState.DataSource = LocationService.GetStatesByCountry(
-                inputCountry.SelectedValue);
+            object[] args = { inputCountry.SelectedValue };
+            inputState.DataSource = SessionManager.GetCachedCollection<TransitState>(LocationService, "GetStatesByCountry", args);
             inputState.DataBind();
 
             panelSelectCountryState.Update();

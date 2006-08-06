@@ -71,7 +71,7 @@ public partial class PlaceEdit : AuthenticatedPage
                 selectType.DataSource = types;
                 selectType.DataBind();
 
-                inputCountry.DataSource = LocationService.GetCountries();
+                inputCountry.DataSource = SessionManager.GetCachedCollection<TransitCountry>(LocationService, "GetCountries", null);
                 inputCountry.DataBind();
 
                 if (RequestId > 0)
@@ -186,8 +186,8 @@ public partial class PlaceEdit : AuthenticatedPage
     {
         try
         {
-            inputState.DataSource = LocationService.GetStatesByCountry(
-                inputCountry.SelectedValue);
+            object[] args = { inputCountry.SelectedValue };
+            inputState.DataSource = SessionManager.GetCachedCollection<TransitState>(LocationService, "GetStatesByCountry", args);
             inputState.DataBind();
         }
         catch (Exception ex)

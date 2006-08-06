@@ -38,16 +38,9 @@ public partial class AccountView : Page
         {
             if (mAccount == null)
             {
-                mAccount = (TransitAccount)Cache[string.Format("account:{0}", AccountId)];
-                if (mAccount == null)
-                {
-                    mAccount = AccountService.GetAccountById(AccountId);
-                    if (mAccount != null)
-                    {
-                        Cache.Insert(string.Format("account:{0}", AccountId),
-                            mAccount, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
-                    }
-                }
+                object[] args = { AccountId };
+                mAccount = SessionManager.GetCachedItem<TransitAccount>(
+                    AccountService, "GetAccountById", args);
             }
             return mAccount;
         }
@@ -59,16 +52,9 @@ public partial class AccountView : Page
         {
             if (mAccountPermissions == null)
             {
-                mAccountPermissions = (TransitAccountPermissions)Cache[string.Format("accountpermissions:{0}", AccountId)];
-                if (mAccountPermissions == null)
-                {
-                    mAccountPermissions = AccountService.GetAccountPermissionsById(AccountId);
-                    if (mAccountPermissions != null)
-                    {
-                        Cache.Insert(string.Format("accountpermissions:{0}", AccountId),
-                            mAccountPermissions, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
-                    }
-                }
+                object[] args = { AccountId };
+                mAccountPermissions = SessionManager.GetCachedItem<TransitAccountPermissions>(
+                    AccountService, "GetAccountPermissionsById", args);
             }
             return mAccountPermissions;
         }
@@ -118,7 +104,9 @@ public partial class AccountView : Page
 
                 this.Title = linkAccount.Text = Renderer.Render(Account.Name);
 
-                picturesView.DataSource = AccountService.GetAccountPicturesById(Account.Id, null);
+                object[] args = { Account.Id, null };
+                picturesView.DataSource = SessionManager.GetCachedCollection<TransitAccountPicture>(
+                    AccountService, "GetAccountPicturesById", args);
                 picturesView.DataBind();
 
                 if (picturesView.Items.Count == 0) accountNoPicture.Visible = true;
@@ -138,7 +126,9 @@ public partial class AccountView : Page
                 linkAddToFriends.NavigateUrl = string.Format("AccountFriendRequestEdit.aspx?pid={0}&ReturnUrl={1}",
                     Account.Id.ToString(), returnurl);
 
-                discussionTags.DiscussionId = DiscussionService.GetTagDiscussionId(Account.Id);
+                object[] args_aid = { Account.Id };
+                discussionTags.DiscussionId = SessionManager.GetCachedCollectionCount(
+                    DiscussionService, "GetTagDiscussionId", args_aid);
 
                 linkLeaveTestimonial.NavigateUrl = string.Format("DiscussionPost.aspx?did={0}&ReturnUrl={1}&#edit",
                     discussionTags.DiscussionId, returnurl);

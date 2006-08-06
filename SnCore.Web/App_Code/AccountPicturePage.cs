@@ -20,11 +20,9 @@ public abstract class AccountPicturePage : PicturePage
 
     public override TransitPicture GetPictureWithBitmap(int id, string ticket, DateTime ifModifiedSince)
     {
-        TransitAccountPictureWithBitmap p =
-            AccountService.GetAccountPictureWithBitmapByIdIfModifiedSince(
-                ticket,
-                id,
-                ifModifiedSince);
+        object[] args = { ticket, id, ifModifiedSince };
+        TransitAccountPictureWithBitmap p = SessionManager.GetCachedItem<TransitAccountPictureWithBitmap>(
+            AccountService, "GetAccountPictureWithBitmapByIdIfModifiedSince", args);
 
         if (p == null)
             return null;
@@ -40,11 +38,9 @@ public abstract class AccountPicturePage : PicturePage
 
     public override TransitPicture GetPictureWithThumbnail(int id, string ticket, DateTime ifModifiedSince)
     {
-        TransitAccountPictureWithThumbnail p =
-            AccountService.GetAccountPictureWithThumbnailByIdIfModifiedSince(
-                ticket,
-                id,
-                ifModifiedSince);
+        object[] args = { ticket, id, ifModifiedSince };
+        TransitAccountPictureWithThumbnail p = SessionManager.GetCachedItem<TransitAccountPictureWithThumbnail>(
+            AccountService, "GetAccountPictureWithThumbnailByIdIfModifiedSince", args);
 
         if (p == null)
             return null;
@@ -60,10 +56,9 @@ public abstract class AccountPicturePage : PicturePage
 
     public override TransitPicture GetPictureWithBitmap(int id, string ticket)
     {
-        TransitAccountPictureWithBitmap p =
-            AccountService.GetAccountPictureWithBitmapById(
-                ticket,
-                id);
+        object[] args = { ticket, id };
+        TransitAccountPictureWithBitmap p = SessionManager.GetCachedItem<TransitAccountPictureWithBitmap>(
+            AccountService, "GetAccountPictureWithBitmapById", args);
 
         if (p == null)
             return null;
@@ -79,10 +74,9 @@ public abstract class AccountPicturePage : PicturePage
 
     public override TransitPicture GetPictureWithThumbnail(int id, string ticket)
     {
-        TransitAccountPictureWithThumbnail p =
-            AccountService.GetAccountPictureWithThumbnailById(
-                ticket,
-                id);
+        object[] args = { ticket, id };
+        TransitAccountPictureWithThumbnail p = SessionManager.GetCachedItem<TransitAccountPictureWithThumbnail>(
+            AccountService, "GetAccountPictureWithThumbnailById", args);
 
         if (p == null)
             return null;
@@ -98,7 +92,9 @@ public abstract class AccountPicturePage : PicturePage
 
     public override TransitPicture GetRandomPictureWithThumbnail()
     {
-        TransitPictureWithThumbnail tp = SystemService.GetRandomPictureWithThumbnailByType("Account");
+        object[] args = { "Account" };
+        TransitPictureWithThumbnail tp = SessionManager.GetCachedItem < TransitPictureWithThumbnail>(
+            SystemService, "GetRandomPictureWithThumbnailByType", args);
 
         if (tp == null)
             return null;

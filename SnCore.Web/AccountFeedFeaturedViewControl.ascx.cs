@@ -38,15 +38,8 @@ public partial class AccountFeedFeaturedViewControl : Control
         {
             if (mFeature == null)
             {
-                mFeature = (TransitFeature)Cache["feature:accountfeed"];
-                if (mFeature == null)
-                {
-                    mFeature = SystemService.GetLatestFeature("AccountFeed");
-                    if (mFeature == null)
-                        return null;
-
-                    Cache.Insert("feature:accountfeed", mFeature, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
-                }
+                object[] args = { "AccountFeed" };
+                mFeature = SessionManager.GetCachedItem<TransitFeature>(SystemService, "GetLatestFeature", args);
             }
 
             return mFeature;
@@ -59,16 +52,8 @@ public partial class AccountFeedFeaturedViewControl : Control
         {
             if (mAccountFeed == null)
             {
-                mAccountFeed = (TransitAccountFeed) Cache[string.Format("accountfeed:{0}", Feature.DataRowId)];
-                if (mAccountFeed == null)
-                {
-                    mAccountFeed = SyndicationService.GetAccountFeedById(SessionManager.Ticket, Feature.DataRowId);
-                    if (mAccountFeed == null)
-                        return null;
-
-                    Cache.Insert(string.Format("accountfeed:{0}", Feature.DataRowId), 
-                        mAccountFeed, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
-                }
+                object[] args = { SessionManager.Ticket, Feature.DataRowId };
+                mAccountFeed = SessionManager.GetCachedItem<TransitAccountFeed>(SyndicationService, "GetAccountFeedById", args);
             }
 
             return mAccountFeed;

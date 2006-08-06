@@ -25,13 +25,7 @@ public partial class About : Page
         {
             if (mSummary == null)
             {
-                mSummary = (TransitStatsSummary)Cache["stats:summary"];
-                if (mSummary == null)
-                {
-                    mSummary = StatsService.GetSummary();
-                    Cache.Insert("stats:summary",
-                        mSummary, null, DateTime.Now.AddMinutes(5), TimeSpan.Zero);
-                }
+                mSummary = SessionManager.GetCachedItem<TransitStatsSummary>(StatsService, "GetSummary", null);
             }
             return mSummary;
         }

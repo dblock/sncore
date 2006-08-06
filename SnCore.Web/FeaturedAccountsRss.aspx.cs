@@ -69,32 +69,19 @@ public partial class FeaturedAccountsRss : Page
 
     public TransitAccount GetAccount(int id)
     {
-        TransitAccount a = (TransitAccount)Cache[string.Format("account:{0}", id)];
-        if (a == null)
-        {
-            a = AccountService.GetAccountById(id);
-            Cache.Insert(string.Format("account:{0}", id),
-                a, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
-        }
-
-        return a;
+        object[] args = { id };
+        return SessionManager.GetCachedItem<TransitAccount>(AccountService, "GetAccountById", args);
     }
 
     public string GetDescription(int id)
     {
-        TransitAccountProfile a = (TransitAccountProfile)Cache[string.Format("accountprofile:{0}", id)];
-        if (a == null)
-        {
-            List<TransitAccountProfile> aa = AccountService.GetAccountProfilesById(id);
+        object[] args = { id };
+        List<TransitAccountProfile> profiles = SessionManager.GetCachedCollection<TransitAccountProfile>(
+            AccountService, "GetAccountProfilesById", args);
 
-            if (aa == null || aa.Count == 0)
-                return string.Empty;
+        if (profiles == null || profiles.Count == 0)
+            return string.Empty;
 
-            a = aa[0];
-            Cache.Insert(string.Format("accountprofile:{0}", id),
-                a, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
-        }
-
-        return a.AboutSelf;
+        return profiles[0].AboutSelf;
     }
 }

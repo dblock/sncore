@@ -14,7 +14,7 @@ using SnCore.WebServices;
 
 public partial class AccountStoriesView : Page
 {
-    public void Page_Load()
+    public void Page_Load(object sender, EventArgs e)
     {
         try
         {
@@ -28,7 +28,7 @@ public partial class AccountStoriesView : Page
                 }
 
                 panelSearchInternal.Visible = ! string.IsNullOrEmpty(inputSearch.Text);
-                GetData();
+                GetData(sender, e);
             }
         }
         catch (Exception ex)
@@ -68,9 +68,18 @@ public partial class AccountStoriesView : Page
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridManage.CurrentPageIndex;
             options.PageSize = gridManage.PageSize;
-            gridManage.DataSource = string.IsNullOrEmpty(inputSearch.Text)
-                ? StoryService.GetLatestAccountStories(options)
-                : StoryService.SearchAccountStories(inputSearch.Text, options);
+            if (string.IsNullOrEmpty(inputSearch.Text))
+            {
+                object[] args = { options };
+                gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountStory>(
+                    StoryService, "GetLatestAccountStories", args);
+            }
+            else
+            {
+                object[] args = { inputSearch.Text, options };
+                gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountStory>(
+                    StoryService, "SearchAccountStories", args);
+            }
         }
         catch (Exception ex)
         {
@@ -78,13 +87,21 @@ public partial class AccountStoriesView : Page
         }
     }
 
-    public void GetData()
+    public void GetData(object sender, EventArgs e)
     {
-        gridManage.VirtualItemCount = string.IsNullOrEmpty(inputSearch.Text)
-            ? StoryService.GetLatestAccountStoriesCount()
-            : StoryService.SearchAccountStoriesCount(inputSearch.Text);
+        gridManage.CurrentPageIndex = 0;
 
-        gridManage_OnGetDataSource(this, null);
+        if (string.IsNullOrEmpty(inputSearch.Text))
+        {
+            gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(StoryService, "GetLatestAccountStoriesCount", null);
+        }
+        else
+        {
+            object[] args = { inputSearch.Text };
+            gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(StoryService, "SearchAccountStoriesCount", args);
+        }
+
+        gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
 
@@ -92,7 +109,7 @@ public partial class AccountStoriesView : Page
     {
         try
         {
-            GetData();
+            GetData(sender, e);
 
             labelCount.Text = string.Format("{0} {1}",
                 gridManage.VirtualItemCount, gridManage.VirtualItemCount != 1 ? "stories" : "story");
@@ -111,7 +128,7 @@ public partial class AccountStoriesView : Page
         {
             panelSearchInternal.Visible = false;
             inputSearch.Text = string.Empty;
-            GetData();
+            GetData(sender, e);
             panelSearch.Update();
         }
         catch (Exception ex)

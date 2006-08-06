@@ -12,6 +12,7 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 using System.Collections.Generic;
+using System.Web.Caching;
 
 public partial class TagWordsView : AccountPersonPage
 {
@@ -48,7 +49,7 @@ public partial class TagWordsView : AccountPersonPage
         set
         {
             Cache.Insert(string.Format("maxfrequency:{0}", ClientID),
-                value, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
+                value, null, Cache.NoAbsoluteExpiration, SessionManager.DefaultCacheTimeSpan);
         }
     }
 
@@ -66,7 +67,7 @@ public partial class TagWordsView : AccountPersonPage
         set
         {
             Cache.Insert(string.Format("minfrequency:{0}", ClientID),
-                value, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
+                value, null, Cache.NoAbsoluteExpiration, SessionManager.DefaultCacheTimeSpan);
         }
     }
 
@@ -90,17 +91,12 @@ public partial class TagWordsView : AccountPersonPage
         {
             if (!IsPostBack)
             {
-                List<TransitTagWord> words = (List<TransitTagWord>)Cache[string.Format("tagwords:{0}", ClientID)];
-                if (words == null)
-                {
-                    words = TagWordService.GetPromotedTagWords(Count);
-                    words.Sort(CompareByFrequency);
-                    Cache.Insert(string.Format("tagwords:{0}", ClientID),
-                        words, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
-                    MaxFrequency = mMaxFrequency;
-                    MinFrequency = mMinFrequency;
-                }
-
+                object[] args = { Count };
+                List<TransitTagWord> words = SessionManager.GetCachedCollection<TransitTagWord>(
+                    TagWordService, "GetPromotedTagWords", args);
+                words.Sort(CompareByFrequency);
+                MaxFrequency = mMaxFrequency;
+                MinFrequency = mMinFrequency;
                 tagwords.DataSource = words;
                 tagwords.DataBind();
             }

@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using Wilco.Web.UI;
 using SnCore.WebServices;
+using SnCore.Services;
 
 public partial class AccountFriendsViewControl : Control
 {
@@ -45,7 +46,9 @@ public partial class AccountFriendsViewControl : Control
     void GetData(object sender, EventArgs e)
     {
         friendsList.CurrentPageIndex = 0;
-        friendsList.VirtualItemCount = SocialService.GetFriendsCountById(AccountId);
+        object[] args = { AccountId };
+        friendsList.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+            SocialService, "GetFriendsCountById", args);
         friendsList_OnGetDataSource(sender, e);
         friendsList.DataBind();
         this.Visible = (friendsList.VirtualItemCount > 0);
@@ -58,7 +61,9 @@ public partial class AccountFriendsViewControl : Control
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = friendsList.CurrentPageIndex;
             options.PageSize = friendsList.PageSize;
-            friendsList.DataSource = SocialService.GetFriendsById(SessionManager.Ticket, AccountId, options);
+            object[] args = { SessionManager.Ticket, AccountId, options };
+            friendsList.DataSource = SessionManager.GetCachedCollection<TransitAccountFriend>(
+                SocialService, "GetFriendsById", args);
             panelGrid.Update();
         }
         catch (Exception ex)

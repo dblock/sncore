@@ -38,15 +38,8 @@ public partial class AccountFeaturedViewControl : Control
         {
             if (mFeature == null)
             {
-                mFeature = (TransitFeature)Cache["feature:account"];
-                if (mFeature == null)
-                {
-                    mFeature = SystemService.GetLatestFeature("Account");
-                    if (mFeature == null)
-                        return null;
-
-                    Cache.Insert("feature:account", mFeature, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
-                }
+                object[] args = { "Account" };
+                mFeature = SessionManager.GetCachedItem<TransitFeature>(SystemService, "GetLatestFeature", args);
             }
 
             return mFeature;
@@ -59,16 +52,8 @@ public partial class AccountFeaturedViewControl : Control
         {
             if (mAccount == null)
             {
-                mAccount = (TransitAccount) Cache[string.Format("account:{0}", Feature.DataRowId)];
-                if (mAccount == null)
-                {
-                    mAccount = AccountService.GetAccountById(Feature.DataRowId);
-                    if (mAccount == null)
-                        return null;
-
-                    Cache.Insert(string.Format("account:{0}", Feature.DataRowId), 
-                        mAccount, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
-                }
+                object[] args = { Feature.DataRowId };
+                mAccount = SessionManager.GetCachedItem<TransitAccount>(AccountService, "GetAccountById", args);
             }
 
             return mAccount;
@@ -77,19 +62,13 @@ public partial class AccountFeaturedViewControl : Control
 
     public string GetDescription(int id)
     {
-        TransitAccountProfile a = (TransitAccountProfile)Cache[string.Format("accountprofile:{0}", id)];
-        if (a == null)
-        {
-            List<TransitAccountProfile> aa = AccountService.GetAccountProfilesById(id);
+        object[] args = { id };
+        List<TransitAccountProfile> profiles = SessionManager.GetCachedCollection<TransitAccountProfile>(
+            AccountService, "GetAccountProfilesById", args);
 
-            if (aa == null || aa.Count == 0)
-                return string.Empty;
+        if (profiles == null || profiles.Count == 0)
+            return string.Empty;
 
-            a = aa[0];
-            Cache.Insert(string.Format("accountprofile:{0}", id),
-                a, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
-        }
-
-        return a.AboutSelf;
+        return profiles[0].AboutSelf;
     }
 }

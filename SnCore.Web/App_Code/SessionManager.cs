@@ -14,12 +14,14 @@ using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.BackEndServices;
 using System.Collections.Generic;
+using System.Text;
 
 public class SessionManager
 {
-    static TimeSpan s_RequestCommitInterval = new TimeSpan(0, 0, 5); // commit every minute
+    static TimeSpan s_RequestCommitInterval = new TimeSpan(0, 1, 0); // commit every minute
     private static DateTime s_RequestsLastCommit = DateTime.UtcNow;
     private static List<TransitStatsRequest> s_Requests = new List<TransitStatsRequest>(1024);
+    public static TimeSpan DefaultCacheTimeSpan = new TimeSpan(0, 5, 0);
 
     const string sSnCoreOpenIdTokenCookieName = "SnCore.openidtoken";
     const string sSnCoreAuthCookieName = "SnCore.authcookie";
@@ -84,13 +86,8 @@ public class SessionManager
 
     public string GetCachedConfiguration(string name, string defaultvalue)
     {
-        object result = Cache[string.Format("settings:{0}", name)];
-        if (result == null)
-        {
-            result = SystemService.GetConfigurationByNameWithDefault(name, defaultvalue).Value;
-            Cache.Insert(string.Format("settings:{0}", name), result, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
-        }
-        return result.ToString();
+        object[] args = { name, defaultvalue };
+        return GetCachedItem<TransitConfiguration>(SystemService, "GetConfigurationByNameWithDefault", args).Value.ToString();
     }
 
     public SessionManager(System.Web.UI.Page page)
@@ -126,7 +123,7 @@ public class SessionManager
                     AccountService.GetAccountId(authcookie.Value);
                     mTicket = authcookie.Value;
                     Cache.Insert(string.Format("ticket:{0}", authcookie.Value),
-                        mTicket, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
+                        mTicket, null, Cache.NoAbsoluteExpiration, SessionManager.DefaultCacheTimeSpan);
                 }
             }
             catch
@@ -250,13 +247,8 @@ public class SessionManager
                 {
                     try
                     {
-                        mAccount = (TransitAccount)Cache[string.Format("account:{0}", Ticket)];
-                        if (mAccount == null)
-                        {
-                            mAccount = AccountService.GetAccount(Ticket);
-                            Cache.Insert(string.Format("account:{0}", Ticket),
-                                mAccount, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
-                        }
+                        object[] args = { Ticket };
+                        mAccount = GetCachedItem<TransitAccount>(AccountService, "GetAccount", args);
                     }
                     catch
                     {
@@ -276,15 +268,8 @@ public class SessionManager
             {
                 if (IsLoggedIn)
                 {
-                    mAccountPermissions = (TransitAccountPermissions)
-                        Cache[string.Format("accountpermissions:{0}", Ticket)];
-
-                    if (mAccountPermissions == null)
-                    {
-                        mAccountPermissions = AccountService.GetAccountPermissions(Ticket);
-                        Cache.Insert(string.Format("accountpermissions:{0}", Ticket),
-                            mAccountPermissions, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
-                    }
+                    object[] args = { Ticket };
+                    mAccountPermissions = GetCachedItem<TransitAccountPermissions>(AccountService, "GetAccountPermissions", args);
                 }
             }
             return mAccountPermissions;
@@ -681,18 +666,8 @@ public class SessionManager
             int userid = 0;
             if (int.TryParse(tagvalue, out userid))
             {
-                TransitAccount a = (TransitAccount) Cache[string.Format("account:{0}", userid)];
-
-                if (a == null)
-                {
-                    a = AccountService.GetAccountById(userid);
-
-                    if (a != null)
-                    {
-                        Cache.Insert(string.Format("account:{0}", userid), 
-                            a, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
-                    }
-                }
+                object[] args = { userid };
+                TransitAccount a = GetCachedItem<TransitAccount>(AccountService, "GetAccountById", args);
 
                 if (a != null)
                 {
@@ -705,18 +680,8 @@ public class SessionManager
         }
         else
         {
-            TransitPlace p = (TransitPlace)Cache[string.Format("place:{0}:{1}", tagname, tagvalue)];
-
-            if (p == null)
-            {
-                p = PlaceService.FindPlace(tagname, tagvalue);
-
-                if (p != null)
-                {
-                    Cache.Insert(string.Format(string.Format("place:{0}:{1}", tagname, tagvalue)), 
-                        p, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
-                }
-            }
+            object[] args = { tagname, tagvalue };
+            TransitPlace p = GetCachedItem<TransitPlace>(PlaceService, "FindPlace", args);
 
             if (p == null)
             {
@@ -845,5 +810,86 @@ public class SessionManager
 
             return string.Empty;
         }
+    }
+
+    private static string GetCacheKey(string invoke, object[] args)
+    {
+        StringBuilder key = new StringBuilder(invoke);
+
+        if (args != null)
+        {
+            foreach (object arg in args)
+            {
+                key.Append(":");
+                key.Append(arg == null ? string.Empty : arg.GetHashCode().ToString());
+            }
+        }
+
+        return key.ToString();
+    }
+
+    public List<TransitType> GetCachedCollection<TransitType>(
+        WebService service, string invoke, object[] args)
+    {
+        return GetCachedCollection<TransitType>(service, invoke, args, DefaultCacheTimeSpan);
+    }
+
+    public List<TransitType> GetCachedCollection<TransitType>(
+        WebService service, string invoke, object[] args, TimeSpan cacheduration)
+    {
+        string key = GetCacheKey(invoke, args);
+        List<TransitType> result = (List<TransitType>)Cache[key];
+        if (result == null || IsAdministrator)
+        {
+            result = (List<TransitType>)service.GetType().GetMethod(invoke).Invoke(service, args);
+            if (result != null)
+            {
+                Cache.Insert(key, result, null, Cache.NoAbsoluteExpiration, cacheduration);
+            }
+        }
+
+        return result;
+    }
+
+    public int GetCachedCollectionCount(
+        WebService service, string invoke, object[] args)
+    {
+        return GetCachedCollectionCount(service, invoke, args, DefaultCacheTimeSpan);
+    }
+
+    public int GetCachedCollectionCount(
+        WebService service, string invoke, object[] args, TimeSpan cacheduration)
+    {
+        string key = GetCacheKey(invoke, args);
+        object count = Cache[key];
+        if (count == null || IsAdministrator)
+        {
+            count = service.GetType().GetMethod(invoke).Invoke(service, args);
+            Cache.Insert(key, count, null, Cache.NoAbsoluteExpiration, cacheduration);
+        }
+        return (int)count;
+    }
+
+    public TransitType GetCachedItem<TransitType>(
+        WebService service, string invoke, object[] args)
+    {
+        return GetCachedItem<TransitType>(service, invoke, args, DefaultCacheTimeSpan);
+    }
+
+    public TransitType GetCachedItem<TransitType>(
+        WebService service, string invoke, object[] args, TimeSpan cacheduration)
+    {
+        string key = GetCacheKey(invoke, args);
+        TransitType result = (TransitType) Cache[key];
+        if (result == null || IsAdministrator)
+        {
+            result = (TransitType)service.GetType().GetMethod(invoke).Invoke(service, args);
+            if (result != null)
+            {
+                Cache.Insert(key, result, null, Cache.NoAbsoluteExpiration, cacheduration);
+            }
+        }
+
+        return result;
     }
 }

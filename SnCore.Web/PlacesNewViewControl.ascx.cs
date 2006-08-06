@@ -33,18 +33,9 @@ public partial class PlacesNewViewControl : Control
         {
             if (!IsPostBack)
             {
-                List<TransitPlace> items = (List<TransitPlace>)
-                    Cache[string.Format("places:{0}", ClientID)];
-
-                if (items == null)
-                {
-                    items = PlaceService.GetNewPlaces(Count);
-                    Cache.Insert(string.Format("places:{0}", ClientID),
-                        items, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
-                }
-
+                object[] args = { Count };
+                Places.DataSource = SessionManager.GetCachedCollection<TransitPlace>(PlaceService, "GetNewPlaces", args);
                 Places.RepeatColumns = Count;
-                Places.DataSource = items;
                 Places.DataBind();
             }
         }

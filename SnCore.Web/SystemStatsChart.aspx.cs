@@ -24,13 +24,8 @@ public partial class SystemStatsChart2 : PicturePage
         {
             if (mSummary == null)
             {
-                mSummary = (TransitStatsSummary) Cache["stats:summary"];
-                if (mSummary == null)
-                {
-                    mSummary = StatsService.GetSummary();
-                    Cache.Insert("stats:summary",
-                        mSummary, null, DateTime.Now.AddMinutes(5), TimeSpan.Zero);
-                }
+                object[] args = { null };
+                mSummary = SessionManager.GetCachedItem<TransitStatsSummary>(StatsService, "GetSummary", args);
             }
             return mSummary;
         }

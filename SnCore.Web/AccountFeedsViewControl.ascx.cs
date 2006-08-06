@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using Wilco.Web.UI;
 using SnCore.WebServices;
+using SnCore.Services;
 
 public partial class AccountFeedsViewControl : Control
 {
@@ -44,7 +45,9 @@ public partial class AccountFeedsViewControl : Control
     void GetData(object sender, EventArgs e)
     {
         accountFeeds.CurrentPageIndex = 0;
-        accountFeeds.VirtualItemCount = SyndicationService.GetAccountFeedsCountById(AccountId);
+        object[] args = { AccountId };
+        accountFeeds.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+            SyndicationService, "GetAccountFeedsCountById", args);
         accountFeeds_OnGetDataSource(sender, e);
         accountFeeds.DataBind();
         this.Visible = (accountFeeds.VirtualItemCount > 0);
@@ -55,7 +58,9 @@ public partial class AccountFeedsViewControl : Control
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = accountFeeds.CurrentPageIndex;
         options.PageSize = accountFeeds.PageSize;
-        accountFeeds.DataSource = SyndicationService.GetAccountFeedsById(SessionManager.Ticket, AccountId, options);
+        object[] args = { SessionManager.Ticket, AccountId, options };
+        accountFeeds.DataSource = SessionManager.GetCachedCollection<TransitAccountFeed>(
+            SyndicationService, "GetAccountFeedsById", args);
         panelGrid.Update();
     }
 }
