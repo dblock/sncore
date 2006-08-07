@@ -267,8 +267,7 @@ public class SessionManager
             {
                 if (IsLoggedIn)
                 {
-                    object[] args = { Ticket };
-                    mAccountPermissions = GetCachedItem<TransitAccountPermissions>(AccountService, "GetAccountPermissions", args);
+                    mAccountPermissions = AccountService.GetAccountPermissions(Ticket);
                 }
             }
             return mAccountPermissions;
