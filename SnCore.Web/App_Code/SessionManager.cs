@@ -247,8 +247,7 @@ public class SessionManager
                 {
                     try
                     {
-                        object[] args = { Ticket };
-                        mAccount = GetCachedItem<TransitAccount>(AccountService, "GetAccount", args);
+                        mAccount = AccountService.GetAccount(Ticket);
                     }
                     catch
                     {
