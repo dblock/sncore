@@ -24,8 +24,7 @@ public partial class SystemStatsChart2 : PicturePage
         {
             if (mSummary == null)
             {
-                object[] args = { null };
-                mSummary = SessionManager.GetCachedItem<TransitStatsSummary>(StatsService, "GetSummary", args);
+                mSummary = SessionManager.GetCachedItem<TransitStatsSummary>(StatsService, "GetSummary", null);
             }
             return mSummary;
         }
