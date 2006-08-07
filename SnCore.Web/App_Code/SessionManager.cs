@@ -247,7 +247,13 @@ public class SessionManager
                 {
                     try
                     {
-                        mAccount = AccountService.GetAccount(Ticket);
+                        mAccount = (TransitAccount)Cache[string.Format("account:{0}", Ticket)];
+                        if (mAccount == null)
+                        {
+                            mAccount = AccountService.GetAccount(Ticket);
+                            Cache.Insert(string.Format("account:{0}", Ticket),
+                                mAccount, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
+                        }
                     }
                     catch
                     {
@@ -267,7 +273,15 @@ public class SessionManager
             {
                 if (IsLoggedIn)
                 {
-                    mAccountPermissions = AccountService.GetAccountPermissions(Ticket);
+                    mAccountPermissions = (TransitAccountPermissions)
+                        Cache[string.Format("accountpermissions:{0}", Ticket)];
+
+                    if (mAccountPermissions == null)
+                    {
+                        mAccountPermissions = AccountService.GetAccountPermissions(Ticket);
+                        Cache.Insert(string.Format("accountpermissions:{0}", Ticket),
+                            mAccountPermissions, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
+                    }
                 }
             }
             return mAccountPermissions;
