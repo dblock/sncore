@@ -14,38 +14,19 @@ using SnCore.WebServices;
 
 public partial class PlaceEdit : AuthenticatedPage
 {
-    public class SelectLocationEventArgs : EventArgs
+    private LocationSelectorCountryStateCityText mLocationSelector = null;
+
+    public LocationSelectorCountryStateCityText LocationSelector
     {
-        public string Country;
-        public string State;
-        public string City;
-
-        public SelectLocationEventArgs(TransitAccount account)
-            : this(account.Country, account.State, account.City)
+        get
         {
+            if (mLocationSelector == null)
+            {
+                mLocationSelector = new LocationSelectorCountryStateCityText(
+                    this, false, inputCountry, inputState, inputCity);
+            }
 
-        }
-
-        public SelectLocationEventArgs(TransitCity city)
-            : this(city.Country, city.State, city.Name)
-        {
-
-        }
-
-        public SelectLocationEventArgs(TransitPlace place)
-            : this(place.Country, place.State, place.City)
-        {
-
-        }
-
-        public SelectLocationEventArgs(
-            string country,
-            string state,
-            string city)
-        {
-            Country = country;
-            State = state;
-            City = city;
+            return mLocationSelector;
         }
     }
 
@@ -56,6 +37,9 @@ public partial class PlaceEdit : AuthenticatedPage
             SetDefaultButton(manageAdd);
 
             gridPlaceNamesManage.OnGetDataSource += new EventHandler(gridPlaceNamesManage_OnGetDataSource);
+
+            LocationSelector.CountryChanged += new EventHandler(LocationSelector_CountryChanged);
+            LocationSelector.StateChanged += new EventHandler(LocationSelector_StateChanged);
 
             if (!IsPostBack)
             {
@@ -71,9 +55,6 @@ public partial class PlaceEdit : AuthenticatedPage
                 selectType.DataSource = types;
                 selectType.DataBind();
 
-                inputCountry.DataSource = SessionManager.GetCachedCollection<TransitCountry>(LocationService, "GetCountries", null);
-                inputCountry.DataBind();
-
                 if (RequestId > 0)
                 {
                     TransitPlace place = PlaceService.GetPlaceById(RequestId);
@@ -87,37 +68,25 @@ public partial class PlaceEdit : AuthenticatedPage
                     inputWebsite.Text = place.Website;
                     inputZip.Text = place.Zip;
                     selectType.Items.FindByValue(place.Type).Selected = true;
-                    SelectLocation(sender, new SelectLocationEventArgs(place));
-                    inputCity.Text = place.City;
+                    LocationSelector.SelectLocation(sender, new LocationEventArgs(place));
                     linkPlaceId.Text = Renderer.Render(place.Name);
                 }
                 else
                 {
                     panelPlaceAltName.Visible = false;
-                    inputCountry_SelectedIndexChanged(sender, e);
+                    LocationSelector.ChangeCountry(sender, e);
+
                     string type = Request.QueryString["type"];
-                    if (!string.IsNullOrEmpty(type)) selectType.Items.FindByValue(type).Selected = true;
+                    if (!string.IsNullOrEmpty(type))
+                    {
+                        ListItem i_type = selectType.Items.FindByValue(type);
+                        if (i_type != null) i_type.Selected = true;
+                    }
 
                     string name = Request.QueryString["name"];
                     if (!string.IsNullOrEmpty(name)) inputName.Text = name;
 
-                    string city = Request.QueryString["city"];
-                    if (!string.IsNullOrEmpty(city))
-                    {
-                        TransitCity t_city = LocationService.GetCityByTag(city);
-                        if (t_city != null)
-                        {
-                            SelectLocation(sender, new SelectLocationEventArgs(t_city));
-                        }
-                        else
-                        {
-                            inputCity.Text = city;
-                        }
-                    }
-                    else
-                    {
-                        SelectLocation(sender, new SelectLocationEventArgs(SessionManager.Account));
-                    }
+                    LocationSelector.ChangeCityWithAccountDefault(sender, new CityLocationEventArgs(Request.QueryString["city"]));
 
                     linkPlaceId.Text = "New Place";
                     linkDelete.Visible = false;
@@ -135,22 +104,6 @@ public partial class PlaceEdit : AuthenticatedPage
         catch (Exception ex)
         {
             ReportException(ex);
-        }
-    }
-
-    public void SelectLocation(object sender, SelectLocationEventArgs e)
-    {
-        try
-        {
-            inputCountry.ClearSelection();
-            inputCountry.Items.FindByValue(e.Country).Selected = true;
-            inputCountry_SelectedIndexChanged(sender, e);
-            inputState.ClearSelection();
-            inputState.Items.FindByValue(e.State).Selected = true;
-        }
-        catch
-        {
-
         }
     }
 
@@ -175,20 +128,6 @@ public partial class PlaceEdit : AuthenticatedPage
             t.Country = inputCountry.SelectedValue;
             int place_id = PlaceService.CreateOrUpdatePlace(SessionManager.Ticket, t);
             Redirect(string.Format("PlaceView.aspx?id={0}", place_id));
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
-    }
-
-    public void inputCountry_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        try
-        {
-            object[] args = { inputCountry.SelectedValue };
-            inputState.DataSource = SessionManager.GetCachedCollection<TransitState>(LocationService, "GetStatesByCountry", args);
-            inputState.DataBind();
         }
         catch (Exception ex)
         {
@@ -258,5 +197,15 @@ public partial class PlaceEdit : AuthenticatedPage
         {
             ReportException(ex);
         }
+    }
+
+    void LocationSelector_StateChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    void LocationSelector_CountryChanged(object sender, EventArgs e)
+    {
+        panelCountryState.Update();
     }
 }

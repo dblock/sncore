@@ -12,42 +12,102 @@ using SnCore.Tools.Web;
 using System.Text;
 using SnCore.Services;
 using SnCore.WebServices;
+using System.Collections.Generic;
 
 public partial class PlacesView : Page
 {
-    public class SelectLocationEventArgs : EventArgs
+    public class LocationWithTypeEventArgs : LocationEventArgs
     {
-        public string Country;
-        public string State;
-        public string City;
-        public string Type;
+        private string mType;
 
-        public SelectLocationEventArgs(TransitAccount account)
-            : this(account.Country, account.State, account.City, string.Empty)
+        public string Type
         {
-
+            get
+            {
+                return mType;
+            }
+            set
+            {
+                mType = value;
+            }
         }
 
-        public SelectLocationEventArgs(HttpRequest request)
-            : this(request["country"], request["state"], request["city"], request["type"])
+        public LocationWithTypeEventArgs(TransitAccount account)
+            : base(account)
         {
-
         }
 
-        public SelectLocationEventArgs(
-            string country,
-            string state,
-            string city,
-            string type)
+        public LocationWithTypeEventArgs(HttpRequest request)
+            : base(request)
         {
-            Country = country;
-            State = state;
-            City = city;
-            Type = type;
+            mType = request["type"];
+        }
+
+        public LocationWithTypeEventArgs(string country, string state, string city, string type)
+            : base(country, state, city)
+        {
+            mType = type;
+        }
+    }
+
+    public class LocationSelectorWithType : LocationSelectorCountryStateCity
+    {
+        private DropDownList mType;
+
+        public LocationSelectorWithType(Page page, bool empty, DropDownList country, DropDownList state, DropDownList city, DropDownList type)
+            : base(page, empty, country, state, city)
+        {
+            mType = type;
+
+            if (!mPage.IsPostBack)
+            {
+                List<TransitPlaceType> types = new List<TransitPlaceType>();
+                if (InsertEmptySelection) types.Add(new TransitPlaceType());
+                types.AddRange(mPage.SessionManager.GetCachedCollection<TransitPlaceType>(
+                    mPage.SessionManager.PlaceService, "GetPlaceTypes", null));
+                mType.DataSource = types;
+                mType.DataBind();
+            }
+        }
+
+        public void SelectLocation(object sender, LocationWithTypeEventArgs e)
+        {
+            base.SelectLocation(sender, e);
+
+            if (mType != null)
+            {
+                mType.ClearSelection();
+                ListItem type = mType.Items.FindByValue(e.Type);
+                if (type != null)
+                {
+                    type.Selected = true;
+                }
+            }
+        }
+
+        public override void ClearSelection()
+        {
+            mType.ClearSelection();
+            base.ClearSelection();
         }
     }
 
     private TransitPlaceQueryOptions mOptions = null;
+    private LocationSelectorWithType mLocationSelector = null;
+
+    public LocationSelectorWithType LocationSelector
+    {
+        get
+        {
+            if (mLocationSelector == null)
+            {
+                mLocationSelector = new LocationSelectorWithType(
+                    this, true, inputCountry, inputState, inputCity, inputType);
+            }
+
+            return mLocationSelector;
+        }
+    }
 
     public void Page_Load(object sender, EventArgs e)
     {
@@ -55,20 +115,12 @@ public partial class PlacesView : Page
         {
             SetDefaultButton(search);
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+
+            LocationSelector.CountryChanged += new EventHandler(LocationSelector_CountryChanged);
+            LocationSelector.StateChanged += new EventHandler(LocationSelector_StateChanged);
+
             if (!IsPostBack)
             {
-                ArrayList types = new ArrayList();
-                types.Add(new TransitPlaceType());
-                types.AddRange(SessionManager.GetCachedCollection<TransitPlaceType>(PlaceService, "GetPlaceTypes", null));
-                inputType.DataSource = types;
-                inputType.DataBind();
-
-                ArrayList countries = new ArrayList();
-                countries.Add(new TransitCountry());
-                countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(LocationService, "GetCountries", null));
-                inputCountry.DataSource = countries;
-                inputCountry.DataBind();
-
                 linkLocal.Visible = SessionManager.IsLoggedIn && ! string.IsNullOrEmpty(SessionManager.Account.City);
 
                 if (SessionManager.IsLoggedIn)
@@ -78,13 +130,14 @@ public partial class PlacesView : Page
 
                 if (SessionManager.IsLoggedIn && (Request.QueryString.Count == 0))
                 {
-                    SelectLocation(sender, new SelectLocationEventArgs(SessionManager.Account));
+                    LocationSelector.SelectLocation(sender, new LocationEventArgs(SessionManager.Account));
                 }
                 else
                 {
-                    SelectLocation(sender, new SelectLocationEventArgs(Request));
+                    LocationSelector.SelectLocation(sender, new LocationEventArgs(Request));
                 }
-                GetData();
+
+                GetData(sender, e);
             }
         }
         catch (Exception ex)
@@ -93,39 +146,31 @@ public partial class PlacesView : Page
         }
     }
 
+    void LocationSelector_StateChanged(object sender, EventArgs e)
+    {
+        panelCountryState.Update();
+        panelCity.Update();
+    }
+
+    void LocationSelector_CountryChanged(object sender, EventArgs e)
+    {
+        panelCountryState.Update();        
+    }
+
     public void gridManage_DataBinding(object sender, EventArgs e)
     {
         panelGrid.Update();
     }
 
-    private void GetData()
+    private void GetData(object sender, EventArgs e)
     {
         mOptions = null;
 
         gridManage.CurrentPageIndex = 0;
         object[] args = { QueryOptions };
         gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(PlaceService, "GetPlacesCount", args);
-        gridManage_OnGetDataSource(this, null);
+        gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
-    }
-
-    public void inputCountry_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        try
-        {
-            ArrayList states = new ArrayList();
-            states.Add(new TransitState());
-            object[] args = { inputCountry.SelectedValue };
-            states.AddRange(SessionManager.GetCachedCollection<TransitState>(LocationService, "GetStatesByCountry", args));
-            inputState.DataSource = states;
-            inputState.DataBind();
-            inputState_SelectedIndexChanged(sender, e);
-            panelCountryState.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void linkLocal_Click(object sender, EventArgs e)
@@ -137,8 +182,8 @@ public partial class PlacesView : Page
 
             checkboxPicturesOnly.Checked = false;
             inputName.Text = string.Empty;
-            SelectLocation(sender, new SelectLocationEventArgs(SessionManager.Account));
-            GetData();
+            LocationSelector.SelectLocation(sender, new LocationEventArgs(SessionManager.Account));
+            GetData(sender, e);
             panelSearch.Update();
         }
         catch (Exception ex)
@@ -152,31 +197,10 @@ public partial class PlacesView : Page
         try
         {
             checkboxPicturesOnly.Checked = false;
-            inputCountry.ClearSelection();
-            inputState.ClearSelection();
-            inputCity.ClearSelection();
-            inputType.ClearSelection();
+            LocationSelector.ClearSelection();
             inputName.Text = string.Empty;
-            GetData();
+            GetData(sender, e);
             panelSearch.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
-    }
-
-    public void inputState_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        try
-        {
-            ArrayList cities = new ArrayList();
-            cities.Add(new TransitCity());
-            object[] args = { inputCountry.SelectedValue, inputState.SelectedValue };
-            cities.AddRange(SessionManager.GetCachedCollection<TransitCity>(LocationService, "GetCitiesByLocation", args));
-            inputCity.DataSource = cities;
-            inputCity.DataBind();
-            panelCity.Update();
         }
         catch (Exception ex)
         {
@@ -231,32 +255,11 @@ public partial class PlacesView : Page
         }
     }
 
-    public void SelectLocation(object sender, SelectLocationEventArgs e)
-    {
-        try
-        {
-            inputCountry.ClearSelection();
-            inputCountry.Items.FindByValue(e.Country).Selected = true;
-            inputCountry_SelectedIndexChanged(sender, e);
-            inputState.ClearSelection();
-            inputState.Items.FindByValue(e.State).Selected = true;
-            inputState_SelectedIndexChanged(sender, e);
-            inputCity.ClearSelection();
-            inputCity.Items.FindByValue(e.City).Selected = true;
-            inputType.ClearSelection();
-            inputType.Items.FindByValue(e.Type).Selected = true;
-        }
-        catch
-        {
-
-        }
-    }
-
     public void search_Click(object sender, EventArgs e)
     {
         try
         {
-            GetData();
+            GetData(sender, e);
         }
         catch (Exception ex)
         {

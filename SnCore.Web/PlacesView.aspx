@@ -70,10 +70,10 @@
       <td class="sncore_form_value">
        <atlas:UpdatePanel runat="server" ID="panelCountryState" Mode="Conditional">
         <ContentTemplate>
-         <asp:DropDownList CssClass="sncore_form_dropdown_small" OnSelectedIndexChanged="inputCountry_SelectedIndexChanged"
+         <asp:DropDownList CssClass="sncore_form_dropdown_small"
           ID="inputCountry" DataTextField="Name" AutoPostBack="true" DataValueField="Name"
           runat="server" />
-         <asp:DropDownList CssClass="sncore_form_dropdown_small" ID="inputState" OnSelectedIndexChanged="inputState_SelectedIndexChanged"
+         <asp:DropDownList CssClass="sncore_form_dropdown_small" ID="inputState"
           AutoPostBack="true" DataTextField="Name" DataValueField="Name" runat="server" /></td>
         </ContentTemplate>
        </atlas:UpdatePanel>

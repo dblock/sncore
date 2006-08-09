@@ -59,13 +59,14 @@
       <td class="sncore_form_label">
        country and state:</td>
       <td class="sncore_form_value">
-       <asp:DropDownList AutoPostBack="true" OnSelectedIndexChanged="inputCountry_SelectedIndexChanged"
-        CssClass="sncore_form_dropdown_small" ID="inputCountry" DataTextField="Name" DataValueField="Name"
-        runat="server" />
-       <asp:DropDownList CssClass="sncore_form_dropdown_small" ID="inputState" DataTextField="Name"
-        DataValueField="Name" runat="server" />
-       <asp:RequiredFieldValidator ID="countryRequired" runat="server" ControlToValidate="inputCountry"
-        CssClass="sncore_form_validator" ErrorMessage="country is required" Display="Dynamic" />
+       <atlas:UpdatePanel runat="server" ID="panelCountryState" RenderMode="Inline" Mode="Conditional">
+        <ContentTemplate>
+         <asp:DropDownList AutoPostBack="true" CssClass="sncore_form_dropdown_small" ID="inputCountry" 
+          DataTextField="Name" DataValueField="Name" runat="server" />       
+         <asp:DropDownList CssClass="sncore_form_dropdown_small" ID="inputState" DataTextField="Name"
+          DataValueField="Name" runat="server" />
+        </ContentTemplate>
+       </atlas:UpdatePanel>
       </td>
      </tr>
      <tr>
