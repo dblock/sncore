@@ -1,24 +1,24 @@
 using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
-    ///Persistent domain entity class representing 'AccountProfile' entities.
+    ///Persistent domain entity class representing 'AccountPropertyGroup' entities.
     ///</summary>
     ///<remarks>
     ///
     ///Mapping information:
-    ///This class maps to the 'AccountProfile' table in the data source.
+    ///This class maps to the 'AccountPropertyGroup' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountProfile
+    public class AccountPropertyGroup
     {
 #region " Generated Code Region "
         //Private field variables
 
         //Holds property values
         private System.Int32 m_Id;
-        private System.String m_AboutSelf;
-        private Account m_Account;
-        private System.DateTime m_Updated;
+        private System.Collections.IList m_AccountProperties;
+        private System.String m_Description;
+        private System.String m_Name;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -33,7 +33,7 @@ using System;
         ///The accessibility level for the field 'm_Id' that holds the value for this property is 'PrivateAccess'.
         ///
         ///Mapping information:
-        ///The property maps to the column 'AccountProfile_Id' in the data source.
+        ///The property maps to the column 'AccountPropertyGroup_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
         public  System.Int32 Id
@@ -46,53 +46,57 @@ using System;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'AccountProperty'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'AccountProperty.AccountPropertyGroup'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_AccountProperties' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as slave.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'AccountProperty' table in the data source.
+        ///The property maps to the identity column 'AccountPropertyGroup_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Collections.IList AccountProperties
+        {
+            get
+            {
+                return m_AccountProperties;
+            }
+            set
+            {
+                m_AccountProperties = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
         ///Persistent primitive property.
         ///</summary>
         ///<remarks>
         ///This property accepts values of the type 'System.String'.
         ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_AboutSelf' that holds the value for this property is 'PrivateAccess'.
+        ///The accessibility level for the field 'm_Description' that holds the value for this property is 'PrivateAccess'.
         ///
         ///Mapping information:
-        ///The property maps to the column 'AboutSelf' in the data source.
+        ///The property maps to the column 'Description' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String AboutSelf
+        public  System.String Description
         {
             get
             {
-                return m_AboutSelf;
+                return m_Description;
             }
             set
             {
-                m_AboutSelf = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent one-many reference property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts references to objects of the type 'Account'.
-        ///This property is part of a 'OneToMany' relationship.
-        ///The inverse property for this property is 'Account.AccountProfiles'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Account' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'Account_Id' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  Account Account
-        {
-            get
-            {
-                return m_Account;
-            }
-            set
-            {
-                m_Account = value;
+                m_Description = value;
             }
         }
 
@@ -101,23 +105,23 @@ using System;
         ///Persistent primitive property.
         ///</summary>
         ///<remarks>
-        ///This property accepts values of the type 'System.DateTime'.
+        ///This property accepts values of the type 'System.String'.
         ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Updated' that holds the value for this property is 'PrivateAccess'.
+        ///The accessibility level for the field 'm_Name' that holds the value for this property is 'PrivateAccess'.
         ///
         ///Mapping information:
-        ///The property maps to the column 'Updated' in the data source.
+        ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Updated
+        public  System.String Name
         {
             get
             {
-                return m_Updated;
+                return m_Name;
             }
             set
             {
-                m_Updated = value;
+                m_Name = value;
             }
         }
 

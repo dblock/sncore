@@ -33,9 +33,6 @@
               <%# base.Render(base.GetAccount((int) Eval("DataRowId")).Name) %>
              </a>
             </div>
-            <div style="color: silver">
-             <%# base.GetSummary(base.GetDescription((int) Eval("DataRowId"))) %>
-            </div>
            </td>
           </tr>
          </table>

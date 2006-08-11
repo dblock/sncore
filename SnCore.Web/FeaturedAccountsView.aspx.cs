@@ -74,16 +74,4 @@ public partial class FeaturedAccountsView : Page
         object[] args = { id };
         return SessionManager.GetCachedItem<TransitAccount>(AccountService, "GetAccountById", args);
     }
-
-    public string GetDescription(int id)
-    {
-        object[] args = { id };
-        List<TransitAccountProfile> profiles = SessionManager.GetCachedCollection<TransitAccountProfile>(
-            AccountService, "GetAccountProfilesById", args);
-
-        if (profiles == null || profiles.Count == 0)
-            return string.Empty;
-
-        return profiles[0].AboutSelf;
-    }
 }

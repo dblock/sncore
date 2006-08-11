@@ -119,7 +119,9 @@
     <Compile Include="ManagedAccountPlaceFavorite.cs" />
     <Compile Include="ManagedAccountPlaceRequest.cs" />
     <Compile Include="ManagedAccountPlaceType.cs" />
-    <Compile Include="ManagedAccountProfile.cs" />
+    <Compile Include="ManagedAccountProperty.cs" />
+    <Compile Include="ManagedAccountPropertyGroup.cs" />
+    <Compile Include="ManagedAccountPropertyValue.cs" />
     <Compile Include="ManagedAccountStory.cs" />
     <Compile Include="ManagedAccountStoryPicture.cs" />
     <Compile Include="ManagedAccountSurveyAnswer.cs" />

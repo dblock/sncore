@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.0" schema="dbo">
+  <class name="AccountPropertyGroup, SnCore.Data" table="AccountPropertyGroup">
+    <id name="Id" type="Int32" column="AccountPropertyGroup_Id" access="field.pascalcase-m-underscore">
+      <generator class="identity" />
+    </id>
+    <bag lazy="true" name="AccountProperties" inverse="true">
+      <key column="AccountPropertyGroup_Id" />
+      <one-to-many class="AccountProperty, SnCore.Data" />
+    </bag>
+    <property name="Description" column="Description" type="StringClob" />
+    <property name="Name" column="Name" type="String" />
+  </class>
+</hibernate-mapping>

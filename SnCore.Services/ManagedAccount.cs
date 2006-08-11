@@ -2104,26 +2104,28 @@ namespace SnCore.Services
 
         #endregion
 
-        #region Account Profile
+        #region Account Property Value
 
-        public int CreateOrUpdate(TransitAccountProfile o)
+        public int CreateOrUpdate(TransitAccountPropertyValue o)
         {
-            AccountProfile profile = o.GetAccountProfile(Session);
+            AccountPropertyValue propertyvalue = o.GetAccountPropertyValue(Session);
 
-            if (profile.Id != 0)
+            if (propertyvalue.Id != 0)
             {
-                if (profile.Account.Id != mAccount.Id && !IsAdministrator())
+                if (propertyvalue.Account.Id != mAccount.Id && !IsAdministrator())
                 {
                     throw new AccessDeniedException();
                 }
             }
 
-            profile.Updated = DateTime.UtcNow;
-            Session.Save(profile);
-            return profile.Id;
+            propertyvalue.Modified = DateTime.UtcNow;
+            if (propertyvalue.Id == 0) propertyvalue.Created = propertyvalue.Modified;
+            Session.Save(propertyvalue);
+            return propertyvalue.Id;
         }
 
         #endregion
+
 
         #region Account Event
 

@@ -301,7 +301,7 @@ namespace SnCore.WebControls
         {
             int pagerIndex = 0;
             writer.Write("<table>");
-            if (PagerStyle.HasPagerOnTop)
+            if (PagerStyle.HasPagerOnTop && Pagers.Count > pagerIndex)
             {
                 writer.Write("<tr>");
                 Pagers[pagerIndex++].Navigator.RenderControl(writer);
@@ -310,7 +310,7 @@ namespace SnCore.WebControls
             writer.Write("<tr><td>");
             base.Render(writer);
             writer.Write("</td></tr>");
-            if (PagerStyle.HasPagerOnBottom)
+            if (PagerStyle.HasPagerOnBottom && Pagers.Count > pagerIndex)
             {
                 writer.Write("<tr>");
                 Pagers[pagerIndex++].Navigator.RenderControl(writer);
@@ -373,7 +373,7 @@ namespace SnCore.WebControls
                     VirtualItemCount = PagedDataSource.DataSourceCount;
                 }
             }
-            else
+            else if (PagedDataSource.DataSource == null)
             {
                 PagedDataSource.DataSource = new DummyDataSource(VirtualItemCount);                
             }

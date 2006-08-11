@@ -85,7 +85,7 @@ public partial class AccountView : Page
 
                 placeFavoritesView.AccountId = AccountId;
                 placesView.AccountId = AccountId;
-                profilesView.AccountId = AccountId;
+                propertygroupsView.AccountId = AccountId;
                 friendsView.AccountId = AccountId;
                 surveysView.AccountId = AccountId;
                 websitesView.AccountId = AccountId;

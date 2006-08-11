@@ -43,9 +43,6 @@
      <div class="sncore_description">
       featured on <%# ((DateTime) Eval("Created")).ToString("d") %>
      </div>
-     <div class="sncore_description">
-      <%# GetSummary(base.GetDescription((int) Eval("DataRowId"))) %>
-     </div>
     </itemtemplate>
    </asp:TemplateColumn>
   </Columns>

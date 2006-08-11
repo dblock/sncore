@@ -6,6 +6,8 @@
 <%@ Register TagPrefix="SnCore" TagName="SelectDate" Src="SelectDateControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="SelectTimeZone" Src="SelectTimeZoneControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountReminder" Src="AccountReminderControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="AccountPropertyGroups" Src="AccountPropertyGroupsControl.ascx" %>
+<%@ Import Namespace="SnCore.Tools.Web" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <table class="sncore_inner_table">
   <tr>
@@ -106,28 +108,7 @@
       </td>
      </tr>
     </table>
-    <div class="sncore_h2">
-     About Me
-    </div>
-    <table class="sncore_account_table">
-     <tr>
-      <td class="sncore_form_label" valign="top">
-       a little about me:
-      </td>
-      <td>
-       <asp:TextBox CssClass="sncore_form_textbox" TextMode="MultiLine" Rows="7" ID="inputAboutMe"
-        runat="server" />
-      </td>
-     </tr>
-     <tr>
-      <td>
-      </td>
-      <td class="sncore_form_value">
-       <SnCoreWebControls:Button ID="manageSaveProfile" runat="server" Text="Save" CausesValidation="true"
-        CssClass="sncore_form_button" OnClick="saveProfile_Click" />
-      </td>
-     </tr>
-    </table>
+    <SnCore:AccountPropertyGroups ID="groups" runat="server" />    
     <div class="sncore_h2">
      Security
     </div>

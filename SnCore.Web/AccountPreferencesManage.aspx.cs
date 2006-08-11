@@ -41,17 +41,10 @@ public partial class AccountPreferencesManage : AuthenticatedPage
             {
                 inputName.Text = SessionManager.Account.Name;
 
-                List<TransitAccountProfile> profiles = AccountService.GetAccountProfilesById(SessionManager.Account.Id);
-                foreach (TransitAccountProfile profile in profiles)
-                {
-                    inputAboutMe.Text = profile.AboutSelf;
-                    break;
-                }
-
                 accountName.Text = string.Format("Hello, {0}!", Renderer.Render(SessionManager.Account.Name));
                 accountImage.Src = string.Format("AccountPictureThumbnail.aspx?id={0}", SessionManager.Account.PictureId);
 
-                AccountNumbers numbers = (AccountNumbers)Cache[string.Format("accountnumbers:{0}", SessionManager.Ticket)];
+                AccountNumbers numbers = null; // (AccountNumbers)Cache[string.Format("accountnumbers:{0}", SessionManager.Ticket)];
                 if (numbers == null)
                 {
                     numbers = new AccountNumbers();
@@ -63,8 +56,8 @@ public partial class AccountPreferencesManage : AuthenticatedPage
                     options.AccountId = SessionManager.Account.Id;
                     numbers.PostsCount = DiscussionService.GetUserDiscussionThreadsCount(options);
 
-                    Cache.Insert(string.Format("accountnumbers:{0}", SessionManager.Ticket),
-                        numbers, null, Cache.NoAbsoluteExpiration, SessionManager.DefaultCacheTimeSpan);
+                    //Cache.Insert(string.Format("accountnumbers:{0}", SessionManager.Ticket),
+                    //    numbers, null, Cache.NoAbsoluteExpiration, SessionManager.DefaultCacheTimeSpan);
                 }
 
                 accountFirstDegree.Text = string.Format("{0} friend{1} in your personal network",
@@ -105,6 +98,8 @@ public partial class AccountPreferencesManage : AuthenticatedPage
                 inputState.Items.FindByValue(SessionManager.Account.State).Selected = true;
 
                 inputSignature.Text = SessionManager.Account.Signature;
+
+                groups.AccountId = SessionManager.Account.Id;
             }
         }
         catch (Exception ex)
@@ -132,23 +127,6 @@ public partial class AccountPreferencesManage : AuthenticatedPage
             AccountService.UpdateAccount(SessionManager.Ticket, ta);
             Cache.Remove(string.Format("account:{0}", SessionManager.Ticket));
             ReportInfo("Account updated.");
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
-    }
-
-    public void saveProfile_Click(object sender, EventArgs e)
-    {
-        try
-        {
-            List<TransitAccountProfile> profiles = AccountService.GetAccountProfiles(SessionManager.Ticket);
-            TransitAccountProfile tp = 
-                (profiles.Count > 0) ? profiles[0] : new TransitAccountProfile();
-            tp.AboutSelf = inputAboutMe.Text;
-            AccountService.CreateOrUpdateAccountProfile(SessionManager.Ticket, tp);
-            ReportInfo("Account profile updated.");
         }
         catch (Exception ex)
         {

@@ -72,10 +72,6 @@
       <key column="Account_Id" />
       <one-to-many class="AccountPlace, SnCore.Data" />
     </bag>
-    <bag lazy="true" name="AccountProfiles" inverse="true">
-      <key column="Account_Id" />
-      <one-to-many class="AccountProfile, SnCore.Data" />
-    </bag>
     <bag lazy="true" name="AccountStories" inverse="true">
       <key column="Account_Id" />
       <one-to-many class="AccountStory, SnCore.Data" />
@@ -132,6 +128,10 @@
     <bag lazy="true" name="AccountContentGroups" inverse="true">
       <key column="Account_Id" />
       <one-to-many class="AccountContentGroup, SnCore.Data" />
+    </bag>
+    <bag lazy="true" name="AccountPropertyValues" inverse="true">
+      <key column="Account_Id" />
+      <one-to-many class="AccountPropertyValue, SnCore.Data" />
     </bag>
   </class>
 </hibernate-mapping>

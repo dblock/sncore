@@ -11,7 +11,7 @@
 <%@ Register TagPrefix="SnCore" TagName="StoriesView" Src="AccountStoriesViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="FeedsView" Src="AccountFeedsViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="BlogsView" Src="AccountBlogsViewControl.ascx" %>
-<%@ Register TagPrefix="SnCore" TagName="ProfilesView" Src="AccountProfilesViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="PropertyGroupsView" Src="AccountPropertyGroupsViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="PlacesView" Src="AccountPlacesViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="PlaceFavoritesView" Src="AccountPlaceFavoritesViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="BookmarksView" Src="BookmarksViewControl.ascx" %>
@@ -112,7 +112,7 @@
       </tr>
      </table>
      <SnCore:PlacesView runat="server" ID="placesView" />
-     <SnCore:ProfilesView runat="server" ID="profilesView" />
+     <SnCore:PropertyGroupsView runat="server" ID="propertygroupsView" />
      <SnCore:FriendsView runat="server" ID="friendsView" />
      <SnCore:StoriesView runat="server" ID="storiesView" />
      <SnCore:PlaceFavoritesView runat="server" ID="placeFavoritesView" />

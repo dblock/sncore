@@ -33,7 +33,6 @@ using System;
         private System.Collections.IList m_AccountPlaceFavorites;
         private System.Collections.IList m_AccountPlaceRequests;
         private System.Collections.IList m_AccountPlaces;
-        private System.Collections.IList m_AccountProfiles;
         private System.Collections.IList m_AccountStories;
         private System.Collections.IList m_AccountSurveyAnswers;
         private System.Collections.IList m_AccountWebsites;
@@ -58,6 +57,7 @@ using System;
         private System.Collections.IList m_Schedules;
         private System.Collections.IList m_RefererAccounts;
         private System.Collections.IList m_AccountContentGroups;
+        private System.Collections.IList m_AccountPropertyValues;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -624,38 +624,6 @@ using System;
             set
             {
                 m_AccountPlaces = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent many-one reference property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts multiple references to objects of the type 'AccountProfile'.
-        ///This property is part of a 'ManyToOne' relationship.
-        ///The data type for this property is 'System.Collections.IList'.
-        ///The inverse property for this property is 'AccountProfile.Account'.
-        ///This property inherits its mapping information from its inverse property.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_AccountProfiles' that holds the value for this property is 'PrivateAccess'.
-        ///This property is marked as Read-Only.
-        ///This property is marked as slave.
-        ///
-        ///Mapping information:
-        ///This class maps to the 'AccountProfile' table in the data source.
-        ///The property maps to the identity column 'Account_Id' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountProfiles
-        {
-            get
-            {
-                return m_AccountProfiles;
-            }
-            set
-            {
-                m_AccountProfiles = value;
             }
         }
 
@@ -1335,6 +1303,37 @@ using System;
             set
             {
                 m_AccountContentGroups = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'AccountPropertyValue'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'AccountPropertyValue.Account'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_AccountPropertyValues' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as slave.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'AccountPropertyValue' table in the data source.
+        ///The property maps to the identity column 'Account_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Collections.IList AccountPropertyValues
+        {
+            get
+            {
+                return m_AccountPropertyValues;
+            }
+            set
+            {
+                m_AccountPropertyValues = value;
             }
         }
 

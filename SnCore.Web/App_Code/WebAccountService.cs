@@ -1088,7 +1088,7 @@ namespace SnCore.WebServices
         /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="surveyanswerid">survey answer id</param>
-        [WebMethod(Description = "Delete a profile.")]
+        [WebMethod(Description = "Delete a survey answer.")]
         public void DeleteAccountSurveyAnswer(string ticket, int surveyanswerid)
         {
             int id = GetAccountId(ticket);
@@ -1970,111 +1970,6 @@ namespace SnCore.WebServices
 
         #endregion
 
-        #region AccountProfile
-        /// <summary>
-        /// Create or update an account profile.
-        /// </summary>
-        /// <param name="ticket">authentication ticket</param>
-        /// <param name="type">transit account profile</param>
-        [WebMethod(Description = "Create or update an account profile.")]
-        public int CreateOrUpdateAccountProfile(string ticket, TransitAccountProfile profile)
-        {
-            int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
-
-                if ((profile.AccountId != 0) && (profile.AccountId != user.Id) && (!user.IsAdministrator()))
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                if (profile.AccountId == 0) profile.AccountId = user.Id;
-                ManagedAccount account = new ManagedAccount(session, profile.AccountId);
-                int result = account.CreateOrUpdate(profile);
-
-                SnCore.Data.Hibernate.Session.Flush();
-                return result;
-            }
-        }
-
-        /// <summary>
-        /// Get an account profile.
-        /// </summary>
-        /// <returns>transit account profile</returns>
-        [WebMethod(Description = "Get an account profile.")]
-        public TransitAccountProfile GetAccountProfileById(int id)
-        {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                TransitAccountProfile result = new ManagedAccountProfile(session, id).TransitAccountProfile;
-                SnCore.Data.Hibernate.Session.Flush();
-                return result;
-            }
-        }
-
-
-        /// <summary>
-        /// Get account profiles.
-        /// </summary>
-        /// <returns>list of account profiles</returns>
-        [WebMethod(Description = "Get account profiles.")]
-        public List<TransitAccountProfile> GetAccountProfiles(string ticket)
-        {
-            return GetAccountProfilesById(ManagedAccount.GetAccountId(ticket));
-        }
-
-        /// <summary>
-        /// Get account profiles.
-        /// </summary>
-        /// <returns>list of account profiles</returns>
-        [WebMethod(Description = "Get account profiles.", CacheDuration = 60)]
-        public List<TransitAccountProfile> GetAccountProfilesById(int id)
-        {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                IList profiles = session.CreateCriteria(typeof(AccountProfile))
-                    .Add(Expression.Eq("Account.Id", id))
-                    .List();
-                List<TransitAccountProfile> result = new List<TransitAccountProfile>(profiles.Count);
-                foreach (AccountProfile profile in profiles)
-                {
-                    result.Add(new ManagedAccountProfile(session, profile).TransitAccountProfile);
-                }
-                SnCore.Data.Hibernate.Session.Flush();
-                return result;
-            }
-        }
-
-        /// <summary>
-        /// Delete an account profile.
-        /// <param name="ticket">authentication ticket</param>
-        /// <param name="id">id</param>
-        /// </summary>
-        [WebMethod(Description = "Delete an account profile.")]
-        public void DeleteAccountProfile(string ticket, int id)
-        {
-            int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
-                ManagedAccountProfile m_profile = new ManagedAccountProfile(session, id);
-
-                if (m_profile.AccountId != userid && !user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                m_profile.Delete();
-                SnCore.Data.Hibernate.Session.Flush();
-            }
-        }
-        #endregion
-
         #region Search
 
         /// <summary>
@@ -2093,9 +1988,9 @@ namespace SnCore.WebServices
                         " WHERE a.Account_Id = sa.Account_Id" +
                         " AND FREETEXT (sa.Answer, '" + Renderer.SqlEncode(s) + "')" +
                         " UNION " + 
-                        "SELECT DISTINCT {a.*} FROM Account {a}, AccountProfile ap" +
+                        "SELECT DISTINCT {a.*} FROM Account {a}, AccountPropertyValue ap" +
                         " WHERE a.Account_Id = ap.Account_Id" +
-                        " AND FREETEXT (ap.AboutSelf, '" + Renderer.SqlEncode(s) + "')" +
+                        " AND FREETEXT (ap.Value, '" + Renderer.SqlEncode(s) + "')" +
                         " UNION " +
                         "SELECT DISTINCT {a.*} FROM Account {a}" +
                         " WHERE FREETEXT (a.Name, '" + Renderer.SqlEncode(s) + "')",
@@ -2136,9 +2031,9 @@ namespace SnCore.WebServices
                         " WHERE a.Account_Id = sa.Account_Id" +
                         " AND FREETEXT (sa.Answer, '" + Renderer.SqlEncode(s) + "')" +
                         " UNION " +
-                        "SELECT DISTINCT {a.*} FROM Account {a}, AccountProfile ap" +
+                        "SELECT DISTINCT {a.*} FROM Account {a}, AccountPropertyValue ap" +
                         " WHERE a.Account_Id = ap.Account_Id" +
-                        " AND FREETEXT (ap.AboutSelf, '" + Renderer.SqlEncode(s) + "')" +
+                        " AND FREETEXT (ap.Value, '" + Renderer.SqlEncode(s) + "')" +
                         " UNION " +
                         "SELECT DISTINCT {a.*} FROM Account {a}" +
                         " WHERE FREETEXT (a.Name, '" + Renderer.SqlEncode(s) + "')",
@@ -2235,6 +2130,362 @@ namespace SnCore.WebServices
             }
         }
 
+        #endregion
+
+        #region Account Property Group
+
+        /// <summary>
+        /// Create or update a property group.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="PropertyGroup">transit property group</param>
+        [WebMethod(Description = "Create or update a property group.")]
+        public int CreateOrUpdateAccountPropertyGroup(string ticket, TransitAccountPropertyGroup pg)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount user = new ManagedAccount(session, userid);
+
+                if (!user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ManagedAccountPropertyGroup m_propertygroup = new ManagedAccountPropertyGroup(session);
+                m_propertygroup.CreateOrUpdate(pg);
+                SnCore.Data.Hibernate.Session.Flush();
+                return m_propertygroup.Id;
+            }
+        }
+
+        /// <summary>
+        /// Get a property group.
+        /// </summary>
+        /// <returns>transit property group</returns>
+        [WebMethod(Description = "Get a property group.")]
+        public TransitAccountPropertyGroup GetAccountPropertyGroupById(int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                TransitAccountPropertyGroup result = new ManagedAccountPropertyGroup(session, id).TransitAccountPropertyGroup;
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+
+        /// <summary>
+        /// Get all property groups.
+        /// </summary>
+        /// <returns>list of transit property groups</returns>
+        [WebMethod(Description = "Get all property groups.")]
+        public List<TransitAccountPropertyGroup> GetAccountPropertyGroups()
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                IList pgs = session.CreateCriteria(typeof(AccountPropertyGroup)).List();
+                List<TransitAccountPropertyGroup> result = new List<TransitAccountPropertyGroup>(pgs.Count);
+                foreach (AccountPropertyGroup pg in pgs)
+                {
+                    result.Add(new ManagedAccountPropertyGroup(session, pg).TransitAccountPropertyGroup);
+                }
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Delete a property group
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete a property group.")]
+        public void DeleteAccountPropertyGroup(string ticket, int id)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                ManagedAccount user = new ManagedAccount(session, userid);
+
+                if (!user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ManagedAccountPropertyGroup m_propertygroup = new ManagedAccountPropertyGroup(session, id);
+                m_propertygroup.Delete();
+                SnCore.Data.Hibernate.Session.Flush();
+            }
+        }
+
+        #endregion
+
+        #region Account property
+
+        /// <summary>
+        /// Create or update a property.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="property">transit property</param>
+        [WebMethod(Description = "Create or update a property.")]
+        public int CreateOrUpdateAccountProperty(string ticket, TransitAccountProperty p)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount user = new ManagedAccount(session, userid);
+
+                if (!user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ManagedAccountProperty m_property = new ManagedAccountProperty(session);
+                m_property.CreateOrUpdate(p);
+                SnCore.Data.Hibernate.Session.Flush();
+                return m_property.Id;
+            }
+        }
+
+        /// <summary>
+        /// Get a property.
+        /// </summary>
+        /// <returns>transit property</returns>
+        [WebMethod(Description = "Get a property.")]
+        public TransitAccountProperty GetAccountPropertyById(int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                TransitAccountProperty result = new ManagedAccountProperty(session, id).TransitAccountProperty;
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+
+        /// <summary>
+        /// Get all properties.
+        /// </summary>
+        /// <returns>list of transit properties</returns>
+        [WebMethod(Description = "Get all properties.")]
+        public List<TransitAccountProperty> GetAccountProperties(int gid)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                IList ps = session.CreateCriteria(typeof(AccountProperty))
+                    .Add(Expression.Eq("AccountPropertyGroup.Id", gid))
+                    .List();
+                
+                List<TransitAccountProperty> result = new List<TransitAccountProperty>(ps.Count);
+                foreach (AccountProperty p in ps)
+                {
+                    result.Add(new ManagedAccountProperty(session, p).TransitAccountProperty);
+                }
+
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Delete a property
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete a property.")]
+        public void DeleteAccountProperty(string ticket, int id)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                ManagedAccount user = new ManagedAccount(session, userid);
+
+                if (!user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ManagedAccountProperty m_property = new ManagedAccountProperty(session, id);
+                m_property.Delete();
+                SnCore.Data.Hibernate.Session.Flush();
+            }
+        }
+
+        #endregion
+
+        #region Account Property Value
+        /// <summary>
+        /// Create or update an account property value.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="type">transit account property value</param>
+        [WebMethod(Description = "Create or update an account property value.")]
+        public int CreateOrUpdateAccountPropertyValue(string ticket, TransitAccountPropertyValue propertyvalue)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount user = new ManagedAccount(session, userid);
+
+                if ((propertyvalue.AccountId != 0) && (propertyvalue.AccountId != user.Id) && (!user.IsAdministrator()))
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                if (propertyvalue.AccountId == 0) propertyvalue.AccountId = user.Id;
+                ManagedAccount account = new ManagedAccount(session, propertyvalue.AccountId);
+                int result = account.CreateOrUpdate(propertyvalue);
+
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Get an account property value.
+        /// </summary>
+        /// <returns>transit account property value</returns>
+        [WebMethod(Description = "Get an account property value.")]
+        public TransitAccountPropertyValue GetAccountPropertyValueById(int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                TransitAccountPropertyValue result = new ManagedAccountPropertyValue(session, id).TransitAccountPropertyValue;
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+
+        /// <summary>
+        /// Get account property values.
+        /// </summary>
+        /// <returns>list of account property values</returns>
+        [WebMethod(Description = "Get account property values.")]
+        public List<TransitAccountPropertyValue> GetAccountPropertyValues(string ticket, int groupid)
+        {
+            return GetAccountPropertyValuesById(ManagedAccount.GetAccountId(ticket), groupid);
+        }
+
+        /// <summary>
+        /// Get account property values.
+        /// </summary>
+        /// <returns>list of account property values</returns>
+        [WebMethod(Description = "Get account property values.", CacheDuration = 60)]
+        public List<TransitAccountPropertyValue> GetAccountPropertyValuesById(int accountid, int groupid)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                IList propertyvalues = session.CreateCriteria(typeof(AccountPropertyValue))
+                    .Add(Expression.Eq("Account.Id", accountid))
+                    // .Add(Expression.Eq("AccountProperty.AccountPropertyGroup.Id", groupid))
+                    // .Add(Expression.Eq("AccountProperty.Publish", true))
+                    .List();
+
+                List<TransitAccountPropertyValue> result = new List<TransitAccountPropertyValue>(propertyvalues.Count);
+                foreach (AccountPropertyValue propertyvalue in propertyvalues)
+                {
+                    if ((propertyvalue.AccountProperty.AccountPropertyGroup.Id == groupid) 
+                        && propertyvalue.AccountProperty.Publish)
+                    {
+                        result.Add(new ManagedAccountPropertyValue(session, propertyvalue).TransitAccountPropertyValue);
+                    }
+                }
+
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Get account property values.
+        /// </summary>
+        /// <returns>list of account property values</returns>
+        [WebMethod(Description = "Get all account property values, including unfilled ones.")]
+        public List<TransitAccountPropertyValue> GetAllAccountPropertyValues(string ticket, int groupid)
+        {
+            return GetAllAccountPropertyValuesById(ManagedAccount.GetAccountId(ticket), groupid);
+        }
+
+        /// <summary>
+        /// Get all account property values, including unfilled ones.
+        /// </summary>
+        /// <returns>list of account property values</returns>
+        [WebMethod(Description = "Get all account property values, including unfilled ones.", CacheDuration = 60)]
+        public List<TransitAccountPropertyValue> GetAllAccountPropertyValuesById(int accountid, int groupid)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                ICriteria c = session.CreateCriteria(typeof(AccountProperty));
+                if (groupid > 0) c.Add(Expression.Eq("AccountPropertyGroup.Id", groupid));
+                IList properties = c.List();
+
+                List<TransitAccountPropertyValue> result = new List<TransitAccountPropertyValue>(properties.Count);
+
+                foreach (AccountProperty property in properties)
+                {
+                    AccountPropertyValue value = (AccountPropertyValue) session.CreateCriteria(typeof(AccountPropertyValue))
+                        .Add(Expression.Eq("Account.Id", accountid))
+                        .Add(Expression.Eq("AccountProperty.Id", property.Id))
+                        .UniqueResult();
+
+                    if (value == null)
+                    {
+                        value = new AccountPropertyValue();
+                        value.AccountProperty = property;
+                        value.Value = property.DefaultValue;
+                        value.Account = (Account) session.Load(typeof(Account), accountid);
+                    }
+
+                    result.Add(new TransitAccountPropertyValue(value));
+                }
+
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Delete an account property value.
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete an account property value.")]
+        public void DeleteAccountPropertyValue(string ticket, int id)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount user = new ManagedAccount(session, userid);
+                ManagedAccountPropertyValue m_propertyvalue = new ManagedAccountPropertyValue(session, id);
+
+                if (m_propertyvalue.AccountId != userid && !user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                m_propertyvalue.Delete();
+                SnCore.Data.Hibernate.Session.Flush();
+            }
+        }
         #endregion
     }
 }
