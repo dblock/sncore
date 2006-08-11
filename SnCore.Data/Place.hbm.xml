@@ -42,5 +42,9 @@
     <many-to-one name="Type" column="Type" class="PlaceType, SnCore.Data" />
     <property name="Website" column="Website" type="String" />
     <property name="Zip" column="Zip" type="String" />
+    <bag lazy="true" name="PlacePropertyValues" inverse="true">
+      <key column="Place_Id" />
+      <one-to-many class="PlacePropertyValue, SnCore.Data" />
+    </bag>
   </class>
 </hibernate-mapping>

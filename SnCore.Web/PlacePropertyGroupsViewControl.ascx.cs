@@ -13,17 +13,17 @@ using SnCore.Services;
 using System.Collections.Generic;
 using System.Text;
 
-public partial class AccountPropertyGroupsViewControl : Control
+public partial class PlacePropertyGroupsViewControl : Control
 {
-    public int AccountId
+    public int PlaceId
     {
         get
         {
-            return ViewStateUtility.GetViewStateValue<int>(ViewState, "AccountId", 0);
+            return ViewStateUtility.GetViewStateValue<int>(ViewState, "PlaceId", 0);
         }
         set
         {
-            ViewState["AccountId"] = value;
+            ViewState["PlaceId"] = value;
         }
     }
 
@@ -33,7 +33,7 @@ public partial class AccountPropertyGroupsViewControl : Control
         {
             if (!IsPostBack)
             {
-                groups.DataSource = AccountService.GetAccountPropertyGroups();
+                groups.DataSource = PlaceService.GetPlacePropertyGroups();
                 groups.DataBind();
             }
         }
@@ -53,10 +53,10 @@ public partial class AccountPropertyGroupsViewControl : Control
                 case ListItemType.AlternatingItem:
                 case ListItemType.SelectedItem:
                     DataGrid values = (DataGrid)e.Item.FindControl("values");
-                    TransitAccountPropertyGroup group = (TransitAccountPropertyGroup) e.Item.DataItem;
-                    object[] args = { AccountId, group.Id };
-                    List<TransitAccountPropertyValue> propertyvalues = SessionManager.GetCachedCollection<TransitAccountPropertyValue>(
-                        AccountService, "GetAccountPropertyValuesById", args);
+                    TransitPlacePropertyGroup group = (TransitPlacePropertyGroup) e.Item.DataItem;
+                    object[] args = { PlaceId, group.Id };
+                    List<TransitPlacePropertyValue> propertyvalues = SessionManager.GetCachedCollection<TransitPlacePropertyValue>(
+                        PlaceService, "GetPlacePropertyValuesById", args);
                     values.DataSource = propertyvalues;
                     HtmlControl title = (HtmlControl)e.Item.FindControl("title");
                     title.Visible = (propertyvalues.Count > 0);

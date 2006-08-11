@@ -1,5 +1,5 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeFile="AccountPropertyGroupsViewControl.ascx.cs"
- Inherits="AccountPropertyGroupsViewControl" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeFile="PlacePropertyGroupsViewControl.ascx.cs"
+ Inherits="PlacePropertyGroupsViewControl" %>
  
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
@@ -10,7 +10,7 @@
  <Columns>
   <asp:TemplateColumn>
    <ItemTemplate>
-    <div class="sncore_h2" id="title" runat="server">
+    <div class="sncore_h2" runat="server" id="title">
      <%# Renderer.Render(Eval("Name")) %>
     </div>
     <asp:DataGrid runat="server" ID="values" BorderWidth="0" ShowHeader="false" AutoGenerateColumns="false"
@@ -20,7 +20,7 @@
       <asp:TemplateColumn>
        <ItemTemplate>
         <div class="sncore_h3">
-         <%# Render(Eval("AccountProperty.Name")) %>
+         <%# Render(Eval("PlaceProperty.Name")) %>
         </div>
         <div class="sncore_h2sub">
          <%# RenderEx(Eval("Value")) %>

@@ -2227,7 +2227,7 @@ namespace SnCore.WebServices
 
         #endregion
 
-        #region Account property
+        #region Account Property
 
         /// <summary>
         /// Create or update a property.

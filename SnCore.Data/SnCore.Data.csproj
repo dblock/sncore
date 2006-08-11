@@ -3,7 +3,7 @@
     <ProjectType>Local</ProjectType>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{cf773ef8-dcd7-45dd-bbe1-54087ff5d962}</ProjectGuid>
+    <ProjectGuid>{6cb88c44-6c1e-4cc4-a642-6c27d00481ab}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>
@@ -284,6 +284,15 @@
     <Compile Include="PlacePicture.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="PlaceProperty.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PlacePropertyGroup.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PlacePropertyValue.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="PlaceType.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -391,6 +400,9 @@
     <EmbeddedResource Include="Place.hbm.xml" />
     <EmbeddedResource Include="PlaceName.hbm.xml" />
     <EmbeddedResource Include="PlacePicture.hbm.xml" />
+    <EmbeddedResource Include="PlaceProperty.hbm.xml" />
+    <EmbeddedResource Include="PlacePropertyGroup.hbm.xml" />
+    <EmbeddedResource Include="PlacePropertyValue.hbm.xml" />
     <EmbeddedResource Include="PlaceType.hbm.xml" />
     <EmbeddedResource Include="RefererAccount.hbm.xml" />
     <EmbeddedResource Include="RefererHost.hbm.xml" />

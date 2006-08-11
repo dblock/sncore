@@ -44,7 +44,7 @@ public partial class AccountPreferencesManage : AuthenticatedPage
                 accountName.Text = string.Format("Hello, {0}!", Renderer.Render(SessionManager.Account.Name));
                 accountImage.Src = string.Format("AccountPictureThumbnail.aspx?id={0}", SessionManager.Account.PictureId);
 
-                AccountNumbers numbers = null; // (AccountNumbers)Cache[string.Format("accountnumbers:{0}", SessionManager.Ticket)];
+                AccountNumbers numbers = (AccountNumbers)Cache[string.Format("accountnumbers:{0}", SessionManager.Ticket)];
                 if (numbers == null)
                 {
                     numbers = new AccountNumbers();
@@ -56,8 +56,8 @@ public partial class AccountPreferencesManage : AuthenticatedPage
                     options.AccountId = SessionManager.Account.Id;
                     numbers.PostsCount = DiscussionService.GetUserDiscussionThreadsCount(options);
 
-                    //Cache.Insert(string.Format("accountnumbers:{0}", SessionManager.Ticket),
-                    //    numbers, null, Cache.NoAbsoluteExpiration, SessionManager.DefaultCacheTimeSpan);
+                    Cache.Insert(string.Format("accountnumbers:{0}", SessionManager.Ticket),
+                        numbers, null, Cache.NoAbsoluteExpiration, SessionManager.DefaultCacheTimeSpan);
                 }
 
                 accountFirstDegree.Text = string.Format("{0} friend{1} in your personal network",

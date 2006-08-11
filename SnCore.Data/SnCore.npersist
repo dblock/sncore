@@ -574,6 +574,7 @@
     <property name="Type" columns="Type" ref="OneToMany" inverse="Places" type="PlaceType" />
     <property name="Website" columns="Website" type="System.String" />
     <property name="Zip" columns="Zip" type="System.String" />
+    <property name="PlacePropertyValues" table="PlacePropertyValue" id-columns="Place_Id" list="true" item-type="PlacePropertyValue" slave="true" ref="ManyToOne" inverse="Place" inherits-inverse="true" />
   </class>
   <class name="PlaceName" table="PlaceName">
     <property name="Id" id="true" columns="PlaceName_Id" type="System.Int32" />
@@ -716,6 +717,30 @@
     <property name="Created" columns="Created" type="System.DateTime" />
     <property name="Modified" columns="Modified" type="System.DateTime" />
     <property name="TagWord" columns="TagWord_Id" ref="OneToMany" inverse="TagWordAccounts" type="TagWord" />
+  </class>
+  <class name="PlaceProperty" table="PlaceProperty">
+    <property name="Id" id="true" columns="PlaceProperty_Id" type="System.Int32" />
+    <property name="DefaultValue" columns="DefaultValue" type="System.String" />
+    <property name="Description" columns="Description" type="System.String" />
+    <property name="Name" columns="Name" type="System.String" />
+    <property name="PlacePropertyGroup" columns="PlacePropertyGroup_Id" ref="OneToMany" inverse="PlaceProperties" type="PlacePropertyGroup" />
+    <property name="PlacePropertyValues" table="PlacePropertyValue" id-columns="PlaceProperty_Id" list="true" item-type="PlacePropertyValue" slave="true" ref="ManyToOne" inverse="PlaceProperty" inherits-inverse="true" />
+    <property name="Publish" columns="Publish" type="System.Boolean" />
+    <property name="TypeName" columns="TypeName" type="System.String" />
+  </class>
+  <class name="PlacePropertyGroup" table="PlacePropertyGroup">
+    <property name="Id" id="true" columns="PlacePropertyGroup_Id" type="System.Int32" />
+    <property name="Description" columns="Description" type="System.String" />
+    <property name="Name" columns="Name" type="System.String" />
+    <property name="PlaceProperties" table="PlaceProperty" id-columns="PlacePropertyGroup_Id" list="true" item-type="PlaceProperty" slave="true" ref="ManyToOne" inverse="PlacePropertyGroup" inherits-inverse="true" />
+  </class>
+  <class name="PlacePropertyValue" table="PlacePropertyValue">
+    <property name="Id" id="true" columns="PlacePropertyValue_Id" type="System.Int32" />
+    <property name="Created" columns="Created" type="System.DateTime" />
+    <property name="Modified" columns="Modified" type="System.DateTime" />
+    <property name="Place" columns="Place_Id" ref="OneToMany" inverse="PlacePropertyValues" type="Place" />
+    <property name="PlaceProperty" columns="PlaceProperty_Id" ref="OneToMany" inverse="PlacePropertyValues" type="PlaceProperty" />
+    <property name="Value" columns="Value" type="System.String" />
   </class>
   <source name="SnCore" type="MSSqlServer" provider="SqlClient" schema="dbo" catalog="SnCore">
     <connection-string>Data Source=localhost;Initial Catalog=SnCore;Integrated Security=SSPI</connection-string>
@@ -978,8 +1003,8 @@
     <table name="AccountProperty">
       <column name="AccountProperty_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
       <column name="AccountPropertyGroup_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="AccountPropertyGroup" primary-column="AccountPropertyGroup_Id" foreign-key="FK_AccountProperty_AccountPropertyGroup" />
-      <column name="DefaultValue" type="String" prec="0" length="16" scale="0" specific-type="NTEXT" />
-      <column name="Description" type="String" prec="0" length="16" scale="0" specific-type="NTEXT" />
+      <column name="DefaultValue" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
+      <column name="Description" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
       <column name="Name" type="String" prec="64" length="128" scale="0" />
       <column name="TypeName" type="String" prec="64" length="128" scale="0" />
       <column name="Publish" type="Boolean" prec="1" length="1" scale="0" />
@@ -1352,6 +1377,28 @@
       <column name="TagWord_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="TagWord" primary-column="TagWord_Id" foreign-key="FK_TagWordAccount_TagWord" />
       <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
+    </table>
+    <table name="PlaceProperty">
+      <column name="PlaceProperty_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="DefaultValue" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
+      <column name="Description" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
+      <column name="Name" type="String" prec="64" length="128" scale="0" />
+      <column name="PlacePropertyGroup_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="PlacePropertyGroup" primary-column="PlacePropertyGroup_Id" foreign-key="FK_PlaceProperty_PlacePropertyGroup" />
+      <column name="Publish" type="Boolean" prec="1" length="1" scale="0" />
+      <column name="TypeName" type="String" prec="64" length="128" scale="0" />
+    </table>
+    <table name="PlacePropertyGroup">
+      <column name="PlacePropertyGroup_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Description" type="String" prec="0" length="16" scale="0" specific-type="NTEXT" />
+      <column name="Name" type="String" prec="64" length="128" scale="0" />
+    </table>
+    <table name="PlacePropertyValue">
+      <column name="PlacePropertyValue_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Place_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Place" primary-column="Place_Id" foreign-key="FK_PlacePropertyValue_Place" />
+      <column name="PlaceProperty_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="PlaceProperty" primary-column="PlaceProperty_Id" foreign-key="FK_PlacePropertyValue_PlaceProperty" />
+      <column name="Value" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
     </table>
   </source>
 </domain>

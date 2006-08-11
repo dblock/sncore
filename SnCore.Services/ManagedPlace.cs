@@ -510,5 +510,27 @@ namespace SnCore.Services
 
             return false;
         }
+
+        #region Place Property Value
+
+        public int CreateOrUpdate(TransitPlacePropertyValue o)
+        {
+            PlacePropertyValue propertyvalue = o.GetPlacePropertyValue(Session);
+
+            if (propertyvalue.Id != 0)
+            {
+                if (propertyvalue.Place.Id != mPlace.Id)
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+            }
+
+            propertyvalue.Modified = DateTime.UtcNow;
+            if (propertyvalue.Id == 0) propertyvalue.Created = propertyvalue.Modified;
+            Session.Save(propertyvalue);
+            return propertyvalue.Id;
+        }
+
+        #endregion
     }
 }

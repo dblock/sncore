@@ -167,6 +167,8 @@ public partial class PlaceView : Page
                         return;
                     }
 
+                    groups.PlaceId = RequestId;
+
                     Title = Renderer.Render(string.Format("{0}, {1}", place.Name, place.City));
 
                     MetaDescription.Content = string.Format("Get photos, information and reviews on {0} and other places in {1} on {2}.",

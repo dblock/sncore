@@ -3,6 +3,8 @@
 
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
+<%@ Register TagPrefix="SnCore" TagName="PlacePropertyGroups" Src="PlacePropertyGroupsControl.ascx" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <div class="sncore_navigate">
   <asp:HyperLink CssClass="sncore_navigate_item" ID="linkPlaces" NavigateUrl="PlacesManage.aspx"
@@ -168,6 +170,7 @@
        <asp:ButtonColumn ButtonType="LinkButton" CommandName="Delete" Text="Delete" />
       </Columns>
      </SnCoreWebControls:PagedGrid>
+     <SnCore:PlacePropertyGroups ID="groups" runat="server" />         
      <div class="sncore_h2">
       Add New</div>
      <table class="sncore_account_table">

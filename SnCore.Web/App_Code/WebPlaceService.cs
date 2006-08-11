@@ -1297,7 +1297,11 @@ namespace SnCore.WebServices
                          "SELECT p.Place_Id FROM Place p, PlaceName pn" +
                          " WHERE p.Place_Id = pn.Place_Id" +
                          " AND FREETEXT (pn.Name, '" + Renderer.SqlEncode(s) + "')" +
-                        ")",                        
+                         " UNION " +
+                         "SELECT p.Place_Id FROM Place p, PlacePropertyValue pp" +
+                         " WHERE p.Place_Id = pp.Place_Id" +
+                         " AND FREETEXT (pp.Value, '" + Renderer.SqlEncode(s) + "')" +
+                        ")",
                         "Place",
                         typeof(Place));
 
@@ -1337,6 +1341,10 @@ namespace SnCore.WebServices
                          "SELECT p.Place_Id FROM Place p, PlaceName pn" +
                          " WHERE p.Place_Id = pn.Place_Id" +
                          " AND FREETEXT (pn.Name, '" + Renderer.SqlEncode(s) + "')" +
+                         " UNION " +
+                         "SELECT p.Place_Id FROM Place p, PlacePropertyValue pp" +
+                         " WHERE p.Place_Id = pp.Place_Id" +
+                         " AND FREETEXT (pp.Value, '" + Renderer.SqlEncode(s) + "')" +
                         ")",
                         "Place",
                         typeof(Place));
@@ -1450,6 +1458,342 @@ namespace SnCore.WebServices
             }
         }
 
+        #endregion
+
+        #region Place Property Group
+
+        /// <summary>
+        /// Create or update a property group.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="PropertyGroup">transit property group</param>
+        [WebMethod(Description = "Create or update a property group.")]
+        public int CreateOrUpdatePlacePropertyGroup(string ticket, TransitPlacePropertyGroup pg)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount user = new ManagedAccount(session, userid);
+
+                if (!user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ManagedPlacePropertyGroup m_propertygroup = new ManagedPlacePropertyGroup(session);
+                m_propertygroup.CreateOrUpdate(pg);
+                SnCore.Data.Hibernate.Session.Flush();
+                return m_propertygroup.Id;
+            }
+        }
+
+        /// <summary>
+        /// Get a property group.
+        /// </summary>
+        /// <returns>transit property group</returns>
+        [WebMethod(Description = "Get a property group.")]
+        public TransitPlacePropertyGroup GetPlacePropertyGroupById(int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                TransitPlacePropertyGroup result = new ManagedPlacePropertyGroup(session, id).TransitPlacePropertyGroup;
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+
+        /// <summary>
+        /// Get all property groups.
+        /// </summary>
+        /// <returns>list of transit property groups</returns>
+        [WebMethod(Description = "Get all property groups.")]
+        public List<TransitPlacePropertyGroup> GetPlacePropertyGroups()
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                IList pgs = session.CreateCriteria(typeof(PlacePropertyGroup)).List();
+                List<TransitPlacePropertyGroup> result = new List<TransitPlacePropertyGroup>(pgs.Count);
+                foreach (PlacePropertyGroup pg in pgs)
+                {
+                    result.Add(new ManagedPlacePropertyGroup(session, pg).TransitPlacePropertyGroup);
+                }
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Delete a property group
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete a property group.")]
+        public void DeletePlacePropertyGroup(string ticket, int id)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                ManagedAccount user = new ManagedAccount(session, userid);
+
+                if (!user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ManagedPlacePropertyGroup m_propertygroup = new ManagedPlacePropertyGroup(session, id);
+                m_propertygroup.Delete();
+                SnCore.Data.Hibernate.Session.Flush();
+            }
+        }
+
+        #endregion
+
+        #region Place Property
+
+        /// <summary>
+        /// Create or update a property.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="property">transit property</param>
+        [WebMethod(Description = "Create or update a property.")]
+        public int CreateOrUpdatePlaceProperty(string ticket, TransitPlaceProperty p)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount user = new ManagedAccount(session, userid);
+
+                if (!user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ManagedPlaceProperty m_property = new ManagedPlaceProperty(session);
+                m_property.CreateOrUpdate(p);
+                SnCore.Data.Hibernate.Session.Flush();
+                return m_property.Id;
+            }
+        }
+
+        /// <summary>
+        /// Get a property.
+        /// </summary>
+        /// <returns>transit property</returns>
+        [WebMethod(Description = "Get a property.")]
+        public TransitPlaceProperty GetPlacePropertyById(int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                TransitPlaceProperty result = new ManagedPlaceProperty(session, id).TransitPlaceProperty;
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+
+        /// <summary>
+        /// Get all properties.
+        /// </summary>
+        /// <returns>list of transit properties</returns>
+        [WebMethod(Description = "Get all properties.")]
+        public List<TransitPlaceProperty> GetPlaceProperties(int gid)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                IList ps = session.CreateCriteria(typeof(PlaceProperty))
+                    .Add(Expression.Eq("PlacePropertyGroup.Id", gid))
+                    .List();
+
+                List<TransitPlaceProperty> result = new List<TransitPlaceProperty>(ps.Count);
+                foreach (PlaceProperty p in ps)
+                {
+                    result.Add(new ManagedPlaceProperty(session, p).TransitPlaceProperty);
+                }
+
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Delete a property
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete a property.")]
+        public void DeletePlaceProperty(string ticket, int id)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                ManagedAccount user = new ManagedAccount(session, userid);
+
+                if (!user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ManagedPlaceProperty m_property = new ManagedPlaceProperty(session, id);
+                m_property.Delete();
+                SnCore.Data.Hibernate.Session.Flush();
+            }
+        }
+
+        #endregion
+
+        #region Place Property Value
+        /// <summary>
+        /// Create or update an place property value.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="type">transit place property value</param>
+        [WebMethod(Description = "Create or update an place property value.")]
+        public int CreateOrUpdatePlacePropertyValue(string ticket, TransitPlacePropertyValue propertyvalue)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount user = new ManagedAccount(session, userid);
+                ManagedPlace m_place = new ManagedPlace(session, propertyvalue.PlaceId);
+
+                if (!m_place.CanWrite(userid) && !user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                int result = m_place.CreateOrUpdate(propertyvalue);
+
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Get an place property value.
+        /// </summary>
+        /// <returns>transit place property value</returns>
+        [WebMethod(Description = "Get an place property value.")]
+        public TransitPlacePropertyValue GetPlacePropertyValueById(int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                TransitPlacePropertyValue result = new ManagedPlacePropertyValue(session, id).TransitPlacePropertyValue;
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Get place property values.
+        /// </summary>
+        /// <returns>list of place property values</returns>
+        [WebMethod(Description = "Get place property values.", CacheDuration = 60)]
+        public List<TransitPlacePropertyValue> GetPlacePropertyValuesById(int placeid, int groupid)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                IList propertyvalues = session.CreateCriteria(typeof(PlacePropertyValue))
+                    .Add(Expression.Eq("Place.Id", placeid))
+                    // .Add(Expression.Eq("PlaceProperty.PlacePropertyGroup.Id", groupid))
+                    // .Add(Expression.Eq("PlaceProperty.Publish", true))
+                    .List();
+
+                List<TransitPlacePropertyValue> result = new List<TransitPlacePropertyValue>(propertyvalues.Count);
+                foreach (PlacePropertyValue propertyvalue in propertyvalues)
+                {
+                    if ((propertyvalue.PlaceProperty.PlacePropertyGroup.Id == groupid)
+                        && propertyvalue.PlaceProperty.Publish)
+                    {
+                        result.Add(new ManagedPlacePropertyValue(session, propertyvalue).TransitPlacePropertyValue);
+                    }
+                }
+
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Get all place property values, including unfilled ones.
+        /// </summary>
+        /// <returns>list of place property values</returns>
+        [WebMethod(Description = "Get all place property values, including unfilled ones.", CacheDuration = 60)]
+        public List<TransitPlacePropertyValue> GetAllPlacePropertyValuesById(int placeid, int groupid)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                ICriteria c = session.CreateCriteria(typeof(PlaceProperty));
+                if (groupid > 0) c.Add(Expression.Eq("PlacePropertyGroup.Id", groupid));
+                IList properties = c.List();
+
+                List<TransitPlacePropertyValue> result = new List<TransitPlacePropertyValue>(properties.Count);
+
+                foreach (PlaceProperty property in properties)
+                {
+                    PlacePropertyValue value = (PlacePropertyValue)session.CreateCriteria(typeof(PlacePropertyValue))
+                        .Add(Expression.Eq("Place.Id", placeid))
+                        .Add(Expression.Eq("PlaceProperty.Id", property.Id))
+                        .UniqueResult();
+
+                    if (value == null)
+                    {
+                        value = new PlacePropertyValue();
+                        value.PlaceProperty = property;
+                        value.Value = property.DefaultValue;
+                        value.Place = (Place)session.Load(typeof(Place), placeid);
+                    }
+
+                    result.Add(new TransitPlacePropertyValue(value));
+                }
+
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Delete an place property value.
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete an place property value.")]
+        public void DeletePlacePropertyValue(string ticket, int id)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount user = new ManagedAccount(session, userid);
+                ManagedPlacePropertyValue m_propertyvalue = new ManagedPlacePropertyValue(session, id);
+
+                ManagedPlace m_place = new ManagedPlace(session, m_propertyvalue.PlaceId);
+
+                if (!m_place.CanWrite(userid) && !user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                m_propertyvalue.Delete();
+                SnCore.Data.Hibernate.Session.Flush();
+            }
+        }
         #endregion
     }
 }

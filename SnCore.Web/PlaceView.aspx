@@ -7,6 +7,8 @@
 <%@ Register TagPrefix="SnCore" TagName="PlaceAccountsView" Src="PlaceAccountsViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="PlaceFavoriteAccountsView" Src="PlaceFavoriteAccountsViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="BookmarksView" Src="BookmarksViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="PropertyGroupsView" Src="PlacePropertyGroupsViewControl.ascx" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <div class="sncore_navigate">
   <asp:HyperLink CssClass="sncore_navigate_item" ID="linkCountry" runat="server" />
@@ -142,6 +144,7 @@
          </td>
         </tr>
        </table>
+       <SnCore:PropertyGroupsView runat="server" ID="groups" />       
       </asp:Panel>
       <asp:Panel ID="panelOwners" runat="server">
        <SnCore:PlaceAccountsView ID="placeAccounts" runat="server" />
