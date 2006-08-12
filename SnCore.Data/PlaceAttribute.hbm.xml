@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.0" schema="dbo">
+  <class name="PlaceAttribute, SnCore.Data" table="PlaceAttribute">
+    <id name="Id" type="Int32" column="PlaceAttribute_Id" access="field.pascalcase-m-underscore">
+      <generator class="identity" />
+    </id>
+    <many-to-one name="Attribute" column="Attribute_Id" class="Attribute, SnCore.Data" />
+    <property name="Created" column="Created" type="DateTime" />
+    <many-to-one name="Place" column="Place_Id" class="Place, SnCore.Data" />
+    <property name="Url" column="Url" type="String" />
+    <property name="Value" column="Value" type="String" />
+  </class>
+</hibernate-mapping>
