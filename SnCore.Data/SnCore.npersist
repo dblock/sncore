@@ -576,6 +576,7 @@
     <property name="Website" columns="Website" type="System.String" />
     <property name="Zip" columns="Zip" type="System.String" />
     <property name="PlacePropertyValues" table="PlacePropertyValue" id-columns="Place_Id" list="true" item-type="PlacePropertyValue" slave="true" ref="ManyToOne" inverse="Place" inherits-inverse="true" />
+    <property name="PlaceAttributes" table="PlaceAttribute" id-columns="Place_Id" list="true" item-type="PlaceAttribute" slave="true" ref="ManyToOne" inverse="Place" inherits-inverse="true" />
   </class>
   <class name="PlaceName" table="PlaceName">
     <property name="Id" id="true" columns="PlaceName_Id" type="System.Int32" />
@@ -761,6 +762,15 @@
     <property name="Description" columns="Description" type="System.String" />
     <property name="Modified" columns="Modified" type="System.DateTime" />
     <property name="Name" columns="Name" type="System.String" />
+    <property name="PlaceAttributes" table="PlaceAttribute" id-columns="Attribute_Id" list="true" item-type="PlaceAttribute" slave="true" ref="ManyToOne" inverse="Attribute" inherits-inverse="true" />
+  </class>
+  <class name="PlaceAttribute" table="PlaceAttribute">
+    <property name="Id" id="true" columns="PlaceAttribute_Id" type="System.Int32" />
+    <property name="Attribute" columns="Attribute_Id" ref="OneToMany" inverse="PlaceAttributes" type="Attribute" />
+    <property name="Created" columns="Created" type="System.DateTime" />
+    <property name="Place" columns="Place_Id" ref="OneToMany" inverse="PlaceAttributes" type="Place" />
+    <property name="Url" columns="Url" type="System.String" />
+    <property name="Value" columns="Value" type="System.String" />
   </class>
   <source name="SnCore" type="MSSqlServer" provider="SqlClient" schema="dbo" catalog="SnCore">
     <connection-string>Data Source=localhost;Initial Catalog=SnCore;Integrated Security=SSPI</connection-string>
@@ -1425,7 +1435,7 @@
       <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountAttribute_Account" />
       <column name="Attribute_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Attribute" primary-column="Attribute_Id" foreign-key="FK_AccountAttribute_Attribute" />
       <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="Url" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
+      <column name="Url" type="String" prec="128" allow-null="true" length="256" scale="0" />
       <column name="Value" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
     </table>
     <table name="Attribute">
@@ -1437,6 +1447,14 @@
       <column name="Bitmap" type="Object" prec="0" allow-null="true" length="16" scale="0" />
       <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
+    </table>
+    <table name="PlaceAttribute">
+      <column name="PlaceAttribute_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Attribute_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Attribute" primary-column="Attribute_Id" foreign-key="FK_PlaceAttribute_Attribute" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Place_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Place" primary-column="Place_Id" foreign-key="FK_PlaceAttribute_Place" />
+      <column name="Url" type="String" prec="128" allow-null="true" length="256" scale="0" />
+      <column name="Value" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
     </table>
   </source>
 </domain>

@@ -3,7 +3,7 @@
     <ProjectType>Local</ProjectType>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1100c4a9-2a7e-4321-9067-d8f0ac832ecc}</ProjectGuid>
+    <ProjectGuid>{1a49545d-51e0-4a14-8d88-70cb31e1e52f}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>
@@ -284,6 +284,9 @@
     <Compile Include="Place.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="PlaceAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="PlaceName.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -406,6 +409,7 @@
     <EmbeddedResource Include="Picture.hbm.xml" />
     <EmbeddedResource Include="PictureType.hbm.xml" />
     <EmbeddedResource Include="Place.hbm.xml" />
+    <EmbeddedResource Include="PlaceAttribute.hbm.xml" />
     <EmbeddedResource Include="PlaceName.hbm.xml" />
     <EmbeddedResource Include="PlacePicture.hbm.xml" />
     <EmbeddedResource Include="PlaceProperty.hbm.xml" />

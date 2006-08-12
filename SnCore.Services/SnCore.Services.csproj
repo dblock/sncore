@@ -143,6 +143,7 @@
     <Compile Include="ManagedPicture.cs" />
     <Compile Include="ManagedPictureType.cs" />
     <Compile Include="ManagedPlace.cs" />
+    <Compile Include="ManagedPlaceAttribute.cs" />
     <Compile Include="ManagedPlaceName.cs" />
     <Compile Include="ManagedPlacePicture.cs" />
     <Compile Include="ManagedPlaceProperty.cs" />

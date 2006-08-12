@@ -198,6 +198,7 @@ public partial class PlaceView : Page
 
                     placeAccounts.PlaceId = RequestId;
                     placeFriends.PlaceId = RequestId;
+                    attributesView.PlaceId = RequestId;
 
                     labelDescription.Text = base.RenderEx(place.Description);
                     panelDescription.Visible = !string.IsNullOrEmpty(labelDescription.Text);
@@ -210,6 +211,7 @@ public partial class PlaceView : Page
                     placeId.Text = "#" + place.Id.ToString();
 
                     linkAdminEdit.NavigateUrl = string.Format("PlaceEdit.aspx?id={0}", place.Id);
+                    linkAdminAttributes.NavigateUrl = string.Format("PlaceAttributesManage.aspx?id={0}", place.Id);
 
                     placeWebsite.NavigateUrl = place.Website;
                     placeWebsite.Text = Renderer.Render(place.Website);

@@ -1,5 +1,5 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeFile="AccountAttributesViewControl.ascx.cs"
- Inherits="AccountAttributesViewControl" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeFile="PlaceAttributesViewControl.ascx.cs"
+ Inherits="PlaceAttributesViewControl" %>
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="attributes" RepeatRows="5" RepeatColumns="2" 

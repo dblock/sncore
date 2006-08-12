@@ -1795,5 +1795,127 @@ namespace SnCore.WebServices
             }
         }
         #endregion
+
+        #region Place Attribute
+        /// <summary>
+        /// Create or update an place attribute.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="type">transit place attribute</param>
+        [WebMethod(Description = "Create or update an place attribute.")]
+        public int CreateOrUpdatePlaceAttribute(string ticket, TransitPlaceAttribute attribute)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount user = new ManagedAccount(session, userid);
+
+                if (!user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ManagedPlace place = new ManagedPlace(session, attribute.PlaceId);
+
+                PlaceAttribute a = attribute.GetPlaceAttribute(session);
+                if (a.Id == 0) a.Created = DateTime.UtcNow;
+                session.Save(a);
+
+                SnCore.Data.Hibernate.Session.Flush();
+                return a.Id;
+            }
+        }
+
+        /// <summary>
+        /// Get place attributes.
+        /// </summary>
+        /// <returns>transit place attribute</returns>
+        [WebMethod(Description = "Get place attributes.")]
+        public TransitPlaceAttribute GetPlaceAttributeById(int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                TransitPlaceAttribute result = new ManagedPlaceAttribute(session, id).TransitPlaceAttribute;
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+
+        /// <summary>
+        /// Get place attributes count.
+        /// </summary>
+        /// <returns>number of place attributes</returns>
+        [WebMethod(Description = "Get place attributes count.", CacheDuration = 60)]
+        public int GetPlaceAttributesCountById(int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return (int)session.CreateQuery(string.Format(
+                    "SELECT COUNT(a) FROM PlaceAttribute a WHERE a.Place.Id = {0}",
+                    id)).UniqueResult();
+            }
+        }
+
+        /// <summary>
+        /// Get place attributes.
+        /// </summary>
+        /// <returns>list of place attributes</returns>
+        [WebMethod(Description = "Get place attributes.", CacheDuration = 60)]
+        public List<TransitPlaceAttribute> GetPlaceAttributesById(int placeid, ServiceQueryOptions options)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ICriteria c = session.CreateCriteria(typeof(PlaceAttribute))
+                    .Add(Expression.Eq("Place.Id", placeid));
+
+                if (options != null)
+                {
+                    c.SetFirstResult(options.FirstResult);
+                    c.SetMaxResults(options.PageSize);
+                }
+
+                IList attributes = c.List();
+
+                List<TransitPlaceAttribute> result = new List<TransitPlaceAttribute>(attributes.Count);
+                foreach (PlaceAttribute attribute in attributes)
+                {
+                    result.Add(new ManagedPlaceAttribute(session, attribute).TransitPlaceAttribute);
+                }
+
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Delete an place attribute.
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete an place attribute.")]
+        public void DeletePlaceAttribute(string ticket, int id)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount user = new ManagedAccount(session, userid);
+
+                if (!user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ManagedPlaceAttribute m_attribute = new ManagedPlaceAttribute(session, id);
+                m_attribute.Delete();
+                SnCore.Data.Hibernate.Session.Flush();
+            }
+        }
+        #endregion
     }
-}
+}       

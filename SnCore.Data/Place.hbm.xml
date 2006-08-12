@@ -46,5 +46,9 @@
       <key column="Place_Id" />
       <one-to-many class="PlacePropertyValue, SnCore.Data" />
     </bag>
+    <bag lazy="true" name="PlaceAttributes" inverse="true">
+      <key column="Place_Id" />
+      <one-to-many class="PlaceAttribute, SnCore.Data" />
+    </bag>
   </class>
 </hibernate-mapping>

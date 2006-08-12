@@ -8,7 +8,7 @@
 <%@ Register TagPrefix="SnCore" TagName="PlaceFavoriteAccountsView" Src="PlaceFavoriteAccountsViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="BookmarksView" Src="BookmarksViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="PropertyGroupsView" Src="PlacePropertyGroupsViewControl.ascx" %>
-
+<%@ Register TagPrefix="SnCore" TagName="AttributesView" Src="PlaceAttributesViewControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <div class="sncore_navigate">
   <asp:HyperLink CssClass="sncore_navigate_item" ID="linkCountry" runat="server" />
@@ -80,7 +80,10 @@
      <asp:Panel ID="panelDetails" runat="server">
       <table class="sncore_inner_table" width="95%">
        <tr>
-        <td colspan="2" align="right">
+       <td valign="top">
+        <SnCore:AttributesView runat="server" ID="attributesView" />        
+       </td>
+        <td align="right">
          <div>
           <asp:LinkButton ID="linkAddToFavorites" OnClick="linkAddToFavorites_Click" runat="server"
            Text="&#187; Add to Favorites" />
@@ -96,6 +99,9 @@
          <asp:Panel ID="panelAdmin" runat="server">
           <div>
            <asp:HyperLink runat="server" ID="linkAdminEdit" Text="&#187; Edit Content" />
+          </div>
+          <div>
+           <asp:HyperLink runat="server" ID="linkAdminAttributes" Text="&#187; Edit Attributes" />
           </div>
           <div>
            <asp:LinkButton OnClick="feature_Click" runat="server" ID="linkFeature" Text="&#187; Feature" />

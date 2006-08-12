@@ -15,5 +15,9 @@
     <property name="Description" column="Description" type="StringClob" />
     <property name="Modified" column="Modified" type="DateTime" />
     <property name="Name" column="Name" type="String" />
+    <bag lazy="true" name="PlaceAttributes" inverse="true">
+      <key column="Attribute_Id" />
+      <one-to-many class="PlaceAttribute, SnCore.Data" />
+    </bag>
   </class>
 </hibernate-mapping>
