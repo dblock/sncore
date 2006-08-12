@@ -53,6 +53,7 @@
 <table class="sncore_accountmenu_table">
  <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="SystemInvitationsManage.aspx">Invitations</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="SystemAccountPropertyGroupsManage.aspx">Property Groups</a></td></tr>
+ <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="SystemAttributesManage.aspx">Attributes</a></td></tr>
 </table>
 <table class="sncore_accountmenu_table">
  <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="SystemCountriesManage.aspx">Countries</a></td></tr>

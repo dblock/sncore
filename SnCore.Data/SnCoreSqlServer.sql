@@ -619,6 +619,35 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Attribute]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[Attribute](
+	[Attribute_Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](64) NOT NULL,
+	[Description] [ntext] NULL,
+	[DefaultValue] [ntext] NULL,
+	[DefaultUrl] [nvarchar](128) NULL,
+	[Bitmap] [image] NULL,
+	[Created] [datetime] NOT NULL,
+	[Modified] [datetime] NOT NULL,
+ CONSTRAINT [PK_Attribute] PRIMARY KEY CLUSTERED 
+(
+	[Attribute_Id] ASC
+)WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Attribute]') AND name = N'UK_Attribute')
+CREATE UNIQUE NONCLUSTERED INDEX [UK_Attribute] ON [dbo].[Attribute] 
+(
+	[Name] ASC
+)WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CounterReturningDaily]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CounterReturningDaily](
@@ -1700,26 +1729,59 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountEmail]') AND type in (N'U'))
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountAttribute]') AND type in (N'U'))
 BEGIN
-CREATE TABLE [dbo].[AccountEmail](
-	[AccountEmail_Id] [int] IDENTITY(1,1) NOT NULL,
+CREATE TABLE [dbo].[AccountAttribute](
+	[AccountAttribute_Id] [int] IDENTITY(1,1) NOT NULL,
 	[Account_Id] [int] NOT NULL,
-	[Address] [varchar](64) NOT NULL,
-	[Created] [datetime] NOT NULL CONSTRAINT [DF_AccountEmail_Created]  DEFAULT (getdate()),
-	[Modified] [datetime] NULL,
-	[Verified] [bit] NOT NULL CONSTRAINT [DF_AccountEmail_Verified]  DEFAULT (0),
-	[Principal] [bit] NOT NULL CONSTRAINT [DF_AccountEmail_Primary]  DEFAULT (0),
- CONSTRAINT [PK_AccountEmail] PRIMARY KEY CLUSTERED 
+	[Attribute_Id] [int] NOT NULL,
+	[Created] [datetime] NOT NULL,
+	[Value] [ntext] NULL,
+	[Url] [ntext] NULL,
+ CONSTRAINT [PK_AccountAttribute] PRIMARY KEY CLUSTERED 
 (
-	[AccountEmail_Id] ASC
-)WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY],
- CONSTRAINT [UK_AccountEmail] UNIQUE NONCLUSTERED 
+	[AccountAttribute_Id] ASC
+)WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountAttribute]') AND name = N'IX_AccountAttribute')
+CREATE NONCLUSTERED INDEX [IX_AccountAttribute] ON [dbo].[AccountAttribute] 
+(
+	[Account_Id] ASC
+)WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountAttribute]') AND name = N'UK_AccountAttribute')
+CREATE NONCLUSTERED INDEX [UK_AccountAttribute] ON [dbo].[AccountAttribute] 
 (
 	[Account_Id] ASC,
-	[Address] ASC
+	[Attribute_Id] ASC
 )WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountWebsite]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[AccountWebsite](
+	[AccountWebsite_Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](64) NOT NULL,
+	[Description] [ntext] NULL,
+	[Url] [varchar](128) NOT NULL,
+	[Account_Id] [int] NOT NULL,
+ CONSTRAINT [PK_AccountWebsite] PRIMARY KEY CLUSTERED 
+(
+	[AccountWebsite_Id] ASC
+)WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY],
+ CONSTRAINT [UK_AccountWebsite] UNIQUE NONCLUSTERED 
+(
+	[Url] ASC,
+	[Account_Id] ASC
+)WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
 GO
 SET ANSI_NULLS ON
@@ -1752,24 +1814,26 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountWebsite]') AND type in (N'U'))
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountEmail]') AND type in (N'U'))
 BEGIN
-CREATE TABLE [dbo].[AccountWebsite](
-	[AccountWebsite_Id] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [nvarchar](64) NOT NULL,
-	[Description] [ntext] NULL,
-	[Url] [varchar](128) NOT NULL,
+CREATE TABLE [dbo].[AccountEmail](
+	[AccountEmail_Id] [int] IDENTITY(1,1) NOT NULL,
 	[Account_Id] [int] NOT NULL,
- CONSTRAINT [PK_AccountWebsite] PRIMARY KEY CLUSTERED 
+	[Address] [varchar](64) NOT NULL,
+	[Created] [datetime] NOT NULL CONSTRAINT [DF_AccountEmail_Created]  DEFAULT (getdate()),
+	[Modified] [datetime] NULL,
+	[Verified] [bit] NOT NULL CONSTRAINT [DF_AccountEmail_Verified]  DEFAULT (0),
+	[Principal] [bit] NOT NULL CONSTRAINT [DF_AccountEmail_Primary]  DEFAULT (0),
+ CONSTRAINT [PK_AccountEmail] PRIMARY KEY CLUSTERED 
 (
-	[AccountWebsite_Id] ASC
+	[AccountEmail_Id] ASC
 )WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY],
- CONSTRAINT [UK_AccountWebsite] UNIQUE NONCLUSTERED 
+ CONSTRAINT [UK_AccountEmail] UNIQUE NONCLUSTERED 
 (
-	[Url] ASC,
-	[Account_Id] ASC
+	[Account_Id] ASC,
+	[Address] ASC
 )WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+) ON [PRIMARY]
 END
 GO
 SET ANSI_NULLS ON
@@ -2602,12 +2666,26 @@ ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[RefererAccount] CHECK CONSTRAINT [FK_RefererAccount_RefererHost]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountEmail_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountEmail]'))
-ALTER TABLE [dbo].[AccountEmail]  WITH CHECK ADD  CONSTRAINT [FK_AccountEmail_Account] FOREIGN KEY([Account_Id])
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountAttribute_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountAttribute]'))
+ALTER TABLE [dbo].[AccountAttribute]  WITH CHECK ADD  CONSTRAINT [FK_AccountAttribute_Account] FOREIGN KEY([Account_Id])
 REFERENCES [dbo].[Account] ([Account_Id])
 ON DELETE CASCADE
 GO
-ALTER TABLE [dbo].[AccountEmail] CHECK CONSTRAINT [FK_AccountEmail_Account]
+ALTER TABLE [dbo].[AccountAttribute] CHECK CONSTRAINT [FK_AccountAttribute_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountAttribute_Attribute]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountAttribute]'))
+ALTER TABLE [dbo].[AccountAttribute]  WITH CHECK ADD  CONSTRAINT [FK_AccountAttribute_Attribute] FOREIGN KEY([Attribute_Id])
+REFERENCES [dbo].[Attribute] ([Attribute_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountAttribute] CHECK CONSTRAINT [FK_AccountAttribute_Attribute]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountWebsite_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountWebsite]'))
+ALTER TABLE [dbo].[AccountWebsite]  WITH CHECK ADD  CONSTRAINT [FK_AccountWebsite_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountWebsite] CHECK CONSTRAINT [FK_AccountWebsite_Account]
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountOpenId_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountOpenId]'))
 ALTER TABLE [dbo].[AccountOpenId]  WITH CHECK ADD  CONSTRAINT [FK_AccountOpenId_Account] FOREIGN KEY([Account_Id])
@@ -2616,12 +2694,12 @@ ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[AccountOpenId] CHECK CONSTRAINT [FK_AccountOpenId_Account]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountWebsite_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountWebsite]'))
-ALTER TABLE [dbo].[AccountWebsite]  WITH CHECK ADD  CONSTRAINT [FK_AccountWebsite_Account] FOREIGN KEY([Account_Id])
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountEmail_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountEmail]'))
+ALTER TABLE [dbo].[AccountEmail]  WITH CHECK ADD  CONSTRAINT [FK_AccountEmail_Account] FOREIGN KEY([Account_Id])
 REFERENCES [dbo].[Account] ([Account_Id])
 ON DELETE CASCADE
 GO
-ALTER TABLE [dbo].[AccountWebsite] CHECK CONSTRAINT [FK_AccountWebsite_Account]
+ALTER TABLE [dbo].[AccountEmail] CHECK CONSTRAINT [FK_AccountEmail_Account]
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountFriend_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountFriend]'))
 ALTER TABLE [dbo].[AccountFriend]  WITH CHECK ADD  CONSTRAINT [FK_AccountFriend_Account] FOREIGN KEY([Account_Id])

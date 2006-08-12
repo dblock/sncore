@@ -3,7 +3,7 @@
     <ProjectType>Local</ProjectType>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{6cb88c44-6c1e-4cc4-a642-6c27d00481ab}</ProjectGuid>
+    <ProjectGuid>{1100c4a9-2a7e-4321-9067-d8f0ac832ecc}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>
@@ -90,6 +90,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AccountAddress.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AccountAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AccountBlog.cs">
@@ -189,6 +192,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Attribute.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bookmark.cs">
@@ -337,6 +343,7 @@
     </Compile>
     <EmbeddedResource Include="Account.hbm.xml" />
     <EmbeddedResource Include="AccountAddress.hbm.xml" />
+    <EmbeddedResource Include="AccountAttribute.hbm.xml" />
     <EmbeddedResource Include="AccountBlog.hbm.xml" />
     <EmbeddedResource Include="AccountBlogAuthor.hbm.xml" />
     <EmbeddedResource Include="AccountBlogPost.hbm.xml" />
@@ -369,6 +376,7 @@
     <EmbeddedResource Include="AccountStoryPicture.hbm.xml" />
     <EmbeddedResource Include="AccountSurveyAnswer.hbm.xml" />
     <EmbeddedResource Include="AccountWebsite.hbm.xml" />
+    <EmbeddedResource Include="Attribute.hbm.xml" />
     <EmbeddedResource Include="Bookmark.hbm.xml" />
     <EmbeddedResource Include="Bug.hbm.xml" />
     <EmbeddedResource Include="BugLink.hbm.xml" />

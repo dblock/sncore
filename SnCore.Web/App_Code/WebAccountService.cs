@@ -2487,5 +2487,128 @@ namespace SnCore.WebServices
             }
         }
         #endregion
+
+        #region Account Attribute
+        /// <summary>
+        /// Create or update an account attribute.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="type">transit account attribute</param>
+        [WebMethod(Description = "Create or update an account attribute.")]
+        public int CreateOrUpdateAccountAttribute(string ticket, TransitAccountAttribute attribute)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount user = new ManagedAccount(session, userid);
+
+                if (! user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ManagedAccount account = new ManagedAccount(session, attribute.AccountId);
+
+                AccountAttribute a = attribute.GetAccountAttribute(session);
+                if (a.Id == 0) a.Created = DateTime.UtcNow;
+                session.Save(a);
+
+                SnCore.Data.Hibernate.Session.Flush();
+                return a.Id;
+            }
+        }
+
+        /// <summary>
+        /// Get account attributes.
+        /// </summary>
+        /// <returns>transit account attribute</returns>
+        [WebMethod(Description = "Get account attributes.")]
+        public TransitAccountAttribute GetAccountAttributeById(int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                TransitAccountAttribute result = new ManagedAccountAttribute(session, id).TransitAccountAttribute;
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+
+        /// <summary>
+        /// Get account attributes count.
+        /// </summary>
+        /// <returns>number of account attributes</returns>
+        [WebMethod(Description = "Get account attributes count.", CacheDuration = 60)]
+        public int GetAccountAttributesCountById(int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return (int)session.CreateQuery(string.Format(
+                    "SELECT COUNT(a) FROM AccountAttribute a WHERE a.Account.Id = {0}",
+                    id)).UniqueResult();
+            }
+        }
+
+        /// <summary>
+        /// Get account attributes.
+        /// </summary>
+        /// <returns>list of account attributes</returns>
+        [WebMethod(Description = "Get account attributes.", CacheDuration = 60)]
+        public List<TransitAccountAttribute> GetAccountAttributesById(int accountid, ServiceQueryOptions options)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ICriteria c = session.CreateCriteria(typeof(AccountAttribute))
+                    .Add(Expression.Eq("Account.Id", accountid));
+
+                if (options != null)
+                {
+                    c.SetFirstResult(options.FirstResult);
+                    c.SetMaxResults(options.PageSize);
+                }
+
+                IList attributes = c.List();
+
+                List<TransitAccountAttribute> result = new List<TransitAccountAttribute>(attributes.Count);
+                foreach (AccountAttribute attribute in attributes)
+                {
+                    result.Add(new ManagedAccountAttribute(session, attribute).TransitAccountAttribute);
+                }
+
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Delete an account attribute.
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete an account attribute.")]
+        public void DeleteAccountAttribute(string ticket, int id)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount user = new ManagedAccount(session, userid);
+
+                if (! user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ManagedAccountAttribute m_attribute = new ManagedAccountAttribute(session, id);
+                m_attribute.Delete();
+                SnCore.Data.Hibernate.Session.Flush();
+            }
+        }
+        #endregion
+
     }
 }

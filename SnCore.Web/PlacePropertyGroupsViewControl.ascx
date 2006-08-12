@@ -14,7 +14,7 @@
      <%# Renderer.Render(Eval("Name")) %>
     </div>
     <asp:DataGrid runat="server" ID="values" BorderWidth="0" ShowHeader="false" AutoGenerateColumns="false"
-     CssClass="sncore_table">
+     CssClass="sncore_account_table">
      <ItemStyle HorizontalAlign="Left" CssClass="sncore_table_tr_td" />
      <Columns>
       <asp:TemplateColumn>

@@ -1444,5 +1444,140 @@ namespace SnCore.WebServices
 
         #endregion
 
+        #region Attribute
+
+        /// <summary>
+        /// Create or update an attribute.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="PropertyGroup">transit attribute</param>
+        [WebMethod(Description = "Create or update an attribute.")]
+        public int CreateOrUpdateAttribute(string ticket, TransitAttribute attr)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount user = new ManagedAccount(session, userid);
+
+                if (!user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ManagedAttribute m_attribute = new ManagedAttribute(session);
+                m_attribute.CreateOrUpdate(attr);
+                SnCore.Data.Hibernate.Session.Flush();
+                return m_attribute.Id;
+            }
+        }
+
+        /// <summary>
+        /// Get an attribute.
+        /// </summary>
+        /// <returns>transit attribute</returns>
+        [WebMethod(Description = "Get an attribute.")]
+        public TransitAttribute GetAttributeById(int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                TransitAttribute result = new ManagedAttribute(session, id).TransitAttribute;
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Get an attribute with bitmap.
+        /// </summary>
+        /// <returns>transit attribute with bitmap</returns>
+        [WebMethod(Description = "Get an attribute.")]
+        public TransitAttributeWithBitmap GetAttributeWithBitmapById(string ticket, int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                TransitAttributeWithBitmap result = new ManagedAttribute(session, id).TransitAttributeWithBitmap;
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Get attribute data if modified since.
+        /// </summary>
+        /// <param name="id">attribute id</param>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="ifModifiedSince">last update date/time</param>
+        /// <returns>transit attribute with bitmap</returns>
+        [WebMethod(Description = "Get attribute data if modified since.", BufferResponse = true)]
+        public TransitAttributeWithBitmap GetAttributeWithBitmapByIdIfModifiedSince(string ticket, int id, DateTime ifModifiedSince)
+        {
+            // todo: check permissions with ticket
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAttribute attribute = new ManagedAttribute(session, id);
+
+                if (attribute.Modified <= ifModifiedSince)
+                {
+                    return null;
+                }
+
+                return attribute.TransitAttributeWithBitmap;
+            }
+        }
+
+        /// <summary>
+        /// Get all attributes.
+        /// </summary>
+        /// <returns>list of transit attributes</returns>
+        [WebMethod(Description = "Get all attributes.")]
+        public List<TransitAttribute> GetAttributes()
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                IList attrs = session.CreateCriteria(typeof(Attribute)).List();
+                List<TransitAttribute> result = new List<TransitAttribute>(attrs.Count);
+                foreach (Attribute attr in attrs)
+                {
+                    result.Add(new ManagedAttribute(session, attr).TransitAttribute);
+                }
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Delete an attribute
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete an attribute.")]
+        public void DeleteAttribute(string ticket, int id)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                ManagedAccount user = new ManagedAccount(session, userid);
+
+                if (!user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ManagedAttribute m_attribute = new ManagedAttribute(session, id);
+                m_attribute.Delete();
+                SnCore.Data.Hibernate.Session.Flush();
+            }
+        }
+
+        #endregion
+
     }
 }

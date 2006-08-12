@@ -95,6 +95,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ManagedAccountAddress.cs" />
+    <Compile Include="ManagedAccountAttribute.cs" />
     <Compile Include="ManagedAccountBlog.cs" />
     <Compile Include="ManagedAccountBlogAuthor.cs" />
     <Compile Include="ManagedAccountBlogPost.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="ManagedAccountStory.cs" />
     <Compile Include="ManagedAccountStoryPicture.cs" />
     <Compile Include="ManagedAccountSurveyAnswer.cs" />
+    <Compile Include="ManagedAttribute.cs" />
     <Compile Include="ManagedBookmark.cs" />
     <Compile Include="ManagedBug.cs" />
     <Compile Include="ManagedBugLink.cs" />

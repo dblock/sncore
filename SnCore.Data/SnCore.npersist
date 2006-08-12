@@ -44,6 +44,7 @@
     <property name="RefererAccounts" table="RefererAccount" id-columns="Account_Id" list="true" item-type="RefererAccount" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
     <property name="AccountContentGroups" table="AccountContentGroup" id-columns="Account_Id" list="true" item-type="AccountContentGroup" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
     <property name="AccountPropertyValues" table="AccountPropertyValue" id-columns="Account_Id" list="true" item-type="AccountPropertyValue" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
+    <property name="AccountAttributes" table="AccountAttribute" id-columns="Account_Id" list="true" item-type="AccountAttribute" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
   </class>
   <class name="AccountAddress" table="AccountAddress">
     <property name="Id" id="true" columns="AccountAddress_Id" type="System.Int32" />
@@ -742,6 +743,25 @@
     <property name="PlaceProperty" columns="PlaceProperty_Id" ref="OneToMany" inverse="PlacePropertyValues" type="PlaceProperty" />
     <property name="Value" columns="Value" type="System.String" />
   </class>
+  <class name="AccountAttribute" table="AccountAttribute">
+    <property name="Id" id="true" columns="AccountAttribute_Id" type="System.Int32" />
+    <property name="Account" columns="Account_Id" ref="OneToMany" inverse="AccountAttributes" type="Account" />
+    <property name="Attribute" columns="Attribute_Id" ref="OneToMany" inverse="AccountAttributes" type="Attribute" />
+    <property name="Created" columns="Created" type="System.DateTime" />
+    <property name="Url" columns="Url" type="System.String" />
+    <property name="Value" columns="Value" type="System.String" />
+  </class>
+  <class name="Attribute" table="Attribute">
+    <property name="Id" id="true" columns="Attribute_Id" type="System.Int32" />
+    <property name="AccountAttributes" table="AccountAttribute" id-columns="Attribute_Id" list="true" item-type="AccountAttribute" slave="true" ref="ManyToOne" inverse="Attribute" inherits-inverse="true" />
+    <property name="Bitmap" columns="Bitmap" type="System.Byte()" />
+    <property name="Created" columns="Created" type="System.DateTime" />
+    <property name="DefaultUrl" columns="DefaultUrl" type="System.String" />
+    <property name="DefaultValue" columns="DefaultValue" type="System.String" />
+    <property name="Description" columns="Description" type="System.String" />
+    <property name="Modified" columns="Modified" type="System.DateTime" />
+    <property name="Name" columns="Name" type="System.String" />
+  </class>
   <source name="SnCore" type="MSSqlServer" provider="SqlClient" schema="dbo" catalog="SnCore">
     <connection-string>Data Source=localhost;Initial Catalog=SnCore;Integrated Security=SSPI</connection-string>
     <table name="Account">
@@ -1399,6 +1419,24 @@
       <column name="Place_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Place" primary-column="Place_Id" foreign-key="FK_PlacePropertyValue_Place" />
       <column name="PlaceProperty_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="PlaceProperty" primary-column="PlaceProperty_Id" foreign-key="FK_PlacePropertyValue_PlaceProperty" />
       <column name="Value" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
+    </table>
+    <table name="AccountAttribute">
+      <column name="AccountAttribute_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountAttribute_Account" />
+      <column name="Attribute_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Attribute" primary-column="Attribute_Id" foreign-key="FK_AccountAttribute_Attribute" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Url" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
+      <column name="Value" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
+    </table>
+    <table name="Attribute">
+      <column name="Attribute_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="DefaultUrl" type="String" prec="128" allow-null="true" length="256" scale="0" />
+      <column name="DefaultValue" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
+      <column name="Description" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
+      <column name="Name" type="String" prec="64" length="128" scale="0" />
+      <column name="Bitmap" type="Object" prec="0" allow-null="true" length="16" scale="0" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
     </table>
   </source>
 </domain>

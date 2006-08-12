@@ -58,6 +58,7 @@ using System;
         private System.Collections.IList m_RefererAccounts;
         private System.Collections.IList m_AccountContentGroups;
         private System.Collections.IList m_AccountPropertyValues;
+        private System.Collections.IList m_AccountAttributes;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -1334,6 +1335,37 @@ using System;
             set
             {
                 m_AccountPropertyValues = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'AccountAttribute'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'AccountAttribute.Account'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_AccountAttributes' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as slave.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'AccountAttribute' table in the data source.
+        ///The property maps to the identity column 'Account_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Collections.IList AccountAttributes
+        {
+            get
+            {
+                return m_AccountAttributes;
+            }
+            set
+            {
+                m_AccountAttributes = value;
             }
         }
 

@@ -15,6 +15,7 @@
 <%@ Register TagPrefix="SnCore" TagName="PlacesView" Src="AccountPlacesViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="PlaceFavoritesView" Src="AccountPlaceFavoritesViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="BookmarksView" Src="BookmarksViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="AttributesView" Src="AccountAttributesViewControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <div class="sncore_navigate">
   <asp:Label CssClass="sncore_navigate_item" ID="linkAccount" Text="Account" runat="server" />
@@ -45,21 +46,24 @@
       <tr>
        <td class="sncore_table_tr_td">
         <asp:Label CssClass="sncore_account_name" ID="accountName" runat="server" />
-        <br />
-        <asp:Label ID="accountLastLogin" CssClass="sncore_account_lastlogin" runat="server" />
-        <br />
-        <br />
-        <asp:Label ID="accountCity" CssClass="sncore_account_locations" runat="server" />
-        <asp:Label ID="accountState" CssClass="sncore_account_locations" runat="server" />
-        <asp:Label ID="accountCountry" CssClass="sncore_account_locations" runat="server" />
-        <br />
+        <div>
+         <asp:Label ID="accountLastLogin" CssClass="sncore_account_lastlogin" runat="server" />
+        </div>
+        <div>
+         <asp:Label ID="accountCity" CssClass="sncore_account_locations" runat="server" />
+         <asp:Label ID="accountState" CssClass="sncore_account_locations" runat="server" />
+         <asp:Label ID="accountCountry" CssClass="sncore_account_locations" runat="server" />
+        </div>
        </td>
        <td class="sncore_table_tr_td" valign="top" align="right">
         <asp:Label ID="accountId" CssClass="sncore_account_id" runat="server" />
        </td>
       </tr>
       <tr>
-       <td colspan="2" class="sncore_table_tr_td" style="text-align: right;">
+       <td valign="top">
+        <SnCore:AttributesView runat="server" ID="attributesView" />        
+       </td>
+       <td class="sncore_table_tr_td" style="text-align: right;">
         <div>
          <asp:HyperLink runat="server" ID="linkNewMessage" Text="&#187; Send Message" />
         </div>
@@ -89,6 +93,9 @@
          </div>
          <div>
           <asp:LinkButton OnClick="deletefeature_Click" runat="server" ID="linkDeleteFeatures" Text="&#187; Delete Features" />
+         </div>
+         <div>
+          <asp:HyperLink runat="server" ID="linkAttributes" Text="&#187; Manage Attributes" />
          </div>
          <div>
           <asp:HyperLink runat="server" ID="linkDelete" Text="&#187; Delete Account" />
