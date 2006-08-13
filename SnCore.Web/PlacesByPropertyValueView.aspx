@@ -1,0 +1,67 @@
+<%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="PlacesByPropertyValueView.aspx.cs"
+ Inherits="PlacesByPropertyValueView" Title="Places" %>
+
+<%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
+<%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+ <atlas:UpdatePanel ID="panelLinks" Mode="Conditional" RenderMode="Inline" runat="server">
+  <ContentTemplate>
+   <table cellpadding="0" cellspacing="0" width="784">
+    <tr>
+     <td>
+      <div class="sncore_h2">
+       Places
+      </div>
+      <div class="sncore_h2sub">
+       <asp:HyperLink ID="linkAll" runat="server" NavigateUrl="PlacesView.aspx" Text="&#187; All Places" />
+       <a href="PlaceEdit.aspx">&#187; Suggest a Place</a>
+       <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
+      </div>
+     </td>
+     <td align="right" valign="middle">
+     <!--
+      <asp:HyperLink runat="server" ID="linkRss" ImageUrl="images/rss.gif" NavigateUrl="PlacesByPropertyValueViewRss.aspx" />
+      <link runat="server" id="linkRelRss" rel="alternate" type="application/rss+xml" title="Rss"
+       href="PlacesByPropertyValueViewRss.aspx" />
+       -->
+     </td>
+    </tr>
+   </table>
+  </ContentTemplate>
+ </atlas:UpdatePanel>
+ <atlas:UpdatePanel runat="server" ID="panelGrid" Mode="Conditional" RenderMode="Inline">
+  <ContentTemplate>
+   <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage" AllowCustomPaging="true" 
+    CssClass="sncore_table" ShowHeader="false" RepeatColumns="4" RepeatRows="3" RepeatDirection="Horizontal" 
+    OnDataBinding="gridManage_DataBinding">
+    <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
+     prevpagetext="Prev" horizontalalign="Center" />
+    <ItemStyle CssClass="sncore_table_tr_td" HorizontalAlign="Center" />
+    <ItemTemplate>
+     <div class="sncore_link">
+      <a href="PlaceView.aspx?id=<%# Eval("Id") %>">
+       <img border="0" src="PlacePictureThumbnail.aspx?id=<%# Eval("PictureId") %>" />
+      </a>
+     </div>
+     <div class="sncore_link">
+      <a href="PlaceView.aspx?id=<%# Eval("Id") %>">
+       <%# base.Render(Eval("Name")) %>
+      </a>
+     </div>
+     <div class="sncore_link">
+      <a href="PlaceView.aspx?id=<%# Eval("Id") %>">
+       &#187; read and review
+      </a>
+     </div>
+     <div class="sncore_description">
+      <%# base.Render(Eval("City")) %>
+      <%# base.Render(Eval("State")) %>
+     </div>
+     <div class="sncore_description">
+      <%# base.Render(Eval("Country")) %>
+     </div>
+    </ItemTemplate>
+   </SnCoreWebControls:PagedList>
+  </ContentTemplate>
+ </atlas:UpdatePanel>   
+</asp:Content>

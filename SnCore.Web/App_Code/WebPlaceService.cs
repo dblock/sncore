@@ -1657,6 +1657,76 @@ namespace SnCore.WebServices
         #region Place Property Value
 
         /// <summary>
+        /// Get places that match a property value by name.
+        /// </summary>
+        /// <returns>transit places</returns>
+        [WebMethod(Description = "Get places that match a property value by name.")]
+        public List<TransitPlace> GetPlacesByPropertyValue(
+            string groupname, string propertyname, string propertyvalue, ServiceQueryOptions options)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                IQuery query = session.CreateSQLQuery(
+                   "SELECT {place.*} FROM PlaceProperty p, PlacePropertyGroup g, PlacePropertyValue v, Place {place}" +
+                   " WHERE {place}.Place_Id = v.Place_Id" +
+                   " AND v.Place_Id = {place}.Place_Id" +
+                   " AND p.PlacePropertyGroup_Id = g.PlacePropertyGroup_Id" +
+                   " AND p.Name = '" + Renderer.SqlEncode(propertyname) + "'" +
+                   " AND v.Value LIKE '" + Renderer.SqlEncode(propertyvalue) + "'" +
+                   " AND g.Name = '" + Renderer.SqlEncode(groupname) + "'",
+                   "place",
+                   typeof(Place));
+
+                if (options != null)
+                {
+                    query.SetFirstResult(options.FirstResult);
+                    query.SetMaxResults(options.PageSize);
+                }
+
+                IList list = query.List();
+
+                List<TransitPlace> result = new List<TransitPlace>(list.Count);
+
+                foreach (Place place in list)
+                {
+                    result.Add(new ManagedPlace(session, place).TransitPlace);
+                }
+
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Get the number of places that match a property value by name.
+        /// </summary>
+        /// <returns>transit places</returns>
+        [WebMethod(Description = "Get the number of places that match a property value by name.")]
+        public int GetPlacesByPropertyValueCount(
+            string groupname, string propertyname, string propertyvalue)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                IQuery query = session.CreateQuery(string.Format(
+                   "SELECT COUNT(place) FROM PlaceProperty p, PlacePropertyGroup g, PlacePropertyValue v, Place place" +
+                   " WHERE place.Id = v.Place.Id" +
+                   " AND v.Place.Id = place.Id" +
+                   " AND p.PlacePropertyGroup.Id = g.Id" +
+                   " AND p.Name = '{0}'" +
+                   " AND v.Value LIKE '{1}'" +
+                   " AND g.Name = '{2}'"
+                   , Renderer.SqlEncode(propertyname)
+                   , Renderer.SqlEncode(propertyvalue)
+                   , Renderer.SqlEncode(groupname)));
+
+                return (int) query.UniqueResult();
+            }
+        }
+
+        /// <summary>
         /// Get a place property value by name.
         /// </summary>
         /// <returns>transit place property value</returns>
@@ -1707,11 +1777,11 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
-        /// Create or update an place property value.
+        /// Create or update a place property value.
         /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="type">transit place property value</param>
-        [WebMethod(Description = "Create or update an place property value.")]
+        [WebMethod(Description = "Create or update a place property value.")]
         public int CreateOrUpdatePlacePropertyValue(string ticket, TransitPlacePropertyValue propertyvalue)
         {
             int userid = ManagedAccount.GetAccountId(ticket);
@@ -1734,10 +1804,10 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
-        /// Get an place property value.
+        /// Get a place property value.
         /// </summary>
         /// <returns>transit place property value</returns>
-        [WebMethod(Description = "Get an place property value.")]
+        [WebMethod(Description = "Get a place property value.")]
         public TransitPlacePropertyValue GetPlacePropertyValueById(int id)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
@@ -1820,11 +1890,11 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
-        /// Delete an place property value.
+        /// Delete a place property value.
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
         /// </summary>
-        [WebMethod(Description = "Delete an place property value.")]
+        [WebMethod(Description = "Delete a place property value.")]
         public void DeletePlacePropertyValue(string ticket, int id)
         {
             int userid = ManagedAccount.GetAccountId(ticket);
@@ -1849,11 +1919,11 @@ namespace SnCore.WebServices
 
         #region Place Attribute
         /// <summary>
-        /// Create or update an place attribute.
+        /// Create or update a place attribute.
         /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="type">transit place attribute</param>
-        [WebMethod(Description = "Create or update an place attribute.")]
+        [WebMethod(Description = "Create or update a place attribute.")]
         public int CreateOrUpdatePlaceAttribute(string ticket, TransitPlaceAttribute attribute)
         {
             int userid = ManagedAccount.GetAccountId(ticket);
@@ -1944,11 +2014,11 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
-        /// Delete an place attribute.
+        /// Delete a place attribute.
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
         /// </summary>
-        [WebMethod(Description = "Delete an place attribute.")]
+        [WebMethod(Description = "Delete a place attribute.")]
         public void DeletePlaceAttribute(string ticket, int id)
         {
             int userid = ManagedAccount.GetAccountId(ticket);

@@ -2329,6 +2329,76 @@ namespace SnCore.WebServices
         #region Account Property Value
 
         /// <summary>
+        /// Get accounts that match a property value by name.
+        /// </summary>
+        /// <returns>transit accounts</returns>
+        [WebMethod(Description = "Get accounts that match a property value by name.")]
+        public List<TransitAccount> GetAccountsByPropertyValue(
+            string groupname, string propertyname, string propertyvalue, ServiceQueryOptions options)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                IQuery query = session.CreateSQLQuery(
+                   "SELECT {account.*} FROM AccountProperty p, AccountPropertyGroup g, AccountPropertyValue v, Account {account}" +
+                   " WHERE {account}.Account_Id = v.Account_Id" +
+                   " AND v.Account_Id = {account}.Account_Id" +
+                   " AND p.AccountPropertyGroup_Id = g.AccountPropertyGroup_Id" +
+                   " AND p.Name = '" + Renderer.SqlEncode(propertyname) + "'" +
+                   " AND v.Value LIKE '" + Renderer.SqlEncode(propertyvalue) + "'" +
+                   " AND g.Name = '" + Renderer.SqlEncode(groupname) + "'",
+                   "account",
+                   typeof(Account));
+
+                if (options != null)
+                {
+                    query.SetFirstResult(options.FirstResult);
+                    query.SetMaxResults(options.PageSize);
+                }
+
+                IList list = query.List();
+
+                List<TransitAccount> result = new List<TransitAccount>(list.Count);
+
+                foreach (Account account in list)
+                {
+                    result.Add(new ManagedAccount(session, account).TransitAccount);
+                }
+
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Get the number of accounts that match a property value by name.
+        /// </summary>
+        /// <returns>transit accounts</returns>
+        [WebMethod(Description = "Get the number of accounts that match a property value by name.")]
+        public int GetAccountsByPropertyValueCount(
+            string groupname, string propertyname, string propertyvalue)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                IQuery query = session.CreateQuery(string.Format(
+                   "SELECT COUNT(account) FROM AccountProperty p, AccountPropertyGroup g, AccountPropertyValue v, Account account" +
+                   " WHERE account.Id = v.Account.Id" +
+                   " AND v.Account.Id = account.Id" +
+                   " AND p.AccountPropertyGroup.Id = g.Id" +
+                   " AND p.Name = '{0}'" +
+                   " AND v.Value LIKE '{1}'" +
+                   " AND g.Name = '{2}'"
+                   , Renderer.SqlEncode(propertyname)
+                   , Renderer.SqlEncode(propertyvalue)
+                   , Renderer.SqlEncode(groupname)));
+
+                return (int)query.UniqueResult();
+            }
+        }
+
+        /// <summary>
         /// Get a account property value by name.
         /// </summary>
         /// <returns>transit account property value</returns>
