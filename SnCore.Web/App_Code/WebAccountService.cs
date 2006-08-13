@@ -2327,6 +2327,57 @@ namespace SnCore.WebServices
         #endregion
 
         #region Account Property Value
+
+        /// <summary>
+        /// Get a account property value by name.
+        /// </summary>
+        /// <returns>transit account property value</returns>
+        [WebMethod(Description = "Get a account property value by group and name.")]
+        public TransitAccountPropertyValue GetAccountPropertyValueByName(int accountid, string groupname, string propertyname)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                AccountPropertyGroup ppg = (AccountPropertyGroup)session.CreateCriteria(typeof(AccountPropertyGroup))
+                    .Add(Expression.Eq("Name", groupname))
+                    .UniqueResult();
+
+                if (ppg == null)
+                {
+                    throw new Exception(string.Format(
+                        "No property group with the name \"{0}\" found.", groupname));
+                }
+
+                AccountProperty pp = (AccountProperty)session.CreateCriteria(typeof(AccountProperty))
+                    .Add(Expression.Eq("Name", propertyname))
+                    .Add(Expression.Eq("AccountPropertyGroup.Id", ppg.Id))
+                    .UniqueResult();
+
+                if (pp == null)
+                {
+                    throw new Exception(string.Format(
+                        "No property with the name \"{0}\" found.", propertyname));
+                }
+
+                AccountPropertyValue ppv = (AccountPropertyValue)session.CreateCriteria(typeof(AccountPropertyValue))
+                    .Add(Expression.Eq("Account.Id", accountid))
+                    .Add(Expression.Eq("AccountProperty.Id", pp.Id))
+                    .UniqueResult();
+
+                if (ppv == null)
+                {
+                    throw new Exception(string.Format(
+                        "No property value for \"{0}\" of account \"{0}\" of group \"{0}\" found.", 
+                        propertyname, accountid, groupname));
+                }
+
+                TransitAccountPropertyValue result = new ManagedAccountPropertyValue(session, ppv).TransitAccountPropertyValue;
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
         /// <summary>
         /// Create or update an account property value.
         /// </summary>

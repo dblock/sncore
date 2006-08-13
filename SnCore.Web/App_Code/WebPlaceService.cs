@@ -1655,6 +1655,57 @@ namespace SnCore.WebServices
         #endregion
 
         #region Place Property Value
+
+        /// <summary>
+        /// Get a place property value by name.
+        /// </summary>
+        /// <returns>transit place property value</returns>
+        [WebMethod(Description = "Get a place property value by group and name.")]
+        public TransitPlacePropertyValue GetPlacePropertyValueByName(int placeid, string groupname, string propertyname)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                PlacePropertyGroup ppg = (PlacePropertyGroup)session.CreateCriteria(typeof(PlacePropertyGroup))
+                    .Add(Expression.Eq("Name", groupname))
+                    .UniqueResult();
+
+                if (ppg == null)
+                {
+                    throw new Exception(string.Format(
+                        "No property group with the name \"{0}\" found.", groupname));
+                }
+
+                PlaceProperty pp = (PlaceProperty)session.CreateCriteria(typeof(PlaceProperty))
+                    .Add(Expression.Eq("Name", propertyname))
+                    .Add(Expression.Eq("PlacePropertyGroup.Id", ppg.Id))
+                    .UniqueResult();
+
+                if (pp == null)
+                {
+                    throw new Exception(string.Format(
+                        "No property with the name \"{0}\" found.", propertyname));
+                }
+
+                PlacePropertyValue ppv = (PlacePropertyValue)session.CreateCriteria(typeof(PlacePropertyValue))
+                    .Add(Expression.Eq("Place.Id", placeid))
+                    .Add(Expression.Eq("PlaceProperty.Id", pp.Id))
+                    .UniqueResult();
+
+                if (ppv == null)
+                {
+                    throw new Exception(string.Format(
+                        "No property value for \"{0}\" of place \"{0}\" of group \"{0}\" found.",
+                        propertyname, placeid, groupname));
+                }
+
+                TransitPlacePropertyValue result = new ManagedPlacePropertyValue(session, ppv).TransitPlacePropertyValue;
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
         /// <summary>
         /// Create or update an place property value.
         /// </summary>
