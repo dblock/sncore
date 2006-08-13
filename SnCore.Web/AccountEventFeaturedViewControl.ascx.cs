@@ -24,6 +24,14 @@ public partial class AccountEventFeaturedViewControl : Control
             if (!IsPostBack)
             {
                 panelFeatured.Visible = (Feature != null);
+                if (Feature != null && AccountEvent != null)
+                {
+                    linkFeature.NavigateUrl = linkFeature2.HRef = linkFeature3.HRef = string.Format("AccountEventView.aspx?id={0}", Feature.DataRowId);
+                    labelFeatureName.Text = Render(AccountEvent.Name);
+                    labelFeaturePlaceCity.Text = Render(AccountEvent.PlaceCity);
+                    labelFeaturePlaceName.Text = Render(AccountEvent.PlaceName);
+                    imgFeature.Src = string.Format("AccountEventPictureThumbnail.aspx?id={0}", AccountEvent.PictureId);
+                }
             }
         }
         catch (Exception ex)
@@ -40,9 +48,6 @@ public partial class AccountEventFeaturedViewControl : Control
             {
                 object[] args = { "AccountEvent" };
                 mFeature = SessionManager.GetCachedItem<TransitFeature>(SystemService, "GetLatestFeature", args);
-
-                if (mFeature == null)
-                    return null;
             }
 
             return mFeature;

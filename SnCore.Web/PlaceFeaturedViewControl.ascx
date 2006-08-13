@@ -7,10 +7,8 @@
   <tr>
    <td width="*" valign="top" class="sncore_featured_tr_td">
     <div class="sncore_h2">
-     <a href="PlaceView.aspx?id=<% Response.Write(base.Feature.DataRowId); %>">
-      Featured Place
-      <img src="images/site/right.gif" border="0" />
-     </a>
+     <asp:HyperLink ID="linkFeature" runat="server" Text="Featured Place" />
+     <img src="images/site/right.gif" border="0" />
     </div>
     <asp:Panel CssClass="sncore_createnew" ID="panellLinks" runat="server">
      <div class="sncore_link">
@@ -22,17 +20,17 @@
       <a href="PlacesRss.aspx">&#187; rss</a> </span>
     </asp:Panel>
    </td>
-   <td width="150px" align="center" valign="top">
-    <a href="PlaceView.aspx?id=<% Response.Write(base.Feature.DataRowId); %>">
-     <img border="0" src="PlacePictureThumbnail.aspx?id=<% Response.Write(base.Place.PictureId); %>" />
+   <td width="150px" align="center" valign="top">    
+    <a runat="server" id="linkFeature2">
+     <img border="0" id="imgFeature" runat="server" />
     </a>
     <div class="sncore_description">
-     <a href="PlaceView.aspx?id=<% Response.Write(base.Place.Id); %>">
-      <% Response.Write(base.Render(base.Place.Name)); %>
+     <a runat="server" id="linkFeature3">
+      <asp:Label ID="labelFeatureName" runat="server" />
      </a>
     </div>
     <div class="sncore_description">
-     <% Response.Write(base.Render(base.Place.City)); %>
+     <asp:Label ID="labelFeatureCity" runat="server" />
     </div>
    </td>
   </tr>

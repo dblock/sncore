@@ -24,6 +24,14 @@ public partial class PlaceFeaturedViewControl : Control
             if (!IsPostBack)
             {
                 panelFeatured.Visible = (Feature != null);
+
+                if (Feature != null && Place != null)
+                {
+                    linkFeature.NavigateUrl = linkFeature2.HRef = linkFeature3.HRef = string.Format("PlaceView.aspx?id={0}", Feature.DataRowId);
+                    labelFeatureName.Text = Render(Place.Name);
+                    labelFeatureCity.Text = Render(Place.City);
+                    imgFeature.Src = string.Format("PlacePictureThumbnail.aspx?id={0}", Place.PictureId);
+                }
             }
         }
         catch (Exception ex)
@@ -40,6 +48,7 @@ public partial class PlaceFeaturedViewControl : Control
             {
                 object[] args = { "Place" };
                 mFeature = SessionManager.GetCachedItem<TransitFeature>(SystemService, "GetLatestFeature", args);
+                if (mFeature == null) mFeature = new TransitFeature();
             }
 
             return mFeature;
@@ -54,6 +63,7 @@ public partial class PlaceFeaturedViewControl : Control
             {
                 object[] args = { Feature.DataRowId };
                 mPlace = SessionManager.GetCachedItem<TransitPlace>(PlaceService, "GetPlaceById", args);
+                if (mPlace == null) mPlace = new TransitPlace();
             }
 
             return mPlace;

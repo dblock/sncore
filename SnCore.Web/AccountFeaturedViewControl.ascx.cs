@@ -24,6 +24,14 @@ public partial class AccountFeaturedViewControl : Control
             if (!IsPostBack)
             {
                 panelFeatured.Visible = (Feature != null);
+
+                if (Feature != null && Account != null)
+                {
+                    linkFeature.NavigateUrl = linkFeature2.HRef = linkFeature3.HRef = string.Format("AccountView.aspx?id={0}", Feature.DataRowId);
+                    labelFeatureName.Text = Render(Account.Name);
+                    labelFeatureDescription.Text = Render(Account.City);
+                    imgFeature.Src = string.Format("AccountPictureThumbnail.aspx?id={0}", Account.PictureId);
+                }
             }
         }
         catch (Exception ex)

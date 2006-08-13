@@ -8,10 +8,8 @@
   <tr>
    <td width="*" valign="top" class="sncore_featured_tr_td">
     <div class="sncore_h2">
-    <a href="AccountView.aspx?id=<% Response.Write(base.Feature.DataRowId); %>">
-      Featured Person
-      <img src="images/site/right.gif" border="0" />
-     </a>
+     <asp:HyperLink ID="linkFeature" runat="server" Text="Featured Person" />
+     <img src="images/site/right.gif" border="0" />
     </div>
     <asp:Panel CssClass="sncore_createnew" ID="panellLinks" runat="server">
      <div class="sncore_link">
@@ -21,21 +19,22 @@
      </div>
      <div class="sncore_link">     
       <a href="RefererAccountsView.aspx">&#187; top traffickers</a>
-      <a href="TagWordsView.aspx">&#187; tags</a> </span>
-      <a href="AccountsRss.aspx">&#187; rss</a> </span>
+      <a href="TagWordsView.aspx">&#187; tags</a>
+      <a href="AccountsRss.aspx">&#187; rss</a>
+     </div>
     </asp:Panel>
    </td>
-   <td width="150px" align="center" valign="top">
-    <a href="AccountView.aspx?id=<% Response.Write(base.Feature.DataRowId); %>">
-     <img border="0" src="AccountPictureThumbnail.aspx?id=<% Response.Write(base.Account.PictureId); %>" />
+   <td width="150px" align="center" valign="top">    
+    <a runat="server" id="linkFeature2">
+     <img border="0" id="imgFeature" runat="server" />
     </a>
     <div class="sncore_description">
-     <a href="AccountView.aspx?id=<% Response.Write(base.Account.Id); %>">
-      <% Response.Write(base.Render(base.Account.Name)); %>
+     <a runat="server" id="linkFeature3">
+      <asp:Label ID="labelFeatureName" runat="server" />
      </a>
     </div>
     <div class="sncore_description">
-     <% Response.Write(base.Render(base.Account.City)); %>
+     <asp:Label ID="labelFeatureDescription" runat="server" />
     </div>
    </td>
   </tr>

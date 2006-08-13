@@ -7,10 +7,8 @@
   <tr>
    <td width="*" valign="top" class="sncore_featured_tr_td">
     <div class="sncore_h2">
-     <a href="AccountFeedView.aspx?id=<% Response.Write(base.AccountFeed.Id); %>">
-      Featured Feed
-      <img src="images/site/right.gif" border="0" />
-     </a>
+     <asp:HyperLink ID="linkFeature" runat="server" Text="Featured Feed" />
+     <img src="images/site/right.gif" border="0" />
     </div>
     <asp:Panel CssClass="sncore_createnew" ID="panellLinks" runat="server">
      <div class="sncore_link">
@@ -24,13 +22,13 @@
      </div>
     </asp:Panel>
    </td>
-   <td width="150px" align="center" valign="top">
-    <a href="AccountFeedView.aspx?id=<% Response.Write(base.Feature.DataRowId); %>">
-     <img border="0" src="AccountPictureThumbnail.aspx?id=<% Response.Write(base.AccountFeed.AccountPictureId); %>" />
+   <td width="150px" align="center" valign="top">    
+    <a runat="server" id="linkFeature2">
+     <img border="0" id="imgFeature" runat="server" />
     </a>
     <div class="sncore_description">
-     <a href="AccountFeedView.aspx?id=<% Response.Write(base.AccountFeed.Id); %>">
-      <% Response.Write(base.Render(base.AccountFeed.Name)); %>
+     <a runat="server" id="linkFeature3">
+      <asp:Label ID="labelFeatureName" runat="server" />
      </a>
     </div>
    </td>
