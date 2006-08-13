@@ -2,7 +2,7 @@
 pushd "%~dp0"
 setlocal
 
-set PROJECTNAME=Savory
+set PROJECTNAME=SnCore
 set TARGET=%~dp0%PROJECTNAME%
 echo Creating %TARGET% ...
 if EXIST "%TARGET%" ( rd /s/q "%TARGET%" )
