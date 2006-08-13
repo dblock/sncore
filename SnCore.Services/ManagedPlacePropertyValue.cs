@@ -12,6 +12,37 @@ using System.IO;
 
 namespace SnCore.Services
 {
+    public class TransitDistinctPlacePropertyValue
+    {
+        private string mValue;
+
+        public string Value
+        {
+            get
+            {
+                return mValue;
+            }
+            set
+            {
+                mValue = value;
+            }
+        }
+
+        private int mCount;
+
+        public int Count
+        {
+            get
+            {
+                return mCount;
+            }
+            set
+            {
+                mCount = value;
+            }
+        }
+    }
+
     public class TransitPlacePropertyValue : TransitService
     {
         private int mPlaceId;
