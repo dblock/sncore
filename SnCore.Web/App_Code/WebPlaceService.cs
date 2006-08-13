@@ -13,6 +13,7 @@ using Microsoft.Web.Services3.Design;
 using System.Reflection;
 using System.Web.Services.Protocols;
 using SnCore.Tools.Web;
+using System.Collections.Specialized;
 
 namespace SnCore.WebServices
 {
@@ -1655,6 +1656,54 @@ namespace SnCore.WebServices
         #endregion
 
         #region Place Property Value
+
+        /// <summary>
+        /// Get distinct place property values.
+        /// </summary>
+        /// <returns>list of possible values</returns>
+        [WebMethod(Description = "Get distinct place property values.")]
+        public List<TransitDistinctPlacePropertyValue> GetDistinctPropertyValues(string groupname, string propertyname)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                IQuery query = session.CreateQuery(
+                   "SELECT ppv FROM PlacePropertyValue ppv, PlacePropertyGroup ppg, PlaceProperty pp" +
+                   " WHERE pp.PlacePropertyGroup.Id = ppg.Id" +
+                   " AND ppv.PlaceProperty.Id = pp.Id" +
+                   " AND ppg.Name = '" + Renderer.SqlEncode(groupname) + "'" +
+                   " AND pp.Name = '" + Renderer.SqlEncode(propertyname) + "'");
+
+                IList list = query.List();
+
+                SortedDictionary<string, TransitDistinctPlacePropertyValue> dict = new SortedDictionary<string, TransitDistinctPlacePropertyValue>();
+                
+                foreach (PlacePropertyValue pv in list)
+                {
+                    TransitDistinctPlacePropertyValue tdppv = null;
+                    if (! dict.TryGetValue(pv.Value, out tdppv))
+                    {
+                        tdppv = new TransitDistinctPlacePropertyValue();
+                        tdppv.Count = 1;
+                        tdppv.Value = pv.Value;
+                        dict.Add(pv.Value, tdppv);
+                    }
+                    else
+                    {
+                        tdppv.Count++;
+                    }
+                }
+
+                List<TransitDistinctPlacePropertyValue> result = new List<TransitDistinctPlacePropertyValue>(dict.Count);
+                foreach (KeyValuePair<string, TransitDistinctPlacePropertyValue> tv in dict)
+                {
+                    result.Add(tv.Value);
+                }
+
+                return result;
+            }
+        }
 
         /// <summary>
         /// Get places that match a property value by name.
