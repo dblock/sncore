@@ -1681,17 +1681,35 @@ namespace SnCore.WebServices
                 
                 foreach (PlacePropertyValue pv in list)
                 {
-                    TransitDistinctPlacePropertyValue tdppv = null;
-                    if (! dict.TryGetValue(pv.Value, out tdppv))
+                    StringCollection values = new StringCollection();
+
+                    switch(pv.PlaceProperty.TypeName)
                     {
-                        tdppv = new TransitDistinctPlacePropertyValue();
-                        tdppv.Count = 1;
-                        tdppv.Value = pv.Value;
-                        dict.Add(pv.Value, tdppv);
+                        case "System.Array":
+                            values.AddRange(pv.Value.Split("\"".ToCharArray()));
+                            break;
+                        default:
+                            values.Add(pv.Value);
+                            break;
                     }
-                    else
+
+                    foreach(string s in values)
                     {
-                        tdppv.Count++;
+                        if (s.Length > 0)
+                        {
+                            TransitDistinctPlacePropertyValue tdppv = null;
+                            if (!dict.TryGetValue(s, out tdppv))
+                            {
+                                tdppv = new TransitDistinctPlacePropertyValue();
+                                tdppv.Count = 1;
+                                tdppv.Value = s;
+                                dict.Add(s, tdppv);
+                            }
+                            else
+                            {
+                                tdppv.Count++;
+                            }
+                        }
                     }
                 }
 
@@ -1721,10 +1739,13 @@ namespace SnCore.WebServices
                    "SELECT {place.*} FROM PlaceProperty p, PlacePropertyGroup g, PlacePropertyValue v, Place {place}" +
                    " WHERE {place}.Place_Id = v.Place_Id" +
                    " AND v.Place_Id = {place}.Place_Id" +
+                   " AND v.PlaceProperty_Id = p.PlaceProperty_Id" +
                    " AND p.PlacePropertyGroup_Id = g.PlacePropertyGroup_Id" +
                    " AND p.Name = '" + Renderer.SqlEncode(propertyname) + "'" +
-                   " AND v.Value LIKE '" + Renderer.SqlEncode(propertyvalue) + "'" +
-                   " AND g.Name = '" + Renderer.SqlEncode(groupname) + "'",
+                   " AND (" +
+                   "  v.Value LIKE '" + Renderer.SqlEncode(propertyvalue) + "'" +
+                   "  OR v.Value LIKE '%\"" + Renderer.SqlEncode(propertyvalue) + "\"%'" +
+                   " ) AND g.Name = '" + Renderer.SqlEncode(groupname) + "'",
                    "place",
                    typeof(Place));
 
@@ -1759,17 +1780,17 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
-                IQuery query = session.CreateQuery(string.Format(
+                IQuery query = session.CreateQuery(
                    "SELECT COUNT(place) FROM PlaceProperty p, PlacePropertyGroup g, PlacePropertyValue v, Place place" +
                    " WHERE place.Id = v.Place.Id" +
                    " AND v.Place.Id = place.Id" +
+                   " AND v.PlaceProperty.Id = p.Id" +
                    " AND p.PlacePropertyGroup.Id = g.Id" +
-                   " AND p.Name = '{0}'" +
-                   " AND v.Value LIKE '{1}'" +
-                   " AND g.Name = '{2}'"
-                   , Renderer.SqlEncode(propertyname)
-                   , Renderer.SqlEncode(propertyvalue)
-                   , Renderer.SqlEncode(groupname)));
+                   " AND p.Name = '" + Renderer.SqlEncode(propertyname) + "'" +
+                   " AND (" +
+                   "  v.Value LIKE '" + Renderer.SqlEncode(propertyvalue) + "'" +
+                   "  OR v.Value LIKE '%\"" + Renderer.SqlEncode(propertyvalue) + "\"%'" +
+                   " ) AND g.Name = '" + Renderer.SqlEncode(groupname) + "'");
 
                 return (int) query.UniqueResult();
             }

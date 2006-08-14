@@ -2344,10 +2344,13 @@ namespace SnCore.WebServices
                    "SELECT {account.*} FROM AccountProperty p, AccountPropertyGroup g, AccountPropertyValue v, Account {account}" +
                    " WHERE {account}.Account_Id = v.Account_Id" +
                    " AND v.Account_Id = {account}.Account_Id" +
+                   " AND v.AccountProperty_Id = p.AccountProperty_Id" +
                    " AND p.AccountPropertyGroup_Id = g.AccountPropertyGroup_Id" +
                    " AND p.Name = '" + Renderer.SqlEncode(propertyname) + "'" +
-                   " AND v.Value LIKE '" + Renderer.SqlEncode(propertyvalue) + "'" +
-                   " AND g.Name = '" + Renderer.SqlEncode(groupname) + "'",
+                   " AND (" +
+                   "  v.Value LIKE '" + Renderer.SqlEncode(propertyvalue) + "'" +
+                   "  OR v.Value LIKE '%{" + Renderer.SqlEncode(propertyvalue) + "}%'" +
+                   " ) AND g.Name = '" + Renderer.SqlEncode(groupname) + "'",
                    "account",
                    typeof(Account));
 
@@ -2382,17 +2385,17 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
-                IQuery query = session.CreateQuery(string.Format(
+                IQuery query = session.CreateQuery(
                    "SELECT COUNT(account) FROM AccountProperty p, AccountPropertyGroup g, AccountPropertyValue v, Account account" +
                    " WHERE account.Id = v.Account.Id" +
                    " AND v.Account.Id = account.Id" +
+                   " AND v.AccountProperty.Id = p.Id" +
                    " AND p.AccountPropertyGroup.Id = g.Id" +
-                   " AND p.Name = '{0}'" +
-                   " AND v.Value LIKE '{1}'" +
-                   " AND g.Name = '{2}'"
-                   , Renderer.SqlEncode(propertyname)
-                   , Renderer.SqlEncode(propertyvalue)
-                   , Renderer.SqlEncode(groupname)));
+                   " AND p.Name = '" + Renderer.SqlEncode(propertyname) + "'" +
+                   " AND (" +
+                   "  v.Value LIKE '" + Renderer.SqlEncode(propertyvalue) + "'" +
+                   "  OR v.Value LIKE '%{" + Renderer.SqlEncode(propertyvalue) + "}%'" +
+                   " ) AND g.Name = '" + Renderer.SqlEncode(groupname) + "'");
 
                 return (int)query.UniqueResult();
             }

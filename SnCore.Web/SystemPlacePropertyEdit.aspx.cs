@@ -31,9 +31,11 @@ public partial class SystemPlacePropertyEdit : AuthenticatedPage
             {
                 linkBack.NavigateUrl = string.Format("SystemPlacePropertyGroupEdit.aspx?id={0}", PropertyGroupId);
 
-                inputTypeName.Items.Add(new ListItem(Type.GetType("System.Int32").ToString()));
-                inputTypeName.Items.Add(new ListItem(Type.GetType("System.Boolean").ToString()));
-                inputTypeName.Items.Add(new ListItem(Type.GetType("System.String").ToString()));
+                inputTypeName.Items.Add(new ListItem("String", Type.GetType("System.String").ToString()));
+                inputTypeName.Items.Add(new ListItem("Array", Type.GetType("System.Array").ToString()));
+                inputTypeName.Items.Add(new ListItem("Text", Type.GetType("System.Text.StringBuilder").ToString()));
+                inputTypeName.Items.Add(new ListItem("Integer", Type.GetType("System.Int32").ToString()));
+                inputTypeName.Items.Add(new ListItem("Boolean", Type.GetType("System.Boolean").ToString()));
                 // inputTypeName.Items.Add(new ListItem(Type.GetType("System.DateTime").ToString()));
                     
                 if (RequestId > 0)

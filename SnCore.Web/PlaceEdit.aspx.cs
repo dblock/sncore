@@ -70,6 +70,8 @@ public partial class PlaceEdit : AuthenticatedPage
                     selectType.Items.FindByValue(place.Type).Selected = true;
                     LocationSelector.SelectLocation(sender, new LocationEventArgs(place));
                     linkPlaceId.Text = Renderer.Render(place.Name);
+                    linkEditAttributes.NavigateUrl = string.Format("PlaceAttributesManage.aspx?id={0}", place.Id);
+                    linkEditProperties.NavigateUrl = string.Format("PlacePropertyGroupEdit.aspx?pid={0}", place.Id);
                 }
                 else
                 {
@@ -90,6 +92,8 @@ public partial class PlaceEdit : AuthenticatedPage
 
                     linkPlaceId.Text = "New Place";
                     linkDelete.Visible = false;
+                    linkEditAttributes.Visible = false;
+                    linkEditProperties.Visible = false;
                 }
             }
 

@@ -212,6 +212,7 @@ public partial class PlaceView : Page
 
                     linkAdminEdit.NavigateUrl = string.Format("PlaceEdit.aspx?id={0}", place.Id);
                     linkAdminAttributes.NavigateUrl = string.Format("PlaceAttributesManage.aspx?id={0}", place.Id);
+                    linkAdminProperties.NavigateUrl = string.Format("PlacePropertyGroupEdit.aspx?pid={0}", place.Id);
 
                     placeWebsite.NavigateUrl = place.Website;
                     placeWebsite.Text = Renderer.Render(place.Website);
