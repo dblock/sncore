@@ -421,7 +421,15 @@ namespace SnCore.Services
                 mAccountFeed.Description = feed.Tagline.Content;
 
             if (string.IsNullOrEmpty(mAccountFeed.LinkUrl) && feed.Links.Count > 0)
-                mAccountFeed.LinkUrl = feed.Links[0].HRef.ToString();
+            {
+                foreach (AtomLink link in feed.Links)
+                {
+                    if (link.Rel == Relationship.Alternate)
+                    {
+                        mAccountFeed.LinkUrl = link.HRef.ToString();
+                    }
+                }
+            }
 
             foreach (AtomEntry atomitem in feed.Entries)
             {
@@ -484,7 +492,18 @@ namespace SnCore.Services
                 }
 
                 item.Title = atomitem.Title.Content;
-                if (atomitem.Links.Count > 0) item.Link = atomitem.Links[0].HRef.ToString();
+                
+                if (atomitem.Links.Count > 0)
+                {
+                    foreach (AtomLink link in atomitem.Links)
+                    {
+                        if (link.Rel == Relationship.Alternate)
+                        {
+                            item.Link = link.HRef.ToString();
+                        }
+                    }
+                }
+
                 if (atomitem.Id != null && !string.IsNullOrEmpty(atomitem.Id.ToString())) item.Guid = atomitem.Id.ToString();
                 if (atomitem.Created != null && atomitem.Created.DateTime.Ticks > 0) item.Created = atomitem.Created.DateTime.ToUniversalTime();
 
@@ -573,8 +592,11 @@ namespace SnCore.Services
 
             try
             {
-                foreach (AccountFeedItem item in deleted)
-                    Session.Delete(item);
+                if (deleted != null)
+                {
+                    foreach (AccountFeedItem item in deleted)
+                        Session.Delete(item);
+                }
 
                 foreach (AccountFeedItem item in updated)
                     Session.SaveOrUpdate(item);
