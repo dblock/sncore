@@ -644,7 +644,7 @@ namespace SnCore.Services
         {
             List<TransitCounter> result = new List<TransitCounter>();
             DateTime now = DateTime.UtcNow;
-            DateTime ts = now.AddMonths(-2);
+            DateTime ts = now.AddYears(-1);
 
             while (ts.DayOfWeek != DayOfWeek.Sunday)
                 ts = ts.AddDays(-1);
