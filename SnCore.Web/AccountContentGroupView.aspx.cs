@@ -23,7 +23,7 @@ public partial class AccountContentGroupView : Page
             if (!IsPostBack)
             {
                 TransitAccountContentGroup group = ContentService.GetAccountContentGroupById(SessionManager.Ticket, RequestId);
-                labelName.Text = Renderer.Render(group.Name);
+                Title = labelName.Text = Renderer.Render(group.Name);
                 labelDescription.Text = Renderer.Render(group.Description);
 
                 linkRelRss.Attributes["href"] = linkRss.NavigateUrl = string.Format("AccountContentGroupViewRss.aspx?id={0}", RequestId);
