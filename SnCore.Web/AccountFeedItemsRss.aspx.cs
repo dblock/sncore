@@ -70,6 +70,7 @@ public partial class AccountFeedItemsRss : Page
     {
         Uri uri = null;
         Uri.TryCreate(link, UriKind.Absolute, out uri);
-        return Renderer.CleanHtml(summary, uri);
+        Uri imgrewriteuri = new Uri(SessionManager.WebsiteUrl.TrimEnd("/".ToCharArray()) + "/AccountFeedItemPicture.aspx?Src={url}", UriKind.Absolute);
+        return Renderer.CleanHtml(summary, uri, imgrewriteuri);
     }
 }

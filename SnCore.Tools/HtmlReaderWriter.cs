@@ -98,6 +98,7 @@ namespace SnCore.Tools.Web.Html
         /// Base href to adjust images and links
         /// </summary>
         public Uri BaseHref = null;
+        public Uri RewriteImgSrc = null;
 
         public HtmlWriter(TextWriter writer)
             : base(writer)
@@ -239,6 +240,16 @@ namespace SnCore.Tools.Web.Html
                                             case "src":
                                             case "href":
                                                 value = new Uri(BaseHref, reader.Value).ToString();
+                                                break;
+                                        }
+                                    }
+
+                                    if (RewriteImgSrc != null)
+                                    {
+                                        switch (attributename)
+                                        {
+                                            case "src":
+                                                value = RewriteImgSrc.ToString().Replace("{url}", Renderer.UrlEncode(value));
                                                 break;
                                         }
                                     }

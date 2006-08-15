@@ -75,10 +75,10 @@ namespace SnCore.Tools.Web
 
         public static string CleanHtml(string html)
         {
-            return CleanHtml(html, null);
+            return CleanHtml(html, null, null);
         }
 
-        public static string CleanHtml(string html, Uri basehref)
+        public static string CleanHtml(string html, Uri basehref, Uri rewriteimgsrc)
         {
             try
             {
@@ -86,6 +86,7 @@ namespace SnCore.Tools.Web
                 StringWriter sw = new StringWriter();
                 Html.HtmlWriter w = new Html.HtmlWriter(sw);
                 w.BaseHref = basehref;
+                w.RewriteImgSrc = rewriteimgsrc;
                 while (! r.EOF)
                 {
                     w.WriteNode(r, true);

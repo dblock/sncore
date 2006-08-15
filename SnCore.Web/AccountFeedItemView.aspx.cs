@@ -42,8 +42,11 @@ public partial class AccountFeedItemView : Page
                 FeedXPosted.NavigateUrl = Render(tfi.Link);
 
                 FeedItemTitle.Text = Renderer.Render(tfi.Title);
+                
+                Uri imgrewriteuri = new Uri(SessionManager.WebsiteUrl.TrimEnd("/".ToCharArray()) + "/AccountFeedItemPicture.aspx?Src={url}", UriKind.Absolute);
                 FeedItemDescription.Text = Renderer.CleanHtml(tfi.Description, 
-                    Uri.IsWellFormedUriString(tfi.Link, UriKind.Absolute) ? new Uri(tfi.Link) : null);
+                    Uri.IsWellFormedUriString(tfi.Link, UriKind.Absolute) ? new Uri(tfi.Link) : null,
+                    imgrewriteuri);
 
                 FeedItemComments.DiscussionId = DiscussionService.GetAccountFeedItemDiscussionId(RequestId);
                 FeedItemComments.DataBind();

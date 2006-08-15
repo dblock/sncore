@@ -161,10 +161,19 @@ namespace SnCore.WebServices
 
                 if (feed.AccountId == 0) feed.AccountId = user.Id;
                 ManagedAccount account = new ManagedAccount(session, feed.AccountId);
-                int result = account.CreateOrUpdate(feed);
+                feed.Id = account.CreateOrUpdate(feed);
+
+                try
+                {
+                    ManagedAccountFeed m_feed = new ManagedAccountFeed(session, feed.Id);
+                    m_feed.Update();
+                }
+                catch
+                {
+                }
 
                 SnCore.Data.Hibernate.Session.Flush();
-                return result;
+                return feed.Id;
             }
         }
 

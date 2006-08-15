@@ -20,15 +20,21 @@ public partial class AccountFeedsManage : AuthenticatedPage
 
             if (!IsPostBack)
             {
-                gridManage.VirtualItemCount = SyndicationService.GetAccountFeedsCount(SessionManager.Ticket);
-                gridManage_OnGetDataSource(this, null);
-                gridManage.DataBind();
+                GetData(sender, e);
             }
         }
         catch (Exception ex)
         {
             ReportException(ex);
         }
+    }
+
+    public void GetData(object sender, EventArgs e)
+    {
+        gridManage.CurrentPageIndex = 0;
+        gridManage.VirtualItemCount = SyndicationService.GetAccountFeedsCount(SessionManager.Ticket);
+        gridManage_OnGetDataSource(this, null);
+        gridManage.DataBind();
     }
 
     private enum Cells
@@ -62,9 +68,7 @@ public partial class AccountFeedsManage : AuthenticatedPage
                         int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
                         SyndicationService.DeleteAccountFeed(SessionManager.Ticket, id);
                         ReportInfo("Feed deleted.");
-                        gridManage.CurrentPageIndex = 0;
-                        gridManage_OnGetDataSource(sender, e);
-                        gridManage.DataBind();
+                        GetData(sender, e);
                     }
                     break;
                 case "Update":
@@ -75,7 +79,6 @@ public partial class AccountFeedsManage : AuthenticatedPage
                         ReportInfo(string.Format("Feed updated with {0} new item{1} and {2} new image{3}.",
                             item_count, item_count == 1 ? string.Empty : "s",
                             image_count, image_count == 1 ? string.Empty : "s"));
-                        gridManage.CurrentPageIndex = 0;
                         gridManage_OnGetDataSource(sender, e);
                         gridManage.DataBind();
                     }
