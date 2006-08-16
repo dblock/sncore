@@ -648,18 +648,6 @@ public class SessionManager
         }
     }
 
-    static Regex CommentExpression = new Regex(@"^>(.*)", RegexOptions.Multiline);
-
-    private string CommentHandler(Match ParameterMatch)
-    {
-        return "<span class='sncore_post_quote'>" + ParameterMatch.Value + "</span>";
-    }
-
-    private string DeleteCommentHandler(Match ParameterMatch)
-    {
-        return string.Empty;
-    }
-
     static Regex MarkupExpression = new Regex(@"(?<tag>[\[]+)(?<name>[\w\s]*):(?<value>[\w\s\'\-!]*)[\]]+",
         RegexOptions.IgnoreCase);
 
@@ -714,36 +702,6 @@ public class SessionManager
         MatchEvaluator mhd = new MatchEvaluator(ReferenceHandler);
         return MarkupExpression.Replace(s, mhd);
     }
-
-    public string RenderComments(object s)
-    {
-        if (s == null) return string.Empty;
-        return RenderComments(s.ToString());
-    }
-
-    public string RenderComments(string s)
-    {
-        if (string.IsNullOrEmpty(s)) return string.Empty;
-        MatchEvaluator mev = new MatchEvaluator(CommentHandler);
-        return CommentExpression.Replace(s, mev);
-    }
-
-    public string DeleteComments(string s)
-    {
-        MatchEvaluator mev = new MatchEvaluator(DeleteCommentHandler);
-        string result = CommentExpression.Replace(s, mev);
-
-        for (int i = result.Length - 1; i > 0; i--)
-        {
-            if (result[i] == '\n' && result[i - 1] == '\n')
-            {
-                result = result.Remove(i, 1);
-            }
-        }
-
-        return result;
-    }
-
 
     public string MarkupClearHandler(Match ParameterMatch)
     {

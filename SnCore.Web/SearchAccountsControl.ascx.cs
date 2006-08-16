@@ -39,11 +39,6 @@ public partial class SearchAccountsControl : Control
         }
     }
 
-    public new string RenderEx(object s)
-    {
-        return base.RenderEx(SessionManager.RenderComments(s));
-    }
-
     public void GetResults()
     {
         gridResults.CurrentPageIndex = 0;        

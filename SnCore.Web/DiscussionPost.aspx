@@ -1,6 +1,7 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="DiscussionPost.aspx.cs"
  Inherits="DiscussionPostNew" Title="Discussion Post" %>
 
+<%@ Register TagPrefix="FTB" Namespace="FreeTextBoxControls" Assembly="FreeTextBox" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <div class="sncore_navigate">
@@ -84,25 +85,7 @@
     body:
    </td>
    <td class="sncore_form_value">
-    <asp:TextBox CssClass="sncore_form_textbox" ID="inputBody" TextMode="MultiLine" Rows="10"
-     runat="server" />
-    <asp:RequiredFieldValidator ID="inputBodyRequired" runat="server" ControlToValidate="inputBody"
-     CssClass="sncore_form_validator" ErrorMessage="some content is required" Display="Dynamic" />
-    <div class="sncore_description">
-     some well formed html and <a href="/docs/html/faq.html#faq_discussions_tags" target="_blank">
-      bbtags</a> allowed
-    </div>
-   </td>
-  </tr>
-  <tr>
-   <td class="sncore_form_label">
-    signature:
-    <br />
-    <a class="sncore_link_small" href="AccountPreferencesManage.aspx">&#187; edit</a>
-   </td>
-   <td class="sncore_form_value">
-    <asp:TextBox CssClass="sncore_form_textbox" ID="inputSignature" TextMode="MultiLine"
-     Rows="3" runat="server" />
+    <FTB:FreeTextBox id="inputBody" runat="Server" />
    </td>
   </tr>
   <tr>

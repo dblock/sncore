@@ -1,6 +1,7 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="AccountBlogPost.aspx.cs"
  Inherits="AccountBlogPostNew" Title="Blog | Post" %>
 
+<%@ Register TagPrefix="FTB" Namespace="FreeTextBoxControls" Assembly="FreeTextBox" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -44,10 +45,7 @@
     post:
    </td>
    <td class="sncore_form_value">
-    <asp:TextBox CssClass="sncore_form_textbox" ID="inputBody" runat="server" TextMode="MultiLine"
-     Rows="10" />
-    <asp:RequiredFieldValidator ID="inputBodyRequired" runat="server" ControlToValidate="inputBody"
-     CssClass="sncore_form_validator" ErrorMessage="message is required" Display="Dynamic" />
+    <FTB:FreeTextBox ID="inputBody" runat="Server" />
    </td>
   </tr>
   <tr>

@@ -15,11 +15,6 @@ using SnCore.Services;
 
 public partial class DiscussionFullViewControl : Control
 {
-    public new string RenderEx(object s)
-    {
-        return base.RenderEx(SessionManager.RenderComments(s));
-    }
-
     public string Text
     {
         get

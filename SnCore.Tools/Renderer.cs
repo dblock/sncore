@@ -198,6 +198,8 @@ namespace SnCore.Tools.Web
                 Add("[/image]", "\"/>");
                 Add("[center]", "<div style=\"text-align: center;\">");
                 Add("[/center]", "</div>");
+                Add("[quote]", "<div class=\"sncore_quote\">");
+                Add("[/quote]", "</div>");
             }
         };
 

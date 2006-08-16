@@ -16,11 +16,6 @@ using System.Collections.Generic;
 
 public partial class DiscussionThreadViewControl : Control
 {
-    public new string RenderEx(object s)
-    {
-        return base.RenderEx(SessionManager.RenderComments(s));
-    }
-
     public void Page_Load(object sender, EventArgs e)
     {
         try

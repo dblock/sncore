@@ -53,11 +53,10 @@ public partial class AccountMessageEdit : AuthenticatedPage
                     messageSubject.Text = Renderer.Render(rp.Subject);
                     inputSubject.Text = rp.Subject.StartsWith("Re:") ? rp.Subject : "Re: " + rp.Subject;
                     inputBody.Text =
-                        "> " + rp.SenderAccountName + " wrote:\n" +
-                        "> " + SessionManager.DeleteComments(rp.Body).Replace("\n", "\n> ") + "\n";
+                        "[quote]<BR />" + rp.SenderAccountName + " wrote:<BR />" +
+                        rp.Body +
+                        "<BR />[/quote]<BR /><BR />";
                 }
-
-                inputBody.Focus();
 
                 if (!AccountService.HasVerifiedEmail(SessionManager.Ticket))
                 {

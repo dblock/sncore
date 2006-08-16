@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using System.Text;
 
 public partial class DiscussionPostNew : AuthenticatedPage
 {
@@ -68,20 +69,22 @@ public partial class DiscussionPostNew : AuthenticatedPage
                     discussionDescription.Text = Renderer.Render(td.Description);
                 }
 
+                StringBuilder body = new StringBuilder();
+
                 if (PostId > 0)
                 {
                     TransitDiscussionPost tw = DiscussionService.GetDiscussionPostById(SessionManager.Ticket, PostId);
                     inputSubject.Text = tw.Subject;
-                    inputBody.Text = tw.Body;
+                    body.Append(tw.Body);
                 }
-
+                
                 if (ParentId > 0)
                 {
                     TransitDiscussionPost rp = DiscussionService.GetDiscussionPostById(SessionManager.Ticket, ParentId);
                     panelReplyTo.Visible = true;
                     replytoSenderName.NavigateUrl = accountlink.HRef = "AccountView.aspx?id=" + rp.AccountId.ToString();
-                    replytoSenderName.Text = replytoAccount.Text = Renderer.Render(rp.AccountName);                    
-                    replyToBody.Text = base.RenderEx(SessionManager.RenderComments(rp.Body));
+                    replytoSenderName.Text = replytoAccount.Text = Renderer.Render(rp.AccountName);
+                    replyToBody.Text = base.RenderEx(rp.Body);
                     replytoCreated.Text = rp.Created.ToString();
                     replytoImage.ImageUrl = "AccountPictureThumbnail.aspx?id=" + rp.AccountPictureId.ToString();
                     replytoSubject.Text = Renderer.Render(rp.Subject);
@@ -89,22 +92,22 @@ public partial class DiscussionPostNew : AuthenticatedPage
 
                     if (Quote)
                     {
-                        inputBody.Text =
-                            "> " + rp.AccountName + " wrote:\n" +
-                            "> " + SessionManager.DeleteComments(rp.Body).Replace("\n", "\n> ") + "\n\n";
+                        body.Append("[quote]<BR />");
+                        body.Append(rp.AccountName);
+                        body.Append(" wrote:<BR />");
+                        body.Append(rp.Body);
+                        body.Append("[/quote]<BR /><BR />");
                     }
                 }
-
-                if (PostId == 0 && !string.IsNullOrEmpty(SessionManager.Account.Signature))
+                
+                if ((ParentId == 0) && (PostId == 0 || ! Quote) && ! string.IsNullOrEmpty(SessionManager.Account.Signature))
                 {
-                    inputSignature.Text = SessionManager.Account.Signature;
-                }
-                else
-                {
-                    inputSignature.Enabled = false;
+                    body.Append("<br>");
+                    body.Append(Renderer.RenderEx(SessionManager.Account.Signature));
                 }
 
-                inputBody.Focus();
+
+                inputBody.Text = body.ToString();
             }
 
             if (!AccountService.HasVerifiedEmail(SessionManager.Ticket))
@@ -129,10 +132,6 @@ public partial class DiscussionPostNew : AuthenticatedPage
             tw.Subject = inputSubject.Text;
             if (string.IsNullOrEmpty(tw.Subject)) tw.Subject = "Untitled";
             tw.Body = inputBody.Text;
-            if (!string.IsNullOrEmpty(inputSignature.Text))
-            {
-                tw.Body = tw.Body + "\n" + inputSignature.Text;
-            }
             tw.Id = PostId;
             tw.DiscussionPostParentId = ParentId;
             tw.DiscussionId = DiscussionId;
