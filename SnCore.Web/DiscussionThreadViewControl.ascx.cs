@@ -16,6 +16,16 @@ using System.Collections.Generic;
 
 public partial class DiscussionThreadViewControl : Control
 {
+    public string ReturnUrl
+    {
+        get
+        {
+            string result = Request.QueryString["ReturnUrl"];
+            if (string.IsNullOrEmpty(result)) result = "DiscussionThreadsView.aspx";
+            return result;
+        }
+    }
+
     public void Page_Load(object sender, EventArgs e)
     {
         try
@@ -23,13 +33,16 @@ public partial class DiscussionThreadViewControl : Control
             discussionThreadView.OnGetDataSource += new EventHandler(discussionThreadView_OnGetDataSource);
             if (!IsPostBack)
             {
-                linkBack.NavigateUrl = Request.QueryString["ReturnUrl"];
+                linkBack.NavigateUrl = ReturnUrl;
 
                 if (DiscussionId > 0)
                 {
                     TransitDiscussion d = DiscussionService.GetDiscussionById(DiscussionId);
                     discussionLabel.Text = Renderer.Render(d.Name);
                     discussionDescription.Text = Renderer.Render(d.Description);
+                    linkNew.NavigateUrl = string.Format("DiscussionPost.aspx?did={0}&ReturnUrl={1}",
+                        d.Id, Renderer.UrlEncode(ReturnUrl));
+                    linkNew.Visible = (d.Personal == false);
                 }
 
                 GetData(sender, e);

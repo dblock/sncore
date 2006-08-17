@@ -1,3 +1,4 @@
+
 using System;
 using System.Data;
 using System.Configuration;
@@ -92,18 +93,17 @@ public partial class DiscussionPostNew : AuthenticatedPage
 
                     if (Quote)
                     {
-                        body.Append("[quote]<BR />");
-                        body.Append(rp.AccountName);
-                        body.Append(" wrote:<BR />");
-                        body.Append(rp.Body);
-                        body.Append("[/quote]<BR /><BR />");
+                        body.AppendFormat("<P>[quote]<DIV>on {0} {1} wrote:</DIV><DIV>{2}</DIV>[/quote]</P>", 
+                            rp.Created.ToString("d"), rp.AccountName, rp.Body);
                     }
                 }
                 
-                if ((ParentId == 0) && (PostId == 0 || ! Quote) && ! string.IsNullOrEmpty(SessionManager.Account.Signature))
+                if ((PostId == 0) && ! string.IsNullOrEmpty(SessionManager.Account.Signature))
                 {
-                    body.Append("<br>");
+                    body.Append("<BR /><BR />");
+                    body.Append("<P>");
                     body.Append(Renderer.RenderEx(SessionManager.Account.Signature));
+                    body.Append("</P>");
                 }
 
 

@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using System.Text;
 
 public partial class AccountMessageEdit : AuthenticatedPage
 {
@@ -35,6 +36,8 @@ public partial class AccountMessageEdit : AuthenticatedPage
                 linkAccountTo.NavigateUrl = linkAccountTo2.HRef = "AccountView.aspx?id=" + ta.Id.ToString();
                 linkBack.NavigateUrl = Renderer.UrlDecode(Request.QueryString["ReturnUrl"]);
 
+                StringBuilder body = new StringBuilder();
+
                 if (ParentId != 0)
                 {
                     TransitAccountMessage rp = AccountService.GetAccountMessageById(
@@ -52,11 +55,20 @@ public partial class AccountMessageEdit : AuthenticatedPage
                     replytoImage.ImageUrl = "AccountPictureThumbnail.aspx?id=" + rp.SenderAccountPictureId.ToString();
                     messageSubject.Text = Renderer.Render(rp.Subject);
                     inputSubject.Text = rp.Subject.StartsWith("Re:") ? rp.Subject : "Re: " + rp.Subject;
-                    inputBody.Text =
-                        "[quote]<BR />" + rp.SenderAccountName + " wrote:<BR />" +
-                        rp.Body +
-                        "<BR />[/quote]<BR /><BR />";
+                    
+                    body.AppendFormat("<P>[quote]<DIV>on {0} {1} wrote:</DIV><DIV>{2}</DIV>[/quote]</P>",
+                            rp.Sent.ToString("d"), rp.SenderAccountName, rp.Body);
                 }
+
+                if (! string.IsNullOrEmpty(SessionManager.Account.Signature))
+                {
+                    body.Append("<BR /><BR />");
+                    body.Append("<P>");
+                    body.Append(Renderer.RenderEx(SessionManager.Account.Signature));
+                    body.Append("</P>");
+                }
+
+                inputBody.Text = body.ToString();
 
                 if (!AccountService.HasVerifiedEmail(SessionManager.Ticket))
                 {

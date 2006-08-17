@@ -17,6 +17,7 @@
  <asp:HyperLink ID="linkBack" Text="&#187; Back" runat="server" />
  <a href="DiscussionThreadsView.aspx">&#187; New Posts</a>
  <a href="DiscussionsView.aspx">&#187; All Forums</a>
+ <asp:HyperLink ID="linkNew" runat="server" Text="&#187; Post New" />
  <asp:HyperLink ID="linkMove" runat="server" Text="&#187; Move Thread" />
 </div>
 <SnCoreWebControls:PagedGrid CellPadding="4" ShowHeader="false" runat="server" ID="discussionThreadView"
