@@ -16,7 +16,7 @@ using System.Web.Caching;
 
 public partial class TagWordsView : AccountPersonPage
 {
-    private int mCount = 50;
+    private int mCount = 200;
     private int mMinFrequency = -1;
     private int mMaxFrequency = -1;
     private static int minFontSize = 12;

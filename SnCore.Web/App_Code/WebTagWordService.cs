@@ -57,6 +57,35 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
+        /// Create or update tag words.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="tagwords">transit tag words</param>
+        [WebMethod(Description = "Create or update tag words.")]
+        public void CreateOrUpdateTagWords(string ticket, TransitTagWord[] tagwords)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount user = new ManagedAccount(session, userid);
+
+                if (!user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                foreach (TransitTagWord word in tagwords)
+                {
+                    ManagedTagWord m_tagword = new ManagedTagWord(session);
+                    m_tagword.CreateOrUpdate(word);
+                }
+
+                SnCore.Data.Hibernate.Session.Flush();
+            }
+        }
+
+        /// <summary>
         /// Get a tag word.
         /// </summary>
         /// <returns>transit tag word</returns>
@@ -79,7 +108,7 @@ namespace SnCore.WebServices
         /// <param name="options">options</param>
         /// <returns>list of transit tag words</returns>
         [WebMethod(Description = "Get all tag words.")]
-        public List<TransitTagWord> GetTagWords(TransitTagWordQueryOptions options, int max)
+        public List<TransitTagWord> GetTagWords(TransitTagWordQueryOptions options, ServiceQueryOptions serviceoptions)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
@@ -104,7 +133,11 @@ namespace SnCore.WebServices
                     "SELECT word FROM TagWord word LEFT JOIN word.TagWordAccounts acct " + 
                     "GROUP BY word.Id, word.Promoted, word.Excluded, word.Word {0} ORDER BY COUNT(acct) DESC", where));
 
-                if (max > 0) query.SetMaxResults(max);
+                if (serviceoptions != null)
+                {
+                    query.SetFirstResult(serviceoptions.FirstResult);
+                    query.SetMaxResults(serviceoptions.PageSize);
+                }
 
                 IList tagwords = query.List();
 
@@ -119,14 +152,36 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
-        /// Get all promoted tag words (cached).
+        /// Get all tag words count.
         /// </summary>
-        /// <param name="max">max number of tag words</param>
-        /// <returns>list of transit tag words</returns>
-        [WebMethod(Description = "Get all promoted tag words.", CacheDuration = 60)]
-        public List<TransitTagWord> GetPromotedTagWords(int max)
+        /// <param name="max">maximum number of tag words</param>
+        /// <param name="options">options</param>
+        [WebMethod(Description = "Get all tag words count.")]
+        public int GetTagWordsCount(TransitTagWordQueryOptions options)
         {
-            return GetTagWords(TransitTagWordQueryOptions.Promoted, max);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                string where = string.Empty;
+                switch (options)
+                {
+                    case TransitTagWordQueryOptions.Excluded:
+                        where = "WHERE Excluded = 1";
+                        break;
+                    case TransitTagWordQueryOptions.New:
+                        where = "WHERE Excluded = 0 and Promoted = 0";
+                        break;
+                    case TransitTagWordQueryOptions.Promoted:
+                        where = "WHERE Promoted = 1";
+                        break;
+                }
+
+                IQuery query = session.CreateQuery(string.Format(
+                    "SELECT COUNT(word) FROM TagWord word {0}", where));
+
+                return (int) query.UniqueResult();
+            }
         }
 
         /// <summary>

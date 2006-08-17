@@ -12,6 +12,7 @@ using System.Text;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using System.Collections.Generic;
 
 public partial class TagWordsManage : AuthenticatedPage
 {
@@ -35,41 +36,65 @@ public partial class TagWordsManage : AuthenticatedPage
         }
     }
 
+    public void PromoteOrExclude(bool promote, object sender, EventArgs e)
+    {
+        List<string> promoted = new List<string>();
+        List<string> demoted = new List<string>();
+        List<string> excluded = new List<string>();
+        List<string> included = new List<string>();
+
+        List<TransitTagWord> words = new List<TransitTagWord>();
+        foreach (DataGridItem item in gridManage.Items)
+        {
+            switch (item.ItemType)
+            {
+                case ListItemType.AlternatingItem:
+                case ListItemType.SelectedItem:
+                case ListItemType.Item:
+                case ListItemType.EditItem:
+                    bool item_checked = ((CheckBox)item.Cells[(int)Cells.checkbox].Controls[1]).Checked;
+                    int item_id = int.Parse(item.Cells[(int)Cells.id].Text);
+
+                    TransitTagWord tw = TagWordService.GetTagWordById(item_id);
+                    bool item_promote = ((promote && item_checked) || (!promote && !item_checked));
+                    if (item_promote)
+                    {
+                        tw.Promoted = !tw.Promoted;
+                        if (tw.Promoted) tw.Excluded = false; // can't promote an excluded word
+                        if (tw.Promoted) promoted.Add(Render(tw.Word)); else demoted.Add(Render(tw.Word));
+                        words.Add(tw);
+                    }
+                    else if (listboxSelectType.SelectedValue == "New")
+                    {
+                        // don't flip promoted or excluded words
+                        tw.Excluded = !tw.Excluded;
+                        if (tw.Excluded) tw.Promoted = false; // can't promote an excluded word
+                        if (tw.Excluded) excluded.Add(Render(tw.Word)); else included.Add(Render(tw.Word));
+                        words.Add(tw);
+                    }
+                    break;
+            }
+        }
+
+        TagWordService.CreateOrUpdateTagWords(SessionManager.Ticket, words.ToArray());
+
+        StringBuilder sb = new StringBuilder();
+        sb.Append(string.Format("{0} item{1} processed.<BR>", words.Count, words.Count != 1 ? "s" : string.Empty));
+        if (promoted.Count > 0) sb.AppendFormat("Promoted: {0}<BR>\n", string.Join(", ", promoted.ToArray()));
+        if (demoted.Count > 0) sb.AppendFormat("Demoted: {0}<BR>\n", string.Join(", ", demoted.ToArray()));
+        if (included.Count > 0) sb.AppendFormat("Included: {0}<BR>\n", string.Join(", ", included.ToArray()));
+        if (excluded.Count > 0) sb.AppendFormat("Excluded: {0}<BR>\n", string.Join(", ", excluded.ToArray()));
+        noticeManage.Info = sb.ToString();
+        noticeManage.HtmlEncode = false;
+
+        GetData(sender, e);
+    }
+
     public void buttonPromote_Click(object sender, EventArgs e)
     {
         try
         {
-            int count = 0;
-            StringBuilder sb = new StringBuilder();
-            foreach (DataGridItem item in gridManage.Items)
-            {
-                switch (item.ItemType)
-                {
-                    case ListItemType.AlternatingItem:
-                    case ListItemType.SelectedItem:
-                    case ListItemType.Item:
-                    case ListItemType.EditItem:
-                        bool item_checked = ((CheckBox)item.Cells[(int)Cells.checkbox].Controls[1]).Checked;
-                        if (item_checked)
-                        {
-                            int item_id = int.Parse(item.Cells[(int)Cells.id].Text);
-
-                            TransitTagWord tw = TagWordService.GetTagWordById(item_id);
-                            tw.Promoted = !tw.Promoted;
-                            if (tw.Promoted) tw.Excluded = false; // can't promote an excluded word
-                            TagWordService.CreateOrUpdateTagWord(SessionManager.Ticket, tw);
-                            sb.Append(string.Format("Tag word \"{0}\" {1}.<br>", 
-                                Renderer.Render(tw.Word), tw.Promoted ? "promoted" : "demoted"));
-                            count++;
-                        }
-                        break;
-                }
-            }
-            sb.Append(string.Format("{0} item{1} processed.", count, count != 1 ? "s" : string.Empty));
-            noticeManage.Info = sb.ToString();
-            noticeManage.HtmlEncode = false;
-            gridManage_OnGetDataSource(sender, e);
-            gridManage.DataBind();
+            PromoteOrExclude(true, sender, e);
         }
         catch (Exception ex)
         {
@@ -81,37 +106,7 @@ public partial class TagWordsManage : AuthenticatedPage
     {
         try
         {
-            int count = 0;
-            StringBuilder sb = new StringBuilder();
-            foreach (DataGridItem item in gridManage.Items)
-            {
-                switch (item.ItemType)
-                {
-                    case ListItemType.AlternatingItem:
-                    case ListItemType.SelectedItem:
-                    case ListItemType.Item:
-                    case ListItemType.EditItem:
-                        bool item_checked = ((CheckBox)item.Cells[(int)Cells.checkbox].Controls[1]).Checked;
-                        if (item_checked)
-                        {
-                            int item_id = int.Parse(item.Cells[(int)Cells.id].Text);
-
-                            TransitTagWord tw = TagWordService.GetTagWordById(item_id);
-                            tw.Excluded = !tw.Excluded;
-                            if (tw.Excluded) tw.Promoted = false; // can't promote an excluded word
-                            TagWordService.CreateOrUpdateTagWord(SessionManager.Ticket, tw);
-                            sb.Append(string.Format("Tag word \"{0}\" {1}.<br>",
-                                Renderer.Render(tw.Word), tw.Excluded ? "excluded" : "included"));
-                            count++;
-                        }
-                        break;
-                }
-            }
-            sb.Append(string.Format("{0} item{1} processed.", count, count != 1 ? "s" : string.Empty));
-            noticeManage.Info = sb.ToString();
-            noticeManage.HtmlEncode = false;
-            gridManage_OnGetDataSource(sender, e);
-            gridManage.DataBind();
+            PromoteOrExclude(false, sender, e);
         }
         catch (Exception ex)
         {
@@ -123,13 +118,23 @@ public partial class TagWordsManage : AuthenticatedPage
     {
         try
         {
-            gridManage_OnGetDataSource(sender, e);
-            gridManage.DataBind();
+            GetData(sender, e);
         }
         catch (Exception ex)
         {
             ReportException(ex);
         }
+    }
+
+    public void GetData(object sender, EventArgs e)
+    {
+        TransitTagWordQueryOptions options = (TransitTagWordQueryOptions)
+            Enum.Parse(typeof(TransitTagWordQueryOptions), listboxSelectType.SelectedValue);
+
+        gridManage.CurrentPageIndex = 0;
+        gridManage.VirtualItemCount = TagWordService.GetTagWordsCount(options);
+        gridManage_OnGetDataSource(sender, e);
+        gridManage.DataBind();
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
@@ -138,7 +143,10 @@ public partial class TagWordsManage : AuthenticatedPage
         {
             TransitTagWordQueryOptions options = (TransitTagWordQueryOptions)
                 Enum.Parse(typeof(TransitTagWordQueryOptions), listboxSelectType.SelectedValue);
-            gridManage.DataSource = TagWordService.GetTagWords(options, -1);
+            ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
+            serviceoptions.PageSize = gridManage.PageSize;
+            serviceoptions.PageNumber = gridManage.CurrentPageIndex;
+            gridManage.DataSource = TagWordService.GetTagWords(options, serviceoptions);
         }
         catch (Exception ex)
         {

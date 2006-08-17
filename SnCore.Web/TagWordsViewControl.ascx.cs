@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Services;
 using System.Collections.Generic;
 using System.Web.Caching;
+using SnCore.WebServices;
 
 public partial class TagWordsViewControl : Control
 {
@@ -89,8 +90,11 @@ public partial class TagWordsViewControl : Control
         {
             if (!IsPostBack)
             {
-                object[] args = { Count };
-                List<TransitTagWord> words = SessionManager.GetCachedCollection<TransitTagWord>(TagWordService, "GetPromotedTagWords", args);
+                ServiceQueryOptions options = new ServiceQueryOptions();
+                options.PageNumber = 0;
+                options.PageSize = Count;
+                object[] args = { TransitTagWordQueryOptions.Promoted, options };
+                List<TransitTagWord> words = SessionManager.GetCachedCollection<TransitTagWord>(TagWordService, "GetTagWords", args);
                 words.Sort(CompareByFrequency);
                 MaxFrequency = mMaxFrequency;
                 MinFrequency = mMinFrequency;

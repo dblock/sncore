@@ -19,7 +19,7 @@
      </div>
      <div class="sncore_link">     
       <a href="RefererAccountsView.aspx">&#187; top traffickers</a>
-      <a href="TagWordsView.aspx">&#187; tags</a>
+      <a href="TagWordsView.aspx">&#187; tag cloud</a>
       <a href="AccountsRss.aspx">&#187; rss</a>
      </div>
     </asp:Panel>
