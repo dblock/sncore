@@ -143,7 +143,7 @@ public partial class AccountBlogViewControl : Control
         if (string.IsNullOrEmpty(description))
             return string.Empty;
 
-        return Renderer.GetSummary(description);
+        return base.GetSummary(description);
     }
 
     public string GetImage(string description)

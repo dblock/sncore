@@ -29,7 +29,20 @@ public partial class AccountStoryEdit : AuthenticatedPage
         {
             if (!IsPostBack)
             {
-                GetData();
+                if (RequestId > 0)
+                {
+                    TransitAccountStory ts = StoryService.GetAccountStoryById(
+                        SessionManager.Ticket, RequestId);
+
+                    inputName.Text = ts.Name;
+                    inputSummary.Text = ts.Summary;
+                }
+                else
+                {
+                    panelImages.Visible = false;
+                }
+
+                GetImagesData(sender, e);
             }
 
             if (!AccountService.HasVerifiedEmail(SessionManager.Ticket))
@@ -47,27 +60,10 @@ public partial class AccountStoryEdit : AuthenticatedPage
         }
     }
 
-    public void GetData()
+    public void GetImagesData(object sender, EventArgs e)
     {
-        if (RequestId > 0)
-        {
-            TransitAccountStory ts = StoryService.GetAccountStoryById(
-                SessionManager.Ticket, RequestId);
-
-            inputName.Text = ts.Name;
-            inputSummary.Text = ts.Summary;
-
-            linkPreview.NavigateUrl = string.Format("AccountStoryView.aspx?id={0}", RequestId);
-
-            mps = StoryService.GetAccountStoryPictures(SessionManager.Ticket, RequestId);
-            gridManage.DataSource = mps;
-            gridManage.DataBind();
-        }
-        else
-        {
-            panelImages.Visible = false;
-            linkPreview.Visible = false;
-        }
+        gridManage.DataSource = StoryService.GetAccountStoryPictures(SessionManager.Ticket, RequestId);
+        gridManage.DataBind();
     }
 
     private enum Cells
@@ -91,15 +87,19 @@ public partial class AccountStoryEdit : AuthenticatedPage
                 case "Delete":
                     StoryService.DeleteAccountStoryPicture(SessionManager.Ticket, id);
                     ReportInfo("Image deleted.");
-                    GetData();
+                    GetImagesData(source, e);
                     break;
                 case "Up":
                     StoryService.MoveAccountStoryPicture(SessionManager.Ticket, id, -1);
-                    GetData();
+                    GetImagesData(source, e);
                     break;
                 case "Down":
                     StoryService.MoveAccountStoryPicture(SessionManager.Ticket, id, 1);
-                    GetData();
+                    GetImagesData(source, e);
+                    break;
+                case "Insert":
+                    inputSummary.Text = inputSummary.Text +
+                            string.Format("<P><IMG SRC=\"AccountStoryPicture.aspx?id={0}\" WIDTH=\"250\" /></P>", id);
                     break;
             }
         }
@@ -117,23 +117,8 @@ public partial class AccountStoryEdit : AuthenticatedPage
             s.Name = inputName.Text;
             s.Summary = inputSummary.Text;
             s.Id = RequestId;
-
-            int id = StoryService.AddAccountStory(SessionManager.Ticket, s);
-
-            //List<TransitAccountStoryPicture> ps =
-            //    new List<TransitAccountStoryPicture>(gridManage.Items.Count);
-
-            //foreach (DataGridItem item in gridManage.Items)
-            //{
-            //    TransitAccountStoryPicture p = new TransitAccountStoryPicture();
-            //    p.Id = int.Parse(item.Cells[(int)Cells.id].Text);
-            //    p.Title = ((TextBox)item.Cells[(int)Cells.text].Controls[1]).Text;
-            //    p.Text = ((TextBox)item.Cells[(int)Cells.text].Controls[3]).Text;
-            //    ps.Add(p);
-            //}
-
-            //StoryService.AddAccountStoryWithPictures(SessionManager.Ticket, s, ps.ToArray());
-            Redirect(RequestId > 0 ? "AccountStoriesManage.aspx" : string.Format("AccountStoryEdit.aspx?id={0}", id));
+            s.Id = StoryService.AddAccountStory(SessionManager.Ticket, s);
+            Redirect(string.Format("AccountStoryView.aspx?id={0}", s.Id));
         }
         catch (Exception ex)
         {
@@ -165,7 +150,7 @@ public partial class AccountStoryEdit : AuthenticatedPage
             }
 
             StoryService.AddAccountStoryWithPictures(SessionManager.Ticket, s, ps.ToArray());
-            GetData();
+            GetImagesData(sender, e);
         }
         catch (Exception ex)
         {

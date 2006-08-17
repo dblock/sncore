@@ -10,8 +10,6 @@
  <div class="sncore_h2">
   Tell a Story
  </div>
- <asp:HyperLink Target="_blank" CssClass="sncore_createnew" Text="&#187; Preview"
-  ID="linkPreview" runat="server" />
  <table class="sncore_table">
   <tr>
    <td class="sncore_form_label">
@@ -65,15 +63,19 @@
     <a href='AccountStoryPictureView.aspx?id=<%# Eval("Id") %>'>
      <img border="0" alt='<%# Eval("Name") %>' src='AccountStoryPictureThumbnail.aspx?id=<%# Eval("Id") %>' />
     </a>
-    <br />
-    <asp:LinkButton CssClass="sncore_link" ID="linkDelete" runat="server" CommandArgument='<%# Eval("Id") %>'
-     CommandName="Delete" OnClientClick="return confirm('Are you sure you want to delete this picture?');"
-     Text="Delete" />
-    <br />
-    <asp:LinkButton CssClass="sncore_link" ID="LinkButton1" runat="server" CommandArgument='<%# Eval("Id") %>'
-     CommandName="Up" Text="<" />
-    <asp:LinkButton CssClass="sncore_link" ID="LinkButton2" runat="server" CommandArgument='<%# Eval("Id") %>'
-     CommandName="Down" Text=">" />
+    <div>
+     <asp:LinkButton CssClass="sncore_link" ID="linkDelete" runat="server" CommandArgument='<%# Eval("Id") %>'
+      CommandName="Delete" OnClientClick="return confirm('Are you sure you want to delete this picture?');"
+      Text="Delete" />
+     <asp:LinkButton CssClass="sncore_link" ID="linkInsert" runat="server" CommandArgument='<%# Eval("Id") %>'
+      CommandName="Insert" Text="Insert" />
+    </div>
+    <div>
+     <asp:LinkButton CssClass="sncore_link" ID="linkUp" runat="server" CommandArgument='<%# Eval("Id") %>'
+      CommandName="Up" Text="<" />
+     <asp:LinkButton CssClass="sncore_link" ID="linkDown" runat="server" CommandArgument='<%# Eval("Id") %>'
+      CommandName="Down" Text=">" />
+    </div>
    </ItemTemplate>
   </asp:DataList>
  </asp:Panel>
