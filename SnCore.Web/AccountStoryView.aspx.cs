@@ -43,6 +43,7 @@ public partial class AccountStoryView : Page
                 storyComments.DataBind();
 
                 linkEdit.NavigateUrl = string.Format("AccountStoryEdit.aspx?id={0}", ts.Id);
+                linkAddPhotos.NavigateUrl = string.Format("AccountStoryPicturesManage.aspx?id={0}", ts.Id);
 
                 panelOwner.Visible = SessionManager.IsLoggedIn &&
                     (SessionManager.IsAdministrator || ts.AccountId == SessionManager.Account.Id);

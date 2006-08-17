@@ -39,7 +39,10 @@
       <tr>
        <td align="right">
         <div>
-         <asp:HyperLink runat="server" ID="linkEdit" Text="&#187; Edit Story and Upload Photos" />
+         <asp:HyperLink runat="server" ID="linkEdit" Text="&#187; Edit Story" />
+        </div>
+        <div>
+         <asp:HyperLink runat="server" ID="linkAddPhotos" Text="&#187; Add Photos" />
         </div>
        </td>
       </tr>

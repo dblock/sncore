@@ -17,38 +17,23 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 
-public partial class AccountStoryEdit : AuthenticatedPage
+public partial class AccountStoryPicturesManage : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        SetDefaultButton(linkSave);
-
+        this.addFile.Attributes["onclick"] = this.files.GetAddFileScriptReference() + "return false;";
+        SetDefaultButton(picturesAdd);
         try
         {
             if (!IsPostBack)
             {
-                if (RequestId > 0)
-                {
-                    TransitAccountStory ts = StoryService.GetAccountStoryById(
-                        SessionManager.Ticket, RequestId);
+                TransitAccountStory ts = StoryService.GetAccountStoryById(
+                    SessionManager.Ticket, RequestId);
 
-                    inputName.Text = ts.Name;
-                    inputSummary.Text = ts.Summary;
-
-                    labelName.Text = Render(ts.Name);
-                    linkAccount.Text = Render(ts.AccountName);
-                    linkAccount.NavigateUrl = string.Format("AccountView.aspx?id={0}", ts.AccountId);
-
-                    linkAddPictures.NavigateUrl = string.Format("AccountStoryPicturesManage.aspx?id={0}", ts.Id);
-
-                    labelTitle.Text = "Edit Story";
-                }
-                else
-                {
-                    linkAccount.Text = Render(SessionManager.Account.Name);
-                    linkAccount.NavigateUrl = string.Format("AccountView.aspx?id={0}", SessionManager.Account.Id);
-                    linkAddPictures.Visible = false;
-                }
+                linkAccountStory.Text = Render(ts.Name);
+                linkBack.NavigateUrl = linkAccountStory.NavigateUrl = string.Format("AccountStoryEdit.aspx?id={0}", ts.Id);
+                linkAccount.Text = Render(ts.AccountName);
+                linkAccount.NavigateUrl = string.Format("AccountView.aspx?id={0}", ts.AccountId);
 
                 GetImagesData(sender, e);
             }
@@ -58,7 +43,7 @@ public partial class AccountStoryEdit : AuthenticatedPage
                 ReportWarning("You don't have any verified e-mail addresses.\n" +
                     "You must add/confirm a valid e-mail address before posting stories.");
 
-                linkSave.Enabled = false;                
+                picturesAdd.Enabled = false;
             }
         }
         catch (Exception ex)
@@ -94,10 +79,6 @@ public partial class AccountStoryEdit : AuthenticatedPage
                     StoryService.MoveAccountStoryPicture(SessionManager.Ticket, id, 1);
                     GetImagesData(source, e);
                     break;
-                case "Insert":
-                    inputSummary.Text = inputSummary.Text +
-                            string.Format("<P><IMG SRC=\"AccountStoryPicture.aspx?id={0}\" WIDTH=\"250\" /></P>", id);
-                    break;
             }
         }
         catch (Exception ex)
@@ -106,16 +87,31 @@ public partial class AccountStoryEdit : AuthenticatedPage
         }
     }
 
-    public void save(object sender, EventArgs e)
+    protected void files_FilesPosted(object sender, FilesPostedEventArgs e)
     {
         try
         {
-            TransitAccountStory s = new TransitAccountStory();
-            s.Name = inputName.Text;
-            s.Summary = inputSummary.Text;
-            s.Id = RequestId;
-            s.Id = StoryService.AddAccountStory(SessionManager.Ticket, s);
-            Redirect(string.Format("AccountStoryView.aspx?id={0}", s.Id));
+            if (e.PostedFiles.Count == 0)
+                return;
+
+            TransitAccountStory s = StoryService.GetAccountStoryById(SessionManager.Ticket, RequestId);
+
+            List<TransitAccountStoryPictureWithPicture> ps =
+                new List<TransitAccountStoryPictureWithPicture>(e.PostedFiles.Count);
+
+            foreach (HttpPostedFile file in e.PostedFiles)
+            {
+                TransitAccountStoryPictureWithPicture p =
+                    new TransitAccountStoryPictureWithPicture();
+
+                ThumbnailBitmap t = new ThumbnailBitmap(file.InputStream);
+                p.Picture = t.Bitmap;
+                p.Name = Path.GetFileName(file.FileName);
+                ps.Add(p);
+            }
+
+            StoryService.AddAccountStoryWithPictures(SessionManager.Ticket, s, ps.ToArray());
+            GetImagesData(sender, e);
         }
         catch (Exception ex)
         {
