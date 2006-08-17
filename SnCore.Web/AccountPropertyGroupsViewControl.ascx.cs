@@ -54,12 +54,15 @@ public partial class AccountPropertyGroupsViewControl : Control
                 case ListItemType.SelectedItem:
                     DataGrid values = (DataGrid)e.Item.FindControl("values");
                     TransitAccountPropertyGroup group = (TransitAccountPropertyGroup) e.Item.DataItem;
-                    object[] args = { AccountId, group.Id };
-                    List<TransitAccountPropertyValue> propertyvalues = SessionManager.GetCachedCollection<TransitAccountPropertyValue>(
-                        AccountService, "GetAccountPropertyValuesById", args);
-                    values.DataSource = propertyvalues;
-                    HtmlControl title = (HtmlControl)e.Item.FindControl("title");
-                    title.Visible = (propertyvalues.Count > 0);
+                    if (group != null)
+                    {
+                        object[] args = { AccountId, group.Id };
+                        List<TransitAccountPropertyValue> propertyvalues = SessionManager.GetCachedCollection<TransitAccountPropertyValue>(
+                            AccountService, "GetAccountPropertyValuesById", args);
+                        values.DataSource = propertyvalues;
+                        HtmlControl title = (HtmlControl)e.Item.FindControl("title");
+                        title.Visible = (propertyvalues.Count > 0);
+                    }
                     break;
             }
         }
