@@ -23,7 +23,9 @@ public partial class AccountBlogView : Page
         {
             if (mAccountBlog == null)
             {
-                mAccountBlog = BlogService.GetAccountBlogById(SessionManager.Ticket, RequestId);
+                object[] args = { SessionManager.Ticket, RequestId };
+                mAccountBlog = SessionManager.GetCachedItem<TransitAccountBlog>(
+                    BlogService, "GetAccountBlogById", args);
             }
             return mAccountBlog;
         }
@@ -35,14 +37,15 @@ public partial class AccountBlogView : Page
         {
             if (mAccountBlogFeature == null)
             {
-                mAccountBlogFeature = SystemService.FindLatestFeature(
-                    "AccountBlog", RequestId);
+                object[] args = { "AccountBlog", RequestId };
+                mAccountBlogFeature = SessionManager.GetCachedItem<TransitFeature>(
+                    SystemService, "FindLatestFeature", args);
             }
             return mAccountBlogFeature;
         }
     }
 
-    public void Page_Load()
+    public void Page_Load(object sender, EventArgs e)
     {
         try
         {
@@ -53,16 +56,19 @@ public partial class AccountBlogView : Page
                 labelBlog.Text = Renderer.Render(f.Name);
                 labelBlogDescription.Text = Renderer.Render(f.Description);
 
-                TransitAccount a = AccountService.GetAccountById(f.AccountId);
+                object[] args = { f.AccountId };
+                TransitAccount a = SessionManager.GetCachedItem<TransitAccount>(
+                    AccountService, "GetAccountById", args);
+
                 labelAccountName.Text = Renderer.Render(a.Name);
                 linkAccount.HRef = string.Format("AccountView.aspx?id={0}", a.Id);
                 imageAccount.Src = string.Format("AccountPictureThumbnail.aspx?id={0}", a.PictureId);
 
+                licenseView.AccountId = a.Id;
+
                 this.Title = string.Format("{0}'s {1}", Renderer.Render(a.Name), Renderer.Render(f.Name));
 
-                gridManage.VirtualItemCount = BlogService.GetAccountBlogPostsCountById(RequestId);
-                gridManage_OnGetDataSource(this, null);
-                gridManage.DataBind();
+                GetData(sender, e);
 
                 if (SessionManager.IsAdministrator)
                 {
@@ -80,6 +86,16 @@ public partial class AccountBlogView : Page
         {
             ReportException(ex);
         }
+    }
+
+    void GetData(object sender, EventArgs e)
+    {
+        gridManage.CurrentPageIndex = 0;
+        object[] args = { RequestId };
+        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+            BlogService, "GetAccountBlogPostsCountById", args);
+        gridManage_OnGetDataSource(sender, e);
+        gridManage.DataBind();
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)

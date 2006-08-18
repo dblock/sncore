@@ -16,6 +16,7 @@
 <%@ Register TagPrefix="SnCore" TagName="PlaceFavoritesView" Src="AccountPlaceFavoritesViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="BookmarksView" Src="BookmarksViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AttributesView" Src="AccountAttributesViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="LicenseView" Src="AccountLicenseViewControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <div class="sncore_navigate">
   <asp:Label CssClass="sncore_navigate_item" ID="linkAccount" Text="Account" runat="server" />
@@ -110,6 +111,9 @@
      <SnCore:AccountReminder Style="width: 95%;" ID="accountReminder" runat="server" />
      <table class="sncore_inner_table" width="95%">
       <tr>
+       <td>
+        <SnCore:LicenseView runat="server" ID="licenseView" />       
+       </td>
        <td class="sncore_table_tr_td" style="font-size: smaller;" align="right">
         socially bookmark this person:
        </td>

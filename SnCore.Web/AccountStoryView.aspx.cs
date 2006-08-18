@@ -20,11 +20,15 @@ public partial class AccountStoryView : Page
         {
             if (!IsPostBack)
             {
-                TransitAccountStory ts = StoryService.GetAccountStoryById(
-                    SessionManager.Ticket, RequestId);
+                object[] s_args = { SessionManager.Ticket, RequestId };
+                TransitAccountStory ts = SessionManager.GetCachedItem<TransitAccountStory>(
+                    StoryService, "GetAccountStoryById", s_args);
 
-                TransitAccount acct = AccountService.GetAccountById(
-                    ts.AccountId);
+                object[] a_args = { ts.AccountId };
+                TransitAccount acct = SessionManager.GetCachedItem<TransitAccount>(
+                    AccountService, "GetAccountById", a_args);
+
+                licenseView.AccountId = acct.Id;
 
                 this.Title = string.Format("{0}'s {1}", Renderer.Render(acct.Name), Renderer.Render(ts.Name));
 
@@ -34,12 +38,18 @@ public partial class AccountStoryView : Page
 
                 storyName.Text = Renderer.Render(ts.Name);
                 storySummary.Text = RenderEx(ts.Summary);
-                listPictures.DataSource = StoryService.GetAccountStoryPicturesById(RequestId);
+
+                object[] p_args = { RequestId };
+                listPictures.DataSource = SessionManager.GetCachedCollection<TransitAccountStoryPicture>(
+                    StoryService, "GetAccountStoryPicturesById", p_args);
                 listPictures.DataBind();
 
                 if (listPictures.Items.Count == 0) storyNoPicture.Visible = true;
 
-                storyComments.DiscussionId = DiscussionService.GetAccountStoryDiscussionId(RequestId);
+                object[] d_args = { RequestId };
+                storyComments.DiscussionId = SessionManager.GetCachedCollectionCount(
+                    DiscussionService, "GetAccountStoryDiscussionId", d_args);
+
                 storyComments.DataBind();
 
                 linkEdit.NavigateUrl = string.Format("AccountStoryEdit.aspx?id={0}", ts.Id);

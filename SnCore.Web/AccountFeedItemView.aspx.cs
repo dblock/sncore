@@ -23,6 +23,8 @@ public partial class AccountFeedItemView : Page
                 TransitAccountFeedItem tfi = SyndicationService.GetAccountFeedItemById(
                     SessionManager.Ticket, RequestId);
 
+                licenseView.AccountId = tfi.AccountId;
+
                 labelAccountName.Text = Renderer.Render(tfi.AccountName);
                 imageAccount.Src = string.Format("AccountPictureThumbnail.aspx?id={0}", tfi.AccountPictureId);
 

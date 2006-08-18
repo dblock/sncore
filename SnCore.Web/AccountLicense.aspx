@@ -17,17 +17,17 @@
     <table cellspacing="0" cellpadding="4" class="sncore_account_table">
      <tr>
       <td>
-       <div class="sncore_description">
+       <p>
         This site does not own your content. It is owned by <b>you</b>. This includes, but
         is not limited to all syndicated feeds, blog and discussion posts, stories and comments.
         You've made a work you're proud of. Now it's time to get creative with how you make
         it available.
-       </div>
-       <div class="sncore_description">
+       </p>
+       <p>
         Creative Commons licenses help you share your work while keeping your copyright.
         Other people can copy and distribute your work provided they give you credit - and
         only on the conditions you specify here.
-       </div>
+       </p>
       </td>
      </tr>
     </table>

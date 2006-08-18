@@ -31,6 +31,8 @@ public partial class AccountBlogPostView : Page
                     Renderer.Render(tfi.Title), 
                     Renderer.Render(tfi.AccountBlogName));
 
+                licenseView.AccountId = tfi.AccountId;
+
                 linkAccountBlogPost.Text = Renderer.Render(tfi.Title);
                 BlogTitle.Text = linkAccountBlog.Text = Renderer.Render(tfi.AccountBlogName);
                 linkAccount.Text = Renderer.Render(tfi.AccountName);
@@ -39,7 +41,7 @@ public partial class AccountBlogPostView : Page
                 linkAccountView.HRef = linkAccount.NavigateUrl = string.Format("AccountView.aspx?id={0}", tfi.AccountId);
                 BlogTitle.NavigateUrl = linkAccountBlog.NavigateUrl = string.Format("AccountBlogView.aspx?id={0}", tfi.AccountBlogId);
 
-                BlogPostTitle.Text = Renderer.Render(tfi.Title);
+                BlogPostTitle.Text = Renderer.Render(string.IsNullOrEmpty(tfi.Title) ? "Untitled" : tfi.Title);
                 BlogPostBody.Text = Renderer.RenderEx(tfi.Body);
 
                 BlogPostComments.DiscussionId = DiscussionService.GetAccountBlogPostDiscussionId(RequestId);

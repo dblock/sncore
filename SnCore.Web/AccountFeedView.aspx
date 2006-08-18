@@ -4,6 +4,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="BookmarksView" Src="BookmarksViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="LicenseView" Src="AccountLicenseViewControl.ascx" %>
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <table cellspacing="0" cellpadding="4" class="sncore_table">
@@ -43,6 +44,9 @@
  </table>
  <table class="sncore_table">
   <tr>
+   <td>
+    <SnCore:LicenseView runat="server" ID="licenseView" />       
+   </td>
    <td class="sncore_table_tr_td" style="font-size: smaller;" align="right">
     socially bookmark this feed:
    </td>

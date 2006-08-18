@@ -57,6 +57,8 @@ public partial class AccountFeedView : Page
                 labelFeed.NavigateUrl = f.LinkUrl;
                 labelFeedDescription.Text = Renderer.Render(f.Description);
 
+                licenseView.AccountId = f.AccountId;
+
                 GetDataPublish(sender, e);
 
                 TransitFeedType t = SyndicationService.GetFeedTypeByName(f.FeedType);
