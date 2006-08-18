@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using System.Web.Caching;
 using System.Net;
 
-public partial class AccountLicense : AuthenticatedPage
+public partial class AccountLicenseEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
@@ -49,7 +49,7 @@ public partial class AccountLicense : AuthenticatedPage
 
                     tal.Id = SessionManager.LicenseService.CreateOrUpdateAccountLicense(SessionManager.Ticket, tal);
 
-                    Redirect("AccountLicense.aspx");
+                    Redirect("AccountLicenseEdit.aspx");
                 }
 
                 licenseImage.Visible = (tal != null);
@@ -89,7 +89,7 @@ public partial class AccountLicense : AuthenticatedPage
         {
             TransitAccountLicense tal = SessionManager.LicenseService.GetAccountLicense(SessionManager.Ticket);
             if (tal != null) SessionManager.LicenseService.DeleteAccountLicense(SessionManager.Ticket, tal.Id);
-            Redirect("AccountLicense.aspx");
+            Redirect("AccountLicenseEdit.aspx");
         }
         catch (Exception ex)
         {

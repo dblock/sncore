@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.WebServices;
 using SnCore.Services;
+using SnCore.Tools.Web;
 
 public partial class AccountOpenIdsManage : AuthenticatedPage
 {
@@ -25,7 +26,8 @@ public partial class AccountOpenIdsManage : AuthenticatedPage
                 string openidmode = Request["openid.mode"];
                 if (!string.IsNullOrEmpty(openidmode))
                 {
-                    string consumerid = AccountService.VerifyOpenId(SessionManager.OpenIdToken, Request.Params);
+                    NameValueCollectionSerializer serializer = new NameValueCollectionSerializer(Request.Params);
+                    string consumerid = AccountService.VerifyOpenId(SessionManager.OpenIdToken, serializer.Names, serializer.Values);
                     TransitAccountOpenId to = new TransitAccountOpenId();
                     to.IdentityUrl = consumerid;
                     AccountService.AddAccountOpenId(SessionManager.Ticket, to);

@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Services;
+using SnCore.Tools.Web;
 
 public partial class AccountCreateOpenId : Page
 {
@@ -33,7 +34,8 @@ public partial class AccountCreateOpenId : Page
                 string openidmode = Request["openid.mode"];
                 if (!string.IsNullOrEmpty(openidmode))
                 {
-                    string consumerurl = AccountService.VerifyOpenId(SessionManager.OpenIdToken, Request.Params);
+                    NameValueCollectionSerializer serializer = new NameValueCollectionSerializer(Request.Params);
+                    string consumerurl = AccountService.VerifyOpenId(SessionManager.OpenIdToken, serializer.Names, serializer.Values);
 
                     TransitAccount ta = new TransitAccount();
                     ta.Name = Request.Cookies["SnCore.AccountCreate.Name"].Value;

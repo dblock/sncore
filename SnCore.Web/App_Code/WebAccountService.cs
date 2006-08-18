@@ -229,12 +229,12 @@ namespace SnCore.WebServices
         /// <param name="returnurl">return url</param>
         /// <returns>authentication ticket for the current session</returns>
         [WebMethod(Description = "Login to an account.")]
-        public string LoginOpenId(string token, NameValueCollection c)
+        public string LoginOpenId(string token, string[] names, string[] values)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount acct = ManagedAccount.LoginOpenId(session, token, c);
+                ManagedAccount acct = ManagedAccount.LoginOpenId(session, token, new NameValueCollectionSerializer(names, values).Collection);
                 HttpCookie cookie = FormsAuthentication.GetAuthCookie(acct.Id.ToString(), false);
                 SnCore.Data.Hibernate.Session.Flush();
                 return cookie.Value;
@@ -248,12 +248,12 @@ namespace SnCore.WebServices
         /// <param name="c"></param>
         /// <returns></returns>
         [WebMethod(Description = "Verify an OpenId.")]
-        public string VerifyOpenId(string token, NameValueCollection c)
+        public string VerifyOpenId(string token, string[] names, string[] values)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return ManagedAccount.VerifyOpenId(token, c).ToString();
+                return ManagedAccount.VerifyOpenId(token, new NameValueCollectionSerializer(names, values).Collection).ToString();
             }
         }
 

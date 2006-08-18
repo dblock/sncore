@@ -289,6 +289,11 @@ namespace SnCore.Services
             }
         }
 
+        public TransitOpenIdRedirect()
+        {
+
+        }
+
         public TransitOpenIdRedirect(string token, string url)
         {
             mUrl = url;

@@ -12,6 +12,12 @@ namespace SnCore.Services
 {
     public class TransitCounter
     {
+        public TransitCounter()
+        {
+            mTimestamp = DateTime.UtcNow;
+            mTotal = 0;
+        }
+
         public TransitCounter(DateTime ts, long total)
         {
             mTimestamp = ts;
@@ -171,12 +177,12 @@ namespace SnCore.Services
 
         public TransitStatsRequest(HttpRequest request, Nullable<DateTime> lastseen)
         {
-            RequestUri = request.Url;
-            RefererUri = request.UrlReferrer;
+            RequestUri = request.Url.ToString();
+            RefererUri = request.UrlReferrer.ToString();
 
             if (RefererUri != null)
             {
-                HttpRequest q = new HttpRequest(null, RefererUri.ToString(), RefererUri.Query.TrimStart("?".ToCharArray()));
+                HttpRequest q = new HttpRequest(null, RefererUri.ToString(), request.UrlReferrer.Query.TrimStart("?".ToCharArray()));
                 RefererQuery = q.Params["q"];
                 if (string.IsNullOrEmpty(RefererQuery)) RefererQuery = q.Params["s"];
                 if (string.IsNullOrEmpty(RefererQuery)) RefererQuery = q.Params["query"];
@@ -246,9 +252,9 @@ namespace SnCore.Services
             }
         }
 
-        private Uri mRequestUri;
+        private string mRequestUri;
 
-        public Uri RequestUri
+        public string RequestUri
         {
             get
             {
@@ -260,9 +266,9 @@ namespace SnCore.Services
             }
         }
 
-        private Uri mRefererUri;
+        private string mRefererUri;
 
-        public Uri RefererUri
+        public string RefererUri
         {
             get
             {
@@ -331,15 +337,17 @@ namespace SnCore.Services
 
         private void UpdateRefererHost(TransitStatsRequest request)
         {
-            if (request.RefererUri == null)
+            if (string.IsNullOrEmpty(request.RefererUri))
                 return;
 
             // don't track navigation between pages
-            if (request.RefererUri.Host == request.RequestUri.Host)
+            Uri requesturi = new Uri(request.RequestUri);
+            Uri refereruri = new Uri(request.RefererUri);
+            if (refereruri.Host == requesturi.Host)
                 return;
 
             RefererHost host = (RefererHost)Session.CreateCriteria(typeof(RefererHost))
-                .Add(Expression.Eq("Host", request.RefererUri.Host))
+                .Add(Expression.Eq("Host", refereruri.Host))
                 .UniqueResult();
 
             if (host == null)
@@ -348,7 +356,7 @@ namespace SnCore.Services
                 RefererHostDup duphost = (RefererHostDup)
                     Session.CreateSQLQuery(
                         "SELECT {R.*} FROM RefererHostDup {R}" +
-                        " WHERE '" + Renderer.SqlEncode(request.RefererUri.Host) + "' LIKE Host",
+                        " WHERE '" + Renderer.SqlEncode(refereruri.Host) + "' LIKE Host",
                         "R",
                         typeof(RefererHostDup)).SetMaxResults(1).UniqueResult();
 
@@ -362,13 +370,13 @@ namespace SnCore.Services
             {
                 host = new RefererHost();
                 host.Created = DateTime.UtcNow;
-                host.Host = request.RefererUri.Host;
+                host.Host = refereruri.Host;
                 host.Total = 0;
             }
 
             host.Updated = DateTime.UtcNow;
-            host.LastRefererUri = request.RefererUri.ToString();
-            host.LastRequestUri = request.RequestUri.ToString();
+            host.LastRefererUri = request.RefererUri;
+            host.LastRequestUri = request.RequestUri;
             host.Total++;
 
             try
@@ -415,7 +423,7 @@ namespace SnCore.Services
 
         private void IncrementRawCounter(TransitStatsRequest request)
         {
-            string uri = request.RequestUri.ToString().Substring(0, 255);
+            string uri = request.RequestUri.Substring(0, 255);
 
             // increment the raw uri counter
             Counter counter_raw = (Counter)Session.CreateCriteria(typeof(Counter))

@@ -41,6 +41,7 @@
     <Compile Include="HostedApplication.cs" />
     <Compile Include="HtmlImageExtractor.cs" />
     <Compile Include="HtmlReaderWriter.cs" />
+    <Compile Include="NameValueCollectionSerializer.cs" />
     <Compile Include="PersistentlyHashable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuotedPrintable.cs" />

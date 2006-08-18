@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using System.Web.Services.Protocols;
 using SnCore.Tools.Web;
 using SnCore.Services;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 
 public partial class AccountLoginControl : Control
@@ -31,7 +32,8 @@ public partial class AccountLoginControl : Control
                 string openidtoken = SessionManager.OpenIdToken;
                 if (!string.IsNullOrEmpty(openidmode) && !string.IsNullOrEmpty(openidtoken))
                 {
-                    string ticket = AccountService.LoginOpenId(openidtoken, Request.Params);
+                    NameValueCollectionSerializer serializer = new NameValueCollectionSerializer(Request.Params);
+                    string ticket = AccountService.LoginOpenId(openidtoken, serializer.Names, serializer.Values);
                     SessionManager.Login(ticket, SessionManager.RememberLogin);
                     Redirect(ReturnUrl);
                 }

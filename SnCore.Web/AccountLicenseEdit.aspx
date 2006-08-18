@@ -1,5 +1,5 @@
-<%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="AccountLicense.aspx.cs"
- Inherits="AccountLicense" Title="Account | Content | License" %>
+<%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="AccountLicenseEdit.aspx.cs"
+ Inherits="AccountLicenseEdit" Title="Account | Content | License" %>
 
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>

@@ -123,7 +123,7 @@ public partial class SiteMap2 : Page
             listPlaces.DataBind();
 
             TransitAccountEventQueryOptions aeqo = new TransitAccountEventQueryOptions();
-            listAccountEvents.DataSource = GetPagedList(EventService.GetAccountEventsCount(aeqo));
+            listAccountEvents.DataSource = GetPagedList(EventService.GetAllAccountEventsCount(aeqo));
             listAccountEvents.DataBind();
 
             listStories.DataSource = GetPagedList(StoryService.GetLatestAccountStoriesCount());

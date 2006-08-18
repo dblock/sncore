@@ -492,7 +492,7 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>transit account envets count</returns>
         [WebMethod(Description = "Get all account events count.", CacheDuration = 60)]
-        public int GetAccountEventsCount(TransitAccountEventQueryOptions queryoptions)
+        public int GetAllAccountEventsCount(TransitAccountEventQueryOptions queryoptions)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
@@ -506,7 +506,7 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>list of transit account events</returns>
         [WebMethod(Description = "Get all account events.", CacheDuration = 60)]
-        public List<TransitAccountEvent> GetAccountEvents(
+        public List<TransitAccountEvent> GetAllAccountEvents(
             string ticket,
             TransitAccountEventQueryOptions queryoptions, 
             ServiceQueryOptions serviceoptions)

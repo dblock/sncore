@@ -113,7 +113,7 @@
      Content Licensing
     </div>
     <div class="sncore_h2sub">
-      <a href="AccountLicense.aspx">&#187; Choose License</a>
+      <a href="AccountLicenseEdit.aspx">&#187; Choose License</a>
     </div>
     <div class="sncore_h2">
      Security
