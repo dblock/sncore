@@ -1,6 +1,7 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="AccountContentEdit.aspx.cs"
  Inherits="AccountContentEdit" Title="Content" %>
 
+<%@ Register TagPrefix="FTB" Namespace="FreeTextBoxControls" Assembly="FreeTextBox" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountReminder" Src="AccountReminderControl.ascx" %>
@@ -36,11 +37,8 @@
       </td>
      </tr>
      <tr>
-      <td class="sncore_form_label">
-       text:
-      </td>
-      <td class="sncore_form_value">
-       <asp:TextBox TextMode="MultiLine" Rows="5" ID="inputText" runat="server" CssClass="sncore_form_textbox" />
+      <td colspan="2" class="sncore_form_value">
+       <FTB:FreeTextBox Width="100%" id="inputText" runat="Server" />
        <div class="sncore_description">
         trusted content groups allow un-encoded html and support bb-tags
        </div>
