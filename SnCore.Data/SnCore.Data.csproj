@@ -3,7 +3,7 @@
     <ProjectType>Local</ProjectType>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1F9C0442-E7B5-4CCC-93ED-A0599CF1AA57}</ProjectGuid>
+    <ProjectGuid>{415f0a33-00a8-4e28-993b-265edffa2c9b}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>
@@ -144,6 +144,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AccountInvitation.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AccountLicense.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AccountMessage.cs">
@@ -364,6 +367,7 @@
     <EmbeddedResource Include="AccountFriend.hbm.xml" />
     <EmbeddedResource Include="AccountFriendRequest.hbm.xml" />
     <EmbeddedResource Include="AccountInvitation.hbm.xml" />
+    <EmbeddedResource Include="AccountLicense.hbm.xml" />
     <EmbeddedResource Include="AccountMessage.hbm.xml" />
     <EmbeddedResource Include="AccountMessageFolder.hbm.xml" />
     <EmbeddedResource Include="AccountOpenId.hbm.xml" />

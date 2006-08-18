@@ -36,6 +36,7 @@ public class SessionManager
     private TransitAccountPermissions mAccountPermissions = null;
     private TransitAccount mAccount = null;
 
+    private WebLicenseService mLicenseService = null;
     private WebContentService mContentService = null;
     private WebAccountService mAccountService = null;
     private WebLocationService mWebLocationService = null;
@@ -405,6 +406,23 @@ public class SessionManager
                 }
             }
             return mContentService;
+        }
+    }
+
+    public WebLicenseService LicenseService
+    {
+        get
+        {
+            if (mLicenseService == null)
+            {
+                mLicenseService = (WebLicenseService)HttpContext.Current.Cache["SnCore.SessionManager.LicenseService"];
+                if (mLicenseService == null)
+                {
+                    mLicenseService = new WebLicenseService();
+                    HttpContext.Current.Cache["SnCore.SessionManager.LicenseService"] = mLicenseService;
+                }
+            }
+            return mLicenseService;
         }
     }
 

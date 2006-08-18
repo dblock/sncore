@@ -415,14 +415,16 @@ namespace SnCore.Services
 
         private void IncrementRawCounter(TransitStatsRequest request)
         {
+            string uri = request.RequestUri.ToString().Substring(0, 255);
+
             // increment the raw uri counter
             Counter counter_raw = (Counter)Session.CreateCriteria(typeof(Counter))
-                .Add(Expression.Eq("Uri", request.RequestUri.ToString())).UniqueResult();
+                .Add(Expression.Eq("Uri", uri)).UniqueResult();
 
             if (counter_raw == null)
             {
                 counter_raw = new Counter();
-                counter_raw.Uri = request.RequestUri.ToString();
+                counter_raw.Uri = uri;
                 counter_raw.Created = DateTime.UtcNow;
                 counter_raw.Total = 0;
             }

@@ -112,6 +112,7 @@
     <Compile Include="ManagedAccountFriend.cs" />
     <Compile Include="ManagedAccountFriendRequest.cs" />
     <Compile Include="ManagedAccountInvitation.cs" />
+    <Compile Include="ManagedAccountLicense.cs" />
     <Compile Include="ManagedAccountMessage.cs" />
     <Compile Include="ManagedAccountMessageFolder.cs" />
     <Compile Include="ManagedAccountOpenId.cs" />

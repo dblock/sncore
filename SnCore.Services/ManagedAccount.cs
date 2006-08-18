@@ -1876,6 +1876,28 @@ namespace SnCore.Services
 
         #endregion
 
+        #region Account License
+
+        public int CreateOrUpdate(TransitAccountLicense o)
+        {
+            AccountLicense license = o.GetAccountLicense(Session);
+
+            if (license.Id != 0)
+            {
+                if (license.Account.Id != Id && !IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+            }
+
+            license.Modified = DateTime.UtcNow;
+            if (license.Id == 0) license.Created = license.Modified;
+            Session.Save(license);
+            return license.Id;
+        }
+
+        #endregion
+
         #region Account Blog
 
         public int CreateOrUpdate(TransitAccountBlog o)

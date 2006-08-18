@@ -105,3 +105,4 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_calendar_toolbar_selecteditem { font-family: Verdana; font-size: .9em; font-weight: bold; }
 .sncore_blog_image { width: 150px; border: none; margin-right: 15px; }
 .sncore_quote { border: dotted 1px silver; color: Silver; padding: 5px; font-size: xx-small; }
+.sncore_cc_license { border: solid 2px black; font-size: smaller; background: #ffc; padding: 5px; }

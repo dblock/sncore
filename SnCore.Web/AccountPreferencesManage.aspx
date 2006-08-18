@@ -110,18 +110,17 @@
     </table>
     <SnCore:AccountPropertyGroups ID="groups" runat="server" />    
     <div class="sncore_h2">
+     Content Licensing
+    </div>
+    <div class="sncore_h2sub">
+      <a href="AccountLicense.aspx">&#187; Choose License</a>
+    </div>
+    <div class="sncore_h2">
      Security
     </div>
-    <table class="sncore_account_table">
-     <tr>
-      <td class="sncore_form_label">
-       <img alt="" src="images/Item.gif" />
-      </td>
-      <td class="sncore_table_tr_td">
-       <a href="AccountChangePassword.aspx">Change Password</a>
-      </td>
-     </tr>
-    </table>
+    <div class="sncore_h2sub">
+      <a href="AccountChangePassword.aspx">&#187; Change Password</a>
+    </div>
     <SnCore:AccountReminder ID="accountReminder" runat="server" Style="width: 582px;" />
    </td>
   </tr>

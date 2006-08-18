@@ -137,5 +137,9 @@
       <key column="Account_Id" />
       <one-to-many class="AccountAttribute, SnCore.Data" />
     </bag>
+    <bag lazy="true" name="AccountLicenses" inverse="true">
+      <key column="Account_Id" />
+      <one-to-many class="AccountLicense, SnCore.Data" />
+    </bag>
   </class>
 </hibernate-mapping>

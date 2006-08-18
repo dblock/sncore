@@ -2041,6 +2041,34 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountLicense]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[AccountLicense](
+	[AccountLicense_Id] [int] IDENTITY(1,1) NOT NULL,
+	[Account_Id] [int] NOT NULL,
+	[Name] [nvarchar](64) NOT NULL,
+	[LicenseUrl] [nvarchar](256) NOT NULL,
+	[ImageUrl] [nvarchar](256) NOT NULL,
+	[Created] [datetime] NOT NULL,
+	[Modified] [datetime] NOT NULL,
+ CONSTRAINT [PK_AccountLicense] PRIMARY KEY CLUSTERED 
+(
+	[AccountLicense_Id] ASC
+)WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountLicense]') AND name = N'UK_AccountLicense')
+CREATE UNIQUE NONCLUSTERED INDEX [UK_AccountLicense] ON [dbo].[AccountLicense] 
+(
+	[Account_Id] ASC
+)WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountPicture]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[AccountPicture](
@@ -2807,6 +2835,13 @@ ALTER TABLE [dbo].[AccountMessageFolder]  WITH CHECK ADD  CONSTRAINT [FK_Account
 REFERENCES [dbo].[AccountMessageFolder] ([AccountMessageFolder_Id])
 GO
 ALTER TABLE [dbo].[AccountMessageFolder] CHECK CONSTRAINT [FK_AccountMessageFolder_AccountMessageFolder]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_License_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountLicense]'))
+ALTER TABLE [dbo].[AccountLicense]  WITH CHECK ADD  CONSTRAINT [FK_License_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountLicense] CHECK CONSTRAINT [FK_License_Account]
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountPicture_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountPicture]'))
 ALTER TABLE [dbo].[AccountPicture]  WITH CHECK ADD  CONSTRAINT [FK_AccountPicture_Account] FOREIGN KEY([Account_Id])

@@ -33,6 +33,7 @@
  <tr><td width="30" align="center"><img src="images/account/places.gif" /></td><td width="*"><a href="AccountPlacesManage.aspx">Places</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/property.gif" /></td><td width="*"><a href="AccountPropertyManage.aspx">Property</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/events.gif" /></td><td width="*"><a href="AccountEventsManage.aspx">Events</a></td></tr>
+ <tr><td width="30" align="center"><img src="images/account/license.gif" /></td><td width="*"><a href="AccountLicense.aspx">License</a></td></tr>
 </table>
 
 <asp:Panel runat="server" ID="panelSystem">
