@@ -177,10 +177,10 @@ namespace SnCore.Services
 
         public TransitStatsRequest(HttpRequest request, Nullable<DateTime> lastseen)
         {
-            RequestUri = request.Url.ToString();
-            RefererUri = request.UrlReferrer.ToString();
+            RequestUri = (request.Url != null) ? request.Url.ToString() : string.Empty;
+            RefererUri = (request.UrlReferrer != null) ? request.UrlReferrer.ToString() : string.Empty;
 
-            if (RefererUri != null)
+            if (request.UrlReferrer != null)
             {
                 HttpRequest q = new HttpRequest(null, RefererUri.ToString(), request.UrlReferrer.Query.TrimStart("?".ToCharArray()));
                 RefererQuery = q.Params["q"];
