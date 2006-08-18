@@ -91,9 +91,12 @@ public partial class TagWordsView : AccountPersonPage
         {
             if (!IsPostBack)
             {
-                object[] args = { Count };
+                ServiceQueryOptions options = new ServiceQueryOptions();
+                options.PageNumber = 0;
+                options.PageSize = Count;
+                object[] args = { TransitTagWordQueryOptions.Promoted, options };
                 List<TransitTagWord> words = SessionManager.GetCachedCollection<TransitTagWord>(
-                    TagWordService, "GetPromotedTagWords", args);
+                    TagWordService, "GetTagWords", args);
                 words.Sort(CompareByFrequency);
                 MaxFrequency = mMaxFrequency;
                 MinFrequency = mMinFrequency;
