@@ -14,32 +14,35 @@ using SnCore.WebServices;
 
 public partial class AccountFriendsView : AccountPersonPage
 {
-    public void Page_Load()
+    public void Page_Load(object sender, EventArgs e)
     {
         try
         {
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
             if (!IsPostBack)
             {
-                gridManage.VirtualItemCount = SocialService.GetFriendsActivityCount(SessionManager.Ticket);
-                gridManage_OnGetDataSource(this, null);
-                gridManage.DataBind();
+                object[] args = { RequestId };
+                TransitAccount ta = SessionManager.GetCachedItem<TransitAccount>(
+                    AccountService, "GetAccountById", args);
 
-                if (SessionManager.IsLoggedIn)
-                {
-                    linkNewFriends.NavigateUrl = string.Format("AccountsView.aspx?country={0}&state={1}&city={2}",
-                        SessionManager.Account.Country, SessionManager.Account.State, SessionManager.Account.City);
-                }
-                else
-                {
-                    linkNewFriends.NavigateUrl = "AccountsView.aspx";
-                }
+                labelName.Text = string.Format("{0}'s Friends", Render(ta.Name));
+                GetData(sender, e);
             }
         }
         catch (Exception ex)
         {
             ReportException(ex);
         }
+    }
+
+    void GetData(object sender, EventArgs e)
+    {
+        gridManage.CurrentPageIndex = 0;
+        object[] args = { SessionManager.Ticket };
+        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+            SocialService, "GetFriendsActivityCount", args);
+        gridManage_OnGetDataSource(this, null);
+        gridManage.DataBind();
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
@@ -49,7 +52,9 @@ public partial class AccountFriendsView : AccountPersonPage
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridManage.CurrentPageIndex;
             options.PageSize = gridManage.PageSize;
-            gridManage.DataSource = SocialService.GetFriendsActivity(SessionManager.Ticket, options);
+            object[] args = { SessionManager.Ticket, options };
+            gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountActivity>(
+                SocialService, "GetFriendsActivity", args);
         }
         catch (Exception ex)
         {

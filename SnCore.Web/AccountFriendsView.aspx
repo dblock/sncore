@@ -5,55 +5,57 @@
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
- <table cellpadding="0" cellspacing="0" width="784">
-  <tr>
-   <td>
-    <div class="sncore_h2">
-     Friends
-    </div>
-   </td>
-   <td align="right" valign="middle">
-    <a href="AccountFriendsRss.aspx?id=<% Response.Write(AccountId); %>">
-     <img border="0" alt="Rss" src="images/rss.gif" /></a>
-    <link rel="alternate" type="application/rss+xml" title="Rss" href="AccountFriendsRss.aspx?id=<% Response.Write(AccountId); %>" />
-   </td>
-  </tr>
-  <tr>
-   <td colspan="2" class="sncore_h2sub">
-    &#187; Make new friends in <asp:HyperLink runat="server" ID="linkNewFriends" Text="your city" /> ! 
-   </td>
-  </tr>
- </table>
- <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage" PageSize="10"
-  AllowPaging="true" AutoGenerateColumns="false" CssClass="sncore_table" ShowHeader="false"
-  AllowCustomPaging="true">
-  <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
-   PrevPageText="Prev" HorizontalAlign="Center" />
-  <ItemStyle CssClass="sncore_table_tr_td" HorizontalAlign="Center" />
-  <Columns>
-   <asp:BoundColumn DataField="Id" Visible="false" />
-   <asp:TemplateColumn ItemStyle-VerticalAlign="Middle">
-    <itemtemplate>
+ <atlas:UpdatePanel Mode="Conditional" ID="panelLinks" RenderMode="Inline" runat="server">
+  <ContentTemplate>
+   <table cellpadding="0" cellspacing="0" width="784">
+    <tr>
+     <td>
+      <div class="sncore_h2">
+       <asp:Label id="labelName" runat="server" />
+      </div>
+      <div class="sncore_h2sub">
+       <asp:HyperLink id="linkAll" runat="server" Text="&#187; All People" NavigateUrl="AccountsView.aspx" />
+       <a href="AccountInvitationsManage.aspx">&#187; Invite a Friend</a>
+       <a href="RefererAccountsView.aspx">&#187; Top Traffickers</a>
+      </div>
+     </td>
+     <td>
+      <asp:Label ID="labelCount" runat="server" CssClass="sncore_h2sub" />
+     </td>
+     <td align="right" valign="middle">
+      <a href='AccountFriendsRss.aspx?id=<% Response.Write(RequestId); %>'>
+       <img src="images/rss.gif" border="0" />
+      </a>
+      <link runat="server" id="linkRelRss" rel="alternate" type="application/rss+xml" title="Rss"
+       href="AccountFriendsRss.aspx?id=<% Response.Write(RequestId); %>" />
+     </td>
+    </tr>
+   </table>
+   <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage" AllowCustomPaging="true" RepeatColumns="4" RepeatRows="3" 
+    RepeatDirection="Horizontal" CssClass="sncore_table" ShowHeader="false">
+    <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
+     prevpagetext="Prev" horizontalalign="Center" />
+    <ItemStyle CssClass="sncore_description" HorizontalAlign="Center" Width="25%" />
+    <ItemTemplate>
      <a href="AccountView.aspx?id=<%# Eval("Id") %>">
       <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("PictureId") %>" />
      </a>
-    </itemtemplate>
-   </asp:TemplateColumn>
-   <asp:TemplateColumn ItemStyle-VerticalAlign="Middle" ItemStyle-HorizontalAlign="Left">
-    <itemtemplate>
-     <div class="sncore_account_name">
+     <div>
       <a href="AccountView.aspx?id=<%# Eval("Id") %>">
        <%# base.Render(Eval("Name")) %>
       </a>
      </div>
-     <div style="color: silver">
-      Last activity: <%# base.Adjust(Eval("LastLogin")).ToString() %>
-      <br />
+     <div>
+      last activity:
+      <%# base.Adjust(Eval("LastLogin")).ToString("d") %>
+     </div>
+     <div>
       <%# base.Render(Eval("City")) %>
       <%# base.Render(Eval("State")) %>
+     </div>
+     <div>
       <%# base.Render(Eval("Country")) %>
      </div>
-     <br />
      <div>
       <a href='AccountPicturesView.aspx?id=<%# Eval("Id") %>'>
        <%# GetNewPictures((int) Eval("NewPictures")) %>
@@ -78,9 +80,9 @@
       <a href='AccountView.aspx?id=<%# Eval("Id") %>'>
        <%# GetNewSyndicatedContent((int) Eval("NewSyndicatedContent")) %>
       </a>
-     </div>    
-    </itemtemplate>
-   </asp:TemplateColumn>
-  </Columns>
- </SnCoreWebControls:PagedGrid>
+     </div>
+    </ItemTemplate>
+   </SnCoreWebControls:PagedList> 
+  </ContentTemplate>
+ </atlas:UpdatePanel>
 </asp:Content>

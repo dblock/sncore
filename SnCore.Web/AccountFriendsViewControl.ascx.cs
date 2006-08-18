@@ -35,6 +35,10 @@ public partial class AccountFriendsViewControl : Control
             if (!IsPostBack)
             {
                 GetData(sender, e);
+
+                linkAll.Text = string.Format("&#187; All {0} Friend{1}", 
+                    friendsList.VirtualItemCount, friendsList.VirtualItemCount == 1 ? string.Empty : "s");
+                linkAll.NavigateUrl = string.Format("AccountFriendsView.aspx?id={0}", AccountId);
             }
         }
         catch (Exception ex)
