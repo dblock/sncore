@@ -23,14 +23,21 @@
     <div class="sncore_h2sub">
      <asp:Label ID="labelFeedDescription" runat="server" />
     </div>
-    <asp:Panel ID="panelAdmin" runat="server" HorizontalAlign="Right">
-     <div>
-      <asp:LinkButton OnClick="feature_Click" runat="server" ID="linkFeature" Text="Feature" />
-     </div>
-     <div>
-      <asp:LinkButton OnClick="deletefeature_Click" runat="server" ID="linkDeleteFeatures" Text="Delete Features" />
-     </div>
-    </asp:Panel>
+    <atlas:UpdatePanel runat="server" ID="panelAdminUpdate" Mode="Conditional">
+     <ContentTemplate>
+      <asp:Panel ID="panelAdmin" runat="server" HorizontalAlign="Right">
+       <div>
+        <asp:LinkButton OnClick="feature_Click" runat="server" ID="linkFeature" Text="Feature" />
+       </div>
+       <div>
+        <asp:LinkButton OnClick="deletefeature_Click" runat="server" ID="linkDeleteFeatures" Text="&#187; Delete Features" />
+       </div>
+       <div>
+        <asp:LinkButton OnClick="publish_Click" runat="server" ID="linkPublish" Text="Publish" />
+       </div>
+      </asp:Panel>
+     </ContentTemplate>
+    </atlas:UpdatePanel>
    </td>
   </tr>
  </table>
@@ -44,28 +51,32 @@
    </td>
   </tr>
  </table>
- <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage" RepeatColumns="2"
-  RepeatRows="3" CssClass="sncore_table" BorderWidth="0" ShowHeader="false" AllowCustomPaging="true">
-  <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
-   prevpagetext="Prev" horizontalalign="Center" />
-  <ItemTemplate>
-   <div class="sncore_h2left">
-    <a href='AccountFeedItemView.aspx?id=<%# Eval("Id") %>'>
-     <%# base.Render(GetValue(Eval("Title"), "Untitled")) %>
-    </a>
-   </div>
-   <div class="sncore_h2sub" style="font-size: smaller;">
-    &#187; <%# base.Adjust(Eval("Created")) %>
-    <a href='<%# base.Render(Eval("Link")) %>' target="_blank">
-     &#187; x-posted
-    </a>
-    <a href='AccountFeedItemView.aspx?id=<%# Eval("Id") %>&#comments'>
-     &#187; <%# GetComments((int) Eval("CommentCount"))%>
-    </a>
-   </div>
-   <div>
-    <%# GetDescription((string) Eval("Description")) %>
-   </div>
-  </ItemTemplate>
- </SnCoreWebControls:PagedList>
+ <atlas:UpdatePanel runat="server" Mode="Always" ID="panelGrid">
+  <ContentTemplate>
+   <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage" RepeatColumns="2"
+    RepeatRows="3" CssClass="sncore_table" BorderWidth="0" ShowHeader="false" AllowCustomPaging="true">
+    <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
+     prevpagetext="Prev" horizontalalign="Center" />
+    <ItemTemplate>
+     <div class="sncore_h2left">
+      <a href='AccountFeedItemView.aspx?id=<%# Eval("Id") %>'>
+       <%# base.Render(GetValue(Eval("Title"), "Untitled")) %>
+      </a>
+     </div>
+     <div class="sncore_h2sub" style="font-size: smaller;">
+      &#187; <%# base.Adjust(Eval("Created")) %>
+      <a href='<%# base.Render(Eval("Link")) %>' target="_blank">
+       &#187; x-posted
+      </a>
+      <a href='AccountFeedItemView.aspx?id=<%# Eval("Id") %>&#comments'>
+       &#187; <%# GetComments((int) Eval("CommentCount"))%>
+      </a>
+     </div>
+     <div>
+      <%# GetDescription((string) Eval("Description")) %>
+     </div>
+    </ItemTemplate>
+   </SnCoreWebControls:PagedList>
+  </ContentTemplate>
+ </atlas:UpdatePanel>
 </asp:Content>

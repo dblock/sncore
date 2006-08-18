@@ -23,8 +23,9 @@ public partial class AccountFeedView : Page
         {
             if (mAccountFeedFeature == null)
             {
-                mAccountFeedFeature = SystemService.FindLatestFeature(
-                    "AccountFeed", RequestId);
+                object[] args = { "AccountFeed", RequestId };
+                mAccountFeedFeature = SessionManager.GetCachedItem<TransitFeature>(
+                    SystemService, "FindLatestFeature", args);                
             }
             return mAccountFeedFeature;
         }
@@ -36,14 +37,15 @@ public partial class AccountFeedView : Page
         {
             if (mAccountFeed == null)
             {
-                mAccountFeed = SyndicationService.GetAccountFeedById(
-                    SessionManager.Ticket, RequestId);
+                object[] args = { SessionManager.Ticket, RequestId }; 
+                mAccountFeed = SessionManager.GetCachedItem<TransitAccountFeed>(
+                    SyndicationService, "GetAccountFeedById", args);
             }
             return mAccountFeed;
         }
     }
 
-    public void Page_Load()
+    public void Page_Load(object sender, EventArgs e)
     {
         try
         {
@@ -54,6 +56,8 @@ public partial class AccountFeedView : Page
                 labelFeed.Text = Renderer.Render(f.Name);
                 labelFeed.NavigateUrl = f.LinkUrl;
                 labelFeedDescription.Text = Renderer.Render(f.Description);
+
+                GetDataPublish(sender, e);
 
                 TransitFeedType t = SyndicationService.GetFeedTypeByName(f.FeedType);
                 gridManage.RepeatColumns = t.SpanColumns;
@@ -66,21 +70,32 @@ public partial class AccountFeedView : Page
 
                 this.Title = string.Format("{0}'s {1}", Renderer.Render(a.Name), Renderer.Render(f.Name));
 
-                gridManage.VirtualItemCount = SyndicationService.GetAccountFeedItemsCountById(RequestId);
-                gridManage_OnGetDataSource(this, null);
+                object[] args = { RequestId };
+                gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(SyndicationService, "GetAccountFeedItemsCountById", args);
+                gridManage_OnGetDataSource(sender, e);
                 gridManage.DataBind();
 
-                if (SessionManager.IsAdministrator)
-                {
-                    linkFeature.Text = (LatestAccountFeedFeature != null)
-                        ? string.Format("Feature &#187; Last on {0}", Adjust(LatestAccountFeedFeature.Created).ToString("d"))
-                        : "Feature &#187; Never Featured";
-                }
+                GetDataFeature(sender, e);
             }
         }
         catch (Exception ex)
         {
             ReportException(ex);
+        }
+    }
+
+    void GetDataPublish(object sender, EventArgs e)
+    {
+        linkPublish.Text = AccountFeed.Publish ? "&#187; Do Not Publish" : "&#187; Publish";
+    }
+
+    void GetDataFeature(object sender, EventArgs e)
+    {
+        if (SessionManager.IsAdministrator)
+        {
+            linkFeature.Text = (LatestAccountFeedFeature != null)
+                ? string.Format("Feature &#187; Last on {0}", Adjust(LatestAccountFeedFeature.Created).ToString("d"))
+                : "Feature &#187; Never Featured";
         }
     }
 
@@ -91,7 +106,9 @@ public partial class AccountFeedView : Page
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridManage.CurrentPageIndex;
             options.PageSize = gridManage.PageSize;
-            gridManage.DataSource = SyndicationService.GetAccountFeedItemsById(RequestId, options);
+            object[] args = { RequestId, options };
+            gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountFeedItem>(
+                SyndicationService, "GetAccountFeedItemsById", args);
         }
         catch (Exception ex)
         {
@@ -130,7 +147,8 @@ public partial class AccountFeedView : Page
             t_feature.DataObjectName = "AccountFeed";
             t_feature.DataRowId = RequestId;
             SystemService.CreateOrUpdateFeature(SessionManager.Ticket, t_feature);
-            Redirect(Request.Url.PathAndQuery);
+            GetDataFeature(sender, e);
+            panelAdminUpdate.Update();
         }
         catch (Exception ex)
         {
@@ -152,13 +170,36 @@ public partial class AccountFeedView : Page
             t_feature.DataObjectName = "AccountFeed";
             t_feature.DataRowId = RequestId;
             SystemService.DeleteAllFeatures(SessionManager.Ticket, t_feature);
-            Redirect(Request.Url.PathAndQuery);
+            GetDataFeature(sender, e);
+            panelAdminUpdate.Update();
         }
         catch (Exception ex)
         {
             ReportException(ex);
         }
     }
+
+    public void publish_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (!SessionManager.IsAdministrator)
+            {
+                // avoid round-trip
+                throw new Exception("You must be an administrator to toggle feed publishing.");
+            }
+
+            AccountFeed.Publish = !AccountFeed.Publish;
+            SyndicationService.CreateOrUpdateAccountFeed(SessionManager.Ticket, AccountFeed);
+            GetDataPublish(sender, e);
+            panelAdminUpdate.Update();
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
 
     public string GetDescription(string value)
     {
