@@ -21,8 +21,8 @@ namespace SnCore.BackEndServices
 {
     public class SystemSyndicationService : SystemService
     {
-        private int mSleepInterval = 600;
-        private int mInterruptInterval = 1;
+        private int mSleepInterval = 60 * 10;
+        private int mInterruptInterval = 10;
 
         public int SleepInterval
         {

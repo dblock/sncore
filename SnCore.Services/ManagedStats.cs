@@ -423,7 +423,8 @@ namespace SnCore.Services
 
         private void IncrementRawCounter(TransitStatsRequest request)
         {
-            string uri = request.RequestUri.Substring(0, 255);
+            string uri = request.RequestUri;
+            if (uri.Length > 255) uri = uri.Substring(0, 255);
 
             // increment the raw uri counter
             Counter counter_raw = (Counter)Session.CreateCriteria(typeof(Counter))

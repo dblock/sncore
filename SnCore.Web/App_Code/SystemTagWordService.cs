@@ -20,7 +20,7 @@ namespace SnCore.BackEndServices
     public class SystemTagWordService : SystemService
     {
         private int mSleepInterval = 60 * 60 * 2;
-        private int mInterruptInterval = 1;
+        private int mInterruptInterval = 3;
 
         public int SleepInterval
         {
