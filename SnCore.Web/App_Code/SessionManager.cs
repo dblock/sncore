@@ -170,6 +170,10 @@ public class SessionManager
                 {
                     StatsService.TrackMultipleRequests(s_Requests.ToArray());
                 }
+                catch
+                {
+                    // ignore errors, never display to user
+                }
                 finally
                 {
                     s_Requests.Clear();
