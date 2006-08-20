@@ -15,6 +15,7 @@ using SnCore.WebServices;
 using SnCore.BackEndServices;
 using System.Collections.Generic;
 using System.Text;
+using System.Reflection;
 
 public class SessionManager
 {
@@ -833,7 +834,9 @@ public class SessionManager
         List<TransitType> result = (List<TransitType>)Cache[key];
         if (result == null || IsAdministrator)
         {
-            result = (List<TransitType>)service.GetType().GetMethod(invoke).Invoke(service, args);
+            MethodInfo mi = service.GetType().GetMethod(invoke);
+            if (mi == null) throw new ArgumentException(string.Format("Invalid method \"{0}:{1}\"", service.GetType().Name, invoke));
+            result = (List<TransitType>)mi.Invoke(service, args);
             if (result != null)
             {
                 Cache.Insert(key, result, null, Cache.NoAbsoluteExpiration, cacheduration);
@@ -856,7 +859,9 @@ public class SessionManager
         object count = Cache[key];
         if (count == null || IsAdministrator)
         {
-            count = service.GetType().GetMethod(invoke).Invoke(service, args);
+            MethodInfo mi = service.GetType().GetMethod(invoke);
+            if (mi == null) throw new ArgumentException(string.Format("Invalid method \"{0}:{1}\"", service.GetType().Name, invoke));
+            count = (int)mi.Invoke(service, args);
             Cache.Insert(key, count, null, Cache.NoAbsoluteExpiration, cacheduration);
         }
         return (int)count;
@@ -875,7 +880,9 @@ public class SessionManager
         TransitType result = (TransitType) Cache[key];
         if (result == null || IsAdministrator)
         {
-            result = (TransitType)service.GetType().GetMethod(invoke).Invoke(service, args);
+            MethodInfo mi = service.GetType().GetMethod(invoke);
+            if (mi == null) throw new ArgumentException(string.Format("Invalid method \"{0}:{1}\"", service.GetType().Name, invoke));
+            result = (TransitType)mi.Invoke(service, args);
             if (result != null)
             {
                 Cache.Insert(key, result, null, Cache.NoAbsoluteExpiration, cacheduration);

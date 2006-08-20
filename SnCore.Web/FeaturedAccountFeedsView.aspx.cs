@@ -72,6 +72,6 @@ public partial class FeaturedAccountFeedsView : Page
     public TransitAccountFeed GetAccountFeed(int id)
     {
         object[] args = { SessionManager.Ticket, id };
-        return SessionManager.GetCachedItem<TransitAccountFeed>(AccountService, "GetAccountFeedById", args);
+        return SessionManager.GetCachedItem<TransitAccountFeed>(SyndicationService, "GetAccountFeedById", args);
     }
 }
