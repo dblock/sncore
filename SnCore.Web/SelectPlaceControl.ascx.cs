@@ -46,7 +46,7 @@ public partial class SelectPlaceControl : Control
             {
                 ArrayList types = new ArrayList();
                 types.Add(new TransitAccountPlaceType());
-                types.AddRange(PlaceService.GetPlaceTypes());
+                types.AddRange(SessionManager.GetCachedCollection<TransitPlaceType>(PlaceService, "GetPlaceTypes", null));
                 selectType.DataSource = types;
                 selectType.DataBind();
 
@@ -160,7 +160,8 @@ public partial class SelectPlaceControl : Control
     {
         try
         {
-            Place = PlaceService.GetPlaceById(int.Parse(e.CommandArgument.ToString()));
+            object[] args = { int.Parse(e.CommandArgument.ToString()) };
+            Place = SessionManager.GetCachedItem<TransitPlace>(PlaceService, "GetPlaceById", args);
             ArrayList list = new ArrayList();
             list.Add(Place);
             chosenPlace.DataSource = list;
@@ -187,7 +188,10 @@ public partial class SelectPlaceControl : Control
                 return;
             }
 
-            List<TransitPlace> list = PlaceService.SearchPlaces(inputLookupName.Text, null);
+            object[] args = { inputLookupName.Text, null };
+            List<TransitPlace> list = SessionManager.GetCachedCollection<TransitPlace>(
+                PlaceService, "SearchPlaces", args);
+
             gridLookupPlaces.DataSource = list;
             gridLookupPlaces.DataBind();
 

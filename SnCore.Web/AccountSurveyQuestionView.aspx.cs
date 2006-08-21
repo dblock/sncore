@@ -20,7 +20,9 @@ public partial class AccountSurveyQuestionView : Page
     private void GetData()
     {
         accountSurveyAnswers.CurrentPageIndex = 0;
-        accountSurveyAnswers.VirtualItemCount = AccountService.GetAccountSurveyAnswersCountByQuestionId(SurveyQuestionId);
+        object[] args = { SurveyQuestionId };
+        accountSurveyAnswers.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+            AccountService, "GetAccountSurveyAnswersCountByQuestionId", args);
         accountSurveyAnswers_OnGetDataSource(this, null);
         accountSurveyAnswers.DataBind();
     }
@@ -75,8 +77,9 @@ public partial class AccountSurveyQuestionView : Page
         serviceoptions.PageSize = accountSurveyAnswers.PageSize;
         serviceoptions.PageNumber = accountSurveyAnswers.CurrentPageIndex;
 
-        accountSurveyAnswers.DataSource = AccountService.GetAccountSurveyAnswersByQuestionId(
-            SurveyQuestionId, serviceoptions);            
+        object[] args = { SurveyQuestionId, serviceoptions };
+        accountSurveyAnswers.DataSource = SessionManager.GetCachedCollection<TransitAccountSurveyAnswer>(
+            AccountService, "GetAccountSurveyAnswersByQuestionId", args);
     }
 
     public int SurveyQuestionId

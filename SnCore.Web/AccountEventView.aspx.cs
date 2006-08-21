@@ -26,7 +26,9 @@ public partial class AccountEventView : Page
         {
             if (mAccountEventAccount == null && RequestId > 0 && AccountEvent != null)
             {
-                mAccountEventAccount = AccountService.GetAccountById(AccountEvent.AccountId);
+                object[] args = { AccountEvent.AccountId };
+                mAccountEventAccount = SessionManager.GetCachedItem<TransitAccount>(
+                    AccountService, "GetAccountById", args);
             }
 
             return mAccountEventAccount;
@@ -75,7 +77,9 @@ public partial class AccountEventView : Page
         {
             if (mAccountEvent == null && RequestId > 0)
             {
-                mAccountEvent = EventService.GetAccountEventById(SessionManager.Ticket, RequestId);
+                object[] args = { SessionManager.Ticket, RequestId };
+                mAccountEvent = SessionManager.GetCachedItem <TransitAccountEvent>(
+                    EventService, "GetAccountEventById", args);
             }
 
             return mAccountEvent;
@@ -140,7 +144,9 @@ public partial class AccountEventView : Page
                     AccountEventEmail.Visible = ! string.IsNullOrEmpty(evt.Email);
                     AccountEventCost.Text = Renderer.Render(evt.Cost);
 
-                    picturesView.DataSource = EventService.GetAccountEventPictures(SessionManager.Ticket, RequestId);
+                    object[] p_args = { SessionManager.Ticket, RequestId };
+                    picturesView.DataSource = SessionManager.GetCachedCollection<TransitAccountEventPicture>(
+                        EventService, "GetAccountEventPictures", p_args);
                     picturesView.DataBind();
 
                     if (picturesView.Items.Count == 0)

@@ -42,7 +42,9 @@ public partial class SearchAccountStoriesControl : Control
     public void GetResults()
     {
         gridResults.CurrentPageIndex = 0;
-        gridResults.VirtualItemCount = StoryService.SearchAccountStoriesCount(SearchQuery);
+        object[] args = { SearchQuery };
+        gridResults.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+            StoryService, "SearchAccountStoriesCount", args);
 
         labelResults.Text = string.Format("{0} result{1}",
             gridResults.VirtualItemCount, gridResults.VirtualItemCount != 1 ? "s" : string.Empty);
@@ -91,7 +93,9 @@ public partial class SearchAccountStoriesControl : Control
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridResults.CurrentPageIndex;
             options.PageSize = gridResults.PageSize;
-            gridResults.DataSource = StoryService.SearchAccountStories(SearchQuery, options);
+            object[] args = { SearchQuery, options };
+            gridResults.DataSource = SessionManager.GetCachedCollection<TransitAccountStory>(
+                StoryService, "SearchAccountStories", args);
         }
         catch (Exception ex)
         {

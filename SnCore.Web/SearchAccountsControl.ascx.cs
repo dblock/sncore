@@ -41,8 +41,10 @@ public partial class SearchAccountsControl : Control
 
     public void GetResults()
     {
-        gridResults.CurrentPageIndex = 0;        
-        gridResults.VirtualItemCount = AccountService.SearchAccountsCount(SearchQuery);
+        gridResults.CurrentPageIndex = 0;
+        object[] args = { SearchQuery };
+        gridResults.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+            AccountService, "SearchAccountsCount", args);
 
         labelResults.Text = string.Format("{0} result{1}", 
             gridResults.VirtualItemCount, gridResults.VirtualItemCount != 1 ? "s" : string.Empty);
@@ -75,7 +77,9 @@ public partial class SearchAccountsControl : Control
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridResults.CurrentPageIndex;
             options.PageSize = gridResults.PageSize;
-            gridResults.DataSource = AccountService.SearchAccounts(SearchQuery, options);
+            object[] args = { SearchQuery, options };
+            gridResults.DataSource = SessionManager.GetCachedCollection<TransitAccountActivity>(
+                AccountService, "SearchAccounts", args);
         }
         catch (Exception ex)
         {

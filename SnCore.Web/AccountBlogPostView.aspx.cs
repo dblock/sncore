@@ -20,8 +20,9 @@ public partial class AccountBlogPostView : Page
         {
             if (!IsPostBack)
             {
-                TransitAccountBlogPost tfi = BlogService.GetAccountBlogPostById(
-                    SessionManager.Ticket, RequestId);
+                object[] args = { SessionManager.Ticket, RequestId };
+                TransitAccountBlogPost tfi = SessionManager.GetCachedItem<TransitAccountBlogPost>(
+                    BlogService, "GetAccountBlogPostById", args);
 
                 labelAccountName.Text = Renderer.Render(tfi.AccountName);
                 imageAccount.Src = string.Format("AccountPictureThumbnail.aspx?id={0}", tfi.AccountPictureId);
@@ -44,7 +45,9 @@ public partial class AccountBlogPostView : Page
                 BlogPostTitle.Text = Renderer.Render(string.IsNullOrEmpty(tfi.Title) ? "Untitled" : tfi.Title);
                 BlogPostBody.Text = Renderer.RenderEx(tfi.Body);
 
-                BlogPostComments.DiscussionId = DiscussionService.GetAccountBlogPostDiscussionId(RequestId);
+                object[] d_args = { RequestId };
+                BlogPostComments.DiscussionId = SessionManager.GetCachedCollectionCount(
+                    DiscussionService, "GetAccountBlogPostDiscussionId", d_args);
                 BlogPostComments.DataBind();
             }
         }

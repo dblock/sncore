@@ -22,9 +22,17 @@ public partial class AccountStoryPictureView : Page
             {
                 inputPicture.Src = "AccountStoryPicture.aspx?id=" + RequestId;
 
-                TransitAccountStoryPicture p = StoryService.GetAccountStoryPictureById(SessionManager.Ticket, RequestId);
-                TransitAccountStory s = StoryService.GetAccountStoryById(SessionManager.Ticket, p.AccountStoryId);
-                TransitAccount a = AccountService.GetAccountById(s.AccountId);
+                object[] sp_args = { SessionManager.Ticket, RequestId };
+                TransitAccountStoryPicture p = SessionManager.GetCachedItem<TransitAccountStoryPicture>(
+                    StoryService, "GetAccountStoryPictureById", sp_args);
+
+                object[] as_args = { SessionManager.Ticket, p.AccountStoryId };
+                TransitAccountStory s = SessionManager.GetCachedItem<TransitAccountStory>(
+                    StoryService, "GetAccountStoryById", as_args);
+
+                object[] a_args = { s.AccountId };
+                TransitAccount a = SessionManager.GetCachedItem<TransitAccount>(
+                    AccountService, "GetAccountById", a_args);
 
                 inputPicture.Src = "AccountStoryPicture.aspx?id=" + RequestId;
                 linkAccountStory.Text = Renderer.Render(s.Name);
@@ -41,7 +49,10 @@ public partial class AccountStoryPictureView : Page
                     (p.CommentCount > 0) ? p.CommentCount.ToString() : "no",
                     (p.CommentCount == 1) ? "" : "s");
 
-                discussionComments.DiscussionId = DiscussionService.GetAccountStoryPictureDiscussionId(RequestId);
+                object[] d_args = { RequestId };
+                discussionComments.DiscussionId = SessionManager.GetCachedCollectionCount(
+                    DiscussionService, "GetAccountStoryPictureDiscussionId", d_args);
+
                 discussionComments.DataBind();
 
             }

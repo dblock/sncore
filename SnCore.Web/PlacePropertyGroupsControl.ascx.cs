@@ -31,7 +31,8 @@ public partial class PlacePropertyGroupsControl : Control
         {
             if (!IsPostBack)
             {
-                groups.DataSource = PlaceService.GetPlacePropertyGroups();
+                groups.DataSource = SessionManager.GetCachedCollection<TransitPlacePropertyGroup>(
+                    PlaceService, "GetPlacePropertyGroups", null);
                 groups.DataBind();
             }
         }

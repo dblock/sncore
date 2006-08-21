@@ -42,7 +42,9 @@ public partial class SearchAccountFeedItemsControl : Control
     public void GetResults()
     {
         gridResults.CurrentPageIndex = 0;
-        gridResults.VirtualItemCount = SyndicationService.SearchAccountFeedItemsCount(SearchQuery);
+        object[] args = { SearchQuery };
+        gridResults.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+            SyndicationService, "SearchAccountFeedItemsCount", args);
 
         labelResults.Text = string.Format("{0} result{1}",
             gridResults.VirtualItemCount, gridResults.VirtualItemCount != 1 ? "s" : string.Empty);
@@ -75,7 +77,9 @@ public partial class SearchAccountFeedItemsControl : Control
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridResults.CurrentPageIndex;
             options.PageSize = gridResults.PageSize;
-            gridResults.DataSource = SyndicationService.SearchAccountFeedItems(SearchQuery, options);
+            object[] args = { SearchQuery, options };
+            gridResults.DataSource = SessionManager.GetCachedCollection<TransitAccountFeedItem>(
+                SyndicationService, "SearchAccountFeedItems", args);
         }
         catch (Exception ex)
         {

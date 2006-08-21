@@ -25,7 +25,10 @@ public partial class AccountView : Page
             if (mAccountId < 0)
             {
                 mAccountId = RequestId;
-                if (mAccountId == 0) mAccountId = AccountService.GetAccountId(SessionManager.Ticket);
+                if (mAccountId == 0)
+                {
+                    mAccountId = SessionManager.Account.Id;
+                }
             }
 
             return mAccountId;

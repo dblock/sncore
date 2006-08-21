@@ -30,7 +30,9 @@ public partial class AccountDiscussionThreadsRss : Page
         {
             if (mAccount == null)
             {
-                mAccount = AccountService.GetAccountById(RequestId);
+                object[] args = { RequestId };
+                mAccount = SessionManager.GetCachedItem<TransitAccount>(
+                    AccountService, "GetAccountById", args);
             }
             return mAccount;
         }

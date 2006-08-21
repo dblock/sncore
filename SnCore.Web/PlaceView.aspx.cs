@@ -230,7 +230,10 @@ public partial class PlaceView : Page
 
                     panelDetails.Visible = SessionManager.IsLoggedIn;
 
-                    picturesView.DataSource = PlaceService.GetPlacePictures(RequestId);
+                    object[] p_args = { RequestId };
+                    picturesView.DataSource = SessionManager.GetCachedCollection<TransitPlacePicture>(
+                        PlaceService, "GetPlacePictures", p_args);
+
                     picturesView.DataBind();
 
                     if (picturesView.Items.Count == 0)

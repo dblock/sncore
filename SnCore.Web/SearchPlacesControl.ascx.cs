@@ -41,8 +41,10 @@ public partial class SearchPlacesControl : Control
 
     public void GetResults()
     {
-        gridResults.CurrentPageIndex = 0;        
-        gridResults.VirtualItemCount = PlaceService.SearchPlacesCount(SearchQuery);
+        gridResults.CurrentPageIndex = 0;
+        object[] args = { SearchQuery };
+        gridResults.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+            PlaceService, "SearchPlacesCount", args);
 
         labelResults.Text = string.Format("{0} result{1}", 
             gridResults.VirtualItemCount, gridResults.VirtualItemCount != 1 ? "s" : string.Empty);
@@ -75,7 +77,9 @@ public partial class SearchPlacesControl : Control
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridResults.CurrentPageIndex;
             options.PageSize = gridResults.PageSize;
-            gridResults.DataSource = PlaceService.SearchPlaces(SearchQuery, options);
+            object[] args = { SearchQuery, options };
+            gridResults.DataSource = SessionManager.GetCachedCollection<TransitPlace>(
+                PlaceService, "SearchPlaces", args);
         }
         catch (Exception ex)
         {

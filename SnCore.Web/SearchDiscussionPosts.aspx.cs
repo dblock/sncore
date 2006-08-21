@@ -25,7 +25,9 @@ public partial class SearchDiscussionPosts : Page
                 {
                     linkDiscussion.Visible = true;
                     linkDiscussion.NavigateUrl = string.Format("DiscussionView.aspx?id={0}", RequestId);
-                    TransitDiscussion discussion = DiscussionService.GetDiscussionById(RequestId);
+                    object[] args = { RequestId };
+                    TransitDiscussion discussion = SessionManager.GetCachedItem<TransitDiscussion>(
+                        DiscussionService, "GetDiscussionById", args);
                     linkDiscussion.Text = Renderer.Render(discussion.Name);
                 }
             }

@@ -105,7 +105,9 @@ public partial class AccountBlogView : Page
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridManage.CurrentPageIndex;
             options.PageSize = gridManage.PageSize;
-            gridManage.DataSource = BlogService.GetAccountBlogPostsById(RequestId, options);
+            object[] args = { RequestId, options };
+            gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountBlogPost>(
+                BlogService, "GetAccountBlogPostsById", args);
         }
         catch (Exception ex)
         {

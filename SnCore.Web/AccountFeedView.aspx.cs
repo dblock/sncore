@@ -61,11 +61,16 @@ public partial class AccountFeedView : Page
 
                 GetDataPublish(sender, e);
 
-                TransitFeedType t = SyndicationService.GetFeedTypeByName(f.FeedType);
+                object[] f_args = { f.FeedType };
+                TransitFeedType t = SessionManager.GetCachedItem<TransitFeedType>(
+                    SyndicationService, "GetFeedTypeByName", f_args);
                 gridManage.RepeatColumns = t.SpanColumns;
                 gridManage.RepeatRows = t.SpanRows;
 
-                TransitAccount a = AccountService.GetAccountById(f.AccountId);
+                object[] a_args = { f.AccountId };
+                TransitAccount a = SessionManager.GetCachedItem<TransitAccount>(
+                    AccountService, "GetAccountById", a_args);
+
                 labelAccountName.Text = Renderer.Render(a.Name);
                 linkAccount.HRef = string.Format("AccountView.aspx?id={0}", a.Id);
                 imageAccount.Src = string.Format("AccountPictureThumbnail.aspx?id={0}", a.PictureId);

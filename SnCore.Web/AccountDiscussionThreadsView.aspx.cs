@@ -87,10 +87,14 @@ public partial class AcountDiscussionThreadsView : Page
         {
             if (!IsPostBack)
             {
-                TransitAccount ta = AccountService.GetAccountById(AccountId);
+                object[] args = { AccountId };
+                TransitAccount ta = SessionManager.GetCachedItem<TransitAccount>(
+                    AccountService, "GetAccountById", args);
+
                 linkAccount.Text = Renderer.Render(ta.Name);
                 linkAccount.NavigateUrl = string.Format("AccountView.aspx?id={0}", ta.Id);
                 this.Title = labelHeader.Text = string.Format("{0}'s Discussion Posts", Renderer.Render(ta.Name));
+                
                 GetData(sender, e);
             }
         }

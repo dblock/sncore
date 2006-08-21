@@ -20,13 +20,18 @@ public partial class AccountPictureView : Page
         {
             if (!IsPostBack)
             {
-                TransitAccountPicture p = AccountService.GetAccountPictureById(SessionManager.Ticket, RequestId);
+                object[] p_args = { SessionManager.Ticket, RequestId };
+                TransitAccountPicture p = SessionManager.GetCachedItem<TransitAccountPicture>(
+                    AccountService, "GetAccountPictureById", p_args);
+
                 inputPicture.Src = "AccountPicture.aspx?id=" + RequestId;
                 inputName.Text = Renderer.Render(p.Name);
                 inputDescription.Text = Renderer.Render(p.Description);
                 inputCreated.Text = Adjust(p.Created).ToString();
 
-                TransitAccount a = AccountService.GetAccountById(p.AccountId);
+                object[] a_args = { p.AccountId };
+                TransitAccount a = SessionManager.GetCachedItem<TransitAccount>(
+                    AccountService, "GetAccountById", a_args);
 
                 linkAccount.Text = Renderer.Render(a.Name);
                 linkAccount.NavigateUrl = "AccountView.aspx?id=" + p.AccountId;

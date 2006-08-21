@@ -60,7 +60,7 @@ public partial class AccountEventsToday : Page
             {
                 ArrayList types = new ArrayList();
                 types.Add(new TransitAccountEventType());
-                types.AddRange(EventService.GetAccountEventTypes());
+                types.AddRange(SessionManager.GetCachedCollection<TransitAccountEventType>(EventService, "GetAccountEventTypes", null));
                 inputType.DataSource = types;
                 inputType.DataBind();
 
@@ -113,7 +113,9 @@ public partial class AccountEventsToday : Page
     {
         mOptions = null;
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = EventService.GetAccountEventInstancesCount(SessionManager.Ticket, QueryOptions);        
+        object[] args = { SessionManager.Ticket, QueryOptions };
+        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+            EventService, "GetAccountEventInstancesCount", args);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
@@ -125,8 +127,9 @@ public partial class AccountEventsToday : Page
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridManage.CurrentPageIndex;
             options.PageSize = gridManage.PageSize;
-            gridManage.DataSource = EventService.GetAccountEventInstances(
-                SessionManager.Ticket, QueryOptions, options);
+            object[] args = { SessionManager.Ticket, QueryOptions, options };
+            gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountEventInstance>(
+                EventService, "GetAccountEventInstances", args);
         }
         catch (Exception ex)
         {

@@ -20,13 +20,17 @@ public partial class AccountEventPictureView : Page
         {
             if (!IsPostBack)
             {
-                TransitAccountEventPicture p = EventService.GetAccountEventPictureById(SessionManager.Ticket, RequestId);
+                object[] e_args = { SessionManager.Ticket, RequestId };
+                TransitAccountEventPicture p = SessionManager.GetCachedItem<TransitAccountEventPicture>(
+                    EventService, "GetAccountEventPictureById", e_args);
                 inputPicture.Src = string.Format("AccountEventPicture.aspx?id={0}", RequestId);
                 inputName.Text = Renderer.Render(p.Name);
                 inputDescription.Text = Renderer.Render(p.Description);
                 inputCreated.Text = Adjust(p.Created).ToString();
 
-                TransitAccountEvent l = EventService.GetAccountEventById(SessionManager.Ticket, p.AccountEventId);
+                object[] ae_args = { SessionManager.Ticket, p.AccountEventId };
+                TransitAccountEvent l = SessionManager.GetCachedItem <TransitAccountEvent>(
+                    EventService, "GetAccountEventById", ae_args);
                 this.Title = string.Format("{0} {1}", Renderer.Render(l.Name), Renderer.Render(p.Name));
 
                 labelPicture.Text = Renderer.Render(p.Name);
@@ -62,7 +66,9 @@ public partial class AccountEventPictureView : Page
                     (p.CommentCount > 0) ? p.CommentCount.ToString() : "no",
                     (p.CommentCount == 1) ? "" : "s");
 
-                discussionComments.DiscussionId = DiscussionService.GetAccountEventPictureDiscussionId(RequestId);
+                object[] d_args = { RequestId };
+                discussionComments.DiscussionId = SessionManager.GetCachedCollectionCount(
+                    DiscussionService, "GetAccountEventPictureDiscussionId", d_args);
                 discussionComments.DataBind();
             }
         }

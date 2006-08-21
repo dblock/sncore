@@ -46,11 +46,15 @@ public partial class SearchDiscussionPostsControl : Control
         
         if (DiscussionId > 0)
         {
-            gridResults.VirtualItemCount = DiscussionService.SearchDiscussionPostsByIdCount(DiscussionId, SearchQuery);
+            object[] args = { DiscussionId, SearchQuery };
+            gridResults.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+                DiscussionService, "SearchDiscussionPostsByIdCount", args);
         }
         else
         {
-            gridResults.VirtualItemCount = DiscussionService.SearchDiscussionPostsCount(SearchQuery);
+            object[] args = { SearchQuery };
+            gridResults.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+                DiscussionService, "SearchDiscussionPostsCount", args);
         }
 
         labelResults.Text = string.Format("{0} result{1}", 
@@ -98,11 +102,15 @@ public partial class SearchDiscussionPostsControl : Control
 
             if (DiscussionId > 0)
             {
-                posts = DiscussionService.SearchDiscussionPostsById(DiscussionId, SearchQuery, options);
+                object[] args = { DiscussionId, SearchQuery, options };
+                posts = SessionManager.GetCachedCollection<TransitDiscussionPost>(
+                    DiscussionService, "SearchDiscussionPostsById", args);
             }
             else
             {
-                posts = DiscussionService.SearchDiscussionPosts(SearchQuery, options);
+                object[] args = { SearchQuery, options };
+                posts = SessionManager.GetCachedCollection<TransitDiscussionPost>(
+                    DiscussionService, "SearchDiscussionPosts", args);
             }
                 
             gridResults.DataSource = posts;
