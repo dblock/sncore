@@ -35,7 +35,10 @@ public partial class FeaturedAccountsRss : Page
                 queryoptions.PageNumber = 0;
                 queryoptions.PageSize = 25;
 
-                rssRepeater.DataSource = SystemService.GetFeatures("Account", queryoptions);
+                object[] args = { "Account", queryoptions };
+                rssRepeater.DataSource = SessionManager.GetCachedCollection<TransitFeature>(
+                    SystemService, "GetFeatures", args);
+
                 rssRepeater.DataBind();
             }
         }

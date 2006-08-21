@@ -192,7 +192,6 @@ namespace SnCore.Services
             if (!lastseen.HasValue) IncrementNewUser = true;
             else if (lastseen.Value.AddDays(1) < DateTime.UtcNow) IncrementReturningUser = true;
 
-            SinkException = true;
             Timestamp = DateTime.UtcNow;
         }
 
@@ -221,20 +220,6 @@ namespace SnCore.Services
             set
             {
                 mIncrementReturningUser = value;
-            }
-        }
-
-        private bool mSinkException = true;
-
-        public bool SinkException
-        {
-            get
-            {
-                return mSinkException;
-            }
-            set
-            {
-                mSinkException = value;
             }
         }
 

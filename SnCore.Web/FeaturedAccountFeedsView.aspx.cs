@@ -61,7 +61,10 @@ public partial class FeaturedAccountFeedsView : Page
             ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
             serviceoptions.PageSize = gridManage.PageSize;
             serviceoptions.PageNumber = gridManage.CurrentPageIndex;
-            gridManage.DataSource = SystemService.GetFeatures("AccountFeed", serviceoptions);
+
+            object[] args = { "AccountFeed", serviceoptions };
+            gridManage.DataSource = SessionManager.GetCachedCollection<TransitFeature>(
+                SystemService, "GetFeatures", args);
         }
         catch (Exception ex)
         {

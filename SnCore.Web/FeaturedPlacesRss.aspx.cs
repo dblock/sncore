@@ -34,7 +34,10 @@ public partial class FeaturedPlacesRss : Page
                 queryoptions.PageNumber = 0;
                 queryoptions.PageSize = 25;
 
-                rssRepeater.DataSource = SystemService.GetFeatures("Place", queryoptions);
+                object[] args = { "Place", queryoptions };
+                rssRepeater.DataSource = SessionManager.GetCachedCollection<TransitFeature>(
+                    SystemService, "GetFeatures", args);
+
                 rssRepeater.DataBind();
             }
         }

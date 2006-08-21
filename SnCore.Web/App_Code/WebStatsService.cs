@@ -48,18 +48,11 @@ namespace SnCore.WebServices
                 }
                 catch (Exception ex)
                 {
-                    if (request.SinkException)
-                    {
-                        EventLog.WriteEntry(string.Format("Error tracking {0} from {1}.\n{2}",
-                            (request.RequestUri != null) ? request.RequestUri.ToString() : "an unknown url",
-                            (request.RefererUri != null) ? request.RefererUri.ToString() : "an unknown referer",
-                            ex.Message),
-                            EventLogEntryType.Warning);
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    EventLog.WriteEntry(string.Format("Error tracking {0} from {1}.\n{2}",
+                        (request.RequestUri != null) ? request.RequestUri.ToString() : "an unknown url",
+                        (request.RefererUri != null) ? request.RefererUri.ToString() : "an unknown referer",
+                        ex.Message),
+                        EventLogEntryType.Warning);
                 }
             }
         }
@@ -86,18 +79,11 @@ namespace SnCore.WebServices
                     catch (Exception ex)
                     {
                         fException = true;
-                        if (request.SinkException)
-                        {
-                            EventLog.WriteEntry(string.Format("Error tracking {0} from {1}.\n{2}",
-                                (request.RequestUri != null) ? request.RequestUri.ToString() : "an unknown url",
-                                (request.RefererUri != null) ? request.RefererUri.ToString() : "an unknown referer",
-                                ex.Message),
-                                EventLogEntryType.Warning);
-                        }
-                        else
-                        {
-                            throw;
-                        }
+                        EventLog.WriteEntry(string.Format("Error tracking {0} from {1}.\n{2}",
+                            (request.RequestUri != null) ? request.RequestUri.ToString() : "an unknown url",
+                            (request.RefererUri != null) ? request.RefererUri.ToString() : "an unknown referer",
+                            ex.Message),
+                            EventLogEntryType.Warning);
                     }
                 }
 

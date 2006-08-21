@@ -61,7 +61,10 @@ public partial class FeaturedAccountEventsView : Page
             ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
             serviceoptions.PageSize = gridManage.PageSize;
             serviceoptions.PageNumber = gridManage.CurrentPageIndex;
-            gridManage.DataSource = SystemService.GetFeatures("AccountEvent", serviceoptions);
+
+            object[] args = { "AccountEvent", serviceoptions };
+            gridManage.DataSource = SessionManager.GetCachedCollection<TransitFeature>(
+                SystemService, "GetFeatures", args);
         }
         catch (Exception ex)
         {

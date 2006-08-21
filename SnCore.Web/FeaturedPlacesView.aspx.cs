@@ -61,7 +61,10 @@ public partial class FeaturedPlacesView : Page
             ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
             serviceoptions.PageSize = gridManage.PageSize;
             serviceoptions.PageNumber = gridManage.CurrentPageIndex;
-            gridManage.DataSource = SystemService.GetFeatures("Place", serviceoptions);
+
+            object[] args = { "Place", serviceoptions };
+            gridManage.DataSource = SessionManager.GetCachedCollection<TransitFeature>(
+                SystemService, "GetFeatures", args);
         }
         catch (Exception ex)
         {
