@@ -5,13 +5,25 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+ <link rel="alternate" type="application/rss+xml" title="Rss" href="DiscussionThreadsRss.aspx">
  <div class="sncore_navigate">
   <asp:Label CssClass="sncore_navigate_item" ID="linkDiscussionThreads" Text="New Posts"
    runat="server" />
  </div>
- <div class="sncore_h2">
-  New Posts
- </div> 
+ <table cellpadding="0" cellspacing="0" width="784">
+  <tr>
+   <td>
+    <div class="sncore_h2">
+     New Posts
+    </div>
+   </td>
+   <td align="right">
+    <a href="DiscussionThreadsRss.aspx">
+     <img border="0" src="images/rss.gif" alt="Rss" />
+    </a>
+   </td>
+  </tr>
+ </table>
  <div class="sncore_h2sub">
   <a href="DiscussionsView.aspx">&#187; All Forums</a>
   <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />

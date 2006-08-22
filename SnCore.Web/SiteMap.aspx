@@ -105,6 +105,7 @@
        <li><a href="AccountFeedsRss.aspx">Feeds</a></li>
        <li><a href="AccountStoriesRss.aspx">Stories</a></li>
        <li><a href="AccountEventsRss.aspx">Events</a></li>
+       <li><a href="DiscussionThreadsRss.aspx">Discussion Threads</a></li>
        <li><a href="AccountFeedItemsRss.aspx">Aggregated Feeds</a></li>
        <li><a href="AccountFeedItemImgsRss.aspx">Aggregated Feed Pictures</a></li>
        <li><a href="FeaturedAccountsRss.aspx">Featured People</a></li>

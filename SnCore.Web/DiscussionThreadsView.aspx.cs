@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.WebServices;
+using SnCore.Services;
 
 public partial class DiscussionThreadsView : Page
 {
@@ -34,13 +35,16 @@ public partial class DiscussionThreadsView : Page
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = gridManage.CurrentPageIndex;
         options.PageSize = gridManage.PageSize;
-        gridManage.DataSource = DiscussionService.GetDiscussionThreads(SessionManager.Ticket, options);
+        object[] args = { SessionManager.Ticket, options };
+        gridManage.DataSource = SessionManager.GetCachedCollection<TransitDiscussionPost>(
+            DiscussionService, "GetDiscussionThreads", args);
     }
 
     public void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = DiscussionService.GetDiscussionThreadsCount();
+        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+            DiscussionService, "GetDiscussionThreadsCount", null);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }

@@ -18,7 +18,8 @@
    <asp:Panel CssClass="sncore_createnew" ID="panelLinks" runat="server">
     <span class="sncore_link">
      <a href="DiscussionThreadsView.aspx">&#187; new posts</a>
-     <a href="Discussionsview.aspx">&#187; all forums</a>
+     <a href="DiscussionsView.aspx">&#187; all forums</a>
+     <a href="DiscussionThreadsRss.aspx">&#187; rss</a>
     </span>
    </asp:Panel>
   </td>
