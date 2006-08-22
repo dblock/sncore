@@ -51,7 +51,16 @@ public partial class AccountDiscussionThreadsRss : Page
     {
         get
         {
-            return WebsiteUrl + string.Format("/AccountDiscussionThreadsView.aspx?id={0}&amp;toplevel={1}", RequestId, Request.Params["toplevel"]);
+            return WebsiteUrl + string.Format("/AccountDiscussionThreadsView.aspx?id={0}&amp;toplevel={1}", RequestId, TopLevel);
+        }
+    }
+
+    public bool TopLevel
+    {
+        get
+        {
+            object value = Request.Params["toplevel"];
+            return (value == null ? false : bool.Parse(value.ToString()));
         }
     }
 
@@ -63,7 +72,7 @@ public partial class AccountDiscussionThreadsRss : Page
             {
                 DiscussionQueryOptions queryoptions = new DiscussionQueryOptions();
                 queryoptions.AccountId = RequestId;
-                queryoptions.TopOfThreadOnly = bool.Parse(Request.Params["toplevel"]);
+                queryoptions.TopOfThreadOnly = TopLevel;
                 ServiceQueryOptions options = new ServiceQueryOptions();
                 options.PageSize = 50;
                 options.PageNumber = 0;
