@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using Wilco.Web.UI;
 
 public partial class AcountDiscussionThreadsView : Page
 {
@@ -24,9 +25,21 @@ public partial class AcountDiscussionThreadsView : Page
             {
                 mOptions = new DiscussionQueryOptions();
                 mOptions.AccountId = AccountId;
-                mOptions.TopOfThreadOnly = showTopLevel.Checked;
+                mOptions.TopOfThreadOnly = TopOfThreads;
             }
             return mOptions;
+        }
+    }
+
+    public bool TopOfThreads
+    {
+        get
+        {
+            return ViewStateUtility.GetViewStateValue<bool>(ViewState, "TopOfThreads", false);
+        }
+        set
+        {
+            ViewState["TopOfThreads"] = value;
         }
     }
 
@@ -47,7 +60,9 @@ public partial class AcountDiscussionThreadsView : Page
     void GetData(object sender, EventArgs e)
     {
         discussionThreadView.CurrentPageIndex = 0;
-        discussionThreadView.VirtualItemCount = DiscussionService.GetUserDiscussionThreadsCount(QueryOptions);
+        object[] args = { QueryOptions };
+        discussionThreadView.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+            DiscussionService, "GetUserDiscussionThreadsCount", args);
         gridManage_OnGetDataSource(sender, e);
         discussionThreadView.DataBind();
     }
@@ -59,19 +74,9 @@ public partial class AcountDiscussionThreadsView : Page
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = discussionThreadView.CurrentPageIndex;
             options.PageSize = discussionThreadView.PageSize;
-            discussionThreadView.DataSource = DiscussionService.GetUserDiscussionThreads(QueryOptions, options);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
-    }
-
-    public void showTopLevel_CheckedChanged(object sender, EventArgs e)
-    {
-        try
-        {
-            GetData(sender, e);
+            object[] args = { QueryOptions, options };
+            discussionThreadView.DataSource = SessionManager.GetCachedCollection<TransitDiscussionPost>(
+                DiscussionService, "GetUserDiscussionThreads", args);
         }
         catch (Exception ex)
         {
@@ -87,6 +92,8 @@ public partial class AcountDiscussionThreadsView : Page
         {
             if (!IsPostBack)
             {
+                TopOfThreads = false;
+
                 object[] args = { AccountId };
                 TransitAccount ta = SessionManager.GetCachedItem<TransitAccount>(
                     AccountService, "GetAccountById", args);
@@ -107,7 +114,21 @@ public partial class AcountDiscussionThreadsView : Page
     protected override void OnPreRender(EventArgs e)
     {
         linkRss.NavigateUrl = string.Format("AccountDiscussionThreadsRss.aspx?id={0}&toplevel={1}", 
-            AccountId, showTopLevel.Checked);
+            AccountId, TopOfThreads);
+        linkNewThreads.Text = TopOfThreads ? "&#187; Show All Posts" : "&#187; Show New Threads";
         base.OnPreRender(e);
+    }
+
+    public void linkNewThreads_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            TopOfThreads = ! TopOfThreads;
+            GetData(sender, e);
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
     }
 }

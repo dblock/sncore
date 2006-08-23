@@ -28,26 +28,12 @@ namespace SnCore.Services
         {
             get
             {
-                if (TopOfThreadOnly)
-                {
-                    return "SELECT COUNT(tp) FROM DiscussionPost tp, DiscussionThread t, Discussion d" +
-                           " WHERE tp.AccountId = " + AccountId.ToString() +
-                           " AND t.Discussion.Id = d.Id" +
-                           " AND d.Personal = 0" +
-                           " AND t.Id = tp.DiscussionThread.Id" +
-                           " AND tp.DiscussionPostParent IS NULL";
-                }
-                else
-                {
-                    return "SELECT COUNT(tp) FROM DiscussionThread t, DiscussionPost tp, Discussion d" +
-                           " WHERE EXISTS(" +
-                           "  SELECT p FROM DiscussionPost p WHERE p.DiscussionThread.Id = t.Id" +
-                           "  AND p.AccountId = " + AccountId.ToString() + ")" +
-                           " AND t.Discussion.Id = d.Id" +
-                           " AND d.Personal = 0" +
-                           " AND t.Id = tp.DiscussionThread.Id" +
-                           " AND tp.DiscussionPostParent IS NULL";
-                }
+                return "SELECT COUNT(tp) FROM DiscussionPost tp, DiscussionThread t, Discussion d" +
+                       " WHERE tp.AccountId = " + AccountId.ToString() +
+                       " AND t.Discussion.Id = d.Id" +
+                       " AND d.Personal = 0" +
+                       " AND t.Id = tp.DiscussionThread.Id" +
+                       (TopOfThreadOnly ? " AND tp.DiscussionPostParent IS NULL" : string.Empty);
             }
         }
 
@@ -55,29 +41,13 @@ namespace SnCore.Services
         {
             get
             {
-                if (TopOfThreadOnly)
-                {
-                    return "SELECT tp FROM DiscussionPost tp, DiscussionThread t, Discussion d" +
-                           " WHERE tp.AccountId = " + AccountId.ToString() +
-                           " AND tp.DiscussionPostParent IS NULL" +
-                           " AND t.Discussion.Id = d.Id" +
-                           " AND d.Personal = 0" +
-                           " AND t.Id = tp.DiscussionThread.Id" +
-                           " AND tp.DiscussionPostParent IS NULL" +
-                           " ORDER BY t.Created DESC";
-                }
-                else
-                {
-                    return "SELECT tp FROM DiscussionThread t, DiscussionPost tp, Discussion d" +
-                         " WHERE EXISTS(" +
-                         "  SELECT p FROM DiscussionPost p WHERE p.DiscussionThread.Id = t.Id" +
-                         "  AND p.AccountId = " + AccountId.ToString() + ")" +
-                         " AND t.Discussion.Id = d.Id" +
-                         " AND d.Personal = 0" +
-                         " AND t.Id = tp.DiscussionThread.Id" +
-                         " AND tp.DiscussionPostParent IS NULL" +
-                         " ORDER BY t.Created DESC";
-                }
+                return "SELECT tp FROM DiscussionPost tp, DiscussionThread t, Discussion d" +
+                       " WHERE tp.AccountId = " + AccountId.ToString() +
+                       " AND t.Discussion.Id = d.Id" +
+                       " AND d.Personal = 0" +
+                       " AND t.Id = tp.DiscussionThread.Id" +
+                       (TopOfThreadOnly ? " AND tp.DiscussionPostParent IS NULL" : string.Empty) +
+                       " ORDER BY t.Created DESC";
             }
         }
     }

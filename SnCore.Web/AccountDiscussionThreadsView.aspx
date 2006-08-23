@@ -10,23 +10,20 @@
   <asp:HyperLink NavigateUrl="AccountView.aspx" CssClass="sncore_navigate_item" ID="linkAccount"
    Text="Account" runat="server" />
  </div>
- <table cellpadding="0" cellspacing="0" width="784">
-  <tr>
-   <td>
-    <asp:Label ID="labelHeader" runat="server" Text="Discussion Posts" CssClass="sncore_h2" />
-   </td>
-   <td align="right">
-    <asp:HyperLink ImageUrl="images/rss.gif" runat="server" ToolTip="Rss" ID="linkRss" />
-   </td>
-  </tr>
- </table>
  <atlas:UpdatePanel runat="server" ID="panelThreads" Mode="Always" RenderMode="Inline">
   <ContentTemplate>
-   <table class="sncore_table">
+   <table cellpadding="0" cellspacing="0" width="784">
     <tr>
      <td>
-      <asp:CheckBox AutoPostBack="true" OnCheckedChanged="showTopLevel_CheckedChanged"
-       ID="showTopLevel" Checked="False" runat="server" Text="only show threads started by this user" />
+      <div class="sncore_h2">
+       <asp:Label ID="labelHeader" runat="server" Text="Discussion Posts" />
+      </div>
+      <div class="sncore_h2sub">
+       <asp:LinkButton ID="linkNewThreads" runat="server" Text="&#187; Only New Threads" OnClick="linkNewThreads_Click" />
+      </div>
+     </td>
+     <td align="right">
+      <asp:HyperLink ImageUrl="images/rss.gif" runat="server" ToolTip="Rss" ID="linkRss" />
      </td>
     </tr>
    </table>
@@ -45,7 +42,9 @@
         <tr>
          <td align="left" valign="top" width="*">
           <div class="sncore_message_subject">
-           <%# base.Render(Eval("Subject"))%>
+           <a href='DiscussionThreadView.aspx?id=<%# Eval("DiscussionThreadId") %>&did=<%# Eval("DiscussionId") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>'>
+            <%# base.Render(Eval("Subject"))%>
+           </a>
           </div>
           <div class="sncore_description">
            posted on <%# base.Adjust(Eval("Created")).ToString() %>
