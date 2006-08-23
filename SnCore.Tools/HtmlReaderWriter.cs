@@ -100,6 +100,8 @@ namespace SnCore.Tools.Web.Html
         public Uri BaseHref = null;
         public Uri RewriteImgSrc = null;
 
+        private string LastStartElement = string.Empty;
+
         public HtmlWriter(TextWriter writer)
             : base(writer)
         {
@@ -176,6 +178,7 @@ namespace SnCore.Tools.Web.Html
                 }
             }
 
+            LastStartElement = localName.ToLower();
             base.WriteStartElement(prefix, localName, ns);
         }
 
@@ -232,26 +235,31 @@ namespace SnCore.Tools.Web.Html
                                 {
                                     string value = reader.Value;
 
-                                    // adjust any src or href attribute 
-                                    if (BaseHref != null)
+                                    if (BaseHref != null 
+                                        && LastStartElement == "a" 
+                                        && attributename == "href")
                                     {
-                                        switch (attributename)
-                                        {
-                                            case "src":
-                                            case "href":
-                                                value = new Uri(BaseHref, reader.Value).ToString();
-                                                break;
-                                        }
+                                        // rewrite a href
+                                        Uri refuri = null;
+                                        if (Uri.TryCreate(BaseHref, reader.Value, out refuri))
+                                            value = refuri.ToString();
+                                    }
+                                    
+                                    if (BaseHref != null
+                                        && (LastStartElement == "img" || LastStartElement == "embed")
+                                        && attributename == "src")
+                                    {
+                                        Uri refuri = null;
+                                        if (Uri.TryCreate(BaseHref, reader.Value, out refuri))
+                                            value = refuri.ToString();
                                     }
 
-                                    if (RewriteImgSrc != null)
+                                    if (RewriteImgSrc != null
+                                        && LastStartElement == "img"
+                                        && attributename == "src")
                                     {
-                                        switch (attributename)
-                                        {
-                                            case "src":
-                                                value = RewriteImgSrc.ToString().Replace("{url}", Renderer.UrlEncode(value));
-                                                break;
-                                        }
+                                        value = RewriteImgSrc.ToString().Replace("{url}", 
+                                            Renderer.UrlEncode(value));
                                     }
 
                                     this.WriteString(value);
