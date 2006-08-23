@@ -1292,17 +1292,36 @@ namespace SnCore.WebServices
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
                 IQuery query = session.CreateSQLQuery(
-                        "SELECT {Place.*} FROM Place {Place} WHERE Place.Place_Id IN (" +
-                         "SELECT p.Place_Id FROM Place p WHERE FREETEXT ((Name, Street, Zip, CrossStreet, Description, Phone, Fax, Email, Website), '" + Renderer.SqlEncode(s) + "')" +
-                         " UNION " + 
-                         "SELECT p.Place_Id FROM Place p, PlaceName pn" +
-                         " WHERE p.Place_Id = pn.Place_Id" +
-                         " AND FREETEXT (pn.Name, '" + Renderer.SqlEncode(s) + "')" +
-                         " UNION " +
-                         "SELECT p.Place_Id FROM Place p, PlacePropertyValue pp" +
-                         " WHERE p.Place_Id = pp.Place_Id" +
-                         " AND FREETEXT (pp.Value, '" + Renderer.SqlEncode(s) + "')" +
-                        ")",
+
+                        "CREATE TABLE #Results ( Place_Id int, RANK int )\n" + 
+                        "CREATE TABLE #Unique_Results ( Place_Id int, RANK int )\n" +
+
+                        "INSERT #Results\n" +
+                        "SELECT place.Place_Id, ft.[RANK] FROM Place place\n" +
+                        "INNER JOIN FREETEXTTABLE (Place, ([Name], [Street], [Zip], [CrossStreet], [Description], [Phone], [Fax], [Email], [Website]), '" + Renderer.SqlEncode(s) + "') AS ft ON place.Place_Id = ft.[KEY]\n" +
+
+                        "INSERT #Results\n" +
+                        "SELECT place.Place_Id, ft.[RANK] FROM Place place, PlaceName placename\n" +
+                        "INNER JOIN FREETEXTTABLE (PlaceName, ([Name]), '" + Renderer.SqlEncode(s) + "') AS ft ON placename.PlaceName_Id = ft.[KEY] \n" +
+                        "WHERE placename.Place_Id = place.Place_Id\n" +
+
+                        "INSERT #Results\n" +
+                        "SELECT place.Place_Id, ft.[RANK] FROM Place place, PlacePropertyValue placepropertyvalue\n" +
+                        "INNER JOIN FREETEXTTABLE (PlacePropertyValue, ([Value]), '" + Renderer.SqlEncode(s) + "') AS ft ON placepropertyvalue.PlacePropertyValue_Id = ft.[KEY] \n" +
+                        "WHERE placepropertyvalue.Place_Id = place.Place_Id\n" +
+
+                        "INSERT #Unique_Results\n" +
+                        "SELECT DISTINCT Place_Id, SUM(RANK)\n" +
+                        "FROM #Results GROUP BY Place_Id\n" +
+                        "ORDER BY SUM(RANK) DESC\n" +
+
+                        "SELECT {Place.*} FROM {Place}, #Unique_Results\n" +
+                        "WHERE Place.Place_Id = #Unique_Results.Place_Id\n" +
+                        "ORDER BY #Unique_Results.RANK DESC\n" +
+
+                        "DROP TABLE #Results\n" +
+                        "DROP TABLE #Unique_Results\n",
+
                         "Place",
                         typeof(Place));
 
@@ -1331,27 +1350,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Return the number of places matching a query.", CacheDuration = 60)]
         public int SearchPlacesCount(string s)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                IQuery query = session.CreateSQLQuery(
-                        "SELECT {Place.*} FROM Place {Place} WHERE Place.Place_Id IN (" +
-                         "SELECT p.Place_Id FROM Place p WHERE FREETEXT ((Name, Street, Zip, CrossStreet, Description, Phone, Fax, Email, Website), '" + Renderer.SqlEncode(s) + "')" +
-                         " UNION " +
-                         "SELECT p.Place_Id FROM Place p, PlaceName pn" +
-                         " WHERE p.Place_Id = pn.Place_Id" +
-                         " AND FREETEXT (pn.Name, '" + Renderer.SqlEncode(s) + "')" +
-                         " UNION " +
-                         "SELECT p.Place_Id FROM Place p, PlacePropertyValue pp" +
-                         " WHERE p.Place_Id = pp.Place_Id" +
-                         " AND FREETEXT (pp.Value, '" + Renderer.SqlEncode(s) + "')" +
-                        ")",
-                        "Place",
-                        typeof(Place));
-
-                return query.List().Count;
-            }
+            return SearchPlaces(s, null).Count;
         }
 
         #endregion 
