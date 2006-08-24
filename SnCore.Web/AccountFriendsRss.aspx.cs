@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
+using SnCore.WebServices;
 
 public partial class AccountFriendsRss : AccountPersonPage
 {
@@ -27,7 +28,10 @@ public partial class AccountFriendsRss : AccountPersonPage
         {
             if (!IsPostBack)
             {
-                rssRepeater.DataSource = SocialService.GetFriendsActivityById(RequestId, null);
+                ServiceQueryOptions options = new ServiceQueryOptions();
+                options.PageNumber = 0;
+                options.PageSize = 25;
+                rssRepeater.DataSource = SocialService.GetFriendsActivityById(RequestId, options);
                 rssRepeater.DataBind();
             }
         }
