@@ -228,6 +228,21 @@ namespace SnCore.Services
             }
         }
 
+        public static int GetValue(ISession session, string name, int defaultvalue)
+        {
+            try
+            {
+                int result = 0;
+                if (int.TryParse(GetConfiguration(session, name).OptionValue, out result))
+                    return result;
+                return defaultvalue;
+            }
+            catch (InvalidConfigurationException)
+            {
+                return defaultvalue;
+            }
+        }
+
         public static int GetConfigurationId(ISession session, string name)
         {
             return GetConfiguration(session, name).Id;

@@ -1053,10 +1053,13 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-
+                int maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
                 IQuery query = session.CreateSQLQuery(
                         "SELECT {DiscussionPost.*} FROM DiscussionPost {DiscussionPost}" +
-                        " WHERE FREETEXT ((Body, Subject), '" + Renderer.SqlEncode(s) + "')",
+                        " INNER JOIN FREETEXTTABLE(DiscussionPost, ([Subject], [Body]), '" + Renderer.SqlEncode(s) + "', " + 
+                            maxsearchresults.ToString() + ") AS ft " +
+                        " ON DiscussionPost.DiscussionPost_Id = ft.[KEY] " +
+                        " ORDER BY ft.[RANK] DESC",
                         "DiscussionPost",
                         typeof(DiscussionPost));
 
@@ -1085,18 +1088,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Return the number of discussion posts matching a query.", CacheDuration = 60)]
         public int SearchDiscussionPostsCount(string s)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                IQuery query = session.CreateSQLQuery(
-                        "SELECT {DiscussionPost.*} FROM DiscussionPost {DiscussionPost}" +
-                        " WHERE FREETEXT ((Body, Subject), '" + Renderer.SqlEncode(s) + "')",
-                        "DiscussionPost",
-                        typeof(DiscussionPost));
-
-                return query.List().Count;
-            }
+            return SearchDiscussionPosts(s, null).Count;
         }
 
         /// <summary>
@@ -1109,14 +1101,17 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-
+                int maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
                 IQuery query = session.CreateSQLQuery(
-                        "SELECT {p.*} FROM DiscussionPost {p}, DiscussionThread t, Discussion d" +
+                        "SELECT {DiscussionPost.*} FROM DiscussionThread t, Discussion d, DiscussionPost {DiscussionPost}" +
+                        " INNER JOIN FREETEXTTABLE(DiscussionPost, ([Subject], [Body]), '" + Renderer.SqlEncode(s) + "', " + 
+                            maxsearchresults.ToString() + ") AS ft " +
+                        " ON DiscussionPost.DiscussionPost_Id = ft.[KEY] " +
                         " WHERE t.Discussion_Id = d.Discussion_Id" +
-                        " AND t.DiscussionThread_Id = p.DiscussionThread_Id" +
-                        " AND d.Discussion_Id = " + id.ToString() +
-                        " AND FREETEXT ((p.Body, p.Subject), '" + Renderer.SqlEncode(s) + "')",
-                        "p",
+                        " AND t.DiscussionThread_Id = DiscussionPost.DiscussionThread_Id" +
+                        " AND d.Discussion_Id = " + id.ToString() + 
+                        " ORDER BY ft.[RANK] DESC",
+                        "DiscussionPost",
                         typeof(DiscussionPost));
 
                 if (options != null)
@@ -1144,21 +1139,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Return the number of discussion posts matching a query in a discussion.", CacheDuration = 60)]
         public int SearchDiscussionPostsByIdCount(int id, string s)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                IQuery query = session.CreateSQLQuery(
-                        "SELECT {p.*} FROM DiscussionPost {p}, DiscussionThread t, Discussion d" +
-                        " WHERE t.Discussion_Id = d.Discussion_Id" +
-                        " AND t.DiscussionThread_Id = p.DiscussionThread_Id" +
-                        " AND d.Discussion_Id = " + id.ToString() +
-                        " AND FREETEXT ((p.Body, p.Subject), '" + Renderer.SqlEncode(s) + "')",
-                        "p",
-                        typeof(DiscussionPost));
-
-                return query.List().Count;
-            }
+            return SearchDiscussionPostsById(id, s, null).Count;
         }
 
         #endregion

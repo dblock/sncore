@@ -457,10 +457,13 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-
+                int maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
                 IQuery query = session.CreateSQLQuery(
                         "SELECT {AccountStory.*} FROM AccountStory {AccountStory}" +
-                        " WHERE FREETEXT ((Name, Summary), '" + Renderer.SqlEncode(s) + "')",
+                        " INNER JOIN FREETEXTTABLE(AccountStory, ([Name], [Summary]), '" + Renderer.SqlEncode(s) + "', " + 
+                            maxsearchresults.ToString() + ") AS ft " +
+                        " ON AccountStory.AccountStory_Id = ft.[KEY] " +
+                        " ORDER BY ft.[RANK] DESC",
                         "AccountStory",
                         typeof(AccountStory));
 
@@ -489,18 +492,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Return the number of stories matching a query.", CacheDuration = 60)]
         public int SearchAccountStoriesCount(string s)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                IQuery query = session.CreateSQLQuery(
-                        "SELECT {AccountStory.*} FROM AccountStory {AccountStory}" +
-                        " WHERE FREETEXT ((Name, Summary), '" + Renderer.SqlEncode(s) + "')",
-                        "AccountStory",
-                        typeof(AccountStory));
-
-                return query.List().Count;
-            }
+            return SearchAccountStories(s, null).Count;
         }
 
         #endregion

@@ -1290,7 +1290,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-
+                int maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
                 IQuery query = session.CreateSQLQuery(
 
                         "CREATE TABLE #Results ( Place_Id int, RANK int )\n" + 
@@ -1298,16 +1298,20 @@ namespace SnCore.WebServices
 
                         "INSERT #Results\n" +
                         "SELECT place.Place_Id, ft.[RANK] FROM Place place\n" +
-                        "INNER JOIN FREETEXTTABLE (Place, ([Name], [Street], [Zip], [CrossStreet], [Description], [Phone], [Fax], [Email], [Website]), '" + Renderer.SqlEncode(s) + "') AS ft ON place.Place_Id = ft.[KEY]\n" +
+                        "INNER JOIN FREETEXTTABLE (Place, ([Name], [Street], [Zip], [CrossStreet], [Description], [Phone], [Fax], [Email], [Website]), '" + 
+                            Renderer.SqlEncode(s) + "', " + 
+                            maxsearchresults.ToString() + ") AS ft ON place.Place_Id = ft.[KEY]\n" +
 
                         "INSERT #Results\n" +
                         "SELECT place.Place_Id, ft.[RANK] FROM Place place, PlaceName placename\n" +
-                        "INNER JOIN FREETEXTTABLE (PlaceName, ([Name]), '" + Renderer.SqlEncode(s) + "') AS ft ON placename.PlaceName_Id = ft.[KEY] \n" +
+                        "INNER JOIN FREETEXTTABLE (PlaceName, ([Name]), '" + Renderer.SqlEncode(s) + "', " + 
+                            maxsearchresults.ToString() + ") AS ft ON placename.PlaceName_Id = ft.[KEY] \n" +
                         "WHERE placename.Place_Id = place.Place_Id\n" +
 
                         "INSERT #Results\n" +
                         "SELECT place.Place_Id, ft.[RANK] FROM Place place, PlacePropertyValue placepropertyvalue\n" +
-                        "INNER JOIN FREETEXTTABLE (PlacePropertyValue, ([Value]), '" + Renderer.SqlEncode(s) + "') AS ft ON placepropertyvalue.PlacePropertyValue_Id = ft.[KEY] \n" +
+                        "INNER JOIN FREETEXTTABLE (PlacePropertyValue, ([Value]), '" + Renderer.SqlEncode(s) + "', " + 
+                            maxsearchresults.ToString() + ") AS ft ON placepropertyvalue.PlacePropertyValue_Id = ft.[KEY] \n" +
                         "WHERE placepropertyvalue.Place_Id = place.Place_Id\n" +
 
                         "INSERT #Unique_Results\n" +
