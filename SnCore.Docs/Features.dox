@@ -10,11 +10,12 @@
  <li>Social networking, including invitations, friends, friends of friends, messages and testimonials.
  <li>Discussions framework with threading, highlight and e-mail alerts.
  <li>Places framework with full or member ownership and delegation.
- <li>Complete one-time and recurrent events framework.
+ <li>Complete one-time and recurrent events framework, with Microsoft Outlook feature parity.
  <li>Web-based system management with administrative access with system reminders.
  <li>Fully integrated bug and feature tracking system.
  <li>Rss server feeds, client aggregation and rollup.
  <li>Full text search and tag indexing of rich content.
+ <li>Integrated <a href="http://creativecommons.org/" target="_blank">Creative Commons</a> licensing for syndicated content.
  <li>Integrated usage statistics framework, including hourly, daily, weekly, monthly and yearly counters,
      new and returning visitors, aggregated referer hosts and referer search queries.
 </ul>
@@ -22,14 +23,13 @@
 \section features_technology Technology
 
 <ul>
- <li>Written using <a href="http://msdn.microsoft.com/vstudio/" target="_blank">Visual Studio 2005</a> in C# with Microsoft <b>.NET 2.0</b>.
- <li><a href="http://www.hibernate.org/" target="_blank">NHibernate</a> ORM using 
-     <a href="http://www.puzzleframework.com/" target="_blank">Puzzle ObjectMapper</a> to maintain the object model.
- <li>Tested with a <a href="http://www.microsoft.com/sql/" target="_blank">SQL Server 2005</a> database back-end.
- <li><b>Managed Business Logic</b> services layer.
- <li>Complete <b>Web Services</b> interfaces and services.
- <li><a href="http://www.asp.net" target="_blank">ASP.NET 2.0</a> with <a href="http://atlas.asp.net/" target="_blank">Atlas (AJAX)</a> 
-    Web UI on top of NHibernate or Web Services.
+ <li>Scalable distributed 3-tier architecture implemented using <a href="http://msdn.microsoft.com/vstudio/" target="_blank">Visual
+     Studio 2005</a> in C# with Microsoft <b>.NET 2.0</b>.
+ <li><a href="http://www.hibernate.org/" target="_blank">NHibernate</a> ORM Data Access Layer using 
+     <a href="http://www.puzzleframework.com/" target="_blank">Puzzle ObjectMapper</a> to maintain, synchronize and develop the object model.
+     Tested and deployed with a <a href="http://www.microsoft.com/sql/" target="_blank">SQL Server 2005</a> database back-end.
+ <li>Two-level services and Business Layer, exposed through consistent CRUD and BL web services implemented with Web Services Extensions 3.0.
+ <li>Bundled <a href="http://www.asp.net" target="_blank">ASP.NET 2.0</a> UI with <a href="http://atlas.asp.net/" target="_blank">Atlas (AJAX)</a>.
 </ul>
 
 \section features_credits Credits
@@ -43,6 +43,7 @@
  <li>Carlos Aguilar Mares' <a href="http://www.carlosag.net/Tools/WebChart/Default.aspx" target="_blank">WebChart</a>
  <li><a href="http://www.nunit.org/" target="_blank">NUnit</a>
  <li><a href="http://atlas.asp.net" target="_blank">ASP.NET Atlas</a>
+ <li><a href="http://freetextbox.com/">FreeTextBox</a>
 </ul>
 
 */
