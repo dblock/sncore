@@ -23,19 +23,22 @@ SnCore, it's like being shot out of a cannon, at very low cost.
 \li \subpage branch
 
 \section main_api Open API Reference
-\li \subpage SnCore::WebServices::WebSystemService "System Services"
-\li \subpage SnCore::WebServices::WebAccountService "Account Services"
-\li \subpage SnCore::WebServices::WebLocationService "Location Services"
-\li \subpage SnCore::WebServices::WebSocialService "Social Services"
+\li \subpage SnCore::WebServices::WebSystemService "System Management Services"
+\li \subpage SnCore::WebServices::WebAccountService "Account Management Services"
+\li \subpage SnCore::WebServices::WebLocationService "Geographical Location Services"
+\li \subpage SnCore::WebServices::WebSocialService "Social Networking Services"
 \li \subpage SnCore::WebServices::WebDiscussionService "Discussion Services"
-\li \subpage SnCore::WebServices::WebStoryService "Story Services"
-\li \subpage SnCore::WebServices::WebBugService "Bug Services"
+\li \subpage SnCore::WebServices::WebStoryService "Story Content Services"
+\li \subpage SnCore::WebServices::WebBugService "Bug Tracking Services"
 \li \subpage SnCore::WebServices::WebTagWordService "Tag Word Services"
 \li \subpage SnCore::WebServices::WebSyndicationService "Syndication Services"
-\li \subpage SnCore::WebServices::WebPlaceService "Place Services"
-\li \subpage SnCore::BackEndServices::WebBackEndService "Back-End Services"
-\li \subpage SnCore::WebServices::WebBlogService "Blogging Services"
-\li \subpage SnCore::WebServices::WebStatsService "Stats and Tracking Services"
+\li \subpage SnCore::WebServices::WebPlaceService "Place Management Services"
+\li \subpage SnCore::BackEndServices::WebBackEndService "System Back-End Services"
+\li \subpage SnCore::WebServices::WebBlogService "Personal Blogging Services"
+\li \subpage SnCore::WebServices::WebStatsService "System Statistics Services"
+\li \subpage SnCore::WebServices::WebContentService "Content Management Services"
+\li \subpage SnCore::WebServices::WebEventService "Event Scheduling Services"
+\li \subpage SnCore::WebServices::WebLicenseService "Licensing Services"
 
 \section main_money Licensing
 \li \subpage license
