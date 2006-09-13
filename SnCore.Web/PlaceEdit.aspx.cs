@@ -125,6 +125,10 @@ public partial class PlaceEdit : AuthenticatedPage
             t.Fax = inputFax.Text;
             t.Phone = inputPhone.Text;
             t.Street = inputStreet.Text;
+
+            if (!string.IsNullOrEmpty(inputWebsite.Text) && !Uri.IsWellFormedUriString(inputWebsite.Text, UriKind.Absolute))
+                inputWebsite.Text = "http://" + inputWebsite.Text;
+
             t.Website = inputWebsite.Text;
             t.Zip = inputZip.Text;
             t.City = inputCity.Text;

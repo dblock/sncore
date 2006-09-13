@@ -67,7 +67,7 @@
           <asp:Label ID="placeFax" runat="server" />
          </div>
          <div>
-          <asp:HyperLink ID="placeWebsite" runat="server" />
+          <asp:HyperLink ID="placeWebsite" runat="server" Text="&#187; website" Target="_blank" />
           <asp:ImageButton Visible="False" ImageUrl="images/account/inbox.gif" ImageAlign="AbsMiddle" runat="server" ID="imageEmail" />
          </div>
         </div>
@@ -137,6 +137,9 @@
         </td>
         <td align="right" style="font-size: smaller;">
          <% Response.Write(SuggestedBy); %>
+        </td>
+        <td style="font-size: smaller; text-align: right;">
+         <a href="PlaceEdit.aspx">&#187; suggest a place</a>
         </td>
        </tr>
       </table>

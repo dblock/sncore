@@ -215,7 +215,7 @@ public partial class PlaceView : Page
                     linkAdminProperties.NavigateUrl = string.Format("PlacePropertyGroupEdit.aspx?pid={0}", place.Id);
 
                     placeWebsite.NavigateUrl = place.Website;
-                    placeWebsite.Text = Renderer.Render(place.Website);
+                    placeWebsite.Visible = !string.IsNullOrEmpty(place.Website);
                     placeAddress.Text = Renderer.Render(place.Street);
                     placeZip.Text = Renderer.Render(place.Zip);
                     if (! string.IsNullOrEmpty(place.Fax)) placeFax.Text = string.Format("{0} (fax)", Renderer.Render(place.Fax));
