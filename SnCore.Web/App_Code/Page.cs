@@ -325,7 +325,8 @@ public class AuthenticatedPage : Page
     {
         if (string.IsNullOrEmpty(SessionManager.Ticket))
         {
-            Redirect("AccountLogin.aspx?ReturnUrl=" + Renderer.UrlEncode(Request.Url.PathAndQuery));
+            Redirect(string.Format("AccountLogin.aspx?ReturnUrl={0}&AuthenticatedPage=true", 
+                Renderer.UrlEncode(Request.Url.PathAndQuery)));
         }
 
         base.OnLoad(e);

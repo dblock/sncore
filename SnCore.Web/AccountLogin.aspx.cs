@@ -12,8 +12,34 @@ using SnCore.Tools.Web;
 
 public partial class AccountLogin : Page
 {
+    public bool AuthenticatedPage
+    {
+        get
+        {
+            bool result = false;
+            object ap = Request.Params["AuthenticatedPage"];
+            if (ap == null) return false;
+            bool.TryParse(ap.ToString(), out result);
+            return result;
+        }
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        try
+        {
+            if (!IsPostBack)
+            {
+                if (AuthenticatedPage)
+                {
+                    ReportInfo("This is a members only page. You must first login. There're many perks of being a member " +
+                        "and it's free. Click <a href=\"AccountCreate.aspx\">here</a> to join!");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
     }
 }
