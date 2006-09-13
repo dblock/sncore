@@ -8,20 +8,18 @@
 </div>
 <atlas:UpdatePanel ID="panelGrid" runat="server" Mode="Conditional" RenderMode="Inline">
  <ContentTemplate>
-  <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="accountWebsites"
-   CssClass="sncore_inner_table" Width="95%" AutoGenerateColumns="false" ShowHeader="false">
-   <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
+  <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="accountWebsites" 
+   AllowCustomPaging="true">
+   <PagerStyle CssClass="sncore_table_pager" Position="Bottom" NextPageText="Next"
     PrevPageText="Prev" HorizontalAlign="Center" />
-   <Columns>
-    <asp:TemplateColumn ItemStyle-CssClass="sncore_table_tr_td">
-     <itemtemplate>
-    <%# Renderer.GetLink(Renderer.Render(Eval("Url")), Renderer.Render(Eval("Name"))) %>
-    <div style="font-size: smaller;">
-     <%# base.Render(Eval("Description")) %>
-    </div>
+    <ItemTemplate>
+     <div class="sncore_h2left">
+      <%# Renderer.GetLink(Renderer.Render(Eval("Url")), Renderer.Render(Eval("Name"))) %>
+     </div>
+     <div class="sncore_description">
+      <%# base.Render(Eval("Description")) %>
+     </div>
    </itemtemplate>
-    </asp:TemplateColumn>
-   </Columns>
-  </SnCoreWebControls:PagedGrid>
+  </SnCoreWebControls:PagedList>
  </ContentTemplate>
 </atlas:UpdatePanel>
