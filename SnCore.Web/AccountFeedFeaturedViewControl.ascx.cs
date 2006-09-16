@@ -27,7 +27,7 @@ public partial class AccountFeedFeaturedViewControl : Control
 
                 if (Feature != null && AccountFeed != null)
                 {
-                    linkFeature.NavigateUrl = linkFeature2.HRef = linkFeature3.HRef = string.Format("AccountFeedView.aspx?id={0}", Feature.DataRowId);
+                    linkFeature2.HRef = linkFeature3.HRef = string.Format("AccountFeedView.aspx?id={0}", Feature.DataRowId);
                     labelFeatureName.Text = Render(AccountFeed.Name);
                     imgFeature.Src = string.Format("AccountPictureThumbnail.aspx?id={0}", AccountFeed.AccountPictureId);
                 }

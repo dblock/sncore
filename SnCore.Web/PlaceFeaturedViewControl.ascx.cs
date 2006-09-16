@@ -27,7 +27,7 @@ public partial class PlaceFeaturedViewControl : Control
 
                 if (Feature != null && Place != null)
                 {
-                    linkFeature.NavigateUrl = linkFeature2.HRef = linkFeature3.HRef = string.Format("PlaceView.aspx?id={0}", Feature.DataRowId);
+                    linkFeature2.HRef = linkFeature3.HRef = string.Format("PlaceView.aspx?id={0}", Feature.DataRowId);
                     labelFeatureName.Text = Render(Place.Name);
                     labelFeatureCity.Text = Render(Place.City);
                     imgFeature.Src = string.Format("PlacePictureThumbnail.aspx?id={0}", Place.PictureId);

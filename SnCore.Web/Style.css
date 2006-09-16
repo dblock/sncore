@@ -3,6 +3,8 @@ a:link { color: blue; font-weight: bold; text-decoration: none; }
 a:visited { color: navy; font-weight: bold; text-decoration: none; }
 a:active { color: #336699; font-weight: bold; text-decoration: none; }
 a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
+.sncore_master_table { width: 900px; }
+.sncore_master_content_table { width: 800px; background-color: White; } 
 .sncore_h1 { color: #000000; font-family: Tahoma; font-size: 26px; font-weight: bold; background-color: #FFDD00; margin-top: 0px; margin-bottom: 0px; padding-top: 10px; padding-left: 15px; width: 100%; }
 .sncore_h1sub { color: #000000; font-family: Tahoma; font-size: 12px; background-color: #FFDD00; margin-top: 0px; margin-bottom: 0px; padding-left: 20px; padding-bottom: 15px; width: 100%; }
 .sncore_h2 { background: url(images/site/head.gif) no-repeat; background-position: 0 65%; font-family: Tahoma; font-size: 18px; font-weight: normal; margin-top: 0px; margin-bottom: 10px; padding-top: 10px; padding-bottom: 3px; margin-left: 10px; padding-left: 20px; }
@@ -21,7 +23,8 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_half_table { width: 95%; margin: 10px; border: 1px #eeeeee solid; }
 .sncore_accountmenu_table { width: 150px; margin: 10px; border: 1px #eeeeee solid; }
 .sncore_half_inner_table { width: 95%; }
-.sncore_featured_tr_td { padding: 2px; padding-top: 10px; background: url(images/site/back.jpg) no-repeat; font-family: Verdana; }
+.sncore_featured_table { width: 200px; }
+.sncore_featured_tr_td { padding: 2px; padding-top: 10px; font-family: Verdana; text-align: center; }
 .sncore_table_tr_td { padding: 2px; font-family: Verdana; }
 .sncore_table_tr_th { padding: 2px; font-family: Verdana; font-weight: bold; background-color: #E5EDFB; font-size: smaller;  }
 .sncore_table_pager { padding: 2px; font-family: Verdana; font-size: 10px; font-weight: bold; }
@@ -92,7 +95,7 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_event_location { font-weight: bold; }
 .sncore_event_id { font-weight: bold; font-size: .8em; }
 .sncore_search_textbox { width: 120px; font-size: smaller; }
-.sncore_default_search_textbox { width: 300px; font-family: Verdana; font-size: 1em; text-align: left; border: 1px black solid; }
+.sncore_default_search_textbox { width: 250px; font-family: Verdana; font-size: 1em; text-align: left; border: 1px black solid; }
 .sncore_link_small { font-size: smaller; }
 .sncore_search_link { font-size: smaller; }
 .sncore_copyright { font-size: smaller; color: Silver; padding: 5px; }

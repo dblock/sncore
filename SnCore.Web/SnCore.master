@@ -10,11 +10,10 @@
 </head>
 <body>
  <form style="margin-top: 0px;" id="formMain" runat="server">
-  <table align="center" width="900px" cellpadding="2px" cellspacing="5px">
+  <table class="sncore_master_table" align="center" cellpadding="2px" cellspacing="5px">
    <tr>
     <td valign="top">
-     <table align="center" width="800px" style="background-color: White;" cellpadding="0"
-      cellspacing="0">
+     <table class="sncore_master_content_table" cellpadding="0" cellspacing="0">
       <tr>
        <td colspan="2">
         <a href="Default.aspx">

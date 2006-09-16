@@ -22,31 +22,41 @@
  <table width="100%" cellpadding="0" cellspacing="0">
   <tr>
    <td valign="top" width="75%">
-    <SnCore:SearchDefault runat="server" ID="searchDefault" />
     <SnCore:BlogView ID="websiteBlog" runat="server">
      <ContentLinkIds>
       <asp:ListItem>SnCore.PressContentGroup.Id</asp:ListItem>
       <asp:ListItem>SnCore.AddContentGroup.Id</asp:ListItem>
      </ContentLinkIds>
     </SnCore:BlogView>
-    <SnCore:AccountFeaturedView ID="accountFeatured" runat="server" />
-    <SnCore:PlaceFeaturedView ID="PlaceFeaturedView" runat="server" />
-    <SnCore:AccountEventFeaturedView ID="accounteventsFeatured" runat="server" />
-    <SnCore:AccountFeedFeaturedView ID="accountfeedFeatured" runat="server" />
    </td>
    <td valign="top" width="25%">
+    <SnCore:SearchDefault runat="server" ID="searchDefault" />
     <SnCore:PlacesNewView ID="placesNewMain" runat="server" Count="2" />
     <SnCore:AccountsNewView ID="accountsNewMain" runat="server" Count="2" />
-    <SnCore:DiscussionPostsNewView ID="discussionsNewViewMain" runat="server" />
-    <SnCore:AccountStoriesNewView ID="accountstoriesNewViewMain" Count="2" runat="server" />
-    <SnCore:AccountFeedItemsNewView ID="accountfeeditemsNewViewMain" Count="2" runat="server" />
-    <table class="sncore_half_table">
-     <tr>
-      <td class="sncore_table_tr_td" align="center">
-       <SnCore:BookmarksView ID="bookmarksViewMain" runat="server" RepeatColumns="3" />
-      </td>
-     </tr>
-    </table>
+   </td>
+  </tr>
+ </table>
+ <table width="100%" cellpadding="0" cellspacing="0"> 
+  <tr>
+   <td colspan="4">
+    <div class="sncore_h2">
+     <a href="Featured.aspx">Featured</a>
+     <img src="images/site/right.gif" border="0" />
+    </div>    
+   </td>
+  </tr>
+  <tr>
+   <td valign="top">
+    <SnCore:AccountFeedFeaturedView ID="accountfeedFeatured" runat="server" />
+   </td>
+   <td valign="top">
+    <SnCore:AccountFeaturedView ID="accountFeatured" runat="server" />
+   </td>
+   <td valign="top">
+    <SnCore:PlaceFeaturedView ID="PlaceFeaturedView" runat="server" />
+   </td>
+   <td valign="top">
+    <SnCore:AccountEventFeaturedView ID="accounteventsFeatured" runat="server" />
    </td>
   </tr>
  </table>

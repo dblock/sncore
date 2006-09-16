@@ -26,7 +26,7 @@ public partial class AccountEventFeaturedViewControl : Control
                 panelFeatured.Visible = (Feature != null);
                 if (Feature != null && AccountEvent != null)
                 {
-                    linkFeature.NavigateUrl = linkFeature2.HRef = linkFeature3.HRef = string.Format("AccountEventView.aspx?id={0}", Feature.DataRowId);
+                    linkFeature2.HRef = linkFeature3.HRef = string.Format("AccountEventView.aspx?id={0}", Feature.DataRowId);
                     labelFeatureName.Text = Render(AccountEvent.Name);
                     labelFeaturePlaceCity.Text = Render(AccountEvent.PlaceCity);
                     labelFeaturePlaceName.Text = Render(AccountEvent.PlaceName);
