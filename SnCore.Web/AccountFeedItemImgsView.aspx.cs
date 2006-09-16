@@ -54,8 +54,12 @@ public partial class AccountFeedItemImgsView : AccountPersonPage
         gridManage.VirtualItemCount = SyndicationService.GetAccountFeedItemImgsCount(QueryOptions);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
-        labelCount.Text = string.Format("{0} picture{1}",
-            gridManage.VirtualItemCount, gridManage.VirtualItemCount == 1 ? string.Empty : "s");
+
+        int feedsCount = SyndicationService.GetUpdatedAccountFeedsCount();
+
+        labelCount.Text = string.Format("{0} picture{1} from <a href='AccountFeedsView.aspx'>{2} feed{3}</a>",
+            gridManage.VirtualItemCount, gridManage.VirtualItemCount == 1 ? string.Empty : "s",
+            feedsCount, feedsCount == 1 ? string.Empty : "s");
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
