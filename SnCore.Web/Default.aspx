@@ -21,7 +21,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <table width="100%" cellpadding="0" cellspacing="0">
   <tr>
-   <td valign="top" width="75%">
+   <td valign="top" width="*">
     <SnCore:BlogView ID="websiteBlog" runat="server">
      <ContentLinkIds>
       <asp:ListItem>SnCore.PressContentGroup.Id</asp:ListItem>
@@ -29,10 +29,26 @@
      </ContentLinkIds>
     </SnCore:BlogView>
    </td>
-   <td valign="top" width="25%">
-    <SnCore:SearchDefault runat="server" ID="searchDefault" />
-    <SnCore:PlacesNewView ID="placesNewMain" runat="server" Count="2" />
-    <SnCore:AccountsNewView ID="accountsNewMain" runat="server" Count="2" />
+   <td valign="top" width="333">
+    <div style="text-align: center;">
+     <script language="javascript">
+      function panelRightFlip() { 
+       var prf = document.getElementById('panelRightFront'); var prb = document.getElementById('panelRightBack');
+       if (prf.style.display == "") { prf.style.display = "none"; prb.style.display = ""; } else { prb.style.display = "none"; prf.style.display = ""; }       
+      }
+     </script>
+     <a href="#" onclick="panelRightFlip();"><img src="images/flip.gif" border="0" /></a>
+    </div>
+    <div id="panelRightFront">
+     <SnCore:SearchDefault runat="server" ID="searchDefault" />
+     <SnCore:PlacesNewView ID="placesNewMain" runat="server" Count="2" />
+     <SnCore:AccountsNewView ID="accountsNewMain" runat="server" Count="2" />
+    </div>
+    <div style="display: none;" id="panelRightBack">
+     <SnCore:DiscussionPostsNewView ID="discussionsNewMain" runat="server" />
+     <SnCore:AccountStoriesNewView ID="storiesNewMain" Count="3" runat="server" />
+     <SnCore:AccountFeedItemsNewView ID="feedItemsNewMain" Count="3" runat="server" />
+    </div>
    </td>
   </tr>
  </table>

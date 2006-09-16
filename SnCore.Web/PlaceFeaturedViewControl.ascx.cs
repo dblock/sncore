@@ -63,7 +63,6 @@ public partial class PlaceFeaturedViewControl : Control
             {
                 object[] args = { Feature.DataRowId };
                 mPlace = SessionManager.GetCachedItem<TransitPlace>(PlaceService, "GetPlaceById", args);
-                if (mPlace == null) mPlace = new TransitPlace();
             }
 
             return mPlace;
