@@ -1,7 +1,8 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="AccountFeedItemImgsView.aspx.cs"
- Inherits="AccountFeedItemImgsView" Title="People" %>
+ Inherits="AccountFeedItemImgsView" Title="Pictures" %>
 
 <%@ Import Namespace="SnCore.Services" %>
+<%@ Import Namespace="SnCore.Tools.Web" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -16,6 +17,7 @@
       <div class="sncore_h2sub">
        <a href="AccountFeedItemsView.aspx">&#187; Feeds</a>
        <a href="AccountFeedItemsView.aspx">&#187; Content</a>
+       <a href="TellAFriend.aspx?Url=<% Response.Write(Renderer.UrlEncode(Request.Url.PathAndQuery)); %>&Subject=<% Response.Write(Renderer.UrlEncode(Title)); %>">&#187; Tell a Friend</a>     
        <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />       
       </div>
      </td>

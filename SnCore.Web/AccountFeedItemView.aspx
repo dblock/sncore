@@ -1,5 +1,6 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="AccountFeedItemView.aspx.cs"
  Inherits="AccountFeedItemView" Title="FeedItem" %>
+<%@ Import Namespace="SnCore.Tools.Web" %>
 
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
@@ -34,6 +35,9 @@
      <asp:HyperLink ID="FeedTitle" runat="server" />
      on
      <asp:Label ID="FeedItemCreated" runat="server" />
+    </div>
+    <div class="sncore_h2sub">
+     <a href="TellAFriend.aspx?Url=<% Response.Write(Renderer.UrlEncode(Request.Url.PathAndQuery)); %>&Subject=<% Response.Write(Renderer.UrlEncode(Title)); %>">&#187; Tell a Friend</a>     
     </div>
    </td>
   </tr>

@@ -1,6 +1,6 @@
-
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="PlaceView.aspx.cs"
  Inherits="PlaceView" Title="Place | View" %>
+<%@ Import Namespace="SnCore.Tools.Web" %>
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="DiscussionFullView" Src="DiscussionFullViewControl.ascx" %>
@@ -87,6 +87,9 @@
          <div>
           <asp:LinkButton ID="linkAddToFavorites" OnClick="linkAddToFavorites_Click" runat="server"
            Text="&#187; Add to Favorites" />
+         </div>
+         <div>
+          <a href="TellAFriend.aspx?Url=<% Response.Write(Renderer.UrlEncode(Request.Url.PathAndQuery)); %>&Subject=<% Response.Write(Renderer.UrlEncode(Title)); %>">&#187; Tell a Friend</a>     
          </div>
          <div>
           <a href='PlacePicturesManage.aspx?id=<% Response.Write(base.RequestId); %>'>&#187; Upload

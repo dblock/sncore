@@ -1,6 +1,6 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="AccountEventView.aspx.cs"
  Inherits="AccountEventView" Title="Event | View" %>
-
+<%@ Import Namespace="SnCore.Tools.Web" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="DiscussionFullView" Src="DiscussionFullViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="BookmarksView" Src="BookmarksViewControl.ascx" %>
@@ -74,6 +74,9 @@
          <div>
           <asp:LinkButton ID="linkExportVCalendar" runat="server" OnClick="linkExportVCalendar_Click" 
            Text="&#187; Export to Outlook" />
+         </div>
+         <div>
+          <a href="TellAFriend.aspx?Url=<% Response.Write(Renderer.UrlEncode(Request.Url.PathAndQuery)); %>&Subject=<% Response.Write(Renderer.UrlEncode(Title)); %>">&#187; Tell a Friend</a>     
          </div>
          <asp:Panel ID="panelOwner" runat="server">
           <div>

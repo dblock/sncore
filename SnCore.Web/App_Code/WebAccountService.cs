@@ -2134,6 +2134,21 @@ namespace SnCore.WebServices
             }
         }
 
+        /// <summary>
+        /// Return an active e-mail address.
+        /// </summary>
+        [WebMethod(Description = "Check whether the user has a verified e-mail address.")]
+        public string GetActiveEmailAddress(string ticket)
+        {
+            int id = GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount a = new ManagedAccount(session, id);
+                return a.ActiveEmailAddress;
+            }
+        }
+
         #endregion
 
         #region Account Property Group

@@ -1,5 +1,6 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="AccountStoryView.aspx.cs"
  Inherits="AccountStoryView" Title="Story" %>
+<%@ Import Namespace="SnCore.Tools.Web" %>
 
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
@@ -34,6 +35,10 @@
    <td valign="top" width="*">
     <div class="sncore_h2">
      <asp:Label ID="storyName" runat="server" />
+    </div>
+    <div class="sncore_h2sub">
+     <a href="AccountStoriesView.aspx">&#187; All Stories</a>
+     <a href="TellAFriend.aspx?Url=<% Response.Write(Renderer.UrlEncode(Request.Url.PathAndQuery)); %>&Subject=<% Response.Write(Renderer.UrlEncode(Title)); %>">&#187; Tell a Friend</a>
     </div>
     <asp:Panel ID="panelOwner" runat="server">
      <table class="sncore_inner_table" width="95%">

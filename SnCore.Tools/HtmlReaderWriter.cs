@@ -92,7 +92,7 @@ namespace SnCore.Tools.Web.Html
         /// Specify which attributes are allowed. Any other attribute will be discarded
         /// </summary>
         public string[] AllowedAttributes = new string[] { "href", "target", 
-        			"border", "src", "align", "width", "height", "color", "size", "class", "style", "type", "name", "value" };
+        			"border", "src", "valign", "align", "width", "height", "color", "size", "class", "style", "type", "name", "value" };
 
         /// <summary>
         /// Base href to adjust images and links

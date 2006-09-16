@@ -24,6 +24,9 @@
     <div class="sncore_h2sub">
      <asp:Label ID="labelBlogDescription" runat="server" />
     </div>
+    <div align="right">
+     <a href="TellAFriend.aspx?Url=<% Response.Write(Renderer.UrlEncode(Request.Url.PathAndQuery)); %>&Subject=<% Response.Write(Renderer.UrlEncode(Title)); %>">&#187; Tell a Friend</a>     
+    </div>
     <asp:Panel ID="panelAdmin" runat="server" HorizontalAlign="Right">
      <div>
       <asp:LinkButton OnClick="feature_Click" runat="server" ID="linkFeature" Text="Feature" />

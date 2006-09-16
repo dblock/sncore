@@ -1,5 +1,6 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true"
  CodeFile="AccountContentGroupView.aspx.cs" Inherits="AccountContentGroupView" Title="Content Group" %>
+<%@ Import Namespace="SnCore.Tools.Web" %>
 
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
@@ -9,6 +10,9 @@
    <td>
     <div class="sncore_h2">
      <asp:Label ID="labelName" runat="server" />
+    </div>
+    <div class="sncore_h2sub">
+     <a href="TellAFriend.aspx?Url=<% Response.Write(Renderer.UrlEncode(Request.Url.PathAndQuery)); %>&Subject=<% Response.Write(Renderer.UrlEncode(Title)); %>">&#187; Tell a Friend</a>
     </div>
    </td>
    <td>

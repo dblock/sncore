@@ -1,5 +1,6 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="AccountView.aspx.cs"
  Inherits="AccountView" Title="Account | View" %>
+<%@ Import Namespace="SnCore.Tools.Web" %>
 
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
@@ -78,6 +79,9 @@
         <div>
          <a href="#Testimonials">Testimonials</a>
          <asp:HyperLink runat="server" ID="linkLeaveTestimonial" Text="&#187; Leave a Testimonial" />
+        </div>
+        <div>        
+         <a href="TellAFriend.aspx?Url=<% Response.Write(Renderer.UrlEncode(Request.Url.PathAndQuery)); %>&Subject=<% Response.Write(Renderer.UrlEncode(Title)); %>">&#187; Tell a Friend</a>
         </div>
         <asp:Panel ID="panelAdmin" runat="server">
          <div>

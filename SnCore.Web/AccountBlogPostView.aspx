@@ -1,5 +1,6 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="AccountBlogPostView.aspx.cs"
  Inherits="AccountBlogPostView" Title="BlogPost" %>
+<%@ Import Namespace="SnCore.Tools.Web" %>
 
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
@@ -32,6 +33,9 @@
      <asp:HyperLink ID="BlogTitle" runat="server" />
      on
      <asp:Label ID="BlogPostCreated" runat="server" />
+    </div>
+    <div class="sncore_h2sub">
+     <a href="TellAFriend.aspx?Url=<% Response.Write(Renderer.UrlEncode(Request.Url.PathAndQuery)); %>&Subject=<% Response.Write(Renderer.UrlEncode(Title)); %>">&#187; Tell a Friend</a>     
     </div>
    </td>
   </tr>
