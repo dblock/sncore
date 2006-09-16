@@ -7,7 +7,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountEventFeaturedView" Src="AccountEventFeaturedViewControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <div class="sncore_h2">
-  Features
+  Featured
  </div>
  <div class="sncore_h2sub">
   Think you deserve to be featured?

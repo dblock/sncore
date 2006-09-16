@@ -23,7 +23,9 @@
         <td align="left" valign="top" width="*" class="sncore_message_left">
          <div class="sncore_message_header">
           <div class="sncore_message_subject">
-           <%# base.Render(Eval("Subject"))%>
+           <a href="DiscussionThreadView.aspx?did=<%# Eval("DiscussionId") %>&id=<%# Eval("DiscussionThreadId") %>">
+            <%# base.Render(Eval("Subject"))%>
+           </a>
           </div>
           <div class="sncore_description">
            posted on <%# base.Adjust(Eval("Created")).ToString() %> in
@@ -32,9 +34,11 @@
            </a>
           </div>          
           <div class="sncore_description">
-           <a href="DiscussionPost.aspx?did=<%# base.DiscussionId %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>&#edit">
+           <a href="DiscussionThreadView.aspx?did=<%# Eval("DiscussionId") %>&id=<%# Eval("DiscussionThreadId") %>">
+            &#187; read</a>
+           <a href="DiscussionPost.aspx?did=<%# Eval("DiscussionId") %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>&#edit">
             &#187; reply</a>
-           <a href="DiscussionPost.aspx?did=<%# base.DiscussionId %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>&Quote=true&#edit">
+           <a href="DiscussionPost.aspx?did=<%# Eval("DiscussionId") %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>&Quote=true&#edit">
             &#187; quote</a>
           </div>
          </div>
