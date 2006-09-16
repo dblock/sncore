@@ -403,11 +403,11 @@ public class SessionManager
         {
             if (mContentService == null)
             {
-                mContentService = (WebContentService)HttpContext.Current.Cache["SnCore.SessionManager.ContentService"];
+                mContentService = (WebContentService) Cache["SnCore.SessionManager.ContentService"];
                 if (mContentService == null)
                 {
                     mContentService = new WebContentService();
-                    HttpContext.Current.Cache["SnCore.SessionManager.ContentService"] = mContentService;
+                    Cache["SnCore.SessionManager.ContentService"] = mContentService;
                 }
             }
             return mContentService;
@@ -420,11 +420,11 @@ public class SessionManager
         {
             if (mLicenseService == null)
             {
-                mLicenseService = (WebLicenseService)HttpContext.Current.Cache["SnCore.SessionManager.LicenseService"];
+                mLicenseService = (WebLicenseService)Cache["SnCore.SessionManager.LicenseService"];
                 if (mLicenseService == null)
                 {
                     mLicenseService = new WebLicenseService();
-                    HttpContext.Current.Cache["SnCore.SessionManager.LicenseService"] = mLicenseService;
+                    Cache["SnCore.SessionManager.LicenseService"] = mLicenseService;
                 }
             }
             return mLicenseService;
@@ -437,11 +437,11 @@ public class SessionManager
         {
             if (mAccountService == null)
             {
-                mAccountService = (WebAccountService) HttpContext.Current.Cache["SnCore.SessionManager.AccountService"];
+                mAccountService = (WebAccountService) Cache["SnCore.SessionManager.AccountService"];
                 if (mAccountService == null)
                 {
                     mAccountService = new WebAccountService();
-                    HttpContext.Current.Cache["SnCore.SessionManager.AccountService"] = mAccountService;
+                    Cache["SnCore.SessionManager.AccountService"] = mAccountService;
                 }
             }
             return mAccountService;
@@ -454,11 +454,11 @@ public class SessionManager
         {
             if (mWebBugService == null)
             {
-                mWebBugService = (WebBugService)HttpContext.Current.Cache["SnCore.SessionManager.BugService"];
+                mWebBugService = (WebBugService)Cache["SnCore.SessionManager.BugService"];
                 if (mWebBugService == null)
                 {
                     mWebBugService = new WebBugService();
-                    HttpContext.Current.Cache["SnCore.SessionManager.BugService"] = mWebBugService;
+                    Cache["SnCore.SessionManager.BugService"] = mWebBugService;
                 }
             }
             return mWebBugService;
@@ -471,11 +471,11 @@ public class SessionManager
         {
             if (mWebStatsService == null)
             {
-                mWebStatsService = (WebStatsService)HttpContext.Current.Cache["SnCore.SessionManager.StatsService"];
+                mWebStatsService = (WebStatsService)Cache["SnCore.SessionManager.StatsService"];
                 if (mWebStatsService == null)
                 {
                     mWebStatsService = new WebStatsService();
-                    HttpContext.Current.Cache["SnCore.SessionManager.StatsService"] = mWebStatsService;
+                    Cache["SnCore.SessionManager.StatsService"] = mWebStatsService;
                 }
             }
             return mWebStatsService;
@@ -488,11 +488,11 @@ public class SessionManager
         {
             if (mWebTagWordService == null)
             {
-                mWebTagWordService = (WebTagWordService)HttpContext.Current.Cache["SnCore.SessionManager.TagWordService"];
+                mWebTagWordService = (WebTagWordService)Cache["SnCore.SessionManager.TagWordService"];
                 if (mWebTagWordService == null)
                 {
                     mWebTagWordService = new WebTagWordService();
-                    HttpContext.Current.Cache["SnCore.SessionManager.TagWordService"] = mWebTagWordService;
+                    Cache["SnCore.SessionManager.TagWordService"] = mWebTagWordService;
                 }
             }
 
@@ -506,11 +506,11 @@ public class SessionManager
         {
             if (mWebSocialService == null)
             {
-                mWebSocialService = (WebSocialService)HttpContext.Current.Cache["SnCore.SessionManager.SocialService"];
+                mWebSocialService = (WebSocialService)Cache["SnCore.SessionManager.SocialService"];
                 if (mWebSocialService == null)
                 {
                     mWebSocialService = new WebSocialService();
-                    HttpContext.Current.Cache["SnCore.SessionManager.SocialService"] = mWebSocialService;
+                    Cache["SnCore.SessionManager.SocialService"] = mWebSocialService;
                 }
             }
             return mWebSocialService;
@@ -523,11 +523,11 @@ public class SessionManager
         {
             if (mWebStoryService == null)
             {
-                mWebStoryService = (WebStoryService)HttpContext.Current.Cache["SnCore.SessionManager.StoryService"];
+                mWebStoryService = (WebStoryService)Cache["SnCore.SessionManager.StoryService"];
                 if (mWebStoryService == null)
                 {
                     mWebStoryService = new WebStoryService();
-                    HttpContext.Current.Cache["SnCore.SessionManager.StoryService"] = mWebStoryService;
+                    Cache["SnCore.SessionManager.StoryService"] = mWebStoryService;
                 }
             }
 
@@ -541,11 +541,11 @@ public class SessionManager
         {
             if (mWebLocationService == null)
             {
-                mWebLocationService = (WebLocationService)HttpContext.Current.Cache["SnCore.SessionManager.LocationService"];
+                mWebLocationService = (WebLocationService)Cache["SnCore.SessionManager.LocationService"];
                 if (mWebLocationService == null)
                 {
                     mWebLocationService = new WebLocationService();
-                    HttpContext.Current.Cache["SnCore.SessionManager.LocationService"] = mWebLocationService;
+                    Cache["SnCore.SessionManager.LocationService"] = mWebLocationService;
                 }
             }
             return mWebLocationService;
@@ -558,11 +558,11 @@ public class SessionManager
         {
             if (mWebSystemService == null)
             {
-                mWebSystemService = (WebSystemService)HttpContext.Current.Cache["SnCore.SessionManager.SystemService"];
+                mWebSystemService = (WebSystemService)Cache["SnCore.SessionManager.SystemService"];
                 if (mWebSystemService == null)
                 {
                     mWebSystemService = new WebSystemService();
-                    HttpContext.Current.Cache["SnCore.SessionManager.SystemService"] = mWebSystemService;
+                    Cache["SnCore.SessionManager.SystemService"] = mWebSystemService;
                 }
             }
             return mWebSystemService;
@@ -575,11 +575,11 @@ public class SessionManager
         {
             if (mWebEventService == null)
             {
-                mWebEventService = (WebEventService)HttpContext.Current.Cache["SnCore.SessionManager.EventService"];
+                mWebEventService = (WebEventService)Cache["SnCore.SessionManager.EventService"];
                 if (mWebEventService == null)
                 {
                     mWebEventService = new WebEventService();
-                    HttpContext.Current.Cache["SnCore.SessionManager.EventService"] = mWebEventService;
+                    Cache["SnCore.SessionManager.EventService"] = mWebEventService;
                 }
             }
             return mWebEventService;
@@ -592,11 +592,11 @@ public class SessionManager
         {
             if (mWebDiscussionService == null)
             {
-                mWebDiscussionService = (WebDiscussionService)HttpContext.Current.Cache["SnCore.SessionManager.DiscussionService"];
+                mWebDiscussionService = (WebDiscussionService)Cache["SnCore.SessionManager.DiscussionService"];
                 if (mWebDiscussionService == null)
                 {
                     mWebDiscussionService = new WebDiscussionService();
-                    HttpContext.Current.Cache["SnCore.SessionManager.DiscussionService"] = mWebDiscussionService;
+                    Cache["SnCore.SessionManager.DiscussionService"] = mWebDiscussionService;
                 }
             }
             return mWebDiscussionService;
@@ -609,11 +609,11 @@ public class SessionManager
         {
             if (mWebSyndicationService == null)
             {
-                mWebSyndicationService = (WebSyndicationService)HttpContext.Current.Cache["SnCore.SessionManager.SyndicationService"];
+                mWebSyndicationService = (WebSyndicationService)Cache["SnCore.SessionManager.SyndicationService"];
                 if (mWebSyndicationService == null)
                 {
                     mWebSyndicationService = new WebSyndicationService();
-                    HttpContext.Current.Cache["SnCore.SessionManager.SyndicationService"] = mWebSyndicationService;
+                    Cache["SnCore.SessionManager.SyndicationService"] = mWebSyndicationService;
                 }
             }
             return mWebSyndicationService;
@@ -626,11 +626,11 @@ public class SessionManager
         {
             if (mWebBackEndService == null)
             {
-                mWebBackEndService = (WebBackEndService)HttpContext.Current.Cache["SnCore.SessionManager.BackEndService"];
+                mWebBackEndService = (WebBackEndService)Cache["SnCore.SessionManager.BackEndService"];
                 if (mWebBackEndService == null)
                 {
                     mWebBackEndService = new WebBackEndService();
-                    HttpContext.Current.Cache["SnCore.SessionManager.BackEndService"] = mWebBackEndService;
+                    Cache["SnCore.SessionManager.BackEndService"] = mWebBackEndService;
                 }
             }
             return mWebBackEndService;
@@ -643,11 +643,11 @@ public class SessionManager
         {
             if (mWebPlaceService == null)
             {
-                mWebPlaceService = (WebPlaceService)HttpContext.Current.Cache["SnCore.SessionManager.PlaceService"];
+                mWebPlaceService = (WebPlaceService)Cache["SnCore.SessionManager.PlaceService"];
                 if (mWebPlaceService == null)
                 {
                     mWebPlaceService = new WebPlaceService();
-                    HttpContext.Current.Cache["SnCore.SessionManager.PlaceService"] = mWebPlaceService;
+                    Cache["SnCore.SessionManager.PlaceService"] = mWebPlaceService;
                 }
             }
             return mWebPlaceService;
@@ -660,11 +660,11 @@ public class SessionManager
         {
             if (mWebBlogService == null)
             {
-                mWebBlogService = (WebBlogService)HttpContext.Current.Cache["SnCore.SessionManager.BlogService"];
+                mWebBlogService = (WebBlogService) Cache["SnCore.SessionManager.BlogService"];
                 if (mWebBlogService == null)
                 {
                     mWebBlogService = new WebBlogService();
-                    HttpContext.Current.Cache["SnCore.SessionManager.BlogService"] = mWebBlogService;
+                    Cache["SnCore.SessionManager.BlogService"] = mWebBlogService;
                 }
             }
             return mWebBlogService;

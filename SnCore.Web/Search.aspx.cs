@@ -10,7 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 
-public partial class Search : Page
+public partial class Search : AsyncPage
 {
     public void Page_Load()
     {
