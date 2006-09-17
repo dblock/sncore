@@ -113,7 +113,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery("SELECT COUNT(s) FROM AccountStory s").UniqueResult();
+                return (int)session.CreateQuery("SELECT COUNT(s) FROM AccountStory s WHERE s.Publish = 1").UniqueResult();
             }
         }
 
@@ -129,6 +129,7 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ICriteria c = session.CreateCriteria(typeof(AccountStory))
+                    .Add(Expression.Eq("Publish", true))
                     .AddOrder(Order.Desc("Created"));
 
                 if (options != null)
@@ -463,6 +464,7 @@ namespace SnCore.WebServices
                         " INNER JOIN FREETEXTTABLE(AccountStory, ([Name], [Summary]), '" + Renderer.SqlEncode(s) + "', " + 
                             maxsearchresults.ToString() + ") AS ft " +
                         " ON AccountStory.AccountStory_Id = ft.[KEY] " +
+                        " WHERE AccountStory.Publish = 1" +
                         " ORDER BY ft.[RANK] DESC",
                         "AccountStory",
                         typeof(AccountStory));

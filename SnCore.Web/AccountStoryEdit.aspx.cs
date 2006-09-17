@@ -34,6 +34,7 @@ public partial class AccountStoryEdit : AuthenticatedPage
 
                     inputName.Text = ts.Name;
                     inputSummary.Text = ts.Summary;
+                    inputPublish.Checked = ts.Publish;
 
                     labelName.Text = Render(ts.Name);
                     linkAccount.Text = Render(ts.AccountName);
@@ -113,6 +114,7 @@ public partial class AccountStoryEdit : AuthenticatedPage
             TransitAccountStory s = new TransitAccountStory();
             s.Name = inputName.Text;
             s.Summary = inputSummary.Text;
+            s.Publish = inputPublish.Checked;
             s.Id = RequestId;
             s.Id = StoryService.AddAccountStory(SessionManager.Ticket, s);
             Redirect(string.Format("AccountStoryView.aspx?id={0}", s.Id));

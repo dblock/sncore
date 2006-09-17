@@ -144,6 +144,20 @@ namespace SnCore.Services
             }
         }
 
+        private bool mPublish;
+
+        public bool Publish
+        {
+            get
+            {
+                return mPublish;
+            }
+            set
+            {
+                mPublish = value;
+            }
+        }
+
         public TransitAccountStory()
         {
 
@@ -160,6 +174,7 @@ namespace SnCore.Services
             AccountStoryPictureId = ManagedService.GetRandomElementId(s.AccountStoryPictures);
             Created = s.Created;
             Modified = s.Modified;
+            Publish = s.Publish;
             CommentCount = ManagedDiscussion.GetDiscussionPostCount(session, s.Account.Id,
                 ManagedDiscussion.AccountStoryDiscussion, s.Id);
         }
@@ -175,6 +190,7 @@ namespace SnCore.Services
 
             s.Name = this.Name;
             s.Summary = this.Summary;
+            s.Publish = this.Publish;
             return s;
         }
 

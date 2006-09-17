@@ -42,6 +42,16 @@
   <tr>
    <td>
    </td>
+   <td class="sncore_form_value">
+    <asp:CheckBox ID="inputPublish" runat="server" Checked="true" Text="Publish" />
+    <div class="sncore_description">
+     uncheck to save as draft
+    </div>
+   </td>
+  </tr>
+  <tr>
+   <td>
+   </td>
    <td>
     <sncorewebcontrols:button id="linkSave" cssclass="sncore_form_button" onclick="save"
      runat="server" text="Save" />

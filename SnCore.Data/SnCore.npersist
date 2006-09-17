@@ -349,6 +349,7 @@
     <property name="Modified" columns="Modified" type="System.DateTime" />
     <property name="Name" columns="Name" type="System.String" />
     <property name="Summary" columns="Summary" type="System.String" />
+    <property name="Publish" columns="Publish" type="System.Boolean" />
   </class>
   <class name="AccountStoryPicture" table="AccountStoryPicture">
     <property name="Id" id="true" columns="AccountStoryPicture_Id" type="System.Int32" />
@@ -1071,6 +1072,7 @@
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Name" type="String" prec="256" length="512" scale="0" />
       <column name="Summary" type="String" prec="0" length="16" scale="0" specific-type="NTEXT" />
+      <column name="Publish" type="Boolean" prec="1" length="1" scale="0" default="((1))" />
     </table>
     <table name="AccountStoryPicture">
       <column name="AccountStoryPicture_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />

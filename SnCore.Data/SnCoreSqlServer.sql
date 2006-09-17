@@ -1185,7 +1185,7 @@ CREATE TABLE [dbo].[Account](
 	[UtcOffset] [int] NULL,
 	[Signature] [nvarchar](128) NULL,
 	[IsAdministrator] [bit] NULL CONSTRAINT [DF_Account_IsAdministrator]  DEFAULT ((0)),
-        [IsPasswordExpired] [bit] NULL CONSTRAINT [DF_Account_IsPasswordExpired]  DEFAULT ((0)),
+	[IsPasswordExpired] [bit] NULL,
  CONSTRAINT [PK_Account] PRIMARY KEY CLUSTERED 
 (
 	[Account_Id] ASC
@@ -1984,6 +1984,7 @@ CREATE TABLE [dbo].[AccountStory](
 	[Created] [datetime] NOT NULL,
 	[Modified] [datetime] NOT NULL,
 	[Account_Id] [int] NOT NULL,
+	[Publish] [bit] NOT NULL CONSTRAINT [DF_AccountStory_Publish]  DEFAULT ((1)),
  CONSTRAINT [PK_Story] PRIMARY KEY CLUSTERED 
 (
 	[AccountStory_Id] ASC

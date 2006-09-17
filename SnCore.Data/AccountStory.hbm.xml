@@ -13,5 +13,6 @@
     <property name="Modified" column="Modified" type="DateTime" />
     <property name="Name" column="Name" type="String" />
     <property name="Summary" column="Summary" type="StringClob" />
+    <property name="Publish" column="Publish" type="Boolean" />
   </class>
 </hibernate-mapping>
