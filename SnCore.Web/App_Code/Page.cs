@@ -312,6 +312,12 @@ public class Page : System.Web.UI.Page
     {
         return Renderer.GetSummary(SessionManager.RenderMarkups(summary));
     }
+
+    public void RedirectToLogin()
+    {
+        Redirect(string.Format("AccountLogin.aspx?ReturnUrl={0}&AuthenticatedPage=true",
+            Renderer.UrlEncode(Request.Url.PathAndQuery)));
+    }
 }
 
 public class AuthenticatedPage : Page
@@ -325,8 +331,7 @@ public class AuthenticatedPage : Page
     {
         if (string.IsNullOrEmpty(SessionManager.Ticket))
         {
-            Redirect(string.Format("AccountLogin.aspx?ReturnUrl={0}&AuthenticatedPage=true", 
-                Renderer.UrlEncode(Request.Url.PathAndQuery)));
+            RedirectToLogin();
         }
 
         base.OnLoad(e);

@@ -228,8 +228,6 @@ public partial class PlaceView : Page
                     imageEmail.AlternateText = string.Format("E-Mail {0}", Renderer.Render(place.Name));
                     imageEmail.Visible = ! string.IsNullOrEmpty(place.Email);
 
-                    panelDetails.Visible = SessionManager.IsLoggedIn;
-
                     object[] p_args = { RequestId };
                     picturesView.DataSource = SessionManager.GetCachedCollection<TransitPlacePicture>(
                         PlaceService, "GetPlacePictures", p_args);
@@ -307,6 +305,11 @@ public partial class PlaceView : Page
     {
         try
         {
+            if (!SessionManager.IsLoggedIn)
+            {
+                RedirectToLogin();
+            }
+
             if (PlaceService.IsAccountPlaceFavorite(SessionManager.Ticket, RequestId))
             {
                 throw new Exception("This place is already your favorite.");

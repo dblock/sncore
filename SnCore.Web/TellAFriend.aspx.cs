@@ -38,7 +38,7 @@ public partial class TellAFriend : AuthenticatedPage
         int atlasscript = content.ToString().IndexOf("<stripped type=\"text/xml-script\">");
         if (atlasscript >= 0) content.Remove(atlasscript, content.Length - atlasscript);
 
-        content.Insert(0, string.Format("<p style=\"margin: 10px;\"><a href=\"{0}\">&#187;&#187; original page</a></p>", uri.ToString()));
+        content.Insert(0, string.Format("<p style=\"margin: 10px;\"><a href=\"{0}\">&#187;&#187; online version</a></p>", uri.ToString()));
 
         // insert additional note
         if (! string.IsNullOrEmpty(inputNote.Text))

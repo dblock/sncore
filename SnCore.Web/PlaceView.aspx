@@ -200,7 +200,7 @@
  </asp:Panel>
 
  <script type="text/javascript">
-  //<![CDATA[
+ <!--
    var map = null;
   
    function createYahooMarker() 
@@ -238,7 +238,7 @@
      document.getElementById("divDetails").style.display = "";
      document.getElementById("divMap").style.display = "none";
    }
-  //]]>
+  //-->
  </script>
 
 </asp:Content>
