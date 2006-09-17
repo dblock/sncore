@@ -46,6 +46,7 @@
     <property name="AccountPropertyValues" table="AccountPropertyValue" id-columns="Account_Id" list="true" item-type="AccountPropertyValue" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
     <property name="AccountAttributes" table="AccountAttribute" id-columns="Account_Id" list="true" item-type="AccountAttribute" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
     <property name="AccountLicenses" table="AccountLicense" id-columns="Account_Id" list="true" item-type="AccountLicense" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
+    <property name="IsPasswordExpired" columns="IsPasswordExpired" type="System.Boolean" />
   </class>
   <class name="AccountAddress" table="AccountAddress">
     <property name="Id" id="true" columns="AccountAddress_Id" type="System.Int32" />
@@ -60,6 +61,14 @@
     <property name="State" columns="State_Id" ref="OneToMany" inverse="AccountAddresses" type="State" />
     <property name="Street" columns="Street" type="System.String" />
     <property name="Zip" columns="Zip" type="System.String" />
+  </class>
+  <class name="AccountAttribute" table="AccountAttribute">
+    <property name="Id" id="true" columns="AccountAttribute_Id" type="System.Int32" />
+    <property name="Account" columns="Account_Id" ref="OneToMany" inverse="AccountAttributes" type="Account" />
+    <property name="Attribute" columns="Attribute_Id" ref="OneToMany" inverse="AccountAttributes" type="Attribute" />
+    <property name="Created" columns="Created" type="System.DateTime" />
+    <property name="Url" columns="Url" type="System.String" />
+    <property name="Value" columns="Value" type="System.String" />
   </class>
   <class name="AccountBlog" table="AccountBlog">
     <property name="Id" id="true" columns="AccountBlog_Id" type="System.Int32" />
@@ -230,6 +239,15 @@
     <property name="Message" columns="Message" type="System.String" />
     <property name="Modified" columns="Modified" type="System.DateTime" />
   </class>
+  <class name="AccountLicense" table="AccountLicense">
+    <property name="Id" id="true" columns="AccountLicense_Id" type="System.Int32" />
+    <property name="Account" columns="Account_Id" ref="OneToMany" inverse="AccountLicenses" type="Account" />
+    <property name="Created" columns="Created" type="System.DateTime" />
+    <property name="ImageUrl" columns="ImageUrl" type="System.String" />
+    <property name="LicenseUrl" columns="LicenseUrl" type="System.String" />
+    <property name="Modified" columns="Modified" type="System.DateTime" />
+    <property name="Name" columns="Name" type="System.String" />
+  </class>
   <class name="AccountMessage" table="AccountMessage">
     <property name="Id" id="true" columns="AccountMessage_Id" type="System.Int32" />
     <property name="Account" columns="Account_Id" ref="OneToMany" inverse="AccountMessages" type="Account" />
@@ -355,6 +373,18 @@
     <property name="Description" columns="Description" type="System.String" />
     <property name="Name" columns="Name" type="System.String" />
     <property name="Url" columns="Url" type="System.String" />
+  </class>
+  <class name="Attribute" table="Attribute">
+    <property name="Id" id="true" columns="Attribute_Id" type="System.Int32" />
+    <property name="AccountAttributes" table="AccountAttribute" id-columns="Attribute_Id" list="true" item-type="AccountAttribute" slave="true" ref="ManyToOne" inverse="Attribute" inherits-inverse="true" />
+    <property name="Bitmap" columns="Bitmap" type="System.Byte()" />
+    <property name="Created" columns="Created" type="System.DateTime" />
+    <property name="DefaultUrl" columns="DefaultUrl" type="System.String" />
+    <property name="DefaultValue" columns="DefaultValue" type="System.String" />
+    <property name="Description" columns="Description" type="System.String" />
+    <property name="Modified" columns="Modified" type="System.DateTime" />
+    <property name="Name" columns="Name" type="System.String" />
+    <property name="PlaceAttributes" table="PlaceAttribute" id-columns="Attribute_Id" list="true" item-type="PlaceAttribute" slave="true" ref="ManyToOne" inverse="Attribute" inherits-inverse="true" />
   </class>
   <class name="Bookmark" table="Bookmark">
     <property name="Id" id="true" columns="Bookmark_Id" type="System.Int32" />
@@ -579,6 +609,14 @@
     <property name="PlacePropertyValues" table="PlacePropertyValue" id-columns="Place_Id" list="true" item-type="PlacePropertyValue" slave="true" ref="ManyToOne" inverse="Place" inherits-inverse="true" />
     <property name="PlaceAttributes" table="PlaceAttribute" id-columns="Place_Id" list="true" item-type="PlaceAttribute" slave="true" ref="ManyToOne" inverse="Place" inherits-inverse="true" />
   </class>
+  <class name="PlaceAttribute" table="PlaceAttribute">
+    <property name="Id" id="true" columns="PlaceAttribute_Id" type="System.Int32" />
+    <property name="Attribute" columns="Attribute_Id" ref="OneToMany" inverse="PlaceAttributes" type="Attribute" />
+    <property name="Created" columns="Created" type="System.DateTime" />
+    <property name="Place" columns="Place_Id" ref="OneToMany" inverse="PlaceAttributes" type="Place" />
+    <property name="Url" columns="Url" type="System.String" />
+    <property name="Value" columns="Value" type="System.String" />
+  </class>
   <class name="PlaceName" table="PlaceName">
     <property name="Id" id="true" columns="PlaceName_Id" type="System.Int32" />
     <property name="Created" columns="Created" type="System.DateTime" />
@@ -594,6 +632,30 @@
     <property name="Modified" columns="Modified" type="System.DateTime" />
     <property name="Name" columns="Name" type="System.String" />
     <property name="Place" columns="Place_Id" ref="OneToMany" inverse="PlacePictures" type="Place" />
+  </class>
+  <class name="PlaceProperty" table="PlaceProperty">
+    <property name="Id" id="true" columns="PlaceProperty_Id" type="System.Int32" />
+    <property name="DefaultValue" columns="DefaultValue" type="System.String" />
+    <property name="Description" columns="Description" type="System.String" />
+    <property name="Name" columns="Name" type="System.String" />
+    <property name="PlacePropertyGroup" columns="PlacePropertyGroup_Id" ref="OneToMany" inverse="PlaceProperties" type="PlacePropertyGroup" />
+    <property name="PlacePropertyValues" table="PlacePropertyValue" id-columns="PlaceProperty_Id" list="true" item-type="PlacePropertyValue" slave="true" ref="ManyToOne" inverse="PlaceProperty" inherits-inverse="true" />
+    <property name="Publish" columns="Publish" type="System.Boolean" />
+    <property name="TypeName" columns="TypeName" type="System.String" />
+  </class>
+  <class name="PlacePropertyGroup" table="PlacePropertyGroup">
+    <property name="Id" id="true" columns="PlacePropertyGroup_Id" type="System.Int32" />
+    <property name="Description" columns="Description" type="System.String" />
+    <property name="Name" columns="Name" type="System.String" />
+    <property name="PlaceProperties" table="PlaceProperty" id-columns="PlacePropertyGroup_Id" list="true" item-type="PlaceProperty" slave="true" ref="ManyToOne" inverse="PlacePropertyGroup" inherits-inverse="true" />
+  </class>
+  <class name="PlacePropertyValue" table="PlacePropertyValue">
+    <property name="Id" id="true" columns="PlacePropertyValue_Id" type="System.Int32" />
+    <property name="Created" columns="Created" type="System.DateTime" />
+    <property name="Modified" columns="Modified" type="System.DateTime" />
+    <property name="Place" columns="Place_Id" ref="OneToMany" inverse="PlacePropertyValues" type="Place" />
+    <property name="PlaceProperty" columns="PlaceProperty_Id" ref="OneToMany" inverse="PlacePropertyValues" type="PlaceProperty" />
+    <property name="Value" columns="Value" type="System.String" />
   </class>
   <class name="PlaceType" table="PlaceType">
     <property name="Id" id="true" columns="PlaceType_Id" type="System.Int32" />
@@ -721,67 +783,6 @@
     <property name="Modified" columns="Modified" type="System.DateTime" />
     <property name="TagWord" columns="TagWord_Id" ref="OneToMany" inverse="TagWordAccounts" type="TagWord" />
   </class>
-  <class name="PlaceProperty" table="PlaceProperty">
-    <property name="Id" id="true" columns="PlaceProperty_Id" type="System.Int32" />
-    <property name="DefaultValue" columns="DefaultValue" type="System.String" />
-    <property name="Description" columns="Description" type="System.String" />
-    <property name="Name" columns="Name" type="System.String" />
-    <property name="PlacePropertyGroup" columns="PlacePropertyGroup_Id" ref="OneToMany" inverse="PlaceProperties" type="PlacePropertyGroup" />
-    <property name="PlacePropertyValues" table="PlacePropertyValue" id-columns="PlaceProperty_Id" list="true" item-type="PlacePropertyValue" slave="true" ref="ManyToOne" inverse="PlaceProperty" inherits-inverse="true" />
-    <property name="Publish" columns="Publish" type="System.Boolean" />
-    <property name="TypeName" columns="TypeName" type="System.String" />
-  </class>
-  <class name="PlacePropertyGroup" table="PlacePropertyGroup">
-    <property name="Id" id="true" columns="PlacePropertyGroup_Id" type="System.Int32" />
-    <property name="Description" columns="Description" type="System.String" />
-    <property name="Name" columns="Name" type="System.String" />
-    <property name="PlaceProperties" table="PlaceProperty" id-columns="PlacePropertyGroup_Id" list="true" item-type="PlaceProperty" slave="true" ref="ManyToOne" inverse="PlacePropertyGroup" inherits-inverse="true" />
-  </class>
-  <class name="PlacePropertyValue" table="PlacePropertyValue">
-    <property name="Id" id="true" columns="PlacePropertyValue_Id" type="System.Int32" />
-    <property name="Created" columns="Created" type="System.DateTime" />
-    <property name="Modified" columns="Modified" type="System.DateTime" />
-    <property name="Place" columns="Place_Id" ref="OneToMany" inverse="PlacePropertyValues" type="Place" />
-    <property name="PlaceProperty" columns="PlaceProperty_Id" ref="OneToMany" inverse="PlacePropertyValues" type="PlaceProperty" />
-    <property name="Value" columns="Value" type="System.String" />
-  </class>
-  <class name="AccountAttribute" table="AccountAttribute">
-    <property name="Id" id="true" columns="AccountAttribute_Id" type="System.Int32" />
-    <property name="Account" columns="Account_Id" ref="OneToMany" inverse="AccountAttributes" type="Account" />
-    <property name="Attribute" columns="Attribute_Id" ref="OneToMany" inverse="AccountAttributes" type="Attribute" />
-    <property name="Created" columns="Created" type="System.DateTime" />
-    <property name="Url" columns="Url" type="System.String" />
-    <property name="Value" columns="Value" type="System.String" />
-  </class>
-  <class name="Attribute" table="Attribute">
-    <property name="Id" id="true" columns="Attribute_Id" type="System.Int32" />
-    <property name="AccountAttributes" table="AccountAttribute" id-columns="Attribute_Id" list="true" item-type="AccountAttribute" slave="true" ref="ManyToOne" inverse="Attribute" inherits-inverse="true" />
-    <property name="Bitmap" columns="Bitmap" type="System.Byte()" />
-    <property name="Created" columns="Created" type="System.DateTime" />
-    <property name="DefaultUrl" columns="DefaultUrl" type="System.String" />
-    <property name="DefaultValue" columns="DefaultValue" type="System.String" />
-    <property name="Description" columns="Description" type="System.String" />
-    <property name="Modified" columns="Modified" type="System.DateTime" />
-    <property name="Name" columns="Name" type="System.String" />
-    <property name="PlaceAttributes" table="PlaceAttribute" id-columns="Attribute_Id" list="true" item-type="PlaceAttribute" slave="true" ref="ManyToOne" inverse="Attribute" inherits-inverse="true" />
-  </class>
-  <class name="PlaceAttribute" table="PlaceAttribute">
-    <property name="Id" id="true" columns="PlaceAttribute_Id" type="System.Int32" />
-    <property name="Attribute" columns="Attribute_Id" ref="OneToMany" inverse="PlaceAttributes" type="Attribute" />
-    <property name="Created" columns="Created" type="System.DateTime" />
-    <property name="Place" columns="Place_Id" ref="OneToMany" inverse="PlaceAttributes" type="Place" />
-    <property name="Url" columns="Url" type="System.String" />
-    <property name="Value" columns="Value" type="System.String" />
-  </class>
-  <class name="AccountLicense" table="AccountLicense">
-    <property name="Id" id="true" columns="AccountLicense_Id" type="System.Int32" />
-    <property name="Account" columns="Account_Id" ref="OneToMany" inverse="AccountLicenses" type="Account" />
-    <property name="Created" columns="Created" type="System.DateTime" />
-    <property name="ImageUrl" columns="ImageUrl" type="System.String" />
-    <property name="LicenseUrl" columns="LicenseUrl" type="System.String" />
-    <property name="Modified" columns="Modified" type="System.DateTime" />
-    <property name="Name" columns="Name" type="System.String" />
-  </class>
   <source name="SnCore" type="MSSqlServer" provider="SqlClient" schema="dbo" catalog="SnCore">
     <connection-string>Data Source=localhost;Initial Catalog=SnCore;Integrated Security=SSPI</connection-string>
     <table name="Account">
@@ -799,6 +800,7 @@
       <column name="Signature" type="String" prec="128" allow-null="true" length="256" scale="0" />
       <column name="State_Id" type="Int32" prec="10" allow-null="true" length="4" scale="0" foreign="true" primary-table="State" primary-column="State_Id" foreign-key="FK_Account_State" />
       <column name="UtcOffset" type="Int32" prec="10" allow-null="true" length="4" scale="0" />
+      <column name="IsPasswordExpired" type="Boolean" prec="1" allow-null="true" length="1" scale="0" />
     </table>
     <table name="AccountAddress">
       <column name="AccountAddress_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
@@ -1470,8 +1472,8 @@
       <column name="AccountLicense_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
       <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_License_Account" />
       <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="ImageUrl" type="String" prec="128" length="256" scale="0" />
-      <column name="LicenseUrl" type="String" prec="128" length="256" scale="0" />
+      <column name="ImageUrl" type="String" prec="256" length="512" scale="0" />
+      <column name="LicenseUrl" type="String" prec="256" length="512" scale="0" />
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Name" type="String" prec="64" length="128" scale="0" />
     </table>
