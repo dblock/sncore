@@ -17,16 +17,20 @@
     <asp:Panel runat="server" ID="panelChangePassword">
      <asp:ValidationSummary runat="server" ID="manageValidationSummary" CssClass="sncore_form_validator"
       ShowSummary="true" />
+     <asp:Panel ID="panelOldPassword" runat="server">
+      <table class="sncore_account_table">
+       <tr>
+        <td class="sncore_form_label">
+         old password:
+        </td>
+        <td class="sncore_form_value">
+         <asp:TextBox CssClass="sncore_form_textbox" ID="inputOldPassword" runat="server"
+          TextMode="Password" />
+        </td>
+       </tr>
+      </table>
+     </asp:Panel>
      <table class="sncore_account_table">
-      <tr>
-       <td class="sncore_form_label">
-        old password:
-       </td>
-       <td class="sncore_form_value">
-        <asp:TextBox CssClass="sncore_form_textbox" ID="inputOldPassword" runat="server"
-         TextMode="Password" />
-       </td>
-      </tr>
       <tr>
        <td class="sncore_form_label">
         new password:

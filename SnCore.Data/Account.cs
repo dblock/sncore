@@ -60,6 +60,7 @@ using System;
         private System.Collections.IList m_AccountPropertyValues;
         private System.Collections.IList m_AccountAttributes;
         private System.Collections.IList m_AccountLicenses;
+        private System.Boolean m_IsPasswordExpired;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -1398,6 +1399,31 @@ using System;
             set
             {
                 m_AccountLicenses = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.Boolean'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_IsPasswordExpired' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'IsPasswordExpired' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Boolean IsPasswordExpired
+        {
+            get
+            {
+                return m_IsPasswordExpired;
+            }
+            set
+            {
+                m_IsPasswordExpired = value;
             }
         }
 

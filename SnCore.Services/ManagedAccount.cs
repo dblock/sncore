@@ -346,8 +346,23 @@ namespace SnCore.Services
             UtcOffset = a.UtcOffset;
             Signature = a.Signature;
             mIsAdministrator = a.IsAdministrator;
+            IsPasswordExpired = a.IsPasswordExpired;
             // random picture from the account
             PictureId = ManagedService.GetRandomElementId(a.AccountPictures);
+        }
+
+        private bool mIsPasswordExpired = false;
+
+        public bool IsPasswordExpired
+        {
+            get
+            {
+                return mIsPasswordExpired;
+            }
+            set
+            {
+                mIsPasswordExpired = value;
+            }
         }
 
         private bool mIsAdministrator = false;
@@ -1078,7 +1093,7 @@ namespace SnCore.Services
             AccountOpenId o = (AccountOpenId)session.CreateCriteria(typeof(AccountOpenId))
                     .Add(Expression.Eq("IdentityUrl", consumerid.ToString()))
                     .UniqueResult();
-                
+
             if (o == null)
             {
                 throw new SoapException(
@@ -1095,7 +1110,7 @@ namespace SnCore.Services
 
         #region Password
 
-        public void ResetPassword(string newpassword)
+        public void ResetPassword(string newpassword, bool expired)
         {
             if (newpassword.Length < MinimumPasswordLength)
             {
@@ -1103,21 +1118,28 @@ namespace SnCore.Services
             }
 
             mAccount.Password = GetPasswordHash(newpassword);
+            mAccount.IsPasswordExpired = expired;
             Session.Save(mAccount);
         }
 
         public void ChangePassword(string oldpassword, string newpassword)
         {
+            ChangePasswordMd5(GetPasswordHash(oldpassword), newpassword);
+        }
+
+        public void ChangePasswordMd5(string oldpasswordhash, string newpassword)
+        {
             if (newpassword.Length < MinimumPasswordLength)
             {
                 throw new PasswordTooShortException();
             }
 
-            if (mAccount.Password != GetPasswordHash(oldpassword))
+            if (mAccount.Password != oldpasswordhash)
             {
                 throw new AccessDeniedException();
             }
             mAccount.Password = GetPasswordHash(newpassword);
+            mAccount.IsPasswordExpired = false;
             Session.Save(mAccount);
         }
 
@@ -1133,7 +1155,7 @@ namespace SnCore.Services
 
         public void DemoteAdministrator()
         {
-            if (! mAccount.IsAdministrator)
+            if (!mAccount.IsAdministrator)
             {
                 throw new InvalidOperationException("Account does not have administrative permissions.");
             }
@@ -1576,7 +1598,7 @@ namespace SnCore.Services
             if (friendid == Id)
             {
                 throw new SoapException(
-                    "You cannot add yourself as a friend.", 
+                    "You cannot add yourself as a friend.",
                     SoapException.ClientFaultCode);
             }
 
@@ -1591,14 +1613,14 @@ namespace SnCore.Services
             if (HasFriend(friendid))
             {
                 throw new SoapException(string.Format(
-                    "{0} is already your friend.", request.Keen.Name), 
+                    "{0} is already your friend.", request.Keen.Name),
                     SoapException.ClientFaultCode);
             }
 
             if (HasFriendRequest(friendid))
             {
                 throw new SoapException(string.Format(
-                    "You have already asked {0} to be your friend.", request.Keen.Name), 
+                    "You have already asked {0} to be your friend.", request.Keen.Name),
                     SoapException.ClientFaultCode);
             }
 
@@ -1931,19 +1953,19 @@ namespace SnCore.Services
             if (post.Id != 0)
             {
                 // always can edit your own post
-                if (post.AccountId != Id && ! blog.CanEdit(Id))
+                if (post.AccountId != Id && !blog.CanEdit(Id))
                 {
                     throw new ManagedAccount.AccessDeniedException();
                 }
             }
             else
             {
-                if (! blog.CanPost(Id))
+                if (!blog.CanPost(Id))
                 {
                     throw new ManagedAccount.AccessDeniedException();
                 }
             }
-            
+
             post.Modified = DateTime.UtcNow;
             if (post.Id == 0)
             {
@@ -2080,7 +2102,7 @@ namespace SnCore.Services
                     sentto,
                     string.Format("{0}: {1} wants to own {2}.",
                         ManagedConfiguration.GetValue(Session, "SnCore.Name", "SnCore"),
-                        mAccount.Name, 
+                        mAccount.Name,
                         request.Place.Name),
                     messagebody,
                     true);

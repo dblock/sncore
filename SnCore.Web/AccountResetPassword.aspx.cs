@@ -13,7 +13,22 @@ public partial class AccountResetPassword : Page
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        SetDefaultButton(resetPassword);
+        try
+        {
+            SetDefaultButton(resetPassword);
+
+            if (!IsPostBack)
+            {
+                linkAdministrator.OnClientClick =
+                    string.Format("location.href='mailto:{0}';",
+                       SessionManager.GetCachedConfiguration(
+                            "SnCore.Admin.EmailAddress", "admin@localhost.com"));
+            }
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
     }
 
     protected void resetPassword_Click(object sender, EventArgs e)
@@ -31,7 +46,7 @@ public partial class AccountResetPassword : Page
             }
 
             AccountService.ResetPassword(resetpasswordEmailAddress.Text, resetpasswordBirthday.SelectedDate);
-            ReportInfo("A new password has been sent to '" + resetpasswordEmailAddress.Text + "'.");
+            ReportInfo("A new password has been sent to '" + resetpasswordEmailAddress.Text + "'. Click <a href='AccountLogin.aspx'>here</a> to login.");
             panelReset.Visible = false;
             panelResetUpdate.Update();
         }

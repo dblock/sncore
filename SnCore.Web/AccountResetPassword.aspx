@@ -11,6 +11,9 @@
     <div class="sncore_h2">
      Reset Password
     </div>
+    <div class="sncore_h2sub">
+     <asp:LinkButton ID="linkAdministrator" runat="server" Text="&#187; Having Trouble?" CausesValidation="false" />
+    </div>
     <table class="sncore_table">
      <tr>
       <td class="sncore_form_label">

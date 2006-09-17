@@ -16,6 +16,7 @@ using Microsoft.Web.Services3;
 using Microsoft.Web.Services3.Design;
 using System.Web.Services.Protocols;
 using SnCore.Tools.Web;
+using SnCore.Tools;
 
 namespace SnCore.WebServices
 {
@@ -654,6 +655,23 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Change password.")]
         public void ChangePassword(string ticket, int accountid, string oldpassword, string newpassword)
         {
+            ChangePasswordMd5(
+                ticket, 
+                accountid, 
+                string.IsNullOrEmpty(oldpassword) ? string.Empty : ManagedAccount.GetPasswordHash(oldpassword), 
+                newpassword);
+        }
+
+        /// <summary>
+        /// Change password.
+        /// </summary>
+        /// <param name="ticket">athentication ticket</param>
+        /// <param name="oldpassword">old password</param>
+        /// <param name="newpassword">new password</param>
+        /// <param name="accountid">account id</param>
+        [WebMethod(Description = "Change password with an existing Md5 hash.")]
+        public void ChangePasswordMd5(string ticket, int accountid, string oldpasswordhash, string newpassword)
+        {
             int userid = GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
@@ -668,17 +686,18 @@ namespace SnCore.WebServices
                     }
 
                     ManagedAccount account = new ManagedAccount(session, accountid);
-                    account.ResetPassword(newpassword);
+                    account.ResetPassword(newpassword, false);
                 }
                 else
                 {
                     ManagedAccount account = new ManagedAccount(session, accountid);
-                    account.ChangePassword(oldpassword, newpassword);
+                    account.ChangePasswordMd5(oldpasswordhash, newpassword);
                 }
 
                 SnCore.Data.Hibernate.Session.Flush();
             }
         }
+
 
         /// <summary>
         /// Reset password.
@@ -690,8 +709,8 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedAccount a = ManagedAccount.FindByEmailAndBirthday(session, emailaddress, dateofbirth);
-                string newpassword = Guid.NewGuid().ToString();
-                a.ResetPassword(newpassword);
+                string newpassword = RandomPassword.Generate();
+                a.ResetPassword(newpassword, true);
 
                 string url = string.Format(
                     "{0}/AccountLogin.aspx",
@@ -706,16 +725,16 @@ namespace SnCore.WebServices
                     "<style>body { font-size: .80em; font-family: Verdana; }</style>" +
                     "<body>" +
                     string.Format("Dear {0},<br><br>" +
-                        "Your password has been reset. This is your new password." +
+                        "Your password has been reset. Your temporary password is:" +
                         "<blockquote><b>{1}</b></blockquote>" +
-                        "You may now log-in." +
+                        "You may now log-in. You will be asked to change it." +
                         "<blockquote><a href='{2}'>{2}</a></blockquote>" +
                         "Thank you,<br>" +
                         "{3}" +
                         "</body>" +
                         "</html>",
                         a.Name,
-                        newpassword,
+                        Renderer.Render(newpassword),
                         url,
                         ManagedConfiguration.GetValue(session, "SnCore.Name", "SnCore")),
                     true);

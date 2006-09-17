@@ -141,5 +141,6 @@
       <key column="Account_Id" />
       <one-to-many class="AccountLicense, SnCore.Data" />
     </bag>
+    <property name="IsPasswordExpired" column="IsPasswordExpired" type="Boolean" />
   </class>
 </hibernate-mapping>
