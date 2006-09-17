@@ -4,16 +4,12 @@
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
- <div class="sncore_navigate">
-  <asp:Label CssClass="sncore_navigate_item" ID="linkDiscussions" Text="Forums"
-   runat="server" />
- </div>
  <div class="sncore_h2">
   Forums
  </div> 
  <div class="sncore_h2sub">
-  <a href="DiscussionThreadsView.aspx">&#187; New Posts</a>
   <a href="DiscussionTopOfThreadsView.aspx">&#187; New Threads</a>
+  <a href="DiscussionThreadsView.aspx">&#187; New Posts</a>
   <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
  </div>
  <table class="sncore_table">
