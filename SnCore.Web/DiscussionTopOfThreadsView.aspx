@@ -31,8 +31,8 @@
  </div>
  <atlas:UpdatePanel runat="server" ID="panelThreads" Mode="Always" RenderMode="Inline">
   <ContentTemplate>
-   <SnCoreWebControls:PagedList BorderWidth="0px" CellPadding="4" runat="server" ID="gridManage"
-    AllowCustomPaging="true" RepeatColumns="1" RepeatRows="5" RepeatDirection="Horizontal"
+   <SnCoreWebControls:PagedList BorderWidth="0px" CellPadding="2" runat="server" ID="gridManage"
+    AllowCustomPaging="true" RepeatColumns="1" RepeatRows="7" RepeatDirection="Horizontal"
     CssClass="sncore_table" ShowHeader="false">
     <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
      prevpagetext="Prev" horizontalalign="Center" />
@@ -64,11 +64,6 @@
         <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
          <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" style="height:50px;" />
         </a>
-        <div class="sncore_link_description">
-         <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
-          <%# base.Render(Eval("AccountName")) %>
-         </a>
-        </div>
        </td>
       </tr>
      </table>
