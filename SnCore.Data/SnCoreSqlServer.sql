@@ -1185,6 +1185,7 @@ CREATE TABLE [dbo].[Account](
 	[UtcOffset] [int] NULL,
 	[Signature] [nvarchar](128) NULL,
 	[IsAdministrator] [bit] NULL CONSTRAINT [DF_Account_IsAdministrator]  DEFAULT ((0)),
+        [IsPasswordExpired] [bit] NULL CONSTRAINT [DF_Account_IsPasswordExpired]  DEFAULT ((0)),
  CONSTRAINT [PK_Account] PRIMARY KEY CLUSTERED 
 (
 	[Account_Id] ASC
