@@ -536,6 +536,27 @@ namespace SnCore.WebServices
 
         #region Search
 
+        protected IList InternalSearchAccountFeedItems(ISession session, string s, ServiceQueryOptions options)
+        {
+            int maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
+            IQuery query = session.CreateSQLQuery(
+                    "SELECT {AccountFeedItem.*} FROM AccountFeedItem {AccountFeedItem}" +
+                    " INNER JOIN FREETEXTTABLE(AccountFeedItem, ([Title], [Description]), '" + Renderer.SqlEncode(s) + "', " +
+                        maxsearchresults.ToString() + ") AS ft " +
+                    " ON AccountFeedItem.AccountFeedItem_Id = ft.[KEY] " +
+                    " ORDER BY ft.[RANK] DESC",
+                    "AccountFeedItem",
+                    typeof(AccountFeedItem));
+
+            if (options != null)
+            {
+                query.SetFirstResult(options.FirstResult);
+                query.SetMaxResults(options.PageSize);
+            }
+
+            return query.List();
+        }
+
         /// <summary>
         /// Search feed items.
         /// </summary>
@@ -546,23 +567,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                int maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
-                IQuery query = session.CreateSQLQuery(
-                        "SELECT {AccountFeedItem.*} FROM AccountFeedItem {AccountFeedItem}" +
-                        " INNER JOIN FREETEXTTABLE(AccountFeedItem, ([Title], [Description]), '" + Renderer.SqlEncode(s) + "', " + 
-                            maxsearchresults.ToString() + ") AS ft " +
-                        " ON AccountFeedItem.AccountFeedItem_Id = ft.[KEY] " +
-                        " ORDER BY ft.[RANK] DESC",
-                        "AccountFeedItem",
-                        typeof(AccountFeedItem));
-
-                if (options != null)
-                {
-                    query.SetFirstResult(options.FirstResult);
-                    query.SetMaxResults(options.PageSize);
-                }
-
-                IList FeedItems = query.List();
+                IList FeedItems = InternalSearchAccountFeedItems(session, s, options);
 
                 List<TransitAccountFeedItem> result = new List<TransitAccountFeedItem>(FeedItems.Count);
                 foreach (AccountFeedItem FeedItem in FeedItems)
@@ -581,7 +586,11 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Return the number of feed items matching a query.", CacheDuration = 60)]
         public int SearchAccountFeedItemsCount(string s)
         {
-            return SearchAccountFeedItems(s, null).Count;
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return InternalSearchAccountFeedItems(session, s, null).Count;
+            }
         }
 
         #endregion

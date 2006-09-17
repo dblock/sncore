@@ -461,6 +461,27 @@ namespace SnCore.WebServices
 
         #region Search
 
+        protected IList InternalSearchAccountBlogPosts(ISession session, string s, ServiceQueryOptions options)
+        {
+            int maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
+            IQuery query = session.CreateSQLQuery(
+                    "SELECT {AccountBlogPost.*} FROM AccountBlogPost {AccountBlogPost}" +
+                    " INNER JOIN FREETEXTTABLE(AccountBlogPost, ([Title], [Body]), '" + Renderer.SqlEncode(s) + "', " +
+                        maxsearchresults.ToString() + ") AS ft " +
+                    " ON AccountBlogPost.AccountBlogPost_Id = ft.[KEY] " +
+                    " ORDER BY ft.[RANK] DESC",
+                    "AccountBlogPost",
+                    typeof(AccountBlogPost));
+
+            if (options != null)
+            {
+                query.SetFirstResult(options.FirstResult);
+                query.SetMaxResults(options.PageSize);
+            }
+
+            return query.List();
+        }
+
         /// <summary>
         /// Search blog posts.
         /// </summary>
@@ -471,23 +492,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                int maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
-                IQuery query = session.CreateSQLQuery(
-                        "SELECT {AccountBlogPost.*} FROM AccountBlogPost {AccountBlogPost}" +
-                        " INNER JOIN FREETEXTTABLE(AccountBlogPost, ([Title], [Body]), '" + Renderer.SqlEncode(s) + "', " + 
-                            maxsearchresults.ToString() + ") AS ft " +
-                        " ON AccountBlogPost.AccountBlogPost_Id = ft.[KEY] " +
-                        " ORDER BY ft.[RANK] DESC",
-                        "AccountBlogPost",
-                        typeof(AccountBlogPost));
-
-                if (options != null)
-                {
-                    query.SetFirstResult(options.FirstResult);
-                    query.SetMaxResults(options.PageSize);
-                }
-
-                IList BlogPosts = query.List();
+                IList BlogPosts = InternalSearchAccountBlogPosts(session, s, options);
 
                 List<TransitAccountBlogPost> result = new List<TransitAccountBlogPost>(BlogPosts.Count);
                 foreach (AccountBlogPost BlogPost in BlogPosts)
@@ -506,10 +511,13 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Return the number of blog posts matching a query.", CacheDuration = 60)]
         public int SearchAccountBlogPostsCount(string s)
         {
-            return SearchAccountBlogPosts(s, null).Count;
-        }
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return InternalSearchAccountBlogPosts(session, s, null).Count;
+            }
+       }
 
-        #endregion
-    
+       #endregion    
     }
 }

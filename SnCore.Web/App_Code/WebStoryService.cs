@@ -448,6 +448,28 @@ namespace SnCore.WebServices
 
         #region Search
 
+        protected IList InternalSearchAccountStories(ISession session, string s, ServiceQueryOptions options)
+        {
+            int maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
+            IQuery query = session.CreateSQLQuery(
+                    "SELECT {AccountStory.*} FROM AccountStory {AccountStory}" +
+                    " INNER JOIN FREETEXTTABLE(AccountStory, ([Name], [Summary]), '" + Renderer.SqlEncode(s) + "', " +
+                        maxsearchresults.ToString() + ") AS ft " +
+                    " ON AccountStory.AccountStory_Id = ft.[KEY] " +
+                    " WHERE AccountStory.Publish = 1" +
+                    " ORDER BY ft.[RANK] DESC",
+                    "AccountStory",
+                    typeof(AccountStory));
+
+            if (options != null)
+            {
+                query.SetFirstResult(options.FirstResult);
+                query.SetMaxResults(options.PageSize);
+            }
+
+            return query.List();
+        }
+
         /// <summary>
         /// Search stories.
         /// </summary>
@@ -458,24 +480,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                int maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
-                IQuery query = session.CreateSQLQuery(
-                        "SELECT {AccountStory.*} FROM AccountStory {AccountStory}" +
-                        " INNER JOIN FREETEXTTABLE(AccountStory, ([Name], [Summary]), '" + Renderer.SqlEncode(s) + "', " + 
-                            maxsearchresults.ToString() + ") AS ft " +
-                        " ON AccountStory.AccountStory_Id = ft.[KEY] " +
-                        " WHERE AccountStory.Publish = 1" +
-                        " ORDER BY ft.[RANK] DESC",
-                        "AccountStory",
-                        typeof(AccountStory));
-
-                if (options != null)
-                {
-                    query.SetFirstResult(options.FirstResult);
-                    query.SetMaxResults(options.PageSize);
-                }
-
-                IList stories = query.List();
+                IList stories = InternalSearchAccountStories(session, s, options);
 
                 List<TransitAccountStory> result = new List<TransitAccountStory>(stories.Count);
                 foreach (AccountStory story in stories)
@@ -494,7 +499,11 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Return the number of stories matching a query.", CacheDuration = 60)]
         public int SearchAccountStoriesCount(string s)
         {
-            return SearchAccountStories(s, null).Count;
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return InternalSearchAccountStories(session, s, null).Count;
+            }
         }
 
         #endregion

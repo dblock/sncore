@@ -1280,6 +1280,56 @@ namespace SnCore.WebServices
 
         #region Search
 
+        protected IList InternalSearchPlaces(ISession session, string s, ServiceQueryOptions options)
+        {
+            int maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
+            IQuery query = session.CreateSQLQuery(
+
+                    "CREATE TABLE #Results ( Place_Id int, RANK int )\n" +
+                    "CREATE TABLE #Unique_Results ( Place_Id int, RANK int )\n" +
+
+                    "INSERT #Results\n" +
+                    "SELECT place.Place_Id, ft.[RANK] FROM Place place\n" +
+                    "INNER JOIN FREETEXTTABLE (Place, ([Name], [Street], [Zip], [CrossStreet], [Description], [Phone], [Fax], [Email], [Website]), '" +
+                        Renderer.SqlEncode(s) + "', " +
+                        maxsearchresults.ToString() + ") AS ft ON place.Place_Id = ft.[KEY]\n" +
+
+                    "INSERT #Results\n" +
+                    "SELECT place.Place_Id, ft.[RANK] FROM Place place, PlaceName placename\n" +
+                    "INNER JOIN FREETEXTTABLE (PlaceName, ([Name]), '" + Renderer.SqlEncode(s) + "', " +
+                        maxsearchresults.ToString() + ") AS ft ON placename.PlaceName_Id = ft.[KEY] \n" +
+                    "WHERE placename.Place_Id = place.Place_Id\n" +
+
+                    "INSERT #Results\n" +
+                    "SELECT place.Place_Id, ft.[RANK] FROM Place place, PlacePropertyValue placepropertyvalue\n" +
+                    "INNER JOIN FREETEXTTABLE (PlacePropertyValue, ([Value]), '" + Renderer.SqlEncode(s) + "', " +
+                        maxsearchresults.ToString() + ") AS ft ON placepropertyvalue.PlacePropertyValue_Id = ft.[KEY] \n" +
+                    "WHERE placepropertyvalue.Place_Id = place.Place_Id\n" +
+
+                    "INSERT #Unique_Results\n" +
+                    "SELECT DISTINCT Place_Id, SUM(RANK)\n" +
+                    "FROM #Results GROUP BY Place_Id\n" +
+                    "ORDER BY SUM(RANK) DESC\n" +
+
+                    "SELECT {Place.*} FROM {Place}, #Unique_Results\n" +
+                    "WHERE Place.Place_Id = #Unique_Results.Place_Id\n" +
+                    "ORDER BY #Unique_Results.RANK DESC\n" +
+
+                    "DROP TABLE #Results\n" +
+                    "DROP TABLE #Unique_Results\n",
+
+                    "Place",
+                    typeof(Place));
+
+            if (options != null)
+            {
+                query.SetFirstResult(options.FirstResult);
+                query.SetMaxResults(options.PageSize);
+            }
+
+            return query.List();
+        }
+
         /// <summary>
         /// Search places.
         /// </summary>
@@ -1290,52 +1340,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                int maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
-                IQuery query = session.CreateSQLQuery(
-
-                        "CREATE TABLE #Results ( Place_Id int, RANK int )\n" + 
-                        "CREATE TABLE #Unique_Results ( Place_Id int, RANK int )\n" +
-
-                        "INSERT #Results\n" +
-                        "SELECT place.Place_Id, ft.[RANK] FROM Place place\n" +
-                        "INNER JOIN FREETEXTTABLE (Place, ([Name], [Street], [Zip], [CrossStreet], [Description], [Phone], [Fax], [Email], [Website]), '" + 
-                            Renderer.SqlEncode(s) + "', " + 
-                            maxsearchresults.ToString() + ") AS ft ON place.Place_Id = ft.[KEY]\n" +
-
-                        "INSERT #Results\n" +
-                        "SELECT place.Place_Id, ft.[RANK] FROM Place place, PlaceName placename\n" +
-                        "INNER JOIN FREETEXTTABLE (PlaceName, ([Name]), '" + Renderer.SqlEncode(s) + "', " + 
-                            maxsearchresults.ToString() + ") AS ft ON placename.PlaceName_Id = ft.[KEY] \n" +
-                        "WHERE placename.Place_Id = place.Place_Id\n" +
-
-                        "INSERT #Results\n" +
-                        "SELECT place.Place_Id, ft.[RANK] FROM Place place, PlacePropertyValue placepropertyvalue\n" +
-                        "INNER JOIN FREETEXTTABLE (PlacePropertyValue, ([Value]), '" + Renderer.SqlEncode(s) + "', " + 
-                            maxsearchresults.ToString() + ") AS ft ON placepropertyvalue.PlacePropertyValue_Id = ft.[KEY] \n" +
-                        "WHERE placepropertyvalue.Place_Id = place.Place_Id\n" +
-
-                        "INSERT #Unique_Results\n" +
-                        "SELECT DISTINCT Place_Id, SUM(RANK)\n" +
-                        "FROM #Results GROUP BY Place_Id\n" +
-                        "ORDER BY SUM(RANK) DESC\n" +
-
-                        "SELECT {Place.*} FROM {Place}, #Unique_Results\n" +
-                        "WHERE Place.Place_Id = #Unique_Results.Place_Id\n" +
-                        "ORDER BY #Unique_Results.RANK DESC\n" +
-
-                        "DROP TABLE #Results\n" +
-                        "DROP TABLE #Unique_Results\n",
-
-                        "Place",
-                        typeof(Place));
-
-                if (options != null)
-                {
-                    query.SetFirstResult(options.FirstResult);
-                    query.SetMaxResults(options.PageSize);
-                }
-
-                IList places = query.List();
+                IList places = InternalSearchPlaces(session, s, options);
 
                 List<TransitPlace> result = new List<TransitPlace>(places.Count);
                 foreach (Place p in places)
@@ -1354,7 +1359,11 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Return the number of places matching a query.", CacheDuration = 60)]
         public int SearchPlacesCount(string s)
         {
-            return SearchPlaces(s, null).Count;
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return InternalSearchPlaces(session, s, null).Count;
+            }
         }
 
         #endregion 

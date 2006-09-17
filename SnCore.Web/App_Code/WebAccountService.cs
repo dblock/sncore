@@ -1991,6 +1991,55 @@ namespace SnCore.WebServices
 
         #region Search
 
+        protected IList InternalSearchAccounts(ISession session, string s, ServiceQueryOptions options)
+        {
+            int maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
+            IQuery query = session.CreateSQLQuery(
+
+                    "CREATE TABLE #Results ( Account_Id int, RANK int )\n" +
+                    "CREATE TABLE #Unique_Results ( Account_Id int, RANK int )\n" +
+
+                    "INSERT #Results\n" +
+                    "SELECT account.Account_Id, ft.[RANK] FROM Account account\n" +
+                    "INNER JOIN FREETEXTTABLE (Account, [Name], '" + Renderer.SqlEncode(s) + "', " +
+                        maxsearchresults.ToString() + ") AS ft ON account.Account_Id = ft.[KEY]\n" +
+
+                    "INSERT #Results\n" +
+                    "SELECT account.Account_Id, ft.[RANK] FROM Account account, AccountSurveyAnswer accountsurveyanswer\n" +
+                    "INNER JOIN FREETEXTTABLE (AccountSurveyAnswer, ([Answer]), '" + Renderer.SqlEncode(s) + "', " +
+                        maxsearchresults.ToString() + ") AS ft ON accountsurveyanswer.AccountSurveyAnswer_Id = ft.[KEY] \n" +
+                    "WHERE accountsurveyanswer.Account_Id = account.Account_Id\n" +
+
+                    "INSERT #Results\n" +
+                    "SELECT account.Account_Id, ft.[RANK] FROM Account account, AccountPropertyValue accountpropertyvalue\n" +
+                    "INNER JOIN FREETEXTTABLE (AccountPropertyValue, ([Value]), '" + Renderer.SqlEncode(s) + "', " +
+                        maxsearchresults.ToString() + ") AS ft ON accountpropertyvalue.AccountPropertyValue_Id = ft.[KEY] \n" +
+                    "WHERE accountpropertyvalue.Account_Id = account.Account_Id\n" +
+
+                    "INSERT #Unique_Results\n" +
+                    "SELECT DISTINCT Account_Id, SUM(RANK)\n" +
+                    "FROM #Results GROUP BY Account_Id\n" +
+                    "ORDER BY SUM(RANK) DESC\n" +
+
+                    "SELECT {Account.*} FROM {Account}, #Unique_Results\n" +
+                    "WHERE Account.Account_Id = #Unique_Results.Account_Id\n" +
+                    "ORDER BY #Unique_Results.RANK DESC\n" +
+
+                    "DROP TABLE #Results\n" +
+                    "DROP TABLE #Unique_Results\n",
+
+                    "Account",
+                    typeof(Account));
+
+            if (options != null)
+            {
+                query.SetFirstResult(options.FirstResult);
+                query.SetMaxResults(options.PageSize);
+            }
+
+            return query.List();
+        }
+
         /// <summary>
         /// Search accounts.
         /// </summary>
@@ -2001,51 +2050,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                int maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
-                IQuery query = session.CreateSQLQuery(
-
-                        "CREATE TABLE #Results ( Account_Id int, RANK int )\n" +
-                        "CREATE TABLE #Unique_Results ( Account_Id int, RANK int )\n" +
-
-                        "INSERT #Results\n" +
-                        "SELECT account.Account_Id, ft.[RANK] FROM Account account\n" +
-                        "INNER JOIN FREETEXTTABLE (Account, [Name], '" + Renderer.SqlEncode(s) + "', " +
-                            maxsearchresults.ToString() + ") AS ft ON account.Account_Id = ft.[KEY]\n" +
-
-                        "INSERT #Results\n" +
-                        "SELECT account.Account_Id, ft.[RANK] FROM Account account, AccountSurveyAnswer accountsurveyanswer\n" +
-                        "INNER JOIN FREETEXTTABLE (AccountSurveyAnswer, ([Answer]), '" + Renderer.SqlEncode(s) + "', " +
-                            maxsearchresults.ToString() + ") AS ft ON accountsurveyanswer.AccountSurveyAnswer_Id = ft.[KEY] \n" +
-                        "WHERE accountsurveyanswer.Account_Id = account.Account_Id\n" +
-
-                        "INSERT #Results\n" +
-                        "SELECT account.Account_Id, ft.[RANK] FROM Account account, AccountPropertyValue accountpropertyvalue\n" +
-                        "INNER JOIN FREETEXTTABLE (AccountPropertyValue, ([Value]), '" + Renderer.SqlEncode(s) + "', " +
-                            maxsearchresults.ToString() + ") AS ft ON accountpropertyvalue.AccountPropertyValue_Id = ft.[KEY] \n" +
-                        "WHERE accountpropertyvalue.Account_Id = account.Account_Id\n" +
-
-                        "INSERT #Unique_Results\n" +
-                        "SELECT DISTINCT Account_Id, SUM(RANK)\n" +
-                        "FROM #Results GROUP BY Account_Id\n" +
-                        "ORDER BY SUM(RANK) DESC\n" +
-
-                        "SELECT {Account.*} FROM {Account}, #Unique_Results\n" +
-                        "WHERE Account.Account_Id = #Unique_Results.Account_Id\n" +
-                        "ORDER BY #Unique_Results.RANK DESC\n" +
-
-                        "DROP TABLE #Results\n" +
-                        "DROP TABLE #Unique_Results\n",
-
-                        "Account",
-                        typeof(Account));
-
-                if (options != null)
-                {
-                    query.SetFirstResult(options.FirstResult);
-                    query.SetMaxResults(options.PageSize);
-                }
-
-                IList accounts = query.List();
+                IList accounts = InternalSearchAccounts(session, s, options);
 
                 List<TransitAccountActivity> result = new List<TransitAccountActivity>(accounts.Count);
                 foreach (Account account in accounts)
@@ -2064,7 +2069,11 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Return the number of accounts matching a query.", CacheDuration = 60)]
         public int SearchAccountsCount(string s)
         {
-            return SearchAccounts(s, null).Count;
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return InternalSearchAccounts(session, s, null).Count;
+            }
         }
 
         #endregion

@@ -1102,6 +1102,27 @@ namespace SnCore.WebServices
 
         #region Search
 
+        protected IList InternalSearchDiscussionPosts(ISession session, string s, ServiceQueryOptions options)
+        {
+            int maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
+            IQuery query = session.CreateSQLQuery(
+                    "SELECT {DiscussionPost.*} FROM DiscussionPost {DiscussionPost}" +
+                    " INNER JOIN FREETEXTTABLE(DiscussionPost, ([Subject], [Body]), '" + Renderer.SqlEncode(s) + "', " +
+                        maxsearchresults.ToString() + ") AS ft " +
+                    " ON DiscussionPost.DiscussionPost_Id = ft.[KEY] " +
+                    " ORDER BY ft.[RANK] DESC",
+                    "DiscussionPost",
+                    typeof(DiscussionPost));
+
+            if (options != null)
+            {
+                query.SetFirstResult(options.FirstResult);
+                query.SetMaxResults(options.PageSize);
+            }
+
+            return query.List();
+        }
+
         /// <summary>
         /// Search all discussion posts.
         /// </summary>
@@ -1112,23 +1133,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                int maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
-                IQuery query = session.CreateSQLQuery(
-                        "SELECT {DiscussionPost.*} FROM DiscussionPost {DiscussionPost}" +
-                        " INNER JOIN FREETEXTTABLE(DiscussionPost, ([Subject], [Body]), '" + Renderer.SqlEncode(s) + "', " + 
-                            maxsearchresults.ToString() + ") AS ft " +
-                        " ON DiscussionPost.DiscussionPost_Id = ft.[KEY] " +
-                        " ORDER BY ft.[RANK] DESC",
-                        "DiscussionPost",
-                        typeof(DiscussionPost));
-
-                if (options != null)
-                {
-                    query.SetFirstResult(options.FirstResult);
-                    query.SetMaxResults(options.PageSize);
-                }
-
-                IList posts = query.List();
+                IList posts = InternalSearchDiscussionPosts(session, s, options);
 
                 List<TransitDiscussionPost> result = new List<TransitDiscussionPost>(posts.Count);
                 foreach (DiscussionPost post in posts)
@@ -1147,7 +1152,35 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Return the number of discussion posts matching a query.", CacheDuration = 60)]
         public int SearchDiscussionPostsCount(string s)
         {
-            return SearchDiscussionPosts(s, null).Count;
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return InternalSearchDiscussionPosts(session, s, null).Count;
+            }
+        }
+
+        protected IList InternalSearchDiscussionPostsById(ISession session, int id, string s, ServiceQueryOptions options)
+        {
+            int maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
+            IQuery query = session.CreateSQLQuery(
+                    "SELECT {DiscussionPost.*} FROM DiscussionThread t, Discussion d, DiscussionPost {DiscussionPost}" +
+                    " INNER JOIN FREETEXTTABLE(DiscussionPost, ([Subject], [Body]), '" + Renderer.SqlEncode(s) + "', " +
+                        maxsearchresults.ToString() + ") AS ft " +
+                    " ON DiscussionPost.DiscussionPost_Id = ft.[KEY] " +
+                    " WHERE t.Discussion_Id = d.Discussion_Id" +
+                    " AND t.DiscussionThread_Id = DiscussionPost.DiscussionThread_Id" +
+                    " AND d.Discussion_Id = " + id.ToString() +
+                    " ORDER BY ft.[RANK] DESC",
+                    "DiscussionPost",
+                    typeof(DiscussionPost));
+
+            if (options != null)
+            {
+                query.SetFirstResult(options.FirstResult);
+                query.SetMaxResults(options.PageSize);
+            }
+
+            return query.List();
         }
 
         /// <summary>
@@ -1160,26 +1193,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                int maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
-                IQuery query = session.CreateSQLQuery(
-                        "SELECT {DiscussionPost.*} FROM DiscussionThread t, Discussion d, DiscussionPost {DiscussionPost}" +
-                        " INNER JOIN FREETEXTTABLE(DiscussionPost, ([Subject], [Body]), '" + Renderer.SqlEncode(s) + "', " + 
-                            maxsearchresults.ToString() + ") AS ft " +
-                        " ON DiscussionPost.DiscussionPost_Id = ft.[KEY] " +
-                        " WHERE t.Discussion_Id = d.Discussion_Id" +
-                        " AND t.DiscussionThread_Id = DiscussionPost.DiscussionThread_Id" +
-                        " AND d.Discussion_Id = " + id.ToString() + 
-                        " ORDER BY ft.[RANK] DESC",
-                        "DiscussionPost",
-                        typeof(DiscussionPost));
-
-                if (options != null)
-                {
-                    query.SetFirstResult(options.FirstResult);
-                    query.SetMaxResults(options.PageSize);
-                }
-
-                IList posts = query.List();
+                IList posts = InternalSearchDiscussionPostsById(session, id, s, options);
 
                 List<TransitDiscussionPost> result = new List<TransitDiscussionPost>(posts.Count);
                 foreach (DiscussionPost post in posts)
@@ -1198,7 +1212,11 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Return the number of discussion posts matching a query in a discussion.", CacheDuration = 60)]
         public int SearchDiscussionPostsByIdCount(int id, string s)
         {
-            return SearchDiscussionPostsById(id, s, null).Count;
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return InternalSearchDiscussionPostsById(session, id, s, null).Count;
+            }
         }
 
         #endregion
