@@ -754,6 +754,65 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
+        /// Get top of discussion threads count.
+        /// </summary>
+        [WebMethod(Description = "Get top of discussion threads count.")]
+        public int GetDiscussionTopOfThreadsCount()
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return (int)session.CreateQuery(
+                    "SELECT COUNT(Post) FROM DiscussionPost Post, DiscussionThread Thread, Discussion Discussion" +
+                    " WHERE Post.DiscussionThread.Id = Thread.Id" +
+                    " AND Thread.Discussion.Id = Discussion.Id" +
+                    " AND Post.DiscussionPostParent IS NULL" +
+                    " AND Discussion.Personal = 0").UniqueResult();
+            }
+        }
+
+        /// <summary>
+        /// Get top of discussion threads.
+        /// </summary>
+        [WebMethod(Description = "Get top of discussion threads.")]
+        public List<TransitDiscussionPost> GetDiscussionTopOfThreads(string ticket, ServiceQueryOptions options)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                IQuery query = session.CreateSQLQuery(
+                    "SELECT {Post.*} FROM DiscussionPost {Post}, DiscussionThread Thread, Discussion Discussion" +
+                    " WHERE Post.DiscussionThread_Id = Thread.DiscussionThread_Id" +
+                    " AND Thread.Discussion_Id = Discussion.Discussion_Id" +
+                    " AND Post.DiscussionPostParent_Id IS NULL" +
+                    " AND Discussion.Personal = 0" +
+                    " ORDER BY Thread.Modified DESC",
+                    "Post",
+                    typeof(DiscussionPost));
+
+                if (options != null)
+                {
+                    query.SetMaxResults(options.PageSize);
+                    query.SetFirstResult(options.FirstResult);
+                }
+
+                IList posts = query.List();
+
+                List<TransitDiscussionPost> result = new List<TransitDiscussionPost>();
+                if (posts != null)
+                {
+                    foreach (DiscussionPost p in posts)
+                    {
+                        TransitDiscussionPost post = new ManagedDiscussionPost(session, p).GetTransitDiscussionPost();
+                        result.Add(post);
+                    }
+                }
+                return result;
+            }
+        }
+
+        /// <summary>
         /// Get discussion threads.
         /// </summary>
         /// <param name="id">discussion id</param>

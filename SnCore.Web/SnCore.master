@@ -65,7 +65,7 @@
            <asp:ListItem>/AccountStor.*View.aspx</asp:ListItem>
           </Highlights>
          </SnCore:MenuItem><SnCore:MenuItem 
-          runat="server" ID="menuDiscuss" Text="forums" NavigateUrl="DiscussionThreadsView.aspx">
+          runat="server" ID="menuDiscuss" Text="forums" NavigateUrl="DiscussionTopOfThreadsView.aspx">
           <Highlights>
            <asp:ListItem>/Discuss.*</asp:ListItem>
           </Highlights>

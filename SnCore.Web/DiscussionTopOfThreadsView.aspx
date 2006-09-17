@@ -1,11 +1,11 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true"
- CodeFile="DiscussionThreadsView.aspx.cs" Inherits="DiscussionThreadsView" Title="Discussion Threads" %>
+ CodeFile="DiscussionTopOfThreadsView.aspx.cs" Inherits="DiscussionTopOfThreadsView" Title="New Discussion Threads" %>
 
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
- <link rel="alternate" type="application/rss+xml" title="Rss" href="DiscussionThreadsRss.aspx">
+ <link rel="alternate" type="application/rss+xml" title="Rss" href="DiscussionTopOfThreadsRss.aspx">
  <div class="sncore_navigate">
   <asp:Label CssClass="sncore_navigate_item" ID="linkDiscussionThreads" Text="New Posts"
    runat="server" />
@@ -14,11 +14,11 @@
   <tr>
    <td>
     <div class="sncore_h2">
-     New Posts
+     New Threads
     </div>
    </td>
    <td align="right">
-    <a href="DiscussionThreadsRss.aspx">
+    <a href="DiscussionTopOfThreadsRss.aspx">
      <img border="0" src="images/rss.gif" alt="Rss" />
     </a>
    </td>
@@ -26,7 +26,7 @@
  </table>
  <div class="sncore_h2sub">
   <a href="DiscussionsView.aspx">&#187; All Forums</a>
-  <a href="DiscussionTopOfThreadsView.aspx">&#187; New Threads</a>
+  <a href="DiscussionThreadsView.aspx">&#187; New Posts</a>
   <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
  </div>
  <atlas:UpdatePanel runat="server" ID="panelThreads" Mode="Always" RenderMode="Inline">
@@ -40,7 +40,7 @@
     <ItemTemplate>
      <table class="sncore_message_table" width="100%" cellspacing="0" cellpadding="0">
       <tr>
-       <td valign="top" width="18">
+       <td width="18">
         <img src="images/account/discussions.gif" />
        </td>
        <td>
@@ -59,13 +59,10 @@
          by <a href='AccountView.aspx?id=<%# Eval("AccountId") %>'><%# Renderer.Render(Eval("AccountName")) %></a>
          in <a href='DiscussionView.aspx?id=<%# Eval("DiscussionId") %>'><%# Renderer.Render(Eval("DiscussionName")) %></a>
         </div>
-        <div class="sncore_message_body">
-         <%# RenderEx(Eval("Body")) %>
-        </div>
        </td>
        <td width="150" align="center" valign="top" class="sncore_message_right">
         <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
-         <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" style="<%# (((string) Eval("Body")).Length < 64) ? "height:50px;" : "" %>" />
+         <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" style="height:50px;" />
         </a>
         <div class="sncore_link_description">
          <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">

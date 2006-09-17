@@ -70,6 +70,7 @@
       </asp:DataList>
       </li></ul>
       <li><a href="DiscussionsView.aspx">Forums</a></li>
+      <li><a href="DiscussionTopOfThreadsView.aspx">Latest Forum Threads</a></li>
       <li><a href="DiscussionThreadsView.aspx">Latest Forum Posts</a></li>
       <ul>
        <asp:Repeater ID="listDiscussions" runat="server">
@@ -105,7 +106,8 @@
        <li><a href="AccountFeedsRss.aspx">Feeds</a></li>
        <li><a href="AccountStoriesRss.aspx">Stories</a></li>
        <li><a href="AccountEventsRss.aspx">Events</a></li>
-       <li><a href="DiscussionThreadsRss.aspx">Discussion Threads</a></li>
+       <li><a href="DiscussionTopOfThreadsRss.aspx">Discussion Threads</a></li>
+       <li><a href="DiscussionThreadsRss.aspx">Discussion Posts</a></li>
        <li><a href="AccountFeedItemsRss.aspx">Aggregated Feeds</a></li>
        <li><a href="AccountFeedItemImgsRss.aspx">Aggregated Feed Pictures</a></li>
        <li><a href="FeaturedAccountsRss.aspx">Featured People</a></li>

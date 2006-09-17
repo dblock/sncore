@@ -13,6 +13,7 @@
  </div> 
  <div class="sncore_h2sub">
   <a href="DiscussionThreadsView.aspx">&#187; New Posts</a>
+  <a href="DiscussionTopOfThreadsView.aspx">&#187; New Threads</a>
   <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
  </div>
  <table class="sncore_table">
