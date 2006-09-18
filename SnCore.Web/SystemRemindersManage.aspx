@@ -19,7 +19,7 @@
      OnItemCommand="gridManage_ItemCommand" AutoGenerateColumns="false" CssClass="sncore_account_table">
      <ItemStyle CssClass="sncore_table_tr_td" HorizontalAlign="center" />
      <HeaderStyle CssClass="sncore_table_tr_th" HorizontalAlign="center" />
-     <PagerStyle CssClass="sncore_account_table_pager" Position="TopAndBottom" NextPageText="Next"
+     <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
       PrevPageText="Prev" HorizontalAlign="Center" />
      <Columns>
       <asp:BoundColumn DataField="Id" Visible="false" />
