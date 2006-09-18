@@ -138,6 +138,8 @@
     <Compile Include="ManagedBugSeverity.cs" />
     <Compile Include="ManagedBugStatus.cs" />
     <Compile Include="ManagedBugType.cs" />
+    <Compile Include="ManagedCampaign.cs" />
+    <Compile Include="ManagedCampaignAccountRecepient.cs" />
     <Compile Include="ManagedCity.cs" />
     <Compile Include="ManagedFeature.cs" />
     <Compile Include="ManagedFeedType.cs" />

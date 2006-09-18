@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.0" schema="dbo">
+  <class name="CampaignAccountRecepient, SnCore.Data" table="CampaignAccountRecepient">
+    <id name="Id" type="Int32" column="CampaignAccountRecepient_Id" access="field.pascalcase-m-underscore">
+      <generator class="identity" />
+    </id>
+    <many-to-one name="Account" column="Account_Id" class="Account, SnCore.Data" />
+    <many-to-one name="Campaign" column="Campaign_Id" class="Campaign, SnCore.Data" />
+    <property name="Created" column="Created" type="DateTime" />
+    <property name="Modified" column="Modified" type="DateTime" />
+    <property name="Sent" column="Sent" type="Boolean" />
+    <property name="LastError" column="LastError" type="String" />
+  </class>
+</hibernate-mapping>

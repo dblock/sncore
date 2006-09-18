@@ -142,5 +142,9 @@
       <one-to-many class="AccountLicense, SnCore.Data" />
     </bag>
     <property name="IsPasswordExpired" column="IsPasswordExpired" type="Boolean" />
+    <bag lazy="true" name="CampaignAccountRecepients" inverse="true">
+      <key column="Account_Id" />
+      <one-to-many class="CampaignAccountRecepient, SnCore.Data" />
+    </bag>
   </class>
 </hibernate-mapping>

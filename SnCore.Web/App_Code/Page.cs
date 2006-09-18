@@ -131,6 +131,14 @@ public class Page : System.Web.UI.Page
         }
     }
 
+    protected WebMarketingService MarketingService
+    {
+        get
+        {
+            return SessionManager.MarketingService;
+        }
+    }
+
     protected WebEventService EventService
     {
         get

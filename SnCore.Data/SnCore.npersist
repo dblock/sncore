@@ -47,6 +47,7 @@
     <property name="AccountAttributes" table="AccountAttribute" id-columns="Account_Id" list="true" item-type="AccountAttribute" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
     <property name="AccountLicenses" table="AccountLicense" id-columns="Account_Id" list="true" item-type="AccountLicense" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
     <property name="IsPasswordExpired" columns="IsPasswordExpired" type="System.Boolean" />
+    <property name="CampaignAccountRecepients" table="CampaignAccountRecepient" id-columns="Account_Id" list="true" item-type="CampaignAccountRecepient" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
   </class>
   <class name="AccountAddress" table="AccountAddress">
     <property name="Id" id="true" columns="AccountAddress_Id" type="System.Int32" />
@@ -460,6 +461,28 @@
     <property name="Bugs" table="Bug" id-columns="Type_Id" list="true" item-type="Bug" read-only="true" slave="true" ref="ManyToOne" inverse="Type" inherits-inverse="true" />
     <property name="Name" columns="Name" type="System.String" />
   </class>
+  <class name="Campaign" table="Campaign">
+    <property name="Id" id="true" columns="Campaign_Id" type="System.Int32" />
+    <property name="Active" columns="Active" type="System.Boolean" />
+    <property name="Created" columns="Created" type="System.DateTime" />
+    <property name="Description" columns="Description" type="System.String" />
+    <property name="Modified" columns="Modified" type="System.DateTime" />
+    <property name="Name" columns="Name" type="System.String" />
+    <property name="Processed" columns="Processed" type="System.DateTime" />
+    <property name="SenderEmailAddress" columns="SenderEmailAddress" type="System.String" />
+    <property name="SenderName" columns="SenderName" type="System.String" />
+    <property name="Url" columns="Url" type="System.String" />
+    <property name="CampaignAccountRecepients" table="CampaignAccountRecepient" id-columns="Campaign_Id" list="true" item-type="CampaignAccountRecepient" slave="true" ref="ManyToOne" inverse="Campaign" inherits-inverse="true" />
+  </class>
+  <class name="CampaignAccountRecepient" table="CampaignAccountRecepient">
+    <property name="Id" id="true" columns="CampaignAccountRecepient_Id" type="System.Int32" />
+    <property name="Account" columns="Account_Id" ref="OneToMany" inverse="CampaignAccountRecepients" type="Account" />
+    <property name="Campaign" columns="Campaign_Id" ref="OneToMany" inverse="CampaignAccountRecepients" type="Campaign" />
+    <property name="Created" columns="Created" type="System.DateTime" />
+    <property name="Modified" columns="Modified" type="System.DateTime" />
+    <property name="Sent" columns="Sent" type="System.Boolean" />
+    <property name="LastError" columns="LastError" type="System.String" />
+  </class>
   <class name="City" table="City">
     <property name="Id" id="true" columns="City_Id" type="System.Int32" />
     <property name="Country" columns="Country_Id" ref="OneToMany" inverse="Cities" type="Country" />
@@ -817,6 +840,14 @@
       <column name="Zip" type="String" prec="24" allow-null="true" length="48" scale="0" />
       <column name="Name" type="String" prec="64" allow-null="true" length="128" scale="0" />
     </table>
+    <table name="AccountAttribute">
+      <column name="AccountAttribute_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountAttribute_Account" />
+      <column name="Attribute_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Attribute" primary-column="Attribute_Id" foreign-key="FK_AccountAttribute_Attribute" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Url" type="String" prec="128" allow-null="true" length="256" scale="0" />
+      <column name="Value" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
+    </table>
     <table name="AccountBlog">
       <column name="AccountBlog_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
       <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountBlog_AccountBlog" />
@@ -978,6 +1009,15 @@
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Message" type="AnsiString" prec="0" allow-null="true" length="16" scale="0" specific-type="TEXT" />
     </table>
+    <table name="AccountLicense">
+      <column name="AccountLicense_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_License_Account" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="ImageUrl" type="String" prec="256" length="512" scale="0" />
+      <column name="LicenseUrl" type="String" prec="256" length="512" scale="0" />
+      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Name" type="String" prec="64" length="128" scale="0" />
+    </table>
     <table name="AccountMessage">
       <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountMessage_Account" />
       <column name="AccountMessage_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
@@ -1098,6 +1138,16 @@
       <column name="Name" type="String" prec="64" length="128" scale="0" />
       <column name="Url" type="AnsiString" prec="128" length="128" scale="0" />
     </table>
+    <table name="Attribute">
+      <column name="Attribute_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="DefaultUrl" type="String" prec="128" allow-null="true" length="256" scale="0" />
+      <column name="DefaultValue" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
+      <column name="Description" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
+      <column name="Name" type="String" prec="64" length="128" scale="0" />
+      <column name="Bitmap" type="Object" prec="0" allow-null="true" length="16" scale="0" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
+    </table>
     <table name="Bookmark">
       <column name="Bookmark_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
       <column name="Description" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
@@ -1161,6 +1211,18 @@
     <table name="BugType">
       <column name="BugType_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
       <column name="Name" type="String" prec="128" length="256" scale="0" />
+    </table>
+    <table name="Campaign">
+      <column name="Active" type="Boolean" prec="1" length="1" scale="0" default="((0))" />
+      <column name="Campaign_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Description" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
+      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Name" type="String" prec="64" length="128" scale="0" />
+      <column name="Processed" type="DateTime" prec="23" allow-null="true" length="8" scale="3" />
+      <column name="SenderEmailAddress" type="AnsiString" prec="64" length="64" scale="0" />
+      <column name="SenderName" type="String" prec="128" length="256" scale="0" />
+      <column name="Url" type="AnsiString" prec="128" length="128" scale="0" />
     </table>
     <table name="City">
       <column name="City_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
@@ -1292,6 +1354,14 @@
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_Place_Account" />
     </table>
+    <table name="PlaceAttribute">
+      <column name="PlaceAttribute_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Attribute_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Attribute" primary-column="Attribute_Id" foreign-key="FK_PlaceAttribute_Attribute" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Place_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Place" primary-column="Place_Id" foreign-key="FK_PlaceAttribute_Place" />
+      <column name="Url" type="String" prec="128" allow-null="true" length="256" scale="0" />
+      <column name="Value" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
+    </table>
     <table name="PlaceName">
       <column name="PlaceName_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
       <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
@@ -1307,6 +1377,28 @@
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Name" type="String" prec="64" allow-null="true" length="128" scale="0" />
       <column name="Place_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Place" primary-column="Place_Id" foreign-key="FK_PlacePicture_Place" />
+    </table>
+    <table name="PlaceProperty">
+      <column name="PlaceProperty_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="DefaultValue" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
+      <column name="Description" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
+      <column name="Name" type="String" prec="64" length="128" scale="0" />
+      <column name="PlacePropertyGroup_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="PlacePropertyGroup" primary-column="PlacePropertyGroup_Id" foreign-key="FK_PlaceProperty_PlacePropertyGroup" />
+      <column name="Publish" type="Boolean" prec="1" length="1" scale="0" />
+      <column name="TypeName" type="String" prec="64" length="128" scale="0" />
+    </table>
+    <table name="PlacePropertyGroup">
+      <column name="PlacePropertyGroup_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Description" type="String" prec="0" length="16" scale="0" specific-type="NTEXT" />
+      <column name="Name" type="String" prec="64" length="128" scale="0" />
+    </table>
+    <table name="PlacePropertyValue">
+      <column name="PlacePropertyValue_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Place_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Place" primary-column="Place_Id" foreign-key="FK_PlacePropertyValue_Place" />
+      <column name="PlaceProperty_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="PlaceProperty" primary-column="PlaceProperty_Id" foreign-key="FK_PlacePropertyValue_PlaceProperty" />
+      <column name="Value" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
     </table>
     <table name="PlaceType">
       <column name="PlaceType_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
@@ -1422,62 +1514,14 @@
       <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
     </table>
-    <table name="PlaceProperty">
-      <column name="PlaceProperty_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
-      <column name="DefaultValue" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
-      <column name="Description" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
-      <column name="Name" type="String" prec="64" length="128" scale="0" />
-      <column name="PlacePropertyGroup_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="PlacePropertyGroup" primary-column="PlacePropertyGroup_Id" foreign-key="FK_PlaceProperty_PlacePropertyGroup" />
-      <column name="Publish" type="Boolean" prec="1" length="1" scale="0" />
-      <column name="TypeName" type="String" prec="64" length="128" scale="0" />
-    </table>
-    <table name="PlacePropertyGroup">
-      <column name="PlacePropertyGroup_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
-      <column name="Description" type="String" prec="0" length="16" scale="0" specific-type="NTEXT" />
-      <column name="Name" type="String" prec="64" length="128" scale="0" />
-    </table>
-    <table name="PlacePropertyValue">
-      <column name="PlacePropertyValue_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+    <table name="CampaignAccountRecepient">
+      <column name="CampaignAccountRecepient_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_CampaignAccountRecepient_Account" />
+      <column name="Campaign_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Campaign" primary-column="Campaign_Id" foreign-key="FK_CampaignAccountRecepient_Campaign" />
       <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="Place_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Place" primary-column="Place_Id" foreign-key="FK_PlacePropertyValue_Place" />
-      <column name="PlaceProperty_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="PlaceProperty" primary-column="PlaceProperty_Id" foreign-key="FK_PlacePropertyValue_PlaceProperty" />
-      <column name="Value" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
-    </table>
-    <table name="AccountAttribute">
-      <column name="AccountAttribute_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
-      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountAttribute_Account" />
-      <column name="Attribute_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Attribute" primary-column="Attribute_Id" foreign-key="FK_AccountAttribute_Attribute" />
-      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="Url" type="String" prec="128" allow-null="true" length="256" scale="0" />
-      <column name="Value" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
-    </table>
-    <table name="Attribute">
-      <column name="Attribute_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
-      <column name="DefaultUrl" type="String" prec="128" allow-null="true" length="256" scale="0" />
-      <column name="DefaultValue" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
-      <column name="Description" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
-      <column name="Name" type="String" prec="64" length="128" scale="0" />
-      <column name="Bitmap" type="Object" prec="0" allow-null="true" length="16" scale="0" />
-      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
-    </table>
-    <table name="PlaceAttribute">
-      <column name="PlaceAttribute_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
-      <column name="Attribute_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Attribute" primary-column="Attribute_Id" foreign-key="FK_PlaceAttribute_Attribute" />
-      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="Place_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Place" primary-column="Place_Id" foreign-key="FK_PlaceAttribute_Place" />
-      <column name="Url" type="String" prec="128" allow-null="true" length="256" scale="0" />
-      <column name="Value" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
-    </table>
-    <table name="AccountLicense">
-      <column name="AccountLicense_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
-      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_License_Account" />
-      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="ImageUrl" type="String" prec="256" length="512" scale="0" />
-      <column name="LicenseUrl" type="String" prec="256" length="512" scale="0" />
-      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="Name" type="String" prec="64" length="128" scale="0" />
+      <column name="Sent" type="Boolean" prec="1" length="1" scale="0" />
+      <column name="LastError" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
     </table>
   </source>
 </domain>

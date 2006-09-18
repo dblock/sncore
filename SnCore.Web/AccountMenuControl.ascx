@@ -39,6 +39,7 @@
 <asp:Panel runat="server" ID="panelSystem">
 <table class="sncore_accountmenu_table">
  <tr><td width="30" align="center"><img src="images/account/contentgroups.gif" /></td><td width="*"><a href="AccountContentGroupsManage.aspx">Content</a></td></tr>
+ <tr><td width="30" align="center"><img src="images/account/property.gif" /></td><td width="*"><a href="MarketingCampaignsManage.aspx">Campaigns</a></td></tr>
 </table>
 <table class="sncore_accountmenu_table">
  <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="SystemConfigurationsManage.aspx">Settings</a></td></tr>

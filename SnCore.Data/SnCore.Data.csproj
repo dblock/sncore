@@ -3,7 +3,7 @@
     <ProjectType>Local</ProjectType>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{258eae77-aa65-4dac-a29b-54c2af08370a}</ProjectGuid>
+    <ProjectGuid>{193c1567-f208-4c15-8656-d8dd51ece3f2}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>
@@ -230,6 +230,12 @@
     <Compile Include="BugType.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Campaign.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CampaignAccountRecepient.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="City.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -394,6 +400,8 @@
     <EmbeddedResource Include="BugSeverity.hbm.xml" />
     <EmbeddedResource Include="BugStatu.hbm.xml" />
     <EmbeddedResource Include="BugType.hbm.xml" />
+    <EmbeddedResource Include="Campaign.hbm.xml" />
+    <EmbeddedResource Include="CampaignAccountRecepient.hbm.xml" />
     <EmbeddedResource Include="City.hbm.xml" />
     <EmbeddedResource Include="Configuration.hbm.xml" />
     <EmbeddedResource Include="Counter.hbm.xml" />

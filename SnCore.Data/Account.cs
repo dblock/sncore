@@ -61,6 +61,7 @@ using System;
         private System.Collections.IList m_AccountAttributes;
         private System.Collections.IList m_AccountLicenses;
         private System.Boolean m_IsPasswordExpired;
+        private System.Collections.IList m_CampaignAccountRecepients;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -1424,6 +1425,37 @@ using System;
             set
             {
                 m_IsPasswordExpired = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'CampaignAccountRecepient'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'CampaignAccountRecepient.Account'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_CampaignAccountRecepients' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as slave.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'CampaignAccountRecepient' table in the data source.
+        ///The property maps to the identity column 'Account_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Collections.IList CampaignAccountRecepients
+        {
+            get
+            {
+                return m_CampaignAccountRecepients;
+            }
+            set
+            {
+                m_CampaignAccountRecepients = value;
             }
         }
 

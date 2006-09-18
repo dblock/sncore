@@ -53,6 +53,7 @@ public class SessionManager
     private WebBlogService mWebBlogService = null;
     private WebEventService mWebEventService = null;
     private WebStatsService mWebStatsService = null;
+    private WebMarketingService mWebMarketingService = null;
 
     public Cache Cache
     {
@@ -566,6 +567,23 @@ public class SessionManager
                 }
             }
             return mWebSystemService;
+        }
+    }
+
+    public WebMarketingService MarketingService
+    {
+        get
+        {
+            if (mWebMarketingService == null)
+            {
+                mWebMarketingService = (WebMarketingService) Cache["SnCore.SessionManager.MarketingService"];
+                if (mWebMarketingService == null)
+                {
+                    mWebMarketingService = new WebMarketingService();
+                    Cache["SnCore.SessionManager.MarketingService"] = mWebMarketingService;
+                }
+            }
+            return mWebMarketingService;
         }
     }
 
