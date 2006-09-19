@@ -1,10 +1,10 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="PlacesNewViewControl.ascx.cs"
  Inherits="PlacesNewViewControl" %>
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
+<link rel="alternate" type="application/rss+xml" title="Rss" href="PlacesRss.aspx" />
 <table cellpadding="0" cellspacing="0" class="sncore_half_inner_table">
  <tr>
   <td>
-   <link rel="alternate" type="application/rss+xml" title="Rss" href="PlacesRss.aspx" />
    <div class="sncore_h2">
     <a href='PlacesView.aspx'>
       New Places
@@ -15,14 +15,14 @@
  </tr>
  <tr>
   <td>
-   <asp:Panel CssClass="sncore_createnew" ID="panelLinks" runat="server">
-    <span class="sncore_link">
+   <div class="sncore_createnew">
+    <div class="sncore_link">
      <a href="PlacesView.aspx">&#187; all</a>
      <a href="PlaceEdit.aspx">&#187; suggest a place</a>
      <a href="FeaturedPlacesView.aspx">&#187; featured</a>
      <a href="PlacesRss.aspx">&#187; rss</a>
-    </span>
-   </asp:Panel>
+    </div>
+   </div>
   </td>
  </tr>
 </table>

@@ -1,7 +1,6 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="AccountFeedFeaturedViewControl.ascx.cs"
  Inherits="AccountFeedFeaturedViewControl" %>
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
-<link rel="alternate" type="application/rss+xml" title="Rss" href="AccountFeedsRss.aspx" />
 <asp:Panel runat="server" ID="panelFeatured">
  <table cellpadding="2" cellspacing="0" class="sncore_featured_table">
   <tr>

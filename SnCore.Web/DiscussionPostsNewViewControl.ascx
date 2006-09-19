@@ -6,7 +6,7 @@
  <tr>
   <td>
    <div class="sncore_h2">
-    <a href='DiscussionsView.aspx'>
+    <a href="DiscussionsView.aspx">
       New Forum Posts
      <img src="images/site/right.gif" border="0" />
     </a>
@@ -15,14 +15,14 @@
  </tr>
  <tr>
   <td>
-   <asp:Panel CssClass="sncore_createnew" ID="panelLinks" runat="server">
-    <span class="sncore_link">
+   <div class="sncore_createnew">
+    <div class="sncore_link">
      <a href="DiscussionTopOfThreadsView.aspx">&#187; new threads</a>
      <a href="DiscussionThreadsView.aspx">&#187; new posts</a>
      <a href="DiscussionsView.aspx">&#187; all forums</a>
      <a href="DiscussionThreadsRss.aspx">&#187; rss</a>
-    </span>
-   </asp:Panel>
+    </div>
+   </div>
   </td>
  </tr>
 </table>

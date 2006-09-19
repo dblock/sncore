@@ -4,21 +4,17 @@
 <table cellpadding="0" cellspacing="0" class="sncore_half_inner_table">
  <tr>
   <td>
-   <link rel="alternate" type="application/rss+xml" title="Rss" href="AccountsRss.aspx" />
    <div class="sncore_h2">
     <a href='Search.aspx'>
      Search
      <img src="images/site/right.gif" border="0" />
     </a>
    </div>
-  </td>
- </tr>
- <tr>
-  <td>
-   <asp:Panel CssClass="sncore_createnew" ID="panellLinks" runat="server">
-    <span class="sncore_link"><a href="Search.aspx">&#187; search people, places and
-     more ...</a> </span>
-   </asp:Panel>
+   <div class="sncore_createnew">
+    <span class="sncore_link">
+     <a href="Search.aspx">&#187; search people, places and more ...</a>
+    </span>
+   </div>
   </td>
  </tr>
  <tr>

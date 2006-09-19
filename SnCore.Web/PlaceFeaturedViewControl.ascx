@@ -2,7 +2,6 @@
  Inherits="PlaceFeaturedViewControl" %>
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
 <asp:Panel ID="panelFeatured" runat="server">
- <link rel="alternate" type="application/rss+xml" title="Rss" href="PlacesRss.aspx" />
  <table cellpadding="2" cellspacing="0" class="sncore_featured_table">
   <tr>
    <td width="*" valign="top" class="sncore_featured_tr_td">

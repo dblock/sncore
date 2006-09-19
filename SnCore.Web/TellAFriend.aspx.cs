@@ -75,7 +75,7 @@ public partial class TellAFriend : AuthenticatedPage
                 if (!AccountService.HasVerifiedEmail(SessionManager.Ticket))
                 {
                     ReportWarning("You don't have any verified e-mail addresses.\n" +
-                        "You must add/confirm a valid e-mail address before posting stories.");
+                        "You must add/confirm a valid e-mail address before using this feature.");
 
                     send.Enabled = false;
                 }
@@ -120,7 +120,7 @@ public partial class TellAFriend : AuthenticatedPage
             message.Headers.Add("Content-class", "urn:content-classes:message");
             message.IsBodyHtml = true;
             message.Body = GetContent();
-            message.From = SessionManager.GetCachedConfiguration("SnCore.Admin.EmailAddress", "admin@localhost.com");
+            message.From = new MailAddress(SessionManager.GetCachedConfiguration("SnCore.Admin.EmailAddress", "admin@localhost.com"));
             message.ReplyTo = new MailAddress(AccountService.GetActiveEmailAddress(SessionManager.Ticket));
             foreach (string address in inputEmailAddress.Text.Split("\n".ToCharArray()))
             {

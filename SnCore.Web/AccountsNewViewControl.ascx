@@ -1,10 +1,10 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="AccountsNewViewControl.ascx.cs"
  Inherits="AccountsNewViewControl" %>
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
+<link rel="alternate" type="application/rss+xml" title="Rss" href="AccountsRss.aspx" />
 <table cellpadding="0" cellspacing="0" class="sncore_half_inner_table">
  <tr>
   <td>
-   <link rel="alternate" type="application/rss+xml" title="Rss" href="AccountsRss.aspx" />
    <div class="sncore_h2">
     <a href='AccountsView.aspx'>
       New People
@@ -15,15 +15,15 @@
  </tr>
  <tr>
   <td>
-   <asp:Panel CssClass="sncore_createnew" ID="panellLinks" runat="server">
-    <span class="sncore_link">
+   <div class="sncore_createnew">
+    <div class="sncore_link">
      <a href="AccountsView.aspx">&#187; all</a>
      <a href="AccountInvitationsManage.aspx">&#187; invite a friend</a>
      <a href="FeaturedAccountsView.aspx">&#187; featured</a>
      <a href="RefererAccountsView.aspx">&#187; top</a>
      <a href="AccountsRss.aspx">&#187; rss</a>
-    </span>
-   </asp:Panel>
+    </div>
+   </div>
   </td>
  </tr>
 </table>

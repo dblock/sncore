@@ -1,9 +1,9 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="AccountStoriesNewViewControl.ascx.cs"
  Inherits="AccountStoriesNewViewControl" %>
+<link rel="alternate" type="application/rss+xml" title="Rss" href="AccountStoriesRss.aspx" />
 <table cellpadding="0" cellspacing="0" class="sncore_half_inner_table">
  <tr>
   <td>
-   <link rel="alternate" type="application/rss+xml" title="Rss" href="AccountStoriesRss.aspx" />
    <div class="sncore_h2">
     <a href='AccountStoriesView.aspx'>
       New Stories
@@ -14,13 +14,13 @@
  </tr>
  <tr>
   <td>
-   <asp:Panel CssClass="sncore_createnew" ID="panelLinks" runat="server">
-    <span class="sncore_link">
+   <div class="sncore_createnew">
+    <div class="sncore_link">
      <a href="AccountStoriesView.aspx">&#187; all</a>
      <a href="AccountStoryEdit.aspx">&#187; tell a story</a>
      <a href="AccountStoriesRss.aspx">&#187; rss</a>
-    </span>
-   </asp:Panel>
+    </div>
+   </div>
   </td>
  </tr>
 </table>

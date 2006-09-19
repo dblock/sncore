@@ -1,9 +1,9 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="AccountFeedItemsNewViewControl.ascx.cs"
  Inherits="AccountFeedItemsNewViewControl" %>
+<link rel="alternate" type="application/rss+xml" title="Rss" href="AccountFeedsRss.aspx" />
 <table cellpadding="0" cellspacing="0" class="sncore_half_inner_table">
  <tr>
   <td>
-   <link rel="alternate" type="application/rss+xml" title="Rss" href="AccountFeedsRss.aspx" />
    <div class="sncore_h2">
     <a href='AccountFeedItemsView.aspx'>
       New Feeds
@@ -14,13 +14,13 @@
  </tr>
  <tr>
   <td>
-   <asp:Panel CssClass="sncore_createnew" ID="panelLinks" runat="server">
-    <span class="sncore_link">
+   <div class="sncore_createnew">
+    <div class="sncore_link">
      <a href="AccountFeedItemsView.aspx">&#187; all</a>
      <a href="AccountFeedWizard.aspx">&#187; syndicate a feed</a>
      <a href="AccountFeedItemsRss.aspx">&#187; rss</a>
-    </span>
-   </asp:Panel>
+    </div>
+   </div>
   </td>
  </tr>
 </table>
