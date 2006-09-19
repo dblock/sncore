@@ -100,7 +100,52 @@
           OnClick="importSingleUser_Click" />
         </td>
        </tr>
-      </table>
+      </table>      
+      <div class="sncore_h3">
+       Users w/ Account Property Value
+      </div>
+      <table class="sncore_account_table">
+       <tr>
+        <td class="sncore_form_label">
+         group:
+        </td>
+        <td class="sncore_form_value">
+         <asp:DropDownList ID="inputAccountPropertyGroup" runat="server" DataValueField="Id" DataTextField="Name" CssClass="sncore_form_dropdown" 
+          OnSelectedIndexChanged="inputAccountPropertyGroup_SelectedIndexChanged" AutoPostBack="true" />
+        </td>
+       </tr>
+       <tr>
+        <td class="sncore_form_label">
+         property:
+        </td>
+        <td class="sncore_form_value">
+         <asp:DropDownList ID="inputAccountProperty" runat="server" DataValueField="Id" DataTextField="Name" CssClass="sncore_form_dropdown" />
+        </td>
+       </tr>
+       <tr>
+        <td class="sncore_form_label">
+         value:
+        </td>
+        <td class="sncore_form_value">
+         <asp:TextBox ID="inputAccountPropertyValue" runat="server" CssClass="sncore_form_textbox" />
+        </td>
+       </tr>
+       <tr>
+        <td class="sncore_form_label">
+        </td>
+        <td class="sncore_form_value">
+         <asp:CheckBox ID="inputAccountPropertyEmpty" runat="server" CssClass="sncore_form_checkbox" Checked="true" Text="include unset" />
+        </td>
+       </tr>
+       <tr>
+        <td>
+        </td>
+        <td class="sncore_form_value">
+         <SnCoreWebControls:Button ID="importAccountProperty" runat="server" Text="Import" CausesValidation="true" CssClass="sncore_form_button"
+          OnClick="importAccountProperty_Click" />
+        </td>
+       </tr>
+      </table>      
      </ContentTemplate>
     </atlas:UpdatePanel>
    </td>

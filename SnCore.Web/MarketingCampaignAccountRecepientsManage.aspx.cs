@@ -25,6 +25,10 @@ public partial class MarketingCampaignAccountRecepientsManage : AuthenticatedPag
                 TransitCampaign tc = MarketingService.GetCampaignById(SessionManager.Ticket, RequestId);
                 campaignName.Text = string.Format("{0}: {1}", Render(tc.Name), campaignName.Text);
                 GetData(sender, e);
+
+                inputAccountPropertyGroup.DataSource = AccountService.GetAccountPropertyGroups();
+                inputAccountPropertyGroup.DataBind();
+                inputAccountPropertyGroup_SelectedIndexChanged(sender, e);
             }
         }
         catch (Exception ex)
@@ -134,6 +138,35 @@ public partial class MarketingCampaignAccountRecepientsManage : AuthenticatedPag
         {
             MarketingService.DeleteCampaignAccountRecepients(SessionManager.Ticket, RequestId);
             GetData(sender, e);
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
+    public void inputAccountPropertyGroup_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            inputAccountProperty.DataSource = AccountService.GetAccountProperties(
+                int.Parse(inputAccountPropertyGroup.SelectedValue));
+            inputAccountProperty.DataBind();            
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
+    public void importAccountProperty_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            int count = MarketingService.ImportCampaignAccountPropertyValues(SessionManager.Ticket, RequestId,
+                int.Parse(inputAccountProperty.SelectedValue), inputAccountPropertyValue.Text, inputAccountPropertyEmpty.Checked);
+            GetData(sender, e);
+            ReportInfo(string.Format("Successfully imported {0} recepients.", count));
         }
         catch (Exception ex)
         {

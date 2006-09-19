@@ -11,6 +11,8 @@ using System.Data.SqlClient;
 using System.Web.Security;
 using Microsoft.Web.Services3;
 using Microsoft.Web.Services3.Design;
+using System.Text;
+using SnCore.Tools.Web;
 
 namespace SnCore.WebServices
 {
@@ -346,6 +348,90 @@ namespace SnCore.WebServices
                         }
 
                         CampaignAccountRecepient existing = (CampaignAccountRecepient) session.CreateCriteria(typeof(CampaignAccountRecepient))
+                            .Add(Expression.Eq("Account.Id", ma.Id))
+                            .Add(Expression.Eq("Campaign.Id", campaign_id))
+                            .UniqueResult();
+
+                        if (existing != null)
+                            continue;
+
+                        ManagedCampaignAccountRecepient newrecepient = new ManagedCampaignAccountRecepient(session);
+                        TransitCampaignAccountRecepient newtransitrecepient = new TransitCampaignAccountRecepient();
+                        newtransitrecepient.AccountId = ma.Id;
+                        newtransitrecepient.CampaignId = campaign_id;
+                        newtransitrecepient.Created = newtransitrecepient.Modified = DateTime.UtcNow;
+                        newtransitrecepient.Sent = false;
+                        newrecepient.CreateOrUpdate(newtransitrecepient);
+                        count++;
+                    }
+
+                    trans.Commit();
+                    SnCore.Data.Hibernate.Session.Flush();
+                }
+                catch
+                {
+                    trans.Rollback();
+                    throw;
+                }
+
+                return count;
+            }
+        }
+
+        /// <summary>
+        /// Import accounts into a marketing campaign by matching property value.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        [WebMethod(Description = "Import accounts into a marketing campaign by matching property value.")]
+        public int ImportCampaignAccountPropertyValues(string ticket, int campaign_id, int pid, string value, bool unset)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                ManagedAccount user = new ManagedAccount(session, userid);
+                if (!user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ITransaction trans = session.BeginTransaction();
+
+                int count = 0;
+
+                try
+                {
+                    StringBuilder squery = new StringBuilder();
+                    squery.Append(
+                        "SELECT {Account.*} FROM {Account} WHERE Account_Id IN (" +
+                        " SELECT Account.Account_Id FROM Account INNER JOIN AccountPropertyValue" +
+                        " ON Account.Account_Id = AccountPropertyValue.Account_Id" +
+                        " WHERE AccountPropertyValue.AccountProperty_Id = " + pid.ToString() + 
+                        " AND AccountPropertyValue.Value LIKE '" + Renderer.SqlEncode(value) + "')"); 
+                                           
+                    if (unset)
+                    {
+                        squery.AppendFormat(
+                            " OR Account_Id NOT IN (" +
+                            " SELECT Account.Account_Id FROM Account INNER JOIN AccountPropertyValue" +
+                            " ON Account.Account_Id = AccountPropertyValue.Account_Id" +
+                            " AND AccountPropertyValue.AccountProperty_Id = {0}" +
+                            ")", pid);
+                    }
+
+
+                    IQuery query = session.CreateSQLQuery(squery.ToString(), "Account", typeof(Account));
+                    IList list = query.List();
+
+                    foreach (Account account in list)
+                    {
+                        ManagedAccount ma = new ManagedAccount(session, account);
+
+                        if (! ma.HasVerifiedEmail)
+                            continue;
+
+                        CampaignAccountRecepient existing = (CampaignAccountRecepient)session.CreateCriteria(typeof(CampaignAccountRecepient))
                             .Add(Expression.Eq("Account.Id", ma.Id))
                             .Add(Expression.Eq("Campaign.Id", campaign_id))
                             .UniqueResult();
