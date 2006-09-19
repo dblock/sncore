@@ -93,7 +93,18 @@ namespace SnCore.BackEndServices
                             int.Parse(ManagedConfiguration.GetValue(session, "SnCore.Mail.Port", "25")));
                         smtp.DeliveryMethod = (SmtpDeliveryMethod) Enum.Parse(typeof(SmtpDeliveryMethod), 
                             ManagedConfiguration.GetValue(session, "SnCore.Mail.Delivery", "Network"));
-                        smtp.UseDefaultCredentials = true;
+
+                        string smtpusername = ConfigurationManager.AppSettings["smtp.username"];
+                        string smtppassword = ConfigurationManager.AppSettings["smtp.password"];
+
+                        if (!string.IsNullOrEmpty(smtpusername))
+                        {
+                            smtp.Credentials = new NetworkCredential(smtpusername, smtppassword);
+                        }
+                        else
+                        {
+                            smtp.UseDefaultCredentials = true;
+                        }
 
                         foreach (AccountEmailMessage m in emailmessages)
                         {

@@ -101,7 +101,18 @@ public partial class TellAFriend : AuthenticatedPage
                int.Parse(SessionManager.GetCachedConfiguration("SnCore.Mail.Port", "25")));
             smtp.DeliveryMethod = (SmtpDeliveryMethod)Enum.Parse(typeof(SmtpDeliveryMethod),
                 SessionManager.GetCachedConfiguration("SnCore.Mail.Delivery", "Network"));
-            smtp.UseDefaultCredentials = true;
+
+            string smtpusername = ConfigurationManager.AppSettings["smtp.username"];
+            string smtppassword = ConfigurationManager.AppSettings["smtp.password"];
+
+            if (!string.IsNullOrEmpty(smtpusername))
+            {
+                smtp.Credentials = new NetworkCredential(smtpusername, smtppassword);
+            }
+            else
+            {
+                smtp.UseDefaultCredentials = true;
+            }
 
             MailMessage message = new MailMessage();
             message.Headers.Add("x-mimeole", string.Format("Produced By {0} {1}",
