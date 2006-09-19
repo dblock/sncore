@@ -18,38 +18,10 @@ public partial class TellAFriend : AuthenticatedPage
 {
     public string GetContent()
     {
-        string rawcontent;
         Uri uri = new Uri(Request.Url, Url);
-        WebRequest request = HttpWebRequest.Create(uri);
-        WebResponse response = request.GetResponse();
-        using (StreamReader sr = new StreamReader(response.GetResponseStream()))
-        {
-            rawcontent = sr.ReadToEnd();
-            sr.Close();
-        }
         string baseuri = SessionManager.GetCachedConfiguration("SnCore.WebSite.Url", "http://localhost/SnCoreWeb");
         if (!baseuri.EndsWith("/")) baseuri = baseuri + "/";
-        StringBuilder content = new StringBuilder(Renderer.CleanHtml(rawcontent.ToString(), new Uri(baseuri), null));
-
-        // hack: lots of header stuff comes first
-        // hack: atlas script has a CDATA section and is not cleaned up properly
-        int headerstart = content.ToString().IndexOf("<table class=\"sncore_master_table\" align=\"center\">");
-        if (headerstart >= 0) content.Remove(0, headerstart);
-        int atlasscript = content.ToString().IndexOf("<stripped type=\"text/xml-script\">");
-        if (atlasscript >= 0) content.Remove(atlasscript, content.Length - atlasscript);
-
-        content.Insert(0, string.Format("<p style=\"margin: 10px;\"><a href=\"{0}\">&#187;&#187; online version</a></p>", uri.ToString()));
-
-        // insert additional note
-        if (! string.IsNullOrEmpty(inputNote.Text))
-        {
-            content.Insert(0, string.Format("<p style=\"margin: 10px;\">{0}</p>", Renderer.Render(inputNote.Text)));
-        }
-
-        // hack: insert stylesheet
-        content.Insert(0, string.Format("<link rel=\"stylesheet\" type=\"text/css\" href=\"{0}/Style.css\" />\n", baseuri));
-
-        return content.ToString();
+        return ContentPage.GetContent(uri, new Uri(baseuri), inputNote.Text);
     }
 
     public string Url
