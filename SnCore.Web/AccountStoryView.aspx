@@ -15,23 +15,6 @@
  </div>
  <table cellspacing="0" cellpadding="4" class="sncore_table">
   <tr>
-   <td class="sncore_table_tr_td" style="text-align: center; vertical-align: top; width: 200px;">
-    <asp:Panel CssClass="sncore_nopicture_table" ID="storyNoPicture" runat="server" Visible="false">
-     <img border="0" src="images/AccountThumbnail.gif" />
-    </asp:Panel>
-    <asp:DataList ItemStyle-HorizontalAlign="Center" ItemStyle-Width="200px"
-     runat="server" ID="listPictures" ShowHeader="false">
-     <ItemTemplate>
-      <a href='AccountStoryPictureView.aspx?id=<%# Eval("Id") %>'>
-       <img border="0" alt='<%# Eval("Name") %>' src='AccountStoryPictureThumbnail.aspx?id=<%# Eval("Id") %>' />
-       <div class="sncore_link">
-       <%# ((int) Eval("CommentCount") >= 1) ? Eval("CommentCount").ToString() + 
-        " comment" + (((int) Eval("CommentCount") == 1) ? "" : "s") : "" %>
-       </div>
-      </a>
-     </ItemTemplate>
-    </asp:DataList>
-   </td>
    <td valign="top" width="*">
     <div class="sncore_h2">
      <asp:Label ID="storyName" runat="server" />
@@ -59,6 +42,32 @@
       <td class="sncore_table_tr_td">
        <asp:Label ID="storySummary" runat="server" />
       </td>
+     </tr>
+    </table>
+    <table class="sncore_inner_table" width="95%">
+     <tr>
+      <td class="sncore_table_tr_td" align="center">
+       <atlas:UpdatePanel ID="panelPictures" runat="server">
+        <ContentTemplate>
+         <SnCoreWebControls:PagedList runat="server" RepeatDirection="Horizontal"
+          ID="listPictures" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Top"
+          ItemStyle-CssClass="sncore_table_tr_td" RepeatColumns="4" RepeatRows="1" AllowCustomPaging="true">
+          <PagerStyle CssClass="sncore_table_pager" Position="Bottom" NextPageText="Next"
+           PrevPageText="Prev" HorizontalAlign="Center" />
+          <ItemStyle VerticalAlign="Middle" />
+          <ItemTemplate>
+           <a href='AccountStoryPictureView.aspx?id=<%# Eval("Id") %>'>
+            <img border="0" alt='<%# Eval("Name") %>' src='AccountStoryPictureThumbnail.aspx?id=<%# Eval("Id") %>' />
+            <div class="sncore_link">
+            <%# ((int) Eval("CommentCount") >= 1) ? Eval("CommentCount").ToString() + 
+             " comment" + (((int) Eval("CommentCount") == 1) ? "" : "s") : "" %>
+            </div>
+           </a>
+          </ItemTemplate>
+         </SnCoreWebControls:PagedList>
+        </ContentTemplate>
+       </atlas:UpdatePanel>
+      </td>     
      </tr>
     </table>
     <table class="sncore_inner_table" width="95%">

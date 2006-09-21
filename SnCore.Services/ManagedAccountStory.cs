@@ -8,6 +8,28 @@ using System.Xml;
 
 namespace SnCore.Services
 {
+    public class AccountStoryQueryOptions
+    {
+        private bool mPublishedOnly = true;
+
+        public bool PublishedOnly
+        {
+            get
+            {
+                return mPublishedOnly;
+            }
+            set
+            {
+                mPublishedOnly = value;
+            }
+        }
+
+        public AccountStoryQueryOptions()
+        {
+
+        }
+    }
+
     public class TransitAccountStory : TransitService
     {
         private string mName;

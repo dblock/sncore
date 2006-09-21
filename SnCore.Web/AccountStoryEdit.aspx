@@ -18,6 +18,7 @@
  <div class="sncore_h2sub">
   <asp:HyperLink ID="linkBack" runat="server" Text="&#187; Cancel" NavigateUrl="AccountStoriesView.aspx" />
   <asp:HyperLink ID="linkAddPictures" runat="server" Text="&#187; Add Photos" />
+  <asp:HyperLink ID="linkView" runat="server" Text="&#187; Preview" Target="_blank" />
  </div>
  <table class="sncore_table">
   <tr>

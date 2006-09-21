@@ -41,6 +41,7 @@ public partial class AccountStoryEdit : AuthenticatedPage
                     linkAccount.NavigateUrl = string.Format("AccountView.aspx?id={0}", ts.AccountId);
 
                     linkAddPictures.NavigateUrl = string.Format("AccountStoryPicturesManage.aspx?id={0}", ts.Id);
+                    linkView.NavigateUrl = string.Format("AccountStoryView.aspx?id={0}", ts.Id);
 
                     labelTitle.Text = "Edit Story";
                 }
@@ -70,7 +71,7 @@ public partial class AccountStoryEdit : AuthenticatedPage
 
     public void GetImagesData(object sender, EventArgs e)
     {
-        gridManage.DataSource = StoryService.GetAccountStoryPictures(SessionManager.Ticket, RequestId);
+        gridManage.DataSource = StoryService.GetAccountStoryPictures(SessionManager.Ticket, RequestId, null);
         gridManage.DataBind();
     }
 

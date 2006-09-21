@@ -27,11 +27,27 @@ namespace SnCore.Tools.Web
             return Render(message.ToString());
         }
 
+        /// hack
+        private static bool IsHtml(string message)
+        {
+            if (message.IndexOf("<") < 0)
+                return false;
+            if (message.IndexOf(">") < 0)
+                return false;
+
+            return true;
+        }
+
         public static string Render(string message)
         {
             if (message == null) return string.Empty;
             string result = HttpUtility.HtmlEncode(message);
-            result = result.Replace("\n", "<br/>\n");
+
+            if (! IsHtml(message))
+            {
+                result = result.Replace("\n", "<br/>\n");
+            }
+
             return result;
         }
 
@@ -44,7 +60,12 @@ namespace SnCore.Tools.Web
         public static string RenderEx(string message)
         {
             string result = CleanHtml(message);
-            result = result.Replace("\n", "<br/>\n");
+
+            if (!IsHtml(message))
+            {
+                result = result.Replace("\n", "<br/>\n");
+            }
+
             result = RenderMarkups(result);
             result = RenderHref(result);
             return result;

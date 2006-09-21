@@ -18,6 +18,7 @@ public partial class AccountStoryView : Page
     {
         try
         {
+            listPictures.OnGetDataSource += new EventHandler(listPictures_OnGetDataSource);
             if (!IsPostBack)
             {
                 object[] s_args = { SessionManager.Ticket, RequestId };
@@ -40,11 +41,9 @@ public partial class AccountStoryView : Page
                 storySummary.Text = RenderEx(ts.Summary);
 
                 object[] p_args = { RequestId };
-                listPictures.DataSource = SessionManager.GetCachedCollection<TransitAccountStoryPicture>(
-                    StoryService, "GetAccountStoryPicturesById", p_args);
-                listPictures.DataBind();
-
-                if (listPictures.Items.Count == 0) storyNoPicture.Visible = true;
+                listPictures.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+                    StoryService, "GetAccountStoryPicturesCountById", p_args);
+                listPictures_OnGetDataSource(sender, e);
 
                 object[] d_args = { RequestId };
                 storyComments.DiscussionId = SessionManager.GetCachedCollectionCount(
@@ -58,6 +57,24 @@ public partial class AccountStoryView : Page
                 panelOwner.Visible = SessionManager.IsLoggedIn &&
                     (SessionManager.IsAdministrator || ts.AccountId == SessionManager.Account.Id);
             }
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
+    void listPictures_OnGetDataSource(object sender, EventArgs e)
+    {
+        try
+        {
+            ServiceQueryOptions options = new ServiceQueryOptions();
+            options.PageNumber = listPictures.CurrentPageIndex;
+            options.PageSize = listPictures.PageSize;
+            object[] p_args = { RequestId, options };
+            listPictures.DataSource = SessionManager.GetCachedCollection<TransitAccountStoryPicture>(
+                StoryService, "GetAccountStoryPicturesById", p_args);
+            listPictures.DataBind();
         }
         catch (Exception ex)
         {

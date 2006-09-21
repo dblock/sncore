@@ -54,7 +54,7 @@ public partial class AccountStoryPicturesManage : AuthenticatedPage
 
     public void GetImagesData(object sender, EventArgs e)
     {
-        gridManage.DataSource = StoryService.GetAccountStoryPictures(SessionManager.Ticket, RequestId);
+        gridManage.DataSource = StoryService.GetAccountStoryPictures(SessionManager.Ticket, RequestId, null);
         gridManage.DataBind();
     }
 

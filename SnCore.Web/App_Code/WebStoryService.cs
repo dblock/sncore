@@ -342,14 +342,39 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
+        /// Get story pictures count.
+        /// </summary>
+        /// <param name="story">story id</param>
+        [WebMethod(Description = "Get story pictures count.")]
+        public int GetAccountStoryPicturesCount(string ticket, int storyid)
+        {
+            return GetAccountStoryPicturesCountById(storyid);
+        }
+
+        /// <summary>
+        /// Get story pictures count by account id.
+        /// </summary>
+        /// <param name="storyid">story id</param>
+        [WebMethod(Description = "Get story pictures count.", CacheDuration = 60)]
+        public int GetAccountStoryPicturesCountById(int storyid)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return (int)session.CreateQuery(string.Format("SELECT COUNT(p) FROM AccountStoryPicture p WHERE p.AccountStory.Id = {0}",
+                    storyid)).UniqueResult();
+            }
+        }
+
+        /// <summary>
         /// Get story pictures.
         /// </summary>
         /// <param name="story">story id</param>
         /// <returns>transit story pictures</returns>
         [WebMethod(Description = "Get story pictures.")]
-        public List<TransitAccountStoryPicture> GetAccountStoryPictures(string ticket, int storyid)
+        public List<TransitAccountStoryPicture> GetAccountStoryPictures(string ticket, int storyid, ServiceQueryOptions options)
         {
-            return GetAccountStoryPicturesById(storyid);
+            return GetAccountStoryPicturesById(storyid, options);
         }
 
         /// <summary>
@@ -358,15 +383,22 @@ namespace SnCore.WebServices
         /// <param name="storyid">story id</param>
         /// <returns>transit story pictures</returns>
         [WebMethod(Description = "Get story pictures.", CacheDuration = 60)]
-        public List<TransitAccountStoryPicture> GetAccountStoryPicturesById(int storyid)
+        public List<TransitAccountStoryPicture> GetAccountStoryPicturesById(int storyid, ServiceQueryOptions options)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                IList list = session.CreateCriteria(typeof(AccountStoryPicture))
+                ICriteria crit = session.CreateCriteria(typeof(AccountStoryPicture))
                     .Add(Expression.Eq("AccountStory.Id", storyid))
-                    .AddOrder(Order.Asc("Location"))
-                    .List();
+                    .AddOrder(Order.Asc("Location"));
+
+                if (options != null)
+                {
+                    crit.SetFirstResult(options.FirstResult);
+                    crit.SetMaxResults(options.PageSize);
+                }
+
+                IList list = crit.List();
 
                 List<TransitAccountStoryPicture> result = new List<TransitAccountStoryPicture>(list.Count);
                 foreach (AccountStoryPicture p in list)
