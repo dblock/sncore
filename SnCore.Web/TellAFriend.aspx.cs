@@ -92,8 +92,12 @@ public partial class TellAFriend : AuthenticatedPage
             message.Headers.Add("Content-class", "urn:content-classes:message");
             message.IsBodyHtml = true;
             message.Body = GetContent();
-            message.From = new MailAddress(SessionManager.GetCachedConfiguration("SnCore.Admin.EmailAddress", "admin@localhost.com"));
-            message.ReplyTo = new MailAddress(AccountService.GetActiveEmailAddress(SessionManager.Ticket));
+            message.From = new MailAddress(
+                SessionManager.GetCachedConfiguration("SnCore.Admin.EmailAddress", "admin@localhost.com"),
+                SessionManager.GetCachedConfiguration("SnCore.Admin.Name", "Admin"));
+            message.ReplyTo = new MailAddress(
+                AccountService.GetActiveEmailAddress(SessionManager.Ticket), 
+                SessionManager.Account.Name);
             foreach (string address in inputEmailAddress.Text.Split("\n".ToCharArray()))
             {
                 try

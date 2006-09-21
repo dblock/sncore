@@ -19,6 +19,23 @@ public class ContentPage
         return GetContent(uri, baseuri, string.Empty);
     }
 
+    public static string GetCss(Uri baseuri)
+    {
+        string rawcontent;
+        WebRequest request = HttpWebRequest.Create(new Uri(baseuri, "Style.css"));
+        WebResponse response = request.GetResponse();
+        using (StreamReader sr = new StreamReader(response.GetResponseStream()))
+        {
+            rawcontent = sr.ReadToEnd();
+            sr.Close();
+        }
+
+        // hack: replace relative uri
+
+        rawcontent = rawcontent.Replace("url(", string.Format("url({0}", baseuri.ToString()));
+        return rawcontent;
+    }
+
     public static string GetContent(Uri uri, Uri baseuri, string note)
     {
         string rawcontent;
@@ -48,8 +65,7 @@ public class ContentPage
         }
 
         // hack: insert stylesheet
-        content.Insert(0, string.Format("<link rel=\"stylesheet\" type=\"text/css\" href=\"{0}/Style.css\" />\n", baseuri));
-
+        content.Insert(0, string.Format("<STYLE>{0}</STYLE>\n", GetCss(baseuri)));
         return content.ToString();
     }
 }
