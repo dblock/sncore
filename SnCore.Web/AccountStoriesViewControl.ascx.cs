@@ -50,7 +50,9 @@ public partial class AccountStoriesViewControl : Control
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = accountStories.CurrentPageIndex;
         options.PageSize = accountStories.PageSize;
-        object[] args = { AccountId, options };
+        AccountStoryQueryOptions queryoptions = new AccountStoryQueryOptions();
+        queryoptions.PublishedOnly = true;
+        object[] args = { AccountId, queryoptions, options };
         accountStories.DataSource = SessionManager.GetCachedCollection<TransitAccountStory>(
             StoryService, "GetAccountStoriesById", args);
     }

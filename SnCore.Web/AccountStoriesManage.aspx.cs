@@ -20,7 +20,7 @@ public partial class AccountStoriesManage : AuthenticatedPage
 
             if (!IsPostBack)
             {
-                gridManage.VirtualItemCount = StoryService.GetAccountStoriesCount(SessionManager.Ticket);
+                gridManage.VirtualItemCount = StoryService.GetAccountStoriesCount(SessionManager.Ticket, null);
                 gridManage_OnGetDataSource(this, null);
                 gridManage.DataBind();
             }
@@ -43,7 +43,7 @@ public partial class AccountStoriesManage : AuthenticatedPage
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridManage.CurrentPageIndex;
             options.PageSize = gridManage.PageSize;
-            gridManage.DataSource = StoryService.GetAccountStories(SessionManager.Ticket, options);
+            gridManage.DataSource = StoryService.GetAccountStories(SessionManager.Ticket, null, options);
         }
         catch (Exception ex)
         {

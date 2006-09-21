@@ -36,9 +36,10 @@ namespace SnCore.WebServices
         /// <param name="ticket">authentication ticket</param>
         /// <returns>transit account stories</returns>
         [WebMethod(Description = "Get account stories.")]
-        public List<TransitAccountStory> GetAccountStories(string ticket, ServiceQueryOptions options)
+        public List<TransitAccountStory> GetAccountStories(
+            string ticket, AccountStoryQueryOptions queryoptions, ServiceQueryOptions options)
         {
-            return GetAccountStoriesById(ManagedAccount.GetAccountId(ticket), options);
+            return GetAccountStoriesById(ManagedAccount.GetAccountId(ticket), queryoptions, options);
         }
 
         /// <summary>
@@ -47,7 +48,7 @@ namespace SnCore.WebServices
         /// <param name="id">account id</param>
         /// <returns>transit account stories</returns>
         [WebMethod(Description = "Get account stories.", CacheDuration = 60)]
-        public List<TransitAccountStory> GetAccountStoriesById(int id, ServiceQueryOptions options)
+        public List<TransitAccountStory> GetAccountStoriesById(int id, AccountStoryQueryOptions queryoptions, ServiceQueryOptions options)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
@@ -56,6 +57,14 @@ namespace SnCore.WebServices
                 ICriteria crit = session.CreateCriteria(typeof(AccountStory))
                     .Add(Expression.Eq("Account.Id", id))
                     .AddOrder(Order.Desc("Created"));
+
+                if (queryoptions != null)
+                {
+                    if (queryoptions.PublishedOnly)
+                    {
+                        crit.Add(Expression.Eq("Publish", true));
+                    }
+                }
 
                 if (options != null)
                 {
@@ -81,9 +90,9 @@ namespace SnCore.WebServices
         /// <param name="ticket">authentication ticket</param>
         /// <returns>number of account stories</returns>
         [WebMethod(Description = "Get account stories count.")]
-        public int GetAccountStoriesCount(string ticket)
+        public int GetAccountStoriesCount(string ticket, AccountStoryQueryOptions queryoptions)
         {
-            return GetAccountStoriesCountById(ManagedAccount.GetAccountId(ticket));
+            return GetAccountStoriesCountById(ManagedAccount.GetAccountId(ticket), queryoptions);
         }
 
         /// <summary>
@@ -92,14 +101,21 @@ namespace SnCore.WebServices
         /// <param name="id">account id</param>
         /// <returns>transit account stories count</returns>
         [WebMethod(Description = "Get account stories count.", CacheDuration = 60)]
-        public int GetAccountStoriesCountById(int id)
+        public int GetAccountStoriesCountById(int id, AccountStoryQueryOptions queryoptions)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery(string.Format(
-                    "SELECT COUNT(s) FROM AccountStory s WHERE s.Account.Id = {0}",
-                    id)).UniqueResult();
+                string query = string.Format("SELECT COUNT(s) FROM AccountStory s WHERE s.Account.Id = {0}", id);
+                if (queryoptions != null)
+                {
+                    if (queryoptions.PublishedOnly)
+                    {
+                        query = query + " AND s.Publish = 1";                        
+                    }
+                }
+
+                return (int) session.CreateQuery(query).UniqueResult();
             }
         }
 
