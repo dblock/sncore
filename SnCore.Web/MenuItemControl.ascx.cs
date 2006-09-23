@@ -25,13 +25,17 @@ public partial class MenuItemControl : System.Web.UI.UserControl
 
     protected override void OnLoad(EventArgs e)
     {
-        StringBuilder sb = new StringBuilder();
-        sb.Append(string.Format("document.getElementById('{0}').attributes['class'].value = '{1}';",
-            labelItem.ClientID, CssClassActivated));
-        // sb.Append(Page.ClientScript.GetPostBackEventReference(this, string.Empty));
-        sb.Append(";");
-        menuItem.Attributes.Add("onclick", sb.ToString()); 
-        base.OnLoad(e);
+        if (!IsPostBack)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(string.Format("document.getElementById('{0}').attributes['class'].value = '{1}';",
+                labelItem.ClientID, CssClassActivated));
+            // sb.Append(Page.ClientScript.GetPostBackEventReference(this, string.Empty));
+            sb.Append(";");
+            labelItem.Attributes.Add("style", "padding-left: 10px; padding-right: 10px;"); // for e-mail readers that strip <style> tags
+            menuItem.Attributes.Add("onclick", sb.ToString());
+            base.OnLoad(e);
+        }
     }
 
     public ListItemCollection Highlights
