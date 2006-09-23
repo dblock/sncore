@@ -14,39 +14,13 @@ using SnCore.WebServices;
 
 public partial class AccountPictureView : Page
 {
-    public void Page_Load(object sender, EventArgs e)
+    public void Page_Load()
     {
         try
         {
             if (!IsPostBack)
             {
-                object[] p_args = { SessionManager.Ticket, RequestId };
-                TransitAccountPicture p = SessionManager.GetCachedItem<TransitAccountPicture>(
-                    AccountService, "GetAccountPictureById", p_args);
-
-                inputPicture.Src = "AccountPicture.aspx?id=" + RequestId;
-                inputName.Text = Renderer.Render(p.Name);
-                inputDescription.Text = Renderer.Render(p.Description);
-                inputCreated.Text = Adjust(p.Created).ToString();
-
-                object[] a_args = { p.AccountId };
-                TransitAccount a = SessionManager.GetCachedItem<TransitAccount>(
-                    AccountService, "GetAccountById", a_args);
-
-                linkAccount.Text = Renderer.Render(a.Name);
-                linkAccount.NavigateUrl = "AccountView.aspx?id=" + p.AccountId;
-                linkPictures.NavigateUrl = "AccountPicturesView.aspx?id=" + p.AccountId;
-                linkPicture.Text = Renderer.Render((p.Name != null && p.Name.Length > 0) ? p.Name : "Untitled");
-
-                linkComments.Visible = p.CommentCount > 0;
-                linkComments.Text = string.Format("{0} comment{1}",
-                    (p.CommentCount > 0) ? p.CommentCount.ToString() : "no",
-                    (p.CommentCount == 1) ? "" : "s");
-
-                discussionComments.DiscussionId = DiscussionService.GetAccountPictureDiscussionId(RequestId);
-                discussionComments.DataBind();
-
-                this.Title = string.Format("{0}'s {1}", Renderer.Render(a.Name), Renderer.Render(p.Name));
+                GetPictureData(RequestId);
             }
         }
         catch (Exception ex)
@@ -54,5 +28,67 @@ public partial class AccountPictureView : Page
             ReportException(ex);
         }
 
+    }
+
+    void GetPictureData(int id)
+    {
+        object[] e_args = { SessionManager.Ticket, id };
+        TransitAccountPicture p = SessionManager.GetCachedItem<TransitAccountPicture>(
+            AccountService, "GetAccountPictureById", e_args);
+
+        inputPicture.Src = string.Format("AccountPicture.aspx?id={0}", id);
+        inputName.Text = Renderer.Render(p.Name);
+        inputDescription.Text = Renderer.Render(p.Description);
+        inputCreated.Text = Adjust(p.Created).ToString();
+
+        object[] ae_args = { p.AccountId };
+        TransitAccount l = SessionManager.GetCachedItem<TransitAccount>(
+            AccountService, "GetAccountById", ae_args);
+
+        labelAccountName.Text = this.Title = string.Format("{0}: {1}", 
+            Renderer.Render(l.Name), string.IsNullOrEmpty(p.Name) ? "Untitled" : Renderer.Render(p.Name));
+
+        linkAccount.Text = Renderer.Render(l.Name);
+        linkAccount.NavigateUrl = "AccountView.aspx?id=" + p.AccountId;
+        linkPictures.NavigateUrl = "AccountPicturesView.aspx?id=" + p.AccountId;
+        linkPicture.Text = Renderer.Render((p.Name != null && p.Name.Length > 0) ? p.Name : "Untitled");
+
+        linkBack.NavigateUrl = linkAccount.NavigateUrl = string.Format("AccountView.aspx?id={0}", l.Id);
+        linkBack.Text = string.Format("&#187; Back to {0}", Renderer.Render(l.Name));
+        linkComments.Visible = p.CommentCount > 0;
+        linkComments.Text = string.Format("&#187; {0} comment{1}",
+            (p.CommentCount > 0) ? p.CommentCount.ToString() : "no",
+            (p.CommentCount == 1) ? "" : "s");
+
+        if (!IsPostBack)
+        {
+            object[] p_args = { l.Id, null };
+            picturesView.DataSource = SessionManager.GetCachedCollection<TransitAccountPicture>(
+                AccountService, "GetAccountPicturesById", p_args);
+            picturesView.DataBind();
+        }
+
+        object[] d_args = { id };
+        discussionComments.DiscussionId = SessionManager.GetCachedCollectionCount(
+            DiscussionService, "GetAccountPictureDiscussionId", d_args);
+
+        discussionComments.DataBind();
+    }
+
+    public void picturesView_ItemCommand(object source, DataListCommandEventArgs e)
+    {
+        try
+        {
+            switch (e.CommandName)
+            {
+                case "Picture":
+                    GetPictureData(int.Parse(e.CommandArgument.ToString()));
+                    break;
+            }
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
     }
 }

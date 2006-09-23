@@ -52,12 +52,7 @@ public partial class DiscussionFullViewControl : Control
 
                 if (DiscussionId > 0)
                 {
-                    TransitDiscussion d = DiscussionService.GetDiscussionById(DiscussionId);
-                    if (string.IsNullOrEmpty(discussionLabel.Text)) discussionLabel.Text = Renderer.Render(d.Name);
-                    discussionDescription.Text = Renderer.Render(d.Description);
-                    discussionView.DataSource = DiscussionService.GetDiscussionPosts(
-                        SessionManager.Ticket, DiscussionId, null);
-                    discussionView.DataBind();
+                    GetData(sender, e);
                 }
             }
         }
@@ -65,6 +60,16 @@ public partial class DiscussionFullViewControl : Control
         {
             ReportException(ex);
         }
+    }
+
+    public void GetData(object sender, EventArgs e)
+    {
+        TransitDiscussion d = DiscussionService.GetDiscussionById(DiscussionId);
+        if (string.IsNullOrEmpty(discussionLabel.Text)) discussionLabel.Text = Renderer.Render(d.Name);
+        discussionDescription.Text = Renderer.Render(d.Description);
+        discussionView.DataSource = DiscussionService.GetDiscussionPosts(
+            SessionManager.Ticket, DiscussionId, null);
+        discussionView.DataBind();
     }
 
     public void discussionView_ItemCommand(object source, DataGridCommandEventArgs e)
@@ -99,6 +104,11 @@ public partial class DiscussionFullViewControl : Control
         set
         {
             ViewState["DiscussionId"] = value;
+
+            if (IsPostBack)
+            {
+                GetData(this, null);
+            }
         }
     }
 

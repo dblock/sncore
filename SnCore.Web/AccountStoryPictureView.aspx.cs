@@ -14,47 +14,71 @@ using SnCore.Services;
 
 public partial class AccountStoryPictureView : Page
 {
-    public void Page_Load(object sender, EventArgs e)
+    public void Page_Load()
     {
         try
         {
             if (!IsPostBack)
             {
-                inputPicture.Src = "AccountStoryPicture.aspx?id=" + RequestId;
+                GetPictureData(RequestId);
+            }
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
 
-                object[] sp_args = { SessionManager.Ticket, RequestId };
-                TransitAccountStoryPicture p = SessionManager.GetCachedItem<TransitAccountStoryPicture>(
-                    StoryService, "GetAccountStoryPictureById", sp_args);
+    }
 
-                object[] as_args = { SessionManager.Ticket, p.AccountStoryId };
-                TransitAccountStory s = SessionManager.GetCachedItem<TransitAccountStory>(
-                    StoryService, "GetAccountStoryById", as_args);
+    void GetPictureData(int id)
+    {
+        object[] sp_args = { SessionManager.Ticket, id };
+        TransitAccountStoryPicture p = SessionManager.GetCachedItem<TransitAccountStoryPicture>(
+            StoryService, "GetAccountStoryPictureById", sp_args);
 
-                object[] a_args = { s.AccountId };
-                TransitAccount a = SessionManager.GetCachedItem<TransitAccount>(
-                    AccountService, "GetAccountById", a_args);
+        inputPicture.Src = string.Format("AccountStoryPicture.aspx?id={0}", id);
+        inputName.Text = Renderer.Render(p.Name);
+        inputCreated.Text = Adjust(p.Created).ToString();
 
-                inputPicture.Src = "AccountStoryPicture.aspx?id=" + RequestId;
-                linkAccountStory.Text = Renderer.Render(s.Name);
-                linkAccountStory.NavigateUrl = "AccountStoryView.aspx?id=" + s.Id.ToString();
-                linkAccount.Text = Renderer.Render(a.Name);
-                linkAccount.NavigateUrl = "AccountView.aspx?id=" + a.Id.ToString();
-                labelPicture.Text = Renderer.Render(p.Name);
+        object[] as_args = { SessionManager.Ticket, p.AccountStoryId };
+        TransitAccountStory l = SessionManager.GetCachedItem<TransitAccountStory>(
+            StoryService, "GetAccountStoryById", as_args);
 
-                this.Title = string.Format("{0}'s {1} {2}",
-                    Renderer.Render(a.Name), Renderer.Render(s.Name), Renderer.Render(p.Name));
+        labelAccountStoryName.Text = this.Title = string.Format("{0}: {1}", 
+            Renderer.Render(l.Name), string.IsNullOrEmpty(p.Name) ? "Untitled" : Renderer.Render(p.Name));
 
-                linkComments.Visible = p.CommentCount > 0;
-                linkComments.Text = string.Format("{0} comment{1}",
-                    (p.CommentCount > 0) ? p.CommentCount.ToString() : "no",
-                    (p.CommentCount == 1) ? "" : "s");
+        linkAccountStory.Text = Renderer.Render(l.Name);
+        linkAccountStory.NavigateUrl = "AccountStoryView.aspx?id=" + p.AccountStoryId;
+        labelPicture.Text = Renderer.Render((p.Name != null && p.Name.Length > 0) ? p.Name : "Untitled");
 
-                object[] d_args = { RequestId };
-                discussionComments.DiscussionId = SessionManager.GetCachedCollectionCount(
-                    DiscussionService, "GetAccountStoryPictureDiscussionId", d_args);
+        linkBack.NavigateUrl = linkAccountStory.NavigateUrl = string.Format("AccountStoryView.aspx?id={0}", l.Id);
+        linkBack.Text = string.Format("&#187; Back to {0}", Renderer.Render(l.Name));
+        linkComments.Visible = p.CommentCount > 0;
+        linkComments.Text = string.Format("&#187; {0} comment{1}",
+            (p.CommentCount > 0) ? p.CommentCount.ToString() : "no",
+            (p.CommentCount == 1) ? "" : "s");
 
-                discussionComments.DataBind();
+        if (!IsPostBack)
+        {
+            object[] p_args = { l.Id, null };
+            picturesView.DataSource = SessionManager.GetCachedCollection<TransitAccountStoryPicture>(
+                StoryService, "GetAccountStoryPicturesById", p_args);
+            picturesView.DataBind();
+        }
 
+        discussionComments.DiscussionId = DiscussionService.GetAccountStoryPictureDiscussionId(id);
+        discussionComments.DataBind();
+    }
+
+    public void picturesView_ItemCommand(object source, DataListCommandEventArgs e)
+    {
+        try
+        {
+            switch (e.CommandName)
+            {
+                case "Picture":
+                    GetPictureData(int.Parse(e.CommandArgument.ToString()));
+                    break;
             }
         }
         catch (Exception ex)
