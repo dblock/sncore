@@ -36,14 +36,6 @@
           <%# base.GetTitle((string) Eval("Title")) %>
          </a>
         </div>
-        <!--
-        <div style="font-size: smaller;">
-         by <a href='AccountView.aspx?id=<%# Eval("AccountId") %>'>
-          <%# base.Render(Eval("AccountName")) %>
-         </a>on
-         <%# base.Adjust(Eval("Created")).ToString("d") %>
-        </div>
-        -->
         <div style="font-size: smaller;">
          <a href='AccountBlogPostView.aspx?id=<%# Eval("Id") %>&#comments'>&#187; read</a>
          <a href='AccountBlogPostView.aspx?id=<%# Eval("Id") %>&#comments'>&#187;
