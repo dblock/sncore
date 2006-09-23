@@ -66,7 +66,7 @@ public class ContentPage
         content = HtmlAbsoluteLinksWriter.Rewrite(content, baseuri);
 
         StringBuilder scontent = new StringBuilder(content); 
-        scontent.Insert(0, string.Format("<p style=\"margin: 10px;\"><a href=\"{0}\">&#187;&#187; online version</a></p>\n", uri.ToString()));
+        scontent.Insert(0, string.Format("<p style=\"margin: 10px;\"><a href=\"{0}\">can't see message? &#187;&#187; online version</a></p>\n", uri.ToString()));
 
         // insert additional note
         if (!string.IsNullOrEmpty(note))
