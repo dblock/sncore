@@ -31,6 +31,7 @@
     </SnCore:BlogView>
    </td>
    <td valign="top" width="333">
+    <!-- NOEMAIL-START -->
     <div style="text-align: center;">
      <script language="javascript">
       function panelRightFlip() { 
@@ -40,16 +41,21 @@
      </script>
      <a href="#" onclick="panelRightFlip();"><img src="images/flip.gif" border="0" /></a>
     </div>
+    <!-- NOEMAIL-END -->
     <div id="panelRightFront">
+     <!-- NOEMAIL-START -->
      <SnCore:SearchDefault runat="server" ID="searchDefault" />
+     <!-- NOEMAIL-END -->
      <SnCore:PlacesNewView ID="placesNewMain" runat="server" Count="2" />
      <SnCore:AccountsNewView ID="accountsNewMain" runat="server" Count="2" />
     </div>
+    <!-- NOEMAIL-START -->
     <div style="display: none;" id="panelRightBack">
      <SnCore:DiscussionPostsNewView ID="discussionsNewMain" runat="server" />
      <SnCore:AccountStoriesNewView ID="storiesNewMain" Count="3" runat="server" />
      <SnCore:AccountFeedItemsNewView ID="feedItemsNewMain" Count="3" runat="server" />
     </div>
+    <!-- NOEMAIL-END -->
    </td>
   </tr>
  </table>

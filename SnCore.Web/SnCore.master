@@ -6,10 +6,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
  <title>SnCore | sn foundation base</title>
+ <!-- NOEMAIL-START -->
  <link rel="stylesheet" type="text/css" href="Style.css" />
+ <!-- NOEMAIL-END -->
 </head>
 <body>
+ <!-- NOEMAIL-START -->
  <form style="margin-top: 0px;" id="formMain" runat="server">
+ <!-- NOEMAIL-END -->
   <table class="sncore_master_table" align="center" cellpadding="2px" cellspacing="5px">
    <tr>
     <td valign="top">
@@ -102,6 +106,7 @@
         </asp:Panel>
        </td>
        <td style="background-color: white; width: 16px; text-align: center;">
+        <!-- NOEMAIL-START -->
         <atlas:ScriptManager ID="scriptmanager1" EnableScriptGlobalization="false" EnablePartialRendering="true"
          runat="Server" />
         <div style="width: 16px;">
@@ -111,15 +116,18 @@
           </ProgressTemplate>
          </atlas:UpdateProgress>
         </div>
+        <!-- NOEMAIL-END -->
        </td>
       </tr>
       <tr>
        <td colspan="2">
+        <!-- NOEMAIL-START -->
         <atlas:UpdatePanel Mode="Always" runat="server" ID="panelNoticeMenu" RenderMode="Inline">
          <ContentTemplate>
           <SnCore:Notice ID="noticeMenu" EnableViewState="false" runat="server" />
          </ContentTemplate>
         </atlas:UpdatePanel>
+        <!-- NOEMAIL-END -->
         <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
         </asp:ContentPlaceHolder>
        </td>
@@ -131,15 +139,19 @@
       </tr>
      </table>
     </td>
+    <!-- NOEMAIL-START -->
     <td valign="top" width="100px">
      <asp:Panel ID="panelAds" runat="server">
      </asp:Panel>
     </td>
+    <!-- NOEMAIL-END -->
    </tr>
   </table>
+ <!-- NOEMAIL-START -->
   <asp:Panel ID="panelCounter" runat="server">
   </asp:Panel>
  </form>
  <style type="text/css" />
+ <!-- NOEMAIL-END -->
 </body>
 </html>

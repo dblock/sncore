@@ -24,6 +24,7 @@
     <div class="sncore_h2sub">
      <asp:Label ID="labelBlogDescription" runat="server" />
     </div>
+    <!-- NOEMAIL-START -->
     <div align="right">
      <a href="TellAFriend.aspx?Url=<% Response.Write(Renderer.UrlEncode(Request.Url.PathAndQuery)); %>&Subject=<% Response.Write(Renderer.UrlEncode(Title)); %>">&#187; Tell a Friend</a>     
     </div>
@@ -40,24 +41,12 @@
       <asp:HyperLink ID="linkEdit" Text="&#187; Edit Blog" runat="server" />
      </div>
     </asp:Panel>
+    <!-- NOEMAIL-END -->
    </td>   
    <td align="right" valign="middle">
     <asp:HyperLink runat="server" ID="linkRss" ImageUrl="images/rss.gif" NavigateUrl="AccountBlogRss.aspx" />
     <link runat="server" id="linkRelRss" rel="alternate" type="application/rss+xml" title="Rss"
      href="AccountBlogRss.aspx" />
-   </td>
-  </tr>
- </table>
- <table class="sncore_table">
-  <tr>
-   <td>
-    <SnCore:LicenseView runat="server" ID="licenseView" />       
-   </td>
-   <td class="sncore_table_tr_td" style="font-size: smaller;" align="right">
-    socially bookmark this blog:
-   </td>
-   <td class="sncore_table_tr_td">
-    <SnCore:BookmarksView ID="bookmarksView" ShowThumbnail="true" runat="server" RepeatColumns="-1" />
    </td>
   </tr>
  </table>
@@ -105,4 +94,17 @@
    </SnCoreWebControls:PagedGrid>
   </ContentTemplate>
  </atlas:UpdatePanel>
+ <table class="sncore_table">
+  <tr>
+   <td>
+    <SnCore:LicenseView runat="server" ID="licenseView" />       
+   </td>
+   <td class="sncore_table_tr_td" style="font-size: smaller;" align="right">
+    socially bookmark this blog:
+   </td>
+   <td class="sncore_table_tr_td">
+    <SnCore:BookmarksView ID="bookmarksView" ShowThumbnail="true" runat="server" RepeatColumns="-1" />
+   </td>
+  </tr>
+ </table>
 </asp:Content>

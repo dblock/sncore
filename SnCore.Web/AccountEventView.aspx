@@ -5,6 +5,7 @@
 <%@ Register TagPrefix="SnCore" TagName="DiscussionFullView" Src="DiscussionFullViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="BookmarksView" Src="BookmarksViewControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+ <!-- NOEMAIL-START -->
  <div class="sncore_navigate">
   <asp:HyperLink CssClass="sncore_navigate_item" ID="linkCountry" runat="server" />
   <asp:HyperLink CssClass="sncore_navigate_item" ID="linkState" runat="server" />
@@ -12,6 +13,7 @@
   <asp:HyperLink CssClass="sncore_navigate_item" ID="linkType" runat="server" />
   <asp:HyperLink CssClass="sncore_navigate_item" ID="linkAccountEvent" runat="server" />
  </div>
+ <!-- NOEMAIL-END -->
  <asp:Panel CssClass="panel" ID="pnlAccountEvent" runat="server">
   <table cellspacing="0" cellpadding="4" class="sncore_table">
    <tr>
@@ -75,6 +77,7 @@
           <asp:LinkButton ID="linkExportVCalendar" runat="server" OnClick="linkExportVCalendar_Click" 
            Text="&#187; Export to Outlook" />
          </div>
+         <!-- NOEMAIL-START -->
          <div>
           <a href="TellAFriend.aspx?Url=<% Response.Write(Renderer.UrlEncode(Request.Url.PathAndQuery)); %>&Subject=<% Response.Write(Renderer.UrlEncode(Title)); %>">&#187; Tell a Friend</a>     
          </div>
@@ -92,6 +95,7 @@
             Text="&#187; Delete Features" />
           </div>
          </asp:Panel>
+         <!-- NOEMAIL-END -->
         </td>
        </tr>
       </table>
@@ -159,9 +163,11 @@
        </tr>
       </table>
      </asp:Panel>
+     <!-- NOEMAIL-START -->
      <a name="Comments" />
      <SnCore:DiscussionFullView runat="server" ID="discussionAccountEvents" Text="Reviews"
       PostNewText="&#187; Post a Review" />
+     <!-- NOEMAIL-END -->
     </td>
    </tr>
   </table>

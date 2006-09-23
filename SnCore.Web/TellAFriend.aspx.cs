@@ -90,6 +90,8 @@ public partial class TellAFriend : AuthenticatedPage
             message.Headers.Add("x-mimeole", string.Format("Produced By {0} {1}",
                 SystemService.GetTitle(), SystemService.GetVersion()));
             message.Headers.Add("Content-class", "urn:content-classes:message");
+            message.Headers.Add("Content-Type", "text/html; charset=\"utf-8\"");
+
             message.IsBodyHtml = true;
             message.Body = GetContent();
             message.From = new MailAddress(

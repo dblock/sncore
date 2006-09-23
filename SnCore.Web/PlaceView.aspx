@@ -10,6 +10,7 @@
 <%@ Register TagPrefix="SnCore" TagName="PropertyGroupsView" Src="PlacePropertyGroupsViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AttributesView" Src="PlaceAttributesViewControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+ <!-- NOEMAIL-START -->
  <div class="sncore_navigate">
   <asp:HyperLink CssClass="sncore_navigate_item" ID="linkCountry" runat="server" />
   <asp:HyperLink CssClass="sncore_navigate_item" ID="linkState" runat="server" />
@@ -17,6 +18,7 @@
   <asp:HyperLink CssClass="sncore_navigate_item" ID="linkType" runat="server" />
   <asp:HyperLink CssClass="sncore_navigate_item" ID="linkPlace" runat="server" />
  </div>
+ <!-- NOEMAIL-END -->
  <asp:Panel CssClass="panel" ID="pnlPlace" runat="server">
   <table cellspacing="0" cellpadding="4" class="sncore_table">
    <tr>
@@ -84,6 +86,7 @@
         <SnCore:AttributesView runat="server" ID="attributesView" />        
        </td>
         <td align="right">
+         <!-- NOEMAIL-START -->
          <div>
           <asp:LinkButton ID="linkAddToFavorites" OnClick="linkAddToFavorites_Click" runat="server"
            Text="&#187; Add to Favorites" />
@@ -116,6 +119,7 @@
            <asp:LinkButton OnClick="deletefeature_Click" runat="server" ID="linkDeleteFeatures" Text="&#187; Delete Features" />
           </div>
          </asp:Panel>
+         <!-- NOEMAIL-END -->
         </td>
        </tr>
       </table>
@@ -134,9 +138,11 @@
       <table class="sncore_inner_table" width="95%">
        <tr>
         <td class="sncore_table_tr_td" style="font-size: smaller;">
+         <!-- NOEMAIL-START -->
          <a id="linkDetails" runat="server" href="#" onclick="showDetails();">&#187; details</a>
          <a id="linkMap" runat="server" href="#" onclick="showMap();">&#187; map</a> 
          <a id="linkDirections" runat="server" target="_blank">&#187; directions</a>
+         <!-- NOEMAIL-END -->
         </td>
         <td align="right" style="font-size: smaller;">
          <% Response.Write(SuggestedBy); %>
@@ -168,6 +174,7 @@
        <SnCore:PlaceFavoriteAccountsView ID="placeFriends" runat="server" />
       </asp:Panel>
      </div>
+     <!-- NOEMAIL-START -->
      <div id="divMap" style="display: none;">
       <table class="sncore_inner_table" width="95%">
        <tr>
@@ -194,6 +201,7 @@
        </table>
       </div>
      </asp:Panel>
+     <!-- NOEMAIL-END -->
     </td>
    </tr>
   </table>

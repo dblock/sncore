@@ -8,17 +8,20 @@
 <%@ Register TagPrefix="SnCore" TagName="BookmarksView" Src="BookmarksViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="LicenseView" Src="AccountLicenseViewControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+ <!-- NOEMAIL-START -->
  <div class="sncore_navigate">
   <asp:HyperLink CssClass="sncore_navigate_item" ID="linkStories" Text="Stories" NavigateUrl="AccountStoriesView.aspx" runat="server" />
   <asp:HyperLink CssClass="sncore_navigate_item" ID="linkAccount" Text="Account" runat="server" />
   <asp:Label CssClass="sncore_navigate_item" ID="linkAccountStory" Text="Story" runat="server" />
  </div>
+ <!-- NOEMAIL-END -->
  <table cellspacing="0" cellpadding="4" class="sncore_table">
   <tr>
    <td valign="top" width="*">
     <div class="sncore_h2">
      <asp:Label ID="storyName" runat="server" />
     </div>
+    <!-- NOEMAIL-START -->
     <div class="sncore_h2sub">
      <a href="AccountStoriesView.aspx">&#187; All Stories</a>
      <a href="TellAFriend.aspx?Url=<% Response.Write(Renderer.UrlEncode(Request.Url.PathAndQuery)); %>&Subject=<% Response.Write(Renderer.UrlEncode(Title)); %>">&#187; Tell a Friend</a>
@@ -37,6 +40,7 @@
       </tr>
      </table>
     </asp:Panel>
+    <!-- NOEMAIL-END -->
     <table class="sncore_inner_table" width="95%">
      <tr>
       <td class="sncore_table_tr_td">
@@ -44,6 +48,7 @@
       </td>
      </tr>
     </table>
+    <!-- NOEMAIL-START -->
     <table class="sncore_inner_table" width="95%">
      <tr>
       <td class="sncore_table_tr_td" align="center">
@@ -70,6 +75,7 @@
       </td>     
      </tr>
     </table>
+    <!-- NOEMAIL-END -->
     <table class="sncore_inner_table" width="95%">
      <tr>
       <td>
@@ -83,8 +89,10 @@
       </td>
      </tr>
     </table>
+    <!-- NOEMAIL-START -->
     <a name="comments"></a>
     <SnCore:DiscussionFullView runat="server" ID="storyComments" PostNewText="&#187; Post a Comment" />
+    <!-- NOEMAIL-END -->
    </td>
   </tr>
  </table>

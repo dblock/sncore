@@ -96,7 +96,7 @@ namespace SnCore.Services.Tests
                 "<a href='http://absolute.url.com/page.html'>link</a>" +
                 "<a href='relative/path/page.html'>link</a>";
 
-            string rebased = Renderer.CleanHtml(raw, new Uri("http://absolute.rebased.com/"));
+            string rebased = Renderer.CleanHtml(raw, new Uri("http://absolute.rebased.com/"), null);
 
             Console.WriteLine(rebased);
         }

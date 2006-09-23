@@ -136,6 +136,7 @@ namespace SnCore.BackEndServices
                             message.Headers.Add("x-mimeole", string.Format("Produced By {0} {1}",
                                 ManagedSystem.Title, ManagedSystem.ProductVersion));
                             message.Headers.Add("Content-class", "urn:content-classes:message");
+                            message.Headers.Add("Content-Type", "text/html; charset=\"utf-8\"");
                             message.IsBodyHtml = true;
                             message.Body = m.Body;
                             message.ReplyTo = new MailAddress(m.MailFrom);

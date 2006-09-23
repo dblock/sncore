@@ -11,6 +11,8 @@ using System.Net;
 using SnCore.Tools.Web;
 using System.IO;
 using System.Text;
+using SnCore.Tools.Web.Html;
+using System.Text.RegularExpressions;
 
 public class ContentPage
 {
@@ -19,53 +21,61 @@ public class ContentPage
         return GetContent(uri, baseuri, string.Empty);
     }
 
-    public static string GetCss(Uri baseuri)
+    public static string GetHttpContent(Uri uri)
     {
-        string rawcontent;
-        WebRequest request = HttpWebRequest.Create(new Uri(baseuri, "Style.css"));
-        WebResponse response = request.GetResponse();
-        using (StreamReader sr = new StreamReader(response.GetResponseStream()))
-        {
-            rawcontent = sr.ReadToEnd();
-            sr.Close();
-        }
-
-        // hack: replace relative uri
-
-        rawcontent = rawcontent.Replace("url(", string.Format("url({0}", baseuri.ToString()));
-        return rawcontent;
-    }
-
-    public static string GetContent(Uri uri, Uri baseuri, string note)
-    {
-        string rawcontent;
+        string content = string.Empty;
+        
         WebRequest request = HttpWebRequest.Create(uri);
         WebResponse response = request.GetResponse();
         using (StreamReader sr = new StreamReader(response.GetResponseStream()))
         {
-            rawcontent = sr.ReadToEnd();
+            content = sr.ReadToEnd();
             sr.Close();
         }
 
-        StringBuilder content = new StringBuilder(Renderer.CleanHtml(rawcontent.ToString(), baseuri, null));
+        return content;
+    }
 
-        // hack: lots of header stuff comes first
-        // hack: atlas script has a CDATA section and is not cleaned up properly
-        int headerstart = content.ToString().IndexOf("<table class=\"sncore_master_table\" align=\"center\">");
-        if (headerstart >= 0) content.Remove(0, headerstart);
-        int atlasscript = content.ToString().IndexOf("<stripped type=\"text/xml-script\">");
-        if (atlasscript >= 0) content.Remove(atlasscript, content.Length - atlasscript);
+    public static string GetCss(Uri baseuri)
+    {
+        string css = GetHttpContent(new Uri(baseuri, "Style.css"));
+        return CssAbsoluteLinksWriter.Rewrite(css, baseuri);
+    }
 
-        content.Insert(0, string.Format("<p style=\"margin: 10px;\"><a href=\"{0}\">&#187;&#187; online version</a></p>", uri.ToString()));
+    public static string GetContent(Uri uri, Uri baseuri, string note)
+    {
+        string content = GetHttpContent(uri);
+
+        string[] expressions = 
+        { 
+            @"\<!-- NOEMAIL-START --\>.*?\<!-- NOEMAIL-END --\>",
+            @"\<script.*?\<\/script\>",
+            @"\<style.*?\<\/style\>",
+            @"\<link.*?\<\/link\>",
+            @"\<link.*?\/\>",
+            @"href=""javascript:[0-9a-zA-Z$\._\';,\ =\(\)\[\]]*""",
+            @".?onclick=""[0-9a-zA-Z\._\';,\ =\(\)\[\]]*""",
+        };
+
+        foreach (string r in expressions)
+        {
+            content = Regex.Replace(content, r, string.Empty,
+                RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        }
+
+        content = HtmlAbsoluteLinksWriter.Rewrite(content, baseuri);
+
+        StringBuilder scontent = new StringBuilder(content); 
+        scontent.Insert(0, string.Format("<p style=\"margin: 10px;\"><a href=\"{0}\">&#187;&#187; online version</a></p>\n", uri.ToString()));
 
         // insert additional note
         if (!string.IsNullOrEmpty(note))
         {
-            content.Insert(0, string.Format("<p style=\"margin: 10px;\">{0}</p>", Renderer.Render(note)));
+            scontent.Insert(0, string.Format("<p style=\"margin: 10px;\">{0}</p>\n", Renderer.Render(note)));
         }
 
         // hack: insert stylesheet
-        content.Insert(0, string.Format("<STYLE>{0}</STYLE>\n", GetCss(baseuri)));
-        return content.ToString();
+        scontent.Insert(0, string.Format("<style>\n{0}\n</style>\n", GetCss(baseuri)));
+        return scontent.ToString();
     }
 }

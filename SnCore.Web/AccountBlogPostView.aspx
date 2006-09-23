@@ -8,12 +8,14 @@
 <%@ Register TagPrefix="SnCore" TagName="BookmarksView" Src="BookmarksViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="LicenseView" Src="AccountLicenseViewControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+ <!-- NOEMAIL-START -->
  <div class="sncore_navigate">
   <asp:HyperLink CssClass="sncore_navigate_item" ID="linkAccount" Text="Account" runat="server" />
   <asp:HyperLink CssClass="sncore_navigate_item" ID="linkAccountBlog" Text="Blog" runat="server" />
   <asp:Label CssClass="sncore_navigate_item" ID="linkAccountBlogPost" Text="BlogPost"
    runat="server" />
  </div>
+ <!-- NOEMAIL-END -->
  <table cellspacing="0" cellpadding="4" class="sncore_table">
   <tr>
    <td align="center" width="150">
@@ -34,9 +36,11 @@
      on
      <asp:Label ID="BlogPostCreated" runat="server" />
     </div>
+    <!-- NOEMAIL-START -->
     <div class="sncore_h2sub">
      <a href="TellAFriend.aspx?Url=<% Response.Write(Renderer.UrlEncode(Request.Url.PathAndQuery)); %>&Subject=<% Response.Write(Renderer.UrlEncode(Title)); %>">&#187; Tell a Friend</a>     
     </div>
+    <!-- NOEMAIL-END -->
    </td>
   </tr>
  </table>
@@ -60,7 +64,9 @@
    </td>
   </tr>
  </table>
+ <!-- NOEMAIL-START -->
  <a name="comments"></a>
  <SnCore:DiscussionFullView runat="server" ID="BlogPostComments" PostNewText="&#187; Post a Comment"
   Text="Comments" />
+ <!-- NOEMAIL-END -->
 </asp:Content>
