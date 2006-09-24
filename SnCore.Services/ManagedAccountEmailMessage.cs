@@ -159,6 +159,19 @@ namespace SnCore.Services
             Created = e.Created;
             Modified = e.Modified;
         }
+
+        public AccountEmailMessage GetAccountEmailMessage()
+        {
+            AccountEmailMessage message = new AccountEmailMessage();
+            message.Subject = this.Subject;
+            message.Body = this.Body;
+            message.DeleteSent = this.DeleteSent;
+            message.Sent = this.Sent;
+            message.SendError = this.SendError;
+            message.MailTo = this.MailTo;
+            message.MailFrom = this.MailFrom;
+            return message;
+        }
     }
 
     /// <summary>

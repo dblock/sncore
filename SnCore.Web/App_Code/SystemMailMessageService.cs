@@ -16,6 +16,7 @@ using System.Net.Mail;
 using System.Diagnostics;
 using System.Text;
 using System.Net;
+using SnCore.Tools.Web;
 
 namespace SnCore.BackEndServices
 {

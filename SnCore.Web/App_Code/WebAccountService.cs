@@ -17,6 +17,7 @@ using Microsoft.Web.Services3.Design;
 using System.Web.Services.Protocols;
 using SnCore.Tools.Web;
 using SnCore.Tools;
+using System.Net.Mail;
 
 namespace SnCore.WebServices
 {
@@ -429,6 +430,27 @@ namespace SnCore.WebServices
             }
         }
 
+        [WebMethod(Description = "Get an account e-mail confirmation.")]
+        public TransitAccountEmailConfirmation GetAccountEmailConfirmationById(string ticket, int id)
+        {
+            int user_id = GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount user = new ManagedAccount(session, user_id);
+                ManagedAccountEmailConfirmation c = new ManagedAccountEmailConfirmation(session, id);
+
+                // the e-mail confirmation contains the code that should only be readable by the user via his e-mail
+                // hence only admin can see it otherwise
+                if (! user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                return c.TransitAccountEmailConfirmation;
+            }
+        }
+
         /// <summary>
         /// Get account id.
         /// </summary>
@@ -743,6 +765,29 @@ namespace SnCore.WebServices
             }
         }
 
+        [WebMethod(Description = "Send an account e-mail message.")]
+        public int SendAccountMailMessage(string ticket, TransitAccountEmailMessage message)
+        {
+            int user_id = GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                AccountEmailMessage m = message.GetAccountEmailMessage();
+                m.Account = (Account)session.Load(typeof(Account), user_id);
+                ManagedAccount user = new ManagedAccount(session, m.Account);
+                if (!user.HasVerifiedEmail)
+                    throw new ManagedAccount.NoVerifiedEmailException();
+                
+                m.MailFrom = new MailAddress(user.ActiveEmailAddress, user.Name).ToString();
+                m.Sent = false;
+                m.Created = m.Modified = DateTime.UtcNow;
+                
+                session.Save(m);
+                SnCore.Data.Hibernate.Session.Flush();
+                return m.Id;
+            }
+        }
 
         /// <summary>
         /// Get e-mail addresses count.

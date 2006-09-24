@@ -13,6 +13,7 @@ using System.IO;
 using System.Net.Mail;
 using SnCore.Tools.Web;
 using System.Text;
+using SnCore.Services;
 
 public partial class TellAFriend : AuthenticatedPage
 {
@@ -68,51 +69,23 @@ public partial class TellAFriend : AuthenticatedPage
                 throw new Exception("Missing E-Mail");
             }
 
-            SmtpClient smtp = new SmtpClient(
-               SessionManager.GetCachedConfiguration("SnCore.Mail.Server", "localhost"),
-               int.Parse(SessionManager.GetCachedConfiguration("SnCore.Mail.Port", "25")));
-            smtp.DeliveryMethod = (SmtpDeliveryMethod)Enum.Parse(typeof(SmtpDeliveryMethod),
-                SessionManager.GetCachedConfiguration("SnCore.Mail.Delivery", "Network"));
-
-            string smtpusername = ConfigurationManager.AppSettings["smtp.username"];
-            string smtppassword = ConfigurationManager.AppSettings["smtp.password"];
-
-            if (!string.IsNullOrEmpty(smtpusername))
-            {
-                smtp.Credentials = new NetworkCredential(smtpusername, smtppassword);
-            }
-            else
-            {
-                smtp.UseDefaultCredentials = true;
-            }
-
-            MailMessage message = new MailMessage();
-            message.Headers.Add("x-mimeole", string.Format("Produced By {0} {1}",
-                SystemService.GetTitle(), SystemService.GetVersion()));
-            message.Headers.Add("Content-class", "urn:content-classes:message");
-            message.Headers.Add("Content-Type", "text/html; charset=\"utf-8\"");
-
-            message.IsBodyHtml = true;
+            TransitAccountEmailMessage message = new TransitAccountEmailMessage();
             message.Body = GetContent();
-            message.From = new MailAddress(
-                SessionManager.GetCachedConfiguration("SnCore.Admin.EmailAddress", "admin@localhost.com"),
-                SessionManager.GetCachedConfiguration("SnCore.Admin.Name", "Admin"));
-            message.ReplyTo = new MailAddress(
-                AccountService.GetActiveEmailAddress(SessionManager.Ticket), 
-                SessionManager.Account.Name);
+            message.Subject = inputSubject.Text;
+            message.DeleteSent = true;
             foreach (string address in inputEmailAddress.Text.Split("\n".ToCharArray()))
             {
                 try
                 {
-                    message.To.Add(new MailAddress(address.Trim()));
+                    message.MailTo = new MailAddress(address.Trim()).ToString();
                 }
                 catch (Exception ex)
                 {
                     throw new Exception(string.Format("Error adding \"{0}\".\n{1}", address.Trim(), ex.Message), ex);
                 }
+
+                AccountService.SendAccountMailMessage(SessionManager.Ticket, message);
             }
-            message.Subject = inputSubject.Text;
-            smtp.Send(message);
 
             Redirect(Url);
         }

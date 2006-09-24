@@ -38,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CBusinessDay.cs" />
+    <Compile Include="ContentPage.cs" />
     <Compile Include="CssAbsoluteLinksWriter.cs" />
     <Compile Include="HostedApplication.cs" />
     <Compile Include="HtmlAbsoluteLinksWriter.cs" />

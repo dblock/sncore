@@ -5,6 +5,44 @@ using NHibernate.Expression;
 
 namespace SnCore.Services
 {
+    public class TransitAccountEmailConfirmation : TransitService
+    {
+        private TransitAccountEmail mAccountEmail;
+
+        public TransitAccountEmail AccountEmail
+        {
+            get
+            {
+                return mAccountEmail;
+            }
+            set
+            {
+                mAccountEmail = value;
+            }
+        }
+
+        private string mCode;
+
+        public string Code
+        {
+            get
+            {
+                return mCode;
+            }
+            set
+            {
+                mCode = value;
+            }
+        }
+
+        public TransitAccountEmailConfirmation(AccountEmailConfirmation c)
+            : base(c.Id)
+        {
+            mAccountEmail = new TransitAccountEmail(c.AccountEmail);
+            mCode = c.Code;
+        }
+    }
+
     /// <summary>
     /// Managed e-mail confirmation;
     /// </summary>
@@ -108,6 +146,14 @@ namespace SnCore.Services
             get
             {
                 return new ManagedAccountEmail(Session, mAccountEmailConfirmation.AccountEmail);
+            }
+        }
+
+        public TransitAccountEmailConfirmation TransitAccountEmailConfirmation
+        {
+            get
+            {
+                return new TransitAccountEmailConfirmation(mAccountEmailConfirmation);
             }
         }
 
