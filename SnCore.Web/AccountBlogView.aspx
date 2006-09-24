@@ -78,7 +78,7 @@
             </a>
             on 
             <%# base.Adjust(Eval("Created")) %>
-            <a href='AccountBlogPostView.aspx?id=<%# Eval("Id") %>&#comments'>
+            <a href='AccountBlogPostView.aspx?id=<%# Eval("Id") %>'>
              &#187; <%# GetComments((int) Eval("CommentCount"))%></a>
            </div>
           </div>

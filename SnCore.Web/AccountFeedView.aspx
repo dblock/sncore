@@ -72,7 +72,7 @@
       <a href='<%# base.Render(Eval("Link")) %>' target="_blank">
        &#187; x-posted
       </a>
-      <a href='AccountFeedItemView.aspx?id=<%# Eval("Id") %>&#comments'>
+      <a href='AccountFeedItemView.aspx?id=<%# Eval("Id") %>'>
        &#187; <%# GetComments((int) Eval("CommentCount"))%>
       </a>
      </div>

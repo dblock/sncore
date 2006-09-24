@@ -36,7 +36,7 @@
       <%# base.Render(GetValue(Eval("Title"), "Untitled"))%>
      </a>
      <span style="font-size: smaller;">
-      <a href='AccountFeedItemView.aspx?id=<%# Eval("Id") %>&#comments'>&#187; <%# GetComments((int) Eval("CommentCount"))%></a>
+      <a href='AccountFeedItemView.aspx?id=<%# Eval("Id") %>'>&#187; <%# GetComments((int) Eval("CommentCount"))%></a>
      </span>
     </div>
     <!--

@@ -28,7 +28,7 @@
           </a>
          </div>
          <div class="sncore_description">
-          <a href='AccountFeedItemView.aspx?id=<%# Eval("Id") %>&#comments'>
+          <a href='AccountFeedItemView.aspx?id=<%# Eval("Id") %>'>
            &#187; <%# GetComments((int) Eval("CommentCount"))%>
           </a>       
           <a target="_blank" href='<%# base.Render(Eval("Link")) %>'>
