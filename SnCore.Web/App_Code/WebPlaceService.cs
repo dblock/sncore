@@ -1228,7 +1228,8 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ICriteria c = session.CreateCriteria(typeof(AccountPlaceFavorite))
-                    .Add(Expression.Eq("Account.Id", id));
+                    .Add(Expression.Eq("Account.Id", id))
+                    .AddOrder(Order.Desc("Created"));
 
                 if (options != null)
                 {

@@ -23,11 +23,18 @@ public partial class PlaceView : Page
     {
         get
         {
-            if (mPlaceAccount == null && RequestId > 0 && Place != null)
+            try
             {
-                object[] args = { Place.AccountId };
-                mPlaceAccount = SessionManager.GetCachedItem<TransitAccount>(
-                    AccountService, "GetAccountById", args);
+                if (mPlaceAccount == null && RequestId > 0 && Place != null)
+                {
+                    object[] args = { Place.AccountId };
+                    mPlaceAccount = SessionManager.GetCachedItem<TransitAccount>(
+                        AccountService, "GetAccountById", args);
+                }
+            }
+            catch (Exception ex)
+            {
+                ReportException(ex);
             }
 
             return mPlaceAccount;
@@ -54,18 +61,25 @@ public partial class PlaceView : Page
     {
         get
         {
-            if (mPlace == null && RequestId > 0)
+            try
             {
-                try
+                if (mPlace == null && RequestId > 0)
                 {
-                    object[] args = { RequestId };
-                    mPlace = SessionManager.GetCachedItem<TransitPlace>(
-                        PlaceService, "GetPlaceById", args);
+                    try
+                    {
+                        object[] args = { RequestId };
+                        mPlace = SessionManager.GetCachedItem<TransitPlace>(
+                            PlaceService, "GetPlaceById", args);
+                    }
+                    catch (NHibernate.ObjectNotFoundException)
+                    {
+                        mPlace = null;
+                    }
                 }
-                catch (NHibernate.ObjectNotFoundException)
-                {
-                    mPlace = null;
-                }
+            }
+            catch (Exception ex)
+            {
+                ReportException(ex);
             }
 
             return mPlace;
