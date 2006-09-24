@@ -201,6 +201,7 @@ namespace SnCore.Services
 
             AccountStory story = (AccountStory)session.CreateCriteria(typeof(AccountStory))
                 .Add(Expression.Eq("Account.Id", a.Id))
+                .Add(Expression.Eq("Publish", true))
                 .Add(Expression.Ge("Modified", limit))
                 .AddOrder(Order.Desc("Created"))
                 .SetMaxResults(1)
