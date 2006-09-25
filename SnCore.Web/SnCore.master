@@ -25,7 +25,7 @@
        </td>
       </tr>
       <tr>
-       <td valign="top" width="*">
+       <td valign="top" width="*" class="sncore_master_content_td">
         <asp:Panel runat="server" ID="panelMain" CssClass="sncore_menu">
          <SnCore:MenuItem runat="server" ID="menuHome" Text="home" NavigateUrl="Default.aspx" /><SnCore:MenuItem 
           runat="server" ID="menuPeople" Text="people" NavigateUrl="AccountsView.aspx">
@@ -120,7 +120,7 @@
        </td>
       </tr>
       <tr>
-       <td colspan="2">
+       <td colspan="2" class="sncore_master_content_td">
         <!-- NOEMAIL-START -->
         <atlas:UpdatePanel Mode="Always" runat="server" ID="panelNoticeMenu" RenderMode="Inline">
          <ContentTemplate>
