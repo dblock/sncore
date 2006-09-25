@@ -16,7 +16,6 @@ using System;
 
         //Holds property values
         private System.Int32 m_Id;
-        private System.String m_Body;
         private DataObject m_DataObject;
         private System.String m_DataObjectField;
         private System.Int32 m_DeltaHours;
@@ -25,7 +24,7 @@ using System;
         private System.String m_LastRunError;
         private System.Boolean m_Recurrent;
         private System.Collections.IList m_ReminderEvents;
-        private System.String m_Subject;
+        private System.String m_Url;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -48,31 +47,6 @@ using System;
             get
             {
                 return m_Id;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent primitive property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts values of the type 'System.String'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Body' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'Body' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.String Body
-        {
-            get
-            {
-                return m_Body;
-            }
-            set
-            {
-                m_Body = value;
             }
         }
 
@@ -292,21 +266,21 @@ using System;
         ///<remarks>
         ///This property accepts values of the type 'System.String'.
         ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Subject' that holds the value for this property is 'PrivateAccess'.
+        ///The accessibility level for the field 'm_Url' that holds the value for this property is 'PrivateAccess'.
         ///
         ///Mapping information:
-        ///The property maps to the column 'Subject' in the data source.
+        ///The property maps to the column 'Url' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Subject
+        public  System.String Url
         {
             get
             {
-                return m_Subject;
+                return m_Url;
             }
             set
             {
-                m_Subject = value;
+                m_Url = value;
             }
         }
 

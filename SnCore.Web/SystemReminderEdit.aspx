@@ -20,23 +20,12 @@
     <table class="sncore_account_table">
      <tr>
       <td class="sncore_form_label">
-       subject:
+       url:
       </td>
       <td class="sncore_form_value">
-       <asp:TextBox CssClass="sncore_form_textbox" ID="inputSubject" runat="server" />
-       <asp:RequiredFieldValidator ID="inputSubjectRequired" runat="server" ControlToValidate="inputSubject"
-        CssClass="sncore_form_validator" ErrorMessage="subject is required" Display="Dynamic" />
-      </td>
-     </tr>
-     <tr>
-      <td class="sncore_form_label">
-       body (html, no dear/thanks):
-      </td>
-      <td class="sncore_form_value">
-       <asp:TextBox CssClass="sncore_form_textbox" ID="inputBody" TextMode="MultiLine"
-        Rows="7" runat="server" />
-       <asp:RequiredFieldValidator ID="inputBodyRequired" runat="server" ControlToValidate="inputBody"
-        CssClass="sncore_form_validator" ErrorMessage="body is required" Display="Dynamic" />
+       <asp:TextBox CssClass="sncore_form_textbox" ID="inputUrl" runat="server" />
+       <asp:RequiredFieldValidator ID="inputUrlRequired" runat="server" ControlToValidate="inputUrl"
+        CssClass="sncore_form_validator" ErrorMessage="Url is required" Display="Dynamic" />
       </td>
      </tr>
      <tr>

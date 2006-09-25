@@ -29,8 +29,7 @@ public partial class SystemReminderEdit : AuthenticatedPage
                 if (RequestId > 0)
                 {
                     TransitReminder t = SystemService.GetReminderById(RequestId);
-                    inputBody.Text = t.Body;
-                    inputSubject.Text = t.Subject;
+                    inputUrl.Text = t.Url;
 
                     ListItem deltaHoursItem = inputDeltaHours.Items.FindByValue(t.DeltaHours.ToString());
                     if (deltaHoursItem == null)
@@ -74,8 +73,7 @@ public partial class SystemReminderEdit : AuthenticatedPage
         {
             TransitReminder t = new TransitReminder();
             t.Id = RequestId;
-            t.Subject = inputSubject.Text;
-            t.Body = inputBody.Text;
+            t.Url = inputUrl.Text;
             t.DeltaHours = int.Parse(inputDeltaHours.SelectedValue);
             t.Enabled = inputEnabled.Checked;
             t.Recurrent = inputRecurrent.Checked;

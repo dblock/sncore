@@ -14,33 +14,18 @@ namespace SnCore.Services
 {
     public class TransitReminder : TransitService
     {
-        private string mSubject;
+        private string mUrl;
 
-        public string Subject
+        public string Url
         {
             get
             {
 
-                return mSubject;
+                return mUrl;
             }
             set
             {
-                mSubject = value;
-            }
-        }
-
-        private string mBody;
-
-        public string Body
-        {
-            get
-            {
-
-                return mBody;
-            }
-            set
-            {
-                mBody = value;
+                mUrl = value;
             }
         }
 
@@ -172,8 +157,7 @@ namespace SnCore.Services
         public TransitReminder(Reminder o)
             : base(o.Id)
         {
-            Subject = o.Subject;
-            Body = o.Body;
+            Url = o.Url;
             DeltaHours = o.DeltaHours;
             DataObjectField = o.DataObjectField;
             DataObject_Id = o.DataObject.Id;
@@ -187,8 +171,7 @@ namespace SnCore.Services
         public Reminder GetReminder(ISession session)
         {
             Reminder p = (Id != 0) ? (Reminder)session.Load(typeof(Reminder), Id) : new Reminder();
-            p.Subject = this.Subject;
-            p.Body = this.Body;
+            p.Url = this.Url;
             p.DeltaHours = this.DeltaHours;
             p.DataObjectField = this.DataObjectField;
             if (this.DataObject_Id > 0) p.DataObject = (DataObject)session.Load(typeof(DataObject), this.DataObject_Id);

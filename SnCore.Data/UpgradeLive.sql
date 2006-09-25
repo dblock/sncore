@@ -1,1 +1,3 @@
-ALTER TABLE dbo.AccountStory ADD [Publish] [bit] NOT NULL CONSTRAINT [DF_AccountStory_Publish]  DEFAULT ((1))
+ALTER TABLE dbo.Reminder ADD [Url] nvarchar(128) NOT NULL
+ALTER TABLE dbo.Reminder DROP COLUMN Subject
+ALTER TABLE dbo.Reminder DROP COLUMN Body

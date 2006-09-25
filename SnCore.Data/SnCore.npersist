@@ -720,7 +720,6 @@
   </class>
   <class name="Reminder" table="Reminder">
     <property name="Id" id="true" columns="Reminder_Id" type="System.Int32" />
-    <property name="Body" columns="Body" type="System.String" />
     <property name="DataObject" columns="DataObject_Id" ref="OneToMany" inverse="Reminders" type="DataObject" />
     <property name="DataObjectField" columns="DataObjectField" type="System.String" />
     <property name="DeltaHours" columns="DeltaHours" type="System.Int32" />
@@ -729,7 +728,7 @@
     <property name="LastRunError" columns="LastRunError" type="System.String" />
     <property name="Recurrent" columns="Recurrent" type="System.Boolean" />
     <property name="ReminderEvents" table="ReminderEvent" id-columns="Reminder_Id" list="true" item-type="ReminderEvent" read-only="true" slave="true" ref="ManyToOne" inverse="Reminder" inherits-inverse="true" />
-    <property name="Subject" columns="Subject" type="System.String" />
+    <property name="Url" columns="Url" type="System.String" />
   </class>
   <class name="ReminderEvent" table="ReminderEvent">
     <property name="Id" id="true" columns="ReminderEvent_Id" type="System.Int32" />
@@ -1224,6 +1223,15 @@
       <column name="SenderName" type="String" prec="128" length="256" scale="0" />
       <column name="Url" type="AnsiString" prec="128" length="128" scale="0" />
     </table>
+    <table name="CampaignAccountRecepient">
+      <column name="CampaignAccountRecepient_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_CampaignAccountRecepient_Account" />
+      <column name="Campaign_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Campaign" primary-column="Campaign_Id" foreign-key="FK_CampaignAccountRecepient_Campaign" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Sent" type="Boolean" prec="1" length="1" scale="0" />
+      <column name="LastError" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
+    </table>
     <table name="City">
       <column name="City_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
       <column name="Country_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Country" primary-column="Country_Id" foreign-key="FK_City_Country" />
@@ -1435,16 +1443,15 @@
       <column name="Updated" type="DateTime" prec="23" length="8" scale="3" />
     </table>
     <table name="Reminder">
-      <column name="Reminder_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
-      <column name="Body" type="String" prec="0" length="16" scale="0" specific-type="NTEXT" />
       <column name="DataObject_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="DataObject" primary-column="DataObject_Id" foreign-key="FK_Reminder_DataObject" />
       <column name="DataObjectField" type="AnsiString" prec="64" length="64" scale="0" />
       <column name="DeltaHours" type="Int32" prec="10" length="4" scale="0" />
-      <column name="Recurrent" type="Boolean" prec="1" length="1" scale="0" default="(1)" />
-      <column name="Subject" type="String" prec="128" length="256" scale="0" />
       <column name="Enabled" type="Boolean" prec="1" length="1" scale="0" default="(0)" />
       <column name="LastRun" type="DateTime" prec="23" allow-null="true" length="8" scale="3" />
       <column name="LastRunError" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
+      <column name="Recurrent" type="Boolean" prec="1" length="1" scale="0" default="(1)" />
+      <column name="Reminder_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Url" type="String" prec="128" length="256" scale="0" />
     </table>
     <table name="ReminderEvent">
       <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_ReminderEvent_Account" />
@@ -1513,15 +1520,6 @@
       <column name="TagWord_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="TagWord" primary-column="TagWord_Id" foreign-key="FK_TagWordAccount_TagWord" />
       <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
-    </table>
-    <table name="CampaignAccountRecepient">
-      <column name="CampaignAccountRecepient_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
-      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_CampaignAccountRecepient_Account" />
-      <column name="Campaign_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Campaign" primary-column="Campaign_Id" foreign-key="FK_CampaignAccountRecepient_Campaign" />
-      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="Sent" type="Boolean" prec="1" length="1" scale="0" />
-      <column name="LastError" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
     </table>
   </source>
 </domain>

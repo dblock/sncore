@@ -1322,8 +1322,6 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Re
 BEGIN
 CREATE TABLE [dbo].[Reminder](
 	[Reminder_Id] [int] IDENTITY(1,1) NOT NULL,
-	[Subject] [nvarchar](128) NOT NULL,
-	[Body] [ntext] NOT NULL,
 	[DeltaHours] [int] NOT NULL,
 	[DataObjectField] [varchar](64) NOT NULL,
 	[DataObject_Id] [int] NOT NULL,
@@ -1331,6 +1329,7 @@ CREATE TABLE [dbo].[Reminder](
 	[Enabled] [bit] NOT NULL CONSTRAINT [DF_Reminder_Enabled]  DEFAULT (0),
 	[LastRun] [datetime] NULL,
 	[LastRunError] [ntext] NULL,
+	[Url] [nvarchar](128) NOT NULL,
  CONSTRAINT [PK_Reminder] PRIMARY KEY CLUSTERED 
 (
 	[Reminder_Id] ASC

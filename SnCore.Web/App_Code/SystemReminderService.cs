@@ -143,27 +143,14 @@ namespace SnCore.BackEndServices
                                     }
 
                                     ManagedAccount ma = new ManagedAccount(session, acct);
-                                    ma.SendAccountEmailMessage(
-                                        ManagedConfiguration.GetValue(
+
+                                    if (!string.IsNullOrEmpty(ma.ActiveEmailAddress))
+                                    {
+                                        ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
                                             session,
-                                            "SnCore.Admin.EmailAddress",
-                                            "admin@localhost.com"),
-                                        ma.ActiveEmailAddress,
-                                        reminder.Subject,
-                                        "<html>" +
-                                        "<style>body { font-size: .80em; font-family: Verdana; }</style>" +
-                                        "<body>" +
-                                        string.Format("Dear {0},<br><br>" +
-                                            "{1}<br><br>" +
-                                            "Thank you,<br>" +
-                                            "{2}" +
-                                            "</body>" +
-                                            "</html>",
-                                            Renderer.Render(ma.Name),
-                                            reminder.Body,
-                                            ManagedConfiguration.GetValue(session, "SnCore.Name", "SnCore")
-                                            ), // not encoded, html e-mail
-                                        true);
+                                            new MailAddress(ma.ActiveEmailAddress, ma.Name).ToString(),
+                                            string.Format("{0}?id={1}", reminder.Url, ma.Id));
+                                    }
 
                                     session.Save(reminderevent);
                                 }

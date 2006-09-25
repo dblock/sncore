@@ -28,29 +28,29 @@
      <img src="images/Item.gif" />
     </itemtemplate>
       </asp:TemplateColumn>
-      <asp:TemplateColumn HeaderText="Subject" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left">
+      <asp:TemplateColumn HeaderText="Url" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left">
        <itemtemplate>
-     <%# base.Render(Eval("Subject")) %>
-     <font style="color: Red; font-size: smaller;">
-      <br /><%# base.Render(Eval("LastRunError")) %>
-     </font>
-    </itemtemplate>
+       <a href='<%# base.Render(Eval("Url")) %>'>Link</a>
+       <div style="color: Red; font-size: smaller;">
+        <%# base.Render(Eval("LastRunError")) %>
+       </div>
+      </itemtemplate>
       </asp:TemplateColumn>
       <asp:TemplateColumn HeaderText="Sent">
        <itemtemplate>
-     <%# Eval("ReminderEventCount") %>
-    </itemtemplate>
+        <%# Eval("ReminderEventCount") %>
+       </itemtemplate>
       </asp:TemplateColumn>
       <asp:TemplateColumn HeaderText="Last Run">
        <itemtemplate>
-     <%# base.Adjust(Eval("LastRun")) %>
-    </itemtemplate>
+        <%# base.Adjust(Eval("LastRun")) %>
+       </itemtemplate>
       </asp:TemplateColumn>
       <asp:TemplateColumn ItemStyle-Font-Bold="true">
        <itemtemplate>
-     <a href='SystemReminderEdit.aspx?id=<%# Eval("Id") %>'>
-      Edit</a>
-    </itemtemplate>
+        <a href='SystemReminderEdit.aspx?id=<%# Eval("Id") %>'>
+         Edit</a>
+       </itemtemplate>
       </asp:TemplateColumn>
       <asp:ButtonColumn ButtonType="LinkButton" CommandName="Delete" Text="Delete"></asp:ButtonColumn>
      </Columns>
