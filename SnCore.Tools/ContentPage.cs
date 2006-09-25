@@ -67,8 +67,13 @@ namespace SnCore.Tools.Web
 
         public static string GetCss(Uri baseuri)
         {
-            string css = GetHttpContent(new Uri(baseuri, "Style.css"));
-            return CssAbsoluteLinksWriter.Rewrite(css, baseuri);
+            StringBuilder css = new StringBuilder();
+            css.AppendLine("<style type=\"text/css\">");
+            css.AppendLine("<!--");
+            css.AppendLine(CssAbsoluteLinksWriter.Rewrite(GetHttpContent(new Uri(baseuri, "Style.css")), baseuri));
+            css.AppendLine("-->");
+            css.AppendLine("</style>");
+            return css.ToString();
         }
 
         public static string GetContent(Uri uri, Uri baseuri, string note)
@@ -113,7 +118,7 @@ namespace SnCore.Tools.Web
             }
 
             // hack: insert stylesheet
-            scontent.Insert(0, string.Format("<style>\n{0}\n</style>\n", GetCss(baseuri)));
+            scontent.Insert(0, GetCss(baseuri));
             return scontent.ToString();
         }
     }
