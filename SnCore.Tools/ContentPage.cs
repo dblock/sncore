@@ -18,6 +18,21 @@ namespace SnCore.Tools.Web
 {
     public class ContentPage
     {
+        public static string GetContentSubject(string body)
+        {
+            int title_start = body.IndexOf("<title>", 0, StringComparison.OrdinalIgnoreCase);
+            if (title_start < 0)
+                return string.Empty;
+
+            title_start = title_start + "<title>".Length;
+
+            int title_end = body.IndexOf("</title>", title_start, StringComparison.OrdinalIgnoreCase);
+            if (title_end < 0)
+                return string.Empty;
+
+            return body.Substring(title_start, title_end - title_start).Trim();
+        }
+
         public static string GetContent(Uri uri, Uri baseuri)
         {
             return GetContent(uri, baseuri, string.Empty);
@@ -25,9 +40,21 @@ namespace SnCore.Tools.Web
 
         public static string GetHttpContent(Uri uri)
         {
+            return GetHttpContent(uri, null);
+        }
+
+        public static string GetHttpContent(Uri uri, Cookie authcookie)
+        {
             string content = string.Empty;
 
-            WebRequest request = HttpWebRequest.Create(uri);
+            HttpWebRequest request = (HttpWebRequest) HttpWebRequest.Create(uri);
+            
+            if (authcookie != null)
+            {
+                request.CookieContainer = new CookieContainer();
+                request.CookieContainer.Add(uri, authcookie);
+            }
+
             WebResponse response = request.GetResponse();
             using (StreamReader sr = new StreamReader(response.GetResponseStream()))
             {
@@ -46,7 +73,12 @@ namespace SnCore.Tools.Web
 
         public static string GetContent(Uri uri, Uri baseuri, string note)
         {
-            string content = GetHttpContent(uri);
+            return GetContent(uri, baseuri, note, true, null);
+        }
+
+        public static string GetContent(Uri uri, Uri baseuri, string note, bool hasonline, Cookie authcookie)
+        {
+            string content = GetHttpContent(uri, authcookie);
 
             string[] expressions = 
             { 
@@ -68,7 +100,11 @@ namespace SnCore.Tools.Web
             content = HtmlAbsoluteLinksWriter.Rewrite(content, baseuri);
 
             StringBuilder scontent = new StringBuilder(content);
-            scontent.Insert(0, string.Format("<p style=\"margin: 10px;\"><a href=\"{0}\">can't see message? click here for online version &#187;&#187;</a></p>\n", uri.ToString()));
+
+            if (hasonline)
+            {
+                scontent.Insert(0, string.Format("<p style=\"margin: 10px;\"><a href=\"{0}\">can't see message? click here for online version &#187;&#187;</a></p>\n", uri.ToString()));
+            }
 
             // insert additional note
             if (!string.IsNullOrEmpty(note))

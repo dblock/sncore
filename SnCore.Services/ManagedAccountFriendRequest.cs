@@ -3,6 +3,7 @@ using NHibernate;
 using System.Collections;
 using NHibernate.Expression;
 using SnCore.Tools.Web;
+using System.Net.Mail;
 
 namespace SnCore.Services
 {
@@ -207,35 +208,10 @@ namespace SnCore.Services
                 string sentto = recepient.ActiveEmailAddress;
                 if (sentto != null)
                 {
-                    string url = string.Format(
-                        "{0}/AccountView.aspx?id={1}",
-                        ManagedConfiguration.GetValue(Session, "SnCore.WebSite.Url", "http://localhost/SnCore"),
-                        approver.Id);
-
-                    string messagebody =
-                        "<html>" +
-                        "<style>body { font-size: .80em; font-family: Verdana; }</style>" +
-                        "<body>" +
-                        "Dear " + Renderer.Render(requester.Name) + ",<br>" +
-                        "<br><b>" + Renderer.Render(approver.Name) + "</b> declined your friend request." +
-                        "<br><br>" +
-                        Renderer.Render(message) +
-                        "<blockquote>" +
-                        "<a href=\"" + url + "\">View " + Renderer.Render(approver.Name) + "'s profile</a>." +
-                        "</blockquote>" +
-                        "</body>" +
-                        "</html>";
-
-                    recepient.SendAccountMailMessage(
-                    string.Format("{0} <noreply@{1}>",
-                        requester.Name,
-                        ManagedConfiguration.GetValue(Session, "SnCore.Domain", "vestris.com")),
-                        sentto,
-                        string.Format("{0}: {1} declined your friend request.",
-                            ManagedConfiguration.GetValue(Session, "SnCore.Name", "SnCore"),
-                            approver.Name),
-                        messagebody,
-                        true);
+                    ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
+                        Session,
+                        new MailAddress(sentto, recepient.Name).ToString(),
+                        string.Format("EmailAccountFriendRequestReject.aspx?id={0}&message={1}", this.Id, Renderer.UrlEncode(message)));
                 }
 
                 // delete the request when user notified
@@ -260,6 +236,16 @@ namespace SnCore.Services
             friend.Created = DateTime.UtcNow;
             Session.Save(friend);
 
+            ManagedAccount recepient = new ManagedAccount(Session, friend.Account);
+            string sentto = recepient.ActiveEmailAddress;
+            if (sentto != null)
+            {
+                ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
+                    Session,
+                    new MailAddress(sentto, recepient.Name).ToString(),
+                    string.Format("EmailAccountFriendRequestAccept.aspx?id={0}&message={1}", this.Id, Renderer.UrlEncode(message)));
+            }
+
             Session.Delete(mAccountFriendRequest);
 
             // delete a reciproque request if any
@@ -273,41 +259,6 @@ namespace SnCore.Services
                 Session.Delete(rr);
             }
                 
-            ManagedAccount recepient = new ManagedAccount(Session, friend.Account);
-            string sentto = recepient.ActiveEmailAddress;
-            if (sentto != null)
-            {
-                string url = string.Format(
-                    "{0}/AccountView.aspx?id={1}",
-                    ManagedConfiguration.GetValue(Session, "SnCore.WebSite.Url", "http://localhost/SnCore"),
-                    friend.Keen.Id);
-
-                string messagebody =
-                    "<html>" +
-                    "<style>body { font-size: .80em; font-family: Verdana; }</style>" +
-                    "<body>" +
-                    "Dear " + Renderer.Render(friend.Account.Name) + ",<br>" +
-                    "<br><b>" + Renderer.Render(friend.Keen.Name) + "</b> is now your friend." +
-                    "<br><br>" +
-                    Renderer.Render(message) +
-                    "<blockquote>" +
-                    "<a href=\"" + url + "\">View " + Renderer.Render(friend.Keen.Name) + "'s profile</a>." +
-                    "</blockquote>" +
-                    "</body>" +
-                    "</html>";
-
-                recepient.SendAccountMailMessage(
-                    string.Format("{0} <noreply@{1}>",
-                        friend.Account.Name,
-                        ManagedConfiguration.GetValue(Session, "SnCore.Domain", "vestris.com")),
-                    sentto,
-                    string.Format("{0}: {1} is now your friend.",
-                        ManagedConfiguration.GetValue(Session, "SnCore.Name", "SnCore"),
-                        friend.Keen.Name),
-                    messagebody,
-                    true);
-            }
-
             if (mAccountFriendRequest.Account.AccountFriendRequests != null)
                 mAccountFriendRequest.Account.AccountFriendRequests.Remove(mAccountFriendRequest);
 

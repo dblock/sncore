@@ -1631,41 +1631,10 @@ namespace SnCore.Services
             string sentto = recepient.ActiveEmailAddress;
             if (sentto != null)
             {
-                string viewurl = string.Format(
-                    "{0}/AccountFriendRequestsManage.aspx",
-                    ManagedConfiguration.GetValue(Session, "SnCore.WebSite.Url", "http://localhost/SnCore"));
-
-                string acturl = string.Format(
-                    "{0}/AccountFriendRequestAct.aspx?id={1}",
-                    ManagedConfiguration.GetValue(Session, "SnCore.WebSite.Url", "http://localhost/SnCore"),
-                    request.Id);
-
-                string messagebody =
-                    "<html>" +
-                    "<style>body { font-size: .80em; font-family: Verdana; }</style>" +
-                    "<body>" +
-                    "Dear " + Renderer.Render(request.Keen.Name) + ",<br>" +
-                    "<br><b>" + Renderer.Render(Name) + "</b> wants to be your friend." +
-                    "<br><br>" +
-                    Renderer.Render(message) +
-                    "<blockquote>" +
-                    "<a href=\"" + viewurl + "\">View</a> this and other pending requests and decide later." +
-                    "<br><a href=\"" + acturl + "&action=accept\">Accept</a> this request." +
-                    "<br><a href=\"" + acturl + "&action=reject\">Reject</a> this request (no message will be sent)." +
-                    "</blockquote>" +
-                    "</body>" +
-                    "</html>";
-
-                recepient.SendAccountMailMessage(
-                    string.Format("{0} <noreply@{1}>",
-                        mAccount.Name,
-                        ManagedConfiguration.GetValue(Session, "SnCore.Domain", "vestris.com")),
-                    sentto,
-                    string.Format("{0}: {1} wants to be your friend.",
-                        ManagedConfiguration.GetValue(Session, "SnCore.Name", "SnCore"),
-                        mAccount.Name),
-                    messagebody,
-                    true);
+                ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
+                    Session,
+                    new MailAddress(sentto, recepient.Name).ToString(),
+                    string.Format("EmailAccountFriendRequest.aspx?id={0}", request.Id));
             }
 
             return request.Id;

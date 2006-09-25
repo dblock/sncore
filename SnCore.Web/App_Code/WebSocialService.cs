@@ -617,5 +617,24 @@ namespace SnCore.WebServices
                 return result;
             }
         }
+
+        [WebMethod(Description = "Get an account friend request.")]
+        public TransitAccountFriendRequest GetAccountFriendRequestById(string ticket, int id)
+        {
+            int user_id = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount user = new ManagedAccount(session, user_id);
+                ManagedAccountFriendRequest r = new ManagedAccountFriendRequest(session, id);
+
+                if (r.AccountId != user.Id && r.KeenId != user.Id && ! user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                return r.TransitAccountFriendRequest;
+            }
+        }
     }
 }

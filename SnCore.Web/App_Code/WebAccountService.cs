@@ -776,6 +776,7 @@ namespace SnCore.WebServices
                 AccountEmailMessage m = message.GetAccountEmailMessage();
                 m.Account = (Account)session.Load(typeof(Account), user_id);
                 ManagedAccount user = new ManagedAccount(session, m.Account);
+
                 if (!user.HasVerifiedEmail)
                     throw new ManagedAccount.NoVerifiedEmailException();
                 

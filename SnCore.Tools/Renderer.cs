@@ -30,6 +30,8 @@ namespace SnCore.Tools.Web
         /// hack
         private static bool IsHtml(string message)
         {
+            if (string.IsNullOrEmpty(message))
+                return false;
             if (message.IndexOf("<") < 0)
                 return false;
             if (message.IndexOf(">") < 0)

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using NHibernate;
 using NHibernate.Expression;
+using System.Net.Mail;
 
 namespace SnCore.Services
 {
@@ -159,36 +160,10 @@ namespace SnCore.Services
 
         public void Send()
         {
-            string url = string.Format(
-                "{0}/AccountEmailVerify.aspx?id={1}&code={2}",
-                ManagedConfiguration.GetValue(Session, "SnCore.WebSite.Url", "http://localhost/SnCore"),
-                mAccountEmailConfirmation.Id,
-                mAccountEmailConfirmation.Code);
-
-            string subject = string.Format("{0}: Please confirm your e-mail address.",
-                ManagedConfiguration.GetValue(Session, "SnCore.Name", "SnCore"));
-
-            ManagedAccountEmail.Account.SendAccountMailMessage(
-                ManagedConfiguration.GetValue(Session, "SnCore.Admin.EmailAddress", "admin@localhost.com"),
-                mAccountEmailConfirmation.AccountEmail.Address,
-                subject,
-                "<html>" +
-                "<style>body { font-size: .80em; font-family: Verdana; }</style>" +
-                "<body>" +
-                string.Format("Dear {0},<br><br>" +
-                    "The e-mail address {1} has been added to your {3} account. " +
-                    "You must confirm it. " +
-                    "Please copy-paste the url below to a browser or click it.<br>" +
-                    "<blockquote><a href='{2}'>{2}</a></blockquote>" +
-                    "Thank you,<br>" +
-                    "{3}" +
-                    "</body>" +
-                    "</html>",
-                    mAccountEmailConfirmation.AccountEmail.Account.Name,
-                    mAccountEmailConfirmation.AccountEmail.Address.ToLower(),
-                    url,
-                    ManagedConfiguration.GetValue(Session, "SnCore.Name", "SnCore")),
-                true);
+            ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
+                Session,
+                new MailAddress(mAccountEmailConfirmation.AccountEmail.Address, mAccountEmailConfirmation.AccountEmail.Account.Name).ToString(),
+                string.Format("EmailAccountEmailVerify.aspx?id={0}", mAccountEmailConfirmation.Id));
         }
     }
 }
