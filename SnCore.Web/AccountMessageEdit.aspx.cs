@@ -23,6 +23,17 @@ public partial class AccountMessageEdit : AuthenticatedPage
         }
     }
 
+    public string ReturnUrl
+    {
+        get
+        {
+            string result = Request.QueryString["ReturnUrl"];
+            if (string.IsNullOrEmpty(result) && ParentId == 0) result = "AccountMessageFoldersManage.aspx?folder=inbox";
+            if (string.IsNullOrEmpty(result)) result = string.Format("AccountMessageView.aspx?id={0}", ParentId);
+            return result;
+        }
+    }
+
     public void Page_Load(object sender, EventArgs e)
     {
         try
@@ -34,7 +45,7 @@ public partial class AccountMessageEdit : AuthenticatedPage
                 imageAccountTo.ImageUrl = "AccountPictureThumbnail.aspx?id=" + ta.PictureId.ToString();
                 linkAccountTo.Text = Renderer.Render(ta.Name);
                 linkAccountTo.NavigateUrl = linkAccountTo2.HRef = "AccountView.aspx?id=" + ta.Id.ToString();
-                linkBack.NavigateUrl = Renderer.UrlDecode(Request.QueryString["ReturnUrl"]);
+                linkBack.NavigateUrl = ReturnUrl;
 
                 StringBuilder body = new StringBuilder();
 
@@ -98,7 +109,7 @@ public partial class AccountMessageEdit : AuthenticatedPage
             tw.AccountMessageFolderId = 0;
 
             AccountService.AddAccountMessage(SessionManager.Ticket, tw);
-            Redirect(Request.QueryString["ReturnUrl"]);
+            Redirect(ReturnUrl);
         }
         catch (Exception ex)
         {

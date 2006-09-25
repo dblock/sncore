@@ -408,48 +408,12 @@ namespace SnCore.Services
                 if (ra.Id != ma.Id)
                 {
                     string replyTo = ma.ActiveEmailAddress;
-                    if (replyTo != null)
+                    if (! string.IsNullOrEmpty(replyTo))
                     {
-                        string partialurl = string.Format(
-                            "DiscussionThreadView.aspx?id={0}",
-                            thread.Id);
-
-                        string url = string.Format(
-                            "{0}/{1}",
-                            ManagedConfiguration.GetValue(Session, "SnCore.WebSite.Url", "http://localhost/SnCore"),
-                            partialurl);
-
-                        string replyurl = string.Format(
-                            "{0}/DiscussionPost.aspx?did={1}&pid={2}&ReturnUrl={3}&#edit",
-                            ManagedConfiguration.GetValue(Session, "SnCore.WebSite.Url", "http://localhost/SnCore"),
-                            Id,
-                            result.Id,
-                            partialurl);
-
-                        string messagebody =
-                            "<html>" +
-                            "<style>body { font-size: .80em; font-family: Verdana; }</style>" +
-                            "<body>" +
-                            "<b>from:</b> " + Renderer.Render(ra.Name) +
-                            "<br><b>subject:</b> " + Renderer.Render(result.Subject) +
-                            "<br><b>posted:</b> " + result.Created.ToString() +
-                            "<br><br>" +
-                            Renderer.RenderEx(result.Body) +
-                            "<blockquote>" +
-                            "<a href=\"" + url + "\">Full Thread</a> or <a href=\"" + replyurl + "\">Reply</a>" +
-                            "</body>" +
-                            "</html>";
-
-                        ra.SendAccountMailMessage(
-                        string.Format("{0} <noreply@{1}>",
-                            ra.Name,
-                            ManagedConfiguration.GetValue(Session, "SnCore.Domain", "vestris.com")),
-                            replyTo,
-                            string.Format("{0}: {1} has posted a new message for you.",
-                                ManagedConfiguration.GetValue(Session, "SnCore.Name", "SnCore"),
-                                ra.Name),
-                            messagebody,
-                            true);
+                        ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
+                            Session,
+                            new MailAddress(replyTo, ma.Name).ToString(),
+                            string.Format("EmailDiscussionPost.aspx?id={0}", result.Id));
                     }
                 }
             }

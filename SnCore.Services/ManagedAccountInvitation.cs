@@ -221,35 +221,10 @@ namespace SnCore.Services
 
         public void Send()
         {
-            string url = string.Format(
-                "{0}/AccountCreateInvitation.aspx?id={1}&code={2}",
-                ManagedConfiguration.GetValue(Session, "SnCore.WebSite.Url", "http://localhost/SnCore"),
-                mAccountInvitation.Id,
-                mAccountInvitation.Code);
-
-            ManagedAccount a = new ManagedAccount(Session, mAccountInvitation.Account);
-            a.SendAccountMailMessage(
-                string.Format("{0} <{1}>", a.Name, a.ActiveEmailAddress),
+            ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
+                Session,
                 mAccountInvitation.Email,
-                string.Format("{0}: {1} has invited you to {0}!",
-                    ManagedConfiguration.GetValue(Session, "SnCore.Name", "SnCore"),
-                    mAccountInvitation.Account.Name),
-                "<html>" +
-                "<style>body { font-size: .80em; font-family: Verdana; }</style>" +
-                "<body>" +
-                string.Format("Hello,<br><br>" +
-                    "Your friend {0} wants you to join {1}. " +
-                    (string.IsNullOrEmpty(mAccountInvitation.Message) ? "" : "<br><br>" + mAccountInvitation.Message + "<br><br>") +
-                    "Please copy-paste the url below to a browser or click it.<br>" +
-                    "<blockquote><a href='{2}'>{2}</a></blockquote>" +
-                    "Thank you,<br>" +
-                    "{1}" +
-                    "</body>" +
-                    "</html>",
-                    mAccountInvitation.Account.Name,
-                    ManagedConfiguration.GetValue(Session, "SnCore.Name", "SnCore"),
-                    url),
-                true);
+                string.Format("EmailAccountInvitation.aspx?id={0}", mAccountInvitation.Id));
         }
     }
 }

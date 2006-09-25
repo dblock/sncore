@@ -860,6 +860,29 @@ namespace SnCore.Services
 
         #region Email
 
+        public int SendAccountEmailMessage(
+            string from,
+            string to,
+            string subject,
+            string body,
+            bool deletesent)
+        {
+            AccountEmailMessage m = new AccountEmailMessage();
+            m.MailFrom = from;
+            m.MailTo = to;
+            m.Modified = m.Created = DateTime.UtcNow;
+            m.SendError = string.Empty;
+            m.Sent = false;
+            m.Subject = subject;
+            m.Body = body;
+            m.DeleteSent = deletesent;
+            m.Account = mAccount;
+
+            Session.Save(m);
+
+            return m.Id;
+        }
+
         public void VerifyAllEmails()
         {
             foreach (AccountEmail e in mAccount.AccountEmails)
@@ -1326,49 +1349,11 @@ namespace SnCore.Services
             string sentto = recepient.ActiveEmailAddress;
             if (sentto != null)
             {
-                string partialurl = string.Format(
-                    "AccountMessageView.aspx?id={0}",
-                    message.Id);
-
-                string url = string.Format(
-                    "{0}/{1}",
-                    ManagedConfiguration.GetValue(Session, "SnCore.WebSite.Url", "http://localhost/SnCore"),
-                    partialurl);
-
-                string replyurl = string.Format(
-                    "{0}/AccountMessageEdit.aspx?id={1}&pid={2}&ReturnUrl={3}&#edit",
-                    ManagedConfiguration.GetValue(Session, "SnCore.WebSite.Url", "http://localhost/SnCore"),
-                    Id,
-                    message.Id,
-                    Renderer.UrlEncode(partialurl));
-
-                string messagebody =
-                    "<html>" +
-                    "<style>body { font-size: .80em; font-family: Verdana; }</style>" +
-                    "<body>" +
-                    "Dear " + Renderer.Render(message.Account.Name) + ",<br>" +
-                    "<br>You have a new message in your \"" + Renderer.Render(message.AccountMessageFolder.Name) + "\".<br>" +
-                    "<br><b>from:</b> " + Renderer.Render(mAccount.Name) +
-                    "<br><b>subject:</b> " + Renderer.Render(message.Subject) +
-                    "<br><b>posted:</b> " + message.Sent.ToString() +
-                    "<br><br>" +
-                    Renderer.RenderEx(message.Body) +
-                    "<blockquote>" +
-                    "<a href=\"" + url + "\">View</a> or <a href=\"" + replyurl + "\">Reply</a>" +
-                    "</blockquote>" +
-                    "</body>" +
-                    "</html>";
-
-                recepient.SendAccountMailMessage(
-                    string.Format("{0} <noreply@{1}>",
-                        mAccount.Name,
-                        ManagedConfiguration.GetValue(Session, "SnCore.Domain", "vestris.com")),
-                    sentto,
-                    string.Format("{0}: {1} has sent you a message.",
-                        ManagedConfiguration.GetValue(Session, "SnCore.Name", "SnCore"),
-                        mAccount.Name),
-                    messagebody,
-                    true);
+                // EmailAccountMessage
+                ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
+                    Session,
+                    new MailAddress(sentto, recepient.Name).ToString(),
+                    string.Format("EmailAccountMessage.aspx?id={0}", message.Id));
             }
 
             // save a copy in sent items
@@ -1387,29 +1372,6 @@ namespace SnCore.Services
             Session.Save(s);
 
             return message.Id;
-        }
-
-        public int SendAccountMailMessage(
-            string from,
-            string to,
-            string subject,
-            string body,
-            bool deletesent)
-        {
-            AccountEmailMessage m = new AccountEmailMessage();
-            m.MailFrom = from;
-            m.MailTo = to;
-            m.Modified = m.Created = DateTime.UtcNow;
-            m.SendError = string.Empty;
-            m.Sent = false;
-            m.Subject = subject;
-            m.Body = body;
-            m.DeleteSent = deletesent;
-            m.Account = mAccount;
-
-            Session.Save(m);
-
-            return m.Id;
         }
 
         #endregion
@@ -2022,9 +1984,13 @@ namespace SnCore.Services
             }
 
             Session.Save(request);
+            Session.Flush();
 
-            List<string> listto = new List<string>();
-            listto.Add(ManagedConfiguration.GetValue(Session, "SnCore.Admin.EmailAddress", "admin@localhost.com"));
+            ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
+                Session,
+                new MailAddress(ManagedConfiguration.GetValue(Session, "SnCore.Admin.EmailAddress", "admin@localhost.com"),
+                    ManagedConfiguration.GetValue(Session, "SnCore.Admin.Name", "Admin")).ToString(),
+                string.Format("EmailAccountPlaceRequest.aspx?id={0}", request.Id));
 
             if (request.Place.AccountPlaces != null)
             {
@@ -2033,49 +1999,16 @@ namespace SnCore.Services
                     if (place.Type.CanWrite)
                     {
                         ManagedAccount acct = new ManagedAccount(Session, place.Account);
-                        listto.Add(acct.ActiveEmailAddress);
+
+                        if (! acct.HasVerifiedEmail)
+                            continue;
+
+                        ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
+                            Session,
+                            new MailAddress(acct.ActiveEmailAddress, acct.Name).ToString(),
+                            string.Format("EmailAccountPlaceRequest.aspx?id={0}", request.Id));
                     }
                 }
-            }
-
-            string viewurl = string.Format(
-                "{0}/SystemAccountPlaceRequestsManage.aspx?id={1}",
-                ManagedConfiguration.GetValue(Session, "SnCore.WebSite.Url", "http://localhost/SnCore"),
-                request.Place.Id);
-
-            foreach (string sentto in listto)
-            {
-                if (sentto == null)
-                    continue;
-
-                string messagebody =
-                    "<html>" +
-                    "<style>body { font-size: .80em; font-family: Verdana; }</style>" +
-                    "<body>" +
-                    "Hi,<br>" +
-                    "<br><b>" + Renderer.Render(request.Account.Name) +
-                    "</b> wants to own <b>" + Renderer.Render(request.Place.Name) + "</b>." +
-                    "<br><br>" +
-                    Renderer.Render(request.Message) +
-                    "<blockquote>" +
-                    "<a href=\"" + viewurl + "\">View</a> this and other pending requests." +
-                    "</blockquote>" +
-                    "</body>" +
-                    "</html>";
-
-                ManagedAccount acct = new ManagedAccount(Session, mAccount);
-
-                acct.SendAccountMailMessage(
-                    string.Format("{0} <noreply@{1}>",
-                        mAccount.Name,
-                        ManagedConfiguration.GetValue(Session, "SnCore.Domain", "vestris.com")),
-                    sentto,
-                    string.Format("{0}: {1} wants to own {2}.",
-                        ManagedConfiguration.GetValue(Session, "SnCore.Name", "SnCore"),
-                        mAccount.Name,
-                        request.Place.Name),
-                    messagebody,
-                    true);
             }
 
             return request.Id;

@@ -734,39 +734,18 @@ namespace SnCore.WebServices
                 string newpassword = RandomPassword.Generate();
                 a.ResetPassword(newpassword, true);
 
-                string url = string.Format(
-                    "{0}/AccountLogin.aspx",
-                    ManagedConfiguration.GetValue(session, "SnCore.WebSite.Url", "http://localhost/SnCore"));
-
-                a.SendAccountMailMessage(
-                    ManagedConfiguration.GetValue(session, "SnCore.Admin.EmailAddress", "admin@localhost.com"),
-                    emailaddress,
-                    ManagedConfiguration.GetValue(session, "SnCore.Name", "SnCore") +
-                    ": Your password has been reset.",
-                    "<html>" +
-                    "<style>body { font-size: .80em; font-family: Verdana; }</style>" +
-                    "<body>" +
-                    string.Format("Dear {0},<br><br>" +
-                        "Your password has been reset. Your temporary password is:" +
-                        "<blockquote><b>{1}</b></blockquote>" +
-                        "You may now log-in. You will be asked to change it." +
-                        "<blockquote><a href='{2}'>{2}</a></blockquote>" +
-                        "Thank you,<br>" +
-                        "{3}" +
-                        "</body>" +
-                        "</html>",
-                        a.Name,
-                        Renderer.Render(newpassword),
-                        url,
-                        ManagedConfiguration.GetValue(session, "SnCore.Name", "SnCore")),
-                    true);
+                // EmailAccountMessage
+                ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
+                    session,
+                    new MailAddress(a.ActiveEmailAddress, a.Name).ToString(),
+                    string.Format("EmailAccountPasswordReset.aspx?id={0}&Password={1}", a.Id, Renderer.UrlEncode(newpassword)));
 
                 SnCore.Data.Hibernate.Session.Flush();
             }
         }
 
         [WebMethod(Description = "Send an account e-mail message.")]
-        public int SendAccountMailMessage(string ticket, TransitAccountEmailMessage message)
+        public int SendAccountEmailMessage(string ticket, TransitAccountEmailMessage message)
         {
             int user_id = GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
@@ -1882,11 +1861,22 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account invitation by id.", CacheDuration = 60)]
         public TransitAccountInvitation GetAccountInvitationById(string ticket, int id)
         {
+            int user_id = ManagedAccount.GetAccountId(ticket, 0);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 // an invitation can be retrieved for a new user to sign-up
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitAccountInvitation i = new ManagedAccountInvitation(session, id).TransitAccountInvitation;
+
+                if (user_id > 0)
+                {
+                    ManagedAccount user = new ManagedAccount(session, user_id);
+                    if (user.IsAdministrator())
+                    {
+                        return i;
+                    }
+                }
+
                 i.Code = string.Empty;
                 i.Message = string.Empty;
                 return i;

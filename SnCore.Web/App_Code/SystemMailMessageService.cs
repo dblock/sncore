@@ -229,7 +229,7 @@ namespace SnCore.BackEndServices
                                 if (!m_recepient.HasVerifiedEmail)
                                     throw new Exception("No verified e-mail address.");
 
-                                m_recepient.SendAccountMailMessage(
+                                m_recepient.SendAccountEmailMessage(
                                     campaign.SenderEmailAddress, m_recepient.ActiveEmailAddress,
                                     campaign.Name, content, true);
 

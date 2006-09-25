@@ -13,7 +13,7 @@
      Dear <b><% Response.Write(Renderer.Render(this.AccountFriendRequest.AccountName)); %></b>,
     </p>
     <p>
-     <a href="AccountView.aspx?id=<% Response.Write(Renderer.Render(this.AccountFriendRequest.KeenId)); %>">
+     <a href="AccountView.aspx?id=<% Response.Write(this.AccountFriendRequest.KeenId); %>">
       <% Response.Write(Renderer.Render(this.AccountFriendRequest.KeenName)); %>
      </a>
      declined your friend request.

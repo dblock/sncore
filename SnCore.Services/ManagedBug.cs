@@ -355,43 +355,19 @@ namespace SnCore.Services
             mBug.Updated = DateTime.UtcNow;
             Session.Save(mBug);
 
-            // notify that the bug has been closed
+            // notify that the bug has been closed, account may not exist any more
 
             try
             {
                 ManagedAccount acct = new ManagedAccount(Session, mBug.AccountId);
-
-                string url = string.Format(
-                    "{0}/BugView.aspx?id={1}",
-                    ManagedConfiguration.GetValue(Session, "SnCore.WebSite.Url", "http://localhost/SnCore"),
-                    mBug.Id);
-
-                string messagebody =
-                    "<html>" +
-                    "<style>body { font-size: .80em; font-family: Verdana; }</style>" +
-                    "<body>" +
-                    "Dear " + Renderer.Render(acct.Name) + ",<br>" +
-                    "<br>The " + mBug.Type.Name.ToLower() + " #" + mBug.Id.ToString() + " that you have filed was closed." +
-                    "<br>Thank you for submitting this " + mBug.Type.Name.ToLower() + "." +
-                    "<br>Your feedback is greatly appreciated!" +
-                    "<br><br>" +
-                    "<blockquote>" +
-                    "<a href=\"" + url + "\">View</a> this " + mBug.Type.Name.ToLower() + "." +
-                    "</blockquote>" +
-                    "</body>" +
-                    "</html>";
-
-                acct.SendAccountMailMessage(
-                    ManagedConfiguration.GetValue(Session, "SnCore.Admin.EmailAddress", "admin@localhost.com"),
-                    acct.ActiveEmailAddress,
-                    string.Format("{0}: {1} #{2} has been closed.",
-                        ManagedConfiguration.GetValue(Session, "SnCore.Name", "SnCore"),
-                        mBug.Type.Name, mBug.Id),
-                    messagebody,
-                    true);
+                ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
+                    Session,
+                    new MailAddress(acct.ActiveEmailAddress, acct.Name).ToString(),
+                    string.Format("EmailBugClosed.aspx?id={0}", mBug.Id));
             }
             catch
             {
+
             }
         }
 

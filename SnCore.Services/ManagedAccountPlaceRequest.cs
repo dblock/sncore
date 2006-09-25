@@ -215,33 +215,10 @@ namespace SnCore.Services
             string sentto = recepient.ActiveEmailAddress;
             if (sentto != null)
             {
-                string url = string.Format(
-                    "{0}/PlaceView.aspx?id={1}",
-                    ManagedConfiguration.GetValue(Session, "SnCore.WebSite.Url", "http://localhost/SnCore"),
-                    mAccountPlaceRequest.Place.Id);
-
-                string messagebody =
-                    "<html>" +
-                    "<style>body { font-size: .80em; font-family: Verdana; }</style>" +
-                    "<body>" +
-                    "Dear " + Renderer.Render(mAccountPlaceRequest.Account.Name) + ",<br>" +
-                    "<br>Your request to ownership of <b>" + Renderer.Render(mAccountPlaceRequest.Place.Name) + "</b> was declined." +
-                    "<br><br>" +
-                    (string.IsNullOrEmpty(message) ? string.Empty : Renderer.Render(message)) +
-                    "<blockquote>" +
-                    "<a href=\"" + url + "\">View</a> this place." +
-                    "</blockquote>" +
-                    "</body>" +
-                    "</html>";
-
-                recepient.SendAccountMailMessage(
-                    ManagedConfiguration.GetValue(Session, "SnCore.Admin.EmailAddress", "admin@localhost.com"),
-                    sentto,
-                    string.Format("{0}: your ownership request for {1} has been declined.",
-                        ManagedConfiguration.GetValue(Session, "SnCore.Name", "SnCore"),
-                        mAccountPlaceRequest.Place.Name),
-                    messagebody,
-                    true);
+                ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
+                    Session,
+                    new MailAddress(sentto, recepient.Name).ToString(),
+                    string.Format("EmailAccountPlaceRequestReject.aspx?id={0}&message={1}", this.Id, Renderer.UrlEncode(message)));
             }
 
             // delete the request when user notified
@@ -269,33 +246,10 @@ namespace SnCore.Services
             string sentto = recepient.ActiveEmailAddress;
             if (sentto != null)
             {
-                string url = string.Format(
-                    "{0}/PlaceView.aspx?id={1}",
-                    ManagedConfiguration.GetValue(Session, "SnCore.WebSite.Url", "http://localhost/SnCore"),
-                    mAccountPlaceRequest.Place.Id);
-
-                string messagebody =
-                    "<html>" +
-                    "<style>body { font-size: .80em; font-family: Verdana; }</style>" +
-                    "<body>" +
-                    "Dear " + Renderer.Render(mAccountPlaceRequest.Account.Name) + ",<br>" +
-                    "<br>Your request to ownership of <b>" + Renderer.Render(mAccountPlaceRequest.Place.Name) + "</b> was approved." +
-                    "<br><br>" +
-                    (string.IsNullOrEmpty(message) ? string.Empty : Renderer.Render(message)) +
-                    "<blockquote>" +
-                    "<a href=\"" + url + "\">Manage</a> this place." +
-                    "</blockquote>" +
-                    "</body>" +
-                    "</html>";
-
-                recepient.SendAccountMailMessage(
-                    ManagedConfiguration.GetValue(Session, "SnCore.Admin.EmailAddress", "admin@localhost.com"),
-                    sentto,
-                    string.Format("{0}: your ownership request for {1} has been approved.",
-                        ManagedConfiguration.GetValue(Session, "SnCore.Name", "SnCore"),
-                        mAccountPlaceRequest.Place.Name),
-                    messagebody,
-                    true);
+                ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
+                    Session,
+                    new MailAddress(sentto, recepient.Name).ToString(),
+                    string.Format("EmailAccountPlaceRequestAccept.aspx?id={0}&message={1}", this.Id, Renderer.UrlEncode(message)));
             }
 
             // delete the request when user notified

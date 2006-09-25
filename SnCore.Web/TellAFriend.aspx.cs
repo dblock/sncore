@@ -84,7 +84,7 @@ public partial class TellAFriend : AuthenticatedPage
                     throw new Exception(string.Format("Error adding \"{0}\".\n{1}", address.Trim(), ex.Message), ex);
                 }
 
-                AccountService.SendAccountMailMessage(SessionManager.Ticket, message);
+                AccountService.SendAccountEmailMessage(SessionManager.Ticket, message);
             }
 
             Redirect(Url);

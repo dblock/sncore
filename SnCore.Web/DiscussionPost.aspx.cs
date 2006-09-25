@@ -50,6 +50,16 @@ public partial class DiscussionPostNew : AuthenticatedPage
         }
     }
 
+    public string ReturnUrl
+    {
+        get
+        {
+            string result = Request.Params["ReturnUrl"];
+            if (string.IsNullOrEmpty(result) && (DiscussionId > 0)) result = string.Format("DiscussionView.aspx?id={0}", DiscussionId);
+            return result;
+        }
+    }
+
     public void Page_Load(object sender, EventArgs e)
     {
         try
@@ -57,8 +67,6 @@ public partial class DiscussionPostNew : AuthenticatedPage
             SetDefaultButton(post);
             if (!IsPostBack)
             {
-                string ReturnUrl = Request.Params["ReturnUrl"];
-                if (ReturnUrl.Length == 0 && DiscussionId > 0) ReturnUrl = "DiscussionView.aspx?id=" + DiscussionId.ToString();
                 linkCancel.NavigateUrl = ReturnUrl;
                 linkDiscussion.NavigateUrl = ReturnUrl;
 

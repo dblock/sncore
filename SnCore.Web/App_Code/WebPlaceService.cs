@@ -14,6 +14,7 @@ using System.Reflection;
 using System.Web.Services.Protocols;
 using SnCore.Tools.Web;
 using System.Collections.Specialized;
+using System.Net.Mail;
 
 namespace SnCore.WebServices
 {
@@ -330,33 +331,13 @@ namespace SnCore.WebServices
                 if (user.Id != place.Account.Id)
                 {
                     ManagedAccount acct = new ManagedAccount(session, place.Account);
-
-                    string url = string.Format(
-                        "{0}/PlacePictureView.aspx?id={1}",
-                        ManagedConfiguration.GetValue(session, "SnCore.WebSite.Url", "http://localhost/SnCore"),
-                        m_placepicture.Id);
-
-                    string messagebody =
-                        "<html>" +
-                        "<style>body { font-size: .80em; font-family: Verdana; }</style>" +
-                        "<body>" +
-                        "Dear " + Renderer.Render(acct.Name) + ",<br>" +
-                        "<br>A new picture has been uploaded to <b>" + Renderer.Render(place.Name) + "</b> that you have suggested." +
-                        "<br><br>" +
-                        "<blockquote>" +
-                        "<a href=\"" + url + "\">View</a> this picture." +
-                        "</blockquote>" +
-                        "</body>" +
-                        "</html>";
-
-                    acct.SendAccountMailMessage(
-                        ManagedConfiguration.GetValue(session, "SnCore.Admin.EmailAddress", "admin@localhost.com"),
-                        acct.ActiveEmailAddress,
-                        string.Format("{0}: a new picture has been added to {1}.",
-                            ManagedConfiguration.GetValue(session, "SnCore.Name", "SnCore"),
-                            place.Name),
-                        messagebody,
-                        true);
+                    if (acct.HasVerifiedEmail)
+                    {
+                        ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
+                            session,
+                            new MailAddress(acct.ActiveEmailAddress, acct.Name).ToString(),
+                            string.Format("EmailPlacePicture.aspx?id={0}", m_placepicture.Id));
+                    }
                 }
 
                 SnCore.Data.Hibernate.Session.Flush();

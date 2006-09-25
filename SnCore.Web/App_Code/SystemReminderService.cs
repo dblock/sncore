@@ -143,7 +143,7 @@ namespace SnCore.BackEndServices
                                     }
 
                                     ManagedAccount ma = new ManagedAccount(session, acct);
-                                    ma.SendAccountMailMessage(
+                                    ma.SendAccountEmailMessage(
                                         ManagedConfiguration.GetValue(
                                             session,
                                             "SnCore.Admin.EmailAddress",

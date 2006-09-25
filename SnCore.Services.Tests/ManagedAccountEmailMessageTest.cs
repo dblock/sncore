@@ -23,7 +23,7 @@ namespace SnCore.Services.Tests
             try
             {
                 a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
-                a.SendAccountMailMessage("foo@localhost.com", "bar@localhost.com", "subject", "body", true);
+                a.SendAccountEmailMessage("foo@localhost.com", "bar@localhost.com", "subject", "body", true);
             }
             finally
             {
