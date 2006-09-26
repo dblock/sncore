@@ -745,36 +745,27 @@ namespace SnCore.Services
 
         public int Create(string password, string emailaddress, TransitAccount ta, bool emailverified)
         {
-            ITransaction t = Session.BeginTransaction();
-
             try
             {
-                int result = InternalCreate(password, emailaddress, ta, emailverified);
-                t.Commit();
-                return result;
+                return InternalCreate(password, emailaddress, ta, emailverified);
             }
             catch
             {
                 mAccount = null;
-                t.Rollback();
                 throw;
             }
         }
 
         public int CreateWithOpenId(string consumerurl, TransitAccount ta)
         {
-            ITransaction t = Session.BeginTransaction();
-
             try
             {
                 int result = InternalCreateWithOpenId(consumerurl, ta);
-                t.Commit();
                 return result;
             }
             catch
             {
                 mAccount = null;
-                t.Rollback();
                 throw;
             }
         }
@@ -917,6 +908,7 @@ namespace SnCore.Services
 
             mAccount.AccountEmails.Add(e);
             Session.Save(e);
+            Session.Flush();
 
             ManagedAccountEmail me = new ManagedAccountEmail(Session, e);
             me.Confirm();
