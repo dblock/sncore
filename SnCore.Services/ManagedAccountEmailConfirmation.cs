@@ -36,6 +36,11 @@ namespace SnCore.Services
             }
         }
 
+        public TransitAccountEmailConfirmation()
+        {
+
+        }
+
         public TransitAccountEmailConfirmation(AccountEmailConfirmation c)
             : base(c.Id)
         {
