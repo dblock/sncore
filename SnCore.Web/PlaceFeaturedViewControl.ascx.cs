@@ -48,7 +48,6 @@ public partial class PlaceFeaturedViewControl : Control
             {
                 object[] args = { "Place" };
                 mFeature = SessionManager.GetCachedItem<TransitFeature>(SystemService, "GetLatestFeature", args);
-                if (mFeature == null) mFeature = new TransitFeature();
             }
 
             return mFeature;
