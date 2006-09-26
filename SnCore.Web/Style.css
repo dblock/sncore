@@ -4,15 +4,15 @@ a:visited { color: navy; font-weight: bold; text-decoration: none; }
 a:active { color: #336699; font-weight: bold; text-decoration: none; }
 a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_master_table { width: 900px; }
-.sncore_master_content_td { font-family: Trebuchet, Verdana, Lucida Grande, Sapir Sans, Tahoma, Sans-Serif; font-size: 0.8em; }
+.sncore_master_content_td { font-family: Verdana, Sans-Serif; font-size: 10pt; }
 .sncore_master_content_table { width: 800px; background-color: White; } 
-.sncore_h1 { color: #000000; font-family: Tahoma; font-size: 26px; font-weight: bold; background-color: #FFDD00; margin-top: 0px; margin-bottom: 0px; padding-top: 10px; padding-left: 15px; width: 100%; }
-.sncore_h1sub { color: #000000; font-family: Tahoma; font-size: 12px; background-color: #FFDD00; margin-top: 0px; margin-bottom: 0px; padding-left: 20px; padding-bottom: 15px; width: 100%; }
-.sncore_h2 { background: url(images/site/head.gif) no-repeat; background-position: 0 65%; font-family: Tahoma; font-size: 18px; font-weight: normal; margin-top: 0px; margin-bottom: 10px; padding-top: 10px; padding-bottom: 3px; margin-left: 10px; padding-left: 20px; }
-.sncore_h2left { font-family: Tahoma; font-size: 18px; font-weight: normal; margin-top: 0px; margin-bottom: 10px; padding-top: 10px; padding-bottom: 3px; }
-.sncore_h2sub { color: #000000; font-family: Tahoma; font-size: 12px; margin-top: 0px; margin-bottom: 0px; padding-left: 20px; padding-bottom: 15px; width: 95%; }
-.sncore_h3 { font-family: Tahoma; font-size: 14px; font-weight: bold; margin-top: 0px; margin-bottom: 10px; padding-top: 10px; padding-bottom: 3px; padding-left: 15px; }
-.sncore_title { font-family: Verdana; font-weight: bold; background-color: #E5EDFB; padding: 2px; }
+.sncore_h1 { color: #000000; font-size: 26px; font-weight: bold; background-color: #FFDD00; margin-top: 0px; margin-bottom: 0px; padding-top: 10px; padding-left: 15px; width: 100%; }
+.sncore_h1sub { color: #000000; font-size: 12px; background-color: #FFDD00; margin-top: 0px; margin-bottom: 0px; padding-left: 20px; padding-bottom: 15px; width: 100%; }
+.sncore_h2 { background: url(images/site/head.gif) no-repeat; background-position: 0 65%; font-size: 18px; font-weight: normal; margin-top: 0px; margin-bottom: 10px; padding-top: 10px; padding-bottom: 3px; margin-left: 10px; padding-left: 20px; }
+.sncore_h2left { font-size: 18px; font-weight: normal; margin-top: 0px; margin-bottom: 10px; padding-top: 10px; padding-bottom: 3px; }
+.sncore_h2sub { font-family: Tahoma; color: #000000; font-size: 12px; margin-top: 0px; margin-bottom: 0px; padding-left: 20px; padding-bottom: 15px; width: 95%; }
+.sncore_h3 { font-size: 14px; font-weight: bold; margin-top: 0px; margin-bottom: 10px; padding-top: 10px; padding-bottom: 3px; padding-left: 15px; }
+.sncore_title { font-weight: bold; background-color: #E5EDFB; padding: 2px; }
 .sncore_link_description { font-size: 10px; padding: 2px; }
 .sncore_description { font-size: 10px; color: Gray; padding: 2px; }
 .sncore_li_description { font-size: 10px; color: Gray; margin-left: 16px; }
@@ -25,22 +25,22 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_accountmenu_table { width: 150px; margin: 10px; border: 1px #eeeeee solid; }
 .sncore_half_inner_table { width: 95%; }
 .sncore_featured_table { width: 200px; }
-.sncore_featured_tr_td { padding: 2px; padding-top: 10px; font-family: Verdana; text-align: center; }
-.sncore_table_tr_td { padding: 2px; font-family: Verdana; }
-.sncore_table_tr_th { padding: 2px; font-family: Verdana; font-weight: bold; background-color: #E5EDFB; font-size: smaller;  }
-.sncore_table_pager { padding: 2px; font-family: Verdana; font-size: 10px; font-weight: bold; }
+.sncore_featured_tr_td { padding: 2px; padding-top: 10px; text-align: center; }
+.sncore_table_tr_td { padding: 2px; }
+.sncore_table_tr_th { padding: 2px; font-weight: bold; background-color: #E5EDFB; font-size: 8pt;  }
+.sncore_table_pager { padding: 2px; font-size: 8pt; font-weight: bold; }
 .sncore_menu { margin-left: 10px; margin-right: 10px; border-top: solid 2px #9F0615; border-bottom: solid 2px #9F0615; background-color: #9F0615; padding: 2px; text-align: left; }
-.sncore_menu_item { color: white; font-family: Verdana; font-weight: bold; padding: 10px; padding-bottom: 2px; border-right: solid 1px white; }
-.sncore_menu_item:hover { background-color: red; color: white; font-family: Verdana; font-weight: bold; padding: 10px; border-right: solid 1px white; padding-top: 4px; padding-bottom: 4px; }
+.sncore_menu_item { color: white; font-weight: bold; padding: 10px; padding-bottom: 2px; border-right: solid 1px white; }
+.sncore_menu_item:hover { background-color: red; color: white; font-weight: bold; padding: 10px; border-right: solid 1px white; padding-top: 4px; padding-bottom: 4px; }
 .sncore_menu_item:link { color: white; }
 .sncore_menu_item:visited { color: white; }
 .sncore_menu_item:active { color: white; }
-.sncore_menu_item_selected { color: white; background-color: #550000; font-family: Verdana; font-weight: bold; padding: 10px; border-right: solid 1px white; padding-top: 4px; padding-bottom: 4px; }
-.sncore_menu_item_selected:hover { background-color: red; color: white; font-family: Verdana; font-weight: bold; padding: 10px; border-right: solid 1px white; padding-top: 4px; padding-bottom: 4px; }
+.sncore_menu_item_selected { color: white; background-color: #550000; font-weight: bold; padding: 10px; border-right: solid 1px white; padding-top: 4px; padding-bottom: 4px; }
+.sncore_menu_item_selected:hover { background-color: red; color: white; font-weight: bold; padding: 10px; border-right: solid 1px white; padding-top: 4px; padding-bottom: 4px; }
 .sncore_menu_item_selected:link { color: white; }
 .sncore_menu_item_selected:visited { color: white; }
 .sncore_menu_item_selected:active { color: white; }
-.sncore_menu_item_activated { background-color: red; color: white; font-family: Verdana; font-weight: bold; padding: 10px; border-right: solid 1px white; padding-top: 4px; padding-bottom: 4px; }
+.sncore_menu_item_activated { background-color: red; color: white; font-weight: bold; padding: 10px; border-right: solid 1px white; padding-top: 4px; padding-bottom: 4px; }
 .sncore_menu_item_activated:hover { color: white; }
 .sncore_menu_item_activated:link { color: white; }
 .sncore_menu_item_activated:visited { color: white; }
@@ -60,43 +60,39 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_notice_warning { border: dotted 2px orange; margin: 10px; font-weight: bold; color: orange; }
 .sncore_notice_tr_td { padding: 7px; }
 .sncore_form { width: 582px; border: 1px #eeeeee solid; }
-.sncore_form_label { font-weight: bold; width: 150px; font-family: Verdana; text-align: right; }
-.sncore_form_value { font-family: Verdana; text-align: left; }
-.sncore_form_textbox { width: 400px; font-family: Verdana; font-size: 1em; text-align: left; border: 1px black solid; }
-.sncore_form_openid_textbox { width: 383px; background: url(images/openid.gif) no-repeat; background-color: #fff; background-position: 0 50%; color: #000; padding-left: 18px; font-family: Verdana; font-size: 1em; text-align: left; border: 1px black solid; }
-.sncore_form_checkbox { width: 100px; font-family: Verdana; }
-.sncore_form_radiobutton { width: 100px; font-family: Verdana; font-weight: bold; }
+.sncore_form_label { font-weight: bold; width: 150px; text-align: right; }
+.sncore_form_value { text-align: left; }
+.sncore_form_textbox { font-family: Verdana; width: 400px; font-size: 10pt; text-align: left; border: 1px black solid; }
+.sncore_form_openid_textbox { font-family: Verdana; width: 383px; background: url(images/openid.gif) no-repeat; background-color: #fff; background-position: 0 50%; color: #000; padding-left: 18px; font-size: 10pt; text-align: left; border: 1px black solid; }
+.sncore_form_checkbox { font-family: Verdana; width: 100px; }
+.sncore_form_radiobutton { font-family: Verdana; width: 100px; font-weight: bold; }
 .sncore_form_dropdown { font-family: Verdana; width: 390px; }
 .sncore_form_dropdown_small { font-family: Verdana; width: 192px; }
 .sncore_form_dropdown_auto { font-family: Verdana; }
-.sncore_form_button { background-color: #dcdcdc; font-family: Verdana; border-top: #cccccc 1px solid; border-bottom: #666666 1px solid; border-left: #cccccc 1px solid; border-right: #666666 1px solid; width: 100px; }
-.sncore_form_halfbutton { background-color: #dcdcdc; font-family: Verdana; border-top: #cccccc 1px solid; border-bottom: #666666 1px solid; border-left: #cccccc 1px solid; border-right: #666666 1px solid; width: 45px; }
-.sncore_form_validator { font-size: .8em; font-weight: bold; color: red; }
-.sncore_form_upload { width: 400px; font-family: Verdana; text-align: left; border: 1px black solid; }
+.sncore_form_button { font-family: Verdana; background-color: #dcdcdc; border-top: #cccccc 1px solid; border-bottom: #666666 1px solid; border-left: #cccccc 1px solid; border-right: #666666 1px solid; width: 100px; }
+.sncore_form_halfbutton { font-family: Verdana; background-color: #dcdcdc; border-top: #cccccc 1px solid; border-bottom: #666666 1px solid; border-left: #cccccc 1px solid; border-right: #666666 1px solid; width: 45px; }
+.sncore_form_validator { font-size: 8pt; font-weight: bold; color: red; }
+.sncore_form_upload { font-family: Verdana; width: 400px; text-align: left; border: 1px black solid; }
 .sncore_form_small { border: 1px #eeeeee solid; }
-.sncore_form_label_small { font-family: Verdana; text-align: right; font-size: smaller; }
-.sncore_form_textbox_small { width: 200px; font-family: Verdana; text-align: left; border: 1px black solid; font-size: smaller; }
-.sncore_form_checkbox_small { width: 50px; font-family: Verdana; font-size: smaller; }
-.sncore_form_button_small { background-color: #dcdcdc; font-family: Verdana; font-size: smaller; border-top: #cccccc 1px solid; border-bottom: #666666 1px solid; border-left: #cccccc 1px solid; border-right: #666666 1px solid; width: 100px; }
-.sncore_link { font-family: Verdana; font-size: 10px; }
+.sncore_link { font-family: Tahoma; font-size: 8pt; }
 .sncore_note { padding-left: 20px; font-weight: bold; }
-.sncore_navigate { margin: 10px; font-family: Tahoma; font-size: 11px; font-weight: normal; padding: 5px; margin-top: 0px; margin-bottom: 0px; text-align: left; }
-.sncore_navigate_item { font-weight: bold; padding: 3px; }
-.sncore_createnew { padding-left: 20px; font-family: Verdana; }
-.sncore_cancel { padding-left: 20px; font-family: Verdana; }
+.sncore_navigate { margin: 10px; font-size: 8pt; font-weight: normal; padding: 5px; margin-top: 0px; margin-bottom: 0px; text-align: left; }
+.sncore_navigate_item { font-family: Tahoma; font-weight: bold; padding: 3px; }
+.sncore_createnew { padding-left: 20px; }
+.sncore_cancel { padding-left: 20px; }
 .sncore_account_name { margin-top: 5px; margin-bottom: 5px; font-size: large; font-weight: bold; color: maroon; }
 .sncore_account_lastlogin { color: silver; }
 .sncore_account_location { font-weight: bold; }
-.sncore_account_id { font-weight: bold; font-size: .8em; }
+.sncore_account_id { font-weight: bold; font-size: 8pt; }
 .sncore_feeditem_name { margin-top: 5px; margin-bottom: 5px; font-size: large; font-weight: bold; color: maroon; }
 .sncore_story_name { margin-top: 5px; margin-bottom: 5px; font-size: large; font-weight: bold; color: maroon; }
 .sncore_place_name { margin-top: 5px; margin-bottom: 5px; font-size: large; font-weight: bold; color: maroon; }
-.sncore_place_id { font-weight: bold; font-size: .8em; }
+.sncore_place_id { font-weight: bold; font-size: 8pt; }
 .sncore_event_name { margin-top: 5px; margin-bottom: 5px; font-size: large; font-weight: bold; color: maroon; }
 .sncore_event_location { font-weight: bold; }
-.sncore_event_id { font-weight: bold; font-size: .8em; }
+.sncore_event_id { font-weight: bold; font-size: 8pt; }
 .sncore_search_textbox { width: 120px; font-size: smaller; }
-.sncore_default_search_textbox { width: 250px; font-family: Verdana; font-size: 1em; text-align: left; border: 1px black solid; }
+.sncore_default_search_textbox { width: 250px; font-size: 10pt; text-align: left; border: 1px black solid; }
 .sncore_link_small { font-size: smaller; }
 .sncore_search_link { font-size: smaller; }
 .sncore_copyright { font-size: smaller; color: Silver; padding: 5px; }
@@ -104,9 +100,7 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_summary { margin-top: 10px; }
 .sncore_bookmarks_table { margin: 2px; }
 .sncore_bookmarks_table_tr_td { padding: 2px; }
-.sncore_schedule_summary { padding: 2px; font-family: Verdana; font-weight: bold; background-color: #E5EDFB; }
-.sncore_calendar_toolbar_item { font-family: Verdana; font-size: .9em; }
-.sncore_calendar_toolbar_selecteditem { font-family: Verdana; font-size: .9em; font-weight: bold; }
+.sncore_schedule_summary { padding: 2px; font-weight: bold; background-color: #E5EDFB; }
 .sncore_blog_image { width: 150px; border: none; margin-right: 15px; }
 .sncore_cc_license { border: solid 2px black; font-size: smaller; background: #ffc; padding: 5px; }
 .sncore_account_license { margin: 5px 0px 5px 0px; }
