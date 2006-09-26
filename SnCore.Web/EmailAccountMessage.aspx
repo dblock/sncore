@@ -37,7 +37,7 @@
     </table>  
     <p>
      <a href="AccountMessageView.aspx?id=<% Response.Write(this.AccountMessage.Id); %>">&#187; Read</a>
-     <a href="AccountMessageEdit.aspx?id=<% Response.Write(this.AccountMessage.RecepientAccountId); %>&pid=<% Response.Write(this.AccountMessage.Id); %>">&#187; Reply</a>
+     <a href="AccountMessageEdit.aspx?id=<% Response.Write(this.AccountMessage.RecepientAccountId); %>&pid=<% Response.Write(this.AccountMessage.Id); %>#edit">&#187; Reply</a>
     </p>
    </td>
   </tr>
