@@ -54,7 +54,7 @@ public partial class EmailDiscussionPost : AuthenticatedPage
                 ReportException(ex);
             }
 
-            return mDiscussionPost;
+            return mDiscussionPostParent;
         }
     }
 

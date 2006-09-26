@@ -17,7 +17,7 @@
       <% Response.Write(Renderer.Render(this.DiscussionPost.AccountName)); %>
      </a>
      has posted a new message for you in
-     <a href="DiscussionView.aspx?id=<% Response.Write(this.Discussion.Id); %>">
+     <a href="DiscussionThreadView.aspx?id=<% Response.Write(this.DiscussionPost.DiscussionThreadId); %>">
       <% Response.Write(Renderer.Render(this.Discussion.Name)); %>
      </a>
     </p>
