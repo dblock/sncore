@@ -53,7 +53,7 @@
    </td>
    <td class="sncore_form_value">
     <SnCoreWebControls:Button ID="manageAdd" runat="server" Text="Post" CausesValidation="true"
-     CssClass="sncore_form_button" OnClick="save_Click" />
+     CssClass="sncore_form_button" OnClick="save_Click" OnClientClick="WebForm_OnSubmit();" />
    </td>
   </tr>
  </table>

@@ -60,7 +60,7 @@
       </td>
       <td>
        <SnCoreWebControls:Button ID="linkSave" CssClass="sncore_form_button" OnClick="save"
-        runat="server" Text="Save" />
+        runat="server" Text="Save" OnClientClick="WebForm_OnSubmit();" />
       </td>
      </tr>
     </table>

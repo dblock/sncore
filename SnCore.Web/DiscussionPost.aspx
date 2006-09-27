@@ -93,7 +93,7 @@
    </td>
    <td class="sncore_form_value">
     <SnCoreWebControls:Button ID="post" runat="server" Text="Post" CausesValidation="true"
-     CssClass="sncore_form_button" OnClick="post_Click" />
+     CssClass="sncore_form_button" OnClick="post_Click" OnClientClick="WebForm_OnSubmit();" />
    </td>
   </tr>
  </table>
