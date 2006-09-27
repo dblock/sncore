@@ -3,6 +3,7 @@
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="AccountTimeZone" Src="AccountTimeZoneControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <atlas:UpdatePanel Mode="Conditional" ID="panelLinks" RenderMode="Inline" runat="server">
   <ContentTemplate>
@@ -106,15 +107,7 @@
    </SnCoreWebControls:PersistentPanel>
   </ContentTemplate>
  </atlas:UpdatePanel>
- <table class="sncore_table">
-  <tr>
-   <td style="font-size: smaller;">
-    your current timezone is
-    <% Response.Write(base.SessionManager.TimeZone); %>
-    <a href="AccountPreferencesManage.aspx" target="_blank">&#187; change</a>
-   </td>
-  </tr>
- </table>
+ <SnCore:AccountTimeZone runat="server" ID="timezone" />
  <atlas:UpdatePanel runat="server" ID="panelGrid" RenderMode="Inline" Mode="Conditional">
   <ContentTemplate> 
    <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage" PageSize="5"

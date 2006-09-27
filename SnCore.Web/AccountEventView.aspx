@@ -3,6 +3,7 @@
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="DiscussionFullView" Src="DiscussionFullViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="AccountTimeZone" Src="AccountTimeZoneControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="BookmarksView" Src="BookmarksViewControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <!-- NOEMAIL-START -->
@@ -26,7 +27,7 @@
       <ItemTemplate>
        <a href="AccountEventPictureView.aspx?id=<%# Eval("Id") %>">
         <img border="0" src="AccountEventPictureThumbnail.aspx?id=<%# Eval("Id") %>" alt="<%# base.Render(Eval("Name")) %>" />
-        <div>
+        <div class="sncore_link">
          <%# ((int) Eval("CommentCount") >= 1) ? Eval("CommentCount").ToString() + 
          " comment" + (((int) Eval("CommentCount") == 1) ? "" : "s") : "" %>
         </div>
@@ -140,6 +141,7 @@
         </td>
        </tr>
       </table>
+      <SnCore:AccountTimeZone CssClass="sncore_inner_table" Width="95%" runat="server" ID="timezone" />
       <div class="sncore_h2">
        Where
       </div>
