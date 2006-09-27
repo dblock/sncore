@@ -232,7 +232,16 @@ public class SessionManager
     {
         get
         {
-            return IsLoggedIn ? Account.UtcOffset : System.TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now).Hours;
+            if (IsLoggedIn && (Account.UtcOffset >= -12) && (Account.UtcOffset <= 12))
+                return Account.UtcOffset;
+
+            int tz = System.TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now).Hours;
+
+            HttpCookie xtz = Request.Cookies["x-VisitorTimeZoneOffset"];
+            if (xtz != null && !string.IsNullOrEmpty(xtz.Value))
+                int.TryParse(xtz.Value, out tz);
+
+            return tz;
         }
     }
 

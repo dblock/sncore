@@ -13,7 +13,8 @@
 			<asp:ListItem Value="-3" Text="(GMT -3:00 hours)" />
 			<asp:ListItem Value="-2" Text="(GMT -2:00 hours) Mid-Atlantic" />
 			<asp:ListItem Value="-1" Text="(GMT -1:00 hours)" />
-			<asp:ListItem Selected="true" Value="0" Text="(GMT) Western Europe Time, London" />
+			<asp:ListItem Selected="true" Value="13" Text="Browser TimeZone" />
+			<asp:ListItem Value="0" Text="(GMT) Western Europe Time, London" />
 			<asp:ListItem Value="1" Text="(GMT +1:00 hours) CET(Central Europe Time)" />
 			<asp:ListItem Value="2" Text="(GMT +2:00 hours) EET(Eastern Europe Time)" />
 			<asp:ListItem Value="3" Text="(GMT +3:00 hours) Moscow" />

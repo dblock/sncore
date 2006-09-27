@@ -74,7 +74,7 @@ public partial class FeaturedAccountEventsView : Page
 
     public TransitAccountEvent GetAccountEvent(int id)
     {
-        object[] args = { SessionManager.Ticket, id };
+        object[] args = { SessionManager.Ticket, id, SessionManager.UtcOffset };
         return SessionManager.GetCachedItem<TransitAccountEvent>(
             EventService, "GetAccountEventById", args);
     }

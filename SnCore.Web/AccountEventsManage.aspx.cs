@@ -50,7 +50,7 @@ public partial class AccountEventsManage : AuthenticatedPage
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageSize = gridManage.PageSize;
             options.PageNumber = gridManage.CurrentPageIndex;
-            gridManage.DataSource = EventService.GetAccountEvents(SessionManager.Ticket, options);
+            gridManage.DataSource = EventService.GetAccountEvents(SessionManager.Ticket, options, SessionManager.UtcOffset);
         }
         catch (Exception ex)
         {

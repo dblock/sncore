@@ -29,7 +29,7 @@ public partial class AccountEventPictureEdit : AuthenticatedPage
             SetDefaultButton(manageAdd);
             if (!IsPostBack)
             {
-                TransitAccountEvent p = EventService.GetAccountEventById(SessionManager.Ticket, AccountEventId);
+                TransitAccountEvent p = EventService.GetAccountEventById(SessionManager.Ticket, AccountEventId, SessionManager.UtcOffset);
                 linkBack.NavigateUrl = linkSection.NavigateUrl = string.Format("AccountEventPicturesManage.aspx?id={0}", p.Id);
                 linkAccountEvent.Text = Renderer.Render(p.Name);
                 linkAccountEvent.NavigateUrl = string.Format("AccountEventView.aspx?id={0}", p.Id);

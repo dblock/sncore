@@ -77,7 +77,7 @@ public partial class AccountEventView : Page
         {
             if (mAccountEvent == null && RequestId > 0)
             {
-                object[] args = { SessionManager.Ticket, RequestId };
+                object[] args = { SessionManager.Ticket, RequestId, SessionManager.UtcOffset };
                 mAccountEvent = SessionManager.GetCachedItem <TransitAccountEvent>(
                     EventService, "GetAccountEventById", args);
             }

@@ -172,7 +172,7 @@ public partial class AccountEventsView : Page
             ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
             serviceoptions.PageSize = gridManage.PageSize;
             serviceoptions.PageNumber = gridManage.CurrentPageIndex;
-            object[] args = { SessionManager.Ticket, options, serviceoptions };
+            object[] args = { SessionManager.Ticket, SessionManager.UtcOffset, options, serviceoptions };
             gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountEvent>(
                 EventService, "GetAllAccountEvents", args);
         }

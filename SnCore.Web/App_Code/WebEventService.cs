@@ -38,9 +38,9 @@ namespace SnCore.WebServices
         /// <param name="ticket">authentication ticket</param>
         /// <returns>transit account events</returns>
         [WebMethod(Description = "Get account events.")]
-        public List<TransitAccountEvent> GetAccountEvents(string ticket, ServiceQueryOptions options)
+        public List<TransitAccountEvent> GetAccountEvents(string ticket, ServiceQueryOptions options, int utcoffset)
         {
-            return GetAccountEventsById(ManagedAccount.GetAccountId(ticket), options);
+            return GetAccountEventsById(ManagedAccount.GetAccountId(ticket), utcoffset, options);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace SnCore.WebServices
         /// <param name="id">account id</param>
         /// <returns>transit account events</returns>
         [WebMethod(Description = "Get account events.", CacheDuration = 60)]
-        public List<TransitAccountEvent> GetAccountEventsById(int id, ServiceQueryOptions options)
+        public List<TransitAccountEvent> GetAccountEventsById(int id, int utcoffset, ServiceQueryOptions options)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
@@ -92,13 +92,11 @@ namespace SnCore.WebServices
 
                 IList list = c.List();
 
-                ManagedAccount user = new ManagedAccount(session, id);
-
                 List<TransitAccountEvent> result = new List<TransitAccountEvent>(list.Count);
                 foreach (AccountEvent e in list)
                 {
                     TransitAccountEvent evt = new TransitAccountEvent(e);
-                    evt.CreateSchedule(session, user.TransitAccount.UtcOffset);
+                    evt.CreateSchedule(session, utcoffset);
                     result.Add(evt);
                 }
 
@@ -114,14 +112,13 @@ namespace SnCore.WebServices
         /// <param name="id">event id</param>
         /// <returns>transit account event</returns>
         [WebMethod(Description = "Get account event by id.")]
-        public TransitAccountEvent GetAccountEventById(string ticket, int id)
+        public TransitAccountEvent GetAccountEventById(string ticket, int id, int user_utcoffset)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 // todo: permissions for Event
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 int user_id = ManagedAccount.GetAccountId(ticket, 0);
-                int user_utcoffset = (user_id > 0) ? new ManagedAccount(session, user_id).TransitAccount.UtcOffset : 0;
                 TransitAccountEvent tav = new ManagedAccountEvent(session, id).TransitAccountEvent;
                 tav.CreateSchedule(session, user_utcoffset);
                 return tav;
@@ -142,7 +139,6 @@ namespace SnCore.WebServices
                 // todo: permissions for Event
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 int user_id = ManagedAccount.GetAccountId(ticket, 0);
-                int user_utcoffset = (user_id > 0) ? new ManagedAccount(session, user_id).TransitAccount.UtcOffset : 0;
                 ManagedAccountEvent mav = new ManagedAccountEvent(session, id);
                 return mav.ToVCalendarString();
             }
@@ -508,6 +504,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all account events.", CacheDuration = 60)]
         public List<TransitAccountEvent> GetAllAccountEvents(
             string ticket,
+            int user_utcoffset,
             TransitAccountEventQueryOptions queryoptions, 
             ServiceQueryOptions serviceoptions)
         {
@@ -516,7 +513,6 @@ namespace SnCore.WebServices
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
                 int user_id = ManagedAccount.GetAccountId(ticket, 0);
-                int user_utcoffset = (user_id > 0) ? new ManagedAccount(session, user_id).TransitAccount.UtcOffset : 0;
 
                 IQuery q = queryoptions.CreateQuery(session);
 

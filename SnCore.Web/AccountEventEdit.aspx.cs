@@ -33,7 +33,7 @@ public partial class AccountEventEdit : AuthenticatedPage
 
                 if (id > 0)
                 {
-                    TransitAccountEvent tav = EventService.GetAccountEventById(SessionManager.Ticket, id);
+                    TransitAccountEvent tav = EventService.GetAccountEventById(SessionManager.Ticket, id, SessionManager.UtcOffset);
                     inputName.Text = tav.Name;
                     inputWebsite.Text = tav.Website;
                     inputDescription.Text = tav.Description;

@@ -22,7 +22,7 @@ public partial class AccountEventPicturesView : Page
             {
                 if (RequestId > 0)
                 {
-                    TransitAccountEvent a = EventService.GetAccountEventById(SessionManager.Ticket, RequestId);
+                    TransitAccountEvent a = EventService.GetAccountEventById(SessionManager.Ticket, RequestId, SessionManager.UtcOffset);
                     linkAccountEvent.Text = Renderer.Render(a.Name);
                     this.Title = string.Format("{0} Pictures", Renderer.Render(a.Name));
                     linkAccountEvent.NavigateUrl = "AccountEventView.aspx?id=" + a.Id;

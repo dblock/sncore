@@ -41,7 +41,7 @@ public partial class AccountEventPictureView : Page
         inputDescription.Text = Renderer.Render(p.Description);
         inputCreated.Text = Adjust(p.Created).ToString();
 
-        object[] ae_args = { SessionManager.Ticket, p.AccountEventId };
+        object[] ae_args = { SessionManager.Ticket, p.AccountEventId, SessionManager.UtcOffset };
         TransitAccountEvent l = SessionManager.GetCachedItem<TransitAccountEvent>(
             EventService, "GetAccountEventById", ae_args);
 

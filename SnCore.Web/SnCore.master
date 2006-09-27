@@ -116,6 +116,12 @@
           </ProgressTemplate>
          </atlas:UpdateProgress>
         </div>
+        <script language="JavaScript">
+        <!-- 
+         var visitortime = new Date();
+         if(visitortime) { document.cookie = "x-VisitorTimeZoneOffset=" + (-visitortime.getTimezoneOffset() / 60); }
+        // -->
+        </script>
         <!-- NOEMAIL-END -->
        </td>
       </tr>

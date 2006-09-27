@@ -60,7 +60,7 @@ public partial class AccountEventFeaturedViewControl : Control
         {
             if (mAccountEvent == null)
             {
-                object[] args = { SessionManager.Ticket, Feature.DataRowId };
+                object[] args = { SessionManager.Ticket, Feature.DataRowId, SessionManager.UtcOffset };
                 mAccountEvent = SessionManager.GetCachedItem<TransitAccountEvent>(EventService, "GetAccountEventById", args);
             }
 
