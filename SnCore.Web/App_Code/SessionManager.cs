@@ -887,9 +887,17 @@ public class SessionManager
         if (count == null || IsAdministrator)
         {
             MethodInfo mi = service.GetType().GetMethod(invoke);
-            if (mi == null) throw new ArgumentException(string.Format("Invalid method \"{0}:{1}\"", service.GetType().Name, invoke));
-            count = (int)mi.Invoke(service, args);
-            Cache.Insert(key, count, null, Cache.NoAbsoluteExpiration, cacheduration);
+            if (mi == null) throw new ArgumentException(string.Format("Invalid method \"{0}.{1}\"", service.GetType().Name, invoke));
+            try
+            {
+                count = (int)mi.Invoke(service, args);
+                Cache.Insert(key, count, null, Cache.NoAbsoluteExpiration, cacheduration);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(string.Format("{0}.{1}: {2}",
+                    service.GetType().Name, invoke, ex.Message), ex);
+            }
         }
         return (int)count;
     }
@@ -908,11 +916,20 @@ public class SessionManager
         if (result == null || IsAdministrator)
         {
             MethodInfo mi = service.GetType().GetMethod(invoke);
-            if (mi == null) throw new ArgumentException(string.Format("Invalid method \"{0}:{1}\"", service.GetType().Name, invoke));
-            result = (TransitType)mi.Invoke(service, args);
-            if (result != null)
+            if (mi == null) throw new ArgumentException(string.Format("Invalid method \"{0}.{1}\"", service.GetType().Name, invoke));
+
+            try
             {
-                Cache.Insert(key, result, null, Cache.NoAbsoluteExpiration, cacheduration);
+                result = (TransitType)mi.Invoke(service, args);
+                if (result != null)
+                {
+                    Cache.Insert(key, result, null, Cache.NoAbsoluteExpiration, cacheduration);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(string.Format("{0}.{1}: {2}", 
+                    service.GetType().Name, invoke, ex.Message), ex);
             }
         }
 

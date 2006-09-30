@@ -26,7 +26,7 @@ public partial class AccountEventPicturesView : Page
                     linkAccountEvent.Text = Renderer.Render(a.Name);
                     this.Title = string.Format("{0} Pictures", Renderer.Render(a.Name));
                     linkAccountEvent.NavigateUrl = "AccountEventView.aspx?id=" + a.Id;
-                    listView.DataSource = EventService.GetAccountEventPictures(SessionManager.Ticket, RequestId);
+                    listView.DataSource = EventService.GetAccountEventPicturesById(RequestId, null);
                     listView.DataBind();
                 }
             }

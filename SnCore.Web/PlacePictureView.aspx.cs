@@ -14,13 +14,16 @@ using SnCore.Services;
 
 public partial class PlacePictureView : Page
 {
-    public void Page_Load()
+    public void Page_Load(object sender, EventArgs e)
     {
         try
         {
+            picturesView.OnGetDataSource += new EventHandler(picturesView_OnGetDataSource);
             if (!IsPostBack)
             {
-                GetPictureData(RequestId);
+                mPictureId = RequestId;
+                GetPictureData(sender, e);
+                GetPicturesData(sender, e);
             }
         }
         catch (Exception ex)
@@ -30,24 +33,77 @@ public partial class PlacePictureView : Page
 
     }
 
-    void GetPictureData(int id)
-    {
-        object[] e_args = { id };
-        TransitPlacePicture p = SessionManager.GetCachedItem<TransitPlacePicture>(
-            PlaceService, "GetPlacePictureById", e_args);
+    private int mPictureId = 0;
 
-        inputPicture.Src = string.Format("PlacePicture.aspx?id={0}", id);
+    public int PictureId
+    {
+        get
+        {
+            if (mPictureId == 0)
+            {
+                mPictureId = RequestId;
+            }
+            return mPictureId;
+        }
+    }
+
+    private TransitPlacePicture mPlacePicture = null;
+
+    TransitPlacePicture PlacePicture
+    {
+        get
+        {
+            if (mPlacePicture == null)
+            {
+                object[] sp_args = { PictureId };
+                mPlacePicture = SessionManager.GetCachedItem<TransitPlacePicture>(
+                    PlaceService, "GetPlacePictureById", sp_args);
+            }
+            return mPlacePicture;
+        }
+    }
+
+    private TransitPlace mPlace = null;
+
+    public TransitPlace Place
+    {
+        get
+        {
+            if (mPlace == null)
+            {
+                object[] as_args = { PlacePicture.PlaceId };
+                mPlace = SessionManager.GetCachedItem<TransitPlace>(
+                    PlaceService, "GetPlaceById", as_args);
+            }
+            return mPlace;
+        }
+    }
+
+    void GetPicturesData(object sender, EventArgs e)
+    {
+        object[] p_args = { Place.Id };
+        picturesView.CurrentPageIndex = 0;
+        picturesView.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+            PlaceService, "GetPlacePicturesCountById", p_args);
+        picturesView_OnGetDataSource(sender, e);
+        picturesView.DataBind();
+    }
+
+    void GetPictureData(object sender, EventArgs e)
+    {
+        TransitPlacePicture p = PlacePicture;
+
+        inputPicture.Src = string.Format("PlacePicture.aspx?id={0}", p.Id);
         inputName.Text = Renderer.Render(p.Name);
         inputDescription.Text = Renderer.Render(p.Description);
         inputCreated.Text = Adjust(p.Created).ToString();
 
-        object[] ae_args = { p.PlaceId };
-        TransitPlace l = SessionManager.GetCachedItem<TransitPlace>(
-            PlaceService, "GetPlaceById", ae_args);
+        TransitPlace l = Place;
 
-        labelPicture.Text = this.Title = string.Format("{0}: {1}", 
+        this.Title = string.Format("{0}: {1}",
             Renderer.Render(l.Name), string.IsNullOrEmpty(p.Name) ? "Untitled" : Renderer.Render(p.Name));
 
+        labelPicture.Text = string.IsNullOrEmpty(p.Name) ? "Untitled" : Renderer.Render(p.Name);
         labelPlaceName.Text = linkPlace.Text = Renderer.Render(l.Name);
         linkCity.Text = Renderer.Render(l.City);
         linkState.Text = Renderer.Render(l.State);
@@ -79,29 +135,25 @@ public partial class PlacePictureView : Page
             (p.CommentCount > 0) ? p.CommentCount.ToString() : "no",
             (p.CommentCount == 1) ? "" : "s");
 
-        if (!IsPostBack)
-        {
-            object[] p_args = { l.Id };
-            picturesView.DataSource = SessionManager.GetCachedCollection<TransitPlacePicture>(
-                PlaceService, "GetPlacePictures", p_args);
-            picturesView.DataBind();
-        }
+        linkPrev.Enabled = p.PrevId > 0;
+        linkPrev.CommandArgument = p.PrevId.ToString();
+        linkNext.Enabled = p.NextId > 0;
+        linkNext.CommandArgument = p.NextId.ToString();
+        labelIndex.Text = string.Format("{0} / {1}", p.Index + 1, p.Count); 
 
-        object[] d_args = { id };
-        discussionComments.DiscussionId = SessionManager.GetCachedCollectionCount(
-            DiscussionService, "GetPlacePictureDiscussionId", d_args);
-
+        discussionComments.DiscussionId = DiscussionService.GetPlacePictureDiscussionId(PictureId);
         discussionComments.DataBind();
     }
 
-    public void picturesView_ItemCommand(object source, DataListCommandEventArgs e)
+    public void picturesView_ItemCommand(object source, CommandEventArgs e)
     {
         try
         {
             switch (e.CommandName)
             {
                 case "Picture":
-                    GetPictureData(int.Parse(e.CommandArgument.ToString()));
+                    mPictureId = int.Parse(e.CommandArgument.ToString());
+                    GetPictureData(source, e);
                     break;
             }
         }
@@ -110,4 +162,20 @@ public partial class PlacePictureView : Page
             ReportException(ex);
         }
     }
+
+    void picturesView_OnGetDataSource(object sender, EventArgs e)
+    {
+        try
+        {
+            ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
+            object[] args = { Place.Id, options };
+            picturesView.DataSource = SessionManager.GetCachedCollection<TransitPlacePicture>(
+                PlaceService, "GetPlacePicturesById", args);
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
 }

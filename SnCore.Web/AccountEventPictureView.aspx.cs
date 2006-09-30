@@ -14,13 +14,16 @@ using SnCore.Services;
 
 public partial class AccountEventPictureView : Page
 {
-    public void Page_Load()
+    public void Page_Load(object sender, EventArgs e)
     {
         try
         {
+            picturesView.OnGetDataSource += new EventHandler(picturesView_OnGetDataSource);
             if (!IsPostBack)
             {
-                GetPictureData(RequestId);
+                mPictureId = RequestId;
+                GetPictureData(sender, e);
+                GetPicturesData(sender, e);
             }
         }
         catch (Exception ex)
@@ -30,22 +33,74 @@ public partial class AccountEventPictureView : Page
 
     }
 
-    void GetPictureData(int id)
-    {
-        object[] e_args = { SessionManager.Ticket, id };
-        TransitAccountEventPicture p = SessionManager.GetCachedItem<TransitAccountEventPicture>(
-            EventService, "GetAccountEventPictureById", e_args);
+    private int mPictureId = 0;
 
-        inputPicture.Src = string.Format("AccountEventPicture.aspx?id={0}", id);
+    public int PictureId
+    {
+        get
+        {
+            if (mPictureId == 0)
+            {
+                mPictureId = RequestId;
+            }
+            return mPictureId;
+        }
+    }
+
+    private TransitAccountEventPicture mAccountEventPicture = null;
+
+    TransitAccountEventPicture AccountEventPicture
+    {
+        get
+        {
+            if (mAccountEventPicture == null)
+            {
+                object[] sp_args = { SessionManager.Ticket, PictureId };
+                mAccountEventPicture = SessionManager.GetCachedItem<TransitAccountEventPicture>(
+                    EventService, "GetAccountEventPictureById", sp_args);
+            }
+            return mAccountEventPicture;
+        }
+    }
+
+    private TransitAccountEvent mAccountEvent = null;
+
+    public TransitAccountEvent AccountEvent
+    {
+        get
+        {
+            if (mAccountEvent == null)
+            {
+                object[] as_args = { SessionManager.Ticket, AccountEventPicture.AccountEventId, SessionManager.UtcOffset };
+                mAccountEvent = SessionManager.GetCachedItem<TransitAccountEvent>(
+                    EventService, "GetAccountEventById", as_args);
+            }
+            return mAccountEvent;
+        }
+    }
+
+    void GetPicturesData(object sender, EventArgs e)
+    {
+        object[] p_args = { AccountEvent.Id };
+        picturesView.CurrentPageIndex = 0;
+        picturesView.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+            EventService, "GetAccountEventPicturesCountById", p_args);
+        picturesView_OnGetDataSource(sender, e);
+        picturesView.DataBind();
+    }
+
+    void GetPictureData(object sender, EventArgs e)
+    {
+        TransitAccountEventPicture p = AccountEventPicture;
+
+        inputPicture.Src = string.Format("AccountEventPicture.aspx?id={0}", p.Id);
         inputName.Text = Renderer.Render(p.Name);
         inputDescription.Text = Renderer.Render(p.Description);
         inputCreated.Text = Adjust(p.Created).ToString();
 
-        object[] ae_args = { SessionManager.Ticket, p.AccountEventId, SessionManager.UtcOffset };
-        TransitAccountEvent l = SessionManager.GetCachedItem<TransitAccountEvent>(
-            EventService, "GetAccountEventById", ae_args);
+        TransitAccountEvent l = AccountEvent;
 
-        labelAccountEventName.Text = this.Title = string.Format("{0}: {1}", 
+        labelAccountEventName.Text = this.Title = string.Format("{0}: {1}",
             Renderer.Render(l.Name), string.IsNullOrEmpty(p.Name) ? "Untitled" : Renderer.Render(p.Name));
 
         labelPicture.Text = Renderer.Render(p.Name);
@@ -83,29 +138,25 @@ public partial class AccountEventPictureView : Page
             (p.CommentCount > 0) ? p.CommentCount.ToString() : "no",
             (p.CommentCount == 1) ? "" : "s");
 
-        if (!IsPostBack)
-        {
-            object[] p_args = { l.Id };
-            picturesView.DataSource = SessionManager.GetCachedCollection<TransitAccountEventPicture>(
-                EventService, "GetAccountEventPicturesById", p_args);
-            picturesView.DataBind();
-        }
+        linkPrev.Enabled = p.PrevId > 0;
+        linkPrev.CommandArgument = p.PrevId.ToString();
+        linkNext.Enabled = p.NextId > 0;
+        linkNext.CommandArgument = p.NextId.ToString();
+        labelIndex.Text = string.Format("{0} / {1}", p.Index + 1, p.Count); 
 
-        object[] d_args = { id };
-        discussionComments.DiscussionId = SessionManager.GetCachedCollectionCount(
-            DiscussionService, "GetAccountEventPictureDiscussionId", d_args);
-
+        discussionComments.DiscussionId = DiscussionService.GetAccountEventPictureDiscussionId(PictureId);
         discussionComments.DataBind();
     }
 
-    public void picturesView_ItemCommand(object source, DataListCommandEventArgs e)
+    public void picturesView_ItemCommand(object source, CommandEventArgs e)
     {
         try
         {
             switch (e.CommandName)
             {
                 case "Picture":
-                    GetPictureData(int.Parse(e.CommandArgument.ToString()));
+                    mPictureId = int.Parse(e.CommandArgument.ToString());
+                    GetPictureData(source, e);
                     break;
             }
         }
@@ -114,4 +165,20 @@ public partial class AccountEventPictureView : Page
             ReportException(ex);
         }
     }
+
+    void picturesView_OnGetDataSource(object sender, EventArgs e)
+    {
+        try
+        {
+            ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
+            object[] args = { AccountEvent.Id, options };
+            picturesView.DataSource = SessionManager.GetCachedCollection<TransitAccountEventPicture>(
+                EventService, "GetAccountEventPicturesById", args);
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
 }

@@ -53,7 +53,7 @@ public partial class AccountEventPicturesManage : AuthenticatedPage
     {
         try
         {
-            gridManage.DataSource = EventService.GetAccountEventPictures(SessionManager.Ticket, RequestId);
+            gridManage.DataSource = EventService.GetAccountEventPicturesById(RequestId, null);
         }
         catch (Exception ex)
         {

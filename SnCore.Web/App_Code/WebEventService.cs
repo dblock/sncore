@@ -361,31 +361,41 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
-        /// Get event pictures.
+        /// Get event pictures count by event id.
         /// </summary>
-        /// <param name="event">event id</param>
-        /// <returns>transit event pictures</returns>
-        [WebMethod(Description = "Get event pictures.")]
-        public List<TransitAccountEventPicture> GetAccountEventPictures(string ticket, int eventid)
-        {
-            return GetAccountEventPicturesById(eventid);
-        }
-
-        /// <summary>
-        /// Get event pictures by account id.
-        /// </summary>
-        /// <param name="eventid">event id</param>
-        /// <returns>transit event pictures</returns>
-        [WebMethod(Description = "Get event pictures.", CacheDuration = 60)]
-        public List<TransitAccountEventPicture> GetAccountEventPicturesById(int eventid)
+        [WebMethod(Description = "Get event pictures count.")]
+        public int GetAccountEventPicturesCountById(int id)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                IList list = session.CreateCriteria(typeof(AccountEventPicture))
-                    .Add(Expression.Eq("AccountEvent.Id", eventid))
-                    .List();
+                return (int)session.CreateQuery(string.Format(
+                    "SELECT COUNT(p) FROM AccountEventPicture p WHERE p.AccountEvent.Id = {0}",
+                    id)).UniqueResult();
+            }
+        }
 
+        /// <summary>
+        /// Get event pictures by event id.
+        /// </summary>
+        /// <param name="eventid">event id</param>
+        /// <returns>transit event pictures</returns>
+        [WebMethod(Description = "Get event pictures.", CacheDuration = 60)]
+        public List<TransitAccountEventPicture> GetAccountEventPicturesById(int eventid, ServiceQueryOptions options)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ICriteria c = session.CreateCriteria(typeof(AccountEventPicture))
+                    .Add(Expression.Eq("AccountEvent.Id", eventid));
+
+                if (options != null)
+                {
+                    c.SetFirstResult(options.FirstResult);
+                    c.SetMaxResults(options.PageSize);
+                }
+
+                IList list = c.List();
                 List<TransitAccountEventPicture> result = new List<TransitAccountEventPicture>(list.Count);
                 foreach (AccountEventPicture p in list)
                 {

@@ -144,9 +144,9 @@ public partial class AccountEventView : Page
                     AccountEventEmail.Visible = ! string.IsNullOrEmpty(evt.Email);
                     AccountEventCost.Text = Renderer.Render(evt.Cost);
 
-                    object[] p_args = { SessionManager.Ticket, RequestId };
+                    object[] p_args = { RequestId, null };
                     picturesView.DataSource = SessionManager.GetCachedCollection<TransitAccountEventPicture>(
-                        EventService, "GetAccountEventPictures", p_args);
+                        EventService, "GetAccountEventPicturesById", p_args);
                     picturesView.DataBind();
 
                     if (picturesView.Items.Count == 0)

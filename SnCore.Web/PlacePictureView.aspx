@@ -25,7 +25,10 @@
    <table cellspacing="0" cellpadding="4" class="sncore_table">
     <tr>
      <td class="sncore_table_tr_td" style="text-align: center; vertical-align: top; width: 200px;">
-      <asp:DataList OnItemCommand="picturesView_ItemCommand" runat="server" ID="picturesView">
+      <SnCoreWebControls:PagedList OnItemCommand="picturesView_ItemCommand" runat="server" ID="picturesView"
+       RepeatColumns="1" RepeatRows="5" AllowCustomPaging="true">
+       <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="&#187;"
+        prevpagetext="&#171;" horizontalalign="Center" />
        <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
        <ItemTemplate>
         <asp:ImageButton ID="pictureThumbnail" runat="server" CommandName="Picture" CommandArgument='<%# Eval("Id") %>' 
@@ -35,9 +38,14 @@
           " comment" + (((int) Eval("CommentCount") == 1) ? "" : "s") : "" %>' CommandName="Picture" CommandArgument='<%# Eval("Id") %>' />
         </div>
        </ItemTemplate>
-      </asp:DataList>
+      </SnCoreWebControls:PagedList>
      </td>
      <td valign="top" width="*">
+      <div class="sncore_link" style="text-align: center; margin: 10px;">
+       <asp:LinkButton ID="linkPrev" Text="&#171; Prev" runat="server" OnCommand="picturesView_ItemCommand" CommandName="Picture" /> |
+       <asp:Label ID="labelIndex" runat="server" />
+       | <asp:LinkButton ID="linkNext" Text="Next &#187;" runat="server" OnCommand="picturesView_ItemCommand" CommandName="Picture" />        
+      </div>
       <div style="text-align: center; width: 100%;">
        <img runat="server" id="inputPicture" src="PlacePictureThumbnail.aspx?id=0" />
       </div>

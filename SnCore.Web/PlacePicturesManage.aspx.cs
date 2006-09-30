@@ -54,7 +54,7 @@ public partial class PlacePicturesManage : AuthenticatedPage
     {
         try
         {
-            gridManage.DataSource = PlaceService.GetPlacePictures(RequestId);
+            gridManage.DataSource = PlaceService.GetPlacePicturesById(RequestId, null);
         }
         catch (Exception ex)
         {

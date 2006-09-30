@@ -49,7 +49,7 @@ namespace SnCore.Services
         }
     }
 
-    public class TransitAccountEventPicture : TransitService
+    public class TransitAccountEventPicture : TransitArrayElementService
     {
         private int mCommentCount;
 
@@ -161,7 +161,7 @@ namespace SnCore.Services
         }
 
         public TransitAccountEventPicture(AccountEventPicture p)
-            : base(p.Id)
+            : base(p.Id, p, p.AccountEvent.AccountEventPictures)
         {
             AccountEventId = p.AccountEvent.Id;
             HasPicture = p.Picture != null;

@@ -46,7 +46,7 @@ namespace SnCore.Services
     }
 
 
-    public class TransitPlacePicture : TransitService
+    public class TransitPlacePicture : TransitArrayElementService
     {
         private string mName;
 
@@ -144,7 +144,7 @@ namespace SnCore.Services
         }
 
         public TransitPlacePicture(PlacePicture p)
-            : base(p.Id)
+            : base(p.Id, p, p.Place.PlacePictures)
         {
             Name = p.Name;
             Description = p.Description;

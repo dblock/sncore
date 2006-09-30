@@ -46,7 +46,7 @@ namespace SnCore.Services
     }
 
 
-    public class TransitAccountPicture : TransitService
+    public class TransitAccountPicture : TransitArrayElementService
     {
         private string mName;
 
@@ -144,7 +144,7 @@ namespace SnCore.Services
         }
 
         public TransitAccountPicture(AccountPicture p)
-            : base(p.Id)
+            : base(p.Id, p, p.Account.AccountPictures)
         {
             Name = p.Name;
             Description = p.Description;

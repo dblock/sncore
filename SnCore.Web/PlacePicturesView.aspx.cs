@@ -26,7 +26,7 @@ public partial class PlacePicturesView : Page
                     linkPlace.Text = Renderer.Render(a.Name);
                     this.Title = string.Format("{0} Pictures", Renderer.Render(a.Name));
                     linkPlace.NavigateUrl = "PlaceView.aspx?id=" + a.Id;
-                    listView.DataSource = PlaceService.GetPlacePictures(RequestId);
+                    listView.DataSource = PlaceService.GetPlacePicturesById(RequestId, null);
                     listView.DataBind();
                 }
             }

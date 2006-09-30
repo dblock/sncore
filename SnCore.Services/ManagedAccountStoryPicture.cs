@@ -49,7 +49,7 @@ namespace SnCore.Services
         }
     }
 
-    public class TransitAccountStoryPicture : TransitService
+    public class TransitAccountStoryPicture : TransitArrayElementService
     {
         private int mCommentCount;
 
@@ -162,7 +162,7 @@ namespace SnCore.Services
         }
 
         public TransitAccountStoryPicture(AccountStoryPicture p)
-            : base(p.Id)
+            : base(p.Id, p, p.AccountStory.AccountStoryPictures)
         {
             Location = p.Location;
             AccountStoryId = p.AccountStory.Id;

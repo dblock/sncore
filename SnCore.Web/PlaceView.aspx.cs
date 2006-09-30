@@ -242,9 +242,9 @@ public partial class PlaceView : Page
                     imageEmail.AlternateText = string.Format("E-Mail {0}", Renderer.Render(place.Name));
                     imageEmail.Visible = ! string.IsNullOrEmpty(place.Email);
 
-                    object[] p_args = { RequestId };
+                    object[] p_args = { RequestId, null };
                     picturesView.DataSource = SessionManager.GetCachedCollection<TransitPlacePicture>(
-                        PlaceService, "GetPlacePictures", p_args);
+                        PlaceService, "GetPlacePicturesById", p_args);
 
                     picturesView.DataBind();
 

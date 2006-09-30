@@ -360,6 +360,20 @@ namespace SnCore.WebServices
             }
         }
 
+        /// <summary>
+        /// Get place pictures count.
+        /// </summary>
+        [WebMethod(Description = "Get place pictures count.")]
+        public int GetPlacePicturesCountById(int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return (int)session.CreateQuery(string.Format(
+                    "SELECT COUNT(p) FROM PlacePicture p WHERE p.Place.Id = {0}",
+                    id)).UniqueResult();
+            }
+        }
 
         /// <summary>
         /// Get all place pictures.
@@ -367,14 +381,21 @@ namespace SnCore.WebServices
         /// <param name="placeid">place id</param>
         /// <returns>list of transit place pictures</returns>
         [WebMethod(Description = "Get all place pictures.")]
-        public List<TransitPlacePicture> GetPlacePictures(int placeid)
+        public List<TransitPlacePicture> GetPlacePicturesById(int placeid, ServiceQueryOptions options)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                IList placepictures = session.CreateCriteria(typeof(PlacePicture))
-                    .Add(Expression.Eq("Place.Id", placeid))
-                    .List();
+                ICriteria c = session.CreateCriteria(typeof(PlacePicture))
+                    .Add(Expression.Eq("Place.Id", placeid));
+
+                if (options != null)
+                {
+                    c.SetFirstResult(options.FirstResult);
+                    c.SetMaxResults(options.PageSize);
+                }
+
+                IList placepictures = c.List();
                 List<TransitPlacePicture> result = new List<TransitPlacePicture>(placepictures.Count);
                 foreach (PlacePicture placepicture in placepictures)
                 {
