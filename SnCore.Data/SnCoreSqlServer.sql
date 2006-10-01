@@ -1237,10 +1237,10 @@ CREATE TABLE [dbo].[Account](
 	[City] [nvarchar](64) NULL,
 	[State_Id] [int] NULL,
 	[Country_Id] [int] NULL,
-	[UtcOffset] [int] NULL,
 	[Signature] [nvarchar](128) NULL,
 	[IsAdministrator] [bit] NULL CONSTRAINT [DF_Account_IsAdministrator]  DEFAULT ((0)),
 	[IsPasswordExpired] [bit] NULL,
+	[TimeZone] [int] NOT NULL DEFAULT ((-1)),
  CONSTRAINT [PK_Account] PRIMARY KEY CLUSTERED 
 (
 	[Account_Id] ASC
