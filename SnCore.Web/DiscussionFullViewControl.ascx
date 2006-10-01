@@ -8,7 +8,7 @@
 <asp:Label CssClass="sncore_h2sub" ID="discussionDescription" runat="server" />
 <br />
 <asp:HyperLink ID="postNew" Text="Post New" CssClass="sncore_createnew" runat="server" />
-<asp:DataGrid ShowHeader="false" CellPadding="4" runat="server" ID="discussionView" AutoGenerateColumns="false" BorderWidth="0"
+<asp:DataGrid ShowHeader="false" CellPadding="4" runat="server" ID="discussionView" AutoGenerateColumns="false" BorderWidth="0" BorderColor="White"
  CssClass="sncore_inner_table" Width="95%" OnItemDataBound="discussionView_ItemDataBound" OnItemCommand="discussionView_ItemCommand">
  <Columns>
   <asp:BoundColumn DataField="Id" Visible="false" />
@@ -21,7 +21,7 @@
        <td width="<%# (int) Eval("Level") * 20 %>px">
         <img src="images/Spacer.gif" width="<%# (int) Eval("Level") * 20 %>px" />
        </td>
-       <td align="left" valign="top" width="*" class="sncore_message_left_border">
+       <td align="left" valign="top" width="*" class='<%# GetCssClass((DateTime) Eval("Created")) %>_left_border'>
         <div class="sncore_message_header">
          <div class="sncore_message_subject">
           <%# base.Render(GetSubject((string) Eval("Subject"))) %>
@@ -43,7 +43,7 @@
          </div>
         </div>
        </td>
-       <td width="150" align="center" valign="top" class="sncore_message_right_border">
+       <td width="150" align="center" valign="top" class='<%# GetCssClass((DateTime) Eval("Created")) %>_right_border'>
         <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
          <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" style="<%# (((string) Eval("Body")).Length < 64) ? "height:50px;" : "" %>" />
         </a>

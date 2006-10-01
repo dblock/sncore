@@ -53,6 +53,8 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_message_right { margin: 0px 0px 10px 0px; padding-top: 10px; } 
 .sncore_message_left_border { border-bottom: solid 1px #bbb; border-top: solid 1px #bbb; border-left: solid 1px #bbb; margin: 0px 0px 10px 0px; padding: 10px; } 
 .sncore_message_right_border { border-bottom: solid 1px #bbb; border-right: solid 1px #bbb; border-top: solid 1px #bbb; margin: 0px 0px 10px 0px; padding-top: 10px; } 
+.sncore_new_message_left_border { border-bottom: solid 2px #000; border-top: solid 2px #000; border-left: solid 2px #000; margin: 0px 0px 10px 0px; padding: 10px; } 
+.sncore_new_message_right_border { border-bottom: solid 2px #000; border-right: solid 2px #000; border-top: solid 2px #000; margin: 0px 0px 10px 0px; padding-top: 10px; } 
 .sncore_notice { border: solid 1px; border-color: silver; margin: 10px; padding: 3px; width: 574px; } 
 .sncore_notice_info { border: dotted 2px green; margin: 10px; font-weight: bold; color: green; }
 .sncore_notice_question { border: dotted 2px blue; margin: 10px; font-weight: bold; color: blue; }

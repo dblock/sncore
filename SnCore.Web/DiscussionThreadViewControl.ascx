@@ -21,7 +21,7 @@
  <asp:HyperLink ID="linkNew" runat="server" Text="&#187; Post New" />
  <asp:HyperLink ID="linkMove" runat="server" Text="&#187; Move Thread" />
 </div>
-<SnCoreWebControls:PagedGrid CellPadding="4" ShowHeader="false" runat="server" ID="discussionThreadView"
+<SnCoreWebControls:PagedGrid CellPadding="4" BorderColor="White" ShowHeader="false" runat="server" ID="discussionThreadView"
  AutoGenerateColumns="false" CssClass="sncore_table" BorderWidth="0" OnItemDataBound="discussionThreadView_ItemDataBound"
  OnItemCommand="discussionThreadView_ItemCommand" AllowPaging="false" AllowCustomPaging="false">
  <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
@@ -39,7 +39,7 @@
        <td width="<%# (int) Eval("Level") * 20 %>px">
         <img src="images/Spacer.gif" width="<%# (int) Eval("Level") * 20 %>px" />
        </td>
-       <td align="left" valign="top" width="*" class="sncore_message_left_border">
+       <td align="left" valign="top" width="*" class='<%# GetCssClass((DateTime) Eval("Created")) %>_left_border'>
         <div class="sncore_message_subject">
          <%# base.Render(GetSubject((string) Eval("Subject")))%>
         </div>
@@ -60,7 +60,7 @@
          <%# base.RenderEx(Eval("Body"))%>
         </div>
        </td>
-       <td width="150" align="center" valign="top" class="sncore_message_right_border">
+       <td width="150" align="center" valign="top" class='<%# GetCssClass((DateTime) Eval("Created")) %>_right_border'>
         <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
          <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" style="<%# (((string) Eval("Body")).Length < 64) ? "height:50px;" : "" %>" />
         </a>

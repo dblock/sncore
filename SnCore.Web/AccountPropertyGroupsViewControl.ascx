@@ -5,7 +5,7 @@
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:DataGrid runat="server" ID="groups" BorderWidth="0" AutoGenerateColumns="false" ShowHeader="false"
- OnItemCreated="groups_ItemCreated">
+ OnItemCreated="groups_ItemCreated" BorderColor="White">
  <ItemStyle HorizontalAlign="Left" />
  <Columns>
   <asp:TemplateColumn>
@@ -14,7 +14,7 @@
      <%# Renderer.Render(Eval("Name")) %>
     </div>
     <asp:DataGrid runat="server" ID="values" BorderWidth="0" ShowHeader="false" AutoGenerateColumns="false"
-     CssClass="sncore_account_table">
+     CssClass="sncore_account_table" BorderColor="White">
      <ItemStyle HorizontalAlign="Left" CssClass="sncore_table_tr_td" />
      <Columns>
       <asp:TemplateColumn>

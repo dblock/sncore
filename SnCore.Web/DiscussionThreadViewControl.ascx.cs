@@ -171,4 +171,9 @@ public partial class DiscussionThreadViewControl : Control
 
         return subject;
     }
+
+    public string GetCssClass(DateTime ts)
+    {
+        return (ts.AddDays(5) < DateTime.UtcNow) ? "sncore_message" : "sncore_new_message";
+    }
 }
