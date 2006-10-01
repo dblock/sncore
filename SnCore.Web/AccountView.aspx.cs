@@ -76,6 +76,24 @@ public partial class AccountView : Page
         }
     }
 
+    public void Page_Init(object sender, EventArgs e)
+    {
+        try
+        {
+            if (!IsPostBack)
+            {
+                if (RequestId == 0)
+                {
+                    counterProfileViews.Uri = string.Format("{0}?id={1}", Request.Url, AccountId);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
     public void Page_Load(object sender, EventArgs e)
     {
         try

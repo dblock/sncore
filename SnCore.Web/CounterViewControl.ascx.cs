@@ -13,6 +13,7 @@ using SnCore.Services;
 public partial class CounterViewControl : Control
 {
     private TransitCounter mCounter;
+    private string mUri = null;
 
     public TransitCounter Counter
     {
@@ -20,7 +21,7 @@ public partial class CounterViewControl : Control
         {
             if (mCounter == null)
             {
-                object[] args = { Request.Url.ToString() };
+                object[] args = { Uri };
                 mCounter = SessionManager.GetCachedItem<TransitCounter>(
                     SessionManager.StatsService, "GetCounterByUri", args);
             }
@@ -30,6 +31,22 @@ public partial class CounterViewControl : Control
         set
         {
             mCounter = value;
+        }
+    }
+
+    public string Uri
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(mUri))
+            {
+                mUri = Request.Url.ToString();
+            }
+            return mUri;
+        }
+        set
+        {
+            mUri = value;
         }
     }
 
