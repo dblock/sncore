@@ -51,6 +51,7 @@
     <Compile Include="RandomPassword.cs" />
     <Compile Include="Renderer.cs" />
     <Compile Include="ThumbnailBitmap.cs" />
+    <Compile Include="TimeZoneInformation.cs" />
     <Compile Include="Tree.cs" />
     <Compile Include="UriBuilder.cs" />
   </ItemGroup>

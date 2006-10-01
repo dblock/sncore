@@ -116,7 +116,6 @@
     </bag>
     <property name="Signature" column="Signature" type="String" />
     <many-to-one name="State" column="State_Id" class="State, SnCore.Data" />
-    <property name="UtcOffset" column="UtcOffset" type="Int32" />
     <bag lazy="true" name="Schedules" inverse="true">
       <key column="Account_Id" />
       <one-to-many class="Schedule, SnCore.Data" />
@@ -146,5 +145,6 @@
       <key column="Account_Id" />
       <one-to-many class="CampaignAccountRecepient, SnCore.Data" />
     </bag>
+    <property name="TimeZone" column="TimeZone" type="Int32" />
   </class>
 </hibernate-mapping>

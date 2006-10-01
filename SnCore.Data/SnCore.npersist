@@ -39,7 +39,6 @@
     <property name="ReminderEvents" table="ReminderEvent" id-columns="Account_Id" list="true" item-type="ReminderEvent" read-only="true" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
     <property name="Signature" columns="Signature" type="System.String" />
     <property name="State" columns="State_Id" ref="OneToMany" inverse="Accounts" type="State" />
-    <property name="UtcOffset" columns="UtcOffset" type="System.Int32" />
     <property name="Schedules" table="Schedule" id-columns="Account_Id" list="true" item-type="Schedule" read-only="true" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
     <property name="RefererAccounts" table="RefererAccount" id-columns="Account_Id" list="true" item-type="RefererAccount" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
     <property name="AccountContentGroups" table="AccountContentGroup" id-columns="Account_Id" list="true" item-type="AccountContentGroup" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
@@ -48,6 +47,7 @@
     <property name="AccountLicenses" table="AccountLicense" id-columns="Account_Id" list="true" item-type="AccountLicense" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
     <property name="IsPasswordExpired" columns="IsPasswordExpired" type="System.Boolean" />
     <property name="CampaignAccountRecepients" table="CampaignAccountRecepient" id-columns="Account_Id" list="true" item-type="CampaignAccountRecepient" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
+    <property name="TimeZone" columns="TimeZone" type="System.Int32" />
   </class>
   <class name="AccountAddress" table="AccountAddress">
     <property name="Id" id="true" columns="AccountAddress_Id" type="System.Int32" />
@@ -816,14 +816,14 @@
       <column name="Created" type="DateTime" prec="23" length="8" scale="3" default="(getdate())" />
       <column name="Enabled" type="Boolean" prec="1" length="1" scale="0" default="(1)" />
       <column name="IsAdministrator" type="Boolean" prec="1" allow-null="true" length="1" scale="0" default="((0))" />
+      <column name="IsPasswordExpired" type="Boolean" prec="1" allow-null="true" length="1" scale="0" />
       <column name="LastLogin" type="DateTime" prec="23" allow-null="true" length="8" scale="3" />
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" default="(getdate())" />
       <column name="Name" type="String" prec="128" length="256" scale="0" />
       <column name="Password" type="AnsiString" prec="16" length="16" scale="0" />
       <column name="Signature" type="String" prec="128" allow-null="true" length="256" scale="0" />
       <column name="State_Id" type="Int32" prec="10" allow-null="true" length="4" scale="0" foreign="true" primary-table="State" primary-column="State_Id" foreign-key="FK_Account_State" />
-      <column name="UtcOffset" type="Int32" prec="10" allow-null="true" length="4" scale="0" />
-      <column name="IsPasswordExpired" type="Boolean" prec="1" allow-null="true" length="1" scale="0" />
+      <column name="TimeZone" type="Int32" prec="10" length="4" scale="0" default="((-1))" />
     </table>
     <table name="AccountAddress">
       <column name="AccountAddress_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />

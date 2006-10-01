@@ -1,5 +1,14 @@
+-- add publish flag to stories
 ALTER TABLE dbo.AccountStory ADD [Publish] bit NOT NULL DEFAULT 1
+
+-- add password expired flag to accounts
 ALTER TABLE dbo.Account ADD [IsPasswordExpired] bit NOT NULL DEFAULT 0
+
+-- change reminders from hardcoded text to return a url: must drop existing reminders
 ALTER TABLE dbo.Reminder ADD [Url] nvarchar(128) NOT NULL
 ALTER TABLE dbo.Reminder DROP COLUMN Subject
 ALTER TABLE dbo.Reminder DROP COLUMN Body
+
+-- switch UtcOffset to TimeZone, an index into TimeZoneInformation (2006-10-01)
+ALTER TABLE dbo.Account ADD [TimeZone] int NOT NULL DEFAULT -1
+ALTER TABLE dbo.Account DROP COLUMN UtcOffset

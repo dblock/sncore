@@ -78,7 +78,7 @@ public partial class AccountPreferencesManage : AuthenticatedPage
                 inputBirthday.SelectedDate = SessionManager.Account.Birthday;
                 inputBirthday.DataBind();
                 inputCity.Text = SessionManager.Account.City;
-                inputTimeZone.SelectedUtcOffset = SessionManager.Account.UtcOffset;
+                inputTimeZone.SelectedTzIndex = SessionManager.Account.TimeZone;
 
                 ArrayList countries = new ArrayList();
                 if (SessionManager.Account.Country.Length == 0) countries.Add(new TransitCountry());
@@ -118,7 +118,7 @@ public partial class AccountPreferencesManage : AuthenticatedPage
             ta.City = inputCity.Text;
             ta.Country = inputCountry.SelectedValue;
             ta.State = inputState.SelectedValue;
-            ta.UtcOffset = inputTimeZone.SelectedUtcOffset;
+            ta.TimeZone = inputTimeZone.SelectedTzIndex;
             ta.Signature = inputSignature.Text;
 
             if (ta.Signature.Length > inputSignature.MaxLength)

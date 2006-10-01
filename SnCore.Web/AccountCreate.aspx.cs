@@ -74,7 +74,6 @@ public partial class AccountCreate : Page
             TransitAccount ta = new TransitAccount();
             ta.Name = inputName.Text;
             ta.Birthday = inputBirthday.SelectedDate;
-            ta.UtcOffset = 13;
 
             // check whether there's already an account with the same e-mail and password
             try

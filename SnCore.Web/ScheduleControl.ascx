@@ -3,16 +3,9 @@
 <%@ Register TagPrefix="SnCore" TagName="SelectDate" Src="SelectDateControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="SelectTime" Src="SelectTimeControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
+<%@ Register TagPrefix="SnCore" TagName="AccountTimeZone" Src="AccountTimeZoneControl.ascx" %>
 
- <table class="sncore_account_table">
-  <tr>
-   <td style="font-size: smaller;">
-    your current timezone is
-    <% Response.Write(base.SessionManager.TimeZone); %>
-    <a href="AccountPreferencesManage.aspx">&#187 change</a>
-   </td>
-  </tr>
- </table>
+ <SnCore:AccountTimeZone runat="server" ID="timezone" CssClass="sncore_account_table" />
  <atlas:UpdatePanel runat="server" ID="panelSelectSchedule" Mode="Conditional" RenderMode="Inline">
   <ContentTemplate>
    <table class="sncore_account_table">

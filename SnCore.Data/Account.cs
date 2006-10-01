@@ -53,7 +53,6 @@ using System;
         private System.Collections.IList m_ReminderEvents;
         private System.String m_Signature;
         private State m_State;
-        private System.Int32 m_UtcOffset;
         private System.Collections.IList m_Schedules;
         private System.Collections.IList m_RefererAccounts;
         private System.Collections.IList m_AccountContentGroups;
@@ -62,6 +61,7 @@ using System;
         private System.Collections.IList m_AccountLicenses;
         private System.Boolean m_IsPasswordExpired;
         private System.Collections.IList m_CampaignAccountRecepients;
+        private System.Int32 m_TimeZone;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -1193,31 +1193,6 @@ using System;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
-        ///Persistent primitive property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts values of the type 'System.Int32'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_UtcOffset' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'UtcOffset' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.Int32 UtcOffset
-        {
-            get
-            {
-                return m_UtcOffset;
-            }
-            set
-            {
-                m_UtcOffset = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
         ///Persistent many-one reference property.
         ///</summary>
         ///<remarks>
@@ -1456,6 +1431,31 @@ using System;
             set
             {
                 m_CampaignAccountRecepients = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.Int32'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_TimeZone' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'TimeZone' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Int32 TimeZone
+        {
+            get
+            {
+                return m_TimeZone;
+            }
+            set
+            {
+                m_TimeZone = value;
             }
         }
 

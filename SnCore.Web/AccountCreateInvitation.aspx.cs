@@ -45,7 +45,6 @@ public partial class AccountCreateInvitation : Page
             TransitAccount ta = new TransitAccount();
             ta.Name = inputName.Text;
             ta.Birthday = inputBirthday.SelectedDate;
-            ta.UtcOffset = 13;
 
             AccountService.CreateAccountInvitation(
                 RequestId,

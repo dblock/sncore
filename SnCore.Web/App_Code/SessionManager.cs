@@ -16,6 +16,7 @@ using SnCore.BackEndServices;
 using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
+using SnCore.Tools;
 
 public class SessionManager
 {
@@ -204,18 +205,37 @@ public class SessionManager
 
     public DateTime Adjust(DateTime dt)
     {
-        return dt.AddHours(UtcOffset);
+        if ((IsLoggedIn) && (Account.TimeZone >= 0))
+        {
+            TimeZoneInformation tz = TimeZoneInformation.FromIndex(Account.TimeZone);
+            return tz.FromUniversalTime(dt);
+        }
+
+        return dt.AddHours(BrowserUtcOffset);
     }
 
     public DateTime ToUTC(DateTime dt)
     {
-        return dt.AddHours(-UtcOffset);
+        if ((IsLoggedIn) && (Account.TimeZone >= 0))
+        {
+            TimeZoneInformation tz = TimeZoneInformation.FromIndex(Account.TimeZone);
+            return tz.ToUniversalTime(dt);
+        }
+
+        return dt.AddHours(-BrowserUtcOffset);
     }
 
     public string AdjustToRFC822(DateTime dt)
     {
-        return Adjust(dt).ToString("ddd, dd MMM yyyy HH:mm:ss") +
-            " " + UtcOffset.ToString("00") + "00";
+        if ((IsLoggedIn) && (Account.TimeZone >= 0))
+        {
+            TimeZoneInformation tz = TimeZoneInformation.FromIndex(Account.TimeZone);
+            return tz.FromUniversalTime(dt).ToString("ddd, dd MMM yyyy HH:mm:ss") +
+                " " + tz.CurrentUtcBiasHours.ToString("00") + "00";
+        }
+
+        return dt.AddHours(BrowserUtcOffset).ToString("ddd, dd MMM yyyy HH:mm:ss") +
+            " " + BrowserUtcOffset.ToString("00") + "00";
     }
 
     public string GetValue(string s, string defaultvalue)
@@ -232,9 +252,20 @@ public class SessionManager
     {
         get
         {
-            if (IsLoggedIn && (Account.UtcOffset >= -12) && (Account.UtcOffset <= 12))
-                return Account.UtcOffset;
+            if ((IsLoggedIn) && (Account.TimeZone >= 0))
+            {
+                TimeZoneInformation tz = TimeZoneInformation.FromIndex(Account.TimeZone);
+                return tz.CurrentUtcBiasHours;
+            }
 
+            return BrowserUtcOffset;
+        }
+    }
+
+    public int BrowserUtcOffset
+    {
+        get
+        {
             int tz = System.TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now).Hours;
 
             HttpCookie xtz = Request.Cookies["x-VisitorTimeZoneOffset"];
@@ -791,44 +822,6 @@ public class SessionManager
         {
             object counter = ConfigurationManager.AppSettings["Counter.Visible"];
             return (counter == null) || bool.Parse(counter.ToString());
-        }
-    }
-
-    public string TimeZone
-    {
-        get
-        {
-            switch (UtcOffset)
-            {
-                case -12: return "(GMT -12:00 hours)";
-                case -11: return "(GMT -11:00 hours)";
-                case -10: return "(GMT -10:00 hours) Hawaii";
-                case -9: return "(GMT -9:00 hours) Alaska";
-                case -8: return "(GMT -8:00 hours) Pacific Time (US & Canada)";
-                // case -7: return "(GMT -7:00 hours) Arizona";
-                case -7: return "(GMT -7:00 hours) Mountain Standard Time (US & Canada)";
-                case -6: return "(GMT -6:00 hours) Central Time (US & Canada)";
-                case -5: return "(GMT -5:00 hours) Eastern Time (US & Canada)";
-                case -4: return "(GMT -4:00 hours) Atlantic Time (Canada)";
-                case -3: return "(GMT -3:00 hours)";
-                case -2: return "(GMT -2:00 hours) Mid-Atlantic";
-                case -1: return "(GMT -1:00 hours)";
-                case 0: return "(GMT) Western Europe Time, London";
-                case 1: return "(GMT +1:00 hours) CET(Central Europe Time)";
-                case 2: return "(GMT +2:00 hours) EET(Eastern Europe Time)";
-                case 3: return "(GMT +3:00 hours) Moscow";
-                case 4: return "(GMT +4:00 hours)";
-                case 5: return "(GMT +5:00 hours)";
-                case 6: return "(GMT +6:00 hours)";
-                case 7: return "(GMT +7:00 hours) Bangkok, Jakarta";
-                case 8: return "(GMT +8:00 hours) Singapore";
-                case 9: return "(GMT +9:00 hours) Tokyo";
-                case 10: return "(GMT +10:00 hours)";
-                case 11: return "(GMT +11:00 hours)";
-                case 12: return "(GMT +12:00 hours)";
-            }
-
-            return string.Empty;
         }
     }
 

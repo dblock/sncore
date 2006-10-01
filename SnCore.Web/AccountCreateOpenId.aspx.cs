@@ -38,7 +38,6 @@ public partial class AccountCreateOpenId : Page
                     string consumerurl = AccountService.VerifyOpenId(SessionManager.OpenIdToken, serializer.Names, serializer.Values);
 
                     TransitAccount ta = new TransitAccount();
-                    ta.UtcOffset = 13;
                     ta.Name = Request.Cookies["SnCore.AccountCreate.Name"].Value;
 
                     int id = AccountService.CreateAccountWithOpenId(

@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using SnCore.Tools;
 
 public partial class AccountTimeZoneControl : Control
 {
@@ -41,7 +42,15 @@ public partial class AccountTimeZoneControl : Control
         {
             if (!IsPostBack)
             {
-                labelTimeZone.Text = SessionManager.TimeZone;
+                if (SessionManager.IsLoggedIn && SessionManager.Account.TimeZone >= 0)
+                {
+                    TimeZoneInformation tz = TimeZoneInformation.FromIndex(SessionManager.Account.TimeZone);
+                    labelTimeZone.Text = tz.DisplayName;
+                }
+                else
+                {
+                    labelTimeZone.Text = string.Format("UTC {0} (Browser TimeZone)", SessionManager.BrowserUtcOffset);
+                }
             }
         }
         catch (Exception ex)

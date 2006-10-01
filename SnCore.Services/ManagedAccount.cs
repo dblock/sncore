@@ -344,7 +344,7 @@ namespace SnCore.Services
             State = (a.State == null) ? string.Empty : a.State.Name;
             Country = (a.Country == null) ? string.Empty : a.Country.Name;
             City = a.City;
-            UtcOffset = a.UtcOffset;
+            TimeZone = a.TimeZone;
             Signature = a.Signature;
             mIsAdministrator = a.IsAdministrator;
             IsPasswordExpired = a.IsPasswordExpired;
@@ -480,18 +480,18 @@ namespace SnCore.Services
             }
         }
 
-        private int mUtcOffset = 0;
+        private int mTimeZone = -1;
 
-        public int UtcOffset
+        public int TimeZone
         {
             get
             {
 
-                return mUtcOffset;
+                return mTimeZone;
             }
             set
             {
-                mUtcOffset = value;
+                mTimeZone = value;
             }
         }
 
@@ -822,7 +822,7 @@ namespace SnCore.Services
             mAccount.Name = ta.Name;
             mAccount.Birthday = ta.Birthday;
             mAccount.City = ta.City;
-            mAccount.UtcOffset = ta.UtcOffset;
+            mAccount.TimeZone = ta.TimeZone;
             mAccount.Signature = ta.Signature;
 
             mAccount.Country = (ta.Country != null && ta.Country.Length > 0)

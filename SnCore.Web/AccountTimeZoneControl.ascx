@@ -8,7 +8,7 @@
   </td>
   <td  class="sncore_table_tr_td" style="font-size: smaller;">
    <div>
-    Your timezone setting may be incorrect. The times shown are <asp:Label ID="labelTimeZone" runat="server" />.
+    The times shown are <asp:Label ID="labelTimeZone" runat="server" />
     <a href="AccountPreferencesManage.aspx">&#187; Change</a>
    </div>
   </td>
