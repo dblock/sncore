@@ -57,7 +57,7 @@ public partial class AccountCreateInvitation : Page
 
             string ticket = AccountService.Login(inputEmailAddress.Text, inputPassword.Text);
             SessionManager.Login(ticket, false);
-            Redirect("Default.aspx");
+            Redirect("AccountCreateInvitationWelcome.aspx");
         }
         catch (Exception ex)
         {

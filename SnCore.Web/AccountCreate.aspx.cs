@@ -96,7 +96,7 @@ public partial class AccountCreate : Page
             {
                 string ticket = AccountService.Login(inputEmailAddress.Text, inputPassword.Text);
                 SessionManager.Login(ticket, false);
-                Redirect("Default.aspx");
+                Redirect("AccountCreateWelcome.aspx");
             }
             catch
             {
@@ -105,7 +105,7 @@ public partial class AccountCreate : Page
                 ReportInfo(
                     string.Format(
                         "Account created. An e-mail has been sent to '{0}' for confirmation. " +
-                        "You must confirm this e-mail address before you can use it to login.",
+                        "You must confirm this e-mail address before you log-in.",
                         inputEmailAddress.Text));
 
                 panelCreate.Visible = false;
