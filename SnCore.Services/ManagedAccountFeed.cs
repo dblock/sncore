@@ -622,7 +622,11 @@ namespace SnCore.Services
             Uri basehref = null;
             Uri.TryCreate(mAccountFeed.LinkUrl, UriKind.Absolute, out basehref);
 
-            foreach (AccountFeedItem item in mAccountFeed.AccountFeedItems)
+            IList items = Session.CreateCriteria(typeof(AccountFeedItem))
+                .Add(Expression.Eq("AccountFeed.Id", mAccountFeed.Id))
+                .List();
+
+            foreach (AccountFeedItem item in items)
             {
                 IList<HtmlImage> images = null;
 
@@ -668,6 +672,13 @@ namespace SnCore.Services
                         ThumbnailBitmap bitmap = new ThumbnailBitmap(data);
                         x_img.Thumbnail = bitmap.Thumbnail;
                         x_img.Visible = mAccountFeed.Publish;
+
+                        // hide images smaller than the thumbnail size
+                        if (bitmap.Size.Height < ThumbnailBitmap.ThumbnailSize.Height 
+                            || bitmap.Size.Width < ThumbnailBitmap.ThumbnailSize.Width)
+                        {
+                            x_img.Visible = false;
+                        }
                     }
                     catch (Exception ex)
                     {
