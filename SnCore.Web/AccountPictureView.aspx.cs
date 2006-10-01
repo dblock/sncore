@@ -96,7 +96,8 @@ public partial class AccountPictureView : Page
         inputPicture.Src = string.Format("AccountPicture.aspx?id={0}", p.Id);
         inputName.Text = Renderer.Render(p.Name);
         inputDescription.Text = Renderer.Render(p.Description);
-        inputCreated.Text = Adjust(p.Created).ToString();
+        inputCreated.Text = Adjust(p.Created).ToString("d");
+        inputCounter.Text = p.Counter.Total.ToString();
 
         TransitAccount l = Account;
 

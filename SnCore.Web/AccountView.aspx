@@ -18,6 +18,7 @@
 <%@ Register TagPrefix="SnCore" TagName="BookmarksView" Src="BookmarksViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AttributesView" Src="AccountAttributesViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="LicenseView" Src="AccountLicenseViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="CounterView" Src="CounterViewControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <div class="sncore_navigate">
   <asp:Label CssClass="sncore_navigate_item" ID="linkAccount" Text="Account" runat="server" />
@@ -48,12 +49,19 @@
       <tr>
        <td class="sncore_table_tr_td">
         <asp:Label CssClass="sncore_account_name" ID="accountName" runat="server" />
-        <div>
-         <asp:Label ID="accountLastLogin" CssClass="sncore_account_lastlogin" runat="server" />
-        </div>
+        <!-- NOEMAIL-START -->
+         <div class="sncore_description">
+          last activity: <asp:Label ID="accountLastLogin" runat="server" />
+         </div>
+         <div class="sncore_description">
+          profile views: <SnCore:CounterView ID="counterProfileViews" runat="server" />
+         </div>
+        <!-- NOEMAIL-END -->
         <div>
          <asp:Label ID="accountCity" CssClass="sncore_account_locations" runat="server" />
          <asp:Label ID="accountState" CssClass="sncore_account_locations" runat="server" />
+        </div>
+        <div>
          <asp:Label ID="accountCountry" CssClass="sncore_account_locations" runat="server" />
         </div>
        </td>

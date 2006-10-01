@@ -204,6 +204,26 @@ namespace SnCore.WebServices
 
         #endregion
 
+        #region Counters
+
+        /// <summary>
+        /// Get counter for an url.
+        /// </summary>
+        /// <returns>transit referer queries</returns>
+        [WebMethod(Description = "Get counter for an url.", CacheDuration = 60)]
+        public TransitCounter GetCounterByUri(string uri)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return new TransitCounter((Counter)session.CreateCriteria(typeof(Counter))
+                        .Add(Expression.Eq("Uri", uri))
+                        .UniqueResult());
+            }
+        }
+
+        #endregion
+
         #region Referer Host Dups
 
         /// <summary>

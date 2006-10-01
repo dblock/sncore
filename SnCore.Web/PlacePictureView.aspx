@@ -74,6 +74,14 @@
          <asp:Label ID="inputCreated" runat="server" />
         </td>
        </tr>
+       <tr>
+        <td class="sncore_form_label">
+         views:
+        </td>
+        <td class="sncore_form_value">
+         <asp:Label ID="inputCounter" runat="server" />
+        </td>
+       </tr>
       </table>
       <a name="comments"></a>
       <SnCore:DiscussionFullView runat="server" ID="discussionComments" Text="Comments" PostNewText="&#187; Post a Comment" />  

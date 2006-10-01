@@ -24,6 +24,20 @@ namespace SnCore.Services
             mTotal = total;
         }
 
+        public TransitCounter(Counter c)
+        {
+            if (c != null)
+            {
+                mTimestamp = c.Created;
+                mTotal = c.Total;
+            }
+            else
+            {
+                mTimestamp = DateTime.UtcNow;
+                mTotal = 0;
+            }
+        }
+
         private DateTime mTimestamp;
 
         public DateTime Timestamp
@@ -722,6 +736,17 @@ namespace SnCore.Services
             summary.NewDaily.AddRange(GetSummaryNewDaily());
 
             return summary;
+        }
+
+        public static TransitCounter GetCounter(ISession session, string pageviewfilename, int id)
+        {
+            string uri = string.Format("{0}/{1}?id={2}", 
+                ManagedConfiguration.GetValue(session, "SnCore.WebSite.Url", "http://localhost/SnCore"),
+                pageviewfilename, id);
+
+            return new TransitCounter((Counter)session.CreateCriteria(typeof(Counter))
+                .Add(Expression.Eq("Uri", uri))
+                .UniqueResult());
         }
     }
 }

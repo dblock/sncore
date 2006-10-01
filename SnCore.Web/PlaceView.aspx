@@ -9,6 +9,7 @@
 <%@ Register TagPrefix="SnCore" TagName="BookmarksView" Src="BookmarksViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="PropertyGroupsView" Src="PlacePropertyGroupsViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AttributesView" Src="PlaceAttributesViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="CounterView" Src="CounterViewControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <!-- NOEMAIL-START -->
  <div class="sncore_navigate">
@@ -72,6 +73,11 @@
           <asp:HyperLink ID="placeWebsite" runat="server" Text="&#187; website" Target="_blank" />
           <asp:ImageButton Visible="False" ImageUrl="images/account/inbox.gif" ImageAlign="AbsMiddle" runat="server" ID="imageEmail" />
          </div>
+         <!-- NOEMAIL-START -->
+         <div class="sncore_description">
+          views: <SnCore:CounterView ID="counterProfileViews" runat="server" />
+         </div>
+         <!-- NOEMAIL-END -->
         </div>
        </td>
        <td class="sncore_table_tr_td" valign="top" align="right">

@@ -155,6 +155,20 @@ namespace SnCore.Services
             }
         }
 
+        private TransitCounter mCounter;
+
+        public TransitCounter Counter
+        {
+            get
+            {
+                return mCounter;
+            }
+            set
+            {
+                mCounter = value;
+            }
+        }
+
         public TransitAccountEventPicture()
         {
 
@@ -233,6 +247,7 @@ namespace SnCore.Services
                 pic.CommentCount = ManagedDiscussion.GetDiscussionPostCount(
                     Session, mAccountEventPicture.AccountEvent.Account.Id,
                     ManagedDiscussion.AccountEventPictureDiscussion, mAccountEventPicture.Id);
+                pic.Counter = ManagedStats.GetCounter(Session, "AccountEventPicture.aspx", mAccountEventPicture.Id);
                 return pic;
             }
         }

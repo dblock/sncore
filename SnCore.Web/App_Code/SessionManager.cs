@@ -105,8 +105,9 @@ public class SessionManager
     }
 
     public SessionManager(PicturePage page)
-        : this(page.Cache, page.Request, page.Response, false)
+        : this(page.Cache, page.Request, page.Response, page.PageType == PicturePage.PicturePageType.Bitmap)
     {
+        
     }
 
     public SessionManager(Cache cache, HttpRequest request, HttpResponse response, bool track)

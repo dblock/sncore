@@ -96,7 +96,8 @@ public partial class PlacePictureView : Page
         inputPicture.Src = string.Format("PlacePicture.aspx?id={0}", p.Id);
         inputName.Text = Renderer.Render(p.Name);
         inputDescription.Text = Renderer.Render(p.Description);
-        inputCreated.Text = Adjust(p.Created).ToString();
+        inputCreated.Text = Adjust(p.Created).ToString("d");
+        inputCounter.Text = p.Counter.Total.ToString();
 
         TransitPlace l = Place;
 

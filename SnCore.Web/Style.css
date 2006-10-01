@@ -83,7 +83,6 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_createnew { padding-left: 20px; }
 .sncore_cancel { padding-left: 20px; }
 .sncore_account_name { margin-top: 5px; margin-bottom: 5px; font-size: large; font-weight: bold; color: maroon; }
-.sncore_account_lastlogin { color: silver; }
 .sncore_account_location { font-weight: bold; }
 .sncore_account_id { font-weight: bold; font-size: 8pt; }
 .sncore_feeditem_name { margin-top: 5px; margin-bottom: 5px; font-size: large; font-weight: bold; color: maroon; }

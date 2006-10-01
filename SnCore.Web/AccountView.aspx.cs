@@ -117,7 +117,7 @@ public partial class AccountView : Page
 
                 if (picturesView.Items.Count == 0) accountNoPicture.Visible = true;
 
-                accountLastLogin.Text = "last activity: " + Adjust(Account.LastLogin);
+                accountLastLogin.Text = Adjust(Account.LastLogin).ToString("d");
                 accountCity.Text = Renderer.Render(Account.City);
                 accountState.Text = Renderer.Render(Account.State);
                 accountCountry.Text = Renderer.Render(Account.Country);
