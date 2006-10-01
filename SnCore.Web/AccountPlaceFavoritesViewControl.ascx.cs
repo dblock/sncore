@@ -36,6 +36,10 @@ public partial class AccountPlaceFavoritesViewControl : Control
             if (!IsPostBack)
             {
                 GetData(sender, e);
+
+                linkAll.Text = string.Format("&#187; {0} Favorite Place{1}",
+                    placesList.VirtualItemCount, placesList.VirtualItemCount == 1 ? string.Empty : "s");
+                linkAll.NavigateUrl = string.Format("AccountPlaceFavoritesView.aspx?id={0}", AccountId);
             }
         }
         catch (Exception ex)

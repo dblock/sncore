@@ -5,6 +5,9 @@
 <div class="sncore_h2">
  Favorite Places
 </div>
+<div class="sncore_h2sub">
+ <asp:HyperLink runat="server" ID="linkAll" Text="&#187; All Favorite Places" />
+</div>
 <atlas:UpdatePanel ID="panelGrid" runat="server" Mode="Conditional" RenderMode="Inline">
  <ContentTemplate>
   <SnCoreWebControls:PagedList CssClass="sncore_account_table" runat="server" ID="placesList"

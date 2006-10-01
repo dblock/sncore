@@ -120,6 +120,48 @@ namespace SnCore.Services
             }
         }
 
+        private string mPlaceCity;
+
+        public string PlaceCity
+        {
+            get
+            {
+                return mPlaceCity;
+            }
+            set
+            {
+                mPlaceCity = value;
+            }
+        }
+
+        private string mPlaceCountry;
+
+        public string PlaceCountry
+        {
+            get
+            {
+                return mPlaceCountry;
+            }
+            set
+            {
+                mPlaceCountry = value;
+            }
+        }
+
+        private string mPlaceState;
+
+        public string PlaceState
+        {
+            get
+            {
+                return mPlaceState;
+            }
+            set
+            {
+                mPlaceState = value;
+            }
+        }
+
         public TransitAccountPlaceFavorite()
         {
 
@@ -135,6 +177,9 @@ namespace SnCore.Services
             PlaceName = o.Place.Name;
             AccountPictureId = ManagedService.GetRandomElementId(o.Account.AccountPictures);
             PlacePictureId = ManagedService.GetRandomElementId(o.Place.PlacePictures);
+            PlaceCity = o.Place.City.Name;
+            PlaceState = o.Place.City.State.Name;
+            PlaceCountry = o.Place.City.Country.Name;
         }
 
         public AccountPlaceFavorite GetAccountPlaceFavorite(ISession session)

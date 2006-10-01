@@ -12,7 +12,7 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 
-public partial class AccountFriendsView : AccountPersonPage
+public partial class AccountPlaceFavoritesView : AccountPersonPage
 {
     public int RequestAccountId
     {
@@ -33,7 +33,7 @@ public partial class AccountFriendsView : AccountPersonPage
                 TransitAccount ta = SessionManager.GetCachedItem<TransitAccount>(
                     AccountService, "GetAccountById", args);
 
-                labelName.Text = string.Format("{0}'s Friends", Render(ta.Name));
+                labelName.Text = string.Format("{0}'s Favorite Places", Render(ta.Name));
                 linkAccount.Text = string.Format("&#187; Back to {0}", Render(ta.Name));
                 linkAccount.NavigateUrl = string.Format("AccountView.aspx?id={0}", ta.Id);
                 GetData(sender, e);
@@ -50,7 +50,7 @@ public partial class AccountFriendsView : AccountPersonPage
         gridManage.CurrentPageIndex = 0;
         object[] args = { RequestAccountId };
         gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            SocialService, "GetFriendsActivityCountById", args);
+            PlaceService, "GetAccountPlaceFavoritesCountById", args);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
@@ -63,8 +63,8 @@ public partial class AccountFriendsView : AccountPersonPage
             options.PageNumber = gridManage.CurrentPageIndex;
             options.PageSize = gridManage.PageSize;
             object[] args = { RequestAccountId, options };
-            gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountActivity>(
-                SocialService, "GetFriendsActivityById", args);
+            gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountPlaceFavorite>(
+                PlaceService, "GetAccountPlaceFavoritesByAccountId", args);
         }
         catch (Exception ex)
         {

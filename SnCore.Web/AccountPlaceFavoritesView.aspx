@@ -1,5 +1,5 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true"
- CodeFile="AccountFriendsView.aspx.cs" Inherits="AccountFriendsView" Title="Friends" %>
+ CodeFile="AccountPlaceFavoritesView.aspx.cs" Inherits="AccountPlaceFavoritesView" Title="Favorite Places" %>
 <%@ Import Namespace="SnCore.Services" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
@@ -15,20 +15,19 @@
       </div>
       <div class="sncore_h2sub">
        <asp:HyperLink ID="linkAccount" runat="server" Text="&#187; Back" />
-       <a href="AccountsView.aspx">&#187; All People</a>
-       <a href="AccountInvitationsManage.aspx">&#187; Invite a Friend</a>
-       <a href="RefererAccountsView.aspx">&#187; Top Traffickers</a>
+       <a href="PlacesView.aspx">&#187; All Places</a>
+       <a href="PlaceEdit.aspx">&#187; Suggest a Place</a>
       </div>
      </td>
      <td>
       <asp:Label ID="labelCount" runat="server" CssClass="sncore_h2sub" />
      </td>
      <td align="right" valign="middle">
-      <a href='AccountFriendsRss.aspx?id=<% Response.Write(RequestId); %>'>
+      <a href='AccountPlaceFavoritesRss.aspx?id=<% Response.Write(RequestId); %>'>
        <img src="images/rss.gif" border="0" />
       </a>
       <link runat="server" id="linkRelRss" rel="alternate" type="application/rss+xml" title="Rss"
-       href="AccountFriendsRss.aspx?id=<% Response.Write(RequestId); %>" />
+       href="AccountPlaceFavoritesRss.aspx?id=<% Response.Write(RequestId); %>" />
      </td>
     </tr>
    </table>
@@ -38,49 +37,16 @@
      prevpagetext="Prev" horizontalalign="Center" />
     <ItemStyle CssClass="sncore_description" HorizontalAlign="Center" Width="25%" />
     <ItemTemplate>
-     <a href="AccountView.aspx?id=<%# Eval("Id") %>">
-      <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("PictureId") %>" />
+     <a href="PlaceView.aspx?id=<%# Eval("PlaceId") %>">
+      <img border="0" src="PlacePictureThumbnail.aspx?id=<%# Eval("PlacePictureId") %>" />
      </a>
      <div>
-      <a href="AccountView.aspx?id=<%# Eval("Id") %>">
-       <%# base.Render(Eval("Name")) %>
+      <a href="PlaceView.aspx?id=<%# Eval("PlaceId") %>">
+       <%# base.Render(Eval("PlaceName")) %>
       </a>
      </div>
      <div>
-      last activity:
-      <%# base.Adjust(Eval("LastLogin")).ToString("d") %>
-     </div>
-     <div>
-      <%# base.Render(Eval("City")) %>
-      <%# base.Render(Eval("State")) %>
-     </div>
-     <div>
-      <%# base.Render(Eval("Country")) %>
-     </div>
-     <div>
-      <a href='AccountPicturesView.aspx?id=<%# Eval("Id") %>'>
-       <%# GetNewPictures((int) Eval("NewPictures")) %>
-      </a>
-     </div>
-     <div>
-      <a href='AccountStoryView.aspx?id=<%# GetAccountStoryId((TransitAccountStory) Eval("LatestStory")) %>'>
-       <%# GetAccountStory((TransitAccountStory)Eval("LatestStory"))%>
-      </a>
-     </div>
-     <div>
-      <a href='AccountSurveyView.aspx?aid=<%# Eval("Id") %>&id=<%# GetSurveyId((TransitSurvey) Eval("LatestSurvey")) %>'>
-       <%# GetSurvey((TransitSurvey)Eval("LatestSurvey"))%>
-      </a>
-     </div>
-     <div>
-      <a href='AccountDiscussionThreadsView.aspx?id=<%# Eval("Id") %>'>
-       <%# GetNewDiscussionPosts((int) Eval("NewDiscussionPosts")) %>
-      </a>
-     </div>
-     <div>
-      <a href='AccountView.aspx?id=<%# Eval("Id") %>'>
-       <%# GetNewSyndicatedContent((int) Eval("NewSyndicatedContent")) %>
-      </a>
+      <%# base.Render(Eval("PlaceCity")) %>
      </div>
     </ItemTemplate>
    </SnCoreWebControls:PagedList> 
