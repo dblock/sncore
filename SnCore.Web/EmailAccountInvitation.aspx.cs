@@ -39,6 +39,9 @@ public partial class EmailAccountInvitation : AuthenticatedPage
     {
         try
         {
+            Title = string.Format("{0} invites you to join {1}", 
+                Render(AccountInvitation.AccountName), 
+                Render(SessionManager.GetCachedConfiguration("SnCore.Name", "SnCore")));
             panelMessage.Visible = ! string.IsNullOrEmpty(AccountInvitation.Message);
         }
         catch (Exception ex)

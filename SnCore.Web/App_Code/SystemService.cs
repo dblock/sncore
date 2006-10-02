@@ -16,7 +16,7 @@ namespace SnCore.BackEndServices
     {
         protected delegate void SessionJobDelegate(ISession session);
         private int mInterruptInterval = 1;
-        private int mSleepInterval = 600;
+        private int mSleepInterval = 60;
         private Thread mThread = null;
         private bool mIsStopping = false;
         private List<SessionJobDelegate> mJobs = new List<SessionJobDelegate>();

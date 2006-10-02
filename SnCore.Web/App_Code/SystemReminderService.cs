@@ -21,6 +21,20 @@ namespace SnCore.BackEndServices
 {
     public class SystemReminderService : SystemService
     {
+        private int mChunkSize = 50;
+
+        public int ChunkSize
+        {
+            get
+            {
+                return mChunkSize;
+            }
+            set
+            {
+                mChunkSize = value;
+            }
+        }
+
         public SystemReminderService()
         {
 
@@ -28,13 +42,40 @@ namespace SnCore.BackEndServices
 
         public override void SetUp()
         {
-            AddJob(new SessionJobDelegate(RunSystemReminders));
             AddJob(new SessionJobDelegate(RunInvitationReminders));
+            AddJob(new SessionJobDelegate(RunSystemReminders));
         }
 
         public void RunInvitationReminders(ISession session)
         {
+            // fetch invitations that are older than a month
+            IList invitations = session.CreateCriteria(typeof(AccountInvitation))
+                .Add(Expression.Le("Modified", DateTime.UtcNow.AddMonths(-1)))
+                .SetMaxResults(ChunkSize) // avoid draining resources
+                .List();
 
+            foreach (AccountInvitation invitation in invitations)
+            {
+                if (invitation.Created == invitation.Modified)
+                {
+                    try
+                    {
+                        // this invitation was never resent
+                        ManagedAccountInvitation mi = new ManagedAccountInvitation(session, invitation);
+                        mi.Send();
+                    }
+                    finally
+                    {
+                        invitation.Modified = DateTime.UtcNow;
+                        session.Save(invitation);
+                    }
+                }
+                else
+                {
+                    // delete an invitation that has not been responded to for over a month
+                    session.Delete(invitation);
+                }
+            }
         }
 
         public void RunSystemReminders(ISession session)

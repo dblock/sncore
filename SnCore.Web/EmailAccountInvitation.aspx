@@ -4,7 +4,7 @@
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <div class="sncore_h2">
-  Invitation to Join
+  Invitation
  </div>
  <table class="sncore_table">
   <tr>
