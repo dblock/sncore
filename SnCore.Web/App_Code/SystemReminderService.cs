@@ -21,163 +21,118 @@ namespace SnCore.BackEndServices
 {
     public class SystemReminderService : SystemService
     {
-        private int mSleepInterval = 600;
-        private int mInterruptInterval = 1;
-
-        public int SleepInterval
-        {
-            get
-            {
-                return mSleepInterval;
-            }
-            set
-            {
-                mSleepInterval = value;
-            }
-        }
-
-        public int InterruptInterval
-        {
-            get
-            {
-                return mInterruptInterval;
-            }
-            set
-            {
-                mInterruptInterval = value;
-            }
-        }
-
         public SystemReminderService()
         {
 
         }
 
-        public override void Run()
+        public override void SetUp()
         {
-            ISessionFactory Factory = SnCore.Data.Hibernate.Session.Configuration.BuildSessionFactory();
+            AddJob(new SessionJobDelegate(RunSystemReminders));
+            AddJob(new SessionJobDelegate(RunInvitationReminders));
+        }
 
-            while (!IsStopping)
+        public void RunInvitationReminders(ISession session)
+        {
+
+        }
+
+        public void RunSystemReminders(ISession session)
+        {
+            // get reminders
+            IList reminders = session.CreateCriteria(typeof(Reminder))
+                .Add(Expression.Eq("Enabled", true))
+                .List();
+
+            foreach (Reminder reminder in reminders)
             {
+                reminder.LastRun = DateTime.UtcNow;
+                reminder.LastRunError = string.Empty;
+                session.Save(reminder);
+
                 try
                 {
-                    IDbConnection conn = GetNewConnection();
-                    conn.Open();
+                    // get the type of the object seeked
+                    Type objecttype = Assembly.GetAssembly(typeof(DataObject))
+                        .GetType(reminder.DataObject.Name, true);
 
-                    ISession session = Factory.OpenSession(conn);
+                    // todo: currently this works with date-based fields only
 
-                    try
+                    // anything older than this time
+                    DateTime timeboundary = DateTime.UtcNow.AddHours(-reminder.DeltaHours);
+
+                    // find all records matching the property
+                    IList objects = session.CreateCriteria(objecttype)
+                        .Add(Expression.Le(reminder.DataObjectField, timeboundary))
+                        .List();
+
+                    // currently only support account identities
+                    // the object is either an Account object or has an AccountId property
+                    string accountidproperty = (reminder.DataObject.Name == "Account") ? "Id" : "AccountId";
+
+                    PropertyInfo accountidpropertyinfo = objecttype.GetProperty(accountidproperty);
+
+                    if (accountidpropertyinfo == null)
                     {
-                        // get reminders
-                        IList reminders = session.CreateCriteria(typeof(Reminder))
-                            .Add(Expression.Eq("Enabled", true))
-                            .List();
+                        throw new Exception(string.Format("Object {0} does not have a property {1}.",
+                            reminder.DataObject.Name, accountidproperty));
+                    }
 
-                        foreach (Reminder reminder in reminders)
+                    foreach (object o in objects)
+                    {
+                        int accountid = (int)accountidpropertyinfo.GetValue(o, null);
+
+                        ReminderEvent reminderevent = (ReminderEvent)session.CreateCriteria(typeof(ReminderEvent))
+                            .Add(Expression.Eq("Reminder.Id", reminder.Id))
+                            .Add(Expression.Eq("Account.Id", accountid))
+                            .UniqueResult();
+
+                        Account acct = (Account)session.Load(typeof(Account), accountid);
+
+                        if (reminderevent == null)
                         {
-                            reminder.LastRun = DateTime.UtcNow;
-                            reminder.LastRunError = string.Empty;
-                            session.Save(reminder);
-
-                            try
+                            reminderevent = new ReminderEvent();
+                            reminderevent.Account = acct;
+                            reminderevent.Reminder = reminder;
+                            reminderevent.Created = reminderevent.Modified = DateTime.UtcNow;
+                        }
+                        else
+                        {
+                            if (reminderevent.Modified >= timeboundary)
                             {
-                                // get the type of the object seeked
-                                Type objecttype = Assembly.GetAssembly(typeof(DataObject))
-                                    .GetType(reminder.DataObject.Name, true);
-
-                                // todo: currently this works with date-based fields only
-
-                                // anything older than this time
-                                DateTime timeboundary = DateTime.UtcNow.AddHours(-reminder.DeltaHours);
-
-                                // find all records matching the property
-                                IList objects = session.CreateCriteria(objecttype)
-                                    .Add(Expression.Le(reminder.DataObjectField, timeboundary))
-                                    .List();
-
-                                // currently only support account identities
-                                // the object is either an Account object or has an AccountId property
-                                string accountidproperty = (reminder.DataObject.Name == "Account") ? "Id" : "AccountId";
-
-                                PropertyInfo accountidpropertyinfo = objecttype.GetProperty(accountidproperty);
-
-                                if (accountidpropertyinfo == null)
-                                {
-                                    throw new Exception(string.Format("Object {0} does not have a property {1}.",
-                                        reminder.DataObject.Name, accountidproperty));
-                                }
-
-                                foreach (object o in objects)
-                                {
-                                    int accountid = (int)accountidpropertyinfo.GetValue(o, null);
-
-                                    ReminderEvent reminderevent = (ReminderEvent)session.CreateCriteria(typeof(ReminderEvent))
-                                        .Add(Expression.Eq("Reminder.Id", reminder.Id))
-                                        .Add(Expression.Eq("Account.Id", accountid))
-                                        .UniqueResult();
-
-                                    Account acct = (Account)session.Load(typeof(Account), accountid);
-
-                                    if (reminderevent == null)
-                                    {
-                                        reminderevent = new ReminderEvent();
-                                        reminderevent.Account = acct;
-                                        reminderevent.Reminder = reminder;
-                                        reminderevent.Created = reminderevent.Modified = DateTime.UtcNow;
-                                    }
-                                    else
-                                    {
-                                        if (reminderevent.Modified >= timeboundary)
-                                        {
-                                            // this field was already noticed and event was fired in a prior run
-                                            continue;
-                                        }
-
-                                        if (!reminder.Recurrent)
-                                        {
-                                            // this reminder has already been sent but is not recurrent
-                                            continue;
-                                        }
-
-                                        reminderevent.Modified = DateTime.UtcNow;
-                                    }
-
-                                    ManagedAccount ma = new ManagedAccount(session, acct);
-
-                                    if (!string.IsNullOrEmpty(ma.ActiveEmailAddress))
-                                    {
-                                        ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
-                                            session,
-                                            new MailAddress(ma.ActiveEmailAddress, ma.Name).ToString(),
-                                            string.Format("{0}?id={1}", reminder.Url, ma.Id));
-                                    }
-
-                                    session.Save(reminderevent);
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                reminder.LastRunError = ex.Message;
-                                session.Save(reminder);
+                                // this field was already noticed and event was fired in a prior run
+                                continue;
                             }
 
-                            Thread.Sleep(1000 * InterruptInterval);
+                            if (!reminder.Recurrent)
+                            {
+                                // this reminder has already been sent but is not recurrent
+                                continue;
+                            }
+
+                            reminderevent.Modified = DateTime.UtcNow;
                         }
 
-                        session.Flush();
-                    }
-                    finally
-                    {
-                        conn.Close();
-                        session.Close();
+                        ManagedAccount ma = new ManagedAccount(session, acct);
+
+                        if (!string.IsNullOrEmpty(ma.ActiveEmailAddress))
+                        {
+                            ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
+                                session,
+                                new MailAddress(ma.ActiveEmailAddress, ma.Name).ToString(),
+                                string.Format("{0}?id={1}", reminder.Url, ma.Id));
+                        }
+
+                        session.Save(reminderevent);
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-
+                    reminder.LastRunError = ex.Message;
+                    session.Save(reminder);
                 }
 
-                Thread.Sleep(1000 * SleepInterval);
+                Thread.Sleep(1000 * InterruptInterval);
             }
         }
     }

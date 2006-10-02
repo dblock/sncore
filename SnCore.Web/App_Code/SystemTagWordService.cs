@@ -19,95 +19,48 @@ namespace SnCore.BackEndServices
 {
     public class SystemTagWordService : SystemService
     {
-        private int mSleepInterval = 60 * 60 * 2;
-        private int mInterruptInterval = 3;
-
-        public int SleepInterval
-        {
-            get
-            {
-                return mSleepInterval;
-            }
-            set
-            {
-                mSleepInterval = value;
-            }
-        }
-
-        public int InterruptInterval
-        {
-            get
-            {
-                return mInterruptInterval;
-            }
-            set
-            {
-                mInterruptInterval = value;
-            }
-        }
-
         public SystemTagWordService()
         {
 
         }
 
-        public override void Run()
+        public override void SetUp()
         {
-            Nullable<DateTime> lastRun = null;
-            ISessionFactory Factory = SnCore.Data.Hibernate.Session.Configuration.BuildSessionFactory();
+            AddJob(new SessionJobDelegate(RunTagWords));
+        }
 
-            while (!IsStopping)
+        private Nullable<DateTime> mLastRun = null;
+
+        public void RunTagWords(ISession session)
+        {
+            DateTime newRun = DateTime.UtcNow;
+
+            ICriteria c = session.CreateCriteria(typeof(Account));
+            if (mLastRun.HasValue)
             {
-                DateTime newRun = DateTime.UtcNow;
+                // last run is updated on interval, add some safe time
+                c.Add(Expression.Gt("LastLogin", mLastRun.Value.AddMinutes(-30)));
+            }
+
+            IList accounts = c.List();
+
+            foreach (Account account in accounts)
+            {
                 try
                 {
-
-                    IDbConnection conn = GetNewConnection();
-                    conn.Open();
-
-                    ISession session = Factory.OpenSession(conn);
-
-                    try
-                    {
-                        ICriteria c = session.CreateCriteria(typeof(Account));
-                        if (lastRun.HasValue)
-                        {
-                            // last run is updated on interval, add some safe time
-                            c.Add(Expression.Gt("LastLogin", lastRun.Value.AddMinutes(-30)));
-                        }
-
-                        IList accounts = c.List();
-
-                        foreach (Account account in accounts)
-                        {
-                            try
-                            {
-                                ManagedAccount ma = new ManagedAccount(session, account);
-                                ma.UpdateTagWords();
-                            }
-                            catch
-                            {
-
-                            }
-
-                            Thread.Sleep(1000 * InterruptInterval);
-                        }
-                        session.Flush();
-                    }
-                    finally
-                    {
-                        conn.Close();
-                        session.Close();
-                    }
+                    ManagedAccount ma = new ManagedAccount(session, account);
+                    ma.UpdateTagWords();
                 }
                 catch
                 {
 
                 }
 
-                lastRun = newRun;
-                Thread.Sleep(1000 * SleepInterval);
+                Thread.Sleep(1000 * InterruptInterval);
             }
+
+            session.Flush();
+            mLastRun = newRun;
         }
     }
 

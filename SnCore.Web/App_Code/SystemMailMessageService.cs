@@ -22,8 +22,6 @@ namespace SnCore.BackEndServices
 {
     public class SystemMailMessageService : SystemService
     {
-        private int mSleepInterval = 5;
-        private int mInterruptInterval = 1;
         private int mChunkSize = 10;
 
         public int ChunkSize
@@ -38,231 +36,144 @@ namespace SnCore.BackEndServices
             }
         }
 
-        public int InterruptInterval
-        {
-            get
-            {
-                return mInterruptInterval;
-            }
-            set
-            {
-                mInterruptInterval = value;
-            }
-        }
-
-        public int SleepInterval
-        {
-            get
-            {
-                return mSleepInterval;
-            }
-            set
-            {
-                mSleepInterval = value;
-            }
-        }
-
         public SystemMailMessageService()
         {
 
         }
 
-        private ISessionFactory mFactory = null;
-
-        protected ISessionFactory Factory
+        public override void SetUp()
         {
-            get
-            {
-                if (mFactory == null)
-                {
-                    mFactory = SnCore.Data.Hibernate.Session.Configuration.BuildSessionFactory();
-                }
-                return mFactory;
-            }
+            AddJob(new SessionJobDelegate(RunEmailQueue));
+            AddJob(new SessionJobDelegate(RunMarketingCampaign));
         }
 
-        public override void Run()
+        private void RunEmailQueue(ISession session)
         {
-            while (!IsStopping)
+            IList emailmessages = session.CreateCriteria(typeof(AccountEmailMessage))
+                .Add(Expression.Eq("Sent", false))
+                .SetMaxResults(ChunkSize)
+                .List();
+
+            SleepInterval = emailmessages.Count >= ChunkSize ? 1 : 15;
+
+            SmtpClient smtp = new SmtpClient(
+                ManagedConfiguration.GetValue(session, "SnCore.Mail.Server", "localhost"),
+                int.Parse(ManagedConfiguration.GetValue(session, "SnCore.Mail.Port", "25")));
+            smtp.DeliveryMethod = (SmtpDeliveryMethod)Enum.Parse(typeof(SmtpDeliveryMethod),
+                ManagedConfiguration.GetValue(session, "SnCore.Mail.Delivery", "Network"));
+
+            string smtpusername = ConfigurationManager.AppSettings["smtp.username"];
+            string smtppassword = ConfigurationManager.AppSettings["smtp.password"];
+
+            if (!string.IsNullOrEmpty(smtpusername))
             {
-                RunEmailQueue();
-                Thread.Sleep(1000 * SleepInterval);
-                RunMarketingCampaign();
-                Thread.Sleep(1000 * SleepInterval);
+                smtp.Credentials = new NetworkCredential(smtpusername, smtppassword);
             }
-        }
-
-        private void RunEmailQueue()
-        {
-            try
+            else
             {
-                IDbConnection conn = GetNewConnection();
-                conn.Open();
+                smtp.UseDefaultCredentials = true;
+            }
 
-                ISession session = Factory.OpenSession(conn);
-
+            foreach (AccountEmailMessage m in emailmessages)
+            {
                 try
                 {
-
-                    IList emailmessages = session.CreateCriteria(typeof(AccountEmailMessage))
-                        .Add(Expression.Eq("Sent", false))
-                        .SetMaxResults(ChunkSize)
-                        .List();
-
-                    SleepInterval = emailmessages.Count >= ChunkSize ? 5 : 30;
-
-                    SmtpClient smtp = new SmtpClient(
-                        ManagedConfiguration.GetValue(session, "SnCore.Mail.Server", "localhost"),
-                        int.Parse(ManagedConfiguration.GetValue(session, "SnCore.Mail.Port", "25")));
-                    smtp.DeliveryMethod = (SmtpDeliveryMethod)Enum.Parse(typeof(SmtpDeliveryMethod),
-                        ManagedConfiguration.GetValue(session, "SnCore.Mail.Delivery", "Network"));
-
-                    string smtpusername = ConfigurationManager.AppSettings["smtp.username"];
-                    string smtppassword = ConfigurationManager.AppSettings["smtp.password"];
-
-                    if (!string.IsNullOrEmpty(smtpusername))
+                    MailMessage message = new MailMessage();
+                    message.Headers.Add("x-mimeole", string.Format("Produced By {0} {1}",
+                        ManagedSystem.Title, ManagedSystem.ProductVersion));
+                    message.Headers.Add("Content-class", "urn:content-classes:message");
+                    message.Headers.Add("Content-Type", "text/html; charset=\"utf-8\"");
+                    message.IsBodyHtml = true;
+                    message.Body = m.Body;
+                    message.ReplyTo = new MailAddress(m.MailFrom);
+                    message.From = new MailAddress(
+                        ManagedConfiguration.GetValue(session, "SnCore.Admin.EmailAddress", "admin@localhost.com"),
+                        ManagedConfiguration.GetValue(session, "SnCore.Admin.Name", "Admin")
+                        );
+                    message.To.Add(new MailAddress(m.MailTo));
+                    message.Subject = m.Subject;
+                    smtp.Send(message);
+                    m.Sent = true;
+                    if (m.DeleteSent)
                     {
-                        smtp.Credentials = new NetworkCredential(smtpusername, smtppassword);
+                        session.Delete(m);
                     }
                     else
                     {
-                        smtp.UseDefaultCredentials = true;
+                        session.Save(m);
                     }
-
-                    foreach (AccountEmailMessage m in emailmessages)
-                    {
-                        try
-                        {
-                            MailMessage message = new MailMessage();
-                            message.Headers.Add("x-mimeole", string.Format("Produced By {0} {1}",
-                                ManagedSystem.Title, ManagedSystem.ProductVersion));
-                            message.Headers.Add("Content-class", "urn:content-classes:message");
-                            message.Headers.Add("Content-Type", "text/html; charset=\"utf-8\"");
-                            message.IsBodyHtml = true;
-                            message.Body = m.Body;
-                            message.ReplyTo = new MailAddress(m.MailFrom);
-                            message.From = new MailAddress(
-                                ManagedConfiguration.GetValue(session, "SnCore.Admin.EmailAddress", "admin@localhost.com"),
-                                ManagedConfiguration.GetValue(session, "SnCore.Admin.Name", "Admin")
-                                );
-                            message.To.Add(new MailAddress(m.MailTo));
-                            message.Subject = m.Subject;
-                            smtp.Send(message);
-                            m.Sent = true;
-                            if (m.DeleteSent)
-                            {
-                                session.Delete(m);
-                            }
-                            else
-                            {
-                                session.Save(m);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            if (m.Created.AddDays(1) < DateTime.UtcNow)
-                            {
-                                session.Delete(m);
-                            }
-                            else
-                            {
-                                m.SendError = ex.Message;
-                                session.Save(m);
-                            }
-                        }
-
-                        Thread.Sleep(1000 * InterruptInterval);
-                    }
-                    session.Flush();
                 }
-                finally
+                catch (Exception ex)
                 {
-                    conn.Close();
-                    session.Close();
+                    if (m.Created.AddDays(1) < DateTime.UtcNow)
+                    {
+                        session.Delete(m);
+                    }
+                    else
+                    {
+                        m.SendError = ex.Message;
+                        session.Save(m);
+                    }
                 }
-            }
-            catch
-            {
 
+                Thread.Sleep(1000 * InterruptInterval);
             }
         }
 
-        private void RunMarketingCampaign()
+        private void RunMarketingCampaign(ISession session)
         {
-            try
+            IList campaigns = session.CreateCriteria(typeof(Campaign))
+                .Add(Expression.Eq("Active", true))
+                .List();
+
+            foreach (Campaign campaign in campaigns)
             {
-                IDbConnection conn = GetNewConnection();
-                conn.Open();
+                IList recepients = session.CreateCriteria(typeof(CampaignAccountRecepient))
+                    .Add(Expression.Eq("Sent", false))
+                    .Add(Expression.Eq("Campaign.Id", campaign.Id))
+                    .List();
 
-                ISession session = Factory.OpenSession(conn);
-
-                try
+                if (recepients.Count == 0)
                 {
+                    campaign.Active = false;
+                    session.Save(campaign);
+                    continue;
+                }
 
-                    IList campaigns = session.CreateCriteria(typeof(Campaign))
-                        .Add(Expression.Eq("Active", true))
-                        .List();
+                string baseuri = ManagedConfiguration.GetValue(session, "SnCore.WebSite.Url", "http://localhost/SnCore");
+                if (!baseuri.EndsWith("/")) baseuri = baseuri + "/";
+                string content = ContentPage.GetContent(new Uri(campaign.Url), new Uri(baseuri));
 
-                    foreach(Campaign campaign in campaigns)
+                foreach (CampaignAccountRecepient recepient in recepients)
+                {
+                    try
                     {
-                        IList recepients = session.CreateCriteria(typeof(CampaignAccountRecepient))
-                            .Add(Expression.Eq("Sent", false))
-                            .Add(Expression.Eq("Campaign.Id", campaign.Id))
-                            .List();
+                        ManagedAccount m_recepient = new ManagedAccount(session, recepient.Account);
+                        if (!m_recepient.HasVerifiedEmail)
+                            throw new Exception("No verified e-mail address.");
 
-                        if (recepients.Count == 0)
-                        {
-                            campaign.Active = false;
-                            session.Save(campaign);
-                            continue;
-                        }
+                        m_recepient.SendAccountEmailMessage(
+                            campaign.SenderEmailAddress, m_recepient.ActiveEmailAddress,
+                            campaign.Name, content, true);
 
-                        string baseuri = ManagedConfiguration.GetValue(session, "SnCore.WebSite.Url", "http://localhost/SnCore");
-                        if (!baseuri.EndsWith("/")) baseuri = baseuri + "/";
-                        string content = ContentPage.GetContent(new Uri(campaign.Url), new Uri(baseuri));
-
-                        foreach (CampaignAccountRecepient recepient in recepients)
-                        {
-                            try
-                            {
-                                ManagedAccount m_recepient = new ManagedAccount(session, recepient.Account);
-                                if (!m_recepient.HasVerifiedEmail)
-                                    throw new Exception("No verified e-mail address.");
-
-                                m_recepient.SendAccountEmailMessage(
-                                    campaign.SenderEmailAddress, m_recepient.ActiveEmailAddress,
-                                    campaign.Name, content, true);
-
-                                recepient.LastError = string.Empty;
-                            }
-                            catch (Exception ex)
-                            {
-                                recepient.LastError = ex.Message;
-                            }
-                            finally
-                            {
-                                recepient.Modified = DateTime.UtcNow;
-                                recepient.Sent = true;
-                                session.Save(recepient);
-                                session.Flush();
-                            }
-
-                            Thread.Sleep(100);
-                        }
-
-                        Thread.Sleep(1000 * InterruptInterval);
+                        recepient.LastError = string.Empty;
                     }
-                    session.Flush();
-                }
-                finally
-                {
-                    conn.Close();
-                    session.Close();
-                }
-            }
-            catch
-            {
+                    catch (Exception ex)
+                    {
+                        recepient.LastError = ex.Message;
+                    }
+                    finally
+                    {
+                        recepient.Modified = DateTime.UtcNow;
+                        recepient.Sent = true;
+                        session.Save(recepient);
+                        session.Flush();
+                    }
 
+                    Thread.Sleep(100);
+                }
+
+                Thread.Sleep(1000 * InterruptInterval);
             }
         }
 

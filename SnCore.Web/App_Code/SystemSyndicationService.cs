@@ -21,96 +21,45 @@ namespace SnCore.BackEndServices
 {
     public class SystemSyndicationService : SystemService
     {
-        private int mSleepInterval = 60 * 10;
-        private int mInterruptInterval = 10;
-
-        public int SleepInterval
-        {
-            get
-            {
-                return mSleepInterval;
-            }
-            set
-            {
-                mSleepInterval = value;
-            }
-        }
-
-        public int InterruptInterval
-        {
-            get
-            {
-                return mInterruptInterval;
-            }
-            set
-            {
-                mInterruptInterval = value;
-            }
-        }
-
         public SystemSyndicationService()
         {
 
         }
 
-        public override void Run()
+        public override void SetUp()
         {
-            ISessionFactory Factory = SnCore.Data.Hibernate.Session.Configuration.BuildSessionFactory();
+            AddJob(new SessionJobDelegate(RunSyndication));
+        }
 
-            while (!IsStopping)
+        public void RunSyndication(ISession session)
+        {
+            // get feeds
+            // todo: restrict to only feeds that need update
+            IList list = session.CreateCriteria(typeof(AccountFeed)).List();
+
+            foreach (AccountFeed feed in list)
             {
                 try
                 {
-                    IDbConnection conn = GetNewConnection();
-                    conn.Open();
-
-                    ISession session = Factory.OpenSession(conn);
-
-                    try
+                    // todo: move into SQL
+                    if (feed.AccountFeedItems != null
+                        && string.IsNullOrEmpty(feed.LastError)
+                        && feed.Updated.AddHours(feed.UpdateFrequency) > DateTime.UtcNow)
                     {
-                        // get feeds
-                        // todo: restrict to only feeds that need update
-                        IList list = session.CreateCriteria(typeof(AccountFeed)).List();
-
-                        foreach (AccountFeed feed in list)
-                        {
-                            try
-                            {
-                                // todo: move into SQL
-                                if (feed.AccountFeedItems != null
-                                    && string.IsNullOrEmpty(feed.LastError)
-                                    && feed.Updated.AddHours(feed.UpdateFrequency) > DateTime.UtcNow)
-                                {
-                                    continue;
-                                }
-
-                                ManagedAccountFeed m_feed = new ManagedAccountFeed(session, feed);
-                                m_feed.Update();
-                                m_feed.UpdateImages();
-                            }
-                            catch (Exception ex)
-                            {
-                                feed.LastError = ex.Message;
-                                session.SaveOrUpdate(feed);
-                            }
-
-                            Thread.Sleep(1000 * InterruptInterval);
-                        }
-
-                        session.Flush();
+                        continue;
                     }
-                    finally
-                    {
-                        conn.Close();
-                        session.Close();
-                    }
+
+                    ManagedAccountFeed m_feed = new ManagedAccountFeed(session, feed);
+                    m_feed.Update();
+                    m_feed.UpdateImages();
                 }
-                catch
+                catch (Exception ex)
                 {
-
+                    feed.LastError = ex.Message;
+                    session.SaveOrUpdate(feed);
                 }
 
-                Thread.Sleep(1000 * SleepInterval);
+                Thread.Sleep(1000 * InterruptInterval);
             }
         }
     }
