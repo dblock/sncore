@@ -172,6 +172,24 @@ namespace SnCore.WebServices
             }
         }
 
+        [WebMethod(Description = "Decline an invitation.")]
+        public void DeclineInvitation(int invitationid, string code)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                ManagedAccountInvitation invitation = new ManagedAccountInvitation(session, invitationid);
+                if (invitation.Code != code)
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                invitation.Delete();
+                SnCore.Data.Hibernate.Session.Flush();
+            }
+        }
+
         /// <summary>
         /// Find an account by e-mail address.
         /// </summary>

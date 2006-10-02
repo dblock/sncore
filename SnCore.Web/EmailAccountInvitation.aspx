@@ -27,9 +27,11 @@
     </asp:Panel>
     <p>
      <a href="AccountCreateInvitation.aspx?id=<% Response.Write(this.AccountInvitation.Id); %>&code=<% Response.Write(Renderer.Render(this.AccountInvitation.Code)); %>">
-      &#187; Click here
-     </a> 
-     to accept this invitation!
+      &#187; Accept Invitation
+     </a>
+     <a href="AccountDeclineInvitation.aspx?id=<% Response.Write(this.AccountInvitation.Id); %>&code=<% Response.Write(Renderer.Render(this.AccountInvitation.Code)); %>">
+      &#187; Decline Invitation
+     </a>
     </p>
    </td>
   </tr>
