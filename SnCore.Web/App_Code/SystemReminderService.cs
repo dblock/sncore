@@ -42,8 +42,32 @@ namespace SnCore.BackEndServices
 
         public override void SetUp()
         {
+            AddJob(new SessionJobDelegate(RunCleanupStaleAccounts));
             AddJob(new SessionJobDelegate(RunInvitationReminders));
             AddJob(new SessionJobDelegate(RunSystemReminders));
+        }
+
+        public void RunCleanupStaleAccounts(ISession session)
+        {
+            // fetch accounts that have not been logged in for two months and that don't have a verified e-mail
+            IList accounts = session.CreateQuery(
+                string.Format(
+                 "FROM Account account" +
+                 " WHERE NOT EXISTS ( " +
+                  " FROM AccountEmail AS email" +
+                  " WHERE email.Account = account" + 
+                  " AND email.Verified = 0" + 
+                 ") AND account.LastLogin < '{0}'", DateTime.UtcNow.AddMonths(-2)))
+                .SetMaxResults(ChunkSize) // avoid draining resources
+                .List();
+
+            foreach(Account account in accounts)
+            {
+                ManagedAccount ma = new ManagedAccount(session, account);
+                ma.Delete();
+            }
+
+            session.Flush();
         }
 
         public void RunInvitationReminders(ISession session)
