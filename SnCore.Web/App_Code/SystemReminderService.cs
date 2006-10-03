@@ -56,7 +56,7 @@ namespace SnCore.BackEndServices
                  " WHERE NOT EXISTS ( " +
                   " FROM AccountEmail AS email" +
                   " WHERE email.Account = account" + 
-                  " AND email.Verified = 0" + 
+                  " AND email.Verified = 1" + 
                  ") AND account.LastLogin < '{0}'", DateTime.UtcNow.AddMonths(-2)))
                 .SetMaxResults(ChunkSize) // avoid draining resources
                 .List();
