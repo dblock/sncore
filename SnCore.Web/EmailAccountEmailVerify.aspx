@@ -15,7 +15,7 @@
     <p>
      The e-mail address 
      <b><% Response.Write(Renderer.Render(this.AccountEmailConfirmation.AccountEmail.Address)); %></b> 
-     has been added to your account. You must activate it.
+     has been added to <a href='AccountView.aspx?id=<% Response.Write(this.Account.Id); %>'>your account</a>. You must activate it.
      <br />
      Please 
      <a href="AccountEmailVerify.aspx?id=<% Response.Write(RequestId); %>&code=<% Response.Write(this.AccountEmailConfirmation.Code); %>">
@@ -27,7 +27,8 @@
      If you have not added this e-mail to your account or believe that this is an error, please delete it from 
      <a href="AccountEmailsManage.aspx">your e-mail addresses</a> and <a href="<% Response.Write(this.MailtoAdministrator); %>">
       notify the administrator
-     </a> immediately.
+     </a> immediately. You may also receive this notification as a reminder that you must confirm your e-mail address. 
+     Accounts without a confirmed e-mail address are deleted after a month of inactivity.
     </p>
    </td>
   </tr>

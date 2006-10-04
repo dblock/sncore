@@ -64,7 +64,62 @@ namespace SnCore.BackEndServices
             foreach(Account account in accounts)
             {
                 ManagedAccount ma = new ManagedAccount(session, account);
-                ma.Delete();
+
+                bool bDelete = false;
+
+                // delete an account without any e-mail addresses (openid)
+                if (account.AccountEmails == null || account.AccountEmails.Count == 0)
+                {
+                    bDelete = true;
+                }
+
+                if (account.AccountEmails != null && !bDelete)
+                {
+                    // see if there exists another account with the same verified e-mail address
+                    // someone either tried to hijack this account or tried to register again with the same e-mail and succeeded
+                    foreach (AccountEmail email in account.AccountEmails)
+                    {
+                        IList verifiedemails = session.CreateCriteria(typeof(AccountEmail))
+                            .Add(Expression.Eq("Verified", true))
+                            .Add(Expression.Eq("Address", email.Address))
+                            .SetMaxResults(1)
+                            .List();
+
+                        if (verifiedemails.Count > 0)
+                        {
+                            // there exists another account that has the same address, verified
+                            // user has subscribed twice and verified another account
+                            bDelete = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (account.AccountEmails != null && !bDelete)
+                {
+                    foreach (AccountEmail email in account.AccountEmails)
+                    {
+                        // if we have never resent the e-mail confirmation, do it now
+                        if (email.Created == email.Modified)
+                        {
+                            ManagedAccountEmail mae = new ManagedAccountEmail(session, email);
+                            email.Modified = DateTime.UtcNow;
+                            session.Save(email);
+                            mae.Confirm();
+                        }
+                        else if (email.Modified < DateTime.UtcNow.AddDays(-14))
+                        {
+                            // we have sent another confirmation earlier than two weeks ago
+                            bDelete = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (bDelete)
+                {
+                    ma.Delete();
+                }
             }
 
             session.Flush();
