@@ -54,7 +54,7 @@ namespace SnCore.Data.Tests
         }
 
         [SetUp]
-        public void SetUp()
+        public virtual void SetUp()
         {
             Session = Factory.OpenSession();
         }

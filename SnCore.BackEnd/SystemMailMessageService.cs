@@ -47,7 +47,7 @@ namespace SnCore.BackEndServices
             AddJob(new SessionJobDelegate(RunMarketingCampaign));
         }
 
-        private void RunEmailQueue(ISession session)
+        public void RunEmailQueue(ISession session)
         {
             IList emailmessages = session.CreateCriteria(typeof(AccountEmailMessage))
                 .Add(Expression.Eq("Sent", false))
@@ -120,7 +120,7 @@ namespace SnCore.BackEndServices
             }
         }
 
-        private void RunMarketingCampaign(ISession session)
+        public void RunMarketingCampaign(ISession session)
         {
             IList campaigns = session.CreateCriteria(typeof(Campaign))
                 .Add(Expression.Eq("Active", true))

@@ -18,6 +18,9 @@ namespace SnCore.Tools.Web
 {
     public class ContentPage
     {
+#if DEBUG
+        public static bool EnableRemoteContent = true;
+#endif
         public static string GetContentSubject(string body)
         {
             int title_start = body.IndexOf("<title>", 0, StringComparison.OrdinalIgnoreCase);
@@ -45,6 +48,13 @@ namespace SnCore.Tools.Web
 
         public static string GetHttpContent(Uri uri, Cookie authcookie)
         {
+#if DEBUG
+            if (! EnableRemoteContent)
+            {
+                return string.Format("Content of {0}.", uri);
+            }
+#endif
+
             string content = string.Empty;
 
             HttpWebRequest request = (HttpWebRequest) HttpWebRequest.Create(uri);

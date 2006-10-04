@@ -14,7 +14,7 @@ namespace SnCore.BackEndServices
 {
     public abstract class SystemService
     {
-        protected delegate void SessionJobDelegate(ISession session);
+        public delegate void SessionJobDelegate(ISession session);
         private int mInterruptInterval = 1;
         private int mSleepInterval = 60;
         private Thread mThread = null;

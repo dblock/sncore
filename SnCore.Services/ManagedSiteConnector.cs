@@ -39,6 +39,12 @@ namespace SnCore.Services
 
         public static Cookie GetAdminAuthCookie(ISession session)
         {
+#if DEBUG
+            if (! ContentPage.EnableRemoteContent)
+            {
+                return null;
+            }
+#endif
             return new Cookie(sSnCoreAuthCookieName, 
                 FormsAuthentication.GetAuthCookie(GetAdminAccount(session).Id.ToString(), false).Value);
         }

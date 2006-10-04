@@ -47,6 +47,10 @@
     </WebConfigReplacementFiles>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SnCore.BackEnd\SnCore.BackEnd.csproj">
+      <Project>{9354A6E8-72CD-4E69-92E7-C2740F5B5F16}</Project>
+      <Name>SnCore.BackEnd</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SnCore.Data.Hibernate\SnCore.Data.Hibernate.csproj">
       <Project>{437F9693-8C20-49BD-A4FD-68A88E9A92C0}</Project>
       <Name>SnCore.Data.Hibernate</Name>
