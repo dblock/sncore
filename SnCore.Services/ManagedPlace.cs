@@ -511,6 +511,18 @@ namespace SnCore.Services
             return false;
         }
 
+        public void MigrateToAccount(Account newowner)
+        {
+            int did = ManagedDiscussion.GetDiscussionId(
+                Session, mPlace.Account.Id, ManagedDiscussion.PlaceDiscussion, mPlace.Id, false);
+
+            ManagedDiscussion md = new ManagedDiscussion(Session, did);
+            md.MigrateToAccount(newowner);
+
+            mPlace.Account = newowner;
+            Session.Save(mPlace);
+        }
+
         #region Place Property Value
 
         public int CreateOrUpdate(TransitPlacePropertyValue o)

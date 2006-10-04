@@ -23,7 +23,7 @@
         <p>
          This will <b>permanently</b> remove your account. We're sad
          to see you go. This cannot be undone. All your personal data will be deleted. Your
-         forum posts and tags will remain anonymous in the system.
+         forum posts, comments, places and tags will remain anonymous in the system.
         </p>
        </td>
       </tr>

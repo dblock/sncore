@@ -507,5 +507,11 @@ namespace SnCore.Services
                 throw new ManagedDiscussion.DiscussionNotFoundException();
             }
         }
+
+        public void MigrateToAccount(Account newowner)
+        {
+            mDiscussion.Account = newowner;
+            Session.Save(mDiscussion);
+        }
     }
 }

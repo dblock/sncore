@@ -715,10 +715,46 @@ namespace SnCore.Services
 
                 }
 
+                Account newowner = (Account)Session.CreateCriteria(typeof(Account))
+                    .Add(Expression.Eq("IsAdministrator", true))
+                    .Add(Expression.Not(Expression.Eq("Id", mAccount.Id)))
+                    .SetMaxResults(1)
+                    .UniqueResult();
+
+                // orphan places
+                if (mAccount.Places != null)
+                {
+                    foreach (Place place in mAccount.Places)
+                    {
+                        ManagedPlace mp = new ManagedPlace(Session, place);
+                        mp.MigrateToAccount(newowner);
+                    }
+                }
+
+                // orphan public discussions
+                if (mAccount.Discussions != null)
+                {
+                    foreach (Discussion d in mAccount.Discussions)
+                    {
+                        if (!d.Personal)
+                        {
+                            ManagedDiscussion md = new ManagedDiscussion(Session, d);
+                            md.MigrateToAccount(newowner);
+                        }
+                    }
+                }
+
+                // delete friends and friend requests
                 Session.Delete(string.Format("from AccountFriend f where f.Account.Id = {0} or f.Keen.Id = {0}", Id));
                 Session.Delete(string.Format("from AccountFriendRequest f where f.Account.Id = {0} or f.Keen.Id = {0}", Id));
+                
+                // delete features
                 ManagedFeature.Delete(Session, "Account", Id);
+
+                // delete blog authoring access
                 Session.Delete(string.Format("from AccountBlogAuthor ba where ba.Account.Id = {0}", Id));
+
+                // delete account
                 Session.Delete(mAccount);
                 t.Commit();
             }
