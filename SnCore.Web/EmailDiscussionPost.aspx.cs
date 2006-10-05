@@ -106,9 +106,8 @@ public partial class EmailDiscussionPost : AuthenticatedPage
     {
         get
         {
-            string DiscussionReturnUrl = string.Format("DiscussionView.aspx?id={0}", Discussion.Id);
-            string DiscussionPostReturnUrl = string.Format("DiscussionThreadView.aspx?id={0}&did={1}&ReturnUrl={2}",
-                DiscussionPost.DiscussionThreadId, Discussion.Id, Renderer.UrlEncode(DiscussionReturnUrl));
+            string DiscussionPostReturnUrl = string.Format("DiscussionThreadView.aspx?id={0}&did={1}",
+                DiscussionPost.DiscussionThreadId, Discussion.Id);
             return Renderer.UrlEncode(DiscussionPostReturnUrl);
         }
     }
