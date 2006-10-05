@@ -62,8 +62,11 @@ namespace SnCore.BackEndServices
             smtp.DeliveryMethod = (SmtpDeliveryMethod)Enum.Parse(typeof(SmtpDeliveryMethod),
                 ManagedConfiguration.GetValue(session, "SnCore.Mail.Delivery", "Network"));
 
-            string smtpusername = ConfigurationManager.AppSettings["smtp.username"];
-            string smtppassword = ConfigurationManager.AppSettings["smtp.password"];
+            string smtpusername = ManagedConfiguration.GetValue(
+                session, "SnCore.Mail.Username", string.Empty);
+
+            string smtppassword = ManagedConfiguration.GetValue(
+                session, "SnCore.Mail.Password", string.Empty);
 
             if (!string.IsNullOrEmpty(smtpusername))
             {
