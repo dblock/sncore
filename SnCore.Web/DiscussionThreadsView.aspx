@@ -1,5 +1,5 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true"
- CodeFile="DiscussionThreadsView.aspx.cs" Inherits="DiscussionThreadsView" Title="Discussion Threads" %>
+ CodeFile="DiscussionThreadsView.aspx.cs" Inherits="DiscussionThreadsView" Title="New Posts" %>
 
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
