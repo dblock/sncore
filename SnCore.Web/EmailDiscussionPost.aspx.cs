@@ -101,15 +101,5 @@ public partial class EmailDiscussionPost : AuthenticatedPage
             ReportException(ex);
         }
     }
-
-    public string ReturnUrl
-    {
-        get
-        {
-            string DiscussionPostReturnUrl = string.Format("DiscussionThreadView.aspx?id={0}&did={1}",
-                DiscussionPost.DiscussionThreadId, Discussion.Id);
-            return Renderer.UrlEncode(DiscussionPostReturnUrl);
-        }
-    }
 }
 
