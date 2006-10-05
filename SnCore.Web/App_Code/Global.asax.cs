@@ -10,6 +10,9 @@ using SnCore.BackEndServices;
 using NHibernate;
 using NHibernate.Expression;
 using SnCore.Services;
+using System.Configuration;
+using System.Web.Configuration;
+using System.Web.Hosting;
 
 public class Global : SnCore.Tools.Web.HostedApplication
 {
@@ -26,6 +29,8 @@ public class Global : SnCore.Tools.Web.HostedApplication
     protected override void Application_Start(Object sender, EventArgs e)
     {
         base.Application_Start(sender, e);
+
+        // ProtectAppConfig();
 
         SnCore.Data.Hibernate.Session.Configuration.AddAssembly("SnCore.Data");
 
@@ -156,6 +161,43 @@ public class Global : SnCore.Tools.Web.HostedApplication
         finally
         {
             t.Dispose();
+        }
+    }
+
+    public static bool EncryptAppSettings
+    {
+        get
+        {
+            string encrypt = ConfigurationManager.AppSettings["System.EncryptAppSettings"];
+            bool result = true;
+            bool.TryParse(encrypt, out result);
+            return result;
+        }
+    }
+
+    private void ProtectAppConfig()
+    {
+        try
+        {
+            if (!EncryptAppSettings)
+            {
+                EventLog.WriteEntry("Not protecting App.config due to System.EncryptAppSettings setting.", EventLogEntryType.Information);
+                return;
+            }
+
+            System.Configuration.Configuration config = WebConfigurationManager.OpenWebConfiguration(HostingEnvironment.ApplicationVirtualPath);
+            AppSettingsSection section = (AppSettingsSection)config.GetSection("appSettings");
+            if (!section.SectionInformation.IsProtected)
+            {
+                section.SectionInformation.ProtectSection("RsaProtectedConfigurationProvider");
+                section.SectionInformation.ForceSave = true;
+                config.Save(ConfigurationSaveMode.Full);
+                EventLog.WriteEntry(string.Format("Protected AppSettings in {0}", HostingEnvironment.ApplicationPhysicalPath), EventLogEntryType.Information);
+            }
+        }
+        catch (Exception ex)
+        {
+            EventLog.WriteEntry(string.Format("Error protecting App.config.\n{0}", ex.Message), EventLogEntryType.Warning);
         }
     }
 }
