@@ -32,7 +32,7 @@
    <ItemTemplate>
     <table class="sncore_message_table" width="100%" cellspacing="0" cellpadding="0">
      <tr>
-      <td valign="top" width="18">
+      <td valign="top" width="28">
        <img src="images/account/discussions.gif" />
       </td>
       <td>
