@@ -79,8 +79,8 @@ public partial class DiscussionPostNew : AuthenticatedPage
                 {
                     TransitDiscussion td = DiscussionService.GetDiscussionById(DiscussionId);
                     linkDiscussion.Text = Renderer.Render(td.Name);
-                    discussionLabel.Text = Renderer.Render(td.Name);
-                    discussionDescription.Text = Renderer.Render(td.Description);
+                    discussionLabelLink.Text = Renderer.Render(td.Name);
+                    discussionLabelLink.NavigateUrl = string.Format("DiscussionView.aspx?id={0}", td.Id);
                 }
 
                 StringBuilder body = new StringBuilder();

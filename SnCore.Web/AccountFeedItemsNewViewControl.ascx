@@ -17,7 +17,7 @@
    <div class="sncore_createnew">
     <div class="sncore_link">
      <a href="AccountFeedItemsView.aspx">&#187; all</a>
-     <a href="AccountFeedWizard.aspx">&#187; syndicate a feed</a>
+     <a href="AccountFeedWizard.aspx">&#187; syndicate a blog</a>
      <a href="AccountFeedItemsRss.aspx">&#187; rss</a>
     </div>
    </div>

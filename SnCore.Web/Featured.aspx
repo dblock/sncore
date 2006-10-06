@@ -31,7 +31,7 @@
      <a href="FeaturedAccountFeedsView.aspx">&#187; previously featured</a>
     </div>
     <div class="sncore_link">
-     <a href="AccountFeedEdit.aspx">&#187; syndicate a feed</a>
+     <a href="AccountFeedEdit.aspx">&#187; syndicate a blog</a>
      <a href="AccountFeedsRss.aspx">&#187; rss</a> 
     </div>
    </td>

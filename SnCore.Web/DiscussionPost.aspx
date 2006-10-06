@@ -12,16 +12,6 @@
    runat="server" />
   <asp:Label CssClass="sncore_navigate_item" ID="linkItem" Text="Post" runat="server" />
  </div>
- <table width="100%">
-  <tr>
-   <td>
-    <asp:Label CssClass="sncore_h2" ID="discussionLabel" runat="server" />
-   </td>
-   <td align="center" class="sncore_description">
-    <asp:Label ID="discussionDescription" runat="server" />
-   </td>
-  </tr>
- </table>
  <asp:Panel ID="panelReplyTo" runat="server" Visible="false">
   <table width="100%">
    <tr>
@@ -65,6 +55,9 @@
    <td width="200">
     <div class="sncore_h2">
      <a name="edit">New Post</a>
+    </div>
+    <div class="sncore_h2sub">
+     You are posting in <asp:HyperLink ID="discussionLabelLink" runat="server" />
     </div>
    </td>
   </tr>

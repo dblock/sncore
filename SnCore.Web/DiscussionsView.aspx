@@ -11,31 +11,34 @@
   <a href="DiscussionTopOfThreadsView.aspx">&#187; New Threads</a>
   <a href="DiscussionThreadsView.aspx">&#187; New Posts</a>
   <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
+  <asp:LinkButton ID="linkSearch" runat="server" Text="&#187; Search" OnClick="searchToggle_Click" />
  </div>
- <table class="sncore_table">
-  <tr>
-   <td class="sncore_form_label">
-    search:
-   </td>
-   <td class="sncore_form_value">
-    <asp:TextBox CssClass="sncore_form_textbox" ID="inputSearch" runat="server" />
-    <asp:RequiredFieldValidator ID="inputSearchRequired" runat="server" ControlToValidate="inputSearch"
-     CssClass="sncore_form_validator" ErrorMessage="search string is required" Display="Dynamic" />
-   </td>
-  </tr>
-  <tr>
-   <td>
-   </td>
-   <td class="sncore_form_value">
-    <SnCoreWebControls:Button ID="search" runat="server" Text="Search!" CausesValidation="true" CssClass="sncore_form_button"
-     OnClick="search_Click" />
-   </td>
-  </tr>
- </table>
+ <asp:Panel ID="panelSearch" runat="server" Visible="false">
+  <table class="sncore_table">
+   <tr>
+    <td class="sncore_form_label">
+     search:
+    </td>
+    <td class="sncore_form_value">
+     <asp:TextBox CssClass="sncore_form_textbox" ID="inputSearch" runat="server" />
+     <asp:RequiredFieldValidator ID="inputSearchRequired" runat="server" ControlToValidate="inputSearch"
+      CssClass="sncore_form_validator" ErrorMessage="search string is required" Display="Dynamic" />
+    </td>
+   </tr>
+   <tr>
+    <td>
+    </td>
+    <td class="sncore_form_value">
+     <SnCoreWebControls:Button ID="search" runat="server" Text="Search!" CausesValidation="true" CssClass="sncore_form_button"
+      OnClick="search_Click" />
+    </td>
+   </tr>
+  </table>
+ </asp:Panel>
  <atlas:UpdatePanel runat="server" ID="panelGridManage" Mode="Always">
   <ContentTemplate>
    <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage" AutoGenerateColumns="false"
-    CssClass="sncore_table" AllowPaging="true" AllowCustomPaging="true" PageSize="10">
+    CssClass="sncore_table" AllowPaging="true" AllowCustomPaging="true" PageSize="20">
     <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
      PrevPageText="Prev" HorizontalAlign="Center" />
     <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
@@ -45,34 +48,39 @@
      <asp:BoundColumn DataField="Name" Visible="false" />
      <asp:TemplateColumn>
       <itemtemplate>
-       <img src="images/account/discussions.gif" />
+       <a href='DiscussionView.aspx?id=<%# Eval("Id") %>'>
+        <img border="0" src="images/account/discussions.gif" />
+       </a>
       </itemtemplate>
      </asp:TemplateColumn>
      <asp:TemplateColumn HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left" HeaderText="Discussion">
       <itemtemplate>
-       <a href='DiscussionView.aspx?id=<%# Eval("Id") %>'>
-        <%# base.Render(Eval("Name")) %>
-       </a>
-       <span style="font-size: smaller;">
-        <a href="DiscussionPost.aspx?did=<%# Eval("Id") %>&ReturnUrl=<%# 
-         Renderer.UrlEncode(Request.Url.PathAndQuery) %>"><%# base.SessionManager.IsLoggedIn ? "&#187; post new" : ""%></a>
+       <span class="sncore_message_subject">
+        <a href='DiscussionView.aspx?id=<%# Eval("Id") %>'>
+         <%# base.Render(Eval("Name")) %>
+        </a>
+       </span>
+       <span class="sncore_link">
+        <a href="DiscussionPost.aspx?did=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>">
+         &#187; post new
+        </a>
        </span>
        <div class="sncore_description">
        <%# base.Render(Eval("Description")) %>
        </div>
       </itemtemplate>
      </asp:TemplateColumn>
-     <asp:TemplateColumn HeaderText="Threads">
+     <asp:TemplateColumn HeaderText="Threads" ItemStyle-Width="75">      
       <itemtemplate>
        <%# Eval("ThreadCount") %>
       </itemtemplate>
      </asp:TemplateColumn>
-     <asp:TemplateColumn HeaderText="Posts">
+     <asp:TemplateColumn HeaderText="Posts" ItemStyle-Width="75">
       <itemtemplate>
        <%# Eval("PostCount") %>
       </itemtemplate>
      </asp:TemplateColumn>
-     <asp:TemplateColumn>
+     <asp:TemplateColumn ItemStyle-Width="75">
       <itemtemplate>
        <a href='DiscussionRss.aspx?id=<%# Eval("Id") %>'><img 
         border="0" alt="Rss" src="images/rss.gif" /></a>
