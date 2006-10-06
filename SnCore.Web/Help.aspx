@@ -32,9 +32,9 @@
     <img src="images/Item.gif" />
    </td>
    <td class="sncore_table_tr_td">
-    <asp:HyperLink ID="linkSiteDiscussion" runat="server" Text="Site Discussion Forum" />
+    <asp:HyperLink ID="linkSiteDiscussion" runat="server" Text="Site Discussion" />
     <br />
-    Post any site-related questions to the Site Discussion forum.
+    Post any site-related questions to the Site Discussion.
    </td>
   </tr>
   <tr>

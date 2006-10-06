@@ -4,7 +4,7 @@
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Panel ID="panelFeedItemsResults" runat="server">
  <div class="sncore_h2">
-  Feeds
+  Syndicated Blogs
  </div>
  <asp:Label ID="labelResults" runat="server" CssClass="sncore_h2sub" />
  <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridResults" PageSize="5"

@@ -11,7 +11,7 @@
    </td>
    <td valign="top">
     <div class="sncore_h2">
-     Forum
+     Discussion
     </div>
     <asp:HyperLink ID="linkBack" Text="&#187; Cancel" CssClass="sncore_cancel" NavigateUrl="SystemDiscussionsManage.aspx"
      runat="server" />

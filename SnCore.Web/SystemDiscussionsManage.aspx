@@ -1,5 +1,5 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="SystemDiscussionsManage.aspx.cs"
- Inherits="SystemDiscussionsManage" Title="Forums" %>
+ Inherits="SystemDiscussionsManage" Title="Discussions" %>
 
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
@@ -11,7 +11,7 @@
    </td>
    <td valign="top">
     <div class="sncore_h2">
-     Forums
+     Discussions
     </div>
     <asp:HyperLink ID="HyperLink1" Text="&#187; Create New" CssClass="sncore_createnew" NavigateUrl="SystemDiscussionEdit.aspx"
      runat="server" />
@@ -30,7 +30,7 @@
         <img src="images/account/discussions.gif" />
        </itemtemplate>
       </asp:TemplateColumn>
-      <asp:TemplateColumn HeaderText="Forum" ItemStyle-HorizontalAlign="Left">
+      <asp:TemplateColumn HeaderText="Discussion" ItemStyle-HorizontalAlign="Left">
        <itemtemplate>
         <a href="DiscussionView.aspx?id=<%# Eval("Id") %>">
          <%# base.Render(Eval("Name")) %>

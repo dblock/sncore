@@ -12,7 +12,7 @@
  <div id="divLinks" class="sncore_link" runat="server">
   <span id="spanLinkViewBlog" runat="server">
    <a href='AccountBlogView.aspx?id=<% Response.Write(BlogId); %>'>
-    &#187; view blog
+    &#187; read all
    </a>
   </span>
  </div>

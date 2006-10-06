@@ -57,7 +57,7 @@ public partial class SystemDiscussionsManage : AuthenticatedPage
                 case "Delete":
                     int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
                     DiscussionService.DeleteDiscussion(SessionManager.Ticket, id);
-                    ReportInfo("Forum deleted.");
+                    ReportInfo("Discussion deleted.");
                     GetData(sender, e);
                     break;
             }

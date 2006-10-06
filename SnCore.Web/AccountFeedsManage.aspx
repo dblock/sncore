@@ -1,5 +1,5 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true"
- CodeFile="AccountFeedsManage.aspx.cs" Inherits="AccountFeedsManage" Title="Account | Feeds" %>
+ CodeFile="AccountFeedsManage.aspx.cs" Inherits="AccountFeedsManage" Title="Account | Syndication" %>
 
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>

@@ -5,7 +5,7 @@
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <div class="sncore_h2">
-  Site Map - Feeds
+  Site Map - Blogs
  </div>
  <table class="sncore_table">
   <tr>

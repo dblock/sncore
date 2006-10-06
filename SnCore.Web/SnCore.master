@@ -41,7 +41,7 @@
            <asp:ListItem>/AccountEvent.*.aspx</asp:ListItem>
           </Downlights>
          </SnCore:MenuItem><SnCore:MenuItem 
-          runat="server" ID="menuFeeds" Text="feeds" NavigateUrl="AccountFeedItemsView.aspx">
+          runat="server" ID="menuFeeds" Text="blogs" NavigateUrl="AccountFeedItemsView.aspx">
           <Highlights>
            <asp:ListItem>/AccountFeed.*.aspx</asp:ListItem>
            <asp:ListItem>/AccountBlog.*.aspx</asp:ListItem>
@@ -65,12 +65,7 @@
            <asp:ListItem>/AccountEventEdit.aspx</asp:ListItem>
           </Downlights>
          </SnCore:MenuItem><SnCore:MenuItem 
-          runat="server" ID="menuStories" Text="stories" NavigateUrl="AccountStoriesView.aspx">
-          <Highlights>
-           <asp:ListItem>/AccountStor.*View.aspx</asp:ListItem>
-          </Highlights>
-         </SnCore:MenuItem><SnCore:MenuItem 
-          runat="server" ID="menuDiscuss" Text="forums" NavigateUrl="DiscussionTopOfThreadsView.aspx">
+          runat="server" ID="menuDiscuss" Text="discuss" NavigateUrl="DiscussionTopOfThreadsView.aspx">
           <Highlights>
            <asp:ListItem>/Discuss.*</asp:ListItem>
           </Highlights>

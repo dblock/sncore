@@ -3,12 +3,12 @@
 <rss version="2.0">
   <channel>
     <title><% Response.Write(Name); %></title>
-    <description>all featured feeds</description>
+    <description>all featured blogs</description>
     <link><% Response.Write(Link); %></link>
     <generator>sncore/sncore.vestris.com</generator>
     <image>
      <url><% Response.Write(WebsiteUrl); %>/images/site/rsslogo.jpg</url> 
-     <title>Featured Feeds</title> 
+     <title>Featured Blogs</title> 
      <link><% Response.Write(Link); %></link> 
      <width>100</width> 
      <height>100</height> 

@@ -9,12 +9,11 @@
 </table>
 <table class="sncore_accountmenu_table">
  <tr><td width="30" align="center"><img src="images/account/stories.gif" /></td><td width="*"><a href="AccountStoriesManage.aspx">Stories</a></td></tr>
- <tr><td width="30" align="right"><img src="images/account/sent.gif" /></td><td width="*"><a href="AccountStoryEdit.aspx">Tell a Story</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/surveys.gif" /></td><td width="*"><a href="AccountSurveysManage.aspx">Surveys</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/syndication.gif" /></td><td width="*"><a href="AccountFeedsManage.aspx">Syndication</a></td></tr>
  <tr><td width="30" align="right"><img src="images/account/sent.gif" /></td><td width="*"><a href="AccountFeedWizard.aspx">Got a Blog?</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/blogs.gif" /></td><td width="*"><a href="AccountBlogsManage.aspx">Blogs</a></td></tr>
- <tr><td width="30" align="center"><img src="images/account/discussions.gif" /></td><td width="*"><a href="SystemDiscussionsManage.aspx">Forums</a></td></tr>
+ <tr><td width="30" align="center"><img src="images/account/discussions.gif" /></td><td width="*"><a href="SystemDiscussionsManage.aspx">Discussions</a></td></tr>
 </table>
 <table class="sncore_accountmenu_table">
  <tr><td width="30" align="center"><img src="images/account/inbox.gif" /></td><td width="*"><a runat="server" id="linkInbox" href="AccountMessageFoldersManage.aspx?folder=inbox">Inbox</a></td></tr>

@@ -6,7 +6,7 @@
   <td>
    <div class="sncore_h2">
     <a href='AccountFeedItemsView.aspx'>
-      New Feeds
+      New Blog Posts
      <img src="images/site/right.gif" border="0" />
     </a>
    </div>

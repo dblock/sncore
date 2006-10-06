@@ -42,8 +42,8 @@
       | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkPlaces" Text="places" runat="server" OnClick="linkPlaces_Click"/> 
       | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkDiscussionPosts" Text="posts" runat="server" OnClick="linkDiscussionPosts_Click"/> 
       | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkAccountStories" Text="stories" runat="server" OnClick="linkAccountStories_Click"/> 
-      | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkAccountFeedItems" Text="feeds" runat="server" OnClick="linkAccountFeedItems_Click"/> 
-      | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkAccountBlogPosts" Text="blogs" runat="server" OnClick="linkAccountBlogPosts_Click"/> 
+      | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkAccountFeedItems" Text="syndicated blogs" runat="server" OnClick="linkAccountFeedItems_Click"/> 
+      | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkAccountBlogPosts" Text="member blogs" runat="server" OnClick="linkAccountBlogPosts_Click"/> 
      </td>
     </tr>
    </table>

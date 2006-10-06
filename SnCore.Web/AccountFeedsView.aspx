@@ -1,5 +1,5 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="AccountFeedsView.aspx.cs"
- Inherits="AccountFeedsView" Title="Feeds" %>
+ Inherits="AccountFeedsView" Title="Blogs" %>
 
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
@@ -11,10 +11,10 @@
     <tr>
      <td>
       <div class="sncore_h2">
-       Feeds
+       Blogs
       </div>
       <div class="sncore_h2sub">
-       <a href="AccountFeedItemsView.aspx">&#187; Content</a>
+       <a href="AccountFeedItemsView.aspx">&#187; Blog Posts</a>
        <a href="AccountFeedItemImgsView.aspx">&#187; Pictures</a>
        <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
       </div>

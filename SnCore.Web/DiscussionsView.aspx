@@ -1,11 +1,11 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true"
- CodeFile="DiscussionsView.aspx.cs" Inherits="DiscussionsView" Title="Forums" %>
+ CodeFile="DiscussionsView.aspx.cs" Inherits="DiscussionsView" Title="Discussions" %>
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <div class="sncore_h2">
-  Forums
+  Discussions
  </div> 
  <div class="sncore_h2sub">
   <a href="DiscussionTopOfThreadsView.aspx">&#187; New Threads</a>
@@ -48,7 +48,7 @@
        <img src="images/account/discussions.gif" />
       </itemtemplate>
      </asp:TemplateColumn>
-     <asp:TemplateColumn HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left" HeaderText="Forum">
+     <asp:TemplateColumn HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left" HeaderText="Discussion">
       <itemtemplate>
        <a href='DiscussionView.aspx?id=<%# Eval("Id") %>'>
         <%# base.Render(Eval("Name")) %>

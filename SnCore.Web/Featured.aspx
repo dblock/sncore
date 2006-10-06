@@ -17,7 +17,7 @@
   <tr>
    <td valign="top">
     <div class="sncore_h2">
-     <a href="FeaturedAccountFeedsView.aspx">Featured Feed</a>
+     <a href="FeaturedAccountFeedsView.aspx">Featured Blog</a>
      <img src="images/site/right.gif" border="0" />
     </div>
     <SnCore:AccountFeedFeaturedView ID="accountfeedFeatured" runat="server" />

@@ -15,7 +15,7 @@
        Pictures
       </div>
       <div class="sncore_h2sub">
-       <a href="AccountFeedItemsView.aspx">&#187; Feeds</a>
+       <a href="AccountFeedItemsView.aspx">&#187; Blogs</a>
        <a href="AccountFeedItemsView.aspx">&#187; Content</a>
        <a href="TellAFriend.aspx?Url=<% Response.Write(Renderer.UrlEncode(Request.Url.PathAndQuery)); %>&Subject=<% Response.Write(Renderer.UrlEncode(Title)); %>">&#187; Tell a Friend</a>     
        <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />       

@@ -23,7 +23,7 @@
        </ItemTemplate>
       </asp:DataList>
       </li></ul>
-      <li><a href="AccountFeedItemsView.aspx">Feeds</a></li>
+      <li><a href="AccountFeedItemsView.aspx">Blogs</a></li>
       <ul><li>
       <asp:DataList RepeatLayout="Flow" RepeatDirection="Horizontal" ID="listFeeds" runat="server">
        <ItemStyle CssClass="sncore_link" />
@@ -69,9 +69,9 @@
        </ItemTemplate>
       </asp:DataList>
       </li></ul>
-      <li><a href="DiscussionsView.aspx">Forums</a></li>
-      <li><a href="DiscussionTopOfThreadsView.aspx">Latest Forum Threads</a></li>
-      <li><a href="DiscussionThreadsView.aspx">Latest Forum Posts</a></li>
+      <li><a href="DiscussionsView.aspx">Discussions</a></li>
+      <li><a href="DiscussionTopOfThreadsView.aspx">Latest Discussion Threads</a></li>
+      <li><a href="DiscussionThreadsView.aspx">Latest Discussion Posts</a></li>
       <ul>
        <asp:Repeater ID="listDiscussions" runat="server">
         <ItemTemplate>
@@ -94,7 +94,7 @@
       </ul>
       <li><b>Featured</b></li>
       <ul>
-       <li><a href="FeaturedAccountFeedsView.aspx">Feeds</a></li>
+       <li><a href="FeaturedAccountFeedsView.aspx">Blogs</a></li>
        <li><a href="FeaturedAccountsView.aspx">People</a></li>
        <li><a href="FeaturedPlacesView.aspx">Places</a></li>
        <li><a href="FeaturedAccountEventsView.aspx">Events</a></li>
@@ -103,16 +103,16 @@
       <ul>
        <li><a href="AccountsRss.aspx">People</a></li>
        <li><a href="PlacesRss.aspx">Places</a></li>
-       <li><a href="AccountFeedsRss.aspx">Feeds</a></li>
+       <li><a href="AccountFeedsRss.aspx">Blogs</a></li>
        <li><a href="AccountStoriesRss.aspx">Stories</a></li>
        <li><a href="AccountEventsRss.aspx">Events</a></li>
        <li><a href="DiscussionTopOfThreadsRss.aspx">Discussion Threads</a></li>
        <li><a href="DiscussionThreadsRss.aspx">Discussion Posts</a></li>
-       <li><a href="AccountFeedItemsRss.aspx">Aggregated Feeds</a></li>
-       <li><a href="AccountFeedItemImgsRss.aspx">Aggregated Feed Pictures</a></li>
+       <li><a href="AccountFeedItemsRss.aspx">Aggregated Blogs</a></li>
+       <li><a href="AccountFeedItemImgsRss.aspx">Aggregated Blog Pictures</a></li>
        <li><a href="FeaturedAccountsRss.aspx">Featured People</a></li>
        <li><a href="FeaturedPlacesRss.aspx">Featured Places</a></li>
-       <li><a href="FeaturedAccountFeedsRss.aspx">Featured Feeds</a></li>
+       <li><a href="FeaturedAccountFeedsRss.aspx">Featured Blogs</a></li>
        <li><a href="FeaturedAccountEventsRss.aspx">Featured Events</a></li>
       </ul>
       <li><a href="Search.aspx">Search</a></li>
@@ -154,7 +154,7 @@
      <li><a href="Help.aspx">Help</a></li>
       <ul>
        <li><a href="docs/html/faq.html">Frequently Asked Questions</a></li>
-       <li><a runat="server" id="linkSiteDiscussion" href="DiscussionView.aspx?id=0">Site Discussion Forum</a></li>
+       <li><a runat="server" id="linkSiteDiscussion" href="DiscussionView.aspx?id=0">Site Discussion</a></li>
        <li><a runat="server" id="linkReportBug" href="BugEdit.aspx?pid=0&type=Bug">Report a Bug</a></li>
        <li><a runat="server" id="linkSuggestFeature" href="BugEdit.aspx?pid=0&type=Suggestion">Suggest a Feature</a></li>
        <li><a href="Services.htm">Web Services</a></li>

@@ -1,5 +1,5 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true"
- CodeFile="FeaturedAccountFeedsView.aspx.cs" Inherits="FeaturedAccountFeedsView" Title="Featured People" %>
+ CodeFile="FeaturedAccountFeedsView.aspx.cs" Inherits="FeaturedAccountFeedsView" Title="Featured Blogs" %>
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -7,7 +7,7 @@
   <tr>
    <td>
     <div class="sncore_h2">
-     Featured Feeds
+     Featured Blogs
     </div>
     <asp:Label ID="labelCount" runat="server" CssClass="sncore_h2sub" />
    </td>

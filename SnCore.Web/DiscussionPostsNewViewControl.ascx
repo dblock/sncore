@@ -7,7 +7,7 @@
   <td>
    <div class="sncore_h2">
     <a href="DiscussionsView.aspx">
-      New Forum Posts
+      New Discussion Posts
      <img src="images/site/right.gif" border="0" />
     </a>
    </div>
@@ -19,7 +19,7 @@
     <div class="sncore_link">
      <a href="DiscussionTopOfThreadsView.aspx">&#187; new threads</a>
      <a href="DiscussionThreadsView.aspx">&#187; new posts</a>
-     <a href="DiscussionsView.aspx">&#187; all forums</a>
+     <a href="DiscussionsView.aspx">&#187; all discussions</a>
      <a href="DiscussionThreadsRss.aspx">&#187; rss</a>
     </div>
    </div>

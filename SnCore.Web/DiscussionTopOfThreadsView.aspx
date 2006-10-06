@@ -21,7 +21,7 @@
   </tr>
  </table>
  <div class="sncore_h2sub">
-  <a href="DiscussionsView.aspx">&#187; All Forums</a>
+  <a href="DiscussionsView.aspx">&#187; All Discussions</a>
   <a href="DiscussionThreadsView.aspx">&#187; New Posts</a>
   <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
  </div>

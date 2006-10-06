@@ -7,7 +7,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <div class="sncore_navigate">
   <asp:HyperLink NavigateUrl="~/DiscussionsView.aspx" CssClass="sncore_navigate_item"
-   ID="linkDiscussions" Text="Forums" runat="server" />
+   ID="linkDiscussions" Text="Discussions" runat="server" />
   <asp:Label CssClass="sncore_navigate_item" ID="linkDiscussion" Text="Discussion"
    runat="server" />
  </div>
