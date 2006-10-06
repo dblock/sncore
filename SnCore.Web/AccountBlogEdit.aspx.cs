@@ -94,7 +94,7 @@ public partial class AccountBlogEdit : AuthenticatedPage
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridManagePosts.CurrentPageIndex;
             options.PageSize = gridManagePosts.PageSize;
-            gridManagePosts.DataSource = BlogService.GetAccountBlogPostsById(RequestId, options);
+            gridManagePosts.DataSource = BlogService.GetAccountBlogPostsById(SessionManager.Ticket, RequestId, options);
         }
         catch (Exception ex)
         {

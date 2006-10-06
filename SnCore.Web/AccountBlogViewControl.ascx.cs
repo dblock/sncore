@@ -117,7 +117,7 @@ public partial class AccountBlogViewControl : Control
         try
         {
             ServiceQueryOptions options = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
-            object[] args = { BlogId, options };
+            object[] args = { SessionManager.Ticket, BlogId, options };
             gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountBlogPost>(
                 BlogService, "GetAccountBlogPostsById", args);
         }

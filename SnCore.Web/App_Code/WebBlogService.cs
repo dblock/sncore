@@ -224,11 +224,14 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account blog post by id.")]
         public TransitAccountBlogPost GetAccountBlogPostById(string ticket, int id)
         {
+            int user_id = ManagedAccount.GetAccountId(ticket, 0);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
-                // todo: persmissions for blog post
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return new ManagedAccountBlogPost(session, id).TransitAccountBlogPost;
+                TransitAccountBlogPost post = new ManagedAccountBlogPost(session, id).TransitAccountBlogPost;
+                ManagedAccountBlog blog = new ManagedAccountBlog(session, post.AccountBlogId);
+                blog.SetPermissions(user_id, post);
+                return post;
             }
         }
 
@@ -254,8 +257,9 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>transit account blog posts</returns>
         [WebMethod(Description = "Get account blog posts.", CacheDuration = 60)]
-        public List<TransitAccountBlogPost> GetAccountBlogPostsById(int id, ServiceQueryOptions options)
+        public List<TransitAccountBlogPost> GetAccountBlogPostsById(string ticket, int id, ServiceQueryOptions options)
         {
+            int user_id = ManagedAccount.GetAccountId(ticket, 0);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
@@ -274,9 +278,12 @@ namespace SnCore.WebServices
 
                 List<TransitAccountBlogPost> result = new List<TransitAccountBlogPost>(list.Count);
 
+                ManagedAccountBlog blog = new ManagedAccountBlog(session, id);
                 foreach (AccountBlogPost item in list)
                 {
-                    result.Add(new ManagedAccountBlogPost(session, item).TransitAccountBlogPost);
+                    TransitAccountBlogPost post = new ManagedAccountBlogPost(session, item).TransitAccountBlogPost;
+                    blog.SetPermissions(user_id, post);
+                    result.Add(post);
                 }
 
                 return result;

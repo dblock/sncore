@@ -4,6 +4,7 @@
 <%@ Register TagPrefix="FTB" Namespace="FreeTextBoxControls" Assembly="FreeTextBox" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
+<%@ Register TagPrefix="WilcoWebControls" Namespace="Wilco.Web.UI.WebControls" Assembly="Wilco.Web" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <div class="sncore_h2">
   Blog Post
@@ -38,6 +39,19 @@
    </td>
    <td class="sncore_form_value">
     <asp:TextBox CssClass="sncore_form_textbox" ID="inputTitle" runat="server" />
+   </td>
+  </tr>
+  <tr>
+   <td style="vertical-align: top;" class="sncore_form_label">
+    add photos:
+   </td>
+   <td>
+    <WilcoWebControls:MultiFileUpload id="files" runat="server" inputcssclass="sncore_form_upload"
+     onfilesposted="files_FilesPosted" />
+    <asp:HyperLink ID="addFile" runat="server" CssClass="sncore_form_label" NavigateUrl="#">+</asp:HyperLink>
+    <br />
+    <SnCoreWebControls:Button id="picturesAdd" cssclass="sncore_form_button" runat="server"
+     text="Upload" OnClientClick="WebForm_OnSubmit();" />   
    </td>
   </tr>
   <tr>

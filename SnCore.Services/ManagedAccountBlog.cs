@@ -273,5 +273,11 @@ namespace SnCore.Services
 
             return false;
         }
+
+        public void SetPermissions(int accountid, TransitAccountBlogPost post)
+        {
+            post.CanEdit = CanEdit(accountid);
+            post.CanDelete = CanDelete(accountid);
+        }
     }
 }

@@ -80,6 +80,11 @@
             <%# base.Adjust(Eval("Created")) %>
             <a href='AccountBlogPostView.aspx?id=<%# Eval("Id") %>'>
              &#187; <%# GetComments((int) Eval("CommentCount"))%></a>
+            <span style='<%# (bool) Eval("CanEdit") ? string.Empty : "display: none;" %>'>
+             <a href='AccountBlogPost.aspx?bid=<%# Eval("AccountBlogId") %>&id=<%# Eval("Id") %>'>
+              &#187; edit
+             </a>
+            </span>
            </div>
           </div>
           <div class="sncore_message_body">

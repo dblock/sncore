@@ -74,7 +74,7 @@ public partial class AccountBlogRss : Page
                 ServiceQueryOptions options = new ServiceQueryOptions();
                 options.PageNumber = 0;
                 options.PageSize = 25;
-                object[] args = { RequestId, options };
+                object[] args = { SessionManager.Ticket, RequestId, options };
                 rssRepeater.DataSource = SessionManager.GetCachedCollection<TransitAccountBlogPost>(
                     BlogService, "GetAccountBlogPostsById", args);
                 rssRepeater.DataBind();

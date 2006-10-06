@@ -11,6 +11,10 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using Wilco.Web.UI.WebControls;
+using SnCore.Tools.Drawing;
+using System.IO;
+using System.Drawing;
 
 public partial class AccountBlogPostNew : AuthenticatedPage
 {
@@ -29,6 +33,8 @@ public partial class AccountBlogPostNew : AuthenticatedPage
             SetDefaultButton(manageAdd);
             if (!IsPostBack)
             {
+                this.addFile.Attributes["onclick"] = this.files.GetAddFileScriptReference() + "return false;";
+
                 linkBack.NavigateUrl = string.Format("AccountBlogEdit.aspx?id={0}", BlogId);
 
                 TransitAccountBlog blog = BlogService.GetAccountBlogById(SessionManager.Ticket, BlogId);
@@ -63,6 +69,36 @@ public partial class AccountBlogPostNew : AuthenticatedPage
             tp.Id = RequestId;
             BlogService.CreateOrUpdateAccountBlogPost(SessionManager.Ticket, tp);
             Redirect(string.Format("AccountBlogView.aspx?id={0}", BlogId));
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
+    protected void files_FilesPosted(object sender, FilesPostedEventArgs e)
+    {
+        try
+        {
+            if (e.PostedFiles.Count == 0)
+                return;
+
+            foreach (HttpPostedFile file in e.PostedFiles)
+            {
+                TransitAccountPictureWithBitmap p = new TransitAccountPictureWithBitmap();
+
+                ThumbnailBitmap t = new ThumbnailBitmap(file.InputStream);
+                p.Bitmap = t.Bitmap;
+                p.Name = Path.GetFileName(file.FileName);
+                p.Description = string.Empty;
+
+                int id = AccountService.AddAccountPicture(SessionManager.Ticket, p);
+
+                Size size = t.GetNewSize(new Size(200, 200));
+
+                inputBody.Text = string.Format("<a href=AccountPictureView.aspx?id={2}><img border=0 width={0} height={1} src=AccountPicture.aspx?id={2}></a>\n{3}",
+                    size.Width, size.Height, id, inputBody.Text);
+            }
         }
         catch (Exception ex)
         {

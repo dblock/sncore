@@ -164,6 +164,34 @@ namespace SnCore.Services
             }
         }
 
+        private bool mCanEdit = false;
+
+        public bool CanEdit
+        {
+            get
+            {
+                return mCanEdit;
+            }
+            set
+            {
+                mCanEdit = value;
+            }
+        }
+
+        private bool mCanDelete = false;
+
+        public bool CanDelete
+        {
+            get
+            {
+                return mCanDelete;
+            }
+            set
+            {
+                mCanDelete = value;
+            }
+        }
+
         public TransitAccountBlogPost()
         {
 
@@ -181,7 +209,7 @@ namespace SnCore.Services
 
             try
             {
-                Account acct = (Account) session.Load(typeof(Account), o.AccountId);
+                Account acct = (Account)session.Load(typeof(Account), o.AccountId);
                 AccountPictureId = ManagedService.GetRandomElementId(acct.AccountPictures);
             }
             catch (NHibernate.ObjectNotFoundException)
@@ -192,7 +220,7 @@ namespace SnCore.Services
 
             AccountName = o.AccountName;
             AccountBlogName = o.AccountBlog.Name;
-            
+
             CommentCount = ManagedDiscussion.GetDiscussionPostCount(
                 session, o.AccountBlog.Account.Id, ManagedDiscussion.AccountBlogPostDiscussion, o.Id);
         }
@@ -202,7 +230,7 @@ namespace SnCore.Services
             AccountBlogPost p = (Id != 0) ? (AccountBlogPost)session.Load(typeof(AccountBlogPost), Id) : new AccountBlogPost();
             p.Title = this.Title;
             p.Body = this.Body;
-            
+
             if (Id == 0)
             {
                 p.AccountName = this.AccountName;
@@ -271,7 +299,7 @@ namespace SnCore.Services
             try
             {
                 int DiscussionId = ManagedDiscussion.GetDiscussionId(
-                    Session, mAccountBlogPost.AccountBlog.Account.Id, ManagedDiscussion.AccountBlogPostDiscussion, 
+                    Session, mAccountBlogPost.AccountBlog.Account.Id, ManagedDiscussion.AccountBlogPostDiscussion,
                     mAccountBlogPost.Id, false);
                 Discussion mDiscussion = (Discussion)Session.Load(typeof(Discussion), DiscussionId);
                 Session.Delete(mDiscussion);
