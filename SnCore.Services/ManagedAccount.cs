@@ -522,7 +522,7 @@ namespace SnCore.Services
     public class ManagedAccount : ManagedService
     {
         public static int MinimumPasswordLength = 4;
-        public static int MaxOfAnything = 40;
+        public static int MaxOfAnything = 250;
 
         public class AccessDeniedException : SoapException
         {

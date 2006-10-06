@@ -98,7 +98,7 @@ namespace SnCore.Tools.Drawing
             }
 
             mSize = new Size(b.Width, b.Height);
-            mBitmap = GetResizedImageBytes(b, ResizeSize.Width, ResizeSize.Height, ImageQuality);
+            mBitmap = GetResizedImageBytes(b, ResizeSize, ImageQuality);
             mThumbnail = GetThumbnail(bitmap, min);
         }
 
@@ -109,7 +109,7 @@ namespace SnCore.Tools.Drawing
         public ThumbnailBitmap(Bitmap bitmap, Size min)
         {
             mSize = new Size(bitmap.Width, bitmap.Height);
-            mBitmap = GetResizedImageBytes(bitmap, ResizeSize.Width, ResizeSize.Height, ImageQuality);
+            mBitmap = GetResizedImageBytes(bitmap, ResizeSize, ImageQuality);
             mThumbnail = GetThumbnail(bitmap, min);
         }
 
@@ -131,23 +131,31 @@ namespace SnCore.Tools.Drawing
                     string.Empty, originalimage.Size, min);
             }
 
-            return GetResizedImageBytes(originalimage, ThumbnailSize.Width, ThumbnailSize.Height, ImageQuality);
+            return GetResizedImageBytes(originalimage, ThumbnailSize, ImageQuality);
         }
 
-        private static Size GetNewSize(Bitmap originalimage, int widthtarget, int heighttarget)
+        public Size GetNewSize(Size ts)
+        {
+            return GetNewSize(this.Size, ts);
+        }
+
+        public static Size GetNewSize(Bitmap originalimage, Size ts)
+        {
+            return GetNewSize(originalimage.Size, ts);
+        }
+
+        public static Size GetNewSize(Size from, Size to)
         {
             int fixedimagedimension =
-                (originalimage.Size.Height > originalimage.Size.Width) ? heighttarget : widthtarget;
+                (from.Height > from.Width) ? to.Height : to.Width;
 
-            Size ns =
-                (originalimage.Size.Height > originalimage.Size.Width ?
-                new Size(fixedimagedimension, (fixedimagedimension * originalimage.Size.Height / originalimage.Size.Width)) :
-                new Size((fixedimagedimension * originalimage.Size.Width / originalimage.Size.Height), fixedimagedimension));
-
-            return ns;
+            return
+                (from.Height > from.Width ?
+                    new Size(fixedimagedimension, (fixedimagedimension * from.Height / from.Width)) :
+                    new Size((fixedimagedimension * from.Width / from.Height), fixedimagedimension));
         }
 
-        private static Bitmap GetResizedImage(Bitmap imgPhoto, int Width, int Height)
+        private static Bitmap GetResizedImage(Bitmap imgPhoto, Size ts)
         {
             // http://www.codeproject.com/csharp/imageresize.asp
 
@@ -163,34 +171,34 @@ namespace SnCore.Tools.Drawing
             float nPercentH = 0;
 
             bool sourceVertical = sourceWidth < sourceHeight;
-            bool targetVeritcal = Width < Height;
+            bool targetVeritcal = ts.Width < ts.Height;
 
             if (sourceVertical != targetVeritcal)
             {
-                int t = Width;
-                Width = Height;
-                Height = t;
+                int t = ts.Width;
+                ts.Width = ts.Height;
+                ts.Height = t;
             }
 
-            nPercentW = ((float)Width / (float)sourceWidth);
-            nPercentH = ((float)Height / (float)sourceHeight);
+            nPercentW = ((float)ts.Width / (float)sourceWidth);
+            nPercentH = ((float)ts.Height / (float)sourceHeight);
             if (nPercentH < nPercentW)
             {
                 nPercent = nPercentH;
-                destX = System.Convert.ToInt16((Width -
+                destX = System.Convert.ToInt16((ts.Width -
                               (sourceWidth * nPercent)) / 2);
             }
             else
             {
                 nPercent = nPercentW;
-                destY = System.Convert.ToInt16((Height -
+                destY = System.Convert.ToInt16((ts.Height -
                               (sourceHeight * nPercent)) / 2);
             }
 
             int destWidth = (int)(sourceWidth * nPercent);
             int destHeight = (int)(sourceHeight * nPercent);
 
-            Bitmap bmPhoto = new Bitmap(Width, Height,
+            Bitmap bmPhoto = new Bitmap(ts.Width, ts.Height,
                               PixelFormat.Format24bppRgb);
             bmPhoto.SetResolution(imgPhoto.HorizontalResolution,
                              imgPhoto.VerticalResolution);
@@ -244,13 +252,13 @@ namespace SnCore.Tools.Drawing
             return result;
         }
 
-        public static byte[] GetResizedImageBytes(Bitmap originalimage, int widthtarget, int heighttarget, int quality)
+        public static byte[] GetResizedImageBytes(Bitmap originalimage, Size ts, int quality)
         {
             Bitmap resizedimage = null;
 
-            if (originalimage.Size.Height > heighttarget || originalimage.Size.Width > widthtarget)
+            if (originalimage.Size.Height > ts.Height || originalimage.Size.Width > ts.Width)
             {
-                resizedimage = GetResizedImage(originalimage, widthtarget, heighttarget);
+                resizedimage = GetResizedImage(originalimage, ts);
             }
             else
             {

@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
+using SnCore.WebServices;
 
 public partial class AccountView : Page
 {
@@ -98,6 +99,7 @@ public partial class AccountView : Page
     {
         try
         {
+            picturesView.OnGetDataSource += new EventHandler(picturesView_OnGetDataSource);
             if (!IsPostBack)
             {
                 linkDiscussionThreads.NavigateUrl = string.Format("AccountDiscussionThreadsView.aspx?id={0}", AccountId);
@@ -128,13 +130,8 @@ public partial class AccountView : Page
 
                 this.Title = linkAccount.Text = Renderer.Render(Account.Name);
 
-                object[] args = { Account.Id, null };
-                picturesView.DataSource = SessionManager.GetCachedCollection<TransitAccountPicture>(
-                    AccountService, "GetAccountPicturesById", args);
-                picturesView.DataBind();
-
-                if (picturesView.Items.Count == 0) accountNoPicture.Visible = true;
-
+                GetPicturesData(sender, e);
+                
                 accountLastLogin.Text = Adjust(Account.LastLogin).ToString("d");
                 accountCity.Text = Renderer.Render(Account.City);
                 accountState.Text = Renderer.Render(Account.State);
@@ -299,6 +296,32 @@ public partial class AccountView : Page
             t_feature.DataRowId = RequestId;
             SystemService.DeleteAllFeatures(SessionManager.Ticket, t_feature);
             Redirect(Request.Url.PathAndQuery);
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
+    void GetPicturesData(object sender, EventArgs e)
+    {
+        object[] p_args = { AccountId };
+        picturesView.CurrentPageIndex = 0;
+        picturesView.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+            AccountService, "GetAccountPicturesCountById", p_args);
+        picturesView_OnGetDataSource(sender, e);
+        picturesView.DataBind();
+        accountNoPicture.Visible = (picturesView.Items.Count == 0);
+    }
+
+    void picturesView_OnGetDataSource(object sender, EventArgs e)
+    {
+        try
+        {
+            ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
+            object[] args = { AccountId, options };
+            picturesView.DataSource = SessionManager.GetCachedCollection<TransitAccountPicture>(
+                AccountService, "GetAccountPicturesById", args);
         }
         catch (Exception ex)
         {

@@ -1,4 +1,3 @@
-
 using System;
 using System.Data;
 using System.Configuration;
@@ -13,6 +12,10 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 using System.Text;
+using Wilco.Web.UI.WebControls;
+using SnCore.Tools.Drawing;
+using System.IO;
+using System.Drawing;
 
 public partial class DiscussionPostNew : AuthenticatedPage
 {
@@ -67,6 +70,8 @@ public partial class DiscussionPostNew : AuthenticatedPage
             SetDefaultButton(post);
             if (!IsPostBack)
             {
+                this.addFile.Attributes["onclick"] = this.files.GetAddFileScriptReference() + "return false;";
+
                 linkCancel.NavigateUrl = ReturnUrl;
                 linkDiscussion.NavigateUrl = ReturnUrl;
 
@@ -150,6 +155,35 @@ public partial class DiscussionPostNew : AuthenticatedPage
         {
             ReportException(ex);
         }
+    }
 
+    protected void files_FilesPosted(object sender, FilesPostedEventArgs e)
+    {
+        try
+        {
+            if (e.PostedFiles.Count == 0)
+                return;
+
+            foreach (HttpPostedFile file in e.PostedFiles)
+            {
+                TransitAccountPictureWithBitmap p = new TransitAccountPictureWithBitmap();
+
+                ThumbnailBitmap t = new ThumbnailBitmap(file.InputStream);
+                p.Bitmap = t.Bitmap;
+                p.Name = Path.GetFileName(file.FileName);
+                p.Description = string.Empty;
+
+                int id = AccountService.AddAccountPicture(SessionManager.Ticket, p);
+
+                Size size = t.GetNewSize(new Size(200, 200));
+
+                inputBody.Text = string.Format("<a href=AccountPictureView.aspx?id={2}><img border=0 width={0} height={1} src=AccountPicture.aspx?id={2}></a>\n{3}",
+                    size.Width, size.Height, id, inputBody.Text);
+            }
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
     }
 }

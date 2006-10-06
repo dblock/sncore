@@ -30,19 +30,23 @@
      <asp:Panel CssClass="sncore_nopicture_table" ID="accountNoPicture" runat="server" Visible="false">
       <img border="0" src="images/AccountThumbnail.gif" />
      </asp:Panel>
-     <asp:DataList runat="server" ID="picturesView">
-      <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
-      <ItemTemplate>
-       <a href="AccountPictureView.aspx?id=<%# Eval("Id").ToString() %>">
-        <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("Id").ToString() %>"
-         alt="<%# base.Render(Eval("Name")) %>" />
-         <div class="sncore_link_description">
-         <%# ((int) Eval("CommentCount") >= 1) ? Eval("CommentCount").ToString() + 
-          " comment" + (((int) Eval("CommentCount") == 1) ? "" : "s") : "" %>
-         </div>
-       </a>
-      </ItemTemplate>
-     </asp:DataList>
+     <atlas:UpdatePanel runat="server" Mode="Conditional" ID="panelPictures">
+      <ContentTemplate>
+       <SnCoreWebControls:PagedList runat="server" ID="picturesView" RepeatColumns="1" RepeatRows="5" AllowCustomPaging="true">
+        <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="&#187;"
+         prevpagetext="&#171;" horizontalalign="Center" />
+        <ItemTemplate>
+         <a href='<%# string.Format("AccountPictureView.aspx?id={0}", Eval("Id")) %>'>
+          <img border="0" src='<%# string.Format("AccountPictureThumbnail.aspx?id={0}", Eval("Id")) %>' alt='<%# base.Render(Eval("Name")) %>' />
+          <div style="font-size: smaller;">
+           <%# ((int) Eval("CommentCount") >= 1) ? Eval("CommentCount").ToString() + 
+            " comment" + (((int) Eval("CommentCount") == 1) ? "" : "s") : "" %>
+          </div>
+         </a>
+        </ItemTemplate>
+       </SnCoreWebControls:PagedList>
+      </ContentTemplate>
+     </atlas:UpdatePanel>
     </td>
     <td valign="top" width="*">
      <table class="sncore_inner_table" width="95%">
