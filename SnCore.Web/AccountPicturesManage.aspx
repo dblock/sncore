@@ -36,7 +36,7 @@
       <SnCoreWebControls:PagedList CssClass="sncore_account_table" runat="server" RepeatDirection="Horizontal"
        ID="gridManage" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Top"
        OnItemCommand="gridManage_ItemCommand" ItemStyle-CssClass="sncore_table_tr_td" RepeatColumns="3"
-       RepeatRows="4" AllowCustomPaging="true">
+       RepeatRows="2" AllowCustomPaging="true">
        <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
         prevpagetext="Prev" horizontalalign="Center" />
        <ItemTemplate>

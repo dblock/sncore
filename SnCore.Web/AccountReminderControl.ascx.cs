@@ -50,9 +50,10 @@ public partial class AccountReminder : Control
                 if (invitationscount == 0)
                 {
                     noticeReminder.HtmlEncode = false;
-                    noticeReminder.Info =
-                        "Invite your friends to participate! " +
-                        "<a href='AccountInvitationsManage.aspx'>Click here!</a>";
+                    noticeReminder.Info = string.Format(
+                        "Invite your friends to {0}! " +
+                        "<a href='AccountInvitationsManage.aspx'>Click here!</a>",
+                        Render(SessionManager.GetCachedConfiguration("SnCore.Name", "SnCore")));
                     return;
                 }
 
