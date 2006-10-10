@@ -120,6 +120,14 @@
       </td>
      </tr>
      <tr>
+      <td class="sncore_form_label">
+      </td>
+      <td class="sncore_form_value">
+       <asp:CheckBox CssClass="sncore_form_checkbox" ID="inputPublishImgs" runat="server" Text="publish pictures"
+        Checked="true" />
+      </td>
+     </tr>
+     <tr>
       <td>
       </td>
       <td>

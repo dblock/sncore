@@ -1403,6 +1403,7 @@ CREATE TABLE [dbo].[AccountFeed](
 	[LastError] [ntext] NULL,
 	[LinkUrl] [varchar](256) NULL,
 	[Publish] [bit] NOT NULL CONSTRAINT [DF_AccountFeed_Publish]  DEFAULT ((1)),
+	[PublishImgs] [bit] NOT NULL CONSTRAINT [DF_AccountFeed_PublishImgs]  DEFAULT ((1)),
  CONSTRAINT [PK_AccountFeed] PRIMARY KEY CLUSTERED 
 (
 	[AccountFeed_Id] ASC

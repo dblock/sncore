@@ -21,5 +21,6 @@
     <property name="Updated" column="Updated" type="DateTime" />
     <property name="UpdateFrequency" column="UpdateFrequency" type="Int32" />
     <property name="Username" column="Username" type="String" />
+    <property name="PublishImgs" column="PublishImgs" type="Boolean" />
   </class>
 </hibernate-mapping>

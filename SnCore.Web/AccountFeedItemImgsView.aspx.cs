@@ -12,9 +12,24 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 using Microsoft.Web.UI;
+using Wilco.Web.UI;
 
 public partial class AccountFeedItemImgsView : AccountPersonPage
 {
+    public bool IsEditing
+    {
+        get
+        {
+            return SessionManager.IsAdministrator &&
+                ViewStateUtility.GetViewStateValue<bool>(
+                    ViewState, "IsEditing", false);
+        }
+        set
+        {
+            ViewState["IsEditing"] = value;
+        }
+    }
+
     public void Page_Load(object sender, EventArgs e)
     {
         try
@@ -22,6 +37,7 @@ public partial class AccountFeedItemImgsView : AccountPersonPage
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
             if (!IsPostBack)
             {
+                linkEdit.Visible = SessionManager.IsAdministrator;
                 GetData();
             }
         }
@@ -41,10 +57,24 @@ public partial class AccountFeedItemImgsView : AccountPersonPage
             {
                 mQueryOptions = new TransitAccountFeedItemImgQueryOptions();
                 mQueryOptions.InterestingOnly = false;
-                mQueryOptions.VisibleOnly = (SessionManager.IsAdministrator ? false : true);
+                mQueryOptions.VisibleOnly = (IsEditing ? false : true);
             }
 
             return mQueryOptions;
+        }
+    }
+
+    public void linkEdit_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            IsEditing = !IsEditing;
+            linkEdit.Text = IsEditing ? "&#187; Preview" : "&#187; Edit";
+            GetData();
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
         }
     }
 

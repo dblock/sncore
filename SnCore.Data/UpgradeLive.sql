@@ -12,3 +12,9 @@ ALTER TABLE dbo.Reminder DROP COLUMN Body
 -- switch UtcOffset to TimeZone, an index into TimeZoneInformation (2006-10-01)
 ALTER TABLE dbo.Account ADD [TimeZone] int NOT NULL DEFAULT -1
 ALTER TABLE dbo.Account DROP COLUMN UtcOffset
+
+-- publish images from the account feed
+ALTER TABLE dbo.AccountFeed ADD [PublishImgs] bit NULL
+GO
+UPDATE dbo.AccountFeed SET PublishImgs = Publish
+ALTER TABLE dbo.AccountFeed ALTER COLUMN [PublishImgs] bit NOT NULL

@@ -220,6 +220,21 @@ namespace SnCore.Services
             }
         }
 
+        private bool mPublishImgs;
+
+        public bool PublishImgs
+        {
+            get
+            {
+
+                return mPublishImgs;
+            }
+            set
+            {
+                mPublishImgs = value;
+            }
+        }
+
         private int mAccountPictureId;
 
         public int AccountPictureId
@@ -273,6 +288,7 @@ namespace SnCore.Services
             LinkUrl = o.LinkUrl;
             FeedType = o.FeedType.Name;
             Publish = o.Publish;
+            PublishImgs = o.PublishImgs;
         }
 
         public AccountFeed GetAccountFeed(ISession session)
@@ -293,6 +309,7 @@ namespace SnCore.Services
             p.FeedUrl = this.FeedUrl;
             p.LinkUrl = this.LinkUrl;
             p.Publish = this.Publish;
+            p.PublishImgs = this.PublishImgs;
             if (!string.IsNullOrEmpty(this.FeedType)) p.FeedType = ManagedFeedType.Find(session, this.FeedType);
             return p;
         }
@@ -639,6 +656,8 @@ namespace SnCore.Services
                     continue;
                 }
 
+                TimeSpan tsDistribution = new TimeSpan(0, 30, 0);
+
                 foreach (HtmlImage image in images)
                 {
                     AccountFeedItemImg x_img = null;
@@ -656,7 +675,8 @@ namespace SnCore.Services
                     }
 
                     x_img = new AccountFeedItemImg();
-                    x_img.Created = item.Created;
+                    x_img.Created = item.Created.Subtract(tsDistribution); // shuffle images
+                    tsDistribution = tsDistribution.Add(new TimeSpan(0, 30, 0));
                     x_img.Modified = DateTime.UtcNow;
                     x_img.AccountFeedItem = item;
                     x_img.Description = image.Alt;
@@ -671,7 +691,7 @@ namespace SnCore.Services
                         if (data == null) throw new Exception("Missing file data.");
                         ThumbnailBitmap bitmap = new ThumbnailBitmap(data);
                         x_img.Thumbnail = bitmap.Thumbnail;
-                        x_img.Visible = mAccountFeed.Publish;
+                        x_img.Visible = mAccountFeed.PublishImgs;
 
                         // hide images smaller than the thumbnail size
                         if (bitmap.Size.Height < ThumbnailBitmap.ThumbnailSize.Height 

@@ -36,6 +36,9 @@
        <div>
         <asp:LinkButton OnClick="publish_Click" runat="server" ID="linkPublish" Text="Publish" />
        </div>
+       <div>
+        <asp:LinkButton OnClick="publishImgs_Click" runat="server" ID="linkPublishImgs" Text="Publish Pictures" />
+       </div>
       </asp:Panel>
      </ContentTemplate>
     </atlas:UpdatePanel>

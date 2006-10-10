@@ -18,7 +18,8 @@
        <a href="AccountFeedItemsView.aspx">&#187; Blogs</a>
        <a href="AccountFeedItemsView.aspx">&#187; Content</a>
        <a href="TellAFriend.aspx?Url=<% Response.Write(Renderer.UrlEncode(Request.Url.PathAndQuery)); %>&Subject=<% Response.Write(Renderer.UrlEncode(Title)); %>">&#187; Tell a Friend</a>     
-       <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />       
+       <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
+       <asp:LinkButton ID="linkEdit" runat="server" OnClick="linkEdit_Click" Text="&#187; Edit" />
       </div>
      </td>
      <td>
@@ -61,7 +62,7 @@
       <atlas:UpdatePanel ID='panelShowHide' Mode="Conditional" runat="Server">
        <ContentTemplate>
         <asp:LinkButton Text='<%# (bool) Eval("Visible") ? "&#187; Hide" : "&#187; Show" %>' ID="linkToggleVisible" runat="server"
-         Visible='<%# base.SessionManager.IsAdministrator %>' CommandName="Toggle" CommandArgument='<%# Eval("Id") %>' />
+         Visible='<%# base.IsEditing %>' CommandName="Toggle" CommandArgument='<%# Eval("Id") %>' />
        </ContentTemplate>
       </atlas:UpdatePanel>
      </div>

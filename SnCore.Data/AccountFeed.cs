@@ -30,6 +30,7 @@ using System;
         private System.DateTime m_Updated;
         private System.Int32 m_UpdateFrequency;
         private System.String m_Username;
+        private System.Boolean m_PublishImgs;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -413,6 +414,31 @@ using System;
             set
             {
                 m_Username = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.Boolean'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_PublishImgs' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'PublishImgs' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Boolean PublishImgs
+        {
+            get
+            {
+                return m_PublishImgs;
+            }
+            set
+            {
+                m_PublishImgs = value;
             }
         }
 
