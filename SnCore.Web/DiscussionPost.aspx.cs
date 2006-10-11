@@ -128,6 +128,7 @@ public partial class DiscussionPostNew : AuthenticatedPage
                 ReportWarning("You don't have any verified e-mail addresses.\n" +
                     "You must add/confirm a valid e-mail address before posting messages.");
 
+                panelPost.Visible = false;
                 post.Enabled = false;
             }
         }
