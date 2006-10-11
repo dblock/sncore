@@ -1801,6 +1801,20 @@ namespace SnCore.WebServices
                 if (!a.HasVerifiedEmail)
                     throw new ManagedAccount.NoVerifiedEmailException();
 
+                if (invitation.Id == 0)
+                {
+                    // ignore users already invited
+                    AccountInvitation ai = (AccountInvitation) session.CreateCriteria(typeof(AccountInvitation))
+                        .Add(Expression.Eq("Email", invitation.Email))
+                        .Add(Expression.Eq("Account.Id", a.Id))
+                        .UniqueResult();
+
+                    if (ai != null)
+                    {
+                        throw new Exception("Existing Invitation Pending");
+                    }
+                }
+
                 int result = a.CreateOrUpdate(invitation);
                 SnCore.Data.Hibernate.Session.Flush();
                 return result;

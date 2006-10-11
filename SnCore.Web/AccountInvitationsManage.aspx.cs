@@ -23,6 +23,14 @@ public partial class AccountInvitationsManage : AuthenticatedPage
             SetDefaultButton(invite);
             if (!IsPostBack)
             {
+                if (!AccountService.HasVerifiedEmail(SessionManager.Ticket))
+                {
+                    ReportWarning("You don't have any verified e-mail addresses.\n" +
+                        "You must add/confirm a valid e-mail address before inviting people.");
+
+                    panelInvite.Visible = false;
+                }
+
                 GetData(sender, e);
             }
         }
@@ -77,9 +85,8 @@ public partial class AccountInvitationsManage : AuthenticatedPage
                     TransitAccount existing = AccountService.FindByEmail(email);
 
                     error.AppendFormat(
-                            "An account with the e-mail address {3} already exists." +
-                            "<ul><li><a href='AccountFriendRequestEdit.aspx?pid={0}&ReturnUrl={1}'>Send {2} &lt;{3}&gt; a friend request.</a>" +
-                            "<li><a href='AccountView.aspx?id={0}'>View {2} &lt;{3}&gt;.</a></ul><br>\n",
+                            "<a href='AccountView.aspx?id={0}'>{2} &lt;{3}&gt;</a> is a member! " +
+                            "<a href='AccountFriendRequestEdit.aspx?pid={0}&ReturnUrl={1}'>&#187; Add to Friends</a>\n",
                             existing.Id, Request.Url.PathAndQuery, existing.Name, email);
 
                     continue;
@@ -107,7 +114,7 @@ public partial class AccountInvitationsManage : AuthenticatedPage
                 }
                 catch (Exception ex)
                 {
-                    error.Append(ex.Message);
+                    error.AppendFormat("Error inviting {0}: {1}<br>", email, ex.Message);
                 }
             }
 
