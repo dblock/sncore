@@ -435,6 +435,9 @@ namespace SnCore.Services
                 mAccountFeed.Name = feed.Title.Content;
 
             if (string.IsNullOrEmpty(mAccountFeed.Description))
+                mAccountFeed.Description = feed.SubTitle.Content;
+
+            if (string.IsNullOrEmpty(mAccountFeed.Description) && (feed.Tagline != null))
                 mAccountFeed.Description = feed.Tagline.Content;
 
             if (string.IsNullOrEmpty(mAccountFeed.LinkUrl) && feed.Links.Count > 0)
@@ -603,9 +606,18 @@ namespace SnCore.Services
             IList deleted = mAccountFeed.AccountFeedItems;
             List<AccountFeedItem> updated = new List<AccountFeedItem>();
 
-            if (!Update(RssFeed.Read(GetFeedHttpRequest()), deleted, updated))
-                if (!Update(AtomFeed.Load(GetFeedStream()), deleted, updated))
-                    throw new Exception("Invalid or empty RSS or ATOM feed.");
+            bool fUpdated = Update(RssFeed.Read(GetFeedHttpRequest()), deleted, updated);
+
+            if (! fUpdated) fUpdated = Update(AtomFeed.Load(GetFeedStream(),
+               new Uri("http://www.w3.org/2005/Atom")), deleted, updated);
+
+            if (! fUpdated) fUpdated = Update(AtomFeed.Load(GetFeedStream(), 
+                new Uri("http://purl.org/atom/ns#")), deleted, updated);
+
+            if (! fUpdated)
+            {
+                throw new Exception("Invalid or empty RSS or ATOM feed.");
+            }
 
             try
             {

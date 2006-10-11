@@ -49,7 +49,11 @@ namespace Atom.AdditionalElements
 		/// <summary>
 		/// Initialize a new instance of the <see cref="ScopedElement"/> class.
 		/// </summary>
-		protected ScopedElement() {}
+		protected ScopedElement(Uri ns) 
+            : base(ns)
+        {
+
+        }
 
 		#region Public properties
 

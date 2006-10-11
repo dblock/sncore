@@ -46,9 +46,9 @@ namespace Atom.Core.Test
 		[ExpectedException(typeof(OnlyOneMultipartContentAllowedException))]
 		public void TestMultipleMultipartsContent()
 		{
-			AtomEntry entry = new AtomEntry();
+            AtomEntry entry = new AtomEntry(new Uri("http://purl.org/atom/ns#"));
 
-			AtomContent content = new AtomContent();
+            AtomContent content = new AtomContent(new Uri("http://purl.org/atom/ns#"));
 			content.Content = "sample text";
 			content.Mode = Mode.Xml;
 			content.Type = MediaType.MultipartAlternative;
@@ -56,7 +56,7 @@ namespace Atom.Core.Test
 
 			entry.Contents.Add(content);
 
-			content = new AtomContent();
+            content = new AtomContent(new Uri("http://purl.org/atom/ns#"));
 			content.Content = "sample text";
 			content.Mode = Mode.Xml;
 			content.Type = MediaType.MultipartAlternative;
@@ -67,7 +67,7 @@ namespace Atom.Core.Test
 		[Test]
 		public void TestXmlBaseContentUri()
 		{
-			AtomFeed feed = AtomFeed.Load(@"..\..\tests\feeds\pilgrim.xml");
+            AtomFeed feed = AtomFeed.Load(@"..\..\tests\feeds\pilgrim.xml", new Uri("http://purl.org/atom/ns#"));
 			foreach(AtomEntry entry in feed.Entries)
 				foreach(AtomContent content in entry.Contents)
 				{

@@ -53,7 +53,7 @@ namespace Atom.Core.Test
 		[SetUp]
 		public void Init()
 		{
-			feed = new AtomFeed();
+            feed = new AtomFeed(new Uri("http://purl.org/atom/ns#"));
 			testUri = new Uri("http://www.w3.org");
 			feedspath = @"..\..\tests\feeds\";
 			files = Directory.GetFiles(feedspath);
@@ -78,7 +78,7 @@ namespace Atom.Core.Test
 		[Test]
 		public void TestTitle()
 		{
-			AtomContentConstruct title = new AtomContentConstruct();
+            AtomContentConstruct title = new AtomContentConstruct(new Uri("http://purl.org/atom/ns#"));
 			title.Content = "sample text";
 			title.Mode = Mode.Xml;
 			title.Type = MediaType.TextPlain;
@@ -93,7 +93,7 @@ namespace Atom.Core.Test
 		[Test]
 		public void TestLinks()
 		{
-			AtomLink link = new AtomLink();
+            AtomLink link = new AtomLink(new Uri("http://purl.org/atom/ns#"));
 			link.HRef = testUri;
 			link.Rel = Relationship.Alternate;
 			link.Title = "sample text";
@@ -110,7 +110,7 @@ namespace Atom.Core.Test
 		[Test]
 		public void TestAuthor()
 		{
-			AtomPersonConstruct author = new AtomPersonConstruct();
+            AtomPersonConstruct author = new AtomPersonConstruct(new Uri("http://purl.org/atom/ns#"));
 			author.Email = "foo@bar.com";
 			author.Name = "Uncle Tom";
 			author.Url = testUri;
@@ -125,7 +125,7 @@ namespace Atom.Core.Test
 		[Test]
 		public void TestContributors()
 		{
-			AtomPersonConstruct contributor = new AtomPersonConstruct("contributor");
+            AtomPersonConstruct contributor = new AtomPersonConstruct("contributor", new Uri("http://purl.org/atom/ns#"));
 			contributor.Email = "bar@foo.com";
 			contributor.Name = "Uncle Bob";
 			contributor.Url = testUri;
@@ -141,7 +141,7 @@ namespace Atom.Core.Test
 		[Test]
 		public void TestTagline()
 		{
-			AtomContentConstruct tagline = new AtomContentConstruct("tagline");
+            AtomContentConstruct tagline = new AtomContentConstruct("tagline", new Uri("http://purl.org/atom/ns#"));
 			tagline.Content = "sample text";
 			tagline.Mode = Mode.Xml;
 			tagline.Type = MediaType.TextPlain;
@@ -164,7 +164,7 @@ namespace Atom.Core.Test
 		[Test]
 		public void TestCopyright()
 		{
-			AtomContentConstruct copyright = new AtomContentConstruct("copyright");
+            AtomContentConstruct copyright = new AtomContentConstruct("copyright", new Uri("http://purl.org/atom/ns#"));
 			copyright.Content = " 2003 Buffalo Bill Corporations";
 			copyright.Mode = Mode.Xml;
 			copyright.Type = MediaType.TextPlain;
@@ -178,7 +178,7 @@ namespace Atom.Core.Test
 		[Test]
 		public void TestInfo()
 		{
-			AtomContentConstruct info = new AtomContentConstruct("info");
+            AtomContentConstruct info = new AtomContentConstruct("info", new Uri("http://purl.org/atom/ns#"));
 			info.Content = "Some not so useful infos";
 			info.Mode = Mode.Xml;
 			info.Type = MediaType.TextPlain;
@@ -193,7 +193,7 @@ namespace Atom.Core.Test
 		[Test]
 		public void TestModified()
 		{
-			AtomDateConstruct modifiedDate = new AtomDateConstruct();
+            AtomDateConstruct modifiedDate = new AtomDateConstruct(new Uri("http://purl.org/atom/ns#"));
 			modifiedDate.DateTime = DateTime.Now;
 			modifiedDate.UtcOffset = TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Today);
 
@@ -209,7 +209,7 @@ namespace Atom.Core.Test
 			for(int i = 0; i < files.Length; i++)
 			{
 				Console.WriteLine("{0}: {1}", i, files[i]);
-				feed = AtomFeed.Load(files[i]);
+                feed = AtomFeed.Load(files[i], new Uri("http://purl.org/atom/ns#"));
 				Assert.IsNotNull(feed.Uri);
 				foreach(AtomEntry entry in feed.Entries)
 					Assert.IsNotNull(entry.Uri);
@@ -227,7 +227,7 @@ namespace Atom.Core.Test
 			string filename = "test";
 			for(int i = 0; i < files.Length; i++)
 			{
-				feed = AtomFeed.Load(files[i]);
+                feed = AtomFeed.Load(files[i], new Uri("http://purl.org/atom/ns#"));
 				Assert.IsNotNull(feed);
 				feed.Save(filename);
 				File.Delete(filename);
@@ -244,7 +244,7 @@ namespace Atom.Core.Test
 			files = Directory.GetFiles(feedspath);
 			for(int i = 0; i < files.Length; i++)
 			{
-				feed = AtomFeed.Load(files[i]);
+                feed = AtomFeed.Load(files[i], new Uri("http://purl.org/atom/ns#"));
 				Assert.IsNotNull(feed);
 				feed.Save(filename);
 				File.Delete(filename);
@@ -257,7 +257,7 @@ namespace Atom.Core.Test
 			for(int i = 0; i < files.Length; i++)
 			{
 				FileStream stream = File.OpenRead(files[i]);
-				feed = AtomFeed.Load(stream);
+                feed = AtomFeed.Load(stream, new Uri("http://purl.org/atom/ns#"));
 				Assert.IsNotNull(feed);
 				MemoryStream memStream = new MemoryStream();
 				feed.Save(memStream);
@@ -271,7 +271,7 @@ namespace Atom.Core.Test
 			for(int i = 0; i < files.Length; i++)
 			{
 				StreamReader reader = new StreamReader(files[i]);
-				feed = AtomFeed.Load(reader);
+                feed = AtomFeed.Load(reader, new Uri("http://purl.org/atom/ns#"));
 				Assert.IsNotNull(feed);
 				MemoryStream stream = new MemoryStream();
 				StreamWriter w = new StreamWriter(stream);
@@ -286,7 +286,7 @@ namespace Atom.Core.Test
 			for(int i = 0; i < files.Length; i++)
 			{
 				XmlTextReader reader = new XmlTextReader(files[i]);
-				feed = AtomFeed.Load(reader);
+                feed = AtomFeed.Load(reader, new Uri("http://purl.org/atom/ns#"));
 				Assert.IsNotNull(feed);
 				MemoryStream stream = new MemoryStream();
 				XmlTextWriter writer = new XmlTextWriter(stream,
@@ -304,7 +304,7 @@ namespace Atom.Core.Test
 			{
 				StreamReader reader = new StreamReader(files[i]);
 				string content = reader.ReadToEnd();
-				feed = AtomFeed.LoadXml(content);
+                feed = AtomFeed.LoadXml(content, new Uri("http://purl.org/atom/ns#"));
 				Assert.IsNotNull(feed);
 				feed.Save(filename);
 				File.Delete(filename);
@@ -320,7 +320,7 @@ namespace Atom.Core.Test
 				FileInfo info = new FileInfo(file);
 				if(info.Name.ToLower() == "pilgrim.xml")
 				{
-					feed = AtomFeed.Load(file);
+                    feed = AtomFeed.Load(file, new Uri("http://purl.org/atom/ns#"));
 					Assert.IsNotNull(feed.XmlBase);
 					Assert.AreEqual(feed.XmlBase.ToString(), "http://diveintomark.org/");
 				}
@@ -332,7 +332,7 @@ namespace Atom.Core.Test
 		{
 			foreach(string file in files)
 			{
-				feed = AtomFeed.Load(file);
+                feed = AtomFeed.Load(file, new Uri("http://purl.org/atom/ns#")  );
 				if(feed.Author != null)
 					Assert.IsFalse(AU.Utils.IsEmail(feed.Author.Name));
 				foreach(AtomPersonConstruct contributor in feed.Contributors)

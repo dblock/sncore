@@ -50,7 +50,7 @@ namespace Atom.Core
 		/// Initialize the <see cref="AtomElement.LocalName"/> to modified, the <see cref="DateTime"/> to <see cref="System.DateTime.Now"/>
 		/// and <see cref="UtcOffset"/> to <see cref="DefaultValues.UtcOffset"/>.
 		/// </summary>
-		public AtomDateConstruct() : this("modified")
+		public AtomDateConstruct(Uri ns) : this("modified", ns)
 		{
 		}
 
@@ -59,7 +59,8 @@ namespace Atom.Core
 		/// Initialize the <see cref="DateTime"/> to <see cref="System.DateTime.Now"/>
 		/// and <see cref="UtcOffset"/> to <see cref="DefaultValues.UtcOffset"/>.
 		/// </summary>
-		public AtomDateConstruct(string localName) : this(localName, DateTime.Now)
+        public AtomDateConstruct(string localName, Uri ns)
+            : this(localName, DateTime.Now, ns)
 		{
 		}
 		
@@ -69,7 +70,8 @@ namespace Atom.Core
 		/// </summary>
 		/// <param name="localName">The not qualified name of the element.</param>
 		/// <param name="dateTime">The <see cref="DateTime"/> of the <see cref="AtomDateConstruct"/> instance.</param>
-		public AtomDateConstruct(string localName, DateTime dateTime) : this(localName, dateTime, DefaultValues.UtcOffset)
+        public AtomDateConstruct(string localName, DateTime dateTime, Uri ns)
+            : this(localName, dateTime, DefaultValues.UtcOffset, ns)
 		{
 		}
 
@@ -79,7 +81,8 @@ namespace Atom.Core
 		/// <param name="localName">The not qualified name of the element.</param>
 		/// <param name="dateTime">The <see cref="DateTime"/> of the <see cref="AtomDateConstruct"/> instance.</param>
 		/// <param name="utcOffset">The <see cref="UtcOffset"/> of the <see cref="AtomDateConstruct"/> instance.</param>
-		public AtomDateConstruct(string localName, DateTime dateTime, TimeSpan utcOffset)
+		public AtomDateConstruct(string localName, DateTime dateTime, TimeSpan utcOffset, Uri ns)
+            : base(ns)
 		{
 			this.LocalName = localName;
 			this.DateTime = dateTime;
@@ -190,9 +193,9 @@ namespace Atom.Core
 		#endregion
 
 		#region XPath parsing stuff
-		internal static AtomDateConstruct Parse(XPathNavigator navigator)
+		internal static AtomDateConstruct Parse(XPathNavigator navigator, Uri ns)
 		{
-			AtomDateConstruct dateElement = new AtomDateConstruct();
+			AtomDateConstruct dateElement = new AtomDateConstruct(ns);
 			string temp = String.Empty;
 
 			XPathNavigator nav = navigator.Clone();

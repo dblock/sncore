@@ -51,7 +51,7 @@ namespace Atom.AdditionalElements.DublinCore
 		/// Initialize the <see cref="Atom.Core.AtomElement.LocalName"/> to <see cref="String.Empty"/>
 		/// and <see cref="ScopedElement.Content"/> to <see cref="String.Empty"/>
 		/// </summary>
-		public DcElement() : this(String.Empty, String.Empty)
+		public DcElement(Uri ns) : this(String.Empty, String.Empty, ns)
 		{
 		}
 
@@ -59,7 +59,7 @@ namespace Atom.AdditionalElements.DublinCore
 		/// Represents an <see cref="DcElement"/> instance initialized with the given name.
 		/// </summary>
 		/// <param name="name">The <see cref="Atom.Core.AtomElement.LocalName"/> of the <see cref="DcElement"/>.</param>
-		public DcElement(string name) : this(name, String.Empty)
+		public DcElement(string name, Uri ns) : this(name, String.Empty, ns)
 		{
 		}
 
@@ -68,7 +68,8 @@ namespace Atom.AdditionalElements.DublinCore
 		/// </summary>
 		/// <param name="name">The <see cref="Atom.Core.AtomElement.LocalName"/> of the <see cref="DcElement"/>.</param>
 		/// <param name="content">The <see cref="ScopedElement.Content"/> of the <see cref="DcElement"/>.</param>
-		public DcElement(string name, string content)
+		public DcElement(string name, string content, Uri ns)
+            : base(ns)
 		{
 			this.LocalName = name;
 			base.Content = content;
@@ -95,9 +96,9 @@ namespace Atom.AdditionalElements.DublinCore
 		#endregion
 
 		#region XPath parsing stuff
-		internal static DcElement Parse(XPathNavigator navigator)
+		internal static DcElement Parse(XPathNavigator navigator, Uri ns)
 		{
-			DcElement element = new DcElement();
+			DcElement element = new DcElement(ns);
 
 			XPathNavigator nav = navigator.Clone();
 			

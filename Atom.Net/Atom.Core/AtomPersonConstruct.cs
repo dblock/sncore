@@ -53,14 +53,14 @@ namespace Atom.Core
 		/// Represents an <see cref="AtomPersonConstruct"/> instance.
 		/// Initializes the <see cref="AtomElement.LocalName"/> to "author".
 		/// </summary>
-		public AtomPersonConstruct() : this("author")
+		public AtomPersonConstruct(Uri ns) : this("author", ns)
 		{
 		}
 
 		/// <summary>
 		/// Represents an <see cref="AtomPersonConstruct"/> with the given local name.
 		/// </summary>
-		public AtomPersonConstruct(string localName) : this(localName, String.Empty)
+		public AtomPersonConstruct(string localName, Uri ns) : this(localName, String.Empty, ns)
 		{
 		}
 
@@ -69,7 +69,7 @@ namespace Atom.Core
 		/// </summary>
 		/// <param name="localName">The not qualified name of the element.</param>
 		/// <param name="name">The <see cref="Name"/> of the <see cref="AtomPersonConstruct"/>.</param>
-		public AtomPersonConstruct(string localName, string name) : this(localName, name, DefaultValues.Uri)
+		public AtomPersonConstruct(string localName, string name, Uri ns) : this(localName, name, DefaultValues.Uri, ns)
 		{
 		}
 
@@ -79,7 +79,8 @@ namespace Atom.Core
 		/// <param name="localName">The not qualified name of the element.</param>
 		/// <param name="name">The <see cref="Name"/> of the <see cref="AtomPersonConstruct"/>.</param>
 		/// <param name="url">The <see cref="Url"/> of the <see cref="AtomPersonConstruct"/>.</param>
-		public AtomPersonConstruct(string localName, string name, Uri url) : this(localName, name, url, String.Empty)
+        public AtomPersonConstruct(string localName, string name, Uri url, Uri ns)
+            : this(localName, name, url, String.Empty, ns)
 		{
 		}
 
@@ -90,7 +91,8 @@ namespace Atom.Core
 		/// <param name="name">The <see cref="Name"/> of the <see cref="AtomPersonConstruct"/>.</param>
 		/// <param name="url">The <see cref="Url"/> of the <see cref="AtomPersonConstruct"/>.</param>
 		/// <param name="email">The <see cref="Email"/> of the <see cref="AtomPersonConstruct"/>.</param>
-		public AtomPersonConstruct(string localName, string name, Uri url, string email)
+		public AtomPersonConstruct(string localName, string name, Uri url, string email, Uri ns)
+            : base(ns)
 		{
 			this.LocalName = localName;
 			this.Name = name;
@@ -182,9 +184,9 @@ namespace Atom.Core
 		#endregion
 
 		#region XPath parsing stuff
-		internal static AtomPersonConstruct Parse(XPathNavigator navigator)
+		internal static AtomPersonConstruct Parse(XPathNavigator navigator, Uri ns)
 		{
-			AtomPersonConstruct personElement = new AtomPersonConstruct();
+			AtomPersonConstruct personElement = new AtomPersonConstruct(ns);
 
 			XPathNavigator nav = navigator.Clone();
 			XPathNodeIterator iter = nav.SelectDescendants(XPathNodeType.Element, true);

@@ -58,37 +58,37 @@ namespace Atom
 		#endregion
 
 		#region Constructors
-		internal AtomReader(Stream stream)
+		internal AtomReader(Stream stream, Uri ns)
 		{
 			this._document = new XPathDocument(stream);
-			Init();
+			Init(ns);
 		}
 
-		internal AtomReader(string uri)
+        internal AtomReader(string uri, Uri ns)
 		{
 			this._document = new XPathDocument(uri);
-			Init();
+			Init(ns);
 		}
 
-		internal AtomReader(TextReader textReader)
+        internal AtomReader(TextReader textReader, Uri ns)
 		{
 			this._document = new XPathDocument(textReader);
-			Init();
+			Init(ns);
 		}
 
-		internal AtomReader(XmlReader xmlReader)
+        internal AtomReader(XmlReader xmlReader, Uri ns)
 		{
 			this._document = new XPathDocument(xmlReader);
-			Init();
+			Init(ns);
 		}
 		#endregion
 
 		#region Private methods
-		private void Init()
+		private void Init(Uri ns)
 		{
 			this._navigator = this._document.CreateNavigator();
 			XmlNamespaceManager nsm = new XmlNamespaceManager(this._navigator.NameTable);
-			nsm.AddNamespace(DefaultValues.AtomNSPrefix, DefaultValues.AtomNSUri.ToString());
+			nsm.AddNamespace(DefaultValues.AtomNSPrefix, ns.ToString()); // DefaultValues.AtomNSUri.ToString());
 			nsm.AddNamespace(DefaultValues.DCNSPrefix, DefaultValues.DCNSUri.ToString());
 
 			XPathExpression expr = this._navigator.Compile("/atom:feed");

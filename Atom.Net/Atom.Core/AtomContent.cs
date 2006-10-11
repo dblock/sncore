@@ -54,7 +54,7 @@ namespace Atom.Core
 		/// <see cref="AtomContentConstruct.Type"/> to <see cref="DefaultValues.MediaType"/> and
 		/// <see cref="AtomContentConstruct.Mode"/> to <see cref="DefaultValues.Mode"/>.
 		/// </summary>
-		public AtomContent() : this(String.Empty, DefaultValues.MediaType, DefaultValues.Mode)
+		public AtomContent(Uri ns) : this(String.Empty, DefaultValues.MediaType, DefaultValues.Mode, ns)
 		{
 		}
 
@@ -62,7 +62,7 @@ namespace Atom.Core
 		/// Represents an <see cref="AtomContent"/> instance initialized with the given content.
 		/// </summary>
 		/// <param name="content">The <see cref="AtomContentConstruct.Content"/> of the <see cref="AtomContent"/>.</param>
-		public AtomContent(string content) : this(content, DefaultValues.MediaType, DefaultValues.Mode)
+		public AtomContent(string content, Uri ns) : this(content, DefaultValues.MediaType, DefaultValues.Mode, ns)
 		{
 		}
 
@@ -71,7 +71,7 @@ namespace Atom.Core
 		/// </summary>
 		/// <param name="content">The <see cref="AtomContentConstruct.Content"/> of the <see cref="AtomContent"/>.</param>
 		/// <param name="type">The <see cref="MediaType"/> of the <see cref="AtomContent"/>.</param>
-		public AtomContent(string content, MediaType type) : this(content, type, DefaultValues.Mode)
+		public AtomContent(string content, MediaType type, Uri ns) : this(content, type, DefaultValues.Mode, ns)
 		{
 		}
 
@@ -80,7 +80,7 @@ namespace Atom.Core
 		/// </summary>
 		/// <param name="content">The <see cref="AtomContentConstruct.Content"/> of the <see cref="AtomContent"/>.</param>
 		/// <param name="mode">The <see cref="Mode"/> of the <see cref="AtomContent"/>.</param>
-		public AtomContent(string content, Mode mode) : this(content, DefaultValues.MediaType, mode)
+		public AtomContent(string content, Mode mode, Uri ns) : this(content, DefaultValues.MediaType, mode, ns)
 		{
 		}
 
@@ -91,7 +91,8 @@ namespace Atom.Core
 		/// <param name="content">The <see cref="AtomContentConstruct.Content"/> of the <see cref="AtomContent"/>.</param>
 		/// <param name="type">The <see cref="MediaType"/> of the <see cref="AtomContent"/>.</param>
 		/// <param name="mode">The <see cref="Mode"/> of the <see cref="AtomContent"/>.</param>
-		public AtomContent(string content, MediaType type, Mode mode)
+		public AtomContent(string content, MediaType type, Mode mode, Uri ns)
+            : base(ns)
 		{
 			this.Content = content;
 			this.Type = type;
@@ -137,9 +138,9 @@ namespace Atom.Core
 		#endregion
 
 		#region XPath parsing stuff
-		internal new static AtomContent Parse(XPathNavigator navigator)
+		internal new static AtomContent Parse(XPathNavigator navigator, Uri ns)
 		{
-			AtomContent contentElement = new AtomContent();
+			AtomContent contentElement = new AtomContent(ns);
 			string content = String.Empty;
 
 			XPathNavigator nav = navigator.Clone();

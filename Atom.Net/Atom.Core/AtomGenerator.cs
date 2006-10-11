@@ -49,7 +49,8 @@ namespace Atom.Core
 
 		#region Constructor
 
-		internal AtomGenerator()
+		internal AtomGenerator(Uri ns)
+            : base(ns)
 		{
 			this._content = DefaultValues.GeneratorMessage;
 			this._url = DefaultValues.GeneratorUri;

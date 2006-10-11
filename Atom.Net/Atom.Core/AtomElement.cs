@@ -48,6 +48,7 @@ namespace Atom.Core
 		private string _name = String.Empty;
 		private Language _xmllang = DefaultValues.Language;
 		private Uri _xmlbase = DefaultValues.Uri;
+        private Uri _ns = DefaultValues.Atom03NSUri;
 		/// <summary>
 		/// The root xml:base uri. It's for internal use.
 		/// </summary>
@@ -56,9 +57,10 @@ namespace Atom.Core
 		/// <summary>
 		/// Initialize a new instance of the <see cref="AtomElement"/> class.
 		/// </summary>
-		protected AtomElement()
+		protected AtomElement(Uri ns)
 		{
 			_buffer = new StringBuilder();
+            _ns = ns;
 		}
 
 		#region Properties
@@ -84,7 +86,7 @@ namespace Atom.Core
 		/// </summary>
 		public virtual Uri NamespaceUri
 		{
-			get { return DefaultValues.AtomNSUri; }
+            get { return _ns; }
 		}
 
 		/// <summary>

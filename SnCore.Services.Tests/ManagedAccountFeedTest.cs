@@ -29,16 +29,22 @@ namespace SnCore.Services.Tests
         [Test]
         public void TestRSSContentSaltShaker()
         {
-            TestRSSContentDescription("http://www.saltshaker.net/feed");
+            TestUpdate("http://www.saltshaker.net/feed");
         }
 
         [Test]
         public void TestRSSContentChesaholics()
         {
-            TestRSSContentDescription("http://cheesaholics.blogs.com/cheesaholics_anonymous/rss.xml");
+            TestUpdate("http://cheesaholics.blogs.com/cheesaholics_anonymous/rss.xml");
         }
 
-        private void TestRSSContentDescription(string url)
+        [Test]
+        public void TestRSSScrumptious()
+        {
+            TestUpdate("http://feeds.feedburner.com/ScrumptiousStreet");
+        }
+
+        private void TestUpdate(string url)
         {
             AccountFeed feed = new AccountFeed();
             feed.FeedUrl = url;
@@ -48,16 +54,15 @@ namespace SnCore.Services.Tests
 
             ManagedAccountFeed m_feed = new ManagedAccountFeed(Session, feed);
 
-            HttpWebRequest request = m_feed.GetFeedHttpRequest();
-            RssFeed rssfeed = RssFeed.Read(request);
-
-            Assert.IsTrue(m_feed.Update(rssfeed, deleted, updated), "RSS feed was not updated.");
+            if (!m_feed.Update(RssFeed.Read(m_feed.GetFeedHttpRequest()), deleted, updated))
+                if (!m_feed.Update(AtomFeed.Load(m_feed.GetFeedStream(), new Uri("http://purl.org/atom/ns#")), deleted, updated))
+                    if (!m_feed.Update(AtomFeed.Load(m_feed.GetFeedStream(), new Uri("http://www.w3.org/2005/Atom")), deleted, updated))
+                        throw new Exception("Invalid or empty RSS or ATOM feed.");
 
             foreach (AccountFeedItem item in updated)
             {
                 Console.WriteLine(item.Title);
                 Console.WriteLine(item.Description);
-                Assert.IsFalse(item.Description.EndsWith("..."), "Only partial description vs. full content retrieved.");
                 Console.WriteLine();
             }
         }

@@ -59,7 +59,7 @@ namespace Atom.Core
 		/// <see cref="Rel"/> to <see cref="DefaultValues.Rel"/>
 		/// and <see cref="Type"/> to <see cref="DefaultValues.MediaType"/>.
 		/// </summary>
-		public AtomLink() : this(DefaultValues.Uri, DefaultValues.Rel, DefaultValues.MediaType, String.Empty)
+		public AtomLink(Uri ns) : this(DefaultValues.Uri, DefaultValues.Rel, DefaultValues.MediaType, String.Empty, ns)
 		{
 		}
 
@@ -69,7 +69,7 @@ namespace Atom.Core
 		/// <param name="href">The <see cref="Uri"/> of the link.</param>
 		/// <param name="rel">The <see cref="Relationship"/> of the link.</param>
 		/// <param name="type">The <see cref="Type"/> of the link.</param>
-		public AtomLink(Uri href, Relationship rel, MediaType type) : this(href, rel, type, String.Empty)
+		public AtomLink(Uri href, Relationship rel, MediaType type, Uri ns) : this(href, rel, type, String.Empty, ns)
 		{
 		}
 
@@ -81,7 +81,8 @@ namespace Atom.Core
 		/// <param name="rel">The <see cref="Relationship"/> of the link.</param>
 		/// <param name="type">The <see cref="Type"/> of the link.</param>
 		/// <param name="title">The <see cref="Title"/> of the link.</param>
-		public AtomLink(Uri href, Relationship rel, MediaType type, string title)
+		public AtomLink(Uri href, Relationship rel, MediaType type, string title, Uri ns)
+            : base(ns)
 		{
 			this.HRef = href;
 			this.Title = title;
@@ -199,9 +200,9 @@ namespace Atom.Core
 		#endregion
 
 		#region XPath parsing stuff
-		internal static AtomLink Parse(XPathNavigator navigator)
+		internal static AtomLink Parse(XPathNavigator navigator, Uri ns)
 		{
-			AtomLink linkElement = new AtomLink();
+			AtomLink linkElement = new AtomLink(ns);
 
 			XPathNavigator nav = navigator.Clone();
 			XPathNodeIterator iter = nav.SelectDescendants(XPathNodeType.Element, true);

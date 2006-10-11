@@ -53,7 +53,7 @@ namespace Atom.Core.Test
 		[SetUp]
 		public void Init()
 		{
-			entry = new AtomEntry();
+            entry = new AtomEntry(new Uri("http://purl.org/atom/ns#"));
 			testUri = new Uri("http://www.w3.org");
 			entriespath = @"..\..\tests\entries\";
 			files = Directory.GetFiles(entriespath);
@@ -64,7 +64,7 @@ namespace Atom.Core.Test
 		[Test]
 		public void TestTitle()
 		{
-			AtomContentConstruct title = new AtomContentConstruct();
+            AtomContentConstruct title = new AtomContentConstruct(new Uri("http://purl.org/atom/ns#"));
 			title.Content = "sample text";
 			title.Mode = Mode.Xml;
 			title.Type = MediaType.TextPlain;
@@ -79,7 +79,7 @@ namespace Atom.Core.Test
 		[Test]
 		public void TestLink()
 		{
-			AtomLink link = new AtomLink();
+            AtomLink link = new AtomLink(new Uri("http://purl.org/atom/ns#"));
 			link.HRef = testUri;
 			link.Rel = Relationship.Alternate;
 			link.Title = "sample text";
@@ -96,7 +96,7 @@ namespace Atom.Core.Test
 		[Test]
 		public void TestAuthor()
 		{
-			AtomPersonConstruct author = new AtomPersonConstruct();
+            AtomPersonConstruct author = new AtomPersonConstruct(new Uri("http://purl.org/atom/ns#"));
 			author.Email = "foo@bar.com";
 			author.Name = "Uncle Tom";
 			author.Url = testUri;
@@ -113,7 +113,7 @@ namespace Atom.Core.Test
 		[Test]
 		public void TestContributors()
 		{
-			AtomPersonConstruct contributor = new AtomPersonConstruct("contributor");
+            AtomPersonConstruct contributor = new AtomPersonConstruct("contributor", new Uri("http://purl.org/atom/ns#"));
 			contributor.Email = "bar@foo.com";
 			contributor.Name = "Uncle Bob";
 			contributor.Url = testUri;
@@ -139,7 +139,7 @@ namespace Atom.Core.Test
 		[Test]
 		public void TestModified()
 		{
-			AtomDateConstruct modifiedDate = new AtomDateConstruct();
+            AtomDateConstruct modifiedDate = new AtomDateConstruct(new Uri("http://purl.org/atom/ns#"));
 			modifiedDate.DateTime = DateTime.Now;
 			modifiedDate.UtcOffset = TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Today);
 
@@ -147,7 +147,7 @@ namespace Atom.Core.Test
 
 			Assert.AreSame(entry.Modified, modifiedDate);
 
-			modifiedDate = new AtomDateConstruct();
+            modifiedDate = new AtomDateConstruct(new Uri("http://purl.org/atom/ns#"));
 
 			entry.Modified = modifiedDate;
 
@@ -159,14 +159,14 @@ namespace Atom.Core.Test
 		[Test]
 		public void TestIssued()
 		{
-			AtomDateConstruct issuedDate = new AtomDateConstruct("issued");
+            AtomDateConstruct issuedDate = new AtomDateConstruct("issued", new Uri("http://purl.org/atom/ns#"));
 			issuedDate.DateTime = DateTime.Now;
 
 			entry.Issued = issuedDate;
 
 			Assert.AreSame(entry.Issued, issuedDate);
 
-			issuedDate = new AtomDateConstruct("issued");
+            issuedDate = new AtomDateConstruct("issued", new Uri("http://purl.org/atom/ns#"));
 
 			entry.Issued = issuedDate;
 
@@ -178,7 +178,7 @@ namespace Atom.Core.Test
 		[Test]
 		public void TestCreated()
 		{
-			AtomDateConstruct createdDate = new AtomDateConstruct("created");
+            AtomDateConstruct createdDate = new AtomDateConstruct("created", new Uri("http://purl.org/atom/ns#"));
 			createdDate.DateTime = DateTime.Now;
 			createdDate.UtcOffset = TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Today);
 
@@ -186,7 +186,7 @@ namespace Atom.Core.Test
 
 			Assert.AreSame(entry.Created, createdDate);
 
-			createdDate = new AtomDateConstruct("created");
+            createdDate = new AtomDateConstruct("created", new Uri("http://purl.org/atom/ns#"));
 
 			entry.Created = createdDate;
 
@@ -198,7 +198,7 @@ namespace Atom.Core.Test
 		[Test]
 		public void TestSummary()
 		{
-			AtomContentConstruct summary = new AtomContentConstruct("summary");
+            AtomContentConstruct summary = new AtomContentConstruct("summary", new Uri("http://purl.org/atom/ns#"));
 			summary.Content = "sample text";
 			summary.Mode = Mode.Xml;
 			summary.Type = MediaType.TextPlain;
@@ -213,7 +213,7 @@ namespace Atom.Core.Test
 		[Test]
 		public void TestContents()
 		{
-			AtomContent content = new AtomContent();
+            AtomContent content = new AtomContent(new Uri("http://purl.org/atom/ns#"));
 			content.Content = "sample text";
 			content.Mode = Mode.Xml;
 			content.Type = MediaType.TextPlain;
@@ -232,7 +232,7 @@ namespace Atom.Core.Test
 			for(int i = 0; i < files.Length; i++)
 			{
 				Console.WriteLine("{0}: {1}", i, files[i]);
-				entry = AtomEntry.Load(files[i]);
+                entry = AtomEntry.Load(files[i], new Uri("http://purl.org/atom/ns#"));
 				Assert.IsNotNull(entry.Uri);
 			}
 		}
@@ -247,7 +247,7 @@ namespace Atom.Core.Test
 			string filename = "test";
 			for(int i = 0; i < files.Length; i++)
 			{
-				entry = AtomEntry.Load(files[i]);
+                entry = AtomEntry.Load(files[i], new Uri("http://purl.org/atom/ns#"));
 				Assert.IsNotNull(entry);
 				entry.Save(filename);
 				File.Delete(filename);
@@ -263,7 +263,7 @@ namespace Atom.Core.Test
 			files = Directory.GetFiles(entriespath);
 			for(int i = 0; i < files.Length; i++)
 			{
-				entry = AtomEntry.Load(files[i]);
+                entry = AtomEntry.Load(files[i], new Uri("http://purl.org/atom/ns#"));
 				Assert.IsNotNull(entry);
 				entry.Save(filename);
 				File.Delete(filename);
@@ -276,7 +276,7 @@ namespace Atom.Core.Test
 			for(int i = 0; i < files.Length; i++)
 			{
 				FileStream stream = File.OpenRead(files[i]);
-				entry = AtomEntry.Load(stream);
+                entry = AtomEntry.Load(stream, new Uri("http://purl.org/atom/ns#"));
 				Assert.IsNotNull(entry);
 				MemoryStream memStream = new MemoryStream();
 				entry.Save(memStream);
@@ -290,7 +290,7 @@ namespace Atom.Core.Test
 			for(int i = 0; i < files.Length; i++)
 			{
 				StreamReader reader = new StreamReader(files[i]);
-				entry = AtomEntry.Load(reader);
+                entry = AtomEntry.Load(reader, new Uri("http://purl.org/atom/ns#"));
 				Assert.IsNotNull(entry);
 				MemoryStream stream = new MemoryStream();
 				StreamWriter w = new StreamWriter(stream);
@@ -305,7 +305,7 @@ namespace Atom.Core.Test
 			for(int i = 0; i < files.Length; i++)
 			{
 				XmlTextReader reader = new XmlTextReader(files[i]);
-				entry = AtomEntry.Load(reader);
+                entry = AtomEntry.Load(reader, new Uri("http://purl.org/atom/ns#"));
 				Assert.IsNotNull(entry);
 				MemoryStream stream = new MemoryStream();
 				XmlTextWriter writer = new XmlTextWriter(stream,
@@ -323,7 +323,7 @@ namespace Atom.Core.Test
 			{
 				StreamReader reader = new StreamReader(files[i]);
 				string content = reader.ReadToEnd();
-				entry = AtomEntry.LoadXml(content);
+                entry = AtomEntry.LoadXml(content, new Uri("http://purl.org/atom/ns#"));
 				Assert.IsNotNull(entry);
 				entry.Save(filename);
 				File.Delete(filename);
@@ -335,7 +335,7 @@ namespace Atom.Core.Test
 		{
 			foreach(string file in files)
 			{
-				entry = AtomEntry.Load(file);
+                entry = AtomEntry.Load(file, new Uri("http://purl.org/atom/ns#"));
 				if(entry.Author != null)
 					Assert.IsFalse(AU.Utils.IsEmail(entry.Author.Name));
 				foreach(AtomPersonConstruct contributor in entry.Contributors)

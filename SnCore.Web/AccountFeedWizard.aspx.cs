@@ -40,8 +40,11 @@ public partial class AccountFeedWizard : AuthenticatedPage
     public TransitFeedType GetDefaultFeedType()
     {
         List<TransitFeedType> feedtypes = SyndicationService.GetFeedTypes();
-        if (feedtypes == null)
+        
+        if (feedtypes == null || feedtypes.Count == 0)
+        {
             throw new Exception("No feed types registered.");
+        }
 
         TransitFeedType feedtype = feedtypes[0];
 
@@ -144,15 +147,19 @@ public partial class AccountFeedWizard : AuthenticatedPage
         }
     }
 
-    protected void discoverAtom(string url, ArrayList feeds)
+    protected void discoverAtom(string url, ArrayList feeds, Uri ns)
     {
         try
         {
-            AtomFeed atomfeed = AtomFeed.Load(GetFeedStream(url));
+            AtomFeed atomfeed = AtomFeed.Load(GetFeedStream(url), ns);
 
             TransitAccountFeed feed = new TransitAccountFeed();
-            
-            if (atomfeed.Tagline != null)
+
+            if (atomfeed.SubTitle != null)
+            {
+                feed.Description = atomfeed.SubTitle.Content;
+            }
+            else if (atomfeed.Tagline != null)
             {
                 feed.Description = atomfeed.Tagline.Content;
             }
@@ -196,7 +203,8 @@ public partial class AccountFeedWizard : AuthenticatedPage
 
             discoverRel(inputLinkUrl.Text, feeds);
             if (feeds.Count == 0) discoverRss(inputLinkUrl.Text, feeds);
-            if (feeds.Count == 0) discoverAtom(inputLinkUrl.Text, feeds);
+            if (feeds.Count == 0) discoverAtom(inputLinkUrl.Text, feeds, new Uri("http://www.w3.org/2005/Atom"));
+            if (feeds.Count == 0) discoverAtom(inputLinkUrl.Text, feeds, new Uri("http://purl.org/atom/ns#"));
 
             if (feeds.Count == 0)
             {

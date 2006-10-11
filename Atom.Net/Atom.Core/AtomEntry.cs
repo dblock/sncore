@@ -72,7 +72,10 @@ namespace Atom.Core
 		/// <summary>
 		/// Initialize a new instance of the <see cref="AtomEntry"/> class.
 		/// </summary>
-		public AtomEntry() {}
+		public AtomEntry(Uri ns)
+            : base(ns)
+        {
+        }
 
 		#region Properties
 		/// <summary>
@@ -281,7 +284,7 @@ namespace Atom.Core
 
 			if(this.Created == null)	
 			{
-				this.Created = new AtomDateConstruct("created");
+				this.Created = new AtomDateConstruct("created", NamespaceUri);
 				this.Created.DateTime = this.Modified.DateTime;
 				this.Created.UtcOffset = this.Modified.UtcOffset;
 			}
@@ -394,10 +397,11 @@ namespace Atom.Core
 		/// <exception cref="ArgumentException">The resource cannot be find.</exception>
 		/// <exception cref="InvalidOperationException"><see cref="AtomReader"/> has been closed, and can not be read.</exception>
 		/// <exception cref="FileNotFoundException">Atom xml resource not found.</exception>
-		public static AtomEntry Load(string uri)
+
+		public static AtomEntry Load(string uri, Uri ns)
 		{
-			_reader = new AtomReader(uri);
-			return Parse(_reader.Navigator);
+			_reader = new AtomReader(uri, ns);
+			return Parse(_reader.Navigator, ns);
 		}
 
 		/// <summary>
@@ -409,9 +413,9 @@ namespace Atom.Core
 		/// <exception cref="ArgumentException">The resource cannot be find.</exception>
 		/// <exception cref="InvalidOperationException"><see cref="AtomReader"/> has been closed, and can not be read.</exception>
 		/// <exception cref="FileNotFoundException">Atom xml resource not found.</exception>
-		public static AtomEntry Load(Uri uri)
+		public static AtomEntry Load(Uri uri, Uri ns)
 		{
-			return Load(uri.ToString());
+			return Load(uri.ToString(), ns);
 		}
 
 		/// <summary>
@@ -423,10 +427,10 @@ namespace Atom.Core
 		/// <exception cref="ArgumentException">The resource cannot be find.</exception>
 		/// <exception cref="InvalidOperationException"><see cref="AtomReader"/> has been closed, and can not be read.</exception>
 		/// <exception cref="FileNotFoundException">Atom xml resource not found.</exception>
-		public static AtomEntry Load(Stream stream)
+		public static AtomEntry Load(Stream stream, Uri ns)
 		{
-			_reader = new AtomReader(stream);
-			return Parse(_reader.Navigator);
+			_reader = new AtomReader(stream, ns);
+			return Parse(_reader.Navigator, ns);
 		}
 
 		/// <summary>
@@ -438,10 +442,10 @@ namespace Atom.Core
 		/// <exception cref="ArgumentException">The resource cannot be find.</exception>
 		/// <exception cref="InvalidOperationException"><see cref="AtomReader"/> has been closed, and can not be read.</exception>
 		/// <exception cref="FileNotFoundException">Atom xml resource not found.</exception>
-		public static AtomEntry Load(TextReader tr)
+        public static AtomEntry Load(TextReader tr, Uri ns)
 		{
-			_reader = new AtomReader(tr);
-			return Parse(_reader.Navigator);
+			_reader = new AtomReader(tr, ns);
+			return Parse(_reader.Navigator, ns);
 		}
 
 		/// <summary>
@@ -453,10 +457,10 @@ namespace Atom.Core
 		/// <exception cref="ArgumentException">The resource cannot be find.</exception>
 		/// <exception cref="InvalidOperationException"><see cref="AtomReader"/> has been closed, and can not be read.</exception>
 		/// <exception cref="FileNotFoundException">Atom xml resource not found.</exception>
-		public static AtomEntry Load(WebRequest request)
+        public static AtomEntry Load(WebRequest request, Uri ns)
 		{
-			_reader = new AtomReader(request.RequestUri.ToString());
-			return Parse(_reader.Navigator);
+			_reader = new AtomReader(request.RequestUri.ToString(), ns);
+			return Parse(_reader.Navigator, ns);
 		}
 
 		/// <summary>
@@ -468,10 +472,10 @@ namespace Atom.Core
 		/// <exception cref="ArgumentException">The resource cannot be find.</exception>
 		/// <exception cref="InvalidOperationException"><see cref="AtomReader"/> has been closed, and can not be read.</exception>
 		/// <exception cref="FileNotFoundException">Atom xml resource not found.</exception>
-		public static AtomEntry Load(XmlReader reader)
+        public static AtomEntry Load(XmlReader reader, Uri ns)
 		{
-			_reader = new AtomReader(reader);
-			return Parse(_reader.Navigator);
+			_reader = new AtomReader(reader, ns);
+			return Parse(_reader.Navigator, ns);
 		}
 
 		/// <summary>
@@ -483,18 +487,19 @@ namespace Atom.Core
 		/// <exception cref="ArgumentException">The resource cannot be find.</exception>
 		/// <exception cref="InvalidOperationException"><see cref="AtomReader"/> has been closed, and can not be read.</exception>
 		/// <exception cref="FileNotFoundException">Atom xml resource not found.</exception>
-		public static AtomEntry LoadXml(string xmlFragment)
+        public static AtomEntry LoadXml(string xmlFragment, Uri ns)
 		{
 			XmlTextReader xmlReader = new XmlTextReader(xmlFragment, XmlNodeType.Element, null);
-			_reader = new AtomReader(xmlReader);
-			return Parse(_reader.Navigator);
+			_reader = new AtomReader(xmlReader, ns);
+			return Parse(_reader.Navigator, ns);
 		}
+
 		#endregion
 
 		#region XPath parsing stuff
-		internal static AtomEntry Parse(XPathNavigator navigator)
+		internal static AtomEntry Parse(XPathNavigator navigator, Uri ns)
 		{
-			AtomEntry entry = new AtomEntry();
+			AtomEntry entry = new AtomEntry(ns);
 
 			XPathNavigator nav = navigator.Clone();
 			XPathNodeIterator iter = nav.SelectDescendants(XPathNodeType.All, true);
@@ -516,27 +521,27 @@ namespace Atom.Core
 					case "entry":
 						try
 						{
-							entry.Uri = FindAlternateUri(iter.Current);
+							entry.Uri = FindAlternateUri(iter.Current, ns);
 							entry.XmlLang = Utils.Utils.ParseLanguage(iter.Current.XmlLang);
 						}
 						catch {}
 						break;
 
 					case "title":
-						AtomContentConstruct content = AtomContentConstruct.Parse(iter.Current);
+						AtomContentConstruct content = AtomContentConstruct.Parse(iter.Current, ns);
 						entry.Title = content;
 						break;
 
 					case "link":
-						entry.Links.Add(AtomLink.Parse(iter.Current));
+						entry.Links.Add(AtomLink.Parse(iter.Current, ns));
 						break;
 
 					case "author":
-						entry.Author = AtomPersonConstruct.Parse(iter.Current);
+						entry.Author = AtomPersonConstruct.Parse(iter.Current, ns);
 						break;
 
 					case "contributor":
-						entry.Contributors.Add(AtomPersonConstruct.Parse(iter.Current));
+						entry.Contributors.Add(AtomPersonConstruct.Parse(iter.Current, ns));
 						break;
 
 					case "id":
@@ -544,23 +549,23 @@ namespace Atom.Core
 						break;					
 
 					case "modified":
-						entry.Modified = AtomDateConstruct.Parse(iter.Current);
+						entry.Modified = AtomDateConstruct.Parse(iter.Current, ns);
 						break;
 
 					case "issued":
-						entry.Issued = AtomDateConstruct.Parse(iter.Current);
+						entry.Issued = AtomDateConstruct.Parse(iter.Current, ns);
 						break;
 
 					case "created":
-						entry.Created = AtomDateConstruct.Parse(iter.Current);
+						entry.Created = AtomDateConstruct.Parse(iter.Current, ns);
 						break;
 
 					case "summary":
-						entry.Summary = AtomContentConstruct.Parse(iter.Current);
+						entry.Summary = AtomContentConstruct.Parse(iter.Current, ns);
 						break;
 
 					case "content":
-						entry.Contents.Add(AtomContent.Parse(iter.Current));
+						entry.Contents.Add(AtomContent.Parse(iter.Current, ns));
 						break;
 
 					case "dc:title":
@@ -578,7 +583,7 @@ namespace Atom.Core
 					case "dc:relation":
 					case "dc:coverage":
 					case "dc:rights":
-						entry.AdditionalElements.Add(DcElement.Parse(iter.Current));
+						entry.AdditionalElements.Add(DcElement.Parse(iter.Current, ns));
 						break;
 
 				}
@@ -589,7 +594,7 @@ namespace Atom.Core
 		#endregion
 
 		#region private stuff
-		private static Uri FindAlternateUri(XPathNavigator navigator)
+		private static Uri FindAlternateUri(XPathNavigator navigator, Uri ns)
 		{
 			Uri uri = null;
 			XPathNavigator nav = navigator.Clone();
@@ -601,7 +606,7 @@ namespace Atom.Core
 			if(nav.NamespaceURI.Length != 0)
 			{
 				nsm = new XmlNamespaceManager(nav.NameTable);
-				nsm.AddNamespace(DefaultValues.AtomNSPrefix, DefaultValues.AtomNSUri.ToString());
+				nsm.AddNamespace(DefaultValues.AtomNSPrefix, ns.ToString());
 				expr = nav.Compile("descendant::atom:link[@type=\"text/html\" and @rel=\"alternate\"]");
 				expr.SetContext(nsm);
 				iter = nav.Select(expr);

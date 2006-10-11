@@ -50,8 +50,8 @@ namespace Atom.Core.Test
 		public void Init()
 		{
 			links = new AtomLinkCollection();
-			fistLink = new AtomLink();
-			secondLink = new AtomLink();
+            fistLink = new AtomLink(new Uri("http://purl.org/atom/ns#"));
+            secondLink = new AtomLink(new Uri("http://purl.org/atom/ns#"));
 		}
 
 //		[Test]
