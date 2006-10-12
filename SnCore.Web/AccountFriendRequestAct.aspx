@@ -5,11 +5,10 @@
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountReminder" Src="AccountReminderControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
- <table class="sncore_table">
-  <tr>
-   <td valign="top">
-    <SnCore:AccountReminder ID="accountReminder" runat="server" Style="width: 582px;" />
-   </td>
-  </tr>
- </table>
+ <div class="sncore_h2sub">
+  <a href="Default.aspx">&#187; Home</a>  
+  <a href="AccountsView.aspx">&#187; All People</a>  
+  <a href="AccountFriendsManage.aspx">&#187; My Friends</a>
+  <a href="AccountInvitationsManage.aspx">&#187; Invite a Friend</a>  
+ </div>
 </asp:Content>
