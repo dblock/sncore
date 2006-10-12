@@ -44,7 +44,7 @@ public partial class PlaceFavoriteAccountsViewControl : Control
         }
     }
 
-    void GetData(object sender, EventArgs e)
+    public void GetData(object sender, EventArgs e)
     {
         accountsList.CurrentPageIndex = 0;
         object[] args = { PlaceId };

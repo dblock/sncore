@@ -168,6 +168,7 @@ public partial class PlaceView : Page
     {
         try
         {
+            picturesView.OnGetDataSource += new EventHandler(picturesView_OnGetDataSource);
             if (!IsPostBack)
             {
                 if (RequestId > 0)
@@ -177,7 +178,7 @@ public partial class PlaceView : Page
                     if (place == null)
                     {
                         ReportWarning("Place does not exist.");
-                        pnlPlace.Visible = false;
+                        panelPlace.Visible = false;
                         return;
                     }
 
@@ -242,16 +243,7 @@ public partial class PlaceView : Page
                     imageEmail.AlternateText = string.Format("E-Mail {0}", Renderer.Render(place.Name));
                     imageEmail.Visible = ! string.IsNullOrEmpty(place.Email);
 
-                    object[] p_args = { RequestId, null };
-                    picturesView.DataSource = SessionManager.GetCachedCollection<TransitPlacePicture>(
-                        PlaceService, "GetPlacePicturesById", p_args);
-
-                    picturesView.DataBind();
-
-                    if (picturesView.Items.Count == 0)
-                    {
-                        panelNoPicture.Visible = true;
-                    }
+                    GetPicturesData(sender, e);
 
                     object[] args = { RequestId };
                     discussionPlaces.DiscussionId = SessionManager.GetCachedCollectionCount(
@@ -307,6 +299,32 @@ public partial class PlaceView : Page
         }
     }
 
+    void GetPicturesData(object sender, EventArgs e)
+    {
+        object[] p_args = { RequestId };
+        picturesView.CurrentPageIndex = 0;
+        picturesView.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+            PlaceService, "GetPlacePicturesCountById", p_args);
+        picturesView_OnGetDataSource(sender, e);
+        picturesView.DataBind();
+        placeNoPicture.Visible = (picturesView.Items.Count == 0);
+    }
+
+    void picturesView_OnGetDataSource(object sender, EventArgs e)
+    {
+        try
+        {
+            ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
+            object[] args = { RequestId, options };
+            picturesView.DataSource = SessionManager.GetCachedCollection<TransitPlacePicture>(
+                PlaceService, "GetPlacePicturesById", args);
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
     public string GoogleMapsKey
     {
         get
@@ -332,7 +350,10 @@ public partial class PlaceView : Page
             TransitAccountPlaceFavorite apf = new TransitAccountPlaceFavorite();
             apf.PlaceId = RequestId;
             PlaceService.CreateOrUpdateAccountPlaceFavorite(SessionManager.Ticket, apf);
-            Redirect("AccountPlaceFavoritesManage.aspx");
+
+            ReportInfo(string.Format("Added {0} to your favorites.", Renderer.Render(Place.Name)));
+            placeFriends.GetData(sender, e);
+            panelFriends.Update();
         }
         catch (Exception ex)
         {
