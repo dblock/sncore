@@ -20,7 +20,7 @@
      <ContentTemplate>
       <SnCoreWebControls:PagedGrid CellPadding="4" OnItemCommand="gridManage_ItemCommand"
        runat="server" ID="gridManage" AutoGenerateColumns="false" CssClass="sncore_account_table" 
-       PageSize="5" AllowPaging="true" AllowCustomPaging="true">
+       PageSize="10" AllowPaging="true" AllowCustomPaging="true">
        <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
        <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
        <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
@@ -44,9 +44,6 @@
           </a>
           <div class="sncore_table_tr_th">
            <%# base.Render(Eval("Schedule"))%>
-          </div>
-          <div class="sncore_description">
-           <%# base.Render(Eval("Description")) %>
           </div>
          </itemtemplate>
         </asp:TemplateColumn>

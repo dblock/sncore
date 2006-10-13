@@ -58,6 +58,7 @@ public partial class PlaceEdit : AuthenticatedPage
                 if (RequestId > 0)
                 {
                     TransitPlace place = PlaceService.GetPlaceById(RequestId);
+                    labelName.Text = Renderer.Render(place.Name);
                     inputName.Text = place.Name;
                     inputDescription.Text = place.Description;
                     inputCrossStreet.Text = place.CrossStreet;
@@ -70,8 +71,10 @@ public partial class PlaceEdit : AuthenticatedPage
                     selectType.Items.FindByValue(place.Type).Selected = true;
                     LocationSelector.SelectLocation(sender, new LocationEventArgs(place));
                     linkPlaceId.Text = Renderer.Render(place.Name);
+                    linkPlaceId.NavigateUrl = string.Format("PlaceView.aspx?id={0}", place.Id);
                     linkEditAttributes.NavigateUrl = string.Format("PlaceAttributesManage.aspx?id={0}", place.Id);
                     linkEditProperties.NavigateUrl = string.Format("PlacePropertyGroupEdit.aspx?pid={0}", place.Id);
+                    linkEditPictures.NavigateUrl = string.Format("PlacePicturesManage.aspx?id={0}", place.Id);
                 }
                 else
                 {
@@ -94,6 +97,7 @@ public partial class PlaceEdit : AuthenticatedPage
                     linkDelete.Visible = false;
                     linkEditAttributes.Visible = false;
                     linkEditProperties.Visible = false;
+                    linkEditPictures.Visible = false;
                 }
             }
 

@@ -44,6 +44,7 @@ public partial class AccountEventEdit : AuthenticatedPage
                     selectType.Items.FindByValue(tav.AccountEventType).Selected = true;
                     schedule.Schedule = SystemService.GetScheduleById(tav.ScheduleId);
                     place.Place = PlaceService.GetPlaceById(tav.PlaceId);
+                    labelEventName.Text = Renderer.Render(tav.Name);
                 }
             }
 
