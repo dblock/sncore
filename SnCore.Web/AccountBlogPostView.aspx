@@ -7,6 +7,7 @@
 <%@ Register TagPrefix="SnCore" TagName="DiscussionFullView" Src="DiscussionFullViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="BookmarksView" Src="BookmarksViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="LicenseView" Src="AccountLicenseViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="CounterView" Src="CounterViewControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <!-- NOEMAIL-START -->
  <div class="sncore_navigate">
@@ -38,7 +39,10 @@
     </div>
     <!-- NOEMAIL-START -->
     <div class="sncore_h2sub">
-     <a href="TellAFriend.aspx?Url=<% Response.Write(Renderer.UrlEncode(Request.Url.PathAndQuery)); %>&Subject=<% Response.Write(Renderer.UrlEncode(Title)); %>">&#187; Tell a Friend</a>     
+     <a href="TellAFriend.aspx?Url=<% Response.Write(Renderer.UrlEncode(Request.Url.PathAndQuery)); %>&Subject=<% Response.Write(Renderer.UrlEncode(Title)); %>">&#187; Tell a Friend</a>
+     <asp:HyperLink ID="linkEdit" NavigateUrl="AccountBlogPost.aspx" runat="server" Text="&#187; Edit" />
+     <asp:LinkButton ID="linkDelete" OnClick="linkDelete_Click" runat="server" Text="&#187; Delete" 
+      OnClientClick="return confirm('Are you sure you want to delete this blog post?')" />
     </div>
     <!-- NOEMAIL-END -->
    </td>
@@ -56,12 +60,19 @@
    <td>
     <SnCore:LicenseView runat="server" ID="licenseView" />       
    </td>
+   <!-- NOEMAIL-START -->
+   <td class="sncore_table_tr_td" style="font-size: smaller;" align="right">
+    <div class="sncore_description">
+     views: <SnCore:CounterView ID="counterBlogViews" runat="server" />
+    </div>
+   </td>
    <td class="sncore_table_tr_td" style="font-size: smaller;" align="right">
     socially bookmark this entry:
    </td>
    <td class="sncore_table_tr_td">
     <SnCore:BookmarksView ID="bookmarksView" ShowThumbnail="true" runat="server" RepeatColumns="-1" />
    </td>
+   <!-- NOEMAIL-END -->
   </tr>
  </table>
  <!-- NOEMAIL-START -->

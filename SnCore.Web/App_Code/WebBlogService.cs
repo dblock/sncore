@@ -340,6 +340,23 @@ namespace SnCore.WebServices
         #region AccountBlogAuthors
 
         /// <summary>
+        /// Get account blog authors count.
+        /// </summary>
+        /// <param name="id">account feed id</param>
+        /// <returns>transit account blog authors count</returns>
+        [WebMethod(Description = "Get account blog authors count.", CacheDuration = 60)]
+        public int GetAccountBlogAuthorsCountById(int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return (int)session.CreateQuery(string.Format(
+                    "SELECT COUNT(i) FROM AccountBlogAuthor i WHERE i.AccountBlog.Id = {0}",
+                        id)).UniqueResult();
+            }
+        }
+
+        /// <summary>
         /// Get account blog author by id.
         /// </summary>
         /// <param name="ticket">authentication ticket</param>
@@ -398,7 +415,7 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>transit account blog authors</returns>
         [WebMethod(Description = "Get account blog authors.", CacheDuration = 60)]
-        public List<TransitAccountBlogAuthor> GetAccountBlogAuthorsById(int id)
+        public List<TransitAccountBlogAuthor> GetAccountBlogAuthorsById(int id, ServiceQueryOptions options)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
@@ -406,6 +423,12 @@ namespace SnCore.WebServices
 
                 ICriteria c = session.CreateCriteria(typeof(AccountBlogAuthor))
                     .Add(Expression.Eq("AccountBlog.Id", id));
+
+                if (options != null)
+                {
+                    c.SetFirstResult(options.FirstResult);
+                    c.SetMaxResults(options.PageSize);
+                }
 
                 IList list = c.List();
 

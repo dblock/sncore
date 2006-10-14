@@ -26,6 +26,15 @@ public partial class AccountBlogPostNew : AuthenticatedPage
         }
     }
 
+    public string ReturnUrl
+    {
+        get
+        {
+            object o = Request.QueryString["ReturnUrl"];
+            return (o == null ? string.Format("AccountBlogView.aspx?id={0}", BlogId) : o.ToString());
+        }
+    }
+
     public void Page_Load(object sender, EventArgs e)
     {
         try
@@ -35,7 +44,7 @@ public partial class AccountBlogPostNew : AuthenticatedPage
             {
                 this.addFile.Attributes["onclick"] = this.files.GetAddFileScriptReference() + "return false;";
 
-                linkBack.NavigateUrl = string.Format("AccountBlogEdit.aspx?id={0}", BlogId);
+                linkBack.NavigateUrl = ReturnUrl;
 
                 TransitAccountBlog blog = BlogService.GetAccountBlogById(SessionManager.Ticket, BlogId);
                 labelAccountName.Text = Renderer.Render(blog.AccountName);
@@ -68,7 +77,7 @@ public partial class AccountBlogPostNew : AuthenticatedPage
             tp.AccountBlogId = BlogId;
             tp.Id = RequestId;
             BlogService.CreateOrUpdateAccountBlogPost(SessionManager.Ticket, tp);
-            Redirect(string.Format("AccountBlogView.aspx?id={0}", BlogId));
+            Redirect(ReturnUrl);
         }
         catch (Exception ex)
         {

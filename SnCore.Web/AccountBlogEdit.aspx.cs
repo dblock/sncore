@@ -24,6 +24,8 @@ public partial class AccountBlogEdit : AuthenticatedPage
         try
         {
             SetDefaultButton(linkSave);
+            gridManagePosts.OnGetDataSource += new EventHandler(gridManagePosts_OnGetDataSource);
+            gridManageAuthors.OnGetDataSource += new EventHandler(gridManageAuthors_OnGetDataSource);
             if (!IsPostBack)
             {
                 if (RequestId > 0)
@@ -34,17 +36,10 @@ public partial class AccountBlogEdit : AuthenticatedPage
                     inputName.Text = tf.Name;
                     inputDescription.Text = tf.Description;
 
-                    gridManagePosts.OnGetDataSource += new EventHandler(gridManagePosts_OnGetDataSource);
-                    gridManageAuthors.OnGetDataSource += new EventHandler(gridManageAuthors_OnGetDataSource);
-
                     if (!IsPostBack)
                     {
-                        gridManagePosts.VirtualItemCount = BlogService.GetAccountBlogPostsCountById(RequestId);
-                        gridManagePosts_OnGetDataSource(this, null);
-                        gridManagePosts.DataBind();
-
-                        gridManageAuthors_OnGetDataSource(this, null);
-                        gridManageAuthors.DataBind();
+                        GetBlogPostsData(sender, e);
+                        GetBlogAuthorsData(sender, e);
                     }
 
                     linkNew.NavigateUrl = string.Format("AccountBlogPost.aspx?bid={0}", RequestId);
@@ -62,6 +57,22 @@ public partial class AccountBlogEdit : AuthenticatedPage
         {
             ReportException(ex);
         }
+    }
+
+    private void GetBlogPostsData(object sender, EventArgs e)
+    {
+        gridManagePosts.CurrentPageIndex = 0;
+        gridManagePosts.VirtualItemCount = BlogService.GetAccountBlogPostsCountById(RequestId);
+        gridManagePosts_OnGetDataSource(this, null);
+        gridManagePosts.DataBind();
+    }
+
+    private void GetBlogAuthorsData(object sender, EventArgs e)
+    {
+        gridManageAuthors.CurrentPageIndex = 0;
+        gridManageAuthors.VirtualItemCount = BlogService.GetAccountBlogAuthorsCountById(RequestId);
+        gridManageAuthors_OnGetDataSource(this, null);
+        gridManageAuthors.DataBind();
     }
 
     public void save(object sender, EventArgs e)
@@ -106,7 +117,10 @@ public partial class AccountBlogEdit : AuthenticatedPage
     {
         try
         {
-            gridManageAuthors.DataSource = BlogService.GetAccountBlogAuthorsById(RequestId);
+            ServiceQueryOptions options = new ServiceQueryOptions();
+            options.PageNumber = gridManageAuthors.CurrentPageIndex;
+            options.PageSize = gridManageAuthors.PageSize;
+            gridManageAuthors.DataSource = BlogService.GetAccountBlogAuthorsById(RequestId, options);
         }
         catch (Exception ex)
         {
@@ -118,10 +132,10 @@ public partial class AccountBlogEdit : AuthenticatedPage
     {
         try
         {
-            int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
             switch (e.CommandName)
             {
                 case "Delete":
+                    int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
                     BlogService.DeleteAccountBlogPost(SessionManager.Ticket, id);
                     ReportInfo("Blog post deleted.");
                     gridManagePosts.CurrentPageIndex = 0;

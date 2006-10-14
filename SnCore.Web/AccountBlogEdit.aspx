@@ -1,6 +1,7 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="AccountBlogEdit.aspx.cs"
  Inherits="AccountBlogEdit" Title="Blog" %>
 
+<%@ Import Namespace="SnCore.Tools.Web" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountReminder" Src="AccountReminderControl.ascx" %>
@@ -59,89 +60,98 @@
      </div>
      <asp:HyperLink ID="linkNew" Text="&#187; Post New" CssClass="sncore_cancel" NavigateUrl="AccountBlogPost.aspx"
       runat="server" />
-     <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManagePosts"
-      OnItemCommand="gridManagePosts_ItemCommand" AutoGenerateColumns="false" CssClass="sncore_account_table">
-      <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
-      <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
-      <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
-       PrevPageText="Prev" HorizontalAlign="Center" />
-      <Columns>
-       <asp:BoundColumn DataField="Id" Visible="false" />
-       <asp:TemplateColumn ItemStyle-HorizontalAlign="Center">
-        <itemtemplate>
-        <img src="images/Item.gif" />
-       </itemtemplate>
-       </asp:TemplateColumn>
-       <asp:TemplateColumn HeaderText="Entry" ItemStyle-HorizontalAlign="Left">
-        <itemtemplate>
-        <a href="AccountBlogPostView.aspx?id=<%# Eval("Id") %>">
-         <%# base.Render(Eval("Title")) %>
-        </a>
-        <div class="sncore_description">
-         posted by 
-         <a href='AccountView.aspx?id=<%# Eval("AccountId") %>'>
-          <%# base.Render(Eval("AccountName")) %>
-         </a>
-         on 
-         <%# base.Adjust(Eval("Created")) %>
-        </div>
-       </itemtemplate>
-       </asp:TemplateColumn>
-       <asp:TemplateColumn>
-        <itemtemplate>
-        <a href="AccountBlogPost.aspx?bid=<%# Eval("AccountBlogId") %>&id=<%# Eval("Id") %>">Edit</a>
-       </itemtemplate>
-       </asp:TemplateColumn>
-       <asp:ButtonColumn ButtonType="LinkButton" CommandName="Delete" Text="Delete" />
-      </Columns>
-     </SnCoreWebControls:PagedGrid>
+     <atlas:UpdatePanel ID="panelPosts" runat="server" Mode="Conditional">
+      <ContentTemplate>
+       <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManagePosts" AllowPaging="true" AllowCustomPaging="true"
+        OnItemCommand="gridManagePosts_ItemCommand" AutoGenerateColumns="false" CssClass="sncore_account_table">
+        <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
+        <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
+        <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
+         PrevPageText="Prev" HorizontalAlign="Center" />
+        <Columns>
+         <asp:BoundColumn DataField="Id" Visible="false" />
+         <asp:TemplateColumn ItemStyle-HorizontalAlign="Center">
+          <itemtemplate>
+          <img src="images/Item.gif" />
+         </itemtemplate>
+         </asp:TemplateColumn>
+         <asp:TemplateColumn HeaderText="Entry" ItemStyle-HorizontalAlign="Left">
+          <itemtemplate>
+          <a href="AccountBlogPostView.aspx?id=<%# Eval("Id") %>">
+           <%# base.Render(Eval("Title")) %>
+          </a>
+          <div class="sncore_description">
+           posted by 
+           <a href='AccountView.aspx?id=<%# Eval("AccountId") %>'>
+            <%# base.Render(Eval("AccountName")) %>
+           </a>
+           on 
+           <%# base.Adjust(Eval("Created")) %>
+          </div>
+         </itemtemplate>
+         </asp:TemplateColumn>
+         <asp:TemplateColumn>
+          <itemtemplate>
+          <a href="AccountBlogPost.aspx?bid=<%# Eval("AccountBlogId") %>&id=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>">Edit</a>
+         </itemtemplate>
+         </asp:TemplateColumn>
+         <asp:ButtonColumn ButtonType="LinkButton" CommandName="Delete" Text="Delete" />
+        </Columns>
+       </SnCoreWebControls:PagedGrid>
+      </ContentTemplate>
+     </atlas:UpdatePanel>
      <div class="sncore_h2">
       Authors</div>
      <asp:HyperLink ID="linkNewAuthor" Text="&#187; New Author" CssClass="sncore_cancel"
       NavigateUrl="AccountBlogAuthorEdit.aspx" runat="server" />
-     <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManageAuthors"
-      OnItemCommand="gridManageAuthors_ItemCommand" AutoGenerateColumns="false" CssClass="sncore_account_table">
-      <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
-      <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
-      <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
-       PrevPageText="Prev" HorizontalAlign="Center" />
-      <Columns>
-       <asp:BoundColumn DataField="Id" Visible="false" />
-       <asp:TemplateColumn ItemStyle-HorizontalAlign="Center">
-        <itemtemplate>
-        <img src="images/Item.gif" />
-       </itemtemplate>
-       </asp:TemplateColumn>
-       <asp:TemplateColumn HeaderText="Name" ItemStyle-HorizontalAlign="Left">
-        <itemtemplate>
-        <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
-         <%# base.Render(Eval("AccountName")) %>
-        </a>
-       </itemtemplate>
-       </asp:TemplateColumn>
-       <asp:TemplateColumn HeaderText="Post">
-        <itemtemplate>
-        <%# base.Render(Eval("AllowPost").ToString()) %>
-       </itemtemplate>
-       </asp:TemplateColumn>
-       <asp:TemplateColumn HeaderText="Edit">
-        <itemtemplate>
-        <%# base.Render(Eval("AllowEdit").ToString()) %>
-       </itemtemplate>
-       </asp:TemplateColumn>
-       <asp:TemplateColumn HeaderText="Delete">
-        <itemtemplate>
-        <%# base.Render(Eval("AllowDelete").ToString()) %>
-       </itemtemplate>
-       </asp:TemplateColumn>
-       <asp:TemplateColumn>
-        <itemtemplate>
-        <a href="AccountBlogAuthorEdit.aspx?bid=<%# Eval("AccountBlogId") %>&id=<%# Eval("Id") %>">Edit</a>
-       </itemtemplate>
-       </asp:TemplateColumn>
-       <asp:ButtonColumn ButtonType="LinkButton" CommandName="Delete" Text="Delete" />
-      </Columns>
-     </SnCoreWebControls:PagedGrid>
+     <atlas:UpdatePanel runat="server" Mode="Conditional" ID="panelAuthors">
+      <ContentTemplate>
+       <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManageAuthors" AllowCustomPaging="true"
+        OnItemCommand="gridManageAuthors_ItemCommand" AutoGenerateColumns="false" CssClass="sncore_account_table"
+        PageSize="10" AllowPaging="true">
+        <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
+        <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
+        <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
+         PrevPageText="Prev" HorizontalAlign="Center" />
+        <Columns>
+         <asp:BoundColumn DataField="Id" Visible="false" />
+         <asp:TemplateColumn ItemStyle-HorizontalAlign="Center">
+          <itemtemplate>
+          <img src="images/Item.gif" />
+         </itemtemplate>
+         </asp:TemplateColumn>
+         <asp:TemplateColumn HeaderText="Name" ItemStyle-HorizontalAlign="Left">
+          <itemtemplate>
+          <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
+           <%# base.Render(Eval("AccountName")) %>
+          </a>
+         </itemtemplate>
+         </asp:TemplateColumn>
+         <asp:TemplateColumn HeaderText="Post">
+          <itemtemplate>
+          <%# base.Render(Eval("AllowPost").ToString()) %>
+         </itemtemplate>
+         </asp:TemplateColumn>
+         <asp:TemplateColumn HeaderText="Edit">
+          <itemtemplate>
+          <%# base.Render(Eval("AllowEdit").ToString()) %>
+         </itemtemplate>
+         </asp:TemplateColumn>
+         <asp:TemplateColumn HeaderText="Delete">
+          <itemtemplate>
+          <%# base.Render(Eval("AllowDelete").ToString()) %>
+         </itemtemplate>
+         </asp:TemplateColumn>
+         <asp:TemplateColumn>
+          <itemtemplate>
+          <a href="AccountBlogAuthorEdit.aspx?bid=<%# Eval("AccountBlogId") %>&id=<%# Eval("Id") %>">Edit</a>
+         </itemtemplate>
+         </asp:TemplateColumn>
+         <asp:ButtonColumn ButtonType="LinkButton" CommandName="Delete" Text="Delete" />
+        </Columns>
+       </SnCoreWebControls:PagedGrid>
+      </ContentTemplate>
+     </atlas:UpdatePanel>
     </asp:Panel>
     <SnCore:AccountReminder ID="accountReminder" runat="server" Style="width: 582px;" />
    </td>

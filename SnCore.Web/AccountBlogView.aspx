@@ -5,6 +5,7 @@
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="BookmarksView" Src="BookmarksViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="LicenseView" Src="AccountLicenseViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="CounterView" Src="CounterViewControl.ascx" %>
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <table cellspacing="0" cellpadding="4" class="sncore_table">
@@ -38,7 +39,10 @@
     </asp:Panel>
     <asp:Panel ID="panelOwner" runat="server" HorizontalAlign="Right">
      <div>
-      <asp:HyperLink ID="linkEdit" Text="&#187; Edit Blog" runat="server" />
+      <asp:HyperLink ID="linkPostNew" Text="&#187; Post New" runat="server" />
+     </div>
+     <div>
+      <asp:HyperLink ID="linkEdit" Text="&#187; Manage Blog" runat="server" />
      </div>
     </asp:Panel>
     <!-- NOEMAIL-END -->
@@ -54,7 +58,7 @@
   <ContentTemplate>
    <SnCoreWebControls:PagedGrid runat="server" ID="gridManage" PageSize="5"
     AllowCustomPaging="true" AllowPaging="true" AutoGenerateColumns="false" CssClass="sncore_table"
-    ShowHeader="false" BorderWidth="0">
+    ShowHeader="false" BorderWidth="0" OnItemCommand="gridManage_ItemCommand">
     <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
      PrevPageText="Prev" HorizontalAlign="Center" />
     <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
@@ -85,6 +89,10 @@
               &#187; edit
              </a>
             </span>
+            <span style='<%# (bool) Eval("CanDelete") ? string.Empty : "display: none;" %>'>
+             <asp:LinkButton id="linkDelete" runat="server" Text="&#187; delete" CommandName="Delete" 
+              CommandArgument='<%# Eval("Id") %>' OnClientClick="return confirm('Are you sure you want to delete this blog post?')" />
+            </span>
            </div>
           </div>
           <div class="sncore_message_body">
@@ -104,12 +112,19 @@
    <td>
     <SnCore:LicenseView runat="server" ID="licenseView" />       
    </td>
+   <!-- NOEMAIL-START -->
+   <td class="sncore_table_tr_td" style="font-size: smaller;" align="right">
+    <div class="sncore_description">
+     views: <SnCore:CounterView ID="counterBlogViews" runat="server" />
+    </div>
+   </td>
    <td class="sncore_table_tr_td" style="font-size: smaller;" align="right">
     socially bookmark this blog:
    </td>
    <td class="sncore_table_tr_td">
     <SnCore:BookmarksView ID="bookmarksView" ShowThumbnail="true" runat="server" RepeatColumns="-1" />
    </td>
+   <!-- NOEMAIL-END -->
   </tr>
  </table>
 </asp:Content>

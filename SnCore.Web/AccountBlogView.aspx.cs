@@ -80,6 +80,7 @@ public partial class AccountBlogView : Page
                 linkRelRss.Attributes["href"] = linkRss.NavigateUrl = string.Format("AccountBlogRss.aspx?id={0}", RequestId);
 
                 linkEdit.NavigateUrl = string.Format("AccountBlogEdit.aspx?id={0}", RequestId);
+                linkPostNew.NavigateUrl = string.Format("AccountBlogPost.aspx?bid={0}", RequestId);
             }
         }
         catch (Exception ex)
@@ -173,6 +174,25 @@ public partial class AccountBlogView : Page
             t_feature.DataRowId = RequestId;
             SystemService.DeleteAllFeatures(SessionManager.Ticket, t_feature);
             Redirect(Request.Url.PathAndQuery);
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
+    public void gridManage_ItemCommand(object source, DataGridCommandEventArgs e)
+    {
+        try
+        {
+            switch (e.CommandName)
+            {
+                case "Delete":
+                    BlogService.DeleteAccountBlogPost(SessionManager.Ticket, int.Parse(e.CommandArgument.ToString()));
+                    ReportInfo("Post Deleted");
+                    GetData(source, e);
+                    break;
+            }
         }
         catch (Exception ex)
         {
