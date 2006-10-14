@@ -43,7 +43,7 @@ public partial class AccountBlogPostView : Page
                 BlogTitle.NavigateUrl = linkAccountBlog.NavigateUrl = string.Format("AccountBlogView.aspx?id={0}", tfi.AccountBlogId);
 
                 BlogPostTitle.Text = Renderer.Render(string.IsNullOrEmpty(tfi.Title) ? "Untitled" : tfi.Title);
-                BlogPostBody.Text = Renderer.RenderEx(tfi.Body);
+                BlogPostBody.Text = RenderEx(tfi.Body);
 
                 object[] d_args = { RequestId };
                 BlogPostComments.DiscussionId = SessionManager.GetCachedCollectionCount(
