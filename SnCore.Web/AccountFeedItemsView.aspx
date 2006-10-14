@@ -11,7 +11,7 @@
    <table cellpadding="0" cellspacing="0" width="784">
     <tr>
      <td>
-      <SnCore:Title ID="title" Text="Blog Posts" runat="server">  
+      <SnCore:Title ID="titleBlogPosts" Text="Blog Posts" runat="server">  
        <Template>
         <div class="sncore_title_paragraph">
          Do you have time to read two hundred blogs? These posts come from 

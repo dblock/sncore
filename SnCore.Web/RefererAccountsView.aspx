@@ -7,7 +7,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
- <SnCore:Title ID="title" Text="Top Traffickers" runat="server">  
+ <SnCore:Title ID="titleTopTraffickers" Text="Top Traffickers" runat="server">  
   <Template>
    <div class="sncore_title_paragraph">
     This page shows all members that link back to 

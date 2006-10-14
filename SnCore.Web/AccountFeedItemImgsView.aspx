@@ -12,7 +12,7 @@
    <table cellpadding="0" cellspacing="0" width="784">
     <tr>
      <td>
-      <SnCore:Title ID="title" Text="Pictures" runat="server">  
+      <SnCore:Title ID="titlePictures" Text="Pictures" runat="server">  
        <Template>
         <div class="sncore_title_paragraph">
          A picture is worth a thousand words. These pictures are extracted from 

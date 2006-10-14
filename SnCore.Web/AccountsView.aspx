@@ -12,7 +12,7 @@
    <table cellpadding="0" cellspacing="0" width="784">
     <tr>
      <td>
-      <SnCore:Title ID="title" Text="People" runat="server">
+      <SnCore:Title ID="titlePeople" Text="People" runat="server">
        <Template>
         <div class="sncore_title_paragraph">
          This page shows all members, most active members first. You can also search people in your city
