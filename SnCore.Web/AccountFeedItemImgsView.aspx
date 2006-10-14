@@ -3,6 +3,7 @@
 
 <%@ Import Namespace="SnCore.Services" %>
 <%@ Import Namespace="SnCore.Tools.Web" %>
+<%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -11,9 +12,18 @@
    <table cellpadding="0" cellspacing="0" width="784">
     <tr>
      <td>
-      <div class="sncore_h2">
-       Pictures
-      </div>
+      <SnCore:Title ID="title" Text="Pictures" runat="server">  
+       <Template>
+        <div class="sncore_title_paragraph">
+         A picture is worth a thousand words. These pictures are extracted from 
+         <a href="AccountFeedsView.aspx">syndicated blogs</a> and are updated several times a day.
+         Click on a picture to see the full blog post.
+        </div>
+        <div class="sncore_title_paragraph">
+         Do you have a blog or a FlickR account? You can <a href="AccountFeedWizard.aspx">syndicate yours here</a>. It's free!
+        </div>
+       </Template>
+      </SnCore:Title>
       <div class="sncore_h2sub">
        <a href="AccountFeedItemsView.aspx">&#187; Blogs</a>
        <a href="AccountFeedItemsView.aspx">&#187; Content</a>
@@ -22,7 +32,7 @@
        <asp:LinkButton ID="linkEdit" runat="server" OnClick="linkEdit_Click" Text="&#187; Edit" />
       </div>
      </td>
-     <td>
+     <td width="200">
       <asp:Label ID="labelCount" runat="server" CssClass="sncore_h2sub" />
      </td>
      <td align="right" valign="middle">

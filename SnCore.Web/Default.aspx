@@ -2,6 +2,7 @@
  Inherits="_Default" Title="Welcome" %>
 
 <%@ Import Namespace="SnCore.Tools.Web" %>
+<%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountsNewView" Src="AccountsNewViewControl.ascx" %>
@@ -31,10 +32,17 @@
     <table width="100%" cellpadding="0" cellspacing="0"> 
      <tr>
       <td colspan="2">
-       <div class="sncore_h2">
-        <a href="Featured.aspx">Featured</a>
-        <img src="images/site/right.gif" border="0" />
-       </div>    
+       <SnCore:Title ID="featuredTitle" Text="Featured" runat="server">  
+        <Template>
+         <div class="sncore_title_paragraph">
+          Do you want to be featured on 
+          <%# Renderer.Render(SessionManager.GetCachedConfiguration("SnCore.Name", "SnCore")) %>?          
+          <br />
+          <asp:LinkButton ID="linkAdministrator" runat="server" Text="Send us an e-mail"
+           OnClientClick="<%# LinkMailToAdministrator %>" /> and tell us why.
+         </div>
+        </Template>
+       </SnCore:Title>
        <div class="sncore_h2sub">
         <a href="TellAFriend.aspx?Url=<% Response.Write(Renderer.UrlEncode(Request.Url.PathAndQuery)); %>&Subject=<% Response.Write(Renderer.UrlEncode(Title)); %>">&#187; Tell a Friend</a>     
        </div>

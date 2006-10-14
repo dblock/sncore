@@ -2,6 +2,7 @@
  Inherits="AccountFeedsView" Title="Blogs" %>
 
 <%@ Import Namespace="SnCore.Tools.Web" %>
+<%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -10,16 +11,26 @@
    <table cellpadding="0" cellspacing="0" width="784">
     <tr>
      <td>
-      <div class="sncore_h2">
-       Blogs
-      </div>
+      <SnCore:Title ID="title" Text="Blogs" runat="server">  
+       <Template>
+        <div class="sncore_title_paragraph">
+         Do you have time to read two hundred blogs? These are <a href="AccountFeedsView.aspx">syndicated blogs</a>.
+         You can read the combined blog posts <a href="AccountFeedItemsView.aspx">here</a>. It's a convenient way to 
+         keep up with all this information. Blogs are updated several times a day. We also 
+         <a href="AccountFeedItemImgsView.aspx">extract and publish pictures</a> from all posts.
+        </div>
+        <div class="sncore_title_paragraph">
+         Do you have a blog? You can <a href="AccountFeedWizard.aspx">syndicate yours here</a>. It's free!
+        </div>
+       </Template>
+      </SnCore:Title>
       <div class="sncore_h2sub">
        <a href="AccountFeedItemsView.aspx">&#187; Blog Posts</a>
        <a href="AccountFeedItemImgsView.aspx">&#187; Pictures</a>
        <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
       </div>
      </td>
-     <td>
+     <td width="200">
       <asp:Label ID="labelCount" runat="server" CssClass="sncore_h2sub" />
      </td>
      <td align="right" valign="middle">

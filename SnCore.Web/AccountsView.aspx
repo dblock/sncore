@@ -2,6 +2,7 @@
  Inherits="AccountsView" Title="People" %>
 
 <%@ Import Namespace="SnCore.Services" %>
+<%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
@@ -11,9 +12,17 @@
    <table cellpadding="0" cellspacing="0" width="784">
     <tr>
      <td>
-      <div class="sncore_h2">
-       People
-      </div>
+      <SnCore:Title ID="title" Text="People" runat="server">
+       <Template>
+        <div class="sncore_title_paragraph">
+         This page shows all members, most active members first. You can also search people in your city
+         or around the world. Click on someone's photo and add them to your friends!
+        </div>
+        <div class="sncore_title_paragraph">
+         Tip: <a href="AccountPicturesManage.aspx">Upload a picture</a> and your profile will appear on this page.
+        </div>
+       </Template>
+      </SnCore:Title>      
       <div class="sncore_h2sub">
        <asp:LinkButton ID="linkAll" OnClick="linkAll_Click" runat="server" Text="&#187; All People" />
        <asp:LinkButton ID="linkLocal" OnClick="linkLocal_Click" runat="server" Text="&#187; All Local People" />
@@ -23,7 +32,7 @@
        <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
       </div>
      </td>
-     <td>
+     <td width="200">
       <asp:Label ID="labelCount" runat="server" CssClass="sncore_h2sub" />
      </td>
      <td align="right" valign="middle">

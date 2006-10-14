@@ -2,22 +2,30 @@
  Inherits="RefererAccountsView" Title="Top Traffickers" %>
 
 <%@ Import Namespace="SnCore.Services" %>
+<%@ Import Namespace="SnCore.Tools.Web" %>
+<%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
- <table cellpadding="0" cellspacing="0" width="784">
-  <tr>
-   <td>
-    <div class="sncore_h2">
-     Top Traffickers
-    </div>
-    <div class="sncore_h2sub">
-     <a href="AccountsView.aspx">&#187; All People</a>
-     <a href="AccountInvitationsManage.aspx">&#187; Invite a Friend</a>
-    </div>
-   </td>
-  </tr>
- </table>
+ <SnCore:Title ID="title" Text="Top Traffickers" runat="server">  
+  <Template>
+   <div class="sncore_title_paragraph">
+    This page shows all members that link back to 
+    <%# Renderer.Render(SessionManager.GetCachedConfiguration("SnCore.Name", "SnCore")) %>,
+    most active referrers first.
+   </div>
+   <div class="sncore_title_paragraph">
+    We need your help to grow! Please link us on your website and
+    <asp:LinkButton ID="linkAdministrator" runat="server" Text="send us an e-mail"
+     OnClientClick="<%# LinkMailToAdministrator %>" /> to be added to 
+     Top Traffickers.
+   </div>
+  </Template>
+ </SnCore:Title>
+ <div class="sncore_h2sub">
+  <a href="AccountsView.aspx">&#187; All People</a>
+  <a href="AccountInvitationsManage.aspx">&#187; Invite a Friend</a>
+ </div>
  <atlas:UpdatePanel runat="server" ID="panelGrid" Mode="Conditional" RenderMode="Inline">
   <ContentTemplate>
    <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage" PageSize="10"
@@ -45,13 +53,4 @@
    </SnCoreWebControls:PagedList>
   </ContentTemplate>
  </atlas:UpdatePanel>   
- <table class="sncore_table">
-  <tr>
-   <td>
-    <b>We need your help to grow!</b> Please add a link to our website and
-    <asp:LinkButton ID="linkAdministrator" runat="server" Text="send an e-mail" />
-    to let us know.
-   </td>
-  </tr>
- </table>
 </asp:Content>

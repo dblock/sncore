@@ -105,3 +105,4 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_blog_image { width: 150px; border: none; margin-right: 15px; }
 .sncore_cc_license { border: solid 2px black; font-size: smaller; background: #ffc; padding: 5px; }
 .sncore_account_license { margin: 5px 0px 5px 0px; }
+.sncore_title_paragraph { margin: 5px 0px 2px 0px; }

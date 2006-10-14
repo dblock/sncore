@@ -31,4 +31,14 @@ public partial class _Default : Page
             ReportException(ex);
         }
     }
+
+    public string LinkMailToAdministrator
+    {
+        get
+        {
+            return string.Format("location.href='mailto:{0}';",
+                SessionManager.GetCachedConfiguration(
+                    "SnCore.Admin.EmailAddress", "admin@localhost.com"));
+        }
+    }
 }

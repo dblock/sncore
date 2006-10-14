@@ -21,10 +21,13 @@ public partial class RefererAccountsView : AccountPersonPage
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
             if (!IsPostBack)
             {
-                linkAdministrator.OnClientClick =
-                    string.Format("location.href='mailto:{0}';",
-                       SessionManager.GetCachedConfiguration(
-                            "SnCore.Admin.EmailAddress", "admin@localhost.com"));
+                //labelName.Text = Renderer.Render(SessionManager.GetCachedConfiguration(
+                //            "SnCore.Name", "SnCore"));
+
+                //linkAdministrator.OnClientClick =
+                //    string.Format("location.href='mailto:{0}';",
+                //       SessionManager.GetCachedConfiguration(
+                //            "SnCore.Admin.EmailAddress", "admin@localhost.com"));
                 GetData();
             }
         }
@@ -58,5 +61,15 @@ public partial class RefererAccountsView : AccountPersonPage
     public void gridManage_DataBinding(object sender, EventArgs e)
     {
         panelGrid.Update();
+    }
+
+    public string LinkMailToAdministrator
+    {
+        get
+        {
+            return string.Format("location.href='mailto:{0}';",
+                SessionManager.GetCachedConfiguration(
+                    "SnCore.Admin.EmailAddress", "admin@localhost.com"));
+        }
     }
 }
