@@ -4,6 +4,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountReminder" Src="AccountReminderControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <table class="sncore_table">
   <tr>
@@ -11,9 +12,14 @@
     <SnCore:AccountMenu runat="server" ID="menu" />
    </td>
    <td valign="top" width="*">
-    <div class="sncore_h2">
-     My Events
-    </div>
+    <SnCore:Title ID="titleEvents" Text="My Events" runat="server">  
+     <Template>
+      <div class="sncore_title_paragraph">
+       <a href="AccountEventEdit.aspx">Post an event</a> to the website calendar. You can create one-time and
+       recurrent events.
+      </div>
+     </Template>
+    </SnCore:Title>
     <asp:HyperLink Text="&#187; Post New" CssClass="sncore_createnew" NavigateUrl="AccountEventEdit.aspx"
      runat="server" />
     <atlas:UpdatePanel ID="panelGrid" runat="server" Mode="Always">

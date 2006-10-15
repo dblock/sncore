@@ -77,11 +77,11 @@ public partial class AccountEventsToday : Page
                     linkLocal.Text = string.Format("&#187; {0} Events", Renderer.Render(SessionManager.Account.City));
                 }
 
-                if (SessionManager.IsLoggedIn && (Request.QueryString.Count == 0))
-                {
-                    SelectLocation(sender, new SelectLocationEventArgs(SessionManager.Account));
-                }
-                else
+                //if (SessionManager.IsLoggedIn && (Request.QueryString.Count == 0))
+                //{
+                //    SelectLocation(sender, new SelectLocationEventArgs(SessionManager.Account));
+                //}
+                //else
                 {
                     SelectLocation(sender, new SelectLocationEventArgs(Request));
                 }
@@ -102,11 +102,13 @@ public partial class AccountEventsToday : Page
 
         calendarEvents.VisibleDate = adjustedNow;
 
+        int count = 0;
         do
         {
             calendarEvents.SelectedDates.Add(adjustedNow.Date);
             adjustedNow = adjustedNow.AddDays(1);
-        } while (adjustedNow.DayOfWeek != DayOfWeek.Monday);
+            count++;
+        } while ((adjustedNow.DayOfWeek != DayOfWeek.Monday) || (count < 7));
     }
 
     private void GetData()

@@ -4,6 +4,7 @@
 <%@ Register TagPrefix="FTB" Namespace="FreeTextBoxControls" Assembly="FreeTextBox" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="WilcoWebControls" Namespace="Wilco.Web.UI.WebControls" Assembly="Wilco.Web" %>
+<%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <asp:Panel ID="panelPost" runat="server">
   <div class="sncore_navigate">
@@ -51,18 +52,25 @@
     </tr>
    </table>
   </asp:Panel>
-  <table width="100%">
-   <tr>
-    <td width="200">
-     <div class="sncore_h2">
-      <a name="edit">New Post</a>
-     </div>
-     <div class="sncore_h2sub">
-      You are posting in <asp:HyperLink ID="discussionLabelLink" runat="server" />
-     </div>
-    </td>
-   </tr>
-  </table>
+  <SnCore:Title ID="titleNewPost" Text="New Post" runat="server">  
+   <Template>
+    <div class="sncore_title_paragraph">
+     To post a message, enter a subject, write a message body and hit <b>Post</b>.
+    </div>
+    <div>
+     To include a link, select some text, click the link button <img src="images/buttons/link.gif" align="absmiddle" />
+     and enter the target address.
+    </div>
+    <div class="sncore_title_paragraph">    
+     To upload a picture, click <b>Browse</b>, find the picture on your computer and press <b>Upload</b>.
+     Pictures are automatically resized to 640x480 and are posted to <a href="AccountPicturesManage.aspx">your profile</a>.
+     You can also simply copy &amp; paste a picture from another website.
+    </div>
+   </Template>
+  </SnCore:Title>
+  <div class="sncore_h2sub">
+   You are posting in <asp:HyperLink ID="discussionLabelLink" runat="server" />
+  </div>
   <asp:HyperLink ID="linkCancel" Text="&#187; Cancel" CssClass="sncore_cancel" runat="server" />
   <table class="sncore_table">
    <tr>

@@ -4,6 +4,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountReminder" Src="AccountReminderControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <table class="sncore_inner_table">
   <tr>
@@ -11,9 +12,13 @@
     <SnCore:AccountMenu runat="server" ID="menu" />
    </td>
    <td valign="top">
-    <div class="sncore_h2">
-     Places
-    </div>
+    <SnCore:Title ID="titlePlaces" Text="My Places" runat="server">  
+     <Template>
+      <div class="sncore_title_paragraph">
+       <a href="PlaceEdit.aspx">Suggest a new place</a> for everybody to see. Upload pictures and post reviews.
+      </div>
+     </Template>
+    </SnCore:Title>
     <asp:HyperLink ID="linkSuggest" Text="&#187; Suggest a New Place" CssClass="sncore_createnew" NavigateUrl="PlaceEdit.aspx"
      runat="server" />
     <atlas:UpdatePanel ID="panelGrid" runat="server" Mode="Always">

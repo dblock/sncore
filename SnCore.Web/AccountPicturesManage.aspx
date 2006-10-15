@@ -5,6 +5,7 @@
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="WilcoWebControls" Namespace="Wilco.Web.UI.WebControls" Assembly="Wilco.Web" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountReminder" Src="AccountReminderControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <table class="sncore_table">
   <tr>
@@ -12,9 +13,17 @@
     <SnCore:AccountMenu runat="server" ID="menu" />
    </td>
    <td valign="top" width="*">
-    <div class="sncore_h2">
-     My Pictures
-    </div>
+    <SnCore:Title ID="titlePictures" Text="My Pictures" runat="server">  
+     <Template>
+      <div class="sncore_title_paragraph">
+       A picture is worth a thousand words. Plus when you upload a picture everyone can see you, while if you don't, your member
+       profile will require some work for others to find you.
+      </div>
+      <div class="sncore_title_paragraph">
+       Uploaded pictures are automatically resized to 640x480. You could resize them on your computer to save transfer time.
+      </div>
+     </Template>
+    </SnCore:Title>
     <table class="sncore_account_table">
      <tr>
       <td style="vertical-align: top;" class="sncore_form_label">

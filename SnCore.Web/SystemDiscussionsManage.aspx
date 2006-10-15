@@ -3,6 +3,7 @@
 
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
+<%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <table class="sncore_inner_table">
   <tr>
@@ -10,9 +11,15 @@
     <SnCore:AccountMenu runat="server" ID="menu" />
    </td>
    <td valign="top">
-    <div class="sncore_h2">
-     Discussions
-    </div>
+    <SnCore:Title ID="titleDiscussions" Text="Discussions" runat="server">
+     <Template>
+      <div class="sncore_title_paragraph">
+       When <a href="DiscussionsView.aspx">existing discussions</a> get too crowded for an important topic, you can
+       <a href="SystemDiscussionEdit.aspx">create your own discussion forum</a>. You will then be able to fully control
+       the content on this new discussion board and everyone will see it.
+      </div>
+     </Template>
+    </SnCore:Title>
     <asp:HyperLink ID="HyperLink1" Text="&#187; Create New" CssClass="sncore_createnew" NavigateUrl="SystemDiscussionEdit.aspx"
      runat="server" />
     <SnCoreWebControls:PagedGrid CellPadding="4" OnItemCommand="gridManage_ItemCommand"

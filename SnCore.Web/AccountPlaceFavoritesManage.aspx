@@ -4,6 +4,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountReminder" Src="AccountReminderControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <table class="sncore_inner_table">
   <tr>
@@ -11,9 +12,14 @@
     <SnCore:AccountMenu runat="server" ID="menu" />
    </td>
    <td valign="top" width="100%">
-    <div class="sncore_h2">
-     My Favorite Places
-    </div>
+    <SnCore:Title ID="titleFavoritePlaces" Text="My Favorite Places" runat="server">  
+     <Template>
+      <div class="sncore_title_paragraph">
+       <a href="PlacesView.aspx">Browse places</a> and add your favorites. Then find out
+       who else likes the same place and make new friends.
+      </div>
+     </Template>
+    </SnCore:Title>
     <atlas:UpdatePanel ID="panelGrid" runat="server" Mode="Always">
      <ContentTemplate>
       <SnCoreWebControls:PagedList CssClass="sncore_account_table" runat="server" RepeatDirection="Horizontal"

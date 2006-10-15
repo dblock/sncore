@@ -4,6 +4,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountReminder" Src="AccountReminderControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <table class="sncore_table">
   <tr>
@@ -11,12 +12,18 @@
     <SnCore:AccountMenu runat="server" ID="menu" />
    </td>
    <td valign="top" width="*">
-    <div class="sncore_h2">
-     My OpenIds
-    </div>
-    <div style="margin-left: 20px;" class="sncore_link">
-     <a target="_blank" href="http://openid.net/">&#187; what's this?</a> <a target="_blank"
-      href="http://videntity.org/">&#187; get one</a>
+    <SnCore:Title ID="titleOpenIds" Text="My OpenIds" runat="server">  
+     <Template>
+      <div class="sncore_title_paragraph">
+       OpenID is an open, decentralized, free framework for user-centric digital identity. With OpenID you
+       don't have to remember multiple passwords for different sites any more. Find out more about OpenID 
+       <a target="_blank" href="http://openid.net/">here</a> and <a target="_blank" href="http://videntity.org/">get one</a>. 
+      </div>
+     </Template>
+    </SnCore:Title>
+    <div class="sncore_cancel">
+     <a target="_blank" href="http://openid.net/">&#187; What's This?</a> <a target="_blank"
+      href="http://videntity.org/">&#187; Get One</a>
     </div>
     <SnCoreWebControls:PagedGrid CellPadding="4" OnItemCommand="gridManage_ItemCommand"
      runat="server" ID="gridManage" AutoGenerateColumns="false" CssClass="sncore_account_table">

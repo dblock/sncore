@@ -33,7 +33,7 @@ public partial class TitleControl : Control, INamingContainer
     ITemplate mTemplate;
     TitleContainer mContainer;
 
-    [TemplateContainer(typeof(TitleContainer))]
+    [TemplateContainer(typeof(TitleContainer)), PersistenceMode(PersistenceMode.InnerProperty)]
     public virtual ITemplate Template
     {
         get

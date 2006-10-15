@@ -4,6 +4,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountReminder" Src="AccountReminderControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <table class="sncore_inner_table">
   <tr>
@@ -11,9 +12,20 @@
     <SnCore:AccountMenu runat="server" ID="menu" />
    </td>
    <td valign="top">
-    <div class="sncore_h2">
-     My Syndicated Content
-    </div>
+    <SnCore:Title ID="titleSyndicatedContent" Text="My Syndicated Content" runat="server">  
+     <Template>
+      <div class="sncore_title_paragraph">
+       Really Simple Syndication (RSS) is a lightweight XML format designed for sharing headlines and other Web content. 
+       In particular, it allows you to syndicate content from your blog. This means that when you write
+       a new post on your blog it will appear on this site as well, automatically, within a short period of time. 
+      </div>
+      <div class="sncore_title_paragraph">
+       Because we have so many users, syndicating will bring you more readers. You still own all your content
+       and can even <a href="AccountLicenseEdit.aspx">add a creative license</a> for it. Use the 
+       <a href="AccountFeedWizard.aspx">Wizard</a> to make it happen.
+      </div>
+     </Template>
+    </SnCore:Title>
     <asp:HyperLink ID="HyperLink1" Text="&#187; Syndicate Wizard" CssClass="sncore_createnew"
      NavigateUrl="AccountFeedWizard.aspx" runat="server" />
     <atlas:UpdatePanel ID="panelGrid" runat="server" Mode="Always">

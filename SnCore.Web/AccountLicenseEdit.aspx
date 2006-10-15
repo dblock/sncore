@@ -3,6 +3,7 @@
 
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
+<%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <table class="sncore_inner_table">
@@ -11,31 +12,23 @@
     <SnCore:AccountMenu runat="server" ID="menu" />
    </td>
    <td valign="top">
-    <div class="sncore_h2">
-     Content Licensing
-    </div>
-    <table cellspacing="0" cellpadding="4" class="sncore_account_table">
-     <tr>
-      <td>
-       <p>
-        This site does not own your content. It is owned by <b>you</b>. This includes, but
-        is not limited to all syndicated feeds, blog and discussion posts, stories and comments.
-        You've made a work you're proud of. Now it's time to get creative with how you make
-        it available.
-       </p>
-       <p>
-        Creative Commons licenses help you share your work while keeping your copyright.
-        Other people can copy and distribute your work provided they give you credit - and
-        only on the conditions you specify here.
-       </p>
-      </td>
-     </tr>
-    </table>
+    <SnCore:Title ID="titleContentLicensing" Text="Content Licensing" runat="server">  
+     <Template>
+      <div class="sncore_title_paragraph">
+       This site does not own your content. It is owned by <b>you</b>. This includes, but
+       is not limited to all syndicated feeds, blog and discussion posts, stories and comments.
+       You've made a work you're proud of. Now it's time to get creative with how you make
+       it available.
+      </div>
+      <div>
+       Creative Commons licenses help you share your work while keeping your copyright.
+       Other people can copy and distribute your work provided they give you credit - and
+       only on the conditions you specify here.
+      </div>
+     </Template>
+    </SnCore:Title>
     <atlas:UpdatePanel runat="server" ID="panelLicenseUpdate" Mode="Always">
      <ContentTemplate>
-      <div class="sncore_h2">
-       Current License
-      </div>
       <table cellspacing="0" cellpadding="0" class="sncore_account_table" style="border: none;">
        <tr>
         <td>

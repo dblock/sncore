@@ -5,6 +5,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountReminder" Src="AccountReminderControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <table class="sncore_table">
   <tr>
@@ -12,10 +13,17 @@
     <SnCore:AccountMenu runat="server" ID="menu" />
    </td>
    <td valign="top" width="*">
-    <div class="sncore_h2">
-     My Websites
-    </div>
-    <asp:HyperLink Text="&#187; Create New" CssClass="sncore_createnew" NavigateUrl="AccountWebsiteEdit.aspx"
+    <SnCore:Title ID="titleWebsites" Text="My Websites" runat="server">  
+     <Template>
+      <div class="sncore_title_paragraph">
+       Link to your website. It will appear on your member profile.
+      </div>
+      <div class="sncore_title_paragraph">
+       If you have a blog, <a href="AccountFeedWizard.aspx">syndicate it here</a> instead.
+      </div>
+     </Template>
+    </SnCore:Title>
+    <asp:HyperLink Text="&#187; Add New" CssClass="sncore_createnew" NavigateUrl="AccountWebsiteEdit.aspx"
      runat="server" />
     <atlas:UpdatePanel ID="panelGrid" runat="server" Mode="Always">
      <ContentTemplate>

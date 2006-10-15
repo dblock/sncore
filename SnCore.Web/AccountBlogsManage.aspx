@@ -4,6 +4,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountReminder" Src="AccountReminderControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <table class="sncore_inner_table">
   <tr>
@@ -11,13 +12,22 @@
     <SnCore:AccountMenu runat="server" ID="menu" />
    </td>
    <td valign="top">
-    <div class="sncore_h2">
-     My Blogs
-    </div>
-    <asp:HyperLink ID="HyperLink2" Text="&#187; I Already Have a Blog" CssClass="sncore_createnew"
-     NavigateUrl="AccountFeedEdit.aspx" runat="server" />
+    <SnCore:Title ID="titleMyBlogs" Text="My Blogs" runat="server">  
+     <Template>
+      <div class="sncore_title_paragraph">
+       You can <a href="AccountBlogEdit.aspx">create a new blog</a> and start blogging. You are the editor, owner and
+       manager of your blog, and you can also let your friends contribute. Your blog appears on 
+       <a href="AccountView.aspx">your profile</a>.
+      </div>
+      <div class="sncore_title_paragraph">
+       If you already have a blog, <a href="AccountFeedWizard.aspx">Syndicate It</a> instead.
+      </div>
+     </Template>
+    </SnCore:Title>
+    <asp:HyperLink ID="linkSyndicate" Text="&#187; I Already Have a Blog" CssClass="sncore_createnew"
+     NavigateUrl="AccountFeedWizard.aspx" runat="server" />
     <br />
-    <asp:HyperLink ID="HyperLink1" Text="&#187; Start a Blog" CssClass="sncore_createnew"
+    <asp:HyperLink ID="HyperLink1" Text="&#187; Start Blogging" CssClass="sncore_createnew"
      NavigateUrl="AccountBlogEdit.aspx" runat="server" />
     <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage" OnItemCommand="gridManage_ItemCommand"
      AutoGenerateColumns="false" CssClass="sncore_account_table">

@@ -4,6 +4,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountReminder" Src="AccountReminderControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <table class="sncore_inner_table">
   <tr>
@@ -11,14 +12,14 @@
     <SnCore:AccountMenu runat="server" ID="menu" />
    </td>
    <td valign="top">
-    <div class="sncore_h2">
-     Property
-    </div>
-    <div class="sncore_li_description">
-     To own a place you must follow a Claim Ownership link on the place page. Only existing place owners and system administrators 
-     may grant place ownership.
-    </div>
-    <br />
+    <SnCore:Title ID="titleProperty" Text="My Property" runat="server">  
+     <Template>
+      <div class="sncore_title_paragraph">
+       Promote your business by creating a home page. To own a place you must follow a <b>Claim Ownership</b> link on the place page. 
+       Existing place owners and system administrators may grant place ownership.
+      </div>
+     </Template>
+    </SnCore:Title>
     <asp:HyperLink ID="linkSuggest" Text="&#187; Suggest a New Place" CssClass="sncore_createnew" NavigateUrl="PlaceEdit.aspx"
      runat="server" />
     <atlas:UpdatePanel ID="panelGrid" runat="server" Mode="Always">

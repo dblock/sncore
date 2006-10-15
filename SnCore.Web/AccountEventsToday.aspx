@@ -1,18 +1,27 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="AccountEventsToday.aspx.cs"
- Inherits="AccountEventsToday" Title="Events" %>
+ Inherits="AccountEventsToday" Title="Events This Week" %>
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountTimeZone" Src="AccountTimeZoneControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <atlas:UpdatePanel ID="panelLinks" runat="server" Mode="Conditional" EnableViewState="true">
   <ContentTemplate>
    <table cellpadding="0" cellspacing="0" width="784">
     <tr>
      <td>
-      <div class="sncore_h2">
-       Events This Week
-      </div>
+      <SnCore:Title ID="titleEvents" Text="Events This Week" runat="server">  
+       <Template>
+        <div class="sncore_title_paragraph">
+         Use the calendar <b>&#187;</b> arrows to choose a week or a month. You can also choose events in a country,
+         city and/or state.
+        </div>
+        <div class="sncore_title_paragraph">
+         <a href="AccountEventEdit.aspx">Click here</a> to submit an event. It's free!
+        </div>
+       </Template>
+      </SnCore:Title>
       <div class="sncore_h2sub">
        <asp:LinkButton ID="linkShowAll" runat="server" Text="&#187; All Events This Week" OnClick="linkShowAll_Click" />
        <a href="AccountEventsView.aspx">&#187; All Events</a>

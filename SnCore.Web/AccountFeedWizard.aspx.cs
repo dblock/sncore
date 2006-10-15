@@ -208,8 +208,8 @@ public partial class AccountFeedWizard : AuthenticatedPage
 
             if (feeds.Count == 0)
             {
-                throw new Exception("No feeds found. Make sure the given address points to a valid RSS/ATOM feed or a page with " + 
-                    "&lt;link rel=\"alternate\" type=\"application/rss+xml\" ... &gt; field(s) in the body.");
+                ReportInfo("Sorry, I couldn't find any RSS or ATOM feeds on this page. <a href='AccountFeedEdit.aspx'>Click here</a> to setup syndication manually.");
+                return;
             }
 
             gridFeeds.DataSource = feeds;

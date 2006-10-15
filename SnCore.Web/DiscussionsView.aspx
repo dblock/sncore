@@ -3,10 +3,21 @@
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
- <div class="sncore_h2">
-  Discussions
- </div> 
+ <SnCore:Title ID="titleDiscussions" Text="Discussions" runat="server">  
+  <Template>
+   <div class="sncore_title_paragraph">
+    Don't be shy. Exchange views, opinions and essential information with other members. 
+    Create controversy. Post to a discussion.
+   </div>
+   <div class="sncore_title_paragraph">
+    Everyone can read your posts, but one must be a registered member with a verified e-mail address to start a new topic
+    or reply. Click <a href="AccountCreate.aspx">here to join</a> or <a href="AccountLogin.aspx">here to login</a> if you're
+    already a member.
+   </div>
+  </Template>
+ </SnCore:Title>
  <div class="sncore_h2sub">
   <a href="DiscussionTopOfThreadsView.aspx">&#187; New Threads</a>
   <a href="DiscussionThreadsView.aspx">&#187; New Posts</a>

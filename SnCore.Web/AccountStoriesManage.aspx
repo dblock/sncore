@@ -4,6 +4,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountReminder" Src="AccountReminderControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <table class="sncore_inner_table">
   <tr>
@@ -11,9 +12,15 @@
     <SnCore:AccountMenu runat="server" ID="menu" />
    </td>
    <td valign="top">
-    <div class="sncore_h2">
-     My Stories
-    </div>
+    <SnCore:Title ID="titleStories" Text="My Stories" runat="server">  
+     <Template>
+      <div class="sncore_title_paragraph">
+       Stories are used for publications like newsletters. You can create a story with pictures, edit it until it's ready and publish it later.
+       For a story to be seen you must link it from a different section of the website, such as a blog. Hence most members 
+       <a href="DiscussionsView.aspx">post to discussions</a>.
+      </div>
+     </Template>
+    </SnCore:Title>
     <asp:HyperLink ID="HyperLink1" Text="&#187; Tell a Story" CssClass="sncore_createnew"
      NavigateUrl="AccountStoryEdit.aspx" runat="server" />
     <atlas:UpdatePanel ID="panelGrid" runat="server" Mode="Always">

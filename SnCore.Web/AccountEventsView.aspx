@@ -1,5 +1,5 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true"
- CodeFile="AccountEventsView.aspx.cs" Inherits="AccountEventsView" Title="Events" %>
+ CodeFile="AccountEventsView.aspx.cs" Inherits="AccountEventsView" Title="All Events" %>
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
@@ -11,7 +11,7 @@
     <tr>
      <td>
       <div class="sncore_h2">
-       Events
+       All Events
       </div>
       <div class="sncore_h2sub">
        <a href="AccountEventsToday.aspx">&#187; Events This Week</a>

@@ -4,14 +4,28 @@
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
+<%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <link rel="alternate" type="application/rss+xml" title="Rss" href="DiscussionThreadsRss.aspx">
  <table cellpadding="0" cellspacing="0" width="784">
   <tr>
    <td>
-    <div class="sncore_h2">
-     New Posts
-    </div>
+    <SnCore:Title ID="titleDiscussions" Text="New Posts" runat="server">  
+     <Template>
+      <div class="sncore_title_paragraph">
+       These are the most recent discussion posts.
+      </div>
+      <div class="sncore_title_paragraph">
+       Don't be shy. Exchange views, opinions and essential information with other members. 
+       Create controversy. Post to a discussion.
+      </div>
+      <div class="sncore_title_paragraph">
+       Everyone can read your posts, but one must be a registered member with a verified e-mail address to start a new topic
+       or reply. Click <a href="AccountCreate.aspx">here to join</a> or <a href="AccountLogin.aspx">here to login</a> if you're
+       already a member.
+      </div>
+     </Template>
+    </SnCore:Title>
    </td>
    <td align="right">
     <a href="DiscussionThreadsRss.aspx">

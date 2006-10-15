@@ -5,6 +5,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountReminder" Src="AccountReminderControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <table class="sncore_table">
   <tr>
@@ -12,13 +13,25 @@
     <sncore:accountmenu runat="server" id="menu" />
    </td>
    <td valign="top" width="*">
-    <div class="sncore_h2">
-     Syndicate Wizard
+    <SnCore:Title ID="titleSyndicatedContent" Text="Syndication Wizard" runat="server">  
+     <Template>
+      <div class="sncore_title_paragraph">
+       Really Simple Syndication (RSS) is a lightweight XML format designed for sharing headlines and other Web content. 
+       In particular, it allows you to syndicate content from your blog. This means that when you write
+       a new post on your blog it will appear on this site as well, automatically, within a short period of time. 
+      </div>
+      <div class="sncore_title_paragraph">
+       Because we have so many users, syndicating will bring you more readers. You still own all your content
+       and can even <a href="AccountLicenseEdit.aspx">add a creative license</a> for it.
+      </div>
+     </Template>
+    </SnCore:Title>
+    <div class="sncore_cancel">
+     <asp:HyperLink ID="linkBack" Text="&#187; Cancel" NavigateUrl="AccountFeedsManage.aspx"
+      runat="server" />
+     <asp:HyperLink ID="linkSkip" Text="&#187; Skip Wizard" NavigateUrl="AccountFeedEdit.aspx"
+      runat="server" />
     </div>
-    <asp:HyperLink ID="linkBack" Text="&#187; Cancel" CssClass="sncore_cancel" NavigateUrl="AccountFeedsManage.aspx"
-     runat="server" />
-    <asp:HyperLink ID="linkSkip" Text="&#187; Skip Wizard" CssClass="sncore_cancel" NavigateUrl="AccountFeedEdit.aspx"
-     runat="server" />
     <atlas:UpdatePanel runat="server" ID="panelMain">
      <ContentTemplate>
       <table class="sncore_account_table">

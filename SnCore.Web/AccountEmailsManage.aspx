@@ -4,6 +4,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountReminder" Src="AccountReminderControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <table class="sncore_account_table">
   <tr>
@@ -11,9 +12,21 @@
     <SnCore:AccountMenu runat="server" ID="menu" />
    </td>
    <td valign="top" width="*">
-    <div class="sncore_h2">
-     My Email Addresses
-    </div>
+    <SnCore:Title ID="titleEmailAddresses" Text="My Email Addresses" runat="server">  
+     <Template>
+      <div class="sncore_title_paragraph">
+       Before you post anything you must have a verified e-mail address. This helps prevent spam.
+       Your address is kept private. We will <b>never</b> give your address away to an advertiser, partner or 
+       member without your explicit consent. Every time you add an e-mail address you receive a confirmation e-mail 
+       with a link to click. Accounts with no verified e-mail addresses are deleted monthly.
+      </div>
+      <div class="sncore_title_paragraph">
+       You can have multiple e-mail addresses and login with any of them. You can also set a principal
+       one and all notifications will be sent to it. Otherwise they are sent to the first
+       verified address.
+      </div>
+     </Template>
+    </SnCore:Title>
     <atlas:UpdatePanel ID="panelGrid" runat="server" Mode="Always">
      <ContentTemplate>
       <SnCoreWebControls:PagedGrid CellPadding="4" OnItemDataBound="gridManage_ItemDataBound"

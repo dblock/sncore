@@ -88,6 +88,7 @@ public partial class DiscussionPostNew : AuthenticatedPage
                 if (PostId > 0)
                 {
                     TransitDiscussionPost tw = DiscussionService.GetDiscussionPostById(SessionManager.Ticket, PostId);
+                    titleNewPost.Text = Renderer.Render(tw.Subject);
                     inputSubject.Text = tw.Subject;
                     body.Append(tw.Body);
                 }

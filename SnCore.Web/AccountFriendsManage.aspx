@@ -4,6 +4,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountReminder" Src="AccountReminderControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <table class="sncore_table">
   <tr>
@@ -11,9 +12,14 @@
     <SnCore:AccountMenu runat="server" ID="menu" />
    </td>
    <td valign="top" width="100%">
-    <div class="sncore_h2">
-     My Friends
-    </div>
+    <SnCore:Title ID="titleFriends" Text="My Friends" runat="server">  
+     <Template>
+      <div class="sncore_title_paragraph">
+       Got friends? <a href="AccountsView.aspx">Find people</a> you want to be friends with and click
+       on the <b>add to friends</b> link on their profile to send a friends request.
+      </div>
+     </Template>
+    </SnCore:Title>
     <atlas:UpdatePanel ID="panelGrid" runat="server" Mode="Always">
      <ContentTemplate>
       <SnCoreWebControls:PagedList CssClass="sncore_account_table" runat="server" RepeatDirection="Horizontal"
