@@ -276,8 +276,8 @@ namespace SnCore.Services
 
         public void SetPermissions(int accountid, TransitAccountBlogPost post)
         {
-            post.CanEdit = CanEdit(accountid);
-            post.CanDelete = CanDelete(accountid);
+            post.CanEdit = ((post.AccountId == accountid) || CanEdit(accountid));
+            post.CanDelete = ((post.AccountId == accountid) || CanDelete(accountid));
         }
     }
 }
