@@ -38,7 +38,7 @@ public partial class AccountFeedsView : Page
 
         int feedItemsCount = SyndicationService.GetAccountFeedItemsCount();
 
-        labelCount.Text = string.Format("{0} feed{1} with <a href='AccountFeedItemsView.aspx'>{2} {3}</a>",
+        labelCount.Text = string.Format("{0} blog{1} with <a href='AccountFeedItemsView.aspx'>{2} {3}</a>",
             gridManage.VirtualItemCount, gridManage.VirtualItemCount == 1 ? string.Empty : "s",
             feedItemsCount, feedItemsCount == 1 ? "entry" : "entries");
 

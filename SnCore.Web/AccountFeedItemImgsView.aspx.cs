@@ -87,7 +87,7 @@ public partial class AccountFeedItemImgsView : AccountPersonPage
 
         int feedsCount = SyndicationService.GetUpdatedAccountFeedsCount();
 
-        labelCount.Text = string.Format("{0} picture{1} from <a href='AccountFeedsView.aspx'>{2} feed{3}</a>",
+        labelCount.Text = string.Format("{0} picture{1} from <a href='AccountFeedsView.aspx'>{2} blog{3}</a>",
             gridManage.VirtualItemCount, gridManage.VirtualItemCount == 1 ? string.Empty : "s",
             feedsCount, feedsCount == 1 ? string.Empty : "s");
     }
