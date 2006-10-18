@@ -96,7 +96,7 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_default_search_textbox { width: 250px; font-size: 10pt; text-align: left; border: 1px black solid; }
 .sncore_link_small { font-size: smaller; }
 .sncore_search_link { font-size: smaller; }
-.sncore_copyright { font-size: smaller; color: Silver; padding: 5px; }
+.sncore_copyright { font-family: Tahoma; font-size: 8pt; color: Silver; padding: 5px; }
 .sncore_post_quote { font-size: smaller; color: Silver; }
 .sncore_summary { margin-top: 10px; }
 .sncore_bookmarks_table { margin: 2px; }

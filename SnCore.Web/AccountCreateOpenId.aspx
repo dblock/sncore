@@ -83,6 +83,9 @@
        <SnCoreWebControls:Button ID="inputCreateOpenId" runat="server" Text="Join!" CausesValidation="true"
         CssClass="sncore_form_button" OnClick="CreateOpenId_Click" />
       </td>
+      <td class="sncore_link">
+       By joining, you automatically accept the <a href="TermsOfUse.aspx">Terms of Use</a>.
+      </td>
      </tr>
     </table>
    </asp:Panel>

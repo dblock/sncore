@@ -7,7 +7,7 @@
 </div>
 <div class="sncore_h2sub">
  Problems logging in?
- <asp:LinkButton ID="linkAdministrator" runat="server" Text="e-mail" CausesValidation="false" />
+ <asp:LinkButton ID="linkAdministrator" runat="server" Text="&#187; E-Mail" CausesValidation="false" />
 </div>
 <asp:ValidationSummary runat="server" ID="loginValidationSummary" CssClass="sncore_form_validator"
  ShowSummary="true" />

@@ -189,6 +189,9 @@
         </ItemTemplate>
        </asp:DataList>      
       </ul>
+      <li><a href="TermsOfUse.aspx">Terms of Use</a></li>
+      <li><a href="PrivacyPolicy.aspx">Privacy Policy</a></li>
+      <li><a href="CodeOfConduct.aspx">Code of Conduct</a></li>
     </ul>
    </td>
   </tr>

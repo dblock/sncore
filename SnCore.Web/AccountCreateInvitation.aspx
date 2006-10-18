@@ -86,12 +86,17 @@
      </div>
     </td>
    </tr>
+  </table>
+  <table class="sncore_table">
    <tr>
-    <td>
+    <td class="sncore_form_label">
     </td>
     <td class="sncore_form_value">
-     <SnCoreWebControls:Button ID="inputLogin" runat="server" Text="Sign-Up!" CausesValidation="true"
+     <SnCoreWebControls:Button ID="inputLogin" runat="server" Text="Join!" CausesValidation="true"
       CssClass="sncore_form_button" OnClick="create_Click" />
+    </td>
+    <td class="sncore_link">
+     By joining, you automatically accept the <a href="TermsOfUse.aspx">Terms of Use</a>.
     </td>
    </tr>
   </table>

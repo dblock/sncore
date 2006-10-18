@@ -8,17 +8,7 @@
   Join!
  </div>
  <div class="sncore_h2sub">
-  <table width="100%">
-   <tr>
-    <td align="left">
-     &#187; <a href="AccountCreateOpenId.aspx">join here</a> if you have an <a href="http://www.videntity.org"
-      target="_blank">open-id</a>
-    </td>
-    <td align="right">
-     already have an account? &#187; <a href="AccountLogin.aspx">login</a>
-    </td>
-   </tr>
-  </table>
+  Already have an account? <a href="AccountLogin.aspx">&#187; Login</a>
  </div>
  <atlas:UpdatePanel ID="panelJoin" runat="server" Mode="Always">
   <ContentTemplate>
@@ -139,6 +129,9 @@
       <td class="sncore_form_value">
        <SnCoreWebControls:Button ID="inputCreate" runat="server" Text="Join!" CausesValidation="true"
         CssClass="sncore_form_button" OnClick="create_Click" />
+      </td>
+      <td class="sncore_link">
+       By joining, you automatically accept the <a href="TermsOfUse.aspx">Terms of Use</a>.
       </td>
      </tr>
     </table>
