@@ -106,3 +106,7 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_cc_license { border: solid 2px black; font-size: smaller; background: #ffc; padding: 5px; }
 .sncore_account_license { margin: 5px 0px 5px 0px; }
 .sncore_title_paragraph { margin: 5px 0px 2px 0px; }
+.sncore_madlib_textbox { border: solid 0px white; font-weight: bold; 	border: solid 1px #BEBEBE; text-align: center; }
+.sncore_madlib_watermark { border: solid 0px white; font-weight: bold; 	border: solid 1px #BEBEBE; background-color:#F0F8FF; text-align: center; }
+.sncore_madlib_watermark_missing { border: solid 0px white; font-weight: bold; color: #FF0000; border: solid 2px #000000; background-color:#F0F8FF; text-align: center; }
+.sncore_table_tr_td_madlib { margin: 10px 10px 10px 10px; }

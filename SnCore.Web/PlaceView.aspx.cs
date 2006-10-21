@@ -250,6 +250,11 @@ public partial class PlaceView : Page
                         DiscussionService, "GetPlaceDiscussionId", args);
                     discussionPlaces.DataBind();
 
+                    madlibs.ObjectId = RequestId;
+                    madlibs.Table = "Place";
+                    madlibs.MadLibId = int.Parse(SessionManager.GetCachedConfiguration("SnCore.MadLibs.Place.Id", "0"));
+                    madlibs.ReturnUrl = Request.Url.PathAndQuery;
+
                     if (SessionManager.IsAdministrator)
                     {
                         linkFeature.Text = (LatestPlaceFeature != null)
@@ -289,6 +294,7 @@ public partial class PlaceView : Page
                     panelSubmit.Visible = true;
                     panelDescription.Visible = false;
                     discussionPlaces.Visible = false;
+                    madlibs.Visible = false;
                     linkEdit.NavigateUrl = string.Format("PlaceEdit.aspx?{0}", Request.QueryString.ToString());
                 }
             }

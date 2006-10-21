@@ -13,5 +13,9 @@
       <key column="DataObject_Id" />
       <one-to-many class="Reminder, SnCore.Data" />
     </bag>
+    <bag lazy="true" name="MadLibInstances" inverse="true">
+      <key column="DataObject_Id" />
+      <one-to-many class="MadLibInstance, SnCore.Data" />
+    </bag>
   </class>
 </hibernate-mapping>

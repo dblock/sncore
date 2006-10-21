@@ -55,6 +55,7 @@ public class SessionManager
     private WebEventService mWebEventService = null;
     private WebStatsService mWebStatsService = null;
     private WebMarketingService mWebMarketingService = null;
+    private WebMadLibService mWebMadLibService = null;
 
     public Cache Cache
     {
@@ -625,6 +626,23 @@ public class SessionManager
                 }
             }
             return mWebMarketingService;
+        }
+    }
+
+    public WebMadLibService MadLibService
+    {
+        get
+        {
+            if (mWebMadLibService == null)
+            {
+                mWebMadLibService = (WebMadLibService)Cache["SnCore.SessionManager.MadLibService"];
+                if (mWebMadLibService == null)
+                {
+                    mWebMadLibService = new WebMadLibService();
+                    Cache["SnCore.SessionManager.MadLibService"] = mWebMadLibService;
+                }
+            }
+            return mWebMadLibService;
         }
     }
 

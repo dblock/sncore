@@ -51,6 +51,7 @@
  <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="SystemRemindersManage.aspx">Reminders</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="FeedTypesManage.aspx">Feed Types</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="SystemBookmarksManage.aspx">Bookmarks</a></td></tr>
+ <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="AccountMadLibsManage.aspx">Mad Libs</a></td></tr>
 </table>
 <table class="sncore_accountmenu_table">
  <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="SystemInvitationsManage.aspx">Invitations</a></td></tr>

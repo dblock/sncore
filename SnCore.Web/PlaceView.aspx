@@ -10,6 +10,7 @@
 <%@ Register TagPrefix="SnCore" TagName="PropertyGroupsView" Src="PlacePropertyGroupsViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AttributesView" Src="PlaceAttributesViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="CounterView" Src="CounterViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="MadLibInstancesView" Src="MadLibInstancesViewControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <!-- NOEMAIL-START -->
  <div class="sncore_navigate">
@@ -200,6 +201,7 @@
         </table>
         <script type="text/javascript" src="http://api.maps.yahoo.com/ajaxymap?v=2.0&appid=SnCore"></script>
        </div>
+       <SnCore:MadLibInstancesView ID="madlibs" runat="server" /> 
        <a name="Comments" />
        <SnCore:DiscussionFullView runat="server" ID="discussionPlaces" Text="Reviews" PostNewText="&#187; Post a Review" />
        <asp:Panel ID="panelSubmit" Visible="False" runat="server">

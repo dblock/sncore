@@ -284,6 +284,12 @@
     <Compile Include="FeedType.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MadLib.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MadLibInstance.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Picture.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -418,6 +424,8 @@
     <EmbeddedResource Include="DiscussionThread.hbm.xml" />
     <EmbeddedResource Include="Feature.hbm.xml" />
     <EmbeddedResource Include="FeedType.hbm.xml" />
+    <EmbeddedResource Include="MadLib.hbm.xml" />
+    <EmbeddedResource Include="MadLibInstance.hbm.xml" />
     <EmbeddedResource Include="Picture.hbm.xml" />
     <EmbeddedResource Include="PictureType.hbm.xml" />
     <EmbeddedResource Include="Place.hbm.xml" />

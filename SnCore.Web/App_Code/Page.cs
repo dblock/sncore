@@ -139,6 +139,14 @@ public class Page : System.Web.UI.Page
         }
     }
 
+    protected WebMadLibService MadLibService
+    {
+        get
+        {
+            return SessionManager.MadLibService;
+        }
+    }
+
     protected WebEventService EventService
     {
         get

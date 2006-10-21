@@ -62,6 +62,7 @@ using System;
         private System.Boolean m_IsPasswordExpired;
         private System.Collections.IList m_CampaignAccountRecepients;
         private System.Int32 m_TimeZone;
+        private System.Collections.IList m_MadLibs;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -1456,6 +1457,37 @@ using System;
             set
             {
                 m_TimeZone = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'MadLib'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'MadLib.Account'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_MadLibs' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as slave.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'MadLib' table in the data source.
+        ///The property maps to the identity column 'Account_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Collections.IList MadLibs
+        {
+            get
+            {
+                return m_MadLibs;
+            }
+            set
+            {
+                m_MadLibs = value;
             }
         }
 

@@ -19,6 +19,7 @@ using System;
         private System.Collections.IList m_Features;
         private System.String m_Name;
         private System.Collections.IList m_Reminders;
+        private System.Collections.IList m_MadLibInstances;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -130,6 +131,37 @@ using System;
             set
             {
                 m_Reminders = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'MadLibInstance'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'MadLibInstance.DataObject'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_MadLibInstances' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as slave.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'MadLibInstance' table in the data source.
+        ///The property maps to the identity column 'DataObject_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Collections.IList MadLibInstances
+        {
+            get
+            {
+                return m_MadLibInstances;
+            }
+            set
+            {
+                m_MadLibInstances = value;
             }
         }
 

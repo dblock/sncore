@@ -146,5 +146,9 @@
       <one-to-many class="CampaignAccountRecepient, SnCore.Data" />
     </bag>
     <property name="TimeZone" column="TimeZone" type="Int32" />
+    <bag lazy="true" name="MadLibs" inverse="true">
+      <key column="Account_Id" />
+      <one-to-many class="MadLib, SnCore.Data" />
+    </bag>
   </class>
 </hibernate-mapping>

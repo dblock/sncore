@@ -99,6 +99,14 @@ public class Control : System.Web.UI.UserControl
         }
     }
 
+    protected WebMadLibService MadLibService
+    {
+        get
+        {
+            return SessionManager.MadLibService;
+        }
+    }
+
     protected WebSystemService SystemService
     {
         get
