@@ -46,10 +46,6 @@ public partial class DiscussionFullViewControl : Control
         {
             if (!IsPostBack)
             {
-                postNew.NavigateUrl = string.Format("DiscussionPost.aspx?did={0}&ReturnUrl={1}&#edit",
-                     DiscussionId,
-                     Renderer.UrlEncode(Request.Url.PathAndQuery));
-
                 if (DiscussionId > 0)
                 {
                     GetData(sender, e);
@@ -70,6 +66,9 @@ public partial class DiscussionFullViewControl : Control
         discussionView.DataSource = DiscussionService.GetDiscussionPosts(
             SessionManager.Ticket, DiscussionId, null);
         discussionView.DataBind();
+
+        postNew.NavigateUrl = string.Format("DiscussionPost.aspx?did={0}&ReturnUrl={1}&#edit", 
+            DiscussionId, Renderer.UrlEncode(ReturnUrl));
     }
 
     public void discussionView_ItemCommand(object source, DataGridCommandEventArgs e)
@@ -138,7 +137,7 @@ public partial class DiscussionFullViewControl : Control
                 HtmlAnchor linkEdit = (HtmlAnchor) e.Item.FindControl("linkEdit");
                 linkEdit.Visible = canedit;
                 linkEdit.HRef = string.Format("DiscussionPost.aspx?did={0}&id={1}&ReturnUrl={2}&#edit",
-                    DiscussionId, id, Renderer.UrlEncode(Request.Url.PathAndQuery));
+                    DiscussionId, id, Renderer.UrlEncode(ReturnUrl));
 
                 LinkButton linkDelete = (LinkButton) e.Item.FindControl("linkDelete");
                 linkDelete.CommandArgument = id.ToString();
@@ -146,6 +145,18 @@ public partial class DiscussionFullViewControl : Control
                 linkDelete.Visible = candelete;
 
                 break;
+        }
+    }
+
+    public string ReturnUrl
+    {
+        get
+        {
+            return ViewStateUtility.GetViewStateValue<string>(ViewState, "ReturnUrl", Request.Url.PathAndQuery);
+        }
+        set
+        {
+            ViewState["ReturnUrl"] = value;
         }
     }
 

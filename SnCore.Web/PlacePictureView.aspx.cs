@@ -140,8 +140,9 @@ public partial class PlacePictureView : Page
         linkPrev.CommandArgument = p.PrevId.ToString();
         linkNext.Enabled = p.NextId > 0;
         linkNext.CommandArgument = p.NextId.ToString();
-        labelIndex.Text = string.Format("{0} / {1}", p.Index + 1, p.Count); 
+        labelIndex.Text = string.Format("{0} / {1}", p.Index + 1, p.Count);
 
+        discussionComments.ReturnUrl = string.Format("PlacePictureView.aspx?id={0}", PictureId);
         discussionComments.DiscussionId = DiscussionService.GetPlacePictureDiscussionId(PictureId);
         discussionComments.DataBind();
     }
