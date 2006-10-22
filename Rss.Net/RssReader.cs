@@ -181,7 +181,7 @@ namespace Rss
                                         break;
                                     case "source":
                                         source = new RssSource();
-                                        item.Source = source;
+                                        if (item != null) item.Source = source;
                                         for (int i = 0; i < reader.AttributeCount; i++)
                                         {
                                             reader.MoveToAttribute(i);
@@ -202,7 +202,7 @@ namespace Rss
                                         break;
                                     case "enclosure":
                                         enclosure = new RssEnclosure();
-                                        item.Enclosure = enclosure;
+                                        if (item != null) item.Enclosure = enclosure;
                                         for (int i = 0; i < reader.AttributeCount; i++)
                                         {
                                             reader.MoveToAttribute(i);
@@ -236,7 +236,7 @@ namespace Rss
                                         break;
                                     case "guid":
                                         guid = new RssGuid();
-                                        item.Guid = guid;
+                                        if (item != null) item.Guid = guid;
                                         for (int i = 0; i < reader.AttributeCount; i++)
                                         {
                                             reader.MoveToAttribute(i);
@@ -259,7 +259,7 @@ namespace Rss
                                         category = new RssCategory();
                                         if ((string)xmlNodeStack.Peek() == "channel")
                                             channel.Categories.Add(category);
-                                        else
+                                        else if (item != null)
                                             item.Categories.Add(category);
                                         for (int i = 0; i < reader.AttributeCount; i++)
                                         {

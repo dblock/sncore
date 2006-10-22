@@ -186,8 +186,16 @@ namespace Atom.Core
 				switch(iter.Current.Name.ToLower())
 				{
 					case "type":
-						contentElement.Type = Utils.Utils.ParseMediaType(
-							iter.Current.Value);
+         switch (iter.Current.Value)
+         {
+             case "html":
+                 contentElement.Type = MediaType.TextHtml;
+                 break;
+             default:
+                 contentElement.Type = Utils.Utils.ParseMediaType(
+                  iter.Current.Value);
+                 break;
+         }
 						break;
 
 					case "mode":

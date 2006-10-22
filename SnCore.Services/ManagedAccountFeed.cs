@@ -431,10 +431,10 @@ namespace SnCore.Services
             if (feed.Entries.Count == 0)
                 return false;
 
-            if (string.IsNullOrEmpty(mAccountFeed.Name))
+            if (string.IsNullOrEmpty(mAccountFeed.Name) && feed.Title != null)
                 mAccountFeed.Name = feed.Title.Content;
 
-            if (string.IsNullOrEmpty(mAccountFeed.Description))
+            if (string.IsNullOrEmpty(mAccountFeed.Description) && feed.SubTitle != null)
                 mAccountFeed.Description = feed.SubTitle.Content;
 
             if (string.IsNullOrEmpty(mAccountFeed.Description) && (feed.Tagline != null))
@@ -503,7 +503,15 @@ namespace SnCore.Services
                     if (!string.IsNullOrEmpty(item.Description))
                         item.Description += "\n";
 
-                    item.Description += content.Content;
+                    switch (content.Type)
+                    {
+                        case MediaType.TextHtml:
+                            item.Description += HttpUtility.HtmlDecode(content.Content);
+                            break;
+                        default:
+                            item.Description += content.Content;
+                            break;
+                    }
                 }
 
                 if (string.IsNullOrEmpty(item.Description))
