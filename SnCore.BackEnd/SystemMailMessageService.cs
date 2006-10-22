@@ -119,6 +119,7 @@ namespace SnCore.BackEndServices
                     }
                 }
 
+                session.Flush();
                 Thread.Sleep(1000 * InterruptInterval);
             }
         }

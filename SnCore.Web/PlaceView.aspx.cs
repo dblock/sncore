@@ -254,6 +254,8 @@ public partial class PlaceView : Page
                     madlibs.Table = "Place";
                     madlibs.MadLibId = int.Parse(SessionManager.GetCachedConfiguration("SnCore.MadLibs.Place.Id", "0"));
                     madlibs.ReturnUrl = Request.Url.PathAndQuery;
+                    madlibs.ObjectAccountId = place.AccountId;
+                    madlibs.QueryString = string.Format("&Place.Name={0}", Renderer.UrlEncode(place.Name));
 
                     if (SessionManager.IsAdministrator)
                     {

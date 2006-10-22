@@ -100,9 +100,20 @@ public partial class MadLibInstanceEditControl : Control
 
         TextBox tb = new TextBox();
         tb.ID = string.Format("inputTag_{0}", pos);
-        Controls.Add(tb);
         tb.CssClass = "sncore_madlib_textbox";
-        tb.Width = value.Length * 10;
+
+        string qs = Request[value];
+        if (!string.IsNullOrEmpty(qs))
+        {
+            tb.Text = qs;
+            tb.Width = qs.Length * 10;
+        }
+        else
+        {
+            tb.Width = value.Length * 10;
+        }
+
+        Controls.Add(tb);
 
         TextBoxWatermarkExtender tbex = new TextBoxWatermarkExtender();
         tbex.ID = string.Format("inputTagExtender_{0}", pos);

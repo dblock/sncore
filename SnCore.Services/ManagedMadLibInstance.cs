@@ -9,6 +9,7 @@ using System.Xml;
 using System.Resources;
 using System.Net.Mail;
 using System.IO;
+using SnCore.Tools.Web;
 
 namespace SnCore.Services
 {
@@ -97,6 +98,34 @@ namespace SnCore.Services
             set
             {
                 mAccountId = value;
+            }
+        }
+
+        private int mObjectAccountId = 0;
+
+        public int ObjectAccountId
+        {
+            get
+            {
+                return mObjectAccountId;
+            }
+            set
+            {
+                mObjectAccountId = value;
+            }
+        }
+
+        private string mObjectUri = string.Empty;
+
+        public string ObjectUri
+        {
+            get
+            {
+                return mObjectUri;
+            }
+            set
+            {
+                mObjectUri = value;
             }
         }
 
@@ -243,8 +272,42 @@ namespace SnCore.Services
         {
             mMadLibInstance = c.GetMadLibInstance(Session);
             mMadLibInstance.Modified = DateTime.UtcNow;
-            if (mMadLibInstance.Id == 0) mMadLibInstance.Created = mMadLibInstance.Modified;
+            
+            if (mMadLibInstance.Id == 0)
+            {
+                mMadLibInstance.Created = mMadLibInstance.Modified;
+            }
+
             Session.Save(mMadLibInstance);
+            Session.Flush();
+
+            if (c.Id == 0 && c.ObjectAccountId > 0)
+            {
+                try
+                {
+                    ManagedAccount ra = new ManagedAccount(Session, c.AccountId);
+                    ManagedAccount ma = new ManagedAccount(Session, c.ObjectAccountId);
+
+                    if (ra.Id != ma.Id)
+                    {
+                        string replyTo = ma.ActiveEmailAddress;
+                        if (!string.IsNullOrEmpty(replyTo))
+                        {
+                            ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
+                                Session,
+                                new MailAddress(replyTo, ma.Name).ToString(),
+                                string.Format("EmailAccountMadLibInstance.aspx?aid={0}&ObjectName={1}&oid={2}&mid={3}&id={4}&ReturnUrl={5}",
+                                    c.ObjectAccountId, mMadLibInstance.DataObject.Name, mMadLibInstance.ObjectId, 
+                                    mMadLibInstance.MadLib.Id, mMadLibInstance.Id, Renderer.UrlEncode(c.ObjectUri)));
+                        }
+                    }
+                }
+                catch (ObjectNotFoundException)
+                {
+                    // replying to an account that does not exist
+                }
+            }
+            
         }
 
         public void Delete()

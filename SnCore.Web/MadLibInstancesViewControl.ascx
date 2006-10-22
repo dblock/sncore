@@ -33,14 +33,14 @@
        </div>
        <div class="sncore_description">
         <asp:HyperLink ID="linkEdit" runat="server" Text="&#187; edit"
-         NavigateUrl='<%# GetEditUrl((int) Eval("Id")) %>' 
-         Visible='<%# ((int) Eval("AccountId")) == SessionManager.Account.Id || SessionManager.IsAdministrator %>' />
+         NavigateUrl='<%# GetEditUrl((int) Eval("Id"), (int) Eval("MadLibId")) %>' 
+         Visible='<%# SessionManager.IsLoggedIn && ((int) Eval("AccountId")) == SessionManager.Account.Id || SessionManager.IsAdministrator %>' />
         <asp:LinkButton CommandName="Delete" id="linkDelete" runat="server" Text="&#187; delete" 
          OnClientClick="return confirm('Are you sure you want to do this?')" CommandArgument='<%# Eval("Id") %>'
-         Visible='<%# ((int) Eval("AccountId")) == SessionManager.Account.Id || SessionManager.IsAdministrator %>' />
+         Visible='<%# SessionManager.IsLoggedIn && ((int) Eval("AccountId")) == SessionManager.Account.Id || SessionManager.IsAdministrator %>' />
        </div>
        <div class="sncore_message_body">
-        <%# Renderer.Render(Eval("Text"))%>
+        <%# RenderMadLib(Renderer.Render((string)Eval("Text")))%>
        </div>
       </div>
      </td>

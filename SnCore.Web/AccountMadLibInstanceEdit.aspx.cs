@@ -44,6 +44,14 @@ public partial class AccountMadLibInstanceEdit : AuthenticatedPage
         }
     }
 
+    public int ObjectAccountId
+    {
+        get
+        {
+            return GetId("aid");
+        }
+    }
+
     public string ObjectName
     {
         get
@@ -117,6 +125,8 @@ public partial class AccountMadLibInstanceEdit : AuthenticatedPage
                 madlib.ObjectId = ObjectId;
                 madlib.ObjectName = ObjectName;
                 madlib.Text = text;
+                madlib.ObjectUri = ReturnUrl;
+                madlib.ObjectAccountId = ObjectAccountId;
                 MadLibService.CreateOrUpdateMadLibInstance(SessionManager.Ticket, madlib);
                 Redirect(linkCancel.NavigateUrl);
             }            
