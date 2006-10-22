@@ -42,8 +42,10 @@ public partial class AccountDiscussionThreadsRss : Page
     {
         get
         {
+            TransitAccount acct = Account;
+            if (acct == null) return string.Empty;
             return Renderer.Render(string.Format("{0} {1}' Discussion Posts",
-                SessionManager.GetCachedConfiguration("SnCore.Title", "SnCore"), Account.Name));
+                SessionManager.GetCachedConfiguration("SnCore.Title", "SnCore"), acct.Name));
         }
     }
 
