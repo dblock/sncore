@@ -143,6 +143,11 @@ namespace SnCore.BackEndServices
                         ManagedAccountInvitation mi = new ManagedAccountInvitation(session, invitation);
                         mi.Send();
                     }
+                    catch (Exception ex)
+                    {
+                        EventLog.WriteEntry(string.Format("Error sending an invitation reminder to {0} <{1}>: {2}",
+                            invitation.Account.Id, invitation.Email, ex.Message), EventLogEntryType.Warning);
+                    }
                     finally
                     {
                         invitation.Modified = DateTime.UtcNow;
@@ -208,42 +213,49 @@ namespace SnCore.BackEndServices
                             .UniqueResult();
 
                         Account acct = (Account)session.Load(typeof(Account), accountid);
-
-                        if (reminderevent == null)
-                        {
-                            reminderevent = new ReminderEvent();
-                            reminderevent.Account = acct;
-                            reminderevent.Reminder = reminder;
-                            reminderevent.Created = reminderevent.Modified = DateTime.UtcNow;
-                        }
-                        else
-                        {
-                            if (reminderevent.Modified >= timeboundary)
-                            {
-                                // this field was already noticed and event was fired in a prior run
-                                continue;
-                            }
-
-                            if (!reminder.Recurrent)
-                            {
-                                // this reminder has already been sent but is not recurrent
-                                continue;
-                            }
-
-                            reminderevent.Modified = DateTime.UtcNow;
-                        }
-
                         ManagedAccount ma = new ManagedAccount(session, acct);
 
-                        if (!string.IsNullOrEmpty(ma.ActiveEmailAddress))
+                        try
                         {
-                            ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
-                                session,
-                                new MailAddress(ma.ActiveEmailAddress, ma.Name).ToString(),
-                                string.Format("{0}?id={1}", reminder.Url, ma.Id));
-                        }
+                            if (reminderevent == null)
+                            {
+                                reminderevent = new ReminderEvent();
+                                reminderevent.Account = acct;
+                                reminderevent.Reminder = reminder;
+                                reminderevent.Created = reminderevent.Modified = DateTime.UtcNow;
+                            }
+                            else
+                            {
+                                if (reminderevent.Modified >= timeboundary)
+                                {
+                                    // this field was already noticed and event was fired in a prior run
+                                    continue;
+                                }
 
-                        session.Save(reminderevent);
+                                if (!reminder.Recurrent)
+                                {
+                                    // this reminder has already been sent but is not recurrent
+                                    continue;
+                                }
+
+                                reminderevent.Modified = DateTime.UtcNow;
+                            }
+
+                            if (!string.IsNullOrEmpty(ma.ActiveEmailAddress))
+                            {
+                                ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
+                                    session,
+                                    new MailAddress(ma.ActiveEmailAddress, ma.Name).ToString(),
+                                    string.Format("{0}?id={1}", reminder.Url, ma.Id));
+                            }
+
+                            session.Save(reminderevent);
+                        }
+                        catch (Exception ex)
+                        {
+                            EventLog.WriteEntry(string.Format("Error sending a reminder at {0} to {1} <{2}>: {3}",
+                                reminder.Url, accountid, ma.ActiveEmailAddress, ex.Message), EventLogEntryType.Warning);
+                        }
                     }
                 }
                 catch (Exception ex)
