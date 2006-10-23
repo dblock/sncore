@@ -131,40 +131,40 @@
         </td>
        </tr>
       </table>
-      <div class="sncore_h2">
-       When
-      </div>
-      <table class="sncore_inner_table" width="95%">
-       <tr>
-        <td class="sncore_table_tr_td">
-         <asp:Label runat="server" ID="labelSchedule" />
-        </td>
-       </tr>
-      </table>
-      <SnCore:AccountTimeZone CssClass="sncore_inner_table" Width="95%" runat="server" ID="timezone" />
-      <div class="sncore_h2">
-       Where
-      </div>
-      <table class="sncore_inner_table" width="95%">
-       <tr>
-        <td class="sncore_table_tr_td">
-         <a id="placeLink" runat="server">
-          <img border="0" runat="server" id="placeImage" />
-         </a>
-        </td>
-        <td class="sncore_table_tr_td">
-         <a class="sncore_place_name" id="placeLink2" runat="server">
-          <asp:Label ID="placeName" runat="server" />
-         </a>
-         <div class="sncore_description">
-          <asp:Label ID="placeCity" runat="server" />
-          <asp:Label ID="placeState" runat="server" />
-          <asp:Label ID="placeCountry" runat="server" />
-         </div>
-        </td>
-       </tr>
-      </table>
      </asp:Panel>
+     <div class="sncore_h2">
+      When
+     </div>
+     <table class="sncore_inner_table" width="95%">
+      <tr>
+       <td class="sncore_table_tr_td">
+        <asp:Label runat="server" ID="labelSchedule" />
+       </td>
+      </tr>
+     </table>
+     <SnCore:AccountTimeZone CssClass="sncore_inner_table" Width="95%" runat="server" ID="timezone" />
+     <div class="sncore_h2">
+      Where
+     </div>
+     <table class="sncore_inner_table" width="95%">
+      <tr>
+       <td class="sncore_table_tr_td">
+        <a id="placeLink" runat="server">
+         <img border="0" runat="server" id="placeImage" />
+        </a>
+       </td>
+       <td class="sncore_table_tr_td">
+        <a class="sncore_place_name" id="placeLink2" runat="server">
+         <asp:Label ID="placeName" runat="server" />
+        </a>
+        <div class="sncore_description">
+         <asp:Label ID="placeCity" runat="server" />
+         <asp:Label ID="placeState" runat="server" />
+         <asp:Label ID="placeCountry" runat="server" />
+        </div>
+       </td>
+      </tr>
+     </table>
      <!-- NOEMAIL-START -->
      <a name="Comments" />
      <SnCore:DiscussionFullView runat="server" ID="discussionAccountEvents" Text="Reviews"
