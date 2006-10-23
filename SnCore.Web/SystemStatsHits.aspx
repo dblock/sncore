@@ -10,7 +10,7 @@
     <sncore:accountmenu runat="server" id="menu" />
    </td>
    <td valign="top">
-    <atlas:UpdatePanel runat="server" ID="panelStats" Mode="Always">
+    <asp:UpdatePanel runat="server" ID="panelStats" UpdateMode="Always">
      <ContentTemplate>
       <div class="sncore_h2">
        <asp:Label ID="labelChartType" runat="server" Text="Daily" />
@@ -33,7 +33,7 @@
        </tr>
       </table>
      </ContentTemplate>
-    </atlas:UpdatePanel>
+    </asp:UpdatePanel>
     <table class="sncore_account_table">
      <tr>
       <td class="sncore_description">

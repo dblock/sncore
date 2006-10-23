@@ -16,7 +16,7 @@
      <div class="sncore_h2">
       Invite Friends
      </div>
-     <atlas:UpdatePanel runat="server" ID="panelGridManage" Mode="Always" RenderMode="Inline">
+     <asp:UpdatePanel runat="server" ID="panelGridManage" UpdateMode="Always" RenderMode="Inline">
       <ContentTemplate>
        <SnCore:Notice ID="noticeManage" runat="server" />
        <asp:ValidationSummary runat="server" ID="manageValidationSummary" CssClass="sncore_form_validator"
@@ -85,7 +85,7 @@
         </Columns>
        </SnCoreWebControls:PagedGrid>
       </ContentTemplate>
-     </atlas:UpdatePanel>
+     </asp:UpdatePanel>
      <SnCore:AccountReminder ID="accountReminder" runat="server" Style="width: 582px;" />
     </asp:Panel>
    </td>

@@ -7,7 +7,7 @@
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
- <atlas:UpdatePanel Mode="Conditional" ID="panelLinks" RenderMode="Inline" runat="server">
+ <asp:UpdatePanel UpdateMode="Conditional" ID="panelLinks" RenderMode="Inline" runat="server">
   <ContentTemplate>
    <table cellpadding="0" cellspacing="0" width="784">
     <tr>
@@ -43,8 +43,8 @@
     </tr>
    </table>
   </ContentTemplate>
- </atlas:UpdatePanel>
- <atlas:UpdatePanel ID="panelSearch" runat="server" Mode="Conditional">
+ </asp:UpdatePanel>
+ <asp:UpdatePanel ID="panelSearch" runat="server" UpdateMode="Conditional">
   <ContentTemplate>
    <SnCoreWebControls:PersistentPanel Visible="False" ID="panelSearchInternal" runat="server">
     <table class="sncore_table">
@@ -93,7 +93,7 @@
        country and state:
       </td>
       <td class="sncore_form_value">
-       <atlas:UpdatePanel runat="server" ID="panelCountryState" Mode="Conditional">
+       <asp:UpdatePanel runat="server" ID="panelCountryState" UpdateMode="Conditional">
         <ContentTemplate>
          <asp:DropDownList CssClass="sncore_form_dropdown_small" OnSelectedIndexChanged="inputCountry_SelectedIndexChanged"
           ID="inputCountry" DataTextField="Name" AutoPostBack="true" DataValueField="Name"
@@ -101,7 +101,7 @@
          <asp:DropDownList CssClass="sncore_form_dropdown_small" ID="inputState" AutoPostBack="true"
           DataTextField="Name" DataValueField="Name" runat="server" /></td>
         </ContentTemplate>
-       </atlas:UpdatePanel>
+       </asp:UpdatePanel>
      </tr>
      <tr>
       <td class="sncore_form_label">
@@ -130,8 +130,8 @@
     </table>
    </SnCoreWebControls:PersistentPanel>
   </ContentTemplate>
- </atlas:UpdatePanel>
- <atlas:UpdatePanel runat="server" ID="panelGrid" RenderMode="Inline" Mode="Conditional">
+ </asp:UpdatePanel>
+ <asp:UpdatePanel runat="server" ID="panelGrid" RenderMode="Inline" UpdateMode="Conditional">
   <ContentTemplate> 
    <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage" OnDataBinding="gridManage_DataBinding"
     AllowCustomPaging="true" RepeatColumns="4" RepeatRows="3" RepeatDirection="Horizontal"
@@ -187,5 +187,5 @@
     </ItemTemplate>
    </SnCoreWebControls:PagedList>
   </ContentTemplate>
- </atlas:UpdatePanel>
+ </asp:UpdatePanel>
 </asp:Content>

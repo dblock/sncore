@@ -24,7 +24,7 @@
     <div class="sncore_h2sub">
      <asp:Label ID="labelFeedDescription" runat="server" />
     </div>
-    <atlas:UpdatePanel runat="server" ID="panelAdminUpdate" Mode="Conditional">
+    <asp:UpdatePanel runat="server" ID="panelAdminUpdate" UpdateMode="Conditional">
      <ContentTemplate>
       <asp:Panel ID="panelAdmin" runat="server" HorizontalAlign="Right">
        <div>
@@ -41,7 +41,7 @@
        </div>
       </asp:Panel>
      </ContentTemplate>
-    </atlas:UpdatePanel>
+    </asp:UpdatePanel>
    </td>
   </tr>
  </table>
@@ -58,7 +58,7 @@
    </td>
   </tr>
  </table>
- <atlas:UpdatePanel runat="server" Mode="Always" ID="panelGrid">
+ <asp:UpdatePanel runat="server" UpdateMode="Always" ID="panelGrid">
   <ContentTemplate>
    <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage" RepeatColumns="2"
     RepeatRows="3" CssClass="sncore_table" BorderWidth="0" ShowHeader="false" AllowCustomPaging="true">
@@ -85,5 +85,5 @@
     </ItemTemplate>
    </SnCoreWebControls:PagedList>
   </ContentTemplate>
- </atlas:UpdatePanel>
+ </asp:UpdatePanel>
 </asp:Content>

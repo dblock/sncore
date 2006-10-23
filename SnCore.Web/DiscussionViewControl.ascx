@@ -21,7 +21,7 @@
  <asp:HyperLink ID="postNew" Text="&#187; Post New" runat="server" />
  <asp:HyperLink ID="linkSearch" Text="&#187; Search" runat="server" />
 </div>
-<atlas:UpdatePanel runat="server" ID="panelThreads" Mode="Always" RenderMode="Inline">
+<asp:UpdatePanel runat="server" ID="panelThreads" UpdateMode="Always" RenderMode="Inline">
  <ContentTemplate>
   <SnCoreWebControls:PagedList BorderWidth="0px" CellPadding="4" runat="server" ID="gridManage"
    AllowCustomPaging="true" RepeatColumns="1" RepeatRows="7" RepeatDirection="Horizontal"
@@ -54,6 +54,6 @@
    </ItemTemplate>    
   </SnCoreWebControls:PagedList>
  </ContentTemplate>
-</atlas:UpdatePanel>
+</asp:UpdatePanel>
 
 

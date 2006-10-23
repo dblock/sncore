@@ -6,7 +6,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountTimeZone" Src="AccountTimeZoneControl.ascx" %>
 
  <SnCore:AccountTimeZone runat="server" ID="timezone" CssClass="sncore_account_table" />
- <atlas:UpdatePanel runat="server" ID="panelSelectSchedule" Mode="Conditional" RenderMode="Inline">
+ <asp:UpdatePanel runat="server" ID="panelSelectSchedule" UpdateMode="Conditional" RenderMode="Inline">
   <ContentTemplate>
    <table class="sncore_account_table">
     <tr>
@@ -261,8 +261,8 @@
     </table>   
    </SnCoreWebControls:PersistentPanel>
   </ContentTemplate>
- </atlas:UpdatePanel>     
-<atlas:UpdatePanel runat="server" ID="panelConfirmedUpdate" Mode="Conditional" RenderMode="Inline">
+ </asp:UpdatePanel>     
+<asp:UpdatePanel runat="server" ID="panelConfirmedUpdate" UpdateMode="Conditional" RenderMode="Inline">
  <ContentTemplate>
   <SnCoreWebControls:PersistentPanel ID="panelConfirmed" runat="server" Visible="false">
    <table class="sncore_account_table">
@@ -274,4 +274,4 @@
    </table>
   </SnCoreWebControls:PersistentPanel>
  </ContentTemplate>
-</atlas:UpdatePanel>
+</asp:UpdatePanel>

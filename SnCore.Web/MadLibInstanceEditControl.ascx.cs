@@ -11,7 +11,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using Wilco.Web.UI;
 using SnCore.Services;
-using AtlasControlToolkit;
+using AjaxControlToolkit;
 using System.Text;
 using SnCore.Tools.Web;
 
@@ -117,11 +117,9 @@ public partial class MadLibInstanceEditControl : Control
 
         TextBoxWatermarkExtender tbex = new TextBoxWatermarkExtender();
         tbex.ID = string.Format("inputTagExtender_{0}", pos);
-        TextBoxWatermarkProperties p = new TextBoxWatermarkProperties();
-        p.WatermarkText = value;
-        p.WatermarkCssClass = "sncore_madlib_watermark";
-        p.TargetControlID = tb.ID;
-        tbex.TargetProperties.Add(p);
+        tbex.WatermarkText = value;
+        tbex.WatermarkCssClass = "sncore_madlib_watermark";
+        tbex.TargetControlID = tb.ID;
 
         Controls.Add(tbex);
     }
@@ -178,7 +176,7 @@ public partial class MadLibInstanceEditControl : Control
         {
             string idx = string.Format("inputTagExtender_{0}", pos);
             TextBoxWatermarkExtender tbex = (TextBoxWatermarkExtender)FindControl(idx);
-            tbex.TargetProperties[0].WatermarkCssClass = "sncore_madlib_watermark_missing";
+            tbex.WatermarkCssClass = "sncore_madlib_watermark_missing";
             mValid = false;
         }
 

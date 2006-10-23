@@ -32,7 +32,7 @@
      <asp:HyperLink ID="linkSkip" Text="&#187; Skip Wizard" NavigateUrl="AccountFeedEdit.aspx"
       runat="server" />
     </div>
-    <atlas:UpdatePanel runat="server" ID="panelMain">
+    <asp:UpdatePanel runat="server" ID="panelMain">
      <ContentTemplate>
       <table class="sncore_account_table">
        <tr>
@@ -97,7 +97,7 @@
        </Columns>
       </SnCoreWebControls:PagedGrid>
      </ContentTemplate>
-    </atlas:UpdatePanel>
+    </asp:UpdatePanel>
     <SnCore:AccountReminder ID="accountReminder" runat="server" Style="width: 582px;" />
    </td>
   </tr>

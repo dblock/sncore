@@ -28,7 +28,7 @@
     <div class="sncore_cancel">
      <asp:HyperLink runat="server" ID="linkBack" Text="&#187; Cancel" />
     </div>
-    <atlas:UpdatePanel ID="panelGrid" runat="server" Mode="Always">
+    <asp:UpdatePanel ID="panelGrid" runat="server" UpdateMode="Always">
      <ContentTemplate>
       <asp:DataGrid CellPadding="4" runat="server" ID="gridManage" AutoGenerateColumns="false" CssClass="sncore_account_table" 
        AllowPaging="false" AllowCustomPaging="false">
@@ -73,7 +73,7 @@
        </tr>
       </table>
      </ContentTemplate>
-    </atlas:UpdatePanel>
+    </asp:UpdatePanel>
     <SnCore:AccountReminder ID="accountReminder" runat="server" Style="width: 582px;" />
    </td>
   </tr>

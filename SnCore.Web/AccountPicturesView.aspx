@@ -12,7 +12,7 @@
  <div class="sncore_h2">
   Account Pictures
  </div>
- <atlas:UpdatePanel runat="server" ID="panelGrid" Mode="Always" RenderMode="Inline">
+ <asp:UpdatePanel runat="server" ID="panelGrid" UpdateMode="Always" RenderMode="Inline">
   <ContentTemplate>
    <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage" PageSize="10"
     AllowCustomPaging="true" AllowPaging="true" AutoGenerateColumns="false" CssClass="sncore_table"
@@ -41,5 +41,5 @@
     </ItemTemplate>
    </SnCoreWebControls:PagedList>
   </ContentTemplate>
- </atlas:UpdatePanel>   
+ </asp:UpdatePanel>   
 </asp:Content>

@@ -22,7 +22,7 @@
     </div>
     <asp:HyperLink ID="linkNew" Text="&#187; Create New" CssClass="sncore_createnew" NavigateUrl="BugEdit.aspx"
      runat="server" />
-    <atlas:UpdatePanel runat="server" ID="panelBugs" Mode="Always">
+    <asp:UpdatePanel runat="server" ID="panelBugs" UpdateMode="Always">
      <ContentTemplate>
       <table class="sncore_account_table">
        <tr>
@@ -87,7 +87,7 @@
        </Columns>
       </SnCoreWebControls:PagedGrid>
      </ContentTemplate>
-    </atlas:UpdatePanel>
+    </asp:UpdatePanel>
    </td>
   </tr>
  </table>

@@ -14,7 +14,7 @@
     <div class="sncore_h2">
      Referer Queries
     </div>
-    <atlas:UpdatePanel runat="server" Mode="Always" ID="panelReferers">
+    <asp:UpdatePanel runat="server" UpdateMode="Always" ID="panelReferers">
      <ContentTemplate>
       <div class="sncore_h2sub">
        <asp:HyperLink ID="linkRefererCounters" runat="server" Text="&#187; Hit Stats" NavigateUrl="SystemStatsHits.aspx" />
@@ -47,7 +47,7 @@
        </Columns>
       </SnCoreWebControls:PagedGrid>
      </ContentTemplate>
-    </atlas:UpdatePanel>
+    </asp:UpdatePanel>
    </td>
   </tr>
  </table>

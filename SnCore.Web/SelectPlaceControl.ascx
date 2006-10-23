@@ -2,7 +2,7 @@
  Inherits="SelectPlaceControl" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 
-<atlas:UpdatePanel ID="panelSelectPlace" runat="server" Mode="Conditional" RenderMode="Inline">
+<asp:UpdatePanel ID="panelSelectPlace" runat="server" UpdateMode="Conditional" RenderMode="Inline">
  <ContentTemplate>
   <table class="sncore_account_table">
    <tr>
@@ -116,7 +116,7 @@
      <td class="sncore_form_label">
       country and state:</td>
      <td class="sncore_form_value">
-      <atlas:UpdatePanel runat="server" ID="panelSelectCountryState" Mode="Conditional">
+      <asp:UpdatePanel runat="server" ID="panelSelectCountryState" UpdateMode="Conditional">
        <ContentTemplate>
         <asp:DropDownList AutoPostBack="true" OnSelectedIndexChanged="inputCountry_SelectedIndexChanged"
          CssClass="sncore_form_dropdown_small" ID="inputCountry" DataTextField="Name" DataValueField="Name"
@@ -124,7 +124,7 @@
         <asp:DropDownList CssClass="sncore_form_dropdown_small" ID="inputState" DataTextField="Name"
          DataValueField="Name" runat="server" />
        </ContentTemplate>
-      </atlas:UpdatePanel>
+      </asp:UpdatePanel>
      </td>
     </tr>
     <tr>
@@ -201,4 +201,4 @@
    </table>
   </SnCoreWebControls:PersistentPanel>
  </ContentTemplate>
-</atlas:UpdatePanel>
+</asp:UpdatePanel>

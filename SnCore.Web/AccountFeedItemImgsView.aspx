@@ -7,7 +7,7 @@
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
- <atlas:UpdatePanel ID="panelLinks" Mode="Conditional" RenderMode="Inline" runat="server">
+ <asp:UpdatePanel ID="panelLinks" UpdateMode="Conditional" RenderMode="Inline" runat="server">
   <ContentTemplate>
    <table cellpadding="0" cellspacing="0" width="784">
     <tr>
@@ -43,8 +43,8 @@
     </tr>
    </table>
   </ContentTemplate>
- </atlas:UpdatePanel>
- <atlas:UpdatePanel runat="server" ID="panelGrid" Mode="Conditional" RenderMode="Inline">
+ </asp:UpdatePanel>
+ <asp:UpdatePanel runat="server" ID="panelGrid" UpdateMode="Conditional" RenderMode="Inline">
   <ContentTemplate>
    <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage"
     AllowCustomPaging="true" RepeatColumns="4" RepeatRows="4" RepeatDirection="Horizontal"
@@ -69,16 +69,16 @@
       </a>    
      </div>
      <div>
-      <atlas:UpdatePanel ID='panelShowHide' Mode="Conditional" runat="Server">
+      <asp:UpdatePanel ID='panelShowHide' UpdateMode="Conditional" runat="Server">
        <ContentTemplate>
         <asp:LinkButton Text='<%# (bool) Eval("Visible") ? "&#187; Hide" : "&#187; Show" %>' ID="linkToggleVisible" runat="server"
          Visible='<%# base.IsEditing %>' CommandName="Toggle" CommandArgument='<%# Eval("Id") %>' />
        </ContentTemplate>
-      </atlas:UpdatePanel>
+      </asp:UpdatePanel>
      </div>
      <br />
     </ItemTemplate>
    </SnCoreWebControls:PagedList>
   </ContentTemplate>
- </atlas:UpdatePanel>   
+ </asp:UpdatePanel>   
 </asp:Content>

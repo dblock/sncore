@@ -53,7 +53,7 @@
     <table class="sncore_inner_table" width="95%">
      <tr>
       <td class="sncore_table_tr_td" align="center">
-       <atlas:UpdatePanel ID="panelPictures" runat="server">
+       <asp:UpdatePanel ID="panelPictures" runat="server">
         <ContentTemplate>
          <SnCoreWebControls:PagedList runat="server" RepeatDirection="Horizontal"
           ID="listPictures" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Top"
@@ -72,7 +72,7 @@
           </ItemTemplate>
          </SnCoreWebControls:PagedList>
         </ContentTemplate>
-       </atlas:UpdatePanel>
+       </asp:UpdatePanel>
       </td>     
      </tr>
     </table>

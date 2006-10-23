@@ -27,7 +27,7 @@
       </div>
      </Template>
     </SnCore:Title>
-    <atlas:UpdatePanel runat="server" ID="panelLicenseUpdate" Mode="Always">
+    <asp:UpdatePanel runat="server" ID="panelLicenseUpdate" UpdateMode="Always">
      <ContentTemplate>
       <table cellspacing="0" cellpadding="0" class="sncore_account_table" style="border: none;">
        <tr>
@@ -49,7 +49,7 @@
        <asp:Label ID="licenseContent" runat="server" />
       </div>
      </ContentTemplate>
-    </atlas:UpdatePanel>
+    </asp:UpdatePanel>
    </td>
   </tr>
  </table>

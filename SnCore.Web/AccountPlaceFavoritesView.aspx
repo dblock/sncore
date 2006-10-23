@@ -5,7 +5,7 @@
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
- <atlas:UpdatePanel Mode="Conditional" ID="panelLinks" RenderMode="Inline" runat="server">
+ <asp:UpdatePanel UpdateMode="Conditional" ID="panelLinks" RenderMode="Inline" runat="server">
   <ContentTemplate>
    <table cellpadding="0" cellspacing="0" width="784">
     <tr>
@@ -51,5 +51,5 @@
     </ItemTemplate>
    </SnCoreWebControls:PagedList> 
   </ContentTemplate>
- </atlas:UpdatePanel>
+ </asp:UpdatePanel>
 </asp:Content>

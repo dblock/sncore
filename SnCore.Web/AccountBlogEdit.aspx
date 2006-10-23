@@ -60,7 +60,7 @@
      </div>
      <asp:HyperLink ID="linkNew" Text="&#187; Post New" CssClass="sncore_cancel" NavigateUrl="AccountBlogPost.aspx"
       runat="server" />
-     <atlas:UpdatePanel ID="panelPosts" runat="server" Mode="Conditional">
+     <asp:UpdatePanel ID="panelPosts" runat="server" UpdateMode="Conditional">
       <ContentTemplate>
        <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManagePosts" AllowPaging="true" AllowCustomPaging="true"
         OnItemCommand="gridManagePosts_ItemCommand" AutoGenerateColumns="false" CssClass="sncore_account_table">
@@ -99,12 +99,12 @@
         </Columns>
        </SnCoreWebControls:PagedGrid>
       </ContentTemplate>
-     </atlas:UpdatePanel>
+     </asp:UpdatePanel>
      <div class="sncore_h2">
       Authors</div>
      <asp:HyperLink ID="linkNewAuthor" Text="&#187; New Author" CssClass="sncore_cancel"
       NavigateUrl="AccountBlogAuthorEdit.aspx" runat="server" />
-     <atlas:UpdatePanel runat="server" Mode="Conditional" ID="panelAuthors">
+     <asp:UpdatePanel runat="server" UpdateMode="Conditional" ID="panelAuthors">
       <ContentTemplate>
        <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManageAuthors" AllowCustomPaging="true"
         OnItemCommand="gridManageAuthors_ItemCommand" AutoGenerateColumns="false" CssClass="sncore_account_table"
@@ -151,7 +151,7 @@
         </Columns>
        </SnCoreWebControls:PagedGrid>
       </ContentTemplate>
-     </atlas:UpdatePanel>
+     </asp:UpdatePanel>
     </asp:Panel>
     <SnCore:AccountReminder ID="accountReminder" runat="server" Style="width: 582px;" />
    </td>

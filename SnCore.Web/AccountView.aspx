@@ -30,7 +30,7 @@
      <asp:Panel CssClass="sncore_nopicture_table" ID="accountNoPicture" runat="server" Visible="false">
       <img border="0" src="images/AccountThumbnail.gif" />
      </asp:Panel>
-     <atlas:UpdatePanel runat="server" Mode="Conditional" ID="panelPictures">
+     <asp:UpdatePanel runat="server" UpdateMode="Conditional" ID="panelPictures">
       <ContentTemplate>
        <SnCoreWebControls:PagedList runat="server" ID="picturesView" RepeatColumns="1" RepeatRows="5" AllowCustomPaging="true">
         <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="&#187;"
@@ -46,7 +46,7 @@
         </ItemTemplate>
        </SnCoreWebControls:PagedList>
       </ContentTemplate>
-     </atlas:UpdatePanel>
+     </asp:UpdatePanel>
     </td>
     <td valign="top" width="*">
      <table class="sncore_inner_table" width="95%">

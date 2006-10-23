@@ -102,14 +102,14 @@
        </td>
        <td style="background-color: white; width: 16px; text-align: center;">
         <!-- NOEMAIL-START -->
-        <atlas:ScriptManager ID="scriptmanager1" EnableScriptGlobalization="false" EnablePartialRendering="true"
+        <asp:ScriptManager ID="scriptmanager1" EnablePartialRendering="true"
          runat="Server" />
         <div style="width: 16px;">
-         <atlas:UpdateProgress ID="menuProgress" runat="server">
+         <asp:UpdateProgress DisplayAfter="1000" ID="menuProgress" runat="server">
           <ProgressTemplate>
            <img src="images/spinner.gif" width="16" height="16" alt="Working ..." />
           </ProgressTemplate>
-         </atlas:UpdateProgress>
+         </asp:UpdateProgress>
         </div>
         <script language="JavaScript">
         <!-- 
@@ -123,11 +123,11 @@
       <tr>
        <td colspan="2" class="sncore_master_content_td">
         <!-- NOEMAIL-START -->
-        <atlas:UpdatePanel Mode="Always" runat="server" ID="panelNoticeMenu" RenderMode="Inline">
+        <asp:UpdatePanel UpdateMode="Always" runat="server" ID="panelNoticeMenu" RenderMode="Inline">
          <ContentTemplate>
           <SnCore:Notice ID="noticeMenu" EnableViewState="false" runat="server" />
          </ContentTemplate>
-        </atlas:UpdatePanel>
+        </asp:UpdatePanel>
         <!-- NOEMAIL-END -->
         <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
         </asp:ContentPlaceHolder>

@@ -4,7 +4,7 @@
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
- <atlas:UpdatePanel ID="panelLinks" Mode="Conditional" RenderMode="Inline" runat="server">
+ <asp:UpdatePanel ID="panelLinks" UpdateMode="Conditional" RenderMode="Inline" runat="server">
   <ContentTemplate>
    <table cellpadding="0" cellspacing="0" width="784">
     <tr>
@@ -28,8 +28,8 @@
     </tr>
    </table>
   </ContentTemplate>
- </atlas:UpdatePanel>
- <atlas:UpdatePanel runat="server" ID="panelSearch" Mode="Conditional">
+ </asp:UpdatePanel>
+ <asp:UpdatePanel runat="server" ID="panelSearch" UpdateMode="Conditional">
   <ContentTemplate>
    <SnCoreWebControls:PersistentPanel Visible="False" ID="panelSearchInternal" runat="server" EnableViewState="true">
     <table class="sncore_table">
@@ -68,7 +68,7 @@
        country and state:
       </td>
       <td class="sncore_form_value">
-       <atlas:UpdatePanel runat="server" ID="panelCountryState" Mode="Conditional">
+       <asp:UpdatePanel runat="server" ID="panelCountryState" UpdateMode="Conditional">
         <ContentTemplate>
          <asp:DropDownList CssClass="sncore_form_dropdown_small"
           ID="inputCountry" DataTextField="Name" AutoPostBack="true" DataValueField="Name"
@@ -76,19 +76,19 @@
          <asp:DropDownList CssClass="sncore_form_dropdown_small" ID="inputState"
           AutoPostBack="true" DataTextField="Name" DataValueField="Name" runat="server" /></td>
         </ContentTemplate>
-       </atlas:UpdatePanel>
+       </asp:UpdatePanel>
      </tr>
      <tr>
       <td class="sncore_form_label">
        city:
       </td>
       <td class="sncore_form_value">
-       <atlas:UpdatePanel runat="server" ID="panelCity" Mode="Conditional">
+       <asp:UpdatePanel runat="server" ID="panelCity" UpdateMode="Conditional">
         <ContentTemplate>
          <asp:DropDownList CssClass="sncore_form_dropdown" ID="inputCity" DataTextField="Name"
           DataValueField="Name" runat="server" />
         </ContentTemplate>
-       </atlas:UpdatePanel>
+       </asp:UpdatePanel>
       </td>
      </tr>
      <tr>
@@ -119,8 +119,8 @@
     </table>
    </SnCoreWebControls:PersistentPanel>
   </ContentTemplate>
- </atlas:UpdatePanel>
- <atlas:UpdatePanel runat="server" ID="panelGrid" Mode="Conditional" RenderMode="Inline">
+ </asp:UpdatePanel>
+ <asp:UpdatePanel runat="server" ID="panelGrid" UpdateMode="Conditional" RenderMode="Inline">
   <ContentTemplate>
    <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage" PageSize="10"
     AllowCustomPaging="true" AllowPaging="true" AutoGenerateColumns="false" CssClass="sncore_table"
@@ -155,5 +155,5 @@
     </ItemTemplate>
    </SnCoreWebControls:PagedList>
   </ContentTemplate>
- </atlas:UpdatePanel>   
+ </asp:UpdatePanel>   
 </asp:Content>

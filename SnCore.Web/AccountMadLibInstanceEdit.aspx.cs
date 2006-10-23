@@ -16,7 +16,7 @@ using Wilco.Web.UI.WebControls;
 using SnCore.Tools.Drawing;
 using System.IO;
 using System.Drawing;
-using AtlasControlToolkit;
+using AjaxControlToolkit;
 
 public partial class AccountMadLibInstanceEdit : AuthenticatedPage
 {

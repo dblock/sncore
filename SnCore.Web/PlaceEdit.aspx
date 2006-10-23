@@ -63,14 +63,14 @@
       <td class="sncore_form_label">
        country and state:</td>
       <td class="sncore_form_value">
-       <atlas:UpdatePanel runat="server" ID="panelCountryState" RenderMode="Inline" Mode="Conditional">
+       <asp:UpdatePanel runat="server" ID="panelCountryState" RenderMode="Inline" UpdateMode="Conditional">
         <ContentTemplate>
          <asp:DropDownList AutoPostBack="true" CssClass="sncore_form_dropdown_small" ID="inputCountry" 
           DataTextField="Name" DataValueField="Name" runat="server" />       
          <asp:DropDownList CssClass="sncore_form_dropdown_small" ID="inputState" DataTextField="Name"
           DataValueField="Name" runat="server" />
         </ContentTemplate>
-       </atlas:UpdatePanel>
+       </asp:UpdatePanel>
       </td>
      </tr>
      <tr>

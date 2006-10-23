@@ -39,7 +39,7 @@
   <a href="DiscussionThreadsView.aspx">&#187; New Posts</a>
   <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
  </div>
- <atlas:UpdatePanel runat="server" ID="panelThreads" Mode="Always" RenderMode="Inline">
+ <asp:UpdatePanel runat="server" ID="panelThreads" UpdateMode="Always" RenderMode="Inline">
   <ContentTemplate>
    <SnCoreWebControls:PagedList BorderWidth="0px" CellPadding="2" runat="server" ID="gridManage"
     AllowCustomPaging="true" RepeatColumns="1" RepeatRows="7" RepeatDirection="Horizontal"
@@ -76,5 +76,5 @@
     </ItemTemplate>    
    </SnCoreWebControls:PagedList>
   </ContentTemplate>
- </atlas:UpdatePanel>
+ </asp:UpdatePanel>
 </asp:Content>

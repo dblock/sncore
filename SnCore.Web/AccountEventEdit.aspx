@@ -93,7 +93,7 @@
       </td>
      </tr>
     </table>
-    <atlas:UpdatePanel runat="server" ID="panelReminderUpdate" Mode="Conditional">
+    <asp:UpdatePanel runat="server" ID="panelReminderUpdate" UpdateMode="Conditional">
      <ContentTemplate>
       <SnCoreWebControls:PersistentPanel ID="panelReminder" runat="server" visible="false">
        <table class="sncore_account_table">
@@ -105,7 +105,7 @@
        </table>
       </SnCoreWebControls:PersistentPanel>
      </ContentTemplate>
-    </atlas:UpdatePanel>
+    </asp:UpdatePanel>
     <table class="sncore_account_table">
      <tr>
       <td class="sncore_form_label">

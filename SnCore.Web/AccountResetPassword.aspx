@@ -5,7 +5,7 @@
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="SelectDate" Src="SelectDateControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
- <atlas:UpdatePanel ID="panelResetUpdate" runat="server" Mode="Conditional">
+ <asp:UpdatePanel ID="panelResetUpdate" runat="server" UpdateMode="Conditional">
   <ContentTemplate>
    <SnCoreWebControls:PersistentPanel ID="panelReset" runat="server">
     <div class="sncore_h2">
@@ -48,5 +48,5 @@
     </table>
    </SnCoreWebControls:PersistentPanel>
   </ContentTemplate>
- </atlas:UpdatePanel>
+ </asp:UpdatePanel>
 </asp:Content>

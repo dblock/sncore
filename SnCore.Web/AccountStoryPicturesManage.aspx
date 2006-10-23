@@ -34,7 +34,7 @@
    </td>
   </tr>
  </table>
- <atlas:UpdatePanel runat="server" id="panelStory" Mode="Always">
+ <asp:UpdatePanel runat="server" id="panelStory" UpdateMode="Always">
   <ContentTemplate>
    <asp:DataList ItemStyle-HorizontalAlign="center" ItemStyle-Width="200px" RepeatColumns="4"
     runat="server" ID="gridManage" ShowHeader="false" CssClass="sncore_table" RepeatDirection="Horizontal"
@@ -57,6 +57,6 @@
     </ItemTemplate>
    </asp:DataList>
   </ContentTemplate>
- </atlas:UpdatePanel>
+ </asp:UpdatePanel>
  <sncore:accountreminder id="accountReminder" runat="server" style="width: 582px;" />
 </asp:Content>

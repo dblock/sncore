@@ -26,7 +26,7 @@
   <a href="AccountsView.aspx">&#187; All People</a>
   <a href="AccountInvitationsManage.aspx">&#187; Invite a Friend</a>
  </div>
- <atlas:UpdatePanel runat="server" ID="panelGrid" Mode="Conditional" RenderMode="Inline">
+ <asp:UpdatePanel runat="server" ID="panelGrid" UpdateMode="Conditional" RenderMode="Inline">
   <ContentTemplate>
    <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage" PageSize="10"
     AllowCustomPaging="true" RepeatColumns="4" RepeatRows="4" RepeatDirection="Horizontal"
@@ -52,5 +52,5 @@
     </ItemTemplate>
    </SnCoreWebControls:PagedList>
   </ContentTemplate>
- </atlas:UpdatePanel>   
+ </asp:UpdatePanel>   
 </asp:Content>

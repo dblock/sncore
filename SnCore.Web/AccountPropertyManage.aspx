@@ -22,7 +22,7 @@
     </SnCore:Title>
     <asp:HyperLink ID="linkSuggest" Text="&#187; Suggest a New Place" CssClass="sncore_createnew" NavigateUrl="PlaceEdit.aspx"
      runat="server" />
-    <atlas:UpdatePanel ID="panelGrid" runat="server" Mode="Always">
+    <asp:UpdatePanel ID="panelGrid" runat="server" UpdateMode="Always">
      <ContentTemplate>
       <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage" PageSize="10"
        AllowCustomPaging="true" AllowPaging="true" AutoGenerateColumns="false" CssClass="sncore_account_table"
@@ -65,7 +65,7 @@
        </ItemTemplate>
       </SnCoreWebControls:PagedList>
      </ContentTemplate>
-    </atlas:UpdatePanel>
+    </asp:UpdatePanel>
     <SnCore:AccountReminder ID="accountReminder" runat="server" Style="width: 582px;" />
    </td>
   </tr>

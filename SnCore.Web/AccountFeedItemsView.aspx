@@ -6,7 +6,7 @@
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
- <atlas:UpdatePanel ID="panelLinks" Mode="Conditional" RenderMode="Inline" runat="server">
+ <asp:UpdatePanel ID="panelLinks" UpdateMode="Conditional" RenderMode="Inline" runat="server">
   <ContentTemplate>
    <table cellpadding="0" cellspacing="0" width="784">
     <tr>
@@ -42,8 +42,8 @@
     </tr>
    </table>
   </ContentTemplate>
- </atlas:UpdatePanel>
- <atlas:UpdatePanel runat="server" ID="panelSearch" Mode="Conditional" RenderMode="Inline">
+ </asp:UpdatePanel>
+ <asp:UpdatePanel runat="server" ID="panelSearch" UpdateMode="Conditional" RenderMode="Inline">
   <ContentTemplate> 
    <SnCoreWebControls:PersistentPanel Visible="False" ID="panelSearchInternal" runat="server">
     <table class="sncore_table">
@@ -66,8 +66,8 @@
     </table>
    </SnCoreWebControls:PersistentPanel>
   </ContentTemplate>
- </atlas:UpdatePanel>
- <atlas:UpdatePanel runat="server" ID="panelGrid" Mode="Conditional" RenderMode="Inline">
+ </asp:UpdatePanel>
+ <asp:UpdatePanel runat="server" ID="panelGrid" UpdateMode="Conditional" RenderMode="Inline">
   <ContentTemplate>
    <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage" PageSize="5"
     AllowCustomPaging="true" AllowPaging="true" AutoGenerateColumns="false" CssClass="sncore_table"
@@ -118,5 +118,5 @@
     </Columns>
    </SnCoreWebControls:PagedGrid>
   </ContentTemplate>
- </atlas:UpdatePanel>   
+ </asp:UpdatePanel>   
 </asp:Content>

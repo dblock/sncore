@@ -33,7 +33,7 @@
    </td>
   </tr>
  </table>
- <atlas:UpdatePanel runat="server" ID="panelSearch" Mode="Always" RenderMode="Inline">
+ <asp:UpdatePanel runat="server" ID="panelSearch" UpdateMode="Always" RenderMode="Inline">
   <ContentTemplate>
    <table class="sncore_table">
     <tr>
@@ -68,5 +68,5 @@
     </asp:View>
    </asp:MultiView>
   </ContentTemplate>
- </atlas:UpdatePanel>
+ </asp:UpdatePanel>
 </asp:Content>

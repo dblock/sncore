@@ -16,7 +16,7 @@
     </div>
     <asp:HyperLink ID="linkBack" Text="&#187; Cancel" CssClass="sncore_cancel" NavigateUrl="AccountAttributesManage.aspx"
      runat="server" />
-    <atlas:UpdatePanel ID="panelAttribute" runat="server" Mode="Always">
+    <asp:UpdatePanel ID="panelAttribute" runat="server" UpdateMode="Always">
      <ContentTemplate>
       <table class="sncore_account_table">
        <tr>
@@ -63,7 +63,7 @@
        </tr>
       </table>
      </ContentTemplate>
-    </atlas:UpdatePanel>
+    </asp:UpdatePanel>
    </td>
   </tr>
  </table>

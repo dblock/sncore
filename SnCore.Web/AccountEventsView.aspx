@@ -5,7 +5,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountTimeZone" Src="AccountTimeZoneControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
- <atlas:UpdatePanel Mode="Conditional" ID="panelLinks" RenderMode="Inline" runat="server">
+ <asp:UpdatePanel UpdateMode="Conditional" ID="panelLinks" RenderMode="Inline" runat="server">
   <ContentTemplate>
    <table cellpadding="0" cellspacing="0" width="784">
     <tr>
@@ -29,8 +29,8 @@
     </tr>
    </table>
   </ContentTemplate>
- </atlas:UpdatePanel>
- <atlas:UpdatePanel ID="panelSearch" runat="server" Mode="Conditional" EnableViewState="true">
+ </asp:UpdatePanel>
+ <asp:UpdatePanel ID="panelSearch" runat="server" UpdateMode="Conditional" EnableViewState="true">
   <ContentTemplate>
    <SnCoreWebControls:PersistentPanel ID="panelSearchInternal" Visible="False" runat="server" EnableViewState="True">
     <table class="sncore_table">
@@ -106,9 +106,9 @@
     </table>
    </SnCoreWebControls:PersistentPanel>
   </ContentTemplate>
- </atlas:UpdatePanel>
+ </asp:UpdatePanel>
  <SnCore:AccountTimeZone runat="server" ID="timezone" />
- <atlas:UpdatePanel runat="server" ID="panelGrid" RenderMode="Inline" Mode="Conditional">
+ <asp:UpdatePanel runat="server" ID="panelGrid" RenderMode="Inline" UpdateMode="Conditional">
   <ContentTemplate> 
    <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage" PageSize="5"
     AllowCustomPaging="true" AllowPaging="true" AutoGenerateColumns="false" CssClass="sncore_table"
@@ -157,5 +157,5 @@
     </Columns>
    </SnCoreWebControls:PagedGrid>
   </ContentTemplate>
- </atlas:UpdatePanel>
+ </asp:UpdatePanel>
 </asp:Content>

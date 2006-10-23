@@ -19,7 +19,7 @@
     <div class="sncore_h2sub">
      <a href="AccountFriendRequestsSentManage.aspx">&#187; Sent</a>
     </div>
-    <atlas:UpdatePanel ID="panelGrid" runat="server" Mode="Always">
+    <asp:UpdatePanel ID="panelGrid" runat="server" UpdateMode="Always">
      <ContentTemplate>
       <SnCoreWebControls:PagedList CssClass="sncore_account_table" runat="server" RepeatDirection="Horizontal"
        ID="listPending" Width="0px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Top"
@@ -60,7 +60,7 @@
        </ItemTemplate>
       </SnCoreWebControls:PagedList>     
      </ContentTemplate>
-    </atlas:UpdatePanel>
+    </asp:UpdatePanel>
     <table runat="server" id="reasonTable" class="sncore_account_table">
      <tr>
       <td class="sncore_form_label">

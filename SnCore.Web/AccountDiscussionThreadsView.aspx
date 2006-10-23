@@ -10,7 +10,7 @@
   <asp:HyperLink NavigateUrl="AccountView.aspx" CssClass="sncore_navigate_item" ID="linkAccount"
    Text="Account" runat="server" />
  </div>
- <atlas:UpdatePanel runat="server" ID="panelThreads" Mode="Always" RenderMode="Inline">
+ <asp:UpdatePanel runat="server" ID="panelThreads" UpdateMode="Always" RenderMode="Inline">
   <ContentTemplate>
    <table cellpadding="0" cellspacing="0" width="784">
     <tr>
@@ -67,5 +67,5 @@
     </Columns>
    </SnCoreWebControls:PagedGrid>
   </ContentTemplate>
- </atlas:UpdatePanel>
+ </asp:UpdatePanel>
 </asp:Content>

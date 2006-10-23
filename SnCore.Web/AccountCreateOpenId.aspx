@@ -20,7 +20,7 @@
    </tr>
   </table>
  </div>
- <atlas:UpdatePanel ID="panelJoin" runat="server" Mode="Always">
+ <asp:UpdatePanel ID="panelJoin" runat="server" UpdateMode="Always">
   <ContentTemplate>
    <asp:Panel ID="panelCreateOpenId" runat="server">
     <asp:Panel ID="panelBeta" runat="server">
@@ -90,5 +90,5 @@
     </table>
    </asp:Panel>
   </ContentTemplate>
- </atlas:UpdatePanel>
+ </asp:UpdatePanel>
 </asp:Content>

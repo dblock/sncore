@@ -21,7 +21,7 @@
   <asp:HyperLink CssClass="sncore_navigate_item" ID="linkPlace" runat="server" />
  </div>
  <!-- NOEMAIL-END -->
- <atlas:UpdatePanel runat="server" ID="panelPlace" Mode="Conditional">
+ <asp:UpdatePanel runat="server" ID="panelPlace" UpdateMode="Conditional">
   <ContentTemplate>
     <table cellspacing="0" cellpadding="4" class="sncore_table">
      <tr>
@@ -29,7 +29,7 @@
        <asp:Panel ID="placeNoPicture" CssClass="sncore_nopicture_table" runat="server" Visible="false">
         <img border="0" src="images/PlaceThumbnail.gif" />
        </asp:Panel>
-       <atlas:UpdatePanel runat="server" Mode="Conditional" ID="panelPictures">
+       <asp:UpdatePanel runat="server" UpdateMode="Conditional" ID="panelPictures">
         <ContentTemplate>
          <SnCoreWebControls:PagedList runat="server" ID="picturesView" RepeatColumns="1" RepeatRows="5" AllowCustomPaging="true">
           <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="&#187;"
@@ -45,7 +45,7 @@
           </ItemTemplate>
          </SnCoreWebControls:PagedList>
         </ContentTemplate>
-       </atlas:UpdatePanel>
+       </asp:UpdatePanel>
       </td>
       <td valign="top" width="*">
        <table class="sncore_inner_table" width="95%">
@@ -183,11 +183,11 @@
         <asp:Panel ID="panelOwners" runat="server">
          <SnCore:PlaceAccountsView ID="placeAccounts" runat="server" />
         </asp:Panel>
-        <atlas:UpdatePanel ID="panelFriends" runat="server" Mode="Conditional">
+        <asp:UpdatePanel ID="panelFriends" runat="server" UpdateMode="Conditional">
          <ContentTemplate>
           <SnCore:PlaceFavoriteAccountsView ID="placeFriends" runat="server" />
          </ContentTemplate>
-        </atlas:UpdatePanel>
+        </asp:UpdatePanel>
        </div>
        <!-- NOEMAIL-START -->
        <div id="divMap" style="display: none;">
@@ -222,7 +222,7 @@
      </tr>
     </table>
   </ContentTemplate>
- </atlas:UpdatePanel>
+ </asp:UpdatePanel>
 
  <script type="text/javascript">
  <!--

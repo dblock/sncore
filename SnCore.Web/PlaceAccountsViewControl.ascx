@@ -5,7 +5,7 @@
 <div class="sncore_h2">
  Contacts
 </div>
-<atlas:UpdatePanel ID="panelGrid" runat="server" Mode="Conditional" RenderMode="Inline">
+<asp:UpdatePanel ID="panelGrid" runat="server" UpdateMode="Conditional" RenderMode="Inline">
  <ContentTemplate>
   <SnCoreWebControls:PagedList CssClass="sncore_account_table" runat="server" ID="accountsList"
    ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" AllowCustomPaging="true"
@@ -22,4 +22,4 @@
    </ItemTemplate>
   </SnCoreWebControls:PagedList>
  </ContentTemplate>
-</atlas:UpdatePanel>
+</asp:UpdatePanel>

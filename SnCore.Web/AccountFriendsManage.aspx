@@ -20,7 +20,7 @@
       </div>
      </Template>
     </SnCore:Title>
-    <atlas:UpdatePanel ID="panelGrid" runat="server" Mode="Always">
+    <asp:UpdatePanel ID="panelGrid" runat="server" UpdateMode="Always">
      <ContentTemplate>
       <SnCoreWebControls:PagedList CssClass="sncore_account_table" runat="server" RepeatDirection="Horizontal"
        ID="friendsList" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Top"
@@ -42,7 +42,7 @@
        </ItemTemplate>
       </SnCoreWebControls:PagedList>
      </ContentTemplate>
-    </atlas:UpdatePanel>
+    </asp:UpdatePanel>
     <SnCore:AccountReminder ID="accountReminder" runat="server" Style="width: 582px;" />
    </td>
   </tr>

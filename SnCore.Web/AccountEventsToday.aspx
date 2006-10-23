@@ -6,7 +6,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountTimeZone" Src="AccountTimeZoneControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
- <atlas:UpdatePanel ID="panelLinks" runat="server" Mode="Conditional" EnableViewState="true">
+ <asp:UpdatePanel ID="panelLinks" runat="server" UpdateMode="Conditional" EnableViewState="true">
   <ContentTemplate>
    <table cellpadding="0" cellspacing="0" width="784">
     <tr>
@@ -33,8 +33,8 @@
     </tr>
    </table>
   </ContentTemplate>
- </atlas:UpdatePanel>
- <atlas:UpdatePanel ID="panelSearch" runat="server" Mode="Conditional" EnableViewState="true">
+ </asp:UpdatePanel>
+ <asp:UpdatePanel ID="panelSearch" runat="server" UpdateMode="Conditional" EnableViewState="true">
   <ContentTemplate>
    <table class="sncore_table">
     <tr>
@@ -45,7 +45,7 @@
          country and state:
         </td>
         <td class="sncore_form_value">
-         <atlas:UpdatePanel runat="server" ID="panelCountryState" Mode="Conditional">
+         <asp:UpdatePanel runat="server" ID="panelCountryState" UpdateMode="Conditional">
           <ContentTemplate>
            <asp:DropDownList CssClass="sncore_form_dropdown_small" OnSelectedIndexChanged="inputCountry_SelectedIndexChanged"
             ID="inputCountry" DataTextField="Name" AutoPostBack="true" DataValueField="Name"
@@ -53,19 +53,19 @@
            <asp:DropDownList CssClass="sncore_form_dropdown_small" ID="inputState" OnSelectedIndexChanged="inputState_SelectedIndexChanged"
             AutoPostBack="true" DataTextField="Name" DataValueField="Name" runat="server" /></td>
            </ContentTemplate>
-          </atlas:UpdatePanel>
+          </asp:UpdatePanel>
        </tr>
        <tr>
         <td class="sncore_form_label" style="height: 25px">
          city:
         </td>
         <td class="sncore_form_value" style="height: 25px">
-         <atlas:UpdatePanel runat="server" ID="panelCity" Mode="Conditional">
+         <asp:UpdatePanel runat="server" ID="panelCity" UpdateMode="Conditional">
           <ContentTemplate>
            <asp:DropDownList CssClass="sncore_form_dropdown" ID="inputCity" DataTextField="Name"
             DataValueField="Name" runat="server" />
           </ContentTemplate>
-         </atlas:UpdatePanel>
+         </asp:UpdatePanel>
         </td>
        </tr>
        <tr>
@@ -91,7 +91,7 @@
       <asp:Calendar ID="calendarEvents" runat="server" BackColor="#FFFFCC" BorderColor="#FFCC66"
        BorderWidth="1px" DayNameFormat="Shortest" Font-Names="Verdana" Font-Size="8pt"
        ForeColor="#663399" Height="200px" ShowGridLines="True" Width="220px" NextMonthText="&#187;" 
-       OnSelectionChanged="calendarEvents_SelectionChanged" PrevMonthText="&#171;" SelectionMode="DayWeekMonth" 
+       OnSelectionChanged="calendarEvents_SelectionChanged" PrevMonthText="&#171;" SelectionUpdateMode="DayWeekMonth" 
        SelectMonthText="&#187;&#187;" SelectWeekText="&#187;" FirstDayOfWeek="Monday">     
        <SelectedDayStyle BackColor="#CCCCFF" Font-Bold="True" />
        <TodayDayStyle BackColor="#FFCC66" ForeColor="White" />
@@ -105,9 +105,9 @@
     </tr>
    </table>
   </ContentTemplate>
- </atlas:UpdatePanel>
+ </asp:UpdatePanel>
  <SnCore:AccountTimeZone runat="server" ID="timezone" />
- <atlas:UpdatePanel runat="server" ID="panelGrid" RenderMode="Inline" Mode="Conditional">
+ <asp:UpdatePanel runat="server" ID="panelGrid" RenderMode="Inline" UpdateMode="Conditional">
   <ContentTemplate>
    <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage" PageSize="5"
     AllowCustomPaging="true" AllowPaging="true" AutoGenerateColumns="false" CssClass="sncore_table"
@@ -159,5 +159,5 @@
     </Columns>
    </SnCoreWebControls:PagedGrid>
   </ContentTemplate>
- </atlas:UpdatePanel>
+ </asp:UpdatePanel>
 </asp:Content>

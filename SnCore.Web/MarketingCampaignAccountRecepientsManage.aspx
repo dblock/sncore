@@ -13,7 +13,7 @@
     <div class="sncore_h2">
      <asp:Label ID="campaignName" runat="server" Text="Recepients" />
     </div>
-    <atlas:UpdatePanel ID="panelGrid" Mode="Always" runat="server">
+    <asp:UpdatePanel ID="panelGrid" UpdateMode="Always" runat="server">
      <ContentTemplate>
       <div class="sncore_h2sub">
        <a href="MarketingCampaignsManage.aspx">&#187; Cancel</a>
@@ -147,7 +147,7 @@
        </tr>
       </table>      
      </ContentTemplate>
-    </atlas:UpdatePanel>
+    </asp:UpdatePanel>
    </td>
   </tr>
  </table>

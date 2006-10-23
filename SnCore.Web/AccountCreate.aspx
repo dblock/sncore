@@ -10,7 +10,7 @@
  <div class="sncore_h2sub">
   Already have an account? <a href="AccountLogin.aspx">&#187; Login</a>
  </div>
- <atlas:UpdatePanel ID="panelJoin" runat="server" Mode="Always">
+ <asp:UpdatePanel ID="panelJoin" runat="server" UpdateMode="Always">
   <ContentTemplate>
    <asp:Panel ID="panelCreate" runat="server">
     <asp:Panel ID="panelBeta" runat="server">
@@ -137,7 +137,7 @@
     </table>
    </asp:Panel>
   </ContentTemplate>
- </atlas:UpdatePanel>
+ </asp:UpdatePanel>
  <table class="sncore_notice_warning">
   <tr>
    <td>

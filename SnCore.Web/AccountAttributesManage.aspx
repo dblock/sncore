@@ -29,7 +29,7 @@
     </table>
     <asp:HyperLink ID="linkNew" Text="&#187; Create New" CssClass="sncore_createnew" NavigateUrl="AccountAttributeEdit.aspx"
      runat="server" />
-    <atlas:UpdatePanel ID="panelGrid" runat="server" Mode="Always">
+    <asp:UpdatePanel ID="panelGrid" runat="server" UpdateMode="Always">
      <ContentTemplate>
       <SnCoreWebControls:PagedGrid CellPadding="4" OnItemCommand="gridManage_ItemCommand"
        runat="server" ID="gridManage" AutoGenerateColumns="false" CssClass="sncore_account_table"
@@ -57,7 +57,7 @@
        </Columns>
       </SnCoreWebControls:PagedGrid>
      </ContentTemplate>
-    </atlas:UpdatePanel>
+    </asp:UpdatePanel>
    </td>
   </tr>
  </table>

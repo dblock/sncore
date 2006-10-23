@@ -37,7 +37,7 @@
        description:
       </td>
       <td class="sncore_form_value">
-       <asp:TextBox TextMode="MultiLine" Rows="3" ID="inputDescription" runat="server" CssClass="sncore_form_textbox" />
+       <asp:TextBox Mode="MultiLine" Rows="3" ID="inputDescription" runat="server" CssClass="sncore_form_textbox" />
       </td>
      </tr>
      <tr>

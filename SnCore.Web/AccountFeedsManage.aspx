@@ -28,7 +28,7 @@
     </SnCore:Title>
     <asp:HyperLink ID="HyperLink1" Text="&#187; Syndicate Wizard" CssClass="sncore_createnew"
      NavigateUrl="AccountFeedWizard.aspx" runat="server" />
-    <atlas:UpdatePanel ID="panelGrid" runat="server" Mode="Always">
+    <asp:UpdatePanel ID="panelGrid" runat="server" UpdateMode="Always">
      <ContentTemplate>
       <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage" OnItemCommand="gridManage_ItemCommand"
        AutoGenerateColumns="false" CssClass="sncore_account_table" PageSize="10" AllowCustomPaging="true" AllowPaging="true">
@@ -74,7 +74,7 @@
        </Columns>
       </SnCoreWebControls:PagedGrid>
      </ContentTemplate>
-    </atlas:UpdatePanel>
+    </asp:UpdatePanel>
     <SnCore:AccountReminder ID="accountReminder" runat="server" Style="width: 582px;" />
    </td>
   </tr>

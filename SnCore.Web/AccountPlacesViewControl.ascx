@@ -4,7 +4,7 @@
 <%@Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <div class="sncore_h2">
  Places</div>
-<atlas:UpdatePanel ID="panelGrid" runat="server" Mode="Conditional" RenderMode="Inline">
+<asp:UpdatePanel ID="panelGrid" runat="server" UpdateMode="Conditional" RenderMode="Inline">
  <ContentTemplate>
   <SnCoreWebControls:PagedList CssClass="sncore_account_table" runat="server" ID="placesList"
    ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" ItemStyle-CssClass="sncore_table_tr_td"
@@ -21,4 +21,4 @@
    </ItemTemplate>
   </SnCoreWebControls:PagedList>
  </ContentTemplate>
-</atlas:UpdatePanel>
+</asp:UpdatePanel>

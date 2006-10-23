@@ -17,7 +17,7 @@
    </Template>
   </SnCore:Title>
   <asp:HyperLink ID="linkCancel" Text="&#187; Cancel" CssClass="sncore_cancel" runat="server" />
-  <atlas:UpdatePanel ID="panelPost" runat="server">
+  <asp:UpdatePanel ID="panelPost" runat="server">
    <ContentTemplate>
     <table class="sncore_table">
      <tr>
@@ -37,5 +37,5 @@
      </tr>
     </table>
    </ContentTemplate>
-  </atlas:UpdatePanel>
+  </asp:UpdatePanel>
 </asp:Content>

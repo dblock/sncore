@@ -14,7 +14,7 @@
     <div class="sncore_h2">
      Tag Words
     </div>
-    <atlas:UpdatePanel runat="server" Mode="Always" ID="panelTagWords">
+    <asp:UpdatePanel runat="server" UpdateMode="Always" ID="panelTagWords">
      <ContentTemplate>
       <SnCore:Notice id="noticeManage" runat="server" EnableViewState="false" />
       <table class="sncore_account_table">
@@ -63,5 +63,5 @@
       </SnCoreWebControls:PagedGrid>
       </td> </tr> </table>
      </ContentTemplate>
-    </atlas:UpdatePanel>
+    </asp:UpdatePanel>
 </asp:Content>

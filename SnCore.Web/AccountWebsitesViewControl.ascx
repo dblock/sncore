@@ -6,7 +6,7 @@
 <div class="sncore_h2">
  Websites
 </div>
-<atlas:UpdatePanel ID="panelGrid" runat="server" Mode="Conditional" RenderMode="Inline">
+<asp:UpdatePanel ID="panelGrid" runat="server" UpdateMode="Conditional" RenderMode="Inline">
  <ContentTemplate>
   <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="accountWebsites" 
    AllowCustomPaging="true">
@@ -22,4 +22,4 @@
    </itemtemplate>
   </SnCoreWebControls:PagedList>
  </ContentTemplate>
-</atlas:UpdatePanel>
+</asp:UpdatePanel>

@@ -27,7 +27,7 @@
       </div>
      </Template>
     </SnCore:Title>
-    <atlas:UpdatePanel ID="panelGrid" runat="server" Mode="Always">
+    <asp:UpdatePanel ID="panelGrid" runat="server" UpdateMode="Always">
      <ContentTemplate>
       <SnCoreWebControls:PagedGrid CellPadding="4" OnItemDataBound="gridManage_ItemDataBound"
        OnItemCommand="gridManage_ItemCommand" runat="server" ID="gridManage" AutoGenerateColumns="false"
@@ -58,7 +58,7 @@
        </Columns>
       </SnCoreWebControls:PagedGrid>
      </ContentTemplate>
-    </atlas:UpdatePanel>
+    </asp:UpdatePanel>
     <div class="sncore_h2">
      Add New</div>
     <asp:ValidationSummary runat="server" ID="manageValidationSummary" CssClass="sncore_form_validator"

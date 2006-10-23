@@ -5,7 +5,7 @@
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="DiscussionFullView" Src="DiscussionFullViewControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
- <atlas:UpdatePanel runat="server" ID="panelPicture" Mode="Always">
+ <asp:UpdatePanel runat="server" ID="panelPicture" UpdateMode="Always">
   <ContentTemplate>
    <div class="sncore_navigate">
     <asp:HyperLink CssClass="sncore_navigate_item" ID="linkAccount" Text="Account" runat="server" />
@@ -78,5 +78,5 @@
     </tr>
    </table>
   </ContentTemplate>
- </atlas:UpdatePanel>
+ </asp:UpdatePanel>
 </asp:Content>

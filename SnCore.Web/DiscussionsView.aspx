@@ -46,7 +46,7 @@
    </tr>
   </table>
  </asp:Panel>
- <atlas:UpdatePanel runat="server" ID="panelGridManage" Mode="Always">
+ <asp:UpdatePanel runat="server" ID="panelGridManage" UpdateMode="Always">
   <ContentTemplate>
    <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage" AutoGenerateColumns="false"
     CssClass="sncore_table" AllowPaging="true" AllowCustomPaging="true" PageSize="20">
@@ -100,5 +100,5 @@
     </Columns>
    </SnCoreWebControls:PagedGrid>
   </ContentTemplate>
- </atlas:UpdatePanel>
+ </asp:UpdatePanel>
 </asp:Content>
