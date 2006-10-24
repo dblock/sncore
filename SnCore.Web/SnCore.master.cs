@@ -33,11 +33,9 @@ public partial class SnCoreMasterPage : MasterPage
 
     public override void OnPagePreInit(EventArgs e)
     {
-        switch (Request.Browser.Browser)
+        if (Request.Browser.Crawler || Request.Browser.W3CDomVersion.Major < 1)
         {
-            case "AppleMAC-Safari":
-                scriptmanager1.EnablePartialRendering = false;
-                break;
+            scriptmanager1.EnablePartialRendering = false;
         }
 
         base.OnPagePreInit(e);
