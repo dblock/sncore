@@ -1,6 +1,7 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="AccountEventEdit.aspx.cs"
  Inherits="AccountEventEdit" Title="Account | Event" %>
 
+<%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountReminder" Src="AccountReminderControl.ascx" %>
@@ -13,9 +14,27 @@
     <SnCore:AccountMenu runat="server" ID="menu" />
    </td>
    <td valign="top">
-    <div class="sncore_h2">
-     <asp:Label ID="labelEventName" runat="server" Text="New Event" />
-    </div>
+    <SnCore:Title ID="titleEvent" Text="New Event" runat="server" ExpandedSize="200">
+     <Template>
+      <div class="sncore_title_paragraph">
+       Post an Event! It's <b>FREE</b>!
+      </div>
+      <div class="sncore_title_paragraph">
+       First, enter event details, such as the event name and the event description and choose an event type
+       most appropriate for your event.
+      </div>
+      <div class="sncore_title_paragraph">
+       You can schedule <b>one-time events</b> and <b>recurrent events</b>. One-time events have a start 
+       and an end date and time. Recurrent events can occur <b>daily</b>, <b>weekly</b>, <b>monthly</b> 
+       or <b>yearly</b>.       
+      </div>
+      <div class="sncore_title_paragraph">
+       Events must occur at a particular location. You can either <b>lookup an existing location</b> or
+       <b>add a new location</b>. When you lookup a location, and there's more than one matching result,
+       don't forget to <b>choose</b> it. When you create a new location, don't forge to <b>save</b> it.
+      </div>
+     </Template>
+    </SnCore:Title>      
     <asp:HyperLink ID="linkBack" Text="&#187; Cancel" CssClass="sncore_cancel" NavigateUrl="AccountEventsManage.aspx"
      runat="server" />
     <asp:ValidationSummary runat="server" ID="manageValidationSummary" CssClass="sncore_form_validator"

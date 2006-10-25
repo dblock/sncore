@@ -44,7 +44,7 @@ public partial class AccountEventEdit : AuthenticatedPage
                     selectType.Items.FindByValue(tav.AccountEventType).Selected = true;
                     schedule.Schedule = SystemService.GetScheduleById(tav.ScheduleId);
                     place.Place = PlaceService.GetPlaceById(tav.PlaceId);
-                    labelEventName.Text = Renderer.Render(tav.Name);
+                    titleEvent.Text = Renderer.Render(tav.Name);
                 }
             }
 
@@ -72,6 +72,12 @@ public partial class AccountEventEdit : AuthenticatedPage
     {
         try
         {
+            if (! schedule.IsConfirmed)
+                schedule.ConfirmSchedule(sender, e);
+
+            if (!place.IsChosen)
+                place.SavePlace(sender, e);
+
             panelReminder.Visible = false;
             panelReminderUpdate.Update();
 

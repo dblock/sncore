@@ -1,7 +1,7 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="TitleControl.ascx.cs"
  Inherits="TitleControl" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxtoolkit" %>
-<ajaxtoolkit:CollapsiblePanelExtender ID="CollapsiblePanelExtender1" runat="server"
+<ajaxtoolkit:CollapsiblePanelExtender ID="panelTitleExtender" runat="server"
  TargetControlID="panelTitle" Collapsed="true" CollapsedSize="42" ExpandedSize="150"
  ExpandControlID="imageHelp" CollapseControlID="imageHelp" SuppressPostBack="true">
 </ajaxtoolkit:CollapsiblePanelExtender>

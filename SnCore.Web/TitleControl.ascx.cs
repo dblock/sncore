@@ -80,6 +80,30 @@ public partial class TitleControl : Control, INamingContainer
         }
     }
 
+    public int ExpandedSize
+    {
+        get
+        {
+            return panelTitleExtender.ExpandedSize;
+        }
+        set
+        {
+            panelTitleExtender.ExpandedSize = value;
+        }
+    }
+
+    public int CollapsedSize
+    {
+        get
+        {
+            return panelTitleExtender.CollapsedSize;
+        }
+        set
+        {
+            panelTitleExtender.CollapsedSize = value;
+        }
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)

@@ -64,7 +64,8 @@
     <div class="sncore_title_paragraph">    
      To upload a picture, click <b>Browse</b>, find the picture on your computer and press <b>Upload</b>.
      Pictures are automatically resized to 640x480 and are posted to <a href="AccountPicturesManage.aspx">your profile</a>.
-     You can also simply copy &amp; paste a picture from another website.
+     You can also simply copy &amp; paste a picture from another website, and you can drag and drop pictures around
+     the text.
     </div>
    </Template>
   </SnCore:Title>

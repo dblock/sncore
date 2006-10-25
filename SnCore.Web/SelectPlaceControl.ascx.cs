@@ -15,6 +15,29 @@ using Microsoft.Web.UI;
 
 public partial class SelectPlaceControl : Control
 {
+    public class SelectLocationEventArgs : EventArgs
+    {
+        public string Country;
+        public string State;
+        public string City;
+
+        public SelectLocationEventArgs(TransitAccount account)
+            : this(account.Country, account.State, account.City)
+        {
+
+        }
+
+        public SelectLocationEventArgs(
+            string country,
+            string state,
+            string city)
+        {
+            Country = country;
+            State = state;
+            City = city;
+        }
+    }
+
     public event EventHandler Choose;
 
     public TransitPlace Place
@@ -40,7 +63,6 @@ public partial class SelectPlaceControl : Control
         try
         {
             PageManager.SetDefaultButton(buttonLookup, panelLookup.Controls);
-            PageManager.SetDefaultButton(savePlace, panelAdd.Controls);
 
             if (!IsPostBack)
             {
@@ -50,10 +72,20 @@ public partial class SelectPlaceControl : Control
                 selectType.DataSource = types;
                 selectType.DataBind();
 
-                inputCountry.DataSource = SessionManager.GetCachedCollection<TransitCountry>(LocationService, "GetCountries", null);
+                ArrayList countries = new ArrayList();
+                countries.Add(new TransitCountry());
+                countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(LocationService, "GetCountries", null));
+
+                ArrayList states = new ArrayList();
+                states.Add(new TransitState());
+
+                inputCountry.DataSource = countries;
                 inputCountry.DataBind();
 
-                inputCountry_SelectedIndexChanged(sender, e);
+                inputState.DataSource = states;
+                inputState.DataBind();
+
+                SelectLocation(sender, new SelectLocationEventArgs(SessionManager.Account));
 
                 if (Place.Id != 0)
                 {
@@ -75,46 +107,43 @@ public partial class SelectPlaceControl : Control
         }
     }
 
-    public void savePlace_Click(object sender, EventArgs e)
+    public void SavePlace(object sender, EventArgs e)
     {
-        try
+        if (! IsEditing)
+            return;
+
+        Place = new TransitPlace();
+        Place.Type = selectType.SelectedValue;
+        if (string.IsNullOrEmpty(Place.Type))
         {
-            Place = new TransitPlace();
-            Place.Type = selectType.SelectedValue;
-            if (string.IsNullOrEmpty(Place.Type))
-            {
-                throw new Exception("Missing type.");
-            }
-            Place.Name = inputName.Text;
-            Place.Country = inputCountry.SelectedValue;
-            Place.City = inputCity.Text;
-            if (string.IsNullOrEmpty(Place.Name)) throw new Exception("Missing name.");
-            if (string.IsNullOrEmpty(Place.Country)) throw new Exception("Missing country.");
-            if (string.IsNullOrEmpty(Place.City)) throw new Exception("Missing city.");
-            Place.State = inputState.Text;
-            Place.Street = inputStreet.Text;
-            Place.Zip = inputZip.Text;
-            Place.CrossStreet = inputCrossStreet.Text;
-            Place.Phone = inputPhone.Text;
-            Place.Fax = inputFax.Text;
-            Place.Email = inputEmail.Text;
-            Place.Website = inputWebsite.Text;
-            Place.Description = string.Empty;
-            ArrayList a = new ArrayList();
-            a.Add(Place);
-            chosenPlace.DataSource = a;
-            chosenPlace.DataBind();
-            panelAdd.Visible = false;
-            lookupPlace.Enabled = true;
-            addPlace.Enabled = true;
-            IsChosen = true;
-            if (Choose != null) Choose(sender, e);
-            panelSelectPlace.Update();
+            throw new Exception("Missing type.");
         }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        Place.Name = inputName.Text;
+        Place.Country = inputCountry.SelectedValue;
+        Place.City = inputCity.Text;
+        if (string.IsNullOrEmpty(Place.Name)) throw new Exception("Missing name.");
+        if (string.IsNullOrEmpty(Place.Country)) throw new Exception("Missing country.");
+        if (string.IsNullOrEmpty(Place.City)) throw new Exception("Missing city.");
+        Place.State = inputState.Text;
+        Place.Street = inputStreet.Text;
+        Place.Zip = inputZip.Text;
+        Place.CrossStreet = inputCrossStreet.Text;
+        Place.Phone = inputPhone.Text;
+        Place.Fax = inputFax.Text;
+        Place.Email = inputEmail.Text;
+        Place.Website = inputWebsite.Text;
+        Place.Description = string.Empty;
+        ArrayList a = new ArrayList();
+        a.Add(Place);
+        chosenPlace.DataSource = a;
+        chosenPlace.DataBind();
+        panelAdd.Visible = false;
+        lookupPlace.Enabled = true;
+        addPlace.Enabled = true;
+        IsChosen = true;
+        IsEditing = false;
+        if (Choose != null) Choose(sender, e);
+        panelSelectPlace.Update();
     }
 
     public void addPlace_Click(object sender, EventArgs e)
@@ -127,6 +156,7 @@ public partial class SelectPlaceControl : Control
         lookupPlace.Enabled = true;
         addPlace.Enabled = false;
         IsChosen = false;
+        IsEditing = true;
         panelSelectPlace.Update();
     }
 
@@ -153,6 +183,18 @@ public partial class SelectPlaceControl : Control
         set
         {
             ViewState["IsChosen"] = value;
+        }
+    }
+
+    public bool IsEditing
+    {
+        get
+        {
+            return ViewStateUtility.GetViewStateValue<bool>(ViewState, "IsEditing", false);
+        }
+        set
+        {
+            ViewState["IsEditing"] = value;
         }
     }
 
@@ -200,6 +242,11 @@ public partial class SelectPlaceControl : Control
                 labelLookup.Text = string.Format("Cannot find any place matching '{0}'.",
                     base.Render(inputLookupName.Text));
             }
+            else if (list.Count == 1)
+            {
+                CommandEventArgs ca = new CommandEventArgs("Choose", list[0].Id);
+                lookupChoose_Command(sender, ca);
+            }
 
             panelSelectPlace.Update();
         }
@@ -222,6 +269,23 @@ public partial class SelectPlaceControl : Control
         catch (Exception ex)
         {
             ReportException(ex);
+        }
+    }
+
+    public void SelectLocation(object sender, SelectLocationEventArgs e)
+    {
+        try
+        {
+            inputCountry.ClearSelection();
+            inputCountry.Items.FindByValue(e.Country).Selected = true;
+            inputCountry_SelectedIndexChanged(sender, e);
+            inputState.ClearSelection();
+            inputState.Items.FindByValue(e.State).Selected = true;
+            inputCity.Text = e.City;
+        }
+        catch
+        {
+
         }
     }
 }

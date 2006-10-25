@@ -190,14 +190,6 @@
       <asp:TextBox CssClass="sncore_form_textbox" ID="inputWebsite" runat="server" />
      </td>
     </tr>
-    <tr>
-     <td>
-     </td>
-     <td class="sncore_form_value">
-      <SnCoreWebControls:Button ID="savePlace" runat="server" Text="Save"
-       CssClass="sncore_form_button" CausesValidation="false" OnClick="savePlace_Click" />
-     </td>
-    </tr>
    </table>
   </SnCoreWebControls:PersistentPanel>
  </ContentTemplate>

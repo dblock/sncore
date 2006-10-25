@@ -115,4 +115,12 @@ public partial class SelectTimeControl : System.Web.UI.UserControl
     {
         if (SelectionChanged != null) SelectionChanged(s, e);
     }
+
+    public DropDownList SelectTimeDropDown
+    {
+        get
+        {
+            return selecttimeDropdown;
+        }
+    }
 }

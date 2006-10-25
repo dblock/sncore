@@ -216,7 +216,6 @@ public partial class ScheduleControl : Control
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        PageManager.SetDefaultButton(confirmSchedule, this.Controls);
         if (!IsPostBack)
         {
             stdStartDate.SelectedDate = base.Adjust(Schedule.StartDateTime);
@@ -243,6 +242,24 @@ public partial class ScheduleControl : Control
                 IsConfirmed = true;
             }
         }
+
+        UpdateEvents();
+    }
+
+    private void UpdateEvents()
+    {
+        StringBuilder changeclick = new StringBuilder();
+        changeclick.Append("if (this.href != '') {");
+        changeclick.Append("this.disabled = true;");
+        changeclick.AppendFormat("document.getElementById('{0}').style.cssText = 'display: none';", panelButtons.ClientID);
+        changeclick.AppendFormat("document.getElementById('{0}').disabled = 'disabled';", panelSchedule.ClientID);
+        changeclick.AppendFormat("document.getElementById('{0}').innerText = '» please wait while I update the schedule ...'", panelWorking.ClientID);
+        changeclick.Append("}");
+
+        stdAllDay.Attributes.Add("onclick", changeclick.ToString());
+        addOneTime.OnClientClick = changeclick.ToString();
+        addRecurrent.OnClientClick = changeclick.ToString();
+        editCurrent.OnClientClick = changeclick.ToString();
     }
 
     public void UpdateSelection()
@@ -402,10 +419,13 @@ public partial class ScheduleControl : Control
         IsConfirmed = false;
     }
 
-    public void confirmSchedule_Click(object sender, EventArgs e)
+    public void ConfirmSchedule(object sender, EventArgs e)
     {
         try
         {
+            if (IsConfirmed)
+                return;
+
             UpdateSchedule();
             VerifySchedule();
             labelConfirmed.Text = this.ToString();

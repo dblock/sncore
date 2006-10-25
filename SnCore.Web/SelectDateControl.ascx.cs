@@ -16,6 +16,7 @@ public partial class SelectDateControl : System.Web.UI.UserControl
     private object mSelectedDateTime = null;
     private bool mRequiresSelection = false;
     private int mFutureYears = 0;
+    private int mPastYears = 120;
 
     public int FutureYears
     {
@@ -26,6 +27,18 @@ public partial class SelectDateControl : System.Web.UI.UserControl
         set
         {
             mFutureYears = value;
+        }
+    }
+
+    public int PastYears
+    {
+        get
+        {
+            return mPastYears;
+        }
+        set
+        {
+            mPastYears = value;
         }
     }
 
@@ -44,20 +57,7 @@ public partial class SelectDateControl : System.Web.UI.UserControl
     public void selectDateCalendar_SelectionChanged(object s, EventArgs e)
     {
         SelectedDate = selectDateCalendar.SelectedDate;
-        panelCalender.Visible = false;
         if (SelectionChanged != null) SelectionChanged(s, e);
-        updatePanelCalendar.Update();
-    }
-
-    public void linkCalendar_Click(object s, EventArgs e)
-    {
-        panelCalender.PersistentVisible = ! panelCalender.PersistentVisible;
-        if (HasSelection)
-        {
-            selectDateCalendar.SelectedDate = SelectedDate;
-            selectDateCalendar.VisibleDate = SelectedDate;
-        }
-        updatePanelCalendar.Update();
     }
 
     public bool HasSelection
@@ -77,7 +77,7 @@ public partial class SelectDateControl : System.Web.UI.UserControl
         if (! RequiresSelection)
             selectdateYear.Items.Add(new ListItem());
 
-        for (int i = DateTime.UtcNow.Year + FutureYears; i >= DateTime.UtcNow.Year - 120; i--)
+        for (int i = DateTime.UtcNow.Year + FutureYears; i >= DateTime.UtcNow.Year - PastYears; i--)
         {
             selectdateYear.Items.Add(new ListItem(i.ToString(), i.ToString()));
         }
@@ -129,7 +129,21 @@ public partial class SelectDateControl : System.Web.UI.UserControl
             DateTime d = (DateTime) mSelectedDateTime;
             selectdateMonth.Items.FindByValue(d.Month.ToString()).Selected = true;
             selectdateDay.Items.FindByValue(d.Day.ToString()).Selected = true;
-            selectdateYear.Items.FindByValue(d.Year.ToString()).Selected = true;
+
+            ListItem selectedYearItem = selectdateYear.Items.FindByValue(d.Year.ToString());
+            if (selectedYearItem == null)
+            {
+                selectedYearItem = new ListItem(d.Year.ToString(), d.Year.ToString());
+                selectdateYear.Items.Add(selectedYearItem);
+            }
+
+            selectedYearItem.Selected = true;
+
+            if (HasSelection)
+            {
+                selectDateCalendar.SelectedDate = SelectedDate;
+                selectDateCalendar.VisibleDate = SelectedDate;
+            }
         }
         base.OnPreRender(e);
     }

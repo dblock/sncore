@@ -11,12 +11,16 @@
    <table class="sncore_account_table">
     <tr>
      <td colspan="2">
-      <asp:LinkButton CausesValidation="false" ID="editCurrent" runat="server" Text="&#187; edit schedule"
-       CssClass="sncore_link" OnClick="editCurrent_Click" Enabled="false" />
-      <asp:LinkButton CausesValidation="false" ID="addOneTime" runat="server" Text="&#187; schedule a one-time event"
-       CssClass="sncore_link" OnClick="addOneTime_Click" Enabled="false" />
-      <asp:LinkButton CausesValidation="false" ID="addRecurrent" runat="server" Text="&#187; schedule a recurrent event"
-       CssClass="sncore_link" OnClick="addRecurrent_Click" Enabled="true" />
+      <div class="sncore_link" style="font-weight: bold;" id="panelWorking" runat="server">
+      </div>
+      <asp:Panel ID="panelButtons" CssClass="sncore_link" runat="server">
+       <asp:LinkButton CausesValidation="false" ID="editCurrent" runat="server" Text="&#187; edit schedule"
+        OnClick="editCurrent_Click" Enabled="false" />
+       <asp:LinkButton CausesValidation="false" ID="addOneTime" runat="server" Text="&#187; schedule a one-time event"
+        OnClick="addOneTime_Click" Enabled="false" />
+       <asp:LinkButton CausesValidation="false" ID="addRecurrent" runat="server" Text="&#187; schedule a recurrent event"
+        OnClick="addRecurrent_Click" Enabled="true" />
+      </asp:Panel>
      </td>
     </tr>
    </table>
@@ -28,10 +32,8 @@
         start time:
        </td>
        <td class="sncore_form_value">
-        <SnCore:SelectDate OnSelectionChanged="stdStart_SelectionChanged" FutureYears="10"
-         RequiresSelection="true" ID="stdStartDate" runat="server" />
-        <SnCore:SelectTime OnSelectionChanged="stdStart_SelectionChanged" ID="stdStartTime"
-         runat="server" />
+        <SnCore:SelectDate PastYears="0" FutureYears="10" RequiresSelection="true" ID="stdStartDate" runat="server" />
+        <SnCore:SelectTime ID="stdStartTime" runat="server" />
        </td>
       </tr>
       <tr>
@@ -39,7 +41,7 @@
         end time:
        </td>
        <td class="sncore_form_value">
-        <SnCore:SelectDate FutureYears="10" RequiresSelection="true" ID="stdEndDate" runat="server" />
+        <SnCore:SelectDate PastYears="0" FutureYears="10" RequiresSelection="true" ID="stdEndDate" runat="server" />
         <SnCore:SelectTime ID="stdEndTime" runat="server" />
        </td>
       </tr>
@@ -221,7 +223,7 @@
         start:
        </td>
        <td class="sncore_form_value">
-        <SnCore:SelectDate FutureYears="10" RequiresSelection="true" ID="recStartDate" runat="server" />
+        <SnCore:SelectDate PastYears="0" FutureYears="10" RequiresSelection="true" ID="recStartDate" runat="server" />
        </td>
       </tr>
      </table>
@@ -243,22 +245,12 @@
         </div>
         <div class="sncore_inner_div">
          <asp:RadioButton ID="recEndBy" runat="server" Text="End by" GroupName="recRange" />
-         <SnCore:SelectDate FutureYears="10" RequiresSelection="true" ID="recEndByDate" runat="server" />
+         <SnCore:SelectDate PastYears="0" FutureYears="10" RequiresSelection="true" ID="recEndByDate" runat="server" />
         </div>
        </td>
       </tr>
      </table>
     </SnCoreWebControls:PersistentPanel>
-    <table class="sncore_account_table">
-     <tr>
-      <td class="sncore_form_label">
-      </td>
-      <td class="sncore_form_value">
-       <SnCoreWebControls:Button ID="confirmSchedule" runat="server" Text="Confirm" CssClass="sncore_form_button"
-        CausesValidation="false" OnClick="confirmSchedule_Click" />
-      </td>
-     </tr>
-    </table>   
    </SnCoreWebControls:PersistentPanel>
   </ContentTemplate>
  </asp:UpdatePanel>     
