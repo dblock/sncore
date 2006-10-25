@@ -827,7 +827,7 @@ namespace SnCore.Services
             Update(ta);
 
             TransitAccountEmail email = new TransitAccountEmail();
-            email.Address = emailaddress;
+            email.Address = new MailAddress(emailaddress).Address;
             Create(email, emailverified);
 
             CreateAccountSystemMessageFolders();
@@ -931,12 +931,12 @@ namespace SnCore.Services
         {
             AccountEmail e = new AccountEmail();
             e.Account = mAccount;
-            e.Address = email.Address.Trim().ToLower();
+            e.Address = new MailAddress(email.Address.Trim().ToLower()).Address;
             e.Verified = emailverified;
             e.Created = e.Modified = DateTime.UtcNow;
 
             if (mAccount.AccountEmails == null) mAccount.AccountEmails = new ArrayList();
-
+            
             if (!IsAdministrator() && mAccount.AccountEmails.Count >= MaxOfAnything)
             {
                 throw new QuotaExceededException();

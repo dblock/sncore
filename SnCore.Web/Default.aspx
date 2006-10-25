@@ -32,7 +32,7 @@
     <table width="100%" cellpadding="0" cellspacing="0"> 
      <tr>
       <td colspan="2">
-       <SnCore:Title ID="featuredTitle" Text="Featured" runat="server">  
+       <SnCore:Title ID="featuredTitle" Text="Featured" runat="server" ExpandedSize="100">  
         <Template>
          <div class="sncore_title_paragraph">
           Do you want to be featured on 

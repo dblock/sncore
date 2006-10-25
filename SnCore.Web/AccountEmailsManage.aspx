@@ -61,8 +61,6 @@
     </asp:UpdatePanel>
     <div class="sncore_h2">
      Add New</div>
-    <asp:ValidationSummary runat="server" ID="manageValidationSummary" CssClass="sncore_form_validator"
-     ShowSummary="true" />
     <table class="sncore_account_table">
      <tr>
       <td class="sncore_form_label">
@@ -70,19 +68,14 @@
       </td>
       <td class="sncore_form_value">
        <asp:TextBox CssClass="sncore_form_textbox" ID="inputEmailAddress" runat="server" />
-       <asp:RequiredFieldValidator ID="inputEmailAddressRequired" runat="server" ControlToValidate="inputEmailAddress"
-        CssClass="sncore_form_validator" ErrorMessage="e-mail address is required" Display="Dynamic" /><asp:RegularExpressionValidator
-         ID="inputEmailAddressRegexRequired" runat="server" ControlToValidate="inputEmailAddress"
-         ValidationExpression=".*@.*\..*" CssClass="sncore_form_validator" ErrorMessage="e-mail address is invalid"
-         Display="Dynamic" />
       </td>
      </tr>
      <tr>
       <td>
       </td>
       <td class="sncore_form_value">
-       <SnCoreWebControls:Button ID="manageAdd" runat="server" Text="Add" CausesValidation="true"
-        CssClass="sncore_form_button" OnClick="save_Click" />
+       <SnCoreWebControls:Button ID="manageAdd" runat="server" Text="Add" CssClass="sncore_form_button" 
+        OnClick="save_Click" />
       </td>
      </tr>
     </table>
