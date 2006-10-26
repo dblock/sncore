@@ -421,28 +421,21 @@ public partial class ScheduleControl : Control
 
     public void ConfirmSchedule(object sender, EventArgs e)
     {
-        try
-        {
-            if (IsConfirmed)
-                return;
+        if (IsConfirmed)
+            return;
 
-            UpdateSchedule();
-            VerifySchedule();
-            labelConfirmed.Text = this.ToString();
-            addRecurrent.Enabled = true;
-            addOneTime.Enabled = true;
-            editCurrent.Enabled = true;
-            panelConfirmed.Visible = true;
-            panelSchedule.Visible = false;
-            IsConfirmed = true;
-            if (Confirm != null) Confirm(sender, e);
-            panelSelectSchedule.Update();
-            panelConfirmedUpdate.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        UpdateSchedule();
+        VerifySchedule();
+        labelConfirmed.Text = this.ToString();
+        addRecurrent.Enabled = true;
+        addOneTime.Enabled = true;
+        editCurrent.Enabled = true;
+        panelConfirmed.Visible = true;
+        panelSchedule.Visible = false;
+        IsConfirmed = true;
+        if (Confirm != null) Confirm(sender, e);
+        panelSelectSchedule.Update();
+        panelConfirmedUpdate.Update();
     }
 
     public void stdStart_SelectionChanged(object sender, EventArgs e)

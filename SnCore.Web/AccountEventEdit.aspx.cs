@@ -18,7 +18,7 @@ public partial class AccountEventEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(manageAdd);
+            SetDefaultButton(manageAdd);rm
             place.Choose += new EventHandler(event_Changed);
             schedule.Confirm += new EventHandler(event_Changed);
             if (!IsPostBack)
