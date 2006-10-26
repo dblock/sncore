@@ -12,6 +12,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Services;
 using Wilco.Web.UI;
 using Microsoft.Web.UI;
+using System.Text;
 
 public partial class SelectPlaceControl : Control
 {
@@ -100,6 +101,8 @@ public partial class SelectPlaceControl : Control
                     IsChosen = true;
                 }
             }
+
+            UpdateEvents();
         }
         catch (Exception ex)
         {
@@ -287,5 +290,19 @@ public partial class SelectPlaceControl : Control
         {
 
         }
+    }
+
+    private void UpdateEvents()
+    {
+        StringBuilder changeclick = new StringBuilder();
+        changeclick.Append("if (this.href != '') {");
+        changeclick.Append("this.disabled = true;");
+        changeclick.AppendFormat("document.getElementById('{0}').style.cssText = 'display: none';", panelButtons.ClientID);
+        changeclick.AppendFormat("document.getElementById('{0}').disabled = 'disabled';", panelPlace.ClientID);
+        changeclick.AppendFormat("document.getElementById('{0}').innerText = '» please wait ...'", panelWorking.ClientID);
+        changeclick.Append("}");
+
+        lookupPlace.OnClientClick = changeclick.ToString();
+        addPlace.OnClientClick = changeclick.ToString();
     }
 }

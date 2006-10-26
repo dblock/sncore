@@ -437,16 +437,4 @@ public partial class ScheduleControl : Control
         panelSelectSchedule.Update();
         panelConfirmedUpdate.Update();
     }
-
-    public void stdStart_SelectionChanged(object sender, EventArgs e)
-    {
-        DateTime projectedEndDateTime = stdStartDate.SelectedDate.Add(stdStartTime.SelectedTime).AddHours(1);
-        DateTime currentEndDateTime = stdEndDate.SelectedDate.Add(stdEndTime.SelectedTime);
-        if (currentEndDateTime < projectedEndDateTime)
-        {
-            stdEndDate.SelectedDate = projectedEndDateTime.Date;
-            stdEndTime.SelectedTime = projectedEndDateTime.TimeOfDay;
-        }
-        panelSelectSchedule.Update();
-    }
 }

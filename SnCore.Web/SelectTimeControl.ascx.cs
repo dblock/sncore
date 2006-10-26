@@ -39,6 +39,12 @@ public partial class SelectTimeControl : System.Web.UI.UserControl
         base.OnInit(e);
     }
 
+    protected override void OnLoad(EventArgs e)
+    {
+        selecttimeDropdown.AutoPostBack = (SelectionChanged != null);
+        base.OnLoad(e);
+    }
+
     internal void SelectTime()
     {
         selecttimeDropdown.ClearSelection();
