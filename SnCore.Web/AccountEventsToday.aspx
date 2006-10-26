@@ -54,6 +54,7 @@
             AutoPostBack="true" DataTextField="Name" DataValueField="Name" runat="server" /></td>
            </ContentTemplate>
           </asp:UpdatePanel>
+        </td>
        </tr>
        <tr>
         <td class="sncore_form_label" style="height: 25px">
@@ -91,8 +92,8 @@
       <asp:Calendar ID="calendarEvents" runat="server" BackColor="#FFFFCC" BorderColor="#FFCC66"
        BorderWidth="1px" DayNameFormat="Shortest" Font-Names="Verdana" Font-Size="8pt"
        ForeColor="#663399" Height="200px" ShowGridLines="True" Width="220px" NextMonthText="&#187;" 
-       OnSelectionChanged="calendarEvents_SelectionChanged" PrevMonthText="&#171;" SelectionUpdateMode="DayWeekMonth" 
-       SelectMonthText="&#187;&#187;" SelectWeekText="&#187;" FirstDayOfWeek="Monday">     
+       OnSelectionChanged="calendarEvents_SelectionChanged" PrevMonthText="&#171;" SelectionMode="DayWeekMonth" 
+       SelectMonthText="&#187;&#187;" SelectWeekText="&#187;" FirstDayOfWeek="Monday">
        <SelectedDayStyle BackColor="#CCCCFF" Font-Bold="True" />
        <TodayDayStyle BackColor="#FFCC66" ForeColor="White" />
        <SelectorStyle BackColor="#FFCC66" />
