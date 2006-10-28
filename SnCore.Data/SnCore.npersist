@@ -288,6 +288,7 @@
     <property name="Description" columns="Description" type="System.String" />
     <property name="Modified" columns="Modified" type="System.DateTime" />
     <property name="Name" columns="Name" type="System.String" />
+    <property name="Hidden" columns="Hidden" type="System.Boolean" />
   </class>
   <class name="AccountPlace" table="AccountPlace">
     <property name="Id" id="true" columns="AccountPlace_Id" type="System.Int32" />
@@ -1075,6 +1076,7 @@
       <column name="Description" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Name" type="String" prec="64" allow-null="true" length="128" scale="0" />
+      <column name="Hidden" type="Boolean" prec="1" length="1" scale="0" default="((0))" />
     </table>
     <table name="AccountPlace">
       <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountPlace_Account" />
