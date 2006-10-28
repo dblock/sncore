@@ -3,6 +3,7 @@
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxtoolkit" %>
 <table width="100%">
  <tr>
   <td>
@@ -21,6 +22,15 @@
  <asp:HyperLink ID="linkNew" runat="server" Text="&#187; Post New" />
  <asp:HyperLink ID="linkMove" runat="server" Text="&#187; Move Thread" />
 </div>
+<!-- NOEMAIL-START -->
+<script language="javascript">
+ function CollapseExpand(id)
+ {
+  var panel = document.getElementById("body_" + id);
+  panel.style.cssText = (panel.style.cssText == "") ? "display: none;" : "";
+ }
+</script>
+<!-- NOEMAIL-END -->
 <SnCoreWebControls:PagedGrid CellPadding="4" BorderColor="White" ShowHeader="false" runat="server" ID="discussionThreadView"
  AutoGenerateColumns="false" CssClass="sncore_table" BorderWidth="0" OnItemDataBound="discussionThreadView_ItemDataBound"
  OnItemCommand="discussionThreadView_ItemCommand" AllowPaging="false" AllowCustomPaging="false">
@@ -34,18 +44,31 @@
   <asp:BoundColumn DataField="CanDelete" Visible="false" />
   <asp:TemplateColumn>
    <itemtemplate>
-     <table width="100%" border="0" cellspacing="0" cellpadding="0">
-      <tr>
-       <td width="<%# (int) Eval("Level") * 20 %>px">
-        <img src="images/Spacer.gif" width="<%# (int) Eval("Level") * 20 %>px" />
-       </td>
-       <td align="left" valign="top" width="*" class='<%# GetCssClass((DateTime) Eval("Created")) %>_left_border'>
-        <div class="sncore_message_subject">
+    <a name='post_<%# Eval("Id") %>'></a>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+     <tr>
+      <td width="<%# (int) Eval("Level") * 20 %>px">
+       <img src="images/Spacer.gif" width="<%# (int) Eval("Level") * 20 %>px" />
+      </td>
+      <td align="left" valign="top" width="*" class='<%# GetCssClass((DateTime) Eval("Created")) %>_left_border'>
+       <div class="sncore_message_subject">
+        <!-- NOEMAIL-START -->
+        <a href='#post_<%# Eval("Id") %>' onclick='CollapseExpand(<%# Eval("Id") %>)'>
+        <!-- NOEMAIL-END -->
          <%# base.Render(GetSubject((string) Eval("Subject")))%>
-        </div>
-        <div class="sncore_description">
-         posted <%# base.Adjust(Eval("Created")).ToString() %>
-        </div>
+        <!-- NOEMAIL-START -->
+        </a>
+        <!-- NOEMAIL-END -->          
+       </div>
+       <div class="sncore_description">
+        posted by
+        <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
+         <%# base.Render(Eval("AccountName")) %>
+        </a>
+        on       
+        <%# base.Adjust(Eval("Created")).ToString() %>
+       </div>
+       <div id='body_<%# Eval("Id") %>' style='<%# GetCssStyle((DateTime) Eval("Created")) %>'>
         <div class="sncore_description">
          <a href="DiscussionPost.aspx?did=<%# base.DiscussionId %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>&#edit">
           &#187; reply</a>
@@ -59,19 +82,15 @@
         <div class="sncore_message_body">
          <%# base.RenderEx(Eval("Body"))%>
         </div>
-       </td>
-       <td width="150" align="center" valign="top" class='<%# GetCssClass((DateTime) Eval("Created")) %>_right_border'>
-        <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
-         <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" style="<%# (((string) Eval("Body")).Length < 64) ? "height:50px;" : "" %>" />
-        </a>
-        <div class="sncore_link_description">
-         <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
-          <%# base.Render(Eval("AccountName")) %>
-         </a>
-        </div>
-       </td>
-      </tr>
-    </table>
+       </div>
+      </td>
+      <td width="150" align="center" valign="top" class='<%# GetCssClass((DateTime) Eval("Created")) %>_right_border'>
+       <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
+        <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" style='<%# GetCssPictureStyle((DateTime) Eval("Created"), ((string) Eval("Body")).Length) %>' />
+       </a>
+      </td>
+     </tr>
+   </table>
    </itemtemplate>
   </asp:TemplateColumn>
  </Columns>
