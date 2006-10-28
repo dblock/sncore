@@ -3,9 +3,20 @@ using NHibernate;
 using System.Collections;
 using System.IO;
 using SnCore.Tools.Drawing;
+using NHibernate.Expression;
 
 namespace SnCore.Services
 {
+    public class AccountPicturesQueryOptions
+    {
+        public bool Hidden = true;
+
+        public AccountPicturesQueryOptions()
+        {
+
+        }
+    };
+
     public class TransitAccountPictureWithBitmap : TransitAccountPicture
     {
         public byte[] Bitmap;
@@ -152,19 +163,40 @@ namespace SnCore.Services
             }
         }
 
+        private bool mHidden;
+
+        public bool Hidden
+        {
+            get
+            {
+                return mHidden;
+            }
+            set
+            {
+                mHidden = value;
+            }
+        }
+
         public TransitAccountPicture()
         {
 
         }
 
-        public TransitAccountPicture(AccountPicture p)
-            : base(p.Id, p, p.Account.AccountPictures)
+        public TransitAccountPicture(AccountPicture p, IList collection)
+            : base(p.Id, p, collection)
         {
             Name = p.Name;
             Description = p.Description;
             Created = p.Created;
             Modified = p.Modified;
             AccountId = p.Account.Id;
+            Hidden = p.Hidden;
+        }
+
+        public TransitAccountPicture(AccountPicture p)
+            : this(p, p.Account.AccountPictures)
+        {
+
         }
 
         public AccountPicture GetAccountPicture(ISession session)
@@ -172,6 +204,7 @@ namespace SnCore.Services
             AccountPicture p = (Id > 0) ? (AccountPicture)session.Load(typeof(AccountPicture), Id) : new AccountPicture();
             p.Name = this.Name;
             p.Description = this.Description;
+            p.Hidden = this.Hidden;
             if (this.Id == 0) p.Created = p.Modified = DateTime.UtcNow;
             else p.Modified = DateTime.UtcNow;
             return p;
@@ -251,35 +284,31 @@ namespace SnCore.Services
             }
         }
 
-        public TransitAccountPictureWithBitmap TransitAccountPictureWithBitmap
+        public TransitAccountPictureWithBitmap GetTransitAccountPictureWithBitmap()
         {
-            get
-            {
-                TransitAccountPictureWithBitmap pic = new TransitAccountPictureWithBitmap(mAccountPicture);
-                return pic;
-            }
+            TransitAccountPictureWithBitmap pic = new TransitAccountPictureWithBitmap(mAccountPicture);
+            return pic;
         }
 
-        public TransitAccountPictureWithThumbnail TransitAccountPictureWithThumbnail
+        public TransitAccountPictureWithThumbnail GetTransitAccountPictureWithThumbnail()
         {
-            get
-            {
-                TransitAccountPictureWithThumbnail pic = new TransitAccountPictureWithThumbnail(mAccountPicture);
-                return pic;
-            }
+            TransitAccountPictureWithThumbnail pic = new TransitAccountPictureWithThumbnail(mAccountPicture);
+            return pic;
         }
 
-        public TransitAccountPicture TransitAccountPicture
+        public TransitAccountPicture GetTransitAccountPicture(IList collection)
         {
-            get
-            {
-                TransitAccountPicture pic = new TransitAccountPicture(mAccountPicture);
-                pic.CommentCount = ManagedDiscussion.GetDiscussionPostCount(
-                    Session, mAccountPicture.Account.Id,
-                    ManagedDiscussion.AccountPictureDiscussion, mAccountPicture.Id);
-                pic.Counter = ManagedStats.GetCounter(Session, "AccountPicture.aspx", mAccountPicture.Id);
-                return pic;
-            }
+            TransitAccountPicture pic = new TransitAccountPicture(mAccountPicture, collection);
+            pic.CommentCount = ManagedDiscussion.GetDiscussionPostCount(
+                Session, mAccountPicture.Account.Id,
+                ManagedDiscussion.AccountPictureDiscussion, mAccountPicture.Id);
+            pic.Counter = ManagedStats.GetCounter(Session, "AccountPicture.aspx", mAccountPicture.Id);
+            return pic;
+        }
+
+        public TransitAccountPicture GetTransitAccountPicture()
+        {
+            return GetTransitAccountPicture(mAccountPicture.Account.AccountPictures);
         }
 
         public int AccountId

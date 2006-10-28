@@ -28,15 +28,11 @@ namespace SnCore.Services
 
         public static int GetRandomElementId(IList collection)
         {
-            if (collection == null)
-                return 0;
-
-            if (collection.Count == 0)
+            if (collection == null || collection.Count == 0)
                 return 0;
 
             object resultobject = collection[new Random().Next() % collection.Count];
             return (int)resultobject.GetType().GetProperty("Id").GetValue(resultobject, null);
         }
-
     }
 }

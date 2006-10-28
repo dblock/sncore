@@ -280,7 +280,7 @@ namespace SnCore.Services
             LastError = o.LastError;
             AccountId = o.Account.Id;
             AccountName = o.Account.Name;
-            AccountPictureId = ManagedService.GetRandomElementId(o.Account.AccountPictures);
+            AccountPictureId = ManagedAccount.GetRandomAccountPictureId(o.Account);
             Username = o.Username;
             Password = o.Password;
             UpdateFrequency = o.UpdateFrequency;

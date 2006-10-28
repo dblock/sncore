@@ -60,6 +60,10 @@
          <asp:LinkButton Text="&#187; Delete" ID="deletePicture" runat="server" OnClientClick="return confirm('Are you sure you want to do this?')"
           CommandName="Delete" CommandArgument='<%# Eval("Id") %>' />
         </div>
+        <div style="font-size: smaller;">
+         <asp:LinkButton Text='<%# GetShowHideButtonText((bool) Eval("Hidden")) %>' ID="showhidePictre" runat="server"
+          CommandName="ShowHide" CommandArgument='<%# Eval("Id") %>' />
+        </div>
        </ItemTemplate>
       </SnCoreWebControls:PagedList>
      </ContentTemplate>

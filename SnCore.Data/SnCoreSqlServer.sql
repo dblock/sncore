@@ -2227,6 +2227,7 @@ CREATE TABLE [dbo].[AccountPicture](
 	[Description] [ntext] NULL,
 	[Created] [datetime] NOT NULL,
 	[Modified] [datetime] NOT NULL,
+	[Hidden] [bit] NOT NULL CONSTRAINT [DF_AccountPicture_HideProfile]  DEFAULT ((0)),
  CONSTRAINT [PK_AccountPicture] PRIMARY KEY CLUSTERED 
 (
 	[AccountPicture_Id] ASC

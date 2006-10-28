@@ -100,6 +100,7 @@ public partial class AccountBlogPostNew : AuthenticatedPage
                 p.Bitmap = t.Bitmap;
                 p.Name = Path.GetFileName(file.FileName);
                 p.Description = string.Empty;
+                p.Hidden = true;
 
                 int id = AccountService.AddAccountPicture(SessionManager.Ticket, p);
 

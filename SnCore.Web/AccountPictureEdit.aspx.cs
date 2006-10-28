@@ -25,10 +25,11 @@ public partial class AccountPictureEdit : AuthenticatedPage
 
                 if (id > 0)
                 {
-                    TransitAccountPicture tw = AccountService.GetAccountPictureById(SessionManager.Ticket, id);
+                    TransitAccountPicture tw = AccountService.GetAccountPictureById(SessionManager.Ticket, id, null);
                     this.Title = inputName.Text = Renderer.Render(tw.Name);
                     inputDescription.Text = tw.Description;
                     inputPictureThumbnail.Src = string.Format("AccountPictureThumbnail.aspx?id={0}&CacheDuration=0", tw.Id);
+                    inputHidden.Checked = tw.Hidden;
 
                     discussionComments.DiscussionId = DiscussionService.GetAccountPictureDiscussionId(id);
                     discussionComments.DataBind();
@@ -49,6 +50,7 @@ public partial class AccountPictureEdit : AuthenticatedPage
             tw.Name = inputName.Text;
             tw.Description = inputDescription.Text;
             tw.Id = RequestId;
+            tw.Hidden = inputHidden.Checked;
             AccountService.AddAccountPicture(SessionManager.Ticket, tw);
             Redirect("AccountPicturesManage.aspx");
         }

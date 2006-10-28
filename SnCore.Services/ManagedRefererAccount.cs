@@ -143,7 +143,7 @@ namespace SnCore.Services
             RefererHostName = o.RefererHost.Host;
             RefererHostLastRefererUri = o.RefererHost.LastRefererUri;
             RefererHostTotal = o.RefererHost.Total;
-            AccountPictureId = ManagedService.GetRandomElementId(o.Account.AccountPictures);
+            AccountPictureId = ManagedAccount.GetRandomAccountPictureId(o.Account);
             AccountId = o.Account.Id;
             AccountName = o.Account.Name;
             Created = o.Created;

@@ -2178,5 +2178,23 @@ namespace SnCore.Services
         }
 
         #endregion
+
+        public static int GetRandomAccountPictureId(Account acct)
+        {
+            if (acct.AccountPictures == null || acct.AccountPictures.Count == 0)
+                return 0;
+
+            ArrayList copyofcollection = new ArrayList(acct.AccountPictures.Count);
+
+            foreach (AccountPicture ap in acct.AccountPictures)
+            {
+                if (!ap.Hidden)
+                {
+                    copyofcollection.Add(ap);
+                }
+            }
+
+            return ManagedService.GetRandomElementId(copyofcollection);
+        }
     }
 }

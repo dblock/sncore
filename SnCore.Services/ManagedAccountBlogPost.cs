@@ -210,7 +210,7 @@ namespace SnCore.Services
             try
             {
                 Account acct = (Account)session.Load(typeof(Account), o.AccountId);
-                AccountPictureId = ManagedService.GetRandomElementId(acct.AccountPictures);
+                AccountPictureId = ManagedAccount.GetRandomAccountPictureId(acct);
             }
             catch (NHibernate.ObjectNotFoundException)
             {

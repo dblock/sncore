@@ -37,13 +37,15 @@
       </SnCoreWebControls:PagedList>
      </td>
      <td valign="top" width="*">
-      <div class="sncore_link" style="text-align: center; margin: 10px;">
+      <asp:Panel runat="server" id="panelNavigator" CssClass="sncore_link" style="text-align: center; margin: 10px;">
        <asp:LinkButton ID="linkPrev" Text="&#171; Prev" runat="server" OnCommand="picturesView_ItemCommand" CommandName="Picture" /> |
        <asp:Label ID="labelIndex" runat="server" />
        | <asp:LinkButton ID="linkNext" Text="Next &#187;" runat="server" OnCommand="picturesView_ItemCommand" CommandName="Picture" />        
-      </div>
+      </asp:Panel>
       <div style="text-align: center; width: 100%;">
-       <img runat="server" id="inputPicture" src="AccountPictureThumbnail.aspx?id=0" />
+       <a runat="server" id="downloadPicture">
+        <img runat="server" id="inputPicture" border="0" src="AccountPictureThumbnail.aspx?id=0" />
+       </a>
       </div>
       <table class="sncore_inner_table" width="95%">
        <tr>

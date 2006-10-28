@@ -43,8 +43,12 @@ public partial class AccountPicturesView : Page
 
     void GetData(object sender, EventArgs e)
     {
+        AccountPicturesQueryOptions ap = new AccountPicturesQueryOptions();
+        ap.Hidden = false;
+        object[] p_args = { RequestId, ap };
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = AccountService.GetAccountPicturesCountById(RequestId);
+        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+            AccountService, "GetAccountPicturesCountById", p_args);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -53,10 +57,14 @@ public partial class AccountPicturesView : Page
     {
         try
         {
+            AccountPicturesQueryOptions ap = new AccountPicturesQueryOptions();
+            ap.Hidden = false;
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageSize = gridManage.PageSize;
             options.PageNumber = gridManage.CurrentPageIndex;
-            gridManage.DataSource = AccountService.GetAccountPicturesById(RequestId, options);
+            object[] args = { RequestId, ap, options };
+            gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountPicture>(
+                AccountService, "GetAccountPicturesById", args);
         }
         catch (Exception ex)
         {

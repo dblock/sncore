@@ -141,7 +141,7 @@ namespace SnCore.Services
             KeenName = e.Keen.Name;
             KeenId = e.Keen.Id;
 
-            AccountPictureId = ManagedService.GetRandomElementId(e.Account.AccountPictures);
+            AccountPictureId = ManagedAccount.GetRandomAccountPictureId(e.Account);
             AccountName = e.Account.Name;
             AccountId = e.Account.Id;
 

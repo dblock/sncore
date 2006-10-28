@@ -291,7 +291,7 @@ namespace SnCore.Services
 
                 if (sender != null)
                 {
-                    tam.SenderAccountPictureId = ManagedService.GetRandomElementId(sender.AccountPictures);
+                    tam.SenderAccountPictureId = ManagedAccount.GetRandomAccountPictureId(sender);
                     tam.SenderAccountName = sender.Name;
                 }
 
@@ -301,7 +301,7 @@ namespace SnCore.Services
 
                 if (recepient != null)
                 {
-                    tam.RecepientAccountPictureId = ManagedService.GetRandomElementId(recepient.AccountPictures);
+                    tam.RecepientAccountPictureId = ManagedAccount.GetRandomAccountPictureId(recepient);
                     tam.RecepientAccountName = recepient.Name;
                 }
 

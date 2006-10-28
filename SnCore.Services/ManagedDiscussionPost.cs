@@ -384,7 +384,7 @@ namespace SnCore.Services
             {
                 Account acct = (Account)Session.Load(typeof(Account), mDiscussionPost.AccountId);
                 result.AccountName = (acct != null) ? acct.Name : "Unknown User";
-                result.AccountPictureId = (acct != null) ? ManagedService.GetRandomElementId(acct.AccountPictures) : 0;
+                result.AccountPictureId = ManagedAccount.GetRandomAccountPictureId(acct);
             }
             catch (ObjectNotFoundException)
             {

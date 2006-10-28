@@ -139,7 +139,7 @@ namespace SnCore.Services
             SurveyQuestionId = p.SurveyQuestion.Id;
             AccountId = p.Account.Id;
             AccountName = p.Account.Name;
-            AccountPictureId = ManagedService.GetRandomElementId(p.Account.AccountPictures);
+            AccountPictureId = ManagedAccount.GetRandomAccountPictureId(p.Account);
             Answer = p.Answer;
             Created = p.Created;
             Modified = p.Modified;

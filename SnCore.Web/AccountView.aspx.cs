@@ -305,7 +305,9 @@ public partial class AccountView : Page
 
     void GetPicturesData(object sender, EventArgs e)
     {
-        object[] p_args = { AccountId };
+        AccountPicturesQueryOptions po = new AccountPicturesQueryOptions();
+        po.Hidden = false;
+        object[] p_args = { AccountId, po };
         picturesView.CurrentPageIndex = 0;
         picturesView.VirtualItemCount = SessionManager.GetCachedCollectionCount(
             AccountService, "GetAccountPicturesCountById", p_args);
@@ -318,8 +320,10 @@ public partial class AccountView : Page
     {
         try
         {
+            AccountPicturesQueryOptions po = new AccountPicturesQueryOptions();
+            po.Hidden = false;
             ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
-            object[] args = { AccountId, options };
+            object[] args = { AccountId, po, options };
             picturesView.DataSource = SessionManager.GetCachedCollection<TransitAccountPicture>(
                 AccountService, "GetAccountPicturesById", args);
         }

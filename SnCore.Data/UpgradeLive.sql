@@ -18,3 +18,6 @@ ALTER TABLE dbo.AccountFeed ADD [PublishImgs] bit NULL
 GO
 UPDATE dbo.AccountFeed SET PublishImgs = Publish
 ALTER TABLE dbo.AccountFeed ALTER COLUMN [PublishImgs] bit NOT NULL
+
+-- add a hidden from profile field
+ALTER TABLE dbo.AccountPicture ADD [Hidden] bit NOT NULL DEFAULT 0

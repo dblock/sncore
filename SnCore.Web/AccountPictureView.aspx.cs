@@ -55,7 +55,9 @@ public partial class AccountPictureView : Page
         {
             if (mAccountPicture == null)
             {
-                object[] sp_args = { SessionManager.Ticket, PictureId };
+                AccountPicturesQueryOptions ap = new AccountPicturesQueryOptions();
+                ap.Hidden = false;
+                object[] sp_args = { SessionManager.Ticket, PictureId, ap };
                 mAccountPicture = SessionManager.GetCachedItem<TransitAccountPicture>(
                     AccountService, "GetAccountPictureById", sp_args);
             }
@@ -81,7 +83,9 @@ public partial class AccountPictureView : Page
 
     void GetPicturesData(object sender, EventArgs e)
     {
-        object[] p_args = { Account.Id };
+        AccountPicturesQueryOptions ap = new AccountPicturesQueryOptions();
+        ap.Hidden = false;
+        object[] p_args = { Account.Id, ap };
         picturesView.CurrentPageIndex = 0;
         picturesView.VirtualItemCount = SessionManager.GetCachedCollectionCount(
             AccountService, "GetAccountPicturesCountById", p_args);
@@ -93,7 +97,7 @@ public partial class AccountPictureView : Page
     {
         TransitAccountPicture p = AccountPicture;
 
-        inputPicture.Src = string.Format("AccountPicture.aspx?id={0}", p.Id);
+        downloadPicture.HRef = inputPicture.Src = string.Format("AccountPicture.aspx?id={0}", p.Id);
         inputName.Text = Renderer.Render(p.Name);
         inputDescription.Text = Renderer.Render(p.Description);
         inputCreated.Text = Adjust(p.Created).ToString("d");
@@ -125,6 +129,8 @@ public partial class AccountPictureView : Page
         linkNext.CommandArgument = p.NextId.ToString();
         labelIndex.Text = string.Format("{0} / {1}", p.Index + 1, p.Count);
 
+        panelNavigator.Visible = (p.Index >= 0);
+
         discussionComments.ReturnUrl = string.Format("AccountPictureView.aspx?id={0}", PictureId);
         discussionComments.DiscussionId = DiscussionService.GetAccountPictureDiscussionId(PictureId);
         discussionComments.DataBind();
@@ -152,8 +158,10 @@ public partial class AccountPictureView : Page
     {
         try
         {
+            AccountPicturesQueryOptions ap = new AccountPicturesQueryOptions();
+            ap.Hidden = false;
             ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
-            object[] args = { Account.Id, options };
+            object[] args = { Account.Id, ap, options };
             picturesView.DataSource = SessionManager.GetCachedCollection<TransitAccountPicture>(
                 AccountService, "GetAccountPicturesById", args);
         }

@@ -175,7 +175,7 @@ namespace SnCore.Services
             PlaceId = o.Place.Id;
             AccountName = o.Account.Name;
             PlaceName = o.Place.Name;
-            AccountPictureId = ManagedService.GetRandomElementId(o.Account.AccountPictures);
+            AccountPictureId = ManagedAccount.GetRandomAccountPictureId(o.Account);
             PlacePictureId = ManagedService.GetRandomElementId(o.Place.PlacePictures);
             PlaceCity = o.Place.City.Name;
             PlaceState = o.Place.City.State.Name;

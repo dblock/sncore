@@ -141,7 +141,7 @@ namespace SnCore.Services
             Updated = o.Updated;
             AccountId = o.Account.Id;
             AccountName = o.Account.Name;
-            AccountPictureId = ManagedService.GetRandomElementId(o.Account.AccountPictures);
+            AccountPictureId = ManagedAccount.GetRandomAccountPictureId(o.Account);
         }
 
         public AccountBlog GetAccountBlog(ISession session)

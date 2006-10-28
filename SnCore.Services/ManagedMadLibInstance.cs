@@ -257,7 +257,7 @@ namespace SnCore.Services
                 {
                     Account acct = (Account)Session.Load(typeof(Account), mMadLibInstance.AccountId);
                     instance.AccountName = (acct != null) ? acct.Name : "Unknown User";
-                    instance.AccountPictureId = (acct != null) ? ManagedService.GetRandomElementId(acct.AccountPictures) : 0;
+                    instance.AccountPictureId = ManagedAccount.GetRandomAccountPictureId(acct);
                 }
                 catch (ObjectNotFoundException)
                 {

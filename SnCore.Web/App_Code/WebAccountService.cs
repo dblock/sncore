@@ -18,6 +18,7 @@ using System.Web.Services.Protocols;
 using SnCore.Tools.Web;
 using SnCore.Tools;
 using System.Net.Mail;
+using System.Text;
 
 namespace SnCore.WebServices
 {
@@ -538,16 +539,45 @@ namespace SnCore.WebServices
         /// <param name="ticket">authentication ticket</param>
         /// <returns>transit picture</returns>
         [WebMethod(Description = "Get account picture without data.", BufferResponse = true)]
-        public TransitAccountPicture GetAccountPictureById(string ticket, int id)
+        public TransitAccountPicture GetAccountPictureById(string ticket, int id, AccountPicturesQueryOptions po)
         {
             // todo: check permissions with ticket
+            int user_id = GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
+                // this is a picture within a collection, next and previous must be adjsted according to options
+
                 ISession session = SnCore.Data.Hibernate.Session.Current;
+                IList pictures = InternalGetAccountPictures(session, user_id, po, null);
                 ManagedAccountPicture a = new ManagedAccountPicture(session, id);
-                TransitAccountPicture p = a.TransitAccountPicture;
+                TransitAccountPicture p = a.GetTransitAccountPicture(pictures);
                 return p;
             }
+        }
+
+        private static IList InternalGetAccountPictures(
+            ISession session, int id, AccountPicturesQueryOptions po, ServiceQueryOptions options)
+        {
+            ICriteria c = session.CreateCriteria(typeof(AccountPicture))
+                .Add(Expression.Eq("Account.Id", id))
+                .AddOrder(Order.Desc("Created"))
+                .AddOrder(Order.Desc("Id"));
+
+            if (po != null)
+            {
+                if (!po.Hidden)
+                {
+                    c.Add(Expression.Eq("Hidden", false));
+                }
+            }
+
+            if (options != null)
+            {
+                c.SetFirstResult(options.FirstResult);
+                c.SetMaxResults(options.PageSize);
+            }
+
+            return c.List();
         }
 
         /// <summary>
@@ -564,7 +594,7 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedAccountPicture a = new ManagedAccountPicture(session, id);
-                return a.TransitAccountPictureWithBitmap;
+                return a.GetTransitAccountPictureWithBitmap();
             }
         }
 
@@ -589,7 +619,7 @@ namespace SnCore.WebServices
                     return null;
                 }
 
-                return p.TransitAccountPictureWithBitmap;
+                return p.GetTransitAccountPictureWithBitmap();
             }
         }
 
@@ -607,7 +637,7 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedAccountPicture p = new ManagedAccountPicture(session, id);
-                return p.TransitAccountPictureWithThumbnail;
+                return p.GetTransitAccountPictureWithThumbnail();
             }
         }
 
@@ -632,7 +662,7 @@ namespace SnCore.WebServices
                     return null;
                 }
 
-                return p.TransitAccountPictureWithThumbnail;
+                return p.GetTransitAccountPictureWithThumbnail();
             }
         }
 
@@ -1238,23 +1268,27 @@ namespace SnCore.WebServices
         /// Get account pictures count.
         /// </summary>
         [WebMethod(Description = "Get account pictures count.")]
-        public int GetAccountPicturesCount(string ticket)
+        public int GetAccountPicturesCount(string ticket, AccountPicturesQueryOptions po)
         {
-            return GetAccountPicturesCountById(ManagedAccount.GetAccountId(ticket));
+            return GetAccountPicturesCountById(ManagedAccount.GetAccountId(ticket), po);
         }
 
         /// <summary>
         /// Get account pictures count.
         /// </summary>
         [WebMethod(Description = "Get account pictures count.")]
-        public int GetAccountPicturesCountById(int id)
+        public int GetAccountPicturesCountById(int id, AccountPicturesQueryOptions po)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
+                StringBuilder query = new StringBuilder();
+                query.AppendFormat("SELECT COUNT(ap) FROM AccountPicture ap WHERE ap.Account.Id = {0}", id);
+                if (po != null)
+                {
+                    if (!po.Hidden) query.AppendFormat(" AND ap.Hidden = 0");
+                }
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery(string.Format(
-                    "SELECT COUNT(s) FROM AccountPicture s WHERE s.Account.Id = {0}",
-                    id)).UniqueResult();
+                return (int)session.CreateQuery(query.ToString()).UniqueResult();
             }
         }
 
@@ -1264,9 +1298,9 @@ namespace SnCore.WebServices
         /// <param name="ticket">authentication ticket</param>
         /// <returns>transit account pictures</returns>
         [WebMethod(Description = "Get account pictures.")]
-        public List<TransitAccountPicture> GetAccountPictures(string ticket, ServiceQueryOptions options)
+        public List<TransitAccountPicture> GetAccountPictures(string ticket, AccountPicturesQueryOptions po, ServiceQueryOptions options)
         {
-            return GetAccountPicturesById(GetAccountId(ticket), options);
+            return GetAccountPicturesById(GetAccountId(ticket), po, options);
         }
 
         /// <summary>
@@ -1275,27 +1309,17 @@ namespace SnCore.WebServices
         /// <param name="id">account id</param>
         /// <returns>transit account pictures</returns>
         [WebMethod(Description = "Get account pictures.", CacheDuration = 60)]
-        public List<TransitAccountPicture> GetAccountPicturesById(int id, ServiceQueryOptions options)
+        public List<TransitAccountPicture> GetAccountPicturesById(int id, AccountPicturesQueryOptions po, ServiceQueryOptions options)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ICriteria c = session.CreateCriteria(typeof(AccountPicture))
-                    .Add(Expression.Eq("Account.Id", id))
-                    .AddOrder(Order.Desc("Created"));            
-
-                if (options != null)
-                {
-                    c.SetFirstResult(options.FirstResult);
-                    c.SetMaxResults(options.PageSize);
-                }
-
-                IList list = c.List();
+                IList list = InternalGetAccountPictures(session, id, po, options);
 
                 List<TransitAccountPicture> result = new List<TransitAccountPicture>(list.Count);
                 foreach (AccountPicture e in list)
                 {
-                    result.Add(new ManagedAccountPicture(session, e).TransitAccountPicture);
+                    result.Add(new ManagedAccountPicture(session, e).GetTransitAccountPicture(list));
                 }
                 SnCore.Data.Hibernate.Session.Flush();
                 return result;

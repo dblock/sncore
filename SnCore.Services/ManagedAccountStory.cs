@@ -192,7 +192,7 @@ namespace SnCore.Services
             Summary = s.Summary;
             AccountId = s.Account.Id;
             AccountName = s.Account.Name;
-            AccountPictureId = ManagedService.GetRandomElementId(s.Account.AccountPictures);
+            AccountPictureId = ManagedAccount.GetRandomAccountPictureId(s.Account);
             AccountStoryPictureId = ManagedService.GetRandomElementId(s.AccountStoryPictures);
             Created = s.Created;
             Modified = s.Modified;

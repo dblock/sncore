@@ -224,7 +224,7 @@ namespace SnCore.Services
             Created = o.Created;
             Updated = o.Updated;
             AccountId = o.AccountFeed.Account.Id;
-            AccountPictureId = ManagedService.GetRandomElementId(o.AccountFeed.Account.AccountPictures);
+            AccountPictureId = ManagedAccount.GetRandomAccountPictureId(o.AccountFeed.Account);
             AccountName = o.AccountFeed.Account.Name;
             AccountFeedName = o.AccountFeed.Name;
             AccountFeedLinkUrl = o.AccountFeed.LinkUrl;

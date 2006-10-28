@@ -22,6 +22,7 @@ using System;
         private System.String m_Description;
         private System.DateTime m_Modified;
         private System.String m_Name;
+        private System.Boolean m_Hidden;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -196,6 +197,31 @@ using System;
             set
             {
                 m_Name = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.Boolean'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Hidden' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Hidden' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Boolean Hidden
+        {
+            get
+            {
+                return m_Hidden;
+            }
+            set
+            {
+                m_Hidden = value;
             }
         }
 

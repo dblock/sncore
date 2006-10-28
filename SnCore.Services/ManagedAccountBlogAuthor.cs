@@ -147,7 +147,7 @@ namespace SnCore.Services
         {
             AccountId = o.Account.Id;
             AccountName = o.Account.Name;
-            AccountPictureId = ManagedService.GetRandomElementId(o.Account.AccountPictures);
+            AccountPictureId = ManagedAccount.GetRandomAccountPictureId(o.Account);
             AccountBlogId = o.AccountBlog.Id;
             AccountBlogName = o.AccountBlog.Name;
             AllowDelete = o.AllowDelete;
