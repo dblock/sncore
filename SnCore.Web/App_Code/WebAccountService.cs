@@ -542,14 +542,13 @@ namespace SnCore.WebServices
         public TransitAccountPicture GetAccountPictureById(string ticket, int id, AccountPicturesQueryOptions po)
         {
             // todo: check permissions with ticket
-            int user_id = GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 // this is a picture within a collection, next and previous must be adjsted according to options
 
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                IList pictures = InternalGetAccountPictures(session, user_id, po, null);
                 ManagedAccountPicture a = new ManagedAccountPicture(session, id);
+                IList pictures = InternalGetAccountPictures(session, a.AccountId, po, null);
                 TransitAccountPicture p = a.GetTransitAccountPicture(pictures);
                 return p;
             }
