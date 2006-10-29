@@ -119,34 +119,6 @@ namespace SnCore.Services
 
     public class TransitAccountActivity : TransitAccount
     {
-        private TransitAccountStory mLatestStory = null;
-
-        public TransitAccountStory LatestStory
-        {
-            get
-            {
-                return mLatestStory;
-            }
-            set
-            {
-                mLatestStory = value;
-            }
-        }
-
-        private TransitSurvey mLatestSurvey = null;
-
-        public TransitSurvey LatestSurvey
-        {
-            get
-            {
-                return mLatestSurvey;
-            }
-            set
-            {
-                mLatestSurvey = value;
-            }
-        }
-
         private int mNewPictures = 0;
 
         public int NewPictures
@@ -196,29 +168,7 @@ namespace SnCore.Services
         public TransitAccountActivity(ISession session, Account a)
             : base(a)
         {
-            // latest account story
             DateTime limit = DateTime.UtcNow.AddDays(-14);
-
-            AccountStory story = (AccountStory)session.CreateCriteria(typeof(AccountStory))
-                .Add(Expression.Eq("Account.Id", a.Id))
-                .Add(Expression.Eq("Publish", true))
-                .Add(Expression.Ge("Modified", limit))
-                .AddOrder(Order.Desc("Created"))
-                .SetMaxResults(1)
-                .UniqueResult();
-
-            if (story != null) LatestStory = new ManagedAccountStory(session, story).TransitAccountStory;
-
-            // latest account survey
-
-            AccountSurveyAnswer answer = (AccountSurveyAnswer)session.CreateCriteria(typeof(AccountSurveyAnswer))
-                .Add(Expression.Eq("Account.Id", a.Id))
-                .Add(Expression.Ge("Modified", limit))
-                .AddOrder(Order.Desc("Created"))
-                .SetMaxResults(1)
-                .UniqueResult();
-
-            if (answer != null) LatestSurvey = new ManagedSurvey(session, answer.SurveyQuestion.Survey).TransitSurvey;
 
             // new photos (count one week of photos)
 
@@ -243,10 +193,7 @@ namespace SnCore.Services
         {
             get
             {
-                int result = NewPictures + NewDiscussionPosts + NewSyndicatedContent;
-                if (LatestStory != null) result++;
-                if (LatestSurvey != null) result++;
-                return result;
+                return NewPictures + NewDiscussionPosts + NewSyndicatedContent;
             }
         }
 

@@ -49,16 +49,6 @@
              </a>
             </div>
             <div>
-             <a href='<% Response.Write(WebsiteUrl); %>/AccountStoryView.aspx?id=<%# GetAccountStoryId((TransitAccountStory) Eval("LatestStory")) %>'>
-              <%# GetAccountStory((TransitAccountStory)Eval("LatestStory"))%>
-             </a>
-            </div>
-            <div>
-             <a href='<% Response.Write(WebsiteUrl); %>/AccountSurveyView.aspx?aid=<%# Eval("Id") %>&id=<%# GetSurveyId((TransitSurvey) Eval("LatestSurvey")) %>'>
-              <%# GetSurvey((TransitSurvey)Eval("LatestSurvey"))%>
-             </a>
-            </div>
-            <div>
              <a href='<% Response.Write(WebsiteUrl); %>/AccountDiscussionThreadsView.aspx?id=<%# Eval("Id") %>'>
               <%# GetNewDiscussionPosts((int) Eval("NewDiscussionPosts")) %>
              </a>
