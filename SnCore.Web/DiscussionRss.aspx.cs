@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using NHibernate.Exceptions;
 
 public partial class DiscussionRss : Page
 {
@@ -40,7 +41,14 @@ public partial class DiscussionRss : Page
     {
         get
         {
-            return Renderer.Render(Discussion.Description);
+            try
+            {
+                return Renderer.Render(Discussion.Description);
+            }
+            catch (Exception ex)
+            {
+                return Renderer.Render(ex.Message);
+            }
         }
     }
 
@@ -48,8 +56,15 @@ public partial class DiscussionRss : Page
     {
         get
         {
-            return Renderer.Render(string.Format("{0} {1}",
-                SessionManager.GetCachedConfiguration("SnCore.Title", "SnCore"), Discussion.Name));
+            try
+            {
+                return Renderer.Render(string.Format("{0} {1}",
+                    SessionManager.GetCachedConfiguration("SnCore.Title", "SnCore"), Discussion.Name));
+            }
+            catch (Exception ex)
+            {
+                return Renderer.Render(ex.Message);
+            }
         }
     }
 
@@ -57,7 +72,14 @@ public partial class DiscussionRss : Page
     {
         get
         {
-            return WebsiteUrl + string.Format("/DiscussionView.aspx?id={0}", Discussion.Id);
+            try
+            {
+                return WebsiteUrl + string.Format("/DiscussionView.aspx?id={0}", Discussion.Id);
+            }
+            catch (Exception ex)
+            {
+                return Renderer.Render(ex.Message);
+            }
         }
     }
 
@@ -74,6 +96,11 @@ public partial class DiscussionRss : Page
                 rssRepeater.DataSource = DiscussionService.GetLatestDiscussionPostsById(Discussion.Id, options);
                 rssRepeater.DataBind();
             }
+        }
+        catch (NHibernate.ObjectNotFoundException ex)
+        {
+            Response.StatusCode = 404;
+            Response.StatusDescription = Renderer.Render(ex.Message);
         }
         catch (Exception ex)
         {
