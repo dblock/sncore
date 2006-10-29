@@ -82,7 +82,7 @@ namespace SnCore.Services
             : base(e.Id)
         {
             FriendId = invert ? e.Account.Id : e.Keen.Id;
-            FriendPictureId = ManagedService.GetRandomElementId(invert ? e.Account.AccountPictures : e.Keen.AccountPictures);
+            FriendPictureId = ManagedAccount.GetRandomAccountPictureId(invert ? e.Account : e.Keen);
             FriendName = invert ? e.Account.Name : e.Keen.Name;
             Created = e.Created;
         }

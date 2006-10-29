@@ -137,7 +137,7 @@ namespace SnCore.Services
         public TransitAccountFriendRequest(AccountFriendRequest e)
             : base(e.Id)
         {
-            KeenPictureId = ManagedService.GetRandomElementId(e.Keen.AccountPictures);
+            KeenPictureId = ManagedAccount.GetRandomAccountPictureId(e.Keen);
             KeenName = e.Keen.Name;
             KeenId = e.Keen.Id;
 

@@ -296,7 +296,7 @@ namespace SnCore.Services
             mIsAdministrator = a.IsAdministrator;
             IsPasswordExpired = a.IsPasswordExpired;
             // random picture from the account
-            PictureId = ManagedService.GetRandomElementId(a.AccountPictures);
+            PictureId = ManagedAccount.GetRandomAccountPictureId(a);
         }
 
         private bool mIsPasswordExpired = false;
