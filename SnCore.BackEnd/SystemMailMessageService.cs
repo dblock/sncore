@@ -85,16 +85,17 @@ namespace SnCore.BackEndServices
                     message.Headers.Add("x-mimeole", string.Format("Produced By {0} {1}",
                         ManagedSystem.Title, ManagedSystem.ProductVersion));
                     message.Headers.Add("Content-class", "urn:content-classes:message");
-                    message.Headers.Add("Content-Type", "text/html; charset=\"utf-8\"");
+                    message.Headers.Add("Content-Type", "text/html; charset=\"ISO-8859-1\"");
                     message.IsBodyHtml = true;
-                    message.Body = m.Body;
+                    Encoding iso8859 = Encoding.GetEncoding(28591);
+                    message.Body = iso8859.GetString(Encoding.Default.GetBytes(m.Body));
                     message.ReplyTo = new MailAddress(m.MailFrom);
                     message.From = new MailAddress(
                         ManagedConfiguration.GetValue(session, "SnCore.Admin.EmailAddress", "admin@localhost.com"),
                         ManagedConfiguration.GetValue(session, "SnCore.Admin.Name", "Admin")
                         );
                     message.To.Add(new MailAddress(m.MailTo));
-                    message.Subject = m.Subject;
+                    message.Subject = iso8859.GetString(Encoding.Default.GetBytes(m.Subject));
                     smtp.Send(message);
                     m.Sent = true;
                     if (m.DeleteSent)
