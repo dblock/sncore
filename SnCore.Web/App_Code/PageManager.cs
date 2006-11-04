@@ -27,15 +27,20 @@ public class PageManager
                 {
                     TextBox tb = (TextBox)wc;
 
-                    if (tb.TextMode == TextBoxMode.MultiLine)
-                        continue;
-
-                    tb.Attributes.Add(
-                        "onkeydown",
-                        "if(event.which || event.keyCode){if ((event.which == 13) || (event.keyCode == 13)) {document.getElementById('" +
-                        button.UniqueID + "').click();return false;}} else {return true}; ");
+                    SetDefaultButton(button, tb);
                 }
             }
         }
+    }
+
+    public static void SetDefaultButton(WebControl button, TextBox tb)
+    {
+        if (tb.TextMode == TextBoxMode.MultiLine)
+            return;
+
+        tb.Attributes.Add(
+            "onkeydown",
+            "if(event.which || event.keyCode){if ((event.which == 13) || (event.keyCode == 13)) {document.getElementById('" +
+            button.UniqueID + "').click();return false;}} else {return true}; ");
     }
 }

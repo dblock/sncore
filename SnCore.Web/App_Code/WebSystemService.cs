@@ -816,6 +816,142 @@ namespace SnCore.WebServices
             }
         }
 
+        /// <summary>
+        /// Test whether a reminder is being sent to an account.
+        /// </summary>
+        [WebMethod(Description = "Test whether a reminder is being sent to an account.")]
+        public bool CanSendReminder(int reminder_id, int account_id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedReminder mr = new ManagedReminder(session, reminder_id);
+                return mr.CanSend(account_id);
+            }
+        }
+
+        #endregion
+
+        #region Reminder Account Property
+
+        /// <summary>
+        /// Create or update a reminder account property.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="reminderaccountproperty">transit reminder account property</param>
+        [WebMethod(Description = "Create or update a reminder account property.")]
+        public int CreateOrUpdateReminderAccountProperty(string ticket, TransitReminderAccountProperty reminderaccountproperty)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount user = new ManagedAccount(session, userid);
+
+                if (!user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ManagedReminderAccountProperty m_reminderaccountproperty = new ManagedReminderAccountProperty(session);
+                m_reminderaccountproperty.CreateOrUpdate(reminderaccountproperty);
+                SnCore.Data.Hibernate.Session.Flush();
+                return m_reminderaccountproperty.Id;
+            }
+        }
+
+        /// <summary>
+        /// Get a reminder account property.
+        /// </summary>
+        /// <returns>transit reminder account property</returns>
+        [WebMethod(Description = "Get a reminderaccountproperty.")]
+        public TransitReminderAccountProperty GetReminderAccountPropertyById(int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                TransitReminderAccountProperty result = new ManagedReminderAccountProperty(session, id).TransitReminderAccountProperty;
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Get all reminder account properties count.
+        /// </summary>
+        [WebMethod(Description = "Get all reminder account properties count.")]
+        public int GetReminderAccountPropertiesCountById(int reminder_id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return (int)session.CreateQuery(string.Format(
+                    "SELECT COUNT(r) FROM ReminderAccountProperty r WHERE r.Reminder.Id = {0}",
+                    reminder_id)).UniqueResult();
+            }
+        }
+
+        /// <summary>
+        /// Get all reminder account properties.
+        /// </summary>
+        /// <returns>list of transit reminder account properties</returns>
+        [WebMethod(Description = "Get all reminder account properties.")]
+        public List<TransitReminderAccountProperty> GetReminderAccountPropertiesById(
+            int reminder_id, ServiceQueryOptions options)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ICriteria c = session.CreateCriteria(typeof(ReminderAccountProperty))
+                    .Add(Expression.Eq("Reminder.Id", reminder_id));
+
+                if (options != null)
+                {
+                    c.SetFirstResult(options.FirstResult);
+                    c.SetMaxResults(options.PageSize);
+                }
+
+                IList reminderaccountproperties = c.List();
+
+                List<TransitReminderAccountProperty> result = new List<TransitReminderAccountProperty>(reminderaccountproperties.Count);
+                foreach (ReminderAccountProperty reminderaccountproperty in reminderaccountproperties)
+                {
+                    result.Add(new ManagedReminderAccountProperty(session, reminderaccountproperty)
+                        .TransitReminderAccountProperty);
+                }
+
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Delete a reminder account property
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete a reminder account property.")]
+        public void DeleteReminderAccountProperty(string ticket, int id)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                ManagedAccount user = new ManagedAccount(session, userid);
+
+                if (!user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ManagedReminderAccountProperty m_reminderaccountproperty = new ManagedReminderAccountProperty(session, id);
+                m_reminderaccountproperty.Delete();
+                SnCore.Data.Hibernate.Session.Flush();
+            }
+        }
+
         #endregion
 
         #region ReminderEvent

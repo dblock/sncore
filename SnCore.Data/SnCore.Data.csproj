@@ -3,7 +3,7 @@
     <ProjectType>Local</ProjectType>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{861f0724-284a-4462-b45d-0209b33d0683}</ProjectGuid>
+    <ProjectGuid>{20b4c254-0268-49f7-8acc-194fcd0f5671}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>
@@ -335,6 +335,9 @@
     <Compile Include="Reminder.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ReminderAccountProperty.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ReminderEvent.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -441,6 +444,7 @@
     <EmbeddedResource Include="RefererHostDup.hbm.xml" />
     <EmbeddedResource Include="RefererQuery.hbm.xml" />
     <EmbeddedResource Include="Reminder.hbm.xml" />
+    <EmbeddedResource Include="ReminderAccountProperty.hbm.xml" />
     <EmbeddedResource Include="ReminderEvent.hbm.xml" />
     <EmbeddedResource Include="Schedule.hbm.xml" />
     <EmbeddedResource Include="ScheduleInstance.hbm.xml" />

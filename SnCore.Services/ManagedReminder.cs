@@ -241,5 +241,42 @@ namespace SnCore.Services
         {
             Session.Delete(mReminder);
         }
+
+        public bool CanSend(Account account)
+        {
+            return CanSend(account.Id);
+        }
+
+        public bool CanSend(int account_id)
+        {
+            // reminder has no properties
+            if (mReminder.ReminderAccountProperties == null)
+                return true;
+
+            foreach (ReminderAccountProperty rap in mReminder.ReminderAccountProperties)
+            {
+                // find the account property value
+                AccountPropertyValue apv = (AccountPropertyValue) Session.CreateCriteria(typeof(AccountPropertyValue))
+                    .Add(Expression.Eq("Account.Id", account_id))
+                    .Add(Expression.Eq("AccountProperty.Id", rap.AccountProperty.Id))
+                    .SetMaxResults(1)
+                    .UniqueResult();
+
+                if (apv == null && rap.Unset)
+                {
+                    // account doesn't have this property value, but the reminder is set 
+                    // to include accounts that don't have the property set
+                    return true;
+                }
+
+                if (apv.Value != rap.Value)
+                {
+                    // property value doesn't match
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 }

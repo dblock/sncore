@@ -16,5 +16,9 @@
       <one-to-many class="ReminderEvent, SnCore.Data" />
     </bag>
     <property name="Url" column="Url" type="String" />
+    <bag lazy="true" name="ReminderAccountProperties" inverse="true">
+      <key column="Reminder_Id" />
+      <one-to-many class="ReminderAccountProperty, SnCore.Data" />
+    </bag>
   </class>
 </hibernate-mapping>

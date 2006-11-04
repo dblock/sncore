@@ -19,6 +19,9 @@ public partial class SystemReminderEdit : AuthenticatedPage
         try
         {
             SetDefaultButton(manageAdd);
+            PageManager.SetDefaultButton(addAccountProperty, panelAccountProperties.Controls);
+            PageManager.SetDefaultButton(inputTest, inputTestAccountId);
+            gridManageReminderAccountProperties.OnGetDataSource += new EventHandler(gridManageReminderAccountProperties_OnGetDataSource);
             if (!IsPostBack)
             {
                 inputDataObject.DataSource = SystemService.GetDataObjects();
@@ -44,8 +47,64 @@ public partial class SystemReminderEdit : AuthenticatedPage
                     deltaHoursItem.Selected = true;
                     inputEnabled.Checked = t.Enabled;
                     inputRecurrent.Checked = t.Recurrent;
+
+                    GetAccountPropertiesData(sender, e);
+                    GetAccountProperties(sender, e);
+                }
+                else
+                {
+                    panelAccountProperties.Visible = false;
                 }
             }
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
+    void GetAccountProperties(object sender, EventArgs e)
+    {
+        inputAccountPropertyGroup.DataSource = AccountService.GetAccountPropertyGroups();
+        inputAccountPropertyGroup.DataBind();
+        inputAccountPropertyGroup_SelectedIndexChanged(sender, e);
+    }
+
+    void GetAccountPropertiesData(object sender, EventArgs e)
+    {
+        gridManageReminderAccountProperties.CurrentPageIndex = 0;
+        gridManageReminderAccountProperties.VirtualItemCount = SystemService.GetReminderAccountPropertiesCountById(RequestId);
+        gridManageReminderAccountProperties_OnGetDataSource(sender, e);
+        gridManageReminderAccountProperties.DataBind();
+    }
+
+    public void inputAccountPropertyGroup_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            inputAccountProperty.DataSource = AccountService.GetAccountProperties(
+                int.Parse(inputAccountPropertyGroup.SelectedValue));
+            inputAccountProperty.DataBind();
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
+    private enum Cells
+    {
+        id = 0
+    };
+
+    void gridManageReminderAccountProperties_OnGetDataSource(object sender, EventArgs e)
+    {
+        try
+        {
+            ServiceQueryOptions options = new ServiceQueryOptions();
+            options.PageNumber = gridManageReminderAccountProperties.CurrentPageIndex;
+            options.PageSize = gridManageReminderAccountProperties.PageSize;
+            gridManageReminderAccountProperties.DataSource = SystemService.GetReminderAccountPropertiesById(RequestId, options);
         }
         catch (Exception ex)
         {
@@ -88,4 +147,65 @@ public partial class SystemReminderEdit : AuthenticatedPage
             ReportException(ex);
         }
     }
+
+    public void gridManageReminderAccountProperties_ItemCommand(object source, DataGridCommandEventArgs e)
+    {
+        try
+        {
+            switch (e.Item.ItemType)
+            {
+                case ListItemType.AlternatingItem:
+                case ListItemType.Item:
+                case ListItemType.SelectedItem:
+                case ListItemType.EditItem:
+                    int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
+                    switch (e.CommandName)
+                    {
+                        case "Delete":
+                            SystemService.DeleteReminderAccountProperty(SessionManager.Ticket, id);
+                            ReportInfo("Reminder Account Property deleted.");
+                            GetAccountPropertiesData(source, e);
+                            break;
+                    }
+                    break;
+            }
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
+    public void addAccountProperty_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            TransitReminderAccountProperty trap = new TransitReminderAccountProperty();
+            trap.AccountPropertyId = int.Parse(inputAccountProperty.SelectedValue);
+            trap.ReminderId = RequestId;
+            trap.Value = inputAccountPropertyValue.Text;
+            trap.Unset = inputAccountPropertyEmpty.Checked;
+            SystemService.CreateOrUpdateReminderAccountProperty(SessionManager.Ticket, trap);
+            GetAccountPropertiesData(sender, e);
+            ReportInfo("Property Added");
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
+    public void inputTest_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            bool result = SystemService.CanSendReminder(RequestId, int.Parse(inputTestAccountId.Text));
+            ReportInfo(string.Format("Reminder will {0} be sent.", result ? string.Empty : "NOT"));
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
 }

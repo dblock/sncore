@@ -331,6 +331,7 @@
     <property name="Name" columns="Name" type="System.String" />
     <property name="TypeName" columns="TypeName" type="System.String" />
     <property name="Publish" columns="Publish" type="System.Boolean" />
+    <property name="ReminderAccountProperties" table="ReminderAccountProperty" id-columns="AccountProperty_Id" list="true" item-type="ReminderAccountProperty" slave="true" ref="ManyToOne" inverse="AccountProperty" inherits-inverse="true" />
   </class>
   <class name="AccountPropertyGroup" table="AccountPropertyGroup">
     <property name="Id" id="true" columns="AccountPropertyGroup_Id" type="System.Int32" />
@@ -753,6 +754,14 @@
     <property name="Recurrent" columns="Recurrent" type="System.Boolean" />
     <property name="ReminderEvents" table="ReminderEvent" id-columns="Reminder_Id" list="true" item-type="ReminderEvent" read-only="true" slave="true" ref="ManyToOne" inverse="Reminder" inherits-inverse="true" />
     <property name="Url" columns="Url" type="System.String" />
+    <property name="ReminderAccountProperties" table="ReminderAccountProperty" id-columns="Reminder_Id" list="true" item-type="ReminderAccountProperty" slave="true" ref="ManyToOne" inverse="Reminder" inherits-inverse="true" />
+  </class>
+  <class name="ReminderAccountProperty" table="ReminderAccountProperty">
+    <property name="Id" id="true" columns="ReminderAccountProperty_Id" type="System.Int32" />
+    <property name="AccountProperty" columns="AccountProperty_Id" ref="OneToMany" inverse="ReminderAccountProperties" type="AccountProperty" />
+    <property name="Reminder" columns="Reminder_Id" ref="OneToMany" inverse="ReminderAccountProperties" type="Reminder" />
+    <property name="Unset" columns="Unset" type="System.Boolean" />
+    <property name="Value" columns="Value" type="System.String" />
   </class>
   <class name="ReminderEvent" table="ReminderEvent">
     <property name="Id" id="true" columns="ReminderEvent_Id" type="System.Int32" />
@@ -1565,6 +1574,13 @@
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Object_Id" type="Int32" prec="10" length="4" scale="0" />
       <column name="Text" type="String" prec="0" length="16" scale="0" specific-type="NTEXT" />
+    </table>
+    <table name="ReminderAccountProperty">
+      <column name="ReminderAccountProperty_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="AccountProperty_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="AccountProperty" primary-column="AccountProperty_Id" foreign-key="FK_ReminderAccountProperty_AccountProperty" />
+      <column name="Reminder_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Reminder" primary-column="Reminder_Id" foreign-key="FK_ReminderAccountProperty_Reminder" />
+      <column name="Unset" type="Boolean" prec="1" length="1" scale="0" />
+      <column name="Value" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
     </table>
   </source>
 </domain>

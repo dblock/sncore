@@ -23,6 +23,7 @@ using System;
         private System.String m_Name;
         private System.String m_TypeName;
         private System.Boolean m_Publish;
+        private System.Collections.IList m_ReminderAccountProperties;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -228,6 +229,37 @@ using System;
             set
             {
                 m_Publish = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'ReminderAccountProperty'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'ReminderAccountProperty.AccountProperty'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_ReminderAccountProperties' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as slave.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'ReminderAccountProperty' table in the data source.
+        ///The property maps to the identity column 'AccountProperty_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Collections.IList ReminderAccountProperties
+        {
+            get
+            {
+                return m_ReminderAccountProperties;
+            }
+            set
+            {
+                m_ReminderAccountProperties = value;
             }
         }
 

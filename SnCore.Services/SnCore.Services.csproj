@@ -160,6 +160,7 @@
     <Compile Include="ManagedRefererHostDup.cs" />
     <Compile Include="ManagedRefererQuery.cs" />
     <Compile Include="ManagedReminder.cs" />
+    <Compile Include="ManagedReminderAccountProperty.cs" />
     <Compile Include="ManagedReminderEvent.cs" />
     <Compile Include="ManagedSchedule.cs" />
     <Compile Include="ManagedSiteConnector.cs" />

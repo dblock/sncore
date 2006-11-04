@@ -14,5 +14,9 @@
     <property name="Name" column="Name" type="String" />
     <property name="TypeName" column="TypeName" type="String" />
     <property name="Publish" column="Publish" type="Boolean" />
+    <bag lazy="true" name="ReminderAccountProperties" inverse="true">
+      <key column="AccountProperty_Id" />
+      <one-to-many class="ReminderAccountProperty, SnCore.Data" />
+    </bag>
   </class>
 </hibernate-mapping>

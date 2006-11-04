@@ -89,6 +89,108 @@
       </td>
      </tr>
     </table>
+    <asp:UpdatePanel runat="server" id="panelAccountProperties">
+     <ContentTemplate>     
+      <div class="sncore_h2">
+       Account Properties
+      </div>
+      <table class="sncore_account_table">
+       <tr>
+        <td class="sncore_form_label">
+         group:
+        </td>
+        <td class="sncore_form_value">
+         <asp:DropDownList ID="inputAccountPropertyGroup" runat="server" DataValueField="Id" DataTextField="Name" CssClass="sncore_form_dropdown" 
+          OnSelectedIndexChanged="inputAccountPropertyGroup_SelectedIndexChanged" AutoPostBack="true" />
+        </td>
+       </tr>
+       <tr>
+        <td class="sncore_form_label">
+         property:
+        </td>
+        <td class="sncore_form_value">
+         <asp:DropDownList ID="inputAccountProperty" runat="server" DataValueField="Id" DataTextField="Name" CssClass="sncore_form_dropdown" />
+        </td>
+       </tr>
+       <tr>
+        <td class="sncore_form_label">
+         value:
+        </td>
+        <td class="sncore_form_value">
+         <asp:TextBox ID="inputAccountPropertyValue" runat="server" CssClass="sncore_form_textbox" />
+        </td>
+       </tr>
+       <tr>
+        <td class="sncore_form_label">
+        </td>
+        <td class="sncore_form_value">
+         <asp:CheckBox ID="inputAccountPropertyEmpty" runat="server" CssClass="sncore_form_checkbox" Checked="true" Text="include unset" />
+        </td>
+       </tr>
+       <tr>
+        <td>
+        </td>
+        <td class="sncore_form_value">
+         <SnCoreWebControls:Button ID="addAccountProperty" runat="server" Text="Add" CausesValidation="true" CssClass="sncore_form_button"
+          OnClick="addAccountProperty_Click" />
+        </td>
+       </tr>
+      </table>      
+      <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManageReminderAccountProperties" PageSize="15" 
+       AllowPaging="true" AllowCustomPaging="true" OnItemCommand="gridManageReminderAccountProperties_ItemCommand" 
+       AutoGenerateColumns="false" CssClass="sncore_account_table">
+       <ItemStyle CssClass="sncore_table_tr_td" HorizontalAlign="center" />
+       <HeaderStyle CssClass="sncore_table_tr_th" HorizontalAlign="center" />
+       <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
+        PrevPageText="Prev" HorizontalAlign="Center" />
+       <Columns>
+        <asp:BoundColumn DataField="Id" Visible="false" />
+        <asp:TemplateColumn ItemStyle-HorizontalAlign="Center">
+         <itemtemplate>
+          <img src="images/Item.gif" />
+         </itemtemplate>
+        </asp:TemplateColumn>
+        <asp:TemplateColumn HeaderText="Name">
+         <itemtemplate>
+          <%# base.Render(Eval("AccountPropertyName")) %>
+         </itemtemplate>
+        </asp:TemplateColumn>
+        <asp:TemplateColumn HeaderText="Value">
+         <itemtemplate>
+          <%# base.Render(Eval("Value")) %>
+         </itemtemplate>
+        </asp:TemplateColumn>
+        <asp:TemplateColumn HeaderText="UnSet">
+         <itemtemplate>
+          <%# Eval("UnSet") %>
+         </itemtemplate>
+        </asp:TemplateColumn>
+        <asp:ButtonColumn ButtonType="LinkButton" CommandName="Delete" Text="Delete"></asp:ButtonColumn>
+       </Columns>
+      </SnCoreWebControls:PagedGrid>     
+      <div class="sncore_h2">
+       Test Reminder
+      </div>
+      <table class="sncore_account_table">
+       <tr>
+        <td class="sncore_form_label">
+         account id:
+        </td>
+        <td class="sncore_form_value">
+         <asp:TextBox id="inputTestAccountId" runat="server" CssClass="sncore_form_textbox" />         
+        </td>
+       </tr>
+       <tr>
+        <td>
+        </td>
+        <td class="sncore_form_value">
+         <SnCoreWebControls:Button ID="inputTest" runat="server" Text="Test" CausesValidation="true" CssClass="sncore_form_button"
+          OnClick="inputTest_Click" />
+        </td>
+       </tr>
+      </table>    
+     </ContentTemplate>
+    </asp:UpdatePanel>    
    </td>
   </tr>
  </table>

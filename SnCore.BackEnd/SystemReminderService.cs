@@ -175,6 +175,8 @@ namespace SnCore.BackEndServices
                 reminder.LastRunError = string.Empty;
                 session.Save(reminder);
 
+                ManagedReminder mr = new ManagedReminder(session, reminder);
+
                 try
                 {
                     // get the type of the object seeked
@@ -243,6 +245,9 @@ namespace SnCore.BackEndServices
 
                             if (!string.IsNullOrEmpty(ma.ActiveEmailAddress))
                             {
+                                if (! mr.CanSend(acct))
+                                    continue;
+
                                 ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
                                     session,
                                     new MailAddress(ma.ActiveEmailAddress, ma.Name).ToString(),
@@ -268,5 +273,4 @@ namespace SnCore.BackEndServices
             }
         }
     }
-
 }
