@@ -20,8 +20,11 @@
       </div>
      </Template>
     </SnCore:Title>
-    <asp:HyperLink ID="HyperLink1" Text="&#187; Create New" CssClass="sncore_createnew" NavigateUrl="SystemDiscussionEdit.aspx"
-     runat="server" />
+    <div class="sncore_createnew">
+     <a href="SystemDiscussionEdit.aspx">&#187; Create New</a>
+     <a href="DiscussionsView.aspx">&#187; I Just Want to Post Something</a>
+     <a href="AccountDiscussionThreadsView.aspx">&#187; My Posts</a>
+    </div>
     <SnCoreWebControls:PagedGrid CellPadding="4" OnItemCommand="gridManage_ItemCommand"
      runat="server" ID="gridManage" AutoGenerateColumns="false" CssClass="sncore_account_table"
      AllowPaging="true" AllowCustomPaging="true" PageSize="10">

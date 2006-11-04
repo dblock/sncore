@@ -17,9 +17,10 @@
   <td>
    <div class="sncore_createnew">
     <div class="sncore_link">
+     <a href="DiscussionsView.aspx">&#187; post new</a>
      <a href="DiscussionTopOfThreadsView.aspx">&#187; new threads</a>
      <a href="DiscussionThreadsView.aspx">&#187; new posts</a>
-     <a href="DiscussionsView.aspx">&#187; all discussions</a>
+     <a href="DiscussionsView.aspx">&#187; all</a>
      <a href="DiscussionThreadsRss.aspx">&#187; rss</a>
     </div>
    </div>
@@ -43,7 +44,7 @@
          <span class="sncore_link">
           <a href='DiscussionView.aspx?id=<%# Eval("DiscussionId") %>'>&#187; read</a>
           <a href="DiscussionPost.aspx?did=<%# Eval("DiscussionId") %>&ReturnUrl=<%# 
-           Renderer.UrlEncode(Request.Url.PathAndQuery) %>"><%# base.SessionManager.IsLoggedIn ? "&#187; post new" : ""%></a>
+           Renderer.UrlEncode(Request.Url.PathAndQuery) %>">&#187; post new</a>
           <a href='DiscussionRss.aspx?id=<%# Eval("DiscussionId") %>'>
            &#187; rss</a>
          </span>

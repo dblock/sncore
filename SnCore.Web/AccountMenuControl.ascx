@@ -12,6 +12,7 @@
  <tr><td width="30" align="right"><img src="images/account/sent.gif" /></td><td width="*"><a href="AccountFeedWizard.aspx">Got a Blog?</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/blogs.gif" /></td><td width="*"><a href="AccountBlogsManage.aspx">Blogs</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/discussions.gif" /></td><td width="*"><a href="SystemDiscussionsManage.aspx">Discussions</a></td></tr>
+ <tr><td width="30" align="right"><img src="images/account/sent.gif" /></td><td width="*"><a href="DiscussionsView.aspx">Post New</a></td></tr>
 </table>
 <table class="sncore_accountmenu_table">
  <tr><td width="30" align="center"><img src="images/account/inbox.gif" /></td><td width="*"><a runat="server" id="linkInbox" href="AccountMessageFoldersManage.aspx?folder=inbox">Inbox</a></td></tr>
