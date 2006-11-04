@@ -48,6 +48,13 @@
       </td>
      </tr>
      <tr>
+      <td class="sncore_form_label">
+      </td>
+      <td class="sncore_form_value">
+       <asp:CheckBox ID="inputLogin" runat="server" Text="login required" CssClass="sncore_form_checkbox" />
+      </td>
+     </tr>
+     <tr>
       <td>
       </td>
       <td>

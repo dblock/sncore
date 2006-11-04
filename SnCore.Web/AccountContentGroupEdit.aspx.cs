@@ -38,6 +38,7 @@ public partial class AccountContentGroupEdit : AuthenticatedPage
                     inputName.Text = tf.Name;
                     inputDescription.Text = tf.Description;
                     inputTrusted.Checked = tf.Trusted;
+                    inputLogin.Checked = tf.Login;
 
                     linkNew.NavigateUrl = string.Format("AccountContentEdit.aspx?gid={0}", RequestId);
                     linkView.NavigateUrl = string.Format("AccountContentGroupView.aspx?id={0}", RequestId);
@@ -61,13 +62,15 @@ public partial class AccountContentGroupEdit : AuthenticatedPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageSize = gridManageContent.PageSize;
         options.PageNumber = gridManageContent.CurrentPageIndex;
-        gridManageContent.DataSource = ContentService.GetAccountContentsById(RequestId, options);
+        gridManageContent.DataSource = ContentService.GetAccountContentsById(
+            SessionManager.Ticket, RequestId, options);
     }
 
     public void GetData(object sender, EventArgs e)
     {
         gridManageContent.CurrentPageIndex = 0;
-        gridManageContent.VirtualItemCount = ContentService.GetAccountContentsCountById(RequestId);
+        gridManageContent.VirtualItemCount = ContentService.GetAccountContentsCountById(
+            SessionManager.Ticket, RequestId);
         gridManageContent_OnGetDataSource(this, null);
         gridManageContent.DataBind();
     }
@@ -81,6 +84,7 @@ public partial class AccountContentGroupEdit : AuthenticatedPage
             s.Name = inputName.Text;
             s.Description = inputDescription.Text;
             s.Trusted = inputTrusted.Checked && SessionManager.IsAdministrator;
+            s.Login = inputLogin.Checked;
             ContentService.CreateOrUpdateAccountContentGroup(SessionManager.Ticket, s);
             Redirect("AccountContentGroupsManage.aspx");
         }

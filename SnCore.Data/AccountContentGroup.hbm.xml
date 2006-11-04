@@ -14,5 +14,6 @@
     <property name="Modified" column="Modified" type="DateTime" />
     <property name="Name" column="Name" type="String" />
     <property name="Trusted" column="Trusted" type="Boolean" />
+    <property name="Login" column="Login" type="Boolean" />
   </class>
 </hibernate-mapping>

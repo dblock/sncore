@@ -21,3 +21,6 @@ ALTER TABLE dbo.AccountFeed ALTER COLUMN [PublishImgs] bit NOT NULL
 
 -- add a hidden from profile field
 ALTER TABLE dbo.AccountPicture ADD [Hidden] bit NOT NULL DEFAULT 0
+
+-- add a requirelogin field to content groups (2006-11-04)
+ALTER TABLE dbo.AccountContentGroup ADD [Login] bit NOT NULL DEFAULT 0

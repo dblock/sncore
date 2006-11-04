@@ -214,11 +214,15 @@ namespace SnCore.WebServices
         /// <param name="id">account group id</param>
         /// <returns>transit account contents count</returns>
         [WebMethod(Description = "Get account contents count by group id.", CacheDuration = 60)]
-        public int GetAccountContentsCountById(int id)
+        public int GetAccountContentsCountById(string ticket, int id)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                ManagedAccountContentGroup m = new ManagedAccountContentGroup(session, id);
+                m.CheckPermissions(ticket);
+
                 return (int)session.CreateQuery(string.Format(
                     "SELECT COUNT(c) FROM AccountContent c WHERE c.AccountContentGroup.Id = {0}",
                         id)).UniqueResult();
@@ -230,11 +234,14 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>transit account contents</returns>
         [WebMethod(Description = "Get account contents in a group.", CacheDuration = 60)]
-        public List<TransitAccountContent> GetAccountContentsById(int id, ServiceQueryOptions options)
+        public List<TransitAccountContent> GetAccountContentsById(string ticket, int id, ServiceQueryOptions options)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                ManagedAccountContentGroup m = new ManagedAccountContentGroup(session, id);
+                m.CheckPermissions(ticket);
 
                 ICriteria c = session.CreateCriteria(typeof(AccountContent))
                     .Add(Expression.Eq("AccountContentGroup.Id", id))

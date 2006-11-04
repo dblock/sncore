@@ -126,6 +126,7 @@ namespace SnCore.Services
             AccountId = o.Account.Id;
             AccountName = o.Account.Name;
             Trusted = o.Trusted;
+            Login = o.Login;
         }
 
         private bool mTrusted;
@@ -142,6 +143,21 @@ namespace SnCore.Services
             }
         }
 
+        private bool mLogin;
+
+        public bool Login
+        {
+            get
+            {
+                return mLogin;
+            }
+            set
+            {
+                mLogin = value;
+            }
+        }
+
+
         public AccountContentGroup GetAccountContentGroup(ISession session)
         {
             AccountContentGroup p = (Id != 0) ? (AccountContentGroup)session.Load(typeof(AccountContentGroup), Id) : new AccountContentGroup();
@@ -154,6 +170,7 @@ namespace SnCore.Services
             p.Name = this.Name;
             p.Description = this.Description;
             p.Trusted = this.Trusted;
+            p.Login = this.Login;
             return p;
         }
     }
@@ -213,6 +230,20 @@ namespace SnCore.Services
         public void Delete()
         {
             Session.Delete(mAccountContentGroup);
+        }
+
+        public void CheckPermissions(string ticket)
+        {
+            int user_id = ManagedAccount.GetAccountId(ticket, 0);
+            CheckPermissions(user_id);
+        }
+
+        public void CheckPermissions(int user_id)
+        {
+            if (mAccountContentGroup.Login && user_id <= 0)
+            {
+                throw new ManagedAccount.AccessDeniedException();
+            }
         }
     }
 }

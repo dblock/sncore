@@ -118,6 +118,7 @@
     <property name="Modified" columns="Modified" type="System.DateTime" />
     <property name="Name" columns="Name" type="System.String" />
     <property name="Trusted" columns="Trusted" type="System.Boolean" />
+    <property name="Login" columns="Login" type="System.Boolean" />
   </class>
   <class name="AccountEmail" table="AccountEmail">
     <property name="Id" id="true" columns="AccountEmail_Id" type="System.Int32" />
@@ -913,6 +914,7 @@
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Name" type="String" prec="128" length="256" scale="0" />
       <column name="Trusted" type="Boolean" prec="1" length="1" scale="0" />
+      <column name="Login" type="Boolean" prec="1" length="1" scale="0" default="((0))" />
     </table>
     <table name="AccountEmail">
       <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountEmail_Account" />
