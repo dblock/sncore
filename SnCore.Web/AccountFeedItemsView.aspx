@@ -5,6 +5,7 @@
 <%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="AutoScroll" Src="AutoScrollControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <asp:UpdatePanel ID="panelLinks" UpdateMode="Conditional" RenderMode="Inline" runat="server">
   <ContentTemplate>
@@ -118,5 +119,6 @@
     </Columns>
    </SnCoreWebControls:PagedGrid>
   </ContentTemplate>
- </asp:UpdatePanel>   
+ </asp:UpdatePanel>
+ <SnCore:AutoScroll runat="server" ID="autoScrollToForm" ScrollLocation="form" />
 </asp:Content>
