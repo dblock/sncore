@@ -4,6 +4,7 @@
 
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
+<%@ Register TagPrefix="SnCore" TagName="TellAFriend" Src="TellAFriendControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <table cellpadding="0" cellspacing="0" width="784">
   <tr>
@@ -12,7 +13,7 @@
      <asp:Label ID="labelName" runat="server" />
     </div>
     <div class="sncore_h2sub">
-     <a href="TellAFriend.aspx?Url=<% Response.Write(Renderer.UrlEncode(Request.Url.PathAndQuery)); %>&Subject=<% Response.Write(Renderer.UrlEncode(Title)); %>">&#187; Tell a Friend</a>
+     <SnCore:TellAFriend ID="linkTellAFriend" runat="server" />
     </div>
    </td>
    <td>

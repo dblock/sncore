@@ -43,7 +43,7 @@ public partial class TellAFriend : AuthenticatedPage
             if (!IsPostBack)
             {
                 linkPage.NavigateUrl = linkCancel.NavigateUrl = Url;
-                inputSubject.Text = string.Format("Check out {0}", HttpUtility.HtmlDecode(Request.Params["Subject"]));
+                Title = inputSubject.Text = string.Format("Check out {0}", HttpUtility.HtmlDecode(Request.Params["Subject"]));
 
                 if (!AccountService.HasVerifiedEmail(SessionManager.Ticket))
                 {

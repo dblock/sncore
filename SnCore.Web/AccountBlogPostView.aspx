@@ -8,6 +8,7 @@
 <%@ Register TagPrefix="SnCore" TagName="BookmarksView" Src="BookmarksViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="LicenseView" Src="AccountLicenseViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="CounterView" Src="CounterViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="TellAFriend" Src="TellAFriendControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <!-- NOEMAIL-START -->
  <div class="sncore_navigate">
@@ -39,7 +40,7 @@
     </div>
     <!-- NOEMAIL-START -->
     <div class="sncore_h2sub">
-     <a href="TellAFriend.aspx?Url=<% Response.Write(Renderer.UrlEncode(Request.Url.PathAndQuery)); %>&Subject=<% Response.Write(Renderer.UrlEncode(Title)); %>">&#187; Tell a Friend</a>
+     <SnCore:TellAFriend ID="linkTellAFriend" runat="server" />
      <asp:HyperLink ID="linkEdit" NavigateUrl="AccountBlogPost.aspx" runat="server" Text="&#187; Edit" />
      <asp:LinkButton ID="linkDelete" OnClick="linkDelete_Click" runat="server" Text="&#187; Delete" 
       OnClientClick="return confirm('Are you sure you want to delete this blog post?')" />

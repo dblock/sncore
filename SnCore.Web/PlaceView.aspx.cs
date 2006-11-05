@@ -41,22 +41,6 @@ public partial class PlaceView : Page
         }
     }
 
-    public string SuggestedBy
-    {
-        get
-        {
-            TransitAccount account = PlaceAccount;
-
-            if (account == null)
-                return string.Empty;
-
-            return string.Format("suggested by <a href='AccountView.aspx?id={0}'>{1}</a> on {2}",
-                account.Id,
-                Renderer.Render(account.Name),
-                base.Adjust(Place.Created).ToString("d"));
-        }
-    }
-
     public TransitPlace Place
     {
         get
@@ -174,6 +158,7 @@ public partial class PlaceView : Page
                 if (RequestId > 0)
                 {
                     TransitPlace place = Place;
+                    TransitAccount account = PlaceAccount;
 
                     if (place == null)
                     {
@@ -224,6 +209,21 @@ public partial class PlaceView : Page
                     linkType.Text = place.Type + "s";
                     placeName.Text = Renderer.Render(place.Name);
                     placeId.Text = "#" + place.Id.ToString();
+
+                    linkManagePictures.NavigateUrl = string.Format("PlacePicturesManage.aspx?id={0}", place.Id);
+                    linkClaimOwnership.NavigateUrl = string.Format("AccountPlaceRequestEdit.aspx?pid={0}", place.Id);
+
+                    if (account != null)
+                    {
+                        linkSuggestedBy.Text = Renderer.Render(account.Name);
+                        linkSuggestedBy.NavigateUrl = string.Format("AccountView.aspx?id={0}", account.Id);
+                    }
+                    else
+                    {
+                        linkSuggestedBy.Text = "a deleted user";
+                    }
+
+                    labelSuggestedOn.Text = Adjust(place.Created).ToString("d");
 
                     linkAdminEdit.NavigateUrl = string.Format("PlaceEdit.aspx?id={0}", place.Id);
                     linkAdminAttributes.NavigateUrl = string.Format("PlaceAttributesManage.aspx?id={0}", place.Id);

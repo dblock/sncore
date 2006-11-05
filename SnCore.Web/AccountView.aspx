@@ -19,6 +19,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AttributesView" Src="AccountAttributesViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="LicenseView" Src="AccountLicenseViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="CounterView" Src="CounterViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="TellAFriend" Src="TellAFriendControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <div class="sncore_navigate">
   <asp:Label CssClass="sncore_navigate_item" ID="linkAccount" Text="Account" runat="server" />
@@ -93,7 +94,7 @@
          <asp:HyperLink runat="server" ID="linkLeaveTestimonial" Text="&#187; Leave a Testimonial" />
         </div>
         <div>        
-         <a href="TellAFriend.aspx?Url=<% Response.Write(Renderer.UrlEncode(Request.Url.PathAndQuery)); %>&Subject=<% Response.Write(Renderer.UrlEncode(Title)); %>">&#187; Tell a Friend</a>
+         <SnCore:TellAFriend ID="linkTellAFriend" runat="server" />
         </div>
         <asp:Panel ID="panelAdmin" runat="server">
          <div>

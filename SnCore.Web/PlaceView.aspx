@@ -11,6 +11,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AttributesView" Src="PlaceAttributesViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="CounterView" Src="CounterViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="MadLibInstancesView" Src="MadLibInstancesViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="TellAFriend" Src="TellAFriendControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <!-- NOEMAIL-START -->
  <div class="sncore_navigate">
@@ -105,15 +106,13 @@
              Text="&#187; Add to Favorites" />
            </div>
            <div>
-            <a href="TellAFriend.aspx?Url=<% Response.Write(Renderer.UrlEncode(Request.Url.PathAndQuery)); %>&Subject=<% Response.Write(Renderer.UrlEncode(Title)); %>">&#187; Tell a Friend</a>     
+            <SnCore:TellAFriend ID="linkTellAFriend" runat="server" />
            </div>
            <div>
-            <a href='PlacePicturesManage.aspx?id=<% Response.Write(base.RequestId); %>'>&#187; Upload
-             a Picture</a>
+            <asp:HyperLink id="linkManagePictures" runat="server" Text="&#187; Upload a Picture" />
            </div>
            <div>
-            <a href='AccountPlaceRequestEdit.aspx?pid=<% Response.Write(base.RequestId); %>'>&#187; 
-             Claim Ownership</a>
+            <asp:HyperLink id="linkClaimOwnership" runat="server" Text="&#187; Claim Ownership" />
            </div>
            <asp:Panel ID="panelAdmin" runat="server">
             <div>
@@ -158,7 +157,8 @@
            <!-- NOEMAIL-END -->
           </td>
           <td align="right" style="font-size: smaller;">
-           <% Response.Write(SuggestedBy); %>
+           suggested by <asp:HyperLink id="linkSuggestedBy" runat="server" />
+           on <asp:Label id="labelSuggestedOn" runat="server" />
           </td>
           <td style="font-size: smaller; text-align: right;">
            <a href="PlaceEdit.aspx">&#187; suggest a place</a>
