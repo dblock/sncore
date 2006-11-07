@@ -92,7 +92,6 @@ public partial class PlacesView : Page
         }
     }
 
-    private TransitPlaceQueryOptions mOptions = null;
     private LocationSelectorWithType mLocationSelector = null;
 
     public LocationSelectorWithType LocationSelector
@@ -138,6 +137,12 @@ public partial class PlacesView : Page
                 }
 
                 GetData(sender, e);
+
+                if (gridManage.VirtualItemCount == 0)
+                {
+                    LocationSelector.ClearSelection();
+                    GetData(sender, e);
+                }
             }
         }
         catch (Exception ex)
@@ -164,11 +169,10 @@ public partial class PlacesView : Page
 
     private void GetData(object sender, EventArgs e)
     {
-        mOptions = null;
-
         gridManage.CurrentPageIndex = 0;
-        object[] args = { QueryOptions };
-        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(PlaceService, "GetPlacesCount", args);
+        object[] args = { GetQueryOptions() };
+        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+            PlaceService, "GetPlacesCount", args);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -208,42 +212,36 @@ public partial class PlacesView : Page
         }
     }
 
-    private TransitPlaceQueryOptions QueryOptions
+    private TransitPlaceQueryOptions GetQueryOptions()
     {
-        get
-        {
-            if (mOptions == null)
-            {
-                mOptions = new TransitPlaceQueryOptions();
-                mOptions.SortAscending = bool.Parse(listboxSelectOrderBy.SelectedValue);
-                mOptions.SortOrder = listboxSelectSortOrder.SelectedValue;
-                mOptions.PicturesOnly = checkboxPicturesOnly.Checked;
-                mOptions.City = inputCity.Text;
-                mOptions.Country = inputCountry.SelectedValue;
-                mOptions.State = inputState.SelectedValue;
-                mOptions.Name = inputName.Text;
-                mOptions.Type = inputType.SelectedValue;
-            }
-            return mOptions;
-        }
+        TransitPlaceQueryOptions options = new TransitPlaceQueryOptions();
+        options.SortAscending = bool.Parse(listboxSelectOrderBy.SelectedValue);
+        options.SortOrder = listboxSelectSortOrder.SelectedValue;
+        options.PicturesOnly = checkboxPicturesOnly.Checked;
+        options.City = inputCity.Text;
+        options.Country = inputCountry.SelectedValue;
+        options.State = inputState.SelectedValue;
+        options.Name = inputName.Text;
+        options.Type = inputType.SelectedValue;
+        return options;
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
         try
         {
-            TransitPlaceQueryOptions options = QueryOptions;
+            TransitPlaceQueryOptions options = GetQueryOptions();
 
             linkRss.NavigateUrl = linkRelRss.Attributes["href"] =
                 string.Format("PlacesRss.aspx?order={0}&asc={1}&city={2}&country={3}&state={4}&name={5}&type={6}&pictures={7}",
-                    Renderer.UrlEncode(QueryOptions.SortOrder),
-                    Renderer.UrlEncode(QueryOptions.SortAscending),
-                    Renderer.UrlEncode(QueryOptions.City),
-                    Renderer.UrlEncode(QueryOptions.Country),
-                    Renderer.UrlEncode(QueryOptions.State),
-                    Renderer.UrlEncode(QueryOptions.Name),
-                    Renderer.UrlEncode(QueryOptions.Type),
-                    Renderer.UrlEncode(QueryOptions.PicturesOnly));
+                    Renderer.UrlEncode(options.SortOrder),
+                    Renderer.UrlEncode(options.SortAscending),
+                    Renderer.UrlEncode(options.City),
+                    Renderer.UrlEncode(options.Country),
+                    Renderer.UrlEncode(options.State),
+                    Renderer.UrlEncode(options.Name),
+                    Renderer.UrlEncode(options.Type),
+                    Renderer.UrlEncode(options.PicturesOnly));
 
             ServiceQueryOptions serviceoptions = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
             object[] args = { options, serviceoptions };
