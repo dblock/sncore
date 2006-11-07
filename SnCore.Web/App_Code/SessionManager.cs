@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
 using SnCore.Tools;
+using System.Diagnostics;
 
 public class SessionManager
 {
@@ -175,9 +176,10 @@ public class SessionManager
                 {
                     StatsService.TrackMultipleRequests(s_Requests.ToArray());
                 }
-                catch
+                catch(Exception ex)
                 {
-                    // ignore errors, never display to user
+                    EventLog.WriteEntry(string.Format("Error tracking multiple requests.\n{0}", ex.Message),
+                        EventLogEntryType.Warning);
                 }
                 finally
                 {

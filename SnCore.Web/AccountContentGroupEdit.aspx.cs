@@ -46,6 +46,7 @@ public partial class AccountContentGroupEdit : AuthenticatedPage
                 else
                 {
                     linkNew.Visible = false;
+                    linkView.Visible = false;
                 }
 
                 inputTrusted.Enabled = SessionManager.IsAdministrator;
