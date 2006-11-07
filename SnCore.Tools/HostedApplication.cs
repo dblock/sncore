@@ -30,23 +30,29 @@ namespace SnCore.Tools.Web
         {
         }
 
+        public static EventLog CreateEventLog()
+        {
+            string eventLogName = HostingEnvironment.ApplicationVirtualPath.Trim("/".ToCharArray());
+            if (eventLogName.Length == 0) eventLogName = HostingEnvironment.SiteName;
+            if (eventLogName.Length == 0) eventLogName = "Application";
+
+            if (! EventLog.SourceExists(eventLogName))
+            {
+                EventLog.CreateEventSource(eventLogName, "Application");
+            }
+
+            EventLog result  = new EventLog();
+            result.Source = eventLogName;
+            return result;
+        }
+
         public EventLog EventLog
         {
             get
             {
                 if (mEventLog == null)
                 {
-                    string eventLogName = HostingEnvironment.ApplicationVirtualPath.Trim("/".ToCharArray());
-                    if (eventLogName.Length == 0) eventLogName = HostingEnvironment.SiteName;
-                    if (eventLogName.Length == 0) eventLogName = "Application";
-
-                    if (!EventLog.SourceExists(eventLogName))
-                    {
-                        EventLog.CreateEventSource(eventLogName, "Application");
-                    }
-
-                    mEventLog = new EventLog();
-                    mEventLog.Source = eventLogName;
+                    mEventLog = CreateEventLog();
                 }
                 return mEventLog;
             }

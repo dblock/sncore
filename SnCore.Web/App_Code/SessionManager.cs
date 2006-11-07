@@ -18,6 +18,7 @@ using System.Text;
 using System.Reflection;
 using SnCore.Tools;
 using System.Diagnostics;
+using System.Web.Hosting;
 
 public class SessionManager
 {
@@ -32,6 +33,7 @@ public class SessionManager
     const string sSnCoreRememberLogin = "SnCore.rememberlogin";
     const string sSnCoreLastVisit = "SnCore.lastvisit";
 
+    private EventLog mEventLog = null;
     private Cache mCache = null;
     private HttpRequest mRequest = null;
     private HttpResponse mResponse = null;
@@ -948,5 +950,17 @@ public class SessionManager
         }
 
         return result;
+    }
+
+    public EventLog EventLog
+    {
+        get
+        {
+            if (mEventLog == null)
+            {
+                mEventLog = HostedApplication.CreateEventLog();
+            }
+            return mEventLog;
+        }
     }
 }

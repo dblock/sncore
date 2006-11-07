@@ -9,6 +9,7 @@ using NHibernate;
 using NHibernate.Cfg;
 using System.Collections.Generic;
 using System.Web.Hosting;
+using SnCore.Tools.Web;
 
 namespace SnCore.BackEndServices
 {
@@ -194,18 +195,7 @@ namespace SnCore.BackEndServices
                     {
                         if (mEventLog == null)
                         {
-
-                            string eventLogName = HostingEnvironment.ApplicationVirtualPath.Trim("/".ToCharArray());
-                            if (eventLogName.Length == 0) eventLogName = HostingEnvironment.SiteName;
-                            if (eventLogName.Length == 0) eventLogName = "Application";
-
-                            if (!EventLog.SourceExists(eventLogName))
-                            {
-                                EventLog.CreateEventSource(eventLogName, "Application");
-                            }
-
-                            mEventLog = new EventLog();
-                            mEventLog.Source = eventLogName;
+                            mEventLog = HostedApplication.CreateEventLog();
                         }
                     }
                 }

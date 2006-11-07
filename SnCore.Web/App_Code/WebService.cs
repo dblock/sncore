@@ -8,6 +8,7 @@ using SnCore.Data.Hibernate;
 using System.Web.Services.Protocols;
 using System.Diagnostics;
 using System.Web.Hosting;
+using SnCore.Tools.Web;
 
 namespace SnCore.WebServices
 {
@@ -56,17 +57,7 @@ namespace SnCore.WebServices
             {
                 if (mEventLog == null)
                 {
-                    string eventLogName = HostingEnvironment.ApplicationVirtualPath.Trim("/".ToCharArray());
-                    if (eventLogName.Length == 0) eventLogName = HostingEnvironment.SiteName;
-                    if (eventLogName.Length == 0) eventLogName = "Application";
-
-                    if (!EventLog.SourceExists(eventLogName))
-                    {
-                        EventLog.CreateEventSource(eventLogName, "Application");
-                    }
-
-                    mEventLog = new EventLog();
-                    mEventLog.Source = eventLogName;
+                    mEventLog = HostedApplication.CreateEventLog();
                 }
                 return mEventLog;
             }
