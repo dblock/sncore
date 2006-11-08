@@ -20,17 +20,24 @@ public partial class AccountFeedItemView : Page
         {
             if (!IsPostBack)
             {
-                TransitAccountFeedItem tfi = SyndicationService.GetAccountFeedItemById(
-                    SessionManager.Ticket, RequestId);
+                object[] args = { SessionManager.Ticket, RequestId };
+                TransitAccountFeedItem tfi = SessionManager.GetCachedItem<TransitAccountFeedItem>(
+                    SyndicationService, "GetAccountFeedItemById", args);
+
+                if (tfi == null)
+                {
+                    Response.Redirect("AccountFeedItemsView.aspx");
+                    return;
+                }
 
                 licenseView.AccountId = tfi.AccountId;
 
                 labelAccountName.Text = Renderer.Render(tfi.AccountName);
                 imageAccount.Src = string.Format("AccountPictureThumbnail.aspx?id={0}", tfi.AccountPictureId);
 
-                this.Title = string.Format("{0}'s {1} in {2}", 
-                    Renderer.Render(tfi.AccountName), 
-                    Renderer.Render(tfi.Title), 
+                this.Title = string.Format("{0}'s {1} in {2}",
+                    Renderer.Render(tfi.AccountName),
+                    Renderer.Render(tfi.Title),
                     Renderer.Render(tfi.AccountFeedName));
 
                 linkAccountFeedItem.Text = Renderer.Render(tfi.Title);
@@ -44,14 +51,15 @@ public partial class AccountFeedItemView : Page
                 FeedXPosted.NavigateUrl = Render(tfi.Link);
 
                 FeedItemTitle.Text = Renderer.Render(tfi.Title);
-                
+
                 Uri imgrewriteuri = new Uri(SessionManager.WebsiteUrl.TrimEnd("/".ToCharArray()) + "/AccountFeedItemPicture.aspx?Src={url}", UriKind.Absolute);
-                FeedItemDescription.Text = Renderer.CleanHtml(tfi.Description, 
+                FeedItemDescription.Text = Renderer.CleanHtml(tfi.Description,
                     Uri.IsWellFormedUriString(tfi.Link, UriKind.Absolute) ? new Uri(tfi.Link) : null,
                     imgrewriteuri);
 
-                FeedItemComments.DiscussionId = DiscussionService.GetAccountFeedItemDiscussionId(RequestId);
-                FeedItemComments.DataBind();
+                object[] d_args = { RequestId };
+                FeedItemComments.DiscussionId = SessionManager.GetCachedCollectionCount(
+                    DiscussionService, "GetAccountFeedItemDiscussionId", d_args);
             }
         }
         catch (Exception ex)

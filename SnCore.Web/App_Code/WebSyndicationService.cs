@@ -83,7 +83,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                TransitFeedType result = new ManagedFeedType(session, 
+                TransitFeedType result = new ManagedFeedType(session,
                     ManagedFeedType.Find(session, name)).TransitFeedType;
                 SnCore.Data.Hibernate.Session.Flush();
                 return result;
@@ -154,7 +154,7 @@ namespace SnCore.WebServices
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedAccount user = new ManagedAccount(session, userid);
 
-                if ((feed.AccountId != 0) && (feed.AccountId != user.Id) && (! user.IsAdministrator()))
+                if ((feed.AccountId != 0) && (feed.AccountId != user.Id) && (!user.IsAdministrator()))
                 {
                     throw new ManagedAccount.AccessDeniedException();
                 }
@@ -348,7 +348,7 @@ namespace SnCore.WebServices
                     "FROM AccountFeed f").UniqueResult();
             }
         }
- 
+
         /// <summary>
         /// Get updated account feeds.
         /// </summary>
@@ -442,7 +442,7 @@ namespace SnCore.WebServices
 
                 IQuery q = session.CreateQuery(
                     "SELECT i FROM AccountFeedItem i" +
-                    " WHERE i.AccountFeed.Publish = 1" + 
+                    " WHERE i.AccountFeed.Publish = 1" +
                     " ORDER BY Created DESC");
 
                 if (options != null)
@@ -474,11 +474,18 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account feed item by id.")]
         public TransitAccountFeedItem GetAccountFeedItemById(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            try
             {
-                // todo: persmissions for story
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                return new ManagedAccountFeedItem(session, id).TransitAccountFeedItem;
+                using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+                {
+                    // todo: persmissions for story
+                    ISession session = SnCore.Data.Hibernate.Session.Current;
+                    return new ManagedAccountFeedItem(session, id).TransitAccountFeedItem;
+                }
+            }
+            catch (ObjectNotFoundException)
+            {
+                return null;
             }
         }
 
@@ -607,7 +614,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int) options.CreateCountQuery(session).UniqueResult();
+                return (int)options.CreateCountQuery(session).UniqueResult();
             }
         }
 
