@@ -64,7 +64,7 @@ namespace SnCore.Services
             if (PicturesOnly)
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.Append("EXISTS ELEMENTS(a.AccountPictures)");
+                b.Append("EXISTS ( FROM AccountPicture ap WHERE ap.Account = a AND ap.Hidden = 0 )");
             }
 
             if (!string.IsNullOrEmpty(Name))
@@ -173,7 +173,7 @@ namespace SnCore.Services
             // new photos (count one week of photos)
 
             NewPictures = (int)session.CreateQuery(string.Format("SELECT COUNT(p) FROM AccountPicture p " +
-                "WHERE p.Account.Id = {0} AND p.Modified > '{1}'",
+                "WHERE p.Account.Id = {0} AND p.Modified > '{1}' AND p.Hidden = 0",
                 a.Id, limit))
                 .UniqueResult();
 
