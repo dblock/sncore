@@ -177,9 +177,9 @@ namespace SnCore.Services
             PlaceName = o.Place.Name;
             AccountPictureId = ManagedAccount.GetRandomAccountPictureId(o.Account);
             PlacePictureId = ManagedService.GetRandomElementId(o.Place.PlacePictures);
-            PlaceCity = o.Place.City.Name;
-            PlaceState = o.Place.City.State.Name;
-            PlaceCountry = o.Place.City.Country.Name;
+            if (o.Place.City != null) PlaceCity = o.Place.City.Name;
+            if (o.Place.City != null && o.Place.City.State != null) PlaceState = o.Place.City.State.Name;
+            if (o.Place.City != null && o.Place.City.Country != null) PlaceCountry = o.Place.City.Country.Name;
         }
 
         public AccountPlaceFavorite GetAccountPlaceFavorite(ISession session)

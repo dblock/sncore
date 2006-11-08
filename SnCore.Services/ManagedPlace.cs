@@ -381,9 +381,9 @@ namespace SnCore.Services
             Fax = o.Fax;
             Email = o.Email;
             Website = o.Website;
-            City = o.City.Name;
-            State = (o.City.State != null) ? o.City.State.Name : string.Empty;
-            Country = o.City.Country.Name;
+            if (o.City != null) City = o.City.Name;
+            if (o.City != null && o.City.State != null) State = o.City.State.Name;
+            if (o.City != null && o.City.Country != null) Country = o.City.Country.Name;
             PictureId = ManagedService.GetRandomElementId(o.PlacePictures);
             AccountId = o.Account.Id;
         }

@@ -453,9 +453,9 @@ namespace SnCore.Services
             ScheduleId = evt.Schedule.Id;
             PlaceId = evt.Place.Id;
             PlaceName = evt.Place.Name;
-            PlaceCity = evt.Place.City.Name;
-            PlaceCountry = evt.Place.City.Country.Name;
-            PlaceState = evt.Place.City.State.Name;
+            if (evt.Place.City != null) PlaceCity = evt.Place.City.Name;
+            if (evt.Place.City != null && evt.Place.City.Country != null) PlaceCountry = evt.Place.City.Country.Name;
+            if (evt.Place.City != null && evt.Place.City.State != null) PlaceState = evt.Place.City.State.Name;
             Name = evt.Name;
             Phone = evt.Phone;
             Email = evt.Email;

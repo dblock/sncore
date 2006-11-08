@@ -684,9 +684,9 @@ namespace SnCore.Services
             ScheduleId = o.Schedule.Id;
             PlaceId = o.Place.Id;
             PlaceName = o.Place.Name;
-            PlaceCity = o.Place.City.Name;
-            PlaceCountry = o.Place.City.Country.Name;
-            PlaceState = o.Place.City.State.Name;
+            if (o.Place.City != null) PlaceCity = o.Place.City.Name;
+            if (o.Place.City != null && o.Place.City.Country != null) PlaceCountry = o.Place.City.Country.Name;
+            if (o.Place.City != null && o.Place.City.State != null) PlaceState = o.Place.City.State.Name;
             Name = o.Name;
             Phone = o.Phone;
             Email = o.Email;
