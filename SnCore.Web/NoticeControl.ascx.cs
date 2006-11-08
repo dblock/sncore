@@ -147,6 +147,13 @@ public partial class NoticeControl : Control
 
             SessionManager.EventLog.WriteEntry(string.Format("User-raised exception from {0}: {1}\n{2}",
                 value.Source, value.Message, value.StackTrace), EventLogEntryType.Warning);
+
+            if (value.InnerException != null)
+            {
+                SessionManager.EventLog.WriteEntry(string.Format("User-raised inner-exception from {0}: {1}\n{2}",
+                    value.InnerException.Source, value.InnerException.Message, value.InnerException.StackTrace), 
+                    EventLogEntryType.Warning);
+            }
         }
     }
 
