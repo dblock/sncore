@@ -51,6 +51,15 @@ public partial class AccountsRss : AccountPersonPage
         }
     }
 
+    public bool Bloggers
+    {
+        get
+        {
+            object o = Request.QueryString["bloggers"];
+            return (o == null ? false : bool.Parse(o.ToString()));
+        }
+    }
+
     public string City
     {
         get
@@ -107,6 +116,7 @@ public partial class AccountsRss : AccountPersonPage
                 options.SortAscending = Ascending;
                 options.SortOrder = SortOrder;
                 options.PicturesOnly = Pictures;
+                options.BloggersOnly = Bloggers;
                 options.City = City;
                 options.Country = Country;
                 options.State = State;

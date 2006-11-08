@@ -28,6 +28,7 @@ namespace SnCore.Services
         public string SortOrder = "LastLogin";
         public bool SortAscending = false;
         public bool PicturesOnly = false;
+        public bool BloggersOnly = false;
         public string Country;
         public string State;
         public string City;
@@ -65,6 +66,12 @@ namespace SnCore.Services
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
                 b.Append("EXISTS ( FROM AccountPicture ap WHERE ap.Account = a AND ap.Hidden = 0 )");
+            }
+
+            if (BloggersOnly)
+            {
+                b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                b.Append("(EXISTS ( FROM AccountFeed af WHERE af.Account = a ) OR EXISTS ( FROM AccountBlog ab WHERE ab.Account = a ))");
             }
 
             if (!string.IsNullOrEmpty(Name))

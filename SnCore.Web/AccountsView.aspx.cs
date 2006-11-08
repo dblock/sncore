@@ -37,8 +37,6 @@ public partial class AccountsView : AccountPersonPage
         }
     }
 
-    private AccountActivityQueryOptions mOptions = null;
-
     public void Page_Load(object sender, EventArgs e)
     {
         try
@@ -66,7 +64,7 @@ public partial class AccountsView : AccountPersonPage
 
                 if (SessionManager.IsLoggedIn)
                 {
-                    linkLocal.Text = string.Format("&#187; All {0} People", Renderer.Render(SessionManager.Account.City)); 
+                    linkLocal.Text = string.Format("&#187; All {0} People", Renderer.Render(SessionManager.Account.City));
                     SelectLocation(sender, new SelectLocationEventArgs(
                         Request["country"],
                         Request["state"],
@@ -112,7 +110,7 @@ public partial class AccountsView : AccountPersonPage
     private void GetData()
     {
         gridManage.CurrentPageIndex = 0;
-        object[] args = { QueryOptions };
+        object[] args = { GetQueryOptions() };
         gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(SocialService, "GetAccountActivityCount", args);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
@@ -139,42 +137,38 @@ public partial class AccountsView : AccountPersonPage
         }
     }
 
-    private AccountActivityQueryOptions QueryOptions
+    private AccountActivityQueryOptions GetQueryOptions()
     {
-        get
-        {
-            if (mOptions == null)
-            {
-                mOptions = new AccountActivityQueryOptions();
-                mOptions.SortAscending = bool.Parse(listboxSelectOrderBy.SelectedValue);
-                mOptions.SortOrder = listboxSelectSortOrder.SelectedValue;
-                mOptions.PicturesOnly = checkboxPicturesOnly.Checked;
-                mOptions.City = inputCity.Text;
-                mOptions.Country = inputCountry.SelectedValue;
-                mOptions.State = inputState.SelectedValue;
-                mOptions.Name = inputName.Text;
-                mOptions.Email = inputEmailAddress.Text;
-            }
-            return mOptions;
-        }
+        AccountActivityQueryOptions options = new AccountActivityQueryOptions();
+        options.SortAscending = bool.Parse(listboxSelectOrderBy.SelectedValue);
+        options.SortOrder = listboxSelectSortOrder.SelectedValue;
+        options.PicturesOnly = checkboxPicturesOnly.Checked;
+        options.BloggersOnly = checkboxBloggersOnly.Checked;
+        options.City = inputCity.Text;
+        options.Country = inputCountry.SelectedValue;
+        options.State = inputState.SelectedValue;
+        options.Name = inputName.Text;
+        options.Email = inputEmailAddress.Text;
+        return options;
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
         try
         {
-            AccountActivityQueryOptions options = QueryOptions;
+            AccountActivityQueryOptions options = GetQueryOptions();
 
             linkRss.NavigateUrl = linkRelRss.Attributes["href"] =
-                string.Format("AccountsRss.aspx?order={0}&asc={1}&pictures={2}&city={3}&country={4}&state={5}&name={6}&email={7}",
-                    QueryOptions.SortOrder,
-                    QueryOptions.SortAscending,
-                    QueryOptions.PicturesOnly,
-                    QueryOptions.City,
-                    QueryOptions.Country,
-                    QueryOptions.State,
-                    Renderer.UrlEncode(QueryOptions.Name),
-                    Renderer.UrlEncode(QueryOptions.Email));
+                string.Format("AccountsRss.aspx?order={0}&asc={1}&pictures={2}&city={3}&country={4}&state={5}&name={6}&email={7}&bloggers={8}",
+                    options.SortOrder,
+                    options.SortAscending,
+                    options.PicturesOnly,
+                    options.City,
+                    options.Country,
+                    options.State,
+                    Renderer.UrlEncode(options.Name),
+                    Renderer.UrlEncode(options.Email),
+                    options.BloggersOnly);
 
             ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
             serviceoptions.PageSize = gridManage.PageSize;
@@ -213,6 +207,7 @@ public partial class AccountsView : AccountPersonPage
             if (!SessionManager.IsLoggedIn)
                 return;
 
+            checkboxBloggersOnly.Checked = false;
             checkboxPicturesOnly.Checked = false;
             inputName.Text = string.Empty;
             inputCity.Text = string.Empty;
@@ -230,7 +225,27 @@ public partial class AccountsView : AccountPersonPage
     {
         try
         {
+            checkboxBloggersOnly.Checked = false;
             checkboxPicturesOnly.Checked = false;
+            inputCountry.ClearSelection();
+            inputState.ClearSelection();
+            inputCity.Text = string.Empty;
+            inputName.Text = string.Empty;
+            GetData();
+            panelSearch.Update();
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
+    public void linkBloggers_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            checkboxPicturesOnly.Checked = false;
+            checkboxBloggersOnly.Checked = true;
             inputCountry.ClearSelection();
             inputState.ClearSelection();
             inputCity.Text = string.Empty;

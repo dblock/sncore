@@ -26,6 +26,7 @@
       <div class="sncore_h2sub">
        <asp:LinkButton ID="linkAll" OnClick="linkAll_Click" runat="server" Text="&#187; All People" />
        <asp:LinkButton ID="linkLocal" OnClick="linkLocal_Click" runat="server" Text="&#187; All Local People" />
+       <asp:LinkButton ID="linkBloggers" OnClick="linkBloggers_Click" runat="server" Text="&#187; All Bloggers" />
        <a href="AccountInvitationsManage.aspx">&#187; Invite a Friend</a>
        <a href="RefererAccountsView.aspx">&#187; Top Traffickers</a>
        <asp:LinkButton ID="linkSearch" OnClick="linkSearch_Click" runat="server" Text="&#187; Search" />
@@ -117,6 +118,14 @@
       <td class="sncore_form_value">
        <asp:CheckBox CssClass="sncore_form_checkbox" ID="checkboxPicturesOnly" runat="server"
         Text="show people with pictures only" Checked="true" />
+      </td>
+     </tr>
+     <tr>
+      <td class="sncore_form_label">
+      </td>
+      <td class="sncore_form_value">
+       <asp:CheckBox CssClass="sncore_form_checkbox" ID="checkboxBloggersOnly" runat="server"
+        Text="show bloggers only" Checked="false" />
       </td>
      </tr>
      <tr>
