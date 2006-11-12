@@ -93,14 +93,14 @@
            <div class="sncore_description">
             <a href='AccountFeedItemView.aspx?id=<%# Eval("Id") %>'>
              &#187; <%# GetComments((int) Eval("CommentCount"))%>
-            </a>       
+            </a>
             <a target="_blank" href='<%# base.Render(Eval("Link")) %>'>
              &#187; x-posted
             </a>
             in
             <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
              <%# base.Render(Eval("AccountName")) %>
-            </a>'s       
+            </a>'s
             <a href='AccountFeedView.aspx?id=<%# Eval("AccountFeedId") %>'>
              <%# base.Render(GetValue(Eval("AccountFeedName"), "Untitled")) %>
             </a>

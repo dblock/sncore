@@ -5,6 +5,7 @@
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="BookmarksView" Src="BookmarksViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="LicenseView" Src="AccountLicenseViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="AutoScroll" Src="AutoScrollControl.ascx" %>
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <table cellspacing="0" cellpadding="4" class="sncore_table">
@@ -86,4 +87,5 @@
    </SnCoreWebControls:PagedList>
   </ContentTemplate>
  </asp:UpdatePanel>
+ <SnCore:AutoScroll runat="server" ID="autoScrollToForm" ScrollLocation="form" />
 </asp:Content>
