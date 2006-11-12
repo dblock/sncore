@@ -158,20 +158,6 @@ public partial class DiscussionThreadViewControl : Control
         }
     }
 
-    public string GetSubject(string subject)
-    {
-        switch (subject)
-        {
-            case "Untitled":
-            case "[no subject]":
-            case "Re: Untitled":
-            case "Re: [no subject]":
-                return string.Empty;
-        }
-
-        return subject;
-    }
-
     public string GetCssClass(DateTime ts)
     {
         return (ts.AddDays(5) < DateTime.UtcNow) ? "sncore_message" : "sncore_new_message";

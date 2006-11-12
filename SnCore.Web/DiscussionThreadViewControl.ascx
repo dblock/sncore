@@ -55,17 +55,17 @@
         <!-- NOEMAIL-START -->
         <a href='#post_<%# Eval("Id") %>' onclick='CollapseExpand(<%# Eval("Id") %>)'>
         <!-- NOEMAIL-END -->
-         <%# base.Render(GetSubject((string) Eval("Subject")))%>
+         <%# base.Render(Eval("Subject"))%>
         <!-- NOEMAIL-START -->
         </a>
-        <!-- NOEMAIL-END -->          
+        <!-- NOEMAIL-END -->
        </div>
        <div class="sncore_description">
         posted by
         <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
          <%# base.Render(Eval("AccountName")) %>
         </a>
-        on       
+        on
         <%# base.Adjust(Eval("Created")).ToString() %>
        </div>
        <div id='body_<%# Eval("Id") %>' style='<%# GetCssStyle((DateTime) Eval("Created")) %>'>
