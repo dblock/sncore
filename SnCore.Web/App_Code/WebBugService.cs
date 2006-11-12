@@ -742,51 +742,40 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
+        /// Get all bugs count.
+        /// </summary>
+        [WebMethod(Description = "Get all bugs.")]
+        public int GetBugsCount(TransitBugQueryOptions bugoptions)
+        {
+            return GetBugs(bugoptions, null).Count;
+        }
+
+        /// <summary>
         /// Get all bugs.
         /// </summary>
-        /// <param name="projectid">project id</param>
-        /// <returns>list of transit bugs</returns>
         [WebMethod(Description = "Get all bugs.")]
-        public List<TransitBug> GetBugs(int projectid, TransitBugQueryOptions options)
+        public List<TransitBug> GetBugs(TransitBugQueryOptions bugoptions, ServiceQueryOptions options)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
-                ICriteria crit = session.CreateCriteria(typeof(Bug))
-                    .Add(Expression.Eq("Project.Id", projectid));
+                IQuery q = bugoptions.GetQuery(session);
 
-                if (!string.IsNullOrEmpty(options.SortExpression))
+                if (options != null)
                 {
-                    crit.AddOrder(
-                        (options.SortDirection == TransitSortDirection.Descending)
-                            ? Order.Desc(options.SortExpression)
-                            : Order.Asc(options.SortExpression));
+                    q.SetFirstResult(options.FirstResult);
+                    q.SetMaxResults(options.PageSize);
                 }
 
-                if (!options.Resolved)
-                {
-                    crit.Add(Expression.Not(Expression.Eq("Status.Id", ManagedBugStatus.FindId(session, "Resolved"))));
-                }
-
-                if (!options.Closed)
-                {
-                    crit.Add(Expression.Not(Expression.Eq("Status.Id", ManagedBugStatus.FindId(session, "Closed"))));
-                }
-
-                if (!options.Open)
-                {
-                    crit.Add(Expression.Not(Expression.Eq("Status.Id", ManagedBugStatus.FindId(session, "Open"))));
-                    crit.Add(Expression.Not(Expression.Eq("Status.Id", ManagedBugStatus.FindId(session, "Reopened"))));
-                }
-
-                IList s = crit.List();
+                IList s = q.List();
 
                 List<TransitBug> result = new List<TransitBug>(s.Count);
                 foreach (Bug bug in s)
                 {
                     result.Add(new ManagedBug(session, bug).TransitBug);
                 }
+
                 SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }

@@ -18,13 +18,124 @@ namespace SnCore.Services
     {
         public string SortExpression = "Created";
         public TransitSortDirection SortDirection = TransitSortDirection.Ascending;
-        
-        public bool Resolved = false;
-        public bool Closed = false;
-        public bool Open = true;
+
+        private int mProjectId;
+
+        public int ProjectId
+        {
+            get
+            {
+                return mProjectId;
+            }
+            set
+            {
+                mProjectId = value;
+            }
+        }
+
+        private bool mResolved = false;
+
+        public bool Resolved
+        {
+            get
+            {
+                return mResolved;
+            }
+            set
+            {
+                mResolved = value;
+            }
+        }
+
+        private bool mClosed = false;
+
+        public bool Closed
+        {
+            get
+            {
+                return mClosed;
+            }
+            set
+            {
+                mClosed = value;
+            }
+        }
+
+        private bool mOpen = true;
+
+        public bool Open
+        {
+            get
+            {
+                return mOpen;
+            }
+            set
+            {
+                mOpen = value;
+            }
+        }
+
+        private string mSearchQuery;
+
+        public string SearchQuery
+        {
+            get
+            {
+                return mSearchQuery;
+            }
+            set
+            {
+                mSearchQuery = value;
+            }
+        }
 
         public TransitBugQueryOptions()
         {
+
+        }
+
+        public IQuery GetQuery(ISession session)
+        {
+            StringBuilder s_query = new StringBuilder();
+            s_query.AppendLine("SELECT {Bug.*} FROM Bug {Bug}");
+
+            if (!string.IsNullOrEmpty(SearchQuery))
+            {
+                int maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
+                s_query.AppendFormat("\nINNER JOIN FREETEXTTABLE(Bug, ([Subject], [Details]), " +
+                    "'{0}', {1}) AS ft ON Bug.Bug_Id = ft.[KEY] ",
+                    Renderer.SqlEncode(SearchQuery), maxsearchresults);
+            }
+
+            s_query.AppendFormat("WHERE Bug.Project_Id = {0}", ProjectId);
+
+            if (!Resolved)
+            {
+                s_query.AppendFormat("\nAND NOT Bug.Status_Id = {0}", ManagedBugStatus.FindId(session, "Resolved"));
+            }
+
+            if (!Closed)
+            {
+                s_query.AppendFormat("\nAND NOT Bug.Status_Id = {0}", ManagedBugStatus.FindId(session, "Closed"));
+            }
+
+            if (!Open)
+            {
+                s_query.AppendFormat("\nAND NOT Bug.Status_Id = {0}", ManagedBugStatus.FindId(session, "Open"));
+                s_query.AppendFormat("\nAND NOT Bug.Status_Id = {0}", ManagedBugStatus.FindId(session, "Reopened"));
+            }
+
+            if (string.IsNullOrEmpty(SearchQuery) && !string.IsNullOrEmpty(SortExpression))
+            {
+                s_query.AppendFormat("\nORDER BY Bug.{0} {1}",
+                    Renderer.SqlEncode(SortExpression),
+                    (SortDirection == TransitSortDirection.Ascending) ? "ASC" : "DESC");
+            }
+
+            IQuery query = session.CreateSQLQuery(
+                s_query.ToString(), "Bug", typeof(Bug));
+
+            return query;
         }
 
         public override int GetHashCode()

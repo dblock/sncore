@@ -1121,6 +1121,28 @@ CREATE TABLE [dbo].[Bug](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
 GO
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Bug]') AND name = N'IX_Bug_Project')
+CREATE NONCLUSTERED INDEX [IX_Bug_Project] ON [dbo].[Bug] 
+(
+	[Project_Id] ASC
+)WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Bug]') AND name = N'IX_Bug_Subject')
+CREATE NONCLUSTERED INDEX [IX_Bug_Subject] ON [dbo].[Bug] 
+(
+	[Subject] ASC
+)WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+GO
+IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[Bug]'))
+CREATE FULLTEXT INDEX ON [dbo].[Bug](
+[Details] LANGUAGE [English], 
+[Subject] LANGUAGE [English])
+KEY INDEX [PK_Bug] ON [SnCore]
+WITH CHANGE_TRACKING AUTO
+
+GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1252,7 +1274,7 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Account]') AND name = N'IX_LastLogin')
 CREATE NONCLUSTERED INDEX [IX_LastLogin] ON [dbo].[Account] 
 (
-	[LastLogin] ASC
+	[LastLogin] DESC
 )WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 GO
 IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[Account]'))
