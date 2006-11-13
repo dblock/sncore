@@ -2139,6 +2139,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Search accounts.", CacheDuration = 60)]
         public List<TransitAccountActivity> SearchAccounts(string s, ServiceQueryOptions options)
         {
+            if (string.IsNullOrEmpty(s))
+                return new List<TransitAccountActivity>();
+
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
@@ -2161,6 +2164,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Return the number of accounts matching a query.", CacheDuration = 60)]
         public int SearchAccountsCount(string s)
         {
+            if (string.IsNullOrEmpty(s))
+                return 0;
+
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;

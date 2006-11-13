@@ -230,4 +230,19 @@ public class Control : System.Web.UI.UserControl
     {
         return Renderer.GetSummary(SessionManager.RenderMarkups(summary));
     }
+
+    public int RequestId
+    {
+        get
+        {
+            return GetId("id");
+        }
+    }
+
+    public int GetId(string querystring)
+    {
+        string id = Request.QueryString[querystring];
+        if (string.IsNullOrEmpty(id)) return 0;
+        return int.Parse(id);
+    }
 }

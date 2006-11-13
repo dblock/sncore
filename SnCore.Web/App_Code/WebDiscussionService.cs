@@ -1130,6 +1130,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Search discussion posts.", CacheDuration = 60)]
         public List<TransitDiscussionPost> SearchDiscussionPosts(string s, ServiceQueryOptions options)
         {
+            if (string.IsNullOrEmpty(s))
+                return new List<TransitDiscussionPost>();
+
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
@@ -1152,6 +1155,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Return the number of discussion posts matching a query.", CacheDuration = 60)]
         public int SearchDiscussionPostsCount(string s)
         {
+            if (string.IsNullOrEmpty(s))
+                return 0;
+
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
@@ -1190,6 +1196,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Search discussion posts in a discussion.", CacheDuration = 60)]
         public List<TransitDiscussionPost> SearchDiscussionPostsById(int id, string s, ServiceQueryOptions options)
         {
+            if (string.IsNullOrEmpty(s))
+                return new List<TransitDiscussionPost>();
+
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
@@ -1212,6 +1221,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Return the number of discussion posts matching a query in a discussion.", CacheDuration = 60)]
         public int SearchDiscussionPostsByIdCount(int id, string s)
         {
+            if (string.IsNullOrEmpty(s))
+                return 0;
+
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;

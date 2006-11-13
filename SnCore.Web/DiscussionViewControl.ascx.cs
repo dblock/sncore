@@ -61,15 +61,13 @@ public partial class DiscussionViewControl : Control
     public void Page_Load(object sender, EventArgs e)
     {
         gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+        PageManager.SetDefaultButton(search, panelSearch.Controls);
         try
         {
             if (!IsPostBack)
             {
                 postNew.NavigateUrl = string.Format("DiscussionPost.aspx?did={0}&ReturnUrl={1}&#edit",
                     DiscussionId, Renderer.UrlEncode(Request.Url.PathAndQuery));
-
-                linkSearch.NavigateUrl = string.Format("SearchDiscussionPosts.aspx?id={0}",
-                    DiscussionId);
 
                 linkRss.NavigateUrl = string.Format("DiscussionRss.aspx?id={0}", DiscussionId);
 
@@ -91,6 +89,20 @@ public partial class DiscussionViewControl : Control
         set
         {
             ViewState["DiscussionId"] = value;
+        }
+    }
+
+    protected void search_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            Redirect(string.Format("SearchDiscussionPosts.aspx?id={0}&q={1}",
+                RequestId,
+                Renderer.UrlEncode(inputSearch.Text)));
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
         }
     }
 }

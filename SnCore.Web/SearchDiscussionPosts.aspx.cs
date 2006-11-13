@@ -38,6 +38,23 @@ public partial class SearchDiscussionPosts : Page
         }        
     }
 
+    protected override void OnPreRender(EventArgs e)
+    {
+        base.OnPreRender(e);
+
+        if (!IsPostBack)
+        {
+            if (string.IsNullOrEmpty(searchDiscussionPosts.SearchQuery))
+            {
+                searchDiscussionPosts.Visible = false;
+            }
+            else
+            {
+                searchDiscussionPosts.DataBind();
+            }
+        }
+    }
+
     protected void search_Click(object sender, EventArgs e)
     {
         try

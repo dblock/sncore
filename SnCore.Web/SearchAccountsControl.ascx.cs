@@ -12,78 +12,36 @@ using SnCore.Tools.Web;
 using SnCore.WebServices;
 using SnCore.BackEndServices;
 using SnCore.Services;
+using SnCore.WebControls;
 
-public partial class SearchAccountsControl : Control
+public partial class SearchAccountsControl : SearchControl
 {
-    public void Page_Load()
+    protected override int GetResultsCount()
     {
-        try
-        {
-            gridResults.OnGetDataSource += new EventHandler(gridResults_OnGetDataSource);
-
-            if (!IsPostBack)
-            {
-                if (!string.IsNullOrEmpty(SearchQuery))
-                {
-                    GetResults();
-                }
-                else
-                {
-                    this.Visible = false;
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
-    }
-
-    public void GetResults()
-    {
-        gridResults.CurrentPageIndex = 0;
         object[] args = { SearchQuery };
-        gridResults.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+        return SessionManager.GetCachedCollectionCount(
             AccountService, "SearchAccountsCount", args);
-
-        labelResults.Text = string.Format("{0} result{1}", 
-            gridResults.VirtualItemCount, gridResults.VirtualItemCount != 1 ? "s" : string.Empty);
-        
-        gridResults_OnGetDataSource(this, null);
-        gridResults.DataBind();
     }
 
-    public string SearchQuery
+    protected override IEnumerable GetResults()
+    {
+        return SessionManager.GetCachedCollection<TransitAccountActivity>(
+            AccountService, "SearchAccounts", GetSearchQueryArgs());
+    }
+
+    protected override IPagedControl Grid
     {
         get
         {
-            object query = Request.QueryString["q"];
-            return query == null ? string.Empty : query.ToString();
+            return gridResults;
         }
     }
 
-    public int ResultsCount
+    protected override Label Label
     {
         get
         {
-            return gridResults.VirtualItemCount;
-        }
-    }
-
-    void gridResults_OnGetDataSource(object sender, EventArgs e)
-    {
-        try
-        {
-            ServiceQueryOptions options = new ServiceQueryOptions();
-            options.PageNumber = gridResults.CurrentPageIndex;
-            options.PageSize = gridResults.PageSize;
-            object[] args = { SearchQuery, options };
-            gridResults.DataSource = SessionManager.GetCachedCollection<TransitAccountActivity>(
-                AccountService, "SearchAccounts", args);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            return labelResults;
         }
     }
 }

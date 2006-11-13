@@ -6,9 +6,9 @@
   Places
  </div>
  <asp:Label ID="labelResults" runat="server" CssClass="sncore_h2sub" />
- <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridResults" PageSize="10"
-  AllowCustomPaging="true" AllowPaging="true" AutoGenerateColumns="false" CssClass="sncore_table"
-  ShowHeader="false" RepeatColumns="4" RepeatRows="4" RepeatDirection="Horizontal">
+ <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridResults"
+  AllowCustomPaging="true" CssClass="sncore_table" ShowHeader="false" RepeatColumns="4" 
+  RepeatRows="3" RepeatDirection="Horizontal">
   <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
    prevpagetext="Prev" horizontalalign="Center" />
   <ItemStyle CssClass="sncore_description" HorizontalAlign="Center" />

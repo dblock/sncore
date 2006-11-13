@@ -571,6 +571,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Search feed items.", CacheDuration = 60)]
         public List<TransitAccountFeedItem> SearchAccountFeedItems(string s, ServiceQueryOptions options)
         {
+            if (string.IsNullOrEmpty(s))
+                return new List<TransitAccountFeedItem>();
+
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
@@ -593,6 +596,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Return the number of feed items matching a query.", CacheDuration = 60)]
         public int SearchAccountFeedItemsCount(string s)
         {
+            if (string.IsNullOrEmpty(s))
+                return 0;
+
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;

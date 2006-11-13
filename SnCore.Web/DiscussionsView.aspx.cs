@@ -56,16 +56,4 @@ public partial class DiscussionsView : Page
             ReportException(ex);
         }
     }
-
-    public void searchToggle_Click(object sender, EventArgs e)
-    {
-        try
-        {
-            panelSearch.Visible = !panelSearch.Visible;
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
-    }
 }

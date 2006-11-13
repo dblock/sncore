@@ -4,6 +4,7 @@
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxtoolkit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <SnCore:Title ID="titleDiscussions" Text="Discussions" runat="server">  
   <Template>
@@ -22,9 +23,13 @@
   <a href="DiscussionTopOfThreadsView.aspx">&#187; New Threads</a>
   <a href="DiscussionThreadsView.aspx">&#187; New Posts</a>
   <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
-  <asp:LinkButton ID="linkSearch" runat="server" Text="&#187; Search" OnClick="searchToggle_Click" />
+  <asp:LinkButton ID="linkSearch" runat="server" Text="&#187; Search" CausesValidation="false" />
  </div>
- <asp:Panel ID="panelSearch" runat="server" Visible="false">
+ <ajaxtoolkit:CollapsiblePanelExtender ID="panelSearchExtender" runat="server"
+  TargetControlID="panelSearch" Collapsed="true" ExpandedSize="75"
+  ExpandControlID="linkSearch" CollapseControlID="linkSearch" SuppressPostBack="true">
+ </ajaxtoolkit:CollapsiblePanelExtender>
+ <asp:Panel ID="panelSearch" runat="server">
   <table class="sncore_table">
    <tr>
     <td class="sncore_form_label">

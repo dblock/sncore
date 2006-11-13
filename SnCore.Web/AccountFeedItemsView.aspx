@@ -72,7 +72,7 @@
   <ContentTemplate>
    <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage" PageSize="5"
     AllowCustomPaging="true" AllowPaging="true" AutoGenerateColumns="false" CssClass="sncore_table"
-    ShowHeader="false" OnDataBinding="gridManage_DataBinding" BorderWidth="0">
+    ShowHeader="false" OnDataBinding="gridManage_DataBinding" BorderWidth="0" BorderColor="White">
     <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
      PrevPageText="Prev" HorizontalAlign="Center" />
     <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
@@ -81,7 +81,7 @@
      <asp:BoundColumn DataField="Id" Visible="false" />
      <asp:TemplateColumn ItemStyle-VerticalAlign="Middle" ItemStyle-HorizontalAlign="Left">
       <itemtemplate>
-       <table width="100%" border="0" cellspacing="0" cellpadding="0">
+       <table width="100%" border="0" cellspacing="0" cellpadding="0" bordercolor="white">
         <tr>
          <td align="left" valign="top" width="*" class="sncore_message_left">
           <div class="sncore_message_header">

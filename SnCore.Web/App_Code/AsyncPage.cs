@@ -103,14 +103,20 @@ public class AsyncPage : Page, IHttpAsyncHandler
     {
         AsyncRequestState reqState = state as AsyncRequestState;
 
-        // Synchronously call base class Page.ProcessRequest
-        // as you are now on a thread pool thread. 
+        try
+        {
+            // Synchronously call base class Page.ProcessRequest
+            // as you are now on a thread pool thread. 
 
-        HttpContext.Current = reqState._ctx;
-        base.ProcessRequest(reqState._ctx);
+            HttpContext.Current = reqState._ctx;
+            base.ProcessRequest(reqState._ctx);
 
-        // Once complete, call CompleteRequest to finish
-        reqState.CompleteRequest();
+            // Once complete, call CompleteRequest to finish
+        }
+        finally
+        {
+            reqState.CompleteRequest();
+        }
         return null;
     }
 }

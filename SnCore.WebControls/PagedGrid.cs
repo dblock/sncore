@@ -13,7 +13,7 @@ namespace SnCore.WebControls
         Descending
     }
 
-    public class PagedGrid : DataGrid
+    public class PagedGrid : DataGrid, IPagedControl
     {
         private int mFirst = -1;
         private ArrayList mPagers = null;

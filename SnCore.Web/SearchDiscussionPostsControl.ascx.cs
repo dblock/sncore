@@ -13,111 +13,56 @@ using SnCore.WebServices;
 using SnCore.BackEndServices;
 using SnCore.Services;
 using System.Collections.Generic;
+using SnCore.WebControls;
 
-public partial class SearchDiscussionPostsControl : Control
+public partial class SearchDiscussionPostsControl : SearchControl
 {
-    public void Page_Load()
+    protected override int GetResultsCount()
     {
-        try
+        if (RequestId > 0)
         {
-            gridResults.OnGetDataSource += new EventHandler(gridResults_OnGetDataSource);
-
-            if (!IsPostBack)
-            {
-                if (!string.IsNullOrEmpty(SearchQuery))
-                {
-                    GetResults();
-                }
-                else
-                {
-                    this.Visible = false;
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
-    }
-
-    public void GetResults()
-    {
-        gridResults.CurrentPageIndex = 0;
-        
-        if (DiscussionId > 0)
-        {
-            object[] args = { DiscussionId, SearchQuery };
-            gridResults.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+            object[] args = { RequestId, SearchQuery };
+            return SessionManager.GetCachedCollectionCount(
                 DiscussionService, "SearchDiscussionPostsByIdCount", args);
         }
         else
         {
             object[] args = { SearchQuery };
-            gridResults.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+            return SessionManager.GetCachedCollectionCount(
                 DiscussionService, "SearchDiscussionPostsCount", args);
         }
-
-        labelResults.Text = string.Format("{0} result{1}", 
-            gridResults.VirtualItemCount, gridResults.VirtualItemCount != 1 ? "s" : string.Empty);
-        
-        gridResults_OnGetDataSource(this, null);
-        gridResults.DataBind();
     }
 
-    public int DiscussionId
+    protected override IEnumerable GetResults()
+    {
+        if (RequestId > 0)
+        {
+            List<object> args = new List<object>();
+            args.Add(RequestId);
+            args.AddRange(GetSearchQueryArgs());
+            return SessionManager.GetCachedCollection<TransitDiscussionPost>(
+                DiscussionService, "SearchDiscussionPostsById", args.ToArray());
+        }
+        else
+        {
+            return SessionManager.GetCachedCollection<TransitDiscussionPost>(
+                DiscussionService, "SearchDiscussionPosts", GetSearchQueryArgs());
+        }
+    }
+
+    protected override IPagedControl Grid
     {
         get
         {
-            object id = Request.QueryString["id"];
-            return id == null ? 0 : int.Parse(id.ToString());
+            return gridResults;
         }
     }
-            
-    public string SearchQuery
+
+    protected override Label Label
     {
         get
         {
-            object query = Request.QueryString["q"];
-            return query == null ? string.Empty : query.ToString();
-        }
-    }
-
-    public int ResultsCount
-    {
-        get
-        {
-            return gridResults.VirtualItemCount;
-        }
-    }
-
-    void gridResults_OnGetDataSource(object sender, EventArgs e)
-    {
-        try
-        {
-            ServiceQueryOptions options = new ServiceQueryOptions();
-            options.PageNumber = gridResults.CurrentPageIndex;
-            options.PageSize = gridResults.PageSize;
-
-            List<TransitDiscussionPost> posts = null;
-
-            if (DiscussionId > 0)
-            {
-                object[] args = { DiscussionId, SearchQuery, options };
-                posts = SessionManager.GetCachedCollection<TransitDiscussionPost>(
-                    DiscussionService, "SearchDiscussionPostsById", args);
-            }
-            else
-            {
-                object[] args = { SearchQuery, options };
-                posts = SessionManager.GetCachedCollection<TransitDiscussionPost>(
-                    DiscussionService, "SearchDiscussionPosts", args);
-            }
-                
-            gridResults.DataSource = posts;
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            return labelResults;
         }
     }
 }

@@ -12,61 +12,28 @@ using SnCore.Tools.Web;
 using SnCore.WebServices;
 using SnCore.BackEndServices;
 using SnCore.Services;
+using SnCore.WebControls;
 
-public partial class SearchAccountBlogPostsControl : Control
+public partial class SearchAccountBlogPostsControl : SearchControl
 {
-    public void Page_Load()
+    protected override int GetResultsCount()
     {
-        try
-        {
-            gridResults.OnGetDataSource += new EventHandler(gridResults_OnGetDataSource);
-
-            if (!IsPostBack)
-            {
-                if (!string.IsNullOrEmpty(SearchQuery))
-                {
-                    GetResults();
-                }
-                else
-                {
-                    this.Visible = false;
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
-    }
-
-    public void GetResults()
-    {
-        gridResults.CurrentPageIndex = 0;
         object[] args = { SearchQuery };
-        gridResults.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+        return SessionManager.GetCachedCollectionCount(
             BlogService, "SearchAccountBlogPostsCount", args);
-
-        labelResults.Text = string.Format("{0} result{1}",
-            gridResults.VirtualItemCount, gridResults.VirtualItemCount != 1 ? "s" : string.Empty);
-
-        gridResults_OnGetDataSource(this, null);
-        gridResults.DataBind();
     }
 
-    public string SearchQuery
+    protected override IEnumerable GetResults()
+    {
+        return SessionManager.GetCachedCollection<TransitAccountBlogPost>(
+            BlogService, "SearchAccountBlogPosts", GetSearchQueryArgs());
+    }
+
+    protected override IPagedControl Grid
     {
         get
         {
-            object query = Request.QueryString["q"];
-            return query == null ? string.Empty : query.ToString();
-        }
-    }
-
-    public int ResultsCount
-    {
-        get
-        {
-            return gridResults.VirtualItemCount;
+            return gridResults;
         }
     }
 
@@ -77,20 +44,11 @@ public partial class SearchAccountBlogPostsControl : Control
         else return string.Format("{0} comments", count);
     }
 
-    void gridResults_OnGetDataSource(object sender, EventArgs e)
+    protected override Label Label
     {
-        try
+        get
         {
-            ServiceQueryOptions options = new ServiceQueryOptions();
-            options.PageNumber = gridResults.CurrentPageIndex;
-            options.PageSize = gridResults.PageSize;
-            object[] args = { SearchQuery, options };
-            gridResults.DataSource = SessionManager.GetCachedCollection<TransitAccountBlogPost>(
-                BlogService, "SearchAccountBlogPosts", args);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            return labelResults;
         }
     }
 }

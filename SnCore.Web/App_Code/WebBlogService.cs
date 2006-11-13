@@ -519,6 +519,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Search blog posts.", CacheDuration = 60)]
         public List<TransitAccountBlogPost> SearchAccountBlogPosts(string s, ServiceQueryOptions options)
         {
+            if (string.IsNullOrEmpty(s))
+                return new List<TransitAccountBlogPost>();
+
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
@@ -541,6 +544,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Return the number of blog posts matching a query.", CacheDuration = 60)]
         public int SearchAccountBlogPostsCount(string s)
         {
+            if (string.IsNullOrEmpty(s))
+                return 0;
+
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;

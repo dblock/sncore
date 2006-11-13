@@ -6,6 +6,16 @@ using System.Web.UI.WebControls;
 
 namespace SnCore.WebControls
 {
+    public interface IPagedControl
+    {
+        event EventHandler OnGetDataSource;
+        int CurrentPageIndex { get; set; }
+        int VirtualItemCount { get; set; }
+        int PageSize { get; }
+        object DataSource { get; set; }
+        void DataBind();
+    }
+
     public class Pager : Control
     {
         private PagedDataSource mPagedDataSource = null;

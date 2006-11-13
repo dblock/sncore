@@ -1340,6 +1340,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Search places.", CacheDuration = 60)]
         public List<TransitPlace> SearchPlaces(string s, ServiceQueryOptions options)
         {
+            if (string.IsNullOrEmpty(s))
+                return new List<TransitPlace>();
+
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
@@ -1362,6 +1365,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Return the number of places matching a query.", CacheDuration = 60)]
         public int SearchPlacesCount(string s)
         {
+            if (string.IsNullOrEmpty(s))
+                return 0;
+
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;

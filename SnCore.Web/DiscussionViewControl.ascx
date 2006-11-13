@@ -3,6 +3,7 @@
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxtoolkit" %>
 <table width="100%">
  <tr>
   <td>
@@ -19,8 +20,34 @@
 </table>
 <div class="sncore_createnew">
  <asp:HyperLink ID="postNew" Text="&#187; Post New" runat="server" />
- <asp:HyperLink ID="linkSearch" Text="&#187; Search" runat="server" />
+ <asp:LinkButton ID="linkSearch" runat="server" Text="&#187; Search" CausesValidation="false" />
 </div>
+<ajaxtoolkit:CollapsiblePanelExtender ID="panelSearchExtender" runat="server"
+ TargetControlID="panelSearch" Collapsed="true" ExpandedSize="75"
+ ExpandControlID="linkSearch" CollapseControlID="linkSearch" SuppressPostBack="true">
+</ajaxtoolkit:CollapsiblePanelExtender>
+<asp:Panel ID="panelSearch" runat="server">
+ <table class="sncore_table">
+  <tr>
+   <td class="sncore_form_label">
+    search:
+   </td>
+   <td class="sncore_form_value">
+    <asp:TextBox CssClass="sncore_form_textbox" ID="inputSearch" runat="server" />
+    <asp:RequiredFieldValidator ID="inputSearchRequired" runat="server" ControlToValidate="inputSearch"
+     CssClass="sncore_form_validator" ErrorMessage="search string is required" Display="Dynamic" />
+   </td>
+  </tr>
+  <tr>
+   <td>
+   </td>
+   <td class="sncore_form_value">
+    <SnCoreWebControls:Button ID="search" runat="server" Text="Search!" CausesValidation="true" CssClass="sncore_form_button"
+     OnClick="search_Click" />
+   </td>
+  </tr>
+ </table>
+</asp:Panel>
 <asp:UpdatePanel runat="server" ID="panelThreads" UpdateMode="Always" RenderMode="Inline">
  <ContentTemplate>
   <SnCoreWebControls:PagedList BorderWidth="0px" CellPadding="4" runat="server" ID="gridManage"

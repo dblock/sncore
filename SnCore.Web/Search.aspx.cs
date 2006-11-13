@@ -9,11 +9,42 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
+using System.Collections.Generic;
 
 public partial class Search : AsyncPage
 {
+    private class SearchViewControl
+    {
+        public SearchControl SearchControl;
+        public View MultiView;
+        public LinkButton LinkButton;
+
+        public SearchViewControl(SearchControl s, View m, LinkButton b)
+        {
+            SearchControl = s;
+            MultiView = m;
+            LinkButton = b;
+        }
+    }
+
+    private List<SearchViewControl> mControls = null;
+
+    private List<SearchViewControl> GetSearchControls()
+    {
+        List<SearchViewControl> result = new List<SearchViewControl>();
+        result.Add(new SearchViewControl(searchPlaces, viewPlaces, linkPlaces));
+        result.Add(new SearchViewControl(searchAccounts, viewAccounts, linkAccounts));
+        result.Add(new SearchViewControl(searchDiscussionPosts, viewDiscussionPosts, linkDiscussionPosts));
+        result.Add(new SearchViewControl(searchAccountStories, viewAccountStories, linkAccountStories));
+        result.Add(new SearchViewControl(searchAccountFeedItems, viewAccountFeedItems, linkAccountFeedItems));
+        result.Add(new SearchViewControl(searchAccountBlogPosts, viewAccountBlogPosts, linkAccountBlogPosts));
+        return result;
+    }
+
     public void Page_Load()
     {
+        mControls = GetSearchControls();
+
         if (!IsPostBack)
         {
             inputSearch.Text = SearchQuery;
@@ -26,30 +57,28 @@ public partial class Search : AsyncPage
     {
         if (!string.IsNullOrEmpty(SearchQuery) && !IsPostBack)
         {
-            if (searchAccounts.ResultsCount != 0) searchView.SetActiveView(viewAccounts);
-            else if (searchPlaces.ResultsCount != 0) searchView.SetActiveView(viewPlaces);
-            else if (searchDiscussionPosts.ResultsCount != 0) searchView.SetActiveView(viewDiscussionPosts);
-            else if (searchAccountStories.ResultsCount != 0) searchView.SetActiveView(viewAccountStories);
-            else if (searchAccountFeedItems.ResultsCount != 0) searchView.SetActiveView(viewAccountFeedItems);
-            else if (searchAccountBlogPosts.ResultsCount != 0) searchView.SetActiveView(viewAccountBlogPosts);
-        }
+            bool found = false;
+            foreach (SearchViewControl c in mControls)
+            {
+                c.LinkButton.Text = string.Format("{0} ({1})", c.LinkButton.Text, c.SearchControl.ResultsCount);
+                c.LinkButton.Enabled = (c.SearchControl.ResultsCount > 0);
 
-        if (!IsPostBack)
-        {
-            linkAccountFeedItems.Text = string.Format("{0} ({1})", linkAccountFeedItems.Text, searchAccountFeedItems.ResultsCount);
-            linkAccountStories.Text = string.Format("{0} ({1})", linkAccountStories.Text, searchAccountStories.ResultsCount);
-            linkAccounts.Text = string.Format("{0} ({1})", linkAccounts.Text, searchAccounts.ResultsCount);
-            linkDiscussionPosts.Text = string.Format("{0} ({1})", linkDiscussionPosts.Text, searchDiscussionPosts.ResultsCount);
-            linkPlaces.Text = string.Format("{0} ({1})", linkPlaces.Text, searchPlaces.ResultsCount);
-            linkAccountBlogPosts.Text = string.Format("{0} ({1})", linkAccountBlogPosts.Text, searchAccountBlogPosts.ResultsCount);
-        }
+                if (c.SearchControl.ResultsCount != 0)
+                {
+                    searchView.SetActiveView(c.MultiView);
+                    c.SearchControl.DataBind();
+                    found = true;
+                    break;
+                }
+            }
 
-        linkAccounts.Enabled = !string.IsNullOrEmpty(SearchQuery) && !viewAccounts.Visible;
-        linkAccountStories.Enabled = !string.IsNullOrEmpty(SearchQuery) && !viewAccountStories.Visible;
-        linkAccountFeedItems.Enabled = !string.IsNullOrEmpty(SearchQuery) && !viewAccountFeedItems.Visible;
-        linkDiscussionPosts.Enabled = !string.IsNullOrEmpty(SearchQuery) && !viewDiscussionPosts.Visible;
-        linkPlaces.Enabled = !string.IsNullOrEmpty(SearchQuery) && !viewPlaces.Visible;
-        linkAccountBlogPosts.Enabled = !string.IsNullOrEmpty(SearchQuery) && !viewAccountBlogPosts.Visible;
+            if (!found)
+            {
+                panelNoResults.Visible = true;
+                panelSearch.Visible = false;
+                return;
+            }
+        }
 
         base.OnPreRender(e);
     }
@@ -75,33 +104,21 @@ public partial class Search : AsyncPage
         }
     }
 
-    protected void linkAccounts_Click(object sender, EventArgs e)
+    protected void linkAny_Click(object sender, EventArgs e)
     {
-        searchView.SetActiveView(viewAccounts);
-    }
-
-    protected void linkDiscussionPosts_Click(object sender, EventArgs e)
-    {
-        searchView.SetActiveView(viewDiscussionPosts);
-    }
-
-    protected void linkAccountStories_Click(object sender, EventArgs e)
-    {
-        searchView.SetActiveView(viewAccountStories);
-    }
-
-    protected void linkAccountFeedItems_Click(object sender, EventArgs e)
-    {
-        searchView.SetActiveView(viewAccountFeedItems);
-    }
-
-    protected void linkAccountBlogPosts_Click(object sender, EventArgs e)
-    {
-        searchView.SetActiveView(viewAccountBlogPosts);
-    }
-
-    protected void linkPlaces_Click(object sender, EventArgs e)
-    {
-        searchView.SetActiveView(viewPlaces);
+        foreach (SearchViewControl c in mControls)
+        {
+            if (c.LinkButton == sender)
+            {
+                searchView.SetActiveView(c.MultiView);
+                c.LinkButton.Enabled = (c.SearchControl.ResultsCount > 0);
+                if (c.LinkButton.Text.IndexOf("(") < 0)
+                {
+                    c.LinkButton.Text = string.Format("{0} ({1})", c.LinkButton.Text, c.SearchControl.ResultsCount);
+                }
+                c.SearchControl.DataBind();
+                break;
+            }
+        }
     }
 }

@@ -203,7 +203,7 @@ namespace SnCore.WebControls
         }
     }
 
-    public class PagedList : DataList
+    public class PagedList : DataList, IPagedControl
     {
         private int mFirst = -1;
         private List<Pager> mPagers = new List<Pager>();

@@ -33,17 +33,20 @@
    </td>
   </tr>
  </table>
+ <asp:Panel ID="panelNoResults" CssClass="sncore_note" runat="server" Visible="false">
+  Sorry, no results
+ </asp:Panel>
  <asp:UpdatePanel runat="server" ID="panelSearch" UpdateMode="Always" RenderMode="Inline">
   <ContentTemplate>
    <table class="sncore_table">
     <tr>
      <td colspan="2" class="sncore_table_tr_td">
-      <asp:LinkButton CausesValidation="false" CssClass="sncore_link" Enabled="false" ID="linkAccounts" Text="people" runat="server" OnClick="linkAccounts_Click" />
-      | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkPlaces" Text="places" runat="server" OnClick="linkPlaces_Click"/> 
-      | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkDiscussionPosts" Text="posts" runat="server" OnClick="linkDiscussionPosts_Click"/> 
-      | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkAccountStories" Text="stories" runat="server" OnClick="linkAccountStories_Click"/> 
-      | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkAccountFeedItems" Text="syndicated blogs" runat="server" OnClick="linkAccountFeedItems_Click"/> 
-      | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkAccountBlogPosts" Text="member blogs" runat="server" OnClick="linkAccountBlogPosts_Click"/> 
+      <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkPlaces" Text="places" runat="server" OnClick="linkAny_Click"/> 
+      | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkAccounts" Text="people" runat="server" OnClick="linkAny_Click" />
+      | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkDiscussionPosts" Text="discussion posts" runat="server" OnClick="linkAny_Click"/> 
+      | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkAccountStories" Text="stories" runat="server" OnClick="linkAny_Click"/> 
+      | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkAccountFeedItems" Text="syndicated blogs" runat="server" OnClick="linkAny_Click"/> 
+      | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkAccountBlogPosts" Text="member blogs" runat="server" OnClick="linkAny_Click"/> 
      </td>
     </tr>
    </table>

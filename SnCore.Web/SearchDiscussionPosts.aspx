@@ -34,5 +34,9 @@
    </td>
   </tr>
  </table>
- <SnCore:SearchDiscussionPosts id="searchDiscussionPosts" runat="server" />  
+ <asp:UpdatePanel runat="server" id="searchPanel" UpdateMode="Always" RenderMode="Inline">
+  <ContentTemplate>
+   <SnCore:SearchDiscussionPosts id="searchDiscussionPosts" runat="server" />  
+  </ContentTemplate>
+ </asp:UpdatePanel>
 </asp:Content>

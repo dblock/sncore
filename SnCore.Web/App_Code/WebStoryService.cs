@@ -525,6 +525,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Search stories.", CacheDuration = 60)]
         public List<TransitAccountStory> SearchAccountStories(string s, ServiceQueryOptions options)
         {
+            if (string.IsNullOrEmpty(s))
+                return new List<TransitAccountStory>();
+
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
@@ -547,6 +550,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Return the number of stories matching a query.", CacheDuration = 60)]
         public int SearchAccountStoriesCount(string s)
         {
+            if (string.IsNullOrEmpty(s))
+                return 0;
+
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
