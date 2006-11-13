@@ -2123,5 +2123,68 @@ namespace SnCore.WebServices
             }
         }
         #endregion
+
+        #region Popular Places
+
+        /// <summary>
+        /// Get favorite (popular) places count.
+        /// </summary>
+        /// <returns>list of transit places</returns>
+        [WebMethod(Description = "Get favorite (popular) places count.", CacheDuration = 60)]
+        public int GetFavoritePlacesCount()
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                IQuery q = session.CreateQuery("SELECT COUNT(DISTINCT apf.Place) FROM AccountPlaceFavorite apf");
+                return (int) q.UniqueResult();
+            }
+        }
+
+        /// <summary>
+        /// Get favorite (popular) places.
+        /// </summary>
+        /// <returns>list of transit places</returns>
+        [WebMethod(Description = "Get favorite (popular) places.", CacheDuration = 60)]
+        public List<TransitPlace> GetFavoritePlaces(ServiceQueryOptions serviceoptions)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                IQuery q = session.CreateSQLQuery(
+                    "CREATE TABLE #fav (	[Id] [int],	[Score] [int] )\n" +
+                    "INSERT INTO #fav ( [Id], [Score] ) " +
+                    " SELECT Place_Id, 1 FROM AccountPlaceFavorite " +
+                    "CREATE TABLE #pl (	[Id] [int],	[Score] [int] )\n" +
+                    "INSERT INTO #pl ( [Id], [Score] )" +
+                    " SELECT Id, SUM(Score) AS 'Score' FROM #fav " +
+                    " GROUP BY Id\n" +
+                    "SELECT {Place.*} FROM {Place} INNER JOIN #pl" +
+                    " ON #pl.Id = Place.Place_Id" +
+                    " ORDER BY [Score] DESC\n" +
+                    "DROP TABLE #pl\n" +
+                    "DROP TABLE #fav ",
+                    "Place",
+                    typeof(Place));
+
+                if (serviceoptions != null)
+                {
+                    q.SetMaxResults(serviceoptions.PageSize);
+                    q.SetFirstResult(serviceoptions.PageNumber * serviceoptions.PageSize);
+                }
+
+                IList list = q.List();
+
+                List<TransitPlace> result = new List<TransitPlace>(list.Count);
+                foreach (Place p in list)
+                {
+                    result.Add(new ManagedPlace(session, p).TransitPlace);
+                }
+
+                return result;
+            }
+        }
+
+        #endregion
     }
 }       

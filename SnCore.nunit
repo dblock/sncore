@@ -6,6 +6,7 @@
     <assembly path="SnCore.Stress.Tests\bin\Debug\SnCore.Stress.Tests.dll" />
     <assembly path="SnCore.Tools.Tests\bin\Debug\SnCore.Tools.Tests.dll" />
     <assembly path="SnCore.BackEnd.Tests\bin\Debug\SnCore.BackEnd.Tests.dll" />
+    <assembly path="SnCore.Web.Tests\bin\Debug\SnCore.Web.Tests.dll" />
   </Config>
   <Config name="Release" binpathtype="Auto" />
 </NUnitProject>

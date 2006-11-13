@@ -134,6 +134,7 @@
     <Compile Include="ManagedAccountFeedTest.cs" />
     <Compile Include="ManagedAccountFriendTest.cs" />
     <Compile Include="ManagedAccountMessageFolderTest.cs" />
+    <Compile Include="ManagedAccountPlaceFavoriteTest.cs" />
     <Compile Include="ManagedAccountStoryTest.cs" />
     <Compile Include="ManagedAccountSurveyTest.cs" />
     <Compile Include="ManagedAccountTest.cs">

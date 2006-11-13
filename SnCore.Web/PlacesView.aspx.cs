@@ -114,6 +114,7 @@ public partial class PlacesView : Page
         {
             SetDefaultButton(search);
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+            gridManageFavorites.OnGetDataSource += new EventHandler(gridManageFavorites_OnGetDataSource);
 
             LocationSelector.CountryChanged += new EventHandler(LocationSelector_CountryChanged);
             LocationSelector.StateChanged += new EventHandler(LocationSelector_StateChanged);
@@ -137,6 +138,7 @@ public partial class PlacesView : Page
                 }
 
                 GetData(sender, e);
+                GetDataFavorites(sender, e);
 
                 if (gridManage.VirtualItemCount == 0)
                 {
@@ -167,6 +169,11 @@ public partial class PlacesView : Page
         panelGrid.Update();
     }
 
+    public void gridManageFavorites_DataBinding(object sender, EventArgs e)
+    {
+        panelGrid.Update();
+    }
+
     private void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
@@ -175,6 +182,15 @@ public partial class PlacesView : Page
             PlaceService, "GetPlacesCount", args);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
+    }
+
+    private void GetDataFavorites(object sender, EventArgs e)
+    {
+        gridManageFavorites.CurrentPageIndex = 0;
+        gridManageFavorites.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+            PlaceService, "GetFavoritePlacesCount", null);
+        gridManageFavorites_OnGetDataSource(sender, e);
+        gridManageFavorites.DataBind();
     }
 
     public void linkLocal_Click(object sender, EventArgs e)
@@ -246,6 +262,22 @@ public partial class PlacesView : Page
             ServiceQueryOptions serviceoptions = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
             object[] args = { options, serviceoptions };
             gridManage.DataSource = SessionManager.GetCachedCollection<TransitPlace>(PlaceService, "GetPlaces", args);
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
+    void gridManageFavorites_OnGetDataSource(object sender, EventArgs e)
+    {
+        try
+        {
+            ServiceQueryOptions serviceoptions = new ServiceQueryOptions(
+                gridManageFavorites.PageSize, gridManageFavorites.CurrentPageIndex);
+            object[] args = { serviceoptions };
+            gridManageFavorites.DataSource = SessionManager.GetCachedCollection<TransitPlace>(
+                PlaceService, "GetFavoritePlaces", args);
         }
         catch (Exception ex)
         {

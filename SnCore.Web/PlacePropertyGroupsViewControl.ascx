@@ -5,7 +5,7 @@
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:DataGrid runat="server" ID="groups" BorderWidth="0" AutoGenerateColumns="false" ShowHeader="false"
- OnItemCreated="groups_ItemCreated">
+ OnItemCreated="groups_ItemCreated" BorderColor="White">
  <ItemStyle HorizontalAlign="Left" />
  <Columns>
   <asp:TemplateColumn>
