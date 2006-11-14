@@ -6,15 +6,16 @@ using SnCore.Data.Tests;
 using System.Collections;
 using NHibernate.Expression;
 using System.Diagnostics;
+using SnCore.Tools.Web;
 
 namespace SnCore.Services.Tests
 {
     [TestFixture]
-    public class ManagedStateTest : NHibernateTest
+    public class ManagedStateTest : ManagedServiceTest
     {
         public ManagedStateTest()
         {
-
+            
         }
 
         [Test]

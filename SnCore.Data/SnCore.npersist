@@ -49,6 +49,7 @@
     <property name="CampaignAccountRecepients" table="CampaignAccountRecepient" id-columns="Account_Id" list="true" item-type="CampaignAccountRecepient" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
     <property name="TimeZone" columns="TimeZone" type="System.Int32" />
     <property name="MadLibs" table="MadLib" id-columns="Account_Id" list="true" item-type="MadLib" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
+    <property name="PlaceQueues" table="PlaceQueue" id-columns="Account_Id" list="true" item-type="PlaceQueue" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
   </class>
   <class name="AccountAddress" table="AccountAddress">
     <property name="Id" id="true" columns="AccountAddress_Id" type="System.Int32" />
@@ -657,6 +658,7 @@
     <property name="Zip" columns="Zip" type="System.String" />
     <property name="PlacePropertyValues" table="PlacePropertyValue" id-columns="Place_Id" list="true" item-type="PlacePropertyValue" slave="true" ref="ManyToOne" inverse="Place" inherits-inverse="true" />
     <property name="PlaceAttributes" table="PlaceAttribute" id-columns="Place_Id" list="true" item-type="PlaceAttribute" slave="true" ref="ManyToOne" inverse="Place" inherits-inverse="true" />
+    <property name="PlaceQueueItems" table="PlaceQueueItem" id-columns="Place_Id" list="true" item-type="PlaceQueueItem" slave="true" ref="ManyToOne" inverse="Place" inherits-inverse="true" />
   </class>
   <class name="PlaceAttribute" table="PlaceAttribute">
     <property name="Id" id="true" columns="PlaceAttribute_Id" type="System.Int32" />
@@ -705,6 +707,24 @@
     <property name="Place" columns="Place_Id" ref="OneToMany" inverse="PlacePropertyValues" type="Place" />
     <property name="PlaceProperty" columns="PlaceProperty_Id" ref="OneToMany" inverse="PlacePropertyValues" type="PlaceProperty" />
     <property name="Value" columns="Value" type="System.String" />
+  </class>
+  <class name="PlaceQueue" table="PlaceQueue">
+    <property name="Id" id="true" columns="PlaceQueue_Id" type="System.Int32" />
+    <property name="Account" columns="Account_Id" ref="OneToMany" inverse="PlaceQueues" type="Account" />
+    <property name="Created" columns="Created" type="System.DateTime" />
+    <property name="Description" columns="Description" type="System.String" />
+    <property name="Modified" columns="Modified" type="System.DateTime" />
+    <property name="Name" columns="Name" type="System.String" />
+    <property name="PlaceQueueItems" table="PlaceQueueItem" id-columns="PlaceQueue_Id" list="true" item-type="PlaceQueueItem" slave="true" ref="ManyToOne" inverse="PlaceQueue" inherits-inverse="true" />
+    <property name="PublishAll" columns="PublishAll" type="System.Boolean" />
+    <property name="PublishFriends" columns="PublishFriends" type="System.Boolean" />
+  </class>
+  <class name="PlaceQueueItem" table="PlaceQueueItem">
+    <property name="Id" id="true" columns="PlaceQueueItem_Id" type="System.Int32" />
+    <property name="Created" columns="Created" type="System.DateTime" />
+    <property name="Place" columns="Place_Id" ref="OneToMany" inverse="PlaceQueueItems" type="Place" />
+    <property name="PlaceQueue" columns="PlaceQueue_Id" ref="OneToMany" inverse="PlaceQueueItems" type="PlaceQueue" />
+    <property name="Updated" columns="Updated" type="System.DateTime" />
   </class>
   <class name="PlaceType" table="PlaceType">
     <property name="Id" id="true" columns="PlaceType_Id" type="System.Int32" />
@@ -1581,6 +1601,23 @@
       <column name="Reminder_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Reminder" primary-column="Reminder_Id" foreign-key="FK_ReminderAccountProperty_Reminder" />
       <column name="Unset" type="Boolean" prec="1" length="1" scale="0" />
       <column name="Value" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
+    </table>
+    <table name="PlaceQueue">
+      <column name="PlaceQueue_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_PlaceQueue_Account" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Description" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
+      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Name" type="String" prec="128" length="256" scale="0" />
+      <column name="PublishAll" type="Boolean" prec="1" length="1" scale="0" />
+      <column name="PublishFriends" type="Boolean" prec="1" length="1" scale="0" />
+    </table>
+    <table name="PlaceQueueItem">
+      <column name="PlaceQueueItem_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Place_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Place" primary-column="Place_Id" foreign-key="FK_PlaceQueueItem_Place" />
+      <column name="PlaceQueue_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="PlaceQueue" primary-column="PlaceQueue_Id" foreign-key="FK_PlaceQueueItem_PlaceQueue" />
+      <column name="Updated" type="DateTime" prec="23" length="8" scale="3" />
     </table>
   </source>
 </domain>

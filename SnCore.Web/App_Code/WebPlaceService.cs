@@ -41,11 +41,11 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create or update a place type.")]
         public int CreateOrUpdatePlaceType(string ticket, TransitPlaceType type)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int user_id = ManagedAccount.GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
+                ManagedAccount user = new ManagedAccount(session, user_id);
 
                 if (!user.IsAdministrator())
                 {
@@ -103,13 +103,13 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete a place type.")]
         public void DeletePlaceType(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int user_id = ManagedAccount.GetAccountId(ticket);
 
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
-                ManagedAccount user = new ManagedAccount(session, userid);
+                ManagedAccount user = new ManagedAccount(session, user_id);
 
                 if (!user.IsAdministrator())
                 {
@@ -135,11 +135,11 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create or update a place.")]
         public int CreateOrUpdatePlace(string ticket, TransitPlace place)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int user_id = ManagedAccount.GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
+                ManagedAccount user = new ManagedAccount(session, user_id);
 
                 if (!user.HasVerifiedEmail)
                     throw new ManagedAccount.NoVerifiedEmailException();
@@ -147,7 +147,7 @@ namespace SnCore.WebServices
                 if ((place.Id != 0) && (!user.IsAdministrator()))
                 {
                     ManagedPlace m_place = new ManagedPlace(session, place.Id);
-                    if (!m_place.CanWrite(userid))
+                    if (!m_place.CanWrite(user_id))
                     {
                         throw new ManagedAccount.AccessDeniedException();
                     }
@@ -228,17 +228,17 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete a place.")]
         public void DeletePlace(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int user_id = ManagedAccount.GetAccountId(ticket);
 
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
-                ManagedAccount user = new ManagedAccount(session, userid);
+                ManagedAccount user = new ManagedAccount(session, user_id);
 
                 ManagedPlace m_place = new ManagedPlace(session, id);
 
-                if (! m_place.CanWrite(userid) && !user.IsAdministrator())
+                if (!m_place.CanWrite(user_id) && !user.IsAdministrator())
                 {
                     throw new ManagedAccount.AccessDeniedException();
                 }
@@ -277,10 +277,10 @@ namespace SnCore.WebServices
 
                 if (p == null)
                 {
-                    p = (Place) session.CreateQuery(string.Format(
-                        "SELECT p FROM Place p, PlaceName n" + 
+                    p = (Place)session.CreateQuery(string.Format(
+                        "SELECT p FROM Place p, PlaceName n" +
                         " WHERE n.Name = '{0}' AND p.Id = n.Place.Id" +
-                        " AND p.City.Id = {1}", 
+                        " AND p.City.Id = {1}",
                         Renderer.SqlEncode(name),
                         city.Id)).SetMaxResults(1).UniqueResult();
                 }
@@ -306,18 +306,18 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create or update a place picture.")]
         public int CreateOrUpdatePlacePicture(string ticket, TransitPlacePicture placepicture)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int user_id = ManagedAccount.GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
+                ManagedAccount user = new ManagedAccount(session, user_id);
 
-                Place place = (Place) session.Load(typeof(Place), placepicture.PlaceId);
+                Place place = (Place)session.Load(typeof(Place), placepicture.PlaceId);
 
                 if ((placepicture.Id != 0) && (!user.IsAdministrator()))
                 {
                     ManagedPlace m_place = new ManagedPlace(session, place);
-                    if (!m_place.CanWrite(userid))
+                    if (!m_place.CanWrite(user_id))
                     {
                         throw new ManagedAccount.AccessDeniedException();
                     }
@@ -414,19 +414,19 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete a place picture.")]
         public void DeletePlacePicture(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int user_id = ManagedAccount.GetAccountId(ticket);
 
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
-                ManagedAccount user = new ManagedAccount(session, userid);
+                ManagedAccount user = new ManagedAccount(session, user_id);
                 ManagedPlacePicture m_placepicture = new ManagedPlacePicture(session, id);
 
                 if (!user.IsAdministrator())
                 {
                     ManagedPlace place = new ManagedPlace(session, m_placepicture.Place.Id);
-                    if (!place.CanWrite(userid))
+                    if (!place.CanWrite(user_id))
                     {
                         throw new ManagedAccount.AccessDeniedException();
                     }
@@ -539,11 +539,11 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create or update a account place type.")]
         public int CreateOrUpdateAccountPlaceType(string ticket, TransitAccountPlaceType type)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int user_id = ManagedAccount.GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
+                ManagedAccount user = new ManagedAccount(session, user_id);
 
                 if (!user.IsAdministrator())
                 {
@@ -601,13 +601,13 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete a account place type.")]
         public void DeleteAccountPlaceType(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int user_id = ManagedAccount.GetAccountId(ticket);
 
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
-                ManagedAccount user = new ManagedAccount(session, userid);
+                ManagedAccount user = new ManagedAccount(session, user_id);
 
                 if (!user.IsAdministrator())
                 {
@@ -633,16 +633,16 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create or update an account place.")]
         public int CreateOrUpdateAccountPlace(string ticket, TransitAccountPlace accountplace)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int user_id = ManagedAccount.GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
+                ManagedAccount user = new ManagedAccount(session, user_id);
                 ManagedPlace place = (accountplace.Id == 0) ? null : new ManagedPlace(session, accountplace.Id);
 
-                if ((accountplace.AccountId != 0) && (userid != accountplace.AccountId) && (!user.IsAdministrator()))
+                if ((accountplace.AccountId != 0) && (user_id != accountplace.AccountId) && (!user.IsAdministrator()))
                 {
-                    if (place == null || !place.CanWrite(userid))
+                    if (place == null || !place.CanWrite(user_id))
                     {
                         // one can only edit his own place or a place that he has rights to
                         throw new ManagedAccount.AccessDeniedException();
@@ -653,7 +653,7 @@ namespace SnCore.WebServices
 
                 if (type.CanWrite && !user.IsAdministrator())
                 {
-                    if (place == null || !place.CanWrite(userid))
+                    if (place == null || !place.CanWrite(user_id))
                     {
                         // only administrators can assign or edit r/w types
                         throw new ManagedAccount.AccessDeniedException();
@@ -805,19 +805,19 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete a account place.")]
         public void DeleteAccountPlace(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int user_id = ManagedAccount.GetAccountId(ticket);
 
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
-                ManagedAccount user = new ManagedAccount(session, userid);
+                ManagedAccount user = new ManagedAccount(session, user_id);
                 ManagedAccountPlace m_accountplace = new ManagedAccountPlace(session, id);
 
-                if (m_accountplace.Account.Id != userid && !user.IsAdministrator())
+                if (m_accountplace.Account.Id != user_id && !user.IsAdministrator())
                 {
                     ManagedPlace place = new ManagedPlace(session, m_accountplace.Place.Id);
-                    if (!place.CanWrite(userid))
+                    if (!place.CanWrite(user_id))
                     {
                         throw new ManagedAccount.AccessDeniedException();
                     }
@@ -841,11 +841,11 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create or update an account place request.")]
         public int CreateOrUpdateAccountPlaceRequest(string ticket, TransitAccountPlaceRequest request)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int user_id = ManagedAccount.GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
+                ManagedAccount user = new ManagedAccount(session, user_id);
 
                 if ((request.Id != 0) && (!user.IsAdministrator()))
                 {
@@ -866,17 +866,17 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get a place request.")]
         public TransitAccountPlaceRequest GetAccountPlaceRequestById(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int user_id = ManagedAccount.GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
+                ManagedAccount user = new ManagedAccount(session, user_id);
                 ManagedAccountPlaceRequest request = new ManagedAccountPlaceRequest(session, id);
 
                 if (!user.IsAdministrator())
                 {
                     ManagedPlace place = new ManagedPlace(session, request.Place.Id);
-                    if (!place.CanWrite(userid))
+                    if (!place.CanWrite(user_id))
                     {
                         throw new ManagedAccount.AccessDeniedException();
                     }
@@ -894,12 +894,12 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get place requests.", CacheDuration = 60)]
         public List<TransitAccountPlaceRequest> GetAccountPlaceRequests(string ticket)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int user_id = ManagedAccount.GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
-                ManagedAccount user = new ManagedAccount(session, userid);
+                ManagedAccount user = new ManagedAccount(session, user_id);
 
                 if (!user.IsAdministrator())
                 {
@@ -926,14 +926,14 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get place requests by place id.")]
         public List<TransitAccountPlaceRequest> GetAccountPlaceRequestsById(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int user_id = ManagedAccount.GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedPlace place = new ManagedPlace(session, id);
-                ManagedAccount user = new ManagedAccount(session, userid);
+                ManagedAccount user = new ManagedAccount(session, user_id);
 
-                if (!user.IsAdministrator() && !place.CanWrite(userid))
+                if (!user.IsAdministrator() && !place.CanWrite(user_id))
                 {
                     throw new ManagedAccount.AccessDeniedException();
                 }
@@ -961,12 +961,12 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete a place request.")]
         public void DeleteAccountPlaceRequest(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int user_id = ManagedAccount.GetAccountId(ticket);
 
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
+                ManagedAccount user = new ManagedAccount(session, user_id);
 
                 if (!user.IsAdministrator())
                 {
@@ -987,17 +987,17 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Approve a place request.")]
         public void AcceptAccountPlaceRequest(string ticket, int id, string message)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int user_id = ManagedAccount.GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
+                ManagedAccount user = new ManagedAccount(session, user_id);
                 ManagedAccountPlaceRequest m_request = new ManagedAccountPlaceRequest(session, id);
 
                 if (!user.IsAdministrator())
                 {
                     ManagedPlace m_place = new ManagedPlace(session, m_request.Place.Id);
-                    if (!m_place.CanWrite(userid))
+                    if (!m_place.CanWrite(user_id))
                     {
                         throw new ManagedAccount.AccessDeniedException();
                     }
@@ -1016,17 +1016,17 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Reject a place request.")]
         public void RejectAccountPlaceRequest(string ticket, int id, string message)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int user_id = ManagedAccount.GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
+                ManagedAccount user = new ManagedAccount(session, user_id);
                 ManagedAccountPlaceRequest m_request = new ManagedAccountPlaceRequest(session, id);
 
                 if (!user.IsAdministrator())
                 {
                     ManagedPlace m_place = new ManagedPlace(session, m_request.Place.Id);
-                    if (!m_place.CanWrite(userid))
+                    if (!m_place.CanWrite(user_id))
                     {
                         throw new ManagedAccount.AccessDeniedException();
                     }
@@ -1075,14 +1075,14 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create or update an account place favorite.")]
         public int CreateOrUpdateAccountPlaceFavorite(string ticket, TransitAccountPlaceFavorite apf)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int user_id = ManagedAccount.GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
+                ManagedAccount user = new ManagedAccount(session, user_id);
 
                 if (apf.AccountId == 0) apf.AccountId = user.Id;
-                if ((userid != apf.AccountId) && (!user.IsAdministrator()))
+                if ((user_id != apf.AccountId) && (!user.IsAdministrator()))
                 {
                     // one can only edit his own place or a place that he has rights to
                     throw new ManagedAccount.AccessDeniedException();
@@ -1105,12 +1105,12 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Is a place your favorite?")]
         public bool IsAccountPlaceFavorite(string ticket, int place_id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int user_id = ManagedAccount.GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                AccountPlaceFavorite apf = (AccountPlaceFavorite) session.CreateCriteria(typeof(AccountPlaceFavorite))
-                    .Add(Expression.Eq("Account.Id", userid))
+                AccountPlaceFavorite apf = (AccountPlaceFavorite)session.CreateCriteria(typeof(AccountPlaceFavorite))
+                    .Add(Expression.Eq("Account.Id", user_id))
                     .Add(Expression.Eq("Place.Id", place_id))
                     .UniqueResult();
 
@@ -1260,16 +1260,16 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete an account place favorite.")]
         public void DeleteAccountPlaceFavorite(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int user_id = ManagedAccount.GetAccountId(ticket);
 
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
-                ManagedAccount user = new ManagedAccount(session, userid);
+                ManagedAccount user = new ManagedAccount(session, user_id);
                 ManagedAccountPlaceFavorite m_AccountPlaceFavorite = new ManagedAccountPlaceFavorite(session, id);
 
-                if (m_AccountPlaceFavorite.Account.Id != userid && !user.IsAdministrator())
+                if (m_AccountPlaceFavorite.Account.Id != user_id && !user.IsAdministrator())
                 {
                     throw new ManagedAccount.AccessDeniedException();
                 }
@@ -1375,7 +1375,7 @@ namespace SnCore.WebServices
             }
         }
 
-        #endregion 
+        #endregion
 
         #region PlaceName
 
@@ -1387,16 +1387,16 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create or update a place name.")]
         public int CreateOrUpdatePlaceName(string ticket, TransitPlaceName placename)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int user_id = ManagedAccount.GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
+                ManagedAccount user = new ManagedAccount(session, user_id);
 
                 if ((placename.Id != 0) && (!user.IsAdministrator()))
                 {
                     ManagedPlace place = new ManagedPlace(session, placename.PlaceId);
-                    if (!place.CanWrite(userid))
+                    if (!place.CanWrite(user_id))
                     {
                         throw new ManagedAccount.AccessDeniedException();
                     }
@@ -1457,19 +1457,19 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete a place name.")]
         public void DeletePlaceName(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int user_id = ManagedAccount.GetAccountId(ticket);
 
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
-                ManagedAccount user = new ManagedAccount(session, userid);
+                ManagedAccount user = new ManagedAccount(session, user_id);
                 ManagedPlaceName m_placename = new ManagedPlaceName(session, id);
 
                 if (!user.IsAdministrator())
                 {
                     ManagedPlace place = new ManagedPlace(session, m_placename.Place.Id);
-                    if (!place.CanWrite(userid))
+                    if (!place.CanWrite(user_id))
                     {
                         throw new ManagedAccount.AccessDeniedException();
                     }
@@ -1492,11 +1492,11 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create or update a property group.")]
         public int CreateOrUpdatePlacePropertyGroup(string ticket, TransitPlacePropertyGroup pg)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int user_id = ManagedAccount.GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
+                ManagedAccount user = new ManagedAccount(session, user_id);
 
                 if (!user.IsAdministrator())
                 {
@@ -1556,13 +1556,13 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete a property group.")]
         public void DeletePlacePropertyGroup(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int user_id = ManagedAccount.GetAccountId(ticket);
 
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
-                ManagedAccount user = new ManagedAccount(session, userid);
+                ManagedAccount user = new ManagedAccount(session, user_id);
 
                 if (!user.IsAdministrator())
                 {
@@ -1587,11 +1587,11 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create or update a property.")]
         public int CreateOrUpdatePlaceProperty(string ticket, TransitPlaceProperty p)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int user_id = ManagedAccount.GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
+                ManagedAccount user = new ManagedAccount(session, user_id);
 
                 if (!user.IsAdministrator())
                 {
@@ -1655,13 +1655,13 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete a property.")]
         public void DeletePlaceProperty(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int user_id = ManagedAccount.GetAccountId(ticket);
 
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
-                ManagedAccount user = new ManagedAccount(session, userid);
+                ManagedAccount user = new ManagedAccount(session, user_id);
 
                 if (!user.IsAdministrator())
                 {
@@ -1699,12 +1699,12 @@ namespace SnCore.WebServices
                 IList list = query.List();
 
                 SortedDictionary<string, TransitDistinctPlacePropertyValue> dict = new SortedDictionary<string, TransitDistinctPlacePropertyValue>();
-                
+
                 foreach (PlacePropertyValue pv in list)
                 {
                     StringCollection values = new StringCollection();
 
-                    switch(pv.PlaceProperty.TypeName)
+                    switch (pv.PlaceProperty.TypeName)
                     {
                         case "System.Array":
                             values.AddRange(pv.Value.Split("\"".ToCharArray()));
@@ -1714,7 +1714,7 @@ namespace SnCore.WebServices
                             break;
                     }
 
-                    foreach(string s in values)
+                    foreach (string s in values)
                     {
                         if (s.Length > 0)
                         {
@@ -1813,7 +1813,7 @@ namespace SnCore.WebServices
                    "  OR v.Value LIKE '%\"" + Renderer.SqlEncode(propertyvalue) + "\"%'" +
                    " ) AND g.Name = '" + Renderer.SqlEncode(groupname) + "'");
 
-                return (int) query.UniqueResult();
+                return (int)query.UniqueResult();
             }
         }
 
@@ -1875,14 +1875,14 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create or update a place property value.")]
         public int CreateOrUpdatePlacePropertyValue(string ticket, TransitPlacePropertyValue propertyvalue)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int user_id = ManagedAccount.GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
+                ManagedAccount user = new ManagedAccount(session, user_id);
                 ManagedPlace m_place = new ManagedPlace(session, propertyvalue.PlaceId);
 
-                if (!m_place.CanWrite(userid) && !user.IsAdministrator())
+                if (!m_place.CanWrite(user_id) && !user.IsAdministrator())
                 {
                     throw new ManagedAccount.AccessDeniedException();
                 }
@@ -1988,16 +1988,16 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete a place property value.")]
         public void DeletePlacePropertyValue(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int user_id = ManagedAccount.GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
+                ManagedAccount user = new ManagedAccount(session, user_id);
                 ManagedPlacePropertyValue m_propertyvalue = new ManagedPlacePropertyValue(session, id);
 
                 ManagedPlace m_place = new ManagedPlace(session, m_propertyvalue.PlaceId);
 
-                if (!m_place.CanWrite(userid) && !user.IsAdministrator())
+                if (!m_place.CanWrite(user_id) && !user.IsAdministrator())
                 {
                     throw new ManagedAccount.AccessDeniedException();
                 }
@@ -2017,11 +2017,11 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create or update a place attribute.")]
         public int CreateOrUpdatePlaceAttribute(string ticket, TransitPlaceAttribute attribute)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int user_id = ManagedAccount.GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
+                ManagedAccount user = new ManagedAccount(session, user_id);
 
                 if (!user.IsAdministrator())
                 {
@@ -2112,11 +2112,11 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete a place attribute.")]
         public void DeletePlaceAttribute(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int user_id = ManagedAccount.GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
+                ManagedAccount user = new ManagedAccount(session, user_id);
 
                 if (!user.IsAdministrator())
                 {
@@ -2143,7 +2143,7 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 IQuery q = session.CreateQuery("SELECT COUNT(DISTINCT apf.Place) FROM AccountPlaceFavorite apf");
-                return (int) q.UniqueResult();
+                return (int)q.UniqueResult();
             }
         }
 
@@ -2192,5 +2192,386 @@ namespace SnCore.WebServices
         }
 
         #endregion
+
+        #region Place Queue
+
+        /// <summary>
+        /// Create or update a place queue.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="queue">transit place queue</param>
+        [WebMethod(Description = "Create or update a place queue.")]
+        public int CreateOrUpdatePlaceQueue(string ticket, TransitPlaceQueue queue)
+        {
+            int user_id = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount user = new ManagedAccount(session, user_id);
+                if (queue.AccountId == 0) queue.AccountId = user.Id;
+
+                if ((user.Id != queue.AccountId) && (!user.IsAdministrator()))
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ManagedPlaceQueue m_queue = new ManagedPlaceQueue(session);
+                m_queue.CreateOrUpdate(queue);
+                SnCore.Data.Hibernate.Session.Flush();
+                return m_queue.Id;
+            }
+        }
+
+        /// <summary>
+        /// Get a place queue.
+        /// </summary>
+        /// <returns>transit place queue</returns>
+        [WebMethod(Description = "Get a place queue.")]
+        public TransitPlaceQueue GetPlaceQueueById(string ticket, int id)
+        {
+            int user_id = ManagedAccount.GetAccountId(ticket, 0);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedPlaceQueue q = new ManagedPlaceQueue(session, id);
+                ManagedAccount user = new ManagedAccount(session, user_id);
+
+                if (!q.CanRead(user_id) && !user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                return q.TransitPlaceQueue;
+            }
+        }
+
+        /// <summary>
+        /// Get a place queue by name.
+        /// </summary>
+        /// <returns>transit place queue</returns>
+        [WebMethod(Description = "Get a place queue by name.")]
+        public TransitPlaceQueue GetPlaceQueueByName(string ticket, string name)
+        {
+            int user_id = ManagedAccount.GetAccountId(ticket, 0);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                PlaceQueue q = (PlaceQueue) session.CreateCriteria(typeof(PlaceQueue))
+                    .Add(Expression.Eq("Name", name))
+                    .Add(Expression.Eq("Account.Id", user_id))
+                    .UniqueResult();
+
+                if (q == null)
+                {
+                    return null;
+                }
+
+                ManagedPlaceQueue m_q = new ManagedPlaceQueue(session, q);
+                ManagedAccount user = new ManagedAccount(session, user_id);
+
+                if (!m_q.CanRead(user_id) && !user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                return m_q.TransitPlaceQueue;
+            }
+        }
+
+        /// <summary>
+        /// Get or create a place queue by name, create if doesn't exist.
+        /// </summary>
+        /// <returns>transit place queue</returns>
+        [WebMethod(Description = "Get a place queue by name, create if doesn't exist.")]
+        public TransitPlaceQueue GetOrCreatePlaceQueueByName(string ticket, string name)
+        {
+            int user_id = ManagedAccount.GetAccountId(ticket, 0);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                
+                PlaceQueue q = (PlaceQueue) session.CreateCriteria(typeof(PlaceQueue))
+                    .Add(Expression.Eq("Name", name))
+                    .Add(Expression.Eq("Account.Id", user_id))
+                    .UniqueResult();
+
+                if (q == null)
+                {
+                    q = new PlaceQueue();
+                    q.Account = (Account) session.Load(typeof(Account), user_id);
+                    q.Name = name;
+                    q.PublishAll = false;
+                    q.PublishFriends = true;
+                    q.Created = q.Modified = DateTime.UtcNow;
+                    session.Save(q);
+                    SnCore.Data.Hibernate.Session.Flush();
+                }
+
+                ManagedAccount user = new ManagedAccount(session, user_id);
+                ManagedPlaceQueue m_q = new ManagedPlaceQueue(session, q);
+
+                if (! m_q.CanRead(user_id) && !user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                return m_q.TransitPlaceQueue;
+            }
+        }
+
+        /// <summary>
+        /// Get all place queues by user id.
+        /// </summary>
+        /// <returns>list of transit place queues</returns>
+        [WebMethod(Description = "Get all place queues.", CacheDuration = 60)]
+        public List<TransitPlaceQueue> GetPlaceQueues(string ticket, int id)
+        {
+            int user_id = ManagedAccount.GetAccountId(ticket, 0);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount user = new ManagedAccount(session, user_id);
+                IList queues = session.CreateCriteria(typeof(PlaceQueue))
+                    .Add(Expression.Eq("Account.Id", id))
+                    .List();
+
+                List<TransitPlaceQueue> result = new List<TransitPlaceQueue>(queues.Count);
+                foreach (PlaceQueue queue in queues)
+                {
+                    ManagedPlaceQueue m_q = new ManagedPlaceQueue(session, queue);
+                    if (m_q.CanRead(user_id) || user.IsAdministrator())
+                    {
+                        result.Add(m_q.TransitPlaceQueue);
+                    }
+                }
+
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Delete a place queue
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete a place queue.")]
+        public void DeletePlaceQueue(string ticket, int id)
+        {
+            int user_id = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount user = new ManagedAccount(session, user_id);
+                ManagedPlaceQueue m_queue = new ManagedPlaceQueue(session, id);
+
+                if (!m_queue.CanDelete(user_id) && !user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                m_queue.Delete();
+                SnCore.Data.Hibernate.Session.Flush();
+            }
+        }
+
+        #endregion
+
+        #region Place Queue Item
+
+        /// <summary>
+        /// Create or update a place queue item.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="queueitem">transit place queue item</param>
+        [WebMethod(Description = "Create or update a place queue item.")]
+        public int CreateOrUpdatePlaceQueueItem(string ticket, TransitPlaceQueueItem queueitem)
+        {
+            int user_id = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedPlaceQueue queue = new ManagedPlaceQueue(session, queueitem.PlaceQueueId);
+                ManagedAccount user = new ManagedAccount(session, user_id);
+
+                if (!queue.CanWrite(user_id) && !user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ManagedPlaceQueueItem m_queueitem = new ManagedPlaceQueueItem(session);
+                m_queueitem.CreateOrUpdate(queueitem);
+                SnCore.Data.Hibernate.Session.Flush();
+                return m_queueitem.Id;
+            }
+        }
+
+        /// <summary>
+        /// Get a place queue item.
+        /// </summary>
+        /// <returns>transit place queue item</returns>
+        [WebMethod(Description = "Get a place queue item.")]
+        public TransitPlaceQueueItem GetPlaceQueueItemById(string ticket, int id)
+        {
+            int user_id = ManagedAccount.GetAccountId(ticket, 0);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedPlaceQueueItem i = new ManagedPlaceQueueItem(session, id);
+                ManagedPlaceQueue q = new ManagedPlaceQueue(session, i.PlaceQueueId);
+                ManagedAccount user = new ManagedAccount(session, user_id);
+
+                if (!q.CanRead(user_id) && !user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                return i.TransitPlaceQueueItem;
+            }
+        }
+
+        /// <summary>
+        /// Get all place queue items in a queue.
+        /// </summary>
+        /// <returns>list of transit place queue items</returns>
+        [WebMethod(Description = "Get all place queue items.", CacheDuration = 60)]
+        public List<TransitPlaceQueueItem> GetPlaceQueueItems(string ticket, int id, ServiceQueryOptions options)
+        {
+            int user_id = ManagedAccount.GetAccountId(ticket, 0);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount user = new ManagedAccount(session, user_id);
+                ManagedPlaceQueue q = new ManagedPlaceQueue(session, id);
+
+                if (!q.CanRead(user_id) && !user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ICriteria c = session.CreateCriteria(typeof(PlaceQueueItem))
+                    .Add(Expression.Eq("PlaceQueue.Id", id));
+
+                if (options != null)
+                {
+                    c.SetFirstResult(options.FirstResult);
+                    c.SetMaxResults(options.PageSize);
+                }
+
+                IList queueitems = c.List();
+
+                List<TransitPlaceQueueItem> result = new List<TransitPlaceQueueItem>(queueitems.Count);
+                foreach (PlaceQueueItem queueitem in queueitems)
+                {
+                    ManagedPlaceQueueItem m_i = new ManagedPlaceQueueItem(session, queueitem);
+                    result.Add(m_i.TransitPlaceQueueItem);
+                }
+
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Get place queue items count.
+        /// </summary>
+        [WebMethod(Description = "Get all place queue items.", CacheDuration = 60)]
+        public int GetPlaceQueueItemsCount(string ticket, int id)
+        {
+            int user_id = ManagedAccount.GetAccountId(ticket, 0);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount user = new ManagedAccount(session, user_id);
+                ManagedPlaceQueue q = new ManagedPlaceQueue(session, id);
+
+                if (!q.CanRead(user_id) && !user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                return (int)session.CreateQuery(string.Format(
+                    "SELECT COUNT(i) FROM PlaceQueueItem i WHERE i.PlaceQueue.Id = {0}",
+                    id)).UniqueResult();
+            }
+        }
+
+        /// <summary>
+        /// Delete a place queueitem
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete a place queueitem.")]
+        public void DeletePlaceQueueItem(string ticket, int id)
+        {
+            int user_id = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount user = new ManagedAccount(session, user_id);
+                ManagedPlaceQueueItem m_queueitem = new ManagedPlaceQueueItem(session, id);
+                ManagedPlaceQueue m_queue = new ManagedPlaceQueue(session, m_queueitem.PlaceQueueId);
+
+                if (!m_queue.CanDelete(user_id) && !user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                m_queueitem.Delete();
+                SnCore.Data.Hibernate.Session.Flush();
+            }
+        }
+
+        #endregion
+
+        #region Friends' Place Queue Items
+
+        /// <summary>
+        /// Get all place queue items count in a queue of self and friends.
+        /// </summary>
+        [WebMethod(Description = "Get all place queue items.", CacheDuration = 60)]
+        public int GetFriendsPlaceQueueItemsCount(string ticket)
+        {
+            return GetFriendsPlaceQueueItems(ticket, null).Count;
+        }
+
+        /// <summary>
+        /// Get all place queue items in a queue of self and friends.
+        /// </summary>
+        /// <returns>list of transit place queue items</returns>
+        [WebMethod(Description = "Get all place queue items.", CacheDuration = 60)]
+        public List<TransitFriendsPlaceQueueItem> GetFriendsPlaceQueueItems(string ticket, ServiceQueryOptions options)
+        {
+            int user_id = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                Account acct = (Account) session.Load(typeof(Account), user_id);
+                Dictionary<Place, List<Account>> favorites = new Dictionary<Place, List<Account>>();
+
+                // add your own places
+                // ManagedPlaceQueueItem.GetPlaces(acct, favorites);
+
+                IList friends = session.CreateQuery(string.Format("SELECT FROM AccountFriend f " +
+                        "WHERE (f.Account.Id = {0} OR f.Keen.Id = {0})", acct.Id)).List();
+
+                foreach (AccountFriend a in friends)
+                {
+                    ManagedPlaceQueueItem.GetPlaces(a.Keen == acct ? a.Account : a.Keen, favorites);
+                }
+
+                List<TransitFriendsPlaceQueueItem> result = new List<TransitFriendsPlaceQueueItem>(favorites.Count);
+                Dictionary<Place, List<Account>>.Enumerator enumerator = favorites.GetEnumerator();
+                while (enumerator.MoveNext())
+                {
+                    result.Add(new TransitFriendsPlaceQueueItem(
+                        enumerator.Current.Key, enumerator.Current.Value));
+                }
+
+                return result;
+            }
+        }
+
+        #endregion
+
+
     }
-}       
+}

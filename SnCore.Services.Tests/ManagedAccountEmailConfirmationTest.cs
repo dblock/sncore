@@ -9,7 +9,7 @@ using System.Collections;
 namespace SnCore.Services.Tests
 {
     [TestFixture]
-    public class ManagedAccountEmailConfirmationTest : NHibernateTest
+    public class ManagedAccountEmailConfirmationTest : ManagedServiceTest
     {
         public ManagedAccountEmailConfirmationTest()
         {

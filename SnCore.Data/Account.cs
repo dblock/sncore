@@ -63,6 +63,7 @@ using System;
         private System.Collections.IList m_CampaignAccountRecepients;
         private System.Int32 m_TimeZone;
         private System.Collections.IList m_MadLibs;
+        private System.Collections.IList m_PlaceQueues;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -1488,6 +1489,37 @@ using System;
             set
             {
                 m_MadLibs = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'PlaceQueue'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'PlaceQueue.Account'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_PlaceQueues' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as slave.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'PlaceQueue' table in the data source.
+        ///The property maps to the identity column 'Account_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Collections.IList PlaceQueues
+        {
+            get
+            {
+                return m_PlaceQueues;
+            }
+            set
+            {
+                m_PlaceQueues = value;
             }
         }
 

@@ -9,7 +9,7 @@ using NHibernate.Expression;
 namespace SnCore.Services.Tests
 {
     [TestFixture]
-    public class ManagedConfigurationTest : NHibernateTest
+    public class ManagedConfigurationTest : ManagedServiceTest
     {
         public ManagedConfigurationTest()
         {

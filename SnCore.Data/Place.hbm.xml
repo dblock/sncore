@@ -50,5 +50,9 @@
       <key column="Place_Id" />
       <one-to-many class="PlaceAttribute, SnCore.Data" />
     </bag>
+    <bag lazy="true" name="PlaceQueueItems" inverse="true">
+      <key column="Place_Id" />
+      <one-to-many class="PlaceQueueItem, SnCore.Data" />
+    </bag>
   </class>
 </hibernate-mapping>

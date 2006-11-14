@@ -247,7 +247,7 @@ namespace SnCore.Tools
         /// <returns></returns>
         public static int GetDayOfWeekOccurrenceThisMonth(DateTime dt)
         {
-            int result = 0;
+            int result = 1;
             DateTime qt = dt.AddDays(-7);
             while (qt.Month == dt.Month)
             {

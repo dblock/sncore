@@ -12,7 +12,7 @@ using System.Text;
 namespace SnCore.Services.Tests
 {
     [TestFixture]
-    public class ManagedAccountPlaceFavoriteTest : NHibernateTest
+    public class ManagedAccountPlaceFavoriteTest : ManagedServiceTest
     {
         [Test]
         public void TestAccountPlaceFavoritesCount()

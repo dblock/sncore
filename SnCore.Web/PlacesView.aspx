@@ -22,6 +22,8 @@
        <asp:LinkButton ID="linkAll" OnClick="linkAll_Click" runat="server" Text="&#187; All Places" />
        <asp:LinkButton ID="linkLocal" OnClick="linkLocal_Click" runat="server" Text="&#187; All Local Places" />
        <a href="PlaceEdit.aspx">&#187; Suggest a Place</a>
+       <a href="AccountPlaceQueueManage.aspx">&#187; My Queue</a>
+       <a href="PlaceFriendsQueueView.aspx">&#187; My Friends Queue</a>
        <asp:LinkButton ID="linkSearch" OnClick="linkSearch_Click" runat="server" Text="&#187; Search" />
        <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
       </div>

@@ -27,6 +27,7 @@
  <tr><td width="30" align="center"><img src="images/account/websites.gif" /></td><td width="*"><a href="AccountWebsitesManage.aspx">Websites</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/friends.gif" /></td><td width="*"><a href="AccountFriendsManage.aspx">Friends</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/favorites.gif" /></td><td width="*"><a href="AccountPlaceFavoritesManage.aspx">Favorites</a></td></tr>
+ <tr><td width="30" align="center"><img src="images/account/queue.gif" /></td><td width="*"><a href="AccountPlaceQueueManage.aspx">Queue</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/places.gif" /></td><td width="*"><a href="AccountPlacesManage.aspx">Places</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/property.gif" /></td><td width="*"><a href="AccountPropertyManage.aspx">Property</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/events.gif" /></td><td width="*"><a href="AccountEventsManage.aspx">Events</a></td></tr>

@@ -60,7 +60,7 @@ namespace SnCore.Data.Tests
         }
 
         [TearDown]
-        public void TearDown()
+        public virtual void TearDown()
         {
             Session.Close();
         }

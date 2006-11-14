@@ -341,6 +341,29 @@ public partial class PlaceView : Page
         }
     }
 
+    public void linkAddToQueue_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (!SessionManager.IsLoggedIn)
+            {
+                RedirectToLogin();
+            }
+
+            TransitPlaceQueue tpq = PlaceService.GetOrCreatePlaceQueueByName(SessionManager.Ticket, "My Queue");
+            TransitPlaceQueueItem tpqi = new TransitPlaceQueueItem();
+            tpqi.PlaceQueueId = tpq.Id;
+            tpqi.PlaceId = RequestId;
+            PlaceService.CreateOrUpdatePlaceQueueItem(SessionManager.Ticket, tpqi);
+            ReportInfo(string.Format("Added {0} to <a href='AccountPlaceQueueManage.aspx'>your queue</a>.", Renderer.Render(Place.Name)));
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+
+    }
+
     public void linkAddToFavorites_Click(object sender, EventArgs e)
     {
         try

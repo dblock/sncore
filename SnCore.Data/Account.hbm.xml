@@ -150,5 +150,9 @@
       <key column="Account_Id" />
       <one-to-many class="MadLib, SnCore.Data" />
     </bag>
+    <bag lazy="true" name="PlaceQueues" inverse="true">
+      <key column="Account_Id" />
+      <one-to-many class="PlaceQueue, SnCore.Data" />
+    </bag>
   </class>
 </hibernate-mapping>

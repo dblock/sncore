@@ -3,7 +3,7 @@
     <ProjectType>Local</ProjectType>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1F9C0442-E7B5-4CCC-93ED-A0599CF1AA57}</ProjectGuid>
+    <ProjectGuid>{369610cb-57a2-44af-8a9b-1be3d5f06a2e}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>
@@ -317,6 +317,12 @@
     <Compile Include="PlacePropertyValue.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="PlaceQueue.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PlaceQueueItem.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="PlaceType.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -438,6 +444,8 @@
     <EmbeddedResource Include="PlaceProperty.hbm.xml" />
     <EmbeddedResource Include="PlacePropertyGroup.hbm.xml" />
     <EmbeddedResource Include="PlacePropertyValue.hbm.xml" />
+    <EmbeddedResource Include="PlaceQueue.hbm.xml" />
+    <EmbeddedResource Include="PlaceQueueItem.hbm.xml" />
     <EmbeddedResource Include="PlaceType.hbm.xml" />
     <EmbeddedResource Include="RefererAccount.hbm.xml" />
     <EmbeddedResource Include="RefererHost.hbm.xml" />

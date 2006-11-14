@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace SnCore.Services.Tests
 {
     [TestFixture]
-    public class ManagedPlaceTest : NHibernateTest
+    public class ManagedPlaceTest : ManagedServiceTest
     {
         public ManagedPlaceTest()
         {

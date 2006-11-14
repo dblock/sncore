@@ -10,7 +10,7 @@ using System.Web.Services.Protocols;
 namespace SnCore.Services.Tests
 {
     [TestFixture]
-    public class ManagedAccountEmailTest : NHibernateTest
+    public class ManagedAccountEmailTest : ManagedServiceTest
     {
         public ManagedAccountEmailTest()
         {

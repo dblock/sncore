@@ -102,8 +102,10 @@
           <td align="right">
            <!-- NOEMAIL-START -->
            <div>
-            <asp:LinkButton ID="linkAddToFavorites" OnClick="linkAddToFavorites_Click" runat="server"
-             Text="&#187; Add to Favorites" />
+            <asp:LinkButton ID="linkAddToFavorites" OnClick="linkAddToFavorites_Click" runat="server" Text="&#187; Add to Favorites" />
+           </div>
+           <div>
+            <asp:LinkButton ID="linkAddToQueue" OnClick="linkAddToQueue_Click" runat="server" Text="&#187; Add to Queue" />
            </div>
            <div>
             <SnCore:TellAFriend ID="linkTellAFriend" runat="server" />

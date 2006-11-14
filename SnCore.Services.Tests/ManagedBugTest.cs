@@ -10,7 +10,7 @@ using NUnit.Framework;
 namespace SnCore.Services.Tests
 {
     [TestFixture]
-    public class ManagedBugTest : NHibernateTest
+    public class ManagedBugTest : ManagedServiceTest
     {
         public ManagedBugTest()
         {

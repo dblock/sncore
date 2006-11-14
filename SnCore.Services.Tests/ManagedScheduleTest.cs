@@ -11,7 +11,7 @@ using SnCore.Tools;
 namespace SnCore.Services.Tests
 {
     [TestFixture]
-    public class ManagedScheduleTest : NHibernateTest
+    public class ManagedScheduleTest : ManagedServiceTest
     {
         public ManagedScheduleTest()
         {
@@ -91,7 +91,7 @@ namespace SnCore.Services.Tests
                 ts.StartDateTime = DateTime.UtcNow;
                 ts.RecurrencePattern = RecurrencePattern.None;
                 ts.AllDay = true;
-                ts.EndDateTime = ts.StartDateTime.AddDays(1);
+                ts.EndDateTime = ts.StartDateTime; // all that day, will be adjusted +1 and end within 24 hours
 
                 int schedule_id = a.CreateOrUpdate(ts);
 
@@ -104,11 +104,11 @@ namespace SnCore.Services.Tests
 
                 ScheduleInstance ts_instance = (ScheduleInstance)s.ScheduleInstances[0];
 
-                Assert.AreEqual(ts_instance.StartDateTime, s.StartDateTime, "Schedule instance start date/time doesn't match.");
-                Assert.AreEqual(ts_instance.EndDateTime, s.EndDateTime, "Schedule instance end date/time doesn't match.");
-                Assert.AreEqual(ts_instance.Schedule, s, "Schedule instance schedule object doesn't match.");
-                Assert.AreEqual(ts_instance.Instance, 0, "Instance index is not zero.");
-                Assert.AreEqual(ts_instance.Modified, s.Created, "Instance creation date/time doesn't match schedule.");
+                Assert.AreEqual(s.StartDateTime, ts_instance.StartDateTime, "Schedule instance start date/time doesn't match.");
+                Assert.AreEqual(s.EndDateTime.AddDays(1), ts_instance.EndDateTime, "Schedule instance end date/time doesn't match.");
+                Assert.AreEqual(s, ts_instance.Schedule, "Schedule instance schedule object doesn't match.");
+                Assert.AreEqual(0, ts_instance.Instance, "Instance index is not zero.");
+                Assert.AreEqual(s.Created, ts_instance.Modified, "Instance creation date/time doesn't match schedule.");
             }
             finally
             {
@@ -377,7 +377,7 @@ namespace SnCore.Services.Tests
                 {
                     Console.WriteLine(string.Format("Event on {0}.", ts_instance.StartDateTime.ToLongDateString()));
                     Assert.AreEqual(ts_instance.StartDateTime.DayOfWeek, (DayOfWeek)ts.MonthlyExDayName, "Day of month is wrong.");
-                    Assert.IsTrue(CBusinessDay.GetDayOfWeekOccurrenceThisMonth(ts_instance.StartDateTime) == 0, "Day of month is not the first instance.");
+                    Assert.IsTrue(CBusinessDay.GetDayOfWeekOccurrenceThisMonth(ts_instance.StartDateTime) == 1, "Day of month is not the first instance.");
                 }
             }
             finally
@@ -465,7 +465,7 @@ namespace SnCore.Services.Tests
                     Console.WriteLine(string.Format("Event on {0}.", ts_instance.StartDateTime.ToLongDateString()));
                     Assert.AreEqual((int) ts_instance.StartDateTime.DayOfWeek, ts.YearlyExDayName, "Day of week is wrong.");
                     Assert.AreEqual(ts_instance.StartDateTime.Month, ts.YearlyExMonth, "Month is wrong.");
-                    Assert.IsTrue(CBusinessDay.GetDayOfWeekOccurrenceThisMonth(ts_instance.StartDateTime) == 0, "Day of month is not the first instance.");
+                    Assert.IsTrue(CBusinessDay.GetDayOfWeekOccurrenceThisMonth(ts_instance.StartDateTime) == 1, "Day of month is not the first instance.");
                 }
             }
             finally

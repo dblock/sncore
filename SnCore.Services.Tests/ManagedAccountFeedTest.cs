@@ -19,7 +19,7 @@ using SnCore.Tools.Web;
 namespace SnCore.Services.Tests
 {
     [TestFixture]
-    public class ManagedAccountFeedTest : NHibernateTest
+    public class ManagedAccountFeedTest : ManagedServiceTest
     {
         public ManagedAccountFeedTest()
         {

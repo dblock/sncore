@@ -10,7 +10,7 @@ using System.Diagnostics;
 namespace SnCore.Services.Tests
 {
     [TestFixture]
-    public class ManagedCityTest : NHibernateTest
+    public class ManagedCityTest : ManagedServiceTest
     {
         public ManagedCityTest()
         {

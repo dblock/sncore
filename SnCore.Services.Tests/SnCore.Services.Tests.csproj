@@ -146,8 +146,10 @@
     <Compile Include="ManagedConfigurationTest.cs" />
     <Compile Include="ManagedCountryTest.cs" />
     <Compile Include="ManagedDiscussionTest.cs" />
+    <Compile Include="ManagedPlaceQueueTest.cs" />
     <Compile Include="ManagedPlaceTest.cs" />
     <Compile Include="ManagedScheduleTest.cs" />
+    <Compile Include="ManagedServiceTest.cs" />
     <Compile Include="ManagedStateTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
