@@ -514,6 +514,19 @@ namespace SnCore.Services
 
         public void MigrateToAccount(Account newowner)
         {
+            // migrate pictures
+            IList pictures = Session.CreateCriteria(typeof(PlacePicture))
+                .Add(Expression.Eq("Account.Id", mPlace.Account.Id))
+                .Add(Expression.Eq("Place.Id", mPlace.Id))
+                .List();
+
+            foreach (PlacePicture pp in pictures)
+            {
+                ManagedPlacePicture mpp = new ManagedPlacePicture(Session, pp);
+                mpp.MigrateToAccount(newowner);
+            }
+
+            // migrate review discussion
             int did = ManagedDiscussion.GetDiscussionId(
                 Session, mPlace.Account.Id, ManagedDiscussion.PlaceDiscussion, mPlace.Id, false);
 

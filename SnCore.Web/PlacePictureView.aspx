@@ -71,6 +71,9 @@
          uploaded:
         </td>
         <td class="sncore_form_value">
+         by
+         <asp:HyperLink id="inputUploadedBy" runat="server" NavigateUrl="AccountView.aspx" />
+         on
          <asp:Label ID="inputCreated" runat="server" />
         </td>
        </tr>

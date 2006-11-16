@@ -13,7 +13,10 @@
      Hello,
     </p>
     <p>
-     A new picture has been uploaded to 
+     <a href="AccountView.aspx?id=<% Response.Write(this.PlacePicture.AccountId); %>">
+      <% Response.Write(Renderer.Render(this.PlacePicture.AccountName)); %>      
+     </a>
+     has uploaded a new picture to 
      <a href="PlaceView.aspx?id=<% Response.Write(this.Place.Id); %>">
       <% Response.Write(Renderer.Render(this.Place.Name)); %>
      </a>

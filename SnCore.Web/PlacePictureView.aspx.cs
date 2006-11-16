@@ -96,6 +96,8 @@ public partial class PlacePictureView : Page
         inputPicture.Src = string.Format("PlacePicture.aspx?id={0}", p.Id);
         inputName.Text = Renderer.Render(p.Name);
         inputDescription.Text = Renderer.Render(p.Description);
+        inputUploadedBy.NavigateUrl = string.Format("AccountView.aspx?id={0}", p.AccountId);
+        inputUploadedBy.Text = Renderer.Render(p.AccountName);
         inputCreated.Text = Adjust(p.Created).ToString("d");
         inputCounter.Text = p.Counter.Total.ToString();
 

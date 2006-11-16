@@ -50,6 +50,7 @@
     <property name="TimeZone" columns="TimeZone" type="System.Int32" />
     <property name="MadLibs" table="MadLib" id-columns="Account_Id" list="true" item-type="MadLib" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
     <property name="PlaceQueues" table="PlaceQueue" id-columns="Account_Id" list="true" item-type="PlaceQueue" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
+    <property name="PlacePictures" table="PlacePicture" id-columns="Account_Id" list="true" item-type="PlacePicture" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
   </class>
   <class name="AccountAddress" table="AccountAddress">
     <property name="Id" id="true" columns="AccountAddress_Id" type="System.Int32" />
@@ -683,6 +684,7 @@
     <property name="Modified" columns="Modified" type="System.DateTime" />
     <property name="Name" columns="Name" type="System.String" />
     <property name="Place" columns="Place_Id" ref="OneToMany" inverse="PlacePictures" type="Place" />
+    <property name="Account" columns="Account_Id" ref="OneToMany" inverse="PlacePictures" type="Account" />
   </class>
   <class name="PlaceProperty" table="PlaceProperty">
     <property name="Id" id="true" columns="PlaceProperty_Id" type="System.Int32" />
@@ -1441,6 +1443,7 @@
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Name" type="String" prec="64" allow-null="true" length="128" scale="0" />
       <column name="Place_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Place" primary-column="Place_Id" foreign-key="FK_PlacePicture_Place" />
+      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_PlacePicture_Account" default="((0))" />
     </table>
     <table name="PlaceProperty">
       <column name="PlaceProperty_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />

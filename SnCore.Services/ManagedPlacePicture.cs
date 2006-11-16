@@ -152,6 +152,34 @@ namespace SnCore.Services
             }
         }
 
+        private int mAccountId;
+
+        public int AccountId
+        {
+            get
+            {
+                return mAccountId;
+            }
+            set
+            {
+                mAccountId = value;
+            }
+        }
+
+        private string mAccountName;
+
+        public string AccountName
+        {
+            get
+            {
+                return mAccountName;
+            }
+            set
+            {
+                mAccountName = value;
+            }
+        }
+
         public TransitPlacePicture()
         {
 
@@ -165,6 +193,8 @@ namespace SnCore.Services
             Created = p.Created;
             Modified = p.Modified;
             PlaceId = p.Place.Id;
+            AccountId = p.Account.Id;
+            AccountName = p.Account.Name;
         }
 
         public virtual PlacePicture GetPlacePicture(ISession session)
@@ -172,7 +202,8 @@ namespace SnCore.Services
             PlacePicture p = (Id > 0) ? (PlacePicture)session.Load(typeof(PlacePicture), Id) : new PlacePicture();
             p.Name = this.Name;
             p.Description = this.Description;
-            p.Place = (Place)session.Load(typeof(Place), PlaceId);
+            if (Id == 0 && PlaceId > 0) p.Place = (Place)session.Load(typeof(Place), PlaceId);
+            if (Id == 0 && AccountId > 0) p.Account = (Account)session.Load(typeof(Account), AccountId);
             return p;
         }
     }
@@ -300,6 +331,25 @@ namespace SnCore.Services
             {
                 return mPlacePicture.Place;
             }
+        }
+
+        public void MigrateToAccount(Account newowner)
+        {
+            mPlacePicture.Account = newowner;
+            Session.Save(mPlacePicture);
+        }
+
+        public bool CanWrite(int user_id)
+        {
+            if (mPlacePicture.Account.Id == user_id)
+                return true;
+
+            ManagedPlace m_place = new ManagedPlace(Session, mPlacePicture.Place);
+
+            if (m_place.CanWrite(user_id))
+                return true;
+
+            return false;
         }
     }
 }

@@ -24,3 +24,9 @@ ALTER TABLE dbo.AccountPicture ADD [Hidden] bit NOT NULL DEFAULT 0
 
 -- add a requirelogin field to content groups (2006-11-04)
 ALTER TABLE dbo.AccountContentGroup ADD [Login] bit NOT NULL DEFAULT 0
+
+-- add an account identity to place pictures (2006-11-16)
+ALTER TABLE dbo.PlacePicture ADD [Account_Id] int NOT NULL DEFAULT 0
+GO
+UPDATE dbo.PlacePicture SET [Account_Id] = dbo.Place.Account_Id 
+FROM dbo.Place WHERE dbo.Place.Place_Id = dbo.PlacePicture.Place_Id

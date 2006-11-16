@@ -22,6 +22,7 @@ using System;
         private System.DateTime m_Modified;
         private System.String m_Name;
         private Place m_Place;
+        private Account m_Account;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -196,6 +197,33 @@ using System;
             set
             {
                 m_Place = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent one-many reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts references to objects of the type 'Account'.
+        ///This property is part of a 'OneToMany' relationship.
+        ///The inverse property for this property is 'Account.PlacePictures'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Account' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Account_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  Account Account
+        {
+            get
+            {
+                return m_Account;
+            }
+            set
+            {
+                m_Account = value;
             }
         }
 

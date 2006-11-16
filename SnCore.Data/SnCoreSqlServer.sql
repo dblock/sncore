@@ -326,26 +326,6 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Survey]') AND type in (N'U'))
-BEGIN
-CREATE TABLE [dbo].[Survey](
-	[Survey_Id] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [nvarchar](64) NOT NULL,
- CONSTRAINT [PK_Survey] PRIMARY KEY CLUSTERED 
-(
-	[Survey_Id] ASC
-)WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY],
- CONSTRAINT [UK_Survey] UNIQUE NONCLUSTERED 
-(
-	[Name] ASC
-)WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-END
-GO
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TagWord]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[TagWord](
@@ -370,6 +350,26 @@ CREATE FULLTEXT INDEX ON [dbo].[TagWord](
 KEY INDEX [PK_TagWord] ON [SnCore]
 WITH CHANGE_TRACKING AUTO
 
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Survey]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[Survey](
+	[Survey_Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](64) NOT NULL,
+ CONSTRAINT [PK_Survey] PRIMARY KEY CLUSTERED 
+(
+	[Survey_Id] ASC
+)WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY],
+ CONSTRAINT [UK_Survey] UNIQUE NONCLUSTERED 
+(
+	[Name] ASC
+)WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+END
 GO
 SET ANSI_NULLS ON
 GO
@@ -871,6 +871,7 @@ CREATE TABLE [dbo].[PlacePicture](
 	[Description] [ntext] NULL,
 	[Created] [datetime] NOT NULL,
 	[Modified] [datetime] NOT NULL,
+	[Account_Id] [int] NOT NULL DEFAULT ((0)),
  CONSTRAINT [PK_PlacePicture] PRIMARY KEY CLUSTERED 
 (
 	[PlacePicture_Id] ASC
@@ -1341,30 +1342,26 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[MadLibInstance]') AND type in (N'U'))
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Feature]') AND type in (N'U'))
 BEGIN
-CREATE TABLE [dbo].[MadLibInstance](
-	[MadLibInstance_Id] [int] IDENTITY(1,1) NOT NULL,
-	[Account_Id] [int] NOT NULL,
-	[MadLib_Id] [int] NOT NULL,
-	[Object_Id] [int] NOT NULL,
+CREATE TABLE [dbo].[Feature](
+	[Feature_Id] [int] IDENTITY(1,1) NOT NULL,
 	[DataObject_Id] [int] NOT NULL,
-	[Text] [ntext] NOT NULL,
+	[DataRow_Id] [int] NOT NULL,
 	[Created] [datetime] NOT NULL,
-	[Modified] [datetime] NOT NULL,
- CONSTRAINT [PK_MadLibInstance] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_Feature] PRIMARY KEY CLUSTERED 
 (
-	[MadLibInstance_Id] ASC
+	[Feature_Id] ASC
 )WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+) ON [PRIMARY]
 END
 GO
 
-IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[MadLibInstance]') AND name = N'IX_MadLibInstance')
-CREATE NONCLUSTERED INDEX [IX_MadLibInstance] ON [dbo].[MadLibInstance] 
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Feature]') AND name = N'IX_Feature')
+CREATE NONCLUSTERED INDEX [IX_Feature] ON [dbo].[Feature] 
 (
-	[DataObject_Id] ASC,
-	[Object_Id] ASC
+	[DataRow_Id] ASC,
+	[DataObject_Id] ASC
 )WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -1394,26 +1391,30 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Feature]') AND type in (N'U'))
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[MadLibInstance]') AND type in (N'U'))
 BEGIN
-CREATE TABLE [dbo].[Feature](
-	[Feature_Id] [int] IDENTITY(1,1) NOT NULL,
+CREATE TABLE [dbo].[MadLibInstance](
+	[MadLibInstance_Id] [int] IDENTITY(1,1) NOT NULL,
+	[Account_Id] [int] NOT NULL,
+	[MadLib_Id] [int] NOT NULL,
+	[Object_Id] [int] NOT NULL,
 	[DataObject_Id] [int] NOT NULL,
-	[DataRow_Id] [int] NOT NULL,
+	[Text] [ntext] NOT NULL,
 	[Created] [datetime] NOT NULL,
- CONSTRAINT [PK_Feature] PRIMARY KEY CLUSTERED 
+	[Modified] [datetime] NOT NULL,
+ CONSTRAINT [PK_MadLibInstance] PRIMARY KEY CLUSTERED 
 (
-	[Feature_Id] ASC
+	[MadLibInstance_Id] ASC
 )WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
 GO
 
-IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Feature]') AND name = N'IX_Feature')
-CREATE NONCLUSTERED INDEX [IX_Feature] ON [dbo].[Feature] 
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[MadLibInstance]') AND name = N'IX_MadLibInstance')
+CREATE NONCLUSTERED INDEX [IX_MadLibInstance] ON [dbo].[MadLibInstance] 
 (
-	[DataRow_Id] ASC,
-	[DataObject_Id] ASC
+	[DataObject_Id] ASC,
+	[Object_Id] ASC
 )WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -2134,6 +2135,31 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountEmailMessage]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[AccountEmailMessage](
+	[AccountEmailMessage_Id] [int] IDENTITY(1,1) NOT NULL,
+	[Subject] [nvarchar](256) NOT NULL,
+	[Body] [ntext] NOT NULL,
+	[Account_Id] [int] NOT NULL,
+	[DeleteSent] [bit] NOT NULL,
+	[Sent] [bit] NOT NULL,
+	[SendError] [varchar](128) NULL,
+	[MailTo] [varchar](128) NOT NULL,
+	[MailFrom] [varchar](128) NOT NULL,
+	[Created] [datetime] NOT NULL,
+	[Modified] [datetime] NOT NULL,
+ CONSTRAINT [PK_AccountEmailMessage] PRIMARY KEY CLUSTERED 
+(
+	[AccountEmailMessage_Id] ASC
+)WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountFriend]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[AccountFriend](
@@ -2200,31 +2226,6 @@ CREATE TABLE [dbo].[AccountInvitation](
 (
 	[Email] ASC,
 	[Account_Id] ASC
-)WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-END
-GO
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountEmailMessage]') AND type in (N'U'))
-BEGIN
-CREATE TABLE [dbo].[AccountEmailMessage](
-	[AccountEmailMessage_Id] [int] IDENTITY(1,1) NOT NULL,
-	[Subject] [nvarchar](256) NOT NULL,
-	[Body] [ntext] NOT NULL,
-	[Account_Id] [int] NOT NULL,
-	[DeleteSent] [bit] NOT NULL,
-	[Sent] [bit] NOT NULL,
-	[SendError] [varchar](128) NULL,
-	[MailTo] [varchar](128) NOT NULL,
-	[MailFrom] [varchar](128) NOT NULL,
-	[Created] [datetime] NOT NULL,
-	[Modified] [datetime] NOT NULL,
- CONSTRAINT [PK_AccountEmailMessage] PRIMARY KEY CLUSTERED 
-(
-	[AccountEmailMessage_Id] ASC
 )WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
@@ -2640,6 +2641,12 @@ REFERENCES [dbo].[Place] ([Place_Id])
 GO
 ALTER TABLE [dbo].[AccountPlace] CHECK CONSTRAINT [FK_AccountPlace_Place]
 GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PlacePicture_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlacePicture]'))
+ALTER TABLE [dbo].[PlacePicture]  WITH CHECK ADD  CONSTRAINT [FK_PlacePicture_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+GO
+ALTER TABLE [dbo].[PlacePicture] CHECK CONSTRAINT [FK_PlacePicture_Account]
+GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PlacePicture_Place]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlacePicture]'))
 ALTER TABLE [dbo].[PlacePicture]  WITH CHECK ADD  CONSTRAINT [FK_PlacePicture_Place] FOREIGN KEY([Place_Id])
 REFERENCES [dbo].[Place] ([Place_Id])
@@ -2865,6 +2872,19 @@ REFERENCES [dbo].[State] ([State_Id])
 GO
 ALTER TABLE [dbo].[AccountAddress] CHECK CONSTRAINT [FK_Address_State]
 GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Feature_DataObject]') AND parent_object_id = OBJECT_ID(N'[dbo].[Feature]'))
+ALTER TABLE [dbo].[Feature]  WITH CHECK ADD  CONSTRAINT [FK_Feature_DataObject] FOREIGN KEY([DataObject_Id])
+REFERENCES [dbo].[DataObject] ([DataObject_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[Feature] CHECK CONSTRAINT [FK_Feature_DataObject]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Reminder_DataObject]') AND parent_object_id = OBJECT_ID(N'[dbo].[Reminder]'))
+ALTER TABLE [dbo].[Reminder]  WITH CHECK ADD  CONSTRAINT [FK_Reminder_DataObject] FOREIGN KEY([DataObject_Id])
+REFERENCES [dbo].[DataObject] ([DataObject_Id])
+GO
+ALTER TABLE [dbo].[Reminder] CHECK CONSTRAINT [FK_Reminder_DataObject]
+GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_MadLibInstance_DataObject]') AND parent_object_id = OBJECT_ID(N'[dbo].[MadLibInstance]'))
 ALTER TABLE [dbo].[MadLibInstance]  WITH CHECK ADD  CONSTRAINT [FK_MadLibInstance_DataObject] FOREIGN KEY([DataObject_Id])
 REFERENCES [dbo].[DataObject] ([DataObject_Id])
@@ -2877,19 +2897,6 @@ REFERENCES [dbo].[MadLib] ([MadLib_Id])
 ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[MadLibInstance] CHECK CONSTRAINT [FK_MadLibInstance_MadLib]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Reminder_DataObject]') AND parent_object_id = OBJECT_ID(N'[dbo].[Reminder]'))
-ALTER TABLE [dbo].[Reminder]  WITH CHECK ADD  CONSTRAINT [FK_Reminder_DataObject] FOREIGN KEY([DataObject_Id])
-REFERENCES [dbo].[DataObject] ([DataObject_Id])
-GO
-ALTER TABLE [dbo].[Reminder] CHECK CONSTRAINT [FK_Reminder_DataObject]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Feature_DataObject]') AND parent_object_id = OBJECT_ID(N'[dbo].[Feature]'))
-ALTER TABLE [dbo].[Feature]  WITH CHECK ADD  CONSTRAINT [FK_Feature_DataObject] FOREIGN KEY([DataObject_Id])
-REFERENCES [dbo].[DataObject] ([DataObject_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[Feature] CHECK CONSTRAINT [FK_Feature_DataObject]
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_DiscussionPost_DiscussionPost]') AND parent_object_id = OBJECT_ID(N'[dbo].[DiscussionPost]'))
 ALTER TABLE [dbo].[DiscussionPost]  WITH CHECK ADD  CONSTRAINT [FK_DiscussionPost_DiscussionPost] FOREIGN KEY([DiscussionPostParent_Id])
@@ -3115,6 +3122,13 @@ ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[MadLib] CHECK CONSTRAINT [FK_MadLib_Account]
 GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountEmailMessage_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountEmailMessage]'))
+ALTER TABLE [dbo].[AccountEmailMessage]  WITH CHECK ADD  CONSTRAINT [FK_AccountEmailMessage_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountEmailMessage] CHECK CONSTRAINT [FK_AccountEmailMessage_Account]
+GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountFriend_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountFriend]'))
 ALTER TABLE [dbo].[AccountFriend]  WITH CHECK ADD  CONSTRAINT [FK_AccountFriend_Account] FOREIGN KEY([Account_Id])
 REFERENCES [dbo].[Account] ([Account_Id])
@@ -3145,13 +3159,6 @@ REFERENCES [dbo].[Account] ([Account_Id])
 ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[AccountInvitation] CHECK CONSTRAINT [FK_AccountInvitation_Account]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountEmailMessage_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountEmailMessage]'))
-ALTER TABLE [dbo].[AccountEmailMessage]  WITH CHECK ADD  CONSTRAINT [FK_AccountEmailMessage_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountEmailMessage] CHECK CONSTRAINT [FK_AccountEmailMessage_Account]
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountStory_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountStory]'))
 ALTER TABLE [dbo].[AccountStory]  WITH CHECK ADD  CONSTRAINT [FK_AccountStory_Account] FOREIGN KEY([Account_Id])

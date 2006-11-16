@@ -20,8 +20,17 @@
    <a href="PlacePictureView.aspx?id=<%# Eval("Id") %>">
     <img border="0" src="PlacePictureThumbnail.aspx?id=<%# Eval("Id") %>"
      alt="<%# base.Render(Eval("Name")) %>" />
-    <br />
-    <%# base.Render(Eval("Description")) %>
+    <div>
+     <%# base.Render(Eval("Description")) %>
+    </div>
+    <div class="sncore_description">
+     uploadded by 
+     <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
+      <%# base.Render(Eval("AccountName")) %>
+     </a>
+     on 
+     <%# base.Adjust(Eval("Created")).ToString("d") %>
+    </div>
    </a>
   </ItemTemplate>
  </asp:DataList>

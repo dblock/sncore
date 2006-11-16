@@ -310,14 +310,15 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, user_id);
+                if (placepicture.AccountId == 0) placepicture.AccountId = user_id;
 
+                ManagedAccount user = new ManagedAccount(session, user_id);
                 Place place = (Place)session.Load(typeof(Place), placepicture.PlaceId);
 
-                if ((placepicture.Id != 0) && (!user.IsAdministrator()))
+                if (placepicture.Id != 0 && ! user.IsAdministrator())
                 {
-                    ManagedPlace m_place = new ManagedPlace(session, place);
-                    if (!m_place.CanWrite(user_id))
+                    ManagedPlacePicture m_placepicture_access = new ManagedPlacePicture(session, placepicture.Id);
+                    if (!m_placepicture_access.CanWrite(user_id))
                     {
                         throw new ManagedAccount.AccessDeniedException();
                     }
@@ -326,7 +327,7 @@ namespace SnCore.WebServices
                 ManagedPlacePicture m_placepicture = new ManagedPlacePicture(session);
                 m_placepicture.CreateOrUpdate(placepicture);
 
-                // send a message to place owner TODO: a place picture should have an AccountId of who posted it
+                // send a message to place owner
 
                 if (user.Id != place.Account.Id)
                 {

@@ -17,7 +17,9 @@
  }
 </script>
 <!-- NOEMAIL-END -->
-<asp:HyperLink ID="postNew" Text="Post New" CssClass="sncore_createnew" runat="server" />
+<div class="sncore_createnew">
+ <asp:HyperLink ID="postNew" Text="Post New" runat="server" />
+</div>
 <asp:DataGrid ShowHeader="false" CellPadding="4" runat="server" ID="discussionView" AutoGenerateColumns="false" BorderWidth="0" BorderColor="White"
  CssClass="sncore_inner_table" Width="95%" OnItemDataBound="discussionView_ItemDataBound" OnItemCommand="discussionView_ItemCommand">
  <Columns>

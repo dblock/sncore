@@ -154,5 +154,9 @@
       <key column="Account_Id" />
       <one-to-many class="PlaceQueue, SnCore.Data" />
     </bag>
+    <bag lazy="true" name="PlacePictures" inverse="true">
+      <key column="Account_Id" />
+      <one-to-many class="PlacePicture, SnCore.Data" />
+    </bag>
   </class>
 </hibernate-mapping>
