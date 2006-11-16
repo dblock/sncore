@@ -30,3 +30,7 @@ ALTER TABLE dbo.PlacePicture ADD [Account_Id] int NOT NULL DEFAULT 0
 GO
 UPDATE dbo.PlacePicture SET [Account_Id] = dbo.Place.Account_Id 
 FROM dbo.Place WHERE dbo.Place.Place_Id = dbo.PlacePicture.Place_Id
+GO
+ALTER TABLE [dbo].[PlacePicture] WITH CHECK ADD CONSTRAINT [FK_PlacePicture_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+GO
