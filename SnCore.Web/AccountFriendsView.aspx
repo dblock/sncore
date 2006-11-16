@@ -27,7 +27,7 @@
       <a href='AccountFriendsRss.aspx?id=<% Response.Write(RequestId); %>'>
        <img src="images/rss.gif" border="0" />
       </a>
-      <link runat="server" id="linkRelRss" rel="alternate" type="application/rss+xml" title="Rss"
+      <link rel="alternate" type="application/rss+xml" title="Rss"
        href="AccountFriendsRss.aspx?id=<% Response.Write(RequestId); %>" />
      </td>
     </tr>
