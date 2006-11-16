@@ -1,3 +1,68 @@
+Build 1.0.3.0
+========================
+
+IMPORTANT: This version includes an updated Castle.DynamicProxy library. However,
+its maintainers have not changed the version number with the update. Remember
+to update Castle.DynamicProxy when updating NHibernate from an earlier version.
+
+Patches Applied
+
+    * [NH-604] - Excessive memory consumption bug with heavy HQL usage
+
+Bugs Fixed
+
+    * [NH-540] - Register of AnsiChar type
+    * [NH-548] - Component Parent set to null on 2nd-level cache hit
+    * [NH-550] - Incorrect SQL Generated when using SetMaxResults() with DB2
+    * [NH-552] - Collection of "nullifiables" not updated when object saved back
+    * [NH-559] - Memory leak associated with HQL queries
+    * [NH-563] - Exception in NDataReader.cs when loading BinaryBlob
+    * [NH-571] - class keyword in WHERE broken for table-per-subclass mappings
+    * [NH-574] - sort="natural" doen't work when namespace and assemply were set
+    * [NH-582] - All IType implementations should be serializable
+    * [NH-643] - Parent child problem when using SysCacheProvider
+    * [NH-719] - Caching of "any" reference to lazy classes
+    * [NH-740] - Logging for tests is sometimes not configured properly
+    * [NH-782] - Update to latest DynamicProxy to fix race condition
+
+Build 1.0.2.0
+========================
+
+Bugs Fixed:
+
+    * [NH-409] - Sybase - Polymorphics Queries - wrong SQL generation about aliases/quotes
+    * [NH-418] - Custom persister cannot be instanciated.
+    * [NH-464] - DateTime does not work in composite-element mapping
+    * [NH-470] - Disconnect and Close should not close user-supplied connections
+    * [NH-471] - Misspelled property in ICriteria throws NullReferenceException
+    * [NH-476] - GetSetHelperFactory doesn't work with external dependencies
+    * [NH-477] - IncrementGenerator reads Int64 even if Int32 or Int16 is used.
+    * [NH-479] - One-To-One SaveAndUpdateCopy - Reference Identifier Bug
+    * [NH-480] - Should use invariant culture with ToLower and other string calls
+    * [NH-496] - Reflection optimizer should throw a more informative exception when a property is mapped using a wrong type
+    * [NH-505] - Reflection optimizer does not work with structures
+    * [NH-508] - changes to idbag collection not persisted correctly
+    * [NH-509] - ILMerge is not packaged in the distribution
+    * [NH-512] - Custom properties accessors do not work
+    * [NH-523] - SaveOrUpdateCopy throws PersistentObjectException
+
+New Features:
+
+    * [NH-513] - FOR UPDATE NOWAIT in Postgresql 8.1
+
+Improvements:
+
+    * [NH-483] - Improve type resolution to handle dynamic assemblies
+    * [NH-488] - Change log level for GetSetHelper messages to DEBUG so that users are not confused
+    * [NH-489] - Remove logging from ADOException constructor
+    * [NH-491] - SQLite dialect should use DATETIME type for date/time columns
+    * [NH-493] - Correction in the NHibernate.Type.CharType.cs
+    * [NH-497] - Add more Hibernate-compatible type names
+    * [NH-506] - Make Environment.UseReflectionOptimizer property writable
+    * [NH-516] - Log SQL parameter values
+    * [NH-521] - Locking an unitialized entity causes its initialization
+    * [NH-525] - Upgrade to latest DynamicProxy
+
 Build 1.0.1.0
 ========================
 

@@ -30,7 +30,7 @@
     <asp:UpdatePanel ID="panelSearch" runat="server" UpdateMode="Conditional">
      <ContentTemplate>
       <SnCoreWebControls:PersistentPanel Visible="False" ID="panelSearchInternal" runat="server">
-       <table class="sncore_table">
+       <table class="sncore_account_table">
         <tr>
          <td class="sncore_form_label">
           search:
