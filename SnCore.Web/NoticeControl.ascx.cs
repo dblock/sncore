@@ -12,6 +12,7 @@ using System.Web.Services.Protocols;
 using SnCore.Tools.Web;
 using Wilco.Web.UI;
 using System.Diagnostics;
+using System.Text;
 
 public partial class NoticeControl : Control
 {
@@ -145,8 +146,13 @@ public partial class NoticeControl : Control
 
             HtmlEncode = false;
 
-            SessionManager.EventLog.WriteEntry(string.Format("User-raised exception from {0}: {1}\n{2}",
-                value.Source, value.Message, value.StackTrace), EventLogEntryType.Warning);
+            StringBuilder s = new StringBuilder();
+            s.AppendFormat("User-raised exception from {0}: {1}\n{2}", value.Source, value.Message, value.StackTrace);
+            if (Request != null && ! string.IsNullOrEmpty(Request.RawUrl)) s.AppendFormat("\nUrl: {0}", Request.RawUrl);
+            if (Request != null && Request.UrlReferrer != null) s.AppendFormat("\nReferrer: {0}", Request.UrlReferrer);
+            if (Request != null && ! string.IsNullOrEmpty(Request.UserAgent)) s.AppendFormat("\nUser-agent: {0}", Request.UserAgent);
+
+            SessionManager.EventLog.WriteEntry(s.ToString(), EventLogEntryType.Warning);
 
             if (value.InnerException != null)
             {
