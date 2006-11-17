@@ -12,6 +12,7 @@ using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.BackEndServices;
 using Microsoft.Web.UI;
+using System.Threading;
 
 public class MasterPage : System.Web.UI.MasterPage
 {
@@ -127,8 +128,15 @@ public class MasterPage : System.Web.UI.MasterPage
         Response.Redirect(url);
     }
 
+    private static void RethrowException(Exception ex)
+    {
+        if (ex is ThreadAbortException)
+            throw ex;
+    }
+
     public void ReportException(Exception ex)
     {
+        RethrowException(ex);
         object notice = FindControl("noticeMenu");
         notice.GetType().GetProperty("Exception").SetValue(notice, ex, null);
     }

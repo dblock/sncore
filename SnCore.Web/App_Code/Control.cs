@@ -11,6 +11,7 @@ using SnCore.Tools.Web;
 using SnCore.WebServices;
 using SnCore.BackEndServices;
 using Microsoft.Web.UI;
+using System.Threading;
 
 public class Control : System.Web.UI.UserControl
 {
@@ -220,8 +221,15 @@ public class Control : System.Web.UI.UserControl
         Response.Redirect(url);
     }
 
+    private static void RethrowException(Exception ex)
+    {
+        if (ex is ThreadAbortException)
+            throw ex;
+    }
+
     public void ReportException(Exception ex)
     {
+        RethrowException(ex);
         object notice = Page.Master.FindControl("noticeMenu");
         notice.GetType().GetProperty("Exception").SetValue(notice, ex, null);
     }

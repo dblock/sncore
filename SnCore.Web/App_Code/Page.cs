@@ -15,6 +15,7 @@ using SnCore.BackEndServices;
 using Microsoft.Web.UI;
 using System.Text;
 using System.Collections.Generic;
+using System.Threading;
 
 public class Page : System.Web.UI.Page
 {
@@ -246,7 +247,7 @@ public class Page : System.Web.UI.Page
 
     public void Redirect(string url)
     {
-        Response.Redirect(url);
+        Response.Redirect(url, true);
     }
 
     public string Render(object o)
@@ -274,8 +275,15 @@ public class Page : System.Web.UI.Page
         return Renderer.UrlDecode(o);
     }
 
+    private static void RethrowException(Exception ex)
+    {
+        if (ex is ThreadAbortException)
+            throw ex;
+    }
+
     public void ReportException(Exception ex)
     {
+        RethrowException(ex);
         if (Master == null) throw ex;
         object notice = Master.FindControl("noticeMenu");
         if (notice == null) throw ex;
