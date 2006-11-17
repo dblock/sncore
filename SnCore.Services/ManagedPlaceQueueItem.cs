@@ -40,6 +40,11 @@ namespace SnCore.Services
             }
         }
 
+        public TransitFriendsPlaceQueueItem()
+        {
+
+        }
+
         public TransitFriendsPlaceQueueItem(Place place, List<Account> accounts)
         {
             List<TransitAccount> ta = new List<TransitAccount>();
