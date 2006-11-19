@@ -110,11 +110,26 @@ public class Global : SnCore.Tools.Web.HostedApplication
             return;
         }
 
-        ManagedAccount acct = new ManagedAccount(session);
-        acct.Create("Administrator", "password", "admin@localhost.com", DateTime.UtcNow);
-        acct.VerifyAllEmails();
-        acct.PromoteAdministrator();
+        a = new Account();
+        a.Name = "Administrator";
+        a.Password = ManagedAccount.GetPasswordHash("password");
+        a.IsAdministrator = true;
+        a.IsPasswordExpired = false;
+        a.Created = a.Modified = a.LastLogin = DateTime.UtcNow;
+        a.Birthday = DateTime.UtcNow;
+        session.Save(a);
+
+        AccountEmail ae = new AccountEmail();
+        ae.Account = a;
+        ae.Address = "admin@localhost.com";
+        ae.Created = ae.Modified = a.Created;
+        ae.Principal = true;
+        ae.Verified = true;
+        session.Save(ae);
         session.Flush();
+
+        ManagedAccount ma = new ManagedAccount(session, a);
+        ma.CreateAccountSystemMessageFolders();
     }
 
     /// <summary>
