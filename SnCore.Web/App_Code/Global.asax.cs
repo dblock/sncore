@@ -42,8 +42,8 @@ public class Global : SnCore.Tools.Web.HostedApplication
 
         if (! SystemService.SystemServicesEnabled)
         {
-            EventLog.WriteEntry(string.Format("System services disabled by configuration setting.",
-                EventLogEntryType.Warning));
+            EventLog.WriteEntry("System services disabled by configuration setting.",
+                EventLogEntryType.Warning);
 
             return;
         }
