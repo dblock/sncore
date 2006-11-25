@@ -3,6 +3,7 @@
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="PlacePropertyValuesView" Src="PlacePropertyValuesViewControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <asp:UpdatePanel ID="panelLinks" UpdateMode="Conditional" RenderMode="Inline" runat="server">
   <ContentTemplate>
@@ -10,7 +11,7 @@
     <tr>
      <td>
       <div class="sncore_h2">
-       Places
+       <asp:Label id="title" runat="server" />
       </div>
       <div class="sncore_h2sub">
        <asp:HyperLink ID="linkAll" runat="server" NavigateUrl="PlacesView.aspx" Text="&#187; All Places" />
@@ -28,7 +29,14 @@
     </tr>
    </table>
   </ContentTemplate>
- </asp:UpdatePanel>
+ </asp:UpdatePanel> 
+ <table class="sncore_table">
+  <tr>
+   <td>
+    <SnCore:PlacePropertyValuesView id="ppvs" runat="server" /> 
+   </td>
+  </tr>
+ </table> 
  <asp:UpdatePanel runat="server" ID="panelGrid" UpdateMode="Conditional" RenderMode="Inline">
   <ContentTemplate>
    <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage" AllowCustomPaging="true" 

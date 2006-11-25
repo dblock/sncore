@@ -85,6 +85,20 @@ namespace SnCore.Services
             }
         }
 
+        private string mPlacePropertyGroupName;
+
+        public string PlacePropertyGroupName
+        {
+            get
+            {
+                return mPlacePropertyGroupName;
+            }
+            set
+            {
+                mPlacePropertyGroupName = value;
+            }
+        }
+
         private int mPlacePropertyGroupId = 0;
 
         public int PlacePropertyGroupId
@@ -113,12 +127,14 @@ namespace SnCore.Services
             DefaultValue = o.DefaultValue;
             Publish = o.Publish;
             PlacePropertyGroupId = o.PlacePropertyGroup.Id;
+            PlacePropertyGroupName = o.PlacePropertyGroup.Name;
         }
 
         public PlaceProperty GetPlaceProperty(ISession session)
         {
             PlaceProperty p = (Id != 0) ? (PlaceProperty)session.Load(typeof(PlaceProperty), Id) : new PlaceProperty();
-            p.PlacePropertyGroup = (PlacePropertyGroupId > 0) ? (PlacePropertyGroup)session.Load(typeof(PlacePropertyGroup), PlacePropertyGroupId) : null;
+            if (PlacePropertyGroupId > 0) p.PlacePropertyGroup = (PlacePropertyGroup)session.Load(typeof(PlacePropertyGroup), PlacePropertyGroupId);
+            else if (!string.IsNullOrEmpty(PlacePropertyGroupName)) p.PlacePropertyGroup = ManagedPlacePropertyGroup.Find(session, PlacePropertyGroupName);
             p.Name = this.Name;
             p.Description = this.Description;
             p.DefaultValue = this.DefaultValue;

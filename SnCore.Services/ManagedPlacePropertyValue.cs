@@ -123,7 +123,7 @@ namespace SnCore.Services
         public TransitPlacePropertyValue(PlacePropertyValue o)
             : base(o.Id)
         {
-            PlaceId = o.Place.Id;
+            if (o.Place != null) PlaceId = o.Place.Id;
             PlaceProperty = new TransitPlaceProperty(o.PlaceProperty);
             Created = o.Created;
             Modified = o.Modified;

@@ -3,7 +3,7 @@
 
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
-<%@ Register TagPrefix="SnCore" TagName="PlacePropertyGroups" Src="PlacePropertyGroupsControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="PlacePropertyGroupEdit" Src="PlacePropertyGroupEditControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <div class="sncore_navigate">
   <asp:HyperLink CssClass="sncore_navigate_item" ID="linkPlaces" NavigateUrl="PlacesManage.aspx"
@@ -31,7 +31,7 @@
     </div>
     <asp:ValidationSummary runat="server" ID="manageValidationSummary" CssClass="sncore_form_validator"
      ShowSummary="true" />
-    <table class="sncore_inner_table">
+    <table cellpadding="4" class="sncore_account_table" border="1">
      <tr>
       <td class="sncore_form_label">
        type:
@@ -138,12 +138,15 @@
        <asp:TextBox CssClass="sncore_form_textbox" ID="inputWebsite" runat="server" />
       </td>
      </tr>
+    </table>
+    <SnCore:PlacePropertyGroupEdit id="ppg" runat="server" />
+    <table class="sncore_account_table">
      <tr>
-      <td>
+      <td class="sncore_form_label">
       </td>
       <td class="sncore_form_value">
        <SnCoreWebControls:Button ID="manageAdd" runat="server" Text="Save" CausesValidation="true"
-        CssClass="sncore_form_button" OnClientClick="WebForm_OnSubmit();" OnClick="save_Click" />
+        CssClass="sncore_form_button" OnClick="save_Click" />
       </td>
      </tr>
     </table>
@@ -193,7 +196,6 @@
        </td>
       </tr>
      </table>
-     <SnCore:PlacePropertyGroups ID="groups" runat="server" />         
     </asp:Panel>
    </td>
   </tr>

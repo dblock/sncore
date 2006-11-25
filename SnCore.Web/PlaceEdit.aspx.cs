@@ -49,6 +49,9 @@ public partial class PlaceEdit : AuthenticatedPage
 
             if (!IsPostBack)
             {
+                ppg.PlaceId = RequestId;
+                ppg.DataBind();
+
                 ArrayList types = new ArrayList();
                 types.Add(new TransitAccountPlaceType());
                 types.AddRange(PlaceService.GetPlaceTypes());
@@ -139,6 +142,10 @@ public partial class PlaceEdit : AuthenticatedPage
             t.State = inputState.SelectedValue;
             t.Country = inputCountry.SelectedValue;
             int place_id = PlaceService.CreateOrUpdatePlace(SessionManager.Ticket, t);
+
+            ppg.PlaceId = place_id;
+            ppg.save_Click(sender, e);
+
             Redirect(string.Format("PlaceView.aspx?id={0}", place_id));
         }
         catch (Exception ex)

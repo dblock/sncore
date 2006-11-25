@@ -2,11 +2,11 @@
  Inherits="DiscussionFullViewControl" %>
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
-<div>
- <asp:Label CssClass="sncore_h2" ID="discussionLabel" runat="server" />
+<div class="sncore_h2">
+ <asp:Label ID="discussionLabel" runat="server" />
 </div>
-<div>
- <asp:Label CssClass="sncore_h2sub" ID="discussionDescription" runat="server" />
+<div class="sncore_h2sub" runat="server" id="divDescription">
+ <asp:Label ID="discussionDescription" runat="server" />
 </div>
 <!-- NOEMAIL-START -->
 <script language="javascript">
@@ -17,7 +17,7 @@
  }
 </script>
 <!-- NOEMAIL-END -->
-<div class="sncore_createnew">
+<div class="sncore_cancel">
  <asp:HyperLink ID="postNew" Text="Post New" runat="server" />
 </div>
 <asp:DataGrid ShowHeader="false" CellPadding="4" runat="server" ID="discussionView" AutoGenerateColumns="false" BorderWidth="0" BorderColor="White"

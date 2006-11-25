@@ -121,9 +121,6 @@
              <asp:HyperLink runat="server" ID="linkAdminEdit" Text="&#187; Edit Content" />
             </div>
             <div>
-             <asp:HyperLink runat="server" ID="linkAdminProperties" Text="&#187; Edit Properties" />
-            </div>
-            <div>
              <asp:HyperLink runat="server" ID="linkAdminAttributes" Text="&#187; Edit Attributes" />
             </div>
             <div>
@@ -180,7 +177,9 @@
            </td>
           </tr>
          </table>
-         <SnCore:PropertyGroupsView runat="server" ID="groups" />       
+        </asp:Panel>
+        <asp:Panel ID="panelPropertyGroups" runat="server">
+         <SnCore:PropertyGroupsView runat="server" ID="groups" />
         </asp:Panel>
         <asp:Panel ID="panelOwners" runat="server">
          <SnCore:PlaceAccountsView ID="placeAccounts" runat="server" />

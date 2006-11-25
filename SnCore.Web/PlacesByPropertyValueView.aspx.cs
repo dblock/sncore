@@ -38,13 +38,45 @@ public partial class PlacesByPropertyValueView : Page
         panelGrid.Update();
     }
 
+    public string GroupName
+    {
+        get
+        {
+            return Request["GroupName"];
+        }
+    }
+
+    public string PropertyName
+    {
+        get
+        {
+            return Request["PropertyName"];
+        }
+    }
+
+    public string PropertyValue
+    {
+        get
+        {
+            return Request["PropertyValue"];
+        }
+    }
+
     private void GetData(object sender, EventArgs e)
     {
+        title.Text = string.Format("{0}: {1}", Renderer.Render(PropertyName), Renderer.Render(PropertyValue));
         gridManage.CurrentPageIndex = 0;
-        object[] args = { Request["GroupName"], Request["PropertyName"], Request["PropertyValue"] };
+        object[] args = { GroupName, PropertyName, PropertyValue };
         gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(PlaceService, "GetPlacesByPropertyValueCount", args);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
+    }
+
+    protected override void OnInit(EventArgs e)
+    {
+        ppvs.PropertyName = PropertyName;
+        ppvs.GroupName = GroupName;
+        base.OnInit(e);
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
@@ -52,7 +84,7 @@ public partial class PlacesByPropertyValueView : Page
         try
         {
             ServiceQueryOptions serviceoptions = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
-            object[] args = { Request["GroupName"], Request["PropertyName"], Request["PropertyValue"], serviceoptions };
+            object[] args = { GroupName, PropertyName, PropertyValue, serviceoptions };
             gridManage.DataSource = SessionManager.GetCachedCollection<TransitPlace>(PlaceService, "GetPlacesByPropertyValue", args);
         }
         catch (Exception ex)

@@ -63,6 +63,7 @@ public partial class DiscussionFullViewControl : Control
         TransitDiscussion d = DiscussionService.GetDiscussionById(DiscussionId);
         if (string.IsNullOrEmpty(discussionLabel.Text)) discussionLabel.Text = Renderer.Render(d.Name);
         discussionDescription.Text = Renderer.Render(d.Description);
+        divDescription.Visible = ! string.IsNullOrEmpty(discussionDescription.Text);
         discussionView.DataSource = DiscussionService.GetDiscussionPosts(
             SessionManager.Ticket, DiscussionId, null);
         discussionView.DataBind();

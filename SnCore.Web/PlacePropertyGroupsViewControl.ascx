@@ -23,7 +23,8 @@
          <%# Render(Eval("PlaceProperty.Name")) %>
         </div>
         <div class="sncore_h2sub">
-         <%# RenderEx(Eval("Value")) %>
+         <%# base.RenderValue((Type)Eval("PlaceProperty.Type"), (string) Eval("PlaceProperty.PlacePropertyGroupName"), 
+          (string) Eval("PlaceProperty.Name"), (string) Eval("Value")) %>
         </div>
        </ItemTemplate>
       </asp:TemplateColumn>

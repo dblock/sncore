@@ -227,7 +227,6 @@ public partial class PlaceView : Page
 
                     linkAdminEdit.NavigateUrl = string.Format("PlaceEdit.aspx?id={0}", place.Id);
                     linkAdminAttributes.NavigateUrl = string.Format("PlaceAttributesManage.aspx?id={0}", place.Id);
-                    linkAdminProperties.NavigateUrl = string.Format("PlacePropertyGroupEdit.aspx?pid={0}", place.Id);
 
                     placeWebsite.NavigateUrl = place.Website;
                     placeWebsite.Visible = !string.IsNullOrEmpty(place.Website);
@@ -295,6 +294,7 @@ public partial class PlaceView : Page
                     panelDetails.Visible = false;
                     panelSubmit.Visible = true;
                     panelDescription.Visible = false;
+                    panelPropertyGroups.Visible = false;
                     discussionPlaces.Visible = false;
                     madlibs.Visible = false;
                     linkEdit.NavigateUrl = string.Format("PlaceEdit.aspx?{0}", Request.QueryString.ToString());

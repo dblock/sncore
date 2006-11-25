@@ -17,7 +17,7 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_description { font-size: 10px; color: Gray; padding: 2px; }
 .sncore_li_description { font-size: 10px; color: Gray; margin-left: 16px; }
 .sncore_table { width: 780px; margin: 10px; border: solid 1px #bbb; }
-.sncore_account_table { width: 582px; margin: 10px; border: solid 1px #eee; }
+.sncore_account_table { width: 582px; margin: 10px; border: solid 1px #eee; border-collapse:collapse; }
 .sncore_inner_table { margin: 10px; border: solid 1px #eee; }
 .sncore_inner_div { margin: 5px; }
 .sncore_nopicture_table { margin: 10px; }

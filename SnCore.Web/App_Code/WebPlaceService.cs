@@ -1971,7 +1971,7 @@ namespace SnCore.WebServices
                         value = new PlacePropertyValue();
                         value.PlaceProperty = property;
                         value.Value = property.DefaultValue;
-                        value.Place = (Place)session.Load(typeof(Place), placeid);
+                        if (placeid > 0) value.Place = (Place)session.Load(typeof(Place), placeid);
                     }
 
                     result.Add(new TransitPlacePropertyValue(value));
