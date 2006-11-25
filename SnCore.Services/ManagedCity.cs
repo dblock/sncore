@@ -221,5 +221,55 @@ namespace SnCore.Services
         {
             return Find(session, name, state, country).Id;
         }
+
+        public int Merge(int id)
+        {
+            if (id == mCity.Id)
+            {
+                throw new Exception("Cannot merge city into self");
+            }
+
+            int count = 0;
+
+            City merge = (City) Session.Load(typeof(City), id);
+
+            // update places
+            if (merge.Places != null)
+            {
+                count += merge.Places.Count;
+                foreach (Place place in merge.Places)
+                {
+                    place.City = mCity;
+                    Session.Save(place);
+                }
+            }
+
+            // update accounts
+            IList accounts = Session.CreateCriteria(typeof(Account))
+                .Add(Expression.Eq("City", merge.Name))
+                .List();
+
+            count += accounts.Count;
+            foreach (Account account in accounts)
+            {
+                account.City = mCity.Name;
+                Session.Save(account);
+            }
+
+            // update account addresses
+            IList accountaddresses = Session.CreateCriteria(typeof(AccountAddress))
+                .Add(Expression.Eq("City", merge.Name))
+                .List();
+
+            count += accountaddresses.Count;
+            foreach (AccountAddress accountaddress in accountaddresses)
+            {
+                accountaddress.City = mCity.Name;
+                Session.Save(accountaddress);
+            }
+
+            Session.Delete(merge);
+            return count;
+        }
     }
 }

@@ -19,6 +19,8 @@ public partial class SystemCityEdit : AuthenticatedPage
         try
         {
             SetDefaultButton(manageAdd);
+            PageManager.SetDefaultButton(mergeLookup, panelMerge.Controls);
+
             if (!IsPostBack)
             {
 
@@ -37,6 +39,7 @@ public partial class SystemCityEdit : AuthenticatedPage
                 else
                 {
                     inputCountry_SelectedIndexChanged(sender, e);
+                    panelMerge.Visible = false;
                 }
             }
         }
@@ -81,6 +84,39 @@ public partial class SystemCityEdit : AuthenticatedPage
         {
             ReportException(ex);
         }
+    }
 
+    public void mergeLookup_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            gridMergeLookup.CurrentPageIndex = 0;
+            gridMergeLookup.DataSource = LocationService.SearchCitiesByName(inputMergeWhat.Text);
+            gridMergeLookup.DataBind();
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
+    public void gridMergeLookup_ItemCommand(object source, DataGridCommandEventArgs e)
+    {
+        try
+        {
+            switch (e.CommandName)
+            {
+                case "Merge":
+                    int count = LocationService.MergeCities(SessionManager.Ticket, 
+                        RequestId, int.Parse(e.CommandArgument.ToString()));
+                    ReportInfo(string.Format("Merged {0} records.", count));
+                    mergeLookup_Click(source, e);
+                    break;
+            }
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
     }
 }

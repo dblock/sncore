@@ -274,6 +274,29 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
+        /// Get all cities with a matching name.
+        /// </summary>
+        /// <returns>list of cities</returns>
+        [WebMethod(Description = "Get all cities with a matching name.", CacheDuration = 60)]
+        public List<TransitCity> SearchCitiesByName(string name)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                IList cities = session.CreateCriteria(typeof(City))
+                    .Add(Expression.Like("Name", string.Format("%{0}%", name)))
+                    .List();
+                List<TransitCity> result = new List<TransitCity>(cities.Count);
+                foreach (City c in cities)
+                {
+                    result.Add(new ManagedCity(session, c).TransitCity);
+                }
+                session.Flush();
+                return result;
+            }
+        }
+
+        /// <summary>
         /// Get cities within a country and state.
         /// </summary>
         /// <param name="state">state name</param>
@@ -420,8 +443,31 @@ namespace SnCore.WebServices
             }
         }
 
+        /// <summary>
+        /// Merge cities.
+        /// <param name="ticket">authentication ticket</param>
+        /// </summary>
+        [WebMethod(Description = "Merge cities.")]
+        public int MergeCities(string ticket, int target_id, int merge_id)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                ManagedAccount user = new ManagedAccount(session, userid);
+                if (!user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ManagedCity m = new ManagedCity(session, target_id);
+                int result = m.Merge(merge_id);
+                session.Flush();
+                return result;
+            }
+        }
+
         #endregion
-
     }
-
 }

@@ -63,6 +63,63 @@
       </td>
      </tr>
     </table>
+    <asp:Panel ID="panelMerge" runat="server">
+     <div class="sncore_h2">
+      Merge
+     </div>
+     <asp:UpdatePanel id="panelMergeUpdate" runat="server" UpdateMode="Always">
+      <ContentTemplate>
+       <table class="sncore_account_table">
+        <tr>
+         <td class="sncore_form_label">
+          what:
+         </td>
+         <td class="sncore_form_value">
+          <asp:TextBox CssClass="sncore_form_textbox" ID="inputMergeWhat" runat="server" />
+         </td>
+        </tr>
+        <tr>
+         <td>
+         </td>
+         <td class="sncore_form_value">
+          <SnCoreWebControls:Button ID="mergeLookup" runat="server" Text="Lookup" CausesValidation="true" 
+           CssClass="sncore_form_button" OnClick="mergeLookup_Click" />
+         </td>
+        </tr>
+       </table>
+       <SnCoreWebControls:PagedGrid CellPadding="4" OnItemCommand="gridMergeLookup_ItemCommand"
+        runat="server" ID="gridMergeLookup" AutoGenerateColumns="false" CssClass="sncore_account_table"
+        AllowPaging="False">
+        <ItemStyle CssClass="sncore_table_tr_td" HorizontalAlign="Center" />
+        <HeaderStyle CssClass="sncore_table_tr_th" HorizontalAlign="Center" />
+        <Columns>
+         <asp:BoundColumn DataField="Id" Visible="false" />
+         <asp:BoundColumn DataField="Name" Visible="false" />
+         <asp:TemplateColumn>
+          <itemtemplate>
+           <img src="images/Item.gif" />
+          </itemtemplate>
+         </asp:TemplateColumn>
+         <asp:TemplateColumn HeaderText="City" ItemStyle-HorizontalAlign="Left">
+          <itemtemplate>
+           <%# base.Render(Eval("Name")) %>
+           <div class="sncore_description">
+            <%# base.Render(Eval("Country")) %>
+            <%# base.Render(Eval("State")) %>
+           </div>
+          </itemtemplate>
+         </asp:TemplateColumn>
+         <asp:TemplateColumn>
+          <ItemTemplate>
+           <asp:LinkButton runat="server" id="merge" CommandName="Merge" 
+            Text="Merge" CommandArgument='<%# Eval("Id") %>' />
+          </ItemTemplate>          
+         </asp:TemplateColumn>
+        </Columns>
+       </SnCoreWebControls:PagedGrid>     
+      </ContentTemplate>
+     </asp:UpdatePanel>
+    </asp:Panel>
    </td>
   </tr>
  </table>
