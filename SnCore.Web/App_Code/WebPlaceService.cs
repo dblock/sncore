@@ -2585,7 +2585,8 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                int city_id = ManagedCity.GetCityId(session, city, state, country);
+                int city_id = 0;
+                ManagedCity.TryGetCityId(session, city, state, country, out city_id);
                 IQuery q = session.CreateQuery(
                     "SELECT n.Id, n.Name, COUNT(p) FROM Neighborhood n, Place p" +
                     " WHERE p.Neighborhood = n" +

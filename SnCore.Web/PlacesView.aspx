@@ -25,6 +25,7 @@
        <a href="PlaceEdit.aspx">&#187; Suggest a Place</a>
        <a href="AccountPlaceQueueManage.aspx">&#187; My Queue</a>
        <a href="PlaceFriendsQueueView.aspx">&#187; My Friends Queue</a>
+       <a href="PlacesFavoritesView.aspx">&#187; Favorites</a>
        <asp:LinkButton ID="linkSearch" OnClick="linkSearch_Click" runat="server" Text="&#187; Search" />
        <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
       </div>
@@ -141,20 +142,24 @@
      </tr>
     </table>
    </SnCoreWebControls:PersistentPanel>
-   <table class="sncore_table_noborder">
-    <tr>
-     <td class="sncore_link">
-      <SnCore:PlaceNeighborhoodsView ID="neighborhoods" runat="server" />
-     </td>
-    </tr>
-   </table>
+   <asp:UpdatePanel runat="server" ID="panelNeighborhoods" UpdateMode="Conditional" RenderMode="Inline">
+    <ContentTemplate>
+     <table class="sncore_table_noborder">
+      <tr>
+       <td class="sncore_link">
+        <SnCore:PlaceNeighborhoodsView ID="neighborhoods" runat="server" />
+       </td>
+      </tr>
+     </table>
+    </ContentTemplate>
+   </asp:UpdatePanel>
   </ContentTemplate>
  </asp:UpdatePanel>
  <asp:UpdatePanel runat="server" ID="panelGrid" UpdateMode="Conditional" RenderMode="Inline">
   <ContentTemplate>
    <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage"
     AllowCustomPaging="true" CssClass="sncore_table"
-    ShowHeader="false" RepeatColumns="4" RepeatRows="2" RepeatDirection="Horizontal" 
+    ShowHeader="false" RepeatColumns="4" RepeatRows="3" RepeatDirection="Horizontal" 
     OnDataBinding="gridManage_DataBinding">
     <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
      prevpagetext="Prev" horizontalalign="Center" />
@@ -189,51 +194,4 @@
    </SnCoreWebControls:PagedList>
   </ContentTemplate>
  </asp:UpdatePanel>
- <asp:UpdatePanel runat="server" ID="panelGridFavorites" UpdateMode="Conditional" RenderMode="Inline">
-  <ContentTemplate>
-   <asp:Panel id="panelFavorites" runat="server">
-    <SnCore:Title ID="titleFavorites" Text="Favorites" runat="server" ExpandedSize="100">
-     <Template>
-      <div class="sncore_title_paragraph">
-       These are world-wide, all-time favorite places. Click on a picture and then add a place to your own favorites.
-       More people add a place to favorites, higher it will be ranked and more chances a place gets to appear
-       on this exclusive list.
-      </div>
-     </Template>
-    </SnCore:Title>
-    <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManageFavorites"
-     AllowCustomPaging="true" CssClass="sncore_table"
-     ShowHeader="false" RepeatColumns="4" RepeatRows="1" RepeatDirection="Horizontal" 
-     OnDataBinding="gridManageFavorites_DataBinding">
-     <PagerStyle cssclass="sncore_table_pager" position="Bottom" nextpagetext="Next"
-      prevpagetext="Prev" horizontalalign="Center" />
-     <ItemStyle CssClass="sncore_table_tr_td" HorizontalAlign="Center" />
-     <ItemTemplate>
-      <div class="sncore_link">
-       <a href="PlaceView.aspx?id=<%# Eval("Id") %>">
-        <img border="0" src="PlacePictureThumbnail.aspx?id=<%# Eval("PictureId") %>" />
-       </a>
-      </div>
-      <div class="sncore_link">
-       <a href="PlaceView.aspx?id=<%# Eval("Id") %>">
-        <%# base.Render(Eval("Name")) %>
-       </a>
-      </div>
-      <div class="sncore_link">
-       <a href="PlaceView.aspx?id=<%# Eval("Id") %>">
-        &#187; read and review
-       </a>
-      </div>
-      <div class="sncore_description">
-       <%# base.Render(Eval("City")) %>
-       <%# base.Render(Eval("State")) %>
-      </div>
-      <div class="sncore_description">
-       <%# base.Render(Eval("Country")) %>
-      </div>
-     </ItemTemplate>
-    </SnCoreWebControls:PagedList>
-   </asp:Panel>
-  </ContentTemplate>
- </asp:UpdatePanel> 
 </asp:Content>

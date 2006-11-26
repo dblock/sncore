@@ -18,6 +18,7 @@
   <asp:HyperLink CssClass="sncore_navigate_item" ID="linkCountry" runat="server" />
   <asp:HyperLink CssClass="sncore_navigate_item" ID="linkState" runat="server" />
   <asp:HyperLink CssClass="sncore_navigate_item" ID="linkCity" runat="server" />
+  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkNeighborhood" runat="server" />
   <asp:HyperLink CssClass="sncore_navigate_item" ID="linkType" runat="server" />
   <asp:HyperLink CssClass="sncore_navigate_item" ID="linkPlace" runat="server" />
  </div>
@@ -59,6 +60,9 @@
           <div class="sncore_link">
            <div>
              <asp:Label ID="placeAddress" runat="server" />
+           </div>
+           <div>
+            <asp:Label ID="placeNeighborhood" runat="server" />
            </div>
            <div>
             <asp:Label ID="placeCity" runat="server" />

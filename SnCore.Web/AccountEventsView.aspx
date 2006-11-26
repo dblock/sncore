@@ -83,6 +83,15 @@
       </td>
       <td class="sncore_form_value">
        <asp:DropDownList CssClass="sncore_form_dropdown" ID="inputCity" DataTextField="Name"
+        DataValueField="Name" runat="server" AutoPostBack="true" OnSelectedIndexChanged="inputCity_SelectedIndexChanged" />
+      </td>
+     </tr>
+     <tr>
+      <td class="sncore_form_label">
+       neighborhood:
+      </td>
+      <td class="sncore_form_value">
+       <asp:DropDownList CssClass="sncore_form_dropdown" ID="inputNeighborhood" DataTextField="Name"
         DataValueField="Name" runat="server" />
       </td>
      </tr>

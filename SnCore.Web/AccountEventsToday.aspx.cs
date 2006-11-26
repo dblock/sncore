@@ -20,16 +20,17 @@ public partial class AccountEventsToday : Page
         public string Country;
         public string State;
         public string City;
+        public string Neighborhood;
         public string Type;
 
         public SelectLocationEventArgs(TransitAccount account)
-            : this(account.Country, account.State, account.City, string.Empty)
+            : this(account.Country, account.State, account.City, string.Empty, string.Empty)
         {
 
         }
 
         public SelectLocationEventArgs(HttpRequest request)
-            : this(request["country"], request["state"], request["city"], request["type"])
+            : this(request["country"], request["state"], request["city"], request["neighborhood"], request["type"])
         {
 
         }
@@ -38,11 +39,13 @@ public partial class AccountEventsToday : Page
             string country,
             string state,
             string city,
+            string neighborhood,
             string type)
         {
             Country = country;
             State = state;
             City = city;
+            Neighborhood = neighborhood;
             Type = type;
         }
     }
@@ -178,6 +181,24 @@ public partial class AccountEventsToday : Page
         }
     }
 
+    public void inputCity_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            ArrayList neighborhoods = new ArrayList();
+            neighborhoods.Add(new TransitNeighborhood());
+            object[] args = { inputCountry.SelectedValue, inputState.SelectedValue, inputCity.SelectedValue };
+            neighborhoods.AddRange(SessionManager.GetCachedCollection<TransitNeighborhood>(LocationService, "GetNeighborhoodsByLocation", args));
+            inputNeighborhood.DataSource = neighborhoods;
+            inputNeighborhood.DataBind();
+            panelNeighborhood.Update();
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
     private TransitAccountEventInstanceQueryOptions QueryOptions
     {
         get
@@ -185,6 +206,7 @@ public partial class AccountEventsToday : Page
             if (mOptions == null)
             {
                 mOptions = new TransitAccountEventInstanceQueryOptions();
+                mOptions.Neighborhood = inputNeighborhood.Text;
                 mOptions.City = inputCity.Text;
                 mOptions.Country = inputCountry.SelectedValue;
                 mOptions.State = inputState.SelectedValue;
@@ -231,6 +253,8 @@ public partial class AccountEventsToday : Page
             inputState_SelectedIndexChanged(sender, e);
             inputCity.ClearSelection();
             inputCity.Items.FindByValue(e.City).Selected = true;
+            inputNeighborhood.ClearSelection();
+            inputNeighborhood.Items.FindByValue(e.Neighborhood).Selected = true;
             inputType.ClearSelection();
             inputType.Items.FindByValue(e.Type).Selected = true;
         }
@@ -273,6 +297,7 @@ public partial class AccountEventsToday : Page
             inputCountry.ClearSelection();
             inputState.ClearSelection();
             inputCity.ClearSelection();
+            inputNeighborhood.ClearSelection();
             inputType.ClearSelection();
             SelectWeek();
             GetData();

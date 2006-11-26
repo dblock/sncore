@@ -176,11 +176,18 @@ public partial class PlaceView : Page
                         Renderer.Render(place.City),
                         Renderer.Render(SessionManager.GetCachedConfiguration("SnCore.Title", "SnCore")));
 
-                    linkType.NavigateUrl = string.Format("PlacesView.aspx?city={0}&state={1}&country={2}&type={3}",
+                    linkType.NavigateUrl = string.Format("PlacesView.aspx?city={0}&state={1}&country={2}&neighborhood={3}&type={4}",
+                        Renderer.UrlEncode(place.City),
+                        Renderer.UrlEncode(place.State),
+                        Renderer.UrlEncode(place.Country),                        
+                        Renderer.UrlEncode(place.Neighborhood),
+                        Renderer.UrlEncode(place.Type));
+
+                    linkNeighborhood.NavigateUrl = string.Format("PlacesView.aspx?city={0}&state={1}&country={2}&neighborhood={3}",
                         Renderer.UrlEncode(place.City),
                         Renderer.UrlEncode(place.State),
                         Renderer.UrlEncode(place.Country),
-                        Renderer.UrlEncode(place.Type));
+                        Renderer.UrlEncode(place.Neighborhood));
 
                     linkCity.NavigateUrl = string.Format("PlacesView.aspx?city={0}&state={1}&country={2}",
                         Renderer.UrlEncode(place.City),
@@ -203,6 +210,7 @@ public partial class PlaceView : Page
                     labelDescription.Text = base.RenderEx(place.Description);
                     panelDescription.Visible = !string.IsNullOrEmpty(labelDescription.Text);
                     linkPlace.Text = Renderer.Render(place.Name);
+                    linkNeighborhood.Text = placeNeighborhood.Text = Renderer.Render(place.Neighborhood);
                     linkCity.Text = placeCity.Text = Renderer.Render(place.City);
                     linkState.Text = placeState.Text = Renderer.Render(place.State);
                     linkCountry.Text = placeCountry.Text = Renderer.Render(place.Country);

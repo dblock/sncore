@@ -20,16 +20,17 @@ public partial class AccountEventsView : Page
         public string Country;
         public string State;
         public string City;
+        public string Neighborhood;
         public string Type;
 
         public SelectLocationEventArgs(TransitAccount account)
-            : this(account.Country, account.State, account.City, string.Empty)
+            : this(account.Country, account.State, account.City, string.Empty /* TODO */, string.Empty)
         {
 
         }
 
         public SelectLocationEventArgs(HttpRequest request)
-            : this(request["country"], request["state"], request["city"], request["type"])
+            : this(request["country"], request["state"], request["city"], request["neighborhood"], request["type"])
         {
 
         }
@@ -38,11 +39,13 @@ public partial class AccountEventsView : Page
             string country,
             string state,
             string city,
+            string neighborhood,
             string type)
         {
             Country = country;
             State = state;
             City = city;
+            Neighborhood = neighborhood;
             Type = type;
         }
     }
@@ -135,6 +138,23 @@ public partial class AccountEventsView : Page
         }
     }
 
+    public void inputCity_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            ArrayList neighborhoods = new ArrayList();
+            neighborhoods.Add(new TransitNeighborhood());
+            object[] args = { inputCountry.SelectedValue, inputState.SelectedValue, inputCity.SelectedValue };
+            neighborhoods.AddRange(SessionManager.GetCachedCollection<TransitNeighborhood>(LocationService, "GetNeighborhoodsByLocation", args));
+            inputNeighborhood.DataSource = neighborhoods;
+            inputNeighborhood.DataBind();
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
     private TransitAccountEventQueryOptions QueryOptions
     {
         get
@@ -147,6 +167,7 @@ public partial class AccountEventsView : Page
                 mOptions.City = inputCity.Text;
                 mOptions.Country = inputCountry.SelectedValue;
                 mOptions.State = inputState.SelectedValue;
+                mOptions.Neighborhood = inputNeighborhood.SelectedValue;
                 mOptions.Name = inputName.Text;
                 mOptions.Type = inputType.SelectedValue;
             }
@@ -161,14 +182,15 @@ public partial class AccountEventsView : Page
             TransitAccountEventQueryOptions options = QueryOptions;
 
             linkRss.NavigateUrl = linkRelRss.Attributes["href"] =
-                string.Format("AccountEventsRss.aspx?order={0}&asc={1}&city={2}&country={3}&state={4}&name={5}&type={6}",
+                string.Format("AccountEventsRss.aspx?order={0}&asc={1}&city={2}&country={3}&state={4}&name={5}&type={6}&neighborhood={7}",
                     Renderer.UrlEncode(QueryOptions.SortOrder),
                     Renderer.UrlEncode(QueryOptions.SortAscending),
                     Renderer.UrlEncode(QueryOptions.City),
                     Renderer.UrlEncode(QueryOptions.Country),
                     Renderer.UrlEncode(QueryOptions.State),
                     Renderer.UrlEncode(QueryOptions.Name),
-                    Renderer.UrlEncode(QueryOptions.Type));
+                    Renderer.UrlEncode(QueryOptions.Type),
+                    Renderer.UrlEncode(QueryOptions.Neighborhood));
 
             ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
             serviceoptions.PageSize = gridManage.PageSize;
@@ -195,6 +217,8 @@ public partial class AccountEventsView : Page
             inputState_SelectedIndexChanged(sender, e);
             inputCity.ClearSelection();
             inputCity.Items.FindByValue(e.City).Selected = true;
+            inputNeighborhood.ClearSelection();
+            inputNeighborhood.Items.FindByValue(e.Neighborhood).Selected = true;
             inputType.ClearSelection();
             inputType.Items.FindByValue(e.Type).Selected = true;
         }
@@ -226,6 +250,7 @@ public partial class AccountEventsView : Page
             inputCountry.ClearSelection();
             inputState.ClearSelection();
             inputCity.ClearSelection();
+            inputNeighborhood.ClearSelection();
             inputType.ClearSelection();
             GetData();
             panelSearch.Update();

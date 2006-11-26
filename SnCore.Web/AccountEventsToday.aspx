@@ -64,6 +64,19 @@
          <asp:UpdatePanel runat="server" ID="panelCity" UpdateMode="Conditional">
           <ContentTemplate>
            <asp:DropDownList CssClass="sncore_form_dropdown" ID="inputCity" DataTextField="Name"
+            DataValueField="Name" runat="server" AutoPostBack="true" OnSelectedIndexChanged="inputCity_SelectedIndexChanged" />
+          </ContentTemplate>
+         </asp:UpdatePanel>
+        </td>
+       </tr>
+       <tr>
+        <td class="sncore_form_label" style="height: 25px">
+         neighborhood:
+        </td>
+        <td class="sncore_form_value" style="height: 25px">
+         <asp:UpdatePanel runat="server" ID="panelNeighborhood" UpdateMode="Conditional">
+          <ContentTemplate>
+           <asp:DropDownList CssClass="sncore_form_dropdown" ID="inputNeighborhood" DataTextField="Name"
             DataValueField="Name" runat="server" />
           </ContentTemplate>
          </asp:UpdatePanel>

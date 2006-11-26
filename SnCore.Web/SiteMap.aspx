@@ -46,6 +46,7 @@
        </ItemTemplate>
       </asp:DataList>
       </li></ul>
+      <li><a href="PlacesFavoritesView.aspx">Favorite Places</a></li>
       <li><a href="AccountEventsToday.aspx">Today's Events</a></li>
       <li><a href="AccountEventsView.aspx">Events</a></li>
       <ul><li>
@@ -137,7 +138,7 @@
       <li><a href="AccountPlacesManage.aspx">Places</a></li>
 
       <li><a href="AccountPlaceQueueManage.aspx">Queue</a></li>
-      <li><a href="PlaceFriendsQueueView.aspx">Friends Queueu</a></li>
+      <li><a href="PlaceFriendsQueueView.aspx">Friends Queue</a></li>
       <li><a href="AccountFriendsManage.aspx">Friends</a></li>
       <li><a href="AccountInvitationsManage.aspx">Invite Friends</a></li>
       <li><a href="AccountFriendRequestsManage.aspx">Pending Friend Requests</a></li>

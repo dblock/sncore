@@ -217,6 +217,28 @@ namespace SnCore.Services
             return city;
         }
 
+        public static bool TryGetCityId(ISession session, string name, string state, string country, out int id)
+        {
+            id = 0;
+            try
+            {
+                id = Find(session, name, state, country).Id;
+                return true;
+            }
+            catch (InvalidCityException)
+            {
+                return false;
+            }
+            catch (ManagedCountry.InvalidCountryException)
+            {
+                return false;
+            }
+            catch (ManagedState.InvalidStateException)
+            {
+                return false;
+            }
+        }
+
         public static int GetCityId(ISession session, string name, string state, string country)
         {
             return Find(session, name, state, country).Id;

@@ -122,7 +122,6 @@ public partial class PlacesView : Page
         {
             SetDefaultButton(search);
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
-            gridManageFavorites.OnGetDataSource += new EventHandler(gridManageFavorites_OnGetDataSource);
 
             LocationSelector.CountryChanged += new EventHandler(LocationSelector_CountryChanged);
             LocationSelector.StateChanged += new EventHandler(LocationSelector_StateChanged);
@@ -147,18 +146,16 @@ public partial class PlacesView : Page
                 {
                     LocationSelector.SelectLocation(sender, new LocationEventArgs(Request));
                     bool picturesOnly = true;
-                    bool.TryParse(Request["PicturesOnly"], out picturesOnly);
-                    checkboxPicturesOnly.Checked = picturesOnly;
+                    if (bool.TryParse(Request["PicturesOnly"], out picturesOnly))
+                    {
+                        checkboxPicturesOnly.Checked = picturesOnly;
+                    }
                 }
 
-                neighborhoods.City = inputCity.SelectedValue;
-                neighborhoods.State = inputState.SelectedValue;
-                neighborhoods.Country = inputCountry.SelectedValue;
-                neighborhoods.DataBind();
+                GetNeighborhoodsData(sender, e);
 
                 GetData(sender, e);
-                GetDataFavorites(sender, e);
-
+                
                 if (gridManage.VirtualItemCount == 0)
                 {
                     LocationSelector.ClearSelection();
@@ -172,8 +169,18 @@ public partial class PlacesView : Page
         }
     }
 
+    void GetNeighborhoodsData(object sender, EventArgs e)
+    {
+        neighborhoods.City = inputCity.SelectedValue;
+        neighborhoods.State = inputState.SelectedValue;
+        neighborhoods.Country = inputCountry.SelectedValue;
+        neighborhoods.DataBind();
+        panelNeighborhoods.Update();
+    }
+
     void LocationSelector_CityChanged(object sender, EventArgs e)
     {
+        GetNeighborhoodsData(sender, e);
         panelCountryState.Update();
         panelCity.Update();
         panelNeighborhood.Update();
@@ -181,21 +188,18 @@ public partial class PlacesView : Page
 
     void LocationSelector_StateChanged(object sender, EventArgs e)
     {
+        GetNeighborhoodsData(sender, e);
         panelCountryState.Update();
         panelCity.Update();
     }
 
     void LocationSelector_CountryChanged(object sender, EventArgs e)
     {
+        GetNeighborhoodsData(sender, e);
         panelCountryState.Update();        
     }
 
     public void gridManage_DataBinding(object sender, EventArgs e)
-    {
-        panelGrid.Update();
-    }
-
-    public void gridManageFavorites_DataBinding(object sender, EventArgs e)
     {
         panelGrid.Update();
     }
@@ -208,15 +212,6 @@ public partial class PlacesView : Page
             PlaceService, "GetPlacesCount", args);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
-    }
-
-    private void GetDataFavorites(object sender, EventArgs e)
-    {
-        gridManageFavorites.CurrentPageIndex = 0;
-        gridManageFavorites.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            PlaceService, "GetFavoritePlacesCount", null);
-        gridManageFavorites_OnGetDataSource(sender, e);
-        gridManageFavorites.DataBind();
     }
 
     public void linkLocal_Click(object sender, EventArgs e)
@@ -297,29 +292,11 @@ public partial class PlacesView : Page
         }
     }
 
-    void gridManageFavorites_OnGetDataSource(object sender, EventArgs e)
-    {
-        try
-        {
-            ServiceQueryOptions serviceoptions = new ServiceQueryOptions(
-                gridManageFavorites.PageSize, gridManageFavorites.CurrentPageIndex);
-            object[] args = { serviceoptions };
-            gridManageFavorites.DataSource = SessionManager.GetCachedCollection<TransitPlace>(
-                PlaceService, "GetFavoritePlaces", args);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
-    }
-
     public void search_Click(object sender, EventArgs e)
     {
         try
         {
             GetData(sender, e);
-            panelGridFavorites.Update();
-            panelFavorites.Visible = false;
         }
         catch (Exception ex)
         {

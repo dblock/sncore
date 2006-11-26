@@ -15,6 +15,7 @@ namespace SnCore.Services
         public string Country;
         public string State;
         public string City;
+        public string Neighborhood;
         public string Name;
         public string Type;
         public DateTime StartDateTime = DateTime.MinValue;
@@ -27,6 +28,12 @@ namespace SnCore.Services
         public string CreateSubQuery(ISession session)
         {
             StringBuilder b = new StringBuilder();
+
+            if (!string.IsNullOrEmpty(Neighborhood))
+            {
+                b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                b.AppendFormat("e.Place.Neighborhood.Id = '{0}'", ManagedNeighborhood.GetNeighborhoodId(session, Neighborhood, City, State, Country));
+            }
 
             if (!string.IsNullOrEmpty(City))
             {
