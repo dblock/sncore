@@ -125,6 +125,7 @@ public partial class SelectPlaceControl : Control
         Place.Name = inputName.Text;
         Place.Country = inputCountry.SelectedValue;
         Place.City = inputCity.Text;
+        Place.Neighborhood = inputNeighborhood.Text;
         if (string.IsNullOrEmpty(Place.Name)) throw new Exception("Missing name.");
         if (string.IsNullOrEmpty(Place.Country)) throw new Exception("Missing country.");
         if (string.IsNullOrEmpty(Place.City)) throw new Exception("Missing city.");
