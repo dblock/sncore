@@ -37,27 +37,34 @@ public class LocationEventArgs : EventArgs
     public string Country;
     public string State;
     public string City;
+    public string Neighborhood;
 
     public LocationEventArgs(TransitAccount account)
-        : this(account.Country, account.State, account.City)
+        : this(account.Country, account.State, account.City, string.Empty /* TODO */)
+    {
+
+    }
+
+    public LocationEventArgs(TransitNeighborhood neighborhood)
+        : this(neighborhood.Country, neighborhood.State, neighborhood.City, neighborhood.Name)
     {
 
     }
 
     public LocationEventArgs(TransitCity city)
-        : this(city.Country, city.State, city.Name)
+        : this(city.Country, city.State, city.Name, string.Empty)
     {
 
     }
 
     public LocationEventArgs(TransitPlace place)
-        : this(place.Country, place.State, place.City)
+        : this(place.Country, place.State, place.City, place.Neighborhood)
     {
 
     }
 
     public LocationEventArgs(HttpRequest request)
-        : this(request["country"], request["state"], request["city"])
+        : this(request["country"], request["state"], request["city"], request["neighborhood"])
     {
 
     }
@@ -65,11 +72,13 @@ public class LocationEventArgs : EventArgs
     public LocationEventArgs(
         string country,
         string state,
-        string city)
+        string city,
+        string neighborhood)
     {
         Country = country;
         State = state;
         City = city;
+        Neighborhood = neighborhood;
     }
 }
 
@@ -121,8 +130,9 @@ public class LocationSelectorCountryState : LocationSelector
         {
             List<TransitCountry> countries = new List<TransitCountry>();
             if (InsertEmptySelection) countries.Add(new TransitCountry());
+            object[] c_args = { null };
             countries.AddRange(mPage.SessionManager.GetCachedCollection<TransitCountry>(
-                mPage.SessionManager.LocationService, "GetCountries", null));
+                mPage.SessionManager.LocationService, "GetCountries", c_args));
             mCountry.DataSource = countries;
             mCountry.DataBind();
         }
@@ -218,7 +228,7 @@ public class LocationSelectorCountryStateCityText : LocationSelectorCountryState
         if (mCity != null)
         {
             mCity.Text = e.City;
-        }
+       }
     }
 
     public void ChangeCityWithAccountDefault(object sender, CityLocationEventArgs e)
@@ -260,7 +270,7 @@ public class LocationSelectorCountryStateCity : LocationSelectorCountryState
         mCity.SelectedIndexChanged += new EventHandler(City_SelectedIndexChanged);
     }
 
-    void City_SelectedIndexChanged(object sender, EventArgs e)
+    protected virtual void City_SelectedIndexChanged(object sender, EventArgs e)
     {
         if (CityChanged != null)
         {
@@ -279,6 +289,7 @@ public class LocationSelectorCountryStateCity : LocationSelectorCountryState
             if (city != null)
             {
                 city.Selected = true;
+                City_SelectedIndexChanged(sender, e);
             }
         }
     }
@@ -296,6 +307,8 @@ public class LocationSelectorCountryStateCity : LocationSelectorCountryState
                     mPage.SessionManager.LocationService, "GetCitiesByLocation", args));
                 mCity.DataSource = cities;
                 mCity.DataBind();
+
+                City_SelectedIndexChanged(sender, e);
             }
         }
         catch (Exception ex)
@@ -312,3 +325,96 @@ public class LocationSelectorCountryStateCity : LocationSelectorCountryState
         base.ClearSelection();
     }
 }
+
+public class LocationSelectorCountryStateCityNeighborhood : LocationSelectorCountryStateCity
+{
+    protected DropDownList mNeighborhood;
+    public event EventHandler NeighborhoodChanged;
+
+    public LocationSelectorCountryStateCityNeighborhood(Page page, bool empty, DropDownList country, DropDownList state, DropDownList city, DropDownList neighborhood)
+        : base(page, empty, country, state, city)
+    {
+        mNeighborhood = neighborhood;
+        mNeighborhood.SelectedIndexChanged += new EventHandler(Neighborhood_SelectedIndexChanged);
+    }
+
+    void Neighborhood_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (NeighborhoodChanged != null)
+        {
+            NeighborhoodChanged(sender, e);
+        }
+    }
+
+    public override void SelectLocation(object sender, LocationEventArgs e)
+    {
+        base.SelectLocation(sender, e);
+
+        if (mNeighborhood != null)
+        {
+            mNeighborhood.ClearSelection();
+            ListItem neighborhood = mNeighborhood.Items.FindByValue(e.Neighborhood);
+            if (neighborhood != null)
+            {
+                neighborhood.Selected = true;
+            }
+        }
+    }
+
+    protected override void City_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            if (mNeighborhood != null)
+            {
+                object[] args = { mCountry.SelectedValue, mState.SelectedValue, mCity.SelectedValue };
+                List<TransitNeighborhood> neighborhoods = new List<TransitNeighborhood>();
+                if (InsertEmptySelection) neighborhoods.Add(new TransitNeighborhood());
+                neighborhoods.AddRange(mPage.SessionManager.GetCachedCollection<TransitNeighborhood>(
+                    mPage.SessionManager.LocationService, "GetNeighborhoodsByLocation", args));
+                mNeighborhood.DataSource = neighborhoods;
+                mNeighborhood.DataBind();
+            }
+        }
+        catch (Exception ex)
+        {
+            mPage.ReportException(ex);
+        }
+
+        base.City_SelectedIndexChanged(sender, e);
+    }
+
+    public override void ClearSelection()
+    {
+        mNeighborhood.ClearSelection();
+        base.ClearSelection();
+    }
+}
+
+public class LocationSelectorCountryStateCityNeighborhoodText : LocationSelectorCountryStateCityText
+{
+    protected TextBox mNeighborhood;
+
+    public LocationSelectorCountryStateCityNeighborhoodText(Page page, bool empty, DropDownList country, DropDownList state, TextBox city, TextBox neighborhood)
+        : base(page, empty, country, state, city)
+    {
+        mNeighborhood = neighborhood;
+    }
+
+    public override void SelectLocation(object sender, LocationEventArgs e)
+    {
+        base.SelectLocation(sender, e);
+
+        if (mNeighborhood != null)
+        {
+            mNeighborhood.Text = e.Neighborhood;
+        }
+    }
+
+    public override void ClearSelection()
+    {
+        mNeighborhood.Text = string.Empty;
+        base.ClearSelection();
+    }
+}
+

@@ -66,7 +66,8 @@ public partial class AccountEventsView : Page
 
                 ArrayList countries = new ArrayList();
                 countries.Add(new TransitCountry());
-                countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(LocationService, "GetCountries", null));
+                object[] c_args = { null };
+                countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(LocationService, "GetCountries", c_args));
                 inputCountry.DataSource = countries;
                 inputCountry.DataBind();
 

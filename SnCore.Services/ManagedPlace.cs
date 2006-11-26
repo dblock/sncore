@@ -14,6 +14,48 @@ using SnCore.Tools;
 
 namespace SnCore.Services
 {
+    public class TransitDistinctPlaceNeighborhood : TransitService
+    {
+        private string mName;
+
+        public string Name
+        {
+            get
+            {
+                return mName;
+            }
+            set
+            {
+                mName = value;
+            }
+        }
+
+        private int mCount;
+
+        public int Count
+        {
+            get
+            {
+                return mCount;
+            }
+            set
+            {
+                mCount = value;
+            }
+        }
+
+        public TransitDistinctPlaceNeighborhood()
+        {
+
+        }
+
+        public TransitDistinctPlaceNeighborhood(int id)
+            : base(id)
+        {
+
+        }
+    }
+
     public class TransitPlaceQueryOptions
     {
         public string SortOrder = "Created";
@@ -21,6 +63,7 @@ namespace SnCore.Services
         public string Country;
         public string State;
         public string City;
+        public string Neighborhood;
         public string Name;
         public string Type;
         public bool PicturesOnly = false;
@@ -38,6 +81,12 @@ namespace SnCore.Services
         public string CreateSubQuery(ISession session)
         {
             StringBuilder b = new StringBuilder();
+
+            if (!string.IsNullOrEmpty(Neighborhood))
+            {
+                b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                b.AppendFormat("p.Neighborhood.Id = '{0}'", ManagedNeighborhood.GetNeighborhoodId(session, Neighborhood, City, State, Country));
+            }
 
             if (!string.IsNullOrEmpty(City))
             {
@@ -286,6 +335,20 @@ namespace SnCore.Services
             }
         }
 
+        private string mNeighborhood;
+
+        public string Neighborhood
+        {
+            get
+            {
+                return mNeighborhood;
+            }
+            set
+            {
+                mNeighborhood = value;
+            }
+        }
+
         private string mCity;
 
         public string City
@@ -384,6 +447,7 @@ namespace SnCore.Services
             if (o.City != null) City = o.City.Name;
             if (o.City != null && o.City.State != null) State = o.City.State.Name;
             if (o.City != null && o.City.Country != null) Country = o.City.Country.Name;
+            if (o.Neighborhood != null) Neighborhood = o.Neighborhood.Name;
             PictureId = ManagedService.GetRandomElementId(o.PlacePictures);
             AccountId = o.Account.Id;
         }
@@ -403,6 +467,7 @@ namespace SnCore.Services
             p.Website = this.Website;
             if (AccountId > 0) p.Account = (Account)session.Load(typeof(Account), AccountId);
             if (!string.IsNullOrEmpty(City)) p.City = ManagedCity.FindOrCreate(session, City, State, Country);
+            if (!string.IsNullOrEmpty(Neighborhood) && !string.IsNullOrEmpty(City)) p.Neighborhood = ManagedNeighborhood.FindOrCreate(session, Neighborhood, City, State, Country);
             return p;
         }
     }

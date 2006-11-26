@@ -1,27 +1,24 @@
 using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
-    ///Persistent domain entity class representing 'City' entities.
+    ///Persistent domain entity class representing 'Neighborhood' entities.
     ///</summary>
     ///<remarks>
     ///
     ///Mapping information:
-    ///This class maps to the 'City' table in the data source.
+    ///This class maps to the 'Neighborhood' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class City
+    public class Neighborhood
     {
 #region " Generated Code Region "
         //Private field variables
 
         //Holds property values
         private System.Int32 m_Id;
-        private Country m_Country;
+        private City m_City;
         private System.String m_Name;
         private System.Collections.IList m_Places;
-        private State m_State;
-        private System.String m_Tag;
-        private System.Collections.IList m_Neighborhoods;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -36,7 +33,7 @@ using System;
         ///The accessibility level for the field 'm_Id' that holds the value for this property is 'PrivateAccess'.
         ///
         ///Mapping information:
-        ///The property maps to the column 'City_Id' in the data source.
+        ///The property maps to the column 'Neighborhood_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
         public  System.Int32 Id
@@ -52,25 +49,25 @@ using System;
         ///Persistent one-many reference property.
         ///</summary>
         ///<remarks>
-        ///This property accepts references to objects of the type 'Country'.
+        ///This property accepts references to objects of the type 'City'.
         ///This property is part of a 'OneToMany' relationship.
-        ///The inverse property for this property is 'Country.Cities'.
+        ///The inverse property for this property is 'City.Neighborhoods'.
         ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Country' that holds the value for this property is 'PrivateAccess'.
+        ///The accessibility level for the field 'm_City' that holds the value for this property is 'PrivateAccess'.
         ///
         ///Mapping information:
-        ///The property maps to the column 'Country_Id' in the data source.
+        ///The property maps to the column 'City_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  Country Country
+        public  City City
         {
             get
             {
-                return m_Country;
+                return m_City;
             }
             set
             {
-                m_Country = value;
+                m_City = value;
             }
         }
 
@@ -107,16 +104,15 @@ using System;
         ///This property accepts multiple references to objects of the type 'Place'.
         ///This property is part of a 'ManyToOne' relationship.
         ///The data type for this property is 'System.Collections.IList'.
-        ///The inverse property for this property is 'Place.City'.
+        ///The inverse property for this property is 'Place.Neighborhood'.
         ///This property inherits its mapping information from its inverse property.
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_Places' that holds the value for this property is 'PrivateAccess'.
-        ///This property is marked as Read-Only.
         ///This property is marked as slave.
         ///
         ///Mapping information:
         ///This class maps to the 'Place' table in the data source.
-        ///The property maps to the identity column 'City_Id' in the data source.
+        ///The property maps to the identity column 'Neighborhood_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
         public  System.Collections.IList Places
@@ -128,89 +124,6 @@ using System;
             set
             {
                 m_Places = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent one-many reference property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts references to objects of the type 'State'.
-        ///This property is part of a 'OneToMany' relationship.
-        ///The inverse property for this property is 'State.Cities'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_State' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'State_Id' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  State State
-        {
-            get
-            {
-                return m_State;
-            }
-            set
-            {
-                m_State = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent primitive property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts values of the type 'System.String'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Tag' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'Tag' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.String Tag
-        {
-            get
-            {
-                return m_Tag;
-            }
-            set
-            {
-                m_Tag = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent many-one reference property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts multiple references to objects of the type 'Neighborhood'.
-        ///This property is part of a 'ManyToOne' relationship.
-        ///The data type for this property is 'System.Collections.IList'.
-        ///The inverse property for this property is 'Neighborhood.City'.
-        ///This property inherits its mapping information from its inverse property.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Neighborhoods' that holds the value for this property is 'PrivateAccess'.
-        ///This property is marked as slave.
-        ///
-        ///Mapping information:
-        ///This class maps to the 'Neighborhood' table in the data source.
-        ///The property maps to the identity column 'City_Id' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        public  System.Collections.IList Neighborhoods
-        {
-            get
-            {
-                return m_Neighborhoods;
-            }
-            set
-            {
-                m_Neighborhoods = value;
             }
         }
 

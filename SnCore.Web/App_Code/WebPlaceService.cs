@@ -205,7 +205,7 @@ namespace SnCore.WebServices
                 if (serviceoptions != null)
                 {
                     q.SetMaxResults(serviceoptions.PageSize);
-                    q.SetFirstResult(serviceoptions.PageNumber * serviceoptions.PageSize);
+                    q.SetFirstResult(serviceoptions.FirstResult);
                 }
 
                 IList list = q.List();
@@ -2177,7 +2177,7 @@ namespace SnCore.WebServices
                 if (serviceoptions != null)
                 {
                     q.SetMaxResults(serviceoptions.PageSize);
-                    q.SetFirstResult(serviceoptions.PageNumber * serviceoptions.PageSize);
+                    q.SetFirstResult(serviceoptions.FirstResult);
                 }
 
                 IList list = q.List();
@@ -2573,6 +2573,46 @@ namespace SnCore.WebServices
 
         #endregion
 
+        #region Neighborhoods
+        /// <summary>
+        /// Get all place neighborhoods.
+        /// </summary>
+        /// <returns>list of transit place neighborhoods</returns>
+        [WebMethod(Description = "Get all place neighborhoods.", CacheDuration = 60)]
+        public List<TransitDistinctPlaceNeighborhood> GetPlaceNeighborhoods(
+            string country, string state, string city, ServiceQueryOptions options)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                int city_id = ManagedCity.GetCityId(session, city, state, country);
+                IQuery q = session.CreateQuery(
+                    "SELECT n.Id, n.Name, COUNT(p) FROM Neighborhood n, Place p" +
+                    " WHERE p.Neighborhood = n" +
+                    " AND n.City.Id = '" + city_id.ToString() + "'" +
+                    " AND p.City.Id = '" + city_id.ToString() + "'" +
+                    " GROUP BY n.Id, n.Name ORDER BY n.Name");
 
+                if (options != null)
+                {
+                    q.SetFirstResult(options.FirstResult);
+                    q.SetMaxResults(options.PageSize);
+                }
+
+                IList neighborhoods = q.List();
+                List<TransitDistinctPlaceNeighborhood> result = new List<TransitDistinctPlaceNeighborhood>(neighborhoods.Count);
+                foreach (object[] nh in neighborhoods)
+                {
+                    TransitDistinctPlaceNeighborhood tnh = new TransitDistinctPlaceNeighborhood((int) nh[0]);
+                    tnh.Name = (string) nh[1];
+                    tnh.Count = (int) nh[2];
+                    result.Add(tnh);
+                }
+
+                return result;
+            }
+        }
+
+        #endregion
     }
 }

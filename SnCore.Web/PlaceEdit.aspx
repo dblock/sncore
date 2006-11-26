@@ -84,6 +84,13 @@
      </tr>
      <tr>
       <td class="sncore_form_label">
+       neighborhood:</td>
+      <td class="sncore_form_value">
+       <asp:TextBox CssClass="sncore_form_textbox" ID="inputNeighborhood" runat="server" />
+      </td>
+     </tr>
+     <tr>
+      <td class="sncore_form_label">
        address:
       </td>
       <td class="sncore_form_value">

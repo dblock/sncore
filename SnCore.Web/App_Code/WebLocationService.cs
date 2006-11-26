@@ -28,29 +28,49 @@ namespace SnCore.WebServices
         }
 
         #region Country
+
+        /// <summary>
+        /// Get countries count
+        /// </summary>
+        /// <returns>number of countries</returns>
+        [WebMethod(Description = "Get countries count.")]
+        public int GetCountriesCount()
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return (int)session.CreateQuery("SELECT COUNT(c) FROM Country c").UniqueResult();
+            }
+        }
+
         /// <summary>
         /// Get all countries.
         /// </summary>
         /// <returns>list of countries</returns>
         [WebMethod(Description = "Get all countries.", CacheDuration = 60)]
-        public List<TransitCountry> GetCountries()
+        public List<TransitCountry> GetCountries(ServiceQueryOptions options)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                IList countries = session.CreateCriteria(typeof(Country)).List();
-                List<TransitCountry> result = new List<TransitCountry>(countries.Count);
-                foreach (Country c in countries)
+                ICriteria c = session.CreateCriteria(typeof(Country));
+                if (options != null)
                 {
-                    if (c.Name == "United States")
+                    c.SetFirstResult(options.FirstResult);
+                    c.SetMaxResults(options.PageSize);
+                }
+                IList countries = c.List();
+                List<TransitCountry> result = new List<TransitCountry>(countries.Count);
+                foreach (Country country in countries)
+                {
+                    if (options == null && country.Name == "United States")
                     {
-                        result.Insert(0, new ManagedCountry(session, c).TransitCountry);
+                        result.Insert(0, new ManagedCountry(session, country).TransitCountry);
                         result.Insert(1, new TransitCountry());
                     }
 
-                    result.Add(new ManagedCountry(session, c).TransitCountry);
+                    result.Add(new ManagedCountry(session, country).TransitCountry);
                 }
-                session.Flush();
                 return result;
             }
         }
@@ -129,23 +149,43 @@ namespace SnCore.WebServices
         #endregion
 
         #region State
+
+        /// <summary>
+        /// Get states count
+        /// </summary>
+        /// <returns>number of states</returns>
+        [WebMethod(Description = "Get states count.")]
+        public int GetStatesCount()
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return (int)session.CreateQuery("SELECT COUNT(s) FROM State s").UniqueResult();
+            }
+        }
+
         /// <summary>
         /// Get all states.
         /// </summary>
         /// <returns>list of states</returns>
         [WebMethod(Description = "Get all states.", CacheDuration = 60)]
-        public List<TransitState> GetStates()
+        public List<TransitState> GetStates(ServiceQueryOptions options)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                IList states = session.CreateCriteria(typeof(State)).List();
-                List<TransitState> result = new List<TransitState>(states.Count);
-                foreach (State c in states)
+                ICriteria c = session.CreateCriteria(typeof(State));
+                if (options != null)
                 {
-                    result.Add(new ManagedState(session, c).TransitState);
+                    c.SetFirstResult(options.FirstResult);
+                    c.SetMaxResults(options.PageSize);
                 }
-                session.Flush();
+                IList states = c.List();
+                List<TransitState> result = new List<TransitState>(states.Count);
+                foreach (State state in states)
+                {
+                    result.Add(new ManagedState(session, state).TransitState);
+                }
                 return result;
             }
         }
@@ -173,7 +213,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new ManagedState(session, c).TransitState);
                 }
-                session.Flush();
                 return result;
             }
         }
@@ -252,23 +291,43 @@ namespace SnCore.WebServices
         #endregion
 
         #region City
+
+        /// <summary>
+        /// Get cities count
+        /// </summary>
+        /// <returns>number of cities</returns>
+        [WebMethod(Description = "Get cities count.")]
+        public int GetCitiesCount()
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return (int)session.CreateQuery("SELECT COUNT(c) FROM City c").UniqueResult();
+            }
+        }
+
         /// <summary>
         /// Get all cities.
         /// </summary>
         /// <returns>list of cities</returns>
         [WebMethod(Description = "Get all cities.", CacheDuration = 60)]
-        public List<TransitCity> GetCities()
+        public List<TransitCity> GetCities(ServiceQueryOptions options)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                IList cities = session.CreateCriteria(typeof(City)).List();
-                List<TransitCity> result = new List<TransitCity>(cities.Count);
-                foreach (City c in cities)
+                ICriteria c = session.CreateCriteria(typeof(City));
+                if (options != null)
                 {
-                    result.Add(new ManagedCity(session, c).TransitCity);
+                    c.SetFirstResult(options.FirstResult);
+                    c.SetMaxResults(options.PageSize);
                 }
-                session.Flush();
+                IList cities = c.List();
+                List<TransitCity> result = new List<TransitCity>(cities.Count);
+                foreach (City city in cities)
+                {
+                    result.Add(new ManagedCity(session, city).TransitCity);
+                }
                 return result;
             }
         }
@@ -291,7 +350,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new ManagedCity(session, c).TransitCity);
                 }
-                session.Flush();
                 return result;
             }
         }
@@ -342,7 +400,6 @@ namespace SnCore.WebServices
                     result.Add(new ManagedCity(session, c).TransitCity);
                 }
 
-                session.Flush();
                 return result;
             }
         }
@@ -462,6 +519,204 @@ namespace SnCore.WebServices
                 }
 
                 ManagedCity m = new ManagedCity(session, target_id);
+                int result = m.Merge(merge_id);
+                session.Flush();
+                return result;
+            }
+        }
+
+        #endregion
+
+        #region Neighborhood
+
+
+        /// <summary>
+        /// Get neighborhoods count
+        /// </summary>
+        /// <returns>number of neighborhoods</returns>
+        [WebMethod(Description = "Get neighborhoods count.")]
+        public int GetNeighborhoodsCount()
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return (int)session.CreateQuery("SELECT COUNT(nh) FROM Neighborhood nh").UniqueResult();
+            }
+        }
+
+        /// <summary>
+        /// Get all neighborhoods.
+        /// </summary>
+        /// <returns>list of neighborhoods</returns>
+        [WebMethod(Description = "Get all neighborhoods.", CacheDuration = 60)]
+        public List<TransitNeighborhood> GetNeighborhoods(ServiceQueryOptions options)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ICriteria cr = session.CreateCriteria(typeof(Neighborhood));
+                if (options != null)
+                {
+                    cr.SetFirstResult(options.FirstResult);
+                    cr.SetMaxResults(options.PageSize);
+                }
+                IList neighborhoods = cr.List();
+                List<TransitNeighborhood> result = new List<TransitNeighborhood>(neighborhoods.Count);
+                foreach (Neighborhood c in neighborhoods)
+                {
+                    result.Add(new ManagedNeighborhood(session, c).TransitNeighborhood);
+                }
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Get all neighborhoods with a matching name.
+        /// </summary>
+        /// <returns>list of neighborhoods</returns>
+        [WebMethod(Description = "Get all neighborhoods with a matching name.", CacheDuration = 60)]
+        public List<TransitNeighborhood> SearchNeighborhoodsByName(string name)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                IList neighborhoods = session.CreateCriteria(typeof(Neighborhood))
+                    .Add(Expression.Like("Name", string.Format("%{0}%", name)))
+                    .List();
+                List<TransitNeighborhood> result = new List<TransitNeighborhood>(neighborhoods.Count);
+                foreach (Neighborhood c in neighborhoods)
+                {
+                    result.Add(new ManagedNeighborhood(session, c).TransitNeighborhood);
+                }
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Get neighborhoods within a country, state and city.
+        /// </summary>
+        /// <param name="city">city name</param>
+        /// <param name="state">state name</param>
+        /// <param name="country">country name</param>
+        /// <returns>list of neighborhoods</returns>
+        [WebMethod(Description = "Get neighborhoods within a country, state and city.", CacheDuration = 60)]
+        public List<TransitNeighborhood> GetNeighborhoodsByLocation(string country, string state, string city)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                List<TransitNeighborhood> result = new List<TransitNeighborhood>();
+
+                if (string.IsNullOrEmpty(city) || string.IsNullOrEmpty(country))
+                {
+                    return result;
+                }
+
+                City t_city = ManagedCity.Find(session, city, state, country);
+
+                IList neighborhoods = session.CreateCriteria(typeof(Neighborhood))
+                    .Add(Expression.Eq("City.Id", t_city.Id))
+                    .List();
+
+                foreach (Neighborhood nh in neighborhoods)
+                {
+                    result.Add(new ManagedNeighborhood(session, nh).TransitNeighborhood);
+                }
+
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Add a neighborhood.
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="c">transit neighborhood information</param>
+        /// <returns>new neighborhood id</returns>
+        /// </summary>
+        [WebMethod(Description = "Add a neighborhood.")]
+        public int AddNeighborhood(string ticket, TransitNeighborhood nh)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                // check permissions: userid must have admin rights to the Accounts table
+                ManagedAccount user = new ManagedAccount(session, userid);
+                if (!user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ManagedNeighborhood m = new ManagedNeighborhood(session);
+                m.Create(nh);
+                session.Flush();
+                return m.Id;
+            }
+        }
+
+        /// <summary>
+        /// Delete a neighborhood.
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">neighborhood id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete a neighborhood.")]
+        public void DeleteNeighborhood(string ticket, int id)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                // check permissions: userid must have admin rights to the Accounts table
+                ManagedAccount user = new ManagedAccount(session, userid);
+                if (!user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ManagedNeighborhood m = new ManagedNeighborhood(session, id);
+                m.Delete();
+                session.Flush();
+            }
+        }
+
+        /// <summary>
+        /// Get neighborhood by id.
+        /// </summary>
+        /// <param name="id">neighborhood id</param>
+        /// <returns></returns>
+        [WebMethod(Description = "Get neighborhood by id.")]
+        public TransitNeighborhood GetNeighborhoodById(int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return new ManagedNeighborhood(session, id).TransitNeighborhood;
+            }
+        }
+
+        /// <summary>
+        /// Merge neighborhoods.
+        /// <param name="ticket">authentication ticket</param>
+        /// </summary>
+        [WebMethod(Description = "Merge neighborhoods.")]
+        public int MergeNeighborhoods(string ticket, int target_id, int merge_id)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                ManagedAccount user = new ManagedAccount(session, userid);
+                if (!user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ManagedNeighborhood m = new ManagedNeighborhood(session, target_id);
                 int result = m.Merge(merge_id);
                 session.Flush();
                 return result;

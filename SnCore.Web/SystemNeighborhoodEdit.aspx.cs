@@ -12,7 +12,7 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 
-public partial class SystemCityEdit : AuthenticatedPage
+public partial class SystemNeighborhoodEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
@@ -25,18 +25,18 @@ public partial class SystemCityEdit : AuthenticatedPage
             {
 
                 object[] c_args = { null };
-                inputCountry.DataSource = SessionManager.GetCachedCollection<TransitCountry>(
-                    LocationService, "GetCountries", c_args);
+                inputCountry.DataSource = SessionManager.GetCachedCollection<TransitCountry>(LocationService, "GetCountries", c_args);
                 inputCountry.DataBind();
 
                 if (RequestId > 0)
                 {
-                    TransitCity tc = LocationService.GetCityById(RequestId);
+                    TransitNeighborhood tc = LocationService.GetNeighborhoodById(RequestId);
                     inputName.Text = tc.Name;
-                    inputTag.Text = tc.Tag;
                     inputCountry.Items.FindByValue(tc.Country).Selected = true;
                     inputCountry_SelectedIndexChanged(sender, e);
                     inputState.Items.FindByValue(tc.State).Selected = true;
+                    inputState_SelectedIndexChanged(sender, e);
+                    inputCity.Items.FindByValue(tc.City).Selected = true;
                 }
                 else
                 {
@@ -50,6 +50,21 @@ public partial class SystemCityEdit : AuthenticatedPage
             ReportException(ex);
         }
     }
+
+    public void inputState_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            object[] args = { inputCountry.SelectedValue, inputState.SelectedValue};
+            inputCity.DataSource = SessionManager.GetCachedCollection<TransitCity>(LocationService, "GetCitiesByLocation", args);
+            inputCity.DataBind();
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
 
     public void inputCountry_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -69,18 +84,18 @@ public partial class SystemCityEdit : AuthenticatedPage
     {
         try
         {
-            TransitCity tc = new TransitCity();
+            TransitNeighborhood tc = new TransitNeighborhood();
             tc.Name = inputName.Text;
             tc.Id = RequestId;
-            tc.Tag = inputTag.Text;
             tc.Country = inputCountry.SelectedValue;
             tc.State = inputState.SelectedValue;
-            if (string.IsNullOrEmpty(tc.State) && inputState.Items.Count > 0)
+            tc.City = inputCity.SelectedValue;
+            if (string.IsNullOrEmpty(tc.City))
             {
-                throw new Exception("State is required.");
+                throw new Exception("City is required.");
             }
-            LocationService.AddCity(SessionManager.Ticket, tc);
-            Redirect("SystemCitiesManage.aspx");
+            LocationService.AddNeighborhood(SessionManager.Ticket, tc);
+            Redirect("SystemNeighborhoodsManage.aspx");
         }
         catch (Exception ex)
         {
@@ -93,7 +108,7 @@ public partial class SystemCityEdit : AuthenticatedPage
         try
         {
             gridMergeLookup.CurrentPageIndex = 0;
-            gridMergeLookup.DataSource = LocationService.SearchCitiesByName(inputMergeWhat.Text);
+            gridMergeLookup.DataSource = LocationService.SearchNeighborhoodsByName(inputMergeWhat.Text);
             gridMergeLookup.DataBind();
         }
         catch (Exception ex)
@@ -109,7 +124,7 @@ public partial class SystemCityEdit : AuthenticatedPage
             switch (e.CommandName)
             {
                 case "Merge":
-                    int count = LocationService.MergeCities(SessionManager.Ticket, 
+                    int count = LocationService.MergeNeighborhoods(SessionManager.Ticket, 
                         RequestId, int.Parse(e.CommandArgument.ToString()));
                     ReportInfo(string.Format("Merged {0} records.", count));
                     mergeLookup_Click(source, e);

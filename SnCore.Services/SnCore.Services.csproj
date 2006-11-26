@@ -145,6 +145,7 @@
     <Compile Include="ManagedFeedType.cs" />
     <Compile Include="ManagedMadLib.cs" />
     <Compile Include="ManagedMadLibInstance.cs" />
+    <Compile Include="ManagedNeighborhood.cs" />
     <Compile Include="ManagedPicture.cs" />
     <Compile Include="ManagedPictureType.cs" />
     <Compile Include="ManagedPlace.cs" />

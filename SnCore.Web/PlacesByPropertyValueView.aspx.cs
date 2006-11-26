@@ -64,7 +64,7 @@ public partial class PlacesByPropertyValueView : Page
 
     private void GetData(object sender, EventArgs e)
     {
-        title.Text = string.Format("{0}: {1}", Renderer.Render(PropertyName), Renderer.Render(PropertyValue));
+        titlePlacesByProperty.Text = string.Format("{0}: {1}", Renderer.Render(PropertyName), Renderer.Render(PropertyValue));
         gridManage.CurrentPageIndex = 0;
         object[] args = { GroupName, PropertyName, PropertyValue };
         gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(PlaceService, "GetPlacesByPropertyValueCount", args);

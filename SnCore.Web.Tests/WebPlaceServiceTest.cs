@@ -23,5 +23,17 @@ namespace SnCore.Web.Tests
             Assert.AreEqual(favorites, places.Length, "The number of total favorite places and returned favorite places doesn't match.");
             Assert.IsTrue(total >= places.Length, "The number of total places and favorite places is impossible.");
         }
+
+        [Test]
+        public void GetPlaceNeighborhoodsTest()
+        {
+            WebPlaceService service = new WebPlaceService();
+            TransitDistinctPlaceNeighborhood[] nhs = service.GetPlaceNeighborhoods("United States", "New York", "New York", null);
+            Console.WriteLine("Returned {0} neighborhoods.", nhs.Length);
+            foreach (TransitDistinctPlaceNeighborhood nh in nhs)
+            {
+                Console.WriteLine("{0}: {1}", nh.Name, nh.Count);
+            }
+        }
     }
 }

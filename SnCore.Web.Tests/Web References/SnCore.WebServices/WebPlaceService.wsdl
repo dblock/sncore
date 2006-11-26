@@ -95,6 +95,7 @@
               <s:element minOccurs="0" maxOccurs="1" name="Fax" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="Website" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Neighborhood" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
@@ -139,6 +140,7 @@
           <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Neighborhood" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="Type" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="PicturesOnly" type="s:boolean" />
@@ -223,6 +225,8 @@
               <s:element minOccurs="1" maxOccurs="1" name="PlaceId" type="s:int" />
               <s:element minOccurs="1" maxOccurs="1" name="CommentCount" type="s:int" />
               <s:element minOccurs="0" maxOccurs="1" name="Counter" type="tns:TransitCounter" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountName" type="s:string" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
@@ -1085,6 +1089,7 @@
               <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="Type" type="tns:Type" />
               <s:element minOccurs="0" maxOccurs="1" name="DefaultValue" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PlacePropertyGroupName" type="s:string" />
               <s:element minOccurs="1" maxOccurs="1" name="PlacePropertyGroupId" type="s:int" />
             </s:sequence>
           </s:extension>
@@ -1436,6 +1441,274 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="CreateOrUpdatePlaceQueue">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="queue" type="tns:TransitPlaceQueue" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitPlaceQueue">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitService">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountPictureId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountName" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="PublishAll" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="PublishFriends" type="s:boolean" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="CreateOrUpdatePlaceQueueResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdatePlaceQueueResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPlaceQueueById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPlaceQueueByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPlaceQueueByIdResult" type="tns:TransitPlaceQueue" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPlaceQueueByName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPlaceQueueByNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPlaceQueueByNameResult" type="tns:TransitPlaceQueue" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetOrCreatePlaceQueueByName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetOrCreatePlaceQueueByNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetOrCreatePlaceQueueByNameResult" type="tns:TransitPlaceQueue" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPlaceQueues">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPlaceQueuesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPlaceQueuesResult" type="tns:ArrayOfTransitPlaceQueue" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitPlaceQueue">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitPlaceQueue" nillable="true" type="tns:TransitPlaceQueue" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="DeletePlaceQueue">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeletePlaceQueueResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="CreateOrUpdatePlaceQueueItem">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="queueitem" type="tns:TransitPlaceQueueItem" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitPlaceQueueItem">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitService">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="PlaceId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="PlaceQueueId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Updated" type="s:dateTime" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="CreateOrUpdatePlaceQueueItemResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdatePlaceQueueItemResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPlaceQueueItemById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPlaceQueueItemByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPlaceQueueItemByIdResult" type="tns:TransitPlaceQueueItem" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPlaceQueueItems">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPlaceQueueItemsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPlaceQueueItemsResult" type="tns:ArrayOfTransitPlaceQueueItem" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitPlaceQueueItem">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitPlaceQueueItem" nillable="true" type="tns:TransitPlaceQueueItem" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetPlaceQueueItemsCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPlaceQueueItemsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetPlaceQueueItemsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeletePlaceQueueItem">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeletePlaceQueueItemResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetFriendsPlaceQueueItemsCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFriendsPlaceQueueItemsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetFriendsPlaceQueueItemsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFriendsPlaceQueueItems">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFriendsPlaceQueueItemsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetFriendsPlaceQueueItemsResult" type="tns:ArrayOfTransitFriendsPlaceQueueItem" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitFriendsPlaceQueueItem">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitFriendsPlaceQueueItem" nillable="true" type="tns:TransitFriendsPlaceQueueItem" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitFriendsPlaceQueueItem">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitService" />
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="GetPlaceNeighborhoods">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="country" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="state" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="city" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPlaceNeighborhoodsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPlaceNeighborhoodsResult" type="tns:ArrayOfTransitDistinctPlaceNeighborhood" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitDistinctPlaceNeighborhood">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitDistinctPlaceNeighborhood" nillable="true" type="tns:TransitDistinctPlaceNeighborhood" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitDistinctPlaceNeighborhood">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitService">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="CreateOrUpdatePlaceTypeSoapIn">
@@ -1918,6 +2191,90 @@
   <wsdl:message name="GetFavoritePlacesSoapOut">
     <wsdl:part name="parameters" element="tns:GetFavoritePlacesResponse" />
   </wsdl:message>
+  <wsdl:message name="CreateOrUpdatePlaceQueueSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdatePlaceQueue" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdatePlaceQueueSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdatePlaceQueueResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPlaceQueueByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPlaceQueueById" />
+  </wsdl:message>
+  <wsdl:message name="GetPlaceQueueByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPlaceQueueByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPlaceQueueByNameSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPlaceQueueByName" />
+  </wsdl:message>
+  <wsdl:message name="GetPlaceQueueByNameSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPlaceQueueByNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetOrCreatePlaceQueueByNameSoapIn">
+    <wsdl:part name="parameters" element="tns:GetOrCreatePlaceQueueByName" />
+  </wsdl:message>
+  <wsdl:message name="GetOrCreatePlaceQueueByNameSoapOut">
+    <wsdl:part name="parameters" element="tns:GetOrCreatePlaceQueueByNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPlaceQueuesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPlaceQueues" />
+  </wsdl:message>
+  <wsdl:message name="GetPlaceQueuesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPlaceQueuesResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeletePlaceQueueSoapIn">
+    <wsdl:part name="parameters" element="tns:DeletePlaceQueue" />
+  </wsdl:message>
+  <wsdl:message name="DeletePlaceQueueSoapOut">
+    <wsdl:part name="parameters" element="tns:DeletePlaceQueueResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdatePlaceQueueItemSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdatePlaceQueueItem" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdatePlaceQueueItemSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdatePlaceQueueItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPlaceQueueItemByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPlaceQueueItemById" />
+  </wsdl:message>
+  <wsdl:message name="GetPlaceQueueItemByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPlaceQueueItemByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPlaceQueueItemsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPlaceQueueItems" />
+  </wsdl:message>
+  <wsdl:message name="GetPlaceQueueItemsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPlaceQueueItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPlaceQueueItemsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPlaceQueueItemsCount" />
+  </wsdl:message>
+  <wsdl:message name="GetPlaceQueueItemsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPlaceQueueItemsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeletePlaceQueueItemSoapIn">
+    <wsdl:part name="parameters" element="tns:DeletePlaceQueueItem" />
+  </wsdl:message>
+  <wsdl:message name="DeletePlaceQueueItemSoapOut">
+    <wsdl:part name="parameters" element="tns:DeletePlaceQueueItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetFriendsPlaceQueueItemsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFriendsPlaceQueueItemsCount" />
+  </wsdl:message>
+  <wsdl:message name="GetFriendsPlaceQueueItemsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFriendsPlaceQueueItemsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetFriendsPlaceQueueItemsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFriendsPlaceQueueItems" />
+  </wsdl:message>
+  <wsdl:message name="GetFriendsPlaceQueueItemsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFriendsPlaceQueueItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPlaceNeighborhoodsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPlaceNeighborhoods" />
+  </wsdl:message>
+  <wsdl:message name="GetPlaceNeighborhoodsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPlaceNeighborhoodsResponse" />
+  </wsdl:message>
   <wsdl:portType name="WebPlaceServiceSoap">
     <wsdl:operation name="CreateOrUpdatePlaceType">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a place type.</wsdl:documentation>
@@ -2318,6 +2675,76 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get favorite (popular) places.</wsdl:documentation>
       <wsdl:input message="tns:GetFavoritePlacesSoapIn" />
       <wsdl:output message="tns:GetFavoritePlacesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdatePlaceQueue">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a place queue.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdatePlaceQueueSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdatePlaceQueueSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPlaceQueueById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a place queue.</wsdl:documentation>
+      <wsdl:input message="tns:GetPlaceQueueByIdSoapIn" />
+      <wsdl:output message="tns:GetPlaceQueueByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPlaceQueueByName">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a place queue by name.</wsdl:documentation>
+      <wsdl:input message="tns:GetPlaceQueueByNameSoapIn" />
+      <wsdl:output message="tns:GetPlaceQueueByNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOrCreatePlaceQueueByName">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a place queue by name, create if doesn't exist.</wsdl:documentation>
+      <wsdl:input message="tns:GetOrCreatePlaceQueueByNameSoapIn" />
+      <wsdl:output message="tns:GetOrCreatePlaceQueueByNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPlaceQueues">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all place queues.</wsdl:documentation>
+      <wsdl:input message="tns:GetPlaceQueuesSoapIn" />
+      <wsdl:output message="tns:GetPlaceQueuesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeletePlaceQueue">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a place queue.</wsdl:documentation>
+      <wsdl:input message="tns:DeletePlaceQueueSoapIn" />
+      <wsdl:output message="tns:DeletePlaceQueueSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdatePlaceQueueItem">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a place queue item.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdatePlaceQueueItemSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdatePlaceQueueItemSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPlaceQueueItemById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a place queue item.</wsdl:documentation>
+      <wsdl:input message="tns:GetPlaceQueueItemByIdSoapIn" />
+      <wsdl:output message="tns:GetPlaceQueueItemByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPlaceQueueItems">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all place queue items.</wsdl:documentation>
+      <wsdl:input message="tns:GetPlaceQueueItemsSoapIn" />
+      <wsdl:output message="tns:GetPlaceQueueItemsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPlaceQueueItemsCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all place queue items.</wsdl:documentation>
+      <wsdl:input message="tns:GetPlaceQueueItemsCountSoapIn" />
+      <wsdl:output message="tns:GetPlaceQueueItemsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeletePlaceQueueItem">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a place queueitem.</wsdl:documentation>
+      <wsdl:input message="tns:DeletePlaceQueueItemSoapIn" />
+      <wsdl:output message="tns:DeletePlaceQueueItemSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFriendsPlaceQueueItemsCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all place queue items.</wsdl:documentation>
+      <wsdl:input message="tns:GetFriendsPlaceQueueItemsCountSoapIn" />
+      <wsdl:output message="tns:GetFriendsPlaceQueueItemsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFriendsPlaceQueueItems">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all place queue items.</wsdl:documentation>
+      <wsdl:input message="tns:GetFriendsPlaceQueueItemsSoapIn" />
+      <wsdl:output message="tns:GetFriendsPlaceQueueItemsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPlaceNeighborhoods">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all place neighborhoods.</wsdl:documentation>
+      <wsdl:input message="tns:GetPlaceNeighborhoodsSoapIn" />
+      <wsdl:output message="tns:GetPlaceNeighborhoodsSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WebPlaceServiceSoap" type="tns:WebPlaceServiceSoap">
@@ -3042,6 +3469,132 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdatePlaceQueue">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdatePlaceQueue" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPlaceQueueById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetPlaceQueueById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPlaceQueueByName">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetPlaceQueueByName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOrCreatePlaceQueueByName">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetOrCreatePlaceQueueByName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPlaceQueues">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetPlaceQueues" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeletePlaceQueue">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeletePlaceQueue" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdatePlaceQueueItem">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdatePlaceQueueItem" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPlaceQueueItemById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetPlaceQueueItemById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPlaceQueueItems">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetPlaceQueueItems" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPlaceQueueItemsCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetPlaceQueueItemsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeletePlaceQueueItem">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeletePlaceQueueItem" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFriendsPlaceQueueItemsCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetFriendsPlaceQueueItemsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFriendsPlaceQueueItems">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetFriendsPlaceQueueItems" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPlaceNeighborhoods">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetPlaceNeighborhoods" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="WebPlaceServiceSoap12" type="tns:WebPlaceServiceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -3758,6 +4311,132 @@
     </wsdl:operation>
     <wsdl:operation name="GetFavoritePlaces">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetFavoritePlaces" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdatePlaceQueue">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdatePlaceQueue" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPlaceQueueById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetPlaceQueueById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPlaceQueueByName">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetPlaceQueueByName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOrCreatePlaceQueueByName">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetOrCreatePlaceQueueByName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPlaceQueues">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetPlaceQueues" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeletePlaceQueue">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeletePlaceQueue" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdatePlaceQueueItem">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdatePlaceQueueItem" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPlaceQueueItemById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetPlaceQueueItemById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPlaceQueueItems">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetPlaceQueueItems" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPlaceQueueItemsCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetPlaceQueueItemsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeletePlaceQueueItem">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeletePlaceQueueItem" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFriendsPlaceQueueItemsCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetFriendsPlaceQueueItemsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFriendsPlaceQueueItems">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetFriendsPlaceQueueItems" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPlaceNeighborhoods">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetPlaceNeighborhoods" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

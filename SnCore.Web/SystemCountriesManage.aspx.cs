@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Services;
+using SnCore.WebServices;
 
 public partial class SystemCountriesManage : AuthenticatedPage
 {
@@ -20,8 +21,7 @@ public partial class SystemCountriesManage : AuthenticatedPage
 
             if (!IsPostBack)
             {
-                gridManage_OnGetDataSource(this, null);
-                gridManage.DataBind();
+                GetData(sender, e);
             }
         }
         catch (Exception ex)
@@ -30,26 +30,25 @@ public partial class SystemCountriesManage : AuthenticatedPage
         }
     }
 
+    public void GetData(object sender, EventArgs e)
+    {
+        gridManage.CurrentPageIndex = 0;
+        gridManage.VirtualItemCount = LocationService.GetCountriesCount();
+        gridManage_OnGetDataSource(sender, e);
+        gridManage.DataBind();
+    }
+
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
-            gridManage.DataSource = SessionManager.GetCachedCollection<TransitCountry>(LocationService, "GetCountries", null);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageSize = gridManage.PageSize;
+        options.PageNumber = gridManage.CurrentPageIndex;
+        gridManage.DataSource = LocationService.GetCountries(options);
     }
 
     private enum Cells
     {
-        id = 0,
-        name,
-        image,
-        full,
-        edit,
-        delete
+        id = 0
     };
 
     public void gridManage_ItemCommand(object source, DataGridCommandEventArgs e)

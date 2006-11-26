@@ -191,6 +191,34 @@ namespace SnCore.Web.Tests.SnCore.WebServices {
         
         private System.Threading.SendOrPostCallback GetFavoritePlacesOperationCompleted;
         
+        private System.Threading.SendOrPostCallback CreateOrUpdatePlaceQueueOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetPlaceQueueByIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetPlaceQueueByNameOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetOrCreatePlaceQueueByNameOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetPlaceQueuesOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback DeletePlaceQueueOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback CreateOrUpdatePlaceQueueItemOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetPlaceQueueItemByIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetPlaceQueueItemsOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetPlaceQueueItemsCountOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback DeletePlaceQueueItemOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetFriendsPlaceQueueItemsCountOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetFriendsPlaceQueueItemsOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetPlaceNeighborhoodsOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -468,6 +496,48 @@ namespace SnCore.Web.Tests.SnCore.WebServices {
         
         /// <remarks/>
         public event GetFavoritePlacesCompletedEventHandler GetFavoritePlacesCompleted;
+        
+        /// <remarks/>
+        public event CreateOrUpdatePlaceQueueCompletedEventHandler CreateOrUpdatePlaceQueueCompleted;
+        
+        /// <remarks/>
+        public event GetPlaceQueueByIdCompletedEventHandler GetPlaceQueueByIdCompleted;
+        
+        /// <remarks/>
+        public event GetPlaceQueueByNameCompletedEventHandler GetPlaceQueueByNameCompleted;
+        
+        /// <remarks/>
+        public event GetOrCreatePlaceQueueByNameCompletedEventHandler GetOrCreatePlaceQueueByNameCompleted;
+        
+        /// <remarks/>
+        public event GetPlaceQueuesCompletedEventHandler GetPlaceQueuesCompleted;
+        
+        /// <remarks/>
+        public event DeletePlaceQueueCompletedEventHandler DeletePlaceQueueCompleted;
+        
+        /// <remarks/>
+        public event CreateOrUpdatePlaceQueueItemCompletedEventHandler CreateOrUpdatePlaceQueueItemCompleted;
+        
+        /// <remarks/>
+        public event GetPlaceQueueItemByIdCompletedEventHandler GetPlaceQueueItemByIdCompleted;
+        
+        /// <remarks/>
+        public event GetPlaceQueueItemsCompletedEventHandler GetPlaceQueueItemsCompleted;
+        
+        /// <remarks/>
+        public event GetPlaceQueueItemsCountCompletedEventHandler GetPlaceQueueItemsCountCompleted;
+        
+        /// <remarks/>
+        public event DeletePlaceQueueItemCompletedEventHandler DeletePlaceQueueItemCompleted;
+        
+        /// <remarks/>
+        public event GetFriendsPlaceQueueItemsCountCompletedEventHandler GetFriendsPlaceQueueItemsCountCompleted;
+        
+        /// <remarks/>
+        public event GetFriendsPlaceQueueItemsCompletedEventHandler GetFriendsPlaceQueueItemsCompleted;
+        
+        /// <remarks/>
+        public event GetPlaceNeighborhoodsCompletedEventHandler GetPlaceNeighborhoodsCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/CreateOrUpdatePlaceType", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -2884,6 +2954,442 @@ namespace SnCore.Web.Tests.SnCore.WebServices {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/CreateOrUpdatePlaceQueue", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int CreateOrUpdatePlaceQueue(string ticket, TransitPlaceQueue queue) {
+            object[] results = this.Invoke("CreateOrUpdatePlaceQueue", new object[] {
+                        ticket,
+                        queue});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void CreateOrUpdatePlaceQueueAsync(string ticket, TransitPlaceQueue queue) {
+            this.CreateOrUpdatePlaceQueueAsync(ticket, queue, null);
+        }
+        
+        /// <remarks/>
+        public void CreateOrUpdatePlaceQueueAsync(string ticket, TransitPlaceQueue queue, object userState) {
+            if ((this.CreateOrUpdatePlaceQueueOperationCompleted == null)) {
+                this.CreateOrUpdatePlaceQueueOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCreateOrUpdatePlaceQueueOperationCompleted);
+            }
+            this.InvokeAsync("CreateOrUpdatePlaceQueue", new object[] {
+                        ticket,
+                        queue}, this.CreateOrUpdatePlaceQueueOperationCompleted, userState);
+        }
+        
+        private void OnCreateOrUpdatePlaceQueueOperationCompleted(object arg) {
+            if ((this.CreateOrUpdatePlaceQueueCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.CreateOrUpdatePlaceQueueCompleted(this, new CreateOrUpdatePlaceQueueCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetPlaceQueueById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitPlaceQueue GetPlaceQueueById(string ticket, int id) {
+            object[] results = this.Invoke("GetPlaceQueueById", new object[] {
+                        ticket,
+                        id});
+            return ((TransitPlaceQueue)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetPlaceQueueByIdAsync(string ticket, int id) {
+            this.GetPlaceQueueByIdAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetPlaceQueueByIdAsync(string ticket, int id, object userState) {
+            if ((this.GetPlaceQueueByIdOperationCompleted == null)) {
+                this.GetPlaceQueueByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetPlaceQueueByIdOperationCompleted);
+            }
+            this.InvokeAsync("GetPlaceQueueById", new object[] {
+                        ticket,
+                        id}, this.GetPlaceQueueByIdOperationCompleted, userState);
+        }
+        
+        private void OnGetPlaceQueueByIdOperationCompleted(object arg) {
+            if ((this.GetPlaceQueueByIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetPlaceQueueByIdCompleted(this, new GetPlaceQueueByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetPlaceQueueByName", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitPlaceQueue GetPlaceQueueByName(string ticket, string name) {
+            object[] results = this.Invoke("GetPlaceQueueByName", new object[] {
+                        ticket,
+                        name});
+            return ((TransitPlaceQueue)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetPlaceQueueByNameAsync(string ticket, string name) {
+            this.GetPlaceQueueByNameAsync(ticket, name, null);
+        }
+        
+        /// <remarks/>
+        public void GetPlaceQueueByNameAsync(string ticket, string name, object userState) {
+            if ((this.GetPlaceQueueByNameOperationCompleted == null)) {
+                this.GetPlaceQueueByNameOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetPlaceQueueByNameOperationCompleted);
+            }
+            this.InvokeAsync("GetPlaceQueueByName", new object[] {
+                        ticket,
+                        name}, this.GetPlaceQueueByNameOperationCompleted, userState);
+        }
+        
+        private void OnGetPlaceQueueByNameOperationCompleted(object arg) {
+            if ((this.GetPlaceQueueByNameCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetPlaceQueueByNameCompleted(this, new GetPlaceQueueByNameCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetOrCreatePlaceQueueByName", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitPlaceQueue GetOrCreatePlaceQueueByName(string ticket, string name) {
+            object[] results = this.Invoke("GetOrCreatePlaceQueueByName", new object[] {
+                        ticket,
+                        name});
+            return ((TransitPlaceQueue)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetOrCreatePlaceQueueByNameAsync(string ticket, string name) {
+            this.GetOrCreatePlaceQueueByNameAsync(ticket, name, null);
+        }
+        
+        /// <remarks/>
+        public void GetOrCreatePlaceQueueByNameAsync(string ticket, string name, object userState) {
+            if ((this.GetOrCreatePlaceQueueByNameOperationCompleted == null)) {
+                this.GetOrCreatePlaceQueueByNameOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetOrCreatePlaceQueueByNameOperationCompleted);
+            }
+            this.InvokeAsync("GetOrCreatePlaceQueueByName", new object[] {
+                        ticket,
+                        name}, this.GetOrCreatePlaceQueueByNameOperationCompleted, userState);
+        }
+        
+        private void OnGetOrCreatePlaceQueueByNameOperationCompleted(object arg) {
+            if ((this.GetOrCreatePlaceQueueByNameCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetOrCreatePlaceQueueByNameCompleted(this, new GetOrCreatePlaceQueueByNameCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetPlaceQueues", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitPlaceQueue[] GetPlaceQueues(string ticket, int id) {
+            object[] results = this.Invoke("GetPlaceQueues", new object[] {
+                        ticket,
+                        id});
+            return ((TransitPlaceQueue[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetPlaceQueuesAsync(string ticket, int id) {
+            this.GetPlaceQueuesAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetPlaceQueuesAsync(string ticket, int id, object userState) {
+            if ((this.GetPlaceQueuesOperationCompleted == null)) {
+                this.GetPlaceQueuesOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetPlaceQueuesOperationCompleted);
+            }
+            this.InvokeAsync("GetPlaceQueues", new object[] {
+                        ticket,
+                        id}, this.GetPlaceQueuesOperationCompleted, userState);
+        }
+        
+        private void OnGetPlaceQueuesOperationCompleted(object arg) {
+            if ((this.GetPlaceQueuesCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetPlaceQueuesCompleted(this, new GetPlaceQueuesCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/DeletePlaceQueue", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void DeletePlaceQueue(string ticket, int id) {
+            this.Invoke("DeletePlaceQueue", new object[] {
+                        ticket,
+                        id});
+        }
+        
+        /// <remarks/>
+        public void DeletePlaceQueueAsync(string ticket, int id) {
+            this.DeletePlaceQueueAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void DeletePlaceQueueAsync(string ticket, int id, object userState) {
+            if ((this.DeletePlaceQueueOperationCompleted == null)) {
+                this.DeletePlaceQueueOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDeletePlaceQueueOperationCompleted);
+            }
+            this.InvokeAsync("DeletePlaceQueue", new object[] {
+                        ticket,
+                        id}, this.DeletePlaceQueueOperationCompleted, userState);
+        }
+        
+        private void OnDeletePlaceQueueOperationCompleted(object arg) {
+            if ((this.DeletePlaceQueueCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.DeletePlaceQueueCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/CreateOrUpdatePlaceQueueItem", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int CreateOrUpdatePlaceQueueItem(string ticket, TransitPlaceQueueItem queueitem) {
+            object[] results = this.Invoke("CreateOrUpdatePlaceQueueItem", new object[] {
+                        ticket,
+                        queueitem});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void CreateOrUpdatePlaceQueueItemAsync(string ticket, TransitPlaceQueueItem queueitem) {
+            this.CreateOrUpdatePlaceQueueItemAsync(ticket, queueitem, null);
+        }
+        
+        /// <remarks/>
+        public void CreateOrUpdatePlaceQueueItemAsync(string ticket, TransitPlaceQueueItem queueitem, object userState) {
+            if ((this.CreateOrUpdatePlaceQueueItemOperationCompleted == null)) {
+                this.CreateOrUpdatePlaceQueueItemOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCreateOrUpdatePlaceQueueItemOperationCompleted);
+            }
+            this.InvokeAsync("CreateOrUpdatePlaceQueueItem", new object[] {
+                        ticket,
+                        queueitem}, this.CreateOrUpdatePlaceQueueItemOperationCompleted, userState);
+        }
+        
+        private void OnCreateOrUpdatePlaceQueueItemOperationCompleted(object arg) {
+            if ((this.CreateOrUpdatePlaceQueueItemCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.CreateOrUpdatePlaceQueueItemCompleted(this, new CreateOrUpdatePlaceQueueItemCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetPlaceQueueItemById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitPlaceQueueItem GetPlaceQueueItemById(string ticket, int id) {
+            object[] results = this.Invoke("GetPlaceQueueItemById", new object[] {
+                        ticket,
+                        id});
+            return ((TransitPlaceQueueItem)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetPlaceQueueItemByIdAsync(string ticket, int id) {
+            this.GetPlaceQueueItemByIdAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetPlaceQueueItemByIdAsync(string ticket, int id, object userState) {
+            if ((this.GetPlaceQueueItemByIdOperationCompleted == null)) {
+                this.GetPlaceQueueItemByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetPlaceQueueItemByIdOperationCompleted);
+            }
+            this.InvokeAsync("GetPlaceQueueItemById", new object[] {
+                        ticket,
+                        id}, this.GetPlaceQueueItemByIdOperationCompleted, userState);
+        }
+        
+        private void OnGetPlaceQueueItemByIdOperationCompleted(object arg) {
+            if ((this.GetPlaceQueueItemByIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetPlaceQueueItemByIdCompleted(this, new GetPlaceQueueItemByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetPlaceQueueItems", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitPlaceQueueItem[] GetPlaceQueueItems(string ticket, int id, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetPlaceQueueItems", new object[] {
+                        ticket,
+                        id,
+                        options});
+            return ((TransitPlaceQueueItem[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetPlaceQueueItemsAsync(string ticket, int id, ServiceQueryOptions options) {
+            this.GetPlaceQueueItemsAsync(ticket, id, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetPlaceQueueItemsAsync(string ticket, int id, ServiceQueryOptions options, object userState) {
+            if ((this.GetPlaceQueueItemsOperationCompleted == null)) {
+                this.GetPlaceQueueItemsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetPlaceQueueItemsOperationCompleted);
+            }
+            this.InvokeAsync("GetPlaceQueueItems", new object[] {
+                        ticket,
+                        id,
+                        options}, this.GetPlaceQueueItemsOperationCompleted, userState);
+        }
+        
+        private void OnGetPlaceQueueItemsOperationCompleted(object arg) {
+            if ((this.GetPlaceQueueItemsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetPlaceQueueItemsCompleted(this, new GetPlaceQueueItemsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetPlaceQueueItemsCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetPlaceQueueItemsCount(string ticket, int id) {
+            object[] results = this.Invoke("GetPlaceQueueItemsCount", new object[] {
+                        ticket,
+                        id});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetPlaceQueueItemsCountAsync(string ticket, int id) {
+            this.GetPlaceQueueItemsCountAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetPlaceQueueItemsCountAsync(string ticket, int id, object userState) {
+            if ((this.GetPlaceQueueItemsCountOperationCompleted == null)) {
+                this.GetPlaceQueueItemsCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetPlaceQueueItemsCountOperationCompleted);
+            }
+            this.InvokeAsync("GetPlaceQueueItemsCount", new object[] {
+                        ticket,
+                        id}, this.GetPlaceQueueItemsCountOperationCompleted, userState);
+        }
+        
+        private void OnGetPlaceQueueItemsCountOperationCompleted(object arg) {
+            if ((this.GetPlaceQueueItemsCountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetPlaceQueueItemsCountCompleted(this, new GetPlaceQueueItemsCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/DeletePlaceQueueItem", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void DeletePlaceQueueItem(string ticket, int id) {
+            this.Invoke("DeletePlaceQueueItem", new object[] {
+                        ticket,
+                        id});
+        }
+        
+        /// <remarks/>
+        public void DeletePlaceQueueItemAsync(string ticket, int id) {
+            this.DeletePlaceQueueItemAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void DeletePlaceQueueItemAsync(string ticket, int id, object userState) {
+            if ((this.DeletePlaceQueueItemOperationCompleted == null)) {
+                this.DeletePlaceQueueItemOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDeletePlaceQueueItemOperationCompleted);
+            }
+            this.InvokeAsync("DeletePlaceQueueItem", new object[] {
+                        ticket,
+                        id}, this.DeletePlaceQueueItemOperationCompleted, userState);
+        }
+        
+        private void OnDeletePlaceQueueItemOperationCompleted(object arg) {
+            if ((this.DeletePlaceQueueItemCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.DeletePlaceQueueItemCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetFriendsPlaceQueueItemsCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetFriendsPlaceQueueItemsCount(string ticket) {
+            object[] results = this.Invoke("GetFriendsPlaceQueueItemsCount", new object[] {
+                        ticket});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetFriendsPlaceQueueItemsCountAsync(string ticket) {
+            this.GetFriendsPlaceQueueItemsCountAsync(ticket, null);
+        }
+        
+        /// <remarks/>
+        public void GetFriendsPlaceQueueItemsCountAsync(string ticket, object userState) {
+            if ((this.GetFriendsPlaceQueueItemsCountOperationCompleted == null)) {
+                this.GetFriendsPlaceQueueItemsCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetFriendsPlaceQueueItemsCountOperationCompleted);
+            }
+            this.InvokeAsync("GetFriendsPlaceQueueItemsCount", new object[] {
+                        ticket}, this.GetFriendsPlaceQueueItemsCountOperationCompleted, userState);
+        }
+        
+        private void OnGetFriendsPlaceQueueItemsCountOperationCompleted(object arg) {
+            if ((this.GetFriendsPlaceQueueItemsCountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetFriendsPlaceQueueItemsCountCompleted(this, new GetFriendsPlaceQueueItemsCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetFriendsPlaceQueueItems", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitFriendsPlaceQueueItem[] GetFriendsPlaceQueueItems(string ticket, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetFriendsPlaceQueueItems", new object[] {
+                        ticket,
+                        options});
+            return ((TransitFriendsPlaceQueueItem[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetFriendsPlaceQueueItemsAsync(string ticket, ServiceQueryOptions options) {
+            this.GetFriendsPlaceQueueItemsAsync(ticket, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetFriendsPlaceQueueItemsAsync(string ticket, ServiceQueryOptions options, object userState) {
+            if ((this.GetFriendsPlaceQueueItemsOperationCompleted == null)) {
+                this.GetFriendsPlaceQueueItemsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetFriendsPlaceQueueItemsOperationCompleted);
+            }
+            this.InvokeAsync("GetFriendsPlaceQueueItems", new object[] {
+                        ticket,
+                        options}, this.GetFriendsPlaceQueueItemsOperationCompleted, userState);
+        }
+        
+        private void OnGetFriendsPlaceQueueItemsOperationCompleted(object arg) {
+            if ((this.GetFriendsPlaceQueueItemsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetFriendsPlaceQueueItemsCompleted(this, new GetFriendsPlaceQueueItemsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetPlaceNeighborhoods", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitDistinctPlaceNeighborhood[] GetPlaceNeighborhoods(string country, string state, string city, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetPlaceNeighborhoods", new object[] {
+                        country,
+                        state,
+                        city,
+                        options});
+            return ((TransitDistinctPlaceNeighborhood[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetPlaceNeighborhoodsAsync(string country, string state, string city, ServiceQueryOptions options) {
+            this.GetPlaceNeighborhoodsAsync(country, state, city, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetPlaceNeighborhoodsAsync(string country, string state, string city, ServiceQueryOptions options, object userState) {
+            if ((this.GetPlaceNeighborhoodsOperationCompleted == null)) {
+                this.GetPlaceNeighborhoodsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetPlaceNeighborhoodsOperationCompleted);
+            }
+            this.InvokeAsync("GetPlaceNeighborhoods", new object[] {
+                        country,
+                        state,
+                        city,
+                        options}, this.GetPlaceNeighborhoodsOperationCompleted, userState);
+        }
+        
+        private void OnGetPlaceNeighborhoodsOperationCompleted(object arg) {
+            if ((this.GetPlaceNeighborhoodsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetPlaceNeighborhoodsCompleted(this, new GetPlaceNeighborhoodsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -2924,6 +3430,10 @@ namespace SnCore.Web.Tests.SnCore.WebServices {
     }
     
     /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitDistinctPlaceNeighborhood))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitFriendsPlaceQueueItem))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitPlaceQueueItem))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitPlaceQueue))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAttribute))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitPlaceAttribute))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitPlacePropertyValue))]
@@ -3044,6 +3554,8 @@ namespace SnCore.Web.Tests.SnCore.WebServices {
         
         private string cityField;
         
+        private string neighborhoodField;
+        
         private string nameField;
         
         private string typeField;
@@ -3099,6 +3611,16 @@ namespace SnCore.Web.Tests.SnCore.WebServices {
             }
             set {
                 this.cityField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Neighborhood {
+            get {
+                return this.neighborhoodField;
+            }
+            set {
+                this.neighborhoodField = value;
             }
         }
         
@@ -3191,6 +3713,222 @@ namespace SnCore.Web.Tests.SnCore.WebServices {
             }
             set {
                 this.totalField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitDistinctPlaceNeighborhood : TransitService {
+        
+        private string nameField;
+        
+        private int countField;
+        
+        /// <remarks/>
+        public string Name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int Count {
+            get {
+                return this.countField;
+            }
+            set {
+                this.countField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitFriendsPlaceQueueItem : TransitService {
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitPlaceQueueItem : TransitService {
+        
+        private int placeIdField;
+        
+        private int placeQueueIdField;
+        
+        private System.DateTime createdField;
+        
+        private System.DateTime updatedField;
+        
+        /// <remarks/>
+        public int PlaceId {
+            get {
+                return this.placeIdField;
+            }
+            set {
+                this.placeIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int PlaceQueueId {
+            get {
+                return this.placeQueueIdField;
+            }
+            set {
+                this.placeQueueIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Created {
+            get {
+                return this.createdField;
+            }
+            set {
+                this.createdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Updated {
+            get {
+                return this.updatedField;
+            }
+            set {
+                this.updatedField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitPlaceQueue : TransitService {
+        
+        private string nameField;
+        
+        private string descriptionField;
+        
+        private System.DateTime createdField;
+        
+        private System.DateTime modifiedField;
+        
+        private int accountIdField;
+        
+        private int accountPictureIdField;
+        
+        private string accountNameField;
+        
+        private bool publishAllField;
+        
+        private bool publishFriendsField;
+        
+        /// <remarks/>
+        public string Name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Created {
+            get {
+                return this.createdField;
+            }
+            set {
+                this.createdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Modified {
+            get {
+                return this.modifiedField;
+            }
+            set {
+                this.modifiedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int AccountId {
+            get {
+                return this.accountIdField;
+            }
+            set {
+                this.accountIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int AccountPictureId {
+            get {
+                return this.accountPictureIdField;
+            }
+            set {
+                this.accountPictureIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string AccountName {
+            get {
+                return this.accountNameField;
+            }
+            set {
+                this.accountNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool PublishAll {
+            get {
+                return this.publishAllField;
+            }
+            set {
+                this.publishAllField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool PublishFriends {
+            get {
+                return this.publishFriendsField;
+            }
+            set {
+                this.publishFriendsField = value;
             }
         }
     }
@@ -3444,6 +4182,8 @@ namespace SnCore.Web.Tests.SnCore.WebServices {
         
         private string defaultValueField;
         
+        private string placePropertyGroupNameField;
+        
         private int placePropertyGroupIdField;
         
         /// <remarks/>
@@ -3493,6 +4233,16 @@ namespace SnCore.Web.Tests.SnCore.WebServices {
             }
             set {
                 this.defaultValueField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string PlacePropertyGroupName {
+            get {
+                return this.placePropertyGroupNameField;
+            }
+            set {
+                this.placePropertyGroupNameField = value;
             }
         }
         
@@ -4113,6 +4863,10 @@ namespace SnCore.Web.Tests.SnCore.WebServices {
         
         private TransitCounter counterField;
         
+        private int accountIdField;
+        
+        private string accountNameField;
+        
         /// <remarks/>
         public string Name {
             get {
@@ -4180,6 +4934,26 @@ namespace SnCore.Web.Tests.SnCore.WebServices {
             }
             set {
                 this.counterField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int AccountId {
+            get {
+                return this.accountIdField;
+            }
+            set {
+                this.accountIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string AccountName {
+            get {
+                return this.accountNameField;
+            }
+            set {
+                this.accountNameField = value;
             }
         }
     }
@@ -4259,6 +5033,8 @@ namespace SnCore.Web.Tests.SnCore.WebServices {
         private string emailField;
         
         private string websiteField;
+        
+        private string neighborhoodField;
         
         private string cityField;
         
@@ -4387,6 +5163,16 @@ namespace SnCore.Web.Tests.SnCore.WebServices {
             }
             set {
                 this.websiteField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Neighborhood {
+            get {
+                return this.neighborhoodField;
+            }
+            set {
+                this.neighborhoodField = value;
             }
         }
         
@@ -6209,6 +6995,326 @@ namespace SnCore.Web.Tests.SnCore.WebServices {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((TransitPlace[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void CreateOrUpdatePlaceQueueCompletedEventHandler(object sender, CreateOrUpdatePlaceQueueCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class CreateOrUpdatePlaceQueueCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal CreateOrUpdatePlaceQueueCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetPlaceQueueByIdCompletedEventHandler(object sender, GetPlaceQueueByIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetPlaceQueueByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetPlaceQueueByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitPlaceQueue Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitPlaceQueue)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetPlaceQueueByNameCompletedEventHandler(object sender, GetPlaceQueueByNameCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetPlaceQueueByNameCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetPlaceQueueByNameCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitPlaceQueue Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitPlaceQueue)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetOrCreatePlaceQueueByNameCompletedEventHandler(object sender, GetOrCreatePlaceQueueByNameCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetOrCreatePlaceQueueByNameCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetOrCreatePlaceQueueByNameCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitPlaceQueue Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitPlaceQueue)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetPlaceQueuesCompletedEventHandler(object sender, GetPlaceQueuesCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetPlaceQueuesCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetPlaceQueuesCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitPlaceQueue[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitPlaceQueue[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void DeletePlaceQueueCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void CreateOrUpdatePlaceQueueItemCompletedEventHandler(object sender, CreateOrUpdatePlaceQueueItemCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class CreateOrUpdatePlaceQueueItemCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal CreateOrUpdatePlaceQueueItemCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetPlaceQueueItemByIdCompletedEventHandler(object sender, GetPlaceQueueItemByIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetPlaceQueueItemByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetPlaceQueueItemByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitPlaceQueueItem Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitPlaceQueueItem)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetPlaceQueueItemsCompletedEventHandler(object sender, GetPlaceQueueItemsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetPlaceQueueItemsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetPlaceQueueItemsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitPlaceQueueItem[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitPlaceQueueItem[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetPlaceQueueItemsCountCompletedEventHandler(object sender, GetPlaceQueueItemsCountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetPlaceQueueItemsCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetPlaceQueueItemsCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void DeletePlaceQueueItemCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetFriendsPlaceQueueItemsCountCompletedEventHandler(object sender, GetFriendsPlaceQueueItemsCountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetFriendsPlaceQueueItemsCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetFriendsPlaceQueueItemsCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetFriendsPlaceQueueItemsCompletedEventHandler(object sender, GetFriendsPlaceQueueItemsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetFriendsPlaceQueueItemsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetFriendsPlaceQueueItemsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitFriendsPlaceQueueItem[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitFriendsPlaceQueueItem[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetPlaceNeighborhoodsCompletedEventHandler(object sender, GetPlaceNeighborhoodsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetPlaceNeighborhoodsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetPlaceNeighborhoodsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitDistinctPlaceNeighborhood[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitDistinctPlaceNeighborhood[])(this.results[0]));
             }
         }
     }

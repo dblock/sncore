@@ -39,6 +39,7 @@ using System;
         private System.Collections.IList m_PlacePropertyValues;
         private System.Collections.IList m_PlaceAttributes;
         private System.Collections.IList m_PlaceQueueItems;
+        private Neighborhood m_Neighborhood;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -702,6 +703,33 @@ using System;
             set
             {
                 m_PlaceQueueItems = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent one-many reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts references to objects of the type 'Neighborhood'.
+        ///This property is part of a 'OneToMany' relationship.
+        ///The inverse property for this property is 'Neighborhood.Places'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Neighborhood' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Neighborhood_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  Neighborhood Neighborhood
+        {
+            get
+            {
+                return m_Neighborhood;
+            }
+            set
+            {
+                m_Neighborhood = value;
             }
         }
 

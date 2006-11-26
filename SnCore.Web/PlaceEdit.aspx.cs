@@ -14,16 +14,16 @@ using SnCore.WebServices;
 
 public partial class PlaceEdit : AuthenticatedPage
 {
-    private LocationSelectorCountryStateCityText mLocationSelector = null;
+    private LocationSelectorCountryStateCityNeighborhoodText mLocationSelector = null;
 
-    public LocationSelectorCountryStateCityText LocationSelector
+    public LocationSelectorCountryStateCityNeighborhoodText LocationSelector
     {
         get
         {
             if (mLocationSelector == null)
             {
-                mLocationSelector = new LocationSelectorCountryStateCityText(
-                    this, false, inputCountry, inputState, inputCity);
+                mLocationSelector = new LocationSelectorCountryStateCityNeighborhoodText(
+                    this, false, inputCountry, inputState, inputCity, inputNeighborhood);
             }
 
             return mLocationSelector;
@@ -139,6 +139,7 @@ public partial class PlaceEdit : AuthenticatedPage
             t.Website = inputWebsite.Text;
             t.Zip = inputZip.Text;
             t.City = inputCity.Text;
+            t.Neighborhood = inputNeighborhood.Text;
             t.State = inputState.SelectedValue;
             t.Country = inputCountry.SelectedValue;
             int place_id = PlaceService.CreateOrUpdatePlace(SessionManager.Ticket, t);

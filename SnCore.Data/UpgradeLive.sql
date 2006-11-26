@@ -42,13 +42,15 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[PlacePicture]') AND name = N'Account_Id') 
 ALTER TABLE dbo.PlacePicture ADD [Account_Id] int NOT NULL DEFAULT 0
 GO
-
 UPDATE dbo.PlacePicture SET [Account_Id] = dbo.Place.Account_Id 
 FROM dbo.Place WHERE dbo.Place.Place_Id = dbo.PlacePicture.Place_Id
 AND dbo.PlacePicture.Account_Id = 0
 GO
-
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PlacePicture_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlacePicture]'))
 ALTER TABLE [dbo].[PlacePicture] WITH CHECK ADD CONSTRAINT [FK_PlacePicture_Account] FOREIGN KEY([Account_Id])
 REFERENCES [dbo].[Account] ([Account_Id])
+GO
+-- add a neighborhood to places
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[Place]') AND name = N'Neighborhood_Id') 
+ALTER TABLE dbo.Place ADD [Neighborhood_Id] int NULL
 GO

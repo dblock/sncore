@@ -49,7 +49,8 @@ public partial class AccountsView : AccountPersonPage
             {
                 ArrayList countries = new ArrayList();
                 countries.Add(new TransitCountry());
-                countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(LocationService, "GetCountries", null));
+                object[] c_args = { null };
+                countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(LocationService, "GetCountries", c_args));
 
                 ArrayList states = new ArrayList();
                 states.Add(new TransitState());

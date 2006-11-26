@@ -11,7 +11,7 @@
     <tr>
      <td>
       <div class="sncore_h2">
-       <asp:Label id="title" runat="server" />
+       <asp:Label id="titlePlacesByProperty" runat="server" />
       </div>
       <div class="sncore_h2sub">
        <asp:HyperLink ID="linkAll" runat="server" NavigateUrl="PlacesView.aspx" Text="&#187; All Places" />

@@ -290,6 +290,9 @@
     <Compile Include="MadLibInstance.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Neighborhood.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Picture.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -435,6 +438,7 @@
     <EmbeddedResource Include="FeedType.hbm.xml" />
     <EmbeddedResource Include="MadLib.hbm.xml" />
     <EmbeddedResource Include="MadLibInstance.hbm.xml" />
+    <EmbeddedResource Include="Neighborhood.hbm.xml" />
     <EmbeddedResource Include="Picture.hbm.xml" />
     <EmbeddedResource Include="PictureType.hbm.xml" />
     <EmbeddedResource Include="Place.hbm.xml" />

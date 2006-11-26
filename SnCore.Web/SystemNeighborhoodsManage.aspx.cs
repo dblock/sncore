@@ -10,7 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.WebServices;
 
-public partial class SystemCitiesManage : AuthenticatedPage
+public partial class SystemNeighborhoodsManage : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
@@ -29,20 +29,27 @@ public partial class SystemCitiesManage : AuthenticatedPage
         }
     }
 
-    public void GetData(object sender, EventArgs e)
+    void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = LocationService.GetCitiesCount();
-        gridManage_OnGetDataSource(sender, e);
+        gridManage.VirtualItemCount = LocationService.GetNeighborhoodsCount();
+        gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        ServiceQueryOptions options = new ServiceQueryOptions();
-        options.PageNumber = gridManage.CurrentPageIndex;
-        options.PageSize = gridManage.PageSize;
-        gridManage.DataSource = LocationService.GetCities(options);
+        try
+        {
+            ServiceQueryOptions options = new ServiceQueryOptions();
+            options.PageNumber = gridManage.CurrentPageIndex;
+            options.PageSize = gridManage.PageSize;
+            gridManage.DataSource = LocationService.GetNeighborhoods(options);
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
     }
 
     private enum Cells
@@ -65,11 +72,9 @@ public partial class SystemCitiesManage : AuthenticatedPage
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            LocationService.DeleteCity(SessionManager.Ticket, id);
-                            ReportInfo("City deleted.");
-                            gridManage.CurrentPageIndex = 0;
-                            gridManage_OnGetDataSource(source, e);
-                            gridManage.DataBind();
+                            LocationService.DeleteNeighborhood(SessionManager.Ticket, id);
+                            ReportInfo("Neighborhood deleted.");
+                            GetData(source, e);
                             break;
                     }
                     break;

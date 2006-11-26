@@ -90,7 +90,13 @@
     <None Include="Web References\SnCore.WebServices\TransitAccountPlaceType.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
+    <None Include="Web References\SnCore.WebServices\TransitDistinctPlaceNeighborhood.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
     <None Include="Web References\SnCore.WebServices\TransitDistinctPlacePropertyValue.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SnCore.WebServices\TransitFriendsPlaceQueueItem.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\SnCore.WebServices\TransitPlace.datasource">
@@ -118,6 +124,12 @@
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\SnCore.WebServices\TransitPlacePropertyValue.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SnCore.WebServices\TransitPlaceQueue.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SnCore.WebServices\TransitPlaceQueueItem.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\SnCore.WebServices\TransitPlaceType.datasource">

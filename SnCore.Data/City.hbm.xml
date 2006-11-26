@@ -12,5 +12,9 @@
     </bag>
     <many-to-one name="State" column="State_Id" class="State, SnCore.Data" />
     <property name="Tag" column="Tag" type="String" />
+    <bag lazy="true" name="Neighborhoods" inverse="true">
+      <key column="City_Id" />
+      <one-to-many class="Neighborhood, SnCore.Data" />
+    </bag>
   </class>
 </hibernate-mapping>
