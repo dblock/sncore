@@ -36,7 +36,7 @@ public partial class SystemCityEdit : AuthenticatedPage
                     inputTag.Text = tc.Tag;
                     inputCountry.Items.FindByValue(tc.Country).Selected = true;
                     inputCountry_SelectedIndexChanged(sender, e);
-                    inputState.Items.FindByValue(tc.State).Selected = true;
+                    if (! string.IsNullOrEmpty(tc.State)) inputState.Items.FindByValue(tc.State).Selected = true;
                 }
                 else
                 {
