@@ -228,4 +228,36 @@ public partial class PlaceEdit : AuthenticatedPage
     {
         panelCountryState.Update();
     }
+
+    public void linkLookup_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            panelLookup.Update();
+
+            if (string.IsNullOrEmpty(inputName.Text))
+            {
+                labelLookup.Text = "Please enter a name.";
+                return;
+            }
+
+            ServiceQueryOptions options = new ServiceQueryOptions();
+            options.PageNumber = 0;
+            options.PageSize = 10;
+            object[] args = { inputName.Text, options };
+            gridLookupPlaces.DataSource = SessionManager.GetCachedCollection<TransitPlace>(
+                PlaceService, "SearchPlaces", args);
+            gridLookupPlaces.DataBind();
+
+            if (gridLookupPlaces.Items.Count == 0)
+            {
+                labelLookup.Text = string.Format("No places matching '{0}'.",
+                    base.Render(inputName.Text));
+            }
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
 }

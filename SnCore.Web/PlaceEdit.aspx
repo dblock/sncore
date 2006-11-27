@@ -49,8 +49,49 @@
        <asp:TextBox CssClass="sncore_form_textbox" ID="inputName" runat="server" />
        <asp:RequiredFieldValidator ID="inputNameRequired" runat="server" ControlToValidate="inputName"
         CssClass="sncore_form_validator" ErrorMessage="name is required" Display="Dynamic" />
+       <asp:UpdatePanel id="panelLookupButton" runat="server" UpdateMode="Conditional">
+        <ContentTemplate>
+         <asp:LinkButton ID="linkLookup" Text="&#187; check duplicate" runat="server" CausesValidation="false"
+          CssClass="sncore_link" OnClick="linkLookup_Click" />
+        </ContentTemplate>
+       </asp:UpdatePanel>
       </td>
      </tr>
+    </table>
+    <asp:UpdatePanel id="panelLookup" runat="server" UpdateMode="Conditional">
+     <ContentTemplate>
+      <div style="color: red; font-weight: bold; font-size: smaller; margin-top: 2px; margin-bottom: 5px; text-align: center;">
+       <asp:Label EnableViewState="false" ID="labelLookup" runat="server" />
+      </div>
+      <asp:DataList RepeatColumns="2" CssClass="sncore_account_table" ID="gridLookupPlaces" runat="server">
+       <ItemStyle VerticalAlign="Top" CssClass="sncore_table_tr_td" Width="50%" />
+       <ItemTemplate>
+        <a href='PlaceView.aspx?id=<%# Eval("Id") %>' target="_blank">
+         <b><%# base.Render(Eval("Name")) %></b>
+        </a>
+        <div class="sncore_li_description">
+         <%# base.Render(Eval("Type")) %>
+        </div>
+        <div class="sncore_li_description">
+         <%# base.Render(Eval("Neighborhood")) %>
+        </div>
+        <div class="sncore_li_description">
+         <%# base.Render(Eval("Street")) %>
+         <%# base.Render(Eval("Zip")) %>
+         <%# base.Render(Eval("City")) %>
+        </div>
+        <div class="sncore_li_description">     
+         <%# base.Render(Eval("State")) %>
+         <%# base.Render(Eval("Country")) %>
+        </div>
+        <div class="sncore_li_description">
+         <%# base.Render(Eval("Phone")) %>
+        </div>
+       </ItemTemplate>
+      </asp:DataList>
+     </ContentTemplate>
+    </asp:UpdatePanel>
+    <table cellpadding="4" class="sncore_account_table" border="1">
      <tr>
       <td class="sncore_form_label">
        description:
