@@ -55,21 +55,21 @@
          <td class="sncore_table_tr_td">
           <asp:Label CssClass="sncore_place_name" ID="placeName" runat="server" />
           <div class="sncore_description">
-           <asp:Label ID="placeType" runat="server" />
+           <asp:HyperLink ID="placeType" runat="server" />
           </div>
           <div class="sncore_link">
            <div>
              <asp:Label ID="placeAddress" runat="server" />
            </div>
            <div>
-            <asp:Label ID="placeNeighborhood" runat="server" />
+            <asp:HyperLink ID="placeNeighborhood" runat="server" />
            </div>
            <div>
-            <asp:Label ID="placeCity" runat="server" />
-            <asp:Label ID="placeState" runat="server" />
+            <asp:HyperLink ID="placeCity" runat="server" />
+            <asp:HyperLink ID="placeState" runat="server" />
            </div>
            <div>
-            <asp:Label ID="placeCountry" runat="server" />
+            <asp:HyperLink ID="placeCountry" runat="server" />
             <asp:Label ID="placeZip" runat="server" />
            </div>
            <div>
@@ -118,7 +118,7 @@
             <asp:HyperLink id="linkManagePictures" runat="server" Text="&#187; Upload a Picture" />
            </div>
            <div>
-            <asp:HyperLink id="linkClaimOwnership" runat="server" Text="&#187; Claim Ownership" />
+            <asp:HyperLink id="linkClaimOwnership" runat="server" Text="&#187; I Run this Business" />
            </div>
            <asp:Panel ID="panelAdmin" runat="server">
             <div>

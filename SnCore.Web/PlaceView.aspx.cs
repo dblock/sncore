@@ -176,30 +176,35 @@ public partial class PlaceView : Page
                         Renderer.Render(place.City),
                         Renderer.Render(SessionManager.GetCachedConfiguration("SnCore.Title", "SnCore")));
 
-                    linkType.NavigateUrl = string.Format("PlacesView.aspx?city={0}&state={1}&country={2}&neighborhood={3}&type={4}",
-                        Renderer.UrlEncode(place.City),
-                        Renderer.UrlEncode(place.State),
-                        Renderer.UrlEncode(place.Country),                        
-                        Renderer.UrlEncode(place.Neighborhood),
-                        Renderer.UrlEncode(place.Type));
+                    placeType.NavigateUrl = linkType.NavigateUrl = 
+                        string.Format("PlacesView.aspx?city={0}&state={1}&country={2}&neighborhood={3}&type={4}",
+                            Renderer.UrlEncode(place.City),
+                            Renderer.UrlEncode(place.State),
+                            Renderer.UrlEncode(place.Country),                        
+                            Renderer.UrlEncode(place.Neighborhood),
+                            Renderer.UrlEncode(place.Type));
 
-                    linkNeighborhood.NavigateUrl = string.Format("PlacesView.aspx?city={0}&state={1}&country={2}&neighborhood={3}",
-                        Renderer.UrlEncode(place.City),
-                        Renderer.UrlEncode(place.State),
-                        Renderer.UrlEncode(place.Country),
-                        Renderer.UrlEncode(place.Neighborhood));
+                    placeNeighborhood.NavigateUrl = linkNeighborhood.NavigateUrl = 
+                        string.Format("PlacesView.aspx?city={0}&state={1}&country={2}&neighborhood={3}",
+                            Renderer.UrlEncode(place.City),
+                            Renderer.UrlEncode(place.State),
+                            Renderer.UrlEncode(place.Country),
+                            Renderer.UrlEncode(place.Neighborhood));
 
-                    linkCity.NavigateUrl = string.Format("PlacesView.aspx?city={0}&state={1}&country={2}",
-                        Renderer.UrlEncode(place.City),
-                        Renderer.UrlEncode(place.State),
-                        Renderer.UrlEncode(place.Country));
+                    placeCity.NavigateUrl = linkCity.NavigateUrl = 
+                        string.Format("PlacesView.aspx?city={0}&state={1}&country={2}",
+                            Renderer.UrlEncode(place.City),
+                            Renderer.UrlEncode(place.State),
+                            Renderer.UrlEncode(place.Country));
 
-                    linkState.NavigateUrl = string.Format("PlacesView.aspx?state={0}&country={1}",
-                        Renderer.UrlEncode(place.State),
-                        Renderer.UrlEncode(place.Country));
+                    placeState.NavigateUrl = linkState.NavigateUrl = 
+                        string.Format("PlacesView.aspx?state={0}&country={1}",
+                            Renderer.UrlEncode(place.State),
+                            Renderer.UrlEncode(place.Country));
 
-                    linkCountry.NavigateUrl = string.Format("PlacesView.aspx?country={0}",
-                        Renderer.UrlEncode(place.Country));
+                    placeCountry.NavigateUrl = linkCountry.NavigateUrl = 
+                        string.Format("PlacesView.aspx?country={0}",
+                            Renderer.UrlEncode(place.Country));
 
                     linkDirections.HRef = DrivingDirectionsUrl;
 

@@ -42,6 +42,15 @@ public partial class PlacesRss : Page
         }
     }
 
+    public string Neighborhood
+    {
+        get
+        {
+            object o = Request.QueryString["neighborhood"];
+            return (o == null ? string.Empty : o.ToString());
+        }
+    }
+
     public string City
     {
         get
@@ -96,6 +105,7 @@ public partial class PlacesRss : Page
                 TransitPlaceQueryOptions options = new TransitPlaceQueryOptions();
                 options.SortAscending = Ascending;
                 options.SortOrder = SortOrder;
+                options.Neighborhood = Neighborhood;
                 options.City = City;
                 options.Country = Country;
                 options.State = State;

@@ -175,6 +175,20 @@ namespace SnCore.Services
             }
         }
 
+        private string mPlaceNeighborhood;
+
+        public string PlaceNeighborhood
+        {
+            get
+            {
+                return mPlaceNeighborhood;
+            }
+            set
+            {
+                mPlaceNeighborhood = value;
+            }
+        }
+
         private string mPlaceCity;
 
         public string PlaceCity
@@ -448,7 +462,7 @@ namespace SnCore.Services
                 throw new Exception(string.Format("Orphaned schedule instance {0}.", si.Id));
             }
 
-            AccountEvent evt = (AccountEvent) si.Schedule.AccountEvents[0];
+            AccountEvent evt = (AccountEvent)si.Schedule.AccountEvents[0];
 
             AccountEventId = evt.Id;
             AccountEventType = evt.AccountEventType.Name;
@@ -463,6 +477,7 @@ namespace SnCore.Services
             if (evt.Place.City != null) PlaceCity = evt.Place.City.Name;
             if (evt.Place.City != null && evt.Place.City.Country != null) PlaceCountry = evt.Place.City.Country.Name;
             if (evt.Place.City != null && evt.Place.City.State != null) PlaceState = evt.Place.City.State.Name;
+            if (evt.Place.Neighborhood != null) PlaceNeighborhood = evt.Place.Neighborhood.Name;
             Name = evt.Name;
             Phone = evt.Phone;
             Email = evt.Email;

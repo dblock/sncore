@@ -36,6 +36,7 @@
     </a>
    </div>
    <div class="sncore_li_description">
+    <%# base.Render(Eval("PlaceNeighborhood")) %>
     <%# base.Render(Eval("PlaceCity")) %>
     <%# base.Render(Eval("PlaceState")) %>
     <%# base.Render(Eval("PlaceCountry")) %>

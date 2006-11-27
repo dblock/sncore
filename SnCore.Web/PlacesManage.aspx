@@ -39,6 +39,7 @@
       </asp:TemplateColumn>
       <asp:TemplateColumn HeaderText="Location">
        <itemtemplate>
+        <%# base.Render(Eval("Neighborhood")) %>,
         <%# base.Render(Eval("City")) %>,
         <%# base.Render(Eval("State")) %>,
         <%# base.Render(Eval("Country")) %>

@@ -47,6 +47,9 @@
        </a>
       </div>
       <div class="sncore_description">
+       <%# base.Render(Eval("Neighborhood")) %>
+      </div>
+      <div class="sncore_description">
        <%# base.Render(Eval("City")) %>
        <%# base.Render(Eval("State")) %>
       </div>

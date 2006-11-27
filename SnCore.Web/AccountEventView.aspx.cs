@@ -105,23 +105,27 @@ public partial class AccountEventView : Page
 
                     this.Title = Renderer.Render(evt.Name);
 
-                    linkType.NavigateUrl = string.Format("AccountEventsView.aspx?city={0}&state={1}&country={2}&type={3}",
-                        Renderer.UrlEncode(evt.PlaceCity),
-                        Renderer.UrlEncode(evt.PlaceState),
-                        Renderer.UrlEncode(evt.PlaceCountry),
-                        Renderer.UrlEncode(evt.AccountEventType));
+                    AccountEventType.NavigateUrl = linkType.NavigateUrl = 
+                        string.Format("AccountEventsView.aspx?city={0}&state={1}&country={2}&type={3}",
+                            Renderer.UrlEncode(evt.PlaceCity),
+                            Renderer.UrlEncode(evt.PlaceState),
+                            Renderer.UrlEncode(evt.PlaceCountry),
+                            Renderer.UrlEncode(evt.AccountEventType));
 
-                    linkCity.NavigateUrl = string.Format("AccountEventsView.aspx?city={0}&state={1}&country={2}",
-                        Renderer.UrlEncode(evt.PlaceCity),
-                        Renderer.UrlEncode(evt.PlaceState),
-                        Renderer.UrlEncode(evt.PlaceCountry));
+                    AccountEventCity.NavigateUrl = linkCity.NavigateUrl = 
+                        string.Format("AccountEventsView.aspx?city={0}&state={1}&country={2}",
+                            Renderer.UrlEncode(evt.PlaceCity),
+                            Renderer.UrlEncode(evt.PlaceState),
+                            Renderer.UrlEncode(evt.PlaceCountry));
 
-                    linkState.NavigateUrl = string.Format("AccountEventsView.aspx?state={0}&country={1}",
-                        Renderer.UrlEncode(evt.PlaceState),
-                        Renderer.UrlEncode(evt.PlaceCountry));
+                    AccountEventState.NavigateUrl = linkState.NavigateUrl = 
+                        string.Format("AccountEventsView.aspx?state={0}&country={1}",
+                            Renderer.UrlEncode(evt.PlaceState),
+                            Renderer.UrlEncode(evt.PlaceCountry));
 
-                    linkCountry.NavigateUrl = string.Format("AccountEventsView.aspx?country={0}",
-                        Renderer.UrlEncode(evt.PlaceCountry));
+                    AccountEventCountry.NavigateUrl = linkCountry.NavigateUrl = 
+                        string.Format("AccountEventsView.aspx?country={0}",
+                            Renderer.UrlEncode(evt.PlaceCountry));
 
                     labelDescription.Text = base.RenderEx(evt.Description);
                     panelDescription.Visible = !string.IsNullOrEmpty(labelDescription.Text);
@@ -170,6 +174,7 @@ public partial class AccountEventView : Page
                     TransitPlace pl = AccountEventPlace;
                     placeImage.Src = string.Format("PlacePictureThumbnail.aspx?id={0}", pl.PictureId);
                     placeLink2.HRef = placeLink.HRef = string.Format("PlaceView.aspx?id={0}", pl.Id);
+                    placeNeighborhood.Text = Renderer.Render(pl.Neighborhood);
                     placeName.Text = Renderer.Render(pl.Name);
                     placeCity.Text = Renderer.Render(pl.City);
                     placeState.Text = Renderer.Render(pl.State);

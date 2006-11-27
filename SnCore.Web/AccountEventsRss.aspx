@@ -38,6 +38,7 @@
              <%# base.Render(Eval("Schedule")) %>      
             </div>
             <div style="color: silver">
+             <%# base.Render(Eval("PlaceNeighborhood")) %>, 
              <%# base.Render(Eval("PlaceCity")) %>, 
              <%# base.Render(Eval("PlaceState")) %>, 
              <%# base.Render(Eval("PlaceCountry")) %>

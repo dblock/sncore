@@ -35,6 +35,9 @@
         <%# base.Render(Eval("Name")) %>
        </a>
        <div class="sncore_description">
+        <%# base.Render(Eval("Neighborhood")) %>
+       </div>
+       <div class="sncore_description">
         <%# base.Render(Eval("Street")) %>
         <%# base.Render(Eval("Zip")) %>
         <%# base.Render(Eval("City")) %>
@@ -83,6 +86,9 @@
         <asp:LinkButton runat="server" ID="lookupChoose2" CausesValidation="false" OnCommand="lookupChoose_Command"
          Text='&#187; choose' CommandArgument='<%# Eval("Id") %>' />
        </span>
+       <div class="sncore_li_description">
+        <%# base.Render(Eval("Neighborhood")) %>
+       </div>
        <div class="sncore_li_description">
         <%# base.Render(Eval("Street")) %>
         <%# base.Render(Eval("Zip")) %>

@@ -34,6 +34,9 @@
              </a>
             </div>
             <div style="color: silver">
+             <%# base.Render(Eval("Neighborhood")) %>, 
+            </div>
+            <div style="color: silver">
              <%# base.Render(Eval("City")) %>, 
              <%# base.Render(Eval("State")) %>, 
              <%# base.Render(Eval("Country")) %>

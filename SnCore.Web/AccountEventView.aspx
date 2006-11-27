@@ -41,25 +41,27 @@
       <tr>
        <td class="sncore_table_tr_td">
         <asp:Label CssClass="sncore_event_name" ID="AccountEventName" runat="server" />
-        <div>
-         <asp:Label ID="AccountEventType" CssClass="sncore_account_lastlogin" runat="server" />
+        <div class="sncore_description">
+         <asp:HyperLink ID="AccountEventType" runat="server" />
         </div>
-        <div>
-         <asp:Label ID="AccountEventCity" CssClass="sncore_event_location" runat="server" />
-         <asp:Label ID="AccountEventState" CssClass="sncore_event_location" runat="server" />
-        </div>
-        <div>
-         <asp:Label ID="AccountEventCountry" CssClass="sncore_event_location" runat="server" />
-        </div>
-        <div style="font-size: smaller;">
-         <asp:HyperLink ID="AccountEventWebsite" runat="server" />
-        </div>
-        <div style="font-size: smaller;">
-         <asp:Label ID="AccountEventPhone" runat="server" />
-         <asp:ImageButton Visible="False" ImageUrl="images/account/inbox.gif" ImageAlign="AbsMiddle" runat="server" ID="AccountEventEmail" />
-        </div>
-        <div style="font-size: smaller; font-weight: bold;">
-         <asp:Label ID="AccountEventCost" runat="server" />
+        <div class="sncore_link">
+         <div>
+          <asp:HyperLink ID="AccountEventCity" runat="server" />
+          <asp:HyperLink ID="AccountEventState" runat="server" />
+         </div>
+         <div>
+          <asp:HyperLink ID="AccountEventCountry" runat="server" />
+         </div>
+         <div>
+          <asp:HyperLink ID="AccountEventWebsite" runat="server" />
+         </div>
+         <div>
+          <asp:Label ID="AccountEventPhone" runat="server" />
+          <asp:ImageButton Visible="False" ImageUrl="images/account/inbox.gif" ImageAlign="AbsMiddle" runat="server" ID="AccountEventEmail" />
+         </div>
+         <div style="font-weight: bold;">
+          <asp:Label ID="AccountEventCost" runat="server" />
+         </div>
         </div>
        </td>
        <td class="sncore_table_tr_td" valign="top" align="right">
@@ -159,6 +161,7 @@
          <asp:Label ID="placeName" runat="server" />
         </a>
         <div class="sncore_description">
+         <asp:Label ID="placeNeighborhood" runat="server" />
          <asp:Label ID="placeCity" runat="server" />
          <asp:Label ID="placeState" runat="server" />
          <asp:Label ID="placeCountry" runat="server" />

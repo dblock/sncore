@@ -154,6 +154,7 @@
         <%# base.Render(Eval("Schedule")) %>      
        </div>
        <div class="sncore_description">
+        <%# base.Render(Eval("PlaceNeighborhood")) %>
         <%# base.Render(Eval("PlaceCity")) %>
         <%# base.Render(Eval("PlaceState")) %>
         <%# base.Render(Eval("PlaceCountry")) %>

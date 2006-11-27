@@ -30,6 +30,7 @@
    <div class="sncore_li_description">
     <%# base.Render(Eval("Street")) %>
     <%# base.Render(Eval("Zip")) %>
+    <%# base.Render(Eval("Neighborhood")) %>
     <%# base.Render(Eval("City")) %>
     <%# base.Render(Eval("State")) %>
     <%# base.Render(Eval("Country")) %>

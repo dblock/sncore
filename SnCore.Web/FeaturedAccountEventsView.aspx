@@ -51,6 +51,7 @@
       <%# base.Render(base.GetAccountEvent((int)Eval("DataRowId")).Schedule) %>
      </div>
      <div class="sncore_description">
+      <%# base.Render(base.GetAccountEvent((int)Eval("DataRowId")).PlaceNeighborhood) %>
       <%# base.Render(base.GetAccountEvent((int)Eval("DataRowId")).PlaceCity) %>
       <%# base.Render(base.GetAccountEvent((int)Eval("DataRowId")).PlaceState) %>
       <%# base.Render(base.GetAccountEvent((int)Eval("DataRowId")).PlaceCountry) %>

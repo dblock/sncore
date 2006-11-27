@@ -144,6 +144,20 @@ namespace SnCore.Services
             }
         }
 
+        private string mPlaceNeighborhood;
+
+        public string PlaceNeighborhood
+        {
+            get
+            {
+                return mPlaceNeighborhood;
+            }
+            set
+            {
+                mPlaceNeighborhood = value;
+            }
+        }
+
         private string mPlaceCity;
 
         public string PlaceCity
@@ -479,7 +493,7 @@ namespace SnCore.Services
             }
         }
 
-        private int mMonthlyExDayIndex = (int) DayIndex.first;
+        private int mMonthlyExDayIndex = (int)DayIndex.first;
 
         public int MonthlyExDayIndex
         {
@@ -694,6 +708,7 @@ namespace SnCore.Services
             if (o.Place.City != null) PlaceCity = o.Place.City.Name;
             if (o.Place.City != null && o.Place.City.Country != null) PlaceCountry = o.Place.City.Country.Name;
             if (o.Place.City != null && o.Place.City.State != null) PlaceState = o.Place.City.State.Name;
+            if (o.Place.Neighborhood != null) PlaceNeighborhood = o.Place.Neighborhood.Name;
             Name = o.Name;
             Phone = o.Phone;
             Email = o.Email;
@@ -835,7 +850,7 @@ namespace SnCore.Services
 
         public string ToVCalendarString()
         {
-            StringBuilder b = new StringBuilder();            
+            StringBuilder b = new StringBuilder();
             b.AppendLine("BEGIN:VCALENDAR");
             b.AppendLine("PRODID:-//Vestris Inc.//SnCore 1.0 MIME//EN");
             b.AppendLine("VERSION:2.0");
@@ -845,7 +860,7 @@ namespace SnCore.Services
             b.AppendLine(string.Format("UID:{0}", Id.ToString()));
 
             StringBuilder fb = new StringBuilder();
-            if (! mAccountEvent.Schedule.Endless)
+            if (!mAccountEvent.Schedule.Endless)
             {
                 fb.Append((mAccountEvent.Schedule.EndOccurrences > 0)
                     ? string.Format("COUNT={0};", mAccountEvent.Schedule.EndOccurrences)
@@ -863,7 +878,7 @@ namespace SnCore.Services
                 b.AppendLine(string.Format("DTEND:{0}", mAccountEvent.Schedule.EndDateTime.ToString(@"yyyyMMdd\THHmmss\Z")));
             }
 
-            switch ((RecurrencePattern) mAccountEvent.Schedule.RecurrencePattern)
+            switch ((RecurrencePattern)mAccountEvent.Schedule.RecurrencePattern)
             {
                 case RecurrencePattern.None:
                     break;
@@ -884,10 +899,10 @@ namespace SnCore.Services
                     StringBuilder wb = new StringBuilder();
                     for (int i = 0; i < 7; i++)
                     {
-                        if ((mAccountEvent.Schedule.WeeklyDaysOfWeek & (short) Math.Pow(2, i)) > 0)
+                        if ((mAccountEvent.Schedule.WeeklyDaysOfWeek & (short)Math.Pow(2, i)) > 0)
                         {
                             if (wb.Length > 0) wb.Append(",");
-                            wb.Append(((DayOfWeek) i).ToString().Substring(0, 2).ToUpper());
+                            wb.Append(((DayOfWeek)i).ToString().Substring(0, 2).ToUpper());
                         }
                     }
                     b.Append("BYDAY=");
@@ -897,7 +912,7 @@ namespace SnCore.Services
                 case RecurrencePattern.Monthly_DayNOfEveryNMonths:
                     b.Append("RRULE:FREQ=MONTHLY;");
                     b.Append(fb.ToString());
-                    b.AppendLine(string.Format("INTERVAL={1};BYMONTHDAY={0};WKST=SU", 
+                    b.AppendLine(string.Format("INTERVAL={1};BYMONTHDAY={0};WKST=SU",
                         mAccountEvent.Schedule.MonthlyDay, mAccountEvent.Schedule.MonthlyMonth));
                     break;
                 case RecurrencePattern.Monthly_NthWeekDayOfEveryNMonth:
@@ -964,9 +979,9 @@ namespace SnCore.Services
 
             b.AppendLine(string.Format("LOCATION;ENCODING=QUOTED-PRINTABLE:{0}", QuotedPrintable.Encode(mAccountEvent.Place.Name)));
             b.AppendLine(string.Format("SUMMARY;ENCODING=QUOTED-PRINTABLE:{0}", QuotedPrintable.Encode(mAccountEvent.Name)));
-            b.AppendLine(string.Format("DESCRIPTION;ENCODING=QUOTED-PRINTABLE:{0}", 
+            b.AppendLine(string.Format("DESCRIPTION;ENCODING=QUOTED-PRINTABLE:{0}",
                 QuotedPrintable.Encode(
-                    string.Format("{0}\r\n{1}/AccountEventView.aspx?id={2}", 
+                    string.Format("{0}\r\n{1}/AccountEventView.aspx?id={2}",
                         Renderer.RemoveHtml(mAccountEvent.Description),
                         ManagedConfiguration.GetValue(Session, "SnCore.WebSite.Url", "http://localhost/SnCore"),
                         mAccountEvent.Id))));
@@ -976,7 +991,7 @@ namespace SnCore.Services
                 b.AppendLine(string.Format("ORGANIZER:MAILTO:{0}", mAccountEvent.Email));
             }
             b.AppendLine("END:VEVENT");
-            b.AppendLine("END:VCALENDAR"); 
+            b.AppendLine("END:VCALENDAR");
             return b.ToString();
         }
     }

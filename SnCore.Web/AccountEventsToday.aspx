@@ -161,6 +161,7 @@
         Ends: <%# base.Adjust(Eval("EndDateTime")).ToString("f") %>
        </div>
        <div class="sncore_description">
+        <%# base.Render(Eval("PlaceNeighborhood")) %>
         <%# base.Render(Eval("PlaceCity")) %>
         <%# base.Render(Eval("PlaceState")) %>
         <%# base.Render(Eval("PlaceCountry")) %>
