@@ -137,7 +137,7 @@
            runat="server">
            <asp:ListItem Text="Sunday" Value="0" />
            <asp:ListItem Text="Monday" Value="1" />
-           <asp:ListItem Text="Tueday" Value="2" />
+           <asp:ListItem Text="Tuesday" Value="2" />
            <asp:ListItem Text="Wednesday" Value="3" />
            <asp:ListItem Text="Thursday" Value="4" />
            <asp:ListItem Text="Friday" Value="5" />
@@ -187,7 +187,7 @@
            runat="server">
            <asp:ListItem Text="Sunday" Value="0" />
            <asp:ListItem Text="Monday" Value="1" />
-           <asp:ListItem Text="Tueday" Value="2" />
+           <asp:ListItem Text="Tuesday" Value="2" />
            <asp:ListItem Text="Wednesday" Value="3" />
            <asp:ListItem Text="Thursday" Value="4" />
            <asp:ListItem Text="Friday" Value="5" />
