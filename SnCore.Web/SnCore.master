@@ -13,149 +13,139 @@
 <body>
  <!-- NOEMAIL-START -->
  <a name="form"></a>
- <form style="margin-top: 0px;" id="formMain" runat="server">
+ <form class="sncore_master_form" id="formMain" runat="server">
  <!-- NOEMAIL-END -->
-  <table class="sncore_master_table" align="center" cellpadding="2px" cellspacing="5px">
-   <tr>
-    <td valign="top">
-     <table class="sncore_master_content_table" cellpadding="0" cellspacing="0">
-      <tr>
-       <td colspan="2">
-        <a href="Default.aspx">
-         <img border="0" src="images/site/toplogo.jpg" alt="SnCore!" /></a>
-       </td>
-      </tr>
-      <tr>
-       <td valign="top" width="*" class="sncore_master_content_td">
-        <asp:Panel runat="server" ID="panelMain" CssClass="sncore_menu">
-         <SnCore:MenuItem runat="server" ID="menuHome" Text="home" NavigateUrl="Default.aspx" /><SnCore:MenuItem 
-          runat="server" ID="menuPeople" Text="people" NavigateUrl="AccountsView.aspx">
-          <Highlights>
-           <asp:ListItem>/Account.*View.aspx</asp:ListItem>
-          </Highlights>
-          <Downlights>
-           <asp:ListItem>/AccountStor.*View.aspx</asp:ListItem>
-           <asp:ListItem>/AccountFriendsView.aspx</asp:ListItem>
-           <asp:ListItem>/AccountFeed.*.aspx</asp:ListItem>
-           <asp:ListItem>/AccountBlog.*.aspx</asp:ListItem>
-           <asp:ListItem>/AccountEvent.*.aspx</asp:ListItem>
-          </Downlights>
-         </SnCore:MenuItem><SnCore:MenuItem 
-          runat="server" ID="menuFeeds" Text="blogs" NavigateUrl="AccountFeedItemsView.aspx">
-          <Highlights>
-           <asp:ListItem>/AccountFeed.*.aspx</asp:ListItem>
-           <asp:ListItem>/AccountBlog.*.aspx</asp:ListItem>
-          </Highlights>
-          <Downlights>
-           <asp:ListItem>/AccountFeedsManage.aspx</asp:ListItem>        
-           <asp:ListItem>/AccountFeedWizard.aspx</asp:ListItem>        
-          </Downlights>
-         </SnCore:MenuItem><SnCore:MenuItem 
-          runat="server" ID="menuPlaces" Text="places" NavigateUrl="PlacesView.aspx">
-          <Highlights>
-           <asp:ListItem>/Place.*aspx</asp:ListItem>
-          </Highlights>
-         </SnCore:MenuItem><SnCore:MenuItem 
-          runat="server" ID="menuEvents" Text="events" NavigateUrl="AccountEventsToday.aspx">
-          <Highlights>
-           <asp:ListItem>/AccountEvent.*</asp:ListItem>
-          </Highlights>
-          <Downlights>
-           <asp:ListItem>/AccountEventsManage.aspx</asp:ListItem>        
-           <asp:ListItem>/AccountEventEdit.aspx</asp:ListItem>
-          </Downlights>
-         </SnCore:MenuItem><SnCore:MenuItem 
-          runat="server" ID="menuDiscuss" Text="discuss" NavigateUrl="DiscussionsView.aspx">
-          <Highlights>
-           <asp:ListItem>/Discuss.*</asp:ListItem>
-          </Highlights>
-         </SnCore:MenuItem><SnCore:MenuItem 
-          runat="server" ID="menuLogin" Text="login" NavigateUrl="AccountLogin.aspx">
-          <Highlights>
-           <asp:ListItem>/AccountResetPassword.aspx</asp:ListItem>
-          </Highlights>
-         </SnCore:MenuItem><SnCore:MenuItem 
-          runat="server" ID="menuMe" Text="me me" NavigateUrl="AccountPreferencesManage.aspx">
-          <Downlights>
-           <asp:ListItem>/Account.*View.aspx</asp:ListItem>
-           <asp:ListItem>/Account.*Today.aspx</asp:ListItem>
-           <asp:ListItem>/AccountInvitationsManage.aspx</asp:ListItem>
-          </Downlights>
-          <Highlights>
-           <asp:ListItem>/Account.*</asp:ListItem>
-           <asp:ListItem>/System.*</asp:ListItem>
-          </Highlights>
-         </SnCore:MenuItem><SnCore:MenuItem 
-          runat="server" ID="menuInvite" CssClass="sncore_menu_item" Text="invite"
-          NavigateUrl="AccountInvitationsManage.aspx" /><asp:LinkButton 
-          runat="server" ID="menuLogout" Text="logout" CssClass="sncore_menu_item"
-          OnClick="menuLogout_Click" CausesValidation="false" /><SnCore:MenuItem 
-           runat="server"
-           ID="menuSignUp" CssClass="sncore_menu_item" Text="join" 
-           NavigateUrl="AccountCreate.aspx" /><SnCore:MenuItem 
-            runat="server" ID="menuHelp" Text="help" NavigateUrl="Help.aspx">
-          <Highlights>
-           <asp:ListItem>/About.aspx</asp:ListItem>
-           <asp:ListItem>/Bug.*</asp:ListItem>
-          </Highlights>
-         </SnCore:MenuItem>
-        </asp:Panel>
-       </td>
-       <td style="background-color: white; width: 16px; text-align: center;">
-        <!-- NOEMAIL-START -->
-        <asp:ScriptManager ID="scriptmanager1" EnablePartialRendering="true"
-         runat="Server" />
-        <div style="width: 16px;">
-         <asp:UpdateProgress DisplayAfter="1000" ID="menuProgress" runat="server">
-          <ProgressTemplate>
-           <img src="images/spinner.gif" width="16" height="16" alt="Working ..." />
-          </ProgressTemplate>
-         </asp:UpdateProgress>
-        </div>
-        <script language="JavaScript">
-        <!-- 
-         var visitortime = new Date();
-         if(visitortime) { document.cookie = "x-VisitorTimeZoneOffset=" + (-visitortime.getTimezoneOffset() / 60); }
-        // -->
-        </script>
-        <!-- NOEMAIL-END -->
-       </td>
-      </tr>
-      <tr>
-       <td colspan="2" class="sncore_master_content_td">
-        <!-- NOEMAIL-START -->
-        <asp:UpdatePanel UpdateMode="Always" runat="server" ID="panelNoticeMenu" RenderMode="Inline">
-         <ContentTemplate>
-          <SnCore:Notice ID="noticeMenu" EnableViewState="false" runat="server" />
-         </ContentTemplate>
-        </asp:UpdatePanel>
-        <!-- NOEMAIL-END -->
-        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
-        </asp:ContentPlaceHolder>
-       </td>
-      </tr>
-      <tr>
-       <td colspan="2" align="center" class="sncore_copyright">
-        <a href="CodeOfConduct.aspx">code of conduct</a> | 
-        <a href="PrivacyPolicy.aspx">privacy policy</a> | 
-        <a href="TermsOfUse.aspx">terms of use</a> | 
-        <a href="Help.aspx">about &amp; help</a> 
-        <br />
-        (c) 2006 Vestris Inc. - All Rights Reserved
-       </td>
-      </tr>
-     </table>
-    </td>
-    <!-- NOEMAIL-START -->
-    <td valign="top" width="100px">
-     <asp:Panel ID="panelAds" runat="server">
-     </asp:Panel>
-    </td>
-    <!-- NOEMAIL-END -->
-   </tr>
-  </table>
- <!-- NOEMAIL-START -->
+  <div class="sncore_master_top">
+   <a href="Default.aspx">
+    <img border="0" src="images/site/toplogo.jpg" alt="SnCore!" />
+   </a>
+  </div>
+  <div class="sncore_master_menu">
+   <table width="100%">
+    <tr>
+     <td width="*">
+      <asp:Panel runat="server" ID="panelMain" CssClass="sncore_menu">
+       <SnCore:MenuItem runat="server" ID="menuHome" Text="home" NavigateUrl="Default.aspx" /><SnCore:MenuItem 
+        runat="server" ID="menuPeople" Text="people" NavigateUrl="AccountsView.aspx">
+        <Highlights>
+         <asp:ListItem>/Account.*View.aspx</asp:ListItem>
+        </Highlights>
+        <Downlights>
+         <asp:ListItem>/AccountStor.*View.aspx</asp:ListItem>
+         <asp:ListItem>/AccountFriendsView.aspx</asp:ListItem>
+         <asp:ListItem>/AccountFeed.*.aspx</asp:ListItem>
+         <asp:ListItem>/AccountBlog.*.aspx</asp:ListItem>
+         <asp:ListItem>/AccountEvent.*.aspx</asp:ListItem>
+        </Downlights>
+       </SnCore:MenuItem><SnCore:MenuItem 
+        runat="server" ID="menuFeeds" Text="blogs" NavigateUrl="AccountFeedItemsView.aspx">
+        <Highlights>
+         <asp:ListItem>/AccountFeed.*.aspx</asp:ListItem>
+         <asp:ListItem>/AccountBlog.*.aspx</asp:ListItem>
+        </Highlights>
+        <Downlights>
+         <asp:ListItem>/AccountFeedsManage.aspx</asp:ListItem>        
+         <asp:ListItem>/AccountFeedWizard.aspx</asp:ListItem>        
+        </Downlights>
+       </SnCore:MenuItem><SnCore:MenuItem 
+        runat="server" ID="menuPlaces" Text="places" NavigateUrl="PlacesView.aspx">
+        <Highlights>
+         <asp:ListItem>/Place.*aspx</asp:ListItem>
+        </Highlights>
+       </SnCore:MenuItem><SnCore:MenuItem 
+        runat="server" ID="menuEvents" Text="events" NavigateUrl="AccountEventsToday.aspx">
+        <Highlights>
+         <asp:ListItem>/AccountEvent.*</asp:ListItem>
+        </Highlights>
+        <Downlights>
+         <asp:ListItem>/AccountEventsManage.aspx</asp:ListItem>        
+         <asp:ListItem>/AccountEventEdit.aspx</asp:ListItem>
+        </Downlights>
+       </SnCore:MenuItem><SnCore:MenuItem 
+        runat="server" ID="menuDiscuss" Text="discuss" NavigateUrl="DiscussionsView.aspx">
+        <Highlights>
+         <asp:ListItem>/Discuss.*</asp:ListItem>
+        </Highlights>
+       </SnCore:MenuItem><SnCore:MenuItem 
+        runat="server" ID="menuLogin" Text="login" NavigateUrl="AccountLogin.aspx">
+        <Highlights>
+         <asp:ListItem>/AccountResetPassword.aspx</asp:ListItem>
+        </Highlights>
+       </SnCore:MenuItem><SnCore:MenuItem 
+        runat="server" ID="menuMe" Text="me me" NavigateUrl="AccountPreferencesManage.aspx">
+        <Downlights>
+         <asp:ListItem>/Account.*View.aspx</asp:ListItem>
+         <asp:ListItem>/Account.*Today.aspx</asp:ListItem>
+         <asp:ListItem>/AccountInvitationsManage.aspx</asp:ListItem>
+        </Downlights>
+        <Highlights>
+         <asp:ListItem>/Account.*</asp:ListItem>
+         <asp:ListItem>/System.*</asp:ListItem>
+        </Highlights>
+       </SnCore:MenuItem><SnCore:MenuItem 
+        runat="server" ID="menuInvite" CssClass="sncore_menu_item" Text="invite"
+        NavigateUrl="AccountInvitationsManage.aspx" /><asp:LinkButton 
+        runat="server" ID="menuLogout" Text="logout" CssClass="sncore_menu_item"
+        OnClick="menuLogout_Click" CausesValidation="false" /><SnCore:MenuItem 
+         runat="server"
+         ID="menuSignUp" CssClass="sncore_menu_item" Text="join" 
+         NavigateUrl="AccountCreate.aspx" /><SnCore:MenuItem 
+          runat="server" ID="menuHelp" Text="help" NavigateUrl="Help.aspx">
+        <Highlights>
+         <asp:ListItem>/About.aspx</asp:ListItem>
+         <asp:ListItem>/Bug.*</asp:ListItem>
+        </Highlights>
+       </SnCore:MenuItem>
+      </asp:Panel>
+     </td>
+     <td width="16">
+      <!-- NOEMAIL-START -->
+      <asp:ScriptManager ID="scriptmanager1" EnablePartialRendering="true"
+       runat="Server" />
+      <div style="width: 16px;">
+       <asp:UpdateProgress DisplayAfter="1000" ID="menuProgress" runat="server">
+        <ProgressTemplate>
+         <img src="images/spinner.gif" width="16" height="16" alt="Working ..." />
+        </ProgressTemplate>
+       </asp:UpdateProgress>
+      </div>
+      <script language="JavaScript">
+      <!-- 
+       var visitortime = new Date();
+       if(visitortime) { document.cookie = "x-VisitorTimeZoneOffset=" + (-visitortime.getTimezoneOffset() / 60); }
+      // -->
+      </script>
+      <!-- NOEMAIL-END -->
+     </td>
+    </tr>
+   </table>
+  </div>
+  <div class="sncore_master_content" id="content">
+   <!-- NOEMAIL-START -->
+   <asp:UpdatePanel UpdateMode="Always" runat="server" ID="panelNoticeMenu" RenderMode="Inline">
+    <ContentTemplate>
+     <SnCore:Notice ID="noticeMenu" EnableViewState="false" runat="server" />
+    </ContentTemplate>
+   </asp:UpdatePanel>
+   <!-- NOEMAIL-END -->
+   <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+   </asp:ContentPlaceHolder>
+  </div>
+  <div class="sncore_master_footer">
+   <a href="CodeOfConduct.aspx">code of conduct</a> | 
+   <a href="PrivacyPolicy.aspx">privacy policy</a> | 
+   <a href="TermsOfUse.aspx">terms of use</a> | 
+   <a href="Help.aspx">about &amp; help</a> 
+   <br />
+   (c) 2006 Vestris Inc. - All Rights Reserved
+  </div>
+  <!-- NOEMAIL-START -->
   <asp:Panel ID="panelCounter" runat="server">
+  </asp:Panel>
+  <asp:Panel ID="panelAds" runat="server">
+   <div id="ads" style="display: none;">
+   </div>
+   <script type="text/javascript" src="ads.js"></script>
   </asp:Panel>
  </form>
  <style type="text/css" />

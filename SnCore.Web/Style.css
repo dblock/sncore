@@ -96,7 +96,6 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_default_search_textbox { width: 250px; font-size: 10pt; text-align: left; border: 1px black solid; }
 .sncore_link_small { font-size: smaller; }
 .sncore_search_link { font-size: smaller; }
-.sncore_copyright { font-family: Tahoma; font-size: 8pt; color: Silver; padding: 5px; }
 .sncore_post_quote { font-size: smaller; color: Silver; }
 .sncore_summary { margin-top: 10px; }
 .sncore_bookmarks_table { margin: 2px; }
@@ -110,3 +109,8 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_madlib_watermark { border: solid 0px white; font-weight: bold; 	border: solid 1px #BEBEBE; background-color:#F0F8FF; text-align: center; }
 .sncore_madlib_watermark_missing { border: solid 0px white; font-weight: bold; color: #FF0000; border: solid 2px #000000; background-color:#F0F8FF; text-align: center; }
 .sncore_table_tr_td_madlib { margin: 10px 10px 10px 10px; }
+.sncore_master_top { margin: auto; width: 827px; margin-top: 5px; font-family: Verdana, Sans-Serif; font-size: 10pt; background-color: White; text-align: left; }
+.sncore_master_menu { margin: auto; width: 827px; font-family: Verdana, Sans-Serif; font-size: 10pt; background-color: White; text-align: left; }
+.sncore_master_content { margin: auto; width: 827px; font-family: Verdana, Sans-Serif; font-size: 10pt; background-color: White; text-align: left; }
+.sncore_master_footer { margin: auto; width: 827px; font-family: Tahoma; font-size: 8pt; color: Silver; background-color: White; text-align: center; padding-top: 10px; padding-bottom: 10px; }
+.sncore_master_form { width: 100%; text-align: center; }
