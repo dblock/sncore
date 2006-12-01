@@ -385,7 +385,6 @@ namespace SnCore.Services
             catch
             {
                 Session.Evict(host);
-                throw;
             }
         }
 
@@ -416,7 +415,6 @@ namespace SnCore.Services
             catch
             {
                 Session.Evict(query);
-                throw;
             }
         }
 
@@ -446,7 +444,6 @@ namespace SnCore.Services
             catch
             {
                 Session.Evict(counter_raw);
-                throw;
             }
         }
 
