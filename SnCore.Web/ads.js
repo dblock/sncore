@@ -10,5 +10,5 @@ function ads_position()
  ads.style.left = (content.offsetLeft + 835) + "px";
 }
 
-window.onresize = ads_position
+window.onresize = ads_position;
 ads_position();
