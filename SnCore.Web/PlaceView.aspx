@@ -83,7 +83,7 @@
            </div>
            <div>
             <asp:HyperLink ID="placeWebsite" runat="server" Text="&#187; website" Target="_blank" />
-            <asp:ImageButton Visible="False" ImageUrl="images/account/inbox.gif" ImageAlign="AbsMiddle" runat="server" ID="imageEmail" />
+            <asp:HyperLink ID="placeEmail" runat="server" Text="&#187; e-mail" Target="_blank" />
            </div>
            <!-- NOEMAIL-START -->
            <div class="sncore_description">

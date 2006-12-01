@@ -18,7 +18,7 @@
   <asp:TemplateColumn ItemStyle-CssClass="sncore_form_value">
    <ItemTemplate>
     <asp:TextBox CssClass="sncore_form_textbox" runat="server" ID="array_value" 
-     Visible='<%# ((Type) Eval("PlaceProperty.Type")).ToString() == "System.Array" %>' Text='<%# Eval("Value").ToString().Replace("\"\"", ", ").Trim("\"".ToCharArray()) %>' />
+     Visible='<%# ((Type) Eval("PlaceProperty.Type")).ToString() == "System.Array" %>' Text='<%# Eval("Value").ToString().Trim("\"".ToCharArray()).Replace("\"\"", ", ") %>' />
     <asp:TextBox TextMode="MultiLine" Rows="5" CssClass="sncore_form_textbox" runat="server" ID="text_value" 
      Visible='<%# ((Type) Eval("PlaceProperty.Type")).ToString() == "System.Text.StringBuilder" %>' Text='<%# Eval("Value").ToString() %>' />
     <asp:TextBox CssClass="sncore_form_textbox" runat="server" ID="string_value" 

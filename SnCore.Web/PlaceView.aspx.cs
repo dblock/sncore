@@ -249,12 +249,10 @@ public partial class PlaceView : Page
                     if (! string.IsNullOrEmpty(place.Fax)) placeFax.Text = string.Format("{0} (fax)", Renderer.Render(place.Fax));
                     if (! string.IsNullOrEmpty(place.Phone)) placePhone.Text = string.Format("{0} (phone)", Renderer.Render(place.Phone));
                     if (! string.IsNullOrEmpty(place.CrossStreet)) placeCrossStreet.Text = string.Format("cross-street: {0}", Renderer.Render(place.CrossStreet));
-                    placeType.Text = Renderer.Render(place.Type);
 
-                    imageEmail.OnClientClick = string.Format("location.href='mailto:{0}';",
-                       Renderer.Render(place.Email));
-                    imageEmail.AlternateText = string.Format("E-Mail {0}", Renderer.Render(place.Name));
-                    imageEmail.Visible = ! string.IsNullOrEmpty(place.Email);
+                    placeType.Text = Renderer.Render(place.Type);
+                    placeEmail.NavigateUrl = string.Format("mailto:{0}", Renderer.Render(place.Email));
+                    placeEmail.Visible = ! string.IsNullOrEmpty(place.Email);
 
                     GetPicturesData(sender, e);
 

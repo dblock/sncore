@@ -25,7 +25,6 @@
       runat="server" />
      <asp:LinkButton runat="server" ID="linkDelete" Text="&#187; Delete" OnClick="linkDelete_Click" 
       OnClientClick="return confirm('Are you sure you want to delete this place?')"/>
-     <asp:HyperLink runat="server" ID="linkEditProperties" Text="&#187; Properties" />
      <asp:HyperLink runat="server" ID="linkEditAttributes" Text="&#187; Attributes" />
      <asp:HyperLink runat="server" ID="linkEditPictures" Text="&#187; Pictures" />
     </div>

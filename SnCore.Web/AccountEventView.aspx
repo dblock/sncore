@@ -40,32 +40,32 @@
      <table class="sncore_inner_table" width="95%">
       <tr>
        <td class="sncore_table_tr_td">
-        <asp:Label CssClass="sncore_event_name" ID="AccountEventName" runat="server" />
+        <asp:Label CssClass="sncore_event_name" ID="eventName" runat="server" />
         <div class="sncore_description">
-         <asp:HyperLink ID="AccountEventType" runat="server" />
+         <asp:HyperLink ID="eventType" runat="server" />
         </div>
         <div class="sncore_link">
          <div>
-          <asp:HyperLink ID="AccountEventCity" runat="server" />
-          <asp:HyperLink ID="AccountEventState" runat="server" />
+          <asp:HyperLink ID="eventCity" runat="server" />
+          <asp:HyperLink ID="eventState" runat="server" />
          </div>
          <div>
-          <asp:HyperLink ID="AccountEventCountry" runat="server" />
+          <asp:HyperLink ID="eventCountry" runat="server" />
          </div>
          <div>
-          <asp:HyperLink ID="AccountEventWebsite" runat="server" />
+          <asp:Label ID="eventPhone" runat="server" />
          </div>
          <div>
-          <asp:Label ID="AccountEventPhone" runat="server" />
-          <asp:ImageButton Visible="False" ImageUrl="images/account/inbox.gif" ImageAlign="AbsMiddle" runat="server" ID="AccountEventEmail" />
+          <asp:HyperLink ID="eventWebsite" runat="server" Text="&#187; Website" />
+          <asp:HyperLink ID="eventEmail" runat="server" Text="&#187; E-Mail" />
          </div>
          <div style="font-weight: bold;">
-          <asp:Label ID="AccountEventCost" runat="server" />
+          <asp:Label ID="eventCost" runat="server" />
          </div>
         </div>
        </td>
        <td class="sncore_table_tr_td" valign="top" align="right">
-        <asp:Label ID="AccountEventId" CssClass="sncore_event_id" runat="server" />
+        <asp:Label ID="eventId" CssClass="sncore_event_id" runat="server" />
        </td>
       </tr>
      </table>

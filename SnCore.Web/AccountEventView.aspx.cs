@@ -105,48 +105,46 @@ public partial class AccountEventView : Page
 
                     this.Title = Renderer.Render(evt.Name);
 
-                    AccountEventType.NavigateUrl = linkType.NavigateUrl = 
+                    eventType.NavigateUrl = linkType.NavigateUrl = 
                         string.Format("AccountEventsView.aspx?city={0}&state={1}&country={2}&type={3}",
                             Renderer.UrlEncode(evt.PlaceCity),
                             Renderer.UrlEncode(evt.PlaceState),
                             Renderer.UrlEncode(evt.PlaceCountry),
                             Renderer.UrlEncode(evt.AccountEventType));
 
-                    AccountEventCity.NavigateUrl = linkCity.NavigateUrl = 
+                    eventCity.NavigateUrl = linkCity.NavigateUrl = 
                         string.Format("AccountEventsView.aspx?city={0}&state={1}&country={2}",
                             Renderer.UrlEncode(evt.PlaceCity),
                             Renderer.UrlEncode(evt.PlaceState),
                             Renderer.UrlEncode(evt.PlaceCountry));
 
-                    AccountEventState.NavigateUrl = linkState.NavigateUrl = 
+                    eventState.NavigateUrl = linkState.NavigateUrl = 
                         string.Format("AccountEventsView.aspx?state={0}&country={1}",
                             Renderer.UrlEncode(evt.PlaceState),
                             Renderer.UrlEncode(evt.PlaceCountry));
 
-                    AccountEventCountry.NavigateUrl = linkCountry.NavigateUrl = 
+                    eventCountry.NavigateUrl = linkCountry.NavigateUrl = 
                         string.Format("AccountEventsView.aspx?country={0}",
                             Renderer.UrlEncode(evt.PlaceCountry));
 
                     labelDescription.Text = base.RenderEx(evt.Description);
                     panelDescription.Visible = !string.IsNullOrEmpty(labelDescription.Text);
                     linkAccountEvent.Text = Renderer.Render(evt.Name);
-                    linkCity.Text = AccountEventCity.Text = Renderer.Render(evt.PlaceCity);
-                    linkState.Text = AccountEventState.Text = Renderer.Render(evt.PlaceState);
-                    linkCountry.Text = AccountEventCountry.Text = Renderer.Render(evt.PlaceCountry);
+                    linkCity.Text = eventCity.Text = Renderer.Render(evt.PlaceCity);
+                    linkState.Text = eventState.Text = Renderer.Render(evt.PlaceState);
+                    linkCountry.Text = eventCountry.Text = Renderer.Render(evt.PlaceCountry);
                     linkType.Text = evt.AccountEventType + "s";
-                    AccountEventName.Text = Renderer.Render(evt.Name);
-                    AccountEventId.Text = "#" + evt.Id.ToString();
+                    eventName.Text = Renderer.Render(evt.Name);
+                    eventId.Text = "#" + evt.Id.ToString();
 
                     linkEdit.NavigateUrl = string.Format("AccountEventEdit.aspx?id={0}", evt.Id);
 
-                    AccountEventWebsite.NavigateUrl = evt.Website;
-                    AccountEventWebsite.Text = Renderer.Render(evt.Website);
-                    AccountEventPhone.Text = Renderer.Render(evt.Phone);
-                    AccountEventType.Text = Renderer.Render(evt.AccountEventType);
-                    AccountEventEmail.OnClientClick = string.Format("location.href='mailto:{0}';",
-                        Renderer.Render(evt.Email));
-                    AccountEventEmail.Visible = ! string.IsNullOrEmpty(evt.Email);
-                    AccountEventCost.Text = Renderer.Render(evt.Cost);
+                    eventWebsite.NavigateUrl = evt.Website;
+                    eventPhone.Text = Renderer.Render(evt.Phone);
+                    eventType.Text = Renderer.Render(evt.AccountEventType);
+                    eventEmail.NavigateUrl = string.Format("mailto:{0}", Renderer.Render(evt.Email));
+                    eventEmail.Visible = ! string.IsNullOrEmpty(evt.Email);
+                    eventCost.Text = Renderer.Render(evt.Cost);
 
                     object[] p_args = { RequestId, null };
                     picturesView.DataSource = SessionManager.GetCachedCollection<TransitAccountEventPicture>(
