@@ -60,7 +60,7 @@ public partial class PlaceEdit : AuthenticatedPage
 
                 if (RequestId > 0)
                 {
-                    TransitPlace place = PlaceService.GetPlaceById(RequestId);
+                    TransitPlace place = PlaceService.GetPlaceById(SessionManager.Ticket, RequestId);
                     labelName.Text = Renderer.Render(place.Name);
                     inputName.Text = place.Name;
                     inputDescription.Text = place.Description;

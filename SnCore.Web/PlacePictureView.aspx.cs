@@ -71,7 +71,7 @@ public partial class PlacePictureView : Page
         {
             if (mPlace == null)
             {
-                object[] as_args = { PlacePicture.PlaceId };
+                object[] as_args = { SessionManager.Ticket, PlacePicture.PlaceId };
                 mPlace = SessionManager.GetCachedItem<TransitPlace>(
                     PlaceService, "GetPlaceById", as_args);
             }

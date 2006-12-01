@@ -689,23 +689,25 @@ namespace SnCore.Web.Tests.SnCore.WebServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetPlaceById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public TransitPlace GetPlaceById(int id) {
+        public TransitPlace GetPlaceById(string ticket, int id) {
             object[] results = this.Invoke("GetPlaceById", new object[] {
+                        ticket,
                         id});
             return ((TransitPlace)(results[0]));
         }
         
         /// <remarks/>
-        public void GetPlaceByIdAsync(int id) {
-            this.GetPlaceByIdAsync(id, null);
+        public void GetPlaceByIdAsync(string ticket, int id) {
+            this.GetPlaceByIdAsync(ticket, id, null);
         }
         
         /// <remarks/>
-        public void GetPlaceByIdAsync(int id, object userState) {
+        public void GetPlaceByIdAsync(string ticket, int id, object userState) {
             if ((this.GetPlaceByIdOperationCompleted == null)) {
                 this.GetPlaceByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetPlaceByIdOperationCompleted);
             }
             this.InvokeAsync("GetPlaceById", new object[] {
+                        ticket,
                         id}, this.GetPlaceByIdOperationCompleted, userState);
         }
         
@@ -5046,6 +5048,8 @@ namespace SnCore.Web.Tests.SnCore.WebServices {
         
         private int accountIdField;
         
+        private bool canWriteField;
+        
         /// <remarks/>
         public string Name {
             get {
@@ -5223,6 +5227,16 @@ namespace SnCore.Web.Tests.SnCore.WebServices {
             }
             set {
                 this.accountIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool CanWrite {
+            get {
+                return this.canWriteField;
+            }
+            set {
+                this.canWriteField = value;
             }
         }
     }

@@ -424,6 +424,20 @@ namespace SnCore.Services
             }
         }
 
+        private bool mCanWrite = false;
+
+        public bool CanWrite
+        {
+            get
+            {
+                return mCanWrite;
+            }
+            set
+            {
+                mCanWrite = value;
+            }
+        }
+
         public TransitPlace()
         {
 
@@ -511,12 +525,16 @@ namespace SnCore.Services
             }
         }
 
-        public TransitPlace TransitPlace
+        public TransitPlace GetTransitPlace()
         {
-            get
-            {
-                return new TransitPlace(mPlace);
-            }
+            return new TransitPlace(mPlace);
+        }
+
+        public TransitPlace GetTransitPlace(int user_id)
+        {
+            TransitPlace tp = new TransitPlace(mPlace);
+            if (user_id > 0) tp.CanWrite = CanWrite(user_id);
+            return tp;
         }
 
         public void Delete()

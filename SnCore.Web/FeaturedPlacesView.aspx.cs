@@ -74,7 +74,7 @@ public partial class FeaturedPlacesView : Page
 
     public TransitPlace GetPlace(int id)
     {
-        object[] args = { id };
+        object[] args = { SessionManager.Ticket, id };
         return SessionManager.GetCachedItem<TransitPlace>(PlaceService, "GetPlaceById", args);
     }
 }

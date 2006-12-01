@@ -51,7 +51,7 @@ public partial class PlaceView : Page
                 {
                     try
                     {
-                        object[] args = { RequestId };
+                        object[] args = { SessionManager.Ticket, RequestId };
                         mPlace = SessionManager.GetCachedItem<TransitPlace>(
                             PlaceService, "GetPlaceById", args);
                     }
@@ -238,6 +238,7 @@ public partial class PlaceView : Page
 
                     labelSuggestedOn.Text = Adjust(place.Created).ToString("d");
 
+                    linkAdminEdit.Visible = place.CanWrite;
                     linkAdminEdit.NavigateUrl = string.Format("PlaceEdit.aspx?id={0}", place.Id);
                     linkAdminAttributes.NavigateUrl = string.Format("PlaceAttributesManage.aspx?id={0}", place.Id);
 

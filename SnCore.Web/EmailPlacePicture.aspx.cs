@@ -43,7 +43,7 @@ public partial class EmailPlacePicture : AuthenticatedPage
         {
             if (mPlace == null)
             {
-                mPlace = PlaceService.GetPlaceById(PlacePicture.PlaceId);
+                mPlace = PlaceService.GetPlaceById(SessionManager.Ticket, PlacePicture.PlaceId);
             }
             return mPlace;
         }

@@ -41,7 +41,7 @@ public partial class AccountEventView : Page
         {
             if (mAccountEventPlace == null && RequestId > 0 && AccountEvent != null)
             {
-                mAccountEventPlace = PlaceService.GetPlaceById(AccountEvent.PlaceId);
+                mAccountEventPlace = PlaceService.GetPlaceById(SessionManager.Ticket, AccountEvent.PlaceId);
             }
             return mAccountEventPlace;
         }

@@ -120,10 +120,10 @@
            <div>
             <asp:HyperLink id="linkClaimOwnership" runat="server" Text="&#187; I Run this Business" />
            </div>
+           <div>
+            <asp:HyperLink runat="server" ID="linkAdminEdit" Text="&#187; Edit Content" />
+           </div>
            <asp:Panel ID="panelAdmin" runat="server">
-            <div>
-             <asp:HyperLink runat="server" ID="linkAdminEdit" Text="&#187; Edit Content" />
-            </div>
             <div>
              <asp:HyperLink runat="server" ID="linkAdminAttributes" Text="&#187; Edit Attributes" />
             </div>

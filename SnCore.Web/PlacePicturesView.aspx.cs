@@ -22,7 +22,7 @@ public partial class PlacePicturesView : Page
             {
                 if (RequestId > 0)
                 {
-                    TransitPlace a = PlaceService.GetPlaceById(RequestId);
+                    TransitPlace a = PlaceService.GetPlaceById(SessionManager.Ticket, RequestId);
                     linkPlace.Text = Renderer.Render(a.Name);
                     this.Title = string.Format("{0} Pictures", Renderer.Render(a.Name));
                     linkPlace.NavigateUrl = "PlaceView.aspx?id=" + a.Id;

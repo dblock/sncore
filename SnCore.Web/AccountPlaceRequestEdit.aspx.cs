@@ -25,7 +25,7 @@ public partial class AccountPlaceRequestEdit : AuthenticatedPage
 
                 if (ParentId != 0)
                 {
-                    TransitPlace place = PlaceService.GetPlaceById(ParentId);
+                    TransitPlace place = PlaceService.GetPlaceById(SessionManager.Ticket, ParentId);
                     linkPlace.NavigateUrl = string.Format("PlaceView.aspx?id={0}", place.Id);
                     linkBack.NavigateUrl = (string.IsNullOrEmpty(ReturnUrl)) ? linkPlace.NavigateUrl : ReturnUrl;
                     linkPlace.Text = Renderer.Render(place.Name);

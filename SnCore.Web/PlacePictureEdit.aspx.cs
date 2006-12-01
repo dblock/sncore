@@ -29,7 +29,7 @@ public partial class PlacePictureEdit : AuthenticatedPage
             SetDefaultButton(manageAdd);
             if (!IsPostBack)
             {
-                TransitPlace p = PlaceService.GetPlaceById(PlaceId);
+                TransitPlace p = PlaceService.GetPlaceById(SessionManager.Ticket, PlaceId);
                 linkBack.NavigateUrl = linkSection.NavigateUrl = string.Format("PlacePicturesManage.aspx?id={0}", p.Id);
                 linkPlace.Text = Renderer.Render(p.Name);
                 linkPlace.NavigateUrl = string.Format("PlaceView.aspx?id={0}", p.Id);

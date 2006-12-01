@@ -43,7 +43,7 @@ public partial class AccountEventEdit : AuthenticatedPage
                     inputPublish.Checked = tav.Publish;
                     selectType.Items.FindByValue(tav.AccountEventType).Selected = true;
                     schedule.Schedule = SystemService.GetScheduleById(tav.ScheduleId);
-                    place.Place = PlaceService.GetPlaceById(tav.PlaceId);
+                    place.Place = PlaceService.GetPlaceById(SessionManager.Ticket, tav.PlaceId);
                     titleEvent.Text = Renderer.Render(tav.Name);
                 }
             }

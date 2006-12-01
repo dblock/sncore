@@ -27,7 +27,7 @@ public partial class PlacePicturesManage : AuthenticatedPage
 
             if (!IsPostBack)
             {
-                TransitPlace place = PlaceService.GetPlaceById(RequestId);
+                TransitPlace place = PlaceService.GetPlaceById(SessionManager.Ticket, RequestId);
                 linkPlaceName.Text = Renderer.Render(place.Name);
                 linkPlaceName.NavigateUrl = string.Format("PlaceView.aspx?id={0}", place.Id);
 

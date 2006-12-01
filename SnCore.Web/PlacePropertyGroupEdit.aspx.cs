@@ -36,7 +36,7 @@ public partial class PlacePropertyGroupEdit : AuthenticatedPage
 
                 linkBack.NavigateUrl = string.Format("PlaceEdit.aspx?id={0}", PlaceId);
 
-                TransitPlace tp = PlaceService.GetPlaceById(PlaceId);
+                TransitPlace tp = PlaceService.GetPlaceById(SessionManager.Ticket, PlaceId);
 
                 if (RequestId > 0)
                 {

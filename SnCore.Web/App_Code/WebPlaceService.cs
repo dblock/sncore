@@ -166,12 +166,13 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>transit place </returns>
         [WebMethod(Description = "Get a place.")]
-        public TransitPlace GetPlaceById(int id)
+        public TransitPlace GetPlaceById(string ticket, int id)
         {
+            int user_id = ManagedAccount.GetAccountId(ticket, 0);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                TransitPlace result = new ManagedPlace(session, id).TransitPlace;
+                TransitPlace result = new ManagedPlace(session, id).GetTransitPlace(user_id);
                 return result;
             }
         }
@@ -213,7 +214,7 @@ namespace SnCore.WebServices
                 List<TransitPlace> result = new List<TransitPlace>(list.Count);
                 foreach (Place p in list)
                 {
-                    result.Add(new ManagedPlace(session, p).TransitPlace);
+                    result.Add(new ManagedPlace(session, p).GetTransitPlace());
                 }
 
                 return result;
@@ -290,7 +291,7 @@ namespace SnCore.WebServices
                     return null;
                 }
 
-                return new ManagedPlace(session, p).TransitPlace;
+                return new ManagedPlace(session, p).GetTransitPlace();
             }
         }
 
@@ -1056,7 +1057,7 @@ namespace SnCore.WebServices
                 List<TransitPlace> result = new List<TransitPlace>(list.Count);
                 foreach (Place p in list)
                 {
-                    result.Add(new ManagedPlace(session, p).TransitPlace);
+                    result.Add(new ManagedPlace(session, p).GetTransitPlace());
                 }
 
                 return result;
@@ -1352,7 +1353,7 @@ namespace SnCore.WebServices
                 List<TransitPlace> result = new List<TransitPlace>(places.Count);
                 foreach (Place p in places)
                 {
-                    result.Add(new ManagedPlace(session, p).TransitPlace);
+                    result.Add(new ManagedPlace(session, p).GetTransitPlace());
                 }
 
                 return result;
@@ -1783,7 +1784,7 @@ namespace SnCore.WebServices
 
                 foreach (Place place in list)
                 {
-                    result.Add(new ManagedPlace(session, place).TransitPlace);
+                    result.Add(new ManagedPlace(session, place).GetTransitPlace());
                 }
 
                 return result;
@@ -2185,7 +2186,7 @@ namespace SnCore.WebServices
                 List<TransitPlace> result = new List<TransitPlace>(list.Count);
                 foreach (Place p in list)
                 {
-                    result.Add(new ManagedPlace(session, p).TransitPlace);
+                    result.Add(new ManagedPlace(session, p).GetTransitPlace());
                 }
 
                 return result;

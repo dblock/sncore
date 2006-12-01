@@ -20,7 +20,7 @@ public partial class PlaceAttributesManage : AuthenticatedPage
         {
             if (mPlace == null)
             {
-                mPlace = PlaceService.GetPlaceById(RequestId);
+                mPlace = PlaceService.GetPlaceById(SessionManager.Ticket, RequestId);
             }
 
             return mPlace;

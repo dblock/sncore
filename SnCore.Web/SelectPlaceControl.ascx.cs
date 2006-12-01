@@ -207,7 +207,7 @@ public partial class SelectPlaceControl : Control
     {
         try
         {
-            object[] args = { int.Parse(e.CommandArgument.ToString()) };
+            object[] args = { SessionManager.Ticket, int.Parse(e.CommandArgument.ToString()) };
             Place = SessionManager.GetCachedItem<TransitPlace>(PlaceService, "GetPlaceById", args);
             ArrayList list = new ArrayList();
             list.Add(Place);
