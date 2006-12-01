@@ -75,21 +75,16 @@ namespace SnCore.WebServices
                     try
                     {
                         stats.Track(request);
+                        SnCore.Data.Hibernate.Session.Flush();
                     }
                     catch (Exception ex)
                     {
-                        fException = true;
                         EventLog.WriteEntry(string.Format("Error tracking {0} from {1}.\n{2}",
                             (request.RequestUri != null) ? request.RequestUri.ToString() : "an unknown url",
                             (request.RefererUri != null) ? request.RefererUri.ToString() : "an unknown referer",
                             ex.Message),
                             EventLogEntryType.Warning);
                     }
-                }
-
-                if (!fException)
-                {
-                    SnCore.Data.Hibernate.Session.Flush();
                 }
             }
         }

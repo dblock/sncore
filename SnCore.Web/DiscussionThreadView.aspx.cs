@@ -20,6 +20,12 @@ public partial class DiscussionThreadView : Page
         {
             if (!IsPostBack)
             {
+                if (RequestId == 0)
+                {
+                    Redirect("Default.aspx");
+                    return;
+                }
+
                 TransitDiscussionThread t = DiscussionService.GetDiscussionThreadById(
                     SessionManager.Ticket, RequestId);
 
@@ -85,7 +91,7 @@ public partial class DiscussionThreadView : Page
                 discussionMain.DiscussionId = t.DiscussionId;
                 discussionMain.DataBind();
 
-                linkDiscussion.NavigateUrl = "DiscussionView.aspx?id=" + t.DiscussionId;
+                linkDiscussion.NavigateUrl = string.Format("DiscussionView.aspx?id={0}", t.DiscussionId);
                 linkDiscussion.Text = Renderer.Render(td.Name);
             }
         }
