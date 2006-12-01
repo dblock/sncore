@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
-using SnCore.Web.Tests.SnCore.WebServices;
+using SnCore.Web.Tests.SnCore.WebServices.WebPlaceService;
 
 namespace SnCore.Web.Tests
 {

@@ -374,8 +374,16 @@ namespace SnCore.Services
             }
 
             host.Updated = DateTime.UtcNow;
-            host.LastRefererUri = request.RefererUri;
-            host.LastRequestUri = request.RequestUri;
+            
+            //
+            // hack: try our best to insert the host record
+            //       when an exception happens this session can't be flushed any more
+            //
+            if (! string.IsNullOrEmpty(request.RefererUri) && (request.RefererUri.Length < 255)) 
+                host.LastRefererUri = request.RefererUri;
+            if (! string.IsNullOrEmpty(request.RequestUri) && (request.RequestUri.Length < 255)) 
+                host.LastRequestUri = request.RequestUri;
+            
             host.Total++;
 
             try
@@ -384,7 +392,7 @@ namespace SnCore.Services
             }
             catch
             {
-                Session.Evict(host);
+                if (host.Id > 0) Session.Evict(host);
             }
         }
 
@@ -414,7 +422,7 @@ namespace SnCore.Services
             }
             catch
             {
-                Session.Evict(query);
+                if (query.Id > 0) Session.Evict(query);
             }
         }
 
@@ -443,7 +451,7 @@ namespace SnCore.Services
             }
             catch
             {
-                Session.Evict(counter_raw);
+                if (counter_raw.Id > 0) Session.Evict(counter_raw);
             }
         }
 

@@ -42,20 +42,37 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Web References\SnCore.WebServices\Reference.cs">
+    <Compile Include="Web References\SnCore.WebServices.WebStatsService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\SnCore.WebServices.WebPlaceService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
     <Compile Include="WebPlaceServiceTest.cs" />
+    <Compile Include="WebStatsServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
+    <WebReferenceUrl Include="http://localhost/SnCoreWeb/WebStatsService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\SnCore.WebServices.WebStatsService\</RelPath>
+      <UpdateFromURL>http://localhost/SnCoreWeb/WebStatsService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>SnCore_Web_Tests_SnCore_WebServices_WebStatsService_WebStatsService</CachedSettingsPropName>
+    </WebReferenceUrl>
     <WebReferenceUrl Include="http://localhost/SnCoreWeb/WebPlaceService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\SnCore.WebServices\</RelPath>
+      <RelPath>Web References\SnCore.WebServices.WebPlaceService\</RelPath>
       <UpdateFromURL>http://localhost/SnCoreWeb/WebPlaceService.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
@@ -66,7 +83,7 @@
     </WebReferenceUrl>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Web References\SnCore.WebServices\WebPlaceService.wsdl" />
+    <None Include="Web References\SnCore.WebServices.WebPlaceService\WebPlaceService.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -74,68 +91,94 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Web References\SnCore.WebServices\Reference.map">
+    <None Include="Web References\SnCore.WebServices.WebPlaceService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Web References\SnCore.WebServices\TransitAccountPlace.datasource">
+    <None Include="Web References\SnCore.WebServices.WebPlaceService\WebPlaceService.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\SnCore.WebServices.WebPlaceService\TransitAccountPlace1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\SnCore.WebServices\TransitAccountPlaceFavorite.datasource">
+    <None Include="Web References\SnCore.WebServices.WebPlaceService\TransitAccountPlaceFavorite1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\SnCore.WebServices\TransitAccountPlaceRequest.datasource">
+    <None Include="Web References\SnCore.WebServices.WebPlaceService\TransitAccountPlaceRequest1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\SnCore.WebServices\TransitAccountPlaceType.datasource">
+    <None Include="Web References\SnCore.WebServices.WebPlaceService\TransitAccountPlaceType1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\SnCore.WebServices\TransitDistinctPlaceNeighborhood.datasource">
+    <None Include="Web References\SnCore.WebServices.WebPlaceService\TransitDistinctPlaceNeighborhood1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\SnCore.WebServices\TransitDistinctPlacePropertyValue.datasource">
+    <None Include="Web References\SnCore.WebServices.WebPlaceService\TransitDistinctPlacePropertyValue1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\SnCore.WebServices\TransitFriendsPlaceQueueItem.datasource">
+    <None Include="Web References\SnCore.WebServices.WebPlaceService\TransitFriendsPlaceQueueItem1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\SnCore.WebServices\TransitPlace.datasource">
+    <None Include="Web References\SnCore.WebServices.WebPlaceService\TransitPlace1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\SnCore.WebServices\TransitPlaceAttribute.datasource">
+    <None Include="Web References\SnCore.WebServices.WebPlaceService\TransitPlaceAttribute1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\SnCore.WebServices\TransitPlaceName.datasource">
+    <None Include="Web References\SnCore.WebServices.WebPlaceService\TransitPlaceName1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\SnCore.WebServices\TransitPlacePicture.datasource">
+    <None Include="Web References\SnCore.WebServices.WebPlaceService\TransitPlacePicture1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\SnCore.WebServices\TransitPlacePictureWithBitmap.datasource">
+    <None Include="Web References\SnCore.WebServices.WebPlaceService\TransitPlacePictureWithBitmap1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\SnCore.WebServices\TransitPlacePictureWithThumbnail.datasource">
+    <None Include="Web References\SnCore.WebServices.WebPlaceService\TransitPlacePictureWithThumbnail1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\SnCore.WebServices\TransitPlaceProperty.datasource">
+    <None Include="Web References\SnCore.WebServices.WebPlaceService\TransitPlaceProperty1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\SnCore.WebServices\TransitPlacePropertyGroup.datasource">
+    <None Include="Web References\SnCore.WebServices.WebPlaceService\TransitPlacePropertyGroup1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\SnCore.WebServices\TransitPlacePropertyValue.datasource">
+    <None Include="Web References\SnCore.WebServices.WebPlaceService\TransitPlacePropertyValue1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\SnCore.WebServices\TransitPlaceQueue.datasource">
+    <None Include="Web References\SnCore.WebServices.WebPlaceService\TransitPlaceQueue1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\SnCore.WebServices\TransitPlaceQueueItem.datasource">
+    <None Include="Web References\SnCore.WebServices.WebPlaceService\TransitPlaceQueueItem1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\SnCore.WebServices\TransitPlaceType.datasource">
+    <None Include="Web References\SnCore.WebServices.WebPlaceService\TransitPlaceType1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\SnCore.WebServices\WebPlaceService.disco" />
+    <None Include="Web References\SnCore.WebServices.WebStatsService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\SnCore.WebServices.WebStatsService\TransitCounter.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SnCore.WebServices.WebStatsService\TransitRefererAccount.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SnCore.WebServices.WebStatsService\TransitRefererHost.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SnCore.WebServices.WebStatsService\TransitRefererHostDup.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SnCore.WebServices.WebStatsService\TransitRefererQuery.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SnCore.WebServices.WebStatsService\TransitStatsSummary.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SnCore.WebServices.WebStatsService\WebStatsService.disco" />
+    <None Include="Web References\SnCore.WebServices.WebStatsService\WebStatsService.wsdl" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

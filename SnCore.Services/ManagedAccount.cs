@@ -1454,7 +1454,7 @@ namespace SnCore.Services
             }
             catch
             {
-                Session.Evict(e);
+                if (e.Id > 0) Session.Evict(e);
                 throw;
             }
 

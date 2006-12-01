@@ -69,7 +69,6 @@ namespace SnCore.WebServices
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
                 ManagedStats stats = new ManagedStats(session);
-                bool fException = false;
                 foreach (TransitStatsRequest request in requests)
                 {
                     try
