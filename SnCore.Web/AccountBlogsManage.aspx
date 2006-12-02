@@ -17,7 +17,8 @@
       <div class="sncore_title_paragraph">
        You can <a href="AccountBlogEdit.aspx">create a new blog</a> and start blogging. You are the editor, owner and
        manager of your blog, and you can also let your friends contribute. Your blog appears on 
-       <a href="AccountView.aspx">your profile</a>.
+       <a href="AccountView.aspx">your profile</a> and is automatically 
+       <a href="AccountFeedItemsView.aspx">syndicated</a> for everyone to see.
       </div>
       <div class="sncore_title_paragraph">
        If you already have a blog, <a href="AccountFeedWizard.aspx">Syndicate It</a> instead.
