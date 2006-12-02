@@ -189,6 +189,29 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
+        /// Syndicate a blog.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        [WebMethod(Description = "Syndicate a blog.")]
+        public int SyndicateAccountBlog(string ticket, int id)
+        {
+            int user_id = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount user = new ManagedAccount(session, user_id);
+                ManagedAccountBlog mb = new ManagedAccountBlog(session, id);
+                if (!user.IsAdministrator() && !mb.CanEdit(user_id))
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+                int result = mb.Syndicate();
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+        /// <summary>
         /// Delete a blog.
         /// </summary>
         /// <param name="ticket">authentication ticket</param>

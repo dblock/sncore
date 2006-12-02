@@ -199,5 +199,17 @@ namespace SnCore.Services
         {
             return Find(session, name).Id;
         }
+
+        public static FeedType GetDefaultFeedType(ISession session)
+        {
+            FeedType result = null;
+            IList feedtypes = session.CreateCriteria(typeof(FeedType)).List();
+            foreach(FeedType feedtype in feedtypes)
+            {
+                if (result == null || feedtype.Name.Contains("RSS"))
+                    result = feedtype;
+            }
+            return result;
+        }
     }
 }

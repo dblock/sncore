@@ -84,7 +84,9 @@ public partial class AccountBlogEdit : AuthenticatedPage
             s.Name = inputName.Text;
             s.Description = inputDescription.Text;
             s.AccountId = SessionManager.Account.Id;
-            BlogService.CreateOrUpdateAccountBlog(SessionManager.Ticket, s);
+            s.Id = BlogService.CreateOrUpdateAccountBlog(SessionManager.Ticket, s);
+            // automatically syndicate the blog
+            BlogService.SyndicateAccountBlog(SessionManager.Ticket, s.Id);
             Redirect("AccountBlogsManage.aspx");
         }
         catch (Exception ex)

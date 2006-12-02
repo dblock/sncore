@@ -214,6 +214,13 @@ namespace SnCore.Services
         public void Delete()
         {
             ManagedFeature.Delete(Session, "AccountBlog", Id);
+            AccountFeed feed = GetSyndicatedFeed();
+
+            if (feed != null)
+            {
+                Session.Delete(feed);
+            }
+
             Session.Delete(mAccountBlog);
         }
 
@@ -278,6 +285,59 @@ namespace SnCore.Services
         {
             post.CanEdit = ((post.AccountId == accountid) || CanEdit(accountid));
             post.CanDelete = ((post.AccountId == accountid) || CanDelete(accountid));
+        }
+
+        public string FeedUrl
+        {
+            get
+            {
+                string website = ManagedConfiguration.GetValue(Session, "SnCore.WebSite.Url", "http://localhost/SnCore");
+                return string.Format("{0}/AccountBlogRss.aspx?id={1}", website, mAccountBlog.Id);
+            }
+        }
+
+        public string LinkUrl
+        {
+            get
+            {
+                string website = ManagedConfiguration.GetValue(Session, "SnCore.WebSite.Url", "http://localhost/SnCore");
+                return string.Format("{0}/AccountBlog.aspx?id={1}", website, mAccountBlog.Id);
+            }
+        }
+
+        private AccountFeed GetSyndicatedFeed()
+        {
+            return (AccountFeed)Session.CreateCriteria(typeof(AccountFeed))
+                .Add(Expression.Eq("FeedUrl", FeedUrl))
+                .SetMaxResults(1)
+                .UniqueResult();
+        }
+
+        public int Syndicate()
+        {
+            AccountFeed feed = GetSyndicatedFeed();
+
+            if (feed == null)
+            {
+                feed = new AccountFeed();
+                feed.Account = mAccountBlog.Account;
+                feed.Created = feed.Updated = DateTime.UtcNow;
+                feed.UpdateFrequency = 12;
+                feed.PublishImgs = true;
+                feed.Publish = true;
+                feed.FeedUrl = FeedUrl;
+                feed.LinkUrl = LinkUrl;
+                feed.FeedType = ManagedFeedType.GetDefaultFeedType(Session);
+            }
+            else
+            {
+                feed.Updated = DateTime.UtcNow;
+            }
+
+            feed.Name = mAccountBlog.Name;
+            feed.Description = mAccountBlog.Description;
+            Session.Save(feed);
+            return feed.Id;
         }
     }
 }
