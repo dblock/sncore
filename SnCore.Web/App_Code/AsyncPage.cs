@@ -29,6 +29,7 @@ public class AsyncPage : Page, IHttpAsyncHandler
         internal object _extraData;
         private bool _isCompleted = false;
         private ManualResetEvent _callCompleteEvent = null;
+        internal Exception _ex = null;
 
         internal void CompleteRequest()
         {
@@ -97,6 +98,11 @@ public class AsyncPage : Page, IHttpAsyncHandler
 
     public void EndProcessRequest(IAsyncResult ar)
     {
+        AsyncRequestState reqState = ar as AsyncRequestState;
+        if (reqState._ex != null)
+        {
+            reqState._ctx.Response.Write(reqState._ex.Message);
+        }
     }
 
     object ProcessRequest(object state)
@@ -112,6 +118,11 @@ public class AsyncPage : Page, IHttpAsyncHandler
             base.ProcessRequest(reqState._ctx);
 
             // Once complete, call CompleteRequest to finish
+        }
+        catch (Exception ex)
+        {
+            reqState._ex = ex;
+            throw;
         }
         finally
         {

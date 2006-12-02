@@ -55,6 +55,8 @@ public partial class Search : AsyncPage
 
     protected override void OnPreRender(EventArgs e)
     {
+        base.OnPreRender(e);
+
         if (!string.IsNullOrEmpty(SearchQuery) && !IsPostBack)
         {
             bool found = false;
@@ -79,8 +81,6 @@ public partial class Search : AsyncPage
                 return;
             }
         }
-
-        base.OnPreRender(e);
     }
 
     public string SearchQuery
