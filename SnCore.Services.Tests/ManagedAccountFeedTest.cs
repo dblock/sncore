@@ -27,6 +27,12 @@ namespace SnCore.Services.Tests
         }
 
         [Test]
+        public void TestRSSContentNosher()
+        {
+            TestUpdate("http://dishanddirt.blogspot.com/rss.xml");
+        }
+
+        [Test]
         public void TestRSSContentSaltShaker()
         {
             TestUpdate("http://www.saltshaker.net/feed");
@@ -61,6 +67,8 @@ namespace SnCore.Services.Tests
 
             foreach (AccountFeedItem item in updated)
             {
+                Console.WriteLine("Created: {0}", item.Created);
+                Console.WriteLine("Modified: {0}", item.Updated);
                 Console.WriteLine(item.Title);
                 Console.WriteLine(item.Description);
                 Console.WriteLine();

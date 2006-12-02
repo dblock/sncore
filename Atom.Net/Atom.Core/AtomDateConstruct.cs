@@ -213,6 +213,8 @@ namespace Atom.Core
 					case "modified":
 					case "issued":
 					case "created":
+     case "published":
+     case "updated":
 						try
 						{
 							dateElement.XmlLang = Utils.Utils.ParseLanguage(iter.Current.XmlLang);
@@ -228,6 +230,8 @@ namespace Atom.Core
 			{
 				case "modified":
 				case "created":
+    case "published":
+    case "updated":
 					computeModifiedCreatedDate(ref dateElement, temp);
 					break;
 

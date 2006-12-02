@@ -549,6 +549,7 @@ namespace Atom.Core
 						break;					
 
 					case "modified":
+     case "updated":
 						entry.Modified = AtomDateConstruct.Parse(iter.Current, ns);
 						break;
 
@@ -557,6 +558,7 @@ namespace Atom.Core
 						break;
 
 					case "created":
+     case "published":
 						entry.Created = AtomDateConstruct.Parse(iter.Current, ns);
 						break;
 
