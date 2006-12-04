@@ -392,7 +392,7 @@ namespace SnCore.Services
             }
             catch
             {
-                if (host.Id > 0) Session.Evict(host);
+                Session.Evict(host);
             }
         }
 
@@ -422,7 +422,7 @@ namespace SnCore.Services
             }
             catch
             {
-                if (query.Id > 0) Session.Evict(query);
+                Session.Evict(query);
             }
         }
 
@@ -451,7 +451,7 @@ namespace SnCore.Services
             }
             catch
             {
-                if (counter_raw.Id > 0) Session.Evict(counter_raw);
+                Session.Evict(counter_raw);
             }
         }
 
