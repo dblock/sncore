@@ -33,22 +33,20 @@ namespace SnCore.BackEndServices
 
         public void RunSyndication(ISession session)
         {
-            // get feeds
-            // todo: restrict to only feeds that need update
-            IList list = session.CreateCriteria(typeof(AccountFeed)).List();
+            IQuery query = session.CreateSQLQuery(
+                "SELECT {AccountFeed.*} FROM AccountFeed" +
+                " WHERE (NOT EXISTS ( SELECT AccountFeedItem_Id FROM AccountFeedItem item WHERE item.AccountFeed_Id = AccountFeed.AccountFeed_Id ))" +
+                " OR ( AccountFeed.LastError NOT LIKE '' )" +
+                " OR ( DATEDIFF(hour, AccountFeed.Updated, getutcdate()) > AccountFeed.UpdateFrequency )",
+                "AccountFeed",
+                typeof(AccountFeed));
+
+            IList list = query.List();
 
             foreach (AccountFeed feed in list)
             {
                 try
                 {
-                    // todo: move into SQL
-                    if (feed.AccountFeedItems != null
-                        && string.IsNullOrEmpty(feed.LastError)
-                        && feed.Updated.AddHours(feed.UpdateFrequency) > DateTime.UtcNow)
-                    {
-                        continue;
-                    }
-
                     ManagedAccountFeed m_feed = new ManagedAccountFeed(session, feed);
                     m_feed.Update();
                     m_feed.UpdateImages();
@@ -59,6 +57,7 @@ namespace SnCore.BackEndServices
                     session.SaveOrUpdate(feed);
                 }
 
+                session.Flush();
                 Thread.Sleep(1000 * InterruptInterval);
             }
         }

@@ -611,6 +611,8 @@ namespace SnCore.Services
 
         public int Update()
         {
+            mAccountFeed.Updated = DateTime.UtcNow;
+
             IList deleted = mAccountFeed.AccountFeedItems;
             List<AccountFeedItem> updated = new List<AccountFeedItem>();
 
@@ -644,7 +646,6 @@ namespace SnCore.Services
             }
             catch (Exception ex)
             {
-                mAccountFeed.Updated = DateTime.UtcNow;
                 mAccountFeed.LastError = ex.Message;
                 Session.Save(mAccountFeed);
                 throw;
