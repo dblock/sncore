@@ -76,8 +76,28 @@ namespace SnCore.BackEndServices
             }
         }
 
+        public bool IsEnabled
+        {
+            get
+            {
+                if (!SystemServicesEnabled)
+                    return false;
+
+                object enabled = ConfigurationManager.AppSettings[string.Format("{0}.Enabled", GetType().Name)];
+                return (enabled == null) || bool.Parse(enabled.ToString());
+            }
+        }
+
         public void Start()
         {
+            if (!IsEnabled)
+            {
+                EventLog.WriteEntry(string.Format("Service {0} is disabled.", this.GetType().Name),
+                    EventLogEntryType.Information);
+
+                return;
+            }
+
             mThread = new Thread(ThreadProc);
             mThread.Start(this);
         }

@@ -11,4 +11,4 @@ function ads_position()
 }
 
 window.onresize = ads_position;
-ads_position();
+Sys.Application.add_load(function() { ads_position(); }); 

@@ -29,6 +29,9 @@
  <tr><td class="settingLeft">Ads.Visible</td><td class="settingRight">true or false to enable ad panels, default is <em>true</em></td></tr>
  <tr><td class="settingLeft">Counter.Visible</td><td class="settingRight">true or false to enable counter panels, default is <em>true</em></td></tr>
  <tr><td class="settingLeft">Services.Enabled</td><td class="settingRight">true or false to enable back-end processing services, default is <em>true</em></td></tr>
+ <tr><td class="settingLeft">SystemTagWordService.Enabled</td><td class="settingRight">true or false to enable back-end processing tag words service, default is <em>true</em>; this setting is ignored if <em>Services.Enabled</em> is <em>false</em></td></tr>
+ <tr><td class="settingLeft">SystemSyndicationService.Enabled</td><td class="settingRight">true or false to enable back-end processing syndication service, default is <em>true</em>; this setting is ignored if <em>Services.Enabled</em> is <em>false</em></td></tr>
+ <tr><td class="settingLeft">SystemMailMessageService.Enabled</td><td class="settingRight">true or false to enable back-end processing mail message service, default is <em>true</em>; this setting is ignored if <em>Services.Enabled</em> is <em>false</em></td></tr>
  <tr><td class="settingLeft">System.EncryptAppSettings</td><td class="settingRight">true or false to encrypt AppSettings in Web.Config, default is <em>true</em> (implemented but commented out)</td></tr>
 </table>
 

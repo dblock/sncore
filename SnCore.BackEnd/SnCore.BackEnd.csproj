@@ -56,6 +56,7 @@
     <Compile Include="SystemReminderService.cs" />
     <Compile Include="SystemService.cs" />
     <Compile Include="SystemSyndicationService.cs" />
+    <Compile Include="SystemTagWordService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SnCore.Data.Hibernate\SnCore.Data.Hibernate.csproj">
