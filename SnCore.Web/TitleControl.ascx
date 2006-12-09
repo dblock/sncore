@@ -6,7 +6,7 @@
  TargetControlID="panelTitle" Collapsed="true" CollapsedSize="42" ExpandedSize="150"
  ExpandControlID="imageHelp" CollapseControlID="imageHelp" SuppressPostBack="true">
 </ajaxtoolkit:CollapsiblePanelExtender>
-<asp:Panel ID="panelTitle" runat="server">
+<asp:Panel ID="panelTitle" runat="server" CssClass="sncore_title_panel">
  <div class="sncore_h2">
   <asp:Label ID="labelText" runat="server" Text="Untitled" />
   <asp:ImageButton CausesValidation="false" ID="imageHelp" runat="server" ImageUrl="images/site/help.gif"

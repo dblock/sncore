@@ -15,7 +15,7 @@
   <ajaxtoolkit:CollapsiblePanelExtender ID="panelCalendarExtender" runat="server" 
    TargetControlID="panelCalendar" Collapsed="true" CollapsedSize="0" ExpandedSize="220"
    ExpandControlID="linkCalendar" CollapseControlID="linkCalendar" SuppressPostBack="true"/>
-  <asp:Panel ID="panelCalendar" runat="server" CssClass="sncore_inner_div">
+  <asp:Panel ID="panelCalendar" runat="server" CssClass="sncore_calendar">
    <asp:Calendar ID="selectDateCalendar" runat="server" BackColor="#FFFFCC" BorderColor="#FFCC66"
     BorderWidth="1px" DayNameFormat="Shortest" Font-Names="Verdana" Font-Size="8pt"
     ForeColor="#663399" Height="200px" ShowGridLines="True" Width="220px" NextMonthText="&#187;"

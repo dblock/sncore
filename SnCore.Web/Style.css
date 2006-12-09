@@ -20,6 +20,7 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_table_noborder { width: 780px; margin: 10px; }
 .sncore_account_table { width: 582px; margin: 10px; border: solid 1px #eee; border-collapse:collapse; }
 .sncore_inner_table { margin: 10px; border: solid 1px #eee; }
+.sncore_calendar { margin: 5px; height: 0px; overflow: hidden; }
 .sncore_inner_div { margin: 5px; }
 .sncore_nopicture_table { margin: 10px; }
 .sncore_half_table { width: 95%; margin: 10px; border: 1px #eeeeee solid; }
@@ -109,8 +110,10 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_madlib_watermark { border: solid 0px white; font-weight: bold; 	border: solid 1px #BEBEBE; background-color:#F0F8FF; text-align: center; }
 .sncore_madlib_watermark_missing { border: solid 0px white; font-weight: bold; color: #FF0000; border: solid 2px #000000; background-color:#F0F8FF; text-align: center; }
 .sncore_table_tr_td_madlib { margin: 10px 10px 10px 10px; }
-.sncore_master_top { margin: auto; width: 827px; margin-top: 5px; font-family: Verdana, Sans-Serif; font-size: 10pt; background-color: White; text-align: left; }
-.sncore_master_menu { margin: auto; width: 827px; font-family: Verdana, Sans-Serif; font-size: 10pt; background-color: White; text-align: left; }
-.sncore_master_content { margin: auto; width: 827px; font-family: Verdana, Sans-Serif; font-size: 10pt; background-color: White; text-align: left; }
-.sncore_master_footer { margin: auto; width: 827px; font-family: Tahoma; font-size: 8pt; color: Silver; background-color: White; text-align: center; padding-top: 10px; padding-bottom: 10px; }
-.sncore_master_form { width: 100%; text-align: center; }
+.sncore_master_top { overflow: hidden; margin: auto; width: 827px; margin-top: 5px; font-family: Verdana, Sans-Serif; font-size: 10pt; background-color: White; text-align: left; }
+.sncore_master_menu { overflow: hidden; margin: auto; width: 827px; font-family: Verdana, Sans-Serif; font-size: 10pt; background-color: White; text-align: left; }
+.sncore_master_content { overflow: hidden; margin: auto; width: 827px; font-family: Verdana, Sans-Serif; font-size: 10pt; background-color: White; text-align: left; }
+.sncore_master_footer { overflow: hidden; margin: auto; width: 827px; font-family: Tahoma; font-size: 8pt; color: Silver; background-color: White; text-align: center; padding-top: 10px; padding-bottom: 10px; }
+.sncore_master_form { overflow: hidden; width: 100%; text-align: center; }
+.sncore_title_panel { height: 42; overflow: hidden; }
+.sncore_collapsed_div { height: 0px; overflow: hidden; }
