@@ -5,6 +5,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxtoolkit" %>
+<%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <SnCore:Title ID="titleDiscussions" Text="Discussions" runat="server">  
   <Template>
@@ -98,8 +99,8 @@
      </asp:TemplateColumn>
      <asp:TemplateColumn ItemStyle-Width="75">
       <itemtemplate>
-       <a href='DiscussionRss.aspx?id=<%# Eval("Id") %>'><img 
-        border="0" alt="Rss" src="images/rss.gif" /></a>
+       <SnCore:RssLink ID="linkRelRss" runat="server" NavigateUrl='DiscussionRss.aspx?id=<%# Eval("Id") %>'
+        Title='<%# base.Render(Eval("Name")) %>' />
       </itemtemplate>
      </asp:TemplateColumn>
     </Columns>

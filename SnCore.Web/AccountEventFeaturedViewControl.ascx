@@ -1,6 +1,9 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="AccountEventFeaturedViewControl.ascx.cs"
  Inherits="AccountEventFeaturedViewControl" %>
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
+<SnCore:RssLink ID="linkRelRss" runat="server" NavigateUrl="FeaturedAccountEventsRss.aspx" 
+ Title="Featured Events" ButtonVisible="false" />
 <asp:Panel runat="server" ID="panelFeatured">
  <table cellpadding="2" cellspacing="0" class="sncore_featured_table">
   <tr>

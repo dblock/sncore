@@ -4,6 +4,7 @@
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="PlacePropertyValuesView" Src="PlacePropertyValuesViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <asp:UpdatePanel ID="panelLinks" UpdateMode="Conditional" RenderMode="Inline" runat="server">
   <ContentTemplate>
@@ -21,9 +22,7 @@
      </td>
      <td align="right" valign="middle">
      <!--
-      <asp:HyperLink runat="server" ID="linkRss" ImageUrl="images/rss.gif" NavigateUrl="PlacesByPropertyValueViewRss.aspx" />
-      <link runat="server" id="linkRelRss" rel="alternate" type="application/rss+xml" title="Rss"
-       href="PlacesByPropertyValueViewRss.aspx" />
+      <SnCore:RssLink ID="linkRelRss" runat="server" NavigateUrl="PlacesByPropertyValueViewRss.aspx" />
        -->
      </td>
     </tr>

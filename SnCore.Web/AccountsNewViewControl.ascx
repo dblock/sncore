@@ -1,7 +1,9 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="AccountsNewViewControl.ascx.cs"
  Inherits="AccountsNewViewControl" %>
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
-<link rel="alternate" type="application/rss+xml" title="Rss" href="AccountsRss.aspx" />
+<%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
+<SnCore:RssLink ID="linkRelRss" runat="server" NavigateUrl="AccountsRss.aspx" ButtonVisible="false"
+ Title="New People" />
 <table cellpadding="0" cellspacing="0" class="sncore_half_inner_table">
  <tr>
   <td>

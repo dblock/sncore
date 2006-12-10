@@ -159,7 +159,7 @@ public partial class AccountsView : AccountPersonPage
         {
             AccountActivityQueryOptions options = GetQueryOptions();
 
-            linkRss.NavigateUrl = linkRelRss.Attributes["href"] =
+            linkRelRss.NavigateUrl =
                 string.Format("AccountsRss.aspx?order={0}&asc={1}&pictures={2}&city={3}&country={4}&state={5}&name={6}&email={7}&bloggers={8}",
                     options.SortOrder,
                     options.SortAscending,

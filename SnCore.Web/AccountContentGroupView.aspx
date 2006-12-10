@@ -5,6 +5,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="TellAFriend" Src="TellAFriendControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <table cellpadding="0" cellspacing="0" width="784">
   <tr>
@@ -20,9 +21,7 @@
     <asp:Label ID="labelDescription" CssClass="sncore_description" runat="server" />
    </td>
    <td align="right" valign="middle">
-    <asp:HyperLink runat="server" ID="linkRss" ImageUrl="images/rss.gif" NavigateUrl="AccountContentGroupViewRss.aspx" />
-    <link runat="server" id="linkRelRss" rel="alternate" type="application/rss+xml" title="Rss"
-     href="AccountContentGroupViewRss.aspx" />
+    <SnCore:RssLink ID="linkRelRss" runat="server" NavigateUrl="AccountContentGroupViewRss.aspx" />
    </td>
   </tr>
  </table>

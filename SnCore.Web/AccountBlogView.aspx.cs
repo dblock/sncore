@@ -66,7 +66,7 @@ public partial class AccountBlogView : Page
 
                 licenseView.AccountId = a.Id;
 
-                this.Title = string.Format("{0}'s {1}", Renderer.Render(a.Name), Renderer.Render(f.Name));
+                linkRelRss.Title = this.Title = string.Format("{0}'s {1}", Renderer.Render(a.Name), Renderer.Render(f.Name));
 
                 GetData(sender, e);
 
@@ -77,8 +77,7 @@ public partial class AccountBlogView : Page
                         : "Feature &#187; Never Featured";
                 }
 
-                linkRelRss.Attributes["href"] = linkRss.NavigateUrl = string.Format("AccountBlogRss.aspx?id={0}", RequestId);
-
+                linkRelRss.NavigateUrl = string.Format("AccountBlogRss.aspx?id={0}", RequestId);
                 linkEdit.NavigateUrl = string.Format("AccountBlogEdit.aspx?id={0}", RequestId);
                 linkPostNew.NavigateUrl = string.Format("AccountBlogPost.aspx?bid={0}", RequestId);
             }

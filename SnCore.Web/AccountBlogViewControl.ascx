@@ -2,6 +2,7 @@
  Inherits="AccountBlogViewControl" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
 <div class="sncore_h2" runat="server">
  <a href='AccountBlogView.aspx?id=<% Response.Write(BlogId); %>'>
   <% Response.Write(BlogName); %>
@@ -14,9 +15,13 @@
    <a href='AccountBlogView.aspx?id=<% Response.Write(BlogId); %>'>
     &#187; read all
    </a>
+   <a href='AccountBlogRss.aspx?id=<% Response.Write(BlogId); %>'>
+    &#187; rss
+   </a>
   </span>
  </div>
 </asp:Panel>
+<SnCore:RssLink ID="linkRelRss" runat="server" NavigateUrl="AccountBlogRss.aspx" ButtonVisible="false" />
 <table class="sncore_half_table">
  <tr>
   <td class="sncore_table_tr_td">

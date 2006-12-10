@@ -4,6 +4,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <asp:UpdatePanel UpdateMode="Conditional" ID="panelLinks" RenderMode="Inline" runat="server">
   <ContentTemplate>
@@ -24,11 +25,7 @@
       <asp:Label ID="labelCount" runat="server" CssClass="sncore_h2sub" />
      </td>
      <td align="right" valign="middle">
-      <a href='AccountFriendsRss.aspx?id=<% Response.Write(RequestId); %>'>
-       <img src="images/rss.gif" border="0" />
-      </a>
-      <link rel="alternate" type="application/rss+xml" title="Rss"
-       href="AccountFriendsRss.aspx?id=<% Response.Write(RequestId); %>" />
+      <SnCore:RssLink ID="linkRelRss" runat="server" />
      </td>
     </tr>
    </table>

@@ -1,7 +1,7 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="DiscussionPostsNewViewControl.ascx.cs"
  Inherits="DiscussionPostsNewViewControl" %>
 <%@ Import Namespace="SnCore.Tools.Web" %>
-
+<%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
 <table cellpadding="0" cellspacing="0" class="sncore_half_inner_table">
  <tr>
   <td>
@@ -27,6 +27,8 @@
   </td>
  </tr>
 </table>
+<SnCore:RssLink ID="linkRelThreadsRss" runat="server" NavigateUrl="DiscussionThreadsRss.aspx" 
+ Title="New Discussion Posts" ButtonVisible="false" />
 <asp:DataGrid CellPadding="4" ShowHeader="false" runat="server" ID="discussionView"
  AutoGenerateColumns="false" CssClass="sncore_half_table">
  <ItemStyle CssClass="sncore_table_tr_td" />
@@ -37,7 +39,8 @@
     <table cellpadding="0" cellspacing="0" width="100%">
      <tr>
       <td width="*">
-       <link rel="alternate" type="application/rss+xml" title="Rss" href="DiscussionRss.aspx?id=<%# Eval("DiscussionId") %>" />
+       <SnCore:RssLink ID="linkRelRss" runat="server" NavigateUrl='DiscussionRss.aspx?id=<%# Eval("DiscussionId") %>' 
+        ButtonVisible="false" Title='<%# base.Render(Eval("DiscussionName"))%>' />
        <div class="sncore_title">
         <a href='DiscussionView.aspx?id=<%# Eval("DiscussionId") %>'>
          <%# base.Render(Eval("DiscussionName"))%> 

@@ -61,6 +61,11 @@ public partial class AccountBlogPreviewControl : Control
             {
                 if (BlogId > 0)
                 {
+                    object[] b_args = { SessionManager.Ticket, BlogId };
+                    TransitAccountBlog tb = SessionManager.GetCachedItem<TransitAccountBlog>(BlogService, "GetAccountBlogById", b_args);
+                    linkRelRss.NavigateUrl = string.Format("AccountBlogRss.aspx?id={0}", BlogId);
+                    linkRelRss.Title = Renderer.Render(tb.Name);
+
                     object[] args = { BlogId };
                     gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(BlogService, "GetAccountBlogPostsCountById", args);
                     gridManage_OnGetDataSource(this, null);

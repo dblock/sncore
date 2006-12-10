@@ -270,7 +270,7 @@ public partial class PlacesView : Page
         {
             TransitPlaceQueryOptions options = GetQueryOptions();
 
-            linkRss.NavigateUrl = linkRelRss.Attributes["href"] =
+            linkRelRss.NavigateUrl =
                 string.Format("PlacesRss.aspx?order={0}&asc={1}&city={2}&country={3}&state={4}&name={5}&type={6}&pictures={7}&neighborhood={8}",
                     Renderer.UrlEncode(options.SortOrder),
                     Renderer.UrlEncode(options.SortAscending),

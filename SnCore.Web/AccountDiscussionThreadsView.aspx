@@ -4,8 +4,8 @@
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="DiscussionView" Src="DiscussionViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
- <link rel="alternate" type="application/rss+xml" title="Rss" href="DiscussionRss.aspx?id=<% Response.Write(RequestId); %>">
  <div class="sncore_navigate">
   <asp:HyperLink NavigateUrl="AccountView.aspx" CssClass="sncore_navigate_item" ID="linkAccount"
    Text="Account" runat="server" />
@@ -23,7 +23,7 @@
       </div>
      </td>
      <td align="right">
-      <asp:HyperLink ImageUrl="images/rss.gif" runat="server" ToolTip="Rss" ID="linkRss" />
+      <SnCore:RssLink ID="linkRelRss" runat="server" />
      </td>
     </tr>
    </table>

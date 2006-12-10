@@ -7,6 +7,7 @@
 <%@ Register TagPrefix="SnCore" TagName="LicenseView" Src="AccountLicenseViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="CounterView" Src="CounterViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="TellAFriend" Src="TellAFriendControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <table cellspacing="0" cellpadding="4" class="sncore_table">
@@ -49,9 +50,7 @@
     <!-- NOEMAIL-END -->
    </td>   
    <td align="right" valign="middle">
-    <asp:HyperLink runat="server" ID="linkRss" ImageUrl="images/rss.gif" NavigateUrl="AccountBlogRss.aspx" />
-    <link runat="server" id="linkRelRss" rel="alternate" type="application/rss+xml" title="Rss"
-     href="AccountBlogRss.aspx" />
+    <SnCore:RssLink ID="linkRelRss" runat="server" NavigateUrl="AccountBlogRss.aspx" />
    </td>
   </tr>
  </table>

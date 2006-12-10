@@ -5,6 +5,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountTimeZone" Src="AccountTimeZoneControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <asp:UpdatePanel ID="panelLinks" runat="server" UpdateMode="Conditional" EnableViewState="true">
   <ContentTemplate>
@@ -29,6 +30,9 @@
        <a href="AccountEventEdit.aspx">&#187; Suggest an Event</a>
        <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
       </div>
+     </td>
+     <td align="right" valign="middle">
+      <SnCore:RssLink ID="linkRelRss" runat="server" NavigateUrl="AccountEventsRss.aspx" Title="All Events" />
      </td>
     </tr>
    </table>

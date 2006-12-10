@@ -95,14 +95,17 @@ public partial class AccountBlogViewControl : Control
             {
                 if (BlogId > 0)
                 {
-                    object[] args1 = { SessionManager.IsLoggedIn ? SessionManager.Ticket : string.Empty, BlogId };
-                    TransitAccountBlog f = SessionManager.GetCachedItem<TransitAccountBlog>(BlogService, "GetAccountBlogById", args1);
+                    object[] b_args = { SessionManager.IsLoggedIn ? SessionManager.Ticket : string.Empty, BlogId };
+                    TransitAccountBlog blog = SessionManager.GetCachedItem<TransitAccountBlog>(BlogService, "GetAccountBlogById", b_args);
 
                     // limit number of items
                     object[] args2 = { BlogId };
                     gridManage.VirtualItemCount = Math.Min(gridManage.PageSize, SessionManager.GetCachedCollectionCount(BlogService, "GetAccountBlogPostsCountById", args2));
                     gridManage_OnGetDataSource(this, null);
                     gridManage.DataBind();
+
+                    linkRelRss.NavigateUrl = string.Format("AccountBlogRss.aspx?id={0}", BlogId);
+                    linkRelRss.Title = Renderer.Render(blog.Name);
                 }
             }
         }

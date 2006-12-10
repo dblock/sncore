@@ -5,8 +5,8 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
- <link rel="alternate" type="application/rss+xml" title="Rss" href="DiscussionThreadsRss.aspx">
  <table cellpadding="0" cellspacing="0" width="784">
   <tr>
    <td>
@@ -28,9 +28,7 @@
     </SnCore:Title>
    </td>
    <td align="right">
-    <a href="DiscussionThreadsRss.aspx">
-     <img border="0" src="images/rss.gif" alt="Rss" />
-    </a>
+    <SnCore:RssLink ID="linkRelRss" runat="server" NavigateUrl="DiscussionThreadsRss.aspx" />
    </td>
   </tr>
  </table>

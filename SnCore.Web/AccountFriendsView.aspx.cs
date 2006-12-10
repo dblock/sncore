@@ -36,6 +36,8 @@ public partial class AccountFriendsView : AccountPersonPage
                 labelName.Text = string.Format("{0}'s Friends", Render(ta.Name));
                 linkAccount.Text = string.Format("&#187; Back to {0}", Render(ta.Name));
                 linkAccount.NavigateUrl = string.Format("AccountView.aspx?id={0}", ta.Id);
+                linkRelRss.NavigateUrl = string.Format("AccountFriendsRss.aspx?id={0}", ta.Id);
+
                 GetData(sender, e);
             }
         }

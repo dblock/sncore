@@ -69,7 +69,7 @@ public partial class DiscussionViewControl : Control
                 postNew.NavigateUrl = string.Format("DiscussionPost.aspx?did={0}&ReturnUrl={1}&#edit",
                     DiscussionId, Renderer.UrlEncode(Request.Url.PathAndQuery));
 
-                linkRss.NavigateUrl = string.Format("DiscussionRss.aspx?id={0}", DiscussionId);
+                linkRelRss.NavigateUrl = string.Format("DiscussionRss.aspx?id={0}", DiscussionId);
 
                 GetData(sender, e);
             }

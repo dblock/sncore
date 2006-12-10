@@ -1,6 +1,8 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="AccountFeedItemsNewViewControl.ascx.cs"
  Inherits="AccountFeedItemsNewViewControl" %>
-<link rel="alternate" type="application/rss+xml" title="Rss" href="AccountFeedsRss.aspx" />
+<%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
+<SnCore:RssLink ID="linkRelRss" runat="server" NavigateUrl="AccountFeedItemsRss.aspx" ButtonVisible="false"
+ Title="New Blog Posts" />
 <table cellpadding="0" cellspacing="0" class="sncore_half_inner_table">
  <tr>
   <td>

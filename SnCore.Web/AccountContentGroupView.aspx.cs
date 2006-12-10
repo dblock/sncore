@@ -29,10 +29,10 @@ public partial class AccountContentGroupView : Page
                     RedirectToLogin();
                 }
 
-                Title = labelName.Text = Renderer.Render(group.Name);
+                linkRelRss.Title = Title = labelName.Text = Renderer.Render(group.Name);
                 labelDescription.Text = Renderer.Render(group.Description);
 
-                linkRelRss.Attributes["href"] = linkRss.NavigateUrl = string.Format("AccountContentGroupViewRss.aspx?id={0}", RequestId);
+                linkRelRss.NavigateUrl = string.Format("AccountContentGroupViewRss.aspx?id={0}", RequestId);
                 
                 GetData(sender, e);
             }

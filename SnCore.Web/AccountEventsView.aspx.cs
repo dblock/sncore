@@ -181,7 +181,7 @@ public partial class AccountEventsView : Page
         {
             TransitAccountEventQueryOptions options = QueryOptions;
 
-            linkRss.NavigateUrl = linkRelRss.Attributes["href"] =
+            linkRelRss.NavigateUrl =
                 string.Format("AccountEventsRss.aspx?order={0}&asc={1}&city={2}&country={3}&state={4}&name={5}&type={6}&neighborhood={7}",
                     Renderer.UrlEncode(QueryOptions.SortOrder),
                     Renderer.UrlEncode(QueryOptions.SortAscending),

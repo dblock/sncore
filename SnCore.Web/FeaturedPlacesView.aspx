@@ -2,6 +2,7 @@
  CodeFile="FeaturedPlacesView.aspx.cs" Inherits="FeaturedPlacesView" Title="Featured Places" %>
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
+<%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <table cellpadding="0" cellspacing="0" width="784">
   <tr>
@@ -12,9 +13,7 @@
     <asp:Label ID="labelCount" runat="server" CssClass="sncore_h2sub" />
    </td>
    <td align="right" valign="middle">
-    <asp:HyperLink runat="server" ID="linkRss" ImageUrl="images/rss.gif" NavigateUrl="FeaturedPlacesRss.aspx" />
-    <link runat="server" id="linkRelRss" rel="alternate" type="application/rss+xml" title="Rss"
-     href="FeaturedPlacesRss.aspx" />
+    <SnCore:RssLink ID="linkRelRss" runat="server" NavigateUrl="FeaturedPlacesRss.aspx" />
    </td>
   </tr>
  </table>

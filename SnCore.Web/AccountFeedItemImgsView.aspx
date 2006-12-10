@@ -7,6 +7,7 @@
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="TellAFriend" Src="TellAFriendControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
  <asp:UpdatePanel ID="panelLinks" UpdateMode="Conditional" RenderMode="Inline" runat="server">
   <ContentTemplate>
@@ -37,9 +38,7 @@
       <asp:Label ID="labelCount" runat="server" CssClass="sncore_h2sub" />
      </td>
      <td align="right" valign="middle">
-      <asp:HyperLink runat="server" ID="linkRss" ImageUrl="images/rss.gif" NavigateUrl="AccountFeedItemImgsRss.aspx" />
-      <link runat="server" id="linkRelRss" rel="alternate" type="application/rss+xml" title="Rss"
-       href="AccountFeedItemImgsRss.aspx" />
+      <SnCore:RssLink ID="linkRelRss" runat="server" NavigateUrl="AccountFeedItemImgsRss.aspx" />
      </td>
     </tr>
    </table>

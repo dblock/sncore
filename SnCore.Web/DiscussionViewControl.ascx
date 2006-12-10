@@ -4,6 +4,7 @@
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxtoolkit" %>
+<%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
 <table width="100%">
  <tr>
   <td>
@@ -13,8 +14,7 @@
    <asp:Label CssClass="sncore_description" ID="discussionDescription" runat="server" />
   </td>
   <td>
-   <link rel="alternate" type="application/rss+xml" title="Rss" href="DiscussionRss.aspx?id=<% Response.Write(DiscussionId); %>" />
-   <asp:HyperLink ImageUrl="images/rss.gif" runat="server" ToolTip="Rss" ID="linkRss" />
+   <SnCore:RssLink ID="linkRelRss" runat="server" />
   </td>
  </tr>
 </table>

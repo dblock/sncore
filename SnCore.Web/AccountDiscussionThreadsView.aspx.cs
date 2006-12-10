@@ -100,8 +100,8 @@ public partial class AcountDiscussionThreadsView : Page
 
                 linkAccount.Text = Renderer.Render(ta.Name);
                 linkAccount.NavigateUrl = string.Format("AccountView.aspx?id={0}", ta.Id);
-                this.Title = labelHeader.Text = string.Format("{0}'s Discussion Posts", Renderer.Render(ta.Name));
-                
+                linkRelRss.Title = this.Title = labelHeader.Text = string.Format("{0}'s Discussion Posts", Renderer.Render(ta.Name));                
+                linkRelRss.NavigateUrl = string.Format("AccountDiscussionThreadsRss.aspx?id={0}&toplevel={1}", ta.Id, TopOfThreads);
                 GetData(sender, e);
             }
         }
@@ -113,8 +113,6 @@ public partial class AcountDiscussionThreadsView : Page
 
     protected override void OnPreRender(EventArgs e)
     {
-        linkRss.NavigateUrl = string.Format("AccountDiscussionThreadsRss.aspx?id={0}&toplevel={1}", 
-            AccountId, TopOfThreads);
         linkNewThreads.Text = TopOfThreads ? "&#187; Show All Posts" : "&#187; Show New Threads";
         base.OnPreRender(e);
     }
