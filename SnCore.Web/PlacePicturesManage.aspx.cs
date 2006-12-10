@@ -15,6 +15,7 @@ using SnCore.Tools.Web;
 using System.IO;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.Tools;
 
 public partial class PlacePicturesManage : AuthenticatedPage
 {
@@ -104,20 +105,30 @@ public partial class PlacePicturesManage : AuthenticatedPage
             if (e.PostedFiles.Count == 0)
                 return;
 
+            ExceptionCollection exceptions = new ExceptionCollection();
             foreach (HttpPostedFile file in e.PostedFiles)
             {
-                TransitPlacePictureWithBitmap p = new TransitPlacePictureWithBitmap();
-                ThumbnailBitmap t = new ThumbnailBitmap(file.InputStream);
-                p.Bitmap = t.Bitmap;
-                p.Name = Path.GetFileName(file.FileName);
-                p.Description = string.Empty;
-                p.PlaceId = RequestId;
-                PlaceService.CreateOrUpdatePlacePicture(SessionManager.Ticket, p);
+                try
+                {
+                    TransitPlacePictureWithBitmap p = new TransitPlacePictureWithBitmap();
+                    ThumbnailBitmap t = new ThumbnailBitmap(file.InputStream);
+                    p.Bitmap = t.Bitmap;
+                    p.Name = Path.GetFileName(file.FileName);
+                    p.Description = string.Empty;
+                    p.PlaceId = RequestId;
+                    PlaceService.CreateOrUpdatePlacePicture(SessionManager.Ticket, p);
+                }
+                catch (Exception ex)
+                {
+                    exceptions.Add(new Exception(string.Format("Error processing {0}: {1}",
+                        Renderer.Render(file.FileName), ex.Message), ex));
+                }
             }
 
             gridManage.CurrentPageIndex = 0;
             gridManage_OnGetDataSource(sender, e);
             gridManage.DataBind();
+            exceptions.Throw();
         }
         catch (Exception ex)
         {

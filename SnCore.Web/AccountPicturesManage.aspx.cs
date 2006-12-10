@@ -14,6 +14,9 @@ using Wilco.Web.UI.WebControls;
 using System.IO;
 using SnCore.Services;
 using SnCore.WebServices;
+using System.Collections.Generic;
+using SnCore.Tools;
+using SnCore.Tools.Web;
 
 public partial class AccountPicturesManage : AuthenticatedPage
 {
@@ -65,20 +68,30 @@ public partial class AccountPicturesManage : AuthenticatedPage
             if (e.PostedFiles.Count == 0)
                 return;
 
+            ExceptionCollection exceptions = new ExceptionCollection();
             foreach (HttpPostedFile file in e.PostedFiles)
-            {
-                TransitAccountPictureWithBitmap p = new TransitAccountPictureWithBitmap();
+            {                
+                try
+                {
+                    TransitAccountPictureWithBitmap p = new TransitAccountPictureWithBitmap();
 
-                ThumbnailBitmap t = new ThumbnailBitmap(file.InputStream);
-                p.Bitmap = t.Bitmap;
-                p.Name = Path.GetFileName(file.FileName);
-                p.Description = string.Empty;
-                p.Hidden = false;
+                    ThumbnailBitmap t = new ThumbnailBitmap(file.InputStream);
+                    p.Bitmap = t.Bitmap;
+                    p.Name = Path.GetFileName(file.FileName);
+                    p.Description = string.Empty;
+                    p.Hidden = false;
 
-                AccountService.AddAccountPicture(SessionManager.Ticket, p);
+                    AccountService.AddAccountPicture(SessionManager.Ticket, p);
+                }
+                catch (Exception ex)
+                {
+                    exceptions.Add(new Exception(string.Format("Error processing {0}: {1}",
+                        Renderer.Render(file.FileName), ex.Message), ex));
+                }
             }
 
             GetData(sender, e);
+            exceptions.Throw();
         }
         catch (Exception ex)
         {

@@ -2,6 +2,7 @@ using System;
 using System.Data;
 using System.Configuration;
 using System.Collections;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
@@ -100,15 +101,6 @@ public partial class NoticeControl : Control
         }
     }
 
-    protected override void OnPreRender(EventArgs e)
-    {
-        panelNotice.CssClass = string.Format("{0}_{1}", CssClass, Kind.ToString().ToLower());
-        labelMessage.Text = HtmlEncode ? Render(Message) : Message;
-        panelNotice.Visible = ! string.IsNullOrEmpty(Message);
-        imageMessage.ImageUrl = string.Format("images/site/{0}.gif", Kind.ToString().ToLower());
-        base.OnPreRender(e);
-    }
-
     public Exception Exception
     {
         set
@@ -139,10 +131,10 @@ public partial class NoticeControl : Control
                             Renderer.UrlEncode(message));
             }
 
+            HtmlEncode = false;
+
             Message = string.Format("{0}<br>This may be a bug. If you believe you should not be getting this error, " +
                 "please <a href={1}>click here</a> to report it.", message, reportbugurl);
-
-            HtmlEncode = false;
 
             StringBuilder s = new StringBuilder();
             s.AppendFormat("User-raised exception from {0}: {1}\n{2}", value.Source, value.Message, value.StackTrace);
@@ -187,6 +179,7 @@ public partial class NoticeControl : Control
             }
 
             panelNotice.Visible = ! string.IsNullOrEmpty(value);
+            labelMessage.Text = HtmlEncode ? Render(Message) : Message;
         }
     }
 
@@ -214,6 +207,9 @@ public partial class NoticeControl : Control
             {
                 mNoticeKind = value;
             }
+
+            panelNotice.CssClass = string.Format("{0}_{1}", CssClass, value.ToString().ToLower());
+            imageMessage.ImageUrl = string.Format("images/site/{0}.gif", value.ToString().ToLower());
         }
     }
 

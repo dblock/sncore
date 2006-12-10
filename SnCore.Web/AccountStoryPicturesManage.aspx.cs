@@ -16,6 +16,7 @@ using SnCore.Tools.Drawing;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.Tools;
 
 public partial class AccountStoryPicturesManage : AuthenticatedPage
 {
@@ -99,19 +100,29 @@ public partial class AccountStoryPicturesManage : AuthenticatedPage
             List<TransitAccountStoryPictureWithPicture> ps =
                 new List<TransitAccountStoryPictureWithPicture>(e.PostedFiles.Count);
 
+            ExceptionCollection exceptions = new ExceptionCollection();
             foreach (HttpPostedFile file in e.PostedFiles)
             {
-                TransitAccountStoryPictureWithPicture p =
-                    new TransitAccountStoryPictureWithPicture();
+                try
+                {
+                    TransitAccountStoryPictureWithPicture p =
+                        new TransitAccountStoryPictureWithPicture();
 
-                ThumbnailBitmap t = new ThumbnailBitmap(file.InputStream);
-                p.Picture = t.Bitmap;
-                p.Name = Path.GetFileName(file.FileName);
-                ps.Add(p);
+                    ThumbnailBitmap t = new ThumbnailBitmap(file.InputStream);
+                    p.Picture = t.Bitmap;
+                    p.Name = Path.GetFileName(file.FileName);
+                    ps.Add(p);
+                }
+                catch (Exception ex)
+                {
+                    exceptions.Add(new Exception(string.Format("Error processing {0}: {1}",
+                        Renderer.Render(file.FileName), ex.Message), ex));
+                }
             }
 
             StoryService.AddAccountStoryWithPictures(SessionManager.Ticket, s, ps.ToArray());
             GetImagesData(sender, e);
+            exceptions.Throw();
         }
         catch (Exception ex)
         {

@@ -15,6 +15,7 @@ using SnCore.Tools.Web;
 using System.IO;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.Tools;
 
 public partial class AccountEventPicturesManage : AuthenticatedPage
 {
@@ -103,20 +104,30 @@ public partial class AccountEventPicturesManage : AuthenticatedPage
             if (e.PostedFiles.Count == 0)
                 return;
 
+            ExceptionCollection exceptions = new ExceptionCollection();
             foreach (HttpPostedFile file in e.PostedFiles)
             {
-                TransitAccountEventPictureWithPicture p = new TransitAccountEventPictureWithPicture();
-                ThumbnailBitmap t = new ThumbnailBitmap(file.InputStream);
-                p.Picture = t.Bitmap;
-                p.Name = Path.GetFileName(file.FileName);
-                p.Description = string.Empty;
-                p.AccountEventId = RequestId;
-                EventService.CreateOrUpdateAccountEventPicture(SessionManager.Ticket, p);
+                try
+                {
+                    TransitAccountEventPictureWithPicture p = new TransitAccountEventPictureWithPicture();
+                    ThumbnailBitmap t = new ThumbnailBitmap(file.InputStream);
+                    p.Picture = t.Bitmap;
+                    p.Name = Path.GetFileName(file.FileName);
+                    p.Description = string.Empty;
+                    p.AccountEventId = RequestId;
+                    EventService.CreateOrUpdateAccountEventPicture(SessionManager.Ticket, p);
+                }
+                catch (Exception ex)
+                {
+                    exceptions.Add(new Exception(string.Format("Error processing {0}: {1}",
+                        Renderer.Render(file.FileName), ex.Message), ex));
+                }
             }
 
             gridManage.CurrentPageIndex = 0;
             gridManage_OnGetDataSource(sender, e);
             gridManage.DataBind();
+            exceptions.Throw();
         }
         catch (Exception ex)
         {
