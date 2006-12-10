@@ -89,11 +89,13 @@
       <td class="sncore_table_tr_td">      
        <SnCore:BookmarksView ID="bookmarksView" ShowThumbnail="true" runat="server" RepeatColumns="-1" />
       </td>
+      <!-- NOEMAIL-START -->
       <td class="sncore_table_tr_td">
        <div class="sncore_description">
         views: <SnCore:CounterView ID="counterProfileViews" runat="server" />
        </div>
       </td>
+      <!-- NOEMAIL-END -->
      </tr>
     </table>
     <!-- NOEMAIL-START -->
