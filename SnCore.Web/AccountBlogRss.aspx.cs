@@ -60,7 +60,7 @@ public partial class AccountBlogRss : Page
     {
         get
         {
-            return WebsiteUrl.TrimEnd('/') + string.Format("/AccountBlogView.aspx?id=", RequestId);
+            return WebsiteUrl.TrimEnd('/') + string.Format("/AccountBlogView.aspx?id={0}", RequestId);
         }
     }
 
