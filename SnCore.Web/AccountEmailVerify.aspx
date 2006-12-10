@@ -2,7 +2,7 @@
  CodeFile="AccountEmailVerify.aspx.cs" Inherits="AccountEmailVerify" Title="Account | Verify EMail" %>
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+<asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <asp:Panel ID="panelVerify" runat="server">
   <div class="sncore_h2">
    Verify E-Mail

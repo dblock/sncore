@@ -2,7 +2,7 @@
  CodeFile="AccountDelete.aspx.cs" Inherits="AccountDelete" Title="Account | Delete" %>
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+<asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <div class="sncore_navigate">
   <asp:Label CssClass="sncore_navigate_item" ID="linkAccount" Text="Delete Account"
    runat="server" />

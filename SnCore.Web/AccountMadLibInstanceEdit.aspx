@@ -5,7 +5,7 @@
 <%@ Register TagPrefix="WilcoWebControls" Namespace="Wilco.Web.UI.WebControls" Assembly="Wilco.Web" %>
 <%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="MadLibInstanceEdit" Src="MadLibInstanceEditControl.ascx" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+<asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
   <SnCore:Title ID="titleNewMadLib" Text="Post a Mad Lib" runat="server">  
    <Template>
     <div class="sncore_title_paragraph">

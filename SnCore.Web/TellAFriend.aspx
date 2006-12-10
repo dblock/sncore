@@ -1,6 +1,6 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="TellAFriend.aspx.cs" Inherits="TellAFriend" Title="Untitled Page" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+<asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" Runat="Server">
  <table width="100%">
   <tr>
    <td>

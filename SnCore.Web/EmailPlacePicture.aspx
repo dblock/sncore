@@ -2,7 +2,7 @@
  Inherits="EmailPlacePicture" Title="New Picture" %>
 
 <%@ Import Namespace="SnCore.Tools.Web" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+<asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <div class="sncore_h2">
   New Picture
  </div>

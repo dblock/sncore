@@ -2,7 +2,7 @@
  Inherits="EmailAccountPlaceRequest" Title="Property ownership request" %>
 
 <%@ Import Namespace="SnCore.Tools.Web" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+<asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <div class="sncore_h2">
   Property Ownership Request
  </div>

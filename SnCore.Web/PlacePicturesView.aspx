@@ -2,7 +2,7 @@
  CodeFile="PlacePicturesView.aspx.cs" Inherits="PlacePicturesView" Title="Place | Pictures" %>
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+<asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <div class="sncore_navigate">
   <asp:HyperLink CssClass="sncore_navigate_item" ID="linkPlace" Text="Place"
    NavigateUrl="PlacePicturesView.aspx" runat="server" />

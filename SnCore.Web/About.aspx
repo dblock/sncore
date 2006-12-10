@@ -1,7 +1,7 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true"
  CodeFile="About.aspx.cs" Inherits="About" Title="About" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+<asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <%@ register tagprefix="SnCore" tagname="Notice" src="NoticeControl.ascx" %>
  <div class="sncore_h2">
   About

@@ -3,7 +3,7 @@
 
 <%@ Register TagPrefix="SnCore" tagname="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+<asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <div class="sncore_navigate">
   <asp:Label CssClass="sncore_navigate_item" ID="linkSystem" Text="System" runat="server" />
   <asp:HyperLink CssClass="sncore_navigate_item" ID="linkSection" NavigateUrl="SystemRefererHostDupsManage.aspx" Text="Referer Host Dups" runat="server" />

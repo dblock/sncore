@@ -227,10 +227,25 @@ public class Control : System.Web.UI.UserControl
             throw ex;
     }
 
+    public object FindNoticeMenuControl()
+    {
+        System.Web.UI.MasterPage master = Page.Master;
+        object notice = null;
+
+        while (notice == null && master != null)
+        {
+            notice = master.FindControl("noticeMenu");
+            master = master.Master;
+        }
+
+        return notice;
+    }
+
     public void ReportException(Exception ex)
     {
         RethrowException(ex);
-        object notice = Page.Master.FindControl("noticeMenu");
+        object notice = FindNoticeMenuControl();
+        if (notice == null) throw ex;
         notice.GetType().GetProperty("Exception").SetValue(notice, ex, null);
     }
 

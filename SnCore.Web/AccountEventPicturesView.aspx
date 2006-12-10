@@ -2,7 +2,7 @@
  CodeFile="AccountEventPicturesView.aspx.cs" Inherits="AccountEventPicturesView" Title="AccountEvent | Pictures" %>
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+<asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <div class="sncore_navigate">
   <asp:HyperLink CssClass="sncore_navigate_item" ID="linkAccountEvent" Text="AccountEvent"
    NavigateUrl="AccountEventPicturesView.aspx" runat="server" />

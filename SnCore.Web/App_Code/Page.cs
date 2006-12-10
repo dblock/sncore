@@ -24,9 +24,15 @@ public class Page : System.Web.UI.Page
 
     protected override void OnPreInit(EventArgs e)
     {
-        if (Master != null && Master is MasterPage)
+        System.Web.UI.MasterPage master = Master;
+        while (master != null)
         {
-            ((MasterPage)Master).OnPagePreInit(e);
+            if (master is MasterPage)
+            {
+                ((MasterPage) master).OnPagePreInit(e);
+            }
+
+            master = master.Master;
         }
 
         base.OnPreInit(e);
@@ -281,11 +287,25 @@ public class Page : System.Web.UI.Page
             throw ex;
     }
 
+    public object FindNoticeMenuControl()
+    {
+        System.Web.UI.MasterPage master = Master;
+        object notice = null;
+        
+        while (notice == null && master != null)
+        {
+            notice = master.FindControl("noticeMenu");
+            master = master.Master;
+        }
+
+        return notice;
+    }
+
     public void ReportException(Exception ex)
     {
         RethrowException(ex);
         if (Master == null) throw ex;
-        object notice = Master.FindControl("noticeMenu");
+        object notice = FindNoticeMenuControl();
         if (notice == null) throw ex;
         notice.GetType().GetProperty("Exception").SetValue(notice, ex, null);
     }
@@ -293,7 +313,7 @@ public class Page : System.Web.UI.Page
     public void ReportInfo(string message, bool htmlencode)
     {
         if (Master == null) throw new Exception(message);
-        object notice = Master.FindControl("noticeMenu");
+        object notice = FindNoticeMenuControl();
         if (notice == null) throw new Exception(message);
         notice.GetType().GetProperty("Info").SetValue(notice, message, null);
         notice.GetType().GetProperty("HtmlEncode").SetValue(notice, htmlencode, null);
@@ -322,7 +342,7 @@ public class Page : System.Web.UI.Page
     public void ReportWarning(string message)
     {
         if (Master == null) throw new Exception(message);
-        object notice = Master.FindControl("noticeMenu");
+        object notice = FindNoticeMenuControl();
         if (notice == null) throw new Exception(message);
         notice.GetType().GetProperty("Warning").SetValue(notice, message, null);
     }

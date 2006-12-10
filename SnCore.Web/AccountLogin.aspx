@@ -6,6 +6,6 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountLogin" Src="AccountLoginControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="TagWordsView" Src="TagWordsViewControl.ascx" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+<asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <SnCore:AccountLogin runat="server" ID="loginMain" />
 </asp:Content>

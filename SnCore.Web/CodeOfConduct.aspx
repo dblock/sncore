@@ -2,7 +2,7 @@
  Inherits="CodeOfConduct" Title="Code of Conduct" %>
 
 <%@ Import Namespace="SnCore.Tools.Web" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+<asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <table class="sncore_table">
   <tr>
    <td class="sncore_table_tr_td">

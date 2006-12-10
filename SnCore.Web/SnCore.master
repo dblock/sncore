@@ -128,7 +128,7 @@
     </ContentTemplate>
    </asp:UpdatePanel>
    <!-- NOEMAIL-END -->
-   <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+   <asp:ContentPlaceHolder ID="ContentPlaceHolder" runat="server">
    </asp:ContentPlaceHolder>
   </div>
   <div class="sncore_master_footer">
