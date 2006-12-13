@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class RefererAccountsView : AccountPersonPage
 {
@@ -29,6 +30,11 @@ public partial class RefererAccountsView : AccountPersonPage
                 //       SessionManager.GetCachedConfiguration(
                 //            "SnCore.Admin.EmailAddress", "admin@localhost.com"));
                 GetData();
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Top Traffickers", Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

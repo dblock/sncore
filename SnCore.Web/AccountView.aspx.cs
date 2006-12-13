@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class AccountView : Page
 {
@@ -126,9 +127,14 @@ public partial class AccountView : Page
                     return;
                 }
 
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(Account.Name, Request.Url));
+                StackSiteMap(sitemapdata);
+
                 accountReminder.Visible = (RequestId == 0);
 
-                this.Title = linkAccount.Text = Renderer.Render(Account.Name);
+                this.Title = Renderer.Render(Account.Name);
 
                 GetPicturesData(sender, e);
                 

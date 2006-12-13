@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.WebServices;
 using SnCore.Services;
+using SnCore.SiteMap;
 
 public partial class AccountEventPictureView : Page
 {
@@ -24,6 +25,16 @@ public partial class AccountEventPictureView : Page
                 mPictureId = RequestId;
                 GetPictureData(sender, e);
                 GetPicturesData(sender, e);
+
+                TransitAccountEvent t = AccountEvent;
+                TransitAccountEventPicture p = AccountEventPicture;
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Events", Request, "AccountEventsView.aspx"));
+                sitemapdata.AddRange(SiteMapDataAttribute.GetLocationAttributeNodes(Request, "AccountEventsToday.aspx", t.PlaceCountry, t.PlaceState, t.PlaceCity, t.PlaceNeighborhood, t.AccountEventType));
+                sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request, string.Format("AccountEventView.aspx?id={0}", t.Id)));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)
@@ -99,41 +110,13 @@ public partial class AccountEventPictureView : Page
         inputCreated.Text = Adjust(p.Created).ToString("d");
         inputCounter.Text = p.Counter.Total.ToString();
 
-        TransitAccountEvent l = AccountEvent;
+        TransitAccountEvent t = AccountEvent;
 
         labelAccountEventName.Text = this.Title = string.Format("{0}: {1}",
-            Renderer.Render(l.Name), string.IsNullOrEmpty(p.Name) ? "Untitled" : Renderer.Render(p.Name));
+            Renderer.Render(t.Name), string.IsNullOrEmpty(p.Name) ? "Untitled" : Renderer.Render(p.Name));
 
-        labelPicture.Text = Renderer.Render(p.Name);
-
-        linkAccountEvent.Text = Renderer.Render(l.Name);
-        linkCity.Text = Renderer.Render(l.PlaceCity);
-        linkState.Text = Renderer.Render(l.PlaceState);
-        linkCountry.Text = Renderer.Render(l.PlaceCountry);
-        linkType.Text = l.AccountEventType + "s";
-
-        linkType.NavigateUrl = string.Format("AccountEventsView.aspx?city={0}&state={1}&country={2}&type={3}",
-            Renderer.UrlEncode(l.PlaceCity),
-            Renderer.UrlEncode(l.PlaceState),
-            Renderer.UrlEncode(l.PlaceCountry),
-            Renderer.UrlEncode(l.AccountEventType));
-
-        linkCity.NavigateUrl = string.Format("AccountEventsView.aspx?city={0}&state={1}&country={2}",
-            Renderer.UrlEncode(l.PlaceCity),
-            Renderer.UrlEncode(l.PlaceState),
-            Renderer.UrlEncode(l.PlaceCountry));
-
-        linkState.NavigateUrl = string.Format("AccountEventsView.aspx?state={0}&country={1}",
-            Renderer.UrlEncode(l.PlaceState),
-            Renderer.UrlEncode(l.PlaceCountry));
-
-        linkCountry.NavigateUrl = string.Format("AccountEventsView.aspx?country={0}",
-            Renderer.UrlEncode(l.PlaceCountry));
-
-        linkAccountEvent.NavigateUrl = string.Format("AccountEventView.aspx?id={0}", l.Id);
-
-        linkBack.NavigateUrl = linkAccountEvent.NavigateUrl = string.Format("AccountEventView.aspx?id={0}", l.Id);
-        linkBack.Text = string.Format("&#187; Back to {0}", Renderer.Render(l.Name));
+        linkBack.NavigateUrl = string.Format("AccountEventView.aspx?id={0}", t.Id);
+        linkBack.Text = string.Format("&#187; Back to {0}", Renderer.Render(t.Name));
         linkComments.Visible = p.CommentCount > 0;
         linkComments.Text = string.Format("&#187; {0} comment{1}",
             (p.CommentCount > 0) ? p.CommentCount.ToString() : "no",

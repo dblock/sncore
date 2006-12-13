@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using SnCore.SiteMap;
 
 public partial class AccountSurveysManage : AuthenticatedPage
 {
@@ -20,6 +21,11 @@ public partial class AccountSurveysManage : AuthenticatedPage
             {
                 gridManage_OnGetDataSource(sender, e);
                 gridManage.DataBind();
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Surveys", Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

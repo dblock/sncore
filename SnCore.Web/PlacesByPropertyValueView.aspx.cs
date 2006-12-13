@@ -13,6 +13,7 @@ using System.Text;
 using SnCore.Services;
 using SnCore.WebServices;
 using System.Collections.Generic;
+using SnCore.SiteMap;
 
 public partial class PlacesByPropertyValueView : Page
 {
@@ -25,6 +26,13 @@ public partial class PlacesByPropertyValueView : Page
             if (!IsPostBack)
             {
                 GetData(sender, e);
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(GroupName, Request, string.Format("PlacesByPropertyValueView.aspx?GroupName={0}", Renderer.UrlEncode(GroupName))));
+                sitemapdata.Add(new SiteMapDataAttributeNode(PropertyName, Request, string.Format("PlacesByPropertyValueView.aspx?GroupName={0}&PropertyName={1}", Renderer.UrlEncode(GroupName), Renderer.UrlEncode(PropertyName))));
+                sitemapdata.Add(new SiteMapDataAttributeNode(PropertyValue, Request, string.Format("PlacesByPropertyValueView.aspx?GroupName={0}&PropertyName={1}&PropertyValue={2}", Renderer.UrlEncode(GroupName), Renderer.UrlEncode(PropertyName), Renderer.UrlEncode(PropertyValue))));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)
@@ -42,7 +50,9 @@ public partial class PlacesByPropertyValueView : Page
     {
         get
         {
-            return Request["GroupName"];
+            string result = Request["GroupName"];
+            if (string.IsNullOrEmpty(result)) return string.Empty;
+            return result;
         }
     }
 
@@ -50,7 +60,9 @@ public partial class PlacesByPropertyValueView : Page
     {
         get
         {
-            return Request["PropertyName"];
+            string result = Request["PropertyName"];
+            if (string.IsNullOrEmpty(result)) return string.Empty;
+            return result;
         }
     }
 
@@ -58,7 +70,9 @@ public partial class PlacesByPropertyValueView : Page
     {
         get
         {
-            return Request["PropertyValue"];
+            string result = Request["PropertyValue"];
+            if (string.IsNullOrEmpty(result)) return string.Empty;
+            return result;
         }
     }
 

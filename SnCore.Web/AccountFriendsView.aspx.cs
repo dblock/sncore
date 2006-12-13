@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class AccountFriendsView : AccountPersonPage
 {
@@ -39,6 +40,12 @@ public partial class AccountFriendsView : AccountPersonPage
                 linkRelRss.NavigateUrl = string.Format("AccountFriendsRss.aspx?id={0}", ta.Id);
 
                 GetData(sender, e);
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(ta.Name, Request, string.Format("AccountView.aspx?id={0}", ta.Id)));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Friends", Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

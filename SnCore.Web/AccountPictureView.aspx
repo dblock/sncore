@@ -7,11 +7,6 @@
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <asp:UpdatePanel runat="server" ID="panelPicture" UpdateMode="Always">
   <ContentTemplate>
-   <div class="sncore_navigate">
-    <asp:HyperLink CssClass="sncore_navigate_item" ID="linkAccount" Text="Account" runat="server" />
-    <asp:HyperLink CssClass="sncore_navigate_item" ID="linkPictures" Text="Pictures" runat="server" />
-    <asp:Label CssClass="sncore_navigate_item" ID="linkPicture" Text="Picture" runat="server" />
-   </div>
    <div class="sncore_h2">
     <asp:Label ID="labelAccountName" runat="server" Text="Account" />
    </div>

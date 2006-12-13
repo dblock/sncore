@@ -17,13 +17,13 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.Tools;
+using SnCore.SiteMap;
 
 public partial class AccountStoryPicturesManage : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
         this.addFile.Attributes["onclick"] = this.files.GetAddFileScriptReference() + "return false;";
-        SetDefaultButton(picturesAdd);
         try
         {
             if (!IsPostBack)
@@ -31,12 +31,16 @@ public partial class AccountStoryPicturesManage : AuthenticatedPage
                 TransitAccountStory ts = StoryService.GetAccountStoryById(
                     SessionManager.Ticket, RequestId);
 
-                linkAccountStory.Text = Render(ts.Name);
-                linkBack.NavigateUrl = linkAccountStory.NavigateUrl = string.Format("AccountStoryEdit.aspx?id={0}", ts.Id);
-                linkAccount.Text = Render(ts.AccountName);
-                linkAccount.NavigateUrl = string.Format("AccountView.aspx?id={0}", ts.AccountId);
+                linkBack.NavigateUrl = string.Format("AccountStoryEdit.aspx?id={0}", ts.Id);
 
                 GetImagesData(sender, e);
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Stories", Request, "AccountStoriesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(ts.Name, Request, string.Format("AccountStoryEdit.aspx?id={0}", ts.Id)));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request.Url));
+                StackSiteMap(sitemapdata);
             }
 
             if (!AccountService.HasVerifiedEmail(SessionManager.Ticket))
@@ -46,6 +50,8 @@ public partial class AccountStoryPicturesManage : AuthenticatedPage
 
                 picturesAdd.Enabled = false;
             }
+
+            SetDefaultButton(picturesAdd);
         }
         catch (Exception ex)
         {

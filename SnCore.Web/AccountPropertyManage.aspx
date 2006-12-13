@@ -19,7 +19,7 @@
   <ContentTemplate>
    <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage" PageSize="10"
     AllowCustomPaging="true" AllowPaging="true" AutoGenerateColumns="false" CssClass="sncore_account_table"
-    ShowHeader="false" RepeatColumns="2" RepeatRows="4" RepeatDirection="Horizontal" OnItemCommand="gridManage_ItemCommand">
+    ShowHeader="false" RepeatColumns="2" RepeatRows="3" RepeatDirection="Horizontal" OnItemCommand="gridManage_ItemCommand">
     <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
      prevpagetext="Prev" horizontalalign="Center" />
     <ItemStyle CssClass="sncore_description" HorizontalAlign="Center" />

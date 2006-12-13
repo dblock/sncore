@@ -4,10 +4,6 @@
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content" ContentPlaceHolderID="AccountContentPlaceHolder" runat="Server">
- <div class="sncore_navigate">
-  <asp:Label CssClass="sncore_navigate_item" ID="linkSystem" Text="AccountEvents" runat="server" />
-  <asp:Label CssClass="sncore_navigate_item" ID="linkSection" Text="Types" runat="server" />
- </div>
  <div class="sncore_h2">
   Event Types
  </div>

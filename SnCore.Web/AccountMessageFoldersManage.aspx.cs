@@ -13,6 +13,7 @@ using Wilco.Web.UI;
 using Wilco.Web.UI.WebControls;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class AccountMessageFoldersManage : AuthenticatedPage
 {
@@ -56,6 +57,11 @@ public partial class AccountMessageFoldersManage : AuthenticatedPage
             if (!IsPostBack)
             {
                 GetData();
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Messages", Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

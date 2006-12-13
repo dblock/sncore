@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class SystemDiscussionEdit : AuthenticatedPage
 {
@@ -18,9 +19,11 @@ public partial class SystemDiscussionEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(manageAdd);
             if (!IsPostBack)
             {
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Discussions", Request, "SystemDiscussionsManage.aspx"));
 
                 int id = RequestId;
 
@@ -29,8 +32,17 @@ public partial class SystemDiscussionEdit : AuthenticatedPage
                     TransitDiscussion tw = DiscussionService.GetDiscussionById(id);
                     inputName.Text = Renderer.Render(tw.Name);
                     inputDescription.Text = Renderer.Render(tw.Description);
+                    sitemapdata.Add(new SiteMapDataAttributeNode(tw.Name, Request.Url));
                 }
+                else
+                {
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New Discussion", Request.Url));
+                }
+
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(manageAdd);
         }
         catch (Exception ex)
         {

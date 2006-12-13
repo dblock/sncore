@@ -12,9 +12,12 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 using System.Collections.Generic;
+using SnCore.SiteMap;
 
 public partial class PlaceAttributeEdit : AuthenticatedPage
 {
+    private TransitPlace mPlace = null;
+
     public int PlaceId
     {
         get
@@ -27,7 +30,6 @@ public partial class PlaceAttributeEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(manageAdd);
             if (!IsPostBack)
             {
                 linkBack.NavigateUrl = string.Format("PlaceAttributesManage.aspx?id={0}", PlaceId);
@@ -42,6 +44,12 @@ public partial class PlaceAttributeEdit : AuthenticatedPage
                 listAttributes.DataSource = attributes;
                 listAttributes.DataBind();
 
+                TransitPlace p = Place;
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(p.Name, Request, string.Format("PlaceView.aspx?id={0}", p.Id)));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Attributes", Request, string.Format("PlaceAttributesManage.aspx?id={0}", p.Id)));
+
                 if (RequestId > 0)
                 {
                     TransitPlaceAttribute attribute = PlaceService.GetPlaceAttributeById(RequestId);
@@ -53,12 +61,34 @@ public partial class PlaceAttributeEdit : AuthenticatedPage
                     listAttributes.Enabled = false;
                     previewImage.ImageUrl = string.Format("SystemAttribute.aspx?id={0}", attribute.AttributeId);
                     previewImage.Visible = true;
+                    sitemapdata.Add(new SiteMapDataAttributeNode(attribute.Attribute.Name, Request.Url));
                 }
+                else
+                {
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New Attribute", Request.Url));
+                }
+
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(manageAdd);
         }
         catch (Exception ex)
         {
             ReportException(ex);
+        }
+    }
+
+    public TransitPlace Place
+    {
+        get
+        {
+            if (mPlace == null)
+            {
+                mPlace = PlaceService.GetPlaceById(SessionManager.Ticket, PlaceId);
+            }
+
+            return mPlace;
         }
     }
 

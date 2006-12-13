@@ -13,7 +13,9 @@ using System.Text;
 using SnCore.WebServices;
 using SnCore.Services;
 using Microsoft.Web.UI;
+using SnCore.SiteMap;
 
+[SiteMapDataAttribute("Blogs")]
 public partial class AccountFeedItemsView : Page
 {
     public void Page_Load(object sender, EventArgs e)

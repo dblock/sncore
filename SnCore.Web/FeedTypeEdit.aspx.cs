@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using System.IO;
 using SnCore.Services;
+using SnCore.SiteMap;
 
 public partial class FeedTypeEdit : AuthenticatedPage
 {
@@ -18,7 +19,6 @@ public partial class FeedTypeEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(manageAdd);
             if (!IsPostBack)
             {
                 for (int i = 1; i < 20; i++)
@@ -28,6 +28,10 @@ public partial class FeedTypeEdit : AuthenticatedPage
                     inputSpanColumnsPreview.Items.Add(new ListItem(i.ToString(), i.ToString()));
                     inputSpanRowsPreview.Items.Add(new ListItem(i.ToString(), i.ToString()));
                 }
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Feed Types", Request, "FeedTypesManage.aspx"));
 
                 if (RequestId > 0)
                 {
@@ -42,8 +46,18 @@ public partial class FeedTypeEdit : AuthenticatedPage
                         labelXsl.Text = string.Format("{0} Kb",
                             ((double)t.Xsl.Length / 1024).ToString("0.00"));
                     }
+
+                    sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
                 }
+                else
+                {
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New Feed Type", Request.Url));
+                }
+
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(manageAdd);
         }
         catch (Exception ex)
         {

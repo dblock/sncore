@@ -17,12 +17,12 @@ using SnCore.WebServices;
 using System.Collections.Generic;
 using SnCore.Tools;
 using SnCore.Tools.Web;
+using SnCore.SiteMap;
 
 public partial class AccountPicturesManage : AuthenticatedPage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        SetDefaultButton(save);
         this.addFile.Attributes["onclick"] = this.files.GetAddFileScriptReference() + "return false;";
 
         try
@@ -32,7 +32,14 @@ public partial class AccountPicturesManage : AuthenticatedPage
             if (!IsPostBack)
             {
                 GetData(sender, e);
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request.Url));
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(save);
         }
         catch (Exception ex)
         {

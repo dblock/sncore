@@ -44,6 +44,9 @@
          <asp:ListItem>/AccountBlog.*.aspx</asp:ListItem>
         </Highlights>
         <Downlights>
+         <asp:ListItem>/AccountBlogsManage.aspx</asp:ListItem>        
+         <asp:ListItem>/AccountBlogEdit.aspx</asp:ListItem>        
+         <asp:ListItem>/AccountBlogPost.aspx</asp:ListItem>        
          <asp:ListItem>/AccountFeedsManage.aspx</asp:ListItem>        
          <asp:ListItem>/AccountFeedWizard.aspx</asp:ListItem>        
         </Downlights>
@@ -119,6 +122,9 @@
      </td>
     </tr>
    </table>
+  </div>
+  <div class="sncore_master_sitemappath">
+   <asp:SiteMapPath runat="server" ID="siteMapPath" />
   </div>
   <div class="sncore_master_content" id="content">
    <!-- NOEMAIL-START -->

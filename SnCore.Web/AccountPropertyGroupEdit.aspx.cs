@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.WebServices;
 using SnCore.Services;
 using System.Text;
+using SnCore.SiteMap;
 
 public partial class AccountPropertyGroupEdit : AuthenticatedPage
 {
@@ -18,25 +19,31 @@ public partial class AccountPropertyGroupEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(save);
-
             if (!IsPostBack)
             {
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+
                 if (RequestId > 0)
                 {
                     TransitAccountPropertyGroup tag = AccountService.GetAccountPropertyGroupById(RequestId);
                     labelName.Text = Render(tag.Name);
                     labelDescription.Text = Render(tag.Description);
-
+                    sitemapdata.Add(new SiteMapDataAttributeNode(tag.Name, Request.Url));
                 }
                 else
                 {
                     labelName.Text = "All Property Groups";
+                    sitemapdata.Add(new SiteMapDataAttributeNode("Properties", Request.Url));
                 }
+
+                StackSiteMap(sitemapdata);
 
                 gridManage.DataSource = AccountService.GetAllAccountPropertyValues(SessionManager.Ticket, RequestId);
                 gridManage.DataBind();
             }
+
+            SetDefaultButton(save);
         }
         catch (Exception ex)
         {

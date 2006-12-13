@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.WebServices;
 using SnCore.Services;
+using SnCore.SiteMap;
 
 public partial class DiscussionThreadsView : Page
 {
@@ -22,6 +23,11 @@ public partial class DiscussionThreadsView : Page
             if (!IsPostBack)
             {
                 GetData(sender, e);
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Discussions", Request, "DiscussionsView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("New Posts", Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using SnCore.SiteMap;
 
 public partial class SystemAccountEventTypesManage : AuthenticatedPage
 {
@@ -21,6 +22,11 @@ public partial class SystemAccountEventTypesManage : AuthenticatedPage
             {
                 gridManage_OnGetDataSource(this, null);
                 gridManage.DataBind();
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Event Types", Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.WebServices;
 using SnCore.Services;
+using SnCore.SiteMap;
 
 public partial class AccountPictureView : Page
 {
@@ -24,6 +25,15 @@ public partial class AccountPictureView : Page
                 mPictureId = RequestId;
                 GetPictureData(sender, e);
                 GetPicturesData(sender, e);
+
+                TransitAccountPicture p = AccountPicture;
+                TransitAccount a = Account;
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(a.Name, Request, string.Format("AccountView.aspx?id={0}", a.Id)));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request, string.Format("AccountPicturesView.aspx?id={0}", a.Id)));
+                sitemapdata.Add(new SiteMapDataAttributeNode(p.Name, Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)
@@ -111,12 +121,7 @@ public partial class AccountPictureView : Page
         labelAccountName.Text = this.Title = string.Format("{0}: {1}",
             Renderer.Render(l.Name), string.IsNullOrEmpty(p.Name) ? "Untitled" : Renderer.Render(p.Name));
 
-        linkAccount.Text = Renderer.Render(l.Name);
-        linkAccount.NavigateUrl = "AccountView.aspx?id=" + p.AccountId;
-        linkPictures.NavigateUrl = "AccountPicturesView.aspx?id=" + p.AccountId;
-        linkPicture.Text = Renderer.Render((p.Name != null && p.Name.Length > 0) ? p.Name : "Untitled");
-
-        linkBack.NavigateUrl = linkAccount.NavigateUrl = string.Format("AccountView.aspx?id={0}", l.Id);
+        linkBack.NavigateUrl = string.Format("AccountView.aspx?id={0}", l.Id);
         linkBack.Text = string.Format("&#187; Back to {0}", Renderer.Render(l.Name));
         linkComments.Visible = p.CommentCount > 0;
         linkComments.Text = string.Format("&#187; {0} comment{1}",

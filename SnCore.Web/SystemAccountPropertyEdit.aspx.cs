@@ -10,9 +10,12 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
+using SnCore.SiteMap;
 
 public partial class SystemAccountPropertyEdit : AuthenticatedPage
 {
+    private TransitAccountPropertyGroup mPropertyGroup = null;
+
     public int PropertyGroupId
     {
         get
@@ -21,14 +24,30 @@ public partial class SystemAccountPropertyEdit : AuthenticatedPage
         }
     }
 
+    public TransitAccountPropertyGroup PropertyGroup
+    {
+        get
+        {
+            if (mPropertyGroup == null)
+            {
+                mPropertyGroup = AccountService.GetAccountPropertyGroupById(PropertyGroupId);
+            }
+
+            return mPropertyGroup;
+        }
+    }
+
     public void Page_Load(object sender, EventArgs e)
     {
         try
         {
-            SetDefaultButton(manageAdd);
-
             if (!IsPostBack)
             {
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Account Property Groups", Request, "SystemAccountPropertyGroupsManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(PropertyGroup.Name, Request, string.Format("SystemAccountPropertyGroupEdit.aspx?id={0}", PropertyGroupId)));
+
                 linkBack.NavigateUrl = string.Format("SystemAccountPropertyGroupEdit.aspx?id={0}", PropertyGroupId);
 
                 inputTypeName.Items.Add(new ListItem("String", Type.GetType("System.String").ToString()));
@@ -37,7 +56,7 @@ public partial class SystemAccountPropertyEdit : AuthenticatedPage
                 inputTypeName.Items.Add(new ListItem("Integer", Type.GetType("System.Int32").ToString()));
                 inputTypeName.Items.Add(new ListItem("Boolean", Type.GetType("System.Boolean").ToString()));
                 // inputTypeName.Items.Add(new ListItem(Type.GetType("System.DateTime").ToString()));
-                    
+
                 if (RequestId > 0)
                 {
                     TransitAccountProperty t = AccountService.GetAccountPropertyById(RequestId);
@@ -46,8 +65,10 @@ public partial class SystemAccountPropertyEdit : AuthenticatedPage
                     inputDefaultValue.Text = t.DefaultValue;
                     inputPublish.Checked = t.Publish;
 
+                    sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
+
                     ListItem typeitem = inputTypeName.Items.FindByValue(t.Type.ToString());
-                    
+
                     if (typeitem == null)
                     {
                         typeitem = new ListItem(t.Type.ToString());
@@ -56,7 +77,15 @@ public partial class SystemAccountPropertyEdit : AuthenticatedPage
 
                     typeitem.Selected = true;
                 }
+                else
+                {
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New Property", Request.Url));
+                }
+
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(manageAdd);
         }
         catch (Exception ex)
         {

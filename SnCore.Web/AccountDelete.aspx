@@ -3,10 +3,6 @@
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
- <div class="sncore_navigate">
-  <asp:Label CssClass="sncore_navigate_item" ID="linkAccount" Text="Delete Account"
-   runat="server" />
- </div>
  <asp:Panel CssClass="panel" ID="pnlAccount" runat="server">
   <table cellspacing="0" cellpadding="4" class="sncore_table">
    <tr>

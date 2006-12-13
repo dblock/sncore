@@ -10,7 +10,9 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
+[SiteMapDataAttribute("Join")]
 public partial class AccountCreateInvitation : Page
 {
     public void Page_Load(object sender, EventArgs e)

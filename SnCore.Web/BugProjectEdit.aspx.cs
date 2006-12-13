@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
+using SnCore.SiteMap;
 
 public partial class BugProjectEdit : AuthenticatedPage
 {
@@ -19,13 +20,23 @@ public partial class BugProjectEdit : AuthenticatedPage
         {
             if (!IsPostBack)
             {
-                SetDefaultButton(manageAdd);
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Bugs", Request, "BugProjectsManage.aspx"));
+
                 if (RequestId > 0)
                 {
                     TransitBugProject t = BugService.GetBugProjectById(RequestId);
                     inputName.Text = t.Name;
                     inputDescription.Text = t.Description;
+                    sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
                 }
+                else
+                {
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New Project", Request.Url));
+                }
+
+                StackSiteMap(sitemapdata);
+                SetDefaultButton(manageAdd);
             }
         }
         catch (Exception ex)

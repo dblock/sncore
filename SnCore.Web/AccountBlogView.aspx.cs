@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class AccountBlogView : Page
 {
@@ -80,6 +81,11 @@ public partial class AccountBlogView : Page
                 linkRelRss.NavigateUrl = string.Format("AccountBlogRss.aspx?id={0}", RequestId);
                 linkEdit.NavigateUrl = string.Format("AccountBlogEdit.aspx?id={0}", RequestId);
                 linkPostNew.NavigateUrl = string.Format("AccountBlogPost.aspx?bid={0}", RequestId);
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Blogs", Request, "AccountFeedItemsView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(f.Name, Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

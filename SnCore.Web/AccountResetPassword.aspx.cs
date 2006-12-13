@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using SnCore.SiteMap;
 
 public partial class AccountResetPassword : Page
 {
@@ -15,15 +16,22 @@ public partial class AccountResetPassword : Page
     {
         try
         {
-            SetDefaultButton(resetPassword);
-
             if (!IsPostBack)
             {
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Security", "AccountPreferencesManage.aspx#security"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Reset Password", Request.Url));
+                StackSiteMap(sitemapdata);
+
                 linkAdministrator.OnClientClick =
                     string.Format("location.href='mailto:{0}';",
                        SessionManager.GetCachedConfiguration(
                             "SnCore.Admin.EmailAddress", "admin@localhost.com"));
             }
+
+            SetDefaultButton(resetPassword);
+
         }
         catch (Exception ex)
         {

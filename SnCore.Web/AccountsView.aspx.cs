@@ -11,7 +11,9 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
+[SiteMapDataAttribute("People")]
 public partial class AccountsView : AccountPersonPage
 {
     public class SelectLocationEventArgs : EventArgs

@@ -11,6 +11,8 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.WebServices;
 using SnCore.Services;
+using SnCore.SiteMap;
+using System.Collections.Generic;
 
 public partial class DiscussionView : Page
 {
@@ -22,8 +24,14 @@ public partial class DiscussionView : Page
             {
                 discussionMain.DiscussionId = RequestId;
                 discussionMain.DataBind();
+                
                 TransitDiscussion td = DiscussionService.GetDiscussionById(RequestId);
-                this.Title = linkDiscussion.Text = Renderer.Render(td.Name);
+                this.Title = Renderer.Render(td.Name);
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Discussions", Request, "DiscussionsView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(td.Name, Request, string.Format("DiscussionView.aspx?id={0}", RequestId)));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

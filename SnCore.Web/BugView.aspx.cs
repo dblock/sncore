@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class BugView : Page
 {
@@ -38,9 +39,8 @@ public partial class BugView : Page
 
         this.Title = string.Format("{0} #{1}: {2}", Renderer.Render(project.Name), bug.Id, Renderer.Render(bug.Subject));
 
-        linkBugId.Text = "#" + bug.Id.ToString();
-        bugProject.Text = linkProject.Text = linkProject2.Text = Renderer.Render(project.Name);
-        linkProject.NavigateUrl = linkProject2.NavigateUrl = string.Format("BugProjectBugsManage.aspx?id={0}", project.Id);
+        bugProject.Text = linkProject2.Text = Renderer.Render(project.Name);
+        linkProject2.NavigateUrl = string.Format("BugProjectBugsManage.aspx?id={0}", project.Id);
         imageBugType.ImageUrl = string.Format("images/bugs/type_{0}.gif", bug.Type);
         bugType.Text = Renderer.Render(bug.Type);
         bugCreated.Text = bug.Created.ToString();
@@ -78,6 +78,12 @@ public partial class BugView : Page
 
         gridNotes_OnGetDataSource(this, null);
         gridNotes.DataBind();
+
+        SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+        sitemapdata.Add(new SiteMapDataAttributeNode("Bugs", Request, "BugProjectsManage.aspx"));
+        sitemapdata.Add(new SiteMapDataAttributeNode(project.Name, Request, string.Format("BugProjectBugsManage.aspx?id={0}", project.Id)));
+        sitemapdata.Add(new SiteMapDataAttributeNode(string.Format("#{0}: {1}", bug.Id, bug.Subject), Request.Url));
+        StackSiteMap(sitemapdata);
     }
 
     void gridNotes_OnGetDataSource(object sender, EventArgs e)

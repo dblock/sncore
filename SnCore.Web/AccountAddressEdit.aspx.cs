@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class AccountAddressEdit : AuthenticatedPage
 {
@@ -18,9 +19,12 @@ public partial class AccountAddressEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(manageAdd);
             if (!IsPostBack)
             {
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Addresses", Request, "AccountAddressesManage.aspx"));
+
                 TransitAccountAddress tw = null;
 
                 int id = RequestId;
@@ -33,7 +37,14 @@ public partial class AccountAddressEdit : AuthenticatedPage
                     inputStreet.Text = Renderer.Render(tw.Street);
                     inputCity.Text = Renderer.Render(tw.City);
                     inputZip.Text = Renderer.Render(tw.Zip);
+                    sitemapdata.Add(new SiteMapDataAttributeNode(tw.Name, Request.Url));
                 }
+                else
+                {
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New Address", Request.Url));
+                }
+
+                StackSiteMap(sitemapdata);
 
                 ArrayList countries = new ArrayList();
                 if (tw == null || tw.Country.Length == 0) countries.Add(new TransitCountry());
@@ -42,7 +53,7 @@ public partial class AccountAddressEdit : AuthenticatedPage
 
                 ArrayList states = new ArrayList();
                 if (tw == null || tw.State.Length == 0) states.Add(new TransitState());
-                states.AddRange(SessionManager.GetCachedCollection<TransitState>(LocationService, "GetStates", null));
+                states.AddRange(SessionManager.GetCachedCollection<TransitState>(LocationService, "GetStates", c_args));
 
                 inputCountry.DataSource = countries;
                 inputCountry.DataBind();
@@ -56,6 +67,8 @@ public partial class AccountAddressEdit : AuthenticatedPage
                     inputState.Items.FindByValue(tw.State).Selected = true;
                 }
             }
+
+            SetDefaultButton(manageAdd);
         }
         catch (Exception ex)
         {

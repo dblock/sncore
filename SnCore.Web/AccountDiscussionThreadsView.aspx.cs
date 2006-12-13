@@ -12,6 +12,7 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 using Wilco.Web.UI;
+using SnCore.SiteMap;
 
 public partial class AcountDiscussionThreadsView : Page
 {
@@ -98,11 +99,15 @@ public partial class AcountDiscussionThreadsView : Page
                 TransitAccount ta = SessionManager.GetCachedItem<TransitAccount>(
                     AccountService, "GetAccountById", args);
 
-                linkAccount.Text = Renderer.Render(ta.Name);
-                linkAccount.NavigateUrl = string.Format("AccountView.aspx?id={0}", ta.Id);
                 linkRelRss.Title = this.Title = labelHeader.Text = string.Format("{0}'s Discussion Posts", Renderer.Render(ta.Name));                
                 linkRelRss.NavigateUrl = string.Format("AccountDiscussionThreadsRss.aspx?id={0}&toplevel={1}", ta.Id, TopOfThreads);
                 GetData(sender, e);
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(ta.Name, Request, string.Format("AccountView.aspx?id={0}", ta.Id)));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Discussion Posts", Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.WebServices;
 using SnCore.Services;
+using SnCore.SiteMap;
 
 public partial class PlaceTypeEdit : AuthenticatedPage
 {
@@ -18,15 +19,26 @@ public partial class PlaceTypeEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(manageAdd);
             if (!IsPostBack)
             {
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Place Types", Request, "PlaceTypesManage.aspx"));
+
                 if (RequestId > 0)
                 {
                     TransitPlaceType t = PlaceService.GetPlaceTypeById(RequestId);
                     inputName.Text = t.Name;
+                    sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
                 }
+                else
+                {
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New Place Type", Request.Url));
+                }
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(manageAdd);
         }
         catch (Exception ex)
         {

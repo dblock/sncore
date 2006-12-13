@@ -13,6 +13,7 @@ using SnCore.Services;
 using SnCore.WebServices;
 using Microsoft.Web.UI;
 using Wilco.Web.UI;
+using SnCore.SiteMap;
 
 public partial class AccountFeedItemImgsView : AccountPersonPage
 {
@@ -39,6 +40,11 @@ public partial class AccountFeedItemImgsView : AccountPersonPage
             {
                 linkEdit.Visible = SessionManager.IsAdministrator;
                 GetData();
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Blogs", Request, "AccountFeedItemsView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

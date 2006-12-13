@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class AccountMadLibEdit : AuthenticatedPage
 {
@@ -18,16 +19,27 @@ public partial class AccountMadLibEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(save);
             if (!IsPostBack)
             {
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Syndication", Request, "AccountFeedsManage.aspx"));
+
                 if (RequestId > 0)
                 {
                     TransitMadLib t = MadLibService.GetMadLibById(RequestId);
                     inputTemplate.Text = t.Template;
                     inputName.Text = t.Name;
+                    sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
                 }
+                else
+                {
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New MadLib", Request.Url));
+                }
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(save);
         }
         catch (Exception ex)
         {

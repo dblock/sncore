@@ -13,6 +13,7 @@ using System.Text;
 using SnCore.Services;
 using SnCore.WebServices;
 using System.Collections.Generic;
+using SnCore.SiteMap;
 
 public partial class AccountsByPropertyValueView : Page
 {
@@ -25,6 +26,13 @@ public partial class AccountsByPropertyValueView : Page
             if (!IsPostBack)
             {
                 GetData(sender, e);
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(GroupName, Request, string.Format("AccountsByPropertyValueView.aspx?GroupName={0}&PropertyName=&PropertyValue=", GroupName)));
+                sitemapdata.Add(new SiteMapDataAttributeNode(PropertyName, Request, string.Format("AccountsByPropertyValueView.aspx?GroupName={0}&PropertyName={1}&PropertyValue=", GroupName, PropertyName)));
+                sitemapdata.Add(new SiteMapDataAttributeNode(PropertyValue, Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)
@@ -41,10 +49,40 @@ public partial class AccountsByPropertyValueView : Page
     private void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        object[] args = { Request["GroupName"], Request["PropertyName"], Request["PropertyValue"] };
+        object[] args = { GroupName, PropertyName, PropertyValue };
         gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(AccountService, "GetAccountsByPropertyValueCount", args);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
+    }
+
+    public string GroupName
+    {
+        get
+        {
+            string result = Request["GroupName"];
+            if (string.IsNullOrEmpty(result)) return string.Empty;
+            return result;
+        }
+    }
+
+    public string PropertyName
+    {
+        get
+        {
+            string result = Request["PropertyName"];
+            if (string.IsNullOrEmpty(result)) return string.Empty;
+            return result;
+        }
+    }
+
+    public string PropertyValue
+    {
+        get
+        {
+            string result = Request["PropertyValue"];
+            if (string.IsNullOrEmpty(result)) return string.Empty;
+            return result;
+        }
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)

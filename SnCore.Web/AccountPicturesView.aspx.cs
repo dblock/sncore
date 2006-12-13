@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class AccountPicturesView : Page
 {
@@ -28,11 +29,15 @@ public partial class AccountPicturesView : Page
             if (!IsPostBack)
             {
                 TransitAccount a = AccountService.GetAccountById(RequestId);
-                linkAccount.Text = Renderer.Render(a.Name);
-                linkAccount.NavigateUrl = string.Format("AccountView.aspx?id={0}", a.Id);
                 this.Title = string.Format("{0}'s Pictures", Renderer.Render(a.Name));
         
                 GetData(sender, e);
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(a.Name, Request, string.Format("AccountView.aspx?id={0}", a.Id)));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

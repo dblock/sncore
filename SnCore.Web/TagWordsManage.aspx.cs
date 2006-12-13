@@ -13,6 +13,7 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 using System.Collections.Generic;
+using SnCore.SiteMap;
 
 public partial class TagWordsManage : AuthenticatedPage
 {
@@ -28,6 +29,11 @@ public partial class TagWordsManage : AuthenticatedPage
                 listboxSelectType.DataBind();
                 listboxSelectType.Items.FindByValue("New").Selected = true;
                 listboxSelectType_SelectedIndexChanged(sender, e);
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Tag Words", Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)
@@ -84,8 +90,8 @@ public partial class TagWordsManage : AuthenticatedPage
         if (demoted.Count > 0) sb.AppendFormat("Demoted: {0}<BR>\n", string.Join(", ", demoted.ToArray()));
         if (included.Count > 0) sb.AppendFormat("Included: {0}<BR>\n", string.Join(", ", included.ToArray()));
         if (excluded.Count > 0) sb.AppendFormat("Excluded: {0}<BR>\n", string.Join(", ", excluded.ToArray()));
-        noticeManage.Info = sb.ToString();
         noticeManage.HtmlEncode = false;
+        noticeManage.Info = sb.ToString();
 
         GetData(sender, e);
     }

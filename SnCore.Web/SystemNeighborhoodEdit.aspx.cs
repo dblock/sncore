@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class SystemNeighborhoodEdit : AuthenticatedPage
 {
@@ -18,11 +19,11 @@ public partial class SystemNeighborhoodEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(manageAdd);
-            PageManager.SetDefaultButton(mergeLookup, panelMerge.Controls);
-
             if (!IsPostBack)
             {
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Neighborhoods", Request, "SystemNeighborhoodsManage.aspx"));
 
                 object[] c_args = { null };
                 inputCountry.DataSource = SessionManager.GetCachedCollection<TransitCountry>(LocationService, "GetCountries", c_args);
@@ -37,13 +38,20 @@ public partial class SystemNeighborhoodEdit : AuthenticatedPage
                     inputState.Items.FindByValue(tc.State).Selected = true;
                     inputState_SelectedIndexChanged(sender, e);
                     inputCity.Items.FindByValue(tc.City).Selected = true;
+                    sitemapdata.Add(new SiteMapDataAttributeNode(tc.Name, Request.Url));
                 }
                 else
                 {
                     inputCountry_SelectedIndexChanged(sender, e);
                     panelMerge.Visible = false;
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New Neighborhood", Request.Url));
                 }
+
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(manageAdd);
+            PageManager.SetDefaultButton(mergeLookup, panelMerge.Controls);
         }
         catch (Exception ex)
         {

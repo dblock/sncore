@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
+using SnCore.SiteMap;
 using SnCore.WebServices;
 
 public partial class SearchDiscussionPosts : Page
@@ -18,19 +19,24 @@ public partial class SearchDiscussionPosts : Page
     {
         try
         {
-            SetDefaultButton(search);
             if (!IsPostBack)
             {
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Discussions", Request, "DiscussionsView.aspx"));
+
                 if (RequestId > 0)
                 {
-                    linkDiscussion.Visible = true;
-                    linkDiscussion.NavigateUrl = string.Format("DiscussionView.aspx?id={0}", RequestId);
                     object[] args = { RequestId };
                     TransitDiscussion discussion = SessionManager.GetCachedItem<TransitDiscussion>(
                         DiscussionService, "GetDiscussionById", args);
-                    linkDiscussion.Text = Renderer.Render(discussion.Name);
+                    sitemapdata.Add(new SiteMapDataAttributeNode(discussion.Name, Request, string.Format("DiscussionView.aspx?id={0}", discussion.Id)));
                 }
+
+                sitemapdata.Add(new SiteMapDataAttributeNode("Search", Request.Url));
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(search);
         }
         catch (Exception ex)
         {

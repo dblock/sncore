@@ -10,9 +10,25 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
+using SnCore.SiteMap;
 
 public partial class SystemPlacePropertyEdit : AuthenticatedPage
 {
+    private TransitPlacePropertyGroup mPropertyGroup = null;
+
+    public TransitPlacePropertyGroup PropertyGroup
+    {
+        get
+        {
+            if (mPropertyGroup == null)
+            {
+                mPropertyGroup = PlaceService.GetPlacePropertyGroupById(PropertyGroupId);
+            }
+
+            return mPropertyGroup;
+        }
+    }
+
     public int PropertyGroupId
     {
         get
@@ -25,10 +41,13 @@ public partial class SystemPlacePropertyEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(manageAdd);
-
             if (!IsPostBack)
             {
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Place Property Groups", Request, "SystemPlacePropertyGroupsManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(PropertyGroup.Name, Request, string.Format("SystemPlacePropertyGroupEdit.aspx?id={0}", PropertyGroupId)));
+
                 linkBack.NavigateUrl = string.Format("SystemPlacePropertyGroupEdit.aspx?id={0}", PropertyGroupId);
 
                 inputTypeName.Items.Add(new ListItem("String", Type.GetType("System.String").ToString()));
@@ -46,6 +65,8 @@ public partial class SystemPlacePropertyEdit : AuthenticatedPage
                     inputDefaultValue.Text = t.DefaultValue;
                     inputPublish.Checked = t.Publish;
 
+                    sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
+
                     ListItem typeitem = inputTypeName.Items.FindByValue(t.Type.ToString());
                     
                     if (typeitem == null)
@@ -56,7 +77,15 @@ public partial class SystemPlacePropertyEdit : AuthenticatedPage
 
                     typeitem.Selected = true;
                 }
+                else
+                {
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New Property", Request.Url));
+                }
+
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(manageAdd);
         }
         catch (Exception ex)
         {

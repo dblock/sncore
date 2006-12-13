@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class BugPriorityEdit : AuthenticatedPage
 {
@@ -20,13 +21,25 @@ public partial class BugPriorityEdit : AuthenticatedPage
         {
             if (!IsPostBack)
             {
-                SetDefaultButton(manageAdd);
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Bugs", Request, "BugProjectsManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Priorities", Request, "BugPrioritiesManage.aspx"));
+
                 if (RequestId > 0)
                 {
                     TransitBugPriority t = BugService.GetBugPriorityById(RequestId);
                     inputName.Text = t.Name;
+                    sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
                 }
+                else
+                {
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New Priority", Request.Url));
+                }
+
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(manageAdd);
         }
         catch (Exception ex)
         {

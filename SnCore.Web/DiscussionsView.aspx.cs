@@ -10,7 +10,9 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
+[SiteMapDataAttribute("Discussions")]
 public partial class DiscussionsView : Page
 {
     public void Page_Load(object sender, EventArgs e)

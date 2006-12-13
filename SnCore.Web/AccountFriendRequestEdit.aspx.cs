@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.WebServices;
 using SnCore.Services;
+using SnCore.SiteMap;
 
 public partial class AccountFriendRequestEdit : AuthenticatedPage
 {
@@ -18,7 +19,6 @@ public partial class AccountFriendRequestEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(manageAdd);
             if (!IsPostBack)
             {
                 if (ParentId != 0)
@@ -29,8 +29,16 @@ public partial class AccountFriendRequestEdit : AuthenticatedPage
                     linkKeen.Text = Renderer.Render(account.Name);
                     imageKeen.ImageUrl = string.Format("AccountPictureThumbnail.aspx?id={0}", account.PictureId);
                     inputMessage.Text = "Dear " + account.Name + "\n\nI would like to be your friend.\n\nThanks!\n";
+
+                    SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                    sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
+                    sitemapdata.Add(new SiteMapDataAttributeNode(account.Name, Request, string.Format("AccountView.aspx?id={0}", account.Id)));
+                    sitemapdata.Add(new SiteMapDataAttributeNode("Friend Request", Request.Url));
+                    StackSiteMap(sitemapdata);
                 }
             }
+
+            SetDefaultButton(manageAdd);
 
             if (!AccountService.HasVerifiedEmail(SessionManager.Ticket))
             {

@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class MarketingCampaignEdit : AuthenticatedPage
 {
@@ -18,9 +19,12 @@ public partial class MarketingCampaignEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(save);
             if (!IsPostBack)
             {
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Marketing Campaigns", Request, "MarketingCampaignsManage.aspx"));
+
                 if (RequestId > 0)
                 {
                     TransitCampaign t = MarketingService.GetCampaignById(SessionManager.Ticket, RequestId);
@@ -30,8 +34,17 @@ public partial class MarketingCampaignEdit : AuthenticatedPage
                     inputSenderEmail.Text = t.SenderEmailAddress;
                     inputSenderName.Text = t.SenderName;
                     inputUrl.Text = t.Url;
+                    sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
                 }
+                else
+                {
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New Marketing Campaign", Request.Url));
+                }
+
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(save);
         }
         catch (Exception ex)
         {

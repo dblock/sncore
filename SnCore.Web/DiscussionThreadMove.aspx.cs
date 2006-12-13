@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class DiscussionThreadMove : Page
 {
@@ -34,13 +35,18 @@ public partial class DiscussionThreadMove : Page
                     SessionManager.Ticket, tt.Id);
 
                 this.Title = Renderer.Render(td.Name);
-                linkDiscussion.Text = Renderer.Render(td.Name);
-                linkThread.Text = Renderer.Render(tp.Subject);
 
                 listDiscussions.DataSource = DiscussionService.GetDiscussions(null);
                 listDiscussions.DataBind();
 
                 listDiscussions.Items.FindByValue(tt.DiscussionId.ToString()).Selected = true;
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Discussions", Request, "DiscussionsView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(td.Name, Request, string.Format("DiscussionView.aspx?id={0}", td.Id)));
+                sitemapdata.Add(new SiteMapDataAttributeNode(tp.Subject, Request, string.Format("DiscussionThreadView.aspx?id={0}&did={1}", tp.DiscussionThreadId, td.Id)));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Move", Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

@@ -15,9 +15,6 @@
  <table class="sncore_account_table">
   <tr>
    <td class="sncore_form_label">
-    <a href='AccountPictureView.aspx?id=<% Response.Write(base.RequestId); %>'>
-     <img border="0" runat="server" id="inputPictureThumbnail" src="AccountPictureThumbnail.aspx?id=0" />
-    </a>
    </td>
    <td class="sncore_form_tr_td">
     <table>
@@ -35,7 +32,7 @@
       </td>
       <td class="sncore_form_value">
        <asp:TextBox CssClass="sncore_form_textbox" ID="inputDescription" runat="server"
-        TextMode="MultiLine" Rows="10" />
+        TextMode="MultiLine" Rows="3" />
       </td>
      </tr>
      <tr>
@@ -51,6 +48,15 @@
       <td class="sncore_form_value">
        <SnCoreWebControls:Button ID="manageAdd" runat="server" Text="Save" CausesValidation="true" CssClass="sncore_form_button"
         OnClick="save_Click" />
+      </td>
+     </tr>
+     <tr>
+      <td>
+      </td>
+      <td>
+       <a href='AccountPictureView.aspx?id=<% Response.Write(base.RequestId); %>'>
+        <img border="0" runat="server" id="inputPictureThumbnail" src="AccountPictureThumbnail.aspx?id=0" />
+       </a>
       </td>
      </tr>
     </table>

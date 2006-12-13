@@ -12,6 +12,7 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 using System.Text;
+using SnCore.SiteMap;
 
 public partial class AccountMessageEdit : AuthenticatedPage
 {
@@ -38,7 +39,6 @@ public partial class AccountMessageEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(manageAdd);
             if (!IsPostBack)
             {
                 TransitAccount ta = AccountService.GetAccountById(RequestId);
@@ -88,7 +88,15 @@ public partial class AccountMessageEdit : AuthenticatedPage
 
                     manageAdd.Enabled = false;
                 }
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(ta.Name, Request, string.Format("AccountView.aspx?id={0}", ta.Id)));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Compose Message", Request.Url));
+                StackSiteMap(sitemapdata);                
             }
+
+            SetDefaultButton(manageAdd);
         }
         catch (Exception ex)
         {

@@ -14,6 +14,7 @@ using SnCore.Tools.Drawing;
 using System.IO;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class SystemRefererQueries : AuthenticatedPage
 {
@@ -26,6 +27,11 @@ public partial class SystemRefererQueries : AuthenticatedPage
             if (!IsPostBack)
             {
                 GetData();
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Statistics", Request, "SystemStatsHits.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Referer Queries", Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

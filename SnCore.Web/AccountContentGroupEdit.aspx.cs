@@ -16,6 +16,7 @@ using SnCore.Tools.Drawing;
 using SnCore.Tools.Web;
 using SnCore.WebServices;
 using SnCore.Services;
+using SnCore.SiteMap;
 
 public partial class AccountContentGroupEdit : AuthenticatedPage
 {
@@ -23,10 +24,12 @@ public partial class AccountContentGroupEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(linkSave);
-
             if (!IsPostBack)
             {
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Content", Request, "AccountContentGroupsManage.aspx"));
+
                 if (RequestId > 0)
                 {
                     gridManageContent.OnGetDataSource += new EventHandler(gridManageContent_OnGetDataSource);
@@ -34,6 +37,8 @@ public partial class AccountContentGroupEdit : AuthenticatedPage
 
                     TransitAccountContentGroup tf = ContentService.GetAccountContentGroupById(
                         SessionManager.Ticket, RequestId);
+
+                    sitemapdata.Add(new SiteMapDataAttributeNode(tf.Name, Request.Url));
 
                     inputName.Text = tf.Name;
                     inputDescription.Text = tf.Description;
@@ -45,12 +50,17 @@ public partial class AccountContentGroupEdit : AuthenticatedPage
                 }
                 else
                 {
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New Group", Request.Url));
+
                     linkNew.Visible = false;
                     linkView.Visible = false;
                 }
 
                 inputTrusted.Enabled = SessionManager.IsAdministrator;
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(linkSave);
         }
         catch (Exception ex)
         {

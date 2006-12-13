@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class PlaceEdit : AuthenticatedPage
 {
@@ -34,8 +35,6 @@ public partial class PlaceEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(manageAdd);
-
             gridPlaceNamesManage.OnGetDataSource += new EventHandler(gridPlaceNamesManage_OnGetDataSource);
 
             LocationSelector.CountryChanged += new EventHandler(LocationSelector_CountryChanged);
@@ -43,12 +42,12 @@ public partial class PlaceEdit : AuthenticatedPage
 
             if (!IsPostBack)
             {
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));
+
                 gridPlaceNamesManage_OnGetDataSource(sender, e);
                 gridPlaceNamesManage.DataBind();
-            }
 
-            if (!IsPostBack)
-            {
                 ppg.PlaceId = RequestId;
                 ppg.DataBind();
 
@@ -73,10 +72,9 @@ public partial class PlaceEdit : AuthenticatedPage
                     inputZip.Text = place.Zip;
                     selectType.Items.FindByValue(place.Type).Selected = true;
                     LocationSelector.SelectLocation(sender, new LocationEventArgs(place));
-                    linkPlaceId.Text = Renderer.Render(place.Name);
-                    linkPlaceId.NavigateUrl = string.Format("PlaceView.aspx?id={0}", place.Id);
                     linkEditAttributes.NavigateUrl = string.Format("PlaceAttributesManage.aspx?id={0}", place.Id);
                     linkEditPictures.NavigateUrl = string.Format("PlacePicturesManage.aspx?id={0}", place.Id);
+                    sitemapdata.Add(new SiteMapDataAttributeNode(place.Name, Request.Url));
                 }
                 else
                 {
@@ -95,11 +93,13 @@ public partial class PlaceEdit : AuthenticatedPage
 
                     LocationSelector.ChangeCityWithAccountDefault(sender, new CityLocationEventArgs(Request.QueryString["city"]));
 
-                    linkPlaceId.Text = "New Place";
                     linkDelete.Visible = false;
                     linkEditAttributes.Visible = false;
                     linkEditPictures.Visible = false;
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New Place", Request.Url));
                 }
+
+                StackSiteMap(sitemapdata);
             }
 
             if (!AccountService.HasVerifiedEmail(SessionManager.Ticket))
@@ -109,6 +109,8 @@ public partial class PlaceEdit : AuthenticatedPage
 
                 manageAdd.Enabled = false;
             }
+
+            SetDefaultButton(manageAdd);
         }
         catch (Exception ex)
         {

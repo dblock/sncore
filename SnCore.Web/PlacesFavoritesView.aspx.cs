@@ -13,6 +13,7 @@ using System.Text;
 using SnCore.Services;
 using SnCore.WebServices;
 using System.Collections.Generic;
+using SnCore.SiteMap;
 
 public partial class PlacesFavoritesView : Page
 {
@@ -25,6 +26,11 @@ public partial class PlacesFavoritesView : Page
             if (!IsPostBack)
             {
                 GetDataFavorites(sender, e);
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Favorites", Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

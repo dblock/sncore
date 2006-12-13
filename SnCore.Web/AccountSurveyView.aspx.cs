@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class AccountSurveyView : Page
 {
@@ -24,22 +25,30 @@ public partial class AccountSurveyView : Page
             accountSurveyAnswers.OnGetDataSource += new EventHandler(accountSurveyAnswers_OnGetDataSource);
             if (!IsPostBack)
             {
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                TransitSurvey s = Survey;
+
                 if (AccountId > 0)
                 {
-                    linkAccount.Text = accountName.Text = Renderer.Render(Account.Name);
-                    accountImage.Src = string.Format("AccountPictureThumbnail.aspx?id={0}", Account.PictureId);
-                    linkAccount.NavigateUrl = accountLink.HRef = string.Format("AccountView.aspx?id={0}", Account.Id);
-                    this.Title = string.Format("{0}'s {1}", Renderer.Render(Account.Name), Renderer.Render(Survey.Name));
+                    TransitAccount a = Account;
+                    accountName.Text = Renderer.Render(a.Name);
+                    accountImage.Src = string.Format("AccountPictureThumbnail.aspx?id={0}", a.PictureId);
+                    accountLink.HRef = string.Format("AccountView.aspx?id={0}", a.Id);
+                    this.Title = string.Format("{0}'s {1}", Renderer.Render(a.Name), Renderer.Render(s.Name));
+
+                    sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
+                    sitemapdata.Add(new SiteMapDataAttributeNode(a.Name, Request, string.Format("AccountView.aspx?id={0}", a.Id)));
                 }
                 else
                 {
                     accountcolumn.Visible = false;
-                    linkAccount.Visible = false;
-                    this.Title = string.Format("{0}", Renderer.Render(Survey.Name));
+                    this.Title = string.Format("{0}", Renderer.Render(s.Name));
                 }
 
-                surveyName.Text = Renderer.Render(Survey.Name);
-                linkAccountSurvey.Text = Renderer.Render(Survey.Name);
+                sitemapdata.Add(new SiteMapDataAttributeNode(s.Name, Request.Url));
+                StackSiteMap(sitemapdata);
+
+                surveyName.Text = Renderer.Render(s.Name);
                 accountSurveyAnswers_OnGetDataSource(sender, e);
                 accountSurveyAnswers.DataBind();
             }

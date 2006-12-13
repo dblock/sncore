@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class AccountPictureEdit : AuthenticatedPage
 {
@@ -18,7 +19,6 @@ public partial class AccountPictureEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(manageAdd);
             if (!IsPostBack)
             {
                 int id = RequestId;
@@ -33,8 +33,16 @@ public partial class AccountPictureEdit : AuthenticatedPage
 
                     discussionComments.DiscussionId = DiscussionService.GetAccountPictureDiscussionId(id);
                     discussionComments.DataBind();
+
+                    SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                    sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                    sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request, "AccountPicturesManage.aspx"));
+                    sitemapdata.Add(new SiteMapDataAttributeNode(tw.Name, Request.Url));
+                    StackSiteMap(sitemapdata);
                 }
             }
+
+            SetDefaultButton(manageAdd);
         }
         catch (Exception ex)
         {

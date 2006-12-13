@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class AccountFriendRequestsSentManage : AuthenticatedPage
 {
@@ -22,6 +23,12 @@ public partial class AccountFriendRequestsSentManage : AuthenticatedPage
             {
                 listSent.VirtualItemCount = SocialService.GetAccountFriendRequestsSentCount(SessionManager.Ticket);                
                 GetData(sender, e);
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Friend Requests", Request, "AccountFriendRequestsManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Sent", Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

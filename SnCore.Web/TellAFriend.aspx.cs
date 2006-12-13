@@ -14,6 +14,7 @@ using System.Net.Mail;
 using SnCore.Tools.Web;
 using System.Text;
 using SnCore.Services;
+using SnCore.SiteMap;
 
 public partial class TellAFriend : AuthenticatedPage
 {
@@ -42,8 +43,9 @@ public partial class TellAFriend : AuthenticatedPage
         {
             if (!IsPostBack)
             {
+                string subject = HttpUtility.HtmlDecode(Request.Params["Subject"]);
                 linkPage.NavigateUrl = linkCancel.NavigateUrl = Url;
-                Title = inputSubject.Text = string.Format("Check out {0}", HttpUtility.HtmlDecode(Request.Params["Subject"]));
+                Title = inputSubject.Text = string.Format("Check out {0}", subject);
 
                 if (!AccountService.HasVerifiedEmail(SessionManager.Ticket))
                 {
@@ -52,6 +54,11 @@ public partial class TellAFriend : AuthenticatedPage
 
                     send.Enabled = false;
                 }
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Tell a Friend", Request, "TellAFriend.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(subject, Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

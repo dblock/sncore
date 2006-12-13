@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class AccountFriendsManage : AuthenticatedPage
 {
@@ -25,6 +26,11 @@ public partial class AccountFriendsManage : AuthenticatedPage
                 friendsList.VirtualItemCount = SocialService.GetFriendsCount(SessionManager.Ticket);
                 friendsList_OnGetDataSource(this, null);
                 friendsList.DataBind();
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Friends", Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

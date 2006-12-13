@@ -12,6 +12,7 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 using System.Collections.Generic;
+using SnCore.SiteMap;
 
 public partial class AccountMessageView : AuthenticatedPage
 {
@@ -62,6 +63,12 @@ public partial class AccountMessageView : AuthenticatedPage
 
                 linkMove.NavigateUrl = string.Format("AccountMessageMove.aspx?id={0}&ReturnUrl={1}",
                     message.Id, UrlEncode(ReturnUrl));
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Messages", Request, "AccountMessageFoldersManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(message.Subject, Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

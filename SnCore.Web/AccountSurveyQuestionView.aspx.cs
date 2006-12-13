@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class AccountSurveyQuestionView : Page
 {
@@ -34,10 +35,17 @@ public partial class AccountSurveyQuestionView : Page
             accountSurveyAnswers.OnGetDataSource += new EventHandler(accountSurveyAnswers_OnGetDataSource);
             if (!IsPostBack)
             {
-                surveyName.Text = this.Title = linkSurvey.Text = Renderer.Render(Survey.Name);
-                linkSurvey.NavigateUrl = ReturnUrl;
-                linkSurveyQuestion.Text = Renderer.Render(SurveyQuestion.Question);
+                TransitSurvey ts = Survey;
+                TransitSurveyQuestion tsq = SurveyQuestion;
+
+                surveyName.Text = this.Title = Renderer.Render(ts.Name);
+
                 GetData();
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode(ts.Name, Request, string.Format("AccountSurveyView.aspx?id={0}", ts.Id)));
+                sitemapdata.Add(new SiteMapDataAttributeNode(tsq.Question, Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

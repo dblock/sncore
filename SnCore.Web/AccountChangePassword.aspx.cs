@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
+using SnCore.SiteMap;
 
 public partial class AccountChangePassword : AuthenticatedPage
 {
@@ -16,7 +17,11 @@ public partial class AccountChangePassword : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(manageAccountChangePassword);
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Security", "AccountPreferencesManage.aspx#security"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Change Password", Request.Url));
+            StackSiteMap(sitemapdata);
 
             if (!string.IsNullOrEmpty(PasswordHash))
             {
@@ -27,6 +32,8 @@ public partial class AccountChangePassword : AuthenticatedPage
             {
                 ReportInfo("Your password has expired. Please change your password.");
             }
+
+            SetDefaultButton(manageAccountChangePassword);
         }
         catch (Exception ex)
         {

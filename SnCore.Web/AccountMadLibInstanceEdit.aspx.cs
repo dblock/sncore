@@ -17,6 +17,7 @@ using SnCore.Tools.Drawing;
 using System.IO;
 using System.Drawing;
 using AjaxControlToolkit;
+using SnCore.SiteMap;
 
 public partial class AccountMadLibInstanceEdit : AuthenticatedPage
 {
@@ -67,6 +68,14 @@ public partial class AccountMadLibInstanceEdit : AuthenticatedPage
         }
     }
 
+    public string InstanceName
+    {
+        get
+        {
+            return (string) Request[string.Format("{0}.Name", ObjectName)];
+        }
+    }
+
     public string ReturnUrl
     {
         get
@@ -81,7 +90,6 @@ public partial class AccountMadLibInstanceEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(post);
             if (!IsPostBack)
             {
                 linkCancel.NavigateUrl = ReturnUrl;
@@ -98,12 +106,21 @@ public partial class AccountMadLibInstanceEdit : AuthenticatedPage
                 madLibInstance.MadLibId = MadLibId;
                 madLibInstance.DataBind();
 
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode(ObjectName + "s", Request, string.Format("{0}View.aspx", ObjectName)));
+                sitemapdata.Add(new SiteMapDataAttributeNode(InstanceName, Request, ReturnUrl));
+
                 if (MadLibInstanceId > 0)
                 {
                     TransitMadLibInstance tmi = MadLibService.GetMadLibInstanceById(MadLibInstanceId);
                     madLibInstance.TextBind(tmi.Text);
                 }
+
+                sitemapdata.Add(new SiteMapDataAttributeNode("Mad Lib", Request.Url));
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(post);
         }
         catch (Exception ex)
         {

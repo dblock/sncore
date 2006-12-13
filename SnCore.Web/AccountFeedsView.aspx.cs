@@ -12,6 +12,7 @@ using SnCore.Tools.Web;
 using System.Text;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class AccountFeedsView : Page
 {
@@ -23,6 +24,11 @@ public partial class AccountFeedsView : Page
             if (!IsPostBack)
             {
                 GetData();
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Blogs", Request, "AccountFeedItemsView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("All Blogs", Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

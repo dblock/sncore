@@ -12,7 +12,9 @@ using SnCore.Tools.Web;
 using System.Text;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
+[SiteMapDataAttribute("Events")]
 public partial class AccountEventsView : Page
 {
     public class SelectLocationEventArgs : EventArgs
@@ -56,7 +58,6 @@ public partial class AccountEventsView : Page
     {
         try
         {
-            SetDefaultButton(search);
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
             if (!IsPostBack)
@@ -82,8 +83,11 @@ public partial class AccountEventsView : Page
                 {
                     SelectLocation(sender, new SelectLocationEventArgs(Request));
                 }
+
                 GetData();
             }
+
+            SetDefaultButton(search);
         }
         catch (Exception ex)
         {
@@ -209,6 +213,16 @@ public partial class AccountEventsView : Page
     {
         try
         {
+            inputType.ClearSelection();
+            inputType.Items.FindByValue(e.Type).Selected = true;
+        }
+        catch
+        {
+
+        }
+
+        try
+        {
             inputCountry.ClearSelection();
             inputCountry.Items.FindByValue(e.Country).Selected = true;
             inputCountry_SelectedIndexChanged(sender, e);
@@ -219,8 +233,6 @@ public partial class AccountEventsView : Page
             inputCity.Items.FindByValue(e.City).Selected = true;
             inputNeighborhood.ClearSelection();
             inputNeighborhood.Items.FindByValue(e.Neighborhood).Selected = true;
-            inputType.ClearSelection();
-            inputType.Items.FindByValue(e.Type).Selected = true;
         }
         catch
         {

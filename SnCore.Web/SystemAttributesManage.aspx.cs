@@ -14,6 +14,7 @@ using SnCore.Tools.Drawing;
 using System.IO;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class SystemAttributesManage : AuthenticatedPage
 {
@@ -25,9 +26,13 @@ public partial class SystemAttributesManage : AuthenticatedPage
 
             if (!IsPostBack)
             {
-
                 gridManage_OnGetDataSource(this, null);
                 gridManage.DataBind();
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Attributes", Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

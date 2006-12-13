@@ -12,6 +12,7 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 using System.Text;
+using SnCore.SiteMap;
 
 public partial class AccountEventView : Page
 {
@@ -94,57 +95,36 @@ public partial class AccountEventView : Page
             {
                 if (RequestId > 0)
                 {
-                    TransitAccountEvent evt = AccountEvent;
+                    TransitAccountEvent t = AccountEvent;
 
-                    if (evt == null)
+                    if (t == null)
                     {
                         ReportWarning("AccountEvent does not exist.");
                         pnlAccountEvent.Visible = false;
                         return;
                     }
 
-                    this.Title = Renderer.Render(evt.Name);
+                    SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                    sitemapdata.Add(new SiteMapDataAttributeNode("Events", Request, "AccountEventsView.aspx"));
+                    sitemapdata.AddRange(SiteMapDataAttribute.GetLocationAttributeNodes(Request, "AccountEventsToday.aspx", t.PlaceCountry, t.PlaceState, t.PlaceCity, t.PlaceNeighborhood, t.AccountEventType));
+                    sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
+                    StackSiteMap(sitemapdata);
 
-                    eventType.NavigateUrl = linkType.NavigateUrl = 
-                        string.Format("AccountEventsView.aspx?city={0}&state={1}&country={2}&type={3}",
-                            Renderer.UrlEncode(evt.PlaceCity),
-                            Renderer.UrlEncode(evt.PlaceState),
-                            Renderer.UrlEncode(evt.PlaceCountry),
-                            Renderer.UrlEncode(evt.AccountEventType));
+                    this.Title = Renderer.Render(t.Name);
 
-                    eventCity.NavigateUrl = linkCity.NavigateUrl = 
-                        string.Format("AccountEventsView.aspx?city={0}&state={1}&country={2}",
-                            Renderer.UrlEncode(evt.PlaceCity),
-                            Renderer.UrlEncode(evt.PlaceState),
-                            Renderer.UrlEncode(evt.PlaceCountry));
-
-                    eventState.NavigateUrl = linkState.NavigateUrl = 
-                        string.Format("AccountEventsView.aspx?state={0}&country={1}",
-                            Renderer.UrlEncode(evt.PlaceState),
-                            Renderer.UrlEncode(evt.PlaceCountry));
-
-                    eventCountry.NavigateUrl = linkCountry.NavigateUrl = 
-                        string.Format("AccountEventsView.aspx?country={0}",
-                            Renderer.UrlEncode(evt.PlaceCountry));
-
-                    labelDescription.Text = base.RenderEx(evt.Description);
+                    labelDescription.Text = base.RenderEx(t.Description);
                     panelDescription.Visible = !string.IsNullOrEmpty(labelDescription.Text);
-                    linkAccountEvent.Text = Renderer.Render(evt.Name);
-                    linkCity.Text = eventCity.Text = Renderer.Render(evt.PlaceCity);
-                    linkState.Text = eventState.Text = Renderer.Render(evt.PlaceState);
-                    linkCountry.Text = eventCountry.Text = Renderer.Render(evt.PlaceCountry);
-                    linkType.Text = evt.AccountEventType + "s";
-                    eventName.Text = Renderer.Render(evt.Name);
-                    eventId.Text = "#" + evt.Id.ToString();
+                    eventName.Text = Renderer.Render(t.Name);
+                    eventId.Text = "#" + t.Id.ToString();
 
-                    linkEdit.NavigateUrl = string.Format("AccountEventEdit.aspx?id={0}", evt.Id);
+                    linkEdit.NavigateUrl = string.Format("AccountEventEdit.aspx?id={0}", t.Id);
 
-                    eventWebsite.NavigateUrl = evt.Website;
-                    eventPhone.Text = Renderer.Render(evt.Phone);
-                    eventType.Text = Renderer.Render(evt.AccountEventType);
-                    eventEmail.NavigateUrl = string.Format("mailto:{0}", Renderer.Render(evt.Email));
-                    eventEmail.Visible = ! string.IsNullOrEmpty(evt.Email);
-                    eventCost.Text = Renderer.Render(evt.Cost);
+                    eventWebsite.NavigateUrl = t.Website;
+                    eventPhone.Text = Renderer.Render(t.Phone);
+                    eventType.Text = Renderer.Render(t.AccountEventType);
+                    eventEmail.NavigateUrl = string.Format("mailto:{0}", Renderer.Render(t.Email));
+                    eventEmail.Visible = ! string.IsNullOrEmpty(t.Email);
+                    eventCost.Text = Renderer.Render(t.Cost);
 
                     object[] p_args = { RequestId, null };
                     picturesView.DataSource = SessionManager.GetCachedCollection<TransitAccountEventPicture>(
@@ -167,7 +147,7 @@ public partial class AccountEventView : Page
                     }
 
                     panelOwner.Visible = SessionManager.IsLoggedIn &&
-                        (SessionManager.IsAdministrator || evt.AccountId == SessionManager.Account.Id);
+                        (SessionManager.IsAdministrator || t.AccountId == SessionManager.Account.Id);
 
                     TransitPlace pl = AccountEventPlace;
                     placeImage.Src = string.Format("PlacePictureThumbnail.aspx?id={0}", pl.PictureId);
@@ -178,7 +158,7 @@ public partial class AccountEventView : Page
                     placeState.Text = Renderer.Render(pl.State);
                     placeCountry.Text = Renderer.Render(pl.Country);
 
-                    labelSchedule.Text = Renderer.Render(evt.Schedule);
+                    labelSchedule.Text = Renderer.Render(t.Schedule);
                 }
             }
         }

@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class AccountFeedView : Page
 {
@@ -83,6 +84,11 @@ public partial class AccountFeedView : Page
                 gridManage.DataBind();
 
                 GetDataFeature(sender, e);
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Blogs", Request, "AccountFeedItemsView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(f.Name, Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

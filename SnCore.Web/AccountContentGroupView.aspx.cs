@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class AccountContentGroupView : Page
 {
@@ -35,6 +36,10 @@ public partial class AccountContentGroupView : Page
                 linkRelRss.NavigateUrl = string.Format("AccountContentGroupViewRss.aspx?id={0}", RequestId);
                 
                 GetData(sender, e);
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode(group.Name, Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

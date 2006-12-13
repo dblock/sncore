@@ -1,13 +1,9 @@
-<%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true"
+<%@ Page Language="C#" MasterPageFile="~/SnCoreAccount.master" AutoEventWireup="true"
  CodeFile="SystemPictureTypeEdit.aspx.cs" Inherits="SystemPictureTypeEdit" Title="Picture Type" %>
 
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
-<asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
- <div class="sncore_navigate">
-  <asp:Label CssClass="sncore_navigate_item" ID="linkPicture" Text="Picture" runat="server" />
-  <asp:Label CssClass="sncore_navigate_item" ID="linkItem" Text="Type" runat="server" />
- </div>
+<asp:Content ID="Content" ContentPlaceHolderID="AccountContentPlaceHolder" runat="Server">
  <div class="sncore_h2">
   Picture Type
  </div>

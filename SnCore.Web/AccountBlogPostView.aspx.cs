@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class AccountBlogPostView : Page
 {
@@ -34,9 +35,7 @@ public partial class AccountBlogPostView : Page
 
                 licenseView.AccountId = tfi.AccountId;
 
-                linkAccountBlogPost.Text = Renderer.Render(tfi.Title);
-                BlogTitle.Text = linkAccountBlog.Text = Renderer.Render(tfi.AccountBlogName);
-                linkAccount.Text = Renderer.Render(tfi.AccountName);
+                BlogTitle.Text = Renderer.Render(tfi.AccountBlogName);
                 BlogPostCreated.Text = base.Adjust(tfi.Created).ToString();
 
                 linkEdit.Visible = tfi.CanEdit;
@@ -44,8 +43,8 @@ public partial class AccountBlogPostView : Page
                     tfi.AccountBlogId, tfi.Id, Renderer.UrlEncode(Request.Url.PathAndQuery));
                 linkDelete.Visible = tfi.CanDelete;
 
-                linkAccountView.HRef = linkAccount.NavigateUrl = string.Format("AccountView.aspx?id={0}", tfi.AccountId);
-                BlogTitle.NavigateUrl = linkAccountBlog.NavigateUrl = string.Format("AccountBlogView.aspx?id={0}", tfi.AccountBlogId);
+                linkAccountView.HRef = string.Format("AccountView.aspx?id={0}", tfi.AccountId);
+                BlogTitle.NavigateUrl = string.Format("AccountBlogView.aspx?id={0}", tfi.AccountBlogId);
 
                 BlogPostTitle.Text = Renderer.Render(string.IsNullOrEmpty(tfi.Title) ? "Untitled" : tfi.Title);
                 BlogPostBody.Text = RenderEx(tfi.Body);
@@ -54,6 +53,12 @@ public partial class AccountBlogPostView : Page
                 BlogPostComments.DiscussionId = SessionManager.GetCachedCollectionCount(
                     DiscussionService, "GetAccountBlogPostDiscussionId", d_args);
                 BlogPostComments.DataBind();
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Blogs", Request, "AccountFeedItemsView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(tfi.AccountBlogName, Request, string.Format("AccountBlogView.aspx?id={0}", tfi.AccountBlogId)));
+                sitemapdata.Add(new SiteMapDataAttributeNode(tfi.Title, Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

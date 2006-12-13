@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.WebServices;
 using SnCore.Services;
+using SnCore.SiteMap;
 
 public partial class PlaceAttributesManage : AuthenticatedPage
 {
@@ -31,16 +32,24 @@ public partial class PlaceAttributesManage : AuthenticatedPage
     {
         try
         {
+            TransitPlace p = Place;
+
             linkNew.NavigateUrl = string.Format("PlaceAttributeEdit.aspx?aid={0}", RequestId);
             placeLink.HRef = string.Format("PlaceView.aspx?id={0}", RequestId);
-            placeImage.Src = string.Format("PlacePictureThumbnail.aspx?id={0}", Place.PictureId);
-            placeName.Text = Render(Place.Name);
+            placeImage.Src = string.Format("PlacePictureThumbnail.aspx?id={0}", p.PictureId);
+            placeName.Text = Render(p.Name);
 
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
             if (!IsPostBack)
             {
                 GetData(sender, e);
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(p.Name, Request, string.Format("PlaceView.aspx?id={0}", p.Id)));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Attributes", Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

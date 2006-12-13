@@ -9,7 +9,9 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Services;
+using SnCore.SiteMap;
 
+[SiteMapDataAttribute("Welcome")]
 public partial class AccountCreateWelcome : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)

@@ -13,6 +13,7 @@ using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.Tools.Drawing;
 using System.IO;
+using SnCore.SiteMap;
 
 public partial class SystemRefererAccountEdit : AuthenticatedPage
 {
@@ -20,16 +21,28 @@ public partial class SystemRefererAccountEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(manageAdd);
             if (!IsPostBack)
             {
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Referer Accounts", Request, "SystemRefererAccountsManage.aspx"));
+
                 if (RequestId > 0)
                 {
                     TransitRefererAccount t = StatsService.GetRefererAccountById(RequestId);
                     inputAccount.Text = t.AccountId.ToString();
                     inputRefererHost.Text = t.RefererHostName;
+                    sitemapdata.Add(new SiteMapDataAttributeNode(t.AccountName, Request.Url));
                 }
+                else
+                {
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New Referer Account", Request.Url));
+                }
+
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(manageAdd);
         }
         catch (Exception ex)
         {

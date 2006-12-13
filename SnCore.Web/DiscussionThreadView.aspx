@@ -5,13 +5,6 @@
 <%@ Register TagPrefix="SnCore" TagName="DiscussionThreadView" Src="DiscussionThreadViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="BookmarksView" Src="BookmarksViewControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
- <div class="sncore_navigate">
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkDiscussions" NavigateUrl="DiscussionsView.aspx"
-   Text="Discussions" runat="server" />
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkDiscussion" Text="Discussion"
-   runat="server" />
-  <asp:Label CssClass="sncore_navigate_item" ID="linkThread" Text="Thread" runat="server" />
- </div>
  <SnCore:DiscussionThreadView runat="server" ID="discussionMain" />
  <table class="sncore_half_inner_table">
   <tr>

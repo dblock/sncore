@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class AccountEventPictureEdit : AuthenticatedPage
 {
@@ -26,23 +27,34 @@ public partial class AccountEventPictureEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(manageAdd);
             if (!IsPostBack)
             {
                 TransitAccountEvent p = EventService.GetAccountEventById(SessionManager.Ticket, AccountEventId, SessionManager.UtcOffset);
-                linkBack.NavigateUrl = linkSection.NavigateUrl = string.Format("AccountEventPicturesManage.aspx?id={0}", p.Id);
-                linkAccountEvent.Text = Renderer.Render(p.Name);
-                linkAccountEvent.NavigateUrl = string.Format("AccountEventView.aspx?id={0}", p.Id);
+                linkBack.NavigateUrl = string.Format("AccountEventPicturesManage.aspx?id={0}", p.Id);
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Events", Request, "AccountEventsManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(p.Name, Request, string.Format("AccountEventView.aspx?id={0}", p.Id)));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request, string.Format("AccountEventPicturesManage.aspx?id={0}", p.Id)));
 
                 if (RequestId > 0)
                 {
                     TransitAccountEventPicture t = EventService.GetAccountEventPictureById(SessionManager.Ticket, RequestId);
-                    linkItem.Text = Renderer.Render(t.Name);
                     inputName.Text = t.Name;
                     inputDescription.Text = t.Description;
                     imageFull.ImageUrl = string.Format("AccountEventPicture.aspx?id={0}&CacheDuration=0", t.Id);
+                    sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
                 }
+                else
+                {
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New Picture", Request.Url));
+                }
+
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(manageAdd);
         }
         catch (Exception ex)
         {

@@ -10,13 +10,6 @@
 <%@ Register TagPrefix="SnCore" TagName="CounterView" Src="CounterViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="TellAFriend" Src="TellAFriendControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
- <!-- NOEMAIL-START -->
- <div class="sncore_navigate">
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkStories" Text="Stories" NavigateUrl="AccountStoriesView.aspx" runat="server" />
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkAccount" Text="Account" runat="server" />
-  <asp:Label CssClass="sncore_navigate_item" ID="linkAccountStory" Text="Story" runat="server" />
- </div>
- <!-- NOEMAIL-END -->
  <table cellspacing="0" cellpadding="4" class="sncore_table">
   <tr>
    <td valign="top" width="*">

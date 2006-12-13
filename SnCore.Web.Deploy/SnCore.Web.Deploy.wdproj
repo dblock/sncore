@@ -63,6 +63,10 @@
       <Project>{5AEB26B1-4C6C-42ED-86A0-2E5FD6CE53E2}</Project>
       <Name>SnCore.Services</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SnCore.SiteMap\SnCore.SiteMap.csproj">
+      <Project>{615D15C5-42A4-4710-A713-D0678F7F7ED1}</Project>
+      <Name>SnCore.SiteMap</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SnCore.Tools\SnCore.Tools.csproj">
       <Project>{53F80219-6028-406B-819A-E79AE4D56995}</Project>
       <Name>SnCore.Tools</Name>

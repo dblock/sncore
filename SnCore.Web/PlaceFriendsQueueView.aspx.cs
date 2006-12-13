@@ -12,6 +12,7 @@ using SnCore.WebServices;
 using SnCore.Services;
 using System.Text;
 using System.IO;
+using SnCore.SiteMap;
 
 public partial class PlaceFriendsQueueView : AuthenticatedPage
 {
@@ -24,6 +25,12 @@ public partial class PlaceFriendsQueueView : AuthenticatedPage
             if (!IsPostBack)
             {
                 GetData(sender, e);
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Friends", Request, "AccountFriendsManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Queue", Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

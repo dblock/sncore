@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.WebServices;
 using SnCore.Services;
+using SnCore.SiteMap;
 
 public partial class AccountStoryPictureView : Page
 {
@@ -24,6 +25,15 @@ public partial class AccountStoryPictureView : Page
                 mPictureId = RequestId;
                 GetPictureData(sender, e);
                 GetPicturesData(sender, e);
+
+                TransitAccountStoryPicture p = AccountStoryPicture;
+                TransitAccountStory s = AccountStory;
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Stories", Request, "AccountStoriesView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(s.Name, Request, string.Format("AccountStoryView.aspx?id={0}", s.Id)));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request, string.Format("AccountStoryPicturesView.aspx?id={0}", s.Id)));
+                sitemapdata.Add(new SiteMapDataAttributeNode(p.Name, Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)
@@ -103,11 +113,7 @@ public partial class AccountStoryPictureView : Page
         labelAccountStoryName.Text = this.Title = string.Format("{0}: {1}", 
             Renderer.Render(l.Name), string.IsNullOrEmpty(p.Name) ? "Untitled" : Renderer.Render(p.Name));
 
-        linkAccountStory.Text = Renderer.Render(l.Name);
-        linkAccountStory.NavigateUrl = "AccountStoryView.aspx?id=" + p.AccountStoryId;
-        labelPicture.Text = Renderer.Render((p.Name != null && p.Name.Length > 0) ? p.Name : "Untitled");
-
-        linkBack.NavigateUrl = linkAccountStory.NavigateUrl = string.Format("AccountStoryView.aspx?id={0}", l.Id);
+        linkBack.NavigateUrl = string.Format("AccountStoryView.aspx?id={0}", l.Id);
         linkBack.Text = string.Format("&#187; Back to {0}", Renderer.Render(l.Name));
         linkComments.Visible = p.CommentCount > 0;
         linkComments.Text = string.Format("&#187; {0} comment{1}",

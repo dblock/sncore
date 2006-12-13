@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using SnCore.SiteMap;
 
 public partial class AccountAddressesManage : AuthenticatedPage
 {
@@ -21,10 +22,10 @@ public partial class AccountAddressesManage : AuthenticatedPage
                 gridManage_OnGetDataSource(sender, e);
                 gridManage.DataBind();
 
-                if (gridManage.Items.Count == 0)
-                {
-                    ReportInfo("Why not create an address?");
-                }
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Addresses", Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

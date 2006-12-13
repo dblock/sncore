@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class AccountPlaceFavoritesManage : AuthenticatedPage
 {
@@ -23,6 +24,12 @@ public partial class AccountPlaceFavoritesManage : AuthenticatedPage
                 favoritesList.VirtualItemCount = PlaceService.GetAccountPlaceFavoritesCount(SessionManager.Ticket);
                 favoritesList_OnGetDataSource(this, null);
                 favoritesList.DataBind();
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "AccountPlacesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Favorites", Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

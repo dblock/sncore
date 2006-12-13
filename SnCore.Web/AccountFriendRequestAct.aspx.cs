@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using SnCore.SiteMap;
 
 public partial class AccountFriendRequestAct : AuthenticatedPage
 {
@@ -17,6 +18,12 @@ public partial class AccountFriendRequestAct : AuthenticatedPage
         {
             if (!IsPostBack)
             {
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Friends", Request, "AccountFriendsManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Request", Request.Url));
+                StackSiteMap(sitemapdata);
+
                 string action = Request.QueryString["action"];
                 if (string.IsNullOrEmpty(action))
                 {

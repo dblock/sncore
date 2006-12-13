@@ -11,23 +11,39 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.WebServices;
 using SnCore.Services;
+using SnCore.SiteMap;
 
 public partial class SystemSurveyQuestionEdit : AuthenticatedPage
 {
+    private TransitSurvey mSurvey = null;
+
     public void Page_Load(object sender, EventArgs e)
     {
         try
         {
-            SetDefaultButton(manageAdd);
             if (!IsPostBack)
             {
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Surveys", Request, "SystemSurveysManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(Survey.Name, Request, string.Format("SystemSurveyEdit.aspx?id={0}", SurveyId)));
+
                 linkBack.NavigateUrl = "SystemSurveyEdit.aspx?id=" + SurveyId.ToString();
                 if (RequestId > 0)
                 {
                     TransitSurveyQuestion tw = SystemService.GetSurveyQuestionById(RequestId);
                     inputQuestion.Text = Renderer.Render(tw.Question);
+                    sitemapdata.Add(new SiteMapDataAttributeNode(tw.Question, Request.Url));
                 }
+                else
+                {
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New Question", Request.Url));
+                }
+
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(manageAdd);
         }
         catch (Exception ex)
         {
@@ -59,5 +75,17 @@ public partial class SystemSurveyQuestionEdit : AuthenticatedPage
             ReportException(ex);
         }
 
+    }
+
+    public TransitSurvey Survey
+    {
+        get
+        {
+            if (mSurvey == null)
+            {
+                mSurvey = SystemService.GetSurveyById(SurveyId);
+            }
+            return mSurvey;
+        }
     }
 }

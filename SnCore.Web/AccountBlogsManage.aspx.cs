@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using SnCore.SiteMap;
 
 public partial class AccountBlogsManage : AuthenticatedPage
 {
@@ -25,6 +26,11 @@ public partial class AccountBlogsManage : AuthenticatedPage
 
                 gridManageAuthor_OnGetDataSource(this, null);
                 gridManageAuthor.DataBind();
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Blogs", Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class AccountEventEdit : AuthenticatedPage
 {
@@ -18,11 +19,14 @@ public partial class AccountEventEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(manageAdd);
             place.Choose += new EventHandler(event_Changed);
             schedule.Confirm += new EventHandler(event_Changed);
             if (!IsPostBack)
             {
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Events", Request, "AccountEventsManage.aspx"));
+
                 ArrayList types = new ArrayList();
                 types.Add(new TransitAccountPlaceType());
                 types.AddRange(EventService.GetAccountEventTypes());
@@ -45,8 +49,17 @@ public partial class AccountEventEdit : AuthenticatedPage
                     schedule.Schedule = SystemService.GetScheduleById(tav.ScheduleId);
                     place.Place = PlaceService.GetPlaceById(SessionManager.Ticket, tav.PlaceId);
                     titleEvent.Text = Renderer.Render(tav.Name);
+                    sitemapdata.Add(new SiteMapDataAttributeNode(tav.Name, Request.Url));
                 }
+                else
+                {
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New Event", Request.Url));
+                }
+
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(manageAdd);
 
             if (!AccountService.HasVerifiedEmail(SessionManager.Ticket))
             {

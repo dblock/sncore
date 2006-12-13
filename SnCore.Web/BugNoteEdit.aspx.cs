@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class BugNoteEdit : AuthenticatedPage
 {
@@ -26,16 +27,11 @@ public partial class BugNoteEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(manageAdd);
             if (!IsPostBack)
             {
-
                 TransitBug bug = BugService.GetBugById(BugId);
                 TransitBugProject project = BugService.GetBugProjectById(bug.ProjectId);
 
-                linkBugId.Text = "#" + bug.Id.ToString();
-                linkProject.Text = Renderer.Render(project.Name);
-                linkProject.NavigateUrl = string.Format("BugProjectBugsManage.aspx?id={0}", project.Id);
                 imageBugType.ImageUrl = string.Format("images/bugs/type_{0}.gif", bug.Type);
                 bugType.Text = Renderer.Render(bug.Type);
                 bugId.Text = string.Format("#{0}", bug.Id);
@@ -43,12 +39,26 @@ public partial class BugNoteEdit : AuthenticatedPage
                 bugType.Text = Renderer.Render(bug.Type);
                 linkBack.NavigateUrl = string.Format("BugView.aspx?id={0}", bug.Id);
 
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Bugs", Request, "BugProjectsManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(project.Name, Request, string.Format("BugProjectBugsManage.aspx?id={0}", project.Id)));
+                sitemapdata.Add(new SiteMapDataAttributeNode(string.Format("#{0}: {1}", bug.Id, bug.Subject), Request, string.Format("BugView.aspx?id={0}", bug.Id)));
+
                 if (RequestId > 0)
                 {
                     TransitBugNote t = BugService.GetBugNoteById(RequestId);
                     inputNote.Text = t.Details;
+                    sitemapdata.Add(new SiteMapDataAttributeNode("Edit Note", Request.Url));
                 }
+                else 
+                {
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New Note", Request.Url));
+                }
+
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(manageAdd);
         }
         catch (Exception ex)
         {

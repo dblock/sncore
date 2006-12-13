@@ -2494,7 +2494,7 @@ namespace SnCore.WebServices
                    " AND p.Name = '" + Renderer.SqlEncode(propertyname) + "'" +
                    " AND (" +
                    "  v.Value LIKE '" + Renderer.SqlEncode(propertyvalue) + "'" +
-                   "  OR v.Value LIKE '%{" + Renderer.SqlEncode(propertyvalue) + "}%'" +
+                   "  OR v.Value LIKE '%" + Renderer.SqlEncode(propertyvalue) + "%'" +
                    " ) AND g.Name = '" + Renderer.SqlEncode(groupname) + "'",
                    "account",
                    typeof(Account));

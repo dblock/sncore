@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.WebControls;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class BugProjectBugsManage : AuthenticatedPage
 {
@@ -18,19 +19,24 @@ public partial class BugProjectBugsManage : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(search);
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
             if (!IsPostBack)
             {
                 linkNew.NavigateUrl = string.Format("BugEdit.aspx?pid={0}", RequestId);
                 TransitBugProject p = BugService.GetBugProjectById(RequestId);
-                linkSection.Text = Render(p.Name);
                 this.Title = string.Format("{0} Bugs", Render(p.Name));
                 gridManage.SortDirection = PagedGridSortDirection.Descending;
                 gridManage.SortExpression = "Created";
                 GetData(sender, e);
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Bugs", Request, "BugProjectsManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(p.Name, Request.Url));
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(search);
         }
         catch (Exception ex)
         {

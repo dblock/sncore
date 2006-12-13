@@ -16,6 +16,7 @@ using System.IO;
 using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.Tools;
+using SnCore.SiteMap;
 
 public partial class PlacePicturesManage : AuthenticatedPage
 {
@@ -29,11 +30,15 @@ public partial class PlacePicturesManage : AuthenticatedPage
             if (!IsPostBack)
             {
                 TransitPlace place = PlaceService.GetPlaceById(SessionManager.Ticket, RequestId);
-                linkPlaceName.Text = Renderer.Render(place.Name);
-                linkPlaceName.NavigateUrl = string.Format("PlaceView.aspx?id={0}", place.Id);
 
                 gridManage_OnGetDataSource(this, null);
                 gridManage.DataBind();
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(place.Name, Request, string.Format("PlaceView.aspx?id={0}", place.Id)));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request.Url));
+                StackSiteMap(sitemapdata);
             }
 
             if (!AccountService.HasVerifiedEmail(SessionManager.Ticket))

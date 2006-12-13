@@ -3,11 +3,6 @@
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
- <div class="sncore_navigate">
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkAccountEvent" Text="AccountEvent"
-   NavigateUrl="AccountEventPicturesView.aspx" runat="server" />
-  <font class="sncore_navigate_item">Pictures</font>
- </div>
  <div class="sncore_h2">
   Event Pictures
  </div>

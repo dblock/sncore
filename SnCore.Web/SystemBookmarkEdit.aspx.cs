@@ -14,6 +14,7 @@ using SnCore.WebServices;
 using System.Drawing;
 using SnCore.Tools.Drawing;
 using System.IO;
+using SnCore.SiteMap;
 
 public partial class SystemBookmarkEdit : AuthenticatedPage
 {
@@ -21,9 +22,12 @@ public partial class SystemBookmarkEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(manageAdd);
             if (!IsPostBack)
             {
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Bookmarks", Request, "SystemBookmarksManage.aspx"));
+
                 if (RequestId > 0)
                 {
                     TransitBookmark t = SystemService.GetBookmarkById(RequestId);
@@ -34,13 +38,18 @@ public partial class SystemBookmarkEdit : AuthenticatedPage
                     imageFullBitmap.Visible = t.HasFullBitmap;
                     imageLinkBitmap.ImageUrl = string.Format("SystemBookmark.aspx?id={0}&CacheDuration=0&ShowThumbnail=true", t.Id);
                     imageLinkBitmap.Visible = t.HasLinkBitmap;
+                    sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
                 }
                 else
                 {
                     imageFullBitmap.Visible = false;
                     imageLinkBitmap.Visible = false;
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New Bookmark", Request.Url));
                 }
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(manageAdd);
         }
         catch (Exception ex)
         {

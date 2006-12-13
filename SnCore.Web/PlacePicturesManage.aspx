@@ -4,13 +4,6 @@
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="WilcoWebControls" Namespace="Wilco.Web.UI.WebControls" Assembly="Wilco.Web" %>
 <asp:Content ID="Content" ContentPlaceHolderID="AccountContentPlaceHolder" runat="Server">
- <div class="sncore_navigate">
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkPlaces" NavigateUrl="PlacesManage.aspx"
-   Text="Places" runat="server" />
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkPlaceName" Text="Place"
-   runat="server" />
-  <asp:Label CssClass="sncore_navigate_item" ID="linkPlacePictures" Text="Pictures" runat="server" />
- </div>
  <div class="sncore_h2">
   Pictures
  </div>

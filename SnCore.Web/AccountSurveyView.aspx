@@ -4,10 +4,6 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
- <div class="sncore_navigate">
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkAccount" Text="Account" runat="server" />
-  <asp:Label CssClass="sncore_navigate_item" ID="linkAccountSurvey" Text="Survey" runat="server" />
- </div>
  <table cellspacing="0" cellpadding="4" class="sncore_table">
   <tr>
    <td runat="server" id="accountcolumn" 

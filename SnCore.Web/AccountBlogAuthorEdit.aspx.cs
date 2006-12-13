@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class AccountBlogAuthorEdit : AuthenticatedPage
 {
@@ -26,9 +27,16 @@ public partial class AccountBlogAuthorEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(manageAdd);
             if (!IsPostBack)
             {
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Blogs", Request, "AccountBlogsManage.aspx"));
+
+                TransitAccountBlog tb = BlogService.GetAccountBlogById(SessionManager.Ticket, BlogId);
+                sitemapdata.Add(new SiteMapDataAttributeNode(tb.Name, Request, string.Format("AccountBlogEdit.aspx?id={0}", tb.Id)));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Authors", Request, string.Format("AccountBlogEdit.aspx?id={0}#authors", tb.Id)));
+
                 linkBack.NavigateUrl = string.Format("AccountBlogEdit.aspx?id={0}", BlogId);
 
                 if (RequestId != 0)
@@ -39,8 +47,17 @@ public partial class AccountBlogAuthorEdit : AuthenticatedPage
                     allowDelete.Checked = author.AllowDelete;
                     allowEdit.Checked = author.AllowEdit;
                     allowPost.Checked = author.AllowPost;
+                    sitemapdata.Add(new SiteMapDataAttributeNode(author.AccountName, Request.Url));
                 }
+                else
+                {
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New Author", Request.Url));
+                }
+
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(manageAdd);
         }
         catch (Exception ex)
         {

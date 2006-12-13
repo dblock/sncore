@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.WebServices;
 using SnCore.Services;
+using SnCore.SiteMap;
 
 public partial class AccountDelete : AuthenticatedPage
 {
@@ -39,12 +40,18 @@ public partial class AccountDelete : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(buttonDelete);
             if (!IsPostBack)
             {
                 accountImage.Src = string.Format("AccountPictureThumbnail.aspx?id={0}", Account.PictureId);
                 accountName.Text = string.Format("Dear {0},", Renderer.Render(Account.Name));
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Delete Account", Request.Url));
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(buttonDelete);
         }
         catch (Exception ex)
         {

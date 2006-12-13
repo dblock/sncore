@@ -16,6 +16,7 @@ using SnCore.Tools.Drawing;
 using SnCore.Tools.Web;
 using SnCore.WebServices;
 using SnCore.Services;
+using SnCore.SiteMap;
 
 public partial class AccountBlogEdit : AuthenticatedPage
 {
@@ -23,11 +24,15 @@ public partial class AccountBlogEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(linkSave);
             gridManagePosts.OnGetDataSource += new EventHandler(gridManagePosts_OnGetDataSource);
             gridManageAuthors.OnGetDataSource += new EventHandler(gridManageAuthors_OnGetDataSource);
+
             if (!IsPostBack)
             {
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Blogs", Request, "AccountBlogsManage.aspx"));
+
                 if (RequestId > 0)
                 {
                     TransitAccountBlog tf = BlogService.GetAccountBlogById(
@@ -45,13 +50,20 @@ public partial class AccountBlogEdit : AuthenticatedPage
                     linkNew.NavigateUrl = string.Format("AccountBlogPost.aspx?bid={0}", RequestId);
                     linkNewAuthor.NavigateUrl = string.Format("AccountBlogAuthorEdit.aspx?bid={0}", RequestId);
                     linkPreview.NavigateUrl = string.Format("AccountBlogView.aspx?id={0}", RequestId);
+
+                    sitemapdata.Add(new SiteMapDataAttributeNode(tf.Name, Request.Url));
                 }
                 else
                 {
                     panelEntries.Visible = false;
                     linkPreview.Visible = false;
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New Blog", Request.Url));
                 }
+
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(linkSave);
         }
         catch (Exception ex)
         {

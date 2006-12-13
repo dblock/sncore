@@ -22,6 +22,7 @@ using System.Collections.Specialized;
 using Rss;
 using Atom.Core;
 using System.Net;
+using SnCore.SiteMap;
 
 public partial class AccountFeedWizard : AuthenticatedPage
 {
@@ -29,6 +30,12 @@ public partial class AccountFeedWizard : AuthenticatedPage
     {
         try
         {
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Syndication", Request, "AccountFeedsManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Wizard", Request.Url));
+            StackSiteMap(sitemapdata);
+
             SetDefaultButton(linkDiscover);
         }
         catch (Exception ex)

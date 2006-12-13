@@ -3,13 +3,6 @@
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
- <div class="sncore_navigate">
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkDiscussions" NavigateUrl="DiscussionsView.aspx"
-   Text="Discussions" runat="server" />
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkDiscussion" Text="Discussion"
-   runat="server" />
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkThread" Text="Thread" runat="server" />
- </div>
  <div class="sncore_h2">
   Move Thread
  </div>

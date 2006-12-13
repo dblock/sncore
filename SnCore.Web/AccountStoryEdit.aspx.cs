@@ -16,17 +16,20 @@ using SnCore.Tools.Drawing;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class AccountStoryEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        SetDefaultButton(linkSave);
-
         try
         {
             if (!IsPostBack)
             {
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Stories", Request, "AccountStoriesManage.aspx"));
+
                 if (RequestId > 0)
                 {
                     TransitAccountStory ts = StoryService.GetAccountStoryById(
@@ -36,21 +39,19 @@ public partial class AccountStoryEdit : AuthenticatedPage
                     inputSummary.Text = ts.Summary;
                     inputPublish.Checked = ts.Publish;
 
-                    labelName.Text = Render(ts.Name);
-                    linkAccount.Text = Render(ts.AccountName);
-                    linkAccount.NavigateUrl = string.Format("AccountView.aspx?id={0}", ts.AccountId);
-
                     linkAddPictures.NavigateUrl = string.Format("AccountStoryPicturesManage.aspx?id={0}", ts.Id);
                     linkView.NavigateUrl = string.Format("AccountStoryView.aspx?id={0}", ts.Id);
 
                     labelTitle.Text = "Edit Story";
+                    sitemapdata.Add(new SiteMapDataAttributeNode(ts.Name, Request.Url));
                 }
                 else
                 {
-                    linkAccount.Text = Render(SessionManager.Account.Name);
-                    linkAccount.NavigateUrl = string.Format("AccountView.aspx?id={0}", SessionManager.Account.Id);
                     linkAddPictures.Visible = false;
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New Story", Request.Url));
                 }
+
+                StackSiteMap(sitemapdata);
 
                 GetImagesData(sender, e);
             }
@@ -62,6 +63,8 @@ public partial class AccountStoryEdit : AuthenticatedPage
 
                 linkSave.Enabled = false;                
             }
+
+            SetDefaultButton(linkSave);
         }
         catch (Exception ex)
         {

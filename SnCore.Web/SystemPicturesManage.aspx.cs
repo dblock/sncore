@@ -16,6 +16,7 @@ using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.Tools;
 using SnCore.Tools.Web;
+using SnCore.SiteMap;
 
 public partial class SystemPicturesManage : AuthenticatedPage
 {
@@ -34,6 +35,11 @@ public partial class SystemPicturesManage : AuthenticatedPage
 
                 selectPictureType.DataSource = SystemService.GetPictureTypes();
                 selectPictureType.DataBind();
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

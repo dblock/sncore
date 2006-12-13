@@ -12,6 +12,7 @@ using SnCore.Tools.Web;
 using System.Text;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class AccountEventsToday : Page
 {
@@ -56,7 +57,6 @@ public partial class AccountEventsToday : Page
     {
         try
         {
-            SetDefaultButton(search);
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
             if (!IsPostBack)
@@ -92,7 +92,14 @@ public partial class AccountEventsToday : Page
 
                 SelectWeek();
                 GetData();
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Events", Request, "AccountEventsView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Events This Week", "AccountEventsToday.aspx"));
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(search);
         }
         catch (Exception ex)
         {
@@ -245,6 +252,16 @@ public partial class AccountEventsToday : Page
     {
         try
         {
+            inputType.ClearSelection();
+            inputType.Items.FindByValue(e.Type).Selected = true;
+        }
+        catch
+        {
+
+        }
+
+        try
+        {
             inputCountry.ClearSelection();
             inputCountry.Items.FindByValue(e.Country).Selected = true;
             inputCountry_SelectedIndexChanged(sender, e);
@@ -255,8 +272,6 @@ public partial class AccountEventsToday : Page
             inputCity.Items.FindByValue(e.City).Selected = true;
             inputNeighborhood.ClearSelection();
             inputNeighborhood.Items.FindByValue(e.Neighborhood).Selected = true;
-            inputType.ClearSelection();
-            inputType.Items.FindByValue(e.Type).Selected = true;
         }
         catch
         {

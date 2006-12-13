@@ -14,6 +14,7 @@ using SnCore.Services;
 using SnCore.WebServices;
 using System.Reflection;
 using System.Collections.Generic;
+using SnCore.SiteMap;
 
 public partial class FeaturedAccountEventsView : Page
 {
@@ -25,6 +26,11 @@ public partial class FeaturedAccountEventsView : Page
             if (!IsPostBack)
             {
                 GetData();
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Events", Request, "AccountEventsView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Featured", Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

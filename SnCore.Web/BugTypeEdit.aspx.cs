@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
+using SnCore.SiteMap;
 
 public partial class BugTypeEdit : AuthenticatedPage
 {
@@ -17,12 +18,27 @@ public partial class BugTypeEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(manageAdd);
-            if (RequestId > 0)
+            if (!IsPostBack)
             {
-                TransitBugType t = BugService.GetBugTypeById(RequestId);
-                inputName.Text = t.Name;
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Bugs", Request, "BugProjectsManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Types", Request, "BugTypesManage.aspx"));
+
+                if (RequestId > 0)
+                {
+                    TransitBugType t = BugService.GetBugTypeById(RequestId);
+                    inputName.Text = t.Name;
+                    sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
+                }
+                else
+                {
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New Type", Request.Url));
+                }
+
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(manageAdd);
         }
         catch (Exception ex)
         {

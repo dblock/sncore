@@ -14,6 +14,7 @@ using SnCore.WebServices;
 using System.Collections.Generic;
 using System.Web.Caching;
 using System.Net;
+using SnCore.SiteMap;
 
 public partial class AccountLicenseEdit : AuthenticatedPage
 {
@@ -64,7 +65,7 @@ public partial class AccountLicenseEdit : AuthenticatedPage
                     {
                         WebClient client = new WebClient();
                         license = client.DownloadString(tal.LicenseUrl);
-                        license = license.Substring(license.IndexOf("<div id=\"deed\">"));
+                        license = license.Substring(license.IndexOf("<div id=\"deed\""));
                         license = license.Substring(0, license.LastIndexOf("</div>") + 4);
                         license = Renderer.CleanHtml(license, new Uri("http://creativecommons.org/"), null);
                         Cache[key] = license;
@@ -75,6 +76,11 @@ public partial class AccountLicenseEdit : AuthenticatedPage
                     licenseLink.HRef = tal.LicenseUrl;
                     licenseImage.Alt = Renderer.Render(tal.Name);
                 }
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Creative License", Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

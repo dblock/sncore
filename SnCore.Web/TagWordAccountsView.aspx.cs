@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class TagWordAccountsView : Page
 {
@@ -26,6 +27,12 @@ public partial class TagWordAccountsView : Page
                 this.Title = string.Format("Who is talking about \"{0}\"?", Renderer.Render(word.Word));
                 gridManage_OnGetDataSource(this, null);
                 gridManage.DataBind();
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Tags", Request, "TagWordsView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(word.Word, Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

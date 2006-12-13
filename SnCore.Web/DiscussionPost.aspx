@@ -7,13 +7,6 @@
 <%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <asp:Panel ID="panelPost" runat="server">
-  <div class="sncore_navigate">
-   <asp:HyperLink NavigateUrl="DiscussionsView.aspx" CssClass="sncore_navigate_item"
-    ID="linkDiscussions" Text="Discussions" runat="server" />
-   <asp:HyperLink CssClass="sncore_navigate_item" ID="linkDiscussion" Text="Discussion"
-    runat="server" />
-   <asp:Label CssClass="sncore_navigate_item" ID="linkItem" Text="Post" runat="server" />
-  </div>
   <asp:Panel ID="panelReplyTo" runat="server" Visible="false">
    <table width="100%">
     <tr>

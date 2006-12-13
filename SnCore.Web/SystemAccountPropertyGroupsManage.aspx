@@ -3,10 +3,6 @@
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content" ContentPlaceHolderID="AccountContentPlaceHolder" runat="Server">
- <div class="sncore_navigate">
-  <asp:Label CssClass="sncore_navigate_item" ID="linkSystem" Text="Accounts" runat="server" />
-  <asp:Label CssClass="sncore_navigate_item" ID="linkSection" Text="Property Groups" runat="server" />
- </div>
  <div class="sncore_h2">
   Account Property Groups
  </div>

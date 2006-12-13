@@ -11,14 +11,15 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
+[SiteMapDataAttribute("Stories")]
 public partial class AccountStoriesView : Page
 {
     public void Page_Load(object sender, EventArgs e)
     {
         try
         {
-            SetDefaultButton(search);
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
             if (!IsPostBack)
             {
@@ -30,6 +31,8 @@ public partial class AccountStoriesView : Page
                 panelSearchInternal.Visible = ! string.IsNullOrEmpty(inputSearch.Text);
                 GetData(sender, e);
             }
+
+            SetDefaultButton(search);
         }
         catch (Exception ex)
         {

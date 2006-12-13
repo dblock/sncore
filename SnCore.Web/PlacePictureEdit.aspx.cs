@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class PlacePictureEdit : AuthenticatedPage
 {
@@ -26,23 +27,32 @@ public partial class PlacePictureEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(manageAdd);
             if (!IsPostBack)
             {
-                TransitPlace p = PlaceService.GetPlaceById(SessionManager.Ticket, PlaceId);
-                linkBack.NavigateUrl = linkSection.NavigateUrl = string.Format("PlacePicturesManage.aspx?id={0}", p.Id);
-                linkPlace.Text = Renderer.Render(p.Name);
-                linkPlace.NavigateUrl = string.Format("PlaceView.aspx?id={0}", p.Id);
+                TransitPlace p = PlaceService.GetPlaceById(SessionManager.Ticket, PlaceId);                
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(p.Name, Request, string.Format("PlaceView.aspx?id={0}", p.Id)));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request, string.Format("PlacePicturesManage.aspx?id={0}", p.Id)));
 
                 if (RequestId > 0)
                 {
                     TransitPlacePicture t = PlaceService.GetPlacePictureById(RequestId);
-                    linkItem.Text = Renderer.Render(t.Name);
                     inputName.Text = t.Name;
                     inputDescription.Text = t.Description;
                     imageFull.ImageUrl = string.Format("PlacePicture.aspx?id={0}&CacheDuration=0", t.Id);
+                    sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
                 }
+                else
+                {
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New Picture", Request.Url));
+                }
+
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(manageAdd);
         }
         catch (Exception ex)
         {

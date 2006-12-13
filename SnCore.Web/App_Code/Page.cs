@@ -16,6 +16,7 @@ using Microsoft.Web.UI;
 using System.Text;
 using System.Collections.Generic;
 using System.Threading;
+using SnCore.SiteMap;
 
 public class Page : System.Web.UI.Page
 {
@@ -45,7 +46,32 @@ public class Page : System.Web.UI.Page
             Header.Controls.Add(MetaDescription);
         }
 
+        SiteMapDataAttribute[] attributes = (SiteMapDataAttribute[]) this.GetType().GetCustomAttributes(typeof(SiteMapDataAttribute), true);
+        if (attributes != null && attributes.Length > 0)
+        {
+            SiteMapDataAttribute attribute = attributes[0];
+            StackSiteMap(attribute, Request.Url.PathAndQuery);
+        }
+
         base.OnLoad(e);
+    }
+
+    public SiteMapNode StackSiteMap(SiteMapDataAttribute attribute)
+    {
+        return StackSiteMap(attribute, Request.Url.PathAndQuery);
+    }
+
+    public SiteMapNode StackSiteMap(SiteMapDataAttribute attribute, string uri)
+    {
+        if (SiteMap.Provider is SiteMapDataProvider)
+        {
+            SiteMapDataProvider provider = (SiteMapDataProvider)SiteMap.Provider;
+            return provider.Stack(attribute, uri);
+        }
+        else
+        {
+            throw new Exception("Site Map provider is not a data provider");
+        }
     }
 
     public int RequestId
@@ -315,8 +341,8 @@ public class Page : System.Web.UI.Page
         if (Master == null) throw new Exception(message);
         object notice = FindNoticeMenuControl();
         if (notice == null) throw new Exception(message);
-        notice.GetType().GetProperty("Info").SetValue(notice, message, null);
         notice.GetType().GetProperty("HtmlEncode").SetValue(notice, htmlencode, null);
+        notice.GetType().GetProperty("Info").SetValue(notice, message, null);
     }
 
     public HtmlMeta MetaDescription

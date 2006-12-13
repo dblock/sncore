@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.WebServices;
 using SnCore.Services;
+using SnCore.SiteMap;
 
 public partial class AccountAttributesManage : AuthenticatedPage
 {
@@ -40,7 +41,14 @@ public partial class AccountAttributesManage : AuthenticatedPage
 
             if (!IsPostBack)
             {
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(Account.Name, Request, string.Format("AccountView.aspx?id={0}", Account.Id)));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Attributes", Request.Url));
+
                 GetData(sender, e);
+
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

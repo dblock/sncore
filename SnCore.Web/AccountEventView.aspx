@@ -7,15 +7,6 @@
 <%@ Register TagPrefix="SnCore" TagName="BookmarksView" Src="BookmarksViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="TellAFriend" Src="TellAFriendControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
- <!-- NOEMAIL-START -->
- <div class="sncore_navigate">
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkCountry" runat="server" />
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkState" runat="server" />
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkCity" runat="server" />
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkType" runat="server" />
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkAccountEvent" runat="server" />
- </div>
- <!-- NOEMAIL-END -->
  <asp:Panel CssClass="panel" ID="pnlAccountEvent" runat="server">
   <table cellspacing="0" cellpadding="4" class="sncore_table">
    <tr>

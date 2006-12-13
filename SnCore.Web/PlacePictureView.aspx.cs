@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.WebServices;
 using SnCore.Services;
+using SnCore.SiteMap;
 
 public partial class PlacePictureView : Page
 {
@@ -19,11 +20,20 @@ public partial class PlacePictureView : Page
         try
         {
             picturesView.OnGetDataSource += new EventHandler(picturesView_OnGetDataSource);
+
             if (!IsPostBack)
             {
                 mPictureId = RequestId;
                 GetPictureData(sender, e);
                 GetPicturesData(sender, e);
+
+                TransitPlace p = Place;
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));
+                sitemapdata.AddRange(SiteMapDataAttribute.GetLocationAttributeNodes(Request, "PlacesView.aspx", p.Country, p.State, p.City, p.Neighborhood, p.Type));
+                sitemapdata.Add(new SiteMapDataAttributeNode(p.Name, Request, string.Format("PlaceView.aspx?id={0}", p.Id)));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)
@@ -106,32 +116,9 @@ public partial class PlacePictureView : Page
         this.Title = string.Format("{0}: {1}",
             Renderer.Render(l.Name), string.IsNullOrEmpty(p.Name) ? "Untitled" : Renderer.Render(p.Name));
 
-        labelPicture.Text = string.IsNullOrEmpty(p.Name) ? "Untitled" : Renderer.Render(p.Name);
-        labelPlaceName.Text = linkPlace.Text = Renderer.Render(l.Name);
-        linkCity.Text = Renderer.Render(l.City);
-        linkState.Text = Renderer.Render(l.State);
-        linkCountry.Text = Renderer.Render(l.Country);
-        linkType.Text = l.Type + "s";
+        labelPlaceName.Text = Renderer.Render(l.Name);
 
-        linkType.NavigateUrl = string.Format("PlacesView.aspx?city={0}&state={1}&country={2}&type={3}",
-            Renderer.UrlEncode(l.City),
-            Renderer.UrlEncode(l.State),
-            Renderer.UrlEncode(l.Country),
-            Renderer.UrlEncode(l.Type));
-
-        linkCity.NavigateUrl = string.Format("PlacesView.aspx?city={0}&state={1}&country={2}",
-            Renderer.UrlEncode(l.City),
-            Renderer.UrlEncode(l.State),
-            Renderer.UrlEncode(l.Country));
-
-        linkState.NavigateUrl = string.Format("PlacesView.aspx?state={0}&country={1}",
-            Renderer.UrlEncode(l.State),
-            Renderer.UrlEncode(l.Country));
-
-        linkCountry.NavigateUrl = string.Format("PlacesView.aspx?country={0}",
-            Renderer.UrlEncode(l.Country));
-
-        linkBack.NavigateUrl = linkPlace.NavigateUrl = string.Format("PlaceView.aspx?id={0}", l.Id);
+        linkBack.NavigateUrl = string.Format("PlaceView.aspx?id={0}", l.Id);
         linkBack.Text = string.Format("&#187; Back to {0}", Renderer.Render(l.Name));
         linkComments.Visible = p.CommentCount > 0;
         linkComments.Text = string.Format("&#187; {0} comment{1}",

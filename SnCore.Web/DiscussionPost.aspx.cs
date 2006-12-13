@@ -17,6 +17,7 @@ using SnCore.Tools.Drawing;
 using System.IO;
 using System.Drawing;
 using SnCore.Tools;
+using SnCore.SiteMap;
 
 public partial class DiscussionPostNew : AuthenticatedPage
 {
@@ -68,20 +69,21 @@ public partial class DiscussionPostNew : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(post);
             if (!IsPostBack)
             {
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Discussions", Request, "DiscussionsView.aspx"));
+
                 this.addFile.Attributes["onclick"] = this.files.GetAddFileScriptReference() + "return false;";
 
                 linkCancel.NavigateUrl = ReturnUrl;
-                linkDiscussion.NavigateUrl = ReturnUrl;
 
                 if (DiscussionId > 0)
                 {
                     TransitDiscussion td = DiscussionService.GetDiscussionById(DiscussionId);
-                    linkDiscussion.Text = Renderer.Render(td.Name);
                     discussionLabelLink.Text = Renderer.Render(td.Name);
-                    discussionLabelLink.NavigateUrl = string.Format("DiscussionView.aspx?id={0}", td.Id);
+                    discussionLabelLink.NavigateUrl = string.Format("DiscussionView.aspx?id={0}", td.Id);                    
+                    sitemapdata.Add(new SiteMapDataAttributeNode(td.Name, Request, string.Format("DiscussionView.aspx?id={0}", td.Id)));
                 }
 
                 StringBuilder body = new StringBuilder();
@@ -92,6 +94,11 @@ public partial class DiscussionPostNew : AuthenticatedPage
                     titleNewPost.Text = Renderer.Render(tw.Subject);
                     inputSubject.Text = tw.Subject;
                     body.Append(tw.Body);
+                    sitemapdata.Add(new SiteMapDataAttributeNode(tw.Subject, Request.Url));
+                }
+                else
+                {
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New Post", Request.Url));
                 }
                 
                 if (ParentId > 0)
@@ -121,8 +128,9 @@ public partial class DiscussionPostNew : AuthenticatedPage
                     body.Append("</P>");
                 }
 
-
                 inputBody.Text = body.ToString();
+
+                StackSiteMap(sitemapdata);
             }
 
             if (!AccountService.HasVerifiedEmail(SessionManager.Ticket))
@@ -133,6 +141,8 @@ public partial class DiscussionPostNew : AuthenticatedPage
                 panelPost.Visible = false;
                 post.Enabled = false;
             }
+
+            SetDefaultButton(post);
         }
         catch (Exception ex)
         {

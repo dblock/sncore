@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
+using SnCore.SiteMap;
 
 public partial class SystemStateEdit : AuthenticatedPage
 {
@@ -17,9 +18,11 @@ public partial class SystemStateEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(manageAdd);
             if (!IsPostBack)
             {
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("States", Request, "SystemStatesManage.aspx"));
 
                 int id = RequestId;
 
@@ -32,8 +35,17 @@ public partial class SystemStateEdit : AuthenticatedPage
                     TransitState tw = LocationService.GetStateById(id);
                     inputName.Text = Renderer.Render(tw.Name);
                     inputCountry.Items.FindByValue(tw.Country).Selected = true;
+                    sitemapdata.Add(new SiteMapDataAttributeNode(tw.Name, Request.Url));
                 }
+                else
+                {
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New State", Request.Url));
+                }
+
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(manageAdd);
         }
         catch (Exception ex)
         {

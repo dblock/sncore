@@ -10,7 +10,7 @@
   runat="server" />
  <SnCoreWebControls:PagedGrid CellPadding="4" OnItemCommand="gridManage_ItemCommand"
   runat="server" ID="gridManage" AutoGenerateColumns="false" CssClass="sncore_account_table"
-  AllowPaging="True" PageSize="20">
+  AllowPaging="True" PageSize="10">
   <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
    PrevPageText="Prev" HorizontalAlign="Center" />
   <ItemStyle CssClass="sncore_table_tr_td" HorizontalAlign="Center" />

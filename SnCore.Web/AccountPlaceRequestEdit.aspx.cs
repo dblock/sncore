@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
+using SnCore.SiteMap;
 
 public partial class AccountPlaceRequestEdit : AuthenticatedPage
 {
@@ -17,7 +18,6 @@ public partial class AccountPlaceRequestEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(manageAdd);
             if (!IsPostBack)
             {
                 inputType.DataSource = PlaceService.GetAccountPlaceTypes();
@@ -31,8 +31,16 @@ public partial class AccountPlaceRequestEdit : AuthenticatedPage
                     linkPlace.Text = Renderer.Render(place.Name);
                     imagePlace.ImageUrl = string.Format("PlacePictureThumbnail.aspx?id={0}", place.PictureId);
                     inputMessage.Text = "Hello,\n\nI work for this place and would like to manage content.\n\nThanks!\n";
+
+                    SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                    sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));
+                    sitemapdata.Add(new SiteMapDataAttributeNode(place.Name, Request, string.Format("PlaceView.aspx?id={0}", place.Id)));
+                    sitemapdata.Add(new SiteMapDataAttributeNode("Request Ownership", Request.Url));
+                    StackSiteMap(sitemapdata);
                 }
             }
+
+            SetDefaultButton(manageAdd);
         }
         catch (Exception ex)
         {

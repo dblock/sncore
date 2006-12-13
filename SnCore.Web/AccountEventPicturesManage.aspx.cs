@@ -16,6 +16,7 @@ using System.IO;
 using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.Tools;
+using SnCore.SiteMap;
 
 public partial class AccountEventPicturesManage : AuthenticatedPage
 {
@@ -28,12 +29,17 @@ public partial class AccountEventPicturesManage : AuthenticatedPage
 
             if (!IsPostBack)
             {
-                TransitAccountEvent AccountEvent = EventService.GetAccountEventById(SessionManager.Ticket, RequestId, SessionManager.UtcOffset);
-                linkAccountEventName.Text = Renderer.Render(AccountEvent.Name);
-                linkAccountEventName.NavigateUrl = string.Format("AccountEventView.aspx?id={0}", AccountEvent.Id);
+                TransitAccountEvent p = EventService.GetAccountEventById(SessionManager.Ticket, RequestId, SessionManager.UtcOffset);
 
                 gridManage_OnGetDataSource(this, null);
                 gridManage.DataBind();
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Events", Request, "AccountEventsManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(p.Name, Request, string.Format("AccountEventView.aspx?id={0}", p.Id)));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request.Url));
+                StackSiteMap(sitemapdata);
             }
 
             if (!AccountService.HasVerifiedEmail(SessionManager.Ticket))

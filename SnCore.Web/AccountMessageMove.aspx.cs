@@ -12,6 +12,7 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 using System.Collections.Generic;
+using SnCore.SiteMap;
 
 public partial class AccountMessageMove : AuthenticatedPage
 {
@@ -39,6 +40,13 @@ public partial class AccountMessageMove : AuthenticatedPage
                 folders.Insert(0, none);
                 listFolders.DataSource = folders;
                 listFolders.DataBind();
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Messages", Request, "AccountMessageFoldersManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(message.Subject, Request, string.Format("AccountMessageView.aspx?id={0}", message.Id)));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Move", Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

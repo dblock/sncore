@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
+using SnCore.SiteMap;
 
 public partial class SystemAccountPropertyGroupEdit : AuthenticatedPage
 {
@@ -17,10 +18,14 @@ public partial class SystemAccountPropertyGroupEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(manageAdd);
             gridProperties.OnGetDataSource += new EventHandler(gridProperties_OnGetDataSource);
+
             if (!IsPostBack)
             {
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Account Property Groups", Request, "SystemAccountPropertyGroupsManage.aspx"));
+
                 if (RequestId > 0)
                 {
                     TransitAccountPropertyGroup t = AccountService.GetAccountPropertyGroupById(RequestId);
@@ -29,12 +34,18 @@ public partial class SystemAccountPropertyGroupEdit : AuthenticatedPage
                     gridProperties_OnGetDataSource(this, null);
                     gridProperties.DataBind();
                     linkNewProperty.NavigateUrl = string.Format("SystemAccountPropertyEdit.aspx?pid={0}", RequestId);
+                    sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
                 }
                 else
                 {
                     panelProperties.Visible = false;
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New Property Group", Request.Url));
                 }
+
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(manageAdd);
         }
         catch (Exception ex)
         {

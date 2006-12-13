@@ -7,14 +7,6 @@
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <asp:UpdatePanel runat="server" ID="panelPicture" UpdateMode="Always">
   <ContentTemplate>
-   <div class="sncore_navigate">
-    <asp:HyperLink CssClass="sncore_navigate_item" ID="linkCountry" runat="server" />
-    <asp:HyperLink CssClass="sncore_navigate_item" ID="linkState" runat="server" />
-    <asp:HyperLink CssClass="sncore_navigate_item" ID="linkCity" runat="server" />
-    <asp:HyperLink CssClass="sncore_navigate_item" ID="linkType" runat="server" />
-    <asp:HyperLink CssClass="sncore_navigate_item" ID="linkAccountEvent" runat="server" />
-    <asp:Label CssClass="sncore_navigate_item" ID="labelPicture" Text="Picture" runat="server" />
-   </div>
    <div class="sncore_h2">
     <asp:Label ID="labelAccountEventName" runat="server" Text="AccountEvent" />
    </div>

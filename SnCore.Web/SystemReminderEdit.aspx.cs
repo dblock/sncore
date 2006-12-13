@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class SystemReminderEdit : AuthenticatedPage
 {
@@ -18,12 +19,14 @@ public partial class SystemReminderEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(manageAdd);
-            PageManager.SetDefaultButton(addAccountProperty, panelAccountProperties.Controls);
-            PageManager.SetDefaultButton(inputTest, inputTestAccountId);
             gridManageReminderAccountProperties.OnGetDataSource += new EventHandler(gridManageReminderAccountProperties_OnGetDataSource);
+
             if (!IsPostBack)
             {
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Reminders", Request, "SystemRemindersManage.aspx"));
+
                 inputDataObject.DataSource = SystemService.GetDataObjects();
                 inputDataObject.DataBind();
 
@@ -50,12 +53,21 @@ public partial class SystemReminderEdit : AuthenticatedPage
 
                     GetAccountPropertiesData(sender, e);
                     GetAccountProperties(sender, e);
+
+                    sitemapdata.Add(new SiteMapDataAttributeNode(t.Url, Request.Url));
                 }
                 else
                 {
                     panelAccountProperties.Visible = false;
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New Reminder", Request.Url));
                 }
+
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(manageAdd);
+            PageManager.SetDefaultButton(addAccountProperty, panelAccountProperties.Controls);
+            PageManager.SetDefaultButton(inputTest, inputTestAccountId);
         }
         catch (Exception ex)
         {

@@ -13,16 +13,6 @@
 <%@ Register TagPrefix="SnCore" TagName="MadLibInstancesView" Src="MadLibInstancesViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="TellAFriend" Src="TellAFriendControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
- <!-- NOEMAIL-START -->
- <div class="sncore_navigate">
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkCountry" runat="server" />
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkState" runat="server" />
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkCity" runat="server" />
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkNeighborhood" runat="server" />
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkType" runat="server" />
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkPlace" runat="server" />
- </div>
- <!-- NOEMAIL-END -->
  <asp:UpdatePanel runat="server" ID="panelPlace" UpdateMode="Conditional">
   <ContentTemplate>
     <table cellspacing="0" cellpadding="4" class="sncore_table">

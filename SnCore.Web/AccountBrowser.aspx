@@ -1,5 +1,5 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCoreAccount.master" AutoEventWireup="true"
-    Title="Account | Browser Information" %>
+    Title="Account | Browser Information" CodeFile="AccountBrowser.aspx.cs" Inherits="AccountBrowser" %>
 
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="AccountContentPlaceHolder" runat="Server">

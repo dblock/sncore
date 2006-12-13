@@ -8,16 +8,24 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using SnCore.SiteMap;
 
 public partial class AccountEmailVerify : Page
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        SetDefaultButton(inputVerify);
         if (!IsPostBack)
         {
             inputCode.Text = Request.QueryString["code"];
+
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("E-Mails", Request, "AccountEmailsManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Verify", Request.Url));
+            StackSiteMap(sitemapdata);
         }
+
+        SetDefaultButton(inputVerify);
     }
 
     public void EmailVerify_Click(object sender, EventArgs e)

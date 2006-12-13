@@ -22,7 +22,12 @@ public partial class SnCoreMasterPage : MasterPage
                     "SnCore.Title", "SnCore"), Page.Title);
 
                 panelAds.Visible = SessionManager.ShowAds;
-                panelCounter.Visible = SessionManager.ShowCounter;                
+                panelCounter.Visible = SessionManager.ShowCounter;
+
+                if (Request.PhysicalPath.EndsWith("Default.aspx"))
+                {
+                    siteMapPath.Visible = false;
+                }
             }
         }
         catch (Exception ex)

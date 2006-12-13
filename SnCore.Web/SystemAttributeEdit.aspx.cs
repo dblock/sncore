@@ -14,6 +14,7 @@ using SnCore.WebServices;
 using System.Drawing;
 using SnCore.Tools.Drawing;
 using System.IO;
+using SnCore.SiteMap;
 
 public partial class SystemAttributeEdit : AuthenticatedPage
 {
@@ -21,9 +22,12 @@ public partial class SystemAttributeEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(manageAdd);
             if (!IsPostBack)
             {
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Attributes", Request, "SystemAttributesManage.aspx"));
+
                 if (RequestId > 0)
                 {
                     TransitAttribute t = SystemService.GetAttributeById(RequestId);
@@ -33,12 +37,18 @@ public partial class SystemAttributeEdit : AuthenticatedPage
                     inputDefaultValue.Text = t.DefaultValue;
                     imageBitmap.ImageUrl = string.Format("SystemAttribute.aspx?id={0}&CacheDuration=0", t.Id);
                     imageBitmap.Visible = t.HasBitmap;
+                    sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
                 }
                 else
                 {
                     imageBitmap.Visible = false;
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New Attribute", Request.Url));
                 }
+
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(manageAdd);
         }
         catch (Exception ex)
         {

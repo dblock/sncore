@@ -12,6 +12,7 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 using System.Text;
+using SnCore.SiteMap;
 
 public partial class PlaceView : Page
 {
@@ -167,6 +168,12 @@ public partial class PlaceView : Page
                         return;
                     }
 
+                    SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                    sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));
+                    sitemapdata.AddRange(SiteMapDataAttribute.GetLocationAttributeNodes(Request, "PlacesView.aspx", place.Country, place.State, place.City, place.Neighborhood, place.Type));
+                    sitemapdata.Add(new SiteMapDataAttributeNode(place.Name, Request.Url));
+                    StackSiteMap(sitemapdata);
+
                     groups.PlaceId = RequestId;
 
                     Title = Renderer.Render(string.Format("{0}, {1}", place.Name, place.City));
@@ -176,7 +183,7 @@ public partial class PlaceView : Page
                         Renderer.Render(place.City),
                         Renderer.Render(SessionManager.GetCachedConfiguration("SnCore.Title", "SnCore")));
 
-                    placeType.NavigateUrl = linkType.NavigateUrl = 
+                    placeType.NavigateUrl = 
                         string.Format("PlacesView.aspx?city={0}&state={1}&country={2}&neighborhood={3}&type={4}",
                             Renderer.UrlEncode(place.City),
                             Renderer.UrlEncode(place.State),
@@ -184,25 +191,25 @@ public partial class PlaceView : Page
                             Renderer.UrlEncode(place.Neighborhood),
                             Renderer.UrlEncode(place.Type));
 
-                    placeNeighborhood.NavigateUrl = linkNeighborhood.NavigateUrl = 
+                    placeNeighborhood.NavigateUrl = 
                         string.Format("PlacesView.aspx?city={0}&state={1}&country={2}&neighborhood={3}",
                             Renderer.UrlEncode(place.City),
                             Renderer.UrlEncode(place.State),
                             Renderer.UrlEncode(place.Country),
                             Renderer.UrlEncode(place.Neighborhood));
 
-                    placeCity.NavigateUrl = linkCity.NavigateUrl = 
+                    placeCity.NavigateUrl = 
                         string.Format("PlacesView.aspx?city={0}&state={1}&country={2}",
                             Renderer.UrlEncode(place.City),
                             Renderer.UrlEncode(place.State),
                             Renderer.UrlEncode(place.Country));
 
-                    placeState.NavigateUrl = linkState.NavigateUrl = 
+                    placeState.NavigateUrl = 
                         string.Format("PlacesView.aspx?state={0}&country={1}",
                             Renderer.UrlEncode(place.State),
                             Renderer.UrlEncode(place.Country));
 
-                    placeCountry.NavigateUrl = linkCountry.NavigateUrl = 
+                    placeCountry.NavigateUrl = 
                         string.Format("PlacesView.aspx?country={0}",
                             Renderer.UrlEncode(place.Country));
 
@@ -214,12 +221,6 @@ public partial class PlaceView : Page
 
                     labelDescription.Text = base.RenderEx(place.Description);
                     panelDescription.Visible = !string.IsNullOrEmpty(labelDescription.Text);
-                    linkPlace.Text = Renderer.Render(place.Name);
-                    linkNeighborhood.Text = placeNeighborhood.Text = Renderer.Render(place.Neighborhood);
-                    linkCity.Text = placeCity.Text = Renderer.Render(place.City);
-                    linkState.Text = placeState.Text = Renderer.Render(place.State);
-                    linkCountry.Text = placeCountry.Text = Renderer.Render(place.Country);
-                    linkType.Text = place.Type + "s";
                     placeName.Text = Renderer.Render(place.Name);
                     placeId.Text = "#" + place.Id.ToString();
 
@@ -277,29 +278,13 @@ public partial class PlaceView : Page
                 }
                 else
                 {
-                    linkPlace.Text = placeName.Text = Renderer.Render(Request.QueryString["name"]);
+                    placeName.Text = Renderer.Render(Request.QueryString["name"]);
                     TransitCity city = LocationService.GetCityByTag(Request.QueryString["city"]);
                     if (city != null)
                     {
-                        linkCity.Text = placeCity.Text = Renderer.Render(city.Name);
-                        linkState.Text = placeState.Text = Renderer.Render(city.State);
-                        linkCountry.Text = placeCountry.Text = Renderer.Render(city.Country);
-
-                        linkCity.NavigateUrl = string.Format("PlacesView.aspx?city={0}&state={1}&country={2}",
-                            Renderer.UrlEncode(city.Name),
-                            Renderer.UrlEncode(city.State),
-                            Renderer.UrlEncode(city.Country));
-
-                        linkState.NavigateUrl = string.Format("PlacesView.aspx?state={0}&country={1}",
-                            Renderer.UrlEncode(city.State),
-                            Renderer.UrlEncode(city.Country));
-
-                        linkCountry.NavigateUrl = string.Format("PlacesView.aspx?country={0}",
-                            Renderer.UrlEncode(city.Country));
-                    }
-                    else
-                    {
-                        linkCity.Text = Request.QueryString["city"];
+                        placeCity.Text = Renderer.Render(city.Name);
+                        placeState.Text = Renderer.Render(city.State);
+                        placeCountry.Text = Renderer.Render(city.Country);
                     }
 
                     panelViews.Visible = false;

@@ -3,14 +3,6 @@
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content" ContentPlaceHolderID="AccountContentPlaceHolder" runat="Server">
- <div class="sncore_navigate">
-  <asp:HyperLink NavigateUrl="PlacesManage.aspx" CssClass="sncore_navigate_item"
-   ID="linkPlaces" Text="Places" runat="server" />
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkPlace" Text="Place" runat="server" />
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkSection" Text="Pictures"
-   runat="server" />
-  <asp:Label CssClass="sncore_navigate_item" ID="linkItem" Text="Picture" runat="server" />
- </div>
  <div class="sncore_h2">
   Picture
  </div>

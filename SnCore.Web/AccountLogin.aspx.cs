@@ -9,7 +9,9 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
+using SnCore.SiteMap;
 
+[SiteMapDataAttribute("Login")]
 public partial class AccountLogin : Page
 {
     public bool AuthenticatedPage

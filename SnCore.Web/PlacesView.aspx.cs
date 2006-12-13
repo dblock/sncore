@@ -13,6 +13,7 @@ using System.Text;
 using SnCore.Services;
 using SnCore.WebServices;
 using System.Collections.Generic;
+using SnCore.SiteMap;
 
 public partial class PlacesView : Page
 {
@@ -120,7 +121,6 @@ public partial class PlacesView : Page
     {
         try
         {
-            SetDefaultButton(search);
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
             LocationSelector.CountryChanged += new EventHandler(LocationSelector_CountryChanged);
@@ -161,7 +161,14 @@ public partial class PlacesView : Page
                     LocationSelector.ClearSelection();
                     GetData(sender, e);
                 }
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));
+                sitemapdata.AddRange(SiteMapDataAttribute.GetLocationAttributeNodes(Request, "PlacesView.aspx", inputCountry.SelectedValue, inputState.SelectedValue, inputCity.SelectedValue, inputNeighborhood.SelectedValue, inputType.SelectedValue));
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(search);
         }
         catch (Exception ex)
         {

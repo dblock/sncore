@@ -16,6 +16,7 @@ using SnCore.Tools.Drawing;
 using System.IO;
 using System.Drawing;
 using SnCore.Tools;
+using SnCore.SiteMap;
 
 public partial class AccountBlogPostNew : AuthenticatedPage
 {
@@ -40,7 +41,6 @@ public partial class AccountBlogPostNew : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(manageAdd);
             if (!IsPostBack)
             {
                 this.addFile.Attributes["onclick"] = this.files.GetAddFileScriptReference() + "return false;";
@@ -54,13 +54,27 @@ public partial class AccountBlogPostNew : AuthenticatedPage
                 linkAccount.HRef = string.Format("AccountView.aspx?id={0}", blog.AccountId);
                 imageAccount.Src = string.Format("AccountPictureThumbnail.aspx?id={0}", blog.AccountPictureId);
 
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Blogs", Request, "AccountBlogsManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(blog.Name, Request, string.Format("AccountBlogEdit.aspx?id={0}", blog.Id)));
+
                 if (RequestId != 0)
                 {
                     TransitAccountBlogPost post = BlogService.GetAccountBlogPostById(SessionManager.Ticket, RequestId);
                     inputBody.Text = post.Body;
-                    inputTitle.Text = post.Title;                    
+                    inputTitle.Text = post.Title;
+                    sitemapdata.Add(new SiteMapDataAttributeNode(post.Title, Request.Url));
                 }
+                else
+                {
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New Post", Request.Url));
+                }
+
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(manageAdd);
         }
         catch (Exception ex)
         {

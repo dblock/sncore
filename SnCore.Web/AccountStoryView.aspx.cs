@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class AccountStoryView : Page
 {
@@ -33,10 +34,6 @@ public partial class AccountStoryView : Page
 
                 this.Title = string.Format("{0}'s {1}", Renderer.Render(acct.Name), Renderer.Render(ts.Name));
 
-                linkAccountStory.Text = Renderer.Render(ts.Name);
-                linkAccount.Text = Renderer.Render(acct.Name);
-                linkAccount.NavigateUrl = string.Format("AccountView.aspx?id={0}", acct.Id);
-
                 storyName.Text = Renderer.Render(ts.Name);
                 storySummary.Text = RenderEx(ts.Summary);
 
@@ -56,6 +53,11 @@ public partial class AccountStoryView : Page
 
                 panelOwner.Visible = SessionManager.IsLoggedIn &&
                     (SessionManager.IsAdministrator || ts.AccountId == SessionManager.Account.Id);
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Stories", Request, "AccountStoriesView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(ts.Name, Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

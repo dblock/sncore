@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class AccountFeedItemView : Page
 {
@@ -40,14 +41,12 @@ public partial class AccountFeedItemView : Page
                     Renderer.Render(tfi.Title),
                     Renderer.Render(tfi.AccountFeedName));
 
-                linkAccountFeedItem.Text = Renderer.Render(tfi.Title);
-                FeedTitle.Text = linkAccountFeed.Text = Renderer.Render(tfi.AccountFeedName);
-                linkAccount.Text = Renderer.Render(tfi.AccountName);
+                FeedTitle.Text = Renderer.Render(tfi.AccountFeedName);
                 FeedItemCreated.Text = base.Adjust(tfi.Created).ToString();
                 FeedItemTitle.NavigateUrl = tfi.Link;
 
-                linkAccountView.HRef = linkAccount.NavigateUrl = string.Format("AccountView.aspx?id={0}", tfi.AccountId);
-                FeedTitle.NavigateUrl = linkAccountFeed.NavigateUrl = string.Format("AccountFeedView.aspx?id={0}", tfi.AccountFeedId);
+                linkAccountView.HRef = string.Format("AccountView.aspx?id={0}", tfi.AccountId);
+                FeedTitle.NavigateUrl = string.Format("AccountFeedView.aspx?id={0}", tfi.AccountFeedId);
                 FeedXPosted.NavigateUrl = Render(tfi.Link);
 
                 FeedItemTitle.Text = Renderer.Render(tfi.Title);
@@ -60,6 +59,12 @@ public partial class AccountFeedItemView : Page
                 object[] d_args = { RequestId };
                 FeedItemComments.DiscussionId = SessionManager.GetCachedCollectionCount(
                     DiscussionService, "GetAccountFeedItemDiscussionId", d_args);
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Blogs", Request, "AccountFeedItemsView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(tfi.AccountFeedName, Request, string.Format("AccountFeedView.aspx?id={0}", tfi.AccountFeedId)));
+                sitemapdata.Add(new SiteMapDataAttributeNode(tfi.Title, Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

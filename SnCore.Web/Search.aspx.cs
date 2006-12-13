@@ -10,7 +10,9 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using System.Collections.Generic;
+using SnCore.SiteMap;
 
+[SiteMapDataAttribute("Search")]
 public partial class Search : AsyncPage
 {
     private class SearchViewControl

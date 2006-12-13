@@ -13,6 +13,7 @@ using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.Tools.Drawing;
 using System.IO;
+using SnCore.SiteMap;
 
 public partial class SystemRefererHostDupEdit : AuthenticatedPage
 {
@@ -20,16 +21,28 @@ public partial class SystemRefererHostDupEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(manageAdd);
             if (!IsPostBack)
             {
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Referer Host Dups", Request, "SystemRefererHostDupsManage.aspx"));
+
                 if (RequestId > 0)
                 {
                     TransitRefererHostDup t = StatsService.GetRefererHostDupById(RequestId);
                     inputHost.Text = t.Host;
                     inputRefererHost.Text = t.RefererHost;
+                    sitemapdata.Add(new SiteMapDataAttributeNode(t.Host, Request.Url));
                 }
+                else
+                {
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New Referer Host", Request.Url));
+                }
+
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(manageAdd);
         }
         catch (Exception ex)
         {

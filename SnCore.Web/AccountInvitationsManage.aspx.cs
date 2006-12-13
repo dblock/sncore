@@ -12,6 +12,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class AccountInvitationsManage : AuthenticatedPage
 {
@@ -20,7 +21,6 @@ public partial class AccountInvitationsManage : AuthenticatedPage
         try
         {
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
-            SetDefaultButton(invite);
             if (!IsPostBack)
             {
                 if (!AccountService.HasVerifiedEmail(SessionManager.Ticket))
@@ -32,7 +32,14 @@ public partial class AccountInvitationsManage : AuthenticatedPage
                 }
 
                 GetData(sender, e);
+                
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Invitations", Request.Url));
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(invite);
         }
         catch (Exception ex)
         {

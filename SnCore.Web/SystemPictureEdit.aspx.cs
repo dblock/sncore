@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class SystemPictureEdit : AuthenticatedPage
 {
@@ -18,9 +19,12 @@ public partial class SystemPictureEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(manageAdd);
             if (!IsPostBack)
             {
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request, "SystemPicturesManage.aspx"));
+
                 inputType.DataSource = SystemService.GetPictureTypes();
                 inputType.DataBind();
 
@@ -31,8 +35,17 @@ public partial class SystemPictureEdit : AuthenticatedPage
                     inputDescription.Text = t.Description;
                     inputType.Items.FindByValue(t.Type).Selected = true;
                     imageThumbnail.ImageUrl = string.Format("SystemPictureThumbnail.aspx?id={0}&CacheDuration=0", t.Id);
+                    sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
                 }
+                else
+                {
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New Picture", Request.Url));
+                }
+
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(manageAdd);
         }
         catch (Exception ex)
         {

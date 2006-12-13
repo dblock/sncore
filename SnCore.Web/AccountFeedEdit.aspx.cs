@@ -16,6 +16,7 @@ using SnCore.Tools.Drawing;
 using SnCore.Tools.Web;
 using SnCore.WebServices;
 using SnCore.Services;
+using SnCore.SiteMap;
 
 public partial class AccountFeedEdit : AuthenticatedPage
 {
@@ -23,9 +24,12 @@ public partial class AccountFeedEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(linkSave);
             if (!IsPostBack)
             {
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Syndication", Request, "AccountFeedsManage.aspx"));
+
                 ArrayList types = new ArrayList();
                 types.Add(new TransitFeedType());
                 types.AddRange(SyndicationService.GetFeedTypes());
@@ -73,6 +77,8 @@ public partial class AccountFeedEdit : AuthenticatedPage
                     {
                         inputFeedType.Items.FindByValue(tf.FeedType).Selected = true;
                     }
+
+                    sitemapdata.Add(new SiteMapDataAttributeNode(tf.Name, Request.Url));
                 }
                 else
                 {
@@ -111,8 +117,13 @@ public partial class AccountFeedEdit : AuthenticatedPage
                         }
                     }
 
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New Feed", Request.Url));
                 }
+
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(linkSave);
         }
         catch (Exception ex)
         {

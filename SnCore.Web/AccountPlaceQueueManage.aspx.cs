@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.WebServices;
 using SnCore.Services;
+using SnCore.SiteMap;
 
 public partial class AccountPlaceQueueManage : AuthenticatedPage
 {
@@ -31,6 +32,12 @@ public partial class AccountPlaceQueueManage : AuthenticatedPage
                 }
 
                 GetData(sender, e);
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "AccountPlacesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Queue", Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

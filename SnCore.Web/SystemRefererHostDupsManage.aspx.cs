@@ -14,6 +14,7 @@ using SnCore.Tools.Drawing;
 using System.IO;
 using SnCore.Services;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class SystemRefererHostDupsManage : AuthenticatedPage
 {
@@ -28,6 +29,11 @@ public partial class SystemRefererHostDupsManage : AuthenticatedPage
 
                 gridManage_OnGetDataSource(this, null);
                 gridManage.DataBind();
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Referer Host Dups", Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

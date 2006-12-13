@@ -5,12 +5,6 @@
 <%@ Register TagPrefix="SnCore" TagName="SearchDiscussionPosts" Src="SearchDiscussionPostsControl.ascx" %>
 
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
- <div class="sncore_navigate">
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkDiscussions" Text="Discussions"
-   runat="server" NavigateUrl="DiscussionsView.aspx" />
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkDiscussion" Text="Discussion"
-   runat="server" NavigateUrl="DiscussionView.aspx" Visible="false" />
- </div>
  <div class="sncore_h2">
   Search Discussion Posts
  </div>

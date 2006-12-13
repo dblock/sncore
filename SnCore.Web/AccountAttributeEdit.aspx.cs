@@ -12,6 +12,7 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 using System.Collections.Generic;
+using SnCore.SiteMap;
 
 public partial class AccountAttributeEdit : AuthenticatedPage
 {
@@ -27,9 +28,15 @@ public partial class AccountAttributeEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(manageAdd);
             if (!IsPostBack)
             {
+                TransitAccount ta = AccountService.GetAccountById(AccountId);
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(ta.Name, Request, string.Format("AccountView.aspx?id={0}", ta.Id)));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Attributes", Request, string.Format("AccountAttributesManage.aspx?id={0}", ta.Id)));
+
                 linkBack.NavigateUrl = string.Format("AccountAttributesManage.aspx?id={0}", AccountId);
 
                 List<TransitAttribute> attributes = SystemService.GetAttributes();
@@ -53,8 +60,17 @@ public partial class AccountAttributeEdit : AuthenticatedPage
                     listAttributes.Enabled = false;
                     previewImage.ImageUrl = string.Format("SystemAttribute.aspx?id={0}", attribute.AttributeId);
                     previewImage.Visible = true;
+                    sitemapdata.Add(new SiteMapDataAttributeNode(attribute.Attribute.Name, Request.Url));
                 }
+                else
+                {
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New Attribute", Request.Url));
+                }
+
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(manageAdd);
         }
         catch (Exception ex)
         {

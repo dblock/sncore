@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class AccountContentGroupsManage : AuthenticatedPage
 {
@@ -20,6 +21,11 @@ public partial class AccountContentGroupsManage : AuthenticatedPage
 
             if (!IsPostBack)
             {
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Content", Request.Url));
+                StackSiteMap(sitemapdata);
+
                 GetData(sender, e);
             }
         }

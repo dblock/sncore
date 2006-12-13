@@ -3,11 +3,6 @@
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content" ContentPlaceHolderID="AccountContentPlaceHolder" runat="Server">
- <div class="sncore_navigate">
-  <asp:Label CssClass="sncore_navigate_item" ID="linkPlaceEvent" Text="PlaceEvent"
-   runat="server" />
-  <asp:Label CssClass="sncore_navigate_item" ID="linkItem" Text="Type" runat="server" />
- </div>
  <div class="sncore_h2">
   Place Property
  </div>

@@ -9,12 +9,6 @@
 <%@ Register TagPrefix="SnCore" TagName="LicenseView" Src="AccountLicenseViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="TellAFriend" Src="TellAFriendControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
- <div class="sncore_navigate">
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkAccount" Text="Account" runat="server" />
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkAccountFeed" Text="Feed" runat="server" />
-  <asp:Label CssClass="sncore_navigate_item" ID="linkAccountFeedItem" Text="FeedItem"
-   runat="server" />
- </div>
  <table cellspacing="0" cellpadding="4" class="sncore_table">
   <tr>
    <td align="center" width="150">

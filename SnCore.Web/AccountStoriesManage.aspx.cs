@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class AccountStoriesManage : AuthenticatedPage
 {
@@ -23,6 +24,11 @@ public partial class AccountStoriesManage : AuthenticatedPage
                 gridManage.VirtualItemCount = StoryService.GetAccountStoriesCount(SessionManager.Ticket, null);
                 gridManage_OnGetDataSource(this, null);
                 gridManage.DataBind();
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Stories", Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

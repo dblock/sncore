@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.WebServices;
+using SnCore.SiteMap;
 
 public partial class AccountEventsManage : AuthenticatedPage
 {
@@ -22,6 +23,11 @@ public partial class AccountEventsManage : AuthenticatedPage
             if (!IsPostBack)
             {
                 GetData();
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Events", Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
         catch (Exception ex)

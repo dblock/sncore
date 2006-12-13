@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.WebServices;
 using SnCore.Services;
 using SnCore.Tools.Web;
+using SnCore.SiteMap;
 
 public partial class AccountOpenIdsManage : AuthenticatedPage
 {
@@ -18,11 +19,9 @@ public partial class AccountOpenIdsManage : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(manageAdd);
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
             if (!IsPostBack)
             {
-
                 string openidmode = Request["openid.mode"];
                 if (!string.IsNullOrEmpty(openidmode))
                 {
@@ -37,7 +36,14 @@ public partial class AccountOpenIdsManage : AuthenticatedPage
 
                 gridManage_OnGetDataSource(sender, e);
                 gridManage.DataBind();
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Open-ID", Request.Url));
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(manageAdd);
         }
         catch (Exception ex)
         {

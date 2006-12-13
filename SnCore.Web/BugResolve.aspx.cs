@@ -8,6 +8,8 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using SnCore.SiteMap;
+using SnCore.Services;
 
 public partial class BugResolve : Page
 {
@@ -16,12 +18,24 @@ public partial class BugResolve : Page
         try
         {
             linkBack.NavigateUrl = string.Format("BugView.aspx?id={0}", RequestId);
-            SetDefaultButton(manageAdd);
+
             if (!IsPostBack)
             {
                 selectResolution.DataSource = BugService.GetBugResolutions();
                 selectResolution.DataBind();
+
+                TransitBug bug = BugService.GetBugById(RequestId);
+                TransitBugProject project = BugService.GetBugProjectById(bug.ProjectId);
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Bugs", Request, "BugProjectsManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(project.Name, Request, string.Format("BugProjectBugsManage.aspx?id={0}", project.Id)));
+                sitemapdata.Add(new SiteMapDataAttributeNode(string.Format("#{0}: {1}", bug.Id, bug.Subject), Request, string.Format("BugView.aspx?id={0}", bug.Id)));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Resolve", Request.Url));
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(manageAdd);
         }
         catch (Exception ex)
         {

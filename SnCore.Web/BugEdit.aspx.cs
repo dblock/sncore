@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
+using SnCore.SiteMap;
 
 public partial class BugEdit : AuthenticatedPage
 {
@@ -25,7 +26,6 @@ public partial class BugEdit : AuthenticatedPage
     {
         try
         {
-            SetDefaultButton(manageAdd);
             if (!IsPostBack)
             {
                 selectPriority.DataSource = BugService.GetBugPriorities();
@@ -35,10 +35,11 @@ public partial class BugEdit : AuthenticatedPage
                 selectType.DataSource = BugService.GetBugTypes();
                 selectType.DataBind();
 
-
                 TransitBugProject project = BugService.GetBugProjectById(ProjectId);
-                linkProject.Text = Renderer.Render(project.Name);
-                linkProject.NavigateUrl = string.Format("BugProjectBugsManage.aspx?id={0}", project.Id);
+
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Bugs", Request, "BugProjectsManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(project.Name, Request, string.Format("BugProjectBugsManage.aspx?id={0}", project.Id)));
 
                 if (RequestId > 0)
                 {
@@ -49,13 +50,13 @@ public partial class BugEdit : AuthenticatedPage
                     selectSeverity.Items.FindByValue(bug.Severity).Selected = true;
                     selectType.Items.FindByValue(bug.Type).Selected = true;
                     linkBack.NavigateUrl = string.Format("BugView.aspx?id={0}", bug.Id);
-                    linkBugId.Text = "#" + bug.Id.ToString();
+
+                    sitemapdata.Add(new SiteMapDataAttributeNode(string.Format("#{0}: {1}", bug.Id, bug.Subject), Request.Url));
                 }
                 else
                 {
                     string type = Request.QueryString["type"];
                     if (type != null) selectType.Items.FindByValue(type).Selected = true;
-                    linkBugId.Text = "New Bug";
                     linkBack.NavigateUrl = string.Format("BugProjectBugsManage.aspx?id={0}", ProjectId);
 
                     if (Request.QueryString["url"] != null)
@@ -63,8 +64,14 @@ public partial class BugEdit : AuthenticatedPage
 
                     if (Request.QueryString["message"] != null)
                         inputDetails.Text = Request.QueryString["message"];
+
+                    sitemapdata.Add(new SiteMapDataAttributeNode("New Bug", Request.Url));
                 }
+
+                StackSiteMap(sitemapdata);
             }
+
+            SetDefaultButton(manageAdd);
         }
         catch (Exception ex)
         {

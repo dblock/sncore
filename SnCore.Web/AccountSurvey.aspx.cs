@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Services;
 using System.Collections.Generic;
+using SnCore.SiteMap;
 
 public class AccountSurveyEntry
 {
@@ -41,6 +42,11 @@ public partial class AccountSurvey : AuthenticatedPage
 
             List<TransitAccountSurveyAnswer> answers = AccountService.GetAccountSurveyAnswers(
                 SessionManager.Ticket, RequestId);
+
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode(ts.Name, Request, string.Format("AccountSurveyView.aspx?id={0}", ts.Id)));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Edit Survey", Request.Url));
+            StackSiteMap(sitemapdata);
 
             int index = 1;
             foreach (TransitAccountSurveyAnswer answer in answers)

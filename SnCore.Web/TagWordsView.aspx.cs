@@ -13,7 +13,9 @@ using SnCore.Services;
 using SnCore.WebServices;
 using System.Collections.Generic;
 using System.Web.Caching;
+using SnCore.SiteMap;
 
+[SiteMapDataAttribute("Tags")]
 public partial class TagWordsView : AccountPersonPage
 {
     private int mCount = 200;

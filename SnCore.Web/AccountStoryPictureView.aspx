@@ -1,17 +1,11 @@
-<%@ Page Language="C#" MasterPageFile="~/SnCoreAccount.master" AutoEventWireup="true"
+<%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true"
  CodeFile="AccountStoryPictureView.aspx.cs" Inherits="AccountStoryPictureView" Title="AccountStoryPicture | Picture" %>
-
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="DiscussionFullView" Src="DiscussionFullViewControl.ascx" %>
-<asp:Content ID="Content" ContentPlaceHolderID="AccountContentPlaceHolder" runat="Server">
+<asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <asp:UpdatePanel runat="server" ID="panelPicture" UpdateMode="Always">
   <ContentTemplate>
-   <div class="sncore_navigate">
-    <asp:HyperLink CssClass="sncore_navigate_item" ID="linkAccount" Text="Account" runat="server" />
-    <asp:HyperLink CssClass="sncore_navigate_item" ID="linkAccountStory" Text="Story" runat="server" />
-    <asp:Label CssClass="sncore_navigate_item" ID="labelPicture" Text="Picture" runat="server" />
-   </div>
    <div class="sncore_h2">
     <asp:Label ID="labelAccountStoryName" runat="server" Text="AccountStory" />
    </div>

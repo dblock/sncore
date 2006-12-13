@@ -4,11 +4,6 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
- <div class="sncore_navigate">
-  <asp:HyperLink CssClass="sncore_navigate_item" ID="linkAccount" Text="Account"
-   NavigateUrl="AccountPicturesView.aspx" runat="server" />
-  <font class="sncore_navigate_item">Pictures</font>
- </div>
  <div class="sncore_h2">
   Account Pictures
  </div>
