@@ -50,11 +50,6 @@ public partial class AccountFriendRequestsSentManage : AuthenticatedPage
         listSent.CurrentPageIndex = 0;
         listSent_OnGetDataSource(sender, e);
         listSent.DataBind();
-
-        if (listSent.VirtualItemCount == 0)
-        {
-            noticeManage.Info = "You don't have any pending or outstanding requests.";
-        }
     }
 
     public void listSent_ItemCommand(object sender, DataListCommandEventArgs e)

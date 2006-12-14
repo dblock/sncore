@@ -50,11 +50,7 @@ public partial class AccountFriendRequestsManage : AuthenticatedPage
         listPending.VirtualItemCount = SocialService.GetAccountFriendRequestsCount(SessionManager.Ticket);
         listPending_OnGetDataSource(sender, e);
         listPending.DataBind();
-
-        if (listPending.Items.Count == 0)
-        {
-            noticeManage.Info = "You don't have any pending requests.";
-        }
+        reasonTable.Visible = (listPending.Items.Count != 0);
     }
 
     public void listPending_ItemCommand(object sender, DataListCommandEventArgs e)
@@ -68,7 +64,8 @@ public partial class AccountFriendRequestsManage : AuthenticatedPage
                         int id = int.Parse(e.CommandArgument.ToString());
                         SocialService.AcceptAccountFriendRequest(SessionManager.Ticket, id, inputReason.Text);
                         GetData(sender, e);
-                        noticeManage.Info = "Friend request accepted.";
+                        ReportInfo("Friend request accepted." + 
+                            (string.IsNullOrEmpty(inputReason.Text) ? string.Empty : " An e-mail has been sent."));
                         break;
                     }
                 case "Reject":
@@ -76,7 +73,8 @@ public partial class AccountFriendRequestsManage : AuthenticatedPage
                         int id = int.Parse(e.CommandArgument.ToString());
                         SocialService.RejectAccountFriendRequest(SessionManager.Ticket, id, inputReason.Text);
                         GetData(sender, e);
-                        noticeManage.Info = "Friend request rejected.";
+                        ReportInfo("Friend request rejected." + 
+                            (string.IsNullOrEmpty(inputReason.Text) ? string.Empty : " An e-mail has been sent."));
                         break;
                     }
             }

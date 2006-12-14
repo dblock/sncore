@@ -10,7 +10,7 @@
   Sent Friend Requests
  </div>
  <div class="sncore_h2sub">
-  <a href="AccountFriendRequestsManage.aspx">&#187; Pending</a>
+  <a href="AccountFriendRequestsManage.aspx">&#187; Pending Requests</a>
  </div>
  <asp:UpdatePanel ID="panelGrid" runat="server" UpdateMode="Always">
   <ContentTemplate>

@@ -145,7 +145,7 @@ public partial class AccountView : Page
                 accountName.Text = Renderer.Render(Account.Name);
                 accountId.Text = "#" + Account.Id.ToString();
 
-                string returnurl = string.Format("AccountView.aspx?id={0}", Account.Id);
+                string returnurl = Renderer.UrlEncode(string.Format("AccountView.aspx?id={0}", Account.Id));
 
                 linkNewMessage.NavigateUrl = string.Format("AccountMessageEdit.aspx?id={0}&ReturnUrl={1}&#edit",
                     Account.Id.ToString(), returnurl);
