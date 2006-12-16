@@ -28,17 +28,10 @@ public partial class AccountAttributesViewControl : Control
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        attributes.OnGetDataSource += new EventHandler(attributes_OnGetDataSource);
+        if (!IsPostBack)
         {
-            attributes.OnGetDataSource += new EventHandler(attributes_OnGetDataSource);
-            if (!IsPostBack)
-            {
-                GetData(sender, e);
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            GetData(sender, e);
         }
     }
 

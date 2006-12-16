@@ -18,26 +18,19 @@ public partial class AccountStoriesView : Page
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+        if (!IsPostBack)
         {
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
-            if (!IsPostBack)
+            if (!string.IsNullOrEmpty(Request.QueryString["q"]))
             {
-                if (!string.IsNullOrEmpty(Request.QueryString["q"]))
-                {
-                    inputSearch.Text = Request.QueryString["q"];
-                }
-
-                panelSearchInternal.Visible = ! string.IsNullOrEmpty(inputSearch.Text);
-                GetData(sender, e);
+                inputSearch.Text = Request.QueryString["q"];
             }
 
-            SetDefaultButton(search);
+            panelSearchInternal.Visible = !string.IsNullOrEmpty(inputSearch.Text);
+            GetData(sender, e);
         }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+
+        SetDefaultButton(search);
     }
 
     protected override void OnPreRender(EventArgs e)
@@ -66,27 +59,20 @@ public partial class AccountStoriesView : Page
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageNumber = gridManage.CurrentPageIndex;
+        options.PageSize = gridManage.PageSize;
+        if (string.IsNullOrEmpty(inputSearch.Text))
         {
-            ServiceQueryOptions options = new ServiceQueryOptions();
-            options.PageNumber = gridManage.CurrentPageIndex;
-            options.PageSize = gridManage.PageSize;
-            if (string.IsNullOrEmpty(inputSearch.Text))
-            {
-                object[] args = { options };
-                gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountStory>(
-                    SessionManager.StoryService, "GetLatestAccountStories", args);
-            }
-            else
-            {
-                object[] args = { inputSearch.Text, options };
-                gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountStory>(
-                    SessionManager.StoryService, "SearchAccountStories", args);
-            }
+            object[] args = { options };
+            gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountStory>(
+                SessionManager.StoryService, "GetLatestAccountStories", args);
         }
-        catch (Exception ex)
+        else
         {
-            ReportException(ex);
+            object[] args = { inputSearch.Text, options };
+            gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountStory>(
+                SessionManager.StoryService, "SearchAccountStories", args);
         }
     }
 
@@ -112,47 +98,26 @@ public partial class AccountStoriesView : Page
 
     protected void search_Click(object sender, EventArgs e)
     {
-        try
-        {
-            GetData(sender, e);
+        GetData(sender, e);
 
-            labelCount.Text = string.Format("{0} {1}",
-                gridManage.VirtualItemCount, gridManage.VirtualItemCount != 1 ? "stories" : "story");
+        labelCount.Text = string.Format("{0} {1}",
+            gridManage.VirtualItemCount, gridManage.VirtualItemCount != 1 ? "stories" : "story");
 
-            panelLinks.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        panelLinks.Update();
     }
 
     public void linkAll_Click(object sender, EventArgs e)
     {
-        try
-        {
-            panelSearchInternal.Visible = false;
-            inputSearch.Text = string.Empty;
-            GetData(sender, e);
-            panelSearch.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        panelSearchInternal.Visible = false;
+        inputSearch.Text = string.Empty;
+        GetData(sender, e);
+        panelSearch.Update();
     }
 
     public void linkSearch_Click(object sender, EventArgs e)
     {
-        try
-        {
-            panelSearchInternal.PersistentVisible = !panelSearchInternal.PersistentVisible;
-            panelSearch.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        panelSearchInternal.PersistentVisible = !panelSearchInternal.PersistentVisible;
+        panelSearch.Update();
     }
 
     public void gridManage_DataBinding(object sender, EventArgs e)

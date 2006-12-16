@@ -29,47 +29,33 @@ public partial class AccountPropertyGroupsViewControl : Control
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
-            {
-                groups.DataSource = SessionManager.GetCachedCollection<TransitAccountPropertyGroup>(
-                    SessionManager.AccountService, "GetAccountPropertyGroups", null);
-                groups.DataBind();
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            groups.DataSource = SessionManager.GetCachedCollection<TransitAccountPropertyGroup>(
+                SessionManager.AccountService, "GetAccountPropertyGroups", null);
+            groups.DataBind();
         }
     }
 
     public void groups_ItemCreated(object sender, DataGridItemEventArgs e)
     {
-        try
+        switch (e.Item.ItemType)
         {
-            switch (e.Item.ItemType)
-            {
-                case ListItemType.Item:
-                case ListItemType.AlternatingItem:
-                case ListItemType.SelectedItem:
-                    DataGrid values = (DataGrid)e.Item.FindControl("values");
-                    TransitAccountPropertyGroup group = (TransitAccountPropertyGroup) e.Item.DataItem;
-                    if (group != null)
-                    {
-                        object[] args = { AccountId, group.Id };
-                        List<TransitAccountPropertyValue> propertyvalues = SessionManager.GetCachedCollection<TransitAccountPropertyValue>(
-                            SessionManager.AccountService, "GetAccountPropertyValuesById", args);
-                        values.DataSource = propertyvalues;
-                        HtmlControl title = (HtmlControl)e.Item.FindControl("title");
-                        title.Visible = (propertyvalues.Count > 0);
-                    }
-                    break;
-            }
+            case ListItemType.Item:
+            case ListItemType.AlternatingItem:
+            case ListItemType.SelectedItem:
+                DataGrid values = (DataGrid)e.Item.FindControl("values");
+                TransitAccountPropertyGroup group = (TransitAccountPropertyGroup)e.Item.DataItem;
+                if (group != null)
+                {
+                    object[] args = { AccountId, group.Id };
+                    List<TransitAccountPropertyValue> propertyvalues = SessionManager.GetCachedCollection<TransitAccountPropertyValue>(
+                        SessionManager.AccountService, "GetAccountPropertyValuesById", args);
+                    values.DataSource = propertyvalues;
+                    HtmlControl title = (HtmlControl)e.Item.FindControl("title");
+                    title.Visible = (propertyvalues.Count > 0);
+                }
+                break;
         }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
-    }    
+    }
 }

@@ -16,33 +16,26 @@ public partial class AccountPlaceQueueManage : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
-            queue.OnGetDataSource += new EventHandler(queue_OnGetDataSource);
+        queue.OnGetDataSource += new EventHandler(queue_OnGetDataSource);
 
-            if (!IsPostBack)
+        if (!IsPostBack)
+        {
+            if (RequestId == 0)
             {
-                if (RequestId == 0)
-                {
-                    TransitPlaceQueue q = SessionManager.PlaceService.GetOrCreatePlaceQueueByName(
-                        SessionManager.Ticket, "My Queue");
+                TransitPlaceQueue q = SessionManager.PlaceService.GetOrCreatePlaceQueueByName(
+                    SessionManager.Ticket, "My Queue");
 
-                    Response.Redirect(string.Format("AccountPlaceQueueManage.aspx?id={0}", q.Id));
-                    return;
-                }
-
-                GetData(sender, e);
-
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "AccountPlacesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Queue", Request.Url));
-                StackSiteMap(sitemapdata);
+                Response.Redirect(string.Format("AccountPlaceQueueManage.aspx?id={0}", q.Id));
+                return;
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+
+            GetData(sender, e);
+
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "AccountPlacesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Queue", Request.Url));
+            StackSiteMap(sitemapdata);
         }
     }
 
@@ -56,35 +49,21 @@ public partial class AccountPlaceQueueManage : AuthenticatedPage
 
     void queue_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
-            ServiceQueryOptions options = new ServiceQueryOptions();
-            options.PageNumber = queue.CurrentPageIndex;
-            options.PageSize = queue.PageSize;
-            queue.DataSource = SessionManager.PlaceService.GetPlaceQueueItems(SessionManager.Ticket, RequestId, options);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageNumber = queue.CurrentPageIndex;
+        options.PageSize = queue.PageSize;
+        queue.DataSource = SessionManager.PlaceService.GetPlaceQueueItems(SessionManager.Ticket, RequestId, options);
     }
 
     public void queue_Command(object source, DataListCommandEventArgs e)
     {
-        try
+        switch (e.CommandName)
         {
-            switch (e.CommandName)
-            {
-                case "Delete":
-                    SessionManager.PlaceService.DeletePlaceQueueItem(SessionManager.Ticket, int.Parse(e.CommandArgument.ToString()));
-                    ReportInfo("Place removed from queue.");
-                    GetData(source, e);
-                    break;
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            case "Delete":
+                SessionManager.PlaceService.DeletePlaceQueueItem(SessionManager.Ticket, int.Parse(e.CommandArgument.ToString()));
+                ReportInfo("Place removed from queue.");
+                GetData(source, e);
+                break;
         }
     }
 }

@@ -17,58 +17,44 @@ public partial class DiscussionThreadMove : Page
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
+            TransitDiscussionThread tt = SessionManager.DiscussionService.GetDiscussionThreadById(
+                SessionManager.Ticket, RequestId);
+
+            TransitDiscussion td = SessionManager.DiscussionService.GetDiscussionById(tt.DiscussionId);
+
+            if (td.Personal)
             {
-                TransitDiscussionThread tt = SessionManager.DiscussionService.GetDiscussionThreadById(
-                    SessionManager.Ticket, RequestId);
-
-                TransitDiscussion td = SessionManager.DiscussionService.GetDiscussionById(tt.DiscussionId);
-
-                if (td.Personal)
-                {
-                    throw new Exception("You can only move posts for public discussions.");
-                }
-
-                TransitDiscussionPost tp = SessionManager.DiscussionService.GetDiscussionThreadPost(
-                    SessionManager.Ticket, tt.Id);
-
-                this.Title = Renderer.Render(td.Name);
-
-                listDiscussions.DataSource = SessionManager.DiscussionService.GetDiscussions(null);
-                listDiscussions.DataBind();
-
-                listDiscussions.Items.FindByValue(tt.DiscussionId.ToString()).Selected = true;
-
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Discussions", Request, "DiscussionsView.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode(td.Name, Request, string.Format("DiscussionView.aspx?id={0}", td.Id)));
-                sitemapdata.Add(new SiteMapDataAttributeNode(tp.Subject, Request, string.Format("DiscussionThreadView.aspx?id={0}&did={1}", tp.DiscussionThreadId, td.Id)));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Move", Request.Url));
-                StackSiteMap(sitemapdata);
+                throw new Exception("You can only move posts for public discussions.");
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+
+            TransitDiscussionPost tp = SessionManager.DiscussionService.GetDiscussionThreadPost(
+                SessionManager.Ticket, tt.Id);
+
+            this.Title = Renderer.Render(td.Name);
+
+            listDiscussions.DataSource = SessionManager.DiscussionService.GetDiscussions(null);
+            listDiscussions.DataBind();
+
+            listDiscussions.Items.FindByValue(tt.DiscussionId.ToString()).Selected = true;
+
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Discussions", Request, "DiscussionsView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode(td.Name, Request, string.Format("DiscussionView.aspx?id={0}", td.Id)));
+            sitemapdata.Add(new SiteMapDataAttributeNode(tp.Subject, Request, string.Format("DiscussionThreadView.aspx?id={0}&did={1}", tp.DiscussionThreadId, td.Id)));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Move", Request.Url));
+            StackSiteMap(sitemapdata);
         }
     }
 
     public void move_Click(object sender, EventArgs args)
     {
-        try
-        {
-            SessionManager.DiscussionService.MoveDiscussionThread(
-                SessionManager.Ticket,
-                RequestId,
-                int.Parse(listDiscussions.SelectedValue));
+        SessionManager.DiscussionService.MoveDiscussionThread(
+            SessionManager.Ticket,
+            RequestId,
+            int.Parse(listDiscussions.SelectedValue));
 
-            ReportInfo("Discussion thread moved.");
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ReportInfo("Discussion thread moved.");
     }
 }

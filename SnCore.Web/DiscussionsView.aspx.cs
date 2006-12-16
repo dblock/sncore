@@ -17,8 +17,6 @@ public partial class DiscussionsView : Page
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             SetDefaultButton(search);
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
@@ -26,11 +24,6 @@ public partial class DiscussionsView : Page
             {
                 GetData(sender, e);
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     private void GetData(object sender, EventArgs e)
@@ -49,13 +42,6 @@ public partial class DiscussionsView : Page
 
     protected void search_Click(object sender, EventArgs e)
     {
-        try
-        {
             Redirect("SearchDiscussionPosts.aspx?q=" + Renderer.UrlEncode(inputSearch.Text));
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 }

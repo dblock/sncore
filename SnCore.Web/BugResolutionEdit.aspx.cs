@@ -16,49 +16,35 @@ public partial class BugResolutionEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Bugs", Request, "BugProjectsManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Resolutions", Request, "BugResolutionsManage.aspx"));
+
+            if (RequestId > 0)
             {
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Bugs", Request, "BugProjectsManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Resolutions", Request, "BugResolutionsManage.aspx"));
-
-                if (RequestId > 0)
-                {
-                    TransitBugResolution t = SessionManager.BugService.GetBugResolutionById(RequestId);
-                    inputName.Text = t.Name;
-                    sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
-                }
-                else
-                {
-                    sitemapdata.Add(new SiteMapDataAttributeNode("New Resolution", Request.Url));
-                }
-
-                StackSiteMap(sitemapdata);
+                TransitBugResolution t = SessionManager.BugService.GetBugResolutionById(RequestId);
+                inputName.Text = t.Name;
+                sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
+            }
+            else
+            {
+                sitemapdata.Add(new SiteMapDataAttributeNode("New Resolution", Request.Url));
             }
 
-            SetDefaultButton(manageAdd);
+            StackSiteMap(sitemapdata);
         }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+
+        SetDefaultButton(manageAdd);
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-        try
-        {
-            TransitBugResolution t = new TransitBugResolution();
-            t.Name = inputName.Text;
-            t.Id = RequestId;
-            SessionManager.BugService.CreateOrUpdateBugResolution(SessionManager.Ticket, t);
-            Redirect("BugResolutionsManage.aspx");
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        TransitBugResolution t = new TransitBugResolution();
+        t.Name = inputName.Text;
+        t.Id = RequestId;
+        SessionManager.BugService.CreateOrUpdateBugResolution(SessionManager.Ticket, t);
+        Redirect("BugResolutionsManage.aspx");
     }
 }

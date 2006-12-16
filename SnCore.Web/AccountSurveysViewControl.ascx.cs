@@ -27,19 +27,12 @@ public partial class AccountSurveysViewControl : Control
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        accountSurveys.OnGetDataSource += new EventHandler(accountSurveys_OnGetDataSource);
+        if (!IsPostBack)
         {
-            accountSurveys.OnGetDataSource += new EventHandler(accountSurveys_OnGetDataSource);
-            if (!IsPostBack)
-            {
-                accountSurveys_OnGetDataSource(sender, e);
-                accountSurveys.DataBind();
-                this.Visible = accountSurveys.Items.Count > 0;
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            accountSurveys_OnGetDataSource(sender, e);
+            accountSurveys.DataBind();
+            this.Visible = accountSurveys.Items.Count > 0;
         }
     }
 

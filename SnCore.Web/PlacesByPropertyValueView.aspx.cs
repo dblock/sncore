@@ -19,8 +19,6 @@ public partial class PlacesByPropertyValueView : Page
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
             if (!IsPostBack)
@@ -34,11 +32,6 @@ public partial class PlacesByPropertyValueView : Page
                 sitemapdata.Add(new SiteMapDataAttributeNode(PropertyValue, Request, string.Format("PlacesByPropertyValueView.aspx?GroupName={0}&PropertyName={1}&PropertyValue={2}", Renderer.UrlEncode(GroupName), Renderer.UrlEncode(PropertyName), Renderer.UrlEncode(PropertyValue))));
                 StackSiteMap(sitemapdata);
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void gridManage_DataBinding(object sender, EventArgs e)
@@ -96,16 +89,9 @@ public partial class PlacesByPropertyValueView : Page
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
             ServiceQueryOptions serviceoptions = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
             object[] args = { GroupName, PropertyName, PropertyValue, serviceoptions };
             gridManage.DataSource = SessionManager.GetCachedCollection<TransitPlace>(
                 SessionManager.PlaceService, "GetPlacesByPropertyValue", args);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 }

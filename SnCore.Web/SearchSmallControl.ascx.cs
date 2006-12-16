@@ -15,18 +15,11 @@ public partial class SearchSmallControl : Control
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        PageManager.SetDefaultButton(search, Controls); 
+        PageManager.SetDefaultButton(search, Controls);
     }
 
     protected void search_Click(object sender, EventArgs e)
     {
-        try
-        {
-            Redirect("Search.aspx?q=" + Renderer.UrlEncode(inputSearch.Text));
-        }
-        catch (Exception ex) 
-        { 
-            ReportException(ex); 
-        }
+        Redirect("Search.aspx?q=" + Renderer.UrlEncode(inputSearch.Text));
     }
 }

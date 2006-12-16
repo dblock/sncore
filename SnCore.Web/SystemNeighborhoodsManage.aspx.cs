@@ -15,8 +15,6 @@ public partial class SystemNeighborhoodsManage : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
             if (!IsPostBack)
@@ -28,11 +26,6 @@ public partial class SystemNeighborhoodsManage : AuthenticatedPage
                 sitemapdata.Add(new SiteMapDataAttributeNode("Neighborhoods", Request.Url));
                 StackSiteMap(sitemapdata);
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     void GetData(object sender, EventArgs e)
@@ -45,17 +38,10 @@ public partial class SystemNeighborhoodsManage : AuthenticatedPage
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridManage.CurrentPageIndex;
             options.PageSize = gridManage.PageSize;
             gridManage.DataSource = SessionManager.LocationService.GetNeighborhoods(options);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     private enum Cells
@@ -65,8 +51,6 @@ public partial class SystemNeighborhoodsManage : AuthenticatedPage
 
     public void gridManage_ItemCommand(object source, DataGridCommandEventArgs e)
     {
-        try
-        {
             switch (e.Item.ItemType)
             {
                 case ListItemType.AlternatingItem:
@@ -85,10 +69,5 @@ public partial class SystemNeighborhoodsManage : AuthenticatedPage
                     }
                     break;
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 }

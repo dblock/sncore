@@ -17,55 +17,41 @@ public partial class AccountPictureEdit : AuthenticatedPage
 {
     public void Page_Load()
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
+            int id = RequestId;
+
+            if (id > 0)
             {
-                int id = RequestId;
+                TransitAccountPicture tw = SessionManager.AccountService.GetAccountPictureById(SessionManager.Ticket, id, null);
+                this.Title = inputName.Text = Renderer.Render(tw.Name);
+                inputDescription.Text = tw.Description;
+                inputPictureThumbnail.Src = string.Format("AccountPictureThumbnail.aspx?id={0}&CacheDuration=0", tw.Id);
+                inputHidden.Checked = tw.Hidden;
 
-                if (id > 0)
-                {
-                    TransitAccountPicture tw = SessionManager.AccountService.GetAccountPictureById(SessionManager.Ticket, id, null);
-                    this.Title = inputName.Text = Renderer.Render(tw.Name);
-                    inputDescription.Text = tw.Description;
-                    inputPictureThumbnail.Src = string.Format("AccountPictureThumbnail.aspx?id={0}&CacheDuration=0", tw.Id);
-                    inputHidden.Checked = tw.Hidden;
+                discussionComments.DiscussionId = SessionManager.DiscussionService.GetAccountPictureDiscussionId(id);
+                discussionComments.DataBind();
 
-                    discussionComments.DiscussionId = SessionManager.DiscussionService.GetAccountPictureDiscussionId(id);
-                    discussionComments.DataBind();
-
-                    SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                    sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
-                    sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request, "AccountPicturesManage.aspx"));
-                    sitemapdata.Add(new SiteMapDataAttributeNode(tw.Name, Request.Url));
-                    StackSiteMap(sitemapdata);
-                }
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request, "AccountPicturesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(tw.Name, Request.Url));
+                StackSiteMap(sitemapdata);
             }
+        }
 
-            SetDefaultButton(manageAdd);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        SetDefaultButton(manageAdd);
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-        try
-        {
-            TransitAccountPictureWithBitmap tw = new TransitAccountPictureWithBitmap();
-            tw.Name = inputName.Text;
-            tw.Description = inputDescription.Text;
-            tw.Id = RequestId;
-            tw.Hidden = inputHidden.Checked;
-            SessionManager.AccountService.AddAccountPicture(SessionManager.Ticket, tw);
-            Redirect("AccountPicturesManage.aspx");
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        TransitAccountPictureWithBitmap tw = new TransitAccountPictureWithBitmap();
+        tw.Name = inputName.Text;
+        tw.Description = inputDescription.Text;
+        tw.Id = RequestId;
+        tw.Hidden = inputHidden.Checked;
+        SessionManager.AccountService.AddAccountPicture(SessionManager.Ticket, tw);
+        Redirect("AccountPicturesManage.aspx");
 
     }
 }

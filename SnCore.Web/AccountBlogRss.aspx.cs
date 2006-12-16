@@ -35,7 +35,7 @@ public partial class AccountBlogRss : Page
     {
         get
         {
-            return Renderer.Render(string.Format("{0} {1}", 
+            return Renderer.Render(string.Format("{0} {1}",
                 SessionManager.GetCachedConfiguration("SnCore.Title", "SnCore"), Blog.Name));
         }
     }
@@ -67,22 +67,15 @@ public partial class AccountBlogRss : Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
-            {
-                ServiceQueryOptions options = new ServiceQueryOptions();
-                options.PageNumber = 0;
-                options.PageSize = 25;
-                object[] args = { SessionManager.Ticket, RequestId, options };
-                rssRepeater.DataSource = SessionManager.GetCachedCollection<TransitAccountBlogPost>(
-                    SessionManager.BlogService, "GetAccountBlogPostsById", args);
-                rssRepeater.DataBind();
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            ServiceQueryOptions options = new ServiceQueryOptions();
+            options.PageNumber = 0;
+            options.PageSize = 25;
+            object[] args = { SessionManager.Ticket, RequestId, options };
+            rssRepeater.DataSource = SessionManager.GetCachedCollection<TransitAccountBlogPost>(
+                SessionManager.BlogService, "GetAccountBlogPostsById", args);
+            rssRepeater.DataBind();
         }
     }
 

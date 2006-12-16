@@ -17,33 +17,26 @@ public partial class AccountEventPicturesView : Page
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Events", Request, "AccountEventsToday.aspx"));
+
+            if (RequestId > 0)
             {
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Events", Request, "AccountEventsToday.aspx"));
+                TransitAccountEvent a = SessionManager.EventService.GetAccountEventById(
+                    SessionManager.Ticket, RequestId, SessionManager.UtcOffset);
 
-                if (RequestId > 0)
-                {
-                    TransitAccountEvent a = SessionManager.EventService.GetAccountEventById(
-                        SessionManager.Ticket, RequestId, SessionManager.UtcOffset);
-                    
-                    this.Title = string.Format("{0} Pictures", Renderer.Render(a.Name));
-                    listView.DataSource = SessionManager.EventService.GetAccountEventPicturesById(RequestId, null);
-                    listView.DataBind();
+                this.Title = string.Format("{0} Pictures", Renderer.Render(a.Name));
+                listView.DataSource = SessionManager.EventService.GetAccountEventPicturesById(RequestId, null);
+                listView.DataBind();
 
-                    sitemapdata.AddRange(SiteMapDataAttribute.GetLocationAttributeNodes(Request, "AccountEventsToday.aspx", a.PlaceCountry, a.PlaceState, a.PlaceCity, a.PlaceNeighborhood, a.AccountEventType));
-                    sitemapdata.Add(new SiteMapDataAttributeNode(a.Name, Request, string.Format("AccountEventView.aspx?id={0}", a.Id)));
-                    sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request.Url));
-                }
-
-                StackSiteMap(sitemapdata);
+                sitemapdata.AddRange(SiteMapDataAttribute.GetLocationAttributeNodes(Request, "AccountEventsToday.aspx", a.PlaceCountry, a.PlaceState, a.PlaceCity, a.PlaceNeighborhood, a.AccountEventType));
+                sitemapdata.Add(new SiteMapDataAttributeNode(a.Name, Request, string.Format("AccountEventView.aspx?id={0}", a.Id)));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request.Url));
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+
+            StackSiteMap(sitemapdata);
         }
     }
 }

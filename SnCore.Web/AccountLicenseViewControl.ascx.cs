@@ -29,27 +29,20 @@ public partial class AccountLicenseViewControl : Control
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
+            object[] args = { SessionManager.Ticket, AccountId };
+            TransitAccountLicense tal = SessionManager.GetCachedItem<TransitAccountLicense>(
+                SessionManager.LicenseService, "GetAccountLicenseByAccountId", args);
+
+            panelLicense.Visible = (tal != null);
+
+            if (tal != null && !string.IsNullOrEmpty(tal.LicenseUrl))
             {
-                object[] args = { SessionManager.Ticket, AccountId };
-                TransitAccountLicense tal = SessionManager.GetCachedItem<TransitAccountLicense>(
-                    SessionManager.LicenseService, "GetAccountLicenseByAccountId", args);
-
-                panelLicense.Visible = (tal != null);
-
-                if (tal != null && !string.IsNullOrEmpty(tal.LicenseUrl))
-                {
-                    licenseImage.Src = tal.ImageUrl;
-                    licenseLink.HRef = tal.LicenseUrl;
-                    licenseImage.Alt = Renderer.Render(tal.Name);
-                }
+                licenseImage.Src = tal.ImageUrl;
+                licenseLink.HRef = tal.LicenseUrl;
+                licenseImage.Alt = Renderer.Render(tal.Name);
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
         }
     }
 }

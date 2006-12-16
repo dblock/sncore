@@ -16,32 +16,25 @@ public partial class AccountFeedsViewList : Page
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
-            {
-                int pagenumber = int.Parse(Request["PageNumber"]);
-                int pagecount = int.Parse(Request["PageCount"]);
-                int pagesize = int.Parse(Request["PageSize"]);
-                
-                ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
-                serviceoptions.PageSize = pagesize;
-                serviceoptions.PageNumber = pagenumber;
-                gridManage.DataSource = SessionManager.SyndicationService.GetUpdatedAccountFeeds(serviceoptions);
-                gridManage.DataBind();
+            int pagenumber = int.Parse(Request["PageNumber"]);
+            int pagecount = int.Parse(Request["PageCount"]);
+            int pagesize = int.Parse(Request["PageSize"]);
 
-                if (pagenumber > 0)
-                    linkPrev.HRef = string.Format("AccountFeedsViewList.aspx?PageNumber={0}&PageSize={1}&PageCount={2}",
-                        pagenumber - 1, pagesize, pagecount);
+            ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
+            serviceoptions.PageSize = pagesize;
+            serviceoptions.PageNumber = pagenumber;
+            gridManage.DataSource = SessionManager.SyndicationService.GetUpdatedAccountFeeds(serviceoptions);
+            gridManage.DataBind();
 
-                if (pagenumber < pagecount - 1)
-                    linkNext.HRef = string.Format("AccountFeedsViewList.aspx?PageNumber={0}&PageSize={1}&PageCount={2}",
-                        pagenumber + 1, pagesize, pagecount);
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            if (pagenumber > 0)
+                linkPrev.HRef = string.Format("AccountFeedsViewList.aspx?PageNumber={0}&PageSize={1}&PageCount={2}",
+                    pagenumber - 1, pagesize, pagecount);
+
+            if (pagenumber < pagecount - 1)
+                linkNext.HRef = string.Format("AccountFeedsViewList.aspx?PageNumber={0}&PageSize={1}&PageCount={2}",
+                    pagenumber + 1, pagesize, pagecount);
         }
     }
 }

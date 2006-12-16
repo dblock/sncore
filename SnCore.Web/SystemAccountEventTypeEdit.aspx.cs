@@ -16,8 +16,6 @@ public partial class SystemAccountEventTypeEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             if (!IsPostBack)
             {
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
@@ -39,26 +37,14 @@ public partial class SystemAccountEventTypeEdit : AuthenticatedPage
             }
 
             SetDefaultButton(manageAdd);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-        try
-        {
             TransitAccountEventType t = new TransitAccountEventType();
             t.Name = inputName.Text;
             t.Id = RequestId;
             SessionManager.EventService.CreateOrUpdateAccountEventType(SessionManager.Ticket, t);
             Redirect("SystemAccountEventTypesManage.aspx");
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 }

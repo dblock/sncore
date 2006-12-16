@@ -17,35 +17,28 @@ public partial class AccountContentGroupView : Page
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
-            if (!IsPostBack)
+        if (!IsPostBack)
+        {
+            TransitAccountContentGroup group = SessionManager.ContentService.GetAccountContentGroupById(
+                SessionManager.Ticket, RequestId);
+
+            if (group.Login && !SessionManager.IsLoggedIn)
             {
-                TransitAccountContentGroup group = SessionManager.ContentService.GetAccountContentGroupById(
-                    SessionManager.Ticket, RequestId);
-
-                if (group.Login && !SessionManager.IsLoggedIn)
-                {
-                    RedirectToLogin();
-                }
-
-                linkRelRss.Title = Title = labelName.Text = Renderer.Render(group.Name);
-                labelDescription.Text = Renderer.Render(group.Description);
-
-                linkRelRss.NavigateUrl = string.Format("AccountContentGroupViewRss.aspx?id={0}", RequestId);
-                
-                GetData(sender, e);
-
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode(group.Name, Request.Url));
-                StackSiteMap(sitemapdata);
+                RedirectToLogin();
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+
+            linkRelRss.Title = Title = labelName.Text = Renderer.Render(group.Name);
+            labelDescription.Text = Renderer.Render(group.Description);
+
+            linkRelRss.NavigateUrl = string.Format("AccountContentGroupViewRss.aspx?id={0}", RequestId);
+
+            GetData(sender, e);
+
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode(group.Name, Request.Url));
+            StackSiteMap(sitemapdata);
         }
     }
 
@@ -60,17 +53,10 @@ public partial class AccountContentGroupView : Page
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
-            ServiceQueryOptions options = new ServiceQueryOptions();
-            options.PageNumber = gridManage.CurrentPageIndex;
-            options.PageSize = gridManage.PageSize;
-            gridManage.DataSource = SessionManager.ContentService.GetAccountContentsById(
-                SessionManager.Ticket, RequestId, options);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageNumber = gridManage.CurrentPageIndex;
+        options.PageSize = gridManage.PageSize;
+        gridManage.DataSource = SessionManager.ContentService.GetAccountContentsById(
+            SessionManager.Ticket, RequestId, options);
     }
 }

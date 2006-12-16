@@ -28,26 +28,19 @@ public partial class AccountFeedWizard : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
-            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
-            sitemapdata.Add(new SiteMapDataAttributeNode("Syndication", Request, "AccountFeedsManage.aspx"));
-            sitemapdata.Add(new SiteMapDataAttributeNode("Wizard", Request.Url));
-            StackSiteMap(sitemapdata);
+        SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+        sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+        sitemapdata.Add(new SiteMapDataAttributeNode("Syndication", Request, "AccountFeedsManage.aspx"));
+        sitemapdata.Add(new SiteMapDataAttributeNode("Wizard", Request.Url));
+        StackSiteMap(sitemapdata);
 
-            SetDefaultButton(linkDiscover);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        SetDefaultButton(linkDiscover);
     }
 
     public TransitFeedType GetDefaultFeedType()
     {
         List<TransitFeedType> feedtypes = SessionManager.SyndicationService.GetFeedTypes();
-        
+
         if (feedtypes == null || feedtypes.Count == 0)
         {
             throw new Exception("No feed types registered.");
@@ -89,7 +82,6 @@ public partial class AccountFeedWizard : AuthenticatedPage
         FetchResponse response = fetcher.Get(new Uri(inputLinkUrl.Text));
 
         NameValueCollection[] results = null;
-
         try
         {
             results = LinkParser.ParseLinkAttrs(response.data, response.length, response.charset);
@@ -172,7 +164,7 @@ public partial class AccountFeedWizard : AuthenticatedPage
             }
 
             feed.FeedUrl = url;
-            
+
             if (atomfeed.Links != null)
             {
                 foreach (AtomLink link in atomfeed.Links)
@@ -199,33 +191,26 @@ public partial class AccountFeedWizard : AuthenticatedPage
 
     public void discover_Click(object sender, EventArgs e)
     {
-        try
+        inputLinkUrl.Text = inputLinkUrl.Text.Replace("feed://", "http://");
+
+        if (!Uri.IsWellFormedUriString(inputLinkUrl.Text, UriKind.Absolute))
+            inputLinkUrl.Text = "http://" + inputLinkUrl.Text;
+
+        ArrayList feeds = new ArrayList();
+
+        discoverRel(inputLinkUrl.Text, feeds);
+        if (feeds.Count == 0) discoverRss(inputLinkUrl.Text, feeds);
+        if (feeds.Count == 0) discoverAtom(inputLinkUrl.Text, feeds, new Uri("http://www.w3.org/2005/Atom"));
+        if (feeds.Count == 0) discoverAtom(inputLinkUrl.Text, feeds, new Uri("http://purl.org/atom/ns#"));
+
+        if (feeds.Count == 0)
         {
-            inputLinkUrl.Text = inputLinkUrl.Text.Replace("feed://", "http://");
-
-            if (!Uri.IsWellFormedUriString(inputLinkUrl.Text, UriKind.Absolute))
-                inputLinkUrl.Text = "http://" + inputLinkUrl.Text;
-
-            ArrayList feeds = new ArrayList();
-
-            discoverRel(inputLinkUrl.Text, feeds);
-            if (feeds.Count == 0) discoverRss(inputLinkUrl.Text, feeds);
-            if (feeds.Count == 0) discoverAtom(inputLinkUrl.Text, feeds, new Uri("http://www.w3.org/2005/Atom"));
-            if (feeds.Count == 0) discoverAtom(inputLinkUrl.Text, feeds, new Uri("http://purl.org/atom/ns#"));
-
-            if (feeds.Count == 0)
-            {
-                ReportInfo("Sorry, I couldn't find any RSS or ATOM feeds on this page. <a href='AccountFeedEdit.aspx'>Click here</a> to setup syndication manually.");
-                return;
-            }
-
-            gridFeeds.DataSource = feeds;
-            gridFeeds.DataBind();
+            ReportInfo("Sorry, I couldn't find any RSS or ATOM feeds on this page. <a href='AccountFeedEdit.aspx'>Click here</a> to setup syndication manually.");
+            return;
         }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+
+        gridFeeds.DataSource = feeds;
+        gridFeeds.DataBind();
     }
 
     private enum Cells
@@ -250,31 +235,24 @@ public partial class AccountFeedWizard : AuthenticatedPage
 
     public void gridFeeds_ItemCommand(object sender, DataGridCommandEventArgs e)
     {
-        try
+        switch (e.CommandName)
         {
-            switch (e.CommandName)
-            {
-                case "Test":
-                    inputLinkUrl.Text = e.Item.Cells[(int)Cells.feed].Text;
-                    discover_Click(sender, e);
-                    break;
-                case "Choose":
-                    string name = CleanCell(e.Item.Cells[(int) Cells.name].Text);
-                    string feed = CleanCell(e.Item.Cells[(int) Cells.feed].Text);
-                    string link = CleanCell(e.Item.Cells[(int) Cells.link].Text);
-                    string description = CleanCell(e.Item.Cells[(int)Cells.description].Text);
-                    Redirect(string.Format("AccountFeedEdit.aspx?name={0}&feed={1}&link={2}&type={3}&description={4}",
-                        Renderer.UrlEncode(name),
-                        Renderer.UrlEncode(feed),
-                        Renderer.UrlEncode(link),
-                        Renderer.UrlEncode(GetDefaultFeedType().Name),
-                        Renderer.UrlEncode(description)));
-                    break;
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            case "Test":
+                inputLinkUrl.Text = e.Item.Cells[(int)Cells.feed].Text;
+                discover_Click(sender, e);
+                break;
+            case "Choose":
+                string name = CleanCell(e.Item.Cells[(int)Cells.name].Text);
+                string feed = CleanCell(e.Item.Cells[(int)Cells.feed].Text);
+                string link = CleanCell(e.Item.Cells[(int)Cells.link].Text);
+                string description = CleanCell(e.Item.Cells[(int)Cells.description].Text);
+                Redirect(string.Format("AccountFeedEdit.aspx?name={0}&feed={1}&link={2}&type={3}&description={4}",
+                    Renderer.UrlEncode(name),
+                    Renderer.UrlEncode(feed),
+                    Renderer.UrlEncode(link),
+                    Renderer.UrlEncode(GetDefaultFeedType().Name),
+                    Renderer.UrlEncode(description)));
+                break;
         }
     }
 }

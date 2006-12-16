@@ -19,18 +19,10 @@ public partial class EmailPlacePicture : AuthenticatedPage
     {
         get
         {
-            try
+            if (mPlacePicture == null)
             {
-                if (mPlacePicture == null)
-                {
-                    mPlacePicture = SessionManager.PlaceService.GetPlacePictureById(RequestId);
-                }
+                mPlacePicture = SessionManager.PlaceService.GetPlacePictureById(RequestId);
             }
-            catch (Exception ex)
-            {
-                ReportException(ex);
-            }
-
             return mPlacePicture;
         }
     }
@@ -51,14 +43,7 @@ public partial class EmailPlacePicture : AuthenticatedPage
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
-            Title = string.Format("New picture uploaded to {0}", Renderer.Render(Place.Name));
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        Title = string.Format("New picture uploaded to {0}", Renderer.Render(Place.Name));
     }
 }
 

@@ -28,18 +28,11 @@ public partial class AccountPlacesViewControl : Control
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
-            placesList.OnGetDataSource += new EventHandler(placesList_OnGetDataSource);
+        placesList.OnGetDataSource += new EventHandler(placesList_OnGetDataSource);
 
-            if (!IsPostBack)
-            {
-                GetData(sender, e);
-            }
-        }
-        catch (Exception ex)
+        if (!IsPostBack)
         {
-            ReportException(ex);
+            GetData(sender, e);
         }
     }
 
@@ -56,18 +49,11 @@ public partial class AccountPlacesViewControl : Control
 
     void placesList_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
-            ServiceQueryOptions options = new ServiceQueryOptions(placesList.PageSize, placesList.CurrentPageIndex);
-            object[] args = { AccountId, options };
-            placesList.DataSource = SessionManager.GetCachedCollection<TransitAccountPlace>(
-                SessionManager.PlaceService, "GetAccountPlacesByAccountId", args);
-            panelGrid.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ServiceQueryOptions options = new ServiceQueryOptions(placesList.PageSize, placesList.CurrentPageIndex);
+        object[] args = { AccountId, options };
+        placesList.DataSource = SessionManager.GetCachedCollection<TransitAccountPlace>(
+            SessionManager.PlaceService, "GetAccountPlacesByAccountId", args);
+        panelGrid.Update();
     }
 
 

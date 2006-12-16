@@ -15,30 +15,23 @@ public partial class AccountChangePassword : AuthenticatedPage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
+        SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+        sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+        sitemapdata.Add(new SiteMapDataAttributeNode("Security", "AccountPreferencesManage.aspx#security"));
+        sitemapdata.Add(new SiteMapDataAttributeNode("Change Password", Request.Url));
+        StackSiteMap(sitemapdata);
+
+        if (!string.IsNullOrEmpty(PasswordHash))
         {
-            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
-            sitemapdata.Add(new SiteMapDataAttributeNode("Security", "AccountPreferencesManage.aspx#security"));
-            sitemapdata.Add(new SiteMapDataAttributeNode("Change Password", Request.Url));
-            StackSiteMap(sitemapdata);
-
-            if (!string.IsNullOrEmpty(PasswordHash))
-            {
-                panelOldPassword.Visible = false;
-            }
-
-            if (SessionManager.Account.IsPasswordExpired)
-            {
-                ReportInfo("Your password has expired. Please change your password.");
-            }
-
-            SetDefaultButton(manageAccountChangePassword);
+            panelOldPassword.Visible = false;
         }
-        catch (Exception ex)
+
+        if (SessionManager.Account.IsPasswordExpired)
         {
-            ReportException(ex);
+            ReportInfo("Your password has expired. Please change your password.");
         }
+
+        SetDefaultButton(manageAccountChangePassword);
     }
 
     public string PasswordHash
@@ -62,39 +55,32 @@ public partial class AccountChangePassword : AuthenticatedPage
 
     protected void changePassword_Click(object sender, EventArgs e)
     {
-        try
+        if (inputNewPassword.Text != inputNewPassword2.Text)
         {
-            if (inputNewPassword.Text != inputNewPassword2.Text)
-            {
-                throw new ArgumentException("Passwords don't match.");
-            }
-
-            if (!string.IsNullOrEmpty(PasswordHash))
-            {
-                SessionManager.AccountService.ChangePasswordMd5(
-                    SessionManager.Ticket,
-                    (RequestId > 0) ? RequestId : SessionManager.Account.Id,
-                    PasswordHash, inputNewPassword.Text);
-            }
-            else
-            {
-                SessionManager.AccountService.ChangePassword(
-                    SessionManager.Ticket,
-                    (RequestId > 0) ? RequestId : SessionManager.Account.Id,
-                    inputOldPassword.Text, inputNewPassword.Text);
-            }
-
-            ReportInfo("Password changed.");
-            panelChangePassword.Visible = false;
-
-            if (!string.IsNullOrEmpty(ReturnUrl))
-            {
-                Redirect(ReturnUrl);
-            }
+            throw new ArgumentException("Passwords don't match.");
         }
-        catch (Exception ex)
+
+        if (!string.IsNullOrEmpty(PasswordHash))
         {
-            ReportException(ex);
+            SessionManager.AccountService.ChangePasswordMd5(
+                SessionManager.Ticket,
+                (RequestId > 0) ? RequestId : SessionManager.Account.Id,
+                PasswordHash, inputNewPassword.Text);
+        }
+        else
+        {
+            SessionManager.AccountService.ChangePassword(
+                SessionManager.Ticket,
+                (RequestId > 0) ? RequestId : SessionManager.Account.Id,
+                inputOldPassword.Text, inputNewPassword.Text);
+        }
+
+        ReportInfo("Password changed.");
+        panelChangePassword.Visible = false;
+
+        if (!string.IsNullOrEmpty(ReturnUrl))
+        {
+            Redirect(ReturnUrl);
         }
     }
 

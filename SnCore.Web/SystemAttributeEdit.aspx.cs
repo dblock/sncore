@@ -20,8 +20,6 @@ public partial class SystemAttributeEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             if (!IsPostBack)
             {
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
@@ -49,17 +47,10 @@ public partial class SystemAttributeEdit : AuthenticatedPage
             }
 
             SetDefaultButton(manageAdd);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-        try
-        {
             TransitAttributeWithBitmap t = new TransitAttributeWithBitmap();
             t.Name = inputName.Text;
             t.Description = inputDescription.Text;
@@ -69,10 +60,5 @@ public partial class SystemAttributeEdit : AuthenticatedPage
             if (inputBitmap.HasFile) t.Bitmap = new ThumbnailBitmap(inputBitmap.FileContent, new Size(16, 16)).Bitmap;
             SessionManager.SystemService.CreateOrUpdateAttribute(SessionManager.Ticket, t);
             Redirect("SystemAttributesManage.aspx");
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 }

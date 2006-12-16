@@ -16,8 +16,6 @@ public partial class SystemStateEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             if (!IsPostBack)
             {
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
@@ -47,28 +45,16 @@ public partial class SystemStateEdit : AuthenticatedPage
             }
 
             SetDefaultButton(manageAdd);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-        try
-        {
             TransitState tw = new TransitState();
             tw.Name = inputName.Text;
             tw.Id = RequestId;
             tw.Country = inputCountry.SelectedItem.Value;
             SessionManager.LocationService.AddState(SessionManager.Ticket, tw);
             Redirect("SystemStatesManage.aspx");
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
 
     }
 }

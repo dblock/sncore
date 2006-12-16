@@ -68,23 +68,16 @@ public partial class AccountDiscussionThreadsRss : Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
-            {
-                DiscussionQueryOptions queryoptions = new DiscussionQueryOptions();
-                queryoptions.AccountId = RequestId;
-                queryoptions.TopOfThreadOnly = TopLevel;
-                ServiceQueryOptions options = new ServiceQueryOptions();
-                options.PageSize = 50;
-                options.PageNumber = 0;
-                rssRepeater.DataSource = SessionManager.DiscussionService.GetUserDiscussionThreads(queryoptions, options);
-                rssRepeater.DataBind();
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            DiscussionQueryOptions queryoptions = new DiscussionQueryOptions();
+            queryoptions.AccountId = RequestId;
+            queryoptions.TopOfThreadOnly = TopLevel;
+            ServiceQueryOptions options = new ServiceQueryOptions();
+            options.PageSize = 50;
+            options.PageNumber = 0;
+            rssRepeater.DataSource = SessionManager.DiscussionService.GetUserDiscussionThreads(queryoptions, options);
+            rssRepeater.DataBind();
         }
     }
 

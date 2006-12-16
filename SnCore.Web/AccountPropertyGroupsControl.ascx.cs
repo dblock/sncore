@@ -27,18 +27,11 @@ public partial class AccountPropertyGroupsControl : Control
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
-            {
-                groups.DataSource = SessionManager.GetCachedCollection<TransitAccountPropertyGroup>(
-                    SessionManager.AccountService, "GetAccountPropertyGroups", null);
-                groups.DataBind();
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            groups.DataSource = SessionManager.GetCachedCollection<TransitAccountPropertyGroup>(
+                SessionManager.AccountService, "GetAccountPropertyGroups", null);
+            groups.DataBind();
         }
     }
 }

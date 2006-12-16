@@ -39,8 +39,6 @@ public partial class TellAFriend : AuthenticatedPage
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             if (!IsPostBack)
             {
                 string subject = HttpUtility.HtmlDecode(Request.Params["Subject"]);
@@ -60,17 +58,10 @@ public partial class TellAFriend : AuthenticatedPage
                 sitemapdata.Add(new SiteMapDataAttributeNode(subject, Request.Url));
                 StackSiteMap(sitemapdata);
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void send_Click(object Sender, EventArgs e)
     {
-        try
-        {
             if (string.IsNullOrEmpty(inputEmailAddress.Text))
             {
                 throw new Exception("Missing E-Mail");
@@ -95,10 +86,5 @@ public partial class TellAFriend : AuthenticatedPage
             }
 
             Redirect(Url);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 }

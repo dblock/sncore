@@ -33,8 +33,6 @@ public partial class AccountMessageView : AuthenticatedPage
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             if (!IsPostBack)
             {
                 linkCancel.NavigateUrl = ReturnUrl;
@@ -70,17 +68,10 @@ public partial class AccountMessageView : AuthenticatedPage
                 sitemapdata.Add(new SiteMapDataAttributeNode(message.Subject, Request.Url));
                 StackSiteMap(sitemapdata);
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void linkDelete_Click(object sender, EventArgs e)
     {
-        try
-        {
             int trashid = SessionManager.AccountService.GetAccountMessageSystemFolder(SessionManager.Ticket, "trash").Id;
             if (trashid == Message.AccountMessageFolderId)
             {
@@ -92,11 +83,6 @@ public partial class AccountMessageView : AuthenticatedPage
             }
 
             Redirect(ReturnUrl);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public string ReturnUrl

@@ -28,32 +28,25 @@ public partial class DiscussionThreadViewControl : Control
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        discussionThreadView.OnGetDataSource += new EventHandler(discussionThreadView_OnGetDataSource);
+        if (!IsPostBack)
         {
-            discussionThreadView.OnGetDataSource += new EventHandler(discussionThreadView_OnGetDataSource);
-            if (!IsPostBack)
+            linkBack.NavigateUrl = ReturnUrl;
+
+            if (DiscussionId > 0)
             {
-                linkBack.NavigateUrl = ReturnUrl;
-
-                if (DiscussionId > 0)
-                {
-                    TransitDiscussion d = SessionManager.DiscussionService.GetDiscussionById(DiscussionId);
-                    discussionLabel.Text = Renderer.Render(d.Name);
-                    discussionDescription.Text = Renderer.Render(d.Description);
-                    linkNew.NavigateUrl = string.Format("DiscussionPost.aspx?did={0}&ReturnUrl={1}",
-                        d.Id, Renderer.UrlEncode(ReturnUrl));
-                    linkNew.Visible = (d.Personal == false);
-                }
-
-                GetData(sender, e);
-
-                linkMove.Visible = SessionManager.IsAdministrator;
-                linkMove.NavigateUrl = string.Format("DiscussionThreadMove.aspx?id={0}", DiscussionThreadId);
+                TransitDiscussion d = SessionManager.DiscussionService.GetDiscussionById(DiscussionId);
+                discussionLabel.Text = Renderer.Render(d.Name);
+                discussionDescription.Text = Renderer.Render(d.Description);
+                linkNew.NavigateUrl = string.Format("DiscussionPost.aspx?did={0}&ReturnUrl={1}",
+                    d.Id, Renderer.UrlEncode(ReturnUrl));
+                linkNew.Visible = (d.Personal == false);
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+
+            GetData(sender, e);
+
+            linkMove.Visible = SessionManager.IsAdministrator;
+            linkMove.NavigateUrl = string.Format("DiscussionThreadMove.aspx?id={0}", DiscussionThreadId);
         }
     }
 
@@ -80,22 +73,15 @@ public partial class DiscussionThreadViewControl : Control
 
     public void discussionThreadView_ItemCommand(object sender, DataGridCommandEventArgs e)
     {
-        try
+        switch (e.CommandName)
         {
-            switch (e.CommandName)
-            {
-                case "Delete":
-                    {
-                        int id = int.Parse(e.CommandArgument.ToString());
-                        SessionManager.DiscussionService.DeleteDiscussionPost(SessionManager.Ticket, id);
-                        GetData(sender, e);
-                        break;
-                    }
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            case "Delete":
+                {
+                    int id = int.Parse(e.CommandArgument.ToString());
+                    SessionManager.DiscussionService.DeleteDiscussionPost(SessionManager.Ticket, id);
+                    GetData(sender, e);
+                    break;
+                }
         }
     }
 

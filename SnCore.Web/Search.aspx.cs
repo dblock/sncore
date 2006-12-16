@@ -96,14 +96,7 @@ public partial class Search : AsyncPage
 
     protected void search_Click(object sender, EventArgs e)
     {
-        try
-        {
             Redirect("Search.aspx?q=" + Renderer.UrlEncode(inputSearch.Text));
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     protected void linkAny_Click(object sender, EventArgs e)

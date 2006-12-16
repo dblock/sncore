@@ -17,8 +17,6 @@ public partial class SystemCityEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             if (!IsPostBack)
             {
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
@@ -52,31 +50,17 @@ public partial class SystemCityEdit : AuthenticatedPage
 
             SetDefaultButton(manageAdd);
             PageManager.SetDefaultButton(mergeLookup, panelMerge.Controls);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void inputCountry_SelectedIndexChanged(object sender, EventArgs e)
     {
-        try
-        {
             object[] args = { inputCountry.SelectedValue };
             inputState.DataSource = SessionManager.GetCachedCollection<TransitState>(SessionManager.LocationService, "GetStatesByCountry", args);
             inputState.DataBind();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-        try
-        {
             TransitCity tc = new TransitCity();
             tc.Name = inputName.Text;
             tc.Id = RequestId;
@@ -89,31 +73,17 @@ public partial class SystemCityEdit : AuthenticatedPage
             }
             SessionManager.LocationService.AddCity(SessionManager.Ticket, tc);
             Redirect("SystemCitiesManage.aspx");
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void mergeLookup_Click(object sender, EventArgs e)
     {
-        try
-        {
             gridMergeLookup.CurrentPageIndex = 0;
             gridMergeLookup.DataSource = SessionManager.LocationService.SearchCitiesByName(inputMergeWhat.Text);
             gridMergeLookup.DataBind();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void gridMergeLookup_ItemCommand(object source, DataGridCommandEventArgs e)
     {
-        try
-        {
             switch (e.CommandName)
             {
                 case "Merge":
@@ -123,10 +93,5 @@ public partial class SystemCityEdit : AuthenticatedPage
                     mergeLookup_Click(source, e);
                     break;
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 }

@@ -19,8 +19,6 @@ public partial class PlacesFavoritesView : Page
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             gridManageFavorites.OnGetDataSource += new EventHandler(gridManageFavorites_OnGetDataSource);
 
             if (!IsPostBack)
@@ -32,11 +30,6 @@ public partial class PlacesFavoritesView : Page
                 sitemapdata.Add(new SiteMapDataAttributeNode("Favorites", Request.Url));
                 StackSiteMap(sitemapdata);
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     private void GetDataFavorites(object sender, EventArgs e)
@@ -50,17 +43,10 @@ public partial class PlacesFavoritesView : Page
 
     void gridManageFavorites_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
             ServiceQueryOptions serviceoptions = new ServiceQueryOptions(
                 gridManageFavorites.PageSize, gridManageFavorites.CurrentPageIndex);
             object[] args = { serviceoptions };
             gridManageFavorites.DataSource = SessionManager.GetCachedCollection<TransitPlace>(
                 SessionManager.PlaceService, "GetFavoritePlaces", args);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 }

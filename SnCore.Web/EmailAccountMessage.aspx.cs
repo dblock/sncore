@@ -19,33 +19,18 @@ public partial class EmailAccountMessage : AuthenticatedPage
     {
         get
         {
-            try
+            if (mAccountMessage == null)
             {
-                if (mAccountMessage == null)
-                {
-                    mAccountMessage = SessionManager.AccountService.GetAccountMessageById(
-                        SessionManager.Ticket, RequestId);
-                }
+                mAccountMessage = SessionManager.AccountService.GetAccountMessageById(
+                    SessionManager.Ticket, RequestId);
             }
-            catch (Exception ex)
-            {
-                ReportException(ex);
-            }
-
             return mAccountMessage;
         }
     }
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
-            Title = string.Format("New message from {0}", Renderer.Render(AccountMessage.SenderAccountName));
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        Title = string.Format("New message from {0}", Renderer.Render(AccountMessage.SenderAccountName));
     }
 }
 

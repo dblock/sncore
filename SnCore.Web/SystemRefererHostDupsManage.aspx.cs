@@ -20,8 +20,6 @@ public partial class SystemRefererHostDupsManage : AuthenticatedPage
 {
     public void Page_Load()
     {
-        try
-        {
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
             if (!IsPostBack)
@@ -35,23 +33,11 @@ public partial class SystemRefererHostDupsManage : AuthenticatedPage
                 sitemapdata.Add(new SiteMapDataAttributeNode("Referer Host Dups", Request.Url));
                 StackSiteMap(sitemapdata);
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
             gridManage.DataSource = SessionManager.StatsService.GetRefererHostDups();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     private enum Cells
@@ -61,8 +47,6 @@ public partial class SystemRefererHostDupsManage : AuthenticatedPage
 
     public void gridManage_ItemCommand(object source, DataGridCommandEventArgs e)
     {
-        try
-        {
             switch (e.Item.ItemType)
             {
                 case ListItemType.AlternatingItem:
@@ -82,10 +66,5 @@ public partial class SystemRefererHostDupsManage : AuthenticatedPage
                     }
                     break;
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 }

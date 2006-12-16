@@ -17,31 +17,24 @@ public partial class SearchDiscussionPosts : Page
 {
     public void Page_Load()
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Discussions", Request, "DiscussionsView.aspx"));
+
+            if (RequestId > 0)
             {
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Discussions", Request, "DiscussionsView.aspx"));
-
-                if (RequestId > 0)
-                {
-                    object[] args = { RequestId };
-                    TransitDiscussion discussion = SessionManager.GetCachedItem<TransitDiscussion>(
-                        SessionManager.DiscussionService, "GetDiscussionById", args);
-                    sitemapdata.Add(new SiteMapDataAttributeNode(discussion.Name, Request, string.Format("DiscussionView.aspx?id={0}", discussion.Id)));
-                }
-
-                sitemapdata.Add(new SiteMapDataAttributeNode("Search", Request.Url));
-                StackSiteMap(sitemapdata);
+                object[] args = { RequestId };
+                TransitDiscussion discussion = SessionManager.GetCachedItem<TransitDiscussion>(
+                    SessionManager.DiscussionService, "GetDiscussionById", args);
+                sitemapdata.Add(new SiteMapDataAttributeNode(discussion.Name, Request, string.Format("DiscussionView.aspx?id={0}", discussion.Id)));
             }
 
-            SetDefaultButton(search);
+            sitemapdata.Add(new SiteMapDataAttributeNode("Search", Request.Url));
+            StackSiteMap(sitemapdata);
         }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }        
+
+        SetDefaultButton(search);
     }
 
     protected override void OnPreRender(EventArgs e)
@@ -63,16 +56,9 @@ public partial class SearchDiscussionPosts : Page
 
     protected void search_Click(object sender, EventArgs e)
     {
-        try
-        {
-            Redirect(string.Format("{0}?id={1}&q={2}",
-                Request.Url.AbsolutePath,
-                RequestId,
-                Renderer.UrlEncode(inputSearch.Text)));
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        Redirect(string.Format("{0}?id={1}&q={2}",
+            Request.Url.AbsolutePath,
+            RequestId,
+            Renderer.UrlEncode(inputSearch.Text)));
     }
 }

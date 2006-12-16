@@ -18,36 +18,21 @@ public partial class EmailAccountInvitation : AuthenticatedPage
     {
         get
         {
-            try
+            if (mAccountInvitation == null)
             {
-                if (mAccountInvitation == null)
-                {
-                    mAccountInvitation = SessionManager.AccountService.GetAccountInvitationById(
-                        SessionManager.Ticket, RequestId);
-                }
+                mAccountInvitation = SessionManager.AccountService.GetAccountInvitationById(
+                    SessionManager.Ticket, RequestId);
             }
-            catch (Exception ex)
-            {
-                ReportException(ex);
-            }
-
             return mAccountInvitation;
         }
     }
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
-            Title = string.Format("{0} invites you to join {1}", 
-                Render(AccountInvitation.AccountName), 
-                Render(SessionManager.GetCachedConfiguration("SnCore.Name", "SnCore")));
-            panelMessage.Visible = ! string.IsNullOrEmpty(AccountInvitation.Message);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        Title = string.Format("{0} invites you to join {1}",
+            Render(AccountInvitation.AccountName),
+            Render(SessionManager.GetCachedConfiguration("SnCore.Name", "SnCore")));
+        panelMessage.Visible = !string.IsNullOrEmpty(AccountInvitation.Message);
     }
 }
 

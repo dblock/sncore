@@ -119,8 +119,6 @@ public partial class PlacesView : Page
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
             LocationSelector.CountryChanged += new EventHandler(LocationSelector_CountryChanged);
@@ -169,11 +167,6 @@ public partial class PlacesView : Page
             }
 
             SetDefaultButton(search);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     void GetNeighborhoodsData(object sender, EventArgs e)
@@ -223,8 +216,6 @@ public partial class PlacesView : Page
 
     public void linkLocal_Click(object sender, EventArgs e)
     {
-        try
-        {
             if (!SessionManager.IsLoggedIn)
                 return;
 
@@ -233,27 +224,15 @@ public partial class PlacesView : Page
             LocationSelector.SelectLocation(sender, new LocationEventArgs(SessionManager.Account));
             GetData(sender, e);
             panelSearch.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void linkAll_Click(object sender, EventArgs e)
     {
-        try
-        {
             checkboxPicturesOnly.Checked = false;
             LocationSelector.ClearSelection();
             inputName.Text = string.Empty;
             GetData(sender, e);
             panelSearch.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     private TransitPlaceQueryOptions GetQueryOptions()
@@ -273,8 +252,6 @@ public partial class PlacesView : Page
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
             TransitPlaceQueryOptions options = GetQueryOptions();
 
             linkRelRss.NavigateUrl =
@@ -293,52 +270,26 @@ public partial class PlacesView : Page
             object[] args = { options, serviceoptions };
             gridManage.DataSource = SessionManager.GetCachedCollection<TransitPlace>(
                 SessionManager.PlaceService, "GetPlaces", args);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void search_Click(object sender, EventArgs e)
     {
-        try
-        {
             GetData(sender, e);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void linkSearch_Click(object sender, EventArgs e)
     {
-        try
-        {
             panelSearchInternal.PersistentVisible = !panelSearchInternal.PersistentVisible;
             panelSearch.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void neighborhoods_OnChange(object sender, EventArgs e)
     {
-        try
-        {
             LocationSelector.SelectLocation(sender, new LocationEventArgs(
                 neighborhoods.Country, neighborhoods.State, neighborhoods.City, neighborhoods.Neighborhood));
             checkboxPicturesOnly.Checked = false;
             inputName.Text = string.Empty;
             GetData(sender, e);
             panelSearch.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 }

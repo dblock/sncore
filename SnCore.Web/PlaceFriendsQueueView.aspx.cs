@@ -18,24 +18,17 @@ public partial class PlaceFriendsQueueView : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
-            queue.OnGetDataSource += new EventHandler(queue_OnGetDataSource);
+        queue.OnGetDataSource += new EventHandler(queue_OnGetDataSource);
 
-            if (!IsPostBack)
-            {
-                GetData(sender, e);
-
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Friends", Request, "AccountFriendsManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Queue", Request.Url));
-                StackSiteMap(sitemapdata);
-            }
-        }
-        catch (Exception ex)
+        if (!IsPostBack)
         {
-            ReportException(ex);
+            GetData(sender, e);
+
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Friends", Request, "AccountFriendsManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Queue", Request.Url));
+            StackSiteMap(sitemapdata);
         }
     }
 
@@ -49,17 +42,10 @@ public partial class PlaceFriendsQueueView : AuthenticatedPage
 
     void queue_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
-            ServiceQueryOptions options = new ServiceQueryOptions();
-            options.PageNumber = queue.CurrentPageIndex;
-            options.PageSize = queue.PageSize;
-            queue.DataSource = SessionManager.PlaceService.GetFriendsPlaceQueueItems(SessionManager.Ticket, options);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageNumber = queue.CurrentPageIndex;
+        options.PageSize = queue.PageSize;
+        queue.DataSource = SessionManager.PlaceService.GetFriendsPlaceQueueItems(SessionManager.Ticket, options);
     }
 
     public string RenderAccounts(TransitAccount[] accounts)
@@ -76,7 +62,7 @@ public partial class PlaceFriendsQueueView : AuthenticatedPage
                 "<div><a href='AccountView.aspx?id={0}'>" +
                 "<img border=0 style='width: 50%;' src='AccountPictureThumbnail.aspx?id={1}'></a></div>" +
                 "<div class=sncore_link><a href='AccountView.aspx?id={0}'>{2}</a>", ta.Id, ta.PictureId, Render(ta.Name))));
-            row.Cells.Add(cell);            
+            row.Cells.Add(cell);
             if (row.Cells.Count % 4 == 0)
             {
                 row = new HtmlTableRow();

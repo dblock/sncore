@@ -14,8 +14,6 @@ public partial class AccountResetPassword : Page
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             if (!IsPostBack)
             {
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
@@ -32,17 +30,10 @@ public partial class AccountResetPassword : Page
 
             SetDefaultButton(resetPassword);
 
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     protected void resetPassword_Click(object sender, EventArgs e)
     {
-        try
-        {
             if (string.IsNullOrEmpty(resetpasswordEmailAddress.Text))
             {
                 throw new Exception("Please enter your e-mail address.");
@@ -57,11 +48,6 @@ public partial class AccountResetPassword : Page
             ReportInfo("A new password has been sent to '" + resetpasswordEmailAddress.Text + "'. Click <a href='AccountLogin.aspx'>here</a> to login.");
             panelReset.Visible = false;
             panelResetUpdate.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
 }

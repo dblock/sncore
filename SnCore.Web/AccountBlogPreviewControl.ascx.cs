@@ -54,46 +54,32 @@ public partial class AccountBlogPreviewControl : Control
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+        if (!IsPostBack)
         {
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
-            if (!IsPostBack)
+            if (BlogId > 0)
             {
-                if (BlogId > 0)
-                {
-                    object[] b_args = { SessionManager.Ticket, BlogId };
-                    TransitAccountBlog tb = SessionManager.GetCachedItem<TransitAccountBlog>(
-                        SessionManager.BlogService, "GetAccountBlogById", b_args);
-                    linkRelRss.NavigateUrl = string.Format("AccountBlogRss.aspx?id={0}", BlogId);
-                    linkRelRss.Title = Renderer.Render(tb.Name);
+                object[] b_args = { SessionManager.Ticket, BlogId };
+                TransitAccountBlog tb = SessionManager.GetCachedItem<TransitAccountBlog>(
+                    SessionManager.BlogService, "GetAccountBlogById", b_args);
+                linkRelRss.NavigateUrl = string.Format("AccountBlogRss.aspx?id={0}", BlogId);
+                linkRelRss.Title = Renderer.Render(tb.Name);
 
-                    object[] args = { BlogId };
-                    gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-                        SessionManager.BlogService, "GetAccountBlogPostsCountById", args);
-                    gridManage_OnGetDataSource(this, null);
-                    gridManage.DataBind();
-                }
+                object[] args = { BlogId };
+                gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+                    SessionManager.BlogService, "GetAccountBlogPostsCountById", args);
+                gridManage_OnGetDataSource(this, null);
+                gridManage.DataBind();
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
         }
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
-            ServiceQueryOptions options = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
-            object[] args = { SessionManager.Ticket, BlogId, options };
-            gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountBlogPost>(
-                SessionManager.BlogService, "GetAccountBlogPostsById", args);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ServiceQueryOptions options = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
+        object[] args = { SessionManager.Ticket, BlogId, options };
+        gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountBlogPost>(
+            SessionManager.BlogService, "GetAccountBlogPostsById", args);
     }
 
     public string GetTitle(object title)

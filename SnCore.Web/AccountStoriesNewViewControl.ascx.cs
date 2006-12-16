@@ -33,20 +33,13 @@ public partial class AccountStoriesNewViewControl : Control
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
-            {
-                ServiceQueryOptions options = new ServiceQueryOptions(Count, 0);
-                object[] args = { options };
-                storiesView.DataSource = SessionManager.GetCachedCollection<TransitAccountStory>(
-                    SessionManager.StoryService, "GetLatestAccountStories", args);
-                storiesView.DataBind();
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            ServiceQueryOptions options = new ServiceQueryOptions(Count, 0);
+            object[] args = { options };
+            storiesView.DataSource = SessionManager.GetCachedCollection<TransitAccountStory>(
+                SessionManager.StoryService, "GetLatestAccountStories", args);
+            storiesView.DataBind();
         }
     }
 

@@ -17,28 +17,21 @@ public partial class PlacePictureView : Page
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
-            picturesView.OnGetDataSource += new EventHandler(picturesView_OnGetDataSource);
+        picturesView.OnGetDataSource += new EventHandler(picturesView_OnGetDataSource);
 
-            if (!IsPostBack)
-            {
-                mPictureId = RequestId;
-                GetPictureData(sender, e);
-                GetPicturesData(sender, e);
-
-                TransitPlace p = Place;
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));
-                sitemapdata.AddRange(SiteMapDataAttribute.GetLocationAttributeNodes(Request, "PlacesView.aspx", p.Country, p.State, p.City, p.Neighborhood, p.Type));
-                sitemapdata.Add(new SiteMapDataAttributeNode(p.Name, Request, string.Format("PlaceView.aspx?id={0}", p.Id)));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request.Url));
-                StackSiteMap(sitemapdata);
-            }
-        }
-        catch (Exception ex)
+        if (!IsPostBack)
         {
-            ReportException(ex);
+            mPictureId = RequestId;
+            GetPictureData(sender, e);
+            GetPicturesData(sender, e);
+
+            TransitPlace p = Place;
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));
+            sitemapdata.AddRange(SiteMapDataAttribute.GetLocationAttributeNodes(Request, "PlacesView.aspx", p.Country, p.State, p.City, p.Neighborhood, p.Type));
+            sitemapdata.Add(new SiteMapDataAttributeNode(p.Name, Request, string.Format("PlaceView.aspx?id={0}", p.Id)));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request.Url));
+            StackSiteMap(sitemapdata);
         }
 
     }
@@ -138,35 +131,21 @@ public partial class PlacePictureView : Page
 
     public void picturesView_ItemCommand(object source, CommandEventArgs e)
     {
-        try
+        switch (e.CommandName)
         {
-            switch (e.CommandName)
-            {
-                case "Picture":
-                    mPictureId = int.Parse(e.CommandArgument.ToString());
-                    GetPictureData(source, e);
-                    break;
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            case "Picture":
+                mPictureId = int.Parse(e.CommandArgument.ToString());
+                GetPictureData(source, e);
+                break;
         }
     }
 
     void picturesView_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
-            ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
-            object[] args = { Place.Id, options };
-            picturesView.DataSource = SessionManager.GetCachedCollection<TransitPlacePicture>(
-                SessionManager.PlaceService, "GetPlacePicturesById", args);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
+        object[] args = { Place.Id, options };
+        picturesView.DataSource = SessionManager.GetCachedCollection<TransitPlacePicture>(
+            SessionManager.PlaceService, "GetPlacePicturesById", args);
     }
 
 }

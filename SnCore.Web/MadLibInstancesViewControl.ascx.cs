@@ -92,21 +92,14 @@ public partial class MadLibInstancesViewControl : Control
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        madlibs.OnGetDataSource += new EventHandler(madlibs_OnGetDataSource);
+        if (!IsPostBack)
         {
-            madlibs.OnGetDataSource += new EventHandler(madlibs_OnGetDataSource);
-            if (!IsPostBack)
-            {
-                linkNew.NavigateUrl = string.Format("AccountMadLibInstanceEdit.aspx?ObjectName={0}&oid={1}&mid={2}&ReturnUrl={3}&aid={4}",
-                    Table, ObjectId, MadLibId, Renderer.UrlEncode(ReturnUrl), ObjectAccountId) + QueryString;
-                GetData(sender, e);
-                linkNew.Visible = (MadLibId > 0);
-                this.Visible = (MadLibId > 0 || madlibs.VirtualItemCount > 0);
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            linkNew.NavigateUrl = string.Format("AccountMadLibInstanceEdit.aspx?ObjectName={0}&oid={1}&mid={2}&ReturnUrl={3}&aid={4}",
+                Table, ObjectId, MadLibId, Renderer.UrlEncode(ReturnUrl), ObjectAccountId) + QueryString;
+            GetData(sender, e);
+            linkNew.Visible = (MadLibId > 0);
+            this.Visible = (MadLibId > 0 || madlibs.VirtualItemCount > 0);
         }
     }
 
@@ -140,22 +133,15 @@ public partial class MadLibInstancesViewControl : Control
 
     public void madlibs_ItemCommand(object source, DataListCommandEventArgs e)
     {
-        try
+        switch (e.CommandName)
         {
-            switch (e.CommandName)
-            {
-                case "Delete":
-                    {
-                        int id = int.Parse(e.CommandArgument.ToString());
-                        SessionManager.MadLibService.DeleteMadLibInstance(SessionManager.Ticket, id);
-                        GetData(source, e);
-                        break;
-                    }
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            case "Delete":
+                {
+                    int id = int.Parse(e.CommandArgument.ToString());
+                    SessionManager.MadLibService.DeleteMadLibInstance(SessionManager.Ticket, id);
+                    GetData(source, e);
+                    break;
+                }
         }
     }
 

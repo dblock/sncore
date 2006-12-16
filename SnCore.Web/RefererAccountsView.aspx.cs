@@ -17,8 +17,6 @@ public partial class RefererAccountsView : AccountPersonPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
             if (!IsPostBack)
             {
@@ -36,11 +34,6 @@ public partial class RefererAccountsView : AccountPersonPage
                 sitemapdata.Add(new SiteMapDataAttributeNode("Top Traffickers", Request.Url));
                 StackSiteMap(sitemapdata);
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
     private void GetData()
     {
@@ -53,17 +46,10 @@ public partial class RefererAccountsView : AccountPersonPage
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
             ServiceQueryOptions serviceoptions = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
             object[] args = { serviceoptions };
             gridManage.DataSource = SessionManager.GetCachedCollection<TransitRefererAccount>(
                 SessionManager.StatsService, "GetRefererAccounts", args);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void gridManage_DataBinding(object sender, EventArgs e)

@@ -17,28 +17,21 @@ public partial class AccountPictureView : Page
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        picturesView.OnGetDataSource += new EventHandler(picturesView_OnGetDataSource);
+        if (!IsPostBack)
         {
-            picturesView.OnGetDataSource += new EventHandler(picturesView_OnGetDataSource);
-            if (!IsPostBack)
-            {
-                mPictureId = RequestId;
-                GetPictureData(sender, e);
-                GetPicturesData(sender, e);
+            mPictureId = RequestId;
+            GetPictureData(sender, e);
+            GetPicturesData(sender, e);
 
-                TransitAccountPicture p = AccountPicture;
-                TransitAccount a = Account;
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode(a.Name, Request, string.Format("AccountView.aspx?id={0}", a.Id)));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request, string.Format("AccountPicturesView.aspx?id={0}", a.Id)));
-                sitemapdata.Add(new SiteMapDataAttributeNode(p.Name, Request.Url));
-                StackSiteMap(sitemapdata);
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            TransitAccountPicture p = AccountPicture;
+            TransitAccount a = Account;
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode(a.Name, Request, string.Format("AccountView.aspx?id={0}", a.Id)));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request, string.Format("AccountPicturesView.aspx?id={0}", a.Id)));
+            sitemapdata.Add(new SiteMapDataAttributeNode(p.Name, Request.Url));
+            StackSiteMap(sitemapdata);
         }
 
     }
@@ -143,37 +136,23 @@ public partial class AccountPictureView : Page
 
     public void picturesView_ItemCommand(object source, CommandEventArgs e)
     {
-        try
+        switch (e.CommandName)
         {
-            switch (e.CommandName)
-            {
-                case "Picture":
-                    mPictureId = int.Parse(e.CommandArgument.ToString());
-                    GetPictureData(source, e);
-                    break;
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            case "Picture":
+                mPictureId = int.Parse(e.CommandArgument.ToString());
+                GetPictureData(source, e);
+                break;
         }
     }
 
     void picturesView_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
-            AccountPicturesQueryOptions ap = new AccountPicturesQueryOptions();
-            ap.Hidden = false;
-            ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
-            object[] args = { Account.Id, ap, options };
-            picturesView.DataSource = SessionManager.GetCachedCollection<TransitAccountPicture>(
-                SessionManager.AccountService, "GetAccountPicturesById", args);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        AccountPicturesQueryOptions ap = new AccountPicturesQueryOptions();
+        ap.Hidden = false;
+        ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
+        object[] args = { Account.Id, ap, options };
+        picturesView.DataSource = SessionManager.GetCachedCollection<TransitAccountPicture>(
+            SessionManager.AccountService, "GetAccountPicturesById", args);
     }
 
 }

@@ -41,19 +41,12 @@ public partial class PlacePropertyValuesViewControl : Control
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
-            {
-                object[] args = { GroupName, PropertyName };
-                values.DataSource = SessionManager.GetCachedCollection<TransitDistinctPlacePropertyValue>(
-                    SessionManager.PlaceService, "GetDistinctPropertyValues", args);
-                values.DataBind();
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            object[] args = { GroupName, PropertyName };
+            values.DataSource = SessionManager.GetCachedCollection<TransitDistinctPlacePropertyValue>(
+                SessionManager.PlaceService, "GetDistinctPropertyValues", args);
+            values.DataBind();
         }
     }
 }

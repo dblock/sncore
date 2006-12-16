@@ -26,21 +26,14 @@ public partial class AccountFeedItemsRss : Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
-            {
-                ServiceQueryOptions queryoptions = new ServiceQueryOptions();
-                queryoptions.PageNumber = 0;
-                queryoptions.PageSize = 25;
+            ServiceQueryOptions queryoptions = new ServiceQueryOptions();
+            queryoptions.PageNumber = 0;
+            queryoptions.PageSize = 25;
 
-                rssRepeater.DataSource = SessionManager.SyndicationService.GetAccountFeedItems(queryoptions);
-                rssRepeater.DataBind();
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            rssRepeater.DataSource = SessionManager.SyndicationService.GetAccountFeedItems(queryoptions);
+            rssRepeater.DataBind();
         }
     }
 

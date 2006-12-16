@@ -25,26 +25,19 @@ public partial class AccountPicturesManage : AuthenticatedPage
     {
         this.addFile.Attributes["onclick"] = this.files.GetAddFileScriptReference() + "return false;";
 
-        try
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+
+        if (!IsPostBack)
         {
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+            GetData(sender, e);
 
-            if (!IsPostBack)
-            {
-                GetData(sender, e);
-
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request.Url));
-                StackSiteMap(sitemapdata);
-            }
-
-            SetDefaultButton(save);
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request.Url));
+            StackSiteMap(sitemapdata);
         }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+
+        SetDefaultButton(save);
     }
 
     public void GetData(object sender, EventArgs e)
@@ -70,72 +63,58 @@ public partial class AccountPicturesManage : AuthenticatedPage
 
     protected void files_FilesPosted(object sender, FilesPostedEventArgs e)
     {
-        try
+        if (e.PostedFiles.Count == 0)
+            return;
+
+        ExceptionCollection exceptions = new ExceptionCollection();
+        foreach (HttpPostedFile file in e.PostedFiles)
         {
-            if (e.PostedFiles.Count == 0)
-                return;
+            try
+            {
+                TransitAccountPictureWithBitmap p = new TransitAccountPictureWithBitmap();
 
-            ExceptionCollection exceptions = new ExceptionCollection();
-            foreach (HttpPostedFile file in e.PostedFiles)
-            {                
-                try
-                {
-                    TransitAccountPictureWithBitmap p = new TransitAccountPictureWithBitmap();
+                ThumbnailBitmap t = new ThumbnailBitmap(file.InputStream);
+                p.Bitmap = t.Bitmap;
+                p.Name = Path.GetFileName(file.FileName);
+                p.Description = string.Empty;
+                p.Hidden = false;
 
-                    ThumbnailBitmap t = new ThumbnailBitmap(file.InputStream);
-                    p.Bitmap = t.Bitmap;
-                    p.Name = Path.GetFileName(file.FileName);
-                    p.Description = string.Empty;
-                    p.Hidden = false;
-
-                    SessionManager.AccountService.AddAccountPicture(SessionManager.Ticket, p);
-                }
-                catch (Exception ex)
-                {
-                    exceptions.Add(new Exception(string.Format("Error processing {0}: {1}",
-                        Renderer.Render(file.FileName), ex.Message), ex));
-                }
+                SessionManager.AccountService.AddAccountPicture(SessionManager.Ticket, p);
             }
+            catch (Exception ex)
+            {
+                exceptions.Add(new Exception(string.Format("Error processing {0}: {1}",
+                    Renderer.Render(file.FileName), ex.Message), ex));
+            }
+        }
 
-            GetData(sender, e);
-            exceptions.Throw();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        GetData(sender, e);
+        exceptions.Throw();
     }
 
     public void gridManage_ItemCommand(object sender, DataListCommandEventArgs e)
     {
-        try
+        switch (e.CommandName)
         {
-            switch (e.CommandName)
-            {
-                case "Delete":
-                    {
-                        int id = int.Parse(e.CommandArgument.ToString());
-                        SessionManager.AccountService.DeleteAccountPicture(SessionManager.Ticket, id);
-                        ReportInfo("Picture deleted.");
-                        GetData(sender, e);
-                    }
-                    break;
-                case "ShowHide":
-                    {
-                        int id = int.Parse(e.CommandArgument.ToString());
-                        TransitAccountPictureWithBitmap p = SessionManager.AccountService.GetAccountPictureWithBitmapById(
-                            SessionManager.Ticket, id);
-                        p.Hidden = !p.Hidden;
-                        SessionManager.AccountService.AddAccountPicture(SessionManager.Ticket, p);
-                        gridManage_OnGetDataSource(sender, e);
-                        gridManage.DataBind();
-                    }
-                    break;
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            case "Delete":
+                {
+                    int id = int.Parse(e.CommandArgument.ToString());
+                    SessionManager.AccountService.DeleteAccountPicture(SessionManager.Ticket, id);
+                    ReportInfo("Picture deleted.");
+                    GetData(sender, e);
+                }
+                break;
+            case "ShowHide":
+                {
+                    int id = int.Parse(e.CommandArgument.ToString());
+                    TransitAccountPictureWithBitmap p = SessionManager.AccountService.GetAccountPictureWithBitmapById(
+                        SessionManager.Ticket, id);
+                    p.Hidden = !p.Hidden;
+                    SessionManager.AccountService.AddAccountPicture(SessionManager.Ticket, p);
+                    gridManage_OnGetDataSource(sender, e);
+                    gridManage.DataBind();
+                }
+                break;
         }
     }
 }

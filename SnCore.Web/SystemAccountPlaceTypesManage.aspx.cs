@@ -14,8 +14,6 @@ public partial class SystemAccountPlaceTypesManage : AuthenticatedPage
 {
     public void Page_Load()
     {
-        try
-        {
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
             if (!IsPostBack)
@@ -28,23 +26,11 @@ public partial class SystemAccountPlaceTypesManage : AuthenticatedPage
                 sitemapdata.Add(new SiteMapDataAttributeNode("Account Place Types", Request.Url));
                 StackSiteMap(sitemapdata);
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
             gridManage.DataSource = SessionManager.PlaceService.GetAccountPlaceTypes();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     private enum Cells
@@ -54,8 +40,6 @@ public partial class SystemAccountPlaceTypesManage : AuthenticatedPage
 
     public void gridManage_ItemCommand(object source, DataGridCommandEventArgs e)
     {
-        try
-        {
             switch (e.Item.ItemType)
             {
                 case ListItemType.AlternatingItem:
@@ -75,10 +59,5 @@ public partial class SystemAccountPlaceTypesManage : AuthenticatedPage
                     }
                     break;
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 }

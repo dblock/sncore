@@ -15,23 +15,16 @@ public partial class AccountPropertyManage : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
-            if (!IsPostBack)
-            {
-                GetData(sender, e);
-
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Property", Request.Url));
-                StackSiteMap(sitemapdata);
-            }
-        }
-        catch (Exception ex)
+        if (!IsPostBack)
         {
-            ReportException(ex);
+            GetData(sender, e);
+
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Property", Request.Url));
+            StackSiteMap(sitemapdata);
         }
     }
 
@@ -45,17 +38,10 @@ public partial class AccountPropertyManage : AuthenticatedPage
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
-            ServiceQueryOptions options = new ServiceQueryOptions();
-            options.PageNumber = gridManage.CurrentPageIndex;
-            options.PageSize = gridManage.PageSize;
-            gridManage.DataSource = SessionManager.PlaceService.GetAccountPlaces(SessionManager.Ticket, options);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageNumber = gridManage.CurrentPageIndex;
+        options.PageSize = gridManage.PageSize;
+        gridManage.DataSource = SessionManager.PlaceService.GetAccountPlaces(SessionManager.Ticket, options);
     }
 
     private enum Cells
@@ -65,30 +51,23 @@ public partial class AccountPropertyManage : AuthenticatedPage
 
     public void gridManage_ItemCommand(object source, DataListCommandEventArgs e)
     {
-        try
+        switch (e.Item.ItemType)
         {
-            switch (e.Item.ItemType)
-            {
-                case ListItemType.AlternatingItem:
-                case ListItemType.Item:
-                case ListItemType.SelectedItem:
-                case ListItemType.EditItem:
+            case ListItemType.AlternatingItem:
+            case ListItemType.Item:
+            case ListItemType.SelectedItem:
+            case ListItemType.EditItem:
 
-                    int id = int.Parse(e.CommandArgument.ToString());
-                    switch (e.CommandName)
-                    {
-                        case "Delete":
-                            SessionManager.PlaceService.DeleteAccountPlace(SessionManager.Ticket, id);
-                            ReportInfo("Property deleted.");
-                            GetData(source, e);
-                            break;
-                    }
-                    break;
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+                int id = int.Parse(e.CommandArgument.ToString());
+                switch (e.CommandName)
+                {
+                    case "Delete":
+                        SessionManager.PlaceService.DeleteAccountPlace(SessionManager.Ticket, id);
+                        ReportInfo("Property deleted.");
+                        GetData(source, e);
+                        break;
+                }
+                break;
         }
     }
 }

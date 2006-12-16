@@ -16,8 +16,6 @@ public partial class SystemCountryEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             if (!IsPostBack)
             {
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
@@ -41,27 +39,15 @@ public partial class SystemCountryEdit : AuthenticatedPage
             }
 
             SetDefaultButton(manageAdd);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-        try
-        {
             TransitCountry tw = new TransitCountry();
             tw.Name = inputName.Text;
             tw.Id = RequestId;
             SessionManager.LocationService.AddCountry(SessionManager.Ticket, tw);
             Redirect("SystemCountriesManage.aspx");
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
 
     }
 }

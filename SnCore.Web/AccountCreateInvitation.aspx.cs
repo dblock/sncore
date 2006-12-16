@@ -17,53 +17,39 @@ public partial class AccountCreateInvitation : Page
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
-            SetDefaultButton(inputLogin);
+        SetDefaultButton(inputLogin);
 
-            if (!IsPostBack)
-            {
-                TransitAccountInvitation invitation = SessionManager.AccountService.GetAccountInvitationById(
-                    SessionManager.Ticket, RequestId);
-
-                inputEmailAddress.Text = invitation.Email;
-            }
-        }
-        catch (Exception ex)
+        if (!IsPostBack)
         {
-            ReportException(ex);
+            TransitAccountInvitation invitation = SessionManager.AccountService.GetAccountInvitationById(
+                SessionManager.Ticket, RequestId);
+
+            inputEmailAddress.Text = invitation.Email;
         }
     }
 
     protected void create_Click(object sender, EventArgs e)
     {
-        try
+        if (inputPassword.Text != inputPassword2.Text)
         {
-            if (inputPassword.Text != inputPassword2.Text)
-            {
-                throw new ArgumentException("Passwords don't match.");
-            }
-
-            TransitAccount ta = new TransitAccount();
-            ta.Name = inputName.Text;
-            ta.Birthday = inputBirthday.SelectedDate;
-
-            SessionManager.AccountService.CreateAccountInvitation(
-                RequestId,
-                Request.QueryString["code"],
-                inputPassword.Text,
-                inputEmailAddress.Text,
-                ta);
-
-            panelCreate.Visible = false;
-
-            string ticket = SessionManager.AccountService.Login(inputEmailAddress.Text, inputPassword.Text);
-            SessionManager.Login(ticket, false);
-            Redirect("AccountCreateInvitationWelcome.aspx");
+            throw new ArgumentException("Passwords don't match.");
         }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+
+        TransitAccount ta = new TransitAccount();
+        ta.Name = inputName.Text;
+        ta.Birthday = inputBirthday.SelectedDate;
+
+        SessionManager.AccountService.CreateAccountInvitation(
+            RequestId,
+            Request.QueryString["code"],
+            inputPassword.Text,
+            inputEmailAddress.Text,
+            ta);
+
+        panelCreate.Visible = false;
+
+        string ticket = SessionManager.AccountService.Login(inputEmailAddress.Text, inputPassword.Text);
+        SessionManager.Login(ticket, false);
+        Redirect("AccountCreateInvitationWelcome.aspx");
     }
 }

@@ -20,8 +20,6 @@ public partial class SystemBookmarkEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             if (!IsPostBack)
             {
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
@@ -50,17 +48,10 @@ public partial class SystemBookmarkEdit : AuthenticatedPage
             }
 
             SetDefaultButton(manageAdd);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-        try
-        {
             TransitBookmarkWithBitmaps t = new TransitBookmarkWithBitmaps();
             t.Name = inputName.Text;
             t.Description = inputDescription.Text;
@@ -70,10 +61,5 @@ public partial class SystemBookmarkEdit : AuthenticatedPage
             if (inputLinkBitmap.HasFile) t.LinkBitmap = new ThumbnailBitmap(inputLinkBitmap.FileContent, new Size(16, 16)).Bitmap;
             SessionManager.SystemService.CreateOrUpdateBookmark(SessionManager.Ticket, t);
             Redirect("SystemBookmarksManage.aspx");
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 }

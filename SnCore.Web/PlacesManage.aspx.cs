@@ -16,8 +16,6 @@ public partial class PlacesManage : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
             if (!IsPostBack)
@@ -30,24 +28,12 @@ public partial class PlacesManage : AuthenticatedPage
                 sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request.Url));
                 StackSiteMap(sitemapdata);
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
             TransitPlaceQueryOptions options = new TransitPlaceQueryOptions();
             gridManage.DataSource = SessionManager.PlaceService.GetPlaces(options, null);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     private enum Cells
@@ -57,8 +43,6 @@ public partial class PlacesManage : AuthenticatedPage
 
     public void gridManage_ItemCommand(object source, DataGridCommandEventArgs e)
     {
-        try
-        {
             switch (e.Item.ItemType)
             {
                 case ListItemType.AlternatingItem:
@@ -79,10 +63,5 @@ public partial class PlacesManage : AuthenticatedPage
                     }
                     break;
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 }

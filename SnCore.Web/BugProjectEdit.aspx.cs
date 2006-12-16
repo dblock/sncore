@@ -16,49 +16,35 @@ public partial class BugProjectEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Bugs", Request, "BugProjectsManage.aspx"));
+
+            if (RequestId > 0)
             {
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Bugs", Request, "BugProjectsManage.aspx"));
-
-                if (RequestId > 0)
-                {
-                    TransitBugProject t = SessionManager.BugService.GetBugProjectById(RequestId);
-                    inputName.Text = t.Name;
-                    inputDescription.Text = t.Description;
-                    sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
-                }
-                else
-                {
-                    sitemapdata.Add(new SiteMapDataAttributeNode("New Project", Request.Url));
-                }
-
-                StackSiteMap(sitemapdata);
-                SetDefaultButton(manageAdd);
+                TransitBugProject t = SessionManager.BugService.GetBugProjectById(RequestId);
+                inputName.Text = t.Name;
+                inputDescription.Text = t.Description;
+                sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            else
+            {
+                sitemapdata.Add(new SiteMapDataAttributeNode("New Project", Request.Url));
+            }
+
+            StackSiteMap(sitemapdata);
+            SetDefaultButton(manageAdd);
         }
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-        try
-        {
-            TransitBugProject t = new TransitBugProject();
-            t.Name = inputName.Text;
-            t.Description = inputDescription.Text;
-            t.Id = RequestId;
-            SessionManager.BugService.CreateOrUpdateBugProject(SessionManager.Ticket, t);
-            Redirect("BugProjectsManage.aspx");
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        TransitBugProject t = new TransitBugProject();
+        t.Name = inputName.Text;
+        t.Description = inputDescription.Text;
+        t.Id = RequestId;
+        SessionManager.BugService.CreateOrUpdateBugProject(SessionManager.Ticket, t);
+        Redirect("BugProjectsManage.aspx");
     }
 }

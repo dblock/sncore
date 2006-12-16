@@ -30,27 +30,20 @@ public partial class AccountSurveyQuestionView : Page
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        accountSurveyAnswers.OnGetDataSource += new EventHandler(accountSurveyAnswers_OnGetDataSource);
+        if (!IsPostBack)
         {
-            accountSurveyAnswers.OnGetDataSource += new EventHandler(accountSurveyAnswers_OnGetDataSource);
-            if (!IsPostBack)
-            {
-                TransitSurvey ts = Survey;
-                TransitSurveyQuestion tsq = SurveyQuestion;
+            TransitSurvey ts = Survey;
+            TransitSurveyQuestion tsq = SurveyQuestion;
 
-                surveyName.Text = this.Title = Renderer.Render(ts.Name);
+            surveyName.Text = this.Title = Renderer.Render(ts.Name);
 
-                GetData();
+            GetData();
 
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode(ts.Name, Request, string.Format("AccountSurveyView.aspx?id={0}", ts.Id)));
-                sitemapdata.Add(new SiteMapDataAttributeNode(tsq.Question, Request.Url));
-                StackSiteMap(sitemapdata);
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode(ts.Name, Request, string.Format("AccountSurveyView.aspx?id={0}", ts.Id)));
+            sitemapdata.Add(new SiteMapDataAttributeNode(tsq.Question, Request.Url));
+            StackSiteMap(sitemapdata);
         }
     }
 

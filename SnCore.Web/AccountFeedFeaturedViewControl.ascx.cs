@@ -19,23 +19,16 @@ public partial class AccountFeedFeaturedViewControl : Control
 
     public void Page_Load()
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
-            {
-                panelFeatured.Visible = (Feature != null);
+            panelFeatured.Visible = (Feature != null);
 
-                if (Feature != null && AccountFeed != null)
-                {
-                    linkFeature2.HRef = linkFeature3.HRef = string.Format("AccountFeedView.aspx?id={0}", Feature.DataRowId);
-                    labelFeatureName.Text = Render(AccountFeed.Name);
-                    imgFeature.Src = string.Format("AccountPictureThumbnail.aspx?id={0}", AccountFeed.AccountPictureId);
-                }
+            if (Feature != null && AccountFeed != null)
+            {
+                linkFeature2.HRef = linkFeature3.HRef = string.Format("AccountFeedView.aspx?id={0}", Feature.DataRowId);
+                labelFeatureName.Text = Render(AccountFeed.Name);
+                imgFeature.Src = string.Format("AccountPictureThumbnail.aspx?id={0}", AccountFeed.AccountPictureId);
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
         }
     }
 

@@ -20,8 +20,6 @@ public partial class SystemRefererHosts : AuthenticatedPage
 {
     public void Page_Load()
     {
-        try
-        {
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
             if (!IsPostBack)
@@ -33,11 +31,6 @@ public partial class SystemRefererHosts : AuthenticatedPage
                 sitemapdata.Add(new SiteMapDataAttributeNode("Referer Hosts", Request.Url));
                 StackSiteMap(sitemapdata);
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     private void GetData()
@@ -50,16 +43,9 @@ public partial class SystemRefererHosts : AuthenticatedPage
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridManage.CurrentPageIndex;
             options.PageSize = gridManage.PageSize;
             gridManage.DataSource = SessionManager.StatsService.GetRefererHosts(options);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 }

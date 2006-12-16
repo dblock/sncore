@@ -19,34 +19,19 @@ public partial class EmailAccountPlaceRequestReject : AuthenticatedPage
     {
         get
         {
-            try
+            if (mAccountPlaceRequest == null)
             {
-                if (mAccountPlaceRequest == null)
-                {
-                    mAccountPlaceRequest = SessionManager.PlaceService.GetAccountPlaceRequestById(
-                        SessionManager.Ticket, RequestId);
-                }
+                mAccountPlaceRequest = SessionManager.PlaceService.GetAccountPlaceRequestById(
+                    SessionManager.Ticket, RequestId);
             }
-            catch (Exception ex)
-            {
-                ReportException(ex);
-            }
-
             return mAccountPlaceRequest;
         }
     }
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
-            Title = string.Format("Ownership request for {0} rejected", Renderer.Render(AccountPlaceRequest.PlaceName));
-            panelMessage.Visible = ! string.IsNullOrEmpty(Request.QueryString["message"]);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        Title = string.Format("Ownership request for {0} rejected", Renderer.Render(AccountPlaceRequest.PlaceName));
+        panelMessage.Visible = !string.IsNullOrEmpty(Request.QueryString["message"]);
     }
 }
 

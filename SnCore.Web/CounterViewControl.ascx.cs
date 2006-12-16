@@ -52,17 +52,10 @@ public partial class CounterViewControl : Control
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
-            {
-                TransitCounter tc = Counter;
-                labelCounter.Text = string.Format("{0} since {1}", tc.Total, base.Adjust(tc.Timestamp).ToString("d"));
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            TransitCounter tc = Counter;
+            labelCounter.Text = string.Format("{0} since {1}", tc.Total, base.Adjust(tc.Timestamp).ToString("d"));
         }
     }
 }

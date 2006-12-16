@@ -16,8 +16,6 @@ public partial class SystemConfigurationsManage : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
             if (!IsPostBack)
             {
@@ -29,11 +27,6 @@ public partial class SystemConfigurationsManage : AuthenticatedPage
                 sitemapdata.Add(new SiteMapDataAttributeNode("Settings", Request.Url));
                 StackSiteMap(sitemapdata);
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
@@ -49,8 +42,6 @@ public partial class SystemConfigurationsManage : AuthenticatedPage
 
     public void gridManage_ItemCommand(object sender, DataGridCommandEventArgs e)
     {
-        try
-        {
             int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
             switch (e.CommandName)
             {
@@ -64,10 +55,5 @@ public partial class SystemConfigurationsManage : AuthenticatedPage
                     gridManage.DataBind();
                     break;
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 }

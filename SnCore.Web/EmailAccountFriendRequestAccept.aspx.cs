@@ -19,34 +19,19 @@ public partial class EmailAccountFriendRequestAccept : AuthenticatedPage
     {
         get
         {
-            try
-            {
                 if (mAccountFriendRequest == null)
                 {
                     mAccountFriendRequest = SessionManager.SocialService.GetAccountFriendRequestById(
                         SessionManager.Ticket, RequestId);
                 }
-            }
-            catch (Exception ex)
-            {
-                ReportException(ex);
-            }
-
             return mAccountFriendRequest;
         }
     }
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             Title = string.Format("{0} accepted your request", Renderer.Render(AccountFriendRequest.KeenName));
             panelMessage.Visible = ! string.IsNullOrEmpty(Request.QueryString["message"]);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 }
 

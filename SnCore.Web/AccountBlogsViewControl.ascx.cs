@@ -27,19 +27,12 @@ public partial class AccountBlogsViewControl : Control
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        accountBlogs.OnGetDataSource += new EventHandler(accountBlogs_OnGetDataSource);
+        if (!IsPostBack)
         {
-            accountBlogs.OnGetDataSource += new EventHandler(accountBlogs_OnGetDataSource);
-            if (!IsPostBack)
-            {
-                accountBlogs_OnGetDataSource(sender, e);
-                accountBlogs.DataBind();
-                this.Visible = accountBlogs.Items.Count > 0;
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            accountBlogs_OnGetDataSource(sender, e);
+            accountBlogs.DataBind();
+            this.Visible = accountBlogs.Items.Count > 0;
         }
     }
 

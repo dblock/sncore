@@ -17,8 +17,6 @@ public partial class TagWordAccountsView : Page
 {
     public void Page_Load()
     {
-        try
-        {
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
             if (!IsPostBack)
             {
@@ -34,22 +32,10 @@ public partial class TagWordAccountsView : Page
                 sitemapdata.Add(new SiteMapDataAttributeNode(word.Word, Request.Url));
                 StackSiteMap(sitemapdata);
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
             gridManage.DataSource = SessionManager.TagWordService.GetTagWordAccountsById(RequestId);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 }

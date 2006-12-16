@@ -15,8 +15,6 @@ public partial class AccountContentGroupsManage : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
             if (!IsPostBack)
@@ -28,11 +26,6 @@ public partial class AccountContentGroupsManage : AuthenticatedPage
 
                 GetData(sender, e);
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void GetData(object sender, EventArgs e)
@@ -50,23 +43,14 @@ public partial class AccountContentGroupsManage : AuthenticatedPage
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridManage.CurrentPageIndex;
             options.PageSize = gridManage.PageSize;
             gridManage.DataSource = SessionManager.ContentService.GetAccountContentGroups(SessionManager.Ticket, options);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void gridManage_ItemCommand(object sender, DataGridCommandEventArgs e)
     {
-        try
-        {
             int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
             switch (e.CommandName)
             {
@@ -78,10 +62,5 @@ public partial class AccountContentGroupsManage : AuthenticatedPage
                     gridManage.DataBind();
                     break;
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 }

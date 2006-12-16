@@ -15,19 +15,12 @@ public partial class AccountBrowser : Page
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
-            {
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Help", Request, "Help.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Browser Information", Request.Url));
-                StackSiteMap(sitemapdata);
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Help", Request, "Help.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Browser Information", Request.Url));
+            StackSiteMap(sitemapdata);
         }
     }
 }

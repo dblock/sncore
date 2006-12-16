@@ -28,65 +28,58 @@ public partial class AccountReminder : Control
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
+            if (!SessionManager.IsLoggedIn)
+                return;
+
+            if (SessionManager.Account.PictureId == 0)
             {
-                if (!SessionManager.IsLoggedIn)
-                    return; 
+                noticeReminder.HtmlEncode = false;
+                noticeReminder.Info = "Don't be shy! Upload a picture. " +
+                    "<a href='AccountPicturesManage.aspx'>Click here!</a>";
+                return;
+            }
 
-                if (SessionManager.Account.PictureId == 0)
+            object[] i_args = { SessionManager.Account.Id };
+            int invitationscount = SessionManager.GetCachedCollectionCount(
+                SessionManager.AccountService, "GetAccountInvitationsCountById", i_args);
+
+            if (invitationscount == 0)
+            {
+                noticeReminder.HtmlEncode = false;
+                noticeReminder.Info = string.Format(
+                    "Invite your friends to {0}! " +
+                    "<a href='AccountInvitationsManage.aspx'>Click here!</a>",
+                    Render(SessionManager.GetCachedConfiguration("SnCore.Name", "SnCore")));
+                return;
+            }
+
+            List<TransitSurvey> surveys = SessionManager.GetCachedCollection<TransitSurvey>(
+                SessionManager.SystemService, "GetSurveys", null);
+
+            if (surveys != null)
+            {
+                foreach (TransitSurvey survey in surveys)
                 {
-                    noticeReminder.HtmlEncode = false;
-                    noticeReminder.Info = "Don't be shy! Upload a picture. " + 
-                        "<a href='AccountPicturesManage.aspx'>Click here!</a>";
-                    return;
-                }
+                    object[] a_args = { SessionManager.Account.Id, survey.Id };
 
-                object[] i_args = { SessionManager.Account.Id };
-                int invitationscount = SessionManager.GetCachedCollectionCount(
-                    SessionManager.AccountService, "GetAccountInvitationsCountById", i_args);
+                    int answers = SessionManager.GetCachedCollectionCount(
+                        SessionManager.AccountService, "GetAccountSurveyAnswersCountById", a_args);
 
-                if (invitationscount == 0)
-                {
-                    noticeReminder.HtmlEncode = false;
-                    noticeReminder.Info = string.Format(
-                        "Invite your friends to {0}! " +
-                        "<a href='AccountInvitationsManage.aspx'>Click here!</a>",
-                        Render(SessionManager.GetCachedConfiguration("SnCore.Name", "SnCore")));
-                    return;
-                }
-
-                List<TransitSurvey> surveys = SessionManager.GetCachedCollection<TransitSurvey>(
-                    SessionManager.SystemService, "GetSurveys", null);
-
-                if (surveys != null)
-                {
-                    foreach (TransitSurvey survey in surveys)
+                    if (answers == 0)
                     {
-                        object[] a_args = { SessionManager.Account.Id, survey.Id };
+                        noticeReminder.HtmlEncode = false;
+                        noticeReminder.Info = string.Format(
+                            "Participate! Complete the {1} survey. " +
+                            "<a href='AccountSurvey.aspx?id={0}'>Click here!</a>",
+                            survey.Id,
+                            Renderer.Render(survey.Name));
 
-                        int answers = SessionManager.GetCachedCollectionCount(
-                            SessionManager.AccountService, "GetAccountSurveyAnswersCountById", a_args);
-
-                        if (answers == 0)
-                        {
-                            noticeReminder.HtmlEncode = false;
-                            noticeReminder.Info = string.Format(
-                                "Participate! Complete the {1} survey. " + 
-                                "<a href='AccountSurvey.aspx?id={0}'>Click here!</a>",
-                                survey.Id,
-                                Renderer.Render(survey.Name));
-
-                            return;
-                        }
+                        return;
                     }
                 }
             }
-        }
-        catch (Exception ex)
-        {
-            noticeReminder.Exception = ex;
         }
     }
 }

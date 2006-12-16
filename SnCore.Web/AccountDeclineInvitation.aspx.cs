@@ -17,36 +17,22 @@ public partial class AccountDeclineInvitation : Page
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
-            SetDefaultButton(inputDecline);
+        SetDefaultButton(inputDecline);
 
-            if (!IsPostBack)
-            {
-                TransitAccountInvitation invitation = SessionManager.AccountService.GetAccountInvitationById(
-                    SessionManager.Ticket, RequestId);
-
-                linkAccount.Text = Render(invitation.AccountName);
-                linkAccount.NavigateUrl = string.Format("AccountView.aspx?id={0}", invitation.AccountId);
-            }
-        }
-        catch (Exception ex)
+        if (!IsPostBack)
         {
-            ReportException(ex);
+            TransitAccountInvitation invitation = SessionManager.AccountService.GetAccountInvitationById(
+                SessionManager.Ticket, RequestId);
+
+            linkAccount.Text = Render(invitation.AccountName);
+            linkAccount.NavigateUrl = string.Format("AccountView.aspx?id={0}", invitation.AccountId);
         }
     }
 
     protected void decline_Click(object sender, EventArgs e)
     {
-        try
-        {
-            SessionManager.AccountService.DeclineInvitation(RequestId, Request.QueryString["code"]);
-            panelDecline.Visible = false;
-            ReportInfo("Invation declined. Click <a href='AccountCreate.aspx'>here</a> to join without an invitation.");
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        SessionManager.AccountService.DeclineInvitation(RequestId, Request.QueryString["code"]);
+        panelDecline.Visible = false;
+        ReportInfo("Invation declined. Click <a href='AccountCreate.aspx'>here</a> to join without an invitation.");
     }
 }

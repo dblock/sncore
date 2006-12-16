@@ -16,8 +16,6 @@ public partial class SystemPictureView : AuthenticatedPage
 {
     public void Page_Load()
     {
-        try
-        {
             if (!IsPostBack)
             {
                 TransitPicture p = SessionManager.SystemService.GetPictureById(RequestId);
@@ -27,11 +25,6 @@ public partial class SystemPictureView : AuthenticatedPage
                 inputCreated.Text = Adjust(p.Created).ToString();
                 inputType.Text = Renderer.Render(p.Type);
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
 
     }
 }

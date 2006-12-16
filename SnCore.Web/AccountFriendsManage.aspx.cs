@@ -17,25 +17,18 @@ public partial class AccountFriendsManage : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
-            friendsList.OnGetDataSource += new EventHandler(friendsList_OnGetDataSource);
+        friendsList.OnGetDataSource += new EventHandler(friendsList_OnGetDataSource);
 
-            if (!IsPostBack)
-            {
-                friendsList.VirtualItemCount = SessionManager.SocialService.GetFriendsCount(SessionManager.Ticket);
-                friendsList_OnGetDataSource(this, null);
-                friendsList.DataBind();
-
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Friends", Request.Url));
-                StackSiteMap(sitemapdata);
-            }
-        }
-        catch (Exception ex)
+        if (!IsPostBack)
         {
-            ReportException(ex);
+            friendsList.VirtualItemCount = SessionManager.SocialService.GetFriendsCount(SessionManager.Ticket);
+            friendsList_OnGetDataSource(this, null);
+            friendsList.DataBind();
+
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Friends", Request.Url));
+            StackSiteMap(sitemapdata);
         }
     }
 
@@ -49,22 +42,15 @@ public partial class AccountFriendsManage : AuthenticatedPage
 
     public void friendsList_Command(object sender, DataListCommandEventArgs e)
     {
-        try
-        {            
-            switch (e.CommandName)
-            {
-                case "Delete":
-                    SessionManager.SocialService.DeleteAccountFriend(SessionManager.Ticket, int.Parse(e.CommandArgument.ToString()));
-                    friendsList.CurrentPageIndex = 0;
-                    friendsList_OnGetDataSource(sender, e);
-                    friendsList.DataBind();
-                    ReportInfo("Friend deleted.");
-                    break;
-            }
-        }
-        catch (Exception ex)
+        switch (e.CommandName)
         {
-            ReportException(ex);
+            case "Delete":
+                SessionManager.SocialService.DeleteAccountFriend(SessionManager.Ticket, int.Parse(e.CommandArgument.ToString()));
+                friendsList.CurrentPageIndex = 0;
+                friendsList_OnGetDataSource(sender, e);
+                friendsList.DataBind();
+                ReportInfo("Friend deleted.");
+                break;
         }
     }
 }

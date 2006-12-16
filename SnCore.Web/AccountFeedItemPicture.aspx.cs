@@ -49,7 +49,7 @@ public partial class AccountFeedItemPicture : PicturePage
 
         // fetch the image to get its size
         WebClient client = new WebClient();
-        
+
         byte[] data = client.DownloadData(url);
         if (data == null)
         {

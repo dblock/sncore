@@ -26,25 +26,18 @@ public partial class AccountFeedItemImgsRss : AccountPersonPage
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
-            {
-                TransitAccountFeedItemImgQueryOptions QueryOptions = new TransitAccountFeedItemImgQueryOptions();
-                QueryOptions.InterestingOnly = false;
-                QueryOptions.VisibleOnly = true;
+            TransitAccountFeedItemImgQueryOptions QueryOptions = new TransitAccountFeedItemImgQueryOptions();
+            QueryOptions.InterestingOnly = false;
+            QueryOptions.VisibleOnly = true;
 
-                ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
-                serviceoptions.PageNumber = 0;
-                serviceoptions.PageSize = 25;
+            ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
+            serviceoptions.PageNumber = 0;
+            serviceoptions.PageSize = 25;
 
-                rssRepeater.DataSource = SessionManager.SyndicationService.GetAccountFeedItemImgs(QueryOptions, serviceoptions);
-                rssRepeater.DataBind();
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            rssRepeater.DataSource = SessionManager.SyndicationService.GetAccountFeedItemImgs(QueryOptions, serviceoptions);
+            rssRepeater.DataBind();
         }
     }
 

@@ -16,23 +16,16 @@ public partial class AccountFriendRequestsManage : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
-            listPending.OnGetDataSource += new EventHandler(listPending_OnGetDataSource);
-            
-            if (!IsPostBack)
-            {
-                GetData(sender, e);
+        listPending.OnGetDataSource += new EventHandler(listPending_OnGetDataSource);
 
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Friend Requests", Request.Url));
-                StackSiteMap(sitemapdata);
-            }
-        }
-        catch (Exception ex)
+        if (!IsPostBack)
         {
-            ReportException(ex);
+            GetData(sender, e);
+
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Friend Requests", Request.Url));
+            StackSiteMap(sitemapdata);
         }
     }
 
@@ -55,33 +48,26 @@ public partial class AccountFriendRequestsManage : AuthenticatedPage
 
     public void listPending_ItemCommand(object sender, DataListCommandEventArgs e)
     {
-        try
+        switch (e.CommandName)
         {
-            switch (e.CommandName)
-            {
-                case "Accept":
-                    {
-                        int id = int.Parse(e.CommandArgument.ToString());
-                        SessionManager.SocialService.AcceptAccountFriendRequest(SessionManager.Ticket, id, inputReason.Text);
-                        GetData(sender, e);
-                        ReportInfo("Friend request accepted." + 
-                            (string.IsNullOrEmpty(inputReason.Text) ? string.Empty : " An e-mail has been sent."));
-                        break;
-                    }
-                case "Reject":
-                    {
-                        int id = int.Parse(e.CommandArgument.ToString());
-                        SessionManager.SocialService.RejectAccountFriendRequest(SessionManager.Ticket, id, inputReason.Text);
-                        GetData(sender, e);
-                        ReportInfo("Friend request rejected." + 
-                            (string.IsNullOrEmpty(inputReason.Text) ? string.Empty : " An e-mail has been sent."));
-                        break;
-                    }
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            case "Accept":
+                {
+                    int id = int.Parse(e.CommandArgument.ToString());
+                    SessionManager.SocialService.AcceptAccountFriendRequest(SessionManager.Ticket, id, inputReason.Text);
+                    GetData(sender, e);
+                    ReportInfo("Friend request accepted." +
+                        (string.IsNullOrEmpty(inputReason.Text) ? string.Empty : " An e-mail has been sent."));
+                    break;
+                }
+            case "Reject":
+                {
+                    int id = int.Parse(e.CommandArgument.ToString());
+                    SessionManager.SocialService.RejectAccountFriendRequest(SessionManager.Ticket, id, inputReason.Text);
+                    GetData(sender, e);
+                    ReportInfo("Friend request rejected." +
+                        (string.IsNullOrEmpty(inputReason.Text) ? string.Empty : " An e-mail has been sent."));
+                    break;
+                }
         }
     }
 }

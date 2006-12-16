@@ -28,20 +28,13 @@ public partial class AccountLogin : Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
+            if (AuthenticatedPage)
             {
-                if (AuthenticatedPage)
-                {
-                    ReportInfo("This is a members only page. You must first login. There're many perks of being a member " +
-                        "and it's free. Click <a href=\"AccountCreate.aspx\">here</a> to join!");
-                }
+                ReportInfo("This is a members only page. You must first login. There're many perks of being a member " +
+                    "and it's free. Click <a href=\"AccountCreate.aspx\">here</a> to join!");
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
         }
     }
 }

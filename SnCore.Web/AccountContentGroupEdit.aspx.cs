@@ -22,50 +22,43 @@ public partial class AccountContentGroupEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Content", Request, "AccountContentGroupsManage.aspx"));
+
+            if (RequestId > 0)
             {
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Content", Request, "AccountContentGroupsManage.aspx"));
+                gridManageContent.OnGetDataSource += new EventHandler(gridManageContent_OnGetDataSource);
+                GetData(sender, e);
 
-                if (RequestId > 0)
-                {
-                    gridManageContent.OnGetDataSource += new EventHandler(gridManageContent_OnGetDataSource);
-                    GetData(sender, e);
+                TransitAccountContentGroup tf = SessionManager.ContentService.GetAccountContentGroupById(
+                    SessionManager.Ticket, RequestId);
 
-                    TransitAccountContentGroup tf = SessionManager.ContentService.GetAccountContentGroupById(
-                        SessionManager.Ticket, RequestId);
+                sitemapdata.Add(new SiteMapDataAttributeNode(tf.Name, Request.Url));
 
-                    sitemapdata.Add(new SiteMapDataAttributeNode(tf.Name, Request.Url));
+                inputName.Text = tf.Name;
+                inputDescription.Text = tf.Description;
+                inputTrusted.Checked = tf.Trusted;
+                inputLogin.Checked = tf.Login;
 
-                    inputName.Text = tf.Name;
-                    inputDescription.Text = tf.Description;
-                    inputTrusted.Checked = tf.Trusted;
-                    inputLogin.Checked = tf.Login;
+                linkNew.NavigateUrl = string.Format("AccountContentEdit.aspx?gid={0}", RequestId);
+                linkView.NavigateUrl = string.Format("AccountContentGroupView.aspx?id={0}", RequestId);
+            }
+            else
+            {
+                sitemapdata.Add(new SiteMapDataAttributeNode("New Group", Request.Url));
 
-                    linkNew.NavigateUrl = string.Format("AccountContentEdit.aspx?gid={0}", RequestId);
-                    linkView.NavigateUrl = string.Format("AccountContentGroupView.aspx?id={0}", RequestId);
-                }
-                else
-                {
-                    sitemapdata.Add(new SiteMapDataAttributeNode("New Group", Request.Url));
-
-                    linkNew.Visible = false;
-                    linkView.Visible = false;
-                }
-
-                inputTrusted.Enabled = SessionManager.IsAdministrator;
-                StackSiteMap(sitemapdata);
+                linkNew.Visible = false;
+                linkView.Visible = false;
             }
 
-            SetDefaultButton(linkSave);
+            inputTrusted.Enabled = SessionManager.IsAdministrator;
+            StackSiteMap(sitemapdata);
         }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+
+        SetDefaultButton(linkSave);
     }
 
     void gridManageContent_OnGetDataSource(object sender, EventArgs e)
@@ -88,40 +81,26 @@ public partial class AccountContentGroupEdit : AuthenticatedPage
 
     public void save(object sender, EventArgs e)
     {
-        try
-        {
-            TransitAccountContentGroup s = new TransitAccountContentGroup();
-            s.Id = RequestId;
-            s.Name = inputName.Text;
-            s.Description = inputDescription.Text;
-            s.Trusted = inputTrusted.Checked && SessionManager.IsAdministrator;
-            s.Login = inputLogin.Checked;
-            SessionManager.ContentService.CreateOrUpdateAccountContentGroup(SessionManager.Ticket, s);
-            Redirect("AccountContentGroupsManage.aspx");
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        TransitAccountContentGroup s = new TransitAccountContentGroup();
+        s.Id = RequestId;
+        s.Name = inputName.Text;
+        s.Description = inputDescription.Text;
+        s.Trusted = inputTrusted.Checked && SessionManager.IsAdministrator;
+        s.Login = inputLogin.Checked;
+        SessionManager.ContentService.CreateOrUpdateAccountContentGroup(SessionManager.Ticket, s);
+        Redirect("AccountContentGroupsManage.aspx");
     }
 
     public void gridManageContent_ItemCommand(object sender, DataGridCommandEventArgs e)
     {
-        try
+        switch (e.CommandName)
         {
-            switch (e.CommandName)
-            {
-                case "Delete":
-                    int id = int.Parse(e.CommandArgument.ToString());
-                    SessionManager.ContentService.DeleteAccountContent(SessionManager.Ticket, id);
-                    ReportInfo("Content deleted.");
-                    GetData(sender, e);
-                    break;
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            case "Delete":
+                int id = int.Parse(e.CommandArgument.ToString());
+                SessionManager.ContentService.DeleteAccountContent(SessionManager.Ticket, id);
+                ReportInfo("Content deleted.");
+                GetData(sender, e);
+                break;
         }
     }
 

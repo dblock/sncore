@@ -19,18 +19,10 @@ public partial class EmailAccountMadLibInstance : AuthenticatedPage
     {
         get
         {
-            try
+            if (mMadLibInstance == null)
             {
-                if (mMadLibInstance == null)
-                {
-                    mMadLibInstance = SessionManager.MadLibService.GetMadLibInstanceById(RequestId);
-                }
+                mMadLibInstance = SessionManager.MadLibService.GetMadLibInstanceById(RequestId);
             }
-            catch (Exception ex)
-            {
-                ReportException(ex);
-            }
-
             return mMadLibInstance;
         }
     }
@@ -52,14 +44,7 @@ public partial class EmailAccountMadLibInstance : AuthenticatedPage
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
 
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public static string RenderMadLib(string value)

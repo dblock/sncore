@@ -14,18 +14,11 @@ public partial class TellAFriendControl : Control
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             if (!IsPostBack)
             {
                 linkTellAFriend.NavigateUrl = string.Format("TellAFriend.aspx?Url={0}&Subject={1}",
                     Renderer.UrlEncode(Request.Url.PathAndQuery),
                     Renderer.UrlEncode(Page.Title));
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 }

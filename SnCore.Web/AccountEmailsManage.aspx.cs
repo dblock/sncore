@@ -16,26 +16,19 @@ public partial class AccountEmailsManage : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+
+        if (!IsPostBack)
         {
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+            GetData(sender, e);
 
-            if (!IsPostBack)
-            {
-                GetData(sender, e);
-
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("E-Mails", Request.Url));
-                StackSiteMap(sitemapdata);
-            }
-
-            SetDefaultButton(manageAdd);
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("E-Mails", Request.Url));
+            StackSiteMap(sitemapdata);
         }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+
+        SetDefaultButton(manageAdd);
     }
 
     public void GetData(object sender, EventArgs e)
@@ -97,61 +90,47 @@ public partial class AccountEmailsManage : AuthenticatedPage
 
     public void gridManage_ItemCommand(object sender, DataGridCommandEventArgs e)
     {
-        try
+        switch (e.CommandName)
         {
-            switch (e.CommandName)
-            {
-                case "Delete":
-                    {
-                        int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                        SessionManager.AccountService.DeleteAccountEmail(SessionManager.Ticket, id);
-                        ReportInfo("Email deleted.");
-                        GetData(sender, e);
-                    }
-                    break;
-                case "Resend":
-                    {
-                        int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                        string address = e.Item.Cells[(int)Cells.address].Text;
-                        SessionManager.AccountService.ConfirmAccountEmail(SessionManager.Ticket, id);
-                        ReportInfo("A confirmation has ben resent to '" + address + "'.");
-                    }
-                    break;
-                case "SetPrincipal":
-                    {
-                        int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                        string address = e.Item.Cells[(int)Cells.address].Text;
-                        TransitAccountEmail tae = new TransitAccountEmail();
-                        tae.Id = id;
-                        tae.Address = address;
-                        tae.Principal = true;
-                        SessionManager.AccountService.UpdateAccountEmail(SessionManager.Ticket, tae);
-                        gridManage_OnGetDataSource(sender, e);
-                        gridManage.DataBind();
-                    }
-                    break;
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            case "Delete":
+                {
+                    int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
+                    SessionManager.AccountService.DeleteAccountEmail(SessionManager.Ticket, id);
+                    ReportInfo("Email deleted.");
+                    GetData(sender, e);
+                }
+                break;
+            case "Resend":
+                {
+                    int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
+                    string address = e.Item.Cells[(int)Cells.address].Text;
+                    SessionManager.AccountService.ConfirmAccountEmail(SessionManager.Ticket, id);
+                    ReportInfo("A confirmation has ben resent to '" + address + "'.");
+                }
+                break;
+            case "SetPrincipal":
+                {
+                    int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
+                    string address = e.Item.Cells[(int)Cells.address].Text;
+                    TransitAccountEmail tae = new TransitAccountEmail();
+                    tae.Id = id;
+                    tae.Address = address;
+                    tae.Principal = true;
+                    SessionManager.AccountService.UpdateAccountEmail(SessionManager.Ticket, tae);
+                    gridManage_OnGetDataSource(sender, e);
+                    gridManage.DataBind();
+                }
+                break;
         }
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-        try
-        {
-            TransitAccountEmail te = new TransitAccountEmail();
-            te.Address = inputEmailAddress.Text;
-            SessionManager.AccountService.AddAccountEmail(SessionManager.Ticket, te);
-            ReportInfo("A confirmation has ben sent to '" + te.Address + "'.");
-            GetData(sender, e);
-            inputEmailAddress.Text = string.Empty;
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        TransitAccountEmail te = new TransitAccountEmail();
+        te.Address = inputEmailAddress.Text;
+        SessionManager.AccountService.AddAccountEmail(SessionManager.Ticket, te);
+        ReportInfo("A confirmation has ben sent to '" + te.Address + "'.");
+        GetData(sender, e);
+        inputEmailAddress.Text = string.Empty;
     }
 }

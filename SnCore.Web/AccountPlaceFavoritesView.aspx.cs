@@ -25,31 +25,24 @@ public partial class AccountPlaceFavoritesView : AccountPersonPage
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+        if (!IsPostBack)
         {
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
-            if (!IsPostBack)
-            {
-                object[] args = { RequestAccountId };
-                TransitAccount ta = SessionManager.GetCachedItem<TransitAccount>(
-                    SessionManager.AccountService, "GetAccountById", args);
+            object[] args = { RequestAccountId };
+            TransitAccount ta = SessionManager.GetCachedItem<TransitAccount>(
+                SessionManager.AccountService, "GetAccountById", args);
 
-                labelName.Text = string.Format("{0}'s Favorite Places", Render(ta.Name));
-                linkAccount.Text = string.Format("&#187; Back to {0}", Render(ta.Name));
-                linkAccount.NavigateUrl = string.Format("AccountView.aspx?id={0}", ta.Id);
-                linkRelRss.NavigateUrl = string.Format("AccountPlaceFavoritesRss.aspx?id={0}", ta.Id);
-                GetData(sender, e);
+            labelName.Text = string.Format("{0}'s Favorite Places", Render(ta.Name));
+            linkAccount.Text = string.Format("&#187; Back to {0}", Render(ta.Name));
+            linkAccount.NavigateUrl = string.Format("AccountView.aspx?id={0}", ta.Id);
+            linkRelRss.NavigateUrl = string.Format("AccountPlaceFavoritesRss.aspx?id={0}", ta.Id);
+            GetData(sender, e);
 
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode(ta.Name, Request, string.Format("AccountView.aspx?id={0}", ta.Id)));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Favorite Places", Request.Url));
-                StackSiteMap(sitemapdata);
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode(ta.Name, Request, string.Format("AccountView.aspx?id={0}", ta.Id)));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Favorite Places", Request.Url));
+            StackSiteMap(sitemapdata);
         }
     }
 
@@ -65,18 +58,11 @@ public partial class AccountPlaceFavoritesView : AccountPersonPage
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
-            ServiceQueryOptions options = new ServiceQueryOptions();
-            options.PageNumber = gridManage.CurrentPageIndex;
-            options.PageSize = gridManage.PageSize;
-            object[] args = { RequestAccountId, options };
-            gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountPlaceFavorite>(
-                SessionManager.PlaceService, "GetAccountPlaceFavoritesByAccountId", args);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageNumber = gridManage.CurrentPageIndex;
+        options.PageSize = gridManage.PageSize;
+        object[] args = { RequestAccountId, options };
+        gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountPlaceFavorite>(
+            SessionManager.PlaceService, "GetAccountPlaceFavoritesByAccountId", args);
     }
 }

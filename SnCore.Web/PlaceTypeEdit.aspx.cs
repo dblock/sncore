@@ -17,8 +17,6 @@ public partial class PlaceTypeEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             if (!IsPostBack)
             {
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
@@ -39,26 +37,14 @@ public partial class PlaceTypeEdit : AuthenticatedPage
             }
 
             SetDefaultButton(manageAdd);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-        try
-        {
             TransitPlaceType t = new TransitPlaceType();
             t.Name = inputName.Text;
             t.Id = RequestId;
             SessionManager.PlaceService.CreateOrUpdatePlaceType(SessionManager.Ticket, t);
             Redirect("PlaceTypesManage.aspx");
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 }

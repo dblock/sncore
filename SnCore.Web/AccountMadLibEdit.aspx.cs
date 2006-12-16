@@ -17,50 +17,36 @@ public partial class AccountMadLibEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Syndication", Request, "AccountFeedsManage.aspx"));
+
+            if (RequestId > 0)
             {
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Syndication", Request, "AccountFeedsManage.aspx"));
-
-                if (RequestId > 0)
-                {
-                    TransitMadLib t = SessionManager.MadLibService.GetMadLibById(RequestId);
-                    inputTemplate.Text = t.Template;
-                    inputName.Text = t.Name;
-                    sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
-                }
-                else
-                {
-                    sitemapdata.Add(new SiteMapDataAttributeNode("New MadLib", Request.Url));
-                }
-                StackSiteMap(sitemapdata);
+                TransitMadLib t = SessionManager.MadLibService.GetMadLibById(RequestId);
+                inputTemplate.Text = t.Template;
+                inputName.Text = t.Name;
+                sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
             }
+            else
+            {
+                sitemapdata.Add(new SiteMapDataAttributeNode("New MadLib", Request.Url));
+            }
+            StackSiteMap(sitemapdata);
+        }
 
-            SetDefaultButton(save);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        SetDefaultButton(save);
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-        try
-        {
-            TransitMadLib t = new TransitMadLib();
-            t.Id = RequestId;
-            t.Template = inputTemplate.Text;
-            t.Name = inputName.Text;
-            SessionManager.MadLibService.CreateOrUpdateMadLib(SessionManager.Ticket, t);
-            Redirect("AccountMadLibsManage.aspx");
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        TransitMadLib t = new TransitMadLib();
+        t.Id = RequestId;
+        t.Template = inputTemplate.Text;
+        t.Name = inputName.Text;
+        SessionManager.MadLibService.CreateOrUpdateMadLib(SessionManager.Ticket, t);
+        Redirect("AccountMadLibsManage.aspx");
     }
 }

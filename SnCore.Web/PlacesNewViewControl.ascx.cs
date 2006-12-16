@@ -29,8 +29,6 @@ public partial class PlacesNewViewControl : Control
 
     public void Page_Load()
     {
-        try
-        {
             if (!IsPostBack)
             {
                 object[] args = { Count };
@@ -39,10 +37,5 @@ public partial class PlacesNewViewControl : Control
                 Places.RepeatColumns = Count;
                 Places.DataBind();
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 }

@@ -16,8 +16,6 @@ public partial class AccountsViewList : Page
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             if (!IsPostBack)
             {
                 int pagenumber = int.Parse(Request["PageNumber"]);
@@ -39,10 +37,5 @@ public partial class AccountsViewList : Page
                     linkNext.HRef = string.Format("AccountsViewList.aspx?PageNumber={0}&PageSize={1}&PageCount={2}",
                         pagenumber + 1, pagesize, pagecount);
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 }

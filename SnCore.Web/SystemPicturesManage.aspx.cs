@@ -22,8 +22,6 @@ public partial class SystemPicturesManage : AuthenticatedPage
 {
     public void Page_Load()
     {
-        try
-        {
             this.addFile.Attributes["onclick"] = this.files.GetAddFileScriptReference() + "return false;";
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
@@ -41,23 +39,11 @@ public partial class SystemPicturesManage : AuthenticatedPage
                 sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request.Url));
                 StackSiteMap(sitemapdata);
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
             gridManage.DataSource = SessionManager.SystemService.GetPictures();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     private enum Cells
@@ -71,8 +57,6 @@ public partial class SystemPicturesManage : AuthenticatedPage
 
     public void gridManage_ItemCommand(object source, DataGridCommandEventArgs e)
     {
-        try
-        {
             switch (e.Item.ItemType)
             {
                 case ListItemType.AlternatingItem:
@@ -92,17 +76,10 @@ public partial class SystemPicturesManage : AuthenticatedPage
                     }
                     break;
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     protected void files_FilesPosted(object sender, FilesPostedEventArgs e)
     {
-        try
-        {
             if (e.PostedFiles.Count == 0)
                 return;
 
@@ -131,11 +108,6 @@ public partial class SystemPicturesManage : AuthenticatedPage
             gridManage_OnGetDataSource(sender, e);
             gridManage.DataBind();
             exceptions.Throw();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
 }

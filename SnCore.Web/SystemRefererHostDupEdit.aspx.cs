@@ -19,8 +19,6 @@ public partial class SystemRefererHostDupEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             if (!IsPostBack)
             {
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
@@ -43,27 +41,15 @@ public partial class SystemRefererHostDupEdit : AuthenticatedPage
             }
 
             SetDefaultButton(manageAdd);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-        try
-        {
             TransitRefererHostDup t = new TransitRefererHostDup();
             t.Host = inputHost.Text;
             t.RefererHost = inputRefererHost.Text;
             t.Id = RequestId;
             SessionManager.StatsService.CreateOrUpdateRefererHostDup(SessionManager.Ticket, t);
             Redirect("SystemRefererHostDupsManage.aspx");
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 }

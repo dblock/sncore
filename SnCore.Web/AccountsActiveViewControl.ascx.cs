@@ -29,20 +29,13 @@ public partial class AccountsActiveViewControl : Control
 
     public void Page_Load()
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
-            {
-                object[] args = { Count };
-                accounts.DataSource = SessionManager.GetCachedCollection<TransitAccount>(
-                    SessionManager.SocialService, "GetActiveAccounts", args);
-                accounts.RepeatColumns = Count;
-                accounts.DataBind();
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            object[] args = { Count };
+            accounts.DataSource = SessionManager.GetCachedCollection<TransitAccount>(
+                SessionManager.SocialService, "GetActiveAccounts", args);
+            accounts.RepeatColumns = Count;
+            accounts.DataBind();
         }
     }
 }

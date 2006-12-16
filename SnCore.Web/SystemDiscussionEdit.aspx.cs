@@ -17,8 +17,6 @@ public partial class SystemDiscussionEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             if (!IsPostBack)
             {
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
@@ -43,28 +41,16 @@ public partial class SystemDiscussionEdit : AuthenticatedPage
             }
 
             SetDefaultButton(manageAdd);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-        try
-        {
             TransitDiscussion tw = new TransitDiscussion();
             tw.Name = inputName.Text;
             tw.Description = inputDescription.Text;
             tw.Id = RequestId;
             SessionManager.DiscussionService.AddDiscussion(SessionManager.Ticket, tw);
             Redirect("SystemDiscussionsManage.aspx");
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
 
     }
 }

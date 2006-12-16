@@ -39,8 +39,6 @@ public partial class SystemAccountPropertyEdit : AuthenticatedPage
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             if (!IsPostBack)
             {
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
@@ -86,17 +84,10 @@ public partial class SystemAccountPropertyEdit : AuthenticatedPage
             }
 
             SetDefaultButton(manageAdd);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-        try
-        {
             TransitAccountProperty t = new TransitAccountProperty();
             t.Name = inputName.Text;
             t.Type = Type.GetType(inputTypeName.SelectedValue);
@@ -107,10 +98,5 @@ public partial class SystemAccountPropertyEdit : AuthenticatedPage
             t.Id = RequestId;
             SessionManager.AccountService.CreateOrUpdateAccountProperty(SessionManager.Ticket, t);
             Redirect(linkBack.NavigateUrl);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 }

@@ -67,147 +67,126 @@ public partial class DiscussionPostNew : AuthenticatedPage
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Discussions", Request, "DiscussionsView.aspx"));
+
+            this.addFile.Attributes["onclick"] = this.files.GetAddFileScriptReference() + "return false;";
+
+            linkCancel.NavigateUrl = ReturnUrl;
+
+            if (DiscussionId > 0)
             {
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Discussions", Request, "DiscussionsView.aspx"));
-
-                this.addFile.Attributes["onclick"] = this.files.GetAddFileScriptReference() + "return false;";
-
-                linkCancel.NavigateUrl = ReturnUrl;
-
-                if (DiscussionId > 0)
-                {
-                    TransitDiscussion td = SessionManager.DiscussionService.GetDiscussionById(DiscussionId);
-                    discussionLabelLink.Text = Renderer.Render(td.Name);
-                    discussionLabelLink.NavigateUrl = string.Format("DiscussionView.aspx?id={0}", td.Id);                    
-                    sitemapdata.Add(new SiteMapDataAttributeNode(td.Name, Request, string.Format("DiscussionView.aspx?id={0}", td.Id)));
-                }
-
-                StringBuilder body = new StringBuilder();
-
-                if (PostId > 0)
-                {
-                    TransitDiscussionPost tw = SessionManager.DiscussionService.GetDiscussionPostById(SessionManager.Ticket, PostId);
-                    titleNewPost.Text = Renderer.Render(tw.Subject);
-                    inputSubject.Text = tw.Subject;
-                    body.Append(tw.Body);
-                    sitemapdata.Add(new SiteMapDataAttributeNode(tw.Subject, Request.Url));
-                }
-                else
-                {
-                    sitemapdata.Add(new SiteMapDataAttributeNode("New Post", Request.Url));
-                }
-                
-                if (ParentId > 0)
-                {
-                    TransitDiscussionPost rp = SessionManager.DiscussionService.GetDiscussionPostById(SessionManager.Ticket, ParentId);
-                    panelReplyTo.Visible = true;
-                    replytoSenderName.NavigateUrl = accountlink.HRef = "AccountView.aspx?id=" + rp.AccountId.ToString();
-                    replytoSenderName.Text = replytoAccount.Text = Renderer.Render(rp.AccountName);
-                    replyToBody.Text = base.RenderEx(rp.Body);
-                    replytoCreated.Text = rp.Created.ToString();
-                    replytoImage.ImageUrl = "AccountPictureThumbnail.aspx?id=" + rp.AccountPictureId.ToString();
-                    replytoSubject.Text = Renderer.Render(rp.Subject);
-                    inputSubject.Text = rp.Subject.StartsWith("Re:") ? rp.Subject : "Re: " + rp.Subject;
-
-                    if (Quote)
-                    {
-                        body.AppendFormat("<P>[quote]<DIV>on {0} {1} wrote:</DIV><DIV>{2}</DIV>[/quote]</P>", 
-                            rp.Created.ToString("d"), rp.AccountName, rp.Body);
-                    }
-                }
-                
-                if ((PostId == 0) && ! string.IsNullOrEmpty(SessionManager.Account.Signature))
-                {
-                    body.Append("<BR /><BR />");
-                    body.Append("<P>");
-                    body.Append(Renderer.RenderEx(SessionManager.Account.Signature));
-                    body.Append("</P>");
-                }
-
-                inputBody.Text = body.ToString();
-
-                StackSiteMap(sitemapdata);
+                TransitDiscussion td = SessionManager.DiscussionService.GetDiscussionById(DiscussionId);
+                discussionLabelLink.Text = Renderer.Render(td.Name);
+                discussionLabelLink.NavigateUrl = string.Format("DiscussionView.aspx?id={0}", td.Id);
+                sitemapdata.Add(new SiteMapDataAttributeNode(td.Name, Request, string.Format("DiscussionView.aspx?id={0}", td.Id)));
             }
 
-            if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket))
-            {
-                ReportWarning("You don't have any verified e-mail addresses.\n" +
-                    "You must add/confirm a valid e-mail address before posting messages.");
+            StringBuilder body = new StringBuilder();
 
-                panelPost.Visible = false;
-                post.Enabled = false;
+            if (PostId > 0)
+            {
+                TransitDiscussionPost tw = SessionManager.DiscussionService.GetDiscussionPostById(SessionManager.Ticket, PostId);
+                titleNewPost.Text = Renderer.Render(tw.Subject);
+                inputSubject.Text = tw.Subject;
+                body.Append(tw.Body);
+                sitemapdata.Add(new SiteMapDataAttributeNode(tw.Subject, Request.Url));
+            }
+            else
+            {
+                sitemapdata.Add(new SiteMapDataAttributeNode("New Post", Request.Url));
             }
 
-            SetDefaultButton(post);
+            if (ParentId > 0)
+            {
+                TransitDiscussionPost rp = SessionManager.DiscussionService.GetDiscussionPostById(SessionManager.Ticket, ParentId);
+                panelReplyTo.Visible = true;
+                replytoSenderName.NavigateUrl = accountlink.HRef = "AccountView.aspx?id=" + rp.AccountId.ToString();
+                replytoSenderName.Text = replytoAccount.Text = Renderer.Render(rp.AccountName);
+                replyToBody.Text = base.RenderEx(rp.Body);
+                replytoCreated.Text = rp.Created.ToString();
+                replytoImage.ImageUrl = "AccountPictureThumbnail.aspx?id=" + rp.AccountPictureId.ToString();
+                replytoSubject.Text = Renderer.Render(rp.Subject);
+                inputSubject.Text = rp.Subject.StartsWith("Re:") ? rp.Subject : "Re: " + rp.Subject;
+
+                if (Quote)
+                {
+                    body.AppendFormat("<P>[quote]<DIV>on {0} {1} wrote:</DIV><DIV>{2}</DIV>[/quote]</P>",
+                        rp.Created.ToString("d"), rp.AccountName, rp.Body);
+                }
+            }
+
+            if ((PostId == 0) && !string.IsNullOrEmpty(SessionManager.Account.Signature))
+            {
+                body.Append("<BR /><BR />");
+                body.Append("<P>");
+                body.Append(Renderer.RenderEx(SessionManager.Account.Signature));
+                body.Append("</P>");
+            }
+
+            inputBody.Text = body.ToString();
+
+            StackSiteMap(sitemapdata);
         }
-        catch (Exception ex)
+
+        if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket))
         {
-            ReportException(ex);
+            ReportWarning("You don't have any verified e-mail addresses.\n" +
+                "You must add/confirm a valid e-mail address before posting messages.");
+
+            panelPost.Visible = false;
+            post.Enabled = false;
         }
+
+        SetDefaultButton(post);
     }
 
     public void post_Click(object sender, EventArgs e)
     {
-        try
-        {
-            TransitDiscussionPost tw = new TransitDiscussionPost();
-            tw.Subject = inputSubject.Text;
-            if (string.IsNullOrEmpty(tw.Subject)) tw.Subject = "Untitled";
-            tw.Body = inputBody.Text;
-            tw.Id = PostId;
-            tw.DiscussionPostParentId = ParentId;
-            tw.DiscussionId = DiscussionId;
-            SessionManager.DiscussionService.AddDiscussionPost(SessionManager.Ticket, tw);
-            Redirect(linkCancel.NavigateUrl);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        TransitDiscussionPost tw = new TransitDiscussionPost();
+        tw.Subject = inputSubject.Text;
+        if (string.IsNullOrEmpty(tw.Subject)) tw.Subject = "Untitled";
+        tw.Body = inputBody.Text;
+        tw.Id = PostId;
+        tw.DiscussionPostParentId = ParentId;
+        tw.DiscussionId = DiscussionId;
+        SessionManager.DiscussionService.AddDiscussionPost(SessionManager.Ticket, tw);
+        Redirect(linkCancel.NavigateUrl);
     }
 
     protected void files_FilesPosted(object sender, FilesPostedEventArgs e)
     {
-        try
-        {
-            if (e.PostedFiles.Count == 0)
-                return;
+        if (e.PostedFiles.Count == 0)
+            return;
 
-            ExceptionCollection exceptions = new ExceptionCollection();
-            foreach (HttpPostedFile file in e.PostedFiles)
+        ExceptionCollection exceptions = new ExceptionCollection();
+        foreach (HttpPostedFile file in e.PostedFiles)
+        {
+            try
             {
-                try
-                {
-                    TransitAccountPictureWithBitmap p = new TransitAccountPictureWithBitmap();
+                TransitAccountPictureWithBitmap p = new TransitAccountPictureWithBitmap();
 
-                    ThumbnailBitmap t = new ThumbnailBitmap(file.InputStream);
-                    p.Bitmap = t.Bitmap;
-                    p.Name = Path.GetFileName(file.FileName);
-                    p.Description = string.Empty;
-                    p.Hidden = true;
+                ThumbnailBitmap t = new ThumbnailBitmap(file.InputStream);
+                p.Bitmap = t.Bitmap;
+                p.Name = Path.GetFileName(file.FileName);
+                p.Description = string.Empty;
+                p.Hidden = true;
 
-                    int id = SessionManager.AccountService.AddAccountPicture(SessionManager.Ticket, p);
+                int id = SessionManager.AccountService.AddAccountPicture(SessionManager.Ticket, p);
 
-                    Size size = t.GetNewSize(new Size(200, 200));
+                Size size = t.GetNewSize(new Size(200, 200));
 
-                    inputBody.Text = string.Format("<a href=AccountPictureView.aspx?id={2}><img border=0 width={0} height={1} src=AccountPicture.aspx?id={2}></a>\n{3}",
-                        size.Width, size.Height, id, inputBody.Text);
-                }
-                catch (Exception ex)
-                {
-                    exceptions.Add(new Exception(string.Format("Error processing {0}: {1}",
-                        Renderer.Render(file.FileName), ex.Message), ex));
-                }
+                inputBody.Text = string.Format("<a href=AccountPictureView.aspx?id={2}><img border=0 width={0} height={1} src=AccountPicture.aspx?id={2}></a>\n{3}",
+                    size.Width, size.Height, id, inputBody.Text);
             }
-            exceptions.Throw();
+            catch (Exception ex)
+            {
+                exceptions.Add(new Exception(string.Format("Error processing {0}: {1}",
+                    Renderer.Render(file.FileName), ex.Message), ex));
+            }
         }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        exceptions.Throw();
     }
 }

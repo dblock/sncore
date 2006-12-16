@@ -16,36 +16,29 @@ public partial class AccountPlaceRequestEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
+            inputType.DataSource = SessionManager.PlaceService.GetAccountPlaceTypes();
+            inputType.DataBind();
+
+            if (ParentId != 0)
             {
-                inputType.DataSource = SessionManager.PlaceService.GetAccountPlaceTypes();
-                inputType.DataBind();
+                TransitPlace place = SessionManager.PlaceService.GetPlaceById(SessionManager.Ticket, ParentId);
+                linkPlace.NavigateUrl = string.Format("PlaceView.aspx?id={0}", place.Id);
+                linkBack.NavigateUrl = (string.IsNullOrEmpty(ReturnUrl)) ? linkPlace.NavigateUrl : ReturnUrl;
+                linkPlace.Text = Renderer.Render(place.Name);
+                imagePlace.ImageUrl = string.Format("PlacePictureThumbnail.aspx?id={0}", place.PictureId);
+                inputMessage.Text = "Hello,\n\nI work for this place and would like to manage content.\n\nThanks!\n";
 
-                if (ParentId != 0)
-                {
-                    TransitPlace place = SessionManager.PlaceService.GetPlaceById(SessionManager.Ticket, ParentId);
-                    linkPlace.NavigateUrl = string.Format("PlaceView.aspx?id={0}", place.Id);
-                    linkBack.NavigateUrl = (string.IsNullOrEmpty(ReturnUrl)) ? linkPlace.NavigateUrl : ReturnUrl;
-                    linkPlace.Text = Renderer.Render(place.Name);
-                    imagePlace.ImageUrl = string.Format("PlacePictureThumbnail.aspx?id={0}", place.PictureId);
-                    inputMessage.Text = "Hello,\n\nI work for this place and would like to manage content.\n\nThanks!\n";
-
-                    SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                    sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));
-                    sitemapdata.Add(new SiteMapDataAttributeNode(place.Name, Request, string.Format("PlaceView.aspx?id={0}", place.Id)));
-                    sitemapdata.Add(new SiteMapDataAttributeNode("Request Ownership", Request.Url));
-                    StackSiteMap(sitemapdata);
-                }
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(place.Name, Request, string.Format("PlaceView.aspx?id={0}", place.Id)));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Request Ownership", Request.Url));
+                StackSiteMap(sitemapdata);
             }
+        }
 
-            SetDefaultButton(manageAdd);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        SetDefaultButton(manageAdd);
     }
 
     public string ReturnUrl
@@ -60,21 +53,14 @@ public partial class AccountPlaceRequestEdit : AuthenticatedPage
 
     public void save_Click(object sender, EventArgs e)
     {
-        try
-        {
-            TransitAccountPlaceRequest request = new TransitAccountPlaceRequest();
-            request.AccountId = SessionManager.Account.Id;
-            request.Message = inputMessage.Text;
-            request.PlaceId = ParentId;
-            request.Type = inputType.SelectedValue;
-            SessionManager.PlaceService.CreateOrUpdateAccountPlaceRequest(SessionManager.Ticket, request);
-            panelRequest.Visible = false;
-            ReportInfo("Request sent.");
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        TransitAccountPlaceRequest request = new TransitAccountPlaceRequest();
+        request.AccountId = SessionManager.Account.Id;
+        request.Message = inputMessage.Text;
+        request.PlaceId = ParentId;
+        request.Type = inputType.SelectedValue;
+        SessionManager.PlaceService.CreateOrUpdateAccountPlaceRequest(SessionManager.Ticket, request);
+        panelRequest.Visible = false;
+        ReportInfo("Request sent.");
     }
 
     public int ParentId

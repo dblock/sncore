@@ -18,25 +18,18 @@ public partial class DiscussionView : Page
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
-            {
-                discussionMain.DiscussionId = RequestId;
-                discussionMain.DataBind();
+            discussionMain.DiscussionId = RequestId;
+            discussionMain.DataBind();
 
-                TransitDiscussion td = SessionManager.DiscussionService.GetDiscussionById(RequestId);
-                this.Title = Renderer.Render(td.Name);
+            TransitDiscussion td = SessionManager.DiscussionService.GetDiscussionById(RequestId);
+            this.Title = Renderer.Render(td.Name);
 
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Discussions", Request, "DiscussionsView.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode(td.Name, Request, string.Format("DiscussionView.aspx?id={0}", RequestId)));
-                StackSiteMap(sitemapdata);
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Discussions", Request, "DiscussionsView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode(td.Name, Request, string.Format("DiscussionView.aspx?id={0}", RequestId)));
+            StackSiteMap(sitemapdata);
         }
     }
 }

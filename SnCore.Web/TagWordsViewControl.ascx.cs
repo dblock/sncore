@@ -86,8 +86,6 @@ public partial class TagWordsViewControl : Control
 
     public void Page_Load()
     {
-        try
-        {
             if (!IsPostBack)
             {
                 ServiceQueryOptions options = new ServiceQueryOptions();
@@ -102,11 +100,6 @@ public partial class TagWordsViewControl : Control
                 tagwords.DataSource = words;
                 tagwords.DataBind();
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public int GetFontSize(int frequency)

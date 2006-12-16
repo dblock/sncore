@@ -41,46 +41,39 @@ public partial class AccountsView : AccountPersonPage
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        SetDefaultButton(search);
+
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+
+        if (!IsPostBack)
         {
-            SetDefaultButton(search);
+            ArrayList countries = new ArrayList();
+            countries.Add(new TransitCountry());
+            object[] c_args = { null };
+            countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(
+                SessionManager.LocationService, "GetCountries", c_args));
 
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+            ArrayList states = new ArrayList();
+            states.Add(new TransitState());
 
-            if (!IsPostBack)
+            inputCountry.DataSource = countries;
+            inputCountry.DataBind();
+
+            inputState.DataSource = states;
+            inputState.DataBind();
+
+            linkLocal.Visible = SessionManager.IsLoggedIn && !string.IsNullOrEmpty(SessionManager.Account.City);
+
+            if (SessionManager.IsLoggedIn)
             {
-                ArrayList countries = new ArrayList();
-                countries.Add(new TransitCountry());
-                object[] c_args = { null };
-                countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(
-                    SessionManager.LocationService, "GetCountries", c_args));
-
-                ArrayList states = new ArrayList();
-                states.Add(new TransitState());
-
-                inputCountry.DataSource = countries;
-                inputCountry.DataBind();
-
-                inputState.DataSource = states;
-                inputState.DataBind();
-
-                linkLocal.Visible = SessionManager.IsLoggedIn && !string.IsNullOrEmpty(SessionManager.Account.City);
-
-                if (SessionManager.IsLoggedIn)
-                {
-                    linkLocal.Text = string.Format("&#187; All {0} People", Renderer.Render(SessionManager.Account.City));
-                    SelectLocation(sender, new SelectLocationEventArgs(
-                        Request["country"],
-                        Request["state"],
-                        Request["city"]));
-                }
-
-                GetData();
+                linkLocal.Text = string.Format("&#187; All {0} People", Renderer.Render(SessionManager.Account.City));
+                SelectLocation(sender, new SelectLocationEventArgs(
+                    Request["country"],
+                    Request["state"],
+                    Request["city"]));
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+
+            GetData();
         }
     }
 
@@ -91,15 +84,8 @@ public partial class AccountsView : AccountPersonPage
 
     public void search_Click(object sender, EventArgs e)
     {
-        try
-        {
-            GetData();
-            panelGrid.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        GetData();
+        panelGrid.Update();
     }
 
     public int AccountsCount
@@ -126,21 +112,14 @@ public partial class AccountsView : AccountPersonPage
 
     public void inputCountry_SelectedIndexChanged(object sender, EventArgs e)
     {
-        try
-        {
-            ArrayList states = new ArrayList();
-            states.Add(new TransitState());
-            object[] args = { inputCountry.SelectedValue };
-            states.AddRange(SessionManager.GetCachedCollection<TransitState>(
-                SessionManager.LocationService, "GetStatesByCountry", args));
-            inputState.DataSource = states;
-            inputState.DataBind();
-            panelCountryState.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ArrayList states = new ArrayList();
+        states.Add(new TransitState());
+        object[] args = { inputCountry.SelectedValue };
+        states.AddRange(SessionManager.GetCachedCollection<TransitState>(
+            SessionManager.LocationService, "GetStatesByCountry", args));
+        inputState.DataSource = states;
+        inputState.DataBind();
+        panelCountryState.Update();
     }
 
     private AccountActivityQueryOptions GetQueryOptions()
@@ -160,33 +139,26 @@ public partial class AccountsView : AccountPersonPage
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
-            AccountActivityQueryOptions options = GetQueryOptions();
+        AccountActivityQueryOptions options = GetQueryOptions();
 
-            linkRelRss.NavigateUrl =
-                string.Format("AccountsRss.aspx?order={0}&asc={1}&pictures={2}&city={3}&country={4}&state={5}&name={6}&email={7}&bloggers={8}",
-                    options.SortOrder,
-                    options.SortAscending,
-                    options.PicturesOnly,
-                    options.City,
-                    options.Country,
-                    options.State,
-                    Renderer.UrlEncode(options.Name),
-                    Renderer.UrlEncode(options.Email),
-                    options.BloggersOnly);
+        linkRelRss.NavigateUrl =
+            string.Format("AccountsRss.aspx?order={0}&asc={1}&pictures={2}&city={3}&country={4}&state={5}&name={6}&email={7}&bloggers={8}",
+                options.SortOrder,
+                options.SortAscending,
+                options.PicturesOnly,
+                options.City,
+                options.Country,
+                options.State,
+                Renderer.UrlEncode(options.Name),
+                Renderer.UrlEncode(options.Email),
+                options.BloggersOnly);
 
-            ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
-            serviceoptions.PageSize = gridManage.PageSize;
-            serviceoptions.PageNumber = gridManage.CurrentPageIndex;
-            object[] args = { options, serviceoptions };
-            gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountActivity>(
-                SessionManager.SocialService, "GetAccountActivity", args);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
+        serviceoptions.PageSize = gridManage.PageSize;
+        serviceoptions.PageNumber = gridManage.CurrentPageIndex;
+        object[] args = { options, serviceoptions };
+        gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountActivity>(
+            SessionManager.SocialService, "GetAccountActivity", args);
     }
 
     public void SelectLocation(object sender, SelectLocationEventArgs e)
@@ -208,73 +180,45 @@ public partial class AccountsView : AccountPersonPage
 
     public void linkLocal_Click(object sender, EventArgs e)
     {
-        try
-        {
-            if (!SessionManager.IsLoggedIn)
-                return;
+        if (!SessionManager.IsLoggedIn)
+            return;
 
-            checkboxBloggersOnly.Checked = false;
-            checkboxPicturesOnly.Checked = false;
-            inputName.Text = string.Empty;
-            inputCity.Text = string.Empty;
-            SelectLocation(sender, new SelectLocationEventArgs(SessionManager.Account));
-            GetData();
-            panelSearch.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        checkboxBloggersOnly.Checked = false;
+        checkboxPicturesOnly.Checked = false;
+        inputName.Text = string.Empty;
+        inputCity.Text = string.Empty;
+        SelectLocation(sender, new SelectLocationEventArgs(SessionManager.Account));
+        GetData();
+        panelSearch.Update();
     }
 
     public void linkAll_Click(object sender, EventArgs e)
     {
-        try
-        {
-            checkboxBloggersOnly.Checked = false;
-            checkboxPicturesOnly.Checked = false;
-            inputCountry.ClearSelection();
-            inputState.ClearSelection();
-            inputCity.Text = string.Empty;
-            inputName.Text = string.Empty;
-            GetData();
-            panelSearch.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        checkboxBloggersOnly.Checked = false;
+        checkboxPicturesOnly.Checked = false;
+        inputCountry.ClearSelection();
+        inputState.ClearSelection();
+        inputCity.Text = string.Empty;
+        inputName.Text = string.Empty;
+        GetData();
+        panelSearch.Update();
     }
 
     public void linkBloggers_Click(object sender, EventArgs e)
     {
-        try
-        {
-            checkboxPicturesOnly.Checked = false;
-            checkboxBloggersOnly.Checked = true;
-            inputCountry.ClearSelection();
-            inputState.ClearSelection();
-            inputCity.Text = string.Empty;
-            inputName.Text = string.Empty;
-            GetData();
-            panelSearch.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        checkboxPicturesOnly.Checked = false;
+        checkboxBloggersOnly.Checked = true;
+        inputCountry.ClearSelection();
+        inputState.ClearSelection();
+        inputCity.Text = string.Empty;
+        inputName.Text = string.Empty;
+        GetData();
+        panelSearch.Update();
     }
 
     public void linkSearch_Click(object sender, EventArgs e)
     {
-        try
-        {
-            panelSearchInternal.PersistentVisible = !panelSearchInternal.PersistentVisible;
-            panelSearch.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        panelSearchInternal.PersistentVisible = !panelSearchInternal.PersistentVisible;
+        panelSearch.Update();
     }
 }

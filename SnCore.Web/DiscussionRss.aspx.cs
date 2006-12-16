@@ -102,10 +102,6 @@ public partial class DiscussionRss : Page
             Response.StatusCode = 404;
             Response.StatusDescription = Renderer.Render(ex.Message);
         }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     protected override void OnPreRender(EventArgs e)

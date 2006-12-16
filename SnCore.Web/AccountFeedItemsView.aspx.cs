@@ -20,31 +20,24 @@ public partial class AccountFeedItemsView : Page
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+        SetDefaultButton(search);
+        if (!IsPostBack)
         {
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
-            SetDefaultButton(search);
-            if (!IsPostBack)
+            if (!string.IsNullOrEmpty(Request.QueryString["q"]))
             {
-                if (!string.IsNullOrEmpty(Request.QueryString["q"]))
-                {
-                    inputSearch.Text = Request.QueryString["q"];
-                }
-
-                panelSearchInternal.Visible = ! string.IsNullOrEmpty(inputSearch.Text);
-                GetData();
+                inputSearch.Text = Request.QueryString["q"];
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+
+            panelSearchInternal.Visible = !string.IsNullOrEmpty(inputSearch.Text);
+            GetData();
         }
     }
 
     private void GetData()
     {
         gridManage.CurrentPageIndex = 0;
-        
+
         gridManage.VirtualItemCount = string.IsNullOrEmpty(inputSearch.Text)
             ? SessionManager.SyndicationService.GetAccountFeedItemsCount()
             : SessionManager.SyndicationService.SearchAccountFeedItemsCount(inputSearch.Text);
@@ -53,40 +46,26 @@ public partial class AccountFeedItemsView : Page
 
         labelCount.Text = string.Format("{0} post{1} from <a href='AccountFeedsView.aspx'>{2} blog{3}</a>",
             gridManage.VirtualItemCount, gridManage.VirtualItemCount == 1 ? string.Empty : "s",
-            feedsCount, feedsCount == 1 ? string.Empty : "s" );
-        
+            feedsCount, feedsCount == 1 ? string.Empty : "s");
+
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
-            ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
-            serviceoptions.PageSize = gridManage.PageSize;
-            serviceoptions.PageNumber = gridManage.CurrentPageIndex;
-            gridManage.DataSource = string.IsNullOrEmpty(inputSearch.Text)
-                ? SessionManager.SyndicationService.GetAccountFeedItems(serviceoptions)
-                : SessionManager.SyndicationService.SearchAccountFeedItems(inputSearch.Text, serviceoptions);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
+        serviceoptions.PageSize = gridManage.PageSize;
+        serviceoptions.PageNumber = gridManage.CurrentPageIndex;
+        gridManage.DataSource = string.IsNullOrEmpty(inputSearch.Text)
+            ? SessionManager.SyndicationService.GetAccountFeedItems(serviceoptions)
+            : SessionManager.SyndicationService.SearchAccountFeedItems(inputSearch.Text, serviceoptions);
     }
 
     protected void search_Click(object sender, EventArgs e)
     {
-        try
-        {
-            GetData();
-            panelLinks.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        GetData();
+        panelLinks.Update();
     }
 
     public string GetComments(int count)
@@ -106,15 +85,8 @@ public partial class AccountFeedItemsView : Page
 
     public void linkSearch_Click(object sender, EventArgs e)
     {
-        try
-        {
-            panelSearchInternal.PersistentVisible = !panelSearchInternal.PersistentVisible;
-            panelSearch.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        panelSearchInternal.PersistentVisible = !panelSearchInternal.PersistentVisible;
+        panelSearch.Update();
     }
 
     public void gridManage_DataBinding(object sender, EventArgs e)

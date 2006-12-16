@@ -23,6 +23,30 @@ public class Page : System.Web.UI.Page
     private HtmlMeta mMetaDescription = null;
     protected SessionManager mSessionManager = null;
 
+    protected override void OnInit(EventArgs e)
+    {
+        try
+        {
+            base.OnInit(e);
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
+    protected override void RaisePostBackEvent(IPostBackEventHandler sourceControl, string eventArgument)
+    {
+        try
+        {
+            base.RaisePostBackEvent(sourceControl, eventArgument);
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
     protected override void OnPreInit(EventArgs e)
     {
         System.Web.UI.MasterPage master = Master;
@@ -41,19 +65,26 @@ public class Page : System.Web.UI.Page
 
     protected override void OnLoad(EventArgs e)
     {
-        if (Header != null)
+        try
         {
-            Header.Controls.Add(MetaDescription);
-        }
+            if (Header != null)
+            {
+                Header.Controls.Add(MetaDescription);
+            }
 
-        SiteMapDataAttribute[] attributes = (SiteMapDataAttribute[]) this.GetType().GetCustomAttributes(typeof(SiteMapDataAttribute), true);
-        if (attributes != null && attributes.Length > 0)
+            SiteMapDataAttribute[] attributes = (SiteMapDataAttribute[])this.GetType().GetCustomAttributes(typeof(SiteMapDataAttribute), true);
+            if (attributes != null && attributes.Length > 0)
+            {
+                SiteMapDataAttribute attribute = attributes[0];
+                StackSiteMap(attribute, Request.Url.PathAndQuery);
+            }
+
+            base.OnLoad(e);
+        }
+        catch (Exception ex)
         {
-            SiteMapDataAttribute attribute = attributes[0];
-            StackSiteMap(attribute, Request.Url.PathAndQuery);
+            ReportException(ex);
         }
-
-        base.OnLoad(e);
     }
 
     public SiteMapNode StackSiteMap(SiteMapDataAttribute attribute)

@@ -30,47 +30,33 @@ public partial class PlacePropertyGroupsViewControl : Control
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
-            {
-                groups.DataSource = SessionManager.GetCachedCollection<TransitPlacePropertyGroup>(
-                    SessionManager.PlaceService, "GetPlacePropertyGroups", null);
-                groups.DataBind();
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            groups.DataSource = SessionManager.GetCachedCollection<TransitPlacePropertyGroup>(
+                SessionManager.PlaceService, "GetPlacePropertyGroups", null);
+            groups.DataBind();
         }
     }
 
     public void groups_ItemCreated(object sender, DataGridItemEventArgs e)
     {
-        try
+        switch (e.Item.ItemType)
         {
-            switch (e.Item.ItemType)
-            {
-                case ListItemType.Item:
-                case ListItemType.AlternatingItem:
-                case ListItemType.SelectedItem:
-                    DataGrid values = (DataGrid)e.Item.FindControl("values");
-                    TransitPlacePropertyGroup group = (TransitPlacePropertyGroup) e.Item.DataItem;
-                    if (group != null)
-                    {
-                        object[] args = { PlaceId, group.Id };
-                        List<TransitPlacePropertyValue> propertyvalues = SessionManager.GetCachedCollection<TransitPlacePropertyValue>(
-                            SessionManager.PlaceService, "GetPlacePropertyValuesById", args);
-                        values.DataSource = propertyvalues;
-                        HtmlControl title = (HtmlControl)e.Item.FindControl("title");
-                        title.Visible = (propertyvalues.Count > 0);
-                    }
-                    break;
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            case ListItemType.Item:
+            case ListItemType.AlternatingItem:
+            case ListItemType.SelectedItem:
+                DataGrid values = (DataGrid)e.Item.FindControl("values");
+                TransitPlacePropertyGroup group = (TransitPlacePropertyGroup)e.Item.DataItem;
+                if (group != null)
+                {
+                    object[] args = { PlaceId, group.Id };
+                    List<TransitPlacePropertyValue> propertyvalues = SessionManager.GetCachedCollection<TransitPlacePropertyValue>(
+                        SessionManager.PlaceService, "GetPlacePropertyValuesById", args);
+                    values.DataSource = propertyvalues;
+                    HtmlControl title = (HtmlControl)e.Item.FindControl("title");
+                    title.Visible = (propertyvalues.Count > 0);
+                }
+                break;
         }
     }
 
@@ -78,7 +64,7 @@ public partial class PlacePropertyGroupsViewControl : Control
     {
         StringBuilder sb = new StringBuilder();
         string[] arr = value.Split("\"".ToCharArray());
-        foreach(string s in arr)
+        foreach (string s in arr)
         {
             if (string.IsNullOrEmpty(s))
                 continue;

@@ -15,8 +15,6 @@ public partial class SystemStatesManage : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
             if (!IsPostBack)
@@ -28,11 +26,6 @@ public partial class SystemStatesManage : AuthenticatedPage
                 sitemapdata.Add(new SiteMapDataAttributeNode("States", Request.Url));
                 StackSiteMap(sitemapdata);
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void GetData(object sender, EventArgs e)
@@ -58,8 +51,6 @@ public partial class SystemStatesManage : AuthenticatedPage
 
     public void gridManage_ItemCommand(object source, DataGridCommandEventArgs e)
     {
-        try
-        {
             switch (e.Item.ItemType)
             {
                 case ListItemType.AlternatingItem:
@@ -80,10 +71,5 @@ public partial class SystemStatesManage : AuthenticatedPage
                     }
                     break;
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 }

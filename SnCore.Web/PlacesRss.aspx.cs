@@ -98,8 +98,6 @@ public partial class PlacesRss : Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             if (!IsPostBack)
             {
                 TransitPlaceQueryOptions options = new TransitPlaceQueryOptions();
@@ -119,11 +117,6 @@ public partial class PlacesRss : Page
                 rssRepeater.DataSource = SessionManager.PlaceService.GetPlaces(options, queryoptions);
                 rssRepeater.DataBind();
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public string WebsiteUrl

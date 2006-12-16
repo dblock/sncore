@@ -18,18 +18,10 @@ public partial class EmailAccountPasswordReset : AuthenticatedPage
     {
         get
         {
-            try
+            if (mAccount == null)
             {
-                if (mAccount == null)
-                {
-                    mAccount = SessionManager.AccountService.GetAccountById(RequestId);
-                }
+                mAccount = SessionManager.AccountService.GetAccountById(RequestId);
             }
-            catch (Exception ex)
-            {
-                ReportException(ex);
-            }
-
             return mAccount;
         }
     }

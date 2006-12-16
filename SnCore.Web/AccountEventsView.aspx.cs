@@ -56,45 +56,38 @@ public partial class AccountEventsView : Page
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+
+        if (!IsPostBack)
         {
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+            ArrayList types = new ArrayList();
+            types.Add(new TransitAccountEventType());
+            types.AddRange(SessionManager.GetCachedCollection<TransitAccountEventType>(
+                SessionManager.EventService, "GetAccountEventTypes", null));
+            inputType.DataSource = types;
+            inputType.DataBind();
 
-            if (!IsPostBack)
+            ArrayList countries = new ArrayList();
+            countries.Add(new TransitCountry());
+            object[] c_args = { null };
+            countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(
+                SessionManager.LocationService, "GetCountries", c_args));
+            inputCountry.DataSource = countries;
+            inputCountry.DataBind();
+
+            if (SessionManager.IsLoggedIn && (Request.QueryString.Count == 0))
             {
-                ArrayList types = new ArrayList();
-                types.Add(new TransitAccountEventType());
-                types.AddRange(SessionManager.GetCachedCollection<TransitAccountEventType>(
-                    SessionManager.EventService, "GetAccountEventTypes", null));
-                inputType.DataSource = types;
-                inputType.DataBind();
-
-                ArrayList countries = new ArrayList();
-                countries.Add(new TransitCountry());
-                object[] c_args = { null };
-                countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(
-                    SessionManager.LocationService, "GetCountries", c_args));
-                inputCountry.DataSource = countries;
-                inputCountry.DataBind();
-
-                if (SessionManager.IsLoggedIn && (Request.QueryString.Count == 0))
-                {
-                    SelectLocation(sender, new SelectLocationEventArgs(SessionManager.Account));
-                }
-                else
-                {
-                    SelectLocation(sender, new SelectLocationEventArgs(Request));
-                }
-
-                GetData();
+                SelectLocation(sender, new SelectLocationEventArgs(SessionManager.Account));
+            }
+            else
+            {
+                SelectLocation(sender, new SelectLocationEventArgs(Request));
             }
 
-            SetDefaultButton(search);
+            GetData();
         }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+
+        SetDefaultButton(search);
     }
 
     private void GetData()
@@ -111,58 +104,37 @@ public partial class AccountEventsView : Page
 
     public void inputCountry_SelectedIndexChanged(object sender, EventArgs e)
     {
-        try
-        {
-            ArrayList states = new ArrayList();
-            states.Add(new TransitState());
-            object[] args = { inputCountry.SelectedValue };
-            states.AddRange(SessionManager.GetCachedCollection<TransitState>(
-                SessionManager.LocationService, "GetStatesByCountry", args));
-            inputState.DataSource = states;
-            inputState.DataBind();
-            inputState_SelectedIndexChanged(sender, e);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ArrayList states = new ArrayList();
+        states.Add(new TransitState());
+        object[] args = { inputCountry.SelectedValue };
+        states.AddRange(SessionManager.GetCachedCollection<TransitState>(
+            SessionManager.LocationService, "GetStatesByCountry", args));
+        inputState.DataSource = states;
+        inputState.DataBind();
+        inputState_SelectedIndexChanged(sender, e);
     }
 
 
     public void inputState_SelectedIndexChanged(object sender, EventArgs e)
     {
-        try
-        {
-            ArrayList cities = new ArrayList();
-            cities.Add(new TransitCity());
-            object[] args = { inputCountry.SelectedValue, inputState.SelectedValue };
-            cities.AddRange(SessionManager.GetCachedCollection<TransitCity>(
-                SessionManager.LocationService, "GetCitiesByLocation", args));
-            inputCity.DataSource = cities;
-            inputCity.DataBind();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ArrayList cities = new ArrayList();
+        cities.Add(new TransitCity());
+        object[] args = { inputCountry.SelectedValue, inputState.SelectedValue };
+        cities.AddRange(SessionManager.GetCachedCollection<TransitCity>(
+            SessionManager.LocationService, "GetCitiesByLocation", args));
+        inputCity.DataSource = cities;
+        inputCity.DataBind();
     }
 
     public void inputCity_SelectedIndexChanged(object sender, EventArgs e)
     {
-        try
-        {
-            ArrayList neighborhoods = new ArrayList();
-            neighborhoods.Add(new TransitNeighborhood());
-            object[] args = { inputCountry.SelectedValue, inputState.SelectedValue, inputCity.SelectedValue };
-            neighborhoods.AddRange(SessionManager.GetCachedCollection<TransitNeighborhood>(
-                SessionManager.LocationService, "GetNeighborhoodsByLocation", args));
-            inputNeighborhood.DataSource = neighborhoods;
-            inputNeighborhood.DataBind();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ArrayList neighborhoods = new ArrayList();
+        neighborhoods.Add(new TransitNeighborhood());
+        object[] args = { inputCountry.SelectedValue, inputState.SelectedValue, inputCity.SelectedValue };
+        neighborhoods.AddRange(SessionManager.GetCachedCollection<TransitNeighborhood>(
+            SessionManager.LocationService, "GetNeighborhoodsByLocation", args));
+        inputNeighborhood.DataSource = neighborhoods;
+        inputNeighborhood.DataBind();
     }
 
     private TransitAccountEventQueryOptions QueryOptions
@@ -187,32 +159,25 @@ public partial class AccountEventsView : Page
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
-            TransitAccountEventQueryOptions options = QueryOptions;
+        TransitAccountEventQueryOptions options = QueryOptions;
 
-            linkRelRss.NavigateUrl =
-                string.Format("AccountEventsRss.aspx?order={0}&asc={1}&city={2}&country={3}&state={4}&name={5}&type={6}&neighborhood={7}",
-                    Renderer.UrlEncode(QueryOptions.SortOrder),
-                    Renderer.UrlEncode(QueryOptions.SortAscending),
-                    Renderer.UrlEncode(QueryOptions.City),
-                    Renderer.UrlEncode(QueryOptions.Country),
-                    Renderer.UrlEncode(QueryOptions.State),
-                    Renderer.UrlEncode(QueryOptions.Name),
-                    Renderer.UrlEncode(QueryOptions.Type),
-                    Renderer.UrlEncode(QueryOptions.Neighborhood));
+        linkRelRss.NavigateUrl =
+            string.Format("AccountEventsRss.aspx?order={0}&asc={1}&city={2}&country={3}&state={4}&name={5}&type={6}&neighborhood={7}",
+                Renderer.UrlEncode(QueryOptions.SortOrder),
+                Renderer.UrlEncode(QueryOptions.SortAscending),
+                Renderer.UrlEncode(QueryOptions.City),
+                Renderer.UrlEncode(QueryOptions.Country),
+                Renderer.UrlEncode(QueryOptions.State),
+                Renderer.UrlEncode(QueryOptions.Name),
+                Renderer.UrlEncode(QueryOptions.Type),
+                Renderer.UrlEncode(QueryOptions.Neighborhood));
 
-            ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
-            serviceoptions.PageSize = gridManage.PageSize;
-            serviceoptions.PageNumber = gridManage.CurrentPageIndex;
-            object[] args = { SessionManager.Ticket, SessionManager.UtcOffset, options, serviceoptions };
-            gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountEvent>(
-                SessionManager.EventService, "GetAllAccountEvents", args);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
+        serviceoptions.PageSize = gridManage.PageSize;
+        serviceoptions.PageNumber = gridManage.CurrentPageIndex;
+        object[] args = { SessionManager.Ticket, SessionManager.UtcOffset, options, serviceoptions };
+        gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountEvent>(
+            SessionManager.EventService, "GetAllAccountEvents", args);
     }
 
     public void SelectLocation(object sender, SelectLocationEventArgs e)
@@ -248,35 +213,21 @@ public partial class AccountEventsView : Page
 
     public void search_Click(object sender, EventArgs e)
     {
-        try
-        {
-            GetData();
-            panelGrid.Update();
-            panelLinks.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        GetData();
+        panelGrid.Update();
+        panelLinks.Update();
     }
 
     public void linkShowAll_Click(object sender, EventArgs e)
     {
-        try
-        {
-            inputName.Text = string.Empty;
-            inputCountry.ClearSelection();
-            inputState.ClearSelection();
-            inputCity.ClearSelection();
-            inputNeighborhood.ClearSelection();
-            inputType.ClearSelection();
-            GetData();
-            panelSearch.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        inputName.Text = string.Empty;
+        inputCountry.ClearSelection();
+        inputState.ClearSelection();
+        inputCity.ClearSelection();
+        inputNeighborhood.ClearSelection();
+        inputType.ClearSelection();
+        GetData();
+        panelSearch.Update();
     }
 
     public void gridManage_DataBinding(object sender, EventArgs e)
@@ -286,14 +237,7 @@ public partial class AccountEventsView : Page
 
     public void linkSearch_Click(object sender, EventArgs e)
     {
-        try
-        {
-            panelSearchInternal.PersistentVisible = !panelSearchInternal.PersistentVisible;
-            panelSearch.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        panelSearchInternal.PersistentVisible = !panelSearchInternal.PersistentVisible;
+        panelSearch.Update();
     }
 }

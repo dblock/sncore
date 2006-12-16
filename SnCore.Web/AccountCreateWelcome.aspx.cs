@@ -16,16 +16,9 @@ public partial class AccountCreateWelcome : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {            
-            if (!IsPostBack)
-            {
-                labelAccountName.Text = Render(SessionManager.Account.Name);
-            }
-        }
-        catch (Exception ex)
+        if (!IsPostBack)
         {
-            ReportException(ex);
+            labelAccountName.Text = Render(SessionManager.Account.Name);
         }
     }
 }

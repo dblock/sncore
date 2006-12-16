@@ -19,8 +19,6 @@ public partial class SystemRefererAccountEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             if (!IsPostBack)
             {
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
@@ -43,27 +41,15 @@ public partial class SystemRefererAccountEdit : AuthenticatedPage
             }
 
             SetDefaultButton(manageAdd);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-        try
-        {
             TransitRefererAccount t = new TransitRefererAccount();
             t.RefererHostName = inputRefererHost.Text;
             t.AccountId = int.Parse(inputAccount.Text);
             t.Id = RequestId;
             SessionManager.StatsService.CreateOrUpdateRefererAccount(SessionManager.Ticket, t);
             Redirect("SystemRefererAccountsManage.aspx");
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 }

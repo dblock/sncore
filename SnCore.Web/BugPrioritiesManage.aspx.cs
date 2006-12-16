@@ -14,37 +14,23 @@ public partial class BugPrioritiesManage : AuthenticatedPage
 {
     public void Page_Load()
     {
-        try
-        {
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
-            if (!IsPostBack)
-            {
-                gridManage_OnGetDataSource(this, null);
-                gridManage.DataBind();
-
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Bugs", Request, "BugProjectsManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Priorities", Request.Url));
-                StackSiteMap(sitemapdata);
-            }
-        }
-        catch (Exception ex)
+        if (!IsPostBack)
         {
-            ReportException(ex);
+            gridManage_OnGetDataSource(this, null);
+            gridManage.DataBind();
+
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Bugs", Request, "BugProjectsManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Priorities", Request.Url));
+            StackSiteMap(sitemapdata);
         }
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
-            gridManage.DataSource = SessionManager.BugService.GetBugPriorities();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        gridManage.DataSource = SessionManager.BugService.GetBugPriorities();
     }
 
     private enum Cells
@@ -58,31 +44,24 @@ public partial class BugPrioritiesManage : AuthenticatedPage
 
     public void gridManage_ItemCommand(object source, DataGridCommandEventArgs e)
     {
-        try
+        switch (e.Item.ItemType)
         {
-            switch (e.Item.ItemType)
-            {
-                case ListItemType.AlternatingItem:
-                case ListItemType.Item:
-                case ListItemType.SelectedItem:
-                case ListItemType.EditItem:
-                    int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                    switch (e.CommandName)
-                    {
-                        case "Delete":
-                            SessionManager.BugService.DeleteBugPriority(SessionManager.Ticket, id);
-                            ReportInfo("Bug priority deleted.");
-                            gridManage.CurrentPageIndex = 0;
-                            gridManage_OnGetDataSource(source, e);
-                            gridManage.DataBind();
-                            break;
-                    }
-                    break;
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            case ListItemType.AlternatingItem:
+            case ListItemType.Item:
+            case ListItemType.SelectedItem:
+            case ListItemType.EditItem:
+                int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
+                switch (e.CommandName)
+                {
+                    case "Delete":
+                        SessionManager.BugService.DeleteBugPriority(SessionManager.Ticket, id);
+                        ReportInfo("Bug priority deleted.");
+                        gridManage.CurrentPageIndex = 0;
+                        gridManage_OnGetDataSource(source, e);
+                        gridManage.DataBind();
+                        break;
+                }
+                break;
         }
     }
 }

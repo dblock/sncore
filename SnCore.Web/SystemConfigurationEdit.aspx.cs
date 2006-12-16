@@ -17,8 +17,6 @@ public partial class SystemConfigurationEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             if (!IsPostBack)
             {
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
@@ -44,17 +42,10 @@ public partial class SystemConfigurationEdit : AuthenticatedPage
             }
 
             SetDefaultButton(manageAdd);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-        try
-        {
             TransitConfiguration tw = new TransitConfiguration();
             tw.Name = inputName.Text;
             tw.Id = RequestId;
@@ -63,11 +54,6 @@ public partial class SystemConfigurationEdit : AuthenticatedPage
             SessionManager.SystemService.AddConfiguration(SessionManager.Ticket, tw);
             Page.Cache.Remove(string.Format("settings:{0}", tw.Name));
             Redirect("SystemConfigurationsManage.aspx");
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
 
     }
 }

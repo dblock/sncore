@@ -38,24 +38,17 @@ public partial class AccountTimeZoneControl : Control
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
+            if (SessionManager.IsLoggedIn && SessionManager.Account.TimeZone >= 0)
             {
-                if (SessionManager.IsLoggedIn && SessionManager.Account.TimeZone >= 0)
-                {
-                    TimeZoneInformation tz = TimeZoneInformation.FromIndex(SessionManager.Account.TimeZone);
-                    labelTimeZone.Text = tz.DisplayName;
-                }
-                else
-                {
-                    labelTimeZone.Text = string.Format("UTC {0} (Browser TimeZone)", SessionManager.BrowserUtcOffset);
-                }
+                TimeZoneInformation tz = TimeZoneInformation.FromIndex(SessionManager.Account.TimeZone);
+                labelTimeZone.Text = tz.DisplayName;
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            else
+            {
+                labelTimeZone.Text = string.Format("UTC {0} (Browser TimeZone)", SessionManager.BrowserUtcOffset);
+            }
         }
     }
 }

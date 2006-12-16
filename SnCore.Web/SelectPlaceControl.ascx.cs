@@ -61,8 +61,6 @@ public partial class SelectPlaceControl : Control
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             PageManager.SetDefaultButton(buttonLookup, panelLookup.Controls);
 
             if (!IsPostBack)
@@ -106,11 +104,6 @@ public partial class SelectPlaceControl : Control
             }
 
             UpdateEvents();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void SavePlace(object sender, EventArgs e)
@@ -207,8 +200,6 @@ public partial class SelectPlaceControl : Control
 
     public void lookupChoose_Command(object sender, CommandEventArgs e)
     {
-        try
-        {
             object[] args = { SessionManager.Ticket, int.Parse(e.CommandArgument.ToString()) };
             Place = SessionManager.GetCachedItem<TransitPlace>(
                 SessionManager.PlaceService, "GetPlaceById", args);
@@ -221,17 +212,10 @@ public partial class SelectPlaceControl : Control
             addPlace.Enabled = true;
             IsChosen = true;
             panelSelectPlace.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void buttonLookup_Click(object sender, EventArgs e)
     {
-        try
-        {
             if (string.IsNullOrEmpty(inputLookupName.Text))
             {
                 labelLookup.Text = "Please enter a name.";
@@ -257,28 +241,16 @@ public partial class SelectPlaceControl : Control
             }
 
             panelSelectPlace.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void inputCountry_SelectedIndexChanged(object sender, EventArgs e)
     {
-        try
-        {
             object[] args = { inputCountry.SelectedValue };
             inputState.DataSource = SessionManager.GetCachedCollection<TransitState>(
                 SessionManager.LocationService, "GetStatesByCountry", args);
             inputState.DataBind();
 
             panelSelectCountryState.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void SelectLocation(object sender, SelectLocationEventArgs e)

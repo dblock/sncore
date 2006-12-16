@@ -54,16 +54,9 @@ public partial class AccountPropertyValueViewControl : Control
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
-            object[] args = { AccountId, GroupName, PropertyName };
-            TransitAccountPropertyValue tppv = SessionManager.GetCachedItem<TransitAccountPropertyValue>(
-                SessionManager.AccountService, "GetAccountPropertyValueByName", args);
-            labelValue.Text = RenderEx(tppv.Value);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        object[] args = { AccountId, GroupName, PropertyName };
+        TransitAccountPropertyValue tppv = SessionManager.GetCachedItem<TransitAccountPropertyValue>(
+            SessionManager.AccountService, "GetAccountPropertyValueByName", args);
+        labelValue.Text = RenderEx(tppv.Value);
     }
 }

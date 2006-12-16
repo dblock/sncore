@@ -17,28 +17,21 @@ public partial class AccountStoryPictureView : Page
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        picturesView.OnGetDataSource += new EventHandler(picturesView_OnGetDataSource);
+        if (!IsPostBack)
         {
-            picturesView.OnGetDataSource += new EventHandler(picturesView_OnGetDataSource);
-            if (!IsPostBack)
-            {
-                mPictureId = RequestId;
-                GetPictureData(sender, e);
-                GetPicturesData(sender, e);
+            mPictureId = RequestId;
+            GetPictureData(sender, e);
+            GetPicturesData(sender, e);
 
-                TransitAccountStoryPicture p = AccountStoryPicture;
-                TransitAccountStory s = AccountStory;
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Stories", Request, "AccountStoriesView.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode(s.Name, Request, string.Format("AccountStoryView.aspx?id={0}", s.Id)));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request, string.Format("AccountStoryPicturesView.aspx?id={0}", s.Id)));
-                sitemapdata.Add(new SiteMapDataAttributeNode(p.Name, Request.Url));
-                StackSiteMap(sitemapdata);
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            TransitAccountStoryPicture p = AccountStoryPicture;
+            TransitAccountStory s = AccountStory;
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Stories", Request, "AccountStoriesView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode(s.Name, Request, string.Format("AccountStoryView.aspx?id={0}", s.Id)));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request, string.Format("AccountStoryPicturesView.aspx?id={0}", s.Id)));
+            sitemapdata.Add(new SiteMapDataAttributeNode(p.Name, Request.Url));
+            StackSiteMap(sitemapdata);
         }
 
     }
@@ -90,7 +83,7 @@ public partial class AccountStoryPictureView : Page
     }
 
     void GetPicturesData(object sender, EventArgs e)
-    {        
+    {
         object[] p_args = { AccountStory.Id };
         picturesView.CurrentPageIndex = 0;
         picturesView.VirtualItemCount = SessionManager.GetCachedCollectionCount(
@@ -110,7 +103,7 @@ public partial class AccountStoryPictureView : Page
 
         TransitAccountStory l = AccountStory;
 
-        labelAccountStoryName.Text = this.Title = string.Format("{0}: {1}", 
+        labelAccountStoryName.Text = this.Title = string.Format("{0}: {1}",
             Renderer.Render(l.Name), string.IsNullOrEmpty(p.Name) ? "Untitled" : Renderer.Render(p.Name));
 
         linkBack.NavigateUrl = string.Format("AccountStoryView.aspx?id={0}", l.Id);
@@ -132,35 +125,21 @@ public partial class AccountStoryPictureView : Page
 
     public void picturesView_ItemCommand(object source, CommandEventArgs e)
     {
-        try
+        switch (e.CommandName)
         {
-            switch (e.CommandName)
-            {
-                case "Picture":
-                    mPictureId = int.Parse(e.CommandArgument.ToString());
-                    GetPictureData(source, e);
-                    break;
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            case "Picture":
+                mPictureId = int.Parse(e.CommandArgument.ToString());
+                GetPictureData(source, e);
+                break;
         }
     }
 
     void picturesView_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
-            ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
-            object[] args = { AccountStory.Id, options };
-            picturesView.DataSource = SessionManager.GetCachedCollection<TransitAccountStoryPicture>(
-                SessionManager.StoryService, "GetAccountStoryPicturesById", args);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
+        object[] args = { AccountStory.Id, options };
+        picturesView.DataSource = SessionManager.GetCachedCollection<TransitAccountStoryPicture>(
+            SessionManager.StoryService, "GetAccountStoryPicturesById", args);
     }
 
 }

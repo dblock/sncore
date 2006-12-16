@@ -15,8 +15,6 @@ public partial class SystemDiscussionsManage : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
             if (!IsPostBack)
             {
@@ -27,11 +25,6 @@ public partial class SystemDiscussionsManage : AuthenticatedPage
                 sitemapdata.Add(new SiteMapDataAttributeNode("Discussions", Request.Url));
                 StackSiteMap(sitemapdata);
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     private void GetData(object sender, EventArgs e)
@@ -56,8 +49,6 @@ public partial class SystemDiscussionsManage : AuthenticatedPage
 
     public void gridManage_ItemCommand(object sender, DataGridCommandEventArgs e)
     {
-        try
-        {
             switch (e.CommandName)
             {
                 case "Delete":
@@ -67,10 +58,5 @@ public partial class SystemDiscussionsManage : AuthenticatedPage
                     GetData(sender, e);
                     break;
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 }

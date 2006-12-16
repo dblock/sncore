@@ -18,32 +18,17 @@ public partial class EmailBugClosed : AuthenticatedPage
     {
         get
         {
-            try
+            if (mBug == null)
             {
-                if (mBug == null)
-                {
-                    mBug = SessionManager.BugService.GetBugById(RequestId);
-                }
+                mBug = SessionManager.BugService.GetBugById(RequestId);
             }
-            catch (Exception ex)
-            {
-                ReportException(ex);
-            }
-
             return mBug;
         }
     }
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
-            Title = string.Format("{0} #{1} has been resolved and closed.", Bug.Type, Bug.Id);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        Title = string.Format("{0} #{1} has been resolved and closed.", Bug.Type, Bug.Id);
     }
 }
 

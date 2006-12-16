@@ -16,8 +16,6 @@ public partial class SystemPictureTypeEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             if (!IsPostBack)
             {
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
@@ -39,26 +37,14 @@ public partial class SystemPictureTypeEdit : AuthenticatedPage
             }
 
             SetDefaultButton(manageAdd);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-        try
-        {
             TransitPictureType t = new TransitPictureType();
             t.Name = inputName.Text;
             t.Id = RequestId;
             SessionManager.SystemService.CreateOrUpdatePictureType(SessionManager.Ticket, t);
             Redirect("SystemPictureTypesManage.aspx");
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 }

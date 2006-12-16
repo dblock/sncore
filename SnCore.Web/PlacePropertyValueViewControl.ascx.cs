@@ -54,16 +54,9 @@ public partial class PlacePropertyValueViewControl : Control
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
-            object[] args = { PlaceId, GroupName, PropertyName };
-            TransitPlacePropertyValue tppv = SessionManager.GetCachedItem < TransitPlacePropertyValue>(
-                SessionManager.PlaceService, "GetPlacePropertyValueByName", args);
-            labelValue.Text = RenderEx(tppv.Value);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        object[] args = { PlaceId, GroupName, PropertyName };
+        TransitPlacePropertyValue tppv = SessionManager.GetCachedItem<TransitPlacePropertyValue>(
+            SessionManager.PlaceService, "GetPlacePropertyValueByName", args);
+        labelValue.Text = RenderEx(tppv.Value);
     }
 }

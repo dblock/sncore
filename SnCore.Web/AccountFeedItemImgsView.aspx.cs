@@ -33,23 +33,16 @@ public partial class AccountFeedItemImgsView : AccountPersonPage
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+        if (!IsPostBack)
         {
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
-            if (!IsPostBack)
-            {
-                linkEdit.Visible = SessionManager.IsAdministrator;
-                GetData();
+            linkEdit.Visible = SessionManager.IsAdministrator;
+            GetData();
 
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Blogs", Request, "AccountFeedItemsView.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request.Url));
-                StackSiteMap(sitemapdata);
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Blogs", Request, "AccountFeedItemsView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request.Url));
+            StackSiteMap(sitemapdata);
         }
     }
 
@@ -72,16 +65,9 @@ public partial class AccountFeedItemImgsView : AccountPersonPage
 
     public void linkEdit_Click(object sender, EventArgs e)
     {
-        try
-        {
-            IsEditing = !IsEditing;
-            linkEdit.Text = IsEditing ? "&#187; Preview" : "&#187; Edit";
-            GetData();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        IsEditing = !IsEditing;
+        linkEdit.Text = IsEditing ? "&#187; Preview" : "&#187; Edit";
+        GetData();
     }
 
     private void GetData()
@@ -100,41 +86,27 @@ public partial class AccountFeedItemImgsView : AccountPersonPage
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
-            ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
-            serviceoptions.PageSize = gridManage.PageSize;
-            serviceoptions.PageNumber = gridManage.CurrentPageIndex;
-            gridManage.DataSource = SessionManager.SyndicationService.GetAccountFeedItemImgs(QueryOptions, serviceoptions);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
+        serviceoptions.PageSize = gridManage.PageSize;
+        serviceoptions.PageNumber = gridManage.CurrentPageIndex;
+        gridManage.DataSource = SessionManager.SyndicationService.GetAccountFeedItemImgs(QueryOptions, serviceoptions);
     }
 
     public void gridManage_ItemCommand(object sender, DataListCommandEventArgs e)
     {
-        try
+        switch (e.CommandName)
         {
-            switch (e.CommandName)
-            {
-                case "Toggle":
-                    TransitAccountFeedItemImg img = SessionManager.SyndicationService.GetAccountFeedItemImgById(
-                        SessionManager.Ticket, int.Parse(e.CommandArgument.ToString()));
-                    img.Visible = !img.Visible;
-                    if (!img.Visible) img.Interesting = false;
-                    SessionManager.SyndicationService.CreateOrUpdateAccountFeedItemImg(SessionManager.Ticket, img);
-                    LinkButton lb = (LinkButton)e.Item.FindControl("linkToggleVisible");
-                    lb.Text = img.Visible ? "&#187; Hide" : "&#187; Show";
-                    UpdatePanel up = (UpdatePanel)e.Item.FindControl("panelShowHide");
-                    up.Update();
-                    break;
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            case "Toggle":
+                TransitAccountFeedItemImg img = SessionManager.SyndicationService.GetAccountFeedItemImgById(
+                    SessionManager.Ticket, int.Parse(e.CommandArgument.ToString()));
+                img.Visible = !img.Visible;
+                if (!img.Visible) img.Interesting = false;
+                SessionManager.SyndicationService.CreateOrUpdateAccountFeedItemImg(SessionManager.Ticket, img);
+                LinkButton lb = (LinkButton)e.Item.FindControl("linkToggleVisible");
+                lb.Text = img.Visible ? "&#187; Hide" : "&#187; Show";
+                UpdatePanel up = (UpdatePanel)e.Item.FindControl("panelShowHide");
+                up.Update();
+                break;
         }
     }
 

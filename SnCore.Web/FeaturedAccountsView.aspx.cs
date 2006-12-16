@@ -20,22 +20,15 @@ public partial class FeaturedAccountsView : Page
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+        if (!IsPostBack)
         {
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
-            if (!IsPostBack)
-            {
-                GetData();
+            GetData();
 
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Featured", Request.Url));
-                StackSiteMap(sitemapdata);
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Featured", Request.Url));
+            StackSiteMap(sitemapdata);
         }
     }
 
@@ -62,20 +55,13 @@ public partial class FeaturedAccountsView : Page
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
-            ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
-            serviceoptions.PageSize = gridManage.PageSize;
-            serviceoptions.PageNumber = gridManage.CurrentPageIndex;
+        ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
+        serviceoptions.PageSize = gridManage.PageSize;
+        serviceoptions.PageNumber = gridManage.CurrentPageIndex;
 
-            object[] args = { "Account", serviceoptions };
-            gridManage.DataSource = SessionManager.GetCachedCollection<TransitFeature>(
-                SessionManager.SystemService, "GetFeatures", args);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        object[] args = { "Account", serviceoptions };
+        gridManage.DataSource = SessionManager.GetCachedCollection<TransitFeature>(
+            SessionManager.SystemService, "GetFeatures", args);
     }
 
     public TransitAccount GetAccount(int id)

@@ -17,19 +17,12 @@ public partial class DiscussionPostsNewViewControl : Control
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
-            {
-                List<TransitDiscussionPost> items = SessionManager.GetCachedCollection<TransitDiscussionPost>(
-                    SessionManager.DiscussionService, "GetLatestDiscussionPosts", null);
-                discussionView.DataSource = items;
-                discussionView.DataBind();
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            List<TransitDiscussionPost> items = SessionManager.GetCachedCollection<TransitDiscussionPost>(
+                SessionManager.DiscussionService, "GetLatestDiscussionPosts", null);
+            discussionView.DataSource = items;
+            discussionView.DataBind();
         }
     }
 }

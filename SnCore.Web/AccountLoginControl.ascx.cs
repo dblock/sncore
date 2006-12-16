@@ -21,6 +21,7 @@ public partial class AccountLoginControl : Control
         try
         {
             PageManager.SetDefaultButton(loginLogin, Controls);
+
             if (!IsPostBack)
             {
                 linkAdministrator.OnClientClick =
@@ -39,10 +40,10 @@ public partial class AccountLoginControl : Control
                 }
             }
         }
-        catch (Exception ex)
+        catch
         {
             SessionManager.Logout();
-            ReportException(ex);
+            throw;
         }
     }
 
@@ -59,7 +60,7 @@ public partial class AccountLoginControl : Control
                 TransitAccount ta = SessionManager.AccountService.GetAccount(ticket);
                 if (ta != null && ta.IsPasswordExpired)
                 {
-                    Redirect(string.Format("AccountChangePassword.aspx?ReturnUrl={0}&PasswordHash={1}", 
+                    Redirect(string.Format("AccountChangePassword.aspx?ReturnUrl={0}&PasswordHash={1}",
                         Renderer.UrlEncode(ReturnUrl), Renderer.UrlEncode(ManagedAccount.GetPasswordHash(loginPassword.Text))));
                 }
                 else
@@ -80,10 +81,10 @@ public partial class AccountLoginControl : Control
                 throw new ManagedAccount.AccessDeniedException();
             }
         }
-        catch (Exception ex) 
+        catch
         {
             SessionManager.Logout();
-            ReportException(ex); 
+            throw;
         }
     }
 

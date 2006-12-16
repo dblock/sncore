@@ -54,13 +54,13 @@ public partial class BookmarksViewControl : Control
         if (!IsPostBack)
         {
             BookmarkQueryOptions options = new BookmarkQueryOptions();
-            options.WithFullBitmaps = ! ShowThumbnail;
+            options.WithFullBitmaps = !ShowThumbnail;
             options.WithLinkedBitmaps = ShowThumbnail;
             object[] args = { options };
             bookmarksView.DataSource = SessionManager.GetCachedCollection<TransitBookmark>(
                 SessionManager.SystemService, "GetBookmarksWithOptions", args);
             bookmarksView.DataBind();
-            bookmarksView.RepeatColumns = (RepeatColumns <= 0) ? bookmarksView.Items.Count : RepeatColumns; 
+            bookmarksView.RepeatColumns = (RepeatColumns <= 0) ? bookmarksView.Items.Count : RepeatColumns;
         }
     }
 }

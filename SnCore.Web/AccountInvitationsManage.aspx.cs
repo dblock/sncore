@@ -18,33 +18,26 @@ public partial class AccountInvitationsManage : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+        if (!IsPostBack)
         {
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
-            if (!IsPostBack)
+            if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket))
             {
-                if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket))
-                {
-                    ReportWarning("You don't have any verified e-mail addresses.\n" +
-                        "You must add/confirm a valid e-mail address before inviting people.");
+                ReportWarning("You don't have any verified e-mail addresses.\n" +
+                    "You must add/confirm a valid e-mail address before inviting people.");
 
-                    panelInvite.Visible = false;
-                }
-
-                GetData(sender, e);
-                
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Invitations", Request.Url));
-                StackSiteMap(sitemapdata);
+                panelInvite.Visible = false;
             }
 
-            SetDefaultButton(invite);
+            GetData(sender, e);
+
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Invitations", Request.Url));
+            StackSiteMap(sitemapdata);
         }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+
+        SetDefaultButton(invite);
     }
 
     void GetData(object sender, EventArgs e)
@@ -57,17 +50,10 @@ public partial class AccountInvitationsManage : AuthenticatedPage
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
-            ServiceQueryOptions options = new ServiceQueryOptions();
-            options.PageNumber = gridManage.CurrentPageIndex;
-            options.PageSize = gridManage.PageSize;
-            gridManage.DataSource = SessionManager.AccountService.GetAccountInvitations(SessionManager.Ticket, options);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageNumber = gridManage.CurrentPageIndex;
+        options.PageSize = gridManage.PageSize;
+        gridManage.DataSource = SessionManager.AccountService.GetAccountInvitations(SessionManager.Ticket, options);
     }
 
     public static Regex emailregex = new Regex(@".*@.*\..*", RegexOptions.Compiled);
@@ -80,70 +66,63 @@ public partial class AccountInvitationsManage : AuthenticatedPage
         noticeManage.HtmlEncode = true;
         noticeManage.Error = string.Empty;
 
-        try
+        foreach (string email in inputEmailAddress.Text.Split(";,\n\r".ToCharArray()))
         {
-            foreach (string email in inputEmailAddress.Text.Split(";,\n\r".ToCharArray()))
+            if (email.Length == 0)
+                continue;
+
+            try
             {
-                if (email.Length == 0)
-                    continue;
+                TransitAccount existing = SessionManager.AccountService.FindByEmail(email);
 
-                try
-                {
-                    TransitAccount existing = SessionManager.AccountService.FindByEmail(email);
+                error.AppendFormat(
+                        "<a href='AccountView.aspx?id={0}'>{2} &lt;{3}&gt;</a> is a member! " +
+                        "<a href='AccountFriendRequestEdit.aspx?pid={0}&ReturnUrl={1}'>&#187; Add to Friends</a>\n",
+                        existing.Id, Request.Url.PathAndQuery, existing.Name, email);
 
-                    error.AppendFormat(
-                            "<a href='AccountView.aspx?id={0}'>{2} &lt;{3}&gt;</a> is a member! " +
-                            "<a href='AccountFriendRequestEdit.aspx?pid={0}&ReturnUrl={1}'>&#187; Add to Friends</a>\n",
-                            existing.Id, Request.Url.PathAndQuery, existing.Name, email);
-
-                    continue;
-                }
-                catch
-                {
-                }
-
-                if (! emailregex.Match(email).Success)
-                {
-                    error.AppendFormat("Invalid e-mail address \"{0}\".<br>", email);
-                    continue;
-                }
-
-                try
-                {
-                    TransitAccountInvitation invitation = new TransitAccountInvitation();
-                    invitation.Code = Guid.NewGuid().ToString();
-                    invitation.Email = email;
-                    invitation.Message = inputMessage.Text;
-                    SessionManager.AccountService.AddAccountInvitation(SessionManager.Ticket, invitation);
-                    success.AppendFormat("Invitation sent to {0}.<br>", email);
-                    gridManage_OnGetDataSource(sender, e);
-                    gridManage.DataBind();
-                }
-                catch (Exception ex)
-                {
-                    error.AppendFormat("Error inviting {0}: {1}<br>", email, ex.Message);
-                }
+                continue;
+            }
+            catch
+            {
             }
 
-            if (error.Length > 0)
+            if (!emailregex.Match(email).Success)
             {
-                noticeManage.HtmlEncode = false;
-                noticeManage.Error = error.ToString();
-            }
-            else
-            {
-                inputEmailAddress.Text = string.Empty;
-                inputMessage.Text = string.Empty;
+                error.AppendFormat("Invalid e-mail address \"{0}\".<br>", email);
+                continue;
             }
 
-            if (success.Length > 0)
+            try
             {
-                ReportInfo(success.ToString());
+                TransitAccountInvitation invitation = new TransitAccountInvitation();
+                invitation.Code = Guid.NewGuid().ToString();
+                invitation.Email = email;
+                invitation.Message = inputMessage.Text;
+                SessionManager.AccountService.AddAccountInvitation(SessionManager.Ticket, invitation);
+                success.AppendFormat("Invitation sent to {0}.<br>", email);
+                gridManage_OnGetDataSource(sender, e);
+                gridManage.DataBind();
+            }
+            catch (Exception ex)
+            {
+                error.AppendFormat("Error inviting {0}: {1}<br>", email, ex.Message);
             }
         }
-        catch (Exception ex)
+
+        if (error.Length > 0)
         {
-            ReportException(ex);
+            noticeManage.HtmlEncode = false;
+            noticeManage.Error = error.ToString();
+        }
+        else
+        {
+            inputEmailAddress.Text = string.Empty;
+            inputMessage.Text = string.Empty;
+        }
+
+        if (success.Length > 0)
+        {
+            ReportInfo(success.ToString());
         }
     }
 
@@ -154,31 +133,24 @@ public partial class AccountInvitationsManage : AuthenticatedPage
 
     public void gridManage_ItemCommand(object source, DataGridCommandEventArgs e)
     {
-        try
+        switch (e.Item.ItemType)
         {
-            switch (e.Item.ItemType)
-            {
-                case ListItemType.AlternatingItem:
-                case ListItemType.Item:
-                case ListItemType.SelectedItem:
-                case ListItemType.EditItem:
-                    switch (e.CommandName)
-                    {
-                        case "Delete":
-                            int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                            SessionManager.AccountService.DeleteAccountInvitation(SessionManager.Ticket, id);
-                            ReportInfo("Invitation deleted.");
-                            gridManage.CurrentPageIndex = 0;
-                            gridManage_OnGetDataSource(source, e);
-                            gridManage.DataBind();
-                            break;
-                    }
-                    break;
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            case ListItemType.AlternatingItem:
+            case ListItemType.Item:
+            case ListItemType.SelectedItem:
+            case ListItemType.EditItem:
+                switch (e.CommandName)
+                {
+                    case "Delete":
+                        int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
+                        SessionManager.AccountService.DeleteAccountInvitation(SessionManager.Ticket, id);
+                        ReportInfo("Invitation deleted.");
+                        gridManage.CurrentPageIndex = 0;
+                        gridManage_OnGetDataSource(source, e);
+                        gridManage.DataBind();
+                        break;
+                }
+                break;
         }
     }
 

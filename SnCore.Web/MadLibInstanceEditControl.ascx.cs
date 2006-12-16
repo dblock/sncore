@@ -33,7 +33,7 @@ public partial class MadLibInstanceEditControl : Control
             ViewState["MadLibId"] = value;
         }
     }
-    
+
     protected void Page_Load(object sender, EventArgs e)
     {
         if (IsPostBack)
@@ -139,8 +139,8 @@ public partial class MadLibInstanceEditControl : Control
 
     public void TextBind(string value)
     {
-        Parse(value, null, OnTextTagCollect);        
-        for(int i = 0; i < Math.Min(mIndices.Length, mTextTags.Count); i++)
+        Parse(value, null, OnTextTagCollect);
+        for (int i = 0; i < Math.Min(mIndices.Length, mTextTags.Count); i++)
         {
             string id = string.Format("inputTag_{0}", mIndices[i]);
             TextBox tb = (TextBox)FindControl(id);
@@ -166,7 +166,7 @@ public partial class MadLibInstanceEditControl : Control
     private void OnTagCollect(string value, int pos)
     {
         string id = string.Format("inputTag_{0}", pos);
-        TextBox tb = (TextBox) FindControl(id);
+        TextBox tb = (TextBox)FindControl(id);
         if (tb == null)
         {
             throw new Exception(string.Format("Missing Control {0}", id));

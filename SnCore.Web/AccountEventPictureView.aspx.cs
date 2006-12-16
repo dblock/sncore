@@ -17,29 +17,22 @@ public partial class AccountEventPictureView : Page
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        picturesView.OnGetDataSource += new EventHandler(picturesView_OnGetDataSource);
+        if (!IsPostBack)
         {
-            picturesView.OnGetDataSource += new EventHandler(picturesView_OnGetDataSource);
-            if (!IsPostBack)
-            {
-                mPictureId = RequestId;
-                GetPictureData(sender, e);
-                GetPicturesData(sender, e);
+            mPictureId = RequestId;
+            GetPictureData(sender, e);
+            GetPicturesData(sender, e);
 
-                TransitAccountEvent t = AccountEvent;
-                TransitAccountEventPicture p = AccountEventPicture;
+            TransitAccountEvent t = AccountEvent;
+            TransitAccountEventPicture p = AccountEventPicture;
 
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Events", Request, "AccountEventsView.aspx"));
-                sitemapdata.AddRange(SiteMapDataAttribute.GetLocationAttributeNodes(Request, "AccountEventsToday.aspx", t.PlaceCountry, t.PlaceState, t.PlaceCity, t.PlaceNeighborhood, t.AccountEventType));
-                sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request, string.Format("AccountEventView.aspx?id={0}", t.Id)));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request.Url));
-                StackSiteMap(sitemapdata);
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Events", Request, "AccountEventsView.aspx"));
+            sitemapdata.AddRange(SiteMapDataAttribute.GetLocationAttributeNodes(Request, "AccountEventsToday.aspx", t.PlaceCountry, t.PlaceState, t.PlaceCity, t.PlaceNeighborhood, t.AccountEventType));
+            sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request, string.Format("AccountEventView.aspx?id={0}", t.Id)));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request.Url));
+            StackSiteMap(sitemapdata);
         }
 
     }
@@ -135,35 +128,21 @@ public partial class AccountEventPictureView : Page
 
     public void picturesView_ItemCommand(object source, CommandEventArgs e)
     {
-        try
+        switch (e.CommandName)
         {
-            switch (e.CommandName)
-            {
-                case "Picture":
-                    mPictureId = int.Parse(e.CommandArgument.ToString());
-                    GetPictureData(source, e);
-                    break;
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            case "Picture":
+                mPictureId = int.Parse(e.CommandArgument.ToString());
+                GetPictureData(source, e);
+                break;
         }
     }
 
     void picturesView_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
-            ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
-            object[] args = { AccountEvent.Id, options };
-            picturesView.DataSource = SessionManager.GetCachedCollection<TransitAccountEventPicture>(
-                SessionManager.EventService, "GetAccountEventPicturesById", args);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
+        object[] args = { AccountEvent.Id, options };
+        picturesView.DataSource = SessionManager.GetCachedCollection<TransitAccountEventPicture>(
+            SessionManager.EventService, "GetAccountEventPicturesById", args);
     }
 
 }

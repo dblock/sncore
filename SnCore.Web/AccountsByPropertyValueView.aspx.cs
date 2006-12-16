@@ -19,25 +19,18 @@ public partial class AccountsByPropertyValueView : Page
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
-            if (!IsPostBack)
-            {
-                GetData(sender, e);
-
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode(GroupName, Request, string.Format("AccountsByPropertyValueView.aspx?GroupName={0}&PropertyName=&PropertyValue=", GroupName)));
-                sitemapdata.Add(new SiteMapDataAttributeNode(PropertyName, Request, string.Format("AccountsByPropertyValueView.aspx?GroupName={0}&PropertyName={1}&PropertyValue=", GroupName, PropertyName)));
-                sitemapdata.Add(new SiteMapDataAttributeNode(PropertyValue, Request.Url));
-                StackSiteMap(sitemapdata);
-            }
-        }
-        catch (Exception ex)
+        if (!IsPostBack)
         {
-            ReportException(ex);
+            GetData(sender, e);
+
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode(GroupName, Request, string.Format("AccountsByPropertyValueView.aspx?GroupName={0}&PropertyName=&PropertyValue=", GroupName)));
+            sitemapdata.Add(new SiteMapDataAttributeNode(PropertyName, Request, string.Format("AccountsByPropertyValueView.aspx?GroupName={0}&PropertyName={1}&PropertyValue=", GroupName, PropertyName)));
+            sitemapdata.Add(new SiteMapDataAttributeNode(PropertyValue, Request.Url));
+            StackSiteMap(sitemapdata);
         }
     }
 
@@ -88,16 +81,9 @@ public partial class AccountsByPropertyValueView : Page
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
-            ServiceQueryOptions serviceoptions = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
-            object[] args = { Request["GroupName"], Request["PropertyName"], Request["PropertyValue"], serviceoptions };
-            gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccount>(
-                SessionManager.AccountService, "GetAccountsByPropertyValue", args);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ServiceQueryOptions serviceoptions = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
+        object[] args = { Request["GroupName"], Request["PropertyName"], Request["PropertyValue"], serviceoptions };
+        gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccount>(
+            SessionManager.AccountService, "GetAccountsByPropertyValue", args);
     }
 }

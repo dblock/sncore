@@ -30,30 +30,23 @@ public partial class AccountAttributesManage : AuthenticatedPage
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        linkNew.NavigateUrl = string.Format("AccountAttributeEdit.aspx?aid={0}", RequestId);
+        accountLink.HRef = string.Format("AccountView.aspx?id={0}", RequestId);
+        accountImage.Src = string.Format("AccountPictureThumbnail.aspx?id={0}", Account.PictureId);
+        accountName.Text = Render(Account.Name);
+
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+
+        if (!IsPostBack)
         {
-            linkNew.NavigateUrl = string.Format("AccountAttributeEdit.aspx?aid={0}", RequestId);
-            accountLink.HRef = string.Format("AccountView.aspx?id={0}", RequestId);
-            accountImage.Src = string.Format("AccountPictureThumbnail.aspx?id={0}", Account.PictureId);
-            accountName.Text = Render(Account.Name);
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode(Account.Name, Request, string.Format("AccountView.aspx?id={0}", Account.Id)));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Attributes", Request.Url));
 
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+            GetData(sender, e);
 
-            if (!IsPostBack)
-            {
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode(Account.Name, Request, string.Format("AccountView.aspx?id={0}", Account.Id)));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Attributes", Request.Url));
-
-                GetData(sender, e);
-
-                StackSiteMap(sitemapdata);
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            StackSiteMap(sitemapdata);
         }
     }
 
@@ -72,39 +65,25 @@ public partial class AccountAttributesManage : AuthenticatedPage
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
-            ServiceQueryOptions options = new ServiceQueryOptions();
-            options.PageSize = gridManage.PageSize;
-            options.PageNumber = gridManage.CurrentPageIndex;
-            gridManage.DataSource = SessionManager.AccountService.GetAccountAttributesById(
-                RequestId, options);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageSize = gridManage.PageSize;
+        options.PageNumber = gridManage.CurrentPageIndex;
+        gridManage.DataSource = SessionManager.AccountService.GetAccountAttributesById(
+            RequestId, options);
     }
 
     public void gridManage_ItemCommand(object sender, DataGridCommandEventArgs e)
     {
-        try
+        switch (e.CommandName)
         {
-            switch (e.CommandName)
-            {
-                case "Delete":
-                    int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                    SessionManager.AccountService.DeleteAccountAttribute(SessionManager.Ticket, id);
-                    ReportInfo("Account attribute deleted.");
-                    gridManage.CurrentPageIndex = 0;
-                    gridManage_OnGetDataSource(sender, e);
-                    gridManage.DataBind();
-                    break;
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            case "Delete":
+                int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
+                SessionManager.AccountService.DeleteAccountAttribute(SessionManager.Ticket, id);
+                ReportInfo("Account attribute deleted.");
+                gridManage.CurrentPageIndex = 0;
+                gridManage_OnGetDataSource(sender, e);
+                gridManage.DataBind();
+                break;
         }
     }
 }

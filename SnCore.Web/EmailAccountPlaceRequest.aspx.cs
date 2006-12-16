@@ -19,35 +19,20 @@ public partial class EmailAccountPlaceRequest : AuthenticatedPage
     {
         get
         {
-            try
+            if (mAccountPlaceRequest == null)
             {
-                if (mAccountPlaceRequest == null)
-                {
-                    mAccountPlaceRequest = SessionManager.PlaceService.GetAccountPlaceRequestById(
-                        SessionManager.Ticket, RequestId);
-                }
+                mAccountPlaceRequest = SessionManager.PlaceService.GetAccountPlaceRequestById(
+                    SessionManager.Ticket, RequestId);
             }
-            catch (Exception ex)
-            {
-                ReportException(ex);
-            }
-
             return mAccountPlaceRequest;
         }
     }
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
-            Title = string.Format("{0} is claiming ownership of {1}", 
-                Renderer.Render(AccountPlaceRequest.AccountName),
-                Renderer.Render(AccountPlaceRequest.PlaceName));
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        Title = string.Format("{0} is claiming ownership of {1}",
+            Renderer.Render(AccountPlaceRequest.AccountName),
+            Renderer.Render(AccountPlaceRequest.PlaceName));
     }
 }
 

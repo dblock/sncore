@@ -19,8 +19,6 @@ public partial class SystemSurveyQuestionEdit : AuthenticatedPage
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             if (!IsPostBack)
             {
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
@@ -44,11 +42,6 @@ public partial class SystemSurveyQuestionEdit : AuthenticatedPage
             }
 
             SetDefaultButton(manageAdd);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public int SurveyId
@@ -61,19 +54,12 @@ public partial class SystemSurveyQuestionEdit : AuthenticatedPage
 
     public void save_Click(object sender, EventArgs e)
     {
-        try
-        {
             TransitSurveyQuestion tw = new TransitSurveyQuestion();
             tw.Question = inputQuestion.Text;
             tw.Id = RequestId;
             tw.SurveyId = SurveyId;
             SessionManager.SystemService.AddSurveyQuestion(SessionManager.Ticket, tw);
             Redirect("SystemSurveyEdit.aspx?id=" + SurveyId.ToString());
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
 
     }
 

@@ -17,8 +17,6 @@ public partial class SystemAccountPlaceRequestsManage : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
             if (!IsPostBack)
@@ -32,17 +30,10 @@ public partial class SystemAccountPlaceRequestsManage : AuthenticatedPage
                 sitemapdata.Add(new SiteMapDataAttributeNode("Property Requests", Request.Url));
                 StackSiteMap(sitemapdata);
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
             List<TransitAccountPlaceRequest> requests;
             if (RequestId > 0)
             {
@@ -60,11 +51,6 @@ public partial class SystemAccountPlaceRequestsManage : AuthenticatedPage
                 panelRequests.Visible = false;
                 noticeRequests.Info = "No requests.";
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     private enum Cells
@@ -74,8 +60,6 @@ public partial class SystemAccountPlaceRequestsManage : AuthenticatedPage
 
     public void gridManage_ItemCommand(object source, DataGridCommandEventArgs e)
     {
-        try
-        {
             switch (e.Item.ItemType)
             {
                 case ListItemType.AlternatingItem:
@@ -109,11 +93,6 @@ public partial class SystemAccountPlaceRequestsManage : AuthenticatedPage
                     }
                     break;
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
 }

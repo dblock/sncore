@@ -71,47 +71,33 @@ public partial class AccountFeedPreviewControl : Control
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+        if (!IsPostBack)
         {
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
-            if (!IsPostBack)
+            if (FeedId > 0)
             {
-                if (FeedId > 0)
-                {
-                    TransitAccountFeed f = Feed;
+                TransitAccountFeed f = Feed;
 
-                    TransitFeedType t = SessionManager.SyndicationService.GetFeedTypeByName(f.FeedType);
-                    gridManage.RepeatColumns = t.SpanColumnsPreview;
-                    gridManage.RepeatRows = t.SpanRowsPreview;
-                    object[] args = { FeedId };
-                    gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-                        SessionManager.SyndicationService, "GetAccountFeedItemsCountById", args);
-                    gridManage_OnGetDataSource(this, null);
-                    gridManage.DataBind();
-                }
+                TransitFeedType t = SessionManager.SyndicationService.GetFeedTypeByName(f.FeedType);
+                gridManage.RepeatColumns = t.SpanColumnsPreview;
+                gridManage.RepeatRows = t.SpanRowsPreview;
+                object[] args = { FeedId };
+                gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+                    SessionManager.SyndicationService, "GetAccountFeedItemsCountById", args);
+                gridManage_OnGetDataSource(this, null);
+                gridManage.DataBind();
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
         }
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
-            ServiceQueryOptions options = new ServiceQueryOptions();
-            options.PageNumber = gridManage.CurrentPageIndex;
-            options.PageSize = gridManage.PageSize;
-            object[] args = { FeedId, options };
-            gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountFeedItem>(
-                SessionManager.SyndicationService, "GetAccountFeedItemsById", args);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageNumber = gridManage.CurrentPageIndex;
+        options.PageSize = gridManage.PageSize;
+        object[] args = { FeedId, options };
+        gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountFeedItem>(
+            SessionManager.SyndicationService, "GetAccountFeedItemsById", args);
     }
 
     public string GetTitle(object title)
@@ -126,7 +112,7 @@ public partial class AccountFeedPreviewControl : Control
     {
         if (LinkDescription)
         {
-            return string.Format("<a href='{0}' target='_blank'>{1}</a>", 
+            return string.Format("<a href='{0}' target='_blank'>{1}</a>",
                 link, RenderEx(description));
         }
         else

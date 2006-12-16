@@ -13,26 +13,19 @@ public partial class AccountMenuControl : Control
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
+            panelSystem.Visible = SessionManager.IsLoggedIn && SessionManager.IsAdministrator;
+
+            if (SessionManager.IsLoggedIn)
             {
-                panelSystem.Visible = SessionManager.IsLoggedIn && SessionManager.IsAdministrator;
+                linkInbox.InnerText = string.Format("Inbox ({0})",
+                    SessionManager.AccountService.GetAccountMessageSystemFolder(SessionManager.Ticket, "inbox").MessageCount);
 
-                if (SessionManager.IsLoggedIn)
-                {
-                    linkInbox.InnerText = string.Format("Inbox ({0})",
-                        SessionManager.AccountService.GetAccountMessageSystemFolder(SessionManager.Ticket, "inbox").MessageCount);
-
-                    linkRequests.InnerText = string.Format("Requests ({0})",
-                        SessionManager.SocialService.GetAccountFriendRequestsCountById(SessionManager.Account.Id));
-                }
-
+                linkRequests.InnerText = string.Format("Requests ({0})",
+                    SessionManager.SocialService.GetAccountFriendRequestsCountById(SessionManager.Account.Id));
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+
         }
     }
 }

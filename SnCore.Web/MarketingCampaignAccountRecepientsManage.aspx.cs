@@ -17,31 +17,24 @@ public partial class MarketingCampaignAccountRecepientsManage : AuthenticatedPag
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+
+        if (!IsPostBack)
         {
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+            TransitCampaign tc = SessionManager.MarketingService.GetCampaignById(SessionManager.Ticket, RequestId);
+            campaignName.Text = string.Format("{0}: {1}", Render(tc.Name), campaignName.Text);
+            GetData(sender, e);
 
-            if (!IsPostBack)
-            {
-                TransitCampaign tc = SessionManager.MarketingService.GetCampaignById(SessionManager.Ticket, RequestId);
-                campaignName.Text = string.Format("{0}: {1}", Render(tc.Name), campaignName.Text);
-                GetData(sender, e);
+            inputAccountPropertyGroup.DataSource = SessionManager.AccountService.GetAccountPropertyGroups();
+            inputAccountPropertyGroup.DataBind();
+            inputAccountPropertyGroup_SelectedIndexChanged(sender, e);
 
-                inputAccountPropertyGroup.DataSource = SessionManager.AccountService.GetAccountPropertyGroups();
-                inputAccountPropertyGroup.DataBind();
-                inputAccountPropertyGroup_SelectedIndexChanged(sender, e);
-
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Marketing Campaigns", Request, "MarketingCampaignsManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode(tc.Name, Request, string.Format("MarketingCampaignEdit.aspx?id={0}", tc.Id)));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Recepients", Request.Url));
-                StackSiteMap(sitemapdata);
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Marketing Campaigns", Request, "MarketingCampaignsManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode(tc.Name, Request, string.Format("MarketingCampaignEdit.aspx?id={0}", tc.Id)));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Recepients", Request.Url));
+            StackSiteMap(sitemapdata);
         }
     }
 
@@ -55,41 +48,27 @@ public partial class MarketingCampaignAccountRecepientsManage : AuthenticatedPag
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
-            ServiceQueryOptions options = new ServiceQueryOptions();
-            options.PageNumber = gridManage.CurrentPageIndex;
-            options.PageSize = gridManage.PageSize;
-            gridManage.DataSource = SessionManager.MarketingService.GetCampaignAccountRecepientsById(SessionManager.Ticket, RequestId, options);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageNumber = gridManage.CurrentPageIndex;
+        options.PageSize = gridManage.PageSize;
+        gridManage.DataSource = SessionManager.MarketingService.GetCampaignAccountRecepientsById(SessionManager.Ticket, RequestId, options);
     }
 
     public void importSingleUser_Click(object sender, EventArgs e)
     {
-        try
+        List<TransitCampaignAccountRecepient> recepients = new List<TransitCampaignAccountRecepient>();
+        foreach (string sid in importSingleUserIds.Text.Split(" ".ToCharArray()))
         {
-            List<TransitCampaignAccountRecepient> recepients = new List<TransitCampaignAccountRecepient>();
-            foreach(string sid in importSingleUserIds.Text.Split(" ".ToCharArray()))
-            {
-                TransitCampaignAccountRecepient recepient = new TransitCampaignAccountRecepient();
-                recepient.AccountId = int.Parse(sid);
-                recepient.CampaignId = RequestId;
-                recepient.Sent = false;
-                recepients.Add(recepient);
-            }
+            TransitCampaignAccountRecepient recepient = new TransitCampaignAccountRecepient();
+            recepient.AccountId = int.Parse(sid);
+            recepient.CampaignId = RequestId;
+            recepient.Sent = false;
+            recepients.Add(recepient);
+        }
 
-            int count = SessionManager.MarketingService.ImportCampaignAccountRecepients(SessionManager.Ticket, recepients.ToArray());
-            GetData(sender, e);
-            ReportInfo(string.Format("Successfully imported {0} recepients.", count));
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        int count = SessionManager.MarketingService.ImportCampaignAccountRecepients(SessionManager.Ticket, recepients.ToArray());
+        GetData(sender, e);
+        ReportInfo(string.Format("Successfully imported {0} recepients.", count));
     }
 
     private enum Cells
@@ -99,86 +78,51 @@ public partial class MarketingCampaignAccountRecepientsManage : AuthenticatedPag
 
     public void importAllUsers_Click(object sender, EventArgs e)
     {
-        try
-        {
-            int count = SessionManager.MarketingService.ImportCampaignAccountEmails(SessionManager.Ticket, RequestId, 
-                importAllVerifiedEmails.Checked, importAllUnverifiedEmails.Checked);
-            GetData(sender, e);
-            ReportInfo(string.Format("Successfully imported {0} recepients.", count));
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        int count = SessionManager.MarketingService.ImportCampaignAccountEmails(SessionManager.Ticket, RequestId,
+            importAllVerifiedEmails.Checked, importAllUnverifiedEmails.Checked);
+        GetData(sender, e);
+        ReportInfo(string.Format("Successfully imported {0} recepients.", count));
     }
 
     public void gridManage_ItemCommand(object source, DataGridCommandEventArgs e)
     {
-        try
+        switch (e.Item.ItemType)
         {
-            switch (e.Item.ItemType)
-            {
-                case ListItemType.AlternatingItem:
-                case ListItemType.Item:
-                case ListItemType.SelectedItem:
-                case ListItemType.EditItem:
-                    int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                    switch (e.CommandName)
-                    {
-                        case "Delete":
-                            SessionManager.MarketingService.DeleteCampaignAccountRecepient(SessionManager.Ticket, id);
-                            ReportInfo("Campaign account recepient deleted.");
-                            GetData(source, e);
-                            break;
-                    }
-                    break;
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            case ListItemType.AlternatingItem:
+            case ListItemType.Item:
+            case ListItemType.SelectedItem:
+            case ListItemType.EditItem:
+                int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
+                switch (e.CommandName)
+                {
+                    case "Delete":
+                        SessionManager.MarketingService.DeleteCampaignAccountRecepient(SessionManager.Ticket, id);
+                        ReportInfo("Campaign account recepient deleted.");
+                        GetData(source, e);
+                        break;
+                }
+                break;
         }
     }
 
     public void deleteAllRecepients_Click(object sender, EventArgs e)
     {
-        try
-        {
-            SessionManager.MarketingService.DeleteCampaignAccountRecepients(SessionManager.Ticket, RequestId);
-            GetData(sender, e);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        SessionManager.MarketingService.DeleteCampaignAccountRecepients(SessionManager.Ticket, RequestId);
+        GetData(sender, e);
     }
 
     public void inputAccountPropertyGroup_SelectedIndexChanged(object sender, EventArgs e)
     {
-        try
-        {
-            inputAccountProperty.DataSource = SessionManager.AccountService.GetAccountProperties(
-                int.Parse(inputAccountPropertyGroup.SelectedValue));
-            inputAccountProperty.DataBind();            
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        inputAccountProperty.DataSource = SessionManager.AccountService.GetAccountProperties(
+            int.Parse(inputAccountPropertyGroup.SelectedValue));
+        inputAccountProperty.DataBind();
     }
 
     public void importAccountProperty_Click(object sender, EventArgs e)
     {
-        try
-        {
-            int count = SessionManager.MarketingService.ImportCampaignAccountPropertyValues(SessionManager.Ticket, RequestId,
-                int.Parse(inputAccountProperty.SelectedValue), inputAccountPropertyValue.Text, inputAccountPropertyEmpty.Checked);
-            GetData(sender, e);
-            ReportInfo(string.Format("Successfully imported {0} recepients.", count));
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        int count = SessionManager.MarketingService.ImportCampaignAccountPropertyValues(SessionManager.Ticket, RequestId,
+            int.Parse(inputAccountProperty.SelectedValue), inputAccountPropertyValue.Text, inputAccountPropertyEmpty.Checked);
+        GetData(sender, e);
+        ReportInfo(string.Format("Successfully imported {0} recepients.", count));
     }
 }

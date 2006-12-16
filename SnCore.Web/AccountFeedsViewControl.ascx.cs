@@ -28,17 +28,10 @@ public partial class AccountFeedsViewControl : Control
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        accountFeeds.OnGetDataSource += new EventHandler(accountFeeds_OnGetDataSource);
+        if (!IsPostBack)
         {
-            accountFeeds.OnGetDataSource += new EventHandler(accountFeeds_OnGetDataSource);
-            if (!IsPostBack)
-            {
-                GetData(sender, e);
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            GetData(sender, e);
         }
     }
 

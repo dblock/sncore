@@ -20,19 +20,11 @@ public partial class EmailDiscussionPost : AuthenticatedPage
     {
         get
         {
-            try
+            if (mDiscussionPost == null)
             {
-                if (mDiscussionPost == null)
-                {
-                    mDiscussionPost = SessionManager.DiscussionService.GetDiscussionPostById(
-                        SessionManager.Ticket, RequestId);
-                }
+                mDiscussionPost = SessionManager.DiscussionService.GetDiscussionPostById(
+                    SessionManager.Ticket, RequestId);
             }
-            catch (Exception ex)
-            {
-                ReportException(ex);
-            }
-
             return mDiscussionPost;
         }
     }
@@ -41,19 +33,11 @@ public partial class EmailDiscussionPost : AuthenticatedPage
     {
         get
         {
-            try
+            if (DiscussionPost.DiscussionPostParentId != 0)
             {
-                if (DiscussionPost.DiscussionPostParentId != 0)
-                {
-                    mDiscussionPostParent = SessionManager.DiscussionService.GetDiscussionPostById(
-                        SessionManager.Ticket, DiscussionPost.DiscussionPostParentId);
-                }
+                mDiscussionPostParent = SessionManager.DiscussionService.GetDiscussionPostById(
+                    SessionManager.Ticket, DiscussionPost.DiscussionPostParentId);
             }
-            catch (Exception ex)
-            {
-                ReportException(ex);
-            }
-
             return mDiscussionPostParent;
         }
     }
@@ -82,7 +66,7 @@ public partial class EmailDiscussionPost : AuthenticatedPage
         {
             if (mRecepient == null)
             {
-                mRecepient = SessionManager.AccountService.GetAccountById((DiscussionPostParent != null) ? 
+                mRecepient = SessionManager.AccountService.GetAccountById((DiscussionPostParent != null) ?
                     DiscussionPostParent.AccountId : Discussion.AccountId);
             }
 
@@ -92,14 +76,7 @@ public partial class EmailDiscussionPost : AuthenticatedPage
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
-            Title = string.Format("New post in {0}", Renderer.Render(Discussion.Name));
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        Title = string.Format("New post in {0}", Renderer.Render(Discussion.Name));
     }
 }
 

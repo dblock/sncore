@@ -24,20 +24,12 @@ public partial class PlaceView : Page
     {
         get
         {
-            try
-            {
                 if (mPlaceAccount == null && RequestId > 0 && Place != null)
                 {
                     object[] args = { Place.AccountId };
                     mPlaceAccount = SessionManager.GetCachedItem<TransitAccount>(
                         SessionManager.AccountService, "GetAccountById", args);
                 }
-            }
-            catch (Exception ex)
-            {
-                ReportException(ex);
-            }
-
             return mPlaceAccount;
         }
     }
@@ -46,8 +38,6 @@ public partial class PlaceView : Page
     {
         get
         {
-            try
-            {
                 if (mPlace == null && RequestId > 0)
                 {
                     try
@@ -61,12 +51,6 @@ public partial class PlaceView : Page
                         mPlace = null;
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                ReportException(ex);
-            }
-
             return mPlace;
         }
     }
@@ -151,8 +135,6 @@ public partial class PlaceView : Page
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             picturesView.OnGetDataSource += new EventHandler(picturesView_OnGetDataSource);
             if (!IsPostBack)
             {
@@ -297,11 +279,6 @@ public partial class PlaceView : Page
                     linkEdit.NavigateUrl = string.Format("PlaceEdit.aspx?{0}", Request.QueryString.ToString());
                 }
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     void GetPicturesData(object sender, EventArgs e)
@@ -317,17 +294,10 @@ public partial class PlaceView : Page
 
     void picturesView_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
             ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
             object[] args = { RequestId, options };
             picturesView.DataSource = SessionManager.GetCachedCollection<TransitPlacePicture>(
                 SessionManager.PlaceService, "GetPlacePicturesById", args);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public string GoogleMapsKey
@@ -340,8 +310,6 @@ public partial class PlaceView : Page
 
     public void linkAddToQueue_Click(object sender, EventArgs e)
     {
-        try
-        {
             if (!SessionManager.IsLoggedIn)
             {
                 RedirectToLogin();
@@ -353,18 +321,11 @@ public partial class PlaceView : Page
             tpqi.PlaceId = RequestId;
             SessionManager.PlaceService.CreateOrUpdatePlaceQueueItem(SessionManager.Ticket, tpqi);
             ReportInfo(string.Format("Added {0} to <a href='AccountPlaceQueueManage.aspx'>your queue</a>.", Renderer.Render(Place.Name)));
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
 
     }
 
     public void linkAddToFavorites_Click(object sender, EventArgs e)
     {
-        try
-        {
             if (!SessionManager.IsLoggedIn)
             {
                 RedirectToLogin();
@@ -382,32 +343,18 @@ public partial class PlaceView : Page
             ReportInfo(string.Format("Added {0} to your favorites.", Renderer.Render(Place.Name)));
             placeFriends.GetData(sender, e);
             panelFriends.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     protected override void OnPreRender(EventArgs e)
     {
-        try
-        {
             panelAdmin.Visible = SessionManager.IsAdministrator;
             linkDeleteFeatures.Visible = (LatestPlaceFeature != null);
             linkMap.Visible = linkDirections.Visible = (Place != null && !string.IsNullOrEmpty(Place.Street));
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
         base.OnPreRender(e);
     }
 
     public void feature_Click(object sender, EventArgs e)
     {
-        try
-        {
             if (!SessionManager.IsAdministrator)
             {
                 // avoid round-trip
@@ -419,17 +366,10 @@ public partial class PlaceView : Page
             t_feature.DataRowId = RequestId;
             SessionManager.SystemService.CreateOrUpdateFeature(SessionManager.Ticket, t_feature);
             Redirect(Request.Url.PathAndQuery);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void deletefeature_Click(object sender, EventArgs e)
     {
-        try
-        {
             if (!SessionManager.IsAdministrator)
             {
                 // avoid round-trip
@@ -441,11 +381,6 @@ public partial class PlaceView : Page
             t_feature.DataRowId = RequestId;
             SessionManager.SystemService.DeleteAllFeatures(SessionManager.Ticket, t_feature);
             Redirect(Request.Url.PathAndQuery);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public TransitFeature LatestPlaceFeature

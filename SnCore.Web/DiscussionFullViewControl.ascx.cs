@@ -42,8 +42,6 @@ public partial class DiscussionFullViewControl : Control
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             if (!IsPostBack)
             {
                 if (DiscussionId > 0)
@@ -51,11 +49,6 @@ public partial class DiscussionFullViewControl : Control
                     GetData(sender, e);
                 }
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void GetData(object sender, EventArgs e)
@@ -74,8 +67,6 @@ public partial class DiscussionFullViewControl : Control
 
     public void discussionView_ItemCommand(object source, DataGridCommandEventArgs e)
     {
-        try
-        {
             switch (e.CommandName)
             {
                 case "Delete":
@@ -88,11 +79,6 @@ public partial class DiscussionFullViewControl : Control
                         break;
                     }
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public int DiscussionId

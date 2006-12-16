@@ -35,52 +35,45 @@ public partial class AccountSurvey : AuthenticatedPage
 
     protected override void OnInit(EventArgs e)
     {
-        try
+        TransitSurvey ts = SessionManager.SystemService.GetSurveyById(RequestId);
+        this.Title = surveyName.Text = Render(ts.Name);
+
+        List<TransitAccountSurveyAnswer> answers = SessionManager.AccountService.GetAccountSurveyAnswers(
+            SessionManager.Ticket, RequestId);
+
+        SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+        sitemapdata.Add(new SiteMapDataAttributeNode(ts.Name, Request, string.Format("AccountSurveyView.aspx?id={0}", ts.Id)));
+        sitemapdata.Add(new SiteMapDataAttributeNode("Edit Survey", Request.Url));
+        StackSiteMap(sitemapdata);
+
+        int index = 1;
+        foreach (TransitAccountSurveyAnswer answer in answers)
         {
-            TransitSurvey ts = SessionManager.SystemService.GetSurveyById(RequestId);
-            this.Title = surveyName.Text = Render(ts.Name);
+            WizardStep step = new WizardStep();
+            step.Title = answer.SurveyQuestion;
 
-            List<TransitAccountSurveyAnswer> answers = SessionManager.AccountService.GetAccountSurveyAnswers(
-                SessionManager.Ticket, RequestId);
+            HyperLink q = new HyperLink();
+            q.ID = "question_" + index.ToString();
+            q.Text = answer.SurveyQuestion;
+            q.NavigateUrl = string.Format("AccountSurveyQuestionView.aspx?id={0}", answer.SurveyQuestionId);
+            q.Font.Bold = true;
+            step.Controls.Add(q);
 
-            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode(ts.Name, Request, string.Format("AccountSurveyView.aspx?id={0}", ts.Id)));
-            sitemapdata.Add(new SiteMapDataAttributeNode("Edit Survey", Request.Url));
-            StackSiteMap(sitemapdata);
+            step.Controls.Add(new HtmlGenericControl("br"));
+            step.Controls.Add(new HtmlGenericControl("br"));
 
-            int index = 1;
-            foreach (TransitAccountSurveyAnswer answer in answers)
-            {
-                WizardStep step = new WizardStep();
-                step.Title = answer.SurveyQuestion;
+            TextBox t = new TextBox();
+            t.ID = "answer_" + index.ToString();
+            t.Text = answer.Answer;
+            t.TextMode = TextBoxMode.MultiLine;
+            t.Rows = 7;
+            t.CssClass = "sncore_form_textbox";
+            step.Controls.Add(t);
 
-                HyperLink q = new HyperLink();
-                q.ID = "question_" + index.ToString();
-                q.Text = answer.SurveyQuestion;
-                q.NavigateUrl = string.Format("AccountSurveyQuestionView.aspx?id={0}", answer.SurveyQuestionId);
-                q.Font.Bold = true;
-                step.Controls.Add(q);
+            surveyWizard.WizardSteps.Insert(surveyWizard.WizardSteps.Count - 1, step);
 
-                step.Controls.Add(new HtmlGenericControl("br"));
-                step.Controls.Add(new HtmlGenericControl("br"));
-
-                TextBox t = new TextBox();
-                t.ID = "answer_" + index.ToString();
-                t.Text = answer.Answer;
-                t.TextMode = TextBoxMode.MultiLine;
-                t.Rows = 7;
-                t.CssClass = "sncore_form_textbox";
-                step.Controls.Add(t);
-
-                surveyWizard.WizardSteps.Insert(surveyWizard.WizardSteps.Count - 1, step);
-
-                mSurveyEntries.Add(new AccountSurveyEntry(answer, t));
-                index++;
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            mSurveyEntries.Add(new AccountSurveyEntry(answer, t));
+            index++;
         }
 
         base.OnInit(e);
@@ -88,24 +81,17 @@ public partial class AccountSurvey : AuthenticatedPage
 
     public void surveyWizard_ActiveStepChanged(object sender, EventArgs e)
     {
-        try
+        foreach (AccountSurveyEntry entry in mSurveyEntries)
         {
-            foreach (AccountSurveyEntry entry in mSurveyEntries)
-            {
-                if (string.IsNullOrEmpty(entry.AnswerTextBox.Text) && entry.SurveyAnswer.Id == 0)
-                    continue;
+            if (string.IsNullOrEmpty(entry.AnswerTextBox.Text) && entry.SurveyAnswer.Id == 0)
+                continue;
 
-                TransitAccountSurveyAnswer p = new TransitAccountSurveyAnswer();
-                p.SurveyQuestion = entry.SurveyAnswer.SurveyQuestion;
-                p.SurveyQuestionId = entry.SurveyAnswer.SurveyQuestionId;
-                p.Id = entry.SurveyAnswer.Id;
-                p.Answer = entry.AnswerTextBox.Text;
-                SessionManager.AccountService.AddAccountSurveyAnswer(SessionManager.Ticket, p);
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            TransitAccountSurveyAnswer p = new TransitAccountSurveyAnswer();
+            p.SurveyQuestion = entry.SurveyAnswer.SurveyQuestion;
+            p.SurveyQuestionId = entry.SurveyAnswer.SurveyQuestionId;
+            p.Id = entry.SurveyAnswer.Id;
+            p.Answer = entry.AnswerTextBox.Text;
+            SessionManager.AccountService.AddAccountSurveyAnswer(SessionManager.Ticket, p);
         }
     }
 }

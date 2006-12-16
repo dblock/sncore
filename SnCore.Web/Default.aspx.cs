@@ -14,21 +14,14 @@ public partial class _Default : Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
-        {            
-            if (!IsPostBack)
-            {
-                accountsNewMain.DataBind();
-
-                websiteBlog.BlogId = int.Parse(SessionManager.GetCachedConfiguration(
-                        "SnCore.Blog.Id", "0"));
-
-                websiteBlog.Visible = (websiteBlog.BlogId > 0);
-            }
-        }
-        catch (Exception ex)
+        if (!IsPostBack)
         {
-            ReportException(ex);
+            accountsNewMain.DataBind();
+
+            websiteBlog.BlogId = int.Parse(SessionManager.GetCachedConfiguration(
+                    "SnCore.Blog.Id", "0"));
+
+            websiteBlog.Visible = (websiteBlog.BlogId > 0);
         }
     }
 

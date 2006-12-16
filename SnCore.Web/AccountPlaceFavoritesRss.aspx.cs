@@ -24,20 +24,13 @@ public partial class AccountPlaceFavoritesRss : AccountPersonPage
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
-            {
-                ServiceQueryOptions options = new ServiceQueryOptions();
-                options.PageNumber = 0;
-                options.PageSize = 25;
-                rssRepeater.DataSource = SessionManager.PlaceService.GetAccountPlaceFavoritesByAccountId(RequestId, options);
-                rssRepeater.DataBind();
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            ServiceQueryOptions options = new ServiceQueryOptions();
+            options.PageNumber = 0;
+            options.PageSize = 25;
+            rssRepeater.DataSource = SessionManager.PlaceService.GetAccountPlaceFavoritesByAccountId(RequestId, options);
+            rssRepeater.DataBind();
         }
     }
 

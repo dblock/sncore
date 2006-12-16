@@ -18,19 +18,11 @@ public partial class EmailAccountEmailVerify : AuthenticatedPage
     {
         get
         {
-            try
-            {
                 if (mAccountEmailConfirmation == null)
                 {
                     mAccountEmailConfirmation = SessionManager.AccountService.GetAccountEmailConfirmationById(
                         SessionManager.Ticket, RequestId);
                 }
-            }
-            catch (Exception ex)
-            {
-                ReportException(ex);
-            }
-
             return mAccountEmailConfirmation;
         }
     }
@@ -41,19 +33,11 @@ public partial class EmailAccountEmailVerify : AuthenticatedPage
     {
         get
         {
-            try
-            {
                 if (mAccount == null)
                 {
                     mAccount = SessionManager.AccountService.GetAccountById(
                         AccountEmailConfirmation.AccountEmail.AccountId);
                 }
-            }
-            catch (Exception ex)
-            {
-                ReportException(ex);
-            }
-
             return mAccount;
         }
     }

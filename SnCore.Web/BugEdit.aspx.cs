@@ -24,79 +24,65 @@ public partial class BugEdit : AuthenticatedPage
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
+            selectPriority.DataSource = SessionManager.BugService.GetBugPriorities();
+            selectPriority.DataBind();
+            selectSeverity.DataSource = SessionManager.BugService.GetBugSeverities();
+            selectSeverity.DataBind();
+            selectType.DataSource = SessionManager.BugService.GetBugTypes();
+            selectType.DataBind();
+
+            TransitBugProject project = SessionManager.BugService.GetBugProjectById(ProjectId);
+
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Bugs", Request, "BugProjectsManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode(project.Name, Request, string.Format("BugProjectBugsManage.aspx?id={0}", project.Id)));
+
+            if (RequestId > 0)
             {
-                selectPriority.DataSource = SessionManager.BugService.GetBugPriorities();
-                selectPriority.DataBind();
-                selectSeverity.DataSource = SessionManager.BugService.GetBugSeverities();
-                selectSeverity.DataBind();
-                selectType.DataSource = SessionManager.BugService.GetBugTypes();
-                selectType.DataBind();
+                TransitBug bug = SessionManager.BugService.GetBugById(RequestId);
+                inputSubject.Text = bug.Subject;
+                inputDetails.Text = bug.Details;
+                selectPriority.Items.FindByValue(bug.Priority).Selected = true;
+                selectSeverity.Items.FindByValue(bug.Severity).Selected = true;
+                selectType.Items.FindByValue(bug.Type).Selected = true;
+                linkBack.NavigateUrl = string.Format("BugView.aspx?id={0}", bug.Id);
 
-                TransitBugProject project = SessionManager.BugService.GetBugProjectById(ProjectId);
+                sitemapdata.Add(new SiteMapDataAttributeNode(string.Format("#{0}: {1}", bug.Id, bug.Subject), Request.Url));
+            }
+            else
+            {
+                string type = Request.QueryString["type"];
+                if (type != null) selectType.Items.FindByValue(type).Selected = true;
+                linkBack.NavigateUrl = string.Format("BugProjectBugsManage.aspx?id={0}", ProjectId);
 
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Bugs", Request, "BugProjectsManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode(project.Name, Request, string.Format("BugProjectBugsManage.aspx?id={0}", project.Id)));
+                if (Request.QueryString["url"] != null)
+                    inputSubject.Text = Request.QueryString["url"];
 
-                if (RequestId > 0)
-                {
-                    TransitBug bug = SessionManager.BugService.GetBugById(RequestId);
-                    inputSubject.Text = bug.Subject;
-                    inputDetails.Text = bug.Details;
-                    selectPriority.Items.FindByValue(bug.Priority).Selected = true;
-                    selectSeverity.Items.FindByValue(bug.Severity).Selected = true;
-                    selectType.Items.FindByValue(bug.Type).Selected = true;
-                    linkBack.NavigateUrl = string.Format("BugView.aspx?id={0}", bug.Id);
+                if (Request.QueryString["message"] != null)
+                    inputDetails.Text = Request.QueryString["message"];
 
-                    sitemapdata.Add(new SiteMapDataAttributeNode(string.Format("#{0}: {1}", bug.Id, bug.Subject), Request.Url));
-                }
-                else
-                {
-                    string type = Request.QueryString["type"];
-                    if (type != null) selectType.Items.FindByValue(type).Selected = true;
-                    linkBack.NavigateUrl = string.Format("BugProjectBugsManage.aspx?id={0}", ProjectId);
-
-                    if (Request.QueryString["url"] != null)
-                        inputSubject.Text = Request.QueryString["url"];
-
-                    if (Request.QueryString["message"] != null)
-                        inputDetails.Text = Request.QueryString["message"];
-
-                    sitemapdata.Add(new SiteMapDataAttributeNode("New Bug", Request.Url));
-                }
-
-                StackSiteMap(sitemapdata);
+                sitemapdata.Add(new SiteMapDataAttributeNode("New Bug", Request.Url));
             }
 
-            SetDefaultButton(manageAdd);
+            StackSiteMap(sitemapdata);
         }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+
+        SetDefaultButton(manageAdd);
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-        try
-        {
-            TransitBug t = new TransitBug();
-            t.Subject = inputSubject.Text;
-            t.Details = inputDetails.Text;
-            t.Priority = selectPriority.SelectedValue;
-            t.Severity = selectSeverity.SelectedValue;
-            t.Type = selectType.SelectedValue;
-            t.ProjectId = ProjectId;
-            t.Id = RequestId;
-            int bugid = SessionManager.BugService.CreateOrUpdateBug(SessionManager.Ticket, t);
-            Redirect(string.Format("BugView.aspx?id={0}", bugid));
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        TransitBug t = new TransitBug();
+        t.Subject = inputSubject.Text;
+        t.Details = inputDetails.Text;
+        t.Priority = selectPriority.SelectedValue;
+        t.Severity = selectSeverity.SelectedValue;
+        t.Type = selectType.SelectedValue;
+        t.ProjectId = ProjectId;
+        t.Id = RequestId;
+        int bugid = SessionManager.BugService.CreateOrUpdateBug(SessionManager.Ticket, t);
+        Redirect(string.Format("BugView.aspx?id={0}", bugid));
     }
 }

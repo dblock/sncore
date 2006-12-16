@@ -17,8 +17,6 @@ public partial class SystemReminderEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             gridManageReminderAccountProperties.OnGetDataSource += new EventHandler(gridManageReminderAccountProperties_OnGetDataSource);
 
             if (!IsPostBack)
@@ -68,11 +66,6 @@ public partial class SystemReminderEdit : AuthenticatedPage
             SetDefaultButton(manageAdd);
             PageManager.SetDefaultButton(addAccountProperty, panelAccountProperties.Controls);
             PageManager.SetDefaultButton(inputTest, inputTestAccountId);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     void GetAccountProperties(object sender, EventArgs e)
@@ -92,16 +85,9 @@ public partial class SystemReminderEdit : AuthenticatedPage
 
     public void inputAccountPropertyGroup_SelectedIndexChanged(object sender, EventArgs e)
     {
-        try
-        {
             inputAccountProperty.DataSource = SessionManager.AccountService.GetAccountProperties(
                 int.Parse(inputAccountPropertyGroup.SelectedValue));
             inputAccountProperty.DataBind();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     private enum Cells
@@ -111,37 +97,21 @@ public partial class SystemReminderEdit : AuthenticatedPage
 
     void gridManageReminderAccountProperties_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridManageReminderAccountProperties.CurrentPageIndex;
             options.PageSize = gridManageReminderAccountProperties.PageSize;
             gridManageReminderAccountProperties.DataSource = SessionManager.SystemService.GetReminderAccountPropertiesById(RequestId, options);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void inputDataObject_SelectedIndexChanged(object sender, EventArgs e)
     {
-        try
-        {
             inputDataObjectField.DataSource = SessionManager.SystemService.GetDataObjectFieldsById(
                 int.Parse(inputDataObject.SelectedValue));
             inputDataObjectField.DataBind();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-        try
-        {
             TransitReminder t = new TransitReminder();
             t.Id = RequestId;
             t.Url = inputUrl.Text;
@@ -153,17 +123,10 @@ public partial class SystemReminderEdit : AuthenticatedPage
             t.LastRun = DateTime.UtcNow;
             SessionManager.SystemService.CreateOrUpdateReminder(SessionManager.Ticket, t);
             Redirect("SystemRemindersManage.aspx");
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void gridManageReminderAccountProperties_ItemCommand(object source, DataGridCommandEventArgs e)
     {
-        try
-        {
             switch (e.Item.ItemType)
             {
                 case ListItemType.AlternatingItem:
@@ -181,17 +144,10 @@ public partial class SystemReminderEdit : AuthenticatedPage
                     }
                     break;
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void addAccountProperty_Click(object sender, EventArgs e)
     {
-        try
-        {
             TransitReminderAccountProperty trap = new TransitReminderAccountProperty();
             trap.AccountPropertyId = int.Parse(inputAccountProperty.SelectedValue);
             trap.ReminderId = RequestId;
@@ -200,24 +156,12 @@ public partial class SystemReminderEdit : AuthenticatedPage
             SessionManager.SystemService.CreateOrUpdateReminderAccountProperty(SessionManager.Ticket, trap);
             GetAccountPropertiesData(sender, e);
             ReportInfo("Property Added");
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void inputTest_Click(object sender, EventArgs e)
     {
-        try
-        {
             bool result = SessionManager.SystemService.CanSendReminder(RequestId, int.Parse(inputTestAccountId.Text));
             ReportInfo(string.Format("Reminder will {0} be sent.", result ? string.Empty : "NOT"));
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
 }

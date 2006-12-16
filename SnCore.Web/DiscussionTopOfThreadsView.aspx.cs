@@ -17,27 +17,20 @@ public partial class DiscussionTopOfThreadsView : Page
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+        if (!IsPostBack)
         {
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
-            if (!IsPostBack)
-            {
-                GetData(sender, e);
+            GetData(sender, e);
 
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Discussions", Request, "DiscussionsView.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("New Threads", Request.Url));
-                StackSiteMap(sitemapdata);
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Discussions", Request, "DiscussionsView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("New Threads", Request.Url));
+            StackSiteMap(sitemapdata);
         }
     }
 
     public void gridManage_OnGetDataSource(object sender, EventArgs e)
-    {        
+    {
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = gridManage.CurrentPageIndex;
         options.PageSize = gridManage.PageSize;

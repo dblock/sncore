@@ -17,60 +17,46 @@ public partial class AccountWebsiteEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Websites", Request, "AccountWebsitesManage.aspx"));
+
+            int id = RequestId;
+
+            if (id > 0)
             {
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Websites", Request, "AccountWebsitesManage.aspx"));
-
-                int id = RequestId;
-
-                if (id > 0)
-                {
-                    TransitAccountWebsite tw = SessionManager.AccountService.GetAccountWebsiteById(SessionManager.Ticket, id);
-                    inputName.Text = Renderer.Render(tw.Name);
-                    inputUrl.Text = Renderer.Render(tw.Url);
-                    inputDescription.Text = tw.Description;
-                    sitemapdata.Add(new SiteMapDataAttributeNode(tw.Name, Request.Url));
-                }
-                else
-                {
-                    sitemapdata.Add(new SiteMapDataAttributeNode("New Website", Request.Url));
-                }
-
-                StackSiteMap(sitemapdata);
+                TransitAccountWebsite tw = SessionManager.AccountService.GetAccountWebsiteById(SessionManager.Ticket, id);
+                inputName.Text = Renderer.Render(tw.Name);
+                inputUrl.Text = Renderer.Render(tw.Url);
+                inputDescription.Text = tw.Description;
+                sitemapdata.Add(new SiteMapDataAttributeNode(tw.Name, Request.Url));
+            }
+            else
+            {
+                sitemapdata.Add(new SiteMapDataAttributeNode("New Website", Request.Url));
             }
 
-            SetDefaultButton(manageAdd);
+            StackSiteMap(sitemapdata);
         }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+
+        SetDefaultButton(manageAdd);
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-        try
-        {
-            TransitAccountWebsite tw = new TransitAccountWebsite();
-            tw.Name = inputName.Text;
+        TransitAccountWebsite tw = new TransitAccountWebsite();
+        tw.Name = inputName.Text;
 
-            if (!Uri.IsWellFormedUriString(inputUrl.Text, UriKind.Absolute))
-                inputUrl.Text = "http://" + inputUrl.Text;
+        if (!Uri.IsWellFormedUriString(inputUrl.Text, UriKind.Absolute))
+            inputUrl.Text = "http://" + inputUrl.Text;
 
-            tw.Url = inputUrl.Text;
-            tw.Description = inputDescription.Text;
-            tw.Id = RequestId;
-            SessionManager.AccountService.AddAccountWebsite(SessionManager.Ticket, tw);
-            Redirect("AccountWebsitesManage.aspx");
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        tw.Url = inputUrl.Text;
+        tw.Description = inputDescription.Text;
+        tw.Id = RequestId;
+        SessionManager.AccountService.AddAccountWebsite(SessionManager.Ticket, tw);
+        Redirect("AccountWebsitesManage.aspx");
 
     }
 }

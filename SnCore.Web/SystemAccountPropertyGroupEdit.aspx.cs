@@ -16,8 +16,6 @@ public partial class SystemAccountPropertyGroupEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             gridProperties.OnGetDataSource += new EventHandler(gridProperties_OnGetDataSource);
 
             if (!IsPostBack)
@@ -46,40 +44,21 @@ public partial class SystemAccountPropertyGroupEdit : AuthenticatedPage
             }
 
             SetDefaultButton(manageAdd);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-        try
-        {
             TransitAccountPropertyGroup t = new TransitAccountPropertyGroup();
             t.Name = inputName.Text;
             t.Description = inputDescription.Text;
             t.Id = RequestId;
             SessionManager.AccountService.CreateOrUpdateAccountPropertyGroup(SessionManager.Ticket, t);
             Redirect("SystemAccountPropertyGroupsManage.aspx");
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     void gridProperties_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
             gridProperties.DataSource = SessionManager.AccountService.GetAccountProperties(RequestId);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     private enum Cells
@@ -89,8 +68,6 @@ public partial class SystemAccountPropertyGroupEdit : AuthenticatedPage
 
     public void gridProperties_ItemCommand(object source, DataGridCommandEventArgs e)
     {
-        try
-        {
             switch (e.Item.ItemType)
             {
                 case ListItemType.AlternatingItem:
@@ -110,10 +87,5 @@ public partial class SystemAccountPropertyGroupEdit : AuthenticatedPage
                     }
                     break;
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 }

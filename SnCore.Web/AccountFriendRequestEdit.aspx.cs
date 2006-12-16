@@ -17,40 +17,33 @@ public partial class AccountFriendRequestEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
+            if (ParentId != 0)
             {
-                if (ParentId != 0)
-                {
-                    TransitAccount account = SessionManager.AccountService.GetAccountById(ParentId);
-                    linkKeen.NavigateUrl = string.Format("AccountView.aspx?id={0}", account.Id.ToString());
-                    linkBack.NavigateUrl = (string.IsNullOrEmpty(ReturnUrl)) ? linkKeen.NavigateUrl : ReturnUrl;
-                    linkKeen.Text = Renderer.Render(account.Name);
-                    imageKeen.ImageUrl = string.Format("AccountPictureThumbnail.aspx?id={0}", account.PictureId);
-                    inputMessage.Text = "Dear " + account.Name + "\n\nI would like to be your friend.\n\nThanks!\n";
+                TransitAccount account = SessionManager.AccountService.GetAccountById(ParentId);
+                linkKeen.NavigateUrl = string.Format("AccountView.aspx?id={0}", account.Id.ToString());
+                linkBack.NavigateUrl = (string.IsNullOrEmpty(ReturnUrl)) ? linkKeen.NavigateUrl : ReturnUrl;
+                linkKeen.Text = Renderer.Render(account.Name);
+                imageKeen.ImageUrl = string.Format("AccountPictureThumbnail.aspx?id={0}", account.PictureId);
+                inputMessage.Text = "Dear " + account.Name + "\n\nI would like to be your friend.\n\nThanks!\n";
 
-                    SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                    sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
-                    sitemapdata.Add(new SiteMapDataAttributeNode(account.Name, Request, string.Format("AccountView.aspx?id={0}", account.Id)));
-                    sitemapdata.Add(new SiteMapDataAttributeNode("Friend Request", Request.Url));
-                    StackSiteMap(sitemapdata);
-                }
-            }
-
-            SetDefaultButton(manageAdd);
-
-            if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket))
-            {
-                ReportWarning("You don't have any verified e-mail addresses.\n" +
-                    "You must add/confirm a valid e-mail address before making friends.");
-
-                manageAdd.Enabled = false;
+                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+                sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(account.Name, Request, string.Format("AccountView.aspx?id={0}", account.Id)));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Friend Request", Request.Url));
+                StackSiteMap(sitemapdata);
             }
         }
-        catch (Exception ex)
+
+        SetDefaultButton(manageAdd);
+
+        if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket))
         {
-            ReportException(ex);
+            ReportWarning("You don't have any verified e-mail addresses.\n" +
+                "You must add/confirm a valid e-mail address before making friends.");
+
+            manageAdd.Enabled = false;
         }
     }
 
@@ -66,15 +59,8 @@ public partial class AccountFriendRequestEdit : AuthenticatedPage
 
     public void save_Click(object sender, EventArgs e)
     {
-        try
-        {
-            SessionManager.SocialService.CreateAccountFriendRequest(SessionManager.Ticket, ParentId, inputMessage.Text);
-            Redirect(ReturnUrl);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        SessionManager.SocialService.CreateAccountFriendRequest(SessionManager.Ticket, ParentId, inputMessage.Text);
+        Redirect(ReturnUrl);
     }
 
     public int ParentId

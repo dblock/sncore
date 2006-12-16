@@ -67,52 +67,38 @@ public partial class AcountDiscussionThreadsView : Page
         gridManage_OnGetDataSource(sender, e);
         discussionThreadView.DataBind();
     }
- 
+
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
-            ServiceQueryOptions options = new ServiceQueryOptions();
-            options.PageNumber = discussionThreadView.CurrentPageIndex;
-            options.PageSize = discussionThreadView.PageSize;
-            object[] args = { QueryOptions, options };
-            discussionThreadView.DataSource = SessionManager.GetCachedCollection<TransitDiscussionPost>(
-                SessionManager.DiscussionService, "GetUserDiscussionThreads", args);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageNumber = discussionThreadView.CurrentPageIndex;
+        options.PageSize = discussionThreadView.PageSize;
+        object[] args = { QueryOptions, options };
+        discussionThreadView.DataSource = SessionManager.GetCachedCollection<TransitDiscussionPost>(
+            SessionManager.DiscussionService, "GetUserDiscussionThreads", args);
     }
 
     public void Page_Load(object sender, EventArgs e)
     {
         discussionThreadView.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
-            {
-                TopOfThreads = false;
+            TopOfThreads = false;
 
-                object[] args = { AccountId };
-                TransitAccount ta = SessionManager.GetCachedItem<TransitAccount>(
-                    SessionManager.AccountService, "GetAccountById", args);
+            object[] args = { AccountId };
+            TransitAccount ta = SessionManager.GetCachedItem<TransitAccount>(
+                SessionManager.AccountService, "GetAccountById", args);
 
-                linkRelRss.Title = this.Title = labelHeader.Text = string.Format("{0}'s Discussion Posts", Renderer.Render(ta.Name));                
-                linkRelRss.NavigateUrl = string.Format("AccountDiscussionThreadsRss.aspx?id={0}&toplevel={1}", ta.Id, TopOfThreads);
-                GetData(sender, e);
+            linkRelRss.Title = this.Title = labelHeader.Text = string.Format("{0}'s Discussion Posts", Renderer.Render(ta.Name));
+            linkRelRss.NavigateUrl = string.Format("AccountDiscussionThreadsRss.aspx?id={0}&toplevel={1}", ta.Id, TopOfThreads);
+            GetData(sender, e);
 
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode(ta.Name, Request, string.Format("AccountView.aspx?id={0}", ta.Id)));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Discussion Posts", Request.Url));
-                StackSiteMap(sitemapdata);
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode(ta.Name, Request, string.Format("AccountView.aspx?id={0}", ta.Id)));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Discussion Posts", Request.Url));
+            StackSiteMap(sitemapdata);
         }
     }
 
@@ -124,14 +110,7 @@ public partial class AcountDiscussionThreadsView : Page
 
     public void linkNewThreads_Click(object sender, EventArgs e)
     {
-        try
-        {
-            TopOfThreads = ! TopOfThreads;
-            GetData(sender, e);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        TopOfThreads = !TopOfThreads;
+        GetData(sender, e);
     }
 }

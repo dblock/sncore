@@ -19,15 +19,8 @@ public partial class AccountMessageFoldersManage : AuthenticatedPage
 {
     public void linkFolder_Click(object sender, CommandEventArgs e)
     {
-        try
-        {
-            FolderId = int.Parse(e.CommandArgument.ToString());
-            GetData();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        FolderId = int.Parse(e.CommandArgument.ToString());
+        GetData();
     }
 
     public int FolderId
@@ -35,7 +28,7 @@ public partial class AccountMessageFoldersManage : AuthenticatedPage
         get
         {
             int result = ViewStateUtility.GetViewStateValue<int>(ViewState, "FolderId", RequestId);
-            
+
             if (result == 0)
             {
                 ViewState["FolderId"] = result = SessionManager.AccountService.GetAccountMessageSystemFolder(
@@ -52,21 +45,14 @@ public partial class AccountMessageFoldersManage : AuthenticatedPage
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
-            {
-                GetData();
+            GetData();
 
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Messages", Request.Url));
-                StackSiteMap(sitemapdata);
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Messages", Request.Url));
+            StackSiteMap(sitemapdata);
         }
     }
 
@@ -145,42 +131,35 @@ public partial class AccountMessageFoldersManage : AuthenticatedPage
 
     public void messagefoldersView_ItemCommand(object source, DataGridCommandEventArgs e)
     {
-        try
+        switch (e.CommandName)
         {
-            switch (e.CommandName)
-            {
-                case "Edit":
-                    {
-                        int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                        Redirect("AccountMessageFolderEdit.aspx?id=" + id.ToString());
-                        break;
-                    }
-                case "Delete":
-                    {
-                        int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                        SessionManager.AccountService.DeleteAccountMessageFolder(SessionManager.Ticket, id);
+            case "Edit":
+                {
+                    int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
+                    Redirect("AccountMessageFolderEdit.aspx?id=" + id.ToString());
+                    break;
+                }
+            case "Delete":
+                {
+                    int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
+                    SessionManager.AccountService.DeleteAccountMessageFolder(SessionManager.Ticket, id);
 
-                        if (id == FolderId)
-                        {
-                            Redirect("AccountMessageFoldersManage.aspx?folder=inbox");
-                            break;
-                        }
-
-                        messagefoldersView.DataSource = SessionManager.AccountService.GetAccountMessageFolders(SessionManager.Ticket);
-                        messagefoldersView.DataBind();
-                        break;
-                    }
-                case "New":
+                    if (id == FolderId)
                     {
-                        int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                        Redirect("AccountMessageFolderEdit.aspx?pid=" + id.ToString());
+                        Redirect("AccountMessageFoldersManage.aspx?folder=inbox");
                         break;
                     }
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+
+                    messagefoldersView.DataSource = SessionManager.AccountService.GetAccountMessageFolders(SessionManager.Ticket);
+                    messagefoldersView.DataBind();
+                    break;
+                }
+            case "New":
+                {
+                    int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
+                    Redirect("AccountMessageFolderEdit.aspx?pid=" + id.ToString());
+                    break;
+                }
         }
     }
 
@@ -202,46 +181,32 @@ public partial class AccountMessageFoldersManage : AuthenticatedPage
 
     public void messagesView_ItemCommand(object source, DataGridCommandEventArgs e)
     {
-        try
+        switch (e.CommandName)
         {
-            switch (e.CommandName)
-            {
-                case "Delete":
+            case "Delete":
+                {
+                    int id = int.Parse(e.Item.Cells[(int)messageCells.id].Text);
+                    int trashid = SessionManager.AccountService.GetAccountMessageSystemFolder(SessionManager.Ticket, "trash").Id;
+                    if (trashid == FolderId)
                     {
-                        int id = int.Parse(e.Item.Cells[(int) messageCells.id].Text);
-                        int trashid = SessionManager.AccountService.GetAccountMessageSystemFolder(SessionManager.Ticket, "trash").Id;
-                        if (trashid == FolderId)
-                        {
-                            SessionManager.AccountService.DeleteAccountMessage(SessionManager.Ticket, id);
-                        }
-                        else
-                        {
-                            SessionManager.AccountService.MoveAccountMessageToFolderById(SessionManager.Ticket, id, trashid);
-                        }
-                        messagesView.DataSource = SessionManager.AccountService.GetAccountMessages(SessionManager.Ticket, FolderId);
-                        messagesView.DataBind();
-                        break;
+                        SessionManager.AccountService.DeleteAccountMessage(SessionManager.Ticket, id);
                     }
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+                    else
+                    {
+                        SessionManager.AccountService.MoveAccountMessageToFolderById(SessionManager.Ticket, id, trashid);
+                    }
+                    messagesView.DataSource = SessionManager.AccountService.GetAccountMessages(SessionManager.Ticket, FolderId);
+                    messagesView.DataBind();
+                    break;
+                }
         }
     }
 
     public void linkEmpty_Click(object s, EventArgs e)
     {
-        try
-        {
-            SessionManager.AccountService.DeleteAccountMessagesByFolder(SessionManager.Ticket, FolderId);
-            messagesView.DataSource = SessionManager.AccountService.GetAccountMessages(SessionManager.Ticket, FolderId);
-            messagesView.DataBind();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        SessionManager.AccountService.DeleteAccountMessagesByFolder(SessionManager.Ticket, FolderId);
+        messagesView.DataSource = SessionManager.AccountService.GetAccountMessages(SessionManager.Ticket, FolderId);
+        messagesView.DataBind();
     }
 
     public string GetFolderPicture(string name, bool system)

@@ -16,24 +16,17 @@ public partial class AccountFriendRequestsSentManage : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        listSent.OnGetDataSource += new EventHandler(listSent_OnGetDataSource);
+        if (!IsPostBack)
         {
-            listSent.OnGetDataSource += new EventHandler(listSent_OnGetDataSource);
-            if (!IsPostBack)
-            {
-                listSent.VirtualItemCount = SessionManager.SocialService.GetAccountFriendRequestsSentCount(SessionManager.Ticket);                
-                GetData(sender, e);
+            listSent.VirtualItemCount = SessionManager.SocialService.GetAccountFriendRequestsSentCount(SessionManager.Ticket);
+            GetData(sender, e);
 
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Friend Requests", Request, "AccountFriendRequestsManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Sent", Request.Url));
-                StackSiteMap(sitemapdata);
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Friend Requests", Request, "AccountFriendRequestsManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Sent", Request.Url));
+            StackSiteMap(sitemapdata);
         }
     }
 
@@ -54,21 +47,14 @@ public partial class AccountFriendRequestsSentManage : AuthenticatedPage
 
     public void listSent_ItemCommand(object sender, DataListCommandEventArgs e)
     {
-        try
+        switch (e.CommandName)
         {
-            switch (e.CommandName)
-            {
-                case "Cancel":
-                    int id = int.Parse(e.CommandArgument.ToString());
-                    SessionManager.SocialService.DeleteAccountFriendRequest(SessionManager.Ticket, id);
-                    GetData(sender, e);
-                    noticeManage.Info = "Request cancelled.";
-                    break;
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            case "Cancel":
+                int id = int.Parse(e.CommandArgument.ToString());
+                SessionManager.SocialService.DeleteAccountFriendRequest(SessionManager.Ticket, id);
+                GetData(sender, e);
+                noticeManage.Info = "Request cancelled.";
+                break;
         }
     }
 }

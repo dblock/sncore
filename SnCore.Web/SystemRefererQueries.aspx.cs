@@ -20,8 +20,6 @@ public partial class SystemRefererQueries : AuthenticatedPage
 {
     public void Page_Load()
     {
-        try
-        {
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
             if (!IsPostBack)
@@ -33,11 +31,6 @@ public partial class SystemRefererQueries : AuthenticatedPage
                 sitemapdata.Add(new SiteMapDataAttributeNode("Referer Queries", Request.Url));
                 StackSiteMap(sitemapdata);
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     private void GetData()
@@ -50,16 +43,9 @@ public partial class SystemRefererQueries : AuthenticatedPage
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridManage.CurrentPageIndex;
             options.PageSize = gridManage.PageSize;
             gridManage.DataSource = SessionManager.StatsService.GetRefererQueries(options);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 }

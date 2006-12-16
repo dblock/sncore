@@ -34,19 +34,12 @@ public partial class AccountFeedItemsNewViewControl : Control
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
-            {
-                object[] args = { new ServiceQueryOptions(Count, 0) };
-                FeedsView.DataSource = SessionManager.GetCachedCollection<TransitAccountFeedItem>(
-                    SessionManager.SyndicationService, "GetAccountFeedItems", args);
-                FeedsView.DataBind();
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            object[] args = { new ServiceQueryOptions(Count, 0) };
+            FeedsView.DataSource = SessionManager.GetCachedCollection<TransitAccountFeedItem>(
+                SessionManager.SyndicationService, "GetAccountFeedItems", args);
+            FeedsView.DataBind();
         }
     }
 

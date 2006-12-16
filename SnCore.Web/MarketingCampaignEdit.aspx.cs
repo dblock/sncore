@@ -17,59 +17,45 @@ public partial class MarketingCampaignEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Marketing Campaigns", Request, "MarketingCampaignsManage.aspx"));
+
+            if (RequestId > 0)
             {
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Marketing Campaigns", Request, "MarketingCampaignsManage.aspx"));
-
-                if (RequestId > 0)
-                {
-                    TransitCampaign t = SessionManager.MarketingService.GetCampaignById(SessionManager.Ticket, RequestId);
-                    inputActive.Checked = t.Active;
-                    inputDescription.Text = t.Description;
-                    inputName.Text = t.Name;
-                    inputSenderEmail.Text = t.SenderEmailAddress;
-                    inputSenderName.Text = t.SenderName;
-                    inputUrl.Text = t.Url;
-                    sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
-                }
-                else
-                {
-                    sitemapdata.Add(new SiteMapDataAttributeNode("New Marketing Campaign", Request.Url));
-                }
-
-                StackSiteMap(sitemapdata);
+                TransitCampaign t = SessionManager.MarketingService.GetCampaignById(SessionManager.Ticket, RequestId);
+                inputActive.Checked = t.Active;
+                inputDescription.Text = t.Description;
+                inputName.Text = t.Name;
+                inputSenderEmail.Text = t.SenderEmailAddress;
+                inputSenderName.Text = t.SenderName;
+                inputUrl.Text = t.Url;
+                sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
+            }
+            else
+            {
+                sitemapdata.Add(new SiteMapDataAttributeNode("New Marketing Campaign", Request.Url));
             }
 
-            SetDefaultButton(save);
+            StackSiteMap(sitemapdata);
         }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+
+        SetDefaultButton(save);
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-        try
-        {
-            TransitCampaign t = new TransitCampaign();
-            t.Id = RequestId;
-            t.Active = inputActive.Checked;
-            t.Description = inputDescription.Text;
-            t.Name = inputName.Text;
-            t.SenderEmailAddress = inputSenderEmail.Text;
-            t.SenderName = inputSenderName.Text;
-            t.Url = inputUrl.Text;
-            SessionManager.MarketingService.CreateOrUpdateCampaign(SessionManager.Ticket, t);
-            Redirect("MarketingCampaignsManage.aspx");
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        TransitCampaign t = new TransitCampaign();
+        t.Id = RequestId;
+        t.Active = inputActive.Checked;
+        t.Description = inputDescription.Text;
+        t.Name = inputName.Text;
+        t.SenderEmailAddress = inputSenderEmail.Text;
+        t.SenderName = inputSenderName.Text;
+        t.Url = inputUrl.Text;
+        SessionManager.MarketingService.CreateOrUpdateCampaign(SessionManager.Ticket, t);
+        Redirect("MarketingCampaignsManage.aspx");
     }
 }

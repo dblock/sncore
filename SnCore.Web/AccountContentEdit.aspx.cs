@@ -29,66 +29,52 @@ public partial class AccountContentEdit : AuthenticatedPage
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        SetDefaultButton(linkSave);
+        if (!IsPostBack)
         {
-            SetDefaultButton(linkSave);
-            if (!IsPostBack)
+            if (RequestId > 0)
             {
-                if (RequestId > 0)
-                {
-                    TransitAccountContent tf = SessionManager.ContentService.GetAccountContentById(
-                        SessionManager.Ticket, RequestId);
+                TransitAccountContent tf = SessionManager.ContentService.GetAccountContentById(
+                    SessionManager.Ticket, RequestId);
 
-                    inputTag.Text = tf.Tag;
-                    inputText.Text = tf.Text;
-                    inputTimestamp.SelectedDate = Adjust(tf.Timestamp);
+                inputTag.Text = tf.Tag;
+                inputText.Text = tf.Text;
+                inputTimestamp.SelectedDate = Adjust(tf.Timestamp);
 
-                    linkPreview.NavigateUrl = string.Format("AccountContentView.aspx?id={0}", RequestId);
-                }
-                else
-                {
-                    inputTimestamp.SelectedDate = Adjust(DateTime.UtcNow);
-                    linkPreview.Visible = false;
-                }
-
-                linkBack.NavigateUrl = string.Format("AccountContentGroupEdit.aspx?id={0}", AccountContentGroupId);
+                linkPreview.NavigateUrl = string.Format("AccountContentView.aspx?id={0}", RequestId);
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            else
+            {
+                inputTimestamp.SelectedDate = Adjust(DateTime.UtcNow);
+                linkPreview.Visible = false;
+            }
+
+            linkBack.NavigateUrl = string.Format("AccountContentGroupEdit.aspx?id={0}", AccountContentGroupId);
         }
     }
 
     public void save(object sender, EventArgs e)
     {
-        try
+        TransitAccountContent s = new TransitAccountContent();
+        s.Id = RequestId;
+        s.Tag = inputTag.Text;
+        s.AccountContentGroupId = AccountContentGroupId;
+
+        if (string.IsNullOrEmpty(s.Tag))
         {
-            TransitAccountContent s = new TransitAccountContent();
-            s.Id = RequestId;
-            s.Tag = inputTag.Text;
-            s.AccountContentGroupId = AccountContentGroupId;
-
-            if (string.IsNullOrEmpty(s.Tag))
-            {
-                throw new ArgumentException("Missing tag.");
-            }
-
-            s.Text = inputText.Text;
-
-            if (!inputTimestamp.HasDate)
-            {
-                throw new ArgumentException("Missing timestamp.");
-            }
-
-            s.Timestamp = base.ToUTC(inputTimestamp.SelectedDate);
-
-            SessionManager.ContentService.CreateOrUpdateAccountContent(SessionManager.Ticket, s);
-            Redirect(string.Format("AccountContentGroupEdit.aspx?id={0}", AccountContentGroupId));
+            throw new ArgumentException("Missing tag.");
         }
-        catch (Exception ex)
+
+        s.Text = inputText.Text;
+
+        if (!inputTimestamp.HasDate)
         {
-            ReportException(ex);
+            throw new ArgumentException("Missing timestamp.");
         }
+
+        s.Timestamp = base.ToUTC(inputTimestamp.SelectedDate);
+
+        SessionManager.ContentService.CreateOrUpdateAccountContent(SessionManager.Ticket, s);
+        Redirect(string.Format("AccountContentGroupEdit.aspx?id={0}", AccountContentGroupId));
     }
 }

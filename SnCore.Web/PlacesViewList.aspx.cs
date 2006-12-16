@@ -16,8 +16,6 @@ public partial class PlacesViewList : Page
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             if (!IsPostBack)
             {
                 int pagenumber = int.Parse(Request["PageNumber"]);
@@ -39,10 +37,5 @@ public partial class PlacesViewList : Page
                     linkNext.HRef = string.Format("PlacesViewList.aspx?PageNumber={0}&PageSize={1}&PageCount={2}",
                         pagenumber + 1, pagesize, pagecount);
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 }

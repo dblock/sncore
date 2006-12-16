@@ -26,7 +26,7 @@ public partial class AccountFeedView : Page
             {
                 object[] args = { "AccountFeed", RequestId };
                 mAccountFeedFeature = SessionManager.GetCachedItem<TransitFeature>(
-                    SessionManager.SystemService, "FindLatestFeature", args);                
+                    SessionManager.SystemService, "FindLatestFeature", args);
             }
             return mAccountFeedFeature;
         }
@@ -38,7 +38,7 @@ public partial class AccountFeedView : Page
         {
             if (mAccountFeed == null)
             {
-                object[] args = { SessionManager.Ticket, RequestId }; 
+                object[] args = { SessionManager.Ticket, RequestId };
                 mAccountFeed = SessionManager.GetCachedItem<TransitAccountFeed>(
                     SessionManager.SyndicationService, "GetAccountFeedById", args);
             }
@@ -48,53 +48,46 @@ public partial class AccountFeedView : Page
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+        if (!IsPostBack)
         {
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
-            if (!IsPostBack)
-            {
-                TransitAccountFeed f = AccountFeed;
-                labelFeed.Text = Renderer.Render(f.Name);
-                labelFeed.NavigateUrl = f.LinkUrl;
-                labelFeedDescription.Text = Renderer.Render(f.Description);
+            TransitAccountFeed f = AccountFeed;
+            labelFeed.Text = Renderer.Render(f.Name);
+            labelFeed.NavigateUrl = f.LinkUrl;
+            labelFeedDescription.Text = Renderer.Render(f.Description);
 
-                licenseView.AccountId = f.AccountId;
+            licenseView.AccountId = f.AccountId;
 
-                GetDataPublish(sender, e);
+            GetDataPublish(sender, e);
 
-                object[] f_args = { f.FeedType };
-                TransitFeedType t = SessionManager.GetCachedItem<TransitFeedType>(
-                    SessionManager.SyndicationService, "GetFeedTypeByName", f_args);
-                gridManage.RepeatColumns = t.SpanColumns;
-                gridManage.RepeatRows = t.SpanRows;
+            object[] f_args = { f.FeedType };
+            TransitFeedType t = SessionManager.GetCachedItem<TransitFeedType>(
+                SessionManager.SyndicationService, "GetFeedTypeByName", f_args);
+            gridManage.RepeatColumns = t.SpanColumns;
+            gridManage.RepeatRows = t.SpanRows;
 
-                object[] a_args = { f.AccountId };
-                TransitAccount a = SessionManager.GetCachedItem<TransitAccount>(
-                    SessionManager.AccountService, "GetAccountById", a_args);
+            object[] a_args = { f.AccountId };
+            TransitAccount a = SessionManager.GetCachedItem<TransitAccount>(
+                SessionManager.AccountService, "GetAccountById", a_args);
 
-                labelAccountName.Text = Renderer.Render(a.Name);
-                linkAccount.HRef = string.Format("AccountView.aspx?id={0}", a.Id);
-                imageAccount.Src = string.Format("AccountPictureThumbnail.aspx?id={0}", a.PictureId);
+            labelAccountName.Text = Renderer.Render(a.Name);
+            linkAccount.HRef = string.Format("AccountView.aspx?id={0}", a.Id);
+            imageAccount.Src = string.Format("AccountPictureThumbnail.aspx?id={0}", a.PictureId);
 
-                this.Title = string.Format("{0}'s {1}", Renderer.Render(a.Name), Renderer.Render(f.Name));
+            this.Title = string.Format("{0}'s {1}", Renderer.Render(a.Name), Renderer.Render(f.Name));
 
-                object[] args = { RequestId };
-                gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-                    SessionManager.SyndicationService, "GetAccountFeedItemsCountById", args);
-                gridManage_OnGetDataSource(sender, e);
-                gridManage.DataBind();
+            object[] args = { RequestId };
+            gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+                SessionManager.SyndicationService, "GetAccountFeedItemsCountById", args);
+            gridManage_OnGetDataSource(sender, e);
+            gridManage.DataBind();
 
-                GetDataFeature(sender, e);
+            GetDataFeature(sender, e);
 
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Blogs", Request, "AccountFeedItemsView.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode(f.Name, Request.Url));
-                StackSiteMap(sitemapdata);
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Blogs", Request, "AccountFeedItemsView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode(f.Name, Request.Url));
+            StackSiteMap(sitemapdata);
         }
     }
 
@@ -116,19 +109,12 @@ public partial class AccountFeedView : Page
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
-            ServiceQueryOptions options = new ServiceQueryOptions();
-            options.PageNumber = gridManage.CurrentPageIndex;
-            options.PageSize = gridManage.PageSize;
-            object[] args = { RequestId, options };
-            gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountFeedItem>(
-                SessionManager.SyndicationService, "GetAccountFeedItemsById", args);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageNumber = gridManage.CurrentPageIndex;
+        options.PageSize = gridManage.PageSize;
+        object[] args = { RequestId, options };
+        gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountFeedItem>(
+            SessionManager.SyndicationService, "GetAccountFeedItemsById", args);
     }
 
     public string GetComments(int count)
@@ -150,90 +136,62 @@ public partial class AccountFeedView : Page
 
     public void feature_Click(object sender, EventArgs e)
     {
-        try
+        if (!SessionManager.IsAdministrator)
         {
-            if (!SessionManager.IsAdministrator)
-            {
-                // avoid round-trip
-                throw new Exception("You must be an administrator to feature other users.");
-            }
+            // avoid round-trip
+            throw new Exception("You must be an administrator to feature other users.");
+        }
 
-            TransitFeature t_feature = new TransitFeature();
-            t_feature.DataObjectName = "AccountFeed";
-            t_feature.DataRowId = RequestId;
-            SessionManager.SystemService.CreateOrUpdateFeature(SessionManager.Ticket, t_feature);
-            GetDataFeature(sender, e);
-            panelAdminUpdate.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        TransitFeature t_feature = new TransitFeature();
+        t_feature.DataObjectName = "AccountFeed";
+        t_feature.DataRowId = RequestId;
+        SessionManager.SystemService.CreateOrUpdateFeature(SessionManager.Ticket, t_feature);
+        GetDataFeature(sender, e);
+        panelAdminUpdate.Update();
     }
 
     public void deletefeature_Click(object sender, EventArgs e)
     {
-        try
+        if (!SessionManager.IsAdministrator)
         {
-            if (!SessionManager.IsAdministrator)
-            {
-                // avoid round-trip
-                throw new Exception("You must be an administrator to feature feeds.");
-            }
+            // avoid round-trip
+            throw new Exception("You must be an administrator to feature feeds.");
+        }
 
-            TransitFeature t_feature = new TransitFeature();
-            t_feature.DataObjectName = "AccountFeed";
-            t_feature.DataRowId = RequestId;
-            SessionManager.SystemService.DeleteAllFeatures(SessionManager.Ticket, t_feature);
-            GetDataFeature(sender, e);
-            panelAdminUpdate.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        TransitFeature t_feature = new TransitFeature();
+        t_feature.DataObjectName = "AccountFeed";
+        t_feature.DataRowId = RequestId;
+        SessionManager.SystemService.DeleteAllFeatures(SessionManager.Ticket, t_feature);
+        GetDataFeature(sender, e);
+        panelAdminUpdate.Update();
     }
 
     public void publish_Click(object sender, EventArgs e)
     {
-        try
+        if (!SessionManager.IsAdministrator)
         {
-            if (!SessionManager.IsAdministrator)
-            {
-                // avoid round-trip
-                throw new Exception("You must be an administrator to toggle feed publishing.");
-            }
+            // avoid round-trip
+            throw new Exception("You must be an administrator to toggle feed publishing.");
+        }
 
-            AccountFeed.Publish = !AccountFeed.Publish;
-            SessionManager.SyndicationService.CreateOrUpdateAccountFeed(SessionManager.Ticket, AccountFeed);
-            GetDataPublish(sender, e);
-            panelAdminUpdate.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        AccountFeed.Publish = !AccountFeed.Publish;
+        SessionManager.SyndicationService.CreateOrUpdateAccountFeed(SessionManager.Ticket, AccountFeed);
+        GetDataPublish(sender, e);
+        panelAdminUpdate.Update();
     }
 
     public void publishImgs_Click(object sender, EventArgs e)
     {
-        try
+        if (!SessionManager.IsAdministrator)
         {
-            if (!SessionManager.IsAdministrator)
-            {
-                // avoid round-trip
-                throw new Exception("You must be an administrator to toggle feed picture publishing.");
-            }
+            // avoid round-trip
+            throw new Exception("You must be an administrator to toggle feed picture publishing.");
+        }
 
-            AccountFeed.PublishImgs = !AccountFeed.PublishImgs;
-            SessionManager.SyndicationService.CreateOrUpdateAccountFeed(SessionManager.Ticket, AccountFeed);
-            GetDataPublish(sender, e);
-            panelAdminUpdate.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        AccountFeed.PublishImgs = !AccountFeed.PublishImgs;
+        SessionManager.SyndicationService.CreateOrUpdateAccountFeed(SessionManager.Ticket, AccountFeed);
+        GetDataPublish(sender, e);
+        panelAdminUpdate.Update();
     }
 
     public string GetDescription(string value)

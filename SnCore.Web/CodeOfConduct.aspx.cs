@@ -11,7 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.SiteMap;
 
 [SiteMapDataAttribute("Code of Conduct")]
-public partial class CodeOfConduct: Page
+public partial class CodeOfConduct : Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {

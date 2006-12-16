@@ -89,8 +89,6 @@ public partial class TagWordsView : AccountPersonPage
 
     public void Page_Load()
     {
-        try
-        {
             if (!IsPostBack)
             {
                 ServiceQueryOptions options = new ServiceQueryOptions();
@@ -105,11 +103,6 @@ public partial class TagWordsView : AccountPersonPage
                 tagwords.DataSource = words;
                 tagwords.DataBind();
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public int GetFontSize(int frequency)

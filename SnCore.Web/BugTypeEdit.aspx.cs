@@ -16,49 +16,35 @@ public partial class BugTypeEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Bugs", Request, "BugProjectsManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Types", Request, "BugTypesManage.aspx"));
+
+            if (RequestId > 0)
             {
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Bugs", Request, "BugProjectsManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Types", Request, "BugTypesManage.aspx"));
-
-                if (RequestId > 0)
-                {
-                    TransitBugType t = SessionManager.BugService.GetBugTypeById(RequestId);
-                    inputName.Text = t.Name;
-                    sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
-                }
-                else
-                {
-                    sitemapdata.Add(new SiteMapDataAttributeNode("New Type", Request.Url));
-                }
-
-                StackSiteMap(sitemapdata);
+                TransitBugType t = SessionManager.BugService.GetBugTypeById(RequestId);
+                inputName.Text = t.Name;
+                sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
+            }
+            else
+            {
+                sitemapdata.Add(new SiteMapDataAttributeNode("New Type", Request.Url));
             }
 
-            SetDefaultButton(manageAdd);
+            StackSiteMap(sitemapdata);
         }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+
+        SetDefaultButton(manageAdd);
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-        try
-        {
-            TransitBugType t = new TransitBugType();
-            t.Name = inputName.Text;
-            t.Id = RequestId;
-            SessionManager.BugService.CreateOrUpdateBugType(SessionManager.Ticket, t);
-            Redirect("BugTypesManage.aspx");
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        TransitBugType t = new TransitBugType();
+        t.Name = inputName.Text;
+        t.Id = RequestId;
+        SessionManager.BugService.CreateOrUpdateBugType(SessionManager.Ticket, t);
+        Redirect("BugTypesManage.aspx");
     }
 }

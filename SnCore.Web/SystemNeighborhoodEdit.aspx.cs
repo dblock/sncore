@@ -17,8 +17,6 @@ public partial class SystemNeighborhoodEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             if (!IsPostBack)
             {
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
@@ -52,46 +50,25 @@ public partial class SystemNeighborhoodEdit : AuthenticatedPage
 
             SetDefaultButton(manageAdd);
             PageManager.SetDefaultButton(mergeLookup, panelMerge.Controls);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void inputState_SelectedIndexChanged(object sender, EventArgs e)
     {
-        try
-        {
             object[] args = { inputCountry.SelectedValue, inputState.SelectedValue};
             inputCity.DataSource = SessionManager.GetCachedCollection<TransitCity>(SessionManager.LocationService, "GetCitiesByLocation", args);
             inputCity.DataBind();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
 
     public void inputCountry_SelectedIndexChanged(object sender, EventArgs e)
     {
-        try
-        {
             object[] args = { inputCountry.SelectedValue };
             inputState.DataSource = SessionManager.GetCachedCollection<TransitState>(SessionManager.LocationService, "GetStatesByCountry", args);
             inputState.DataBind();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-        try
-        {
             TransitNeighborhood tc = new TransitNeighborhood();
             tc.Name = inputName.Text;
             tc.Id = RequestId;
@@ -104,31 +81,17 @@ public partial class SystemNeighborhoodEdit : AuthenticatedPage
             }
             SessionManager.LocationService.AddNeighborhood(SessionManager.Ticket, tc);
             Redirect("SystemNeighborhoodsManage.aspx");
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void mergeLookup_Click(object sender, EventArgs e)
     {
-        try
-        {
             gridMergeLookup.CurrentPageIndex = 0;
             gridMergeLookup.DataSource = SessionManager.LocationService.SearchNeighborhoodsByName(inputMergeWhat.Text);
             gridMergeLookup.DataBind();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void gridMergeLookup_ItemCommand(object source, DataGridCommandEventArgs e)
     {
-        try
-        {
             switch (e.CommandName)
             {
                 case "Merge":
@@ -138,10 +101,5 @@ public partial class SystemNeighborhoodEdit : AuthenticatedPage
                     mergeLookup_Click(source, e);
                     break;
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 }

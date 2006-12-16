@@ -79,7 +79,7 @@ public partial class AccountBlogViewControl : Control
 
         foreach (ListItem item in ContentLinkIds)
         {
-            AccountContentGroupLinkControl link = (AccountContentGroupLinkControl) Page.LoadControl("AccountContentGroupLinkControl.ascx");
+            AccountContentGroupLinkControl link = (AccountContentGroupLinkControl)Page.LoadControl("AccountContentGroupLinkControl.ascx");
             link.LowerCase = true;
             link.ConfigurationName = item.Value;
             divLinks.Controls.Add(link);
@@ -88,49 +88,35 @@ public partial class AccountBlogViewControl : Control
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
-            if (!IsPostBack)
+        if (!IsPostBack)
+        {
+            if (BlogId > 0)
             {
-                if (BlogId > 0)
-                {
-                    object[] b_args = { SessionManager.IsLoggedIn ? SessionManager.Ticket : string.Empty, BlogId };
-                    TransitAccountBlog blog = SessionManager.GetCachedItem<TransitAccountBlog>(
-                        SessionManager.BlogService, "GetAccountBlogById", b_args);
+                object[] b_args = { SessionManager.IsLoggedIn ? SessionManager.Ticket : string.Empty, BlogId };
+                TransitAccountBlog blog = SessionManager.GetCachedItem<TransitAccountBlog>(
+                    SessionManager.BlogService, "GetAccountBlogById", b_args);
 
-                    // limit number of items
-                    object[] args2 = { BlogId };
-                    gridManage.VirtualItemCount = Math.Min(gridManage.PageSize, SessionManager.GetCachedCollectionCount(
-                        SessionManager.BlogService, "GetAccountBlogPostsCountById", args2));
-                    gridManage_OnGetDataSource(this, null);
-                    gridManage.DataBind();
+                // limit number of items
+                object[] args2 = { BlogId };
+                gridManage.VirtualItemCount = Math.Min(gridManage.PageSize, SessionManager.GetCachedCollectionCount(
+                    SessionManager.BlogService, "GetAccountBlogPostsCountById", args2));
+                gridManage_OnGetDataSource(this, null);
+                gridManage.DataBind();
 
-                    linkRelRss.NavigateUrl = string.Format("AccountBlogRss.aspx?id={0}", BlogId);
-                    linkRelRss.Title = Renderer.Render(blog.Name);
-                }
+                linkRelRss.NavigateUrl = string.Format("AccountBlogRss.aspx?id={0}", BlogId);
+                linkRelRss.Title = Renderer.Render(blog.Name);
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
         }
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
-            ServiceQueryOptions options = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
-            object[] args = { SessionManager.Ticket, BlogId, options };
-            gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountBlogPost>(
-                SessionManager.BlogService, "GetAccountBlogPostsById", args);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ServiceQueryOptions options = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
+        object[] args = { SessionManager.Ticket, BlogId, options };
+        gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountBlogPost>(
+            SessionManager.BlogService, "GetAccountBlogPostsById", args);
     }
 
     public string GetTitle(string title)

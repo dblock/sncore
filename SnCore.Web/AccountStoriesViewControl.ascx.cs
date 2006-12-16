@@ -29,19 +29,12 @@ public partial class AccountStoriesViewControl : Control
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        accountStories.OnGetDataSource += new EventHandler(accountStories_OnGetDataSource);
+        if (!IsPostBack)
         {
-            accountStories.OnGetDataSource += new EventHandler(accountStories_OnGetDataSource);
-            if (!IsPostBack)
-            {
-                accountStories_OnGetDataSource(sender, e);
-                accountStories.DataBind();
-                this.Visible = accountStories.Items.Count > 0;
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            accountStories_OnGetDataSource(sender, e);
+            accountStories.DataBind();
+            this.Visible = accountStories.Items.Count > 0;
         }
     }
 

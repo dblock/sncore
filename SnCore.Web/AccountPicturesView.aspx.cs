@@ -17,32 +17,25 @@ public partial class AccountPicturesView : Page
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (RequestId == 0)
         {
-            if (RequestId == 0)
-            {
-                throw new Exception("Missing account.");
-            }
-
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
-
-            if (!IsPostBack)
-            {
-                TransitAccount a = SessionManager.AccountService.GetAccountById(RequestId);
-                this.Title = string.Format("{0}'s Pictures", Renderer.Render(a.Name));
-        
-                GetData(sender, e);
-
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode(a.Name, Request, string.Format("AccountView.aspx?id={0}", a.Id)));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request.Url));
-                StackSiteMap(sitemapdata);
-            }
+            throw new Exception("Missing account.");
         }
-        catch (Exception ex)
+
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+
+        if (!IsPostBack)
         {
-            ReportException(ex);
+            TransitAccount a = SessionManager.AccountService.GetAccountById(RequestId);
+            this.Title = string.Format("{0}'s Pictures", Renderer.Render(a.Name));
+
+            GetData(sender, e);
+
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode(a.Name, Request, string.Format("AccountView.aspx?id={0}", a.Id)));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request.Url));
+            StackSiteMap(sitemapdata);
         }
     }
 
@@ -60,21 +53,14 @@ public partial class AccountPicturesView : Page
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
-            AccountPicturesQueryOptions ap = new AccountPicturesQueryOptions();
-            ap.Hidden = false;
-            ServiceQueryOptions options = new ServiceQueryOptions();
-            options.PageSize = gridManage.PageSize;
-            options.PageNumber = gridManage.CurrentPageIndex;
-            object[] args = { RequestId, ap, options };
-            gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountPicture>(
-                SessionManager.AccountService, "GetAccountPicturesById", args);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        AccountPicturesQueryOptions ap = new AccountPicturesQueryOptions();
+        ap.Hidden = false;
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageSize = gridManage.PageSize;
+        options.PageNumber = gridManage.CurrentPageIndex;
+        object[] args = { RequestId, ap, options };
+        gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountPicture>(
+            SessionManager.AccountService, "GetAccountPicturesById", args);
     }
 
 }

@@ -41,22 +41,15 @@ public partial class DiscussionThreadsRss : Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
-            {
-                ServiceQueryOptions options = new ServiceQueryOptions();
-                options.PageSize = 50;
-                options.PageNumber = 0;
-                object[] args = { SessionManager.Ticket, options };
-                rssRepeater.DataSource = SessionManager.GetCachedCollection<TransitDiscussionPost>(
-                    SessionManager.DiscussionService, "GetDiscussionThreads", args);
-                rssRepeater.DataBind();
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            ServiceQueryOptions options = new ServiceQueryOptions();
+            options.PageSize = 50;
+            options.PageNumber = 0;
+            object[] args = { SessionManager.Ticket, options };
+            rssRepeater.DataSource = SessionManager.GetCachedCollection<TransitDiscussionPost>(
+                SessionManager.DiscussionService, "GetDiscussionThreads", args);
+            rssRepeater.DataBind();
         }
     }
 

@@ -14,8 +14,6 @@ public partial class AccountFriendRequestAct : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             if (!IsPostBack)
             {
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
@@ -53,10 +51,5 @@ public partial class AccountFriendRequestAct : AuthenticatedPage
 
                 ReportInfo("Request " + action + "ed.");
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 }

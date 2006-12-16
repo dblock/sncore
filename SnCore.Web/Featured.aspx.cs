@@ -15,19 +15,12 @@ public partial class Featured : Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
-            {
-                linkAdministrator.OnClientClick =
-                    string.Format("location.href='mailto:{0}';",
-                       SessionManager.GetCachedConfiguration(
-                            "SnCore.Admin.EmailAddress", "admin@localhost.com"));
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            linkAdministrator.OnClientClick =
+                string.Format("location.href='mailto:{0}';",
+                   SessionManager.GetCachedConfiguration(
+                        "SnCore.Admin.EmailAddress", "admin@localhost.com"));
         }
     }
 }

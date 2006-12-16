@@ -17,75 +17,61 @@ public partial class FeedTypeEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
+            for (int i = 1; i < 20; i++)
             {
-                for (int i = 1; i < 20; i++)
-                {
-                    inputSpanColumns.Items.Add(new ListItem(i.ToString(), i.ToString()));
-                    inputSpanRows.Items.Add(new ListItem(i.ToString(), i.ToString()));
-                    inputSpanColumnsPreview.Items.Add(new ListItem(i.ToString(), i.ToString()));
-                    inputSpanRowsPreview.Items.Add(new ListItem(i.ToString(), i.ToString()));
-                }
-
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Feed Types", Request, "FeedTypesManage.aspx"));
-
-                if (RequestId > 0)
-                {
-                    TransitFeedType t = SessionManager.SyndicationService.GetFeedTypeById(RequestId);
-                    inputName.Text = t.Name;
-                    inputSpanColumns.Items.FindByValue(t.SpanColumns.ToString()).Selected = true;
-                    inputSpanRows.Items.FindByValue(t.SpanRows.ToString()).Selected = true;
-                    inputSpanColumnsPreview.Items.FindByValue(t.SpanColumnsPreview.ToString()).Selected = true;
-                    inputSpanRowsPreview.Items.FindByValue(t.SpanRowsPreview.ToString()).Selected = true;
-                    if (!string.IsNullOrEmpty(t.Xsl))
-                    {
-                        labelXsl.Text = string.Format("{0} Kb",
-                            ((double)t.Xsl.Length / 1024).ToString("0.00"));
-                    }
-
-                    sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
-                }
-                else
-                {
-                    sitemapdata.Add(new SiteMapDataAttributeNode("New Feed Type", Request.Url));
-                }
-
-                StackSiteMap(sitemapdata);
+                inputSpanColumns.Items.Add(new ListItem(i.ToString(), i.ToString()));
+                inputSpanRows.Items.Add(new ListItem(i.ToString(), i.ToString()));
+                inputSpanColumnsPreview.Items.Add(new ListItem(i.ToString(), i.ToString()));
+                inputSpanRowsPreview.Items.Add(new ListItem(i.ToString(), i.ToString()));
             }
 
-            SetDefaultButton(manageAdd);
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Feed Types", Request, "FeedTypesManage.aspx"));
+
+            if (RequestId > 0)
+            {
+                TransitFeedType t = SessionManager.SyndicationService.GetFeedTypeById(RequestId);
+                inputName.Text = t.Name;
+                inputSpanColumns.Items.FindByValue(t.SpanColumns.ToString()).Selected = true;
+                inputSpanRows.Items.FindByValue(t.SpanRows.ToString()).Selected = true;
+                inputSpanColumnsPreview.Items.FindByValue(t.SpanColumnsPreview.ToString()).Selected = true;
+                inputSpanRowsPreview.Items.FindByValue(t.SpanRowsPreview.ToString()).Selected = true;
+                if (!string.IsNullOrEmpty(t.Xsl))
+                {
+                    labelXsl.Text = string.Format("{0} Kb",
+                        ((double)t.Xsl.Length / 1024).ToString("0.00"));
+                }
+
+                sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
+            }
+            else
+            {
+                sitemapdata.Add(new SiteMapDataAttributeNode("New Feed Type", Request.Url));
+            }
+
+            StackSiteMap(sitemapdata);
         }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+
+        SetDefaultButton(manageAdd);
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-        try
+        TransitFeedType t = new TransitFeedType();
+        t.Name = inputName.Text;
+        t.Id = RequestId;
+        t.SpanColumns = int.Parse(inputSpanColumns.SelectedValue);
+        t.SpanRows = int.Parse(inputSpanRows.SelectedValue);
+        t.SpanColumnsPreview = int.Parse(inputSpanColumnsPreview.SelectedValue);
+        t.SpanRowsPreview = int.Parse(inputSpanRowsPreview.SelectedValue);
+        if (inputXsl.HasFile)
         {
-            TransitFeedType t = new TransitFeedType();
-            t.Name = inputName.Text;
-            t.Id = RequestId;
-            t.SpanColumns = int.Parse(inputSpanColumns.SelectedValue);
-            t.SpanRows = int.Parse(inputSpanRows.SelectedValue);
-            t.SpanColumnsPreview = int.Parse(inputSpanColumnsPreview.SelectedValue);
-            t.SpanRowsPreview = int.Parse(inputSpanRowsPreview.SelectedValue);
-            if (inputXsl.HasFile)
-            {
-                t.Xsl = new StreamReader(inputXsl.FileContent).ReadToEnd();
-            }
-            SessionManager.SyndicationService.CreateOrUpdateFeedType(SessionManager.Ticket, t);
-            Redirect("FeedTypesManage.aspx");
+            t.Xsl = new StreamReader(inputXsl.FileContent).ReadToEnd();
         }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        SessionManager.SyndicationService.CreateOrUpdateFeedType(SessionManager.Ticket, t);
+        Redirect("FeedTypesManage.aspx");
     }
 }

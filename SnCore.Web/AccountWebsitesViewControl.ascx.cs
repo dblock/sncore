@@ -29,17 +29,10 @@ public partial class AccountWebsitesViewControl : Control
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        accountWebsites.OnGetDataSource += new EventHandler(accountWebsites_OnGetDataSource);
+        if (!IsPostBack)
         {
-            accountWebsites.OnGetDataSource += new EventHandler(accountWebsites_OnGetDataSource);
-            if (!IsPostBack)
-            {
-                GetData(sender, e);
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            GetData(sender, e);
         }
     }
 

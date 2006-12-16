@@ -108,34 +108,27 @@ public partial class AccountsRss : AccountPersonPage
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
-            {
-                AccountActivityQueryOptions options = new AccountActivityQueryOptions();
-                options.SortAscending = Ascending;
-                options.SortOrder = SortOrder;
-                options.PicturesOnly = Pictures;
-                options.BloggersOnly = Bloggers;
-                options.City = City;
-                options.Country = Country;
-                options.State = State;
-                options.Name = Name;
-                options.Email = Email;
+            AccountActivityQueryOptions options = new AccountActivityQueryOptions();
+            options.SortAscending = Ascending;
+            options.SortOrder = SortOrder;
+            options.PicturesOnly = Pictures;
+            options.BloggersOnly = Bloggers;
+            options.City = City;
+            options.Country = Country;
+            options.State = State;
+            options.Name = Name;
+            options.Email = Email;
 
-                ServiceQueryOptions queryoptions = new ServiceQueryOptions();
-                queryoptions.PageNumber = 0;
-                queryoptions.PageSize = 25;
+            ServiceQueryOptions queryoptions = new ServiceQueryOptions();
+            queryoptions.PageNumber = 0;
+            queryoptions.PageSize = 25;
 
-                object[] args = { options, queryoptions };
-                rssRepeater.DataSource = SessionManager.GetCachedCollection<TransitAccountActivity>(
-                    SessionManager.SocialService, "GetAccountActivity", args);
-                rssRepeater.DataBind();
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            object[] args = { options, queryoptions };
+            rssRepeater.DataSource = SessionManager.GetCachedCollection<TransitAccountActivity>(
+                SessionManager.SocialService, "GetAccountActivity", args);
+            rssRepeater.DataBind();
         }
     }
 

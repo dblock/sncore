@@ -58,7 +58,7 @@ public partial class AccountMadLibInstanceEdit : AuthenticatedPage
         get
         {
             string result = Request.Params["ObjectName"];
-            
+
             if (string.IsNullOrEmpty(result))
             {
                 throw new Exception("Missing Object Name");
@@ -72,7 +72,7 @@ public partial class AccountMadLibInstanceEdit : AuthenticatedPage
     {
         get
         {
-            return (string) Request[string.Format("{0}.Name", ObjectName)];
+            return (string)Request[string.Format("{0}.Name", ObjectName)];
         }
     }
 
@@ -88,69 +88,55 @@ public partial class AccountMadLibInstanceEdit : AuthenticatedPage
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
+            linkCancel.NavigateUrl = ReturnUrl;
+
+            if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket))
             {
-                linkCancel.NavigateUrl = ReturnUrl;
+                ReportWarning("You don't have any verified e-mail addresses.\n" +
+                    "You must add/confirm a valid e-mail address before posting mad libs.");
 
-                if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket))
-                {
-                    ReportWarning("You don't have any verified e-mail addresses.\n" +
-                        "You must add/confirm a valid e-mail address before posting mad libs.");
-
-                    panelPost.Visible = false;
-                    post.Enabled = false;
-                }
-
-                madLibInstance.MadLibId = MadLibId;
-                madLibInstance.DataBind();
-
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode(ObjectName + "s", Request, string.Format("{0}View.aspx", ObjectName)));
-                sitemapdata.Add(new SiteMapDataAttributeNode(InstanceName, Request, ReturnUrl));
-
-                if (MadLibInstanceId > 0)
-                {
-                    TransitMadLibInstance tmi = SessionManager.MadLibService.GetMadLibInstanceById(MadLibInstanceId);
-                    madLibInstance.TextBind(tmi.Text);
-                }
-
-                sitemapdata.Add(new SiteMapDataAttributeNode("Mad Lib", Request.Url));
-                StackSiteMap(sitemapdata);
+                panelPost.Visible = false;
+                post.Enabled = false;
             }
 
-            SetDefaultButton(post);
+            madLibInstance.MadLibId = MadLibId;
+            madLibInstance.DataBind();
+
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode(ObjectName + "s", Request, string.Format("{0}View.aspx", ObjectName)));
+            sitemapdata.Add(new SiteMapDataAttributeNode(InstanceName, Request, ReturnUrl));
+
+            if (MadLibInstanceId > 0)
+            {
+                TransitMadLibInstance tmi = SessionManager.MadLibService.GetMadLibInstanceById(MadLibInstanceId);
+                madLibInstance.TextBind(tmi.Text);
+            }
+
+            sitemapdata.Add(new SiteMapDataAttributeNode("Mad Lib", Request.Url));
+            StackSiteMap(sitemapdata);
         }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+
+        SetDefaultButton(post);
     }
 
     public void post_Click(object sender, EventArgs e)
     {
-        try
+        string text = string.Empty;
+        if (madLibInstance.TryGetText(ref text))
         {
-            string text = string.Empty;
-            if (madLibInstance.TryGetText(ref text))
-            {
-                TransitMadLibInstance madlib = new TransitMadLibInstance();
-                madlib.Id = RequestId;
-                madlib.AccountId = SessionManager.Account.Id;
-                madlib.MadLibId = MadLibId;
-                madlib.ObjectId = ObjectId;
-                madlib.ObjectName = ObjectName;
-                madlib.Text = text;
-                madlib.ObjectUri = ReturnUrl;
-                madlib.ObjectAccountId = ObjectAccountId;
-                SessionManager.MadLibService.CreateOrUpdateMadLibInstance(SessionManager.Ticket, madlib);
-                Redirect(linkCancel.NavigateUrl);
-            }            
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            TransitMadLibInstance madlib = new TransitMadLibInstance();
+            madlib.Id = RequestId;
+            madlib.AccountId = SessionManager.Account.Id;
+            madlib.MadLibId = MadLibId;
+            madlib.ObjectId = ObjectId;
+            madlib.ObjectName = ObjectName;
+            madlib.Text = text;
+            madlib.ObjectUri = ReturnUrl;
+            madlib.ObjectAccountId = ObjectAccountId;
+            SessionManager.MadLibService.CreateOrUpdateMadLibInstance(SessionManager.Ticket, madlib);
+            Redirect(linkCancel.NavigateUrl);
         }
     }
 }

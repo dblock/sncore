@@ -138,16 +138,16 @@ public partial class NoticeControl : Control
 
             StringBuilder s = new StringBuilder();
             s.AppendFormat("User-raised exception from {0}: {1}\n{2}", value.Source, value.Message, value.StackTrace);
-            if (Request != null && ! string.IsNullOrEmpty(Request.RawUrl)) s.AppendFormat("\nUrl: {0}", Request.RawUrl);
+            if (Request != null && !string.IsNullOrEmpty(Request.RawUrl)) s.AppendFormat("\nUrl: {0}", Request.RawUrl);
             if (Request != null && Request.UrlReferrer != null) s.AppendFormat("\nReferrer: {0}", Request.UrlReferrer);
-            if (Request != null && ! string.IsNullOrEmpty(Request.UserAgent)) s.AppendFormat("\nUser-agent: {0}", Request.UserAgent);
+            if (Request != null && !string.IsNullOrEmpty(Request.UserAgent)) s.AppendFormat("\nUser-agent: {0}", Request.UserAgent);
 
             SessionManager.EventLog.WriteEntry(s.ToString(), EventLogEntryType.Warning);
 
             if (value.InnerException != null)
             {
                 SessionManager.EventLog.WriteEntry(string.Format("User-raised inner-exception from {0}: {1}\n{2}",
-                    value.InnerException.Source, value.InnerException.Message, value.InnerException.StackTrace), 
+                    value.InnerException.Source, value.InnerException.Message, value.InnerException.StackTrace),
                     EventLogEntryType.Warning);
             }
         }
@@ -178,7 +178,7 @@ public partial class NoticeControl : Control
                 mMessage = value;
             }
 
-            panelNotice.Visible = ! string.IsNullOrEmpty(value);
+            panelNotice.Visible = !string.IsNullOrEmpty(value);
             labelMessage.Text = HtmlEncode ? Render(Message) : Message;
         }
     }

@@ -29,22 +29,15 @@ public partial class AccountPlaceFavoritesViewControl : Control
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
-            placesList.OnGetDataSource += new EventHandler(placesList_OnGetDataSource);
+        placesList.OnGetDataSource += new EventHandler(placesList_OnGetDataSource);
 
-            if (!IsPostBack)
-            {
-                GetData(sender, e);
-
-                linkAll.Text = string.Format("&#187; {0} Favorite Place{1}",
-                    placesList.VirtualItemCount, placesList.VirtualItemCount == 1 ? string.Empty : "s");
-                linkAll.NavigateUrl = string.Format("AccountPlaceFavoritesView.aspx?id={0}", AccountId);
-            }
-        }
-        catch (Exception ex)
+        if (!IsPostBack)
         {
-            ReportException(ex);
+            GetData(sender, e);
+
+            linkAll.Text = string.Format("&#187; {0} Favorite Place{1}",
+                placesList.VirtualItemCount, placesList.VirtualItemCount == 1 ? string.Empty : "s");
+            linkAll.NavigateUrl = string.Format("AccountPlaceFavoritesView.aspx?id={0}", AccountId);
         }
     }
 
@@ -61,19 +54,12 @@ public partial class AccountPlaceFavoritesViewControl : Control
 
     void placesList_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
-            ServiceQueryOptions options = new ServiceQueryOptions();
-            options.PageNumber = placesList.CurrentPageIndex;
-            options.PageSize = placesList.PageSize;
-            object[] args = { AccountId, options };
-            placesList.DataSource = SessionManager.GetCachedCollection<TransitAccountPlaceFavorite>(
-                SessionManager.PlaceService, "GetAccountPlaceFavoritesByAccountId", args);
-            panelGrid.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageNumber = placesList.CurrentPageIndex;
+        options.PageSize = placesList.PageSize;
+        object[] args = { AccountId, options };
+        placesList.DataSource = SessionManager.GetCachedCollection<TransitAccountPlaceFavorite>(
+            SessionManager.PlaceService, "GetAccountPlaceFavoritesByAccountId", args);
+        panelGrid.Update();
     }
 }

@@ -19,33 +19,18 @@ public partial class EmailAccountFriendRequest : AuthenticatedPage
     {
         get
         {
-            try
-            {
                 if (mAccountFriendRequest == null)
                 {
                     mAccountFriendRequest = SessionManager.SocialService.GetAccountFriendRequestById(
                         SessionManager.Ticket, RequestId);
                 }
-            }
-            catch (Exception ex)
-            {
-                ReportException(ex);
-            }
-
             return mAccountFriendRequest;
         }
     }
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             Title = string.Format("{0} wants to be your friend", Renderer.Render(AccountFriendRequest.AccountName));
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 }
 

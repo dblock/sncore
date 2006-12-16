@@ -55,58 +55,51 @@ public partial class AccountEventsToday : Page
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+
+        if (!IsPostBack)
         {
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+            ArrayList types = new ArrayList();
+            types.Add(new TransitAccountEventType());
+            types.AddRange(SessionManager.GetCachedCollection<TransitAccountEventType>(
+                SessionManager.EventService, "GetAccountEventTypes", null));
+            inputType.DataSource = types;
+            inputType.DataBind();
 
-            if (!IsPostBack)
+            ArrayList countries = new ArrayList();
+            countries.Add(new TransitCountry());
+            object[] c_args = { null };
+            countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(
+                SessionManager.LocationService, "GetCountries", c_args));
+            inputCountry.DataSource = countries;
+            inputCountry.DataBind();
+
+            linkLocal.Visible = SessionManager.IsLoggedIn && !string.IsNullOrEmpty(SessionManager.Account.City);
+
+            if (SessionManager.IsLoggedIn)
             {
-                ArrayList types = new ArrayList();
-                types.Add(new TransitAccountEventType());
-                types.AddRange(SessionManager.GetCachedCollection<TransitAccountEventType>(
-                    SessionManager.EventService, "GetAccountEventTypes", null));
-                inputType.DataSource = types;
-                inputType.DataBind();
-
-                ArrayList countries = new ArrayList();
-                countries.Add(new TransitCountry());
-                object[] c_args = { null };
-                countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(
-                    SessionManager.LocationService, "GetCountries", c_args));
-                inputCountry.DataSource = countries;
-                inputCountry.DataBind();
-
-                linkLocal.Visible = SessionManager.IsLoggedIn && !string.IsNullOrEmpty(SessionManager.Account.City);
-
-                if (SessionManager.IsLoggedIn)
-                {
-                    linkLocal.Text = string.Format("&#187; {0} Events", Renderer.Render(SessionManager.Account.City));
-                }
-
-                //if (SessionManager.IsLoggedIn && (Request.QueryString.Count == 0))
-                //{
-                //    SelectLocation(sender, new SelectLocationEventArgs(SessionManager.Account));
-                //}
-                //else
-                {
-                    SelectLocation(sender, new SelectLocationEventArgs(Request));
-                }
-
-                SelectWeek();
-                GetData();
-
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Events", Request, "AccountEventsView.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Events This Week", "AccountEventsToday.aspx"));
-                StackSiteMap(sitemapdata);
+                linkLocal.Text = string.Format("&#187; {0} Events", Renderer.Render(SessionManager.Account.City));
             }
 
-            SetDefaultButton(search);
+            //if (SessionManager.IsLoggedIn && (Request.QueryString.Count == 0))
+            //{
+            //    SelectLocation(sender, new SelectLocationEventArgs(SessionManager.Account));
+            //}
+            //else
+            {
+                SelectLocation(sender, new SelectLocationEventArgs(Request));
+            }
+
+            SelectWeek();
+            GetData();
+
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Events", Request, "AccountEventsView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Events This Week", "AccountEventsToday.aspx"));
+            StackSiteMap(sitemapdata);
         }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+
+        SetDefaultButton(search);
     }
 
     private void SelectWeek()
@@ -137,78 +130,50 @@ public partial class AccountEventsToday : Page
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
-            ServiceQueryOptions options = new ServiceQueryOptions();
-            options.PageNumber = gridManage.CurrentPageIndex;
-            options.PageSize = gridManage.PageSize;
-            object[] args = { SessionManager.Ticket, QueryOptions, options };
-            gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountEventInstance>(
-                SessionManager.EventService, "GetAccountEventInstances", args);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageNumber = gridManage.CurrentPageIndex;
+        options.PageSize = gridManage.PageSize;
+        object[] args = { SessionManager.Ticket, QueryOptions, options };
+        gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountEventInstance>(
+            SessionManager.EventService, "GetAccountEventInstances", args);
     }
 
     public void inputCountry_SelectedIndexChanged(object sender, EventArgs e)
     {
-        try
-        {
-            ArrayList states = new ArrayList();
-            states.Add(new TransitState());
-            object[] args = { inputCountry.SelectedValue };
-            states.AddRange(SessionManager.GetCachedCollection<TransitState>(
-                SessionManager.LocationService, "GetStatesByCountry", args));
-            inputState.DataSource = states;
-            inputState.DataBind();
-            inputState_SelectedIndexChanged(sender, e);
-            panelCountryState.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ArrayList states = new ArrayList();
+        states.Add(new TransitState());
+        object[] args = { inputCountry.SelectedValue };
+        states.AddRange(SessionManager.GetCachedCollection<TransitState>(
+            SessionManager.LocationService, "GetStatesByCountry", args));
+        inputState.DataSource = states;
+        inputState.DataBind();
+        inputState_SelectedIndexChanged(sender, e);
+        panelCountryState.Update();
     }
 
 
     public void inputState_SelectedIndexChanged(object sender, EventArgs e)
     {
-        try
-        {
-            ArrayList cities = new ArrayList();
-            cities.Add(new TransitCity());
-            object[] args = { inputCountry.SelectedValue, inputState.SelectedValue };
-            cities.AddRange(SessionManager.GetCachedCollection<TransitCity>(
-                SessionManager.LocationService, "GetCitiesByLocation", args));
-            inputCity.DataSource = cities;
-            inputCity.DataBind();
-            panelCity.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ArrayList cities = new ArrayList();
+        cities.Add(new TransitCity());
+        object[] args = { inputCountry.SelectedValue, inputState.SelectedValue };
+        cities.AddRange(SessionManager.GetCachedCollection<TransitCity>(
+            SessionManager.LocationService, "GetCitiesByLocation", args));
+        inputCity.DataSource = cities;
+        inputCity.DataBind();
+        panelCity.Update();
     }
 
     public void inputCity_SelectedIndexChanged(object sender, EventArgs e)
     {
-        try
-        {
-            ArrayList neighborhoods = new ArrayList();
-            neighborhoods.Add(new TransitNeighborhood());
-            object[] args = { inputCountry.SelectedValue, inputState.SelectedValue, inputCity.SelectedValue };
-            neighborhoods.AddRange(SessionManager.GetCachedCollection<TransitNeighborhood>(
-                SessionManager.LocationService, "GetNeighborhoodsByLocation", args));
-            inputNeighborhood.DataSource = neighborhoods;
-            inputNeighborhood.DataBind();
-            panelNeighborhood.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ArrayList neighborhoods = new ArrayList();
+        neighborhoods.Add(new TransitNeighborhood());
+        object[] args = { inputCountry.SelectedValue, inputState.SelectedValue, inputCity.SelectedValue };
+        neighborhoods.AddRange(SessionManager.GetCachedCollection<TransitNeighborhood>(
+            SessionManager.LocationService, "GetNeighborhoodsByLocation", args));
+        inputNeighborhood.DataSource = neighborhoods;
+        inputNeighborhood.DataBind();
+        panelNeighborhood.Update();
     }
 
     private TransitAccountEventInstanceQueryOptions QueryOptions
@@ -288,60 +253,32 @@ public partial class AccountEventsToday : Page
 
     public void search_Click(object sender, EventArgs e)
     {
-        try
-        {
-            GetData();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        GetData();
     }
 
     protected void calendarEvents_SelectionChanged(object sender, EventArgs e)
     {
-        try
-        {
-            GetData();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        GetData();
     }
 
     public void linkShowAll_Click(object sender, EventArgs e)
     {
-        try
-        {
-            inputCountry.ClearSelection();
-            inputState.ClearSelection();
-            inputCity.ClearSelection();
-            inputNeighborhood.ClearSelection();
-            inputType.ClearSelection();
-            SelectWeek();
-            GetData();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        inputCountry.ClearSelection();
+        inputState.ClearSelection();
+        inputCity.ClearSelection();
+        inputNeighborhood.ClearSelection();
+        inputType.ClearSelection();
+        SelectWeek();
+        GetData();
     }
 
     public void linkLocal_Click(object sender, EventArgs e)
     {
-        try
-        {
-            if (!SessionManager.IsLoggedIn)
-                return;
+        if (!SessionManager.IsLoggedIn)
+            return;
 
-            SelectLocation(sender, new SelectLocationEventArgs(SessionManager.Account));
-            GetData();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        SelectLocation(sender, new SelectLocationEventArgs(SessionManager.Account));
+        GetData();
     }
 
     public void gridManage_DataBinding(object sender, EventArgs e)

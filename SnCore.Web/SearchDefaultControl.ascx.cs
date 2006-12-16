@@ -28,13 +28,6 @@ public partial class SearchDefaultControl : Control
 
     protected void search_Click(object sender, EventArgs e)
     {
-        try
-        {
-            Redirect("Search.aspx?q=" + Renderer.UrlEncode(inputSearch.Text));
-        }
-        catch (Exception ex) 
-        { 
-            ReportException(ex); 
-        }
+        Redirect("Search.aspx?q=" + Renderer.UrlEncode(inputSearch.Text));
     }
 }

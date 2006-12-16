@@ -25,56 +25,42 @@ public partial class PlacePictureEdit : AuthenticatedPage
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
+            TransitPlace p = SessionManager.PlaceService.GetPlaceById(SessionManager.Ticket, PlaceId);
+
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode(p.Name, Request, string.Format("PlaceView.aspx?id={0}", p.Id)));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request, string.Format("PlacePicturesManage.aspx?id={0}", p.Id)));
+
+            if (RequestId > 0)
             {
-                TransitPlace p = SessionManager.PlaceService.GetPlaceById(SessionManager.Ticket, PlaceId);                
-
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode(p.Name, Request, string.Format("PlaceView.aspx?id={0}", p.Id)));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request, string.Format("PlacePicturesManage.aspx?id={0}", p.Id)));
-
-                if (RequestId > 0)
-                {
-                    TransitPlacePicture t = SessionManager.PlaceService.GetPlacePictureById(RequestId);
-                    inputName.Text = t.Name;
-                    inputDescription.Text = t.Description;
-                    imageFull.ImageUrl = string.Format("PlacePicture.aspx?id={0}&CacheDuration=0", t.Id);
-                    sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
-                }
-                else
-                {
-                    sitemapdata.Add(new SiteMapDataAttributeNode("New Picture", Request.Url));
-                }
-
-                StackSiteMap(sitemapdata);
+                TransitPlacePicture t = SessionManager.PlaceService.GetPlacePictureById(RequestId);
+                inputName.Text = t.Name;
+                inputDescription.Text = t.Description;
+                imageFull.ImageUrl = string.Format("PlacePicture.aspx?id={0}&CacheDuration=0", t.Id);
+                sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
+            }
+            else
+            {
+                sitemapdata.Add(new SiteMapDataAttributeNode("New Picture", Request.Url));
             }
 
-            SetDefaultButton(manageAdd);
+            StackSiteMap(sitemapdata);
         }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+
+        SetDefaultButton(manageAdd);
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-        try
-        {
-            TransitPlacePicture t = new TransitPlacePicture();
-            t.Name = inputName.Text;
-            t.Description = inputDescription.Text;
-            t.PlaceId = PlaceId;
-            t.Id = RequestId;
-            SessionManager.PlaceService.CreateOrUpdatePlacePicture(SessionManager.Ticket, t);
-            Redirect(string.Format("PlacePicturesManage.aspx?id={0}", PlaceId));
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        TransitPlacePicture t = new TransitPlacePicture();
+        t.Name = inputName.Text;
+        t.Description = inputDescription.Text;
+        t.PlaceId = PlaceId;
+        t.Id = RequestId;
+        SessionManager.PlaceService.CreateOrUpdatePlacePicture(SessionManager.Ticket, t);
+        Redirect(string.Format("PlacePicturesManage.aspx?id={0}", PlaceId));
     }
 }

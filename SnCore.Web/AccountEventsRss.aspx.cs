@@ -89,31 +89,24 @@ public partial class AccountEventsRss : Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
-            {
-                TransitAccountEventQueryOptions options = new TransitAccountEventQueryOptions();
-                options.SortAscending = Ascending;
-                options.SortOrder = SortOrder;
-                options.City = City;
-                options.Country = Country;
-                options.State = State;
-                options.Name = Name;
-                options.Type = Type;
+            TransitAccountEventQueryOptions options = new TransitAccountEventQueryOptions();
+            options.SortAscending = Ascending;
+            options.SortOrder = SortOrder;
+            options.City = City;
+            options.Country = Country;
+            options.State = State;
+            options.Name = Name;
+            options.Type = Type;
 
-                ServiceQueryOptions queryoptions = new ServiceQueryOptions();
-                queryoptions.PageNumber = 0;
-                queryoptions.PageSize = 25;
+            ServiceQueryOptions queryoptions = new ServiceQueryOptions();
+            queryoptions.PageNumber = 0;
+            queryoptions.PageSize = 25;
 
-                rssRepeater.DataSource = SessionManager.EventService.GetAllAccountEvents(
-                    SessionManager.Ticket, SessionManager.UtcOffset, options, queryoptions);
-                rssRepeater.DataBind();
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            rssRepeater.DataSource = SessionManager.EventService.GetAllAccountEvents(
+                SessionManager.Ticket, SessionManager.UtcOffset, options, queryoptions);
+            rssRepeater.DataBind();
         }
     }
 

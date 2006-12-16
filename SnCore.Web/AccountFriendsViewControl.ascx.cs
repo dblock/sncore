@@ -28,22 +28,15 @@ public partial class AccountFriendsViewControl : Control
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
-            friendsList.OnGetDataSource += new EventHandler(friendsList_OnGetDataSource);
+        friendsList.OnGetDataSource += new EventHandler(friendsList_OnGetDataSource);
 
-            if (!IsPostBack)
-            {
-                GetData(sender, e);
-
-                linkAll.Text = string.Format("&#187; {0} Friend{1}", 
-                    friendsList.VirtualItemCount, friendsList.VirtualItemCount == 1 ? string.Empty : "s");
-                linkAll.NavigateUrl = string.Format("AccountFriendsView.aspx?id={0}", AccountId);
-            }
-        }
-        catch (Exception ex)
+        if (!IsPostBack)
         {
-            ReportException(ex);
+            GetData(sender, e);
+
+            linkAll.Text = string.Format("&#187; {0} Friend{1}",
+                friendsList.VirtualItemCount, friendsList.VirtualItemCount == 1 ? string.Empty : "s");
+            linkAll.NavigateUrl = string.Format("AccountFriendsView.aspx?id={0}", AccountId);
         }
     }
 
@@ -60,19 +53,12 @@ public partial class AccountFriendsViewControl : Control
 
     void friendsList_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
-            ServiceQueryOptions options = new ServiceQueryOptions();
-            options.PageNumber = friendsList.CurrentPageIndex;
-            options.PageSize = friendsList.PageSize;
-            object[] args = { SessionManager.Ticket, AccountId, options };
-            friendsList.DataSource = SessionManager.GetCachedCollection<TransitAccountFriend>(
-                SessionManager.SocialService, "GetFriendsById", args);
-            panelGrid.Update();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageNumber = friendsList.CurrentPageIndex;
+        options.PageSize = friendsList.PageSize;
+        object[] args = { SessionManager.Ticket, AccountId, options };
+        friendsList.DataSource = SessionManager.GetCachedCollection<TransitAccountFriend>(
+            SessionManager.SocialService, "GetFriendsById", args);
+        panelGrid.Update();
     }
 }

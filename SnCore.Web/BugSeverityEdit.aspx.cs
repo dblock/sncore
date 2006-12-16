@@ -17,49 +17,35 @@ public partial class BugSeverityEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Bugs", Request, "BugProjectsManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Severities", Request, "BugSeveritiesManage.aspx"));
+
+            if (RequestId > 0)
             {
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Bugs", Request, "BugProjectsManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Severities", Request, "BugSeveritiesManage.aspx"));
-
-                if (RequestId > 0)
-                {
-                    TransitBugSeverity t = SessionManager.BugService.GetBugSeverityById(RequestId);
-                    inputName.Text = t.Name;
-                    sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
-                }
-                else
-                {
-                    sitemapdata.Add(new SiteMapDataAttributeNode("New Severity", Request.Url));
-                }
-
-                StackSiteMap(sitemapdata);
+                TransitBugSeverity t = SessionManager.BugService.GetBugSeverityById(RequestId);
+                inputName.Text = t.Name;
+                sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
+            }
+            else
+            {
+                sitemapdata.Add(new SiteMapDataAttributeNode("New Severity", Request.Url));
             }
 
-            SetDefaultButton(manageAdd);
+            StackSiteMap(sitemapdata);
         }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+
+        SetDefaultButton(manageAdd);
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-        try
-        {
-            TransitBugSeverity t = new TransitBugSeverity();
-            t.Name = inputName.Text;
-            t.Id = RequestId;
-            SessionManager.BugService.CreateOrUpdateBugSeverity(SessionManager.Ticket, t);
-            Redirect("BugSeveritiesManage.aspx");
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        TransitBugSeverity t = new TransitBugSeverity();
+        t.Name = inputName.Text;
+        t.Id = RequestId;
+        SessionManager.BugService.CreateOrUpdateBugSeverity(SessionManager.Ticket, t);
+        Redirect("BugSeveritiesManage.aspx");
     }
 }

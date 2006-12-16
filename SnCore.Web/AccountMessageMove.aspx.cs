@@ -18,55 +18,41 @@ public partial class AccountMessageMove : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
-            {
-                linkCancel.NavigateUrl = ReturnUrl;
+            linkCancel.NavigateUrl = ReturnUrl;
 
-                TransitAccountMessage message = SessionManager.AccountService.GetAccountMessageById(
-                    SessionManager.Ticket, RequestId);
-                messageSenderLink.HRef = messageFrom.NavigateUrl = string.Format("AccountView.aspx?id={0}", message.SenderAccountId);
-                messageFrom.Text = messageSenderName.Text = Renderer.Render(message.SenderAccountName);
-                messageTo.NavigateUrl = string.Format("AccountView.aspx?id={0}", message.RecepientAccountId); 
-                messageTo.Text = Renderer.Render(message.RecepientAccountName);
-                messageSent.Text = message.Sent.ToString();
-                messageSenderImage.ImageUrl = string.Format("AccountPictureThumbnail.aspx?id={0}", message.SenderAccountPictureId);
-                messageSubject.Text = Renderer.Render(message.Subject);
+            TransitAccountMessage message = SessionManager.AccountService.GetAccountMessageById(
+                SessionManager.Ticket, RequestId);
+            messageSenderLink.HRef = messageFrom.NavigateUrl = string.Format("AccountView.aspx?id={0}", message.SenderAccountId);
+            messageFrom.Text = messageSenderName.Text = Renderer.Render(message.SenderAccountName);
+            messageTo.NavigateUrl = string.Format("AccountView.aspx?id={0}", message.RecepientAccountId);
+            messageTo.Text = Renderer.Render(message.RecepientAccountName);
+            messageSent.Text = message.Sent.ToString();
+            messageSenderImage.ImageUrl = string.Format("AccountPictureThumbnail.aspx?id={0}", message.SenderAccountPictureId);
+            messageSubject.Text = Renderer.Render(message.Subject);
 
-                List<TransitAccountMessageFolder> folders = SessionManager.AccountService.GetAccountMessageFolders(SessionManager.Ticket);
-                TransitAccountMessageFolder none = new TransitAccountMessageFolder();
-                none.FullPath = none.Name = "Please choose ...";
-                folders.Insert(0, none);
-                listFolders.DataSource = folders;
-                listFolders.DataBind();
+            List<TransitAccountMessageFolder> folders = SessionManager.AccountService.GetAccountMessageFolders(SessionManager.Ticket);
+            TransitAccountMessageFolder none = new TransitAccountMessageFolder();
+            none.FullPath = none.Name = "Please choose ...";
+            folders.Insert(0, none);
+            listFolders.DataSource = folders;
+            listFolders.DataBind();
 
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Messages", Request, "AccountMessageFoldersManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode(message.Subject, Request, string.Format("AccountMessageView.aspx?id={0}", message.Id)));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Move", Request.Url));
-                StackSiteMap(sitemapdata);
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Messages", Request, "AccountMessageFoldersManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode(message.Subject, Request, string.Format("AccountMessageView.aspx?id={0}", message.Id)));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Move", Request.Url));
+            StackSiteMap(sitemapdata);
         }
     }
 
     public void listFolders_SelectedIndexChanged(object sender, EventArgs e)
     {
-        try
-        {
-            int dest_id = int.Parse(listFolders.SelectedValue);
-            SessionManager.AccountService.MoveAccountMessageToFolderById(SessionManager.Ticket, RequestId, dest_id);
-            Redirect(ReturnUrl);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }        
+        int dest_id = int.Parse(listFolders.SelectedValue);
+        SessionManager.AccountService.MoveAccountMessageToFolderById(SessionManager.Ticket, RequestId, dest_id);
+        Redirect(ReturnUrl);
     }
 
     public string ReturnUrl

@@ -30,26 +30,19 @@ public partial class AccountEmailVerify : Page
 
     public void EmailVerify_Click(object sender, EventArgs e)
     {
-        try
-        {
-            string emailaddress = SessionManager.AccountService.VerifyEmail(
-                inputPassword.Text, 
-                RequestId, 
-                inputCode.Text);
+        string emailaddress = SessionManager.AccountService.VerifyEmail(
+            inputPassword.Text,
+            RequestId,
+            inputCode.Text);
 
-            if (!SessionManager.IsLoggedIn)
-            {
-                string ticket = SessionManager.AccountService.Login(emailaddress, inputPassword.Text);
-                SessionManager.Login(ticket, true);
-            }
-
-            panelVerify.Visible = false;
-            ReportInfo("Thank you. Your e-mail address has been verified." +
-                "<br>Click <a href='Default.aspx'>here</a> to continue.", false);
-        }
-        catch (Exception ex)
+        if (!SessionManager.IsLoggedIn)
         {
-            ReportException(ex);
+            string ticket = SessionManager.AccountService.Login(emailaddress, inputPassword.Text);
+            SessionManager.Login(ticket, true);
         }
+
+        panelVerify.Visible = false;
+        ReportInfo("Thank you. Your e-mail address has been verified." +
+            "<br>Click <a href='Default.aspx'>here</a> to continue.", false);
     }
 }

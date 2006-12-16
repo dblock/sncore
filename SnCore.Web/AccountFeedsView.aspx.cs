@@ -18,22 +18,15 @@ public partial class AccountFeedsView : Page
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+        if (!IsPostBack)
         {
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
-            if (!IsPostBack)
-            {
-                GetData();
+            GetData();
 
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Blogs", Request, "AccountFeedItemsView.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("All Blogs", Request.Url));
-                StackSiteMap(sitemapdata);
-            }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Blogs", Request, "AccountFeedItemsView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("All Blogs", Request.Url));
+            StackSiteMap(sitemapdata);
         }
     }
 
@@ -54,17 +47,10 @@ public partial class AccountFeedsView : Page
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
-            ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
-            serviceoptions.PageSize = gridManage.PageSize;
-            serviceoptions.PageNumber = gridManage.CurrentPageIndex;
-            gridManage.DataSource = SessionManager.SyndicationService.GetUpdatedAccountFeeds(serviceoptions);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
+        serviceoptions.PageSize = gridManage.PageSize;
+        serviceoptions.PageNumber = gridManage.CurrentPageIndex;
+        gridManage.DataSource = SessionManager.SyndicationService.GetUpdatedAccountFeeds(serviceoptions);
     }
 
     public void gridManage_DataBinding(object sender, EventArgs e)

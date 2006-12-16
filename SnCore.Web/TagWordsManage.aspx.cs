@@ -19,8 +19,6 @@ public partial class TagWordsManage : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
             if (!IsPostBack)
@@ -35,11 +33,6 @@ public partial class TagWordsManage : AuthenticatedPage
                 sitemapdata.Add(new SiteMapDataAttributeNode("Tag Words", Request.Url));
                 StackSiteMap(sitemapdata);
             }
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void PromoteOrExclude(bool promote, object sender, EventArgs e)
@@ -98,38 +91,17 @@ public partial class TagWordsManage : AuthenticatedPage
 
     public void buttonPromote_Click(object sender, EventArgs e)
     {
-        try
-        {
             PromoteOrExclude(true, sender, e);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void buttonExclude_Click(object sender, EventArgs e)
     {
-        try
-        {
             PromoteOrExclude(false, sender, e);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void listboxSelectType_SelectedIndexChanged(object sender, EventArgs e)
     {
-        try
-        {
             GetData(sender, e);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     public void GetData(object sender, EventArgs e)
@@ -145,19 +117,12 @@ public partial class TagWordsManage : AuthenticatedPage
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
             TransitTagWordQueryOptions options = (TransitTagWordQueryOptions)
                 Enum.Parse(typeof(TransitTagWordQueryOptions), listboxSelectType.SelectedValue);
             ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
             serviceoptions.PageSize = gridManage.PageSize;
             serviceoptions.PageNumber = gridManage.CurrentPageIndex;
             gridManage.DataSource = SessionManager.TagWordService.GetTagWords(options, serviceoptions);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
     }
 
     private enum Cells

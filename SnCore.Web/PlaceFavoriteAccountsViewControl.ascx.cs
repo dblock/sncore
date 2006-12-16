@@ -29,18 +29,11 @@ public partial class PlaceFavoriteAccountsViewControl : Control
 
     public void Page_Load(object sender, EventArgs e)
     {
-        try
-        {
-            accountsList.OnGetDataSource += new EventHandler(accountsList_OnGetDataSource);
+        accountsList.OnGetDataSource += new EventHandler(accountsList_OnGetDataSource);
 
-            if (!IsPostBack)
-            {
-                GetData(sender, e);
-            }
-        }
-        catch (Exception ex)
+        if (!IsPostBack)
         {
-            ReportException(ex);
+            GetData(sender, e);
         }
     }
 
@@ -57,18 +50,11 @@ public partial class PlaceFavoriteAccountsViewControl : Control
 
     void accountsList_OnGetDataSource(object sender, EventArgs e)
     {
-        try
-        {
-            ServiceQueryOptions options = new ServiceQueryOptions();
-            options.PageNumber = accountsList.CurrentPageIndex;
-            options.PageSize = accountsList.PageSize;
-            object[] args = { PlaceId, options };
-            accountsList.DataSource = SessionManager.GetCachedCollection<TransitAccountPlaceFavorite>(
-                SessionManager.PlaceService, "GetAccountPlaceFavoritesByPlaceId", args);
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
-        }
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageNumber = accountsList.CurrentPageIndex;
+        options.PageSize = accountsList.PageSize;
+        object[] args = { PlaceId, options };
+        accountsList.DataSource = SessionManager.GetCachedCollection<TransitAccountPlaceFavorite>(
+            SessionManager.PlaceService, "GetAccountPlaceFavoritesByPlaceId", args);
     }
 }
