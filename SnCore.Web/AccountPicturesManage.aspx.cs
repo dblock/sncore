@@ -63,33 +63,40 @@ public partial class AccountPicturesManage : AuthenticatedPage
 
     protected void files_FilesPosted(object sender, FilesPostedEventArgs e)
     {
-        if (e.PostedFiles.Count == 0)
-            return;
-
-        ExceptionCollection exceptions = new ExceptionCollection();
-        foreach (HttpPostedFile file in e.PostedFiles)
+        try
         {
-            try
-            {
-                TransitAccountPictureWithBitmap p = new TransitAccountPictureWithBitmap();
+            if (e.PostedFiles.Count == 0)
+                return;
 
-                ThumbnailBitmap t = new ThumbnailBitmap(file.InputStream);
-                p.Bitmap = t.Bitmap;
-                p.Name = Path.GetFileName(file.FileName);
-                p.Description = string.Empty;
-                p.Hidden = false;
-
-                SessionManager.AccountService.AddAccountPicture(SessionManager.Ticket, p);
-            }
-            catch (Exception ex)
+            ExceptionCollection exceptions = new ExceptionCollection();
+            foreach (HttpPostedFile file in e.PostedFiles)
             {
-                exceptions.Add(new Exception(string.Format("Error processing {0}: {1}",
-                    Renderer.Render(file.FileName), ex.Message), ex));
+                try
+                {
+                    TransitAccountPictureWithBitmap p = new TransitAccountPictureWithBitmap();
+
+                    ThumbnailBitmap t = new ThumbnailBitmap(file.InputStream);
+                    p.Bitmap = t.Bitmap;
+                    p.Name = Path.GetFileName(file.FileName);
+                    p.Description = string.Empty;
+                    p.Hidden = false;
+
+                    SessionManager.AccountService.AddAccountPicture(SessionManager.Ticket, p);
+                }
+                catch (Exception ex)
+                {
+                    exceptions.Add(new Exception(string.Format("Error processing {0}: {1}",
+                        Renderer.Render(file.FileName), ex.Message), ex));
+                }
             }
+
+            GetData(sender, e);
+            exceptions.Throw();
         }
-
-        GetData(sender, e);
-        exceptions.Throw();
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
     }
 
     public void gridManage_ItemCommand(object sender, DataListCommandEventArgs e)

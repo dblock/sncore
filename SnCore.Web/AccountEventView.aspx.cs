@@ -79,8 +79,29 @@ public partial class AccountEventView : Page
         }
     }
 
+    void GetPicturesData(object sender, EventArgs e)
+    {
+        object[] p_args = { RequestId };
+        picturesView.CurrentPageIndex = 0;
+        picturesView.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+            SessionManager.EventService, "GetAccountEventPicturesCountById", p_args);
+        picturesView_OnGetDataSource(sender, e);
+        picturesView.DataBind();
+        panelNoPicture.Visible = (picturesView.Items.Count == 0);
+    }
+
+    void picturesView_OnGetDataSource(object sender, EventArgs e)
+    {
+        ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
+        object[] args = { RequestId, options };
+        picturesView.DataSource = SessionManager.GetCachedCollection<TransitAccountEventPicture>(
+            SessionManager.EventService, "GetAccountEventPicturesById", args);
+    }
+
     public void Page_Load(object sender, EventArgs e)
     {
+        picturesView.OnGetDataSource += new EventHandler(picturesView_OnGetDataSource);
+
         if (!IsPostBack)
         {
             if (RequestId > 0)
@@ -116,15 +137,7 @@ public partial class AccountEventView : Page
                 eventEmail.Visible = !string.IsNullOrEmpty(t.Email);
                 eventCost.Text = Renderer.Render(t.Cost);
 
-                object[] p_args = { RequestId, null };
-                picturesView.DataSource = SessionManager.GetCachedCollection<TransitAccountEventPicture>(
-                    SessionManager.EventService, "GetAccountEventPicturesById", p_args);
-                picturesView.DataBind();
-
-                if (picturesView.Items.Count == 0)
-                {
-                    panelNoPicture.Visible = true;
-                }
+                GetPicturesData(sender, e);
 
                 discussionAccountEvents.DiscussionId = SessionManager.DiscussionService.GetAccountEventDiscussionId(RequestId);
                 discussionAccountEvents.DataBind();

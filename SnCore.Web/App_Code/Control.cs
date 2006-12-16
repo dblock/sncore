@@ -172,4 +172,16 @@ public class Control : System.Web.UI.UserControl
             ReportException(ex);
         }
     }
+
+    protected override void OnPreRender(EventArgs e)
+    {
+        try
+        {
+            base.OnPreRender(e);
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
 }

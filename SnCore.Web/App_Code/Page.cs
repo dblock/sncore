@@ -87,6 +87,18 @@ public class Page : System.Web.UI.Page
         }
     }
 
+    protected override void OnPreRender(EventArgs e)
+    {
+        try
+        {
+            base.OnPreRender(e);
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
     public SiteMapNode StackSiteMap(SiteMapDataAttribute attribute)
     {
         return StackSiteMap(attribute, Request.Url.PathAndQuery);

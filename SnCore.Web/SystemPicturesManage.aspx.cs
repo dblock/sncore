@@ -22,28 +22,28 @@ public partial class SystemPicturesManage : AuthenticatedPage
 {
     public void Page_Load()
     {
-            this.addFile.Attributes["onclick"] = this.files.GetAddFileScriptReference() + "return false;";
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+        this.addFile.Attributes["onclick"] = this.files.GetAddFileScriptReference() + "return false;";
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
-            if (!IsPostBack)
-            {
+        if (!IsPostBack)
+        {
 
-                gridManage_OnGetDataSource(this, null);
-                gridManage.DataBind();
+            gridManage_OnGetDataSource(this, null);
+            gridManage.DataBind();
 
-                selectPictureType.DataSource = SessionManager.SystemService.GetPictureTypes();
-                selectPictureType.DataBind();
+            selectPictureType.DataSource = SessionManager.SystemService.GetPictureTypes();
+            selectPictureType.DataBind();
 
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request.Url));
-                StackSiteMap(sitemapdata);
-            }
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request.Url));
+            StackSiteMap(sitemapdata);
+        }
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-            gridManage.DataSource = SessionManager.SystemService.GetPictures();
+        gridManage.DataSource = SessionManager.SystemService.GetPictures();
     }
 
     private enum Cells
@@ -57,29 +57,31 @@ public partial class SystemPicturesManage : AuthenticatedPage
 
     public void gridManage_ItemCommand(object source, DataGridCommandEventArgs e)
     {
-            switch (e.Item.ItemType)
-            {
-                case ListItemType.AlternatingItem:
-                case ListItemType.Item:
-                case ListItemType.SelectedItem:
-                case ListItemType.EditItem:
-                    int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                    switch (e.CommandName)
-                    {
-                        case "Delete":
-                            SessionManager.SystemService.DeletePicture(SessionManager.Ticket, id);
-                            ReportInfo("Picture deleted.");
-                            gridManage.CurrentPageIndex = 0;
-                            gridManage_OnGetDataSource(source, e);
-                            gridManage.DataBind();
-                            break;
-                    }
-                    break;
-            }
+        switch (e.Item.ItemType)
+        {
+            case ListItemType.AlternatingItem:
+            case ListItemType.Item:
+            case ListItemType.SelectedItem:
+            case ListItemType.EditItem:
+                int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
+                switch (e.CommandName)
+                {
+                    case "Delete":
+                        SessionManager.SystemService.DeletePicture(SessionManager.Ticket, id);
+                        ReportInfo("Picture deleted.");
+                        gridManage.CurrentPageIndex = 0;
+                        gridManage_OnGetDataSource(source, e);
+                        gridManage.DataBind();
+                        break;
+                }
+                break;
+        }
     }
 
     protected void files_FilesPosted(object sender, FilesPostedEventArgs e)
     {
+        try
+        {
             if (e.PostedFiles.Count == 0)
                 return;
 
@@ -108,6 +110,11 @@ public partial class SystemPicturesManage : AuthenticatedPage
             gridManage_OnGetDataSource(sender, e);
             gridManage.DataBind();
             exceptions.Throw();
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
     }
 
 }

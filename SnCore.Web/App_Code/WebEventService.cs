@@ -387,7 +387,9 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ICriteria c = session.CreateCriteria(typeof(AccountEventPicture))
-                    .Add(Expression.Eq("AccountEvent.Id", eventid));
+                    .Add(Expression.Eq("AccountEvent.Id", eventid))
+                    .AddOrder(Order.Desc("Created"))
+                    .AddOrder(Order.Desc("Id"));
 
                 if (options != null)
                 {

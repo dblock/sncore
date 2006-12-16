@@ -84,33 +84,40 @@ public partial class AccountEventPicturesManage : AuthenticatedPage
 
     protected void files_FilesPosted(object sender, FilesPostedEventArgs e)
     {
-        if (e.PostedFiles.Count == 0)
-            return;
-
-        ExceptionCollection exceptions = new ExceptionCollection();
-        foreach (HttpPostedFile file in e.PostedFiles)
+        try
         {
-            try
-            {
-                TransitAccountEventPictureWithPicture p = new TransitAccountEventPictureWithPicture();
-                ThumbnailBitmap t = new ThumbnailBitmap(file.InputStream);
-                p.Picture = t.Bitmap;
-                p.Name = Path.GetFileName(file.FileName);
-                p.Description = string.Empty;
-                p.AccountEventId = RequestId;
-                SessionManager.EventService.CreateOrUpdateAccountEventPicture(SessionManager.Ticket, p);
-            }
-            catch (Exception ex)
-            {
-                exceptions.Add(new Exception(string.Format("Error processing {0}: {1}",
-                    Renderer.Render(file.FileName), ex.Message), ex));
-            }
-        }
+            if (e.PostedFiles.Count == 0)
+                return;
 
-        gridManage.CurrentPageIndex = 0;
-        gridManage_OnGetDataSource(sender, e);
-        gridManage.DataBind();
-        exceptions.Throw();
+            ExceptionCollection exceptions = new ExceptionCollection();
+            foreach (HttpPostedFile file in e.PostedFiles)
+            {
+                try
+                {
+                    TransitAccountEventPictureWithPicture p = new TransitAccountEventPictureWithPicture();
+                    ThumbnailBitmap t = new ThumbnailBitmap(file.InputStream);
+                    p.Picture = t.Bitmap;
+                    p.Name = Path.GetFileName(file.FileName);
+                    p.Description = string.Empty;
+                    p.AccountEventId = RequestId;
+                    SessionManager.EventService.CreateOrUpdateAccountEventPicture(SessionManager.Ticket, p);
+                }
+                catch (Exception ex)
+                {
+                    exceptions.Add(new Exception(string.Format("Error processing {0}: {1}",
+                        Renderer.Render(file.FileName), ex.Message), ex));
+                }
+            }
+
+            gridManage.CurrentPageIndex = 0;
+            gridManage_OnGetDataSource(sender, e);
+            gridManage.DataBind();
+            exceptions.Throw();
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
     }
 
 }

@@ -11,21 +11,26 @@
   <table cellspacing="0" cellpadding="4" class="sncore_table">
    <tr>
     <td class="sncore_table_tr_td" style="text-align: center; vertical-align: top; width: 200px;">
-     <asp:Panel ID="panelNoPicture" CssClass="sncore_nopicture_table" runat="server" Visible="false">
-      <img border="0" src="images/AccountEventThumbnail.gif" />
-     </asp:Panel>
-     <asp:DataList runat="server" ID="picturesView">
-      <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
-      <ItemTemplate>
-       <a href="AccountEventPictureView.aspx?id=<%# Eval("Id") %>">
-        <img border="0" src="AccountEventPictureThumbnail.aspx?id=<%# Eval("Id") %>" alt="<%# base.Render(Eval("Name")) %>" />
-        <div class="sncore_link">
-         <%# ((int) Eval("CommentCount") >= 1) ? Eval("CommentCount").ToString() + 
-         " comment" + (((int) Eval("CommentCount") == 1) ? "" : "s") : "" %>
-        </div>
-       </a>
-      </ItemTemplate>
-     </asp:DataList>
+     <asp:UpdatePanel runat="server" UpdateMode="Conditional" ID="panelPictures">
+      <ContentTemplate>
+       <asp:Panel ID="panelNoPicture" CssClass="sncore_nopicture_table" runat="server" Visible="false">
+        <img border="0" src="images/AccountEventThumbnail.gif" />
+       </asp:Panel>
+       <SnCoreWebControls:PagedList runat="server" ID="picturesView" RepeatColumns="1" RepeatRows="5" AllowCustomPaging="true">
+        <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="&#187;"
+         prevpagetext="&#171;" horizontalalign="Center" />
+        <ItemTemplate>
+         <a href="AccountEventPictureView.aspx?id=<%# Eval("Id") %>">
+          <img border="0" src="AccountEventPictureThumbnail.aspx?id=<%# Eval("Id") %>" alt="<%# base.Render(Eval("Name")) %>" />
+          <div class="sncore_link">
+           <%# ((int) Eval("CommentCount") >= 1) ? Eval("CommentCount").ToString() + 
+           " comment" + (((int) Eval("CommentCount") == 1) ? "" : "s") : "" %>
+          </div>
+         </a>
+        </ItemTemplate>
+       </SnCoreWebControls:PagedList>
+      </ContentTemplate>
+     </asp:UpdatePanel>
     </td>
     <td valign="top" width="*">
      <table class="sncore_inner_table" width="95%">

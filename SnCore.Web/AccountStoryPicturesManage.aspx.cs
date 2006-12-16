@@ -83,36 +83,43 @@ public partial class AccountStoryPicturesManage : AuthenticatedPage
 
     protected void files_FilesPosted(object sender, FilesPostedEventArgs e)
     {
-        if (e.PostedFiles.Count == 0)
-            return;
-
-        TransitAccountStory s = SessionManager.StoryService.GetAccountStoryById(SessionManager.Ticket, RequestId);
-
-        List<TransitAccountStoryPictureWithPicture> ps =
-            new List<TransitAccountStoryPictureWithPicture>(e.PostedFiles.Count);
-
-        ExceptionCollection exceptions = new ExceptionCollection();
-        foreach (HttpPostedFile file in e.PostedFiles)
+        try
         {
-            try
-            {
-                TransitAccountStoryPictureWithPicture p =
-                    new TransitAccountStoryPictureWithPicture();
+            if (e.PostedFiles.Count == 0)
+                return;
 
-                ThumbnailBitmap t = new ThumbnailBitmap(file.InputStream);
-                p.Picture = t.Bitmap;
-                p.Name = Path.GetFileName(file.FileName);
-                ps.Add(p);
-            }
-            catch (Exception ex)
+            TransitAccountStory s = SessionManager.StoryService.GetAccountStoryById(SessionManager.Ticket, RequestId);
+
+            List<TransitAccountStoryPictureWithPicture> ps =
+                new List<TransitAccountStoryPictureWithPicture>(e.PostedFiles.Count);
+
+            ExceptionCollection exceptions = new ExceptionCollection();
+            foreach (HttpPostedFile file in e.PostedFiles)
             {
-                exceptions.Add(new Exception(string.Format("Error processing {0}: {1}",
-                    Renderer.Render(file.FileName), ex.Message), ex));
+                try
+                {
+                    TransitAccountStoryPictureWithPicture p =
+                        new TransitAccountStoryPictureWithPicture();
+
+                    ThumbnailBitmap t = new ThumbnailBitmap(file.InputStream);
+                    p.Picture = t.Bitmap;
+                    p.Name = Path.GetFileName(file.FileName);
+                    ps.Add(p);
+                }
+                catch (Exception ex)
+                {
+                    exceptions.Add(new Exception(string.Format("Error processing {0}: {1}",
+                        Renderer.Render(file.FileName), ex.Message), ex));
+                }
             }
+
+            SessionManager.StoryService.AddAccountStoryWithPictures(SessionManager.Ticket, s, ps.ToArray());
+            GetImagesData(sender, e);
+            exceptions.Throw();
         }
-
-        SessionManager.StoryService.AddAccountStoryWithPictures(SessionManager.Ticket, s, ps.ToArray());
-        GetImagesData(sender, e);
-        exceptions.Throw();
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
     }
 }
