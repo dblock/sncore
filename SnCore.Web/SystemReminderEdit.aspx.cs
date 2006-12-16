@@ -27,14 +27,14 @@ public partial class SystemReminderEdit : AuthenticatedPage
                 sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
                 sitemapdata.Add(new SiteMapDataAttributeNode("Reminders", Request, "SystemRemindersManage.aspx"));
 
-                inputDataObject.DataSource = SystemService.GetDataObjects();
+                inputDataObject.DataSource = SessionManager.SystemService.GetDataObjects();
                 inputDataObject.DataBind();
 
                 inputDataObject_SelectedIndexChanged(sender, e);
 
                 if (RequestId > 0)
                 {
-                    TransitReminder t = SystemService.GetReminderById(RequestId);
+                    TransitReminder t = SessionManager.SystemService.GetReminderById(RequestId);
                     inputUrl.Text = t.Url;
 
                     ListItem deltaHoursItem = inputDeltaHours.Items.FindByValue(t.DeltaHours.ToString());
@@ -77,7 +77,7 @@ public partial class SystemReminderEdit : AuthenticatedPage
 
     void GetAccountProperties(object sender, EventArgs e)
     {
-        inputAccountPropertyGroup.DataSource = AccountService.GetAccountPropertyGroups();
+        inputAccountPropertyGroup.DataSource = SessionManager.AccountService.GetAccountPropertyGroups();
         inputAccountPropertyGroup.DataBind();
         inputAccountPropertyGroup_SelectedIndexChanged(sender, e);
     }
@@ -85,7 +85,7 @@ public partial class SystemReminderEdit : AuthenticatedPage
     void GetAccountPropertiesData(object sender, EventArgs e)
     {
         gridManageReminderAccountProperties.CurrentPageIndex = 0;
-        gridManageReminderAccountProperties.VirtualItemCount = SystemService.GetReminderAccountPropertiesCountById(RequestId);
+        gridManageReminderAccountProperties.VirtualItemCount = SessionManager.SystemService.GetReminderAccountPropertiesCountById(RequestId);
         gridManageReminderAccountProperties_OnGetDataSource(sender, e);
         gridManageReminderAccountProperties.DataBind();
     }
@@ -94,7 +94,7 @@ public partial class SystemReminderEdit : AuthenticatedPage
     {
         try
         {
-            inputAccountProperty.DataSource = AccountService.GetAccountProperties(
+            inputAccountProperty.DataSource = SessionManager.AccountService.GetAccountProperties(
                 int.Parse(inputAccountPropertyGroup.SelectedValue));
             inputAccountProperty.DataBind();
         }
@@ -116,7 +116,7 @@ public partial class SystemReminderEdit : AuthenticatedPage
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridManageReminderAccountProperties.CurrentPageIndex;
             options.PageSize = gridManageReminderAccountProperties.PageSize;
-            gridManageReminderAccountProperties.DataSource = SystemService.GetReminderAccountPropertiesById(RequestId, options);
+            gridManageReminderAccountProperties.DataSource = SessionManager.SystemService.GetReminderAccountPropertiesById(RequestId, options);
         }
         catch (Exception ex)
         {
@@ -128,7 +128,7 @@ public partial class SystemReminderEdit : AuthenticatedPage
     {
         try
         {
-            inputDataObjectField.DataSource = SystemService.GetDataObjectFieldsById(
+            inputDataObjectField.DataSource = SessionManager.SystemService.GetDataObjectFieldsById(
                 int.Parse(inputDataObject.SelectedValue));
             inputDataObjectField.DataBind();
         }
@@ -151,7 +151,7 @@ public partial class SystemReminderEdit : AuthenticatedPage
             t.DataObject_Id = int.Parse(inputDataObject.SelectedValue);
             t.DataObjectField = inputDataObjectField.SelectedValue;
             t.LastRun = DateTime.UtcNow;
-            SystemService.CreateOrUpdateReminder(SessionManager.Ticket, t);
+            SessionManager.SystemService.CreateOrUpdateReminder(SessionManager.Ticket, t);
             Redirect("SystemRemindersManage.aspx");
         }
         catch (Exception ex)
@@ -174,7 +174,7 @@ public partial class SystemReminderEdit : AuthenticatedPage
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            SystemService.DeleteReminderAccountProperty(SessionManager.Ticket, id);
+                            SessionManager.SystemService.DeleteReminderAccountProperty(SessionManager.Ticket, id);
                             ReportInfo("Reminder Account Property deleted.");
                             GetAccountPropertiesData(source, e);
                             break;
@@ -197,7 +197,7 @@ public partial class SystemReminderEdit : AuthenticatedPage
             trap.ReminderId = RequestId;
             trap.Value = inputAccountPropertyValue.Text;
             trap.Unset = inputAccountPropertyEmpty.Checked;
-            SystemService.CreateOrUpdateReminderAccountProperty(SessionManager.Ticket, trap);
+            SessionManager.SystemService.CreateOrUpdateReminderAccountProperty(SessionManager.Ticket, trap);
             GetAccountPropertiesData(sender, e);
             ReportInfo("Property Added");
         }
@@ -211,7 +211,7 @@ public partial class SystemReminderEdit : AuthenticatedPage
     {
         try
         {
-            bool result = SystemService.CanSendReminder(RequestId, int.Parse(inputTestAccountId.Text));
+            bool result = SessionManager.SystemService.CanSendReminder(RequestId, int.Parse(inputTestAccountId.Text));
             ReportInfo(string.Format("Reminder will {0} be sent.", result ? string.Empty : "NOT"));
         }
         catch (Exception ex)

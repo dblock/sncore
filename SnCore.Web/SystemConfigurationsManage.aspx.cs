@@ -38,7 +38,7 @@ public partial class SystemConfigurationsManage : AuthenticatedPage
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        gridManage.DataSource = SystemService.GetConfigurations();
+        gridManage.DataSource = SessionManager.SystemService.GetConfigurations();
     }
 
 
@@ -55,9 +55,9 @@ public partial class SystemConfigurationsManage : AuthenticatedPage
             switch (e.CommandName)
             {
                 case "Delete":
-                    TransitConfiguration tc = SystemService.GetConfigurationById(id);
+                    TransitConfiguration tc = SessionManager.SystemService.GetConfigurationById(id);
                     Page.Cache.Remove(string.Format("settings:{0}", tc.Name));
-                    SystemService.DeleteConfiguration(SessionManager.Ticket, id);
+                    SessionManager.SystemService.DeleteConfiguration(SessionManager.Ticket, id);
                     ReportInfo(string.Format("Configuration \"{0}\" deleted.", base.Render(tc.Name)));
                     gridManage.CurrentPageIndex = 0;
                     gridManage_OnGetDataSource(sender, e);

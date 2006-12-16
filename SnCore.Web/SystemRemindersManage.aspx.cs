@@ -39,7 +39,7 @@ public partial class SystemRemindersManage : AuthenticatedPage
     {
         try
         {
-            gridManage.DataSource = SystemService.GetReminders();
+            gridManage.DataSource = SessionManager.SystemService.GetReminders();
         }
         catch (Exception ex)
         {
@@ -72,7 +72,7 @@ public partial class SystemRemindersManage : AuthenticatedPage
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            SystemService.DeleteReminder(SessionManager.Ticket, id);
+                            SessionManager.SystemService.DeleteReminder(SessionManager.Ticket, id);
                             ReportInfo("System reminder deleted.");
                             gridManage.CurrentPageIndex = 0;
                             gridManage_OnGetDataSource(source, e);

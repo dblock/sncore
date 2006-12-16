@@ -34,8 +34,8 @@ public partial class BugView : Page
 
     void GetBug()
     {
-        TransitBug bug = BugService.GetBugById(RequestId);
-        TransitBugProject project = BugService.GetBugProjectById(bug.ProjectId);
+        TransitBug bug = SessionManager.BugService.GetBugById(RequestId);
+        TransitBugProject project = SessionManager.BugService.GetBugProjectById(bug.ProjectId);
 
         this.Title = string.Format("{0} #{1}: {2}", Renderer.Render(project.Name), bug.Id, Renderer.Render(bug.Subject));
 
@@ -90,7 +90,7 @@ public partial class BugView : Page
     {
         try
         {
-            gridNotes.DataSource = BugService.GetBugNotes(RequestId);
+            gridNotes.DataSource = SessionManager.BugService.GetBugNotes(RequestId);
         }
         catch (Exception ex)
         {
@@ -117,7 +117,7 @@ public partial class BugView : Page
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            BugService.DeleteBugNote(SessionManager.Ticket, id);
+                            SessionManager.BugService.DeleteBugNote(SessionManager.Ticket, id);
                             ReportInfo("Note deleted.");
                             gridNotes.CurrentPageIndex = 0;
                             gridNotes_OnGetDataSource(source, e);
@@ -143,10 +143,10 @@ public partial class BugView : Page
                     Response.Redirect(string.Format("BugResolve.aspx?id={0}", RequestId));
                     break;
                 case "Reopen":
-                    BugService.ReopenBug(SessionManager.Ticket, RequestId);
+                    SessionManager.BugService.ReopenBug(SessionManager.Ticket, RequestId);
                     break;
                 case "Close":
-                    BugService.CloseBug(SessionManager.Ticket, RequestId);
+                    SessionManager.BugService.CloseBug(SessionManager.Ticket, RequestId);
                     break;
             }
 
@@ -162,7 +162,7 @@ public partial class BugView : Page
     {
         try
         {
-            TransitBug bug = BugService.GetBugById(RequestId);
+            TransitBug bug = SessionManager.BugService.GetBugById(RequestId);
             switch(linkSwitchMode.CommandArgument)
             {
                 case "Text":

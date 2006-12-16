@@ -50,7 +50,7 @@ public partial class DiscussionThreadsRss : Page
                 options.PageNumber = 0;
                 object[] args = { SessionManager.Ticket, options };
                 rssRepeater.DataSource = SessionManager.GetCachedCollection<TransitDiscussionPost>(
-                    DiscussionService, "GetDiscussionThreads", args);
+                    SessionManager.DiscussionService, "GetDiscussionThreads", args);
                 rssRepeater.DataBind();
             }
         }

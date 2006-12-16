@@ -52,7 +52,7 @@ public partial class AccountFriendsViewControl : Control
         friendsList.CurrentPageIndex = 0;
         object[] args = { AccountId };
         friendsList.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            SocialService, "GetFriendsCountById", args);
+            SessionManager.SocialService, "GetFriendsCountById", args);
         friendsList_OnGetDataSource(sender, e);
         friendsList.DataBind();
         this.Visible = (friendsList.VirtualItemCount > 0);
@@ -67,7 +67,7 @@ public partial class AccountFriendsViewControl : Control
             options.PageSize = friendsList.PageSize;
             object[] args = { SessionManager.Ticket, AccountId, options };
             friendsList.DataSource = SessionManager.GetCachedCollection<TransitAccountFriend>(
-                SocialService, "GetFriendsById", args);
+                SessionManager.SocialService, "GetFriendsById", args);
             panelGrid.Update();
         }
         catch (Exception ex)

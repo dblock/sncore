@@ -24,7 +24,7 @@ public partial class AccountMessageView : AuthenticatedPage
         {
             if (mMessage == null)
             {
-                mMessage = AccountService.GetAccountMessageById(
+                mMessage = SessionManager.AccountService.GetAccountMessageById(
                     SessionManager.Ticket, RequestId);
             }
             return mMessage;
@@ -43,7 +43,7 @@ public partial class AccountMessageView : AuthenticatedPage
 
                 if (message.Unread)
                 {
-                    AccountService.MarkMessageAsReadUnread(SessionManager.Ticket, message.Id, false);
+                    SessionManager.AccountService.MarkMessageAsReadUnread(SessionManager.Ticket, message.Id, false);
                 }
 
                 messageSenderLink.HRef = messageFrom.NavigateUrl = string.Format("AccountView.aspx?id={0}", message.SenderAccountId);
@@ -81,14 +81,14 @@ public partial class AccountMessageView : AuthenticatedPage
     {
         try
         {
-            int trashid = AccountService.GetAccountMessageSystemFolder(SessionManager.Ticket, "trash").Id;
+            int trashid = SessionManager.AccountService.GetAccountMessageSystemFolder(SessionManager.Ticket, "trash").Id;
             if (trashid == Message.AccountMessageFolderId)
             {
-                AccountService.DeleteAccountMessage(SessionManager.Ticket, RequestId);
+                SessionManager.AccountService.DeleteAccountMessage(SessionManager.Ticket, RequestId);
             }
             else
             {
-                AccountService.MoveAccountMessageToFolderById(SessionManager.Ticket, RequestId, trashid);
+                SessionManager.AccountService.MoveAccountMessageToFolderById(SessionManager.Ticket, RequestId, trashid);
             }
 
             Redirect(ReturnUrl);

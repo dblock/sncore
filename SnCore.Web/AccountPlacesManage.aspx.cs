@@ -54,7 +54,7 @@ public partial class AccountPlacesManage : AuthenticatedPage
     public void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = PlaceService.GetPlacesCount(QueryOptions);
+        gridManage.VirtualItemCount = SessionManager.PlaceService.GetPlacesCount(QueryOptions);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
@@ -66,7 +66,7 @@ public partial class AccountPlacesManage : AuthenticatedPage
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridManage.CurrentPageIndex;
             options.PageSize = gridManage.PageSize;
-            gridManage.DataSource = PlaceService.GetPlaces(QueryOptions, options);
+            gridManage.DataSource = SessionManager.PlaceService.GetPlaces(QueryOptions, options);
         }
         catch (Exception ex)
         {
@@ -94,7 +94,7 @@ public partial class AccountPlacesManage : AuthenticatedPage
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            PlaceService.DeletePlace(SessionManager.Ticket, id);
+                            SessionManager.PlaceService.DeletePlace(SessionManager.Ticket, id);
                             ReportInfo("Place deleted.");
                             GetData(source, e);
                             break;

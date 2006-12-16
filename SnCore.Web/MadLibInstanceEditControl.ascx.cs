@@ -131,7 +131,7 @@ public partial class MadLibInstanceEditControl : Control
             throw new Exception("Missing Mad Lib Id");
         }
 
-        TransitMadLib ml = MadLibService.GetMadLibById(MadLibId);
+        TransitMadLib ml = SessionManager.MadLibService.GetMadLibById(MadLibId);
         mIndices = Parse(ml.Template, OnTextDataBind, OnTagDataBind);
 
         base.DataBind();
@@ -197,7 +197,7 @@ public partial class MadLibInstanceEditControl : Control
                 throw new Exception("Missing Mad Lib Id");
             }
 
-            TransitMadLib ml = MadLibService.GetMadLibById(MadLibId);
+            TransitMadLib ml = SessionManager.MadLibService.GetMadLibById(MadLibId);
             Parse(ml.Template, OnTextCollect, OnTagCollect);
         }
 

@@ -39,7 +39,7 @@ public partial class SystemPictureTypesManage : AuthenticatedPage
     {
         try
         {
-            gridManage.DataSource = SystemService.GetPictureTypes();
+            gridManage.DataSource = SessionManager.SystemService.GetPictureTypes();
         }
         catch (Exception ex)
         {
@@ -70,7 +70,7 @@ public partial class SystemPictureTypesManage : AuthenticatedPage
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            SystemService.DeletePictureType(SessionManager.Ticket, id);
+                            SessionManager.SystemService.DeletePictureType(SessionManager.Ticket, id);
                             ReportInfo("Picture type deleted.");
                             gridManage.CurrentPageIndex = 0;
                             gridManage_OnGetDataSource(source, e);

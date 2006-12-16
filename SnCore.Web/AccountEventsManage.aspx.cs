@@ -44,7 +44,7 @@ public partial class AccountEventsManage : AuthenticatedPage
     public void GetData()
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = EventService.GetAccountEventsCount(SessionManager.Ticket);
+        gridManage.VirtualItemCount = SessionManager.EventService.GetAccountEventsCount(SessionManager.Ticket);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
@@ -56,7 +56,7 @@ public partial class AccountEventsManage : AuthenticatedPage
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageSize = gridManage.PageSize;
             options.PageNumber = gridManage.CurrentPageIndex;
-            gridManage.DataSource = EventService.GetAccountEvents(SessionManager.Ticket, options, SessionManager.UtcOffset);
+            gridManage.DataSource = SessionManager.EventService.GetAccountEvents(SessionManager.Ticket, options, SessionManager.UtcOffset);
         }
         catch (Exception ex)
         {
@@ -72,7 +72,7 @@ public partial class AccountEventsManage : AuthenticatedPage
             {
                 case "Delete":
                     int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                    EventService.DeleteAccountEvent(SessionManager.Ticket, id);
+                    SessionManager.EventService.DeleteAccountEvent(SessionManager.Ticket, id);
                     ReportInfo("Event deleted.");
                     GetData();
                     break;

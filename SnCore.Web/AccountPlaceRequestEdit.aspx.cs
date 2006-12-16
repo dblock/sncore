@@ -20,12 +20,12 @@ public partial class AccountPlaceRequestEdit : AuthenticatedPage
         {
             if (!IsPostBack)
             {
-                inputType.DataSource = PlaceService.GetAccountPlaceTypes();
+                inputType.DataSource = SessionManager.PlaceService.GetAccountPlaceTypes();
                 inputType.DataBind();
 
                 if (ParentId != 0)
                 {
-                    TransitPlace place = PlaceService.GetPlaceById(SessionManager.Ticket, ParentId);
+                    TransitPlace place = SessionManager.PlaceService.GetPlaceById(SessionManager.Ticket, ParentId);
                     linkPlace.NavigateUrl = string.Format("PlaceView.aspx?id={0}", place.Id);
                     linkBack.NavigateUrl = (string.IsNullOrEmpty(ReturnUrl)) ? linkPlace.NavigateUrl : ReturnUrl;
                     linkPlace.Text = Renderer.Render(place.Name);
@@ -67,7 +67,7 @@ public partial class AccountPlaceRequestEdit : AuthenticatedPage
             request.Message = inputMessage.Text;
             request.PlaceId = ParentId;
             request.Type = inputType.SelectedValue;
-            PlaceService.CreateOrUpdateAccountPlaceRequest(SessionManager.Ticket, request);
+            SessionManager.PlaceService.CreateOrUpdateAccountPlaceRequest(SessionManager.Ticket, request);
             panelRequest.Visible = false;
             ReportInfo("Request sent.");
         }

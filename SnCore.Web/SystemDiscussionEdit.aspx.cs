@@ -29,7 +29,7 @@ public partial class SystemDiscussionEdit : AuthenticatedPage
 
                 if (id > 0)
                 {
-                    TransitDiscussion tw = DiscussionService.GetDiscussionById(id);
+                    TransitDiscussion tw = SessionManager.DiscussionService.GetDiscussionById(id);
                     inputName.Text = Renderer.Render(tw.Name);
                     inputDescription.Text = Renderer.Render(tw.Description);
                     sitemapdata.Add(new SiteMapDataAttributeNode(tw.Name, Request.Url));
@@ -58,7 +58,7 @@ public partial class SystemDiscussionEdit : AuthenticatedPage
             tw.Name = inputName.Text;
             tw.Description = inputDescription.Text;
             tw.Id = RequestId;
-            DiscussionService.AddDiscussion(SessionManager.Ticket, tw);
+            SessionManager.DiscussionService.AddDiscussion(SessionManager.Ticket, tw);
             Redirect("SystemDiscussionsManage.aspx");
         }
         catch (Exception ex)

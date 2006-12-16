@@ -39,7 +39,7 @@ public partial class SystemPlacePropertyGroupsManage : AuthenticatedPage
     {
         try
         {
-            gridManage.DataSource = PlaceService.GetPlacePropertyGroups();
+            gridManage.DataSource = SessionManager.PlaceService.GetPlacePropertyGroups();
         }
         catch (Exception ex)
         {
@@ -66,7 +66,7 @@ public partial class SystemPlacePropertyGroupsManage : AuthenticatedPage
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            PlaceService.DeletePlacePropertyGroup(SessionManager.Ticket, id);
+                            SessionManager.PlaceService.DeletePlacePropertyGroup(SessionManager.Ticket, id);
                             ReportInfo("Place property group deleted.");
                             gridManage.CurrentPageIndex = 0;
                             gridManage_OnGetDataSource(source, e);

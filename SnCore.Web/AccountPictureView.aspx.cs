@@ -69,7 +69,7 @@ public partial class AccountPictureView : Page
                 ap.Hidden = false;
                 object[] sp_args = { SessionManager.Ticket, PictureId, ap };
                 mAccountPicture = SessionManager.GetCachedItem<TransitAccountPicture>(
-                    AccountService, "GetAccountPictureById", sp_args);
+                    SessionManager.AccountService, "GetAccountPictureById", sp_args);
             }
             return mAccountPicture;
         }
@@ -85,7 +85,7 @@ public partial class AccountPictureView : Page
             {
                 object[] as_args = { AccountPicture.AccountId };
                 mAccount = SessionManager.GetCachedItem<TransitAccount>(
-                    AccountService, "GetAccountById", as_args);
+                    SessionManager.AccountService, "GetAccountById", as_args);
             }
             return mAccount;
         }
@@ -98,7 +98,7 @@ public partial class AccountPictureView : Page
         object[] p_args = { Account.Id, ap };
         picturesView.CurrentPageIndex = 0;
         picturesView.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            AccountService, "GetAccountPicturesCountById", p_args);
+            SessionManager.AccountService, "GetAccountPicturesCountById", p_args);
         picturesView_OnGetDataSource(sender, e);
         picturesView.DataBind();
     }
@@ -137,7 +137,7 @@ public partial class AccountPictureView : Page
         panelNavigator.Visible = (p.Index >= 0);
 
         discussionComments.ReturnUrl = string.Format("AccountPictureView.aspx?id={0}", PictureId);
-        discussionComments.DiscussionId = DiscussionService.GetAccountPictureDiscussionId(PictureId);
+        discussionComments.DiscussionId = SessionManager.DiscussionService.GetAccountPictureDiscussionId(PictureId);
         discussionComments.DataBind();
     }
 
@@ -168,7 +168,7 @@ public partial class AccountPictureView : Page
             ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
             object[] args = { Account.Id, ap, options };
             picturesView.DataSource = SessionManager.GetCachedCollection<TransitAccountPicture>(
-                AccountService, "GetAccountPicturesById", args);
+                SessionManager.AccountService, "GetAccountPicturesById", args);
         }
         catch (Exception ex)
         {

@@ -30,7 +30,7 @@ public partial class PlaceView : Page
                 {
                     object[] args = { Place.AccountId };
                     mPlaceAccount = SessionManager.GetCachedItem<TransitAccount>(
-                        AccountService, "GetAccountById", args);
+                        SessionManager.AccountService, "GetAccountById", args);
                 }
             }
             catch (Exception ex)
@@ -54,7 +54,7 @@ public partial class PlaceView : Page
                     {
                         object[] args = { SessionManager.Ticket, RequestId };
                         mPlace = SessionManager.GetCachedItem<TransitPlace>(
-                            PlaceService, "GetPlaceById", args);
+                            SessionManager.PlaceService, "GetPlaceById", args);
                     }
                     catch (NHibernate.ObjectNotFoundException)
                     {
@@ -259,7 +259,7 @@ public partial class PlaceView : Page
 
                     object[] args = { RequestId };
                     discussionPlaces.DiscussionId = SessionManager.GetCachedCollectionCount(
-                        DiscussionService, "GetPlaceDiscussionId", args);
+                        SessionManager.DiscussionService, "GetPlaceDiscussionId", args);
                     discussionPlaces.DataBind();
 
                     madlibs.ObjectId = RequestId;
@@ -279,7 +279,7 @@ public partial class PlaceView : Page
                 else
                 {
                     placeName.Text = Renderer.Render(Request.QueryString["name"]);
-                    TransitCity city = LocationService.GetCityByTag(Request.QueryString["city"]);
+                    TransitCity city = SessionManager.LocationService.GetCityByTag(Request.QueryString["city"]);
                     if (city != null)
                     {
                         placeCity.Text = Renderer.Render(city.Name);
@@ -309,7 +309,7 @@ public partial class PlaceView : Page
         object[] p_args = { RequestId };
         picturesView.CurrentPageIndex = 0;
         picturesView.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            PlaceService, "GetPlacePicturesCountById", p_args);
+            SessionManager.PlaceService, "GetPlacePicturesCountById", p_args);
         picturesView_OnGetDataSource(sender, e);
         picturesView.DataBind();
         placeNoPicture.Visible = (picturesView.Items.Count == 0);
@@ -322,7 +322,7 @@ public partial class PlaceView : Page
             ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
             object[] args = { RequestId, options };
             picturesView.DataSource = SessionManager.GetCachedCollection<TransitPlacePicture>(
-                PlaceService, "GetPlacePicturesById", args);
+                SessionManager.PlaceService, "GetPlacePicturesById", args);
         }
         catch (Exception ex)
         {
@@ -334,7 +334,7 @@ public partial class PlaceView : Page
     {
         get
         {
-            return SystemService.GetConfigurationByName("Google.Maps.Key").Value;
+            return SessionManager.SystemService.GetConfigurationByName("Google.Maps.Key").Value;
         }
     }
 
@@ -347,11 +347,11 @@ public partial class PlaceView : Page
                 RedirectToLogin();
             }
 
-            TransitPlaceQueue tpq = PlaceService.GetOrCreatePlaceQueueByName(SessionManager.Ticket, "My Queue");
+            TransitPlaceQueue tpq = SessionManager.PlaceService.GetOrCreatePlaceQueueByName(SessionManager.Ticket, "My Queue");
             TransitPlaceQueueItem tpqi = new TransitPlaceQueueItem();
             tpqi.PlaceQueueId = tpq.Id;
             tpqi.PlaceId = RequestId;
-            PlaceService.CreateOrUpdatePlaceQueueItem(SessionManager.Ticket, tpqi);
+            SessionManager.PlaceService.CreateOrUpdatePlaceQueueItem(SessionManager.Ticket, tpqi);
             ReportInfo(string.Format("Added {0} to <a href='AccountPlaceQueueManage.aspx'>your queue</a>.", Renderer.Render(Place.Name)));
         }
         catch (Exception ex)
@@ -370,14 +370,14 @@ public partial class PlaceView : Page
                 RedirectToLogin();
             }
 
-            if (PlaceService.IsAccountPlaceFavorite(SessionManager.Ticket, RequestId))
+            if (SessionManager.PlaceService.IsAccountPlaceFavorite(SessionManager.Ticket, RequestId))
             {
                 throw new Exception("This place is already your favorite.");
             }
 
             TransitAccountPlaceFavorite apf = new TransitAccountPlaceFavorite();
             apf.PlaceId = RequestId;
-            PlaceService.CreateOrUpdateAccountPlaceFavorite(SessionManager.Ticket, apf);
+            SessionManager.PlaceService.CreateOrUpdateAccountPlaceFavorite(SessionManager.Ticket, apf);
 
             ReportInfo(string.Format("Added {0} to your favorites.", Renderer.Render(Place.Name)));
             placeFriends.GetData(sender, e);
@@ -417,7 +417,7 @@ public partial class PlaceView : Page
             TransitFeature t_feature = new TransitFeature();
             t_feature.DataObjectName = "Place";
             t_feature.DataRowId = RequestId;
-            SystemService.CreateOrUpdateFeature(SessionManager.Ticket, t_feature);
+            SessionManager.SystemService.CreateOrUpdateFeature(SessionManager.Ticket, t_feature);
             Redirect(Request.Url.PathAndQuery);
         }
         catch (Exception ex)
@@ -439,7 +439,7 @@ public partial class PlaceView : Page
             TransitFeature t_feature = new TransitFeature();
             t_feature.DataObjectName = "Place";
             t_feature.DataRowId = RequestId;
-            SystemService.DeleteAllFeatures(SessionManager.Ticket, t_feature);
+            SessionManager.SystemService.DeleteAllFeatures(SessionManager.Ticket, t_feature);
             Redirect(Request.Url.PathAndQuery);
         }
         catch (Exception ex)
@@ -454,7 +454,7 @@ public partial class PlaceView : Page
         {
             if (mPlaceFeature == null)
             {
-                mPlaceFeature = SystemService.FindLatestFeature(
+                mPlaceFeature = SessionManager.SystemService.FindLatestFeature(
                     "Place", RequestId);
             }
             return mPlaceFeature;

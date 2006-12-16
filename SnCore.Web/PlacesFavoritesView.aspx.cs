@@ -43,7 +43,7 @@ public partial class PlacesFavoritesView : Page
     {
         gridManageFavorites.CurrentPageIndex = 0;
         gridManageFavorites.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            PlaceService, "GetFavoritePlacesCount", null);
+            SessionManager.PlaceService, "GetFavoritePlacesCount", null);
         gridManageFavorites_OnGetDataSource(sender, e);
         gridManageFavorites.DataBind();
     }
@@ -56,7 +56,7 @@ public partial class PlacesFavoritesView : Page
                 gridManageFavorites.PageSize, gridManageFavorites.CurrentPageIndex);
             object[] args = { serviceoptions };
             gridManageFavorites.DataSource = SessionManager.GetCachedCollection<TransitPlace>(
-                PlaceService, "GetFavoritePlaces", args);
+                SessionManager.PlaceService, "GetFavoritePlaces", args);
         }
         catch (Exception ex)
         {

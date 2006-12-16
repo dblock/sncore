@@ -29,7 +29,7 @@ public partial class AccountEventPictureEdit : AuthenticatedPage
         {
             if (!IsPostBack)
             {
-                TransitAccountEvent p = EventService.GetAccountEventById(SessionManager.Ticket, AccountEventId, SessionManager.UtcOffset);
+                TransitAccountEvent p = SessionManager.EventService.GetAccountEventById(SessionManager.Ticket, AccountEventId, SessionManager.UtcOffset);
                 linkBack.NavigateUrl = string.Format("AccountEventPicturesManage.aspx?id={0}", p.Id);
 
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
@@ -40,7 +40,7 @@ public partial class AccountEventPictureEdit : AuthenticatedPage
 
                 if (RequestId > 0)
                 {
-                    TransitAccountEventPicture t = EventService.GetAccountEventPictureById(SessionManager.Ticket, RequestId);
+                    TransitAccountEventPicture t = SessionManager.EventService.GetAccountEventPictureById(SessionManager.Ticket, RequestId);
                     inputName.Text = t.Name;
                     inputDescription.Text = t.Description;
                     imageFull.ImageUrl = string.Format("AccountEventPicture.aspx?id={0}&CacheDuration=0", t.Id);
@@ -71,7 +71,7 @@ public partial class AccountEventPictureEdit : AuthenticatedPage
             t.Description = inputDescription.Text;
             t.AccountEventId = AccountEventId;
             t.Id = RequestId;
-            EventService.CreateOrUpdateAccountEventPicture(SessionManager.Ticket, t);
+            SessionManager.EventService.CreateOrUpdateAccountEventPicture(SessionManager.Ticket, t);
             Redirect(string.Format("AccountEventPicturesManage.aspx?id={0}", AccountEventId));
         }
         catch (Exception ex)

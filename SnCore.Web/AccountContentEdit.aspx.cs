@@ -36,7 +36,7 @@ public partial class AccountContentEdit : AuthenticatedPage
             {
                 if (RequestId > 0)
                 {
-                    TransitAccountContent tf = ContentService.GetAccountContentById(
+                    TransitAccountContent tf = SessionManager.ContentService.GetAccountContentById(
                         SessionManager.Ticket, RequestId);
 
                     inputTag.Text = tf.Tag;
@@ -83,7 +83,7 @@ public partial class AccountContentEdit : AuthenticatedPage
 
             s.Timestamp = base.ToUTC(inputTimestamp.SelectedDate);
 
-            ContentService.CreateOrUpdateAccountContent(SessionManager.Ticket, s);
+            SessionManager.ContentService.CreateOrUpdateAccountContent(SessionManager.Ticket, s);
             Redirect(string.Format("AccountContentGroupEdit.aspx?id={0}", AccountContentGroupId));
         }
         catch (Exception ex)

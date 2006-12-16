@@ -33,7 +33,7 @@ public partial class SystemPicturesManage : AuthenticatedPage
                 gridManage_OnGetDataSource(this, null);
                 gridManage.DataBind();
 
-                selectPictureType.DataSource = SystemService.GetPictureTypes();
+                selectPictureType.DataSource = SessionManager.SystemService.GetPictureTypes();
                 selectPictureType.DataBind();
 
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
@@ -52,7 +52,7 @@ public partial class SystemPicturesManage : AuthenticatedPage
     {
         try
         {
-            gridManage.DataSource = SystemService.GetPictures();
+            gridManage.DataSource = SessionManager.SystemService.GetPictures();
         }
         catch (Exception ex)
         {
@@ -83,7 +83,7 @@ public partial class SystemPicturesManage : AuthenticatedPage
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            SystemService.DeletePicture(SessionManager.Ticket, id);
+                            SessionManager.SystemService.DeletePicture(SessionManager.Ticket, id);
                             ReportInfo("Picture deleted.");
                             gridManage.CurrentPageIndex = 0;
                             gridManage_OnGetDataSource(source, e);
@@ -118,7 +118,7 @@ public partial class SystemPicturesManage : AuthenticatedPage
                     p.Type = selectPictureType.SelectedValue;
                     p.Description = string.Empty;
 
-                    SystemService.CreateOrUpdatePicture(SessionManager.Ticket, p);
+                    SessionManager.SystemService.CreateOrUpdatePicture(SessionManager.Ticket, p);
                 }
                 catch (Exception ex)
                 {

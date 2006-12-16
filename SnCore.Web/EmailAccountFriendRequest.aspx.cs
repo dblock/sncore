@@ -23,7 +23,7 @@ public partial class EmailAccountFriendRequest : AuthenticatedPage
             {
                 if (mAccountFriendRequest == null)
                 {
-                    mAccountFriendRequest = SocialService.GetAccountFriendRequestById(
+                    mAccountFriendRequest = SessionManager.SocialService.GetAccountFriendRequestById(
                         SessionManager.Ticket, RequestId);
                 }
             }

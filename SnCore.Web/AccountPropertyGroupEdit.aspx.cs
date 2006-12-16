@@ -26,7 +26,7 @@ public partial class AccountPropertyGroupEdit : AuthenticatedPage
 
                 if (RequestId > 0)
                 {
-                    TransitAccountPropertyGroup tag = AccountService.GetAccountPropertyGroupById(RequestId);
+                    TransitAccountPropertyGroup tag = SessionManager.AccountService.GetAccountPropertyGroupById(RequestId);
                     labelName.Text = Render(tag.Name);
                     labelDescription.Text = Render(tag.Description);
                     sitemapdata.Add(new SiteMapDataAttributeNode(tag.Name, Request.Url));
@@ -39,7 +39,7 @@ public partial class AccountPropertyGroupEdit : AuthenticatedPage
 
                 StackSiteMap(sitemapdata);
 
-                gridManage.DataSource = AccountService.GetAllAccountPropertyValues(SessionManager.Ticket, RequestId);
+                gridManage.DataSource = SessionManager.AccountService.GetAllAccountPropertyValues(SessionManager.Ticket, RequestId);
                 gridManage.DataBind();
             }
 
@@ -65,7 +65,7 @@ public partial class AccountPropertyGroupEdit : AuthenticatedPage
                         int id = int.Parse(((HiddenField)item.FindControl("Id")).Value);
                         int property_id = int.Parse(((HiddenField)item.FindControl("propertyId")).Value);
 
-                        TransitAccountProperty prop = AccountService.GetAccountPropertyById(property_id);
+                        TransitAccountProperty prop = SessionManager.AccountService.GetAccountPropertyById(property_id);
 
                         TransitAccountPropertyValue value = new TransitAccountPropertyValue();
                         value.Id = id;
@@ -90,7 +90,7 @@ public partial class AccountPropertyGroupEdit : AuthenticatedPage
                                 break;
                         }
 
-                        value.Id = AccountService.CreateOrUpdateAccountPropertyValue(
+                        value.Id = SessionManager.AccountService.CreateOrUpdateAccountPropertyValue(
                             SessionManager.Ticket, value);
                         break;
                 }

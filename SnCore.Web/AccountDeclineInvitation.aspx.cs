@@ -23,7 +23,7 @@ public partial class AccountDeclineInvitation : Page
 
             if (!IsPostBack)
             {
-                TransitAccountInvitation invitation = AccountService.GetAccountInvitationById(
+                TransitAccountInvitation invitation = SessionManager.AccountService.GetAccountInvitationById(
                     SessionManager.Ticket, RequestId);
 
                 linkAccount.Text = Render(invitation.AccountName);
@@ -40,7 +40,7 @@ public partial class AccountDeclineInvitation : Page
     {
         try
         {
-            AccountService.DeclineInvitation(RequestId, Request.QueryString["code"]);
+            SessionManager.AccountService.DeclineInvitation(RequestId, Request.QueryString["code"]);
             panelDecline.Visible = false;
             ReportInfo("Invation declined. Click <a href='AccountCreate.aspx'>here</a> to join without an invitation.");
         }

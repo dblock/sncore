@@ -35,7 +35,7 @@ public partial class AccountContentGroupEdit : AuthenticatedPage
                     gridManageContent.OnGetDataSource += new EventHandler(gridManageContent_OnGetDataSource);
                     GetData(sender, e);
 
-                    TransitAccountContentGroup tf = ContentService.GetAccountContentGroupById(
+                    TransitAccountContentGroup tf = SessionManager.ContentService.GetAccountContentGroupById(
                         SessionManager.Ticket, RequestId);
 
                     sitemapdata.Add(new SiteMapDataAttributeNode(tf.Name, Request.Url));
@@ -73,14 +73,14 @@ public partial class AccountContentGroupEdit : AuthenticatedPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageSize = gridManageContent.PageSize;
         options.PageNumber = gridManageContent.CurrentPageIndex;
-        gridManageContent.DataSource = ContentService.GetAccountContentsById(
+        gridManageContent.DataSource = SessionManager.ContentService.GetAccountContentsById(
             SessionManager.Ticket, RequestId, options);
     }
 
     public void GetData(object sender, EventArgs e)
     {
         gridManageContent.CurrentPageIndex = 0;
-        gridManageContent.VirtualItemCount = ContentService.GetAccountContentsCountById(
+        gridManageContent.VirtualItemCount = SessionManager.ContentService.GetAccountContentsCountById(
             SessionManager.Ticket, RequestId);
         gridManageContent_OnGetDataSource(this, null);
         gridManageContent.DataBind();
@@ -96,7 +96,7 @@ public partial class AccountContentGroupEdit : AuthenticatedPage
             s.Description = inputDescription.Text;
             s.Trusted = inputTrusted.Checked && SessionManager.IsAdministrator;
             s.Login = inputLogin.Checked;
-            ContentService.CreateOrUpdateAccountContentGroup(SessionManager.Ticket, s);
+            SessionManager.ContentService.CreateOrUpdateAccountContentGroup(SessionManager.Ticket, s);
             Redirect("AccountContentGroupsManage.aspx");
         }
         catch (Exception ex)
@@ -113,7 +113,7 @@ public partial class AccountContentGroupEdit : AuthenticatedPage
             {
                 case "Delete":
                     int id = int.Parse(e.CommandArgument.ToString());
-                    ContentService.DeleteAccountContent(SessionManager.Ticket, id);
+                    SessionManager.ContentService.DeleteAccountContent(SessionManager.Ticket, id);
                     ReportInfo("Content deleted.");
                     GetData(sender, e);
                     break;

@@ -24,7 +24,7 @@ public partial class EmailDiscussionPost : AuthenticatedPage
             {
                 if (mDiscussionPost == null)
                 {
-                    mDiscussionPost = DiscussionService.GetDiscussionPostById(
+                    mDiscussionPost = SessionManager.DiscussionService.GetDiscussionPostById(
                         SessionManager.Ticket, RequestId);
                 }
             }
@@ -45,7 +45,7 @@ public partial class EmailDiscussionPost : AuthenticatedPage
             {
                 if (DiscussionPost.DiscussionPostParentId != 0)
                 {
-                    mDiscussionPostParent = DiscussionService.GetDiscussionPostById(
+                    mDiscussionPostParent = SessionManager.DiscussionService.GetDiscussionPostById(
                         SessionManager.Ticket, DiscussionPost.DiscussionPostParentId);
                 }
             }
@@ -66,7 +66,7 @@ public partial class EmailDiscussionPost : AuthenticatedPage
         {
             if (mDiscussion == null)
             {
-                mDiscussion = DiscussionService.GetDiscussionById(
+                mDiscussion = SessionManager.DiscussionService.GetDiscussionById(
                     DiscussionPost.DiscussionId);
             }
 
@@ -82,7 +82,7 @@ public partial class EmailDiscussionPost : AuthenticatedPage
         {
             if (mRecepient == null)
             {
-                mRecepient = AccountService.GetAccountById((DiscussionPostParent != null) ? 
+                mRecepient = SessionManager.AccountService.GetAccountById((DiscussionPostParent != null) ? 
                     DiscussionPostParent.AccountId : Discussion.AccountId);
             }
 

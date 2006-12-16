@@ -27,7 +27,7 @@ public partial class MarketingCampaignEdit : AuthenticatedPage
 
                 if (RequestId > 0)
                 {
-                    TransitCampaign t = MarketingService.GetCampaignById(SessionManager.Ticket, RequestId);
+                    TransitCampaign t = SessionManager.MarketingService.GetCampaignById(SessionManager.Ticket, RequestId);
                     inputActive.Checked = t.Active;
                     inputDescription.Text = t.Description;
                     inputName.Text = t.Name;
@@ -64,7 +64,7 @@ public partial class MarketingCampaignEdit : AuthenticatedPage
             t.SenderEmailAddress = inputSenderEmail.Text;
             t.SenderName = inputSenderName.Text;
             t.Url = inputUrl.Text;
-            MarketingService.CreateOrUpdateCampaign(SessionManager.Ticket, t);
+            SessionManager.MarketingService.CreateOrUpdateCampaign(SessionManager.Ticket, t);
             Redirect("MarketingCampaignsManage.aspx");
         }
         catch (Exception ex)

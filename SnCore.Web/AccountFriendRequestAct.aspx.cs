@@ -42,10 +42,10 @@ public partial class AccountFriendRequestAct : AuthenticatedPage
                 switch (action)
                 {
                     case "accept":
-                        SocialService.AcceptAccountFriendRequest(SessionManager.Ticket, id, string.Empty);
+                        SessionManager.SocialService.AcceptAccountFriendRequest(SessionManager.Ticket, id, string.Empty);
                         break;
                     case "reject":
-                        SocialService.RejectAccountFriendRequest(SessionManager.Ticket, id, string.Empty);
+                        SessionManager.SocialService.RejectAccountFriendRequest(SessionManager.Ticket, id, string.Empty);
                         break;
                     default:
                         throw new Exception("Invalid action parameter.");

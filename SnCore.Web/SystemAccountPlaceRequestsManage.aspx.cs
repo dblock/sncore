@@ -46,11 +46,11 @@ public partial class SystemAccountPlaceRequestsManage : AuthenticatedPage
             List<TransitAccountPlaceRequest> requests;
             if (RequestId > 0)
             {
-                requests = PlaceService.GetAccountPlaceRequestsById(SessionManager.Ticket, RequestId);
+                requests = SessionManager.PlaceService.GetAccountPlaceRequestsById(SessionManager.Ticket, RequestId);
             }
             else
             {
-                requests = PlaceService.GetAccountPlaceRequests(SessionManager.Ticket);
+                requests = SessionManager.PlaceService.GetAccountPlaceRequests(SessionManager.Ticket);
             }
 
             gridManage.DataSource = requests;
@@ -86,21 +86,21 @@ public partial class SystemAccountPlaceRequestsManage : AuthenticatedPage
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            PlaceService.DeleteAccountPlaceRequest(SessionManager.Ticket, id);
+                            SessionManager.PlaceService.DeleteAccountPlaceRequest(SessionManager.Ticket, id);
                             ReportInfo("Request deleted.");
                             gridManage.CurrentPageIndex = 0;
                             gridManage_OnGetDataSource(source, e);
                             gridManage.DataBind();
                             break;
                         case "Accept":
-                            PlaceService.AcceptAccountPlaceRequest(SessionManager.Ticket, id, inputMessage.Text);
+                            SessionManager.PlaceService.AcceptAccountPlaceRequest(SessionManager.Ticket, id, inputMessage.Text);
                             ReportInfo("Request accepted.");
                             gridManage.CurrentPageIndex = 0;
                             gridManage_OnGetDataSource(source, e);
                             gridManage.DataBind();
                             break;
                         case "Reject":
-                            PlaceService.RejectAccountPlaceRequest(SessionManager.Ticket, id, inputMessage.Text);
+                            SessionManager.PlaceService.RejectAccountPlaceRequest(SessionManager.Ticket, id, inputMessage.Text);
                             ReportInfo("Request rejected.");
                             gridManage.CurrentPageIndex = 0;
                             gridManage_OnGetDataSource(source, e);

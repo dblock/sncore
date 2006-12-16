@@ -42,7 +42,7 @@ public partial class PlaceFriendsQueueView : AuthenticatedPage
     void GetData(object sender, EventArgs e)
     {
         queue.CurrentPageIndex = 0;
-        queue.VirtualItemCount = PlaceService.GetFriendsPlaceQueueItemsCount(SessionManager.Ticket);
+        queue.VirtualItemCount = SessionManager.PlaceService.GetFriendsPlaceQueueItemsCount(SessionManager.Ticket);
         queue_OnGetDataSource(this, null);
         queue.DataBind();
     }
@@ -54,7 +54,7 @@ public partial class PlaceFriendsQueueView : AuthenticatedPage
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = queue.CurrentPageIndex;
             options.PageSize = queue.PageSize;
-            queue.DataSource = PlaceService.GetFriendsPlaceQueueItems(SessionManager.Ticket, options);
+            queue.DataSource = SessionManager.PlaceService.GetFriendsPlaceQueueItems(SessionManager.Ticket, options);
         }
         catch (Exception ex)
         {

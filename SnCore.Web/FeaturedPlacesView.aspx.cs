@@ -42,7 +42,7 @@ public partial class FeaturedPlacesView : Page
     private void GetData()
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SystemService.GetFeaturesCount("Place");
+        gridManage.VirtualItemCount = SessionManager.SystemService.GetFeaturesCount("Place");
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
 
@@ -70,7 +70,7 @@ public partial class FeaturedPlacesView : Page
 
             object[] args = { "Place", serviceoptions };
             gridManage.DataSource = SessionManager.GetCachedCollection<TransitFeature>(
-                SystemService, "GetFeatures", args);
+                SessionManager.SystemService, "GetFeatures", args);
         }
         catch (Exception ex)
         {
@@ -81,6 +81,7 @@ public partial class FeaturedPlacesView : Page
     public TransitPlace GetPlace(int id)
     {
         object[] args = { SessionManager.Ticket, id };
-        return SessionManager.GetCachedItem<TransitPlace>(PlaceService, "GetPlaceById", args);
+        return SessionManager.GetCachedItem<TransitPlace>(
+            SessionManager.PlaceService, "GetPlaceById", args);
     }
 }

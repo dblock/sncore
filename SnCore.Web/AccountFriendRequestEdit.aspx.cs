@@ -23,7 +23,7 @@ public partial class AccountFriendRequestEdit : AuthenticatedPage
             {
                 if (ParentId != 0)
                 {
-                    TransitAccount account = AccountService.GetAccountById(ParentId);
+                    TransitAccount account = SessionManager.AccountService.GetAccountById(ParentId);
                     linkKeen.NavigateUrl = string.Format("AccountView.aspx?id={0}", account.Id.ToString());
                     linkBack.NavigateUrl = (string.IsNullOrEmpty(ReturnUrl)) ? linkKeen.NavigateUrl : ReturnUrl;
                     linkKeen.Text = Renderer.Render(account.Name);
@@ -40,7 +40,7 @@ public partial class AccountFriendRequestEdit : AuthenticatedPage
 
             SetDefaultButton(manageAdd);
 
-            if (!AccountService.HasVerifiedEmail(SessionManager.Ticket))
+            if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket))
             {
                 ReportWarning("You don't have any verified e-mail addresses.\n" +
                     "You must add/confirm a valid e-mail address before making friends.");
@@ -68,7 +68,7 @@ public partial class AccountFriendRequestEdit : AuthenticatedPage
     {
         try
         {
-            SocialService.CreateAccountFriendRequest(SessionManager.Ticket, ParentId, inputMessage.Text);
+            SessionManager.SocialService.CreateAccountFriendRequest(SessionManager.Ticket, ParentId, inputMessage.Text);
             Redirect(ReturnUrl);
         }
         catch (Exception ex)

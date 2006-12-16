@@ -39,7 +39,7 @@ public partial class SystemCountriesManage : AuthenticatedPage
     public void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = LocationService.GetCountriesCount();
+        gridManage.VirtualItemCount = SessionManager.LocationService.GetCountriesCount();
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -49,7 +49,7 @@ public partial class SystemCountriesManage : AuthenticatedPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageSize = gridManage.PageSize;
         options.PageNumber = gridManage.CurrentPageIndex;
-        gridManage.DataSource = LocationService.GetCountries(options);
+        gridManage.DataSource = SessionManager.LocationService.GetCountries(options);
     }
 
     private enum Cells
@@ -72,7 +72,7 @@ public partial class SystemCountriesManage : AuthenticatedPage
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            LocationService.DeleteCountry(SessionManager.Ticket, id);
+                            SessionManager.LocationService.DeleteCountry(SessionManager.Ticket, id);
                             ReportInfo("Country deleted.");
                             gridManage.CurrentPageIndex = 0;
                             gridManage_OnGetDataSource(source, e);

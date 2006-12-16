@@ -21,7 +21,7 @@ public partial class AccountStoriesManage : AuthenticatedPage
 
             if (!IsPostBack)
             {
-                gridManage.VirtualItemCount = StoryService.GetAccountStoriesCount(SessionManager.Ticket, null);
+                gridManage.VirtualItemCount = SessionManager.StoryService.GetAccountStoriesCount(SessionManager.Ticket, null);
                 gridManage_OnGetDataSource(this, null);
                 gridManage.DataBind();
 
@@ -49,7 +49,7 @@ public partial class AccountStoriesManage : AuthenticatedPage
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridManage.CurrentPageIndex;
             options.PageSize = gridManage.PageSize;
-            gridManage.DataSource = StoryService.GetAccountStories(SessionManager.Ticket, null, options);
+            gridManage.DataSource = SessionManager.StoryService.GetAccountStories(SessionManager.Ticket, null, options);
         }
         catch (Exception ex)
         {
@@ -65,7 +65,7 @@ public partial class AccountStoriesManage : AuthenticatedPage
             {
                 case "Delete":
                     int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                    StoryService.DeleteAccountStory(SessionManager.Ticket, id);
+                    SessionManager.StoryService.DeleteAccountStory(SessionManager.Ticket, id);
                     ReportInfo("Story deleted.");
                     gridManage.CurrentPageIndex = 0;
                     gridManage_OnGetDataSource(sender, e);

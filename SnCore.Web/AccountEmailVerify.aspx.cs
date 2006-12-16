@@ -32,14 +32,14 @@ public partial class AccountEmailVerify : Page
     {
         try
         {
-            string emailaddress = AccountService.VerifyEmail(
+            string emailaddress = SessionManager.AccountService.VerifyEmail(
                 inputPassword.Text, 
                 RequestId, 
                 inputCode.Text);
 
             if (!SessionManager.IsLoggedIn)
             {
-                string ticket = AccountService.Login(emailaddress, inputPassword.Text);
+                string ticket = SessionManager.AccountService.Login(emailaddress, inputPassword.Text);
                 SessionManager.Login(ticket, true);
             }
 

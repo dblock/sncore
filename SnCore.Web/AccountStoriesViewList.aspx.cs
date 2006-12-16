@@ -27,7 +27,7 @@ public partial class AccountStoriesViewList : Page
                 ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
                 serviceoptions.PageSize = pagesize;
                 serviceoptions.PageNumber = pagenumber;
-                gridManage.DataSource = StoryService.GetLatestAccountStories(serviceoptions);
+                gridManage.DataSource = SessionManager.StoryService.GetLatestAccountStories(serviceoptions);
                 gridManage.DataBind();
 
                 if (pagenumber > 0)

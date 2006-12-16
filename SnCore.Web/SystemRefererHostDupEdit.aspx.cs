@@ -29,7 +29,7 @@ public partial class SystemRefererHostDupEdit : AuthenticatedPage
 
                 if (RequestId > 0)
                 {
-                    TransitRefererHostDup t = StatsService.GetRefererHostDupById(RequestId);
+                    TransitRefererHostDup t = SessionManager.StatsService.GetRefererHostDupById(RequestId);
                     inputHost.Text = t.Host;
                     inputRefererHost.Text = t.RefererHost;
                     sitemapdata.Add(new SiteMapDataAttributeNode(t.Host, Request.Url));
@@ -58,7 +58,7 @@ public partial class SystemRefererHostDupEdit : AuthenticatedPage
             t.Host = inputHost.Text;
             t.RefererHost = inputRefererHost.Text;
             t.Id = RequestId;
-            StatsService.CreateOrUpdateRefererHostDup(SessionManager.Ticket, t);
+            SessionManager.StatsService.CreateOrUpdateRefererHostDup(SessionManager.Ticket, t);
             Redirect("SystemRefererHostDupsManage.aspx");
         }
         catch (Exception ex)

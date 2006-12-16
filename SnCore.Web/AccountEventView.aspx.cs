@@ -29,7 +29,7 @@ public partial class AccountEventView : Page
             {
                 object[] args = { AccountEvent.AccountId };
                 mAccountEventAccount = SessionManager.GetCachedItem<TransitAccount>(
-                    AccountService, "GetAccountById", args);
+                    SessionManager.AccountService, "GetAccountById", args);
             }
 
             return mAccountEventAccount;
@@ -42,7 +42,7 @@ public partial class AccountEventView : Page
         {
             if (mAccountEventPlace == null && RequestId > 0 && AccountEvent != null)
             {
-                mAccountEventPlace = PlaceService.GetPlaceById(SessionManager.Ticket, AccountEvent.PlaceId);
+                mAccountEventPlace = SessionManager.PlaceService.GetPlaceById(SessionManager.Ticket, AccountEvent.PlaceId);
             }
             return mAccountEventPlace;
         }
@@ -80,7 +80,7 @@ public partial class AccountEventView : Page
             {
                 object[] args = { SessionManager.Ticket, RequestId, SessionManager.UtcOffset };
                 mAccountEvent = SessionManager.GetCachedItem <TransitAccountEvent>(
-                    EventService, "GetAccountEventById", args);
+                    SessionManager.EventService, "GetAccountEventById", args);
             }
 
             return mAccountEvent;
@@ -128,7 +128,7 @@ public partial class AccountEventView : Page
 
                     object[] p_args = { RequestId, null };
                     picturesView.DataSource = SessionManager.GetCachedCollection<TransitAccountEventPicture>(
-                        EventService, "GetAccountEventPicturesById", p_args);
+                        SessionManager.EventService, "GetAccountEventPicturesById", p_args);
                     picturesView.DataBind();
 
                     if (picturesView.Items.Count == 0)
@@ -136,7 +136,7 @@ public partial class AccountEventView : Page
                         panelNoPicture.Visible = true;
                     }
 
-                    discussionAccountEvents.DiscussionId = DiscussionService.GetAccountEventDiscussionId(RequestId);
+                    discussionAccountEvents.DiscussionId = SessionManager.DiscussionService.GetAccountEventDiscussionId(RequestId);
                     discussionAccountEvents.DataBind();
 
                     if (SessionManager.IsAdministrator)
@@ -188,7 +188,7 @@ public partial class AccountEventView : Page
             TransitFeature t_feature = new TransitFeature();
             t_feature.DataObjectName = "AccountEvent";
             t_feature.DataRowId = RequestId;
-            SystemService.CreateOrUpdateFeature(SessionManager.Ticket, t_feature);
+            SessionManager.SystemService.CreateOrUpdateFeature(SessionManager.Ticket, t_feature);
             Redirect(Request.Url.PathAndQuery);
         }
         catch (Exception ex)
@@ -210,7 +210,7 @@ public partial class AccountEventView : Page
             TransitFeature t_feature = new TransitFeature();
             t_feature.DataObjectName = "AccountEvent";
             t_feature.DataRowId = RequestId;
-            SystemService.DeleteAllFeatures(SessionManager.Ticket, t_feature);
+            SessionManager.SystemService.DeleteAllFeatures(SessionManager.Ticket, t_feature);
             Redirect(Request.Url.PathAndQuery);
         }
         catch (Exception ex)
@@ -225,7 +225,7 @@ public partial class AccountEventView : Page
         {
             if (mAccountEventFeature == null)
             {
-                mAccountEventFeature = SystemService.FindLatestFeature(
+                mAccountEventFeature = SessionManager.SystemService.FindLatestFeature(
                     "AccountEvent", RequestId);
             }
             return mAccountEventFeature;
@@ -236,7 +236,7 @@ public partial class AccountEventView : Page
     {
         try
         {
-            string vcsContent = EventService.GetAccountEventVCalendarById(SessionManager.Ticket, RequestId);
+            string vcsContent = SessionManager.EventService.GetAccountEventVCalendarById(SessionManager.Ticket, RequestId);
             Response.Clear(); // clear the current output content from the buffer
             Response.AppendHeader("Content-Disposition", string.Format("attachment; filename={0}.ics", AccountEvent.Name));
             Response.AppendHeader("Content-Length", vcsContent.Length.ToString());

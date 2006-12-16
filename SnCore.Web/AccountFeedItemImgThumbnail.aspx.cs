@@ -45,7 +45,7 @@ public partial class AccountFeedItemImgThumbnail : PicturePage
     public override TransitPicture GetPictureWithThumbnail(int id, string ticket)
     {
         TransitAccountFeedItemImg p =
-            SyndicationService.GetAccountFeedItemImgById(
+            SessionManager.SyndicationService.GetAccountFeedItemImgById(
                 ticket,
                 id);
 

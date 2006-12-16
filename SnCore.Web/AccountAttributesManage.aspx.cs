@@ -21,7 +21,7 @@ public partial class AccountAttributesManage : AuthenticatedPage
         {
             if (mAccount == null)
             {
-                mAccount = AccountService.GetAccountById(RequestId);
+                mAccount = SessionManager.AccountService.GetAccountById(RequestId);
             }
 
             return mAccount;
@@ -60,7 +60,7 @@ public partial class AccountAttributesManage : AuthenticatedPage
     public void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = AccountService.GetAccountAttributesCountById(RequestId);
+        gridManage.VirtualItemCount = SessionManager.AccountService.GetAccountAttributesCountById(RequestId);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
@@ -77,7 +77,7 @@ public partial class AccountAttributesManage : AuthenticatedPage
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageSize = gridManage.PageSize;
             options.PageNumber = gridManage.CurrentPageIndex;
-            gridManage.DataSource = AccountService.GetAccountAttributesById(
+            gridManage.DataSource = SessionManager.AccountService.GetAccountAttributesById(
                 RequestId, options);
         }
         catch (Exception ex)
@@ -94,7 +94,7 @@ public partial class AccountAttributesManage : AuthenticatedPage
             {
                 case "Delete":
                     int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                    AccountService.DeleteAccountAttribute(SessionManager.Ticket, id);
+                    SessionManager.AccountService.DeleteAccountAttribute(SessionManager.Ticket, id);
                     ReportInfo("Account attribute deleted.");
                     gridManage.CurrentPageIndex = 0;
                     gridManage_OnGetDataSource(sender, e);

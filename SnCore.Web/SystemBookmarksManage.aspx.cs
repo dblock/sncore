@@ -45,7 +45,7 @@ public partial class SystemBookmarksManage : AuthenticatedPage
     {
         try
         {
-            gridManage.DataSource = SystemService.GetBookmarks();
+            gridManage.DataSource = SessionManager.SystemService.GetBookmarks();
         }
         catch (Exception ex)
         {
@@ -72,7 +72,7 @@ public partial class SystemBookmarksManage : AuthenticatedPage
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            SystemService.DeleteBookmark(SessionManager.Ticket, id);
+                            SessionManager.SystemService.DeleteBookmark(SessionManager.Ticket, id);
                             ReportInfo("Bookmark deleted.");
                             gridManage.CurrentPageIndex = 0;
                             gridManage_OnGetDataSource(source, e);

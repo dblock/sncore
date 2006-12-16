@@ -43,7 +43,7 @@ public partial class SystemRefererHosts : AuthenticatedPage
     private void GetData()
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = StatsService.GetRefererHostsCount();
+        gridManage.VirtualItemCount = SessionManager.StatsService.GetRefererHostsCount();
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
@@ -55,7 +55,7 @@ public partial class SystemRefererHosts : AuthenticatedPage
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridManage.CurrentPageIndex;
             options.PageSize = gridManage.PageSize;
-            gridManage.DataSource = StatsService.GetRefererHosts(options);
+            gridManage.DataSource = SessionManager.StatsService.GetRefererHosts(options);
         }
         catch (Exception ex)
         {

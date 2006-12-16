@@ -46,7 +46,8 @@ public partial class AccountFeedFeaturedViewControl : Control
             if (mFeature == null)
             {
                 object[] args = { "AccountFeed" };
-                mFeature = SessionManager.GetCachedItem<TransitFeature>(SystemService, "GetLatestFeature", args);
+                mFeature = SessionManager.GetCachedItem<TransitFeature>(
+                    SessionManager.SystemService, "GetLatestFeature", args);
             }
 
             return mFeature;
@@ -60,7 +61,8 @@ public partial class AccountFeedFeaturedViewControl : Control
             if (mAccountFeed == null)
             {
                 object[] args = { SessionManager.Ticket, Feature.DataRowId };
-                mAccountFeed = SessionManager.GetCachedItem<TransitAccountFeed>(SyndicationService, "GetAccountFeedById", args);
+                mAccountFeed = SessionManager.GetCachedItem<TransitAccountFeed>(
+                    SessionManager.SyndicationService, "GetAccountFeedById", args);
             }
 
             return mAccountFeed;

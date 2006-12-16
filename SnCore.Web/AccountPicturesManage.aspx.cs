@@ -50,7 +50,7 @@ public partial class AccountPicturesManage : AuthenticatedPage
     public void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = AccountService.GetAccountPicturesCount(SessionManager.Ticket, null);
+        gridManage.VirtualItemCount = SessionManager.AccountService.GetAccountPicturesCount(SessionManager.Ticket, null);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -60,7 +60,7 @@ public partial class AccountPicturesManage : AuthenticatedPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageSize = gridManage.PageSize;
         options.PageNumber = gridManage.CurrentPageIndex;
-        gridManage.DataSource = AccountService.GetAccountPictures(SessionManager.Ticket, null, options);
+        gridManage.DataSource = SessionManager.AccountService.GetAccountPictures(SessionManager.Ticket, null, options);
     }
 
     public string GetShowHideButtonText(bool hidden)
@@ -88,7 +88,7 @@ public partial class AccountPicturesManage : AuthenticatedPage
                     p.Description = string.Empty;
                     p.Hidden = false;
 
-                    AccountService.AddAccountPicture(SessionManager.Ticket, p);
+                    SessionManager.AccountService.AddAccountPicture(SessionManager.Ticket, p);
                 }
                 catch (Exception ex)
                 {
@@ -115,7 +115,7 @@ public partial class AccountPicturesManage : AuthenticatedPage
                 case "Delete":
                     {
                         int id = int.Parse(e.CommandArgument.ToString());
-                        AccountService.DeleteAccountPicture(SessionManager.Ticket, id);
+                        SessionManager.AccountService.DeleteAccountPicture(SessionManager.Ticket, id);
                         ReportInfo("Picture deleted.");
                         GetData(sender, e);
                     }
@@ -123,10 +123,10 @@ public partial class AccountPicturesManage : AuthenticatedPage
                 case "ShowHide":
                     {
                         int id = int.Parse(e.CommandArgument.ToString());
-                        TransitAccountPictureWithBitmap p = AccountService.GetAccountPictureWithBitmapById(
+                        TransitAccountPictureWithBitmap p = SessionManager.AccountService.GetAccountPictureWithBitmapById(
                             SessionManager.Ticket, id);
                         p.Hidden = !p.Hidden;
-                        AccountService.AddAccountPicture(SessionManager.Ticket, p);
+                        SessionManager.AccountService.AddAccountPicture(SessionManager.Ticket, p);
                         gridManage_OnGetDataSource(sender, e);
                         gridManage.DataBind();
                     }

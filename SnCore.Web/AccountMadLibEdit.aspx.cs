@@ -27,7 +27,7 @@ public partial class AccountMadLibEdit : AuthenticatedPage
 
                 if (RequestId > 0)
                 {
-                    TransitMadLib t = MadLibService.GetMadLibById(RequestId);
+                    TransitMadLib t = SessionManager.MadLibService.GetMadLibById(RequestId);
                     inputTemplate.Text = t.Template;
                     inputName.Text = t.Name;
                     sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
@@ -55,7 +55,7 @@ public partial class AccountMadLibEdit : AuthenticatedPage
             t.Id = RequestId;
             t.Template = inputTemplate.Text;
             t.Name = inputName.Text;
-            MadLibService.CreateOrUpdateMadLib(SessionManager.Ticket, t);
+            SessionManager.MadLibService.CreateOrUpdateMadLib(SessionManager.Ticket, t);
             Redirect("AccountMadLibsManage.aspx");
         }
         catch (Exception ex)

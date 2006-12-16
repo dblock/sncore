@@ -25,7 +25,7 @@ public partial class AccountBlogRss : Page
             {
                 object[] args = { SessionManager.Ticket, RequestId };
                 mBlog = SessionManager.GetCachedItem<TransitAccountBlog>(
-                    BlogService, "GetAccountBlogById", args);
+                    SessionManager.BlogService, "GetAccountBlogById", args);
             }
             return mBlog;
         }
@@ -76,7 +76,7 @@ public partial class AccountBlogRss : Page
                 options.PageSize = 25;
                 object[] args = { SessionManager.Ticket, RequestId, options };
                 rssRepeater.DataSource = SessionManager.GetCachedCollection<TransitAccountBlogPost>(
-                    BlogService, "GetAccountBlogPostsById", args);
+                    SessionManager.BlogService, "GetAccountBlogPostsById", args);
                 rssRepeater.DataBind();
             }
         }

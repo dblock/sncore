@@ -34,7 +34,7 @@ public partial class PlaceAttributeEdit : AuthenticatedPage
             {
                 linkBack.NavigateUrl = string.Format("PlaceAttributesManage.aspx?id={0}", PlaceId);
 
-                List<TransitAttribute> attributes = SystemService.GetAttributes();
+                List<TransitAttribute> attributes = SessionManager.SystemService.GetAttributes();
                 
                 if (RequestId == 0)
                 {
@@ -52,7 +52,7 @@ public partial class PlaceAttributeEdit : AuthenticatedPage
 
                 if (RequestId > 0)
                 {
-                    TransitPlaceAttribute attribute = PlaceService.GetPlaceAttributeById(RequestId);
+                    TransitPlaceAttribute attribute = SessionManager.PlaceService.GetPlaceAttributeById(RequestId);
                     inputValue.Text = Renderer.Render(attribute.Value);
                     inputUrl.Text = Renderer.Render(attribute.Url);
                     inputDefaultUrl.Text = Renderer.Render(attribute.Attribute.DefaultUrl);
@@ -85,7 +85,7 @@ public partial class PlaceAttributeEdit : AuthenticatedPage
         {
             if (mPlace == null)
             {
-                mPlace = PlaceService.GetPlaceById(SessionManager.Ticket, PlaceId);
+                mPlace = SessionManager.PlaceService.GetPlaceById(SessionManager.Ticket, PlaceId);
             }
 
             return mPlace;
@@ -103,7 +103,7 @@ public partial class PlaceAttributeEdit : AuthenticatedPage
             attribute.Id = RequestId;
             attribute.AttributeId = int.Parse(listAttributes.SelectedValue);
             attribute.PlaceId = PlaceId;
-            PlaceService.CreateOrUpdatePlaceAttribute(SessionManager.Ticket, attribute);
+            SessionManager.PlaceService.CreateOrUpdatePlaceAttribute(SessionManager.Ticket, attribute);
             Redirect(linkBack.NavigateUrl);
         }
         catch (Exception ex)
@@ -120,7 +120,7 @@ public partial class PlaceAttributeEdit : AuthenticatedPage
             int id = 0;
             if (int.TryParse(listAttributes.SelectedValue, out id))
             {
-                TransitAttribute attribute = SystemService.GetAttributeById(id);
+                TransitAttribute attribute = SessionManager.SystemService.GetAttributeById(id);
                 inputDefaultUrl.Text = Renderer.Render(attribute.DefaultUrl);
                 inputDefaultValue.Text = Renderer.Render(attribute.DefaultValue);
                 previewImage.ImageUrl = string.Format("SystemAttribute.aspx?id={0}", attribute.Id);

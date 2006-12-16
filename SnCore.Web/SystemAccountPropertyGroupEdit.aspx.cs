@@ -28,7 +28,7 @@ public partial class SystemAccountPropertyGroupEdit : AuthenticatedPage
 
                 if (RequestId > 0)
                 {
-                    TransitAccountPropertyGroup t = AccountService.GetAccountPropertyGroupById(RequestId);
+                    TransitAccountPropertyGroup t = SessionManager.AccountService.GetAccountPropertyGroupById(RequestId);
                     inputName.Text = t.Name;
                     inputDescription.Text = t.Description;
                     gridProperties_OnGetDataSource(this, null);
@@ -61,7 +61,7 @@ public partial class SystemAccountPropertyGroupEdit : AuthenticatedPage
             t.Name = inputName.Text;
             t.Description = inputDescription.Text;
             t.Id = RequestId;
-            AccountService.CreateOrUpdateAccountPropertyGroup(SessionManager.Ticket, t);
+            SessionManager.AccountService.CreateOrUpdateAccountPropertyGroup(SessionManager.Ticket, t);
             Redirect("SystemAccountPropertyGroupsManage.aspx");
         }
         catch (Exception ex)
@@ -74,7 +74,7 @@ public partial class SystemAccountPropertyGroupEdit : AuthenticatedPage
     {
         try
         {
-            gridProperties.DataSource = AccountService.GetAccountProperties(RequestId);
+            gridProperties.DataSource = SessionManager.AccountService.GetAccountProperties(RequestId);
         }
         catch (Exception ex)
         {
@@ -101,7 +101,7 @@ public partial class SystemAccountPropertyGroupEdit : AuthenticatedPage
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            AccountService.DeleteAccountProperty(SessionManager.Ticket, id);
+                            SessionManager.AccountService.DeleteAccountProperty(SessionManager.Ticket, id);
                             ReportInfo("Account property deleted.");
                             gridProperties.CurrentPageIndex = 0;
                             gridProperties_OnGetDataSource(source, e);

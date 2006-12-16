@@ -38,7 +38,7 @@ public partial class MarketingCampaignsManage : AuthenticatedPage
     void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = MarketingService.GetCampaignsCount(SessionManager.Ticket);
+        gridManage.VirtualItemCount = SessionManager.MarketingService.GetCampaignsCount(SessionManager.Ticket);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -50,7 +50,7 @@ public partial class MarketingCampaignsManage : AuthenticatedPage
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridManage.CurrentPageIndex;
             options.PageSize = gridManage.PageSize;
-            gridManage.DataSource = MarketingService.GetCampaigns(SessionManager.Ticket, options);
+            gridManage.DataSource = SessionManager.MarketingService.GetCampaigns(SessionManager.Ticket, options);
         }
         catch (Exception ex)
         {
@@ -77,7 +77,7 @@ public partial class MarketingCampaignsManage : AuthenticatedPage
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            MarketingService.DeleteCampaign(SessionManager.Ticket, id);
+                            SessionManager.MarketingService.DeleteCampaign(SessionManager.Ticket, id);
                             ReportInfo("Campaign deleted.");
                             GetData(source, e);
                             break;

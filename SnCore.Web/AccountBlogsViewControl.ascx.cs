@@ -47,6 +47,6 @@ public partial class AccountBlogsViewControl : Control
     {
         object[] args = { AccountId };
         accountBlogs.DataSource = SessionManager.GetCachedCollection<TransitAccountBlog>(
-            BlogService, "GetAccountBlogsById", args);
+            SessionManager.BlogService, "GetAccountBlogsById", args);
     }
 }

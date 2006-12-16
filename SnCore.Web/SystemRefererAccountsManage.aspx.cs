@@ -26,7 +26,7 @@ public partial class SystemRefererAccountsManage : AuthenticatedPage
 
             if (!IsPostBack)
             {
-                gridManage.VirtualItemCount = StatsService.GetRefererAccountsCount();
+                gridManage.VirtualItemCount = SessionManager.StatsService.GetRefererAccountsCount();
                 gridManage_OnGetDataSource(this, null);
                 gridManage.DataBind();
 
@@ -49,7 +49,7 @@ public partial class SystemRefererAccountsManage : AuthenticatedPage
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridManage.CurrentPageIndex;
             options.PageSize = gridManage.PageSize;
-            gridManage.DataSource = StatsService.GetRefererAccounts(options);
+            gridManage.DataSource = SessionManager.StatsService.GetRefererAccounts(options);
         }
         catch (Exception ex)
         {
@@ -76,7 +76,7 @@ public partial class SystemRefererAccountsManage : AuthenticatedPage
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            StatsService.DeleteRefererAccount(SessionManager.Ticket, id);
+                            SessionManager.StatsService.DeleteRefererAccount(SessionManager.Ticket, id);
                             ReportInfo("Referer account deleted.");
                             gridManage.CurrentPageIndex = 0;
                             gridManage_OnGetDataSource(source, e);

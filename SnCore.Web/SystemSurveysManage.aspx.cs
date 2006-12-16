@@ -36,7 +36,7 @@ public partial class SystemSurveysManage : AuthenticatedPage
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        gridManage.DataSource = SystemService.GetSurveys();
+        gridManage.DataSource = SessionManager.SystemService.GetSurveys();
     }
 
     private enum Cells
@@ -52,7 +52,7 @@ public partial class SystemSurveysManage : AuthenticatedPage
             switch (e.CommandName)
             {
                 case "Delete":
-                    SystemService.DeleteSurvey(SessionManager.Ticket, id);
+                    SessionManager.SystemService.DeleteSurvey(SessionManager.Ticket, id);
                     ReportInfo("Survey deleted.");
                     gridManage.CurrentPageIndex = 0;
                     gridManage_OnGetDataSource(sender, e);

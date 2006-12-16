@@ -26,7 +26,7 @@ public partial class SystemPictureTypeEdit : AuthenticatedPage
 
                 if (RequestId > 0)
                 {
-                    TransitPictureType t = SystemService.GetPictureTypeById(RequestId);
+                    TransitPictureType t = SessionManager.SystemService.GetPictureTypeById(RequestId);
                     inputName.Text = t.Name;
                     sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
                 }
@@ -53,7 +53,7 @@ public partial class SystemPictureTypeEdit : AuthenticatedPage
             TransitPictureType t = new TransitPictureType();
             t.Name = inputName.Text;
             t.Id = RequestId;
-            SystemService.CreateOrUpdatePictureType(SessionManager.Ticket, t);
+            SessionManager.SystemService.CreateOrUpdatePictureType(SessionManager.Ticket, t);
             Redirect("SystemPictureTypesManage.aspx");
         }
         catch (Exception ex)

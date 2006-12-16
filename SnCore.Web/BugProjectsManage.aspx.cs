@@ -35,7 +35,7 @@ public partial class BugProjectsManage : AuthenticatedPage
     {
         try
         {
-            gridManage.DataSource = BugService.GetBugProjects();
+            gridManage.DataSource = SessionManager.BugService.GetBugProjects();
         }
         catch (Exception ex)
         {
@@ -66,7 +66,7 @@ public partial class BugProjectsManage : AuthenticatedPage
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            BugService.DeleteBugProject(SessionManager.Ticket, id);
+                            SessionManager.BugService.DeleteBugProject(SessionManager.Ticket, id);
                             ReportInfo("Bug project deleted.");
                             gridManage.CurrentPageIndex = 0;
                             gridManage_OnGetDataSource(source, e);

@@ -43,7 +43,7 @@ public partial class SystemRefererQueries : AuthenticatedPage
     private void GetData()
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = StatsService.GetRefererQueriesCount();
+        gridManage.VirtualItemCount = SessionManager.StatsService.GetRefererQueriesCount();
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
@@ -55,7 +55,7 @@ public partial class SystemRefererQueries : AuthenticatedPage
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridManage.CurrentPageIndex;
             options.PageSize = gridManage.PageSize;
-            gridManage.DataSource = StatsService.GetRefererQueries(options);
+            gridManage.DataSource = SessionManager.StatsService.GetRefererQueries(options);
         }
         catch (Exception ex)
         {

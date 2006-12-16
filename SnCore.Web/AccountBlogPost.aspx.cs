@@ -47,7 +47,7 @@ public partial class AccountBlogPostNew : AuthenticatedPage
 
                 linkBack.NavigateUrl = ReturnUrl;
 
-                TransitAccountBlog blog = BlogService.GetAccountBlogById(SessionManager.Ticket, BlogId);
+                TransitAccountBlog blog = SessionManager.BlogService.GetAccountBlogById(SessionManager.Ticket, BlogId);
                 labelAccountName.Text = Renderer.Render(blog.AccountName);
                 labelBlog.Text = Renderer.Render(blog.Name);
                 labelBlogDescription.Text = Renderer.Render(blog.Description);
@@ -61,7 +61,7 @@ public partial class AccountBlogPostNew : AuthenticatedPage
 
                 if (RequestId != 0)
                 {
-                    TransitAccountBlogPost post = BlogService.GetAccountBlogPostById(SessionManager.Ticket, RequestId);
+                    TransitAccountBlogPost post = SessionManager.BlogService.GetAccountBlogPostById(SessionManager.Ticket, RequestId);
                     inputBody.Text = post.Body;
                     inputTitle.Text = post.Title;
                     sitemapdata.Add(new SiteMapDataAttributeNode(post.Title, Request.Url));
@@ -91,7 +91,7 @@ public partial class AccountBlogPostNew : AuthenticatedPage
             tp.Body = inputBody.Text;
             tp.AccountBlogId = BlogId;
             tp.Id = RequestId;
-            BlogService.CreateOrUpdateAccountBlogPost(SessionManager.Ticket, tp);
+            SessionManager.BlogService.CreateOrUpdateAccountBlogPost(SessionManager.Ticket, tp);
             Redirect(ReturnUrl);
         }
         catch (Exception ex)
@@ -120,7 +120,7 @@ public partial class AccountBlogPostNew : AuthenticatedPage
                     p.Description = string.Empty;
                     p.Hidden = true;
 
-                    int id = AccountService.AddAccountPicture(SessionManager.Ticket, p);
+                    int id = SessionManager.AccountService.AddAccountPicture(SessionManager.Ticket, p);
 
                     Size size = t.GetNewSize(new Size(200, 200));
 

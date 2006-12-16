@@ -29,7 +29,7 @@ public partial class AccountEventEdit : AuthenticatedPage
 
                 ArrayList types = new ArrayList();
                 types.Add(new TransitAccountPlaceType());
-                types.AddRange(EventService.GetAccountEventTypes());
+                types.AddRange(SessionManager.EventService.GetAccountEventTypes());
                 selectType.DataSource = types;
                 selectType.DataBind();
 
@@ -37,7 +37,7 @@ public partial class AccountEventEdit : AuthenticatedPage
 
                 if (id > 0)
                 {
-                    TransitAccountEvent tav = EventService.GetAccountEventById(SessionManager.Ticket, id, SessionManager.UtcOffset);
+                    TransitAccountEvent tav = SessionManager.EventService.GetAccountEventById(SessionManager.Ticket, id, SessionManager.UtcOffset);
                     inputName.Text = tav.Name;
                     inputWebsite.Text = tav.Website;
                     inputDescription.Text = tav.Description;
@@ -46,8 +46,8 @@ public partial class AccountEventEdit : AuthenticatedPage
                     inputCost.Text = tav.Cost;
                     inputPublish.Checked = tav.Publish;
                     selectType.Items.FindByValue(tav.AccountEventType).Selected = true;
-                    schedule.Schedule = SystemService.GetScheduleById(tav.ScheduleId);
-                    place.Place = PlaceService.GetPlaceById(SessionManager.Ticket, tav.PlaceId);
+                    schedule.Schedule = SessionManager.SystemService.GetScheduleById(tav.ScheduleId);
+                    place.Place = SessionManager.PlaceService.GetPlaceById(SessionManager.Ticket, tav.PlaceId);
                     titleEvent.Text = Renderer.Render(tav.Name);
                     sitemapdata.Add(new SiteMapDataAttributeNode(tav.Name, Request.Url));
                 }
@@ -61,7 +61,7 @@ public partial class AccountEventEdit : AuthenticatedPage
 
             SetDefaultButton(manageAdd);
 
-            if (!AccountService.HasVerifiedEmail(SessionManager.Ticket))
+            if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket))
             {
                 ReportWarning("You don't have any verified e-mail addresses.\n" +
                     "You must add/confirm a valid e-mail address before posting.");
@@ -119,19 +119,19 @@ public partial class AccountEventEdit : AuthenticatedPage
             // create place
             if (place.Place.Id == 0)
             {
-                place.Place.Id = PlaceService.CreateOrUpdatePlace(
+                place.Place.Id = SessionManager.PlaceService.CreateOrUpdatePlace(
                     SessionManager.Ticket, place.Place);
             }
 
             // create or update schedule
-            tav.ScheduleId = schedule.Schedule.Id = SystemService.CreateOrUpdateSchedule(
+            tav.ScheduleId = schedule.Schedule.Id = SessionManager.SystemService.CreateOrUpdateSchedule(
                 SessionManager.Ticket, schedule.Schedule);
 
             tav.AccountId = SessionManager.Account.Id;
             tav.PlaceId = place.Place.Id;            
             tav.Id = RequestId;
             tav.AccountEventType = selectType.SelectedValue;
-            EventService.CreateOrUpdateAccountEvent(SessionManager.Ticket, tav);
+            SessionManager.EventService.CreateOrUpdateAccountEvent(SessionManager.Ticket, tav);
             Redirect("AccountEventsManage.aspx");
         }
         catch (Exception ex)

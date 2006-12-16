@@ -48,7 +48,7 @@ public partial class AccountPlacesViewControl : Control
         placesList.CurrentPageIndex = 0;
         object[] args = { AccountId };
         placesList.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            PlaceService, "GetAccountPlacesCountByAccountId", args);
+            SessionManager.PlaceService, "GetAccountPlacesCountByAccountId", args);
         placesList_OnGetDataSource(sender, e);
         placesList.DataBind();
         this.Visible = (placesList.VirtualItemCount > 0);
@@ -61,7 +61,7 @@ public partial class AccountPlacesViewControl : Control
             ServiceQueryOptions options = new ServiceQueryOptions(placesList.PageSize, placesList.CurrentPageIndex);
             object[] args = { AccountId, options };
             placesList.DataSource = SessionManager.GetCachedCollection<TransitAccountPlace>(
-                PlaceService, "GetAccountPlacesByAccountId", args);
+                SessionManager.PlaceService, "GetAccountPlacesByAccountId", args);
             panelGrid.Update();
         }
         catch (Exception ex)

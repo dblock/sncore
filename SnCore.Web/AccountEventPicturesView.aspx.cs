@@ -26,9 +26,11 @@ public partial class AccountEventPicturesView : Page
 
                 if (RequestId > 0)
                 {
-                    TransitAccountEvent a = EventService.GetAccountEventById(SessionManager.Ticket, RequestId, SessionManager.UtcOffset);
+                    TransitAccountEvent a = SessionManager.EventService.GetAccountEventById(
+                        SessionManager.Ticket, RequestId, SessionManager.UtcOffset);
+                    
                     this.Title = string.Format("{0} Pictures", Renderer.Render(a.Name));
-                    listView.DataSource = EventService.GetAccountEventPicturesById(RequestId, null);
+                    listView.DataSource = SessionManager.EventService.GetAccountEventPicturesById(RequestId, null);
                     listView.DataBind();
 
                     sitemapdata.AddRange(SiteMapDataAttribute.GetLocationAttributeNodes(Request, "AccountEventsToday.aspx", a.PlaceCountry, a.PlaceState, a.PlaceCity, a.PlaceNeighborhood, a.AccountEventType));

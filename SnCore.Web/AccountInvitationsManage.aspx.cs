@@ -23,7 +23,7 @@ public partial class AccountInvitationsManage : AuthenticatedPage
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
             if (!IsPostBack)
             {
-                if (!AccountService.HasVerifiedEmail(SessionManager.Ticket))
+                if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket))
                 {
                     ReportWarning("You don't have any verified e-mail addresses.\n" +
                         "You must add/confirm a valid e-mail address before inviting people.");
@@ -50,7 +50,7 @@ public partial class AccountInvitationsManage : AuthenticatedPage
     void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = AccountService.GetAccountInvitationsCount(SessionManager.Ticket);
+        gridManage.VirtualItemCount = SessionManager.AccountService.GetAccountInvitationsCount(SessionManager.Ticket);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -62,7 +62,7 @@ public partial class AccountInvitationsManage : AuthenticatedPage
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridManage.CurrentPageIndex;
             options.PageSize = gridManage.PageSize;
-            gridManage.DataSource = AccountService.GetAccountInvitations(SessionManager.Ticket, options);
+            gridManage.DataSource = SessionManager.AccountService.GetAccountInvitations(SessionManager.Ticket, options);
         }
         catch (Exception ex)
         {
@@ -89,7 +89,7 @@ public partial class AccountInvitationsManage : AuthenticatedPage
 
                 try
                 {
-                    TransitAccount existing = AccountService.FindByEmail(email);
+                    TransitAccount existing = SessionManager.AccountService.FindByEmail(email);
 
                     error.AppendFormat(
                             "<a href='AccountView.aspx?id={0}'>{2} &lt;{3}&gt;</a> is a member! " +
@@ -114,7 +114,7 @@ public partial class AccountInvitationsManage : AuthenticatedPage
                     invitation.Code = Guid.NewGuid().ToString();
                     invitation.Email = email;
                     invitation.Message = inputMessage.Text;
-                    AccountService.AddAccountInvitation(SessionManager.Ticket, invitation);
+                    SessionManager.AccountService.AddAccountInvitation(SessionManager.Ticket, invitation);
                     success.AppendFormat("Invitation sent to {0}.<br>", email);
                     gridManage_OnGetDataSource(sender, e);
                     gridManage.DataBind();
@@ -166,7 +166,7 @@ public partial class AccountInvitationsManage : AuthenticatedPage
                     {
                         case "Delete":
                             int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                            AccountService.DeleteAccountInvitation(SessionManager.Ticket, id);
+                            SessionManager.AccountService.DeleteAccountInvitation(SessionManager.Ticket, id);
                             ReportInfo("Invitation deleted.");
                             gridManage.CurrentPageIndex = 0;
                             gridManage_OnGetDataSource(source, e);

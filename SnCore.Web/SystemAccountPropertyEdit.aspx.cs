@@ -30,7 +30,7 @@ public partial class SystemAccountPropertyEdit : AuthenticatedPage
         {
             if (mPropertyGroup == null)
             {
-                mPropertyGroup = AccountService.GetAccountPropertyGroupById(PropertyGroupId);
+                mPropertyGroup = SessionManager.AccountService.GetAccountPropertyGroupById(PropertyGroupId);
             }
 
             return mPropertyGroup;
@@ -59,7 +59,7 @@ public partial class SystemAccountPropertyEdit : AuthenticatedPage
 
                 if (RequestId > 0)
                 {
-                    TransitAccountProperty t = AccountService.GetAccountPropertyById(RequestId);
+                    TransitAccountProperty t = SessionManager.AccountService.GetAccountPropertyById(RequestId);
                     inputName.Text = t.Name;
                     inputDescription.Text = t.Description;
                     inputDefaultValue.Text = t.DefaultValue;
@@ -105,7 +105,7 @@ public partial class SystemAccountPropertyEdit : AuthenticatedPage
             t.AccountPropertyGroupId = PropertyGroupId;
             t.Publish = inputPublish.Checked;
             t.Id = RequestId;
-            AccountService.CreateOrUpdateAccountProperty(SessionManager.Ticket, t);
+            SessionManager.AccountService.CreateOrUpdateAccountProperty(SessionManager.Ticket, t);
             Redirect(linkBack.NavigateUrl);
         }
         catch (Exception ex)

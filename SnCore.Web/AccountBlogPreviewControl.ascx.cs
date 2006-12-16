@@ -62,12 +62,14 @@ public partial class AccountBlogPreviewControl : Control
                 if (BlogId > 0)
                 {
                     object[] b_args = { SessionManager.Ticket, BlogId };
-                    TransitAccountBlog tb = SessionManager.GetCachedItem<TransitAccountBlog>(BlogService, "GetAccountBlogById", b_args);
+                    TransitAccountBlog tb = SessionManager.GetCachedItem<TransitAccountBlog>(
+                        SessionManager.BlogService, "GetAccountBlogById", b_args);
                     linkRelRss.NavigateUrl = string.Format("AccountBlogRss.aspx?id={0}", BlogId);
                     linkRelRss.Title = Renderer.Render(tb.Name);
 
                     object[] args = { BlogId };
-                    gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(BlogService, "GetAccountBlogPostsCountById", args);
+                    gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+                        SessionManager.BlogService, "GetAccountBlogPostsCountById", args);
                     gridManage_OnGetDataSource(this, null);
                     gridManage.DataBind();
                 }
@@ -85,7 +87,8 @@ public partial class AccountBlogPreviewControl : Control
         {
             ServiceQueryOptions options = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
             object[] args = { SessionManager.Ticket, BlogId, options };
-            gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountBlogPost>(BlogService, "GetAccountBlogPostsById", args);
+            gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountBlogPost>(
+                SessionManager.BlogService, "GetAccountBlogPostsById", args);
         }
         catch (Exception ex)
         {

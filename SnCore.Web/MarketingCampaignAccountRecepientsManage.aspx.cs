@@ -23,11 +23,11 @@ public partial class MarketingCampaignAccountRecepientsManage : AuthenticatedPag
 
             if (!IsPostBack)
             {
-                TransitCampaign tc = MarketingService.GetCampaignById(SessionManager.Ticket, RequestId);
+                TransitCampaign tc = SessionManager.MarketingService.GetCampaignById(SessionManager.Ticket, RequestId);
                 campaignName.Text = string.Format("{0}: {1}", Render(tc.Name), campaignName.Text);
                 GetData(sender, e);
 
-                inputAccountPropertyGroup.DataSource = AccountService.GetAccountPropertyGroups();
+                inputAccountPropertyGroup.DataSource = SessionManager.AccountService.GetAccountPropertyGroups();
                 inputAccountPropertyGroup.DataBind();
                 inputAccountPropertyGroup_SelectedIndexChanged(sender, e);
 
@@ -48,7 +48,7 @@ public partial class MarketingCampaignAccountRecepientsManage : AuthenticatedPag
     void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = MarketingService.GetCampaignAccountRecepientsByIdCount(SessionManager.Ticket, RequestId);
+        gridManage.VirtualItemCount = SessionManager.MarketingService.GetCampaignAccountRecepientsByIdCount(SessionManager.Ticket, RequestId);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -60,7 +60,7 @@ public partial class MarketingCampaignAccountRecepientsManage : AuthenticatedPag
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridManage.CurrentPageIndex;
             options.PageSize = gridManage.PageSize;
-            gridManage.DataSource = MarketingService.GetCampaignAccountRecepientsById(SessionManager.Ticket, RequestId, options);
+            gridManage.DataSource = SessionManager.MarketingService.GetCampaignAccountRecepientsById(SessionManager.Ticket, RequestId, options);
         }
         catch (Exception ex)
         {
@@ -82,7 +82,7 @@ public partial class MarketingCampaignAccountRecepientsManage : AuthenticatedPag
                 recepients.Add(recepient);
             }
 
-            int count = MarketingService.ImportCampaignAccountRecepients(SessionManager.Ticket, recepients.ToArray());
+            int count = SessionManager.MarketingService.ImportCampaignAccountRecepients(SessionManager.Ticket, recepients.ToArray());
             GetData(sender, e);
             ReportInfo(string.Format("Successfully imported {0} recepients.", count));
         }
@@ -101,7 +101,7 @@ public partial class MarketingCampaignAccountRecepientsManage : AuthenticatedPag
     {
         try
         {
-            int count = MarketingService.ImportCampaignAccountEmails(SessionManager.Ticket, RequestId, 
+            int count = SessionManager.MarketingService.ImportCampaignAccountEmails(SessionManager.Ticket, RequestId, 
                 importAllVerifiedEmails.Checked, importAllUnverifiedEmails.Checked);
             GetData(sender, e);
             ReportInfo(string.Format("Successfully imported {0} recepients.", count));
@@ -126,7 +126,7 @@ public partial class MarketingCampaignAccountRecepientsManage : AuthenticatedPag
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            MarketingService.DeleteCampaignAccountRecepient(SessionManager.Ticket, id);
+                            SessionManager.MarketingService.DeleteCampaignAccountRecepient(SessionManager.Ticket, id);
                             ReportInfo("Campaign account recepient deleted.");
                             GetData(source, e);
                             break;
@@ -144,7 +144,7 @@ public partial class MarketingCampaignAccountRecepientsManage : AuthenticatedPag
     {
         try
         {
-            MarketingService.DeleteCampaignAccountRecepients(SessionManager.Ticket, RequestId);
+            SessionManager.MarketingService.DeleteCampaignAccountRecepients(SessionManager.Ticket, RequestId);
             GetData(sender, e);
         }
         catch (Exception ex)
@@ -157,7 +157,7 @@ public partial class MarketingCampaignAccountRecepientsManage : AuthenticatedPag
     {
         try
         {
-            inputAccountProperty.DataSource = AccountService.GetAccountProperties(
+            inputAccountProperty.DataSource = SessionManager.AccountService.GetAccountProperties(
                 int.Parse(inputAccountPropertyGroup.SelectedValue));
             inputAccountProperty.DataBind();            
         }
@@ -171,7 +171,7 @@ public partial class MarketingCampaignAccountRecepientsManage : AuthenticatedPag
     {
         try
         {
-            int count = MarketingService.ImportCampaignAccountPropertyValues(SessionManager.Ticket, RequestId,
+            int count = SessionManager.MarketingService.ImportCampaignAccountPropertyValues(SessionManager.Ticket, RequestId,
                 int.Parse(inputAccountProperty.SelectedValue), inputAccountPropertyValue.Text, inputAccountPropertyEmpty.Checked);
             GetData(sender, e);
             ReportInfo(string.Format("Successfully imported {0} recepients.", count));

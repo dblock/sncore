@@ -54,7 +54,7 @@ public partial class AccountStoriesViewControl : Control
         queryoptions.PublishedOnly = true;
         object[] args = { AccountId, queryoptions, options };
         accountStories.DataSource = SessionManager.GetCachedCollection<TransitAccountStory>(
-            StoryService, "GetAccountStoriesById", args);
+            SessionManager.StoryService, "GetAccountStoriesById", args);
     }
 
     public string GetDescription(object description)

@@ -21,7 +21,7 @@ public abstract class AccountStoryPicturePage : PicturePage
     public override TransitPicture GetPictureWithBitmap(int id, string ticket, DateTime ifModifiedSince)
     {
         TransitAccountStoryPictureWithPicture p =
-            StoryService.GetAccountStoryPictureWithPictureIfModifiedSinceById(
+            SessionManager.StoryService.GetAccountStoryPictureWithPictureIfModifiedSinceById(
                 ticket,
                 id,
                 ifModifiedSince);
@@ -41,7 +41,7 @@ public abstract class AccountStoryPicturePage : PicturePage
     public override TransitPicture GetPictureWithThumbnail(int id, string ticket, DateTime ifModifiedSince)
     {
         TransitAccountStoryPictureWithThumbnail p =
-            StoryService.GetAccountStoryPictureWithThumbnailIfModifiedSinceById(
+            SessionManager.StoryService.GetAccountStoryPictureWithThumbnailIfModifiedSinceById(
                 ticket,
                 id,
                 ifModifiedSince);
@@ -61,7 +61,7 @@ public abstract class AccountStoryPicturePage : PicturePage
     public override TransitPicture GetPictureWithBitmap(int id, string ticket)
     {
         TransitAccountStoryPictureWithPicture p =
-            StoryService.GetAccountStoryPictureWithPictureById(
+            SessionManager.StoryService.GetAccountStoryPictureWithPictureById(
                 ticket,
                 id);
 
@@ -80,7 +80,7 @@ public abstract class AccountStoryPicturePage : PicturePage
     public override TransitPicture GetPictureWithThumbnail(int id, string ticket)
     {
         TransitAccountStoryPictureWithThumbnail p =
-            StoryService.GetAccountStoryPictureWithThumbnailById(
+            SessionManager.StoryService.GetAccountStoryPictureWithThumbnailById(
                 ticket,
                 id);
 

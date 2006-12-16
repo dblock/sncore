@@ -23,7 +23,7 @@ public partial class AccountFeedItemView : Page
             {
                 object[] args = { SessionManager.Ticket, RequestId };
                 TransitAccountFeedItem tfi = SessionManager.GetCachedItem<TransitAccountFeedItem>(
-                    SyndicationService, "GetAccountFeedItemById", args);
+                    SessionManager.SyndicationService, "GetAccountFeedItemById", args);
 
                 if (tfi == null)
                 {
@@ -58,7 +58,7 @@ public partial class AccountFeedItemView : Page
 
                 object[] d_args = { RequestId };
                 FeedItemComments.DiscussionId = SessionManager.GetCachedCollectionCount(
-                    DiscussionService, "GetAccountFeedItemDiscussionId", d_args);
+                    SessionManager.DiscussionService, "GetAccountFeedItemDiscussionId", d_args);
 
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
                 sitemapdata.Add(new SiteMapDataAttributeNode("Blogs", Request, "AccountFeedItemsView.aspx"));

@@ -61,7 +61,8 @@ public partial class AccountFeedPreviewControl : Control
             if (mAccountFeed == null)
             {
                 object[] args = { SessionManager.IsLoggedIn ? SessionManager.Ticket : string.Empty, FeedId };
-                mAccountFeed = SessionManager.GetCachedItem<TransitAccountFeed>(SyndicationService, "GetAccountFeedById", args);
+                mAccountFeed = SessionManager.GetCachedItem<TransitAccountFeed>(
+                    SessionManager.SyndicationService, "GetAccountFeedById", args);
             }
 
             return mAccountFeed;
@@ -79,12 +80,12 @@ public partial class AccountFeedPreviewControl : Control
                 {
                     TransitAccountFeed f = Feed;
 
-                    TransitFeedType t = SyndicationService.GetFeedTypeByName(f.FeedType);
+                    TransitFeedType t = SessionManager.SyndicationService.GetFeedTypeByName(f.FeedType);
                     gridManage.RepeatColumns = t.SpanColumnsPreview;
                     gridManage.RepeatRows = t.SpanRowsPreview;
                     object[] args = { FeedId };
                     gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-                        SyndicationService, "GetAccountFeedItemsCountById", args);
+                        SessionManager.SyndicationService, "GetAccountFeedItemsCountById", args);
                     gridManage_OnGetDataSource(this, null);
                     gridManage.DataBind();
                 }
@@ -105,7 +106,7 @@ public partial class AccountFeedPreviewControl : Control
             options.PageSize = gridManage.PageSize;
             object[] args = { FeedId, options };
             gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountFeedItem>(
-                SyndicationService, "GetAccountFeedItemsById", args);
+                SessionManager.SyndicationService, "GetAccountFeedItemsById", args);
         }
         catch (Exception ex)
         {

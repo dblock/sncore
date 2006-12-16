@@ -21,7 +21,7 @@ public abstract class AccountEventPicturePage : PicturePage
     public override TransitPicture GetPictureWithBitmap(int id, string ticket, DateTime ifModifiedSince)
     {
         TransitAccountEventPictureWithPicture p =
-            EventService.GetAccountEventPictureWithPictureIfModifiedSinceById(
+            SessionManager.EventService.GetAccountEventPictureWithPictureIfModifiedSinceById(
                 ticket,
                 id,
                 ifModifiedSince);
@@ -41,7 +41,7 @@ public abstract class AccountEventPicturePage : PicturePage
     public override TransitPicture GetPictureWithThumbnail(int id, string ticket, DateTime ifModifiedSince)
     {
         TransitAccountEventPictureWithThumbnail p =
-            EventService.GetAccountEventPictureWithThumbnailIfModifiedSinceById(
+            SessionManager.EventService.GetAccountEventPictureWithThumbnailIfModifiedSinceById(
                 ticket,
                 id,
                 ifModifiedSince);
@@ -61,7 +61,7 @@ public abstract class AccountEventPicturePage : PicturePage
     public override TransitPicture GetPictureWithBitmap(int id, string ticket)
     {
         TransitAccountEventPictureWithPicture p =
-            EventService.GetAccountEventPictureWithPictureById(
+            SessionManager.EventService.GetAccountEventPictureWithPictureById(
                 ticket,
                 id);
 
@@ -80,7 +80,7 @@ public abstract class AccountEventPicturePage : PicturePage
     public override TransitPicture GetPictureWithThumbnail(int id, string ticket)
     {
         TransitAccountEventPictureWithThumbnail p =
-            EventService.GetAccountEventPictureWithThumbnailById(
+            SessionManager.EventService.GetAccountEventPictureWithThumbnailById(
                 ticket,
                 id);
 

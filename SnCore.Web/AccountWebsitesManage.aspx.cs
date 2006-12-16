@@ -39,7 +39,7 @@ public partial class AccountWebsitesManage : AuthenticatedPage
     public void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = AccountService.GetAccountWebsitesCount(SessionManager.Ticket);
+        gridManage.VirtualItemCount = SessionManager.AccountService.GetAccountWebsitesCount(SessionManager.Ticket);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
@@ -56,7 +56,7 @@ public partial class AccountWebsitesManage : AuthenticatedPage
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageSize = gridManage.PageSize;
             options.PageNumber = gridManage.CurrentPageIndex;
-            gridManage.DataSource = AccountService.GetAccountWebsites(SessionManager.Ticket, options);
+            gridManage.DataSource = SessionManager.AccountService.GetAccountWebsites(SessionManager.Ticket, options);
         }
         catch (Exception ex)
         {
@@ -72,7 +72,7 @@ public partial class AccountWebsitesManage : AuthenticatedPage
             {
                 case "Delete":
                     int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                    AccountService.DeleteAccountWebsite(SessionManager.Ticket, id);
+                    SessionManager.AccountService.DeleteAccountWebsite(SessionManager.Ticket, id);
                     ReportInfo("Website deleted.");
                     gridManage.CurrentPageIndex = 0;
                     gridManage_OnGetDataSource(sender, e);

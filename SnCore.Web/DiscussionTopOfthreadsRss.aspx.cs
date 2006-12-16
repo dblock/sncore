@@ -50,7 +50,7 @@ public partial class DiscussionTopOfThreadsRss : Page
                 options.PageNumber = 0;
                 object[] args = { SessionManager.Ticket, options };
                 rssRepeater.DataSource = SessionManager.GetCachedCollection<TransitDiscussionPost>(
-                    DiscussionService, "GetDiscussionTopOfThreads", args);
+                    SessionManager.DiscussionService, "GetDiscussionTopOfThreads", args);
                 rssRepeater.DataBind();
             }
         }

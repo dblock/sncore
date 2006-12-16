@@ -24,7 +24,7 @@ public partial class BugProjectBugsManage : AuthenticatedPage
             if (!IsPostBack)
             {
                 linkNew.NavigateUrl = string.Format("BugEdit.aspx?pid={0}", RequestId);
-                TransitBugProject p = BugService.GetBugProjectById(RequestId);
+                TransitBugProject p = SessionManager.BugService.GetBugProjectById(RequestId);
                 this.Title = string.Format("{0} Bugs", Render(p.Name));
                 gridManage.SortDirection = PagedGridSortDirection.Descending;
                 gridManage.SortExpression = "Created";
@@ -59,7 +59,7 @@ public partial class BugProjectBugsManage : AuthenticatedPage
     void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = BugService.GetBugsCount(GetQueryOptions());
+        gridManage.VirtualItemCount = SessionManager.BugService.GetBugsCount(GetQueryOptions());
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -88,7 +88,7 @@ public partial class BugProjectBugsManage : AuthenticatedPage
             options.PageNumber = gridManage.CurrentPageIndex;
             options.PageSize = gridManage.PageSize;
             
-            gridManage.DataSource = BugService.GetBugs(GetQueryOptions(), options);
+            gridManage.DataSource = SessionManager.BugService.GetBugs(GetQueryOptions(), options);
         }
         catch (Exception ex)
         {

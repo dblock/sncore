@@ -49,7 +49,7 @@ public partial class PlaceAccountsViewControl : Control
         accountsList.CurrentPageIndex = 0;
         object[] args = { PlaceId };
         accountsList.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            PlaceService, "GetAccountPlacesCountByPlaceId", args);
+            SessionManager.PlaceService, "GetAccountPlacesCountByPlaceId", args);
         accountsList_OnGetDataSource(sender, e);
         accountsList.DataBind();
         this.Visible = (accountsList.VirtualItemCount > 0);
@@ -64,7 +64,7 @@ public partial class PlaceAccountsViewControl : Control
             options.PageSize = accountsList.PageSize;
             object[] args = { PlaceId, options };
             accountsList.DataSource = SessionManager.GetCachedCollection<TransitAccountPlace>(
-                PlaceService, "GetAccountPlacesByPlaceId", args);
+                SessionManager.PlaceService, "GetAccountPlacesByPlaceId", args);
             panelGrid.Update();
         }
         catch (Exception ex)

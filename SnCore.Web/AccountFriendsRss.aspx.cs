@@ -31,7 +31,7 @@ public partial class AccountFriendsRss : AccountPersonPage
                 ServiceQueryOptions options = new ServiceQueryOptions();
                 options.PageNumber = 0;
                 options.PageSize = 25;
-                rssRepeater.DataSource = SocialService.GetFriendsActivityById(RequestId, options);
+                rssRepeater.DataSource = SessionManager.SocialService.GetFriendsActivityById(RequestId, options);
                 rssRepeater.DataBind();
             }
         }

@@ -34,7 +34,7 @@ public partial class AccountPropertyGroupsViewControl : Control
             if (!IsPostBack)
             {
                 groups.DataSource = SessionManager.GetCachedCollection<TransitAccountPropertyGroup>(
-                    AccountService, "GetAccountPropertyGroups", null);
+                    SessionManager.AccountService, "GetAccountPropertyGroups", null);
                 groups.DataBind();
             }
         }
@@ -59,7 +59,7 @@ public partial class AccountPropertyGroupsViewControl : Control
                     {
                         object[] args = { AccountId, group.Id };
                         List<TransitAccountPropertyValue> propertyvalues = SessionManager.GetCachedCollection<TransitAccountPropertyValue>(
-                            AccountService, "GetAccountPropertyValuesById", args);
+                            SessionManager.AccountService, "GetAccountPropertyValuesById", args);
                         values.DataSource = propertyvalues;
                         HtmlControl title = (HtmlControl)e.Item.FindControl("title");
                         title.Visible = (propertyvalues.Count > 0);

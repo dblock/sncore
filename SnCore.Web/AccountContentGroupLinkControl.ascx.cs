@@ -69,7 +69,8 @@ public partial class AccountContentGroupLinkControl : Control
                     }
 
                     object[] args = { SessionManager.Ticket, id };
-                    TransitAccountContentGroup group = SessionManager.GetCachedItem<TransitAccountContentGroup>(ContentService, "GetAccountContentGroupById", args);
+                    TransitAccountContentGroup group = SessionManager.GetCachedItem<TransitAccountContentGroup>(
+                        SessionManager.ContentService, "GetAccountContentGroupById", args);
 
                     linkContentGroup.Text = string.Format("{0}{1}", 
                         ShowLinkPrefix ? "&#187; " : string.Empty,

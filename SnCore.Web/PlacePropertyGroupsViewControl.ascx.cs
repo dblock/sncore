@@ -35,7 +35,7 @@ public partial class PlacePropertyGroupsViewControl : Control
             if (!IsPostBack)
             {
                 groups.DataSource = SessionManager.GetCachedCollection<TransitPlacePropertyGroup>(
-                    PlaceService, "GetPlacePropertyGroups", null);
+                    SessionManager.PlaceService, "GetPlacePropertyGroups", null);
                 groups.DataBind();
             }
         }
@@ -60,7 +60,7 @@ public partial class PlacePropertyGroupsViewControl : Control
                     {
                         object[] args = { PlaceId, group.Id };
                         List<TransitPlacePropertyValue> propertyvalues = SessionManager.GetCachedCollection<TransitPlacePropertyValue>(
-                            PlaceService, "GetPlacePropertyValuesById", args);
+                            SessionManager.PlaceService, "GetPlacePropertyValuesById", args);
                         values.DataSource = propertyvalues;
                         HtmlControl title = (HtmlControl)e.Item.FindControl("title");
                         title.Visible = (propertyvalues.Count > 0);

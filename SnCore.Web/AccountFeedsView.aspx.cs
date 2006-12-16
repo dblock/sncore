@@ -40,9 +40,9 @@ public partial class AccountFeedsView : Page
     private void GetData()
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SyndicationService.GetUpdatedAccountFeedsCount();
+        gridManage.VirtualItemCount = SessionManager.SyndicationService.GetUpdatedAccountFeedsCount();
 
-        int feedItemsCount = SyndicationService.GetAccountFeedItemsCount();
+        int feedItemsCount = SessionManager.SyndicationService.GetAccountFeedItemsCount();
 
         labelCount.Text = string.Format("{0} blog{1} with <a href='AccountFeedItemsView.aspx'>{2} {3}</a>",
             gridManage.VirtualItemCount, gridManage.VirtualItemCount == 1 ? string.Empty : "s",
@@ -59,7 +59,7 @@ public partial class AccountFeedsView : Page
             ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
             serviceoptions.PageSize = gridManage.PageSize;
             serviceoptions.PageNumber = gridManage.CurrentPageIndex;
-            gridManage.DataSource = SyndicationService.GetUpdatedAccountFeeds(serviceoptions);
+            gridManage.DataSource = SessionManager.SyndicationService.GetUpdatedAccountFeeds(serviceoptions);
         }
         catch (Exception ex)
         {

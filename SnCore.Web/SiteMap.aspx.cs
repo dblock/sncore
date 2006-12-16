@@ -114,33 +114,33 @@ public partial class SiteMap2 : Page
                         "SnCore.Blog.Id", "0"));
 
             AccountActivityQueryOptions aaqo = new AccountActivityQueryOptions();
-            listAccounts.DataSource = GetPagedList(SocialService.GetAccountActivityCount(aaqo));
+            listAccounts.DataSource = GetPagedList(SessionManager.SocialService.GetAccountActivityCount(aaqo));
             listAccounts.DataBind();
 
-            listFeeds.DataSource = GetPagedList(SyndicationService.GetUpdatedAccountFeedsCount());
+            listFeeds.DataSource = GetPagedList(SessionManager.SyndicationService.GetUpdatedAccountFeedsCount());
             listFeeds.DataBind();
 
             TransitPlaceQueryOptions pqo = new TransitPlaceQueryOptions();
-            listPlaces.DataSource = GetPagedList(PlaceService.GetPlacesCount(pqo));
+            listPlaces.DataSource = GetPagedList(SessionManager.PlaceService.GetPlacesCount(pqo));
             listPlaces.DataBind();
 
             TransitAccountEventQueryOptions aeqo = new TransitAccountEventQueryOptions();
-            listAccountEvents.DataSource = GetPagedList(EventService.GetAllAccountEventsCount(aeqo));
+            listAccountEvents.DataSource = GetPagedList(SessionManager.EventService.GetAllAccountEventsCount(aeqo));
             listAccountEvents.DataBind();
 
-            listStories.DataSource = GetPagedList(StoryService.GetLatestAccountStoriesCount());
+            listStories.DataSource = GetPagedList(SessionManager.StoryService.GetLatestAccountStoriesCount());
             listStories.DataBind();
 
-            listDiscussions.DataSource = DiscussionService.GetDiscussions(null);
+            listDiscussions.DataSource = SessionManager.DiscussionService.GetDiscussions(null);
             listDiscussions.DataBind();
 
-            listSurveys.DataSource = SystemService.GetSurveys();
+            listSurveys.DataSource = SessionManager.SystemService.GetSurveys();
             listSurveys.DataBind();
 
-            listContentGroups.DataSource = ContentService.GetAllAccountContentGroups(null);
+            listContentGroups.DataSource = SessionManager.ContentService.GetAllAccountContentGroups(null);
             listContentGroups.DataBind();
 
-            listContentGroupNumbers.DataSource = GetPagedList(ContentService.GetAllAccountContentGroupsCount());
+            listContentGroupNumbers.DataSource = GetPagedList(SessionManager.ContentService.GetAllAccountContentGroupsCount());
             listContentGroupNumbers.DataBind();
         }
     }

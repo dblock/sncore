@@ -27,7 +27,7 @@ public partial class AccountFeedsViewList : Page
                 ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
                 serviceoptions.PageSize = pagesize;
                 serviceoptions.PageNumber = pagenumber;
-                gridManage.DataSource =  SyndicationService.GetUpdatedAccountFeeds(serviceoptions);
+                gridManage.DataSource = SessionManager.SyndicationService.GetUpdatedAccountFeeds(serviceoptions);
                 gridManage.DataBind();
 
                 if (pagenumber > 0)

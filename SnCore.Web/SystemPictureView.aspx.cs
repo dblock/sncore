@@ -20,7 +20,7 @@ public partial class SystemPictureView : AuthenticatedPage
         {
             if (!IsPostBack)
             {
-                TransitPicture p = SystemService.GetPictureById(RequestId);
+                TransitPicture p = SessionManager.SystemService.GetPictureById(RequestId);
                 inputPicture.Src = string.Format("SystemPicture.aspx?id={0}", RequestId);
                 inputName.Text = Renderer.Render(p.Name);
                 inputDescription.Text = Renderer.Render(p.Description);

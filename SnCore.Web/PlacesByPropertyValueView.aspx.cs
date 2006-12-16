@@ -81,7 +81,8 @@ public partial class PlacesByPropertyValueView : Page
         titlePlacesByProperty.Text = string.Format("{0}: {1}", Renderer.Render(PropertyName), Renderer.Render(PropertyValue));
         gridManage.CurrentPageIndex = 0;
         object[] args = { GroupName, PropertyName, PropertyValue };
-        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(PlaceService, "GetPlacesByPropertyValueCount", args);
+        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+            SessionManager.PlaceService, "GetPlacesByPropertyValueCount", args);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -99,7 +100,8 @@ public partial class PlacesByPropertyValueView : Page
         {
             ServiceQueryOptions serviceoptions = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
             object[] args = { GroupName, PropertyName, PropertyValue, serviceoptions };
-            gridManage.DataSource = SessionManager.GetCachedCollection<TransitPlace>(PlaceService, "GetPlacesByPropertyValue", args);
+            gridManage.DataSource = SessionManager.GetCachedCollection<TransitPlace>(
+                SessionManager.PlaceService, "GetPlacesByPropertyValue", args);
         }
         catch (Exception ex)
         {

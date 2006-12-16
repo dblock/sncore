@@ -27,7 +27,8 @@ public partial class About : Page
         {
             if (mSummary == null)
             {
-                mSummary = SessionManager.GetCachedItem<TransitStatsSummary>(StatsService, "GetSummary", null);
+                mSummary = SessionManager.GetCachedItem<TransitStatsSummary>(
+                    SessionManager.StatsService, "GetSummary", null);
             }
             return mSummary;
         }
@@ -37,7 +38,7 @@ public partial class About : Page
     {
         get
         {
-            return SystemService.GetCopyright();
+            return SessionManager.SystemService.GetCopyright();
         }
     }
 
@@ -45,7 +46,7 @@ public partial class About : Page
     {
         get
         {
-            return SystemService.GetVersion();
+            return SessionManager.SystemService.GetVersion();
         }
     }
 
@@ -53,7 +54,7 @@ public partial class About : Page
     {
         get
         {
-            return new TimeSpan(SystemService.GetUptime());
+            return new TimeSpan(SessionManager.SystemService.GetUptime());
         }
     }
 
@@ -61,7 +62,7 @@ public partial class About : Page
     {
         get
         {
-            return new TimeSpan(BackEndService.GetUptime());
+            return new TimeSpan(SessionManager.BackEndService.GetUptime());
         }
     }
 

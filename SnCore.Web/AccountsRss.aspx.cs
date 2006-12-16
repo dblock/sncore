@@ -129,7 +129,7 @@ public partial class AccountsRss : AccountPersonPage
 
                 object[] args = { options, queryoptions };
                 rssRepeater.DataSource = SessionManager.GetCachedCollection<TransitAccountActivity>(
-                    SocialService, "GetAccountActivity", args);
+                    SessionManager.SocialService, "GetAccountActivity", args);
                 rssRepeater.DataBind();
             }
         }

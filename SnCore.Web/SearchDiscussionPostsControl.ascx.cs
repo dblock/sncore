@@ -23,13 +23,13 @@ public partial class SearchDiscussionPostsControl : SearchControl
         {
             object[] args = { RequestId, SearchQuery };
             return SessionManager.GetCachedCollectionCount(
-                DiscussionService, "SearchDiscussionPostsByIdCount", args);
+                SessionManager.DiscussionService, "SearchDiscussionPostsByIdCount", args);
         }
         else
         {
             object[] args = { SearchQuery };
             return SessionManager.GetCachedCollectionCount(
-                DiscussionService, "SearchDiscussionPostsCount", args);
+                SessionManager.DiscussionService, "SearchDiscussionPostsCount", args);
         }
     }
 
@@ -41,12 +41,12 @@ public partial class SearchDiscussionPostsControl : SearchControl
             args.Add(RequestId);
             args.AddRange(GetSearchQueryArgs());
             return SessionManager.GetCachedCollection<TransitDiscussionPost>(
-                DiscussionService, "SearchDiscussionPostsById", args.ToArray());
+                SessionManager.DiscussionService, "SearchDiscussionPostsById", args.ToArray());
         }
         else
         {
             return SessionManager.GetCachedCollection<TransitDiscussionPost>(
-                DiscussionService, "SearchDiscussionPosts", GetSearchQueryArgs());
+                SessionManager.DiscussionService, "SearchDiscussionPosts", GetSearchQueryArgs());
         }
     }
 

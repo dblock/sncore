@@ -75,13 +75,13 @@ public partial class AccountStoriesView : Page
             {
                 object[] args = { options };
                 gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountStory>(
-                    StoryService, "GetLatestAccountStories", args);
+                    SessionManager.StoryService, "GetLatestAccountStories", args);
             }
             else
             {
                 object[] args = { inputSearch.Text, options };
                 gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountStory>(
-                    StoryService, "SearchAccountStories", args);
+                    SessionManager.StoryService, "SearchAccountStories", args);
             }
         }
         catch (Exception ex)
@@ -96,12 +96,14 @@ public partial class AccountStoriesView : Page
 
         if (string.IsNullOrEmpty(inputSearch.Text))
         {
-            gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(StoryService, "GetLatestAccountStoriesCount", null);
+            gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+                SessionManager.StoryService, "GetLatestAccountStoriesCount", null);
         }
         else
         {
             object[] args = { inputSearch.Text };
-            gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(StoryService, "SearchAccountStoriesCount", args);
+            gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+                SessionManager.StoryService, "SearchAccountStoriesCount", args);
         }
 
         gridManage_OnGetDataSource(sender, e);

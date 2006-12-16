@@ -49,7 +49,7 @@ public partial class PlaceFavoriteAccountsViewControl : Control
         accountsList.CurrentPageIndex = 0;
         object[] args = { PlaceId };
         accountsList.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            PlaceService, "GetAccountPlaceFavoritesCountByPlaceId", args);
+            SessionManager.PlaceService, "GetAccountPlaceFavoritesCountByPlaceId", args);
         accountsList_OnGetDataSource(sender, e);
         accountsList.DataBind();
         this.Visible = (accountsList.VirtualItemCount > 0);
@@ -64,7 +64,7 @@ public partial class PlaceFavoriteAccountsViewControl : Control
             options.PageSize = accountsList.PageSize;
             object[] args = { PlaceId, options };
             accountsList.DataSource = SessionManager.GetCachedCollection<TransitAccountPlaceFavorite>(
-                PlaceService, "GetAccountPlaceFavoritesByPlaceId", args);
+                SessionManager.PlaceService, "GetAccountPlaceFavoritesByPlaceId", args);
         }
         catch (Exception ex)
         {

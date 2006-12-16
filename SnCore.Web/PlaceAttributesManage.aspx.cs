@@ -21,7 +21,7 @@ public partial class PlaceAttributesManage : AuthenticatedPage
         {
             if (mPlace == null)
             {
-                mPlace = PlaceService.GetPlaceById(SessionManager.Ticket, RequestId);
+                mPlace = SessionManager.PlaceService.GetPlaceById(SessionManager.Ticket, RequestId);
             }
 
             return mPlace;
@@ -61,7 +61,7 @@ public partial class PlaceAttributesManage : AuthenticatedPage
     public void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = PlaceService.GetPlaceAttributesCountById(RequestId);
+        gridManage.VirtualItemCount = SessionManager.PlaceService.GetPlaceAttributesCountById(RequestId);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
@@ -78,7 +78,7 @@ public partial class PlaceAttributesManage : AuthenticatedPage
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageSize = gridManage.PageSize;
             options.PageNumber = gridManage.CurrentPageIndex;
-            gridManage.DataSource = PlaceService.GetPlaceAttributesById(
+            gridManage.DataSource = SessionManager.PlaceService.GetPlaceAttributesById(
                 RequestId, options);
         }
         catch (Exception ex)
@@ -95,7 +95,7 @@ public partial class PlaceAttributesManage : AuthenticatedPage
             {
                 case "Delete":
                     int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                    PlaceService.DeletePlaceAttribute(SessionManager.Ticket, id);
+                    SessionManager.PlaceService.DeletePlaceAttribute(SessionManager.Ticket, id);
                     ReportInfo("Place attribute deleted.");
                     gridManage.CurrentPageIndex = 0;
                     gridManage_OnGetDataSource(sender, e);

@@ -47,7 +47,7 @@ public partial class AccountFeedsViewControl : Control
         accountFeeds.CurrentPageIndex = 0;
         object[] args = { AccountId };
         accountFeeds.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            SyndicationService, "GetAccountFeedsCountById", args);
+            SessionManager.SyndicationService, "GetAccountFeedsCountById", args);
         accountFeeds_OnGetDataSource(sender, e);
         accountFeeds.DataBind();
         this.Visible = (accountFeeds.VirtualItemCount > 0);
@@ -60,7 +60,7 @@ public partial class AccountFeedsViewControl : Control
         options.PageSize = accountFeeds.PageSize;
         object[] args = { SessionManager.Ticket, AccountId, options };
         accountFeeds.DataSource = SessionManager.GetCachedCollection<TransitAccountFeed>(
-            SyndicationService, "GetAccountFeedsById", args);
+            SessionManager.SyndicationService, "GetAccountFeedsById", args);
         panelGrid.Update();
     }
 }

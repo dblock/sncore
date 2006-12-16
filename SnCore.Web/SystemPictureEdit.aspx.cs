@@ -25,12 +25,12 @@ public partial class SystemPictureEdit : AuthenticatedPage
                 sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
                 sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request, "SystemPicturesManage.aspx"));
 
-                inputType.DataSource = SystemService.GetPictureTypes();
+                inputType.DataSource = SessionManager.SystemService.GetPictureTypes();
                 inputType.DataBind();
 
                 if (RequestId > 0)
                 {
-                    TransitPicture t = SystemService.GetPictureById(RequestId);
+                    TransitPicture t = SessionManager.SystemService.GetPictureById(RequestId);
                     inputName.Text = t.Name;
                     inputDescription.Text = t.Description;
                     inputType.Items.FindByValue(t.Type).Selected = true;
@@ -62,7 +62,7 @@ public partial class SystemPictureEdit : AuthenticatedPage
             t.Description = inputDescription.Text;
             t.Type = inputType.SelectedValue;
             t.Id = RequestId;
-            SystemService.CreateOrUpdatePicture(SessionManager.Ticket, t);
+            SessionManager.SystemService.CreateOrUpdatePicture(SessionManager.Ticket, t);
             Redirect("SystemPicturesManage.aspx");
         }
         catch (Exception ex)

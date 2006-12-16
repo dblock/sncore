@@ -47,7 +47,7 @@ public partial class PlacePropertyValuesViewControl : Control
             {
                 object[] args = { GroupName, PropertyName };
                 values.DataSource = SessionManager.GetCachedCollection<TransitDistinctPlacePropertyValue>(
-                    PlaceService, "GetDistinctPropertyValues", args);
+                    SessionManager.PlaceService, "GetDistinctPropertyValues", args);
                 values.DataBind();
             }
         }

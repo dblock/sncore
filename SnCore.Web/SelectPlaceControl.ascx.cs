@@ -69,14 +69,16 @@ public partial class SelectPlaceControl : Control
             {
                 ArrayList types = new ArrayList();
                 types.Add(new TransitAccountPlaceType());
-                types.AddRange(SessionManager.GetCachedCollection<TransitPlaceType>(PlaceService, "GetPlaceTypes", null));
+                types.AddRange(SessionManager.GetCachedCollection<TransitPlaceType>(
+                    SessionManager.PlaceService, "GetPlaceTypes", null));
                 selectType.DataSource = types;
                 selectType.DataBind();
 
                 ArrayList countries = new ArrayList();
                 countries.Add(new TransitCountry());
                 object[] c_args = { null };
-                countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(LocationService, "GetCountries", c_args));
+                countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(
+                    SessionManager.LocationService, "GetCountries", c_args));
 
                 ArrayList states = new ArrayList();
                 states.Add(new TransitState());
@@ -208,7 +210,8 @@ public partial class SelectPlaceControl : Control
         try
         {
             object[] args = { SessionManager.Ticket, int.Parse(e.CommandArgument.ToString()) };
-            Place = SessionManager.GetCachedItem<TransitPlace>(PlaceService, "GetPlaceById", args);
+            Place = SessionManager.GetCachedItem<TransitPlace>(
+                SessionManager.PlaceService, "GetPlaceById", args);
             ArrayList list = new ArrayList();
             list.Add(Place);
             chosenPlace.DataSource = list;
@@ -237,7 +240,7 @@ public partial class SelectPlaceControl : Control
 
             object[] args = { inputLookupName.Text, null };
             List<TransitPlace> list = SessionManager.GetCachedCollection<TransitPlace>(
-                PlaceService, "SearchPlaces", args);
+                SessionManager.PlaceService, "SearchPlaces", args);
 
             gridLookupPlaces.DataSource = list;
             gridLookupPlaces.DataBind();
@@ -266,7 +269,8 @@ public partial class SelectPlaceControl : Control
         try
         {
             object[] args = { inputCountry.SelectedValue };
-            inputState.DataSource = SessionManager.GetCachedCollection<TransitState>(LocationService, "GetStatesByCountry", args);
+            inputState.DataSource = SessionManager.GetCachedCollection<TransitState>(
+                SessionManager.LocationService, "GetStatesByCountry", args);
             inputState.DataBind();
 
             panelSelectCountryState.Update();

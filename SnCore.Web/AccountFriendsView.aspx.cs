@@ -32,7 +32,7 @@ public partial class AccountFriendsView : AccountPersonPage
             {
                 object[] args = { RequestAccountId };
                 TransitAccount ta = SessionManager.GetCachedItem<TransitAccount>(
-                    AccountService, "GetAccountById", args);
+                    SessionManager.AccountService, "GetAccountById", args);
 
                 labelName.Text = string.Format("{0}'s Friends", Render(ta.Name));
                 linkAccount.Text = string.Format("&#187; Back to {0}", Render(ta.Name));
@@ -59,7 +59,7 @@ public partial class AccountFriendsView : AccountPersonPage
         gridManage.CurrentPageIndex = 0;
         object[] args = { RequestAccountId };
         gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            SocialService, "GetFriendsActivityCountById", args);
+            SessionManager.SocialService, "GetFriendsActivityCountById", args);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
@@ -73,7 +73,7 @@ public partial class AccountFriendsView : AccountPersonPage
             options.PageSize = gridManage.PageSize;
             object[] args = { RequestAccountId, options };
             gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountActivity>(
-                SocialService, "GetFriendsActivityById", args);
+                SessionManager.SocialService, "GetFriendsActivityById", args);
         }
         catch (Exception ex)
         {

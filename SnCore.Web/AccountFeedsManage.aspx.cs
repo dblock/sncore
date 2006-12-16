@@ -38,7 +38,7 @@ public partial class AccountFeedsManage : AuthenticatedPage
     public void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SyndicationService.GetAccountFeedsCount(SessionManager.Ticket);
+        gridManage.VirtualItemCount = SessionManager.SyndicationService.GetAccountFeedsCount(SessionManager.Ticket);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
@@ -55,7 +55,7 @@ public partial class AccountFeedsManage : AuthenticatedPage
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridManage.CurrentPageIndex;
             options.PageSize = gridManage.PageSize;
-            gridManage.DataSource = SyndicationService.GetAccountFeeds(SessionManager.Ticket, options);
+            gridManage.DataSource = SessionManager.SyndicationService.GetAccountFeeds(SessionManager.Ticket, options);
         }
         catch (Exception ex)
         {
@@ -72,7 +72,7 @@ public partial class AccountFeedsManage : AuthenticatedPage
                 case "Delete":
                     {
                         int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                        SyndicationService.DeleteAccountFeed(SessionManager.Ticket, id);
+                        SessionManager.SyndicationService.DeleteAccountFeed(SessionManager.Ticket, id);
                         ReportInfo("Feed deleted.");
                         GetData(sender, e);
                     }
@@ -80,8 +80,8 @@ public partial class AccountFeedsManage : AuthenticatedPage
                 case "Update":
                     {
                         int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                        int item_count = SyndicationService.UpdateAccountFeedItems(SessionManager.Ticket, id);
-                        int image_count = SyndicationService.UpdateAccountFeedItemImgs(SessionManager.Ticket, id);
+                        int item_count = SessionManager.SyndicationService.UpdateAccountFeedItems(SessionManager.Ticket, id);
+                        int image_count = SessionManager.SyndicationService.UpdateAccountFeedItemImgs(SessionManager.Ticket, id);
                         ReportInfo(string.Format("Feed updated with {0} new item{1} and {2} new image{3}.",
                             item_count, item_count == 1 ? string.Empty : "s",
                             image_count, image_count == 1 ? string.Empty : "s"));

@@ -20,13 +20,13 @@ public partial class SearchAccountBlogPostsControl : SearchControl
     {
         object[] args = { SearchQuery };
         return SessionManager.GetCachedCollectionCount(
-            BlogService, "SearchAccountBlogPostsCount", args);
+            SessionManager.BlogService, "SearchAccountBlogPostsCount", args);
     }
 
     protected override IEnumerable GetResults()
     {
         return SessionManager.GetCachedCollection<TransitAccountBlogPost>(
-            BlogService, "SearchAccountBlogPosts", GetSearchQueryArgs());
+            SessionManager.BlogService, "SearchAccountBlogPosts", GetSearchQueryArgs());
     }
 
     protected override IPagedControl Grid

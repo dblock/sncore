@@ -38,7 +38,7 @@ public partial class AccountMadLibsManage : AuthenticatedPage
     void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = MadLibService.GetMadLibsCount(SessionManager.Ticket);
+        gridManage.VirtualItemCount = SessionManager.MadLibService.GetMadLibsCount(SessionManager.Ticket);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -50,7 +50,7 @@ public partial class AccountMadLibsManage : AuthenticatedPage
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridManage.CurrentPageIndex;
             options.PageSize = gridManage.PageSize;
-            gridManage.DataSource = MadLibService.GetMadLibs(SessionManager.Ticket, options);
+            gridManage.DataSource = SessionManager.MadLibService.GetMadLibs(SessionManager.Ticket, options);
         }
         catch (Exception ex)
         {
@@ -77,7 +77,7 @@ public partial class AccountMadLibsManage : AuthenticatedPage
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            MadLibService.DeleteMadLib(SessionManager.Ticket, id);
+                            SessionManager.MadLibService.DeleteMadLib(SessionManager.Ticket, id);
                             ReportInfo("Mad Lib deleted.");
                             GetData(source, e);
                             break;

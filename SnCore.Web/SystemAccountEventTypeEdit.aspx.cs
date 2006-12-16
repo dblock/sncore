@@ -26,7 +26,7 @@ public partial class SystemAccountEventTypeEdit : AuthenticatedPage
 
                 if (RequestId > 0)
                 {
-                    TransitAccountEventType t = EventService.GetAccountEventTypeById(RequestId);
+                    TransitAccountEventType t = SessionManager.EventService.GetAccountEventTypeById(RequestId);
                     inputName.Text = t.Name;
                     sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
                 }
@@ -53,7 +53,7 @@ public partial class SystemAccountEventTypeEdit : AuthenticatedPage
             TransitAccountEventType t = new TransitAccountEventType();
             t.Name = inputName.Text;
             t.Id = RequestId;
-            EventService.CreateOrUpdateAccountEventType(SessionManager.Ticket, t);
+            SessionManager.EventService.CreateOrUpdateAccountEventType(SessionManager.Ticket, t);
             Redirect("SystemAccountEventTypesManage.aspx");
         }
         catch (Exception ex)

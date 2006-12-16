@@ -29,7 +29,7 @@ public partial class AccountMessageFolderEdit : AuthenticatedPage
 
                 if (id > 0)
                 {
-                    TransitAccountMessageFolder tw = AccountService.GetAccountMessageFolderById(SessionManager.Ticket, id);
+                    TransitAccountMessageFolder tw = SessionManager.AccountService.GetAccountMessageFolderById(SessionManager.Ticket, id);
                     inputName.Text = Renderer.Render(tw.Name);
                     sitemapdata.Add(new SiteMapDataAttributeNode(tw.Name, Request.Url));
                 }
@@ -54,12 +54,12 @@ public partial class AccountMessageFolderEdit : AuthenticatedPage
         try
         {
             TransitAccountMessageFolder tw = (RequestId > 0) 
-                ? AccountService.GetAccountMessageFolderById(SessionManager.Ticket, RequestId) 
+                ? SessionManager.AccountService.GetAccountMessageFolderById(SessionManager.Ticket, RequestId) 
                 : new TransitAccountMessageFolder();
             
             tw.Name = inputName.Text;
             if (RequestId == 0) tw.AccountMessageFolderParentId = GetId("pid");
-            AccountService.AddAccountMessageFolder(SessionManager.Ticket, tw);
+            SessionManager.AccountService.AddAccountMessageFolder(SessionManager.Ticket, tw);
             Redirect("AccountMessageFoldersManage.aspx");
         }
         catch (Exception ex)

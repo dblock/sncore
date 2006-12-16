@@ -46,7 +46,8 @@ public partial class PlaceAttributesViewControl : Control
     {
         attributes.CurrentPageIndex = 0;
         object[] args = { PlaceId };
-        attributes.VirtualItemCount = SessionManager.GetCachedCollectionCount(PlaceService, "GetPlaceAttributesCountById", args);
+        attributes.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+            SessionManager.PlaceService, "GetPlaceAttributesCountById", args);
         attributes_OnGetDataSource(sender, e);
         attributes.DataBind();
     }
@@ -64,6 +65,6 @@ public partial class PlaceAttributesViewControl : Control
         options.PageSize = attributes.PageSize;
         object[] args = { PlaceId, options };
         attributes.DataSource = SessionManager.GetCachedCollection<TransitPlaceAttribute>(
-            PlaceService, "GetPlaceAttributesById", args);
+            SessionManager.PlaceService, "GetPlaceAttributesById", args);
     }
 }

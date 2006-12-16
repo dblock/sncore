@@ -43,14 +43,14 @@ public partial class DiscussionTopOfThreadsView : Page
         options.PageSize = gridManage.PageSize;
         object[] args = { SessionManager.Ticket, options };
         gridManage.DataSource = SessionManager.GetCachedCollection<TransitDiscussionPost>(
-            DiscussionService, "GetDiscussionTopOfThreads", args);
+            SessionManager.DiscussionService, "GetDiscussionTopOfThreads", args);
     }
 
     public void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
         gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            DiscussionService, "GetDiscussionTopOfThreadsCount", null);
+            SessionManager.DiscussionService, "GetDiscussionTopOfThreadsCount", null);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }

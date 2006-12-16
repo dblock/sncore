@@ -38,7 +38,7 @@ public partial class SystemStatesManage : AuthenticatedPage
     public void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = LocationService.GetStatesCount();
+        gridManage.VirtualItemCount = SessionManager.LocationService.GetStatesCount();
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -48,7 +48,7 @@ public partial class SystemStatesManage : AuthenticatedPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = gridManage.CurrentPageIndex;
         options.PageSize = gridManage.PageSize;
-        gridManage.DataSource = LocationService.GetStates(options);
+        gridManage.DataSource = SessionManager.LocationService.GetStates(options);
     }
 
     private enum Cells
@@ -71,7 +71,7 @@ public partial class SystemStatesManage : AuthenticatedPage
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            LocationService.DeleteState(SessionManager.Ticket, id);
+                            SessionManager.LocationService.DeleteState(SessionManager.Ticket, id);
                             ReportInfo("State deleted.");
                             gridManage.CurrentPageIndex = 0;
                             gridManage_OnGetDataSource(source, e);

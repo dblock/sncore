@@ -31,7 +31,7 @@ public partial class AccountAddressEdit : AuthenticatedPage
 
                 if (id > 0)
                 {
-                    tw = AccountService.GetAccountAddressById(SessionManager.Ticket, id);
+                    tw = SessionManager.AccountService.GetAccountAddressById(SessionManager.Ticket, id);
                     inputName.Text = Renderer.Render(tw.Name);
                     inputApt.Text = Renderer.Render(tw.Apt);
                     inputStreet.Text = Renderer.Render(tw.Street);
@@ -49,11 +49,11 @@ public partial class AccountAddressEdit : AuthenticatedPage
                 ArrayList countries = new ArrayList();
                 if (tw == null || tw.Country.Length == 0) countries.Add(new TransitCountry());
                 object[] c_args = { null };
-                countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(LocationService, "GetCountries", c_args));
+                countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(SessionManager.LocationService, "GetCountries", c_args));
 
                 ArrayList states = new ArrayList();
                 if (tw == null || tw.State.Length == 0) states.Add(new TransitState());
-                states.AddRange(SessionManager.GetCachedCollection<TransitState>(LocationService, "GetStates", c_args));
+                states.AddRange(SessionManager.GetCachedCollection<TransitState>(SessionManager.LocationService, "GetStates", c_args));
 
                 inputCountry.DataSource = countries;
                 inputCountry.DataBind();
@@ -89,7 +89,7 @@ public partial class AccountAddressEdit : AuthenticatedPage
             tw.State = inputState.SelectedValue;
             tw.Zip = inputZip.Text;
             tw.Id = RequestId;
-            AccountService.AddAccountAddress(SessionManager.Ticket, tw);
+            SessionManager.AccountService.AddAccountAddress(SessionManager.Ticket, tw);
             Redirect("AccountAddressesManage.aspx");
         }
         catch (Exception ex)

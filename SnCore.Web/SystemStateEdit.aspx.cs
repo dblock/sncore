@@ -27,12 +27,13 @@ public partial class SystemStateEdit : AuthenticatedPage
                 int id = RequestId;
 
                 object[] c_args = { null };
-                inputCountry.DataSource = SessionManager.GetCachedCollection<TransitCountry>(LocationService, "GetCountries", c_args);
+                inputCountry.DataSource = SessionManager.GetCachedCollection<TransitCountry>(
+                    SessionManager.LocationService, "GetCountries", c_args);
                 inputCountry.DataBind();
 
                 if (id > 0)
                 {
-                    TransitState tw = LocationService.GetStateById(id);
+                    TransitState tw = SessionManager.LocationService.GetStateById(id);
                     inputName.Text = Renderer.Render(tw.Name);
                     inputCountry.Items.FindByValue(tw.Country).Selected = true;
                     sitemapdata.Add(new SiteMapDataAttributeNode(tw.Name, Request.Url));
@@ -61,7 +62,7 @@ public partial class SystemStateEdit : AuthenticatedPage
             tw.Name = inputName.Text;
             tw.Id = RequestId;
             tw.Country = inputCountry.SelectedItem.Value;
-            LocationService.AddState(SessionManager.Ticket, tw);
+            SessionManager.LocationService.AddState(SessionManager.Ticket, tw);
             Redirect("SystemStatesManage.aspx");
         }
         catch (Exception ex)

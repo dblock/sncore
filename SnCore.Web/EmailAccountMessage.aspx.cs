@@ -23,7 +23,7 @@ public partial class EmailAccountMessage : AuthenticatedPage
             {
                 if (mAccountMessage == null)
                 {
-                    mAccountMessage = AccountService.GetAccountMessageById(
+                    mAccountMessage = SessionManager.AccountService.GetAccountMessageById(
                         SessionManager.Ticket, RequestId);
                 }
             }

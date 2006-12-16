@@ -23,7 +23,7 @@ public partial class AccountSurveyQuestionView : Page
         accountSurveyAnswers.CurrentPageIndex = 0;
         object[] args = { SurveyQuestionId };
         accountSurveyAnswers.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            AccountService, "GetAccountSurveyAnswersCountByQuestionId", args);
+            SessionManager.AccountService, "GetAccountSurveyAnswersCountByQuestionId", args);
         accountSurveyAnswers_OnGetDataSource(this, null);
         accountSurveyAnswers.DataBind();
     }
@@ -60,7 +60,7 @@ public partial class AccountSurveyQuestionView : Page
         {
             if (mSurveyQuestion == null)
             {
-                mSurveyQuestion = SystemService.GetSurveyQuestionById(SurveyQuestionId);
+                mSurveyQuestion = SessionManager.SystemService.GetSurveyQuestionById(SurveyQuestionId);
             }
             return mSurveyQuestion;
         }
@@ -72,7 +72,7 @@ public partial class AccountSurveyQuestionView : Page
         {
             if (mSurvey == null)
             {
-                mSurvey = SystemService.GetSurveyById(SurveyId);
+                mSurvey = SessionManager.SystemService.GetSurveyById(SurveyId);
             }
 
             return mSurvey;
@@ -87,7 +87,7 @@ public partial class AccountSurveyQuestionView : Page
 
         object[] args = { SurveyQuestionId, serviceoptions };
         accountSurveyAnswers.DataSource = SessionManager.GetCachedCollection<TransitAccountSurveyAnswer>(
-            AccountService, "GetAccountSurveyAnswersByQuestionId", args);
+            SessionManager.AccountService, "GetAccountSurveyAnswersByQuestionId", args);
     }
 
     public int SurveyQuestionId

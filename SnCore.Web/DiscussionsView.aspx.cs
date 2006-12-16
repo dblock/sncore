@@ -36,7 +36,7 @@ public partial class DiscussionsView : Page
     private void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = DiscussionService.GetDiscussionsCount();
+        gridManage.VirtualItemCount = SessionManager.DiscussionService.GetDiscussionsCount();
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -44,7 +44,7 @@ public partial class DiscussionsView : Page
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
         ServiceQueryOptions options = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
-        gridManage.DataSource = DiscussionService.GetDiscussions(options);
+        gridManage.DataSource = SessionManager.DiscussionService.GetDiscussions(options);
     }
 
     protected void search_Click(object sender, EventArgs e)

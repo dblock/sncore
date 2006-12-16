@@ -22,10 +22,10 @@ public partial class AccountMenuControl : Control
                 if (SessionManager.IsLoggedIn)
                 {
                     linkInbox.InnerText = string.Format("Inbox ({0})",
-                        AccountService.GetAccountMessageSystemFolder(SessionManager.Ticket, "inbox").MessageCount);
+                        SessionManager.AccountService.GetAccountMessageSystemFolder(SessionManager.Ticket, "inbox").MessageCount);
 
                     linkRequests.InnerText = string.Format("Requests ({0})",
-                        SocialService.GetAccountFriendRequestsCountById(SessionManager.Account.Id));
+                        SessionManager.SocialService.GetAccountFriendRequestsCountById(SessionManager.Account.Id));
                 }
 
             }

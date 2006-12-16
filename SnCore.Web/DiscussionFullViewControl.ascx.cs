@@ -60,11 +60,11 @@ public partial class DiscussionFullViewControl : Control
 
     public void GetData(object sender, EventArgs e)
     {
-        TransitDiscussion d = DiscussionService.GetDiscussionById(DiscussionId);
+        TransitDiscussion d = SessionManager.DiscussionService.GetDiscussionById(DiscussionId);
         if (string.IsNullOrEmpty(discussionLabel.Text)) discussionLabel.Text = Renderer.Render(d.Name);
         discussionDescription.Text = Renderer.Render(d.Description);
         divDescription.Visible = ! string.IsNullOrEmpty(discussionDescription.Text);
-        discussionView.DataSource = DiscussionService.GetDiscussionPosts(
+        discussionView.DataSource = SessionManager.DiscussionService.GetDiscussionPosts(
             SessionManager.Ticket, DiscussionId, null);
         discussionView.DataBind();
 
@@ -81,8 +81,8 @@ public partial class DiscussionFullViewControl : Control
                 case "Delete":
                     {
                         int id = int.Parse(e.CommandArgument.ToString());
-                        DiscussionService.DeleteDiscussionPost(SessionManager.Ticket, id);
-                        discussionView.DataSource = DiscussionService.GetDiscussionPosts(
+                        SessionManager.DiscussionService.DeleteDiscussionPost(SessionManager.Ticket, id);
+                        discussionView.DataSource = SessionManager.DiscussionService.GetDiscussionPosts(
                             SessionManager.Ticket, DiscussionId, null);
                         discussionView.DataBind();
                         break;

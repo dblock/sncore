@@ -27,7 +27,7 @@ public partial class SystemAccountPlaceTypeEdit : AuthenticatedPage
 
                 if (RequestId > 0)
                 {
-                    TransitAccountPlaceType t = PlaceService.GetAccountPlaceTypeById(RequestId);
+                    TransitAccountPlaceType t = SessionManager.PlaceService.GetAccountPlaceTypeById(RequestId);
                     inputName.Text = t.Name;
                     inputDescription.Text = t.Description;
                     inputCanWrite.Checked = t.CanWrite;
@@ -59,7 +59,7 @@ public partial class SystemAccountPlaceTypeEdit : AuthenticatedPage
             t.Description = inputDescription.Text;
             t.CanWrite = inputCanWrite.Checked;
             t.Id = RequestId;
-            PlaceService.CreateOrUpdateAccountPlaceType(SessionManager.Ticket, t);
+            SessionManager.PlaceService.CreateOrUpdateAccountPlaceType(SessionManager.Ticket, t);
             Redirect("SystemAccountPlaceTypesManage.aspx");
         }
         catch (Exception ex)

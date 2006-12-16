@@ -34,7 +34,8 @@ public partial class PlacesNewViewControl : Control
             if (!IsPostBack)
             {
                 object[] args = { Count };
-                Places.DataSource = SessionManager.GetCachedCollection<TransitPlace>(PlaceService, "GetNewPlaces", args);
+                Places.DataSource = SessionManager.GetCachedCollection<TransitPlace>(
+                    SessionManager.PlaceService, "GetNewPlaces", args);
                 Places.RepeatColumns = Count;
                 Places.DataBind();
             }

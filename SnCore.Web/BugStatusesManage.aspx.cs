@@ -39,7 +39,7 @@ public partial class BugStatusesManage : AuthenticatedPage
     {
         try
         {
-            gridManage.DataSource = BugService.GetBugStatuses();
+            gridManage.DataSource = SessionManager.BugService.GetBugStatuses();
         }
         catch (Exception ex)
         {
@@ -70,7 +70,7 @@ public partial class BugStatusesManage : AuthenticatedPage
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            BugService.DeleteBugStatus(SessionManager.Ticket, id);
+                            SessionManager.BugService.DeleteBugStatus(SessionManager.Ticket, id);
                             ReportInfo("Bug status deleted.");
                             gridManage.CurrentPageIndex = 0;
                             gridManage_OnGetDataSource(source, e);

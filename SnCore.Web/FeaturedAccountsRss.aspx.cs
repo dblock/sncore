@@ -37,7 +37,7 @@ public partial class FeaturedAccountsRss : Page
 
                 object[] args = { "Account", queryoptions };
                 rssRepeater.DataSource = SessionManager.GetCachedCollection<TransitFeature>(
-                    SystemService, "GetFeatures", args);
+                    SessionManager.SystemService, "GetFeatures", args);
 
                 rssRepeater.DataBind();
             }
@@ -73,6 +73,7 @@ public partial class FeaturedAccountsRss : Page
     public TransitAccount GetAccount(int id)
     {
         object[] args = { id };
-        return SessionManager.GetCachedItem<TransitAccount>(AccountService, "GetAccountById", args);
+        return SessionManager.GetCachedItem<TransitAccount>(
+            SessionManager.AccountService, "GetAccountById", args);
     }
 }

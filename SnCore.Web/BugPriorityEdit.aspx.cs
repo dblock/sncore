@@ -27,7 +27,7 @@ public partial class BugPriorityEdit : AuthenticatedPage
 
                 if (RequestId > 0)
                 {
-                    TransitBugPriority t = BugService.GetBugPriorityById(RequestId);
+                    TransitBugPriority t = SessionManager.BugService.GetBugPriorityById(RequestId);
                     inputName.Text = t.Name;
                     sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
                 }
@@ -54,7 +54,7 @@ public partial class BugPriorityEdit : AuthenticatedPage
             TransitBugPriority t = new TransitBugPriority();
             t.Name = inputName.Text;
             t.Id = RequestId;
-            BugService.CreateOrUpdateBugPriority(SessionManager.Ticket, t);
+            SessionManager.BugService.CreateOrUpdateBugPriority(SessionManager.Ticket, t);
             Redirect("BugPrioritiesManage.aspx");
         }
         catch (Exception ex)

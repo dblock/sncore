@@ -33,7 +33,7 @@ public partial class AccountLoginControl : Control
                 if (!string.IsNullOrEmpty(openidmode) && !string.IsNullOrEmpty(openidtoken))
                 {
                     NameValueCollectionSerializer serializer = new NameValueCollectionSerializer(Request.Params);
-                    string ticket = AccountService.LoginOpenId(openidtoken, serializer.Names, serializer.Values);
+                    string ticket = SessionManager.AccountService.LoginOpenId(openidtoken, serializer.Names, serializer.Values);
                     SessionManager.Login(ticket, SessionManager.RememberLogin);
                     Redirect(ReturnUrl);
                 }
@@ -53,10 +53,10 @@ public partial class AccountLoginControl : Control
             string ticket;
             if (!string.IsNullOrEmpty(loginEmailAddress.Text))
             {
-                ticket = AccountService.Login(loginEmailAddress.Text, loginPassword.Text);
+                ticket = SessionManager.AccountService.Login(loginEmailAddress.Text, loginPassword.Text);
                 SessionManager.Login(ticket, loginRememberMe.Checked);
 
-                TransitAccount ta = AccountService.GetAccount(ticket);
+                TransitAccount ta = SessionManager.AccountService.GetAccount(ticket);
                 if (ta != null && ta.IsPasswordExpired)
                 {
                     Redirect(string.Format("AccountChangePassword.aspx?ReturnUrl={0}&PasswordHash={1}", 
@@ -70,7 +70,7 @@ public partial class AccountLoginControl : Control
             else if (!string.IsNullOrEmpty(loginOpenId.Text))
             {
                 // url root needs to be a case-sensitive match for the openid server trust
-                TransitOpenIdRedirect redirect = AccountService.GetOpenIdRedirect(loginOpenId.Text, Request.Url.ToString());
+                TransitOpenIdRedirect redirect = SessionManager.AccountService.GetOpenIdRedirect(loginOpenId.Text, Request.Url.ToString());
                 SessionManager.OpenIdToken = redirect.Token;
                 SessionManager.RememberLogin = loginRememberMe.Checked;
                 Redirect(redirect.Url);

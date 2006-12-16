@@ -30,7 +30,8 @@ public partial class AccountBlogViewControl : Control
             if (mAccountBlog == null && BlogId > 0)
             {
                 object[] args = { SessionManager.Ticket, BlogId };
-                mAccountBlog = SessionManager.GetCachedItem<TransitAccountBlog>(BlogService, "GetAccountBlogById", args);
+                mAccountBlog = SessionManager.GetCachedItem<TransitAccountBlog>(
+                    SessionManager.BlogService, "GetAccountBlogById", args);
             }
 
             return mAccountBlog;
@@ -96,11 +97,13 @@ public partial class AccountBlogViewControl : Control
                 if (BlogId > 0)
                 {
                     object[] b_args = { SessionManager.IsLoggedIn ? SessionManager.Ticket : string.Empty, BlogId };
-                    TransitAccountBlog blog = SessionManager.GetCachedItem<TransitAccountBlog>(BlogService, "GetAccountBlogById", b_args);
+                    TransitAccountBlog blog = SessionManager.GetCachedItem<TransitAccountBlog>(
+                        SessionManager.BlogService, "GetAccountBlogById", b_args);
 
                     // limit number of items
                     object[] args2 = { BlogId };
-                    gridManage.VirtualItemCount = Math.Min(gridManage.PageSize, SessionManager.GetCachedCollectionCount(BlogService, "GetAccountBlogPostsCountById", args2));
+                    gridManage.VirtualItemCount = Math.Min(gridManage.PageSize, SessionManager.GetCachedCollectionCount(
+                        SessionManager.BlogService, "GetAccountBlogPostsCountById", args2));
                     gridManage_OnGetDataSource(this, null);
                     gridManage.DataBind();
 
@@ -122,7 +125,7 @@ public partial class AccountBlogViewControl : Control
             ServiceQueryOptions options = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
             object[] args = { SessionManager.Ticket, BlogId, options };
             gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountBlogPost>(
-                BlogService, "GetAccountBlogPostsById", args);
+                SessionManager.BlogService, "GetAccountBlogPostsById", args);
         }
         catch (Exception ex)
         {

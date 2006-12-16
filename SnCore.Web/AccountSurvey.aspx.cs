@@ -37,10 +37,10 @@ public partial class AccountSurvey : AuthenticatedPage
     {
         try
         {
-            TransitSurvey ts = SystemService.GetSurveyById(RequestId);
+            TransitSurvey ts = SessionManager.SystemService.GetSurveyById(RequestId);
             this.Title = surveyName.Text = Render(ts.Name);
 
-            List<TransitAccountSurveyAnswer> answers = AccountService.GetAccountSurveyAnswers(
+            List<TransitAccountSurveyAnswer> answers = SessionManager.AccountService.GetAccountSurveyAnswers(
                 SessionManager.Ticket, RequestId);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
@@ -100,7 +100,7 @@ public partial class AccountSurvey : AuthenticatedPage
                 p.SurveyQuestionId = entry.SurveyAnswer.SurveyQuestionId;
                 p.Id = entry.SurveyAnswer.Id;
                 p.Answer = entry.AnswerTextBox.Text;
-                AccountService.AddAccountSurveyAnswer(SessionManager.Ticket, p);
+                SessionManager.AccountService.AddAccountSurveyAnswer(SessionManager.Ticket, p);
             }
         }
         catch (Exception ex)

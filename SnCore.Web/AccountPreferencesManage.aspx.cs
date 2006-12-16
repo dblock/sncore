@@ -50,13 +50,13 @@ public partial class AccountPreferencesManage : AuthenticatedPage
                 if (numbers == null)
                 {
                     numbers = new AccountNumbers();
-                    numbers.FirstDegreeCount = SocialService.GetFirstDegreeCountById(SessionManager.Account.Id);
-                    numbers.SecondDegreeCount = SocialService.GetNDegreeCountById(SessionManager.Account.Id, 2);
-                    numbers.AllCount = SocialService.GetAccountsCount();
+                    numbers.FirstDegreeCount = SessionManager.SocialService.GetFirstDegreeCountById(SessionManager.Account.Id);
+                    numbers.SecondDegreeCount = SessionManager.SocialService.GetNDegreeCountById(SessionManager.Account.Id, 2);
+                    numbers.AllCount = SessionManager.SocialService.GetAccountsCount();
 
                     DiscussionQueryOptions options = new DiscussionQueryOptions();
                     options.AccountId = SessionManager.Account.Id;
-                    numbers.PostsCount = DiscussionService.GetUserDiscussionThreadsCount(options);
+                    numbers.PostsCount = SessionManager.DiscussionService.GetUserDiscussionThreadsCount(options);
 
                     Cache.Insert(string.Format("accountnumbers:{0}", SessionManager.Ticket),
                         numbers, null, Cache.NoAbsoluteExpiration, SessionManager.DefaultCacheTimeSpan);
@@ -85,11 +85,11 @@ public partial class AccountPreferencesManage : AuthenticatedPage
                 ArrayList countries = new ArrayList();
                 if (SessionManager.Account.Country.Length == 0) countries.Add(new TransitCountry());
                 object[] c_args = { null };
-                countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(LocationService, "GetCountries", c_args));
+                countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(SessionManager.LocationService, "GetCountries", c_args));
 
                 ArrayList states = new ArrayList();
                 if (SessionManager.Account.State.Length == 0) states.Add(new TransitState());
-                states.AddRange(LocationService.GetStatesByCountry(SessionManager.Account.Country));
+                states.AddRange(SessionManager.LocationService.GetStatesByCountry(SessionManager.Account.Country));
 
                 inputCountry.DataSource = countries;
                 inputCountry.DataBind();
@@ -127,7 +127,7 @@ public partial class AccountPreferencesManage : AuthenticatedPage
             if (ta.Signature.Length > inputSignature.MaxLength)
                 throw new Exception(string.Format("Signature may not exceed {0} characters.", inputSignature.MaxLength));
 
-            AccountService.UpdateAccount(SessionManager.Ticket, ta);
+            SessionManager.AccountService.UpdateAccount(SessionManager.Ticket, ta);
             Cache.Remove(string.Format("account:{0}", SessionManager.Ticket));
             ReportInfo("Account updated.");
         }
@@ -144,7 +144,7 @@ public partial class AccountPreferencesManage : AuthenticatedPage
             ArrayList states = new ArrayList();
             states.Add(new TransitState());
             object[] args = { inputCountry.SelectedValue };
-            states.AddRange(SessionManager.GetCachedCollection<TransitState>(LocationService, "GetStatesByCountry", args));
+            states.AddRange(SessionManager.GetCachedCollection<TransitState>(SessionManager.LocationService, "GetStatesByCountry", args));
 
             inputState.DataSource = states;
             inputState.DataBind();

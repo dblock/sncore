@@ -36,7 +36,7 @@ public partial class FeaturedPlacesRss : Page
 
                 object[] args = { "Place", queryoptions };
                 rssRepeater.DataSource = SessionManager.GetCachedCollection<TransitFeature>(
-                    SystemService, "GetFeatures", args);
+                    SessionManager.SystemService, "GetFeatures", args);
 
                 rssRepeater.DataBind();
             }
@@ -72,6 +72,7 @@ public partial class FeaturedPlacesRss : Page
     public TransitPlace GetPlace(int id)
     {
         object[] args = { SessionManager.Ticket, id };
-        return SessionManager.GetCachedItem<TransitPlace>(PlaceService, "GetPlaceById", args);
+        return SessionManager.GetCachedItem<TransitPlace>(
+            SessionManager.PlaceService, "GetPlaceById", args);
     }
 }

@@ -69,7 +69,7 @@ public partial class PlaceNeighborhoodsViewControl : Control
     {
         object[] args = { Country, State, City, null };
         values.DataSource = SessionManager.GetCachedCollection<TransitDistinctPlaceNeighborhood>(
-            PlaceService, "GetPlaceNeighborhoods", args);
+            SessionManager.PlaceService, "GetPlaceNeighborhoods", args);
         values.DataBind();
         base.DataBind();
     }

@@ -71,14 +71,14 @@ public partial class AccountChangePassword : AuthenticatedPage
 
             if (!string.IsNullOrEmpty(PasswordHash))
             {
-                AccountService.ChangePasswordMd5(
+                SessionManager.AccountService.ChangePasswordMd5(
                     SessionManager.Ticket,
                     (RequestId > 0) ? RequestId : SessionManager.Account.Id,
                     PasswordHash, inputNewPassword.Text);
             }
             else
             {
-                AccountService.ChangePassword(
+                SessionManager.AccountService.ChangePassword(
                     SessionManager.Ticket,
                     (RequestId > 0) ? RequestId : SessionManager.Account.Id,
                     inputOldPassword.Text, inputNewPassword.Text);

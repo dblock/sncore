@@ -35,7 +35,7 @@ public partial class FeedTypeEdit : AuthenticatedPage
 
                 if (RequestId > 0)
                 {
-                    TransitFeedType t = SyndicationService.GetFeedTypeById(RequestId);
+                    TransitFeedType t = SessionManager.SyndicationService.GetFeedTypeById(RequestId);
                     inputName.Text = t.Name;
                     inputSpanColumns.Items.FindByValue(t.SpanColumns.ToString()).Selected = true;
                     inputSpanRows.Items.FindByValue(t.SpanRows.ToString()).Selected = true;
@@ -80,7 +80,7 @@ public partial class FeedTypeEdit : AuthenticatedPage
             {
                 t.Xsl = new StreamReader(inputXsl.FileContent).ReadToEnd();
             }
-            SyndicationService.CreateOrUpdateFeedType(SessionManager.Ticket, t);
+            SessionManager.SyndicationService.CreateOrUpdateFeedType(SessionManager.Ticket, t);
             Redirect("FeedTypesManage.aspx");
         }
         catch (Exception ex)

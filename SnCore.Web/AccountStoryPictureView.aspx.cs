@@ -67,7 +67,7 @@ public partial class AccountStoryPictureView : Page
             {
                 object[] sp_args = { SessionManager.Ticket, PictureId };
                 mAccountStoryPicture = SessionManager.GetCachedItem<TransitAccountStoryPicture>(
-                    StoryService, "GetAccountStoryPictureById", sp_args);
+                    SessionManager.StoryService, "GetAccountStoryPictureById", sp_args);
             }
             return mAccountStoryPicture;
         }
@@ -83,7 +83,7 @@ public partial class AccountStoryPictureView : Page
             {
                 object[] as_args = { SessionManager.Ticket, AccountStoryPicture.AccountStoryId };
                 mAccountStory = SessionManager.GetCachedItem<TransitAccountStory>(
-                    StoryService, "GetAccountStoryById", as_args);
+                    SessionManager.StoryService, "GetAccountStoryById", as_args);
             }
             return mAccountStory;
         }
@@ -94,7 +94,7 @@ public partial class AccountStoryPictureView : Page
         object[] p_args = { AccountStory.Id };
         picturesView.CurrentPageIndex = 0;
         picturesView.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            StoryService, "GetAccountStoryPicturesCountById", p_args);
+            SessionManager.StoryService, "GetAccountStoryPicturesCountById", p_args);
         picturesView_OnGetDataSource(sender, e);
         picturesView.DataBind();
     }
@@ -124,9 +124,9 @@ public partial class AccountStoryPictureView : Page
         linkPrev.CommandArgument = p.PrevId.ToString();
         linkNext.Enabled = p.NextId > 0;
         linkNext.CommandArgument = p.NextId.ToString();
-        labelIndex.Text = string.Format("{0} / {1}", p.Index + 1, p.Count); 
+        labelIndex.Text = string.Format("{0} / {1}", p.Index + 1, p.Count);
 
-        discussionComments.DiscussionId = DiscussionService.GetAccountStoryPictureDiscussionId(PictureId);
+        discussionComments.DiscussionId = SessionManager.DiscussionService.GetAccountStoryPictureDiscussionId(PictureId);
         discussionComments.DataBind();
     }
 
@@ -155,7 +155,7 @@ public partial class AccountStoryPictureView : Page
             ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
             object[] args = { AccountStory.Id, options };
             picturesView.DataSource = SessionManager.GetCachedCollection<TransitAccountStoryPicture>(
-                StoryService, "GetAccountStoryPicturesById", args);
+                SessionManager.StoryService, "GetAccountStoryPicturesById", args);
         }
         catch (Exception ex)
         {

@@ -68,7 +68,7 @@ public partial class AccountEventPictureView : Page
             {
                 object[] sp_args = { SessionManager.Ticket, PictureId };
                 mAccountEventPicture = SessionManager.GetCachedItem<TransitAccountEventPicture>(
-                    EventService, "GetAccountEventPictureById", sp_args);
+                    SessionManager.EventService, "GetAccountEventPictureById", sp_args);
             }
             return mAccountEventPicture;
         }
@@ -84,7 +84,7 @@ public partial class AccountEventPictureView : Page
             {
                 object[] as_args = { SessionManager.Ticket, AccountEventPicture.AccountEventId, SessionManager.UtcOffset };
                 mAccountEvent = SessionManager.GetCachedItem<TransitAccountEvent>(
-                    EventService, "GetAccountEventById", as_args);
+                    SessionManager.EventService, "GetAccountEventById", as_args);
             }
             return mAccountEvent;
         }
@@ -95,7 +95,7 @@ public partial class AccountEventPictureView : Page
         object[] p_args = { AccountEvent.Id };
         picturesView.CurrentPageIndex = 0;
         picturesView.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            EventService, "GetAccountEventPicturesCountById", p_args);
+            SessionManager.EventService, "GetAccountEventPicturesCountById", p_args);
         picturesView_OnGetDataSource(sender, e);
         picturesView.DataBind();
     }
@@ -129,7 +129,7 @@ public partial class AccountEventPictureView : Page
         labelIndex.Text = string.Format("{0} / {1}", p.Index + 1, p.Count);
 
         discussionComments.ReturnUrl = string.Format("AccountEventPictureView.aspx?id={0}", PictureId);
-        discussionComments.DiscussionId = DiscussionService.GetAccountEventPictureDiscussionId(PictureId);
+        discussionComments.DiscussionId = SessionManager.DiscussionService.GetAccountEventPictureDiscussionId(PictureId);
         discussionComments.DataBind();
     }
 
@@ -158,7 +158,7 @@ public partial class AccountEventPictureView : Page
             ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
             object[] args = { AccountEvent.Id, options };
             picturesView.DataSource = SessionManager.GetCachedCollection<TransitAccountEventPicture>(
-                EventService, "GetAccountEventPicturesById", args);
+                SessionManager.EventService, "GetAccountEventPicturesById", args);
         }
         catch (Exception ex)
         {

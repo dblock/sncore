@@ -48,7 +48,7 @@ public partial class AccountWebsitesViewControl : Control
         accountWebsites.CurrentPageIndex = 0;
         object[] args = { AccountId };
         accountWebsites.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            AccountService, "GetAccountWebsitesCountById", args);
+            SessionManager.AccountService, "GetAccountWebsitesCountById", args);
         accountWebsites_OnGetDataSource(sender, e);
         accountWebsites.DataBind();
         this.Visible = (accountWebsites.VirtualItemCount > 0);
@@ -59,7 +59,7 @@ public partial class AccountWebsitesViewControl : Control
         ServiceQueryOptions options = new ServiceQueryOptions(accountWebsites.PageSize, accountWebsites.CurrentPageIndex);
         object[] args = { AccountId, options };
         accountWebsites.DataSource = SessionManager.GetCachedCollection<TransitAccountWebsite>(
-            AccountService, "GetAccountWebsitesById", args);
+            SessionManager.AccountService, "GetAccountWebsitesById", args);
         panelGrid.Update();
     }
 }

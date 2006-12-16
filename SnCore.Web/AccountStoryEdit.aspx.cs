@@ -32,7 +32,7 @@ public partial class AccountStoryEdit : AuthenticatedPage
 
                 if (RequestId > 0)
                 {
-                    TransitAccountStory ts = StoryService.GetAccountStoryById(
+                    TransitAccountStory ts = SessionManager.StoryService.GetAccountStoryById(
                         SessionManager.Ticket, RequestId);
 
                     inputName.Text = ts.Name;
@@ -56,7 +56,7 @@ public partial class AccountStoryEdit : AuthenticatedPage
                 GetImagesData(sender, e);
             }
 
-            if (!AccountService.HasVerifiedEmail(SessionManager.Ticket))
+            if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket))
             {
                 ReportWarning("You don't have any verified e-mail addresses.\n" +
                     "You must add/confirm a valid e-mail address before posting stories.");
@@ -74,7 +74,7 @@ public partial class AccountStoryEdit : AuthenticatedPage
 
     public void GetImagesData(object sender, EventArgs e)
     {
-        gridManage.DataSource = StoryService.GetAccountStoryPictures(SessionManager.Ticket, RequestId, null);
+        gridManage.DataSource = SessionManager.StoryService.GetAccountStoryPictures(SessionManager.Ticket, RequestId, null);
         gridManage.DataBind();
     }
 
@@ -87,16 +87,16 @@ public partial class AccountStoryEdit : AuthenticatedPage
             switch (e.CommandName)
             {
                 case "Delete":
-                    StoryService.DeleteAccountStoryPicture(SessionManager.Ticket, id);
+                    SessionManager.StoryService.DeleteAccountStoryPicture(SessionManager.Ticket, id);
                     ReportInfo("Image deleted.");
                     GetImagesData(source, e);
                     break;
                 case "Up":
-                    StoryService.MoveAccountStoryPicture(SessionManager.Ticket, id, -1);
+                    SessionManager.StoryService.MoveAccountStoryPicture(SessionManager.Ticket, id, -1);
                     GetImagesData(source, e);
                     break;
                 case "Down":
-                    StoryService.MoveAccountStoryPicture(SessionManager.Ticket, id, 1);
+                    SessionManager.StoryService.MoveAccountStoryPicture(SessionManager.Ticket, id, 1);
                     GetImagesData(source, e);
                     break;
                 case "Insert":
@@ -120,7 +120,7 @@ public partial class AccountStoryEdit : AuthenticatedPage
             s.Summary = inputSummary.Text;
             s.Publish = inputPublish.Checked;
             s.Id = RequestId;
-            s.Id = StoryService.AddAccountStory(SessionManager.Ticket, s);
+            s.Id = SessionManager.StoryService.AddAccountStory(SessionManager.Ticket, s);
             Redirect(string.Format("AccountStoryView.aspx?id={0}", s.Id));
         }
         catch (Exception ex)

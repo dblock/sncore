@@ -22,7 +22,7 @@ public partial class SystemPlacePropertyEdit : AuthenticatedPage
         {
             if (mPropertyGroup == null)
             {
-                mPropertyGroup = PlaceService.GetPlacePropertyGroupById(PropertyGroupId);
+                mPropertyGroup = SessionManager.PlaceService.GetPlacePropertyGroupById(PropertyGroupId);
             }
 
             return mPropertyGroup;
@@ -59,7 +59,7 @@ public partial class SystemPlacePropertyEdit : AuthenticatedPage
                     
                 if (RequestId > 0)
                 {
-                    TransitPlaceProperty t = PlaceService.GetPlacePropertyById(RequestId);
+                    TransitPlaceProperty t = SessionManager.PlaceService.GetPlacePropertyById(RequestId);
                     inputName.Text = t.Name;
                     inputDescription.Text = t.Description;
                     inputDefaultValue.Text = t.DefaultValue;
@@ -105,7 +105,7 @@ public partial class SystemPlacePropertyEdit : AuthenticatedPage
             t.PlacePropertyGroupId = PropertyGroupId;
             t.Publish = inputPublish.Checked;
             t.Id = RequestId;
-            PlaceService.CreateOrUpdatePlaceProperty(SessionManager.Ticket, t);
+            SessionManager.PlaceService.CreateOrUpdatePlaceProperty(SessionManager.Ticket, t);
             Redirect(linkBack.NavigateUrl);
         }
         catch (Exception ex)

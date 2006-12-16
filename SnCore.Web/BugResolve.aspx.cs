@@ -21,11 +21,11 @@ public partial class BugResolve : Page
 
             if (!IsPostBack)
             {
-                selectResolution.DataSource = BugService.GetBugResolutions();
+                selectResolution.DataSource = SessionManager.BugService.GetBugResolutions();
                 selectResolution.DataBind();
 
-                TransitBug bug = BugService.GetBugById(RequestId);
-                TransitBugProject project = BugService.GetBugProjectById(bug.ProjectId);
+                TransitBug bug = SessionManager.BugService.GetBugById(RequestId);
+                TransitBugProject project = SessionManager.BugService.GetBugProjectById(bug.ProjectId);
 
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
                 sitemapdata.Add(new SiteMapDataAttributeNode("Bugs", Request, "BugProjectsManage.aspx"));
@@ -47,7 +47,7 @@ public partial class BugResolve : Page
     {
         try
         {
-            BugService.ResolveBug(SessionManager.Ticket, RequestId, selectResolution.SelectedValue, inputNote.Text);
+            SessionManager.BugService.ResolveBug(SessionManager.Ticket, RequestId, selectResolution.SelectedValue, inputNote.Text);
             Redirect(string.Format("BugView.aspx?id={0}", RequestId));
         }
         catch (Exception ex)

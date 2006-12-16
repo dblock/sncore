@@ -35,7 +35,7 @@ public partial class AccountsNewViewControl : Control
             {
                 object[] args = { Count };
                 accounts.DataSource = SessionManager.GetCachedCollection<TransitAccount>(
-                    SocialService, "GetNewAccounts", args);
+                    SessionManager.SocialService, "GetNewAccounts", args);
                 accounts.RepeatColumns = Count;
                 accounts.DataBind();
             }

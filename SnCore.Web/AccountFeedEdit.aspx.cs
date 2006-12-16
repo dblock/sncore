@@ -32,7 +32,7 @@ public partial class AccountFeedEdit : AuthenticatedPage
 
                 ArrayList types = new ArrayList();
                 types.Add(new TransitFeedType());
-                types.AddRange(SyndicationService.GetFeedTypes());
+                types.AddRange(SessionManager.SyndicationService.GetFeedTypes());
                 inputFeedType.DataSource = types;
                 inputFeedType.DataBind();
 
@@ -45,7 +45,7 @@ public partial class AccountFeedEdit : AuthenticatedPage
 
                 if (RequestId > 0)
                 {
-                    TransitAccountFeed tf = SyndicationService.GetAccountFeedById(
+                    TransitAccountFeed tf = SessionManager.SyndicationService.GetAccountFeedById(
                         SessionManager.Ticket, RequestId);
 
                     inputName.Text = tf.Name;
@@ -152,7 +152,7 @@ public partial class AccountFeedEdit : AuthenticatedPage
             s.LinkUrl = inputLinkUrl.Text;
             s.Publish = inputPublish.Checked;
             s.PublishImgs = inputPublishImgs.Checked;
-            SyndicationService.CreateOrUpdateAccountFeed(SessionManager.Ticket, s);
+            SessionManager.SyndicationService.CreateOrUpdateAccountFeed(SessionManager.Ticket, s);
             Redirect("AccountFeedsManage.aspx");
         }
         catch (Exception ex)

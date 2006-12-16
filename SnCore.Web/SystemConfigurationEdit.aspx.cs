@@ -29,7 +29,7 @@ public partial class SystemConfigurationEdit : AuthenticatedPage
 
                 if (id > 0)
                 {
-                    TransitConfiguration tw = SystemService.GetConfigurationById(id);
+                    TransitConfiguration tw = SessionManager.SystemService.GetConfigurationById(id);
                     inputName.Text = Renderer.Render(tw.Name);
                     inputValue.Text = Renderer.Render(tw.Value);
                     inputPassword.Checked = tw.Password;
@@ -60,7 +60,7 @@ public partial class SystemConfigurationEdit : AuthenticatedPage
             tw.Id = RequestId;
             tw.Value = inputValue.Text;
             tw.Password = inputPassword.Checked;
-            SystemService.AddConfiguration(SessionManager.Ticket, tw);
+            SessionManager.SystemService.AddConfiguration(SessionManager.Ticket, tw);
             Page.Cache.Remove(string.Format("settings:{0}", tw.Name));
             Redirect("SystemConfigurationsManage.aspx");
         }

@@ -22,7 +22,7 @@ public abstract class PlacePicturePage : PicturePage
     {
         object[] args = { ticket, id, ifModifiedSince };
         TransitPlacePictureWithBitmap p = SessionManager.GetCachedItem<TransitPlacePictureWithBitmap>(
-            PlaceService, "GetPlacePictureWithBitmapByIdIfModifiedSince", args);
+            SessionManager.PlaceService, "GetPlacePictureWithBitmapByIdIfModifiedSince", args);
 
         if (p == null)
             return null;
@@ -40,7 +40,7 @@ public abstract class PlacePicturePage : PicturePage
     {
         object[] args = { ticket, id, ifModifiedSince };
         TransitPlacePictureWithThumbnail p = SessionManager.GetCachedItem<TransitPlacePictureWithThumbnail>(
-            PlaceService, "GetPlacePictureWithThumbnailByIdIfModifiedSince", args);
+            SessionManager.PlaceService, "GetPlacePictureWithThumbnailByIdIfModifiedSince", args);
 
         if (p == null)
             return null;
@@ -58,7 +58,7 @@ public abstract class PlacePicturePage : PicturePage
     {
         object[] args = { ticket, id };
         TransitPlacePictureWithBitmap p = SessionManager.GetCachedItem<TransitPlacePictureWithBitmap>(
-            PlaceService, "GetPlacePictureWithBitmapById", args);
+            SessionManager.PlaceService, "GetPlacePictureWithBitmapById", args);
 
         if (p == null)
             return null;
@@ -76,7 +76,7 @@ public abstract class PlacePicturePage : PicturePage
     {
         object[] args = { ticket, id };
         TransitPlacePictureWithThumbnail p = SessionManager.GetCachedItem<TransitPlacePictureWithThumbnail>(
-            PlaceService, "GetPlacePictureWithThumbnailById", args);
+            SessionManager.PlaceService, "GetPlacePictureWithThumbnailById", args);
 
         if (p == null)
             return null;

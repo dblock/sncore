@@ -37,7 +37,7 @@ public partial class SystemDiscussionsManage : AuthenticatedPage
     private void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = DiscussionService.GetAccountDiscussionsCount(SessionManager.Ticket);
+        gridManage.VirtualItemCount = SessionManager.DiscussionService.GetAccountDiscussionsCount(SessionManager.Ticket);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -45,7 +45,7 @@ public partial class SystemDiscussionsManage : AuthenticatedPage
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
         ServiceQueryOptions options = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
-        gridManage.DataSource = DiscussionService.GetAccountDiscussions(SessionManager.Ticket, options);
+        gridManage.DataSource = SessionManager.DiscussionService.GetAccountDiscussions(SessionManager.Ticket, options);
     }
 
 
@@ -62,7 +62,7 @@ public partial class SystemDiscussionsManage : AuthenticatedPage
             {
                 case "Delete":
                     int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                    DiscussionService.DeleteDiscussion(SessionManager.Ticket, id);
+                    SessionManager.DiscussionService.DeleteDiscussion(SessionManager.Ticket, id);
                     ReportInfo("Discussion deleted.");
                     GetData(sender, e);
                     break;

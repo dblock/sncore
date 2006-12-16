@@ -26,10 +26,10 @@ public partial class AccountOpenIdsManage : AuthenticatedPage
                 if (!string.IsNullOrEmpty(openidmode))
                 {
                     NameValueCollectionSerializer serializer = new NameValueCollectionSerializer(Request.Params);
-                    string consumerid = AccountService.VerifyOpenId(SessionManager.OpenIdToken, serializer.Names, serializer.Values);
+                    string consumerid = SessionManager.AccountService.VerifyOpenId(SessionManager.OpenIdToken, serializer.Names, serializer.Values);
                     TransitAccountOpenId to = new TransitAccountOpenId();
                     to.IdentityUrl = consumerid;
-                    AccountService.AddAccountOpenId(SessionManager.Ticket, to);
+                    SessionManager.AccountService.AddAccountOpenId(SessionManager.Ticket, to);
                     Redirect(Request.Path);
                     return;
                 }
@@ -53,7 +53,7 @@ public partial class AccountOpenIdsManage : AuthenticatedPage
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        gridManage.DataSource = AccountService.GetAccountOpenIds(SessionManager.Ticket);
+        gridManage.DataSource = SessionManager.AccountService.GetAccountOpenIds(SessionManager.Ticket);
     }
 
 
@@ -71,7 +71,7 @@ public partial class AccountOpenIdsManage : AuthenticatedPage
             switch (e.CommandName)
             {
                 case "Delete":
-                    AccountService.DeleteAccountOpenId(SessionManager.Ticket, id);
+                    SessionManager.AccountService.DeleteAccountOpenId(SessionManager.Ticket, id);
                     ReportInfo("OpenId deleted.");
                     gridManage.CurrentPageIndex = 0;
                     gridManage_OnGetDataSource(sender, e);
@@ -89,7 +89,7 @@ public partial class AccountOpenIdsManage : AuthenticatedPage
     {
         try
         {
-            TransitOpenIdRedirect r = AccountService.GetOpenIdRedirect(inputOpenIdIdentityUrl.Text, Request.Url.ToString());
+            TransitOpenIdRedirect r = SessionManager.AccountService.GetOpenIdRedirect(inputOpenIdIdentityUrl.Text, Request.Url.ToString());
             SessionManager.OpenIdToken = r.Token;
             Redirect(r.Url);
         }

@@ -35,7 +35,7 @@ public partial class AccountBlogEdit : AuthenticatedPage
 
                 if (RequestId > 0)
                 {
-                    TransitAccountBlog tf = BlogService.GetAccountBlogById(
+                    TransitAccountBlog tf = SessionManager.BlogService.GetAccountBlogById(
                         SessionManager.Ticket, RequestId);
 
                     inputName.Text = tf.Name;
@@ -74,7 +74,7 @@ public partial class AccountBlogEdit : AuthenticatedPage
     private void GetBlogPostsData(object sender, EventArgs e)
     {
         gridManagePosts.CurrentPageIndex = 0;
-        gridManagePosts.VirtualItemCount = BlogService.GetAccountBlogPostsCountById(RequestId);
+        gridManagePosts.VirtualItemCount = SessionManager.BlogService.GetAccountBlogPostsCountById(RequestId);
         gridManagePosts_OnGetDataSource(this, null);
         gridManagePosts.DataBind();
     }
@@ -82,7 +82,7 @@ public partial class AccountBlogEdit : AuthenticatedPage
     private void GetBlogAuthorsData(object sender, EventArgs e)
     {
         gridManageAuthors.CurrentPageIndex = 0;
-        gridManageAuthors.VirtualItemCount = BlogService.GetAccountBlogAuthorsCountById(RequestId);
+        gridManageAuthors.VirtualItemCount = SessionManager.BlogService.GetAccountBlogAuthorsCountById(RequestId);
         gridManageAuthors_OnGetDataSource(this, null);
         gridManageAuthors.DataBind();
     }
@@ -96,9 +96,9 @@ public partial class AccountBlogEdit : AuthenticatedPage
             s.Name = inputName.Text;
             s.Description = inputDescription.Text;
             s.AccountId = SessionManager.Account.Id;
-            s.Id = BlogService.CreateOrUpdateAccountBlog(SessionManager.Ticket, s);
+            s.Id = SessionManager.BlogService.CreateOrUpdateAccountBlog(SessionManager.Ticket, s);
             // automatically syndicate the blog
-            BlogService.SyndicateAccountBlog(SessionManager.Ticket, s.Id);
+            SessionManager.BlogService.SyndicateAccountBlog(SessionManager.Ticket, s.Id);
             Redirect("AccountBlogsManage.aspx");
         }
         catch (Exception ex)
@@ -119,7 +119,7 @@ public partial class AccountBlogEdit : AuthenticatedPage
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridManagePosts.CurrentPageIndex;
             options.PageSize = gridManagePosts.PageSize;
-            gridManagePosts.DataSource = BlogService.GetAccountBlogPostsById(SessionManager.Ticket, RequestId, options);
+            gridManagePosts.DataSource = SessionManager.BlogService.GetAccountBlogPostsById(SessionManager.Ticket, RequestId, options);
         }
         catch (Exception ex)
         {
@@ -134,7 +134,7 @@ public partial class AccountBlogEdit : AuthenticatedPage
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridManageAuthors.CurrentPageIndex;
             options.PageSize = gridManageAuthors.PageSize;
-            gridManageAuthors.DataSource = BlogService.GetAccountBlogAuthorsById(RequestId, options);
+            gridManageAuthors.DataSource = SessionManager.BlogService.GetAccountBlogAuthorsById(RequestId, options);
         }
         catch (Exception ex)
         {
@@ -150,7 +150,7 @@ public partial class AccountBlogEdit : AuthenticatedPage
             {
                 case "Delete":
                     int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                    BlogService.DeleteAccountBlogPost(SessionManager.Ticket, id);
+                    SessionManager.BlogService.DeleteAccountBlogPost(SessionManager.Ticket, id);
                     ReportInfo("Blog post deleted.");
                     gridManagePosts.CurrentPageIndex = 0;
                     gridManagePosts_OnGetDataSource(sender, e);
@@ -172,7 +172,7 @@ public partial class AccountBlogEdit : AuthenticatedPage
             switch (e.CommandName)
             {
                 case "Delete":
-                    BlogService.DeleteAccountBlogAuthor(SessionManager.Ticket, id);
+                    SessionManager.BlogService.DeleteAccountBlogAuthor(SessionManager.Ticket, id);
                     ReportInfo("Blog author removed.");
                     gridManageAuthors.CurrentPageIndex = 0;
                     gridManageAuthors_OnGetDataSource(sender, e);

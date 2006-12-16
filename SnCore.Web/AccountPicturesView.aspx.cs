@@ -28,7 +28,7 @@ public partial class AccountPicturesView : Page
 
             if (!IsPostBack)
             {
-                TransitAccount a = AccountService.GetAccountById(RequestId);
+                TransitAccount a = SessionManager.AccountService.GetAccountById(RequestId);
                 this.Title = string.Format("{0}'s Pictures", Renderer.Render(a.Name));
         
                 GetData(sender, e);
@@ -53,7 +53,7 @@ public partial class AccountPicturesView : Page
         object[] p_args = { RequestId, ap };
         gridManage.CurrentPageIndex = 0;
         gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            AccountService, "GetAccountPicturesCountById", p_args);
+            SessionManager.AccountService, "GetAccountPicturesCountById", p_args);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -69,7 +69,7 @@ public partial class AccountPicturesView : Page
             options.PageNumber = gridManage.CurrentPageIndex;
             object[] args = { RequestId, ap, options };
             gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountPicture>(
-                AccountService, "GetAccountPicturesById", args);
+                SessionManager.AccountService, "GetAccountPicturesById", args);
         }
         catch (Exception ex)
         {

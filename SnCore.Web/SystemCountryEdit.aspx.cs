@@ -28,7 +28,7 @@ public partial class SystemCountryEdit : AuthenticatedPage
 
                 if (id > 0)
                 {
-                    TransitCountry tw = LocationService.GetCountryById(id);
+                    TransitCountry tw = SessionManager.LocationService.GetCountryById(id);
                     inputName.Text = Renderer.Render(tw.Name);
                     sitemapdata.Add(new SiteMapDataAttributeNode(tw.Name, Request.Url));
                 }
@@ -55,7 +55,7 @@ public partial class SystemCountryEdit : AuthenticatedPage
             TransitCountry tw = new TransitCountry();
             tw.Name = inputName.Text;
             tw.Id = RequestId;
-            LocationService.AddCountry(SessionManager.Ticket, tw);
+            SessionManager.LocationService.AddCountry(SessionManager.Ticket, tw);
             Redirect("SystemCountriesManage.aspx");
         }
         catch (Exception ex)

@@ -47,7 +47,7 @@ public partial class AccountSurveysViewControl : Control
     {
         object[] args = { AccountId };
         accountSurveys.DataSource = SessionManager.GetCachedCollection<TransitSurvey>(
-            AccountService, "GetAccountSurveysById", args);
+            SessionManager.AccountService, "GetAccountSurveysById", args);
     }
 
 }

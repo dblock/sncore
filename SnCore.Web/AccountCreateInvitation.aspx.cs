@@ -23,7 +23,7 @@ public partial class AccountCreateInvitation : Page
 
             if (!IsPostBack)
             {
-                TransitAccountInvitation invitation = AccountService.GetAccountInvitationById(
+                TransitAccountInvitation invitation = SessionManager.AccountService.GetAccountInvitationById(
                     SessionManager.Ticket, RequestId);
 
                 inputEmailAddress.Text = invitation.Email;
@@ -48,7 +48,7 @@ public partial class AccountCreateInvitation : Page
             ta.Name = inputName.Text;
             ta.Birthday = inputBirthday.SelectedDate;
 
-            AccountService.CreateAccountInvitation(
+            SessionManager.AccountService.CreateAccountInvitation(
                 RequestId,
                 Request.QueryString["code"],
                 inputPassword.Text,
@@ -57,7 +57,7 @@ public partial class AccountCreateInvitation : Page
 
             panelCreate.Visible = false;
 
-            string ticket = AccountService.Login(inputEmailAddress.Text, inputPassword.Text);
+            string ticket = SessionManager.AccountService.Login(inputEmailAddress.Text, inputPassword.Text);
             SessionManager.Login(ticket, false);
             Redirect("AccountCreateInvitationWelcome.aspx");
         }

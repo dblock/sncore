@@ -53,13 +53,13 @@ public partial class PlaceEdit : AuthenticatedPage
 
                 ArrayList types = new ArrayList();
                 types.Add(new TransitAccountPlaceType());
-                types.AddRange(PlaceService.GetPlaceTypes());
+                types.AddRange(SessionManager.PlaceService.GetPlaceTypes());
                 selectType.DataSource = types;
                 selectType.DataBind();
 
                 if (RequestId > 0)
                 {
-                    TransitPlace place = PlaceService.GetPlaceById(SessionManager.Ticket, RequestId);
+                    TransitPlace place = SessionManager.PlaceService.GetPlaceById(SessionManager.Ticket, RequestId);
                     labelName.Text = Renderer.Render(place.Name);
                     inputName.Text = place.Name;
                     inputDescription.Text = place.Description;
@@ -102,7 +102,7 @@ public partial class PlaceEdit : AuthenticatedPage
                 StackSiteMap(sitemapdata);
             }
 
-            if (!AccountService.HasVerifiedEmail(SessionManager.Ticket))
+            if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket))
             {
                 ReportWarning("You don't have any verified e-mail addresses.\n" +
                     "You must add/confirm a valid e-mail address before submitting places.");
@@ -142,7 +142,7 @@ public partial class PlaceEdit : AuthenticatedPage
             t.Neighborhood = inputNeighborhood.Text;
             t.State = inputState.SelectedValue;
             t.Country = inputCountry.SelectedValue;
-            int place_id = PlaceService.CreateOrUpdatePlace(SessionManager.Ticket, t);
+            int place_id = SessionManager.PlaceService.CreateOrUpdatePlace(SessionManager.Ticket, t);
 
             ppg.PlaceId = place_id;
             ppg.save_Click(sender, e);
@@ -157,7 +157,7 @@ public partial class PlaceEdit : AuthenticatedPage
 
     void gridPlaceNamesManage_OnGetDataSource(object sender, EventArgs e)
     {
-        gridPlaceNamesManage.DataSource = PlaceService.GetPlaceNames(RequestId);
+        gridPlaceNamesManage.DataSource = SessionManager.PlaceService.GetPlaceNames(RequestId);
     }
 
     public void altname_save_Click(object sender, EventArgs e)
@@ -167,7 +167,7 @@ public partial class PlaceEdit : AuthenticatedPage
             TransitPlaceName tn = new TransitPlaceName();
             tn.Name = inputAltName.Text;
             tn.PlaceId = RequestId;
-            PlaceService.CreateOrUpdatePlaceName(SessionManager.Ticket, tn);
+            SessionManager.PlaceService.CreateOrUpdatePlaceName(SessionManager.Ticket, tn);
             ReportInfo("Alternate name added.");
             gridPlaceNamesManage_OnGetDataSource(sender, e);
             gridPlaceNamesManage.DataBind();
@@ -192,7 +192,7 @@ public partial class PlaceEdit : AuthenticatedPage
             switch (e.CommandName)
             {
                 case "Delete":
-                    PlaceService.DeletePlaceName(SessionManager.Ticket, id);
+                    SessionManager.PlaceService.DeletePlaceName(SessionManager.Ticket, id);
                     ReportInfo("Alternate place name deleted.");
                     gridPlaceNamesManage.CurrentPageIndex = 0;
                     gridPlaceNamesManage_OnGetDataSource(sender, e);
@@ -210,7 +210,7 @@ public partial class PlaceEdit : AuthenticatedPage
     {
         try
         {
-            PlaceService.DeletePlace(SessionManager.Ticket, RequestId);
+            SessionManager.PlaceService.DeletePlace(SessionManager.Ticket, RequestId);
             Redirect("AccountPlacesManage.aspx");
         }
         catch (Exception ex)
@@ -246,7 +246,7 @@ public partial class PlaceEdit : AuthenticatedPage
             options.PageSize = 10;
             object[] args = { inputName.Text, options };
             gridLookupPlaces.DataSource = SessionManager.GetCachedCollection<TransitPlace>(
-                PlaceService, "SearchPlaces", args);
+                SessionManager.PlaceService, "SearchPlaces", args);
             gridLookupPlaces.DataBind();
 
             if (gridLookupPlaces.Items.Count == 0)

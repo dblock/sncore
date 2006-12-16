@@ -26,7 +26,7 @@ public partial class AccountFeedView : Page
             {
                 object[] args = { "AccountFeed", RequestId };
                 mAccountFeedFeature = SessionManager.GetCachedItem<TransitFeature>(
-                    SystemService, "FindLatestFeature", args);                
+                    SessionManager.SystemService, "FindLatestFeature", args);                
             }
             return mAccountFeedFeature;
         }
@@ -40,7 +40,7 @@ public partial class AccountFeedView : Page
             {
                 object[] args = { SessionManager.Ticket, RequestId }; 
                 mAccountFeed = SessionManager.GetCachedItem<TransitAccountFeed>(
-                    SyndicationService, "GetAccountFeedById", args);
+                    SessionManager.SyndicationService, "GetAccountFeedById", args);
             }
             return mAccountFeed;
         }
@@ -64,13 +64,13 @@ public partial class AccountFeedView : Page
 
                 object[] f_args = { f.FeedType };
                 TransitFeedType t = SessionManager.GetCachedItem<TransitFeedType>(
-                    SyndicationService, "GetFeedTypeByName", f_args);
+                    SessionManager.SyndicationService, "GetFeedTypeByName", f_args);
                 gridManage.RepeatColumns = t.SpanColumns;
                 gridManage.RepeatRows = t.SpanRows;
 
                 object[] a_args = { f.AccountId };
                 TransitAccount a = SessionManager.GetCachedItem<TransitAccount>(
-                    AccountService, "GetAccountById", a_args);
+                    SessionManager.AccountService, "GetAccountById", a_args);
 
                 labelAccountName.Text = Renderer.Render(a.Name);
                 linkAccount.HRef = string.Format("AccountView.aspx?id={0}", a.Id);
@@ -79,7 +79,8 @@ public partial class AccountFeedView : Page
                 this.Title = string.Format("{0}'s {1}", Renderer.Render(a.Name), Renderer.Render(f.Name));
 
                 object[] args = { RequestId };
-                gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(SyndicationService, "GetAccountFeedItemsCountById", args);
+                gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+                    SessionManager.SyndicationService, "GetAccountFeedItemsCountById", args);
                 gridManage_OnGetDataSource(sender, e);
                 gridManage.DataBind();
 
@@ -122,7 +123,7 @@ public partial class AccountFeedView : Page
             options.PageSize = gridManage.PageSize;
             object[] args = { RequestId, options };
             gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountFeedItem>(
-                SyndicationService, "GetAccountFeedItemsById", args);
+                SessionManager.SyndicationService, "GetAccountFeedItemsById", args);
         }
         catch (Exception ex)
         {
@@ -160,7 +161,7 @@ public partial class AccountFeedView : Page
             TransitFeature t_feature = new TransitFeature();
             t_feature.DataObjectName = "AccountFeed";
             t_feature.DataRowId = RequestId;
-            SystemService.CreateOrUpdateFeature(SessionManager.Ticket, t_feature);
+            SessionManager.SystemService.CreateOrUpdateFeature(SessionManager.Ticket, t_feature);
             GetDataFeature(sender, e);
             panelAdminUpdate.Update();
         }
@@ -183,7 +184,7 @@ public partial class AccountFeedView : Page
             TransitFeature t_feature = new TransitFeature();
             t_feature.DataObjectName = "AccountFeed";
             t_feature.DataRowId = RequestId;
-            SystemService.DeleteAllFeatures(SessionManager.Ticket, t_feature);
+            SessionManager.SystemService.DeleteAllFeatures(SessionManager.Ticket, t_feature);
             GetDataFeature(sender, e);
             panelAdminUpdate.Update();
         }
@@ -204,7 +205,7 @@ public partial class AccountFeedView : Page
             }
 
             AccountFeed.Publish = !AccountFeed.Publish;
-            SyndicationService.CreateOrUpdateAccountFeed(SessionManager.Ticket, AccountFeed);
+            SessionManager.SyndicationService.CreateOrUpdateAccountFeed(SessionManager.Ticket, AccountFeed);
             GetDataPublish(sender, e);
             panelAdminUpdate.Update();
         }
@@ -225,7 +226,7 @@ public partial class AccountFeedView : Page
             }
 
             AccountFeed.PublishImgs = !AccountFeed.PublishImgs;
-            SyndicationService.CreateOrUpdateAccountFeed(SessionManager.Ticket, AccountFeed);
+            SessionManager.SyndicationService.CreateOrUpdateAccountFeed(SessionManager.Ticket, AccountFeed);
             GetDataPublish(sender, e);
             panelAdminUpdate.Update();
         }

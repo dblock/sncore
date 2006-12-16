@@ -47,7 +47,8 @@ public partial class PlaceFeaturedViewControl : Control
             if (mFeature == null)
             {
                 object[] args = { "Place" };
-                mFeature = SessionManager.GetCachedItem<TransitFeature>(SystemService, "GetLatestFeature", args);
+                mFeature = SessionManager.GetCachedItem<TransitFeature>(
+                    SessionManager.SystemService, "GetLatestFeature", args);
             }
 
             return mFeature;
@@ -61,7 +62,8 @@ public partial class PlaceFeaturedViewControl : Control
             if (mPlace == null)
             {
                 object[] args = { SessionManager.Ticket, Feature.DataRowId };
-                mPlace = SessionManager.GetCachedItem<TransitPlace>(PlaceService, "GetPlaceById", args);
+                mPlace = SessionManager.GetCachedItem<TransitPlace>(
+                    SessionManager.PlaceService, "GetPlaceById", args);
             }
 
             return mPlace;

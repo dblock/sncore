@@ -27,7 +27,7 @@ public partial class SystemPlacePropertyGroupEdit : AuthenticatedPage
 
                 if (RequestId > 0)
                 {
-                    TransitPlacePropertyGroup t = PlaceService.GetPlacePropertyGroupById(RequestId);
+                    TransitPlacePropertyGroup t = SessionManager.PlaceService.GetPlacePropertyGroupById(RequestId);
                     inputName.Text = t.Name;
                     inputDescription.Text = t.Description;
                     gridProperties_OnGetDataSource(this, null);
@@ -60,7 +60,7 @@ public partial class SystemPlacePropertyGroupEdit : AuthenticatedPage
             t.Name = inputName.Text;
             t.Description = inputDescription.Text;
             t.Id = RequestId;
-            PlaceService.CreateOrUpdatePlacePropertyGroup(SessionManager.Ticket, t);
+            SessionManager.PlaceService.CreateOrUpdatePlacePropertyGroup(SessionManager.Ticket, t);
             Redirect("SystemPlacePropertyGroupsManage.aspx");
         }
         catch (Exception ex)
@@ -73,7 +73,7 @@ public partial class SystemPlacePropertyGroupEdit : AuthenticatedPage
     {
         try
         {
-            gridProperties.DataSource = PlaceService.GetPlaceProperties(RequestId);
+            gridProperties.DataSource = SessionManager.PlaceService.GetPlaceProperties(RequestId);
         }
         catch (Exception ex)
         {
@@ -100,7 +100,7 @@ public partial class SystemPlacePropertyGroupEdit : AuthenticatedPage
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            PlaceService.DeletePlaceProperty(SessionManager.Ticket, id);
+                            SessionManager.PlaceService.DeletePlaceProperty(SessionManager.Ticket, id);
                             ReportInfo("Place property deleted.");
                             gridProperties.CurrentPageIndex = 0;
                             gridProperties_OnGetDataSource(source, e);

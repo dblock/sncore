@@ -42,7 +42,7 @@ public partial class PlacesManage : AuthenticatedPage
         try
         {
             TransitPlaceQueryOptions options = new TransitPlaceQueryOptions();
-            gridManage.DataSource = PlaceService.GetPlaces(options, null);
+            gridManage.DataSource = SessionManager.PlaceService.GetPlaces(options, null);
         }
         catch (Exception ex)
         {
@@ -70,7 +70,7 @@ public partial class PlacesManage : AuthenticatedPage
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            PlaceService.DeletePlace(SessionManager.Ticket, id);
+                            SessionManager.PlaceService.DeletePlace(SessionManager.Ticket, id);
                             ReportInfo("Place deleted.");
                             gridManage.CurrentPageIndex = 0;
                             gridManage_OnGetDataSource(source, e);

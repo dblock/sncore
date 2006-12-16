@@ -68,7 +68,8 @@ public partial class AccountSurveyView : Page
                 object[] args = { AccountId };
                 mAccount = (SessionManager.Account != null && AccountId == SessionManager.Account.Id)
                     ? SessionManager.Account
-                    : SessionManager.GetCachedItem<TransitAccount>(AccountService, "GetAccountById", args);
+                    : SessionManager.GetCachedItem<TransitAccount>(
+                        SessionManager.AccountService, "GetAccountById", args);
             }
             return mAccount;
         }
@@ -80,7 +81,7 @@ public partial class AccountSurveyView : Page
         {
             if (mSurvey == null)
             {
-                mSurvey = SystemService.GetSurveyById(SurveyId);
+                mSurvey = SessionManager.SystemService.GetSurveyById(SurveyId);
             }
 
             return mSurvey;
@@ -91,7 +92,7 @@ public partial class AccountSurveyView : Page
     {
         object[] args = { AccountId, SurveyId };
         accountSurveyAnswers.DataSource = SessionManager.GetCachedCollection<TransitAccountSurveyAnswer>(
-            AccountService, "GetAccountSurveyAnswersById", args);
+            SessionManager.AccountService, "GetAccountSurveyAnswersById", args);
     }
 
     public int AccountId

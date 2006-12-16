@@ -22,7 +22,7 @@ public abstract class AccountPicturePage : PicturePage
     {
         object[] args = { ticket, id, ifModifiedSince };
         TransitAccountPictureWithBitmap p = SessionManager.GetCachedItem<TransitAccountPictureWithBitmap>(
-            AccountService, "GetAccountPictureWithBitmapByIdIfModifiedSince", args);
+            SessionManager.AccountService, "GetAccountPictureWithBitmapByIdIfModifiedSince", args);
 
         if (p == null)
             return null;
@@ -40,7 +40,7 @@ public abstract class AccountPicturePage : PicturePage
     {
         object[] args = { ticket, id, ifModifiedSince };
         TransitAccountPictureWithThumbnail p = SessionManager.GetCachedItem<TransitAccountPictureWithThumbnail>(
-            AccountService, "GetAccountPictureWithThumbnailByIdIfModifiedSince", args);
+            SessionManager.AccountService, "GetAccountPictureWithThumbnailByIdIfModifiedSince", args);
 
         if (p == null)
             return null;
@@ -58,7 +58,7 @@ public abstract class AccountPicturePage : PicturePage
     {
         object[] args = { ticket, id };
         TransitAccountPictureWithBitmap p = SessionManager.GetCachedItem<TransitAccountPictureWithBitmap>(
-            AccountService, "GetAccountPictureWithBitmapById", args);
+            SessionManager.AccountService, "GetAccountPictureWithBitmapById", args);
 
         if (p == null)
             return null;
@@ -76,7 +76,7 @@ public abstract class AccountPicturePage : PicturePage
     {
         object[] args = { ticket, id };
         TransitAccountPictureWithThumbnail p = SessionManager.GetCachedItem<TransitAccountPictureWithThumbnail>(
-            AccountService, "GetAccountPictureWithThumbnailById", args);
+            SessionManager.AccountService, "GetAccountPictureWithThumbnailById", args);
 
         if (p == null)
             return null;
@@ -94,7 +94,7 @@ public abstract class AccountPicturePage : PicturePage
     {
         object[] args = { "Account" };
         TransitPictureWithThumbnail tp = SessionManager.GetCachedItem < TransitPictureWithThumbnail>(
-            SystemService, "GetRandomPictureWithThumbnailByType", args);
+            SessionManager.SystemService, "GetRandomPictureWithThumbnailByType", args);
 
         if (tp == null)
             return null;

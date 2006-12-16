@@ -39,7 +39,7 @@ public partial class BugPrioritiesManage : AuthenticatedPage
     {
         try
         {
-            gridManage.DataSource = BugService.GetBugPriorities();
+            gridManage.DataSource = SessionManager.BugService.GetBugPriorities();
         }
         catch (Exception ex)
         {
@@ -70,7 +70,7 @@ public partial class BugPrioritiesManage : AuthenticatedPage
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            BugService.DeleteBugPriority(SessionManager.Ticket, id);
+                            SessionManager.BugService.DeleteBugPriority(SessionManager.Ticket, id);
                             ReportInfo("Bug priority deleted.");
                             gridManage.CurrentPageIndex = 0;
                             gridManage_OnGetDataSource(source, e);

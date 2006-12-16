@@ -24,7 +24,7 @@ public partial class AccountPlaceQueueManage : AuthenticatedPage
             {
                 if (RequestId == 0)
                 {
-                    TransitPlaceQueue q = PlaceService.GetOrCreatePlaceQueueByName(
+                    TransitPlaceQueue q = SessionManager.PlaceService.GetOrCreatePlaceQueueByName(
                         SessionManager.Ticket, "My Queue");
 
                     Response.Redirect(string.Format("AccountPlaceQueueManage.aspx?id={0}", q.Id));
@@ -49,7 +49,7 @@ public partial class AccountPlaceQueueManage : AuthenticatedPage
     void GetData(object sender, EventArgs e)
     {
         queue.CurrentPageIndex = 0;
-        queue.VirtualItemCount = PlaceService.GetPlaceQueueItemsCount(SessionManager.Ticket, RequestId);
+        queue.VirtualItemCount = SessionManager.PlaceService.GetPlaceQueueItemsCount(SessionManager.Ticket, RequestId);
         queue_OnGetDataSource(this, null);
         queue.DataBind();
     }
@@ -61,7 +61,7 @@ public partial class AccountPlaceQueueManage : AuthenticatedPage
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = queue.CurrentPageIndex;
             options.PageSize = queue.PageSize;
-            queue.DataSource = PlaceService.GetPlaceQueueItems(SessionManager.Ticket, RequestId, options);
+            queue.DataSource = SessionManager.PlaceService.GetPlaceQueueItems(SessionManager.Ticket, RequestId, options);
         }
         catch (Exception ex)
         {
@@ -76,7 +76,7 @@ public partial class AccountPlaceQueueManage : AuthenticatedPage
             switch (e.CommandName)
             {
                 case "Delete":
-                    PlaceService.DeletePlaceQueueItem(SessionManager.Ticket, int.Parse(e.CommandArgument.ToString()));
+                    SessionManager.PlaceService.DeletePlaceQueueItem(SessionManager.Ticket, int.Parse(e.CommandArgument.ToString()));
                     ReportInfo("Place removed from queue.");
                     GetData(source, e);
                     break;

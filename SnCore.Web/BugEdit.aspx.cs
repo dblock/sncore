@@ -28,14 +28,14 @@ public partial class BugEdit : AuthenticatedPage
         {
             if (!IsPostBack)
             {
-                selectPriority.DataSource = BugService.GetBugPriorities();
+                selectPriority.DataSource = SessionManager.BugService.GetBugPriorities();
                 selectPriority.DataBind();
-                selectSeverity.DataSource = BugService.GetBugSeverities();
+                selectSeverity.DataSource = SessionManager.BugService.GetBugSeverities();
                 selectSeverity.DataBind();
-                selectType.DataSource = BugService.GetBugTypes();
+                selectType.DataSource = SessionManager.BugService.GetBugTypes();
                 selectType.DataBind();
 
-                TransitBugProject project = BugService.GetBugProjectById(ProjectId);
+                TransitBugProject project = SessionManager.BugService.GetBugProjectById(ProjectId);
 
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
                 sitemapdata.Add(new SiteMapDataAttributeNode("Bugs", Request, "BugProjectsManage.aspx"));
@@ -43,7 +43,7 @@ public partial class BugEdit : AuthenticatedPage
 
                 if (RequestId > 0)
                 {
-                    TransitBug bug = BugService.GetBugById(RequestId);
+                    TransitBug bug = SessionManager.BugService.GetBugById(RequestId);
                     inputSubject.Text = bug.Subject;
                     inputDetails.Text = bug.Details;
                     selectPriority.Items.FindByValue(bug.Priority).Selected = true;
@@ -91,7 +91,7 @@ public partial class BugEdit : AuthenticatedPage
             t.Type = selectType.SelectedValue;
             t.ProjectId = ProjectId;
             t.Id = RequestId;
-            int bugid = BugService.CreateOrUpdateBug(SessionManager.Ticket, t);
+            int bugid = SessionManager.BugService.CreateOrUpdateBug(SessionManager.Ticket, t);
             Redirect(string.Format("BugView.aspx?id={0}", bugid));
         }
         catch (Exception ex)

@@ -29,7 +29,7 @@ public partial class AccountWebsiteEdit : AuthenticatedPage
 
                 if (id > 0)
                 {
-                    TransitAccountWebsite tw = AccountService.GetAccountWebsiteById(SessionManager.Ticket, id);
+                    TransitAccountWebsite tw = SessionManager.AccountService.GetAccountWebsiteById(SessionManager.Ticket, id);
                     inputName.Text = Renderer.Render(tw.Name);
                     inputUrl.Text = Renderer.Render(tw.Url);
                     inputDescription.Text = tw.Description;
@@ -64,7 +64,7 @@ public partial class AccountWebsiteEdit : AuthenticatedPage
             tw.Url = inputUrl.Text;
             tw.Description = inputDescription.Text;
             tw.Id = RequestId;
-            AccountService.AddAccountWebsite(SessionManager.Ticket, tw);
+            SessionManager.AccountService.AddAccountWebsite(SessionManager.Ticket, tw);
             Redirect("AccountWebsitesManage.aspx");
         }
         catch (Exception ex)

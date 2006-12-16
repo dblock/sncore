@@ -42,7 +42,7 @@ public partial class FeaturedAccountEventsView : Page
     private void GetData()
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SystemService.GetFeaturesCount("AccountEvent");
+        gridManage.VirtualItemCount = SessionManager.SystemService.GetFeaturesCount("AccountEvent");
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
 
@@ -70,7 +70,7 @@ public partial class FeaturedAccountEventsView : Page
 
             object[] args = { "AccountEvent", serviceoptions };
             gridManage.DataSource = SessionManager.GetCachedCollection<TransitFeature>(
-                SystemService, "GetFeatures", args);
+                SessionManager.SystemService, "GetFeatures", args);
         }
         catch (Exception ex)
         {
@@ -82,6 +82,6 @@ public partial class FeaturedAccountEventsView : Page
     {
         object[] args = { SessionManager.Ticket, id, SessionManager.UtcOffset };
         return SessionManager.GetCachedItem<TransitAccountEvent>(
-            EventService, "GetAccountEventById", args);
+            SessionManager.EventService, "GetAccountEventById", args);
     }
 }

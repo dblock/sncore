@@ -29,8 +29,8 @@ public partial class BugNoteEdit : AuthenticatedPage
         {
             if (!IsPostBack)
             {
-                TransitBug bug = BugService.GetBugById(BugId);
-                TransitBugProject project = BugService.GetBugProjectById(bug.ProjectId);
+                TransitBug bug = SessionManager.BugService.GetBugById(BugId);
+                TransitBugProject project = SessionManager.BugService.GetBugProjectById(bug.ProjectId);
 
                 imageBugType.ImageUrl = string.Format("images/bugs/type_{0}.gif", bug.Type);
                 bugType.Text = Renderer.Render(bug.Type);
@@ -46,7 +46,7 @@ public partial class BugNoteEdit : AuthenticatedPage
 
                 if (RequestId > 0)
                 {
-                    TransitBugNote t = BugService.GetBugNoteById(RequestId);
+                    TransitBugNote t = SessionManager.BugService.GetBugNoteById(RequestId);
                     inputNote.Text = t.Details;
                     sitemapdata.Add(new SiteMapDataAttributeNode("Edit Note", Request.Url));
                 }
@@ -74,7 +74,7 @@ public partial class BugNoteEdit : AuthenticatedPage
             t.Details = inputNote.Text;
             t.Id = RequestId;
             t.BugId = BugId;
-            BugService.CreateOrUpdateBugNote(SessionManager.Ticket, t);
+            SessionManager.BugService.CreateOrUpdateBugNote(SessionManager.Ticket, t);
             Redirect(string.Format("BugView.aspx?id={0}", BugId));
         }
         catch (Exception ex)

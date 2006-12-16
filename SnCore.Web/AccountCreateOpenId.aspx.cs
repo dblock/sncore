@@ -26,7 +26,7 @@ public partial class AccountCreateOpenId : Page
                 if (!string.IsNullOrEmpty(Request["betapassword"]))
                     inputBetaPassword.Attributes["value"] = Request["betapassword"];
 
-                panelBeta.Visible = AccountService.IsBetaPasswordSet();
+                panelBeta.Visible = SessionManager.AccountService.IsBetaPasswordSet();
 
                 linkAdministrator.OnClientClick =
                     string.Format("location.href='mailto:{0}';",
@@ -37,12 +37,12 @@ public partial class AccountCreateOpenId : Page
                 if (!string.IsNullOrEmpty(openidmode))
                 {
                     NameValueCollectionSerializer serializer = new NameValueCollectionSerializer(Request.Params);
-                    string consumerurl = AccountService.VerifyOpenId(SessionManager.OpenIdToken, serializer.Names, serializer.Values);
+                    string consumerurl = SessionManager.AccountService.VerifyOpenId(SessionManager.OpenIdToken, serializer.Names, serializer.Values);
 
                     TransitAccount ta = new TransitAccount();
                     ta.Name = Request.Cookies["SnCore.AccountCreate.Name"].Value;
 
-                    int id = AccountService.CreateAccountWithOpenId(
+                    int id = SessionManager.AccountService.CreateAccountWithOpenId(
                         Request.Cookies["SnCore.AccountCreate.BetaPassword"].Value,
                         consumerurl,
                         ta);
@@ -74,7 +74,7 @@ public partial class AccountCreateOpenId : Page
             }
 
             // url root needs to be a case-sensitive match for the openid server trust
-            TransitOpenIdRedirect redirect = AccountService.GetOpenIdRedirect(inputOpenId.Text, Request.Url.ToString());
+            TransitOpenIdRedirect redirect = SessionManager.AccountService.GetOpenIdRedirect(inputOpenId.Text, Request.Url.ToString());
             SessionManager.OpenIdToken = redirect.Token;
             Response.Cookies.Add(new HttpCookie("SnCore.AccountCreate.Name", inputName.Text));
             Response.Cookies.Add(new HttpCookie("SnCore.AccountCreate.BetaPassword", inputBetaPassword.Text.ToString()));

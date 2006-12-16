@@ -36,7 +36,7 @@ public partial class AccountAddressesManage : AuthenticatedPage
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        gridManage.DataSource = AccountService.GetAccountAddresses(SessionManager.Ticket);
+        gridManage.DataSource = SessionManager.AccountService.GetAccountAddresses(SessionManager.Ticket);
     }
 
     private enum Cells
@@ -52,7 +52,7 @@ public partial class AccountAddressesManage : AuthenticatedPage
             switch (e.CommandName)
             {
                 case "Delete":
-                    AccountService.DeleteAccountAddress(SessionManager.Ticket, id);
+                    SessionManager.AccountService.DeleteAccountAddress(SessionManager.Ticket, id);
                     ReportInfo("Address deleted.");
                     gridManage.CurrentPageIndex = 0;
                     gridManage_OnGetDataSource(sender, e);

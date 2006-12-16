@@ -25,7 +25,7 @@ public partial class BugProjectEdit : AuthenticatedPage
 
                 if (RequestId > 0)
                 {
-                    TransitBugProject t = BugService.GetBugProjectById(RequestId);
+                    TransitBugProject t = SessionManager.BugService.GetBugProjectById(RequestId);
                     inputName.Text = t.Name;
                     inputDescription.Text = t.Description;
                     sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
@@ -53,7 +53,7 @@ public partial class BugProjectEdit : AuthenticatedPage
             t.Name = inputName.Text;
             t.Description = inputDescription.Text;
             t.Id = RequestId;
-            BugService.CreateOrUpdateBugProject(SessionManager.Ticket, t);
+            SessionManager.BugService.CreateOrUpdateBugProject(SessionManager.Ticket, t);
             Redirect("BugProjectsManage.aspx");
         }
         catch (Exception ex)

@@ -29,7 +29,7 @@ public partial class AccountDelete : AuthenticatedPage
                 }
                 else
                 {
-                    mAccount = AccountService.GetAccountById(RequestId);
+                    mAccount = SessionManager.AccountService.GetAccountById(RequestId);
                 }
             }
             return mAccount;
@@ -63,7 +63,7 @@ public partial class AccountDelete : AuthenticatedPage
     {
         try
         {
-            AccountService.DeleteAccountById(SessionManager.Ticket, Account.Id, inputPassword.Text);
+            SessionManager.AccountService.DeleteAccountById(SessionManager.Ticket, Account.Id, inputPassword.Text);
             pnlAccount.Visible = false;
             SessionManager.Logout();
             ReportInfo("Account deleted.");

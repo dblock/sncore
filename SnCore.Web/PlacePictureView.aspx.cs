@@ -67,7 +67,7 @@ public partial class PlacePictureView : Page
             {
                 object[] sp_args = { PictureId };
                 mPlacePicture = SessionManager.GetCachedItem<TransitPlacePicture>(
-                    PlaceService, "GetPlacePictureById", sp_args);
+                    SessionManager.PlaceService, "GetPlacePictureById", sp_args);
             }
             return mPlacePicture;
         }
@@ -83,7 +83,7 @@ public partial class PlacePictureView : Page
             {
                 object[] as_args = { SessionManager.Ticket, PlacePicture.PlaceId };
                 mPlace = SessionManager.GetCachedItem<TransitPlace>(
-                    PlaceService, "GetPlaceById", as_args);
+                    SessionManager.PlaceService, "GetPlaceById", as_args);
             }
             return mPlace;
         }
@@ -94,7 +94,7 @@ public partial class PlacePictureView : Page
         object[] p_args = { Place.Id };
         picturesView.CurrentPageIndex = 0;
         picturesView.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            PlaceService, "GetPlacePicturesCountById", p_args);
+            SessionManager.PlaceService, "GetPlacePicturesCountById", p_args);
         picturesView_OnGetDataSource(sender, e);
         picturesView.DataBind();
     }
@@ -132,7 +132,7 @@ public partial class PlacePictureView : Page
         labelIndex.Text = string.Format("{0} / {1}", p.Index + 1, p.Count);
 
         discussionComments.ReturnUrl = string.Format("PlacePictureView.aspx?id={0}", PictureId);
-        discussionComments.DiscussionId = DiscussionService.GetPlacePictureDiscussionId(PictureId);
+        discussionComments.DiscussionId = SessionManager.DiscussionService.GetPlacePictureDiscussionId(PictureId);
         discussionComments.DataBind();
     }
 
@@ -161,7 +161,7 @@ public partial class PlacePictureView : Page
             ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
             object[] args = { Place.Id, options };
             picturesView.DataSource = SessionManager.GetCachedCollection<TransitPlacePicture>(
-                PlaceService, "GetPlacePicturesById", args);
+                SessionManager.PlaceService, "GetPlacePicturesById", args);
         }
         catch (Exception ex)
         {

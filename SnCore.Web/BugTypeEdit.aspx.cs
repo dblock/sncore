@@ -26,7 +26,7 @@ public partial class BugTypeEdit : AuthenticatedPage
 
                 if (RequestId > 0)
                 {
-                    TransitBugType t = BugService.GetBugTypeById(RequestId);
+                    TransitBugType t = SessionManager.BugService.GetBugTypeById(RequestId);
                     inputName.Text = t.Name;
                     sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
                 }
@@ -53,7 +53,7 @@ public partial class BugTypeEdit : AuthenticatedPage
             TransitBugType t = new TransitBugType();
             t.Name = inputName.Text;
             t.Id = RequestId;
-            BugService.CreateOrUpdateBugType(SessionManager.Ticket, t);
+            SessionManager.BugService.CreateOrUpdateBugType(SessionManager.Ticket, t);
             Redirect("BugTypesManage.aspx");
         }
         catch (Exception ex)

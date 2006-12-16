@@ -22,7 +22,7 @@ public partial class EmailAccountEmailVerify : AuthenticatedPage
             {
                 if (mAccountEmailConfirmation == null)
                 {
-                    mAccountEmailConfirmation = AccountService.GetAccountEmailConfirmationById(
+                    mAccountEmailConfirmation = SessionManager.AccountService.GetAccountEmailConfirmationById(
                         SessionManager.Ticket, RequestId);
                 }
             }
@@ -45,7 +45,7 @@ public partial class EmailAccountEmailVerify : AuthenticatedPage
             {
                 if (mAccount == null)
                 {
-                    mAccount = AccountService.GetAccountById(
+                    mAccount = SessionManager.AccountService.GetAccountById(
                         AccountEmailConfirmation.AccountEmail.AccountId);
                 }
             }

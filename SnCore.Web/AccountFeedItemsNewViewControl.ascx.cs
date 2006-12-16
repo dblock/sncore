@@ -40,7 +40,7 @@ public partial class AccountFeedItemsNewViewControl : Control
             {
                 object[] args = { new ServiceQueryOptions(Count, 0) };
                 FeedsView.DataSource = SessionManager.GetCachedCollection<TransitAccountFeedItem>(
-                    SyndicationService, "GetAccountFeedItems", args);
+                    SessionManager.SyndicationService, "GetAccountFeedItems", args);
                 FeedsView.DataBind();
             }
         }

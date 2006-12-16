@@ -24,7 +24,7 @@ public partial class AccountMessageMove : AuthenticatedPage
             {
                 linkCancel.NavigateUrl = ReturnUrl;
 
-                TransitAccountMessage message = AccountService.GetAccountMessageById(
+                TransitAccountMessage message = SessionManager.AccountService.GetAccountMessageById(
                     SessionManager.Ticket, RequestId);
                 messageSenderLink.HRef = messageFrom.NavigateUrl = string.Format("AccountView.aspx?id={0}", message.SenderAccountId);
                 messageFrom.Text = messageSenderName.Text = Renderer.Render(message.SenderAccountName);
@@ -34,7 +34,7 @@ public partial class AccountMessageMove : AuthenticatedPage
                 messageSenderImage.ImageUrl = string.Format("AccountPictureThumbnail.aspx?id={0}", message.SenderAccountPictureId);
                 messageSubject.Text = Renderer.Render(message.Subject);
 
-                List<TransitAccountMessageFolder> folders = AccountService.GetAccountMessageFolders(SessionManager.Ticket);
+                List<TransitAccountMessageFolder> folders = SessionManager.AccountService.GetAccountMessageFolders(SessionManager.Ticket);
                 TransitAccountMessageFolder none = new TransitAccountMessageFolder();
                 none.FullPath = none.Name = "Please choose ...";
                 folders.Insert(0, none);
@@ -60,7 +60,7 @@ public partial class AccountMessageMove : AuthenticatedPage
         try
         {
             int dest_id = int.Parse(listFolders.SelectedValue);
-            AccountService.MoveAccountMessageToFolderById(SessionManager.Ticket, RequestId, dest_id);
+            SessionManager.AccountService.MoveAccountMessageToFolderById(SessionManager.Ticket, RequestId, dest_id);
             Redirect(ReturnUrl);
         }
         catch (Exception ex)

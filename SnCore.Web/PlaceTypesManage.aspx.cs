@@ -39,7 +39,7 @@ public partial class PlaceTypesManage : AuthenticatedPage
     {
         try
         {
-            gridManage.DataSource = PlaceService.GetPlaceTypes();
+            gridManage.DataSource = SessionManager.PlaceService.GetPlaceTypes();
         }
         catch (Exception ex)
         {
@@ -70,7 +70,7 @@ public partial class PlaceTypesManage : AuthenticatedPage
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            PlaceService.DeletePlaceType(SessionManager.Ticket, id);
+                            SessionManager.PlaceService.DeletePlaceType(SessionManager.Ticket, id);
                             ReportInfo("Place type deleted.");
                             gridManage.CurrentPageIndex = 0;
                             gridManage_OnGetDataSource(source, e);

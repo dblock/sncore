@@ -45,7 +45,7 @@ public partial class AccountReminder : Control
 
                 object[] i_args = { SessionManager.Account.Id };
                 int invitationscount = SessionManager.GetCachedCollectionCount(
-                    AccountService, "GetAccountInvitationsCountById", i_args);
+                    SessionManager.AccountService, "GetAccountInvitationsCountById", i_args);
 
                 if (invitationscount == 0)
                 {
@@ -58,7 +58,7 @@ public partial class AccountReminder : Control
                 }
 
                 List<TransitSurvey> surveys = SessionManager.GetCachedCollection<TransitSurvey>(
-                    SystemService, "GetSurveys", null);
+                    SessionManager.SystemService, "GetSurveys", null);
 
                 if (surveys != null)
                 {
@@ -67,7 +67,7 @@ public partial class AccountReminder : Control
                         object[] a_args = { SessionManager.Account.Id, survey.Id };
 
                         int answers = SessionManager.GetCachedCollectionCount(
-                            AccountService, "GetAccountSurveyAnswersCountById", a_args);
+                            SessionManager.AccountService, "GetAccountSurveyAnswersCountById", a_args);
 
                         if (answers == 0)
                         {

@@ -41,13 +41,13 @@ public partial class AccountFriendRequestsManage : AuthenticatedPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = listPending.CurrentPageIndex;
         options.PageSize = listPending.PageSize;
-        listPending.DataSource = SocialService.GetAccountFriendRequests(SessionManager.Ticket, options);
+        listPending.DataSource = SessionManager.SocialService.GetAccountFriendRequests(SessionManager.Ticket, options);
     }
 
     public void GetData(object sender, EventArgs e)
     {
         listPending.CurrentPageIndex = 0;
-        listPending.VirtualItemCount = SocialService.GetAccountFriendRequestsCount(SessionManager.Ticket);
+        listPending.VirtualItemCount = SessionManager.SocialService.GetAccountFriendRequestsCount(SessionManager.Ticket);
         listPending_OnGetDataSource(sender, e);
         listPending.DataBind();
         reasonTable.Visible = (listPending.Items.Count != 0);
@@ -62,7 +62,7 @@ public partial class AccountFriendRequestsManage : AuthenticatedPage
                 case "Accept":
                     {
                         int id = int.Parse(e.CommandArgument.ToString());
-                        SocialService.AcceptAccountFriendRequest(SessionManager.Ticket, id, inputReason.Text);
+                        SessionManager.SocialService.AcceptAccountFriendRequest(SessionManager.Ticket, id, inputReason.Text);
                         GetData(sender, e);
                         ReportInfo("Friend request accepted." + 
                             (string.IsNullOrEmpty(inputReason.Text) ? string.Empty : " An e-mail has been sent."));
@@ -71,7 +71,7 @@ public partial class AccountFriendRequestsManage : AuthenticatedPage
                 case "Reject":
                     {
                         int id = int.Parse(e.CommandArgument.ToString());
-                        SocialService.RejectAccountFriendRequest(SessionManager.Ticket, id, inputReason.Text);
+                        SessionManager.SocialService.RejectAccountFriendRequest(SessionManager.Ticket, id, inputReason.Text);
                         GetData(sender, e);
                         ReportInfo("Friend request rejected." + 
                             (string.IsNullOrEmpty(inputReason.Text) ? string.Empty : " An e-mail has been sent."));

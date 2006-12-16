@@ -27,12 +27,12 @@ public partial class SystemCityEdit : AuthenticatedPage
 
                 object[] c_args = { null };
                 inputCountry.DataSource = SessionManager.GetCachedCollection<TransitCountry>(
-                    LocationService, "GetCountries", c_args);
+                    SessionManager.LocationService, "GetCountries", c_args);
                 inputCountry.DataBind();
 
                 if (RequestId > 0)
                 {
-                    TransitCity tc = LocationService.GetCityById(RequestId);
+                    TransitCity tc = SessionManager.LocationService.GetCityById(RequestId);
                     inputName.Text = tc.Name;
                     inputTag.Text = tc.Tag;
                     inputCountry.Items.FindByValue(tc.Country).Selected = true;
@@ -64,7 +64,7 @@ public partial class SystemCityEdit : AuthenticatedPage
         try
         {
             object[] args = { inputCountry.SelectedValue };
-            inputState.DataSource = SessionManager.GetCachedCollection<TransitState>(LocationService, "GetStatesByCountry", args);
+            inputState.DataSource = SessionManager.GetCachedCollection<TransitState>(SessionManager.LocationService, "GetStatesByCountry", args);
             inputState.DataBind();
         }
         catch (Exception ex)
@@ -87,7 +87,7 @@ public partial class SystemCityEdit : AuthenticatedPage
             {
                 throw new Exception("State is required.");
             }
-            LocationService.AddCity(SessionManager.Ticket, tc);
+            SessionManager.LocationService.AddCity(SessionManager.Ticket, tc);
             Redirect("SystemCitiesManage.aspx");
         }
         catch (Exception ex)
@@ -101,7 +101,7 @@ public partial class SystemCityEdit : AuthenticatedPage
         try
         {
             gridMergeLookup.CurrentPageIndex = 0;
-            gridMergeLookup.DataSource = LocationService.SearchCitiesByName(inputMergeWhat.Text);
+            gridMergeLookup.DataSource = SessionManager.LocationService.SearchCitiesByName(inputMergeWhat.Text);
             gridMergeLookup.DataBind();
         }
         catch (Exception ex)
@@ -117,7 +117,7 @@ public partial class SystemCityEdit : AuthenticatedPage
             switch (e.CommandName)
             {
                 case "Merge":
-                    int count = LocationService.MergeCities(SessionManager.Ticket, 
+                    int count = SessionManager.LocationService.MergeCities(SessionManager.Ticket, 
                         RequestId, int.Parse(e.CommandArgument.ToString()));
                     ReportInfo(string.Format("Merged {0} records.", count));
                     mergeLookup_Click(source, e);

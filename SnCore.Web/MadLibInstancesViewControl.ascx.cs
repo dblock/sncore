@@ -115,14 +115,14 @@ public partial class MadLibInstancesViewControl : Control
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = madlibs.CurrentPageIndex;
         options.PageSize = madlibs.PageSize;
-        madlibs.DataSource = MadLibService.GetMadLibInstances(Table, ObjectId, options);
+        madlibs.DataSource = SessionManager.MadLibService.GetMadLibInstances(Table, ObjectId, options);
 
     }
 
     public void GetData(object sender, EventArgs e)
     {
         madlibs.CurrentPageIndex = 0;
-        madlibs.VirtualItemCount = MadLibService.GetMadLibInstancesCount(Table, ObjectId);
+        madlibs.VirtualItemCount = SessionManager.MadLibService.GetMadLibInstancesCount(Table, ObjectId);
         madlibs_OnGetDataSource(sender, e);
         madlibs.DataBind();
     }
@@ -147,7 +147,7 @@ public partial class MadLibInstancesViewControl : Control
                 case "Delete":
                     {
                         int id = int.Parse(e.CommandArgument.ToString());
-                        MadLibService.DeleteMadLibInstance(SessionManager.Ticket, id);
+                        SessionManager.MadLibService.DeleteMadLibInstance(SessionManager.Ticket, id);
                         GetData(source, e);
                         break;
                     }

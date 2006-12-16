@@ -39,7 +39,7 @@ public partial class SystemInvitationsManage : AuthenticatedPage
     {
         try
         {
-            gridManage.DataSource = SystemService.GetAccountInvitations(SessionManager.Ticket);
+            gridManage.DataSource = SessionManager.SystemService.GetAccountInvitations(SessionManager.Ticket);
         }
         catch (Exception ex)
         {
@@ -66,7 +66,7 @@ public partial class SystemInvitationsManage : AuthenticatedPage
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            AccountService.DeleteAccountInvitation(SessionManager.Ticket, id);
+                            SessionManager.AccountService.DeleteAccountInvitation(SessionManager.Ticket, id);
                             ReportInfo("Invitation deleted.");
                             gridManage.CurrentPageIndex = 0;
                             gridManage_OnGetDataSource(source, e);

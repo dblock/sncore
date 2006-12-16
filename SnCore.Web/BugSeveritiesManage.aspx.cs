@@ -39,7 +39,7 @@ public partial class BugSeveritiesManage : AuthenticatedPage
     {
         try
         {
-            gridManage.DataSource = BugService.GetBugSeverities();
+            gridManage.DataSource = SessionManager.BugService.GetBugSeverities();
         }
         catch (Exception ex)
         {
@@ -70,7 +70,7 @@ public partial class BugSeveritiesManage : AuthenticatedPage
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            BugService.DeleteBugSeverity(SessionManager.Ticket, id);
+                            SessionManager.BugService.DeleteBugSeverity(SessionManager.Ticket, id);
                             ReportInfo("Bug severity deleted.");
                             gridManage.CurrentPageIndex = 0;
                             gridManage_OnGetDataSource(source, e);

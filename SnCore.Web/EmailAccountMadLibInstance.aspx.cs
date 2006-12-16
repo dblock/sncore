@@ -23,7 +23,7 @@ public partial class EmailAccountMadLibInstance : AuthenticatedPage
             {
                 if (mMadLibInstance == null)
                 {
-                    mMadLibInstance = MadLibService.GetMadLibInstanceById(RequestId);
+                    mMadLibInstance = SessionManager.MadLibService.GetMadLibInstanceById(RequestId);
                 }
             }
             catch (Exception ex)
@@ -43,7 +43,7 @@ public partial class EmailAccountMadLibInstance : AuthenticatedPage
         {
             if (mRecepient == null)
             {
-                mRecepient = AccountService.GetAccountById(GetId("aid"));
+                mRecepient = SessionManager.AccountService.GetAccountById(GetId("aid"));
             }
 
             return mRecepient;

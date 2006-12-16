@@ -29,7 +29,7 @@ public partial class PlacePicturesManage : AuthenticatedPage
 
             if (!IsPostBack)
             {
-                TransitPlace place = PlaceService.GetPlaceById(SessionManager.Ticket, RequestId);
+                TransitPlace place = SessionManager.PlaceService.GetPlaceById(SessionManager.Ticket, RequestId);
 
                 gridManage_OnGetDataSource(this, null);
                 gridManage.DataBind();
@@ -41,7 +41,7 @@ public partial class PlacePicturesManage : AuthenticatedPage
                 StackSiteMap(sitemapdata);
             }
 
-            if (!AccountService.HasVerifiedEmail(SessionManager.Ticket))
+            if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket))
             {
                 ReportWarning("You don't have any verified e-mail addresses.\n" +
                     "You must add/confirm a valid e-mail address before uploading pictures.");
@@ -60,7 +60,7 @@ public partial class PlacePicturesManage : AuthenticatedPage
     {
         try
         {
-            gridManage.DataSource = PlaceService.GetPlacePicturesById(RequestId, null);
+            gridManage.DataSource = SessionManager.PlaceService.GetPlacePicturesById(RequestId, null);
         }
         catch (Exception ex)
         {
@@ -87,7 +87,7 @@ public partial class PlacePicturesManage : AuthenticatedPage
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            PlaceService.DeletePlacePicture(SessionManager.Ticket, id);
+                            SessionManager.PlaceService.DeletePlacePicture(SessionManager.Ticket, id);
                             ReportInfo("Picture deleted.");
                             gridManage.CurrentPageIndex = 0;
                             gridManage_OnGetDataSource(source, e);
@@ -121,7 +121,7 @@ public partial class PlacePicturesManage : AuthenticatedPage
                     p.Name = Path.GetFileName(file.FileName);
                     p.Description = string.Empty;
                     p.PlaceId = RequestId;
-                    PlaceService.CreateOrUpdatePlacePicture(SessionManager.Ticket, p);
+                    SessionManager.PlaceService.CreateOrUpdatePlacePicture(SessionManager.Ticket, p);
                 }
                 catch (Exception ex)
                 {

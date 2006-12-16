@@ -33,7 +33,7 @@ public partial class AccountBlogAuthorEdit : AuthenticatedPage
                 sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
                 sitemapdata.Add(new SiteMapDataAttributeNode("Blogs", Request, "AccountBlogsManage.aspx"));
 
-                TransitAccountBlog tb = BlogService.GetAccountBlogById(SessionManager.Ticket, BlogId);
+                TransitAccountBlog tb = SessionManager.BlogService.GetAccountBlogById(SessionManager.Ticket, BlogId);
                 sitemapdata.Add(new SiteMapDataAttributeNode(tb.Name, Request, string.Format("AccountBlogEdit.aspx?id={0}", tb.Id)));
                 sitemapdata.Add(new SiteMapDataAttributeNode("Authors", Request, string.Format("AccountBlogEdit.aspx?id={0}#authors", tb.Id)));
 
@@ -41,7 +41,7 @@ public partial class AccountBlogAuthorEdit : AuthenticatedPage
 
                 if (RequestId != 0)
                 {
-                    TransitAccountBlogAuthor author = BlogService.GetAccountBlogAuthorById(SessionManager.Ticket, RequestId);
+                    TransitAccountBlogAuthor author = SessionManager.BlogService.GetAccountBlogAuthorById(SessionManager.Ticket, RequestId);
                     inputId.Text = string.Format("{0} ({1})", author.AccountName, author.AccountId);
                     inputId.Enabled = false;
                     allowDelete.Checked = author.AllowDelete;
@@ -76,7 +76,7 @@ public partial class AccountBlogAuthorEdit : AuthenticatedPage
             ta.AllowDelete = allowDelete.Checked;
             ta.AllowEdit = allowEdit.Checked;
             ta.AllowPost = allowPost.Checked;
-            BlogService.CreateOrUpdateAccountBlogAuthor(SessionManager.Ticket, ta);
+            SessionManager.BlogService.CreateOrUpdateAccountBlogAuthor(SessionManager.Ticket, ta);
             Redirect(string.Format("AccountBlogEdit.aspx?id={0}", BlogId));
         }
         catch (Exception ex)

@@ -43,62 +43,6 @@ public class MasterPage : System.Web.UI.MasterPage
         return Adjust((DateTime)dt);
     }
 
-    protected WebAccountService AccountService
-    {
-        get
-        {
-            return SessionManager.AccountService;
-        }
-    }
-
-    protected WebSocialService SocialService
-    {
-        get
-        {
-            return SessionManager.SocialService;
-        }
-    }
-
-    protected WebLocationService LocationService
-    {
-        get
-        {
-            return SessionManager.LocationService;
-        }
-    }
-
-    protected WebSystemService SystemService
-    {
-        get
-        {
-            return SessionManager.SystemService;
-        }
-    }
-
-    protected WebDiscussionService DiscussionService
-    {
-        get
-        {
-            return SessionManager.DiscussionService;
-        }
-    }
-
-    protected WebStoryService StoryService
-    {
-        get
-        {
-            return SessionManager.StoryService;
-        }
-    }
-
-    public WebBackEndService BackEndService
-    {
-        get
-        {
-            return SessionManager.BackEndService;
-        }
-    }
-
     protected SessionManager SessionManager
     {
         get

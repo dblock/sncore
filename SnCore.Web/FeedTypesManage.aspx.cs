@@ -39,7 +39,7 @@ public partial class FeedTypesManage : AuthenticatedPage
     {
         try
         {
-            gridManage.DataSource = SyndicationService.GetFeedTypes();
+            gridManage.DataSource = SessionManager.SyndicationService.GetFeedTypes();
         }
         catch (Exception ex)
         {
@@ -70,7 +70,7 @@ public partial class FeedTypesManage : AuthenticatedPage
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            SyndicationService.DeleteFeedType(SessionManager.Ticket, id);
+                            SessionManager.SyndicationService.DeleteFeedType(SessionManager.Ticket, id);
                             ReportInfo("Feed type deleted.");
                             gridManage.CurrentPageIndex = 0;
                             gridManage_OnGetDataSource(source, e);

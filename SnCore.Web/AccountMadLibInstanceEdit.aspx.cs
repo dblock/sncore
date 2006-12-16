@@ -94,7 +94,7 @@ public partial class AccountMadLibInstanceEdit : AuthenticatedPage
             {
                 linkCancel.NavigateUrl = ReturnUrl;
 
-                if (!AccountService.HasVerifiedEmail(SessionManager.Ticket))
+                if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket))
                 {
                     ReportWarning("You don't have any verified e-mail addresses.\n" +
                         "You must add/confirm a valid e-mail address before posting mad libs.");
@@ -112,7 +112,7 @@ public partial class AccountMadLibInstanceEdit : AuthenticatedPage
 
                 if (MadLibInstanceId > 0)
                 {
-                    TransitMadLibInstance tmi = MadLibService.GetMadLibInstanceById(MadLibInstanceId);
+                    TransitMadLibInstance tmi = SessionManager.MadLibService.GetMadLibInstanceById(MadLibInstanceId);
                     madLibInstance.TextBind(tmi.Text);
                 }
 
@@ -144,7 +144,7 @@ public partial class AccountMadLibInstanceEdit : AuthenticatedPage
                 madlib.Text = text;
                 madlib.ObjectUri = ReturnUrl;
                 madlib.ObjectAccountId = ObjectAccountId;
-                MadLibService.CreateOrUpdateMadLibInstance(SessionManager.Ticket, madlib);
+                SessionManager.MadLibService.CreateOrUpdateMadLibInstance(SessionManager.Ticket, madlib);
                 Redirect(linkCancel.NavigateUrl);
             }            
         }

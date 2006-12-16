@@ -24,8 +24,8 @@ public partial class DiscussionView : Page
             {
                 discussionMain.DiscussionId = RequestId;
                 discussionMain.DataBind();
-                
-                TransitDiscussion td = DiscussionService.GetDiscussionById(RequestId);
+
+                TransitDiscussion td = SessionManager.DiscussionService.GetDiscussionById(RequestId);
                 this.Title = Renderer.Render(td.Name);
 
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();

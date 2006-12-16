@@ -32,7 +32,7 @@ public partial class DiscussionViewControl : Control
     void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = DiscussionService.GetDiscussionThreadsCountById(DiscussionId);
+        gridManage.VirtualItemCount = SessionManager.DiscussionService.GetDiscussionThreadsCountById(DiscussionId);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -43,13 +43,13 @@ public partial class DiscussionViewControl : Control
         {
             if (DiscussionId > 0)
             {
-                TransitDiscussion d = DiscussionService.GetDiscussionById(DiscussionId);
+                TransitDiscussion d = SessionManager.DiscussionService.GetDiscussionById(DiscussionId);
                 discussionLabel.Text = Renderer.Render(d.Name);
                 discussionDescription.Text = Renderer.Render(d.Description);
                 ServiceQueryOptions options = new ServiceQueryOptions();
                 options.PageNumber = gridManage.CurrentPageIndex;
                 options.PageSize = gridManage.PageSize;
-                gridManage.DataSource = DiscussionService.GetDiscussionThreadsById(SessionManager.Ticket, DiscussionId, options);
+                gridManage.DataSource = SessionManager.DiscussionService.GetDiscussionThreadsById(SessionManager.Ticket, DiscussionId, options);
             }
         }
         catch (Exception ex)

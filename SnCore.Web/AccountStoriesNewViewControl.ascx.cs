@@ -39,7 +39,8 @@ public partial class AccountStoriesNewViewControl : Control
             {
                 ServiceQueryOptions options = new ServiceQueryOptions(Count, 0);
                 object[] args = { options };
-                storiesView.DataSource = SessionManager.GetCachedCollection<TransitAccountStory>(StoryService, "GetLatestAccountStories", args);
+                storiesView.DataSource = SessionManager.GetCachedCollection<TransitAccountStory>(
+                    SessionManager.StoryService, "GetLatestAccountStories", args);
                 storiesView.DataBind();
             }
         }

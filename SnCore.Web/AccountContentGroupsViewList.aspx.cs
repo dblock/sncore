@@ -27,7 +27,7 @@ public partial class AccountContentGroupsViewList : Page
                 ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
                 serviceoptions.PageSize = pagesize;
                 serviceoptions.PageNumber = pagenumber;
-                gridManage.DataSource = ContentService.GetAllAccountContentGroups(serviceoptions);
+                gridManage.DataSource = SessionManager.ContentService.GetAllAccountContentGroups(serviceoptions);
                 gridManage.DataBind();
 
                 if (pagenumber > 0)

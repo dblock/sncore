@@ -38,7 +38,7 @@ public partial class AccountContentGroupsManage : AuthenticatedPage
     public void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = ContentService.GetAccountContentGroupsCount(SessionManager.Ticket);
+        gridManage.VirtualItemCount = SessionManager.ContentService.GetAccountContentGroupsCount(SessionManager.Ticket);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
@@ -55,7 +55,7 @@ public partial class AccountContentGroupsManage : AuthenticatedPage
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridManage.CurrentPageIndex;
             options.PageSize = gridManage.PageSize;
-            gridManage.DataSource = ContentService.GetAccountContentGroups(SessionManager.Ticket, options);
+            gridManage.DataSource = SessionManager.ContentService.GetAccountContentGroups(SessionManager.Ticket, options);
         }
         catch (Exception ex)
         {
@@ -71,7 +71,7 @@ public partial class AccountContentGroupsManage : AuthenticatedPage
             switch (e.CommandName)
             {
                 case "Delete":
-                    ContentService.DeleteAccountContent(SessionManager.Ticket, id);
+                    SessionManager.ContentService.DeleteAccountContent(SessionManager.Ticket, id);
                     ReportInfo("Content group deleted.");
                     gridManage.CurrentPageIndex = 0;
                     gridManage_OnGetDataSource(sender, e);

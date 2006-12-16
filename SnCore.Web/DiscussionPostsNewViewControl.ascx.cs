@@ -22,7 +22,7 @@ public partial class DiscussionPostsNewViewControl : Control
             if (!IsPostBack)
             {
                 List<TransitDiscussionPost> items = SessionManager.GetCachedCollection<TransitDiscussionPost>(
-                    DiscussionService, "GetLatestDiscussionPosts", null);
+                    SessionManager.DiscussionService, "GetLatestDiscussionPosts", null);
                 discussionView.DataSource = items;
                 discussionView.DataBind();
             }

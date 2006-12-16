@@ -27,59 +27,59 @@ public partial class DiscussionThreadView : Page
                     return;
                 }
 
-                TransitDiscussionThread t = DiscussionService.GetDiscussionThreadById(
+                TransitDiscussionThread t = SessionManager.DiscussionService.GetDiscussionThreadById(
                     SessionManager.Ticket, RequestId);
 
-                TransitDiscussion td = DiscussionService.GetDiscussionById(t.DiscussionId);
+                TransitDiscussion td = SessionManager.DiscussionService.GetDiscussionById(t.DiscussionId);
 
                 if (td.Personal)
                 {
-                    if (td.Name == DiscussionService.GetAccountPictureDiscussionName())
+                    if (td.Name == SessionManager.DiscussionService.GetAccountPictureDiscussionName())
                     {
                         Redirect(string.Format("AccountPictureView.aspx?id={0}&#comments", td.ObjectId));
                         return;
                     }
-                    else if (td.Name == DiscussionService.GetAccountStoryDiscussionName())
+                    else if (td.Name == SessionManager.DiscussionService.GetAccountStoryDiscussionName())
                     {
                         Redirect(string.Format("AccountStoryView.aspx?id={0}&#comments", td.ObjectId));
                         return;
                     }
-                    else if (td.Name == DiscussionService.GetAccountTestimonialsDiscussionName())
+                    else if (td.Name == SessionManager.DiscussionService.GetAccountTestimonialsDiscussionName())
                     {
                         Redirect(string.Format("AccountView.aspx?id={0}&#testimonials", td.AccountId));
                         return;
                     }
-                    else if (td.Name == DiscussionService.GetPlaceDiscussionName())
+                    else if (td.Name == SessionManager.DiscussionService.GetPlaceDiscussionName())
                     {
                         Redirect(string.Format("PlaceView.aspx?id={0}&#comments", td.ObjectId));
                         return;
                     }
-                    else if (td.Name == DiscussionService.GetPlacePictureDiscussionName())
+                    else if (td.Name == SessionManager.DiscussionService.GetPlacePictureDiscussionName())
                     {
                         Redirect(string.Format("PlacePictureView.aspx?id={0}&#comments", td.ObjectId));
                         return;
                     }
-                    else if (td.Name == DiscussionService.GetAcountFeedItemDiscussionName())
+                    else if (td.Name == SessionManager.DiscussionService.GetAcountFeedItemDiscussionName())
                     {
                         Redirect(string.Format("AccountFeedItemView.aspx?id={0}&#comments", td.ObjectId));
                         return;
                     }
-                    else if (td.Name == DiscussionService.GetAcountBlogPostDiscussionName())
+                    else if (td.Name == SessionManager.DiscussionService.GetAcountBlogPostDiscussionName())
                     {
                         Redirect(string.Format("AccountBlogPostView.aspx?id={0}&#comments", td.ObjectId));
                         return;
                     }
-                    else if (td.Name == DiscussionService.GetAccountStoryPictureDiscussionName())
+                    else if (td.Name == SessionManager.DiscussionService.GetAccountStoryPictureDiscussionName())
                     {
                         Redirect(string.Format("AccountStoryPictureView.aspx?id={0}&#comments", td.ObjectId));
                         return;
                     }
-                    else if (td.Name == DiscussionService.GetAccountEventDiscussionName())
+                    else if (td.Name == SessionManager.DiscussionService.GetAccountEventDiscussionName())
                     {
                         Redirect(string.Format("AccountEventView.aspx?id={0}&#comments", td.ObjectId));
                         return;
                     }
-                    else if (td.Name == DiscussionService.GetAccountEventPictureDiscussionName())
+                    else if (td.Name == SessionManager.DiscussionService.GetAccountEventPictureDiscussionName())
                     {
                         Redirect(string.Format("AccountEventPictureView.aspx?id={0}&#comments", td.ObjectId));
                         return;

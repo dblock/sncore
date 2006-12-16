@@ -41,7 +41,7 @@ public partial class AccountEmailsManage : AuthenticatedPage
     public void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = AccountService.GetAccountEmailsCount(SessionManager.Ticket);
+        gridManage.VirtualItemCount = SessionManager.AccountService.GetAccountEmailsCount(SessionManager.Ticket);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -51,7 +51,7 @@ public partial class AccountEmailsManage : AuthenticatedPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageSize = gridManage.PageSize;
         options.PageNumber = gridManage.CurrentPageIndex;
-        gridManage.DataSource = AccountService.GetAccountEmails(SessionManager.Ticket, options);
+        gridManage.DataSource = SessionManager.AccountService.GetAccountEmails(SessionManager.Ticket, options);
     }
 
 
@@ -104,7 +104,7 @@ public partial class AccountEmailsManage : AuthenticatedPage
                 case "Delete":
                     {
                         int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                        AccountService.DeleteAccountEmail(SessionManager.Ticket, id);
+                        SessionManager.AccountService.DeleteAccountEmail(SessionManager.Ticket, id);
                         ReportInfo("Email deleted.");
                         GetData(sender, e);
                     }
@@ -113,7 +113,7 @@ public partial class AccountEmailsManage : AuthenticatedPage
                     {
                         int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
                         string address = e.Item.Cells[(int)Cells.address].Text;
-                        AccountService.ConfirmAccountEmail(SessionManager.Ticket, id);
+                        SessionManager.AccountService.ConfirmAccountEmail(SessionManager.Ticket, id);
                         ReportInfo("A confirmation has ben resent to '" + address + "'.");
                     }
                     break;
@@ -125,7 +125,7 @@ public partial class AccountEmailsManage : AuthenticatedPage
                         tae.Id = id;
                         tae.Address = address;
                         tae.Principal = true;
-                        AccountService.UpdateAccountEmail(SessionManager.Ticket, tae);
+                        SessionManager.AccountService.UpdateAccountEmail(SessionManager.Ticket, tae);
                         gridManage_OnGetDataSource(sender, e);
                         gridManage.DataBind();
                     }
@@ -144,7 +144,7 @@ public partial class AccountEmailsManage : AuthenticatedPage
         {
             TransitAccountEmail te = new TransitAccountEmail();
             te.Address = inputEmailAddress.Text;
-            AccountService.AddAccountEmail(SessionManager.Ticket, te);
+            SessionManager.AccountService.AddAccountEmail(SessionManager.Ticket, te);
             ReportInfo("A confirmation has ben sent to '" + te.Address + "'.");
             GetData(sender, e);
             inputEmailAddress.Text = string.Empty;

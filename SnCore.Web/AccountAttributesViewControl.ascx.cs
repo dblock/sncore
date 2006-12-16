@@ -46,7 +46,8 @@ public partial class AccountAttributesViewControl : Control
     {
         attributes.CurrentPageIndex = 0;
         object[] args = { AccountId };
-        attributes.VirtualItemCount = SessionManager.GetCachedCollectionCount(AccountService, "GetAccountAttributesCountById", args);
+        attributes.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+            SessionManager.AccountService, "GetAccountAttributesCountById", args);
         attributes_OnGetDataSource(sender, e);
         attributes.DataBind();
     }
@@ -64,6 +65,6 @@ public partial class AccountAttributesViewControl : Control
         options.PageSize = attributes.PageSize;
         object[] args = { AccountId, options };
         attributes.DataSource = SessionManager.GetCachedCollection<TransitAccountAttribute>(
-            AccountService, "GetAccountAttributesById", args);
+            SessionManager.AccountService, "GetAccountAttributesById", args);
     }
 }

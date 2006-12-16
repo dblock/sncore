@@ -64,14 +64,16 @@ public partial class AccountEventsView : Page
             {
                 ArrayList types = new ArrayList();
                 types.Add(new TransitAccountEventType());
-                types.AddRange(SessionManager.GetCachedCollection<TransitAccountEventType>(EventService, "GetAccountEventTypes", null));
+                types.AddRange(SessionManager.GetCachedCollection<TransitAccountEventType>(
+                    SessionManager.EventService, "GetAccountEventTypes", null));
                 inputType.DataSource = types;
                 inputType.DataBind();
 
                 ArrayList countries = new ArrayList();
                 countries.Add(new TransitCountry());
                 object[] c_args = { null };
-                countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(LocationService, "GetCountries", c_args));
+                countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(
+                    SessionManager.LocationService, "GetCountries", c_args));
                 inputCountry.DataSource = countries;
                 inputCountry.DataBind();
 
@@ -101,7 +103,8 @@ public partial class AccountEventsView : Page
 
         gridManage.CurrentPageIndex = 0;
         object[] args = { QueryOptions };
-        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(EventService, "GetAllAccountEventsCount", args);
+        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+            SessionManager.EventService, "GetAllAccountEventsCount", args);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
@@ -113,7 +116,8 @@ public partial class AccountEventsView : Page
             ArrayList states = new ArrayList();
             states.Add(new TransitState());
             object[] args = { inputCountry.SelectedValue };
-            states.AddRange(SessionManager.GetCachedCollection<TransitState>(LocationService, "GetStatesByCountry", args));
+            states.AddRange(SessionManager.GetCachedCollection<TransitState>(
+                SessionManager.LocationService, "GetStatesByCountry", args));
             inputState.DataSource = states;
             inputState.DataBind();
             inputState_SelectedIndexChanged(sender, e);
@@ -132,7 +136,8 @@ public partial class AccountEventsView : Page
             ArrayList cities = new ArrayList();
             cities.Add(new TransitCity());
             object[] args = { inputCountry.SelectedValue, inputState.SelectedValue };
-            cities.AddRange(SessionManager.GetCachedCollection<TransitCity>(LocationService, "GetCitiesByLocation", args));
+            cities.AddRange(SessionManager.GetCachedCollection<TransitCity>(
+                SessionManager.LocationService, "GetCitiesByLocation", args));
             inputCity.DataSource = cities;
             inputCity.DataBind();
         }
@@ -149,7 +154,8 @@ public partial class AccountEventsView : Page
             ArrayList neighborhoods = new ArrayList();
             neighborhoods.Add(new TransitNeighborhood());
             object[] args = { inputCountry.SelectedValue, inputState.SelectedValue, inputCity.SelectedValue };
-            neighborhoods.AddRange(SessionManager.GetCachedCollection<TransitNeighborhood>(LocationService, "GetNeighborhoodsByLocation", args));
+            neighborhoods.AddRange(SessionManager.GetCachedCollection<TransitNeighborhood>(
+                SessionManager.LocationService, "GetNeighborhoodsByLocation", args));
             inputNeighborhood.DataSource = neighborhoods;
             inputNeighborhood.DataBind();
         }
@@ -201,7 +207,7 @@ public partial class AccountEventsView : Page
             serviceoptions.PageNumber = gridManage.CurrentPageIndex;
             object[] args = { SessionManager.Ticket, SessionManager.UtcOffset, options, serviceoptions };
             gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountEvent>(
-                EventService, "GetAllAccountEvents", args);
+                SessionManager.EventService, "GetAllAccountEvents", args);
         }
         catch (Exception ex)
         {

@@ -23,7 +23,7 @@ public partial class AccountBlogPostView : Page
             {
                 object[] args = { SessionManager.Ticket, RequestId };
                 TransitAccountBlogPost tfi = SessionManager.GetCachedItem<TransitAccountBlogPost>(
-                    BlogService, "GetAccountBlogPostById", args);
+                    SessionManager.BlogService, "GetAccountBlogPostById", args);
 
                 labelAccountName.Text = Renderer.Render(tfi.AccountName);
                 imageAccount.Src = string.Format("AccountPictureThumbnail.aspx?id={0}", tfi.AccountPictureId);
@@ -51,7 +51,7 @@ public partial class AccountBlogPostView : Page
 
                 object[] d_args = { RequestId };
                 BlogPostComments.DiscussionId = SessionManager.GetCachedCollectionCount(
-                    DiscussionService, "GetAccountBlogPostDiscussionId", d_args);
+                    SessionManager.DiscussionService, "GetAccountBlogPostDiscussionId", d_args);
                 BlogPostComments.DataBind();
 
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
@@ -73,8 +73,8 @@ public partial class AccountBlogPostView : Page
         {
             object[] args = { SessionManager.Ticket, RequestId };
             TransitAccountBlogPost tfi = SessionManager.GetCachedItem<TransitAccountBlogPost>(
-                BlogService, "GetAccountBlogPostById", args);
-            BlogService.DeleteAccountBlogPost(SessionManager.Ticket, tfi.Id);
+                SessionManager.BlogService, "GetAccountBlogPostById", args);
+            SessionManager.BlogService.DeleteAccountBlogPost(SessionManager.Ticket, tfi.Id);
             Redirect(string.Format("AccountBlogView.aspx?id={0}", tfi.AccountBlogId));
         }
         catch (Exception ex)

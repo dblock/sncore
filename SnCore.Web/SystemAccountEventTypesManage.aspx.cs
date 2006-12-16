@@ -39,7 +39,7 @@ public partial class SystemAccountEventTypesManage : AuthenticatedPage
     {
         try
         {
-            gridManage.DataSource = EventService.GetAccountEventTypes();
+            gridManage.DataSource = SessionManager.EventService.GetAccountEventTypes();
         }
         catch (Exception ex)
         {
@@ -70,7 +70,7 @@ public partial class SystemAccountEventTypesManage : AuthenticatedPage
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            EventService.DeleteAccountEventType(SessionManager.Ticket, id);
+                            SessionManager.EventService.DeleteAccountEventType(SessionManager.Ticket, id);
                             ReportInfo("Account event type deleted.");
                             gridManage.CurrentPageIndex = 0;
                             gridManage_OnGetDataSource(source, e);

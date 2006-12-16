@@ -20,13 +20,13 @@ public partial class SearchPlacesControl : SearchControl
     {
         object[] args = { SearchQuery };
         return SessionManager.GetCachedCollectionCount(
-            PlaceService, "SearchPlacesCount", args);
+            SessionManager.PlaceService, "SearchPlacesCount", args);
     }
 
     protected override IEnumerable GetResults()
     {
         return SessionManager.GetCachedCollection<TransitPlace>(
-            PlaceService, "SearchPlaces", GetSearchQueryArgs());
+            SessionManager.PlaceService, "SearchPlaces", GetSearchQueryArgs());
     }
 
     protected override IPagedControl Grid

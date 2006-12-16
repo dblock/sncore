@@ -26,12 +26,12 @@ public partial class SystemNeighborhoodEdit : AuthenticatedPage
                 sitemapdata.Add(new SiteMapDataAttributeNode("Neighborhoods", Request, "SystemNeighborhoodsManage.aspx"));
 
                 object[] c_args = { null };
-                inputCountry.DataSource = SessionManager.GetCachedCollection<TransitCountry>(LocationService, "GetCountries", c_args);
+                inputCountry.DataSource = SessionManager.GetCachedCollection<TransitCountry>(SessionManager.LocationService, "GetCountries", c_args);
                 inputCountry.DataBind();
 
                 if (RequestId > 0)
                 {
-                    TransitNeighborhood tc = LocationService.GetNeighborhoodById(RequestId);
+                    TransitNeighborhood tc = SessionManager.LocationService.GetNeighborhoodById(RequestId);
                     inputName.Text = tc.Name;
                     inputCountry.Items.FindByValue(tc.Country).Selected = true;
                     inputCountry_SelectedIndexChanged(sender, e);
@@ -64,7 +64,7 @@ public partial class SystemNeighborhoodEdit : AuthenticatedPage
         try
         {
             object[] args = { inputCountry.SelectedValue, inputState.SelectedValue};
-            inputCity.DataSource = SessionManager.GetCachedCollection<TransitCity>(LocationService, "GetCitiesByLocation", args);
+            inputCity.DataSource = SessionManager.GetCachedCollection<TransitCity>(SessionManager.LocationService, "GetCitiesByLocation", args);
             inputCity.DataBind();
         }
         catch (Exception ex)
@@ -79,7 +79,7 @@ public partial class SystemNeighborhoodEdit : AuthenticatedPage
         try
         {
             object[] args = { inputCountry.SelectedValue };
-            inputState.DataSource = SessionManager.GetCachedCollection<TransitState>(LocationService, "GetStatesByCountry", args);
+            inputState.DataSource = SessionManager.GetCachedCollection<TransitState>(SessionManager.LocationService, "GetStatesByCountry", args);
             inputState.DataBind();
         }
         catch (Exception ex)
@@ -102,7 +102,7 @@ public partial class SystemNeighborhoodEdit : AuthenticatedPage
             {
                 throw new Exception("City is required.");
             }
-            LocationService.AddNeighborhood(SessionManager.Ticket, tc);
+            SessionManager.LocationService.AddNeighborhood(SessionManager.Ticket, tc);
             Redirect("SystemNeighborhoodsManage.aspx");
         }
         catch (Exception ex)
@@ -116,7 +116,7 @@ public partial class SystemNeighborhoodEdit : AuthenticatedPage
         try
         {
             gridMergeLookup.CurrentPageIndex = 0;
-            gridMergeLookup.DataSource = LocationService.SearchNeighborhoodsByName(inputMergeWhat.Text);
+            gridMergeLookup.DataSource = SessionManager.LocationService.SearchNeighborhoodsByName(inputMergeWhat.Text);
             gridMergeLookup.DataBind();
         }
         catch (Exception ex)
@@ -132,7 +132,7 @@ public partial class SystemNeighborhoodEdit : AuthenticatedPage
             switch (e.CommandName)
             {
                 case "Merge":
-                    int count = LocationService.MergeNeighborhoods(SessionManager.Ticket, 
+                    int count = SessionManager.LocationService.MergeNeighborhoods(SessionManager.Ticket, 
                         RequestId, int.Parse(e.CommandArgument.ToString()));
                     ReportInfo(string.Format("Merged {0} records.", count));
                     mergeLookup_Click(source, e);

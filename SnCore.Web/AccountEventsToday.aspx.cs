@@ -63,14 +63,16 @@ public partial class AccountEventsToday : Page
             {
                 ArrayList types = new ArrayList();
                 types.Add(new TransitAccountEventType());
-                types.AddRange(SessionManager.GetCachedCollection<TransitAccountEventType>(EventService, "GetAccountEventTypes", null));
+                types.AddRange(SessionManager.GetCachedCollection<TransitAccountEventType>(
+                    SessionManager.EventService, "GetAccountEventTypes", null));
                 inputType.DataSource = types;
                 inputType.DataBind();
 
                 ArrayList countries = new ArrayList();
                 countries.Add(new TransitCountry());
                 object[] c_args = { null };
-                countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(LocationService, "GetCountries", c_args));
+                countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(
+                    SessionManager.LocationService, "GetCountries", c_args));
                 inputCountry.DataSource = countries;
                 inputCountry.DataBind();
 
@@ -128,7 +130,7 @@ public partial class AccountEventsToday : Page
         gridManage.CurrentPageIndex = 0;
         object[] args = { SessionManager.Ticket, QueryOptions };
         gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            EventService, "GetAccountEventInstancesCount", args);
+            SessionManager.EventService, "GetAccountEventInstancesCount", args);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
@@ -142,7 +144,7 @@ public partial class AccountEventsToday : Page
             options.PageSize = gridManage.PageSize;
             object[] args = { SessionManager.Ticket, QueryOptions, options };
             gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountEventInstance>(
-                EventService, "GetAccountEventInstances", args);
+                SessionManager.EventService, "GetAccountEventInstances", args);
         }
         catch (Exception ex)
         {
@@ -157,7 +159,8 @@ public partial class AccountEventsToday : Page
             ArrayList states = new ArrayList();
             states.Add(new TransitState());
             object[] args = { inputCountry.SelectedValue };
-            states.AddRange(SessionManager.GetCachedCollection<TransitState>(LocationService, "GetStatesByCountry", args));
+            states.AddRange(SessionManager.GetCachedCollection<TransitState>(
+                SessionManager.LocationService, "GetStatesByCountry", args));
             inputState.DataSource = states;
             inputState.DataBind();
             inputState_SelectedIndexChanged(sender, e);
@@ -177,7 +180,8 @@ public partial class AccountEventsToday : Page
             ArrayList cities = new ArrayList();
             cities.Add(new TransitCity());
             object[] args = { inputCountry.SelectedValue, inputState.SelectedValue };
-            cities.AddRange(SessionManager.GetCachedCollection<TransitCity>(LocationService, "GetCitiesByLocation", args));
+            cities.AddRange(SessionManager.GetCachedCollection<TransitCity>(
+                SessionManager.LocationService, "GetCitiesByLocation", args));
             inputCity.DataSource = cities;
             inputCity.DataBind();
             panelCity.Update();
@@ -195,7 +199,8 @@ public partial class AccountEventsToday : Page
             ArrayList neighborhoods = new ArrayList();
             neighborhoods.Add(new TransitNeighborhood());
             object[] args = { inputCountry.SelectedValue, inputState.SelectedValue, inputCity.SelectedValue };
-            neighborhoods.AddRange(SessionManager.GetCachedCollection<TransitNeighborhood>(LocationService, "GetNeighborhoodsByLocation", args));
+            neighborhoods.AddRange(SessionManager.GetCachedCollection<TransitNeighborhood>(
+                SessionManager.LocationService, "GetNeighborhoodsByLocation", args));
             inputNeighborhood.DataSource = neighborhoods;
             inputNeighborhood.DataBind();
             panelNeighborhood.Update();

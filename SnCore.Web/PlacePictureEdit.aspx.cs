@@ -29,7 +29,7 @@ public partial class PlacePictureEdit : AuthenticatedPage
         {
             if (!IsPostBack)
             {
-                TransitPlace p = PlaceService.GetPlaceById(SessionManager.Ticket, PlaceId);                
+                TransitPlace p = SessionManager.PlaceService.GetPlaceById(SessionManager.Ticket, PlaceId);                
 
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
                 sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));
@@ -38,7 +38,7 @@ public partial class PlacePictureEdit : AuthenticatedPage
 
                 if (RequestId > 0)
                 {
-                    TransitPlacePicture t = PlaceService.GetPlacePictureById(RequestId);
+                    TransitPlacePicture t = SessionManager.PlaceService.GetPlacePictureById(RequestId);
                     inputName.Text = t.Name;
                     inputDescription.Text = t.Description;
                     imageFull.ImageUrl = string.Format("PlacePicture.aspx?id={0}&CacheDuration=0", t.Id);
@@ -69,7 +69,7 @@ public partial class PlacePictureEdit : AuthenticatedPage
             t.Description = inputDescription.Text;
             t.PlaceId = PlaceId;
             t.Id = RequestId;
-            PlaceService.CreateOrUpdatePlacePicture(SessionManager.Ticket, t);
+            SessionManager.PlaceService.CreateOrUpdatePlacePicture(SessionManager.Ticket, t);
             Redirect(string.Format("PlacePicturesManage.aspx?id={0}", PlaceId));
         }
         catch (Exception ex)

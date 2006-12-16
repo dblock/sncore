@@ -25,7 +25,7 @@ public partial class AccountCreate : Page
                 if (!string.IsNullOrEmpty(Request["betapassword"]))
                     inputBetaPassword.Attributes["value"] = Request["betapassword"];
 
-                panelBeta.Visible = AccountService.IsBetaPasswordSet();
+                panelBeta.Visible = SessionManager.AccountService.IsBetaPasswordSet();
 
                 linkAdministrator.OnClientClick =
                     string.Format("location.href='mailto:{0}';",
@@ -80,7 +80,7 @@ public partial class AccountCreate : Page
             // check whether there's already an account with the same e-mail and password
             try
             {
-                string ticket = AccountService.Login(inputEmailAddress.Text, inputPassword.Text);
+                string ticket = SessionManager.AccountService.Login(inputEmailAddress.Text, inputPassword.Text);
                 ReportWarning("There's already an account with the same e-mail address and password.");
                 return;
             }
@@ -88,7 +88,7 @@ public partial class AccountCreate : Page
             {
             }
 
-            AccountService.CreateAccount(
+            SessionManager.AccountService.CreateAccount(
                 inputBetaPassword.Text,
                 inputPassword.Text,
                 inputEmailAddress.Text,
@@ -96,7 +96,7 @@ public partial class AccountCreate : Page
 
             try
             {
-                string ticket = AccountService.Login(inputEmailAddress.Text, inputPassword.Text);
+                string ticket = SessionManager.AccountService.Login(inputEmailAddress.Text, inputPassword.Text);
                 SessionManager.Login(ticket, false);
                 Redirect("AccountCreateWelcome.aspx");
             }

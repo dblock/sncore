@@ -22,7 +22,7 @@ public partial class EmailAccountInvitation : AuthenticatedPage
             {
                 if (mAccountInvitation == null)
                 {
-                    mAccountInvitation = AccountService.GetAccountInvitationById(
+                    mAccountInvitation = SessionManager.AccountService.GetAccountInvitationById(
                         SessionManager.Ticket, RequestId);
                 }
             }

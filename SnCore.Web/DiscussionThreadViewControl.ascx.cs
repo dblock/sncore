@@ -37,7 +37,7 @@ public partial class DiscussionThreadViewControl : Control
 
                 if (DiscussionId > 0)
                 {
-                    TransitDiscussion d = DiscussionService.GetDiscussionById(DiscussionId);
+                    TransitDiscussion d = SessionManager.DiscussionService.GetDiscussionById(DiscussionId);
                     discussionLabel.Text = Renderer.Render(d.Name);
                     discussionDescription.Text = Renderer.Render(d.Description);
                     linkNew.NavigateUrl = string.Format("DiscussionPost.aspx?did={0}&ReturnUrl={1}",
@@ -63,7 +63,7 @@ public partial class DiscussionThreadViewControl : Control
             return;
 
         discussionThreadView.CurrentPageIndex = 0;
-        discussionThreadView.VirtualItemCount = DiscussionService.GetDiscussionThreadPostsCount(
+        discussionThreadView.VirtualItemCount = SessionManager.DiscussionService.GetDiscussionThreadPostsCount(
             SessionManager.Ticket, DiscussionThreadId);
         discussionThreadView_OnGetDataSource(sender, e);
         discussionThreadView.DataBind();
@@ -74,7 +74,7 @@ public partial class DiscussionThreadViewControl : Control
         if (DiscussionThreadId <= 0)
             return;
 
-        discussionThreadView.DataSource = DiscussionService.GetDiscussionThreadPosts(
+        discussionThreadView.DataSource = SessionManager.DiscussionService.GetDiscussionThreadPosts(
             SessionManager.Ticket, DiscussionThreadId);
     }
 
@@ -87,7 +87,7 @@ public partial class DiscussionThreadViewControl : Control
                 case "Delete":
                     {
                         int id = int.Parse(e.CommandArgument.ToString());
-                        DiscussionService.DeleteDiscussionPost(SessionManager.Ticket, id);
+                        SessionManager.DiscussionService.DeleteDiscussionPost(SessionManager.Ticket, id);
                         GetData(sender, e);
                         break;
                     }

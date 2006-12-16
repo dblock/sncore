@@ -23,7 +23,7 @@ public partial class EmailPlacePicture : AuthenticatedPage
             {
                 if (mPlacePicture == null)
                 {
-                    mPlacePicture = PlaceService.GetPlacePictureById(RequestId);
+                    mPlacePicture = SessionManager.PlaceService.GetPlacePictureById(RequestId);
                 }
             }
             catch (Exception ex)
@@ -43,7 +43,7 @@ public partial class EmailPlacePicture : AuthenticatedPage
         {
             if (mPlace == null)
             {
-                mPlace = PlaceService.GetPlaceById(SessionManager.Ticket, PlacePicture.PlaceId);
+                mPlace = SessionManager.PlaceService.GetPlaceById(SessionManager.Ticket, PlacePicture.PlaceId);
             }
             return mPlace;
         }

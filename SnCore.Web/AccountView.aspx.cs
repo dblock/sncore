@@ -45,7 +45,7 @@ public partial class AccountView : Page
             {
                 object[] args = { AccountId };
                 mAccount = SessionManager.GetCachedItem<TransitAccount>(
-                    AccountService, "GetAccountById", args);
+                    SessionManager.AccountService, "GetAccountById", args);
             }
             return mAccount;
         }
@@ -59,7 +59,7 @@ public partial class AccountView : Page
             {
                 object[] args = { AccountId };
                 mAccountPermissions = SessionManager.GetCachedItem<TransitAccountPermissions>(
-                    AccountService, "GetAccountPermissionsById", args);
+                    SessionManager.AccountService, "GetAccountPermissionsById", args);
             }
             return mAccountPermissions;
         }
@@ -71,7 +71,7 @@ public partial class AccountView : Page
         {
             if (mAccountFeature == null)
             {
-                mAccountFeature = SystemService.FindLatestFeature(
+                mAccountFeature = SessionManager.SystemService.FindLatestFeature(
                     "Account", Account.Id); 
             }
             return mAccountFeature;
@@ -155,7 +155,7 @@ public partial class AccountView : Page
 
                 object[] args_aid = { Account.Id };
                 discussionTags.DiscussionId = SessionManager.GetCachedCollectionCount(
-                    DiscussionService, "GetTagDiscussionId", args_aid);
+                    SessionManager.DiscussionService, "GetTagDiscussionId", args_aid);
 
                 linkLeaveTestimonial.NavigateUrl = string.Format("DiscussionPost.aspx?did={0}&ReturnUrl={1}&#edit",
                     discussionTags.DiscussionId, returnurl);
@@ -202,7 +202,7 @@ public partial class AccountView : Page
                 throw new Exception("You must be an administrator to promote other users.");
             }
 
-            AccountService.PromoteAdministrator(SessionManager.Ticket, AccountId);
+            SessionManager.AccountService.PromoteAdministrator(SessionManager.Ticket, AccountId);
             Redirect(Request.Url.PathAndQuery);
         }
         catch (Exception ex)
@@ -224,7 +224,7 @@ public partial class AccountView : Page
             TransitFeature t_feature = new TransitFeature();
             t_feature.DataObjectName = "Account";
             t_feature.DataRowId = AccountId;
-            SystemService.CreateOrUpdateFeature(SessionManager.Ticket, t_feature);
+            SessionManager.SystemService.CreateOrUpdateFeature(SessionManager.Ticket, t_feature);
             Redirect(Request.Url.PathAndQuery);
         }
         catch (Exception ex)
@@ -248,7 +248,7 @@ public partial class AccountView : Page
                 throw new Exception("You must be an administrator to demote other users.");
             }
 
-            AccountService.DemoteAdministrator(SessionManager.Ticket, AccountId);
+            SessionManager.AccountService.DemoteAdministrator(SessionManager.Ticket, AccountId);
             Redirect(Request.Url.PathAndQuery);
         }
         catch (Exception ex)
@@ -278,7 +278,7 @@ public partial class AccountView : Page
                 throw new Exception("You're already impersonating a user.");
             }
 
-            SessionManager.Impersonate(AccountService.Impersonate(SessionManager.Ticket, AccountId));
+            SessionManager.Impersonate(SessionManager.AccountService.Impersonate(SessionManager.Ticket, AccountId));
             Response.Redirect("AccountView.aspx");
         }
         catch (Exception ex)
@@ -300,7 +300,7 @@ public partial class AccountView : Page
             TransitFeature t_feature = new TransitFeature();
             t_feature.DataObjectName = "Account";
             t_feature.DataRowId = RequestId;
-            SystemService.DeleteAllFeatures(SessionManager.Ticket, t_feature);
+            SessionManager.SystemService.DeleteAllFeatures(SessionManager.Ticket, t_feature);
             Redirect(Request.Url.PathAndQuery);
         }
         catch (Exception ex)
@@ -316,7 +316,7 @@ public partial class AccountView : Page
         object[] p_args = { AccountId, po };
         picturesView.CurrentPageIndex = 0;
         picturesView.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            AccountService, "GetAccountPicturesCountById", p_args);
+            SessionManager.AccountService, "GetAccountPicturesCountById", p_args);
         picturesView_OnGetDataSource(sender, e);
         picturesView.DataBind();
         accountNoPicture.Visible = (picturesView.Items.Count == 0);
@@ -331,7 +331,7 @@ public partial class AccountView : Page
             ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
             object[] args = { AccountId, po, options };
             picturesView.DataSource = SessionManager.GetCachedCollection<TransitAccountPicture>(
-                AccountService, "GetAccountPicturesById", args);
+                SessionManager.AccountService, "GetAccountPicturesById", args);
         }
         catch (Exception ex)
         {

@@ -26,7 +26,7 @@ public partial class BugResolutionEdit : AuthenticatedPage
 
                 if (RequestId > 0)
                 {
-                    TransitBugResolution t = BugService.GetBugResolutionById(RequestId);
+                    TransitBugResolution t = SessionManager.BugService.GetBugResolutionById(RequestId);
                     inputName.Text = t.Name;
                     sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
                 }
@@ -53,7 +53,7 @@ public partial class BugResolutionEdit : AuthenticatedPage
             TransitBugResolution t = new TransitBugResolution();
             t.Name = inputName.Text;
             t.Id = RequestId;
-            BugService.CreateOrUpdateBugResolution(SessionManager.Ticket, t);
+            SessionManager.BugService.CreateOrUpdateBugResolution(SessionManager.Ticket, t);
             Redirect("BugResolutionsManage.aspx");
         }
         catch (Exception ex)

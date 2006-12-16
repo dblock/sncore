@@ -21,22 +21,22 @@ public partial class DiscussionThreadMove : Page
         {
             if (!IsPostBack)
             {
-                TransitDiscussionThread tt = DiscussionService.GetDiscussionThreadById(
+                TransitDiscussionThread tt = SessionManager.DiscussionService.GetDiscussionThreadById(
                     SessionManager.Ticket, RequestId);
 
-                TransitDiscussion td = DiscussionService.GetDiscussionById(tt.DiscussionId);
+                TransitDiscussion td = SessionManager.DiscussionService.GetDiscussionById(tt.DiscussionId);
 
                 if (td.Personal)
                 {
                     throw new Exception("You can only move posts for public discussions.");
                 }
 
-                TransitDiscussionPost tp = DiscussionService.GetDiscussionThreadPost(
+                TransitDiscussionPost tp = SessionManager.DiscussionService.GetDiscussionThreadPost(
                     SessionManager.Ticket, tt.Id);
 
                 this.Title = Renderer.Render(td.Name);
 
-                listDiscussions.DataSource = DiscussionService.GetDiscussions(null);
+                listDiscussions.DataSource = SessionManager.DiscussionService.GetDiscussions(null);
                 listDiscussions.DataBind();
 
                 listDiscussions.Items.FindByValue(tt.DiscussionId.ToString()).Selected = true;
@@ -59,7 +59,7 @@ public partial class DiscussionThreadMove : Page
     {
         try
         {
-            DiscussionService.MoveDiscussionThread(
+            SessionManager.DiscussionService.MoveDiscussionThread(
                 SessionManager.Ticket,
                 RequestId,
                 int.Parse(listDiscussions.SelectedValue));

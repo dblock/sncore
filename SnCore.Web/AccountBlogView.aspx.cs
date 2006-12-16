@@ -26,7 +26,7 @@ public partial class AccountBlogView : Page
             {
                 object[] args = { SessionManager.Ticket, RequestId };
                 mAccountBlog = SessionManager.GetCachedItem<TransitAccountBlog>(
-                    BlogService, "GetAccountBlogById", args);
+                    SessionManager.BlogService, "GetAccountBlogById", args);
             }
             return mAccountBlog;
         }
@@ -40,7 +40,7 @@ public partial class AccountBlogView : Page
             {
                 object[] args = { "AccountBlog", RequestId };
                 mAccountBlogFeature = SessionManager.GetCachedItem<TransitFeature>(
-                    SystemService, "FindLatestFeature", args);
+                    SessionManager.SystemService, "FindLatestFeature", args);
             }
             return mAccountBlogFeature;
         }
@@ -59,7 +59,7 @@ public partial class AccountBlogView : Page
 
                 object[] args = { f.AccountId };
                 TransitAccount a = SessionManager.GetCachedItem<TransitAccount>(
-                    AccountService, "GetAccountById", args);
+                    SessionManager.AccountService, "GetAccountById", args);
 
                 labelAccountName.Text = Renderer.Render(a.Name);
                 linkAccount.HRef = string.Format("AccountView.aspx?id={0}", a.Id);
@@ -99,7 +99,7 @@ public partial class AccountBlogView : Page
         gridManage.CurrentPageIndex = 0;
         object[] args = { RequestId };
         gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            BlogService, "GetAccountBlogPostsCountById", args);
+            SessionManager.BlogService, "GetAccountBlogPostsCountById", args);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -113,7 +113,7 @@ public partial class AccountBlogView : Page
             options.PageSize = gridManage.PageSize;
             object[] args = { SessionManager.Ticket, RequestId, options };
             gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountBlogPost>(
-                BlogService, "GetAccountBlogPostsById", args);
+                SessionManager.BlogService, "GetAccountBlogPostsById", args);
         }
         catch (Exception ex)
         {
@@ -155,7 +155,7 @@ public partial class AccountBlogView : Page
             TransitFeature t_feature = new TransitFeature();
             t_feature.DataObjectName = "AccountBlog";
             t_feature.DataRowId = RequestId;
-            SystemService.CreateOrUpdateFeature(SessionManager.Ticket, t_feature);
+            SessionManager.SystemService.CreateOrUpdateFeature(SessionManager.Ticket, t_feature);
             Redirect(Request.Url.PathAndQuery);
         }
         catch (Exception ex)
@@ -177,7 +177,7 @@ public partial class AccountBlogView : Page
             TransitFeature t_feature = new TransitFeature();
             t_feature.DataObjectName = "AccountBlog";
             t_feature.DataRowId = RequestId;
-            SystemService.DeleteAllFeatures(SessionManager.Ticket, t_feature);
+            SessionManager.SystemService.DeleteAllFeatures(SessionManager.Ticket, t_feature);
             Redirect(Request.Url.PathAndQuery);
         }
         catch (Exception ex)
@@ -193,7 +193,7 @@ public partial class AccountBlogView : Page
             switch (e.CommandName)
             {
                 case "Delete":
-                    BlogService.DeleteAccountBlogPost(SessionManager.Ticket, int.Parse(e.CommandArgument.ToString()));
+                    SessionManager.BlogService.DeleteAccountBlogPost(SessionManager.Ticket, int.Parse(e.CommandArgument.ToString()));
                     ReportInfo("Post Deleted");
                     GetData(source, e);
                     break;

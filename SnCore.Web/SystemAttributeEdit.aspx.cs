@@ -30,7 +30,7 @@ public partial class SystemAttributeEdit : AuthenticatedPage
 
                 if (RequestId > 0)
                 {
-                    TransitAttribute t = SystemService.GetAttributeById(RequestId);
+                    TransitAttribute t = SessionManager.SystemService.GetAttributeById(RequestId);
                     inputName.Text = t.Name;
                     inputDescription.Text = t.Description;
                     inputDefaultUrl.Text = t.DefaultUrl;
@@ -67,7 +67,7 @@ public partial class SystemAttributeEdit : AuthenticatedPage
             t.DefaultValue = inputDefaultValue.Text;
             t.Id = RequestId;
             if (inputBitmap.HasFile) t.Bitmap = new ThumbnailBitmap(inputBitmap.FileContent, new Size(16, 16)).Bitmap;
-            SystemService.CreateOrUpdateAttribute(SessionManager.Ticket, t);
+            SessionManager.SystemService.CreateOrUpdateAttribute(SessionManager.Ticket, t);
             Redirect("SystemAttributesManage.aspx");
         }
         catch (Exception ex)

@@ -29,7 +29,7 @@ public partial class AccountEventPicturesManage : AuthenticatedPage
 
             if (!IsPostBack)
             {
-                TransitAccountEvent p = EventService.GetAccountEventById(SessionManager.Ticket, RequestId, SessionManager.UtcOffset);
+                TransitAccountEvent p = SessionManager.EventService.GetAccountEventById(SessionManager.Ticket, RequestId, SessionManager.UtcOffset);
 
                 gridManage_OnGetDataSource(this, null);
                 gridManage.DataBind();
@@ -42,7 +42,7 @@ public partial class AccountEventPicturesManage : AuthenticatedPage
                 StackSiteMap(sitemapdata);
             }
 
-            if (!AccountService.HasVerifiedEmail(SessionManager.Ticket))
+            if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket))
             {
                 ReportWarning("You don't have any verified e-mail addresses.\n" +
                     "You must add/confirm a valid e-mail address before uploading pictures.");
@@ -60,7 +60,7 @@ public partial class AccountEventPicturesManage : AuthenticatedPage
     {
         try
         {
-            gridManage.DataSource = EventService.GetAccountEventPicturesById(RequestId, null);
+            gridManage.DataSource = SessionManager.EventService.GetAccountEventPicturesById(RequestId, null);
         }
         catch (Exception ex)
         {
@@ -87,7 +87,7 @@ public partial class AccountEventPicturesManage : AuthenticatedPage
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            EventService.DeleteAccountEventPicture(SessionManager.Ticket, id);
+                            SessionManager.EventService.DeleteAccountEventPicture(SessionManager.Ticket, id);
                             ReportInfo("Picture deleted.");
                             gridManage.CurrentPageIndex = 0;
                             gridManage_OnGetDataSource(source, e);
@@ -121,7 +121,7 @@ public partial class AccountEventPicturesManage : AuthenticatedPage
                     p.Name = Path.GetFileName(file.FileName);
                     p.Description = string.Empty;
                     p.AccountEventId = RequestId;
-                    EventService.CreateOrUpdateAccountEventPicture(SessionManager.Ticket, p);
+                    SessionManager.EventService.CreateOrUpdateAccountEventPicture(SessionManager.Ticket, p);
                 }
                 catch (Exception ex)
                 {

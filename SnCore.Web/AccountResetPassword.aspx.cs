@@ -53,7 +53,7 @@ public partial class AccountResetPassword : Page
                 throw new Exception("Please select a valid date.");
             }
 
-            AccountService.ResetPassword(resetpasswordEmailAddress.Text, resetpasswordBirthday.SelectedDate);
+            SessionManager.AccountService.ResetPassword(resetpasswordEmailAddress.Text, resetpasswordBirthday.SelectedDate);
             ReportInfo("A new password has been sent to '" + resetpasswordEmailAddress.Text + "'. Click <a href='AccountLogin.aspx'>here</a> to login.");
             panelReset.Visible = false;
             panelResetUpdate.Update();

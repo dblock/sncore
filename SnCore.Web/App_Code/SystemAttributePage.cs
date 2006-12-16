@@ -22,7 +22,7 @@ public abstract class SystemAttributePage : PicturePage
     {
         object[] args = { ticket, id, ifModifiedSince };
         TransitAttributeWithBitmap p = SessionManager.GetCachedItem<TransitAttributeWithBitmap>(
-            SystemService, "GetAttributeWithBitmapByIdIfModifiedSince", args);
+            SessionManager.SystemService, "GetAttributeWithBitmapByIdIfModifiedSince", args);
 
         if (p == null)
             return null;
@@ -40,7 +40,7 @@ public abstract class SystemAttributePage : PicturePage
     {
         object[] args = { ticket, id, ifModifiedSince };
         TransitAttributeWithBitmap p = SessionManager.GetCachedItem<TransitAttributeWithBitmap>(
-            SystemService, "GetAttributeWithBitmapByIdIfModifiedSince", args);
+            SessionManager.SystemService, "GetAttributeWithBitmapByIdIfModifiedSince", args);
 
         if (p == null)
             return null;
@@ -58,7 +58,7 @@ public abstract class SystemAttributePage : PicturePage
     {
         object[] args = { ticket, id };
         TransitAttributeWithBitmap p = SessionManager.GetCachedItem<TransitAttributeWithBitmap>(
-            SystemService, "GetAttributeWithBitmapById", args);
+            SessionManager.SystemService, "GetAttributeWithBitmapById", args);
 
         if (p == null)
             return null;
@@ -76,7 +76,7 @@ public abstract class SystemAttributePage : PicturePage
     {
         object[] args = { ticket, id };
         TransitAttributeWithBitmap p = SessionManager.GetCachedItem<TransitAttributeWithBitmap>(
-            SystemService, "GetAttributeWithBitmapById", args);
+            SessionManager.SystemService, "GetAttributeWithBitmapById", args);
 
         if (p == null)
             return null;

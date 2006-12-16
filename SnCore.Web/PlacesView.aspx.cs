@@ -216,7 +216,7 @@ public partial class PlacesView : Page
         gridManage.CurrentPageIndex = 0;
         object[] args = { GetQueryOptions() };
         gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            PlaceService, "GetPlacesCount", args);
+            SessionManager.PlaceService, "GetPlacesCount", args);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -291,7 +291,8 @@ public partial class PlacesView : Page
 
             ServiceQueryOptions serviceoptions = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
             object[] args = { options, serviceoptions };
-            gridManage.DataSource = SessionManager.GetCachedCollection<TransitPlace>(PlaceService, "GetPlaces", args);
+            gridManage.DataSource = SessionManager.GetCachedCollection<TransitPlace>(
+                SessionManager.PlaceService, "GetPlaces", args);
         }
         catch (Exception ex)
         {

@@ -29,7 +29,7 @@ public partial class SystemRefererAccountEdit : AuthenticatedPage
 
                 if (RequestId > 0)
                 {
-                    TransitRefererAccount t = StatsService.GetRefererAccountById(RequestId);
+                    TransitRefererAccount t = SessionManager.StatsService.GetRefererAccountById(RequestId);
                     inputAccount.Text = t.AccountId.ToString();
                     inputRefererHost.Text = t.RefererHostName;
                     sitemapdata.Add(new SiteMapDataAttributeNode(t.AccountName, Request.Url));
@@ -58,7 +58,7 @@ public partial class SystemRefererAccountEdit : AuthenticatedPage
             t.RefererHostName = inputRefererHost.Text;
             t.AccountId = int.Parse(inputAccount.Text);
             t.Id = RequestId;
-            StatsService.CreateOrUpdateRefererAccount(SessionManager.Ticket, t);
+            SessionManager.StatsService.CreateOrUpdateRefererAccount(SessionManager.Ticket, t);
             Redirect("SystemRefererAccountsManage.aspx");
         }
         catch (Exception ex)

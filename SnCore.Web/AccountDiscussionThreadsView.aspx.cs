@@ -63,7 +63,7 @@ public partial class AcountDiscussionThreadsView : Page
         discussionThreadView.CurrentPageIndex = 0;
         object[] args = { QueryOptions };
         discussionThreadView.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            DiscussionService, "GetUserDiscussionThreadsCount", args);
+            SessionManager.DiscussionService, "GetUserDiscussionThreadsCount", args);
         gridManage_OnGetDataSource(sender, e);
         discussionThreadView.DataBind();
     }
@@ -77,7 +77,7 @@ public partial class AcountDiscussionThreadsView : Page
             options.PageSize = discussionThreadView.PageSize;
             object[] args = { QueryOptions, options };
             discussionThreadView.DataSource = SessionManager.GetCachedCollection<TransitDiscussionPost>(
-                DiscussionService, "GetUserDiscussionThreads", args);
+                SessionManager.DiscussionService, "GetUserDiscussionThreads", args);
         }
         catch (Exception ex)
         {
@@ -97,7 +97,7 @@ public partial class AcountDiscussionThreadsView : Page
 
                 object[] args = { AccountId };
                 TransitAccount ta = SessionManager.GetCachedItem<TransitAccount>(
-                    AccountService, "GetAccountById", args);
+                    SessionManager.AccountService, "GetAccountById", args);
 
                 linkRelRss.Title = this.Title = labelHeader.Text = string.Format("{0}'s Discussion Posts", Renderer.Render(ta.Name));                
                 linkRelRss.NavigateUrl = string.Format("AccountDiscussionThreadsRss.aspx?id={0}&toplevel={1}", ta.Id, TopOfThreads);

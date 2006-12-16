@@ -80,7 +80,7 @@ public partial class DiscussionPostNew : AuthenticatedPage
 
                 if (DiscussionId > 0)
                 {
-                    TransitDiscussion td = DiscussionService.GetDiscussionById(DiscussionId);
+                    TransitDiscussion td = SessionManager.DiscussionService.GetDiscussionById(DiscussionId);
                     discussionLabelLink.Text = Renderer.Render(td.Name);
                     discussionLabelLink.NavigateUrl = string.Format("DiscussionView.aspx?id={0}", td.Id);                    
                     sitemapdata.Add(new SiteMapDataAttributeNode(td.Name, Request, string.Format("DiscussionView.aspx?id={0}", td.Id)));
@@ -90,7 +90,7 @@ public partial class DiscussionPostNew : AuthenticatedPage
 
                 if (PostId > 0)
                 {
-                    TransitDiscussionPost tw = DiscussionService.GetDiscussionPostById(SessionManager.Ticket, PostId);
+                    TransitDiscussionPost tw = SessionManager.DiscussionService.GetDiscussionPostById(SessionManager.Ticket, PostId);
                     titleNewPost.Text = Renderer.Render(tw.Subject);
                     inputSubject.Text = tw.Subject;
                     body.Append(tw.Body);
@@ -103,7 +103,7 @@ public partial class DiscussionPostNew : AuthenticatedPage
                 
                 if (ParentId > 0)
                 {
-                    TransitDiscussionPost rp = DiscussionService.GetDiscussionPostById(SessionManager.Ticket, ParentId);
+                    TransitDiscussionPost rp = SessionManager.DiscussionService.GetDiscussionPostById(SessionManager.Ticket, ParentId);
                     panelReplyTo.Visible = true;
                     replytoSenderName.NavigateUrl = accountlink.HRef = "AccountView.aspx?id=" + rp.AccountId.ToString();
                     replytoSenderName.Text = replytoAccount.Text = Renderer.Render(rp.AccountName);
@@ -133,7 +133,7 @@ public partial class DiscussionPostNew : AuthenticatedPage
                 StackSiteMap(sitemapdata);
             }
 
-            if (!AccountService.HasVerifiedEmail(SessionManager.Ticket))
+            if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket))
             {
                 ReportWarning("You don't have any verified e-mail addresses.\n" +
                     "You must add/confirm a valid e-mail address before posting messages.");
@@ -161,7 +161,7 @@ public partial class DiscussionPostNew : AuthenticatedPage
             tw.Id = PostId;
             tw.DiscussionPostParentId = ParentId;
             tw.DiscussionId = DiscussionId;
-            DiscussionService.AddDiscussionPost(SessionManager.Ticket, tw);
+            SessionManager.DiscussionService.AddDiscussionPost(SessionManager.Ticket, tw);
             Redirect(linkCancel.NavigateUrl);
         }
         catch (Exception ex)
@@ -190,7 +190,7 @@ public partial class DiscussionPostNew : AuthenticatedPage
                     p.Description = string.Empty;
                     p.Hidden = true;
 
-                    int id = AccountService.AddAccountPicture(SessionManager.Ticket, p);
+                    int id = SessionManager.AccountService.AddAccountPicture(SessionManager.Ticket, p);
 
                     Size size = t.GetNewSize(new Size(200, 200));
 

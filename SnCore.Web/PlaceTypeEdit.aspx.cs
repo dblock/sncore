@@ -27,7 +27,7 @@ public partial class PlaceTypeEdit : AuthenticatedPage
 
                 if (RequestId > 0)
                 {
-                    TransitPlaceType t = PlaceService.GetPlaceTypeById(RequestId);
+                    TransitPlaceType t = SessionManager.PlaceService.GetPlaceTypeById(RequestId);
                     inputName.Text = t.Name;
                     sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
                 }
@@ -53,7 +53,7 @@ public partial class PlaceTypeEdit : AuthenticatedPage
             TransitPlaceType t = new TransitPlaceType();
             t.Name = inputName.Text;
             t.Id = RequestId;
-            PlaceService.CreateOrUpdatePlaceType(SessionManager.Ticket, t);
+            SessionManager.PlaceService.CreateOrUpdatePlaceType(SessionManager.Ticket, t);
             Redirect("PlaceTypesManage.aspx");
         }
         catch (Exception ex)

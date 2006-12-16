@@ -22,7 +22,7 @@ public partial class EmailBugClosed : AuthenticatedPage
             {
                 if (mBug == null)
                 {
-                    mBug = BugService.GetBugById(RequestId);
+                    mBug = SessionManager.BugService.GetBugById(RequestId);
                 }
             }
             catch (Exception ex)

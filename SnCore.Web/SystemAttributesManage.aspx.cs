@@ -45,7 +45,7 @@ public partial class SystemAttributesManage : AuthenticatedPage
     {
         try
         {
-            gridManage.DataSource = SystemService.GetAttributes();
+            gridManage.DataSource = SessionManager.SystemService.GetAttributes();
         }
         catch (Exception ex)
         {
@@ -72,7 +72,7 @@ public partial class SystemAttributesManage : AuthenticatedPage
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            SystemService.DeleteAttribute(SessionManager.Ticket, id);
+                            SessionManager.SystemService.DeleteAttribute(SessionManager.Ticket, id);
                             ReportInfo("Attribute deleted.");
                             gridManage.CurrentPageIndex = 0;
                             gridManage_OnGetDataSource(source, e);

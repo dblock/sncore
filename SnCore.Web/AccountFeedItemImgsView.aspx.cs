@@ -87,11 +87,11 @@ public partial class AccountFeedItemImgsView : AccountPersonPage
     private void GetData()
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SyndicationService.GetAccountFeedItemImgsCount(QueryOptions);
+        gridManage.VirtualItemCount = SessionManager.SyndicationService.GetAccountFeedItemImgsCount(QueryOptions);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
 
-        int feedsCount = SyndicationService.GetUpdatedAccountFeedsCount();
+        int feedsCount = SessionManager.SyndicationService.GetUpdatedAccountFeedsCount();
 
         labelCount.Text = string.Format("{0} picture{1} from <a href='AccountFeedsView.aspx'>{2} blog{3}</a>",
             gridManage.VirtualItemCount, gridManage.VirtualItemCount == 1 ? string.Empty : "s",
@@ -105,7 +105,7 @@ public partial class AccountFeedItemImgsView : AccountPersonPage
             ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
             serviceoptions.PageSize = gridManage.PageSize;
             serviceoptions.PageNumber = gridManage.CurrentPageIndex;
-            gridManage.DataSource = SyndicationService.GetAccountFeedItemImgs(QueryOptions, serviceoptions);
+            gridManage.DataSource = SessionManager.SyndicationService.GetAccountFeedItemImgs(QueryOptions, serviceoptions);
         }
         catch (Exception ex)
         {
@@ -120,11 +120,11 @@ public partial class AccountFeedItemImgsView : AccountPersonPage
             switch (e.CommandName)
             {
                 case "Toggle":
-                    TransitAccountFeedItemImg img = SyndicationService.GetAccountFeedItemImgById(
+                    TransitAccountFeedItemImg img = SessionManager.SyndicationService.GetAccountFeedItemImgById(
                         SessionManager.Ticket, int.Parse(e.CommandArgument.ToString()));
                     img.Visible = !img.Visible;
                     if (!img.Visible) img.Interesting = false;
-                    SyndicationService.CreateOrUpdateAccountFeedItemImg(SessionManager.Ticket, img);
+                    SessionManager.SyndicationService.CreateOrUpdateAccountFeedItemImg(SessionManager.Ticket, img);
                     LinkButton lb = (LinkButton)e.Item.FindControl("linkToggleVisible");
                     lb.Text = img.Visible ? "&#187; Hide" : "&#187; Show";
                     UpdatePanel up = (UpdatePanel)e.Item.FindControl("panelShowHide");

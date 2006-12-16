@@ -24,11 +24,11 @@ public partial class AccountStoryView : Page
             {
                 object[] s_args = { SessionManager.Ticket, RequestId };
                 TransitAccountStory ts = SessionManager.GetCachedItem<TransitAccountStory>(
-                    StoryService, "GetAccountStoryById", s_args);
+                    SessionManager.StoryService, "GetAccountStoryById", s_args);
 
                 object[] a_args = { ts.AccountId };
                 TransitAccount acct = SessionManager.GetCachedItem<TransitAccount>(
-                    AccountService, "GetAccountById", a_args);
+                    SessionManager.AccountService, "GetAccountById", a_args);
 
                 licenseView.AccountId = acct.Id;
 
@@ -39,12 +39,12 @@ public partial class AccountStoryView : Page
 
                 object[] p_args = { RequestId };
                 listPictures.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-                    StoryService, "GetAccountStoryPicturesCountById", p_args);
+                    SessionManager.StoryService, "GetAccountStoryPicturesCountById", p_args);
                 listPictures_OnGetDataSource(sender, e);
 
                 object[] d_args = { RequestId };
                 storyComments.DiscussionId = SessionManager.GetCachedCollectionCount(
-                    DiscussionService, "GetAccountStoryDiscussionId", d_args);
+                    SessionManager.DiscussionService, "GetAccountStoryDiscussionId", d_args);
 
                 storyComments.DataBind();
 
@@ -75,7 +75,7 @@ public partial class AccountStoryView : Page
             options.PageSize = listPictures.PageSize;
             object[] p_args = { RequestId, options };
             listPictures.DataSource = SessionManager.GetCachedCollection<TransitAccountStoryPicture>(
-                StoryService, "GetAccountStoryPicturesById", p_args);
+                SessionManager.StoryService, "GetAccountStoryPicturesById", p_args);
             listPictures.DataBind();
         }
         catch (Exception ex)

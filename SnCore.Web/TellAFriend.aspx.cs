@@ -47,7 +47,7 @@ public partial class TellAFriend : AuthenticatedPage
                 linkPage.NavigateUrl = linkCancel.NavigateUrl = Url;
                 Title = inputSubject.Text = string.Format("Check out {0}", subject);
 
-                if (!AccountService.HasVerifiedEmail(SessionManager.Ticket))
+                if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket))
                 {
                     ReportWarning("You don't have any verified e-mail addresses.\n" +
                         "You must add/confirm a valid e-mail address before using this feature.");
@@ -91,7 +91,7 @@ public partial class TellAFriend : AuthenticatedPage
                     throw new Exception(string.Format("Error adding \"{0}\".\n{1}", address.Trim(), ex.Message), ex);
                 }
 
-                AccountService.SendAccountEmailMessage(SessionManager.Ticket, message);
+                SessionManager.AccountService.SendAccountEmailMessage(SessionManager.Ticket, message);
             }
 
             Redirect(Url);

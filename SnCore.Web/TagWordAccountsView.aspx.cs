@@ -22,7 +22,7 @@ public partial class TagWordAccountsView : Page
             gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
             if (!IsPostBack)
             {
-                TransitTagWord word = TagWordService.GetTagWordById(RequestId);
+                TransitTagWord word = SessionManager.TagWordService.GetTagWordById(RequestId);
                 tagSubtitle.Text = string.Format("Who is talking about <b>\"{0}\"</b>?", Renderer.Render(word.Word));
                 this.Title = string.Format("Who is talking about \"{0}\"?", Renderer.Render(word.Word));
                 gridManage_OnGetDataSource(this, null);
@@ -45,7 +45,7 @@ public partial class TagWordAccountsView : Page
     {
         try
         {
-            gridManage.DataSource = TagWordService.GetTagWordAccountsById(RequestId);
+            gridManage.DataSource = SessionManager.TagWordService.GetTagWordAccountsById(RequestId);
         }
         catch (Exception ex)
         {

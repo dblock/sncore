@@ -48,7 +48,7 @@ public partial class AccountBlogsManage : AuthenticatedPage
     {
         try
         {
-            gridManage.DataSource = BlogService.GetAccountBlogs(SessionManager.Ticket);
+            gridManage.DataSource = SessionManager.BlogService.GetAccountBlogs(SessionManager.Ticket);
         }
         catch (Exception ex)
         {
@@ -60,7 +60,7 @@ public partial class AccountBlogsManage : AuthenticatedPage
     {
         try
         {
-            gridManageAuthor.DataSource = BlogService.GetAccountBlogAuthored(SessionManager.Ticket);
+            gridManageAuthor.DataSource = SessionManager.BlogService.GetAccountBlogAuthored(SessionManager.Ticket);
         }
         catch (Exception ex)
         {
@@ -76,7 +76,7 @@ public partial class AccountBlogsManage : AuthenticatedPage
             switch (e.CommandName)
             {
                 case "Delete":
-                    BlogService.DeleteAccountBlog(SessionManager.Ticket, id);
+                    SessionManager.BlogService.DeleteAccountBlog(SessionManager.Ticket, id);
                     ReportInfo("Blog deleted.");
                     gridManage.CurrentPageIndex = 0;
                     gridManage_OnGetDataSource(sender, e);

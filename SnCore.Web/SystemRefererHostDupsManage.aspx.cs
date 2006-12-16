@@ -46,7 +46,7 @@ public partial class SystemRefererHostDupsManage : AuthenticatedPage
     {
         try
         {
-            gridManage.DataSource = StatsService.GetRefererHostDups();
+            gridManage.DataSource = SessionManager.StatsService.GetRefererHostDups();
         }
         catch (Exception ex)
         {
@@ -73,7 +73,7 @@ public partial class SystemRefererHostDupsManage : AuthenticatedPage
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            StatsService.DeleteRefererHostDup(SessionManager.Ticket, id);
+                            SessionManager.StatsService.DeleteRefererHostDup(SessionManager.Ticket, id);
                             ReportInfo("RefererHostDup deleted.");
                             gridManage.CurrentPageIndex = 0;
                             gridManage_OnGetDataSource(source, e);

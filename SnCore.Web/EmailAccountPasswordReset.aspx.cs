@@ -22,7 +22,7 @@ public partial class EmailAccountPasswordReset : AuthenticatedPage
             {
                 if (mAccount == null)
                 {
-                    mAccount = AccountService.GetAccountById(RequestId);
+                    mAccount = SessionManager.AccountService.GetAccountById(RequestId);
                 }
             }
             catch (Exception ex)

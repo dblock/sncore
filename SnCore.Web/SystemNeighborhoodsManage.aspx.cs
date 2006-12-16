@@ -38,7 +38,7 @@ public partial class SystemNeighborhoodsManage : AuthenticatedPage
     void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = LocationService.GetNeighborhoodsCount();
+        gridManage.VirtualItemCount = SessionManager.LocationService.GetNeighborhoodsCount();
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
@@ -50,7 +50,7 @@ public partial class SystemNeighborhoodsManage : AuthenticatedPage
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridManage.CurrentPageIndex;
             options.PageSize = gridManage.PageSize;
-            gridManage.DataSource = LocationService.GetNeighborhoods(options);
+            gridManage.DataSource = SessionManager.LocationService.GetNeighborhoods(options);
         }
         catch (Exception ex)
         {
@@ -78,7 +78,7 @@ public partial class SystemNeighborhoodsManage : AuthenticatedPage
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            LocationService.DeleteNeighborhood(SessionManager.Ticket, id);
+                            SessionManager.LocationService.DeleteNeighborhood(SessionManager.Ticket, id);
                             ReportInfo("Neighborhood deleted.");
                             GetData(source, e);
                             break;

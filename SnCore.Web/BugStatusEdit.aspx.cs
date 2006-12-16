@@ -27,7 +27,7 @@ public partial class BugStatusEdit : AuthenticatedPage
 
                 if (RequestId > 0)
                 {
-                    TransitBugStatus t = BugService.GetBugStatusById(RequestId);
+                    TransitBugStatus t = SessionManager.BugService.GetBugStatusById(RequestId);
                     inputName.Text = t.Name;
                     sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
                 }
@@ -54,7 +54,7 @@ public partial class BugStatusEdit : AuthenticatedPage
             TransitBugStatus t = new TransitBugStatus();
             t.Name = inputName.Text;
             t.Id = RequestId;
-            BugService.CreateOrUpdateBugStatus(SessionManager.Ticket, t);
+            SessionManager.BugService.CreateOrUpdateBugStatus(SessionManager.Ticket, t);
             Redirect("BugStatusesManage.aspx");
         }
         catch (Exception ex)

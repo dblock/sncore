@@ -23,7 +23,8 @@ public partial class AccountContentGroupView : Page
 
             if (!IsPostBack)
             {
-                TransitAccountContentGroup group = ContentService.GetAccountContentGroupById(SessionManager.Ticket, RequestId);
+                TransitAccountContentGroup group = SessionManager.ContentService.GetAccountContentGroupById(
+                    SessionManager.Ticket, RequestId);
 
                 if (group.Login && !SessionManager.IsLoggedIn)
                 {
@@ -51,7 +52,7 @@ public partial class AccountContentGroupView : Page
     public void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = ContentService.GetAccountContentsCountById(
+        gridManage.VirtualItemCount = SessionManager.ContentService.GetAccountContentsCountById(
             SessionManager.Ticket, RequestId);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
@@ -64,7 +65,7 @@ public partial class AccountContentGroupView : Page
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridManage.CurrentPageIndex;
             options.PageSize = gridManage.PageSize;
-            gridManage.DataSource = ContentService.GetAccountContentsById(
+            gridManage.DataSource = SessionManager.ContentService.GetAccountContentsById(
                 SessionManager.Ticket, RequestId, options);
         }
         catch (Exception ex)

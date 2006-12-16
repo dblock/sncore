@@ -21,7 +21,7 @@ public partial class AccountFriendRequestsSentManage : AuthenticatedPage
             listSent.OnGetDataSource += new EventHandler(listSent_OnGetDataSource);
             if (!IsPostBack)
             {
-                listSent.VirtualItemCount = SocialService.GetAccountFriendRequestsSentCount(SessionManager.Ticket);                
+                listSent.VirtualItemCount = SessionManager.SocialService.GetAccountFriendRequestsSentCount(SessionManager.Ticket);                
                 GetData(sender, e);
 
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
@@ -42,7 +42,7 @@ public partial class AccountFriendRequestsSentManage : AuthenticatedPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = listSent.CurrentPageIndex;
         options.PageSize = listSent.PageSize;
-        listSent.DataSource = SocialService.GetAccountFriendRequestsSent(SessionManager.Ticket, options);
+        listSent.DataSource = SessionManager.SocialService.GetAccountFriendRequestsSent(SessionManager.Ticket, options);
     }
 
     public void GetData(object sender, EventArgs e)
@@ -60,7 +60,7 @@ public partial class AccountFriendRequestsSentManage : AuthenticatedPage
             {
                 case "Cancel":
                     int id = int.Parse(e.CommandArgument.ToString());
-                    SocialService.DeleteAccountFriendRequest(SessionManager.Ticket, id);
+                    SessionManager.SocialService.DeleteAccountFriendRequest(SessionManager.Ticket, id);
                     GetData(sender, e);
                     noticeManage.Info = "Request cancelled.";
                     break;

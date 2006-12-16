@@ -27,7 +27,7 @@ public partial class SystemSurveyEdit : AuthenticatedPage
 
                 if (RequestId > 0)
                 {
-                    TransitSurvey tw = SystemService.GetSurveyById(RequestId);
+                    TransitSurvey tw = SessionManager.SystemService.GetSurveyById(RequestId);
                     inputName.Text = Renderer.Render(tw.Name);
                     sitemapdata.Add(new SiteMapDataAttributeNode(tw.Name, Request.Url));
                 }
@@ -52,7 +52,7 @@ public partial class SystemSurveyEdit : AuthenticatedPage
             try
             {
                 linkNewQuestion.NavigateUrl = "SystemSurveyQuestionEdit.aspx?sid=" + RequestId.ToString();
-                gridManage.DataSource = SystemService.GetSurveyQuestions(RequestId);
+                gridManage.DataSource = SessionManager.SystemService.GetSurveyQuestions(RequestId);
                 gridManage.DataBind();
             }
             catch (Exception ex)
@@ -73,7 +73,7 @@ public partial class SystemSurveyEdit : AuthenticatedPage
             TransitSurvey tw = new TransitSurvey();
             tw.Name = inputName.Text;
             tw.Id = RequestId;
-            SystemService.AddSurvey(SessionManager.Ticket, tw);
+            SessionManager.SystemService.AddSurvey(SessionManager.Ticket, tw);
             Redirect("SystemSurveysManage.aspx");
         }
         catch (Exception ex)
@@ -102,10 +102,10 @@ public partial class SystemSurveyEdit : AuthenticatedPage
                     Redirect(string.Format("SystemSurveyQuestionEdit.aspx?sid={0}&id={1}", RequestId, id));
                     break;
                 case "Delete":
-                    SystemService.DeleteSurveyQuestion(SessionManager.Ticket, id);
+                    SessionManager.SystemService.DeleteSurveyQuestion(SessionManager.Ticket, id);
                     ReportInfo("Survey question deleted.");
                     gridManage.CurrentPageIndex = 0;
-                    gridManage.DataSource = SystemService.GetSurveyQuestions(RequestId);
+                    gridManage.DataSource = SessionManager.SystemService.GetSurveyQuestions(RequestId);
                     gridManage.DataBind();
                     break;
             }

@@ -39,7 +39,7 @@ public partial class SystemAccountPropertyGroupsManage : AuthenticatedPage
     {
         try
         {
-            gridManage.DataSource = AccountService.GetAccountPropertyGroups();
+            gridManage.DataSource = SessionManager.AccountService.GetAccountPropertyGroups();
         }
         catch (Exception ex)
         {
@@ -66,7 +66,7 @@ public partial class SystemAccountPropertyGroupsManage : AuthenticatedPage
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            AccountService.DeleteAccountPropertyGroup(SessionManager.Ticket, id);
+                            SessionManager.AccountService.DeleteAccountPropertyGroup(SessionManager.Ticket, id);
                             ReportInfo("Account property group deleted.");
                             gridManage.CurrentPageIndex = 0;
                             gridManage_OnGetDataSource(source, e);

@@ -23,7 +23,7 @@ public partial class EmailAccountPlaceRequestReject : AuthenticatedPage
             {
                 if (mAccountPlaceRequest == null)
                 {
-                    mAccountPlaceRequest = PlaceService.GetAccountPlaceRequestById(
+                    mAccountPlaceRequest = SessionManager.PlaceService.GetAccountPlaceRequestById(
                         SessionManager.Ticket, RequestId);
                 }
             }

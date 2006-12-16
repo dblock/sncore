@@ -22,7 +22,7 @@ public abstract class SystemBookmarkPage : PicturePage
     {
         object[] args = { ticket, id, ifModifiedSince };
         TransitBookmarkWithBitmaps p = SessionManager.GetCachedItem<TransitBookmarkWithBitmaps>(
-            SystemService, "GetBookmarkWithBitmapsByIdIfModifiedSince", args);
+            SessionManager.SystemService, "GetBookmarkWithBitmapsByIdIfModifiedSince", args);
 
         if (p == null)
             return null;
@@ -40,7 +40,7 @@ public abstract class SystemBookmarkPage : PicturePage
     {
         object[] args = { ticket, id, ifModifiedSince };
         TransitBookmarkWithBitmaps p = SessionManager.GetCachedItem<TransitBookmarkWithBitmaps>(
-            SystemService, "GetBookmarkWithBitmapsByIdIfModifiedSince", args);
+            SessionManager.SystemService, "GetBookmarkWithBitmapsByIdIfModifiedSince", args);
 
         if (p == null)
             return null;
@@ -58,7 +58,7 @@ public abstract class SystemBookmarkPage : PicturePage
     {
         object[] args = { ticket, id };
         TransitBookmarkWithBitmaps p = SessionManager.GetCachedItem<TransitBookmarkWithBitmaps>(
-            SystemService, "GetBookmarkWithBitmapsById", args);
+            SessionManager.SystemService, "GetBookmarkWithBitmapsById", args);
 
         if (p == null)
             return null;
@@ -76,7 +76,7 @@ public abstract class SystemBookmarkPage : PicturePage
     {
         object[] args = { ticket, id };
         TransitBookmarkWithBitmaps p = SessionManager.GetCachedItem<TransitBookmarkWithBitmaps>(
-            SystemService, "GetBookmarkWithBitmapsById", args);
+            SessionManager.SystemService, "GetBookmarkWithBitmapsById", args);
 
         if (p == null)
             return null;

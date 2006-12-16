@@ -41,7 +41,7 @@ public partial class AccountMessageEdit : AuthenticatedPage
         {
             if (!IsPostBack)
             {
-                TransitAccount ta = AccountService.GetAccountById(RequestId);
+                TransitAccount ta = SessionManager.AccountService.GetAccountById(RequestId);
                 imageAccountTo.ImageUrl = "AccountPictureThumbnail.aspx?id=" + ta.PictureId.ToString();
                 linkAccountTo.Text = Renderer.Render(ta.Name);
                 linkAccountTo.NavigateUrl = linkAccountTo2.HRef = "AccountView.aspx?id=" + ta.Id.ToString();
@@ -51,7 +51,7 @@ public partial class AccountMessageEdit : AuthenticatedPage
 
                 if (ParentId != 0)
                 {
-                    TransitAccountMessage rp = AccountService.GetAccountMessageById(
+                    TransitAccountMessage rp = SessionManager.AccountService.GetAccountMessageById(
                         SessionManager.Ticket, ParentId);
                     panelReplyTo.Visible = true;
                     
@@ -81,7 +81,7 @@ public partial class AccountMessageEdit : AuthenticatedPage
 
                 inputBody.Text = body.ToString();
 
-                if (!AccountService.HasVerifiedEmail(SessionManager.Ticket))
+                if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket))
                 {
                     ReportWarning("You don't have any verified e-mail addresses.\n" +
                         "You must add/confirm a valid e-mail address before posting messages.");
@@ -116,7 +116,7 @@ public partial class AccountMessageEdit : AuthenticatedPage
             tw.AccountId = RequestId;
             tw.AccountMessageFolderId = 0;
 
-            AccountService.AddAccountMessage(SessionManager.Ticket, tw);
+            SessionManager.AccountService.AddAccountMessage(SessionManager.Ticket, tw);
             Redirect(ReturnUrl);
         }
         catch (Exception ex)

@@ -61,7 +61,7 @@ public partial class TagWordsManage : AuthenticatedPage
                     bool item_checked = ((CheckBox)item.Cells[(int)Cells.checkbox].Controls[1]).Checked;
                     int item_id = int.Parse(item.Cells[(int)Cells.id].Text);
 
-                    TransitTagWord tw = TagWordService.GetTagWordById(item_id);
+                    TransitTagWord tw = SessionManager.TagWordService.GetTagWordById(item_id);
                     bool item_promote = ((promote && item_checked) || (!promote && !item_checked));
                     if (item_promote)
                     {
@@ -82,7 +82,7 @@ public partial class TagWordsManage : AuthenticatedPage
             }
         }
 
-        TagWordService.CreateOrUpdateTagWords(SessionManager.Ticket, words.ToArray());
+        SessionManager.TagWordService.CreateOrUpdateTagWords(SessionManager.Ticket, words.ToArray());
 
         StringBuilder sb = new StringBuilder();
         sb.Append(string.Format("{0} item{1} processed.<BR>", words.Count, words.Count != 1 ? "s" : string.Empty));
@@ -138,7 +138,7 @@ public partial class TagWordsManage : AuthenticatedPage
             Enum.Parse(typeof(TransitTagWordQueryOptions), listboxSelectType.SelectedValue);
 
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = TagWordService.GetTagWordsCount(options);
+        gridManage.VirtualItemCount = SessionManager.TagWordService.GetTagWordsCount(options);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -152,7 +152,7 @@ public partial class TagWordsManage : AuthenticatedPage
             ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
             serviceoptions.PageSize = gridManage.PageSize;
             serviceoptions.PageNumber = gridManage.CurrentPageIndex;
-            gridManage.DataSource = TagWordService.GetTagWords(options, serviceoptions);
+            gridManage.DataSource = SessionManager.TagWordService.GetTagWords(options, serviceoptions);
         }
         catch (Exception ex)
         {

@@ -32,7 +32,7 @@ public partial class AccountPropertyGroupsControl : Control
             if (!IsPostBack)
             {
                 groups.DataSource = SessionManager.GetCachedCollection<TransitAccountPropertyGroup>(
-                    AccountService, "GetAccountPropertyGroups", null);
+                    SessionManager.AccountService, "GetAccountPropertyGroups", null);
                 groups.DataBind();
             }
         }

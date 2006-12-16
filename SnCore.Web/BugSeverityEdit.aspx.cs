@@ -27,7 +27,7 @@ public partial class BugSeverityEdit : AuthenticatedPage
 
                 if (RequestId > 0)
                 {
-                    TransitBugSeverity t = BugService.GetBugSeverityById(RequestId);
+                    TransitBugSeverity t = SessionManager.BugService.GetBugSeverityById(RequestId);
                     inputName.Text = t.Name;
                     sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
                 }
@@ -54,7 +54,7 @@ public partial class BugSeverityEdit : AuthenticatedPage
             TransitBugSeverity t = new TransitBugSeverity();
             t.Name = inputName.Text;
             t.Id = RequestId;
-            BugService.CreateOrUpdateBugSeverity(SessionManager.Ticket, t);
+            SessionManager.BugService.CreateOrUpdateBugSeverity(SessionManager.Ticket, t);
             Redirect("BugSeveritiesManage.aspx");
         }
         catch (Exception ex)

@@ -30,7 +30,7 @@ public partial class SystemBookmarkEdit : AuthenticatedPage
 
                 if (RequestId > 0)
                 {
-                    TransitBookmark t = SystemService.GetBookmarkById(RequestId);
+                    TransitBookmark t = SessionManager.SystemService.GetBookmarkById(RequestId);
                     inputName.Text = t.Name;
                     inputDescription.Text = t.Description;
                     inputUrl.Text = t.Url;
@@ -68,7 +68,7 @@ public partial class SystemBookmarkEdit : AuthenticatedPage
             t.Id = RequestId;
             if (inputFullBitmap.HasFile) t.FullBitmap = new ThumbnailBitmap(inputFullBitmap.FileContent, new Size(16, 16)).Bitmap;
             if (inputLinkBitmap.HasFile) t.LinkBitmap = new ThumbnailBitmap(inputLinkBitmap.FileContent, new Size(16, 16)).Bitmap;
-            SystemService.CreateOrUpdateBookmark(SessionManager.Ticket, t);
+            SessionManager.SystemService.CreateOrUpdateBookmark(SessionManager.Ticket, t);
             Redirect("SystemBookmarksManage.aspx");
         }
         catch (Exception ex)

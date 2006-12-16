@@ -31,7 +31,7 @@ public partial class SystemSurveyQuestionEdit : AuthenticatedPage
                 linkBack.NavigateUrl = "SystemSurveyEdit.aspx?id=" + SurveyId.ToString();
                 if (RequestId > 0)
                 {
-                    TransitSurveyQuestion tw = SystemService.GetSurveyQuestionById(RequestId);
+                    TransitSurveyQuestion tw = SessionManager.SystemService.GetSurveyQuestionById(RequestId);
                     inputQuestion.Text = Renderer.Render(tw.Question);
                     sitemapdata.Add(new SiteMapDataAttributeNode(tw.Question, Request.Url));
                 }
@@ -67,7 +67,7 @@ public partial class SystemSurveyQuestionEdit : AuthenticatedPage
             tw.Question = inputQuestion.Text;
             tw.Id = RequestId;
             tw.SurveyId = SurveyId;
-            SystemService.AddSurveyQuestion(SessionManager.Ticket, tw);
+            SessionManager.SystemService.AddSurveyQuestion(SessionManager.Ticket, tw);
             Redirect("SystemSurveyEdit.aspx?id=" + SurveyId.ToString());
         }
         catch (Exception ex)
@@ -83,7 +83,7 @@ public partial class SystemSurveyQuestionEdit : AuthenticatedPage
         {
             if (mSurvey == null)
             {
-                mSurvey = SystemService.GetSurveyById(SurveyId);
+                mSurvey = SessionManager.SystemService.GetSurveyById(SurveyId);
             }
             return mSurvey;
         }

@@ -45,7 +45,8 @@ public partial class RefererAccountsView : AccountPersonPage
     private void GetData()
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(StatsService, "GetRefererAccountsCount", null);
+        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+            SessionManager.StatsService, "GetRefererAccountsCount", null);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
@@ -56,7 +57,8 @@ public partial class RefererAccountsView : AccountPersonPage
         {
             ServiceQueryOptions serviceoptions = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
             object[] args = { serviceoptions };
-            gridManage.DataSource = SessionManager.GetCachedCollection<TransitRefererAccount>(StatsService, "GetRefererAccounts", args);
+            gridManage.DataSource = SessionManager.GetCachedCollection<TransitRefererAccount>(
+                SessionManager.StatsService, "GetRefererAccounts", args);
         }
         catch (Exception ex)
         {

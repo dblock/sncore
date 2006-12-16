@@ -94,7 +94,8 @@ public partial class TagWordsViewControl : Control
                 options.PageNumber = 0;
                 options.PageSize = Count;
                 object[] args = { TransitTagWordQueryOptions.Promoted, options };
-                List<TransitTagWord> words = SessionManager.GetCachedCollection<TransitTagWord>(TagWordService, "GetTagWords", args);
+                List<TransitTagWord> words = SessionManager.GetCachedCollection<TransitTagWord>(
+                    SessionManager.TagWordService, "GetTagWords", args);
                 words.Sort(CompareByFrequency);
                 MaxFrequency = mMaxFrequency;
                 MinFrequency = mMinFrequency;

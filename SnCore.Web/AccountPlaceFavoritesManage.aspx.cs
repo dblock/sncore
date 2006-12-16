@@ -21,7 +21,7 @@ public partial class AccountPlaceFavoritesManage : AuthenticatedPage
 
             if (!IsPostBack)
             {
-                favoritesList.VirtualItemCount = PlaceService.GetAccountPlaceFavoritesCount(SessionManager.Ticket);
+                favoritesList.VirtualItemCount = SessionManager.PlaceService.GetAccountPlaceFavoritesCount(SessionManager.Ticket);
                 favoritesList_OnGetDataSource(this, null);
                 favoritesList.DataBind();
 
@@ -45,7 +45,7 @@ public partial class AccountPlaceFavoritesManage : AuthenticatedPage
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = favoritesList.CurrentPageIndex;
             options.PageSize = favoritesList.PageSize;
-            favoritesList.DataSource = PlaceService.GetAccountPlaceFavorites(SessionManager.Ticket, options);
+            favoritesList.DataSource = SessionManager.PlaceService.GetAccountPlaceFavorites(SessionManager.Ticket, options);
         }
         catch (Exception ex)
         {
@@ -65,7 +65,7 @@ public partial class AccountPlaceFavoritesManage : AuthenticatedPage
             switch (e.CommandName)
             {
                 case "Delete":
-                    PlaceService.DeleteAccountPlaceFavorite(SessionManager.Ticket, int.Parse(e.CommandArgument.ToString()));
+                    SessionManager.PlaceService.DeleteAccountPlaceFavorite(SessionManager.Ticket, int.Parse(e.CommandArgument.ToString()));
                     ReportInfo("Favorite place deleted.");
                     favoritesList.CurrentPageIndex = 0;
                     favoritesList_OnGetDataSource(source, e);

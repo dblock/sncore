@@ -20,13 +20,13 @@ public partial class SearchAccountsControl : SearchControl
     {
         object[] args = { SearchQuery };
         return SessionManager.GetCachedCollectionCount(
-            AccountService, "SearchAccountsCount", args);
+            SessionManager.AccountService, "SearchAccountsCount", args);
     }
 
     protected override IEnumerable GetResults()
     {
         return SessionManager.GetCachedCollection<TransitAccountActivity>(
-            AccountService, "SearchAccounts", GetSearchQueryArgs());
+            SessionManager.AccountService, "SearchAccounts", GetSearchQueryArgs());
     }
 
     protected override IPagedControl Grid
