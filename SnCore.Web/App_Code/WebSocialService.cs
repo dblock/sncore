@@ -40,7 +40,9 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 IList list = session.CreateQuery(
-                    "FROM Account acct WHERE EXISTS ELEMENTS(acct.AccountPictures) ORDER BY acct.Created DESC")
+                    "FROM Account acct WHERE EXISTS (" +
+                    " FROM AccountPicture picture WHERE picture.Account = acct AND picture.Hidden = 0" +
+                    ") ORDER BY acct.Created DESC")
                     .SetMaxResults(max)
                     .List();
 
@@ -65,7 +67,9 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 IList list = session.CreateQuery(
-                    "FROM Account acct WHERE EXISTS ELEMENTS(acct.AccountPictures) ORDER BY acct.LastLogin DESC")
+                    "FROM Account acct WHERE EXISTS (" +
+                    " FROM AccountPicture picture WHERE picture.Account = acct AND picture.Hidden = 0" +
+                    ") ORDER BY acct.LastLogin DESC")
                     .SetMaxResults(max)
                     .List();
 

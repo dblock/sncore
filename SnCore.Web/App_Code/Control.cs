@@ -148,4 +148,28 @@ public class Control : System.Web.UI.UserControl
         if (string.IsNullOrEmpty(id)) return 0;
         return int.Parse(id);
     }
+
+    protected override void OnInit(EventArgs e)
+    {
+        try
+        {
+            base.OnInit(e);
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
+
+    protected override void OnLoad(EventArgs e)
+    {
+        try
+        {
+            base.OnLoad(e);
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
+        }
+    }
 }
