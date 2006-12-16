@@ -88,36 +88,43 @@ public partial class AccountBlogPostNew : AuthenticatedPage
 
     protected void files_FilesPosted(object sender, FilesPostedEventArgs e)
     {
-        if (e.PostedFiles.Count == 0)
-            return;
-
-        ExceptionCollection exceptions = new ExceptionCollection();
-        foreach (HttpPostedFile file in e.PostedFiles)
+        try
         {
-            try
+            if (e.PostedFiles.Count == 0)
+                return;
+
+            ExceptionCollection exceptions = new ExceptionCollection();
+            foreach (HttpPostedFile file in e.PostedFiles)
             {
-                TransitAccountPictureWithBitmap p = new TransitAccountPictureWithBitmap();
+                try
+                {
+                    TransitAccountPictureWithBitmap p = new TransitAccountPictureWithBitmap();
 
-                ThumbnailBitmap t = new ThumbnailBitmap(file.InputStream);
-                p.Bitmap = t.Bitmap;
-                p.Name = Path.GetFileName(file.FileName);
-                p.Description = string.Empty;
-                p.Hidden = true;
+                    ThumbnailBitmap t = new ThumbnailBitmap(file.InputStream);
+                    p.Bitmap = t.Bitmap;
+                    p.Name = Path.GetFileName(file.FileName);
+                    p.Description = string.Empty;
+                    p.Hidden = true;
 
-                int id = SessionManager.AccountService.AddAccountPicture(SessionManager.Ticket, p);
+                    int id = SessionManager.AccountService.AddAccountPicture(SessionManager.Ticket, p);
 
-                Size size = t.GetNewSize(new Size(200, 200));
+                    Size size = t.GetNewSize(new Size(200, 200));
 
-                inputBody.Text = string.Format("<a href=AccountPictureView.aspx?id={2}><img border=0 width={0} height={1} src=AccountPicture.aspx?id={2}></a>\n{3}",
-                    size.Width, size.Height, id, inputBody.Text);
+                    inputBody.Text = string.Format("<a href=AccountPictureView.aspx?id={2}><img border=0 width={0} height={1} src=AccountPicture.aspx?id={2}></a>\n{3}",
+                        size.Width, size.Height, id, inputBody.Text);
+                }
+                catch (Exception ex)
+                {
+                    exceptions.Add(new Exception(string.Format("Error processing {0}: {1}",
+                        Renderer.Render(file.FileName), ex.Message), ex));
+                }
+
+                exceptions.Throw();
             }
-            catch (Exception ex)
-            {
-                exceptions.Add(new Exception(string.Format("Error processing {0}: {1}",
-                    Renderer.Render(file.FileName), ex.Message), ex));
-            }
-
-            exceptions.Throw();
+        }
+        catch (Exception ex)
+        {
+            ReportException(ex);
         }
     }
 }
