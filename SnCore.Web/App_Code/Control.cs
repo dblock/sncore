@@ -10,7 +10,6 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.WebServices;
 using SnCore.BackEndServices;
-using Microsoft.Web.UI;
 using System.Threading;
 
 public class Control : System.Web.UI.UserControl

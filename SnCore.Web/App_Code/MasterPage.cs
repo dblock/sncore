@@ -11,7 +11,6 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.BackEndServices;
-using Microsoft.Web.UI;
 using System.Threading;
 
 public class MasterPage : System.Web.UI.MasterPage

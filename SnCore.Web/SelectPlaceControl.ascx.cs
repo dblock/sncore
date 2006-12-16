@@ -11,7 +11,6 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Services;
 using Wilco.Web.UI;
-using Microsoft.Web.UI;
 using System.Text;
 
 public partial class SelectPlaceControl : Control
