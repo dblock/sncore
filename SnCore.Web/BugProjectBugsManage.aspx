@@ -1,5 +1,5 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCoreAccount.master" AutoEventWireup="true" CodeFile="BugProjectBugsManage.aspx.cs"
- Inherits="BugProjectBugsManage" Title="Bugs | ProjectBugs" %>
+ Inherits="BugProjectBugsManage" Title="Bugs" %>
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content" ContentPlaceHolderID="AccountContentPlaceHolder" runat="Server">

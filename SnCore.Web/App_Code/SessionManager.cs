@@ -120,13 +120,28 @@ public class SessionManager
         mRequest = request;
         mResponse = response;
 
-        HttpCookie authcookie = Request.Cookies[sSnCoreAuthCookieName];
-        if (authcookie != null)
+        CacheAuthCookie();
+
+        if (track)
         {
+            Track(request, response);
+        }
+    }
+
+    private void CacheAuthCookie()
+    {
+        // there can be multiple cookies with the same name acceptable for this domain
+        for (int i = 0; i < Request.Cookies.AllKeys.Length; i++)
+        {
+            HttpCookie authcookie = Request.Cookies[i];
+            if (authcookie.Name != sSnCoreAuthCookieName)
+                continue;
+
             try
             {
                 // cache a verified ticket for an hour
                 mTicket = (string)Cache[string.Format("ticket:{0}", authcookie.Value)];
+
                 if (string.IsNullOrEmpty(mTicket))
                 {
                     AccountService.GetAccountId(authcookie.Value);
@@ -134,15 +149,13 @@ public class SessionManager
                     Cache.Insert(string.Format("ticket:{0}", authcookie.Value),
                         mTicket, null, Cache.NoAbsoluteExpiration, SessionManager.DefaultCacheTimeSpan);
                 }
+
+                // ticket was valid, account was valid
+                break;
             }
             catch
             {
             }
-        }
-
-        if (track)
-        {
-            Track(request, response);
         }
     }
 
