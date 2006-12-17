@@ -18,8 +18,8 @@
    </div>
   </Template>
  </SnCore:Title>
- <asp:HyperLink ID="linkBack" Text="&#187; Cancel" CssClass="sncore_cancel" NavigateUrl="AccountFeedsManage.aspx"
-  runat="server" />
+ <asp:LinkButton ID="linkBack" OnClick="linkBack_Click" Text="&#187; Cancel" CssClass="sncore_cancel"
+  CausesValidation="false" runat="server" />
  <table class="sncore_account_table">
   <tr>
    <td class="sncore_form_label">

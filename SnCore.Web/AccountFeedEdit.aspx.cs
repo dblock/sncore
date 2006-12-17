@@ -20,6 +20,16 @@ using SnCore.SiteMap;
 
 public partial class AccountFeedEdit : AuthenticatedPage
 {
+    public string ReturnUrl
+    {
+        get
+        {
+            string returnurl = Request.QueryString["ReturnUrl"];
+            if (string.IsNullOrEmpty(returnurl)) returnurl = "AccountFeedsManage.aspx";
+            return returnurl;
+        }
+    }
+
     public void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -145,5 +155,10 @@ public partial class AccountFeedEdit : AuthenticatedPage
         s.PublishImgs = inputPublishImgs.Checked;
         SessionManager.SyndicationService.CreateOrUpdateAccountFeed(SessionManager.Ticket, s);
         Redirect("AccountFeedsManage.aspx");
+    }
+
+    public void linkBack_Click(object sender, EventArgs e)
+    {
+        Redirect(ReturnUrl);
     }
 }

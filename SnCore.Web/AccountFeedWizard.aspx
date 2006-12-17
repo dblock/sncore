@@ -19,14 +19,14 @@
    </div>
   </Template>
  </SnCore:Title>
- <div class="sncore_cancel">
-  <asp:HyperLink ID="linkBack" Text="&#187; Cancel" NavigateUrl="AccountFeedsManage.aspx"
-   runat="server" />
-  <asp:HyperLink ID="linkSkip" Text="&#187; Skip Wizard" NavigateUrl="AccountFeedEdit.aspx"
-   runat="server" />
- </div>
  <asp:UpdatePanel runat="server" ID="panelMain">
   <ContentTemplate>
+   <div class="sncore_cancel">
+    <asp:LinkButton ID="linkBack" Text="&#187; Cancel" OnClick="linkBack_Click"
+     runat="server" />
+    <asp:HyperLink ID="linkSkip" Text="&#187; Skip Wizard" NavigateUrl="AccountFeedEdit.aspx"
+     runat="server" />
+   </div>
    <table class="sncore_account_table">
     <tr>
      <td class="sncore_form_label">
@@ -74,6 +74,13 @@
        <div class="sncore_h2">
         <%# base.Render(Eval("Name")) %>
        </div>
+       <div class="sncore_h2sub">
+        <asp:LinkButton id="linkTest" runat="server" Text="&#187; Test" CommandName="Test" 
+         Visible='<%# string.IsNullOrEmpty(PreviousUrl) %>'/>
+        <asp:LinkButton id="linkChoose" runat="server" Text="&#187; Choose" CommandName="Choose" />
+        <asp:LinkButton id="linkItemBack" runat="server" Text="&#187; Cancel" OnClick="linkBack_Click" 
+         Visible='<%# ! string.IsNullOrEmpty(PreviousUrl) %>' />
+       </div>
        <div style="font-size: smaller;">
         feed: <%# Renderer.GetLink(Renderer.Render(Eval("FeedUrl")), Renderer.Render(Eval("FeedUrl"))) %>
        </div>
@@ -85,8 +92,6 @@
        </div>
       </itemtemplate>
      </asp:TemplateColumn>
-     <asp:ButtonColumn ItemStyle-Width="100px" ButtonType="LinkButton" CommandName="Test" Text="&#187; Test" />
-     <asp:ButtonColumn ItemStyle-Width="100px" ButtonType="LinkButton" CommandName="Choose" Text="&#187; Choose" />
     </Columns>
    </SnCoreWebControls:PagedGrid>
   </ContentTemplate>

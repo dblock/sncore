@@ -22,17 +22,41 @@ using System.Collections.Specialized;
 using Rss;
 using Atom.Core;
 using System.Net;
+using Wilco.Web.UI;
 using SnCore.SiteMap;
 
 public partial class AccountFeedWizard : AuthenticatedPage
 {
+    public string PreviousUrl
+    {
+        get
+        {
+            return ViewStateUtility.GetViewStateValue<string>(
+                ViewState, "PreviousUrl", string.Empty);
+        }
+        set
+        {
+            ViewState["PreviousUrl"] = value;
+        }
+    }
+
     public void Page_Load(object sender, EventArgs e)
     {
-        SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-        sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
-        sitemapdata.Add(new SiteMapDataAttributeNode("Syndication", Request, "AccountFeedsManage.aspx"));
-        sitemapdata.Add(new SiteMapDataAttributeNode("Wizard", Request.Url));
-        StackSiteMap(sitemapdata);
+        if (!IsPostBack)
+        {
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Syndication", Request, "AccountFeedsManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Wizard", Request.Url));
+            StackSiteMap(sitemapdata);
+
+            inputLinkUrl.Text = Request.QueryString["url"];
+
+            if (!string.IsNullOrEmpty(inputLinkUrl.Text))
+            {
+                discover_Click(sender, e);
+            }
+        }
 
         SetDefaultButton(linkDiscover);
     }
@@ -233,11 +257,26 @@ public partial class AccountFeedWizard : AuthenticatedPage
         return s.Trim();
     }
 
+    public void linkBack_Click(object sender, EventArgs e)
+    {
+        if (!string.IsNullOrEmpty(PreviousUrl))
+        {
+            inputLinkUrl.Text = PreviousUrl;
+            PreviousUrl = string.Empty;
+            discover_Click(sender, e);
+        }
+        else
+        {
+            Redirect("AccountFeedsManage.aspx");
+        }
+    }
+
     public void gridFeeds_ItemCommand(object sender, DataGridCommandEventArgs e)
     {
         switch (e.CommandName)
         {
             case "Test":
+                if (string.IsNullOrEmpty(PreviousUrl)) PreviousUrl = inputLinkUrl.Text;
                 inputLinkUrl.Text = e.Item.Cells[(int)Cells.feed].Text;
                 discover_Click(sender, e);
                 break;
@@ -246,12 +285,14 @@ public partial class AccountFeedWizard : AuthenticatedPage
                 string feed = CleanCell(e.Item.Cells[(int)Cells.feed].Text);
                 string link = CleanCell(e.Item.Cells[(int)Cells.link].Text);
                 string description = CleanCell(e.Item.Cells[(int)Cells.description].Text);
-                Redirect(string.Format("AccountFeedEdit.aspx?name={0}&feed={1}&link={2}&type={3}&description={4}",
+                Redirect(string.Format("AccountFeedEdit.aspx?name={0}&feed={1}&link={2}&type={3}&description={4}&ReturnUrl={5}",
                     Renderer.UrlEncode(name),
                     Renderer.UrlEncode(feed),
                     Renderer.UrlEncode(link),
                     Renderer.UrlEncode(GetDefaultFeedType().Name),
-                    Renderer.UrlEncode(description)));
+                    Renderer.UrlEncode(description),
+                    Renderer.UrlEncode(string.Format("AccountFeedWizard.aspx?url={0}", 
+                        Renderer.UrlEncode(string.IsNullOrEmpty(PreviousUrl) ? inputLinkUrl.Text : PreviousUrl)))));
                 break;
         }
     }
