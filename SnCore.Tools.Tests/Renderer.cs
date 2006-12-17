@@ -106,5 +106,35 @@ namespace SnCore.Tools.Tests
 
         }
 
+        [Test]
+        public void CleanupMicrosoftWord()
+        {
+            TestDataItem[] testdata = 
+            {
+                new TestDataItem(
+                    "<st1place w:st=\"on\"><st1City w:st=\"on\">New York</st1City></st1place>",
+                    "<stripped><stripped><stripped>New York</stripped></stripped></stripped>"),
+                new TestDataItem(
+                    "<st1:place w:st=\"on\"><st1:City w:st=\"on\">New York</st1:City></st1:place>",
+                    "<stripped><stripped><stripped>New York</stripped></stripped></stripped>"),
+                new TestDataItem(
+                    "<P class=MsoNormal style=\"MARGIN: 0in 0in 0pt\">" +
+                    "This happens in <?xml:namespace prefix = st1 ns = \"urn:schemas-microsoft-com:office:smarttags\" />" +
+                    "<st1:place w:st=\"on\"><st1:City w:st=\"on\">New York</st1:City>, <st1:State w:st=\"on\">NY</st1:State>, " +
+                    "<st1:country-region w:st=\"on\">United States of America</st1:country-region></st1:place>.</P>" +
+                    "<P class=MsoNormal style=\"MARGIN: 0in 0in 0pt\"><?xml:namespace prefix = o ns = \"urn:schemas-microsoft-com:office:office\" />" +
+                    "<o:p>&nbsp;</o:p></P><P>&nbsp;</P>", 
+                    "<stripped><P class=\"MsoNormal\" style=\"MARGIN: 0in 0in 0pt\">This happens in <stripped><stripped>New York</stripped>, " +
+                    "<stripped>NY</stripped>, <stripped>United States of America</stripped></stripped>.</P>" +
+                    "<P class=\"MsoNormal\" style=\"MARGIN: 0in 0in 0pt\"><stripped> </stripped></P><P> </P></stripped>")
+            };
+
+            foreach (TestDataItem test in testdata)
+            {
+                string output = Renderer.CleanHtml(test._input);
+                Console.WriteLine("{0}\n{1}", test._input, output);
+                Assert.AreEqual(test._output, output);
+            }
+        }
     }
 }

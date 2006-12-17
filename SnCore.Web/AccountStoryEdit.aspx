@@ -23,7 +23,7 @@
    <td class="sncore_form_value">
     <asp:TextBox ID="inputName" runat="server" CssClass="sncore_form_textbox" />
     <asp:RequiredFieldValidator ID="inputNameValidator" runat="server" ControlToValidate="inputName"
-     CssClass="sncore_form_validator" ErrorMessage="what's cooking title is required"
+     CssClass="sncore_form_validator" ErrorMessage="missing title"
      Display="Dynamic" />
    </td>
   </tr>

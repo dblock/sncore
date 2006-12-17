@@ -39,23 +39,6 @@ namespace SnCore.Tools.Web.Html
             base.DocType = "HTML";
             base.WhitespaceHandling = WhitespaceHandling.All;
         }
-
-        public override bool Read()
-        {
-            bool status = base.Read();
-            if (status)
-            {
-                if (base.NodeType == XmlNodeType.Element)
-                {
-                    // Got a node with prefix. This must be one of those "<o:p>" or something else.
-                    // Skip this node entirely. We want prefix less nodes so that the resultant XML 
-                    // requires not namespace.
-                    if (base.Name.IndexOf(':') > 0)
-                        base.Skip();
-                }
-            }
-            return status;
-        }
     }
 
     /// <summary>
@@ -113,6 +96,11 @@ namespace SnCore.Tools.Web.Html
         public HtmlWriter(Stream stream, Encoding enc)
             : base(stream, enc)
         {
+        }
+
+        public override void WriteProcessingInstruction(string name, string text)
+        {
+            
         }
 
         /// <summary>
