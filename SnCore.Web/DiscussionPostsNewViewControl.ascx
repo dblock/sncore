@@ -39,7 +39,7 @@
     <table cellpadding="0" cellspacing="0" width="100%">
      <tr>
       <td width="*">
-       <SnCore:RssLink ID="linkRelRss" runat="server" NavigateUrl='DiscussionRss.aspx?id=<%# Eval("DiscussionId") %>' 
+       <SnCore:RssLink ID="linkRelRss" runat="server" NavigateUrl='<%# string.Format("DiscussionRss.aspx?id={0}", Eval("DiscussionId")) %>' 
         ButtonVisible="false" Title='<%# base.Render(Eval("DiscussionName"))%>' />
        <div class="sncore_title">
         <a href='DiscussionView.aspx?id=<%# Eval("DiscussionId") %>'>
