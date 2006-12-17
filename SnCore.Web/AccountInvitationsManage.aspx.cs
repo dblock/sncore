@@ -13,6 +13,9 @@ using System.Text.RegularExpressions;
 using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using System.Collections.Generic;
+using SnCore.Tools;
+using System.Net.Mail;
 
 public partial class AccountInvitationsManage : AuthenticatedPage
 {
@@ -60,70 +63,57 @@ public partial class AccountInvitationsManage : AuthenticatedPage
 
     public void invite_Click(object sender, EventArgs e)
     {
-        StringBuilder error = new StringBuilder();
-        StringBuilder success = new StringBuilder();
-
-        noticeManage.HtmlEncode = true;
-        noticeManage.Error = string.Empty;
+        List<string> invitations = new List<string>();
+        List<string> failures = new List<string>();
+        ExceptionCollection exceptions = new ExceptionCollection();
 
         foreach (string email in inputEmailAddress.Text.Split(";,\n\r".ToCharArray()))
         {
-            if (email.Length == 0)
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(email.Trim()))
                 continue;
 
             try
             {
                 TransitAccount existing = SessionManager.AccountService.FindByEmail(email);
 
-                error.AppendFormat(
+                exceptions.Add(new Exception(string.Format(
                         "<a href='AccountView.aspx?id={0}'>{2} &lt;{3}&gt;</a> is a member! " +
-                        "<a href='AccountFriendRequestEdit.aspx?pid={0}&ReturnUrl={1}'>&#187; Add to Friends</a>\n",
-                        existing.Id, Request.Url.PathAndQuery, existing.Name, email);
+                        "<a href='AccountFriendRequestEdit.aspx?pid={0}&ReturnUrl={1}'>&#187; Add to Friends</a>",
+                        existing.Id, Request.Url.PathAndQuery, existing.Name, email)));
 
                 continue;
             }
             catch
             {
-            }
 
-            if (!emailregex.Match(email).Success)
-            {
-                error.AppendFormat("Invalid e-mail address \"{0}\".<br>", email);
-                continue;
             }
 
             try
             {
+                MailAddress address = new MailAddress(email);
                 TransitAccountInvitation invitation = new TransitAccountInvitation();
                 invitation.Code = Guid.NewGuid().ToString();
                 invitation.Email = email;
                 invitation.Message = inputMessage.Text;
                 SessionManager.AccountService.AddAccountInvitation(SessionManager.Ticket, invitation);
-                success.AppendFormat("Invitation sent to {0}.<br>", email);
-                gridManage_OnGetDataSource(sender, e);
-                gridManage.DataBind();
+                invitations.Add(email);
             }
             catch (Exception ex)
             {
-                error.AppendFormat("Error inviting {0}: {1}<br>", email, ex.Message);
+                failures.Add(email);
+                exceptions.Add(new Exception(string.Format("Error inviting {0}: {1}", email, ex.Message), ex));
             }
         }
 
-        if (error.Length > 0)
+        if (invitations.Count > 0)
         {
-            noticeManage.HtmlEncode = false;
-            noticeManage.Error = error.ToString();
-        }
-        else
-        {
-            inputEmailAddress.Text = string.Empty;
-            inputMessage.Text = string.Empty;
+            noticeManage.Info = string.Format("{0} invitation{1} sent",
+                invitations.Count, invitations.Count == 1 ? string.Empty : "s");
         }
 
-        if (success.Length > 0)
-        {
-            ReportInfo(success.ToString());
-        }
+        GetData(sender, e);
+        inputEmailAddress.Text = string.Join("\n", failures.ToArray());
+        exceptions.Throw();
     }
 
     private enum Cells

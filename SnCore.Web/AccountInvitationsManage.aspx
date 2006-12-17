@@ -11,7 +11,7 @@
   </div>
   <asp:UpdatePanel runat="server" ID="panelGridManage" UpdateMode="Always" RenderMode="Inline">
    <ContentTemplate>
-    <SnCore:Notice ID="noticeManage" runat="server" />
+    <SnCore:Notice ID="noticeManage" EnableViewState="false" runat="server" />
     <asp:ValidationSummary runat="server" ID="manageValidationSummary" CssClass="sncore_form_validator"
      ShowSummary="true" />
     <table class="sncore_account_table">
