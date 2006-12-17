@@ -15,6 +15,8 @@ using SnCore.Tools.Web;
 using System.Text;
 using SnCore.Services;
 using SnCore.SiteMap;
+using SnCore.Tools;
+using System.Collections.Generic;
 
 public partial class TellAFriend : AuthenticatedPage
 {
@@ -67,24 +69,33 @@ public partial class TellAFriend : AuthenticatedPage
                 throw new Exception("Missing E-Mail");
             }
 
+            
             TransitAccountEmailMessage message = new TransitAccountEmailMessage();
             message.Body = GetContent();
             message.Subject = inputSubject.Text;
             message.DeleteSent = true;
+            ExceptionCollection exceptions = new ExceptionCollection();
+            List<string> invalidemails = new List<string>();
             foreach (string address in inputEmailAddress.Text.Split("\n".ToCharArray()))
             {
+                if (string.IsNullOrEmpty(address) || string.IsNullOrEmpty(address.Trim()))
+                    continue;
+
                 try
                 {
                     message.MailTo = new MailAddress(address.Trim()).ToString();
+                    SessionManager.AccountService.SendAccountEmailMessage(SessionManager.Ticket, message);
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception(string.Format("Error adding \"{0}\".\n{1}", address.Trim(), ex.Message), ex);
+                    invalidemails.Add(address);
+                    exceptions.Add(new Exception(string.Format("Error sending message to \"{0}\".\n{1}", 
+                        address.Trim(), ex.Message), ex));
                 }
-
-                SessionManager.AccountService.SendAccountEmailMessage(SessionManager.Ticket, message);
             }
 
+            inputEmailAddress.Text = string.Join("\n", invalidemails.ToArray());
+            exceptions.Throw();
             Redirect(Url);
     }
 }
