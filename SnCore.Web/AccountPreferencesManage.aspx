@@ -6,6 +6,7 @@
 <%@ Register TagPrefix="SnCore" TagName="SelectTimeZone" Src="SelectTimeZoneControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountReminder" Src="AccountReminderControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountPropertyGroups" Src="AccountPropertyGroupsControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="AccountRedirectEdit" Src="AccountRedirectEditControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <asp:Content ID="Content" ContentPlaceHolderID="AccountContentPlaceHolder" runat="Server">
@@ -117,6 +118,7 @@
   </tr>
  </table>
  <SnCore:AccountPropertyGroups ID="groups" runat="server" />    
+ <SnCore:AccountRedirectEdit id="accountredirect" runat="server" />
  <div class="sncore_h2">
   Content Licensing
  </div>

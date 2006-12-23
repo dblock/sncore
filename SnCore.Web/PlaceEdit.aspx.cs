@@ -73,6 +73,7 @@ public partial class PlaceEdit : AuthenticatedPage
                 linkEditAttributes.NavigateUrl = string.Format("PlaceAttributesManage.aspx?id={0}", place.Id);
                 linkEditPictures.NavigateUrl = string.Format("PlacePicturesManage.aspx?id={0}", place.Id);
                 sitemapdata.Add(new SiteMapDataAttributeNode(place.Name, Request.Url));
+                placeredirect.TargetUri = string.Format("PlaceView.aspx?id={0}", place.Id);
             }
             else
             {
@@ -95,6 +96,8 @@ public partial class PlaceEdit : AuthenticatedPage
                 linkEditAttributes.Visible = false;
                 linkEditPictures.Visible = false;
                 sitemapdata.Add(new SiteMapDataAttributeNode("New Place", Request.Url));
+
+                placeredirect.Visible = false;
             }
 
             StackSiteMap(sitemapdata);

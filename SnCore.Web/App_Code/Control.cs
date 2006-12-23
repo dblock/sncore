@@ -128,6 +128,19 @@ public class Control : System.Web.UI.UserControl
         notice.GetType().GetProperty("Exception").SetValue(notice, ex, null);
     }
 
+    public void ReportInfo(string message)
+    {
+        ReportInfo(message, true);
+    }
+
+    public void ReportInfo(string message, bool htmlencode)
+    {
+        object notice = FindNoticeMenuControl();
+        if (notice == null) throw new Exception(message);
+        notice.GetType().GetProperty("HtmlEncode").SetValue(notice, htmlencode, null);
+        notice.GetType().GetProperty("Info").SetValue(notice, message, null);
+    }
+
     public string GetSummary(string summary)
     {
         return Renderer.GetSummary(SessionManager.RenderMarkups(summary));

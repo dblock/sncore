@@ -3,6 +3,7 @@
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="PlacePropertyGroupEdit" Src="PlacePropertyGroupEditControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="AccountRedirectEdit" Src="AccountRedirectEditControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="AccountContentPlaceHolder" runat="Server">
  <div class="sncore_h2">
   <asp:Label ID="labelName" runat="server" Text="New Place" />
@@ -184,6 +185,7 @@
    </td>
   </tr>
  </table>
+ <SnCore:AccountRedirectEdit id="placeredirect" runat="server" />
  <asp:Panel ID="panelPlaceAltName" runat="server">
   <div class="sncore_h2">
    Alternate Names

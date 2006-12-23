@@ -28,8 +28,8 @@ public partial class AccountWebsiteEdit : AuthenticatedPage
             if (id > 0)
             {
                 TransitAccountWebsite tw = SessionManager.AccountService.GetAccountWebsiteById(SessionManager.Ticket, id);
-                inputName.Text = Renderer.Render(tw.Name);
-                inputUrl.Text = Renderer.Render(tw.Url);
+                inputName.Text = tw.Name;
+                inputUrl.Text = tw.Url;
                 inputDescription.Text = tw.Description;
                 sitemapdata.Add(new SiteMapDataAttributeNode(tw.Name, Request.Url));
             }

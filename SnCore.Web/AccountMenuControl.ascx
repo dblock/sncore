@@ -32,7 +32,8 @@
  <tr><td width="30" align="center"><img src="images/account/property.gif" /></td><td width="*"><a href="AccountPropertyManage.aspx">Property</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/events.gif" /></td><td width="*"><a href="AccountEventsManage.aspx">Events</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/openid.gif" /></td><td width="*"><a href="AccountOpenIdsManage.aspx">OpenId</a></td></tr>
-  <tr><td width="30" align="center"><img src="images/account/license.gif" /></td><td width="*"><a href="AccountLicenseEdit.aspx">License</a></td></tr>
+ <tr><td width="30" align="center"><img src="images/account/license.gif" /></td><td width="*"><a href="AccountLicenseEdit.aspx">License</a></td></tr>
+ <tr><td width="30" align="center"><img src="images/account/redirect.gif" /></td><td width="*"><a href="AccountRedirectsManage.aspx">Redirects</a></td></tr>
 </table>
 <table class="sncore_accountmenu_table">
  <tr><td width="30" align="center"><img src="images/account/stories.gif" /></td><td width="*"><a href="AccountStoriesManage.aspx">Stories</a></td></tr>

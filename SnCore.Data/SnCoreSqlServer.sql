@@ -2,6 +2,48 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Redirect]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[Redirect](
+	[Redirect_Id] [int] IDENTITY(1,1) NOT NULL,
+	[Account_Id] [int] NOT NULL,
+	[SourceUri] [nvarchar](128) NOT NULL,
+	[TargetUri] [nvarchar](128) NOT NULL,
+	[Created] [datetime] NOT NULL,
+	[Modified] [datetime] NOT NULL,
+ CONSTRAINT [PK_Redirect] PRIMARY KEY CLUSTERED 
+(
+	[Redirect_Id] ASC
+)WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Redirect]') AND name = N'IX_Redirect_Account_Id')
+CREATE NONCLUSTERED INDEX [IX_Redirect_Account_Id] ON [dbo].[Redirect] 
+(
+	[Account_Id] ASC
+)WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Redirect]') AND name = N'UK_Redirect')
+CREATE UNIQUE NONCLUSTERED INDEX [UK_Redirect] ON [dbo].[Redirect] 
+(
+	[SourceUri] ASC
+)WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Redirect]') AND name = N'UK_Redirect_Target')
+CREATE UNIQUE NONCLUSTERED INDEX [UK_Redirect_Target] ON [dbo].[Redirect] 
+(
+	[TargetUri] ASC,
+	[Account_Id] ASC
+)WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountPlaceType]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[AccountPlaceType](
@@ -2225,6 +2267,40 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountRedirect]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[AccountRedirect](
+	[AccountRedirect_Id] [int] IDENTITY(1,1) NOT NULL,
+	[Account_Id] [int] NOT NULL,
+	[SourceUri] [nvarchar](128) NOT NULL,
+	[TargetUri] [nvarchar](128) NOT NULL,
+	[Created] [datetime] NOT NULL,
+	[Modified] [datetime] NOT NULL,
+ CONSTRAINT [PK_AccountRedirect] PRIMARY KEY CLUSTERED 
+(
+	[AccountRedirect_Id] ASC
+)WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountRedirect]') AND name = N'IX_AccountRedirect_Account_Id')
+CREATE NONCLUSTERED INDEX [IX_AccountRedirect_Account_Id] ON [dbo].[AccountRedirect] 
+(
+	[Account_Id] ASC
+)WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountRedirect]') AND name = N'UK_AccountRedirect')
+CREATE UNIQUE NONCLUSTERED INDEX [UK_AccountRedirect] ON [dbo].[AccountRedirect] 
+(
+	[SourceUri] ASC
+)WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountStory]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[AccountStory](
@@ -3191,6 +3267,13 @@ REFERENCES [dbo].[Account] ([Account_Id])
 ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[AccountInvitation] CHECK CONSTRAINT [FK_AccountInvitation_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountRedirect_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountRedirect]'))
+ALTER TABLE [dbo].[AccountRedirect]  WITH CHECK ADD  CONSTRAINT [FK_AccountRedirect_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountRedirect] CHECK CONSTRAINT [FK_AccountRedirect_Account]
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountStory_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountStory]'))
 ALTER TABLE [dbo].[AccountStory]  WITH CHECK ADD  CONSTRAINT [FK_AccountStory_Account] FOREIGN KEY([Account_Id])

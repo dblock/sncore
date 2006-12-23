@@ -14,6 +14,7 @@ SnCore, it's like being shot out of a cannon, at very low cost.
 \section main_install Deployment
 \li \subpage install
 \li \subpage settings
+\li \subpage redirect
 
 \section main_dev Developer Reference
 \li <a class="el" href="Source/sncore">Browse Source Code</a>

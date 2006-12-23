@@ -2879,5 +2879,190 @@ namespace SnCore.WebServices
         }
         #endregion
 
+        #region Account Redirects
+
+        /// <summary>
+        /// Get account redirects count.
+        /// </summary>
+        [WebMethod(Description = "Get account redirects count.")]
+        public int GetAccountRedirectsCount(string ticket)
+        {
+            return GetAccountRedirectsCountById(ManagedAccount.GetAccountId(ticket));
+        }
+
+        /// <summary>
+        /// Get account redirects count by account id.
+        /// </summary>
+        [WebMethod(Description = "Get account redirects count by account id.")]
+        public int GetAccountRedirectsCountById(int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return (int)session.CreateQuery(string.Format(
+                    "SELECT COUNT(s) FROM AccountRedirect s WHERE s.Account.Id = {0}",
+                    id)).UniqueResult();
+            }
+        }
+
+        /// <summary>
+        /// Get account redirects.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <returns>transit account redirects</returns>
+        [WebMethod(Description = "Get account redirects.")]
+        public List<TransitAccountRedirect> GetAccountRedirects(string ticket, ServiceQueryOptions options)
+        {
+            return GetAccountRedirectsById(GetAccountId(ticket), options);
+        }
+
+        /// <summary>
+        /// Get account redirects.
+        /// </summary>
+        /// <param name="id">account id</param>
+        /// <returns>transit account redirects</returns>
+        [WebMethod(Description = "Get account redirects.", CacheDuration = 60)]
+        public List<TransitAccountRedirect> GetAccountRedirectsById(int id, ServiceQueryOptions options)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ICriteria c = session.CreateCriteria(typeof(AccountRedirect))
+                    .Add(Expression.Eq("Account.Id", id));
+
+                if (options != null)
+                {
+                    c.SetMaxResults(options.PageSize);
+                    c.SetFirstResult(options.FirstResult);
+                }
+
+                IList list = c.List();
+
+                List<TransitAccountRedirect> result = new List<TransitAccountRedirect>(list.Count);
+                foreach (AccountRedirect e in list)
+                {
+                    result.Add(new TransitAccountRedirect(e));
+                }
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Get account redirect by id.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">redirect id</param>
+        /// <returns>transit account redirect</returns>
+        [WebMethod(Description = "Get account redirect by id.")]
+        public TransitAccountRedirect GetAccountRedirectById(string ticket, int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                // todo: persmissions for redirect
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return new ManagedAccountRedirect(session, id).TransitAccountRedirect;
+            }
+        }
+
+        /// <summary>
+        /// Get account redirect by source uri.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <returns>transit account redirect</returns>
+        [WebMethod(Description = "Get account redirect by source uri.")]
+        public TransitAccountRedirect GetAccountRedirectBySourceUri(string ticket, string uri)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                AccountRedirect redirect = (AccountRedirect) session.CreateCriteria(typeof(AccountRedirect))
+                    .Add(Expression.Eq("Account.Id", GetAccountId(ticket)))
+                    .Add(Expression.Eq("SourceUri", uri))
+                    .UniqueResult();
+
+                if (redirect == null) 
+                    return null;
+                
+                return new ManagedAccountRedirect(session, redirect).TransitAccountRedirect;
+            }
+        }
+
+        /// <summary>
+        /// Get account redirect by target uri.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <returns>transit account redirect</returns>
+        [WebMethod(Description = "Get account redirect by target uri.")]
+        public TransitAccountRedirect GetAccountRedirectByTargetUri(string ticket, string uri)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                AccountRedirect redirect = (AccountRedirect) session.CreateCriteria(typeof(AccountRedirect))
+                    .Add(Expression.Eq("Account.Id", GetAccountId(ticket)))
+                    .Add(Expression.Eq("TargetUri", uri))
+                    .UniqueResult();
+
+                if (redirect == null)
+                    return null;
+
+                return new ManagedAccountRedirect(session, redirect).TransitAccountRedirect;
+            }
+        }
+
+        /// <summary>
+        /// Add a redirect.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="redirect">new redirect</param>
+        [WebMethod(Description = "Add a redirect.")]
+        public int AddAccountRedirect(string ticket, TransitAccountRedirect redirect)
+        {
+            int id = GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                try
+                {
+                    ISession session = SnCore.Data.Hibernate.Session.Current;
+                    ManagedAccount a = new ManagedAccount(session, id);
+                    int result = a.CreateOrUpdate(redirect);
+                    SnCore.Data.Hibernate.Session.Flush();
+                    return result;
+                }
+                catch (NHibernate.ADOException ex)
+                {
+                    throw new NHibernate.ADOException("This redirect is already in use.", ex);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Delete a redirect.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="redirectid">redirect id</param>
+        [WebMethod(Description = "Delete a redirect.")]
+        public void DeleteAccountRedirect(string ticket, int redirectid)
+        {
+            int id = GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount acct = new ManagedAccount(session, id);
+                ManagedAccountRedirect redirect = new ManagedAccountRedirect(session, redirectid);
+                if (redirect.Account.Id != acct.Id && !acct.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+                redirect.Delete();
+                SnCore.Data.Hibernate.Session.Flush();
+            }
+        }
+
+        #endregion
+
     }
 }

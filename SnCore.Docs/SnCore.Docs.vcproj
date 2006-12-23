@@ -114,6 +114,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Redirect.dox"
+			>
+		</File>
+		<File
 			RelativePath=".\Settings.dox"
 			>
 		</File>

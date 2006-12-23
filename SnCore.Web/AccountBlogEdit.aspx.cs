@@ -47,7 +47,7 @@ public partial class AccountBlogEdit : AuthenticatedPage
 
                 linkNew.NavigateUrl = string.Format("AccountBlogPost.aspx?bid={0}", RequestId);
                 linkNewAuthor.NavigateUrl = string.Format("AccountBlogAuthorEdit.aspx?bid={0}", RequestId);
-                linkPreview.NavigateUrl = string.Format("AccountBlogView.aspx?id={0}", RequestId);
+                accountredirect.TargetUri = linkPreview.NavigateUrl = string.Format("AccountBlogView.aspx?id={0}", RequestId);
 
                 sitemapdata.Add(new SiteMapDataAttributeNode(tf.Name, Request.Url));
             }

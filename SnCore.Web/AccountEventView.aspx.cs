@@ -25,11 +25,17 @@ public partial class AccountEventView : Page
     {
         get
         {
-            if (mAccountEventAccount == null && RequestId > 0 && AccountEvent != null)
+            try
             {
-                object[] args = { AccountEvent.AccountId };
-                mAccountEventAccount = SessionManager.GetCachedItem<TransitAccount>(
-                    SessionManager.AccountService, "GetAccountById", args);
+                if (mAccountEventAccount == null && RequestId > 0 && AccountEvent != null)
+                {
+                    object[] args = { AccountEvent.AccountId };
+                    mAccountEventAccount = SessionManager.GetCachedItem<TransitAccount>(
+                        SessionManager.AccountService, "GetAccountById", args);
+                }
+            }
+            catch
+            {
             }
 
             return mAccountEventAccount;
@@ -68,11 +74,18 @@ public partial class AccountEventView : Page
     {
         get
         {
-            if (mAccountEvent == null && RequestId > 0)
+            try
             {
-                object[] args = { SessionManager.Ticket, RequestId, SessionManager.UtcOffset };
-                mAccountEvent = SessionManager.GetCachedItem<TransitAccountEvent>(
-                    SessionManager.EventService, "GetAccountEventById", args);
+                if (mAccountEvent == null && RequestId > 0)
+                {
+                    object[] args = { SessionManager.Ticket, RequestId, SessionManager.UtcOffset };
+                    mAccountEvent = SessionManager.GetCachedItem<TransitAccountEvent>(
+                        SessionManager.EventService, "GetAccountEventById", args);
+                }
+            }
+            catch
+            {
+
             }
 
             return mAccountEvent;
@@ -110,7 +123,7 @@ public partial class AccountEventView : Page
 
                 if (t == null)
                 {
-                    ReportWarning("AccountEvent does not exist.");
+                    ReportWarning("Event does not exist.");
                     pnlAccountEvent.Visible = false;
                     return;
                 }

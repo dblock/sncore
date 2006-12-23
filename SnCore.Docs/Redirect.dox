@@ -1,0 +1,15 @@
+/*! \page redirect Redirect Services
+
+\section redirect_intro Deploying Redirect Services
+
+The redirect service allows users to set unique keywords that can be shared with the outside world. For example Joe may want to link his 
+account as http://www.sncore.com/joe rather than http://www.sncore.com/AccountView.aspx?id=123.
+
+While the redirect mechanics are implemented within SnCore, an ISAPI filter, 
+<a href="http://cheeso.members.winisp.net/IIRF.aspx">Ionic's ISAPI Rewrite Filter (IIRF)</a>, must be setup once for the website.
+
+\li Add the filter to ISAPI filters. The binary can be found under \b UrlRewriteISAPI. 
+\li The IsapiRewrite4.ini file is generated periodically by the back-end SystemRedirectService. The user running the AppDomain must be given
+    write access to the IsapiRewrite4.ini file.
+
+*/

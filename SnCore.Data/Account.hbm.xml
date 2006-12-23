@@ -158,5 +158,9 @@
       <key column="Account_Id" />
       <one-to-many class="PlacePicture, SnCore.Data" />
     </bag>
+    <bag lazy="true" name="AccountRedirects" inverse="true">
+      <key column="Account_Id" />
+      <one-to-many class="AccountRedirect, SnCore.Data" />
+    </bag>
   </class>
 </hibernate-mapping>

@@ -4,6 +4,7 @@
 <%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountReminder" Src="AccountReminderControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="AccountRedirectEdit" Src="AccountRedirectEditControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="AccountContentPlaceHolder" runat="Server">
  <SnCore:Title ID="titleSyndicatedContent" Text="Syndicate" runat="server">  
   <Template>
@@ -140,5 +141,6 @@
    </td>
   </tr>
  </table>
+ <SnCore:AccountRedirectEdit id="feedredirect" runat="server" />
  <SnCore:AccountReminder ID="accountReminder" runat="server" Style="width: 582px;" />
 </asp:Content>

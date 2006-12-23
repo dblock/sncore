@@ -87,6 +87,8 @@ public partial class AccountFeedEdit : AuthenticatedPage
                 }
 
                 sitemapdata.Add(new SiteMapDataAttributeNode(tf.Name, Request.Url));
+
+                feedredirect.TargetUri = string.Format("AccountFeedView.aspx?id={0}", tf.Id);
             }
             else
             {
@@ -126,6 +128,8 @@ public partial class AccountFeedEdit : AuthenticatedPage
                 }
 
                 sitemapdata.Add(new SiteMapDataAttributeNode("New Feed", Request.Url));
+
+                feedredirect.Visible = false;
             }
 
             StackSiteMap(sitemapdata);

@@ -2133,6 +2133,42 @@ namespace SnCore.Services
 
         #endregion
 
+        #region Redirect
+
+        public int CreateOrUpdate(TransitAccountRedirect redirect)
+        {
+            AccountRedirect r = redirect.GetAccountRedirect(Session);
+            ManagedAccountRedirect.CheckSourceUri(r.SourceUri);
+            ManagedAccountRedirect.CheckTargetUri(r.TargetUri);
+
+            r.Modified = DateTime.UtcNow;
+
+            if (r.Id == 0)
+            {
+                r.Account = mAccount;
+                r.Created = r.Modified;
+                if (mAccount.AccountRedirects == null) mAccount.AccountRedirects = new ArrayList();
+                if (!IsAdministrator() && mAccount.AccountRedirects.Count >= MaxOfAnything)
+                {
+                    throw new QuotaExceededException();
+                }
+                mAccount.AccountRedirects.Add(r);
+            }
+            else
+            {
+                // check that editing Redirect of self
+                if (r.Account.Id != Id)
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+            }
+
+            Session.Save(r);
+            return r.Id;
+        }
+
+        #endregion
+
         public static int GetRandomAccountPictureId(Account acct)
         {
             if (acct.AccountPictures == null || acct.AccountPictures.Count == 0)

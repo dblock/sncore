@@ -101,6 +101,8 @@ public partial class AccountPreferencesManage : AuthenticatedPage
             inputSignature.Text = SessionManager.Account.Signature;
 
             groups.AccountId = SessionManager.Account.Id;
+
+            accountredirect.TargetUri = string.Format("AccountView.aspx?id={0}", SessionManager.Account.Id);
         }
     }
 

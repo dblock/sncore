@@ -65,6 +65,7 @@ using System;
         private System.Collections.IList m_MadLibs;
         private System.Collections.IList m_PlaceQueues;
         private System.Collections.IList m_PlacePictures;
+        private System.Collections.IList m_AccountRedirects;
 
         //Public properties
         ///--------------------------------------------------------------------------------
@@ -1552,6 +1553,37 @@ using System;
             set
             {
                 m_PlacePictures = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'AccountRedirect'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'AccountRedirect.Account'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_AccountRedirects' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as slave.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'AccountRedirect' table in the data source.
+        ///The property maps to the identity column 'Account_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public  System.Collections.IList AccountRedirects
+        {
+            get
+            {
+                return m_AccountRedirects;
+            }
+            set
+            {
+                m_AccountRedirects = value;
             }
         }
 
