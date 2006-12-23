@@ -49,7 +49,7 @@ namespace SnCore.BackEndServices
                 sb.AppendLine();
             }
 
-            string inipath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin\\IsapiRewrite4.ini");
+            string inipath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "IsapiRewrite\\IsapiRewrite4.ini");
             Console.WriteLine(inipath);
 
             FileStream f = new FileStream(inipath, FileMode.OpenOrCreate | FileMode.Truncate, FileAccess.Write);
