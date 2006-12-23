@@ -1,17 +1,37 @@
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnCore.Data", "SnCore.Data\SnCore.Data.csproj", "{1F9C0442-E7B5-4CCC-93ED-A0599CF1AA57}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnCore.Data", "SnCore.Data\SnCore.Data.csproj", "{F78C3AFB-D0CE-4F92-A180-371293D0D937}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnCore.Data.Tests", "SnCore.Data.Tests\SnCore.Data.Tests.csproj", "{67A52AD0-9E51-4899-82A8-D2E2E7455069}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnCore.Services", "SnCore.Services\SnCore.Services.csproj", "{5AEB26B1-4C6C-42ED-86A0-2E5FD6CE53E2}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 		{499527FF-AE52-450F-B3E3-4AD53E1712AD} = {499527FF-AE52-450F-B3E3-4AD53E1712AD}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnCore.Services.Tests", "SnCore.Services.Tests\SnCore.Services.Tests.csproj", "{474046C4-CACC-4CDD-AA24-CD02E1787C26}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SnCore.Docs", "SnCore.Docs\SnCore.Docs.vcproj", "{FEDE1426-DD79-459D-A6BE-1280ED7C0C81}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "http://localhost/SnCoreWeb/", "http://localhost/SnCoreWeb", "{6FDDCDCC-EBEE-405B-86B3-05A418A9B40D}"
 	ProjectSection(WebsiteProperties) = preProject
@@ -34,34 +54,94 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "http://localhost/SnCoreWeb/
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnCore.Tools", "SnCore.Tools\SnCore.Tools.csproj", "{53F80219-6028-406B-819A-E79AE4D56995}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wilco.Web", "Wilco.Web\Wilco.Web\Wilco.Web.csproj", "{3E4122EA-09F7-4D3A-BD40-3AE4D54A3DA0}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnCore.WebControls", "SnCore.WebControls\SnCore.WebControls.csproj", "{6AA41A44-B048-4370-A084-E7BE64DF2811}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{2CFEAB61-6A3B-4EB8-B523-560B4BEEF521}") = "SnCore.Web.Deploy", "SnCore.Web.Deploy\SnCore.Web.Deploy.wdproj", "{5ABE72BA-942A-4A48-B7B8-5C8DCA154321}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnCore.Data.Hibernate", "SnCore.Data.Hibernate\SnCore.Data.Hibernate.csproj", "{437F9693-8C20-49BD-A4FD-68A88E9A92C0}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnCore.Stress.Tests", "SnCore.Stress.Tests\SnCore.Stress.Tests.csproj", "{38059B93-307B-4F3C-895E-AFE36F70D50B}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SgmlReaderDll8", "SgmlReader\sgmlreaderdll\SgmlReaderDll8.csproj", "{499527FF-AE52-450F-B3E3-4AD53E1712AD}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSS.NET", "Rss.Net\RSS.NET.csproj", "{C42FC014-7E12-4FAF-9BC9-79BF1529440D}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atom.NET", "Atom.Net\Atom.NET.csproj", "{8DE2053A-247B-430A-86C3-E52B4725AA60}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnCore.Tools.Tests", "SnCore.Tools.Tests\SnCore.Tools.Tests.csproj", "{92289CC0-C427-4C06-B0F1-68973CD3EF3D}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenId.NET", "OpenId.NET\OpenId.NET.csproj", "{878A1359-86B1-440B-ADE8-84DD20D88BF5}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnCore.BackEnd", "SnCore.BackEnd\SnCore.BackEnd.csproj", "{9354A6E8-72CD-4E69-92E7-C2740F5B5F16}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnCore.BackEnd.Tests", "SnCore.BackEnd.Tests\SnCore.BackEnd.Tests.csproj", "{4CEA5A49-7DD4-4896-9675-55D90901B0AD}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnCore.Web.Tests", "SnCore.Web.Tests\SnCore.Web.Tests.csproj", "{9B26A319-B666-4970-89B8-A2EB30D8D61D}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnCore.SiteMap", "SnCore.SiteMap\SnCore.SiteMap.csproj", "{615D15C5-42A4-4710-A713-D0678F7F7ED1}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,20 +155,20 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1F9C0442-E7B5-4CCC-93ED-A0599CF1AA57}.Debug|.NET.ActiveCfg = Debug|Any CPU
-		{1F9C0442-E7B5-4CCC-93ED-A0599CF1AA57}.Debug|.NET.Build.0 = Debug|Any CPU
-		{1F9C0442-E7B5-4CCC-93ED-A0599CF1AA57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1F9C0442-E7B5-4CCC-93ED-A0599CF1AA57}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1F9C0442-E7B5-4CCC-93ED-A0599CF1AA57}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{1F9C0442-E7B5-4CCC-93ED-A0599CF1AA57}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{1F9C0442-E7B5-4CCC-93ED-A0599CF1AA57}.Debug|Win32.ActiveCfg = Debug|Any CPU
-		{1F9C0442-E7B5-4CCC-93ED-A0599CF1AA57}.Release|.NET.ActiveCfg = Release|Any CPU
-		{1F9C0442-E7B5-4CCC-93ED-A0599CF1AA57}.Release|.NET.Build.0 = Release|Any CPU
-		{1F9C0442-E7B5-4CCC-93ED-A0599CF1AA57}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1F9C0442-E7B5-4CCC-93ED-A0599CF1AA57}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1F9C0442-E7B5-4CCC-93ED-A0599CF1AA57}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{1F9C0442-E7B5-4CCC-93ED-A0599CF1AA57}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{1F9C0442-E7B5-4CCC-93ED-A0599CF1AA57}.Release|Win32.ActiveCfg = Release|Any CPU
+		{F78C3AFB-D0CE-4F92-A180-371293D0D937}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{F78C3AFB-D0CE-4F92-A180-371293D0D937}.Debug|.NET.Build.0 = Debug|Any CPU
+		{F78C3AFB-D0CE-4F92-A180-371293D0D937}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F78C3AFB-D0CE-4F92-A180-371293D0D937}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F78C3AFB-D0CE-4F92-A180-371293D0D937}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F78C3AFB-D0CE-4F92-A180-371293D0D937}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F78C3AFB-D0CE-4F92-A180-371293D0D937}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{F78C3AFB-D0CE-4F92-A180-371293D0D937}.Release|.NET.ActiveCfg = Release|Any CPU
+		{F78C3AFB-D0CE-4F92-A180-371293D0D937}.Release|.NET.Build.0 = Release|Any CPU
+		{F78C3AFB-D0CE-4F92-A180-371293D0D937}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F78C3AFB-D0CE-4F92-A180-371293D0D937}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F78C3AFB-D0CE-4F92-A180-371293D0D937}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F78C3AFB-D0CE-4F92-A180-371293D0D937}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F78C3AFB-D0CE-4F92-A180-371293D0D937}.Release|Win32.ActiveCfg = Release|Any CPU
 		{67A52AD0-9E51-4899-82A8-D2E2E7455069}.Debug|.NET.ActiveCfg = Debug|Any CPU
 		{67A52AD0-9E51-4899-82A8-D2E2E7455069}.Debug|.NET.Build.0 = Debug|Any CPU
 		{67A52AD0-9E51-4899-82A8-D2E2E7455069}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

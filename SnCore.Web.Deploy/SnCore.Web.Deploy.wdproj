@@ -55,10 +55,6 @@
       <Project>{437F9693-8C20-49BD-A4FD-68A88E9A92C0}</Project>
       <Name>SnCore.Data.Hibernate</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SnCore.Data\SnCore.Data.csproj">
-      <Project>{1F9C0442-E7B5-4CCC-93ED-A0599CF1AA57}</Project>
-      <Name>SnCore.Data</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SnCore.Services\SnCore.Services.csproj">
       <Project>{5AEB26B1-4C6C-42ED-86A0-2E5FD6CE53E2}</Project>
       <Name>SnCore.Services</Name>

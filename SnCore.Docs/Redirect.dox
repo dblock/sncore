@@ -8,7 +8,7 @@ account as http://www.sncore.com/joe rather than http://www.sncore.com/AccountVi
 While the redirect mechanics are implemented within SnCore, an ISAPI filter, 
 <a href="http://cheeso.members.winisp.net/IIRF.aspx">Ionic's ISAPI Rewrite Filter (IIRF)</a>, must be setup once for the website.
 
-\li Add the filter to ISAPI filters. The binary can be found under \b UrlRewriteISAPI. 
+\li Add the filter to ISAPI filters. The binary can be found under \b bin. 
 \li The IsapiRewrite4.ini file is generated periodically by the back-end SystemRedirectService. The user running the AppDomain must be given
     write access to the IsapiRewrite4.ini file.
 
