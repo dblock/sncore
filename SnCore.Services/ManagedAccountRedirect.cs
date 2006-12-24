@@ -55,6 +55,20 @@ namespace SnCore.Services
             }
         }
 
+        private string mAccountName;
+
+        public string AccountName
+        {
+            get
+            {
+                return mAccountName;
+            }
+            set
+            {
+                mAccountName = value;
+            }
+        }
+
         private DateTime mCreated;
 
         public DateTime Created
@@ -96,6 +110,7 @@ namespace SnCore.Services
             SourceUri = r.SourceUri;
             TargetUri = r.TargetUri;
             AccountId = r.Account.Id;
+            AccountName = r.Account.Name;
             Created = r.Created;
             Modified = r.Modified;
         }

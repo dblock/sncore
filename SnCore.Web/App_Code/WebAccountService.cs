@@ -2906,6 +2906,26 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
+        /// Get all account redirects count.
+        /// </summary>
+        [WebMethod(Description = "Get all account redirects count.")]
+        public int GetAllAccountRedirectsCount(string ticket)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount user = new ManagedAccount(session, GetAccountId(ticket));
+                if (!user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                return (int) session.CreateQuery(
+                    "SELECT COUNT(s) FROM AccountRedirect s").UniqueResult();
+            }
+        }
+
+        /// <summary>
         /// Get account redirects.
         /// </summary>
         /// <param name="ticket">authentication ticket</param>
@@ -2943,6 +2963,44 @@ namespace SnCore.WebServices
                 {
                     result.Add(new TransitAccountRedirect(e));
                 }
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Get all account redirects.
+        /// </summary>
+        /// <returns>transit account redirects</returns>
+        [WebMethod(Description = "Get all account redirects.", CacheDuration = 60)]
+        public List<TransitAccountRedirect> GetAllAccountRedirects(string ticket, ServiceQueryOptions options)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount user = new ManagedAccount(session, GetAccountId(ticket));
+
+                if (!user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ICriteria c = session.CreateCriteria(typeof(AccountRedirect));
+
+                if (options != null)
+                {
+                    c.SetMaxResults(options.PageSize);
+                    c.SetFirstResult(options.FirstResult);
+                }
+
+                IList list = c.List();
+
+                List<TransitAccountRedirect> result = new List<TransitAccountRedirect>(list.Count);
+                foreach (AccountRedirect e in list)
+                {
+                    result.Add(new TransitAccountRedirect(e));
+                }
+
                 SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
