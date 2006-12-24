@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'MadLibInstance' entities.
@@ -9,12 +9,10 @@ using System;
     ///This class maps to the 'MadLibInstance' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class MadLibInstance
+    public class MadLibInstance : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private System.Int32 m_AccountId;
         private System.DateTime m_Created;
@@ -24,7 +22,6 @@ using System;
         private System.Int32 m_ObjectId;
         private System.String m_Text;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -40,7 +37,7 @@ using System;
         ///The property maps to the column 'MadLibInstance_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -61,7 +58,7 @@ using System;
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 AccountId
+        virtual public System.Int32 AccountId
         {
             get
             {
@@ -86,7 +83,7 @@ using System;
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Created
+        virtual public System.DateTime Created
         {
             get
             {
@@ -113,7 +110,7 @@ using System;
         ///The property maps to the column 'DataObject_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  DataObject DataObject
+        virtual public DataObject DataObject
         {
             get
             {
@@ -140,7 +137,7 @@ using System;
         ///The property maps to the column 'MadLib_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  MadLib MadLib
+        virtual public MadLib MadLib
         {
             get
             {
@@ -165,7 +162,7 @@ using System;
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Modified
+        virtual public System.DateTime Modified
         {
             get
             {
@@ -190,7 +187,7 @@ using System;
         ///The property maps to the column 'Object_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 ObjectId
+        virtual public System.Int32 ObjectId
         {
             get
             {
@@ -215,7 +212,7 @@ using System;
         ///The property maps to the column 'Text' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Text
+        virtual public System.String Text
         {
             get
             {
@@ -229,11 +226,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

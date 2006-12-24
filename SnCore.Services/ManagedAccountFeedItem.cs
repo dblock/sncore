@@ -244,7 +244,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountFeedItem : ManagedService
+    public class ManagedAccountFeedItem : ManagedService<AccountFeedItem>
     {
         private AccountFeedItem mAccountFeedItem = null;
 

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'SurveyQuestion' entities.
@@ -9,18 +9,15 @@ using System;
     ///This class maps to the 'SurveyQuestion' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class SurveyQuestion
+    public class SurveyQuestion : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
-        private System.Collections.IList m_AccountSurveyAnswers;
+        private System.Collections.Generic.IList<AccountSurveyAnswer> m_AccountSurveyAnswers;
         private System.String m_Question;
         private Survey m_Survey;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -36,7 +33,7 @@ using System;
         ///The property maps to the column 'SurveyQuestion_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -64,7 +61,7 @@ using System;
         ///The property maps to the identity column 'SurveyQuestion_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountSurveyAnswers
+        virtual public System.Collections.Generic.IList<AccountSurveyAnswer> AccountSurveyAnswers
         {
             get
             {
@@ -89,7 +86,7 @@ using System;
         ///The property maps to the column 'Question' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Question
+        virtual public System.String Question
         {
             get
             {
@@ -116,7 +113,7 @@ using System;
         ///The property maps to the column 'Survey_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  Survey Survey
+        virtual public Survey Survey
         {
             get
             {
@@ -130,11 +127,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

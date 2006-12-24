@@ -101,7 +101,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed RefererQuery.
     /// </summary>
-    public class ManagedRefererQuery : ManagedService
+    public class ManagedRefererQuery : ManagedService<RefererQuery>
     {
         private RefererQuery mRefererQuery = null;
 

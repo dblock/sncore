@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'AccountStory' entities.
@@ -9,22 +9,19 @@ using System;
     ///This class maps to the 'AccountStory' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountStory
+    public class AccountStory : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private Account m_Account;
-        private System.Collections.IList m_AccountStoryPictures;
+        private System.Collections.Generic.IList<AccountStoryPicture> m_AccountStoryPictures;
         private System.DateTime m_Created;
         private System.DateTime m_Modified;
         private System.String m_Name;
         private System.String m_Summary;
         private System.Boolean m_Publish;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -40,7 +37,7 @@ using System;
         ///The property maps to the column 'AccountStory_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -63,7 +60,7 @@ using System;
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  Account Account
+        virtual public Account Account
         {
             get
             {
@@ -95,7 +92,7 @@ using System;
         ///The property maps to the identity column 'AccountStory_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountStoryPictures
+        virtual public System.Collections.Generic.IList<AccountStoryPicture> AccountStoryPictures
         {
             get
             {
@@ -120,7 +117,7 @@ using System;
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Created
+        virtual public System.DateTime Created
         {
             get
             {
@@ -145,7 +142,7 @@ using System;
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Modified
+        virtual public System.DateTime Modified
         {
             get
             {
@@ -170,7 +167,7 @@ using System;
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Name
+        virtual public System.String Name
         {
             get
             {
@@ -195,7 +192,7 @@ using System;
         ///The property maps to the column 'Summary' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Summary
+        virtual public System.String Summary
         {
             get
             {
@@ -220,7 +217,7 @@ using System;
         ///The property maps to the column 'Publish' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Boolean Publish
+        virtual public System.Boolean Publish
         {
             get
             {
@@ -234,11 +231,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

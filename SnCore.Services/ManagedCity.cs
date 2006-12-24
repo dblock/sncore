@@ -100,7 +100,7 @@ namespace SnCore.Services
 
     }
 
-    public class ManagedCity : ManagedService
+    public class ManagedCity : ManagedService<City>
     {
         public class InvalidCityException : SoapException
         {

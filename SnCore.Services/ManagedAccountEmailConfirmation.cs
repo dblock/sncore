@@ -52,7 +52,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed e-mail confirmation;
     /// </summary>
-    public class ManagedAccountEmailConfirmation : ManagedService
+    public class ManagedAccountEmailConfirmation : ManagedService<AccountEmailConfirmation>
     {
         public class InvalidCodeException : Exception
         {

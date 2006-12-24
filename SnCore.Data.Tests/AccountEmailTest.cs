@@ -3,7 +3,7 @@ using NUnit.Framework;
 using SnCore.Data;
 using NHibernate;
 using NHibernate.Cfg;
-using System.Collections;
+using System.Collections.Generic;
 
 namespace SnCore.Data.Tests
 {
@@ -26,7 +26,7 @@ namespace SnCore.Data.Tests
             email.Verified = false;
             email.Created = email.Modified = DateTime.UtcNow;
 
-            if (acct.AccountEmails == null) acct.AccountEmails = new ArrayList();
+            if (acct.AccountEmails == null) acct.AccountEmails = new List<AccountEmail>();
             acct.AccountEmails.Add(email);
 
             Session.Save(acct);

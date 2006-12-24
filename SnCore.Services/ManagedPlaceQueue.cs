@@ -189,7 +189,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedPlaceQueue : ManagedService
+    public class ManagedPlaceQueue : ManagedService<PlaceQueue>
     {
         private PlaceQueue mPlaceQueue = null;
 

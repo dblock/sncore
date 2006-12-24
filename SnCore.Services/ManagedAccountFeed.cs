@@ -315,7 +315,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountFeed : ManagedService
+    public class ManagedAccountFeed : ManagedService<AccountFeed>
     {
         private AccountFeed mAccountFeed = null;
 
@@ -426,7 +426,7 @@ namespace SnCore.Services
             }
         }
 
-        public bool Update(AtomFeed feed, IList deleted, List<AccountFeedItem> updated)
+        public bool Update(AtomFeed feed, IList<AccountFeedItem> deleted, List<AccountFeedItem> updated)
         {
             if (feed.Entries.Count == 0)
                 return false;
@@ -541,7 +541,7 @@ namespace SnCore.Services
             return true;
         }
 
-        public bool Update(RssFeed feed, IList deleted, List<AccountFeedItem> updated)
+        public bool Update(RssFeed feed, IList<AccountFeedItem> deleted, List<AccountFeedItem> updated)
         {
             if (feed.Channels.Count == 0)
                 return false;
@@ -613,7 +613,7 @@ namespace SnCore.Services
         {
             mAccountFeed.Updated = DateTime.UtcNow;
 
-            IList deleted = mAccountFeed.AccountFeedItems;
+            IList<AccountFeedItem> deleted = mAccountFeed.AccountFeedItems;
             List<AccountFeedItem> updated = new List<AccountFeedItem>();
 
             bool fUpdated = Update(RssFeed.Read(GetFeedHttpRequest()), deleted, updated);

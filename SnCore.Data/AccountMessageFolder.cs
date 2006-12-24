@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'AccountMessageFolder' entities.
@@ -9,23 +9,20 @@ using System;
     ///This class maps to the 'AccountMessageFolder' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountMessageFolder
+    public class AccountMessageFolder : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private Account m_Account;
         private AccountMessageFolder m_AccountMessageFolderParent;
-        private System.Collections.IList m_AccountMessageFolders;
-        private System.Collections.IList m_AccountMessages;
+        private System.Collections.Generic.IList<AccountMessageFolder> m_AccountMessageFolders;
+        private System.Collections.Generic.IList<AccountMessage> m_AccountMessages;
         private System.DateTime m_Created;
         private System.DateTime m_Modified;
         private System.String m_Name;
         private System.Boolean m_System;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -41,7 +38,7 @@ using System;
         ///The property maps to the column 'AccountMessageFolder_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -64,7 +61,7 @@ using System;
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  Account Account
+        virtual public Account Account
         {
             get
             {
@@ -91,7 +88,7 @@ using System;
         ///The property maps to the column 'AccountMessageFolderParent_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  AccountMessageFolder AccountMessageFolderParent
+        virtual public AccountMessageFolder AccountMessageFolderParent
         {
             get
             {
@@ -123,7 +120,7 @@ using System;
         ///The property maps to the identity column 'AccountMessageFolderParent_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountMessageFolders
+        virtual public System.Collections.Generic.IList<AccountMessageFolder> AccountMessageFolders
         {
             get
             {
@@ -155,7 +152,7 @@ using System;
         ///The property maps to the identity column 'AccountMessageFolder_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountMessages
+        virtual public System.Collections.Generic.IList<AccountMessage> AccountMessages
         {
             get
             {
@@ -180,7 +177,7 @@ using System;
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Created
+        virtual public System.DateTime Created
         {
             get
             {
@@ -205,7 +202,7 @@ using System;
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Modified
+        virtual public System.DateTime Modified
         {
             get
             {
@@ -230,7 +227,7 @@ using System;
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Name
+        virtual public System.String Name
         {
             get
             {
@@ -255,7 +252,7 @@ using System;
         ///The property maps to the column 'System' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Boolean System
+        virtual public System.Boolean System
         {
             get
             {
@@ -269,11 +266,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

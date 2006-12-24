@@ -60,8 +60,8 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery(string.Format(
-                    "SELECT COUNT(g) FROM AccountContentGroup g WHERE g.Account.Id = {0}",
+                return (int) session.CreateQuery(string.Format(
+                    "SELECT COUNT(*) FROM AccountContentGroup g WHERE g.Account.Id = {0}",
                         accountid)).UniqueResult();
             }
         }
@@ -75,7 +75,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery("SELECT COUNT(g) FROM AccountContentGroup g").UniqueResult();
+                return (int) session.CreateQuery("SELECT COUNT(*) FROM AccountContentGroup g").UniqueResult();
             }
         }
 
@@ -223,8 +223,8 @@ namespace SnCore.WebServices
                 ManagedAccountContentGroup m = new ManagedAccountContentGroup(session, id);
                 m.CheckPermissions(ticket);
 
-                return (int)session.CreateQuery(string.Format(
-                    "SELECT COUNT(c) FROM AccountContent c WHERE c.AccountContentGroup.Id = {0}",
+                return (int) session.CreateQuery(string.Format(
+                    "SELECT COUNT(*) FROM AccountContent c WHERE c.AccountContentGroup.Id = {0}",
                         id)).UniqueResult();
             }
         }

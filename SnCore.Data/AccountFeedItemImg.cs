@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'AccountFeedItemImg' entities.
@@ -9,12 +9,10 @@ using System;
     ///This class maps to the 'AccountFeedItemImg' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountFeedItemImg
+    public class AccountFeedItemImg : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private AccountFeedItem m_AccountFeedItem;
         private System.DateTime m_Created;
@@ -26,7 +24,6 @@ using System;
         private System.String m_LastError;
         private System.Byte[] m_Thumbnail;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -42,7 +39,7 @@ using System;
         ///The property maps to the column 'AccountFeedItemImg_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -65,7 +62,7 @@ using System;
         ///The property maps to the column 'AccountFeedItem_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  AccountFeedItem AccountFeedItem
+        virtual public AccountFeedItem AccountFeedItem
         {
             get
             {
@@ -90,7 +87,7 @@ using System;
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Created
+        virtual public System.DateTime Created
         {
             get
             {
@@ -115,7 +112,7 @@ using System;
         ///The property maps to the column 'Description' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Description
+        virtual public System.String Description
         {
             get
             {
@@ -140,7 +137,7 @@ using System;
         ///The property maps to the column 'Interesting' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Boolean Interesting
+        virtual public System.Boolean Interesting
         {
             get
             {
@@ -165,7 +162,7 @@ using System;
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Modified
+        virtual public System.DateTime Modified
         {
             get
             {
@@ -190,7 +187,7 @@ using System;
         ///The property maps to the column 'Url' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Url
+        virtual public System.String Url
         {
             get
             {
@@ -215,7 +212,7 @@ using System;
         ///The property maps to the column 'Visible' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Boolean Visible
+        virtual public System.Boolean Visible
         {
             get
             {
@@ -240,7 +237,7 @@ using System;
         ///The property maps to the column 'LastError' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String LastError
+        virtual public System.String LastError
         {
             get
             {
@@ -265,7 +262,7 @@ using System;
         ///The property maps to the column 'Thumbnail' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Byte[] Thumbnail
+        virtual public System.Byte[] Thumbnail
         {
             get
             {
@@ -279,11 +276,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

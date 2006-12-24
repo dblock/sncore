@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'ReminderEvent' entities.
@@ -9,19 +9,16 @@ using System;
     ///This class maps to the 'ReminderEvent' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class ReminderEvent
+    public class ReminderEvent : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private Account m_Account;
         private System.DateTime m_Created;
         private System.DateTime m_Modified;
         private Reminder m_Reminder;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -37,7 +34,7 @@ using System;
         ///The property maps to the column 'ReminderEvent_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -60,7 +57,7 @@ using System;
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  Account Account
+        virtual public Account Account
         {
             get
             {
@@ -85,7 +82,7 @@ using System;
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Created
+        virtual public System.DateTime Created
         {
             get
             {
@@ -110,7 +107,7 @@ using System;
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Modified
+        virtual public System.DateTime Modified
         {
             get
             {
@@ -137,7 +134,7 @@ using System;
         ///The property maps to the column 'Reminder_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  Reminder Reminder
+        virtual public Reminder Reminder
         {
             get
             {
@@ -151,11 +148,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

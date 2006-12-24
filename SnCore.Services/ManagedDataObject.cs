@@ -45,7 +45,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed data object.
     /// </summary>
-    public class ManagedDataObject : ManagedService
+    public class ManagedDataObject : ManagedService<DataObject>
     {
         private DataObject mDataObject = null;
 

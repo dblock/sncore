@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'AccountEvent' entities.
@@ -9,12 +9,10 @@ using System;
     ///This class maps to the 'AccountEvent' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountEvent
+    public class AccountEvent : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private Account m_Account;
         private AccountEventType m_AccountEventType;
@@ -29,9 +27,8 @@ using System;
         private System.Boolean m_Publish;
         private Schedule m_Schedule;
         private System.String m_Website;
-        private System.Collections.IList m_AccountEventPictures;
+        private System.Collections.Generic.IList<AccountEventPicture> m_AccountEventPictures;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -47,7 +44,7 @@ using System;
         ///The property maps to the column 'AccountEvent_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -70,7 +67,7 @@ using System;
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  Account Account
+        virtual public Account Account
         {
             get
             {
@@ -97,7 +94,7 @@ using System;
         ///The property maps to the column 'AccountEventType_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  AccountEventType AccountEventType
+        virtual public AccountEventType AccountEventType
         {
             get
             {
@@ -122,7 +119,7 @@ using System;
         ///The property maps to the column 'Cost' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Cost
+        virtual public System.String Cost
         {
             get
             {
@@ -147,7 +144,7 @@ using System;
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Created
+        virtual public System.DateTime Created
         {
             get
             {
@@ -172,7 +169,7 @@ using System;
         ///The property maps to the column 'Description' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Description
+        virtual public System.String Description
         {
             get
             {
@@ -197,7 +194,7 @@ using System;
         ///The property maps to the column 'Email' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Email
+        virtual public System.String Email
         {
             get
             {
@@ -222,7 +219,7 @@ using System;
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Modified
+        virtual public System.DateTime Modified
         {
             get
             {
@@ -247,7 +244,7 @@ using System;
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Name
+        virtual public System.String Name
         {
             get
             {
@@ -272,7 +269,7 @@ using System;
         ///The property maps to the column 'Phone' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Phone
+        virtual public System.String Phone
         {
             get
             {
@@ -299,7 +296,7 @@ using System;
         ///The property maps to the column 'Place_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  Place Place
+        virtual public Place Place
         {
             get
             {
@@ -324,7 +321,7 @@ using System;
         ///The property maps to the column 'Publish' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Boolean Publish
+        virtual public System.Boolean Publish
         {
             get
             {
@@ -351,7 +348,7 @@ using System;
         ///The property maps to the column 'Schedule_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  Schedule Schedule
+        virtual public Schedule Schedule
         {
             get
             {
@@ -376,7 +373,7 @@ using System;
         ///The property maps to the column 'Website' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Website
+        virtual public System.String Website
         {
             get
             {
@@ -408,7 +405,7 @@ using System;
         ///The property maps to the identity column 'AccountEvent_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountEventPictures
+        virtual public System.Collections.Generic.IList<AccountEventPicture> AccountEventPictures
         {
             get
             {
@@ -422,11 +419,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

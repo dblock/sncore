@@ -178,7 +178,7 @@ namespace SnCore.WebServices
                 }
 
                 IQuery query = session.CreateQuery(string.Format(
-                    "SELECT COUNT(word) FROM TagWord word {0}", where));
+                    "SELECT COUNT(*) FROM TagWord word {0}", where));
 
                 return (int) query.UniqueResult();
             }

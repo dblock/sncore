@@ -178,7 +178,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed Campaign.
     /// </summary>
-    public class ManagedCampaign : ManagedService
+    public class ManagedCampaign : ManagedService<Campaign>
     {
         private Campaign mCampaign = null;
 

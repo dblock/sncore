@@ -1,6 +1,6 @@
 using System;
 using NHibernate;
-using System.Collections;
+using System.Collections.Generic;
 using NHibernate.Expression;
 using System.Web.Services.Protocols;
 
@@ -133,7 +133,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed e-mail.
     /// </summary>
-    public class ManagedAccountEmail : ManagedService
+    public class ManagedAccountEmail : ManagedService<AccountEmail>
     {
         private AccountEmail mAccountEmail = null;
 
@@ -193,11 +193,11 @@ namespace SnCore.Services
             }
         }
 
-        public IList ManagedAccountEmailConfirmations
+        public List<ManagedAccountEmailConfirmation> ManagedAccountEmailConfirmations
         {
             get
             {
-                ArrayList list = new ArrayList();
+                List<ManagedAccountEmailConfirmation> list = new List<ManagedAccountEmailConfirmation>();
                 foreach (AccountEmailConfirmation aec in mAccountEmail.AccountEmailConfirmations)
                 {
                     list.Add(new ManagedAccountEmailConfirmation(Session, aec));
@@ -248,7 +248,7 @@ namespace SnCore.Services
             if (!canDelete)
             {
                 throw new SoapException(
-                    "You cannot delete the last verified e-mail.", 
+                    "You cannot delete the last verified e-mail.",
                     SoapException.ClientFaultCode);
             }
 
@@ -291,7 +291,7 @@ namespace SnCore.Services
 
             if (mAccountEmail.AccountEmailConfirmations == null)
             {
-                mAccountEmail.AccountEmailConfirmations = new ArrayList();
+                mAccountEmail.AccountEmailConfirmations = new List<AccountEmailConfirmation>();
             }
 
             mAccountEmail.AccountEmailConfirmations.Add(ac);

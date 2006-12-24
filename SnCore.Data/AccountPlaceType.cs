@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'AccountPlaceType' entities.
@@ -9,20 +9,17 @@ using System;
     ///This class maps to the 'AccountPlaceType' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountPlaceType
+    public class AccountPlaceType : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
-        private System.Collections.IList m_AccountPlaceRequests;
-        private System.Collections.IList m_AccountPlaces;
+        private System.Collections.Generic.IList<AccountPlaceRequest> m_AccountPlaceRequests;
+        private System.Collections.Generic.IList<AccountPlace> m_AccountPlaces;
         private System.Boolean m_CanWrite;
         private System.String m_Description;
         private System.String m_Name;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -38,7 +35,7 @@ using System;
         ///The property maps to the column 'AccountPlaceType_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -66,7 +63,7 @@ using System;
         ///The property maps to the identity column 'Type' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountPlaceRequests
+        virtual public System.Collections.Generic.IList<AccountPlaceRequest> AccountPlaceRequests
         {
             get
             {
@@ -98,7 +95,7 @@ using System;
         ///The property maps to the identity column 'Type_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountPlaces
+        virtual public System.Collections.Generic.IList<AccountPlace> AccountPlaces
         {
             get
             {
@@ -123,7 +120,7 @@ using System;
         ///The property maps to the column 'CanWrite' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Boolean CanWrite
+        virtual public System.Boolean CanWrite
         {
             get
             {
@@ -148,7 +145,7 @@ using System;
         ///The property maps to the column 'Description' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Description
+        virtual public System.String Description
         {
             get
             {
@@ -173,7 +170,7 @@ using System;
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Name
+        virtual public System.String Name
         {
             get
             {
@@ -187,11 +184,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

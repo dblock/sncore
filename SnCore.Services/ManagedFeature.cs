@@ -84,7 +84,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed feature.
     /// </summary>
-    public class ManagedFeature : ManagedService
+    public class ManagedFeature : ManagedService<Feature>
     {
         private Feature mFeature;
 

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'AccountEventType' entities.
@@ -9,17 +9,14 @@ using System;
     ///This class maps to the 'AccountEventType' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountEventType
+    public class AccountEventType : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
-        private System.Collections.IList m_AccountEvents;
+        private System.Collections.Generic.IList<AccountEvent> m_AccountEvents;
         private System.String m_Name;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -35,7 +32,7 @@ using System;
         ///The property maps to the column 'AccountEventType_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -63,7 +60,7 @@ using System;
         ///The property maps to the identity column 'AccountEventType_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountEvents
+        virtual public System.Collections.Generic.IList<AccountEvent> AccountEvents
         {
             get
             {
@@ -88,7 +85,7 @@ using System;
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Name
+        virtual public System.String Name
         {
             get
             {
@@ -102,11 +99,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

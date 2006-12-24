@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'AccountProperty' entities.
@@ -9,23 +9,20 @@ using System;
     ///This class maps to the 'AccountProperty' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountProperty
+    public class AccountProperty : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private AccountPropertyGroup m_AccountPropertyGroup;
-        private System.Collections.IList m_AccountPropertyValues;
+        private System.Collections.Generic.IList<AccountPropertyValue> m_AccountPropertyValues;
         private System.String m_DefaultValue;
         private System.String m_Description;
         private System.String m_Name;
         private System.String m_TypeName;
         private System.Boolean m_Publish;
-        private System.Collections.IList m_ReminderAccountProperties;
+        private System.Collections.Generic.IList<ReminderAccountProperty> m_ReminderAccountProperties;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -41,7 +38,7 @@ using System;
         ///The property maps to the column 'AccountProperty_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -64,7 +61,7 @@ using System;
         ///The property maps to the column 'AccountPropertyGroup_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  AccountPropertyGroup AccountPropertyGroup
+        virtual public AccountPropertyGroup AccountPropertyGroup
         {
             get
             {
@@ -95,7 +92,7 @@ using System;
         ///The property maps to the identity column 'AccountProperty_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountPropertyValues
+        virtual public System.Collections.Generic.IList<AccountPropertyValue> AccountPropertyValues
         {
             get
             {
@@ -120,7 +117,7 @@ using System;
         ///The property maps to the column 'DefaultValue' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String DefaultValue
+        virtual public System.String DefaultValue
         {
             get
             {
@@ -145,7 +142,7 @@ using System;
         ///The property maps to the column 'Description' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Description
+        virtual public System.String Description
         {
             get
             {
@@ -170,7 +167,7 @@ using System;
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Name
+        virtual public System.String Name
         {
             get
             {
@@ -195,7 +192,7 @@ using System;
         ///The property maps to the column 'TypeName' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String TypeName
+        virtual public System.String TypeName
         {
             get
             {
@@ -220,7 +217,7 @@ using System;
         ///The property maps to the column 'Publish' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Boolean Publish
+        virtual public System.Boolean Publish
         {
             get
             {
@@ -251,7 +248,7 @@ using System;
         ///The property maps to the identity column 'AccountProperty_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList ReminderAccountProperties
+        virtual public System.Collections.Generic.IList<ReminderAccountProperty> ReminderAccountProperties
         {
             get
             {
@@ -265,11 +262,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

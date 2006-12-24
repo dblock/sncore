@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'Attribute' entities.
@@ -9,14 +9,12 @@ using System;
     ///This class maps to the 'Attribute' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class Attribute
+    public class Attribute : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
-        private System.Collections.IList m_AccountAttributes;
+        private System.Collections.Generic.IList<AccountAttribute> m_AccountAttributes;
         private System.Byte[] m_Bitmap;
         private System.DateTime m_Created;
         private System.String m_DefaultUrl;
@@ -24,9 +22,8 @@ using System;
         private System.String m_Description;
         private System.DateTime m_Modified;
         private System.String m_Name;
-        private System.Collections.IList m_PlaceAttributes;
+        private System.Collections.Generic.IList<PlaceAttribute> m_PlaceAttributes;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -42,7 +39,7 @@ using System;
         ///The property maps to the column 'Attribute_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -69,7 +66,7 @@ using System;
         ///The property maps to the identity column 'Attribute_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountAttributes
+        virtual public System.Collections.Generic.IList<AccountAttribute> AccountAttributes
         {
             get
             {
@@ -94,7 +91,7 @@ using System;
         ///The property maps to the column 'Bitmap' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Byte[] Bitmap
+        virtual public System.Byte[] Bitmap
         {
             get
             {
@@ -119,7 +116,7 @@ using System;
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Created
+        virtual public System.DateTime Created
         {
             get
             {
@@ -144,7 +141,7 @@ using System;
         ///The property maps to the column 'DefaultUrl' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String DefaultUrl
+        virtual public System.String DefaultUrl
         {
             get
             {
@@ -169,7 +166,7 @@ using System;
         ///The property maps to the column 'DefaultValue' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String DefaultValue
+        virtual public System.String DefaultValue
         {
             get
             {
@@ -194,7 +191,7 @@ using System;
         ///The property maps to the column 'Description' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Description
+        virtual public System.String Description
         {
             get
             {
@@ -219,7 +216,7 @@ using System;
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Modified
+        virtual public System.DateTime Modified
         {
             get
             {
@@ -244,7 +241,7 @@ using System;
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Name
+        virtual public System.String Name
         {
             get
             {
@@ -275,7 +272,7 @@ using System;
         ///The property maps to the identity column 'Attribute_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList PlaceAttributes
+        virtual public System.Collections.Generic.IList<PlaceAttribute> PlaceAttributes
         {
             get
             {
@@ -289,11 +286,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

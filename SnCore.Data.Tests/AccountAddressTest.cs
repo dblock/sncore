@@ -4,7 +4,7 @@ using SnCore.Data;
 using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Expression;
-using System.Collections;
+using System.Collections.Generic;
 
 namespace SnCore.Data.Tests
 {
@@ -52,7 +52,7 @@ namespace SnCore.Data.Tests
                 addr.Street = "89 Bleecker St.";
                 addr.Zip = "10012-1234";
 
-                if (acct.AccountAddresses == null) acct.AccountAddresses = new ArrayList();
+                if (acct.AccountAddresses == null) acct.AccountAddresses = new List<AccountAddress>();
                 acct.AccountAddresses.Add(addr);
 
                 Session.Save(addr);

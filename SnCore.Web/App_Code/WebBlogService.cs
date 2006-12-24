@@ -118,8 +118,8 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery(string.Format(
-                    "SELECT COUNT(s) FROM AccountBlogAuthor s WHERE s.Account.Id = {0}",
+                return (int) session.CreateQuery(string.Format(
+                    "SELECT COUNT(*) FROM AccountBlogAuthor s WHERE s.Account.Id = {0}",
                     id)).UniqueResult();
             }
         }
@@ -146,8 +146,8 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery(string.Format(
-                    "SELECT COUNT(s) FROM AccountBlog s WHERE s.Account.Id = {0}",
+                return (int) session.CreateQuery(string.Format(
+                    "SELECT COUNT(*) FROM AccountBlog s WHERE s.Account.Id = {0}",
                     id)).UniqueResult();
             }
         }
@@ -269,8 +269,8 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery(string.Format(
-                    "SELECT COUNT(i) FROM AccountBlogPost i WHERE i.AccountBlog.Id = {0}",
+                return (int) session.CreateQuery(string.Format(
+                    "SELECT COUNT(*) FROM AccountBlogPost i WHERE i.AccountBlog.Id = {0}",
                         id)).UniqueResult();
             }
         }
@@ -373,8 +373,8 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery(string.Format(
-                    "SELECT COUNT(i) FROM AccountBlogAuthor i WHERE i.AccountBlog.Id = {0}",
+                return (int) session.CreateQuery(string.Format(
+                    "SELECT COUNT(*) FROM AccountBlogAuthor i WHERE i.AccountBlog.Id = {0}",
                         id)).UniqueResult();
             }
         }

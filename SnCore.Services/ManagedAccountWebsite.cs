@@ -101,7 +101,7 @@ namespace SnCore.Services
 
     }
 
-    public class ManagedAccountWebsite : ManagedService
+    public class ManagedAccountWebsite : ManagedService<AccountWebsite>
     {
         public class InvalidUriException : SoapException
         {

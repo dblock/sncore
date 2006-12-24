@@ -66,7 +66,7 @@ namespace SnCore.Services
 
     }
 
-    public class ManagedState : ManagedService
+    public class ManagedState : ManagedService<State>
     {
         public class InvalidStateException : SoapException
         {

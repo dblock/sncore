@@ -47,7 +47,7 @@ namespace SnCore.WebServices
                     throw new ManagedAccount.AccessDeniedException();
                 }
 
-                return (int) session.CreateQuery("SELECT COUNT(c) FROM Campaign c").UniqueResult();
+                return (int) session.CreateQuery("SELECT COUNT(*) FROM Campaign c").UniqueResult();
             }
         }
 
@@ -183,8 +183,8 @@ namespace SnCore.WebServices
                     throw new ManagedAccount.AccessDeniedException();
                 }
 
-                return (int)session.CreateQuery(string.Format(
-                    "SELECT COUNT(ca) FROM CampaignAccountRecepient ca WHERE ca.Campaign.Id = {0}", id)).UniqueResult();
+                return (int) session.CreateQuery(string.Format(
+                    "SELECT COUNT(*) FROM CampaignAccountRecepient ca WHERE ca.Campaign.Id = {0}", id)).UniqueResult();
             }
         }
 

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'AccountContent' entities.
@@ -9,12 +9,10 @@ using System;
     ///This class maps to the 'AccountContent' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountContent
+    public class AccountContent : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private AccountContentGroup m_AccountContentGroup;
         private System.DateTime m_Created;
@@ -23,7 +21,6 @@ using System;
         private System.String m_Text;
         private System.DateTime m_Timestamp;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -39,7 +36,7 @@ using System;
         ///The property maps to the column 'AccountContent_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -62,7 +59,7 @@ using System;
         ///The property maps to the column 'AccountContentGroup_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  AccountContentGroup AccountContentGroup
+        virtual public AccountContentGroup AccountContentGroup
         {
             get
             {
@@ -87,7 +84,7 @@ using System;
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Created
+        virtual public System.DateTime Created
         {
             get
             {
@@ -112,7 +109,7 @@ using System;
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Modified
+        virtual public System.DateTime Modified
         {
             get
             {
@@ -137,7 +134,7 @@ using System;
         ///The property maps to the column 'Tag' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Tag
+        virtual public System.String Tag
         {
             get
             {
@@ -162,7 +159,7 @@ using System;
         ///The property maps to the column 'Text' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Text
+        virtual public System.String Text
         {
             get
             {
@@ -187,7 +184,7 @@ using System;
         ///The property maps to the column 'Timestamp' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Timestamp
+        virtual public System.DateTime Timestamp
         {
             get
             {
@@ -201,11 +198,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

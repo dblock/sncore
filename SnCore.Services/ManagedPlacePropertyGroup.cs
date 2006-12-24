@@ -64,7 +64,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedPlacePropertyGroup : ManagedService
+    public class ManagedPlacePropertyGroup : ManagedService<PlacePropertyGroup>
     {
         private PlacePropertyGroup mPlacePropertyGroup = null;
 

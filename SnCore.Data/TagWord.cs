@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'TagWord' entities.
@@ -9,19 +9,16 @@ using System;
     ///This class maps to the 'TagWord' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class TagWord
+    public class TagWord : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private System.Boolean m_Excluded;
         private System.Boolean m_Promoted;
-        private System.Collections.IList m_TagWordAccounts;
+        private System.Collections.Generic.IList<TagWordAccount> m_TagWordAccounts;
         private System.String m_Word;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -37,7 +34,7 @@ using System;
         ///The property maps to the column 'TagWord_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -58,7 +55,7 @@ using System;
         ///The property maps to the column 'Excluded' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Boolean Excluded
+        virtual public System.Boolean Excluded
         {
             get
             {
@@ -83,7 +80,7 @@ using System;
         ///The property maps to the column 'Promoted' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Boolean Promoted
+        virtual public System.Boolean Promoted
         {
             get
             {
@@ -115,7 +112,7 @@ using System;
         ///The property maps to the identity column 'TagWord_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList TagWordAccounts
+        virtual public System.Collections.Generic.IList<TagWordAccount> TagWordAccounts
         {
             get
             {
@@ -140,7 +137,7 @@ using System;
         ///The property maps to the column 'Word' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Word
+        virtual public System.String Word
         {
             get
             {
@@ -154,11 +151,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'BugNote' entities.
@@ -9,12 +9,10 @@ using System;
     ///This class maps to the 'BugNote' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class BugNote
+    public class BugNote : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private System.Int32 m_AccountId;
         private Bug m_Bug;
@@ -22,7 +20,6 @@ using System;
         private System.String m_Details;
         private System.DateTime m_Modified;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -38,7 +35,7 @@ using System;
         ///The property maps to the column 'BugNote_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -59,7 +56,7 @@ using System;
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 AccountId
+        virtual public System.Int32 AccountId
         {
             get
             {
@@ -86,7 +83,7 @@ using System;
         ///The property maps to the column 'Bug_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  Bug Bug
+        virtual public Bug Bug
         {
             get
             {
@@ -111,7 +108,7 @@ using System;
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Created
+        virtual public System.DateTime Created
         {
             get
             {
@@ -136,7 +133,7 @@ using System;
         ///The property maps to the column 'Details' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Details
+        virtual public System.String Details
         {
             get
             {
@@ -161,7 +158,7 @@ using System;
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Modified
+        virtual public System.DateTime Modified
         {
             get
             {
@@ -175,11 +172,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

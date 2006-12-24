@@ -162,7 +162,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed RefererAccount.
     /// </summary>
-    public class ManagedRefererAccount : ManagedService
+    public class ManagedRefererAccount : ManagedService<RefererAccount>
     {
         private RefererAccount mRefererAccount = null;
 

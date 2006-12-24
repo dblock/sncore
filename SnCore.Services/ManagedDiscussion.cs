@@ -2,7 +2,7 @@ using System;
 using NHibernate;
 using System.Text;
 using System.Security.Cryptography;
-using System.Collections;
+using System.Collections.Generic;
 using NHibernate.Expression;
 using System.Web.Services.Protocols;
 using System.Xml;
@@ -28,7 +28,7 @@ namespace SnCore.Services
         {
             get
             {
-                return "SELECT COUNT(tp) FROM DiscussionPost tp, DiscussionThread t, Discussion d" +
+                return "SELECT COUNT(*) FROM DiscussionPost tp, DiscussionThread t, Discussion d" +
                        " WHERE tp.AccountId = " + AccountId.ToString() +
                        " AND t.Discussion.Id = d.Id" +
                        " AND d.Personal = 0" +
@@ -174,9 +174,9 @@ namespace SnCore.Services
             }
         }
 
-        private int mThreadCount;
+        private long mThreadCount;
 
-        public int ThreadCount
+        public long ThreadCount
         {
             get
             {
@@ -228,7 +228,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed discussion.
     /// </summary>
-    public class ManagedDiscussion : ManagedService
+    public class ManagedDiscussion : ManagedService<Discussion>
     {
         public const string AccountPictureDiscussion = "Picture Comments";
         public const string AccountStoryDiscussion = "Story Comments";
@@ -379,7 +379,7 @@ namespace SnCore.Services
                 thread.Discussion = mDiscussion;
                 Session.Save(thread);
 
-                if (mDiscussion.DiscussionThreads == null) mDiscussion.DiscussionThreads = new ArrayList();
+                if (mDiscussion.DiscussionThreads == null) mDiscussion.DiscussionThreads = new List<DiscussionThread>();
                 mDiscussion.DiscussionThreads.Add(thread);
             }
 
@@ -397,7 +397,7 @@ namespace SnCore.Services
 
             Session.Flush();
 
-            if (thread.DiscussionPosts == null) thread.DiscussionPosts = new ArrayList();
+            if (thread.DiscussionPosts == null) thread.DiscussionPosts = new List<DiscussionPost>();
             thread.DiscussionPosts.Add(result);
 
             try
@@ -457,9 +457,9 @@ namespace SnCore.Services
 
         public static int GetDiscussionPostCount(ISession session, int discussionid)
         {
-            return (int)session.CreateQuery(
+            return (int) session.CreateQuery(
                 string.Format(
-                    "SELECT COUNT(p)" +
+                    "SELECT COUNT(*)" +
                     " FROM DiscussionPost p, DiscussionThread t" +
                     " WHERE p.DiscussionThread.Id = t.Id" +
                     " AND t.Discussion.Id = {0}",
@@ -468,9 +468,9 @@ namespace SnCore.Services
 
         public static int GetDiscussionThreadCount(ISession session, int discussionid)
         {
-            return (int)session.CreateQuery(
+            return (int) session.CreateQuery(
                 string.Format(
-                    "SELECT COUNT(t)" +
+                    "SELECT COUNT(*)" +
                     " FROM DiscussionThread t " +
                     "WHERE t.Discussion.Id = {0}",
                     discussionid)).UniqueResult();

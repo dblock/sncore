@@ -141,7 +141,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedPlaceAttribute : ManagedService
+    public class ManagedPlaceAttribute : ManagedService<PlaceAttribute>
     {
         private PlaceAttribute mPlaceAttribute = null;
 

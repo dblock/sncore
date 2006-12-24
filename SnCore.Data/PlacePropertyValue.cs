@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'PlacePropertyValue' entities.
@@ -9,12 +9,10 @@ using System;
     ///This class maps to the 'PlacePropertyValue' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class PlacePropertyValue
+    public class PlacePropertyValue : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private System.DateTime m_Created;
         private System.DateTime m_Modified;
@@ -22,7 +20,6 @@ using System;
         private PlaceProperty m_PlaceProperty;
         private System.String m_Value;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -38,7 +35,7 @@ using System;
         ///The property maps to the column 'PlacePropertyValue_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -59,7 +56,7 @@ using System;
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Created
+        virtual public System.DateTime Created
         {
             get
             {
@@ -84,7 +81,7 @@ using System;
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Modified
+        virtual public System.DateTime Modified
         {
             get
             {
@@ -111,7 +108,7 @@ using System;
         ///The property maps to the column 'Place_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  Place Place
+        virtual public Place Place
         {
             get
             {
@@ -138,7 +135,7 @@ using System;
         ///The property maps to the column 'PlaceProperty_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  PlaceProperty PlaceProperty
+        virtual public PlaceProperty PlaceProperty
         {
             get
             {
@@ -163,7 +160,7 @@ using System;
         ///The property maps to the column 'Value' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Value
+        virtual public System.String Value
         {
             get
             {
@@ -177,11 +174,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

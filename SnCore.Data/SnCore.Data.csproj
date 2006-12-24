@@ -3,7 +3,7 @@
     <ProjectType>Local</ProjectType>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{f78c3afb-d0ce-4f92-a180-371293d0d937}</ProjectGuid>
+    <ProjectGuid>{F78C3AFB-D0CE-4F92-A180-371293D0D937}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>
@@ -287,6 +287,7 @@
     <Compile Include="FeedType.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="IDbObject.cs" />
     <Compile Include="MadLib.cs">
       <SubType>Code</SubType>
     </Compile>

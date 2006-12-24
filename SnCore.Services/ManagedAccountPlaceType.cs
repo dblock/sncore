@@ -82,7 +82,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountPlaceType : ManagedService
+    public class ManagedAccountPlaceType : ManagedService<AccountPlaceType>
     {
         private AccountPlaceType mAccountPlaceType = null;
 

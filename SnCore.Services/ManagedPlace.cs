@@ -30,9 +30,9 @@ namespace SnCore.Services
             }
         }
 
-        private int mCount;
+        private long mCount;
 
-        public int Count
+        public long Count
         {
             get
             {
@@ -135,7 +135,7 @@ namespace SnCore.Services
 
         public IQuery CreateCountQuery(ISession session)
         {
-            return session.CreateQuery("SELECT COUNT(p) FROM Place p " + CreateSubQuery(session));
+            return session.CreateQuery("SELECT COUNT(*) FROM Place p " + CreateSubQuery(session));
         }
 
         public IQuery CreateQuery(ISession session)
@@ -462,7 +462,7 @@ namespace SnCore.Services
             if (o.City != null && o.City.State != null) State = o.City.State.Name;
             if (o.City != null && o.City.Country != null) Country = o.City.Country.Name;
             if (o.Neighborhood != null) Neighborhood = o.Neighborhood.Name;
-            PictureId = ManagedService.GetRandomElementId(o.PlacePictures);
+            PictureId = ManagedService<PlacePicture>.GetRandomElementId(o.PlacePictures);
             AccountId = o.Account.Id;
         }
 
@@ -489,7 +489,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed place.
     /// </summary>
-    public class ManagedPlace : ManagedService
+    public class ManagedPlace : ManagedService<Place>
     {
         private Place mPlace = null;
 

@@ -132,7 +132,7 @@ namespace SnCore.Services
 
     }
 
-    public class ManagedAccountLicense : ManagedService
+    public class ManagedAccountLicense : ManagedService<AccountLicense>
     {
         private AccountLicense mAccountLicense = null;
 

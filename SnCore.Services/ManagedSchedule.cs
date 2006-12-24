@@ -2,7 +2,7 @@ using System;
 using NHibernate;
 using System.Text;
 using System.Security.Cryptography;
-using System.Collections;
+using System.Collections.Generic;
 using NHibernate.Expression;
 using System.Web.Services.Protocols;
 using System.Xml;
@@ -489,7 +489,7 @@ namespace SnCore.Services
 
     }
 
-    public class ManagedSchedule : ManagedService
+    public class ManagedSchedule : ManagedService<Schedule>
     {
         private Schedule mSchedule = null;
 
@@ -689,7 +689,7 @@ namespace SnCore.Services
         {
             if (mSchedule.ScheduleInstances == null)
             {
-                mSchedule.ScheduleInstances = new ArrayList();
+                mSchedule.ScheduleInstances = new List<ScheduleInstance>();
             }
 
             if (index < mSchedule.ScheduleInstances.Count)

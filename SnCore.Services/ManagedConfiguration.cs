@@ -85,7 +85,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed configuration.
     /// </summary>
-    public class ManagedConfiguration : ManagedService
+    public class ManagedConfiguration : ManagedService<Configuration>
     {
         private Configuration mConfiguration = null;
 

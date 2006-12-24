@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'CounterReturningDaily' entities.
@@ -9,18 +9,15 @@ using System;
     ///This class maps to the 'CounterReturningDaily' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class CounterReturningDaily
+    public class CounterReturningDaily : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private System.Int32 m_NewTotal;
         private System.Int32 m_ReturningTotal;
         private System.DateTime m_Timestamp;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -36,7 +33,7 @@ using System;
         ///The property maps to the column 'CounterReturningDaily_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -57,7 +54,7 @@ using System;
         ///The property maps to the column 'NewTotal' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 NewTotal
+        virtual public System.Int32 NewTotal
         {
             get
             {
@@ -82,7 +79,7 @@ using System;
         ///The property maps to the column 'ReturningTotal' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 ReturningTotal
+        virtual public System.Int32 ReturningTotal
         {
             get
             {
@@ -107,7 +104,7 @@ using System;
         ///The property maps to the column 'Timestamp' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Timestamp
+        virtual public System.DateTime Timestamp
         {
             get
             {
@@ -121,11 +118,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

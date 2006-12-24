@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'Configuration' entities.
@@ -9,18 +9,15 @@ using System;
     ///This class maps to the 'Configuration' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class Configuration
+    public class Configuration : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private System.String m_OptionName;
         private System.String m_OptionValue;
         private System.Boolean m_Password;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -36,7 +33,7 @@ using System;
         ///The property maps to the column 'Configuration_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -57,7 +54,7 @@ using System;
         ///The property maps to the column 'OptionName' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String OptionName
+        virtual public System.String OptionName
         {
             get
             {
@@ -82,7 +79,7 @@ using System;
         ///The property maps to the column 'OptionValue' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String OptionValue
+        virtual public System.String OptionValue
         {
             get
             {
@@ -107,7 +104,7 @@ using System;
         ///The property maps to the column 'Password' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Boolean Password
+        virtual public System.Boolean Password
         {
             get
             {
@@ -121,11 +118,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

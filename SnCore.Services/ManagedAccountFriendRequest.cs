@@ -1,6 +1,6 @@
 using System;
 using NHibernate;
-using System.Collections;
+using System.Collections.Generic;
 using NHibernate.Expression;
 using SnCore.Tools.Web;
 using System.Net.Mail;
@@ -153,7 +153,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed FriendRequest.
     /// </summary>
-    public class ManagedAccountFriendRequest : ManagedService
+    public class ManagedAccountFriendRequest : ManagedService<AccountFriendRequest>
     {
         private AccountFriendRequest mAccountFriendRequest = null;
 
@@ -262,7 +262,7 @@ namespace SnCore.Services
             if (mAccountFriendRequest.Account.AccountFriendRequests != null)
                 mAccountFriendRequest.Account.AccountFriendRequests.Remove(mAccountFriendRequest);
 
-            if (friend.Account.AccountFriends == null) friend.Account.AccountFriends = new ArrayList();
+            if (friend.Account.AccountFriends == null) friend.Account.AccountFriends = new List<AccountFriend>();
             friend.Account.AccountFriends.Add(friend);
         }
 

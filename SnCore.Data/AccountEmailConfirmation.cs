@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'AccountEmailConfirmation' entities.
@@ -9,17 +9,14 @@ using System;
     ///This class maps to the 'AccountEmailConfirmation' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountEmailConfirmation
+    public class AccountEmailConfirmation : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private AccountEmail m_AccountEmail;
         private System.String m_Code;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -35,7 +32,7 @@ using System;
         ///The property maps to the column 'AccountEmailConfirmation_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -58,7 +55,7 @@ using System;
         ///The property maps to the column 'AccountEmail_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  AccountEmail AccountEmail
+        virtual public AccountEmail AccountEmail
         {
             get
             {
@@ -83,7 +80,7 @@ using System;
         ///The property maps to the column 'Code' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Code
+        virtual public System.String Code
         {
             get
             {
@@ -97,11 +94,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

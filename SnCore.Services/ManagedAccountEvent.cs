@@ -82,7 +82,7 @@ namespace SnCore.Services
 
         public IQuery CreateCountQuery(ISession session)
         {
-            return session.CreateQuery("SELECT COUNT(e) FROM AccountEvent e " + CreateSubQuery(session));
+            return session.CreateQuery("SELECT COUNT(*) FROM AccountEvent e " + CreateSubQuery(session));
         }
 
         public IQuery CreateQuery(ISession session)
@@ -715,7 +715,7 @@ namespace SnCore.Services
             Website = o.Website;
             Cost = o.Cost;
             Publish = o.Publish;
-            PictureId = ManagedService.GetRandomElementId(o.AccountEventPictures);
+            PictureId = ManagedService<AccountEventPicture>.GetRandomElementId(o.AccountEventPictures);
         }
 
         public AccountEvent GetAccountEvent(ISession session)
@@ -789,7 +789,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountEvent : ManagedService
+    public class ManagedAccountEvent : ManagedService<AccountEvent>
     {
         private AccountEvent mAccountEvent = null;
 

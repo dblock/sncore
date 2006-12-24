@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'BugLink' entities.
@@ -9,17 +9,14 @@ using System;
     ///This class maps to the 'BugLink' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class BugLink
+    public class BugLink : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private Bug m_Bug;
         private Bug m_RelatedBug;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -35,7 +32,7 @@ using System;
         ///The property maps to the column 'BugLink_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -58,7 +55,7 @@ using System;
         ///The property maps to the column 'Bug_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  Bug Bug
+        virtual public Bug Bug
         {
             get
             {
@@ -85,7 +82,7 @@ using System;
         ///The property maps to the column 'RelatedBug_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  Bug RelatedBug
+        virtual public Bug RelatedBug
         {
             get
             {
@@ -99,11 +96,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

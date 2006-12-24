@@ -151,7 +151,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed picture.
     /// </summary>
-    public class ManagedPicture : ManagedService
+    public class ManagedPicture : ManagedService<Picture>
     {
         private Picture mPicture = null;
 

@@ -48,7 +48,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedPlaceType : ManagedService
+    public class ManagedPlaceType : ManagedService<PlaceType>
     {
         private PlaceType mPlaceType = null;
 

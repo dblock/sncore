@@ -133,7 +133,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedFeedType : ManagedService
+    public class ManagedFeedType : ManagedService<FeedType>
     {
         private FeedType mFeedType = null;
 

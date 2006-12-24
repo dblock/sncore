@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'DiscussionThread' entities.
@@ -9,19 +9,16 @@ using System;
     ///This class maps to the 'DiscussionThread' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class DiscussionThread
+    public class DiscussionThread : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private System.DateTime m_Created;
         private Discussion m_Discussion;
-        private System.Collections.IList m_DiscussionPosts;
+        private System.Collections.Generic.IList<DiscussionPost> m_DiscussionPosts;
         private System.DateTime m_Modified;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -37,7 +34,7 @@ using System;
         ///The property maps to the column 'DiscussionThread_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -58,7 +55,7 @@ using System;
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Created
+        virtual public System.DateTime Created
         {
             get
             {
@@ -85,7 +82,7 @@ using System;
         ///The property maps to the column 'Discussion_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  Discussion Discussion
+        virtual public Discussion Discussion
         {
             get
             {
@@ -117,7 +114,7 @@ using System;
         ///The property maps to the identity column 'DiscussionThread_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList DiscussionPosts
+        virtual public System.Collections.Generic.IList<DiscussionPost> DiscussionPosts
         {
             get
             {
@@ -142,7 +139,7 @@ using System;
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Modified
+        virtual public System.DateTime Modified
         {
             get
             {
@@ -156,11 +153,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

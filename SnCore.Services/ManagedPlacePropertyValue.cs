@@ -140,7 +140,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedPlacePropertyValue : ManagedService
+    public class ManagedPlacePropertyValue : ManagedService<PlacePropertyValue>
     {
         private PlacePropertyValue mPlacePropertyValue = null;
 

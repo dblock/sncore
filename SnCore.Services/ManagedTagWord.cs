@@ -109,7 +109,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed tag word.
     /// </summary>
-    public class ManagedTagWord : ManagedService
+    public class ManagedTagWord : ManagedService<TagWord>
     {
         private TagWord mTagWord = null;
 
@@ -150,8 +150,8 @@ namespace SnCore.Services
             get
             {
                 TransitTagWord word = new TransitTagWord(mTagWord);
-                word.Frequency = (int)Session.CreateQuery(string.Format(
-                    "SELECT COUNT(w) FROM TagWord w, TagWordAccount a WHERE w.Id = {0} AND a.TagWord.Id = w.Id",
+                word.Frequency = (int) Session.CreateQuery(string.Format(
+                    "SELECT COUNT(*) FROM TagWord w, TagWordAccount a WHERE w.Id = {0} AND a.TagWord.Id = w.Id",
                     word.Id)).UniqueResult();
                 return word;
             }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'Campaign' entities.
@@ -9,12 +9,10 @@ using System;
     ///This class maps to the 'Campaign' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class Campaign
+    public class Campaign : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private System.Boolean m_Active;
         private System.DateTime m_Created;
@@ -25,9 +23,8 @@ using System;
         private System.String m_SenderEmailAddress;
         private System.String m_SenderName;
         private System.String m_Url;
-        private System.Collections.IList m_CampaignAccountRecepients;
+        private System.Collections.Generic.IList<CampaignAccountRecepient> m_CampaignAccountRecepients;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -43,7 +40,7 @@ using System;
         ///The property maps to the column 'Campaign_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -64,7 +61,7 @@ using System;
         ///The property maps to the column 'Active' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Boolean Active
+        virtual public System.Boolean Active
         {
             get
             {
@@ -89,7 +86,7 @@ using System;
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Created
+        virtual public System.DateTime Created
         {
             get
             {
@@ -114,7 +111,7 @@ using System;
         ///The property maps to the column 'Description' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Description
+        virtual public System.String Description
         {
             get
             {
@@ -139,7 +136,7 @@ using System;
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Modified
+        virtual public System.DateTime Modified
         {
             get
             {
@@ -164,7 +161,7 @@ using System;
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Name
+        virtual public System.String Name
         {
             get
             {
@@ -189,7 +186,7 @@ using System;
         ///The property maps to the column 'Processed' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Processed
+        virtual public System.DateTime Processed
         {
             get
             {
@@ -214,7 +211,7 @@ using System;
         ///The property maps to the column 'SenderEmailAddress' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String SenderEmailAddress
+        virtual public System.String SenderEmailAddress
         {
             get
             {
@@ -239,7 +236,7 @@ using System;
         ///The property maps to the column 'SenderName' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String SenderName
+        virtual public System.String SenderName
         {
             get
             {
@@ -264,7 +261,7 @@ using System;
         ///The property maps to the column 'Url' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Url
+        virtual public System.String Url
         {
             get
             {
@@ -295,7 +292,7 @@ using System;
         ///The property maps to the identity column 'Campaign_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList CampaignAccountRecepients
+        virtual public System.Collections.Generic.IList<CampaignAccountRecepient> CampaignAccountRecepients
         {
             get
             {
@@ -309,11 +306,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

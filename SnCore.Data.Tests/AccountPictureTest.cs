@@ -3,7 +3,7 @@ using NUnit.Framework;
 using SnCore.Data;
 using NHibernate;
 using NHibernate.Cfg;
-using System.Collections;
+using System.Collections.Generic;
 
 namespace SnCore.Data.Tests
 {
@@ -30,7 +30,7 @@ namespace SnCore.Data.Tests
                 pic.Description = "Description";
                 pic.Created = pic.Modified = DateTime.UtcNow;
 
-                if (acct.AccountPictures == null) acct.AccountPictures = new ArrayList();
+                if (acct.AccountPictures == null) acct.AccountPictures = new List<AccountPicture>();
                 acct.AccountPictures.Add(pic);
 
                 Session.Save(acct);

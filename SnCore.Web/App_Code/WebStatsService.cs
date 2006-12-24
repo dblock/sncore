@@ -116,7 +116,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery("SELECT COUNT(rh) from RefererHost rh").UniqueResult();
+                return (int) session.CreateQuery("SELECT COUNT(*) from RefererHost rh").UniqueResult();
             }
         }
 
@@ -161,7 +161,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery("SELECT COUNT(rq) from RefererQuery rq").UniqueResult();
+                return (int) session.CreateQuery("SELECT COUNT(*) from RefererQuery rq").UniqueResult();
             }
         }
 
@@ -366,7 +366,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery("SELECT COUNT(ra) from RefererAccount ra").UniqueResult();
+                return (int) session.CreateQuery("SELECT COUNT(*) from RefererAccount ra").UniqueResult();
             }
         }
 

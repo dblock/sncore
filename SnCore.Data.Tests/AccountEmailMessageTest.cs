@@ -34,7 +34,7 @@ namespace SnCore.Data.Tests
                 email.Subject = "no subject";
                 email.Created = email.Modified = DateTime.UtcNow;
 
-                if (acct.AccountEmailMessages == null) acct.AccountEmailMessages = new ArrayList();
+                if (acct.AccountEmailMessages == null) acct.AccountEmailMessages = new List<AccountEmailMessage>();
                 acct.AccountEmailMessages.Add(email);
 
                 Session.Save(acct);

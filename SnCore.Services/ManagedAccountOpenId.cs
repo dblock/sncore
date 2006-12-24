@@ -96,7 +96,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountOpenId : ManagedService
+    public class ManagedAccountOpenId : ManagedService<AccountOpenId>
     {
         private AccountOpenId mAccountOpenId = null;
 

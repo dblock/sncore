@@ -51,7 +51,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed bug Severity.
     /// </summary>
-    public class ManagedBugSeverity : ManagedService
+    public class ManagedBugSeverity : ManagedService<BugSeverity>
     {
         private BugSeverity mBugSeverity = null;
 

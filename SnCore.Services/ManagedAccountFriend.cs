@@ -91,7 +91,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed friend.
     /// </summary>
-    public class ManagedAccountFriend : ManagedService
+    public class ManagedAccountFriend : ManagedService<AccountFriend>
     {
         private AccountFriend mAccountFriend = null;
 

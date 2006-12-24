@@ -173,7 +173,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed attributes.
     /// </summary>
-    public class ManagedAttribute : ManagedService
+    public class ManagedAttribute : ManagedService<Attribute>
     {
         private Attribute mAttribute = null;
 

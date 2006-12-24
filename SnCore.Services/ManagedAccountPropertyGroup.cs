@@ -64,7 +64,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountPropertyGroup : ManagedService
+    public class ManagedAccountPropertyGroup : ManagedService<AccountPropertyGroup>
     {
         private AccountPropertyGroup mAccountPropertyGroup = null;
 

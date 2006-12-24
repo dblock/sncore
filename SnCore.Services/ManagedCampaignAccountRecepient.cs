@@ -141,7 +141,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed CampaignAccountRecepient.
     /// </summary>
-    public class ManagedCampaignAccountRecepient : ManagedService
+    public class ManagedCampaignAccountRecepient : ManagedService<CampaignAccountRecepient>
     {
         private CampaignAccountRecepient mCampaignAccountRecepient = null;
 

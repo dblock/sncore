@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'ReminderAccountProperty' entities.
@@ -9,19 +9,16 @@ using System;
     ///This class maps to the 'ReminderAccountProperty' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class ReminderAccountProperty
+    public class ReminderAccountProperty : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private AccountProperty m_AccountProperty;
         private Reminder m_Reminder;
         private System.Boolean m_Unset;
         private System.String m_Value;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -37,7 +34,7 @@ using System;
         ///The property maps to the column 'ReminderAccountProperty_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -60,7 +57,7 @@ using System;
         ///The property maps to the column 'AccountProperty_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  AccountProperty AccountProperty
+        virtual public AccountProperty AccountProperty
         {
             get
             {
@@ -87,7 +84,7 @@ using System;
         ///The property maps to the column 'Reminder_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  Reminder Reminder
+        virtual public Reminder Reminder
         {
             get
             {
@@ -112,7 +109,7 @@ using System;
         ///The property maps to the column 'Unset' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Boolean Unset
+        virtual public System.Boolean Unset
         {
             get
             {
@@ -137,7 +134,7 @@ using System;
         ///The property maps to the column 'Value' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Value
+        virtual public System.String Value
         {
             get
             {
@@ -151,11 +148,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

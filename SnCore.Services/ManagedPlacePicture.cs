@@ -46,7 +46,7 @@ namespace SnCore.Services
     }
 
 
-    public class TransitPlacePicture : TransitArrayElementService
+    public class TransitPlacePicture : TransitArrayElementService<PlacePicture>
     {
         private string mName;
 
@@ -211,7 +211,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed place picture.
     /// </summary>
-    public class ManagedPlacePicture : ManagedService
+    public class ManagedPlacePicture : ManagedService<PlacePicture>
     {
         private PlacePicture mPlacePicture = null;
 

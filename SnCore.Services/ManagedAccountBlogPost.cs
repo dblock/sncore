@@ -242,7 +242,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountBlogPost : ManagedService
+    public class ManagedAccountBlogPost : ManagedService<AccountBlogPost>
     {
         private AccountBlogPost mAccountBlogPost = null;
 

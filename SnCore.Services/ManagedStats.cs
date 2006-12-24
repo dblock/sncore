@@ -297,7 +297,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed stats and tracker.
     /// </summary>
-    public class ManagedStats : ManagedService
+    public class ManagedStats : ManagedServiceImpl
     {
         public ManagedStats(ISession session)
             : base(session)
@@ -728,7 +728,7 @@ namespace SnCore.Services
         {
             TransitStatsSummary summary = new TransitStatsSummary();
 
-            summary.TotalHits = (long)Session.CreateQuery("SELECT SUM(c.Total) FROM CounterYearly c").UniqueResult();
+            summary.TotalHits = (long) Session.CreateQuery("SELECT SUM(c.Total) FROM CounterYearly c").UniqueResult();
 
             DateTime now = DateTime.UtcNow;
 

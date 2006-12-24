@@ -313,7 +313,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed discussion post.
     /// </summary>
-    public class ManagedDiscussionPost : ManagedService
+    public class ManagedDiscussionPost : ManagedService<DiscussionPost>
     {
         private DiscussionPost mDiscussionPost = null;
 

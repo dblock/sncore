@@ -93,7 +93,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery("SELECT COUNT(a) FROM Account a").UniqueResult();
+                return (int) session.CreateQuery("SELECT COUNT(*) FROM Account a").UniqueResult();
             }
         }
 
@@ -107,7 +107,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int) queryoptions.CreateCountQuery(session).UniqueResult();
+                return (int) (long) queryoptions.CreateCountQuery(session).UniqueResult();
             }
         }
 
@@ -193,7 +193,7 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 return (int) session.CreateQuery(string.Format(
-                    "SELECT COUNT(f) FROM AccountFriend f WHERE (f.Account.Id = {0} OR f.Keen.Id = {0}) ",
+                    "SELECT COUNT(*) FROM AccountFriend f WHERE (f.Account.Id = {0} OR f.Keen.Id = {0}) ",
                     accountid)).UniqueResult();
             }
         }
@@ -231,7 +231,7 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 return (int) session.CreateQuery(string.Format(
-                    "SELECT COUNT(f) FROM AccountFriend f WHERE (f.Account.Id = {0} OR f.Keen.Id = {0}) ",
+                    "SELECT COUNT(*) FROM AccountFriend f WHERE (f.Account.Id = {0} OR f.Keen.Id = {0}) ",
                     accountid)).UniqueResult();
             }
         }
@@ -411,7 +411,7 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
-                return (int)session.CreateQuery(
+                return (int) session.CreateQuery(
                     string.Format(
                         "select count(*)" +
                         " from AccountFriendRequest r" +
@@ -431,7 +431,7 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
-                return (int)session.CreateQuery(
+                return (int) session.CreateQuery(
                     string.Format(
                         "select count(*)" +
                         " from AccountFriendRequest r" +
@@ -570,7 +570,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery(string.Format("SELECT COUNT(f) FROM AccountFriend f " +
+                return (int) session.CreateQuery(string.Format("SELECT COUNT(*) FROM AccountFriend f " +
                         "WHERE (f.Account.Id = {0} OR f.Keen.Id = {0})", id)).UniqueResult();
             }
         }

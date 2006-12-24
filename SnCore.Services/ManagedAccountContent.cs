@@ -152,7 +152,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountContent : ManagedService
+    public class ManagedAccountContent : ManagedService<AccountContent>
     {
         private AccountContent mAccountContent = null;
 

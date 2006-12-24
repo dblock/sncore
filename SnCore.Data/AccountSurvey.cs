@@ -9,7 +9,7 @@ using System;
     ///This class maps to the 'AccountSurvey' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountSurvey
+    public class AccountSurvey : IDbObject
     {
 #region " : Generated Code Region "
         //Private field variables

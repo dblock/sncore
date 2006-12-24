@@ -548,13 +548,13 @@ namespace SnCore.WebServices
 
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedAccountPicture a = new ManagedAccountPicture(session, id);
-                IList pictures = InternalGetAccountPictures(session, a.AccountId, po, null);
+                IList<AccountPicture> pictures = InternalGetAccountPictures(session, a.AccountId, po, null);
                 TransitAccountPicture p = a.GetTransitAccountPicture(pictures);
                 return p;
             }
         }
 
-        private static IList InternalGetAccountPictures(
+        private static IList<AccountPicture> InternalGetAccountPictures(
             ISession session, int id, AccountPicturesQueryOptions po, ServiceQueryOptions options)
         {
             ICriteria c = session.CreateCriteria(typeof(AccountPicture))
@@ -576,7 +576,7 @@ namespace SnCore.WebServices
                 c.SetMaxResults(options.PageSize);
             }
 
-            return c.List();
+            return (IList<AccountPicture>) c.List();
         }
 
         /// <summary>
@@ -828,8 +828,8 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery(string.Format(
-                    "SELECT COUNT(s) FROM AccountEmail s WHERE s.Account.Id = {0}",
+                return (int) session.CreateQuery(string.Format(
+                    "SELECT COUNT(*) FROM AccountEmail s WHERE s.Account.Id = {0}",
                     id)).UniqueResult();
             }
         }
@@ -1028,8 +1028,8 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
-                return (int)session.CreateQuery(string.Format(
-                    "SELECT COUNT(a) FROM AccountSurveyAnswer a, SurveyQuestion q" +
+                return (int) session.CreateQuery(string.Format(
+                    "SELECT COUNT(*) FROM AccountSurveyAnswer a, SurveyQuestion q" +
                     " where a.Account.Id = {0} and a.SurveyQuestion.Id = q.Id and q.Survey.Id = {1}",
                     id, surveyid)).UniqueResult();
             }
@@ -1100,7 +1100,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery("SELECT COUNT(a) FROM AccountSurveyAnswer a WHERE a.SurveyQuestion.Id = "
+                return (int) session.CreateQuery("SELECT COUNT(*) FROM AccountSurveyAnswer a WHERE a.SurveyQuestion.Id = "
                     + id.ToString()).UniqueResult();
             }
         }
@@ -1281,13 +1281,13 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 StringBuilder query = new StringBuilder();
-                query.AppendFormat("SELECT COUNT(ap) FROM AccountPicture ap WHERE ap.Account.Id = {0}", id);
+                query.AppendFormat("SELECT COUNT(*) FROM AccountPicture ap WHERE ap.Account.Id = {0}", id);
                 if (po != null)
                 {
                     if (!po.Hidden) query.AppendFormat(" AND ap.Hidden = 0");
                 }
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery(query.ToString()).UniqueResult();
+                return (int) session.CreateQuery(query.ToString()).UniqueResult();
             }
         }
 
@@ -1313,7 +1313,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                IList list = InternalGetAccountPictures(session, id, po, options);
+                IList<AccountPicture> list = InternalGetAccountPictures(session, id, po, options);
 
                 List<TransitAccountPicture> result = new List<TransitAccountPicture>(list.Count);
                 foreach (AccountPicture e in list)
@@ -1343,8 +1343,8 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery(string.Format(
-                    "SELECT COUNT(s) FROM AccountWebsite s WHERE s.Account.Id = {0}",
+                return (int) session.CreateQuery(string.Format(
+                    "SELECT COUNT(*) FROM AccountWebsite s WHERE s.Account.Id = {0}",
                     id)).UniqueResult();
             }
         }
@@ -1902,7 +1902,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery("SELECT COUNT(i) FROM AccountInvitation i WHERE i.Account.Id = "
+                return (int) session.CreateQuery("SELECT COUNT(*) FROM AccountInvitation i WHERE i.Account.Id = "
                     + id.ToString()).UniqueResult();
             }
         }
@@ -2531,7 +2531,7 @@ namespace SnCore.WebServices
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
                 IQuery query = session.CreateQuery(
-                   "SELECT COUNT(account) FROM AccountProperty p, AccountPropertyGroup g, AccountPropertyValue v, Account account" +
+                   "SELECT COUNT(*) FROM AccountProperty p, AccountPropertyGroup g, AccountPropertyValue v, Account account" +
                    " WHERE account.Id = v.Account.Id" +
                    " AND v.Account.Id = account.Id" +
                    " AND v.AccountProperty.Id = p.Id" +
@@ -2542,7 +2542,7 @@ namespace SnCore.WebServices
                    "  OR v.Value LIKE '%{" + Renderer.SqlEncode(propertyvalue) + "}%'" +
                    " ) AND g.Name = '" + Renderer.SqlEncode(groupname) + "'");
 
-                return (int)query.UniqueResult();
+                return (int) query.UniqueResult();
             }
         }
 
@@ -2815,8 +2815,8 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery(string.Format(
-                    "SELECT COUNT(a) FROM AccountAttribute a WHERE a.Account.Id = {0}",
+                return (int) session.CreateQuery(string.Format(
+                    "SELECT COUNT(*) FROM AccountAttribute a WHERE a.Account.Id = {0}",
                     id)).UniqueResult();
             }
         }
@@ -2899,8 +2899,8 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery(string.Format(
-                    "SELECT COUNT(s) FROM AccountRedirect s WHERE s.Account.Id = {0}",
+                return (int) session.CreateQuery(string.Format(
+                    "SELECT COUNT(*) FROM AccountRedirect s WHERE s.Account.Id = {0}",
                     id)).UniqueResult();
             }
         }
@@ -2921,7 +2921,7 @@ namespace SnCore.WebServices
                 }
 
                 return (int) session.CreateQuery(
-                    "SELECT COUNT(s) FROM AccountRedirect s").UniqueResult();
+                    "SELECT COUNT(*) FROM AccountRedirect s").UniqueResult();
             }
         }
 

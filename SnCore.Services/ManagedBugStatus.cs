@@ -51,7 +51,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed bug Status.
     /// </summary>
-    public class ManagedBugStatus : ManagedService
+    public class ManagedBugStatus : ManagedService<BugStatu>
     {
         private BugStatu mBugStatus = null;
 

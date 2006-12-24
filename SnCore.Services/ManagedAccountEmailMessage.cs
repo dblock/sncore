@@ -177,7 +177,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed e-mail message.
     /// </summary>
-    public class ManagedAccountEmailMessage : ManagedService
+    public class ManagedAccountEmailMessage : ManagedService<AccountEmailMessage>
     {
         private AccountEmailMessage mAccountEmailMessage = null;
 

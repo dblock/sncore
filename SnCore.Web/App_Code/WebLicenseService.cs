@@ -92,8 +92,8 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery(string.Format(
-                    "SELECT COUNT(s) FROM AccountLicense s WHERE s.Account.Id = {0}",
+                return (int) session.CreateQuery(string.Format(
+                    "SELECT COUNT(*) FROM AccountLicense s WHERE s.Account.Id = {0}",
                     id)).UniqueResult();
             }
         }

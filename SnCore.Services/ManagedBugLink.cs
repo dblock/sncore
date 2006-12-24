@@ -72,7 +72,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed bug Link.
     /// </summary>
-    public class ManagedBugLink : ManagedService
+    public class ManagedBugLink : ManagedService<BugLink>
     {
         private BugLink mBugLink = null;
 

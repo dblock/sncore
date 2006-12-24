@@ -100,7 +100,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed bug project.
     /// </summary>
-    public class ManagedBugProject : ManagedService
+    public class ManagedBugProject : ManagedService<BugProject>
     {
         private BugProject mBugProject = null;
 

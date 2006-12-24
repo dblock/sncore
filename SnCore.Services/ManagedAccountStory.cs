@@ -1,6 +1,6 @@
 using System;
 using NHibernate;
-using System.Collections;
+using System.Collections.Generic;
 using NHibernate.Expression;
 using System.Web.Services;
 using System.Web.Services.Protocols;
@@ -193,7 +193,7 @@ namespace SnCore.Services
             AccountId = s.Account.Id;
             AccountName = s.Account.Name;
             AccountPictureId = ManagedAccount.GetRandomAccountPictureId(s.Account);
-            AccountStoryPictureId = ManagedService.GetRandomElementId(s.AccountStoryPictures);
+            AccountStoryPictureId = ManagedService<AccountStoryPicture>.GetRandomElementId(s.AccountStoryPictures);
             Created = s.Created;
             Modified = s.Modified;
             Publish = s.Publish;
@@ -218,7 +218,7 @@ namespace SnCore.Services
 
     }
 
-    public class ManagedAccountStory : ManagedService
+    public class ManagedAccountStory : ManagedService<AccountStory>
     {
         private AccountStory mAccountStory = null;
 
@@ -303,7 +303,7 @@ namespace SnCore.Services
             if (p.Id == 0)
             {
                 p.Created = p.Modifed;
-                if (mAccountStory.AccountStoryPictures == null) mAccountStory.AccountStoryPictures = new ArrayList();
+                if (mAccountStory.AccountStoryPictures == null) mAccountStory.AccountStoryPictures = new List<AccountStoryPicture>();
                 if (mAccountStory.AccountStoryPictures.Count >= ManagedAccount.MaxOfAnything)
                 {
                     throw new ManagedAccount.QuotaExceededException();

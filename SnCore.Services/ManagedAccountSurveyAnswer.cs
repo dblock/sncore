@@ -161,7 +161,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountSurveyAnswer : ManagedService
+    public class ManagedAccountSurveyAnswer : ManagedService<AccountSurveyAnswer>
     {
         private AccountSurveyAnswer mAccountSurveyAnswer = null;
 

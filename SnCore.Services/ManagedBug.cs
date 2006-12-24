@@ -373,7 +373,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed bug.
     /// </summary>
-    public class ManagedBug : ManagedService
+    public class ManagedBug : ManagedService<Bug>
     {
         private Bug mBug = null;
 

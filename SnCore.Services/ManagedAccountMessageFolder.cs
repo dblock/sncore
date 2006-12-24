@@ -133,7 +133,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mMessageCount;
             }
             set
@@ -230,7 +229,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed account message folder.
     /// </summary>
-    public class ManagedAccountMessageFolder : ManagedService
+    public class ManagedAccountMessageFolder : ManagedService<AccountMessageFolder>
     {
         private AccountMessageFolder mAccountMessageFolder = null;
 
@@ -316,7 +315,7 @@ namespace SnCore.Services
 
         public static int GetMessageFolderMessageCount(ISession session, int folderid)
         {
-            return (int)session.CreateQuery(
+            return (int) session.CreateQuery(
                 string.Format(
                     "select count(*)" +
                     " from AccountMessage m, AccountMessageFolder f" +

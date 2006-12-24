@@ -46,7 +46,7 @@ namespace SnCore.Services
 
         public IQuery CreateCountQuery(ISession session)
         {
-            return session.CreateQuery("SELECT COUNT(i) FROM AccountFeedItemImg i " + CreateSubQuery());
+            return session.CreateQuery("SELECT COUNT(*) FROM AccountFeedItemImg i " + CreateSubQuery());
         }
 
         public IQuery CreateQuery(ISession session)
@@ -309,7 +309,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountFeedItemImg : ManagedService
+    public class ManagedAccountFeedItemImg : ManagedService<AccountFeedItemImg>
     {
         private AccountFeedItemImg mAccountFeedItemImg = null;
 

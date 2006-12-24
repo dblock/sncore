@@ -203,7 +203,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed MadLibInstance.
     /// </summary>
-    public class ManagedMadLibInstance : ManagedService
+    public class ManagedMadLibInstance : ManagedService<MadLibInstance>
     {
         private MadLibInstance mMadLibInstance = null;
 

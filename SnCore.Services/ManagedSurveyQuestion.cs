@@ -74,7 +74,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedSurveyQuestion : ManagedService
+    public class ManagedSurveyQuestion : ManagedService<SurveyQuestion>
     {
         private SurveyQuestion mSurveyQuestion = null;
 

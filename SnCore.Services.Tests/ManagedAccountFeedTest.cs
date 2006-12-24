@@ -55,7 +55,7 @@ namespace SnCore.Services.Tests
             AccountFeed feed = new AccountFeed();
             feed.FeedUrl = url;
 
-            IList deleted = (IList)feed.AccountFeedItems;
+            IList<AccountFeedItem> deleted = feed.AccountFeedItems;
             List<AccountFeedItem> updated = new List<AccountFeedItem>();
 
             ManagedAccountFeed m_feed = new ManagedAccountFeed(Session, feed);
@@ -81,7 +81,7 @@ namespace SnCore.Services.Tests
             AccountFeed feed = new AccountFeed();
             feed.FeedUrl = "http://www.saltshaker.net/feed";
 
-            IList deleted = (IList)feed.AccountFeedItems;
+            IList<AccountFeedItem> deleted = feed.AccountFeedItems;
             List<AccountFeedItem> updated = new List<AccountFeedItem>();
 
             ManagedAccountFeed m_feed = new ManagedAccountFeed(Session, feed);

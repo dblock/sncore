@@ -105,7 +105,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed ReminderEvent.
     /// </summary>
-    public class ManagedReminderEvent : ManagedService
+    public class ManagedReminderEvent : ManagedService<ReminderEvent>
     {
         private ReminderEvent mReminderEvent = null;
 

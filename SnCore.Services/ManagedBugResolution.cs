@@ -51,7 +51,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed bug Resolution.
     /// </summary>
-    public class ManagedBugResolution : ManagedService
+    public class ManagedBugResolution : ManagedService<BugResolution>
     {
         private BugResolution mBugResolution = null;
 

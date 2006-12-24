@@ -1,6 +1,6 @@
 using System;
 using NHibernate;
-using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using SnCore.Tools.Drawing;
 using NHibernate.Expression;
@@ -57,7 +57,7 @@ namespace SnCore.Services
     }
 
 
-    public class TransitAccountPicture : TransitArrayElementService
+    public class TransitAccountPicture : TransitArrayElementService<AccountPicture>
     {
         private string mName;
 
@@ -182,7 +182,7 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountPicture(AccountPicture p, IList collection)
+        public TransitAccountPicture(AccountPicture p, IList<AccountPicture> collection)
             : base(p.Id, p, collection)
         {
             Name = p.Name;
@@ -214,7 +214,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed picture.
     /// </summary>
-    public class ManagedAccountPicture : ManagedService
+    public class ManagedAccountPicture : ManagedService<AccountPicture>
     {
         private AccountPicture mAccountPicture = null;
 
@@ -296,7 +296,7 @@ namespace SnCore.Services
             return pic;
         }
 
-        public TransitAccountPicture GetTransitAccountPicture(IList collection)
+        public TransitAccountPicture GetTransitAccountPicture(IList<AccountPicture> collection)
         {
             TransitAccountPicture pic = new TransitAccountPicture(mAccountPicture, collection);
             pic.CommentCount = ManagedDiscussion.GetDiscussionPostCount(

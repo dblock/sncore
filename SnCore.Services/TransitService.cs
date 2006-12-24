@@ -13,7 +13,8 @@ namespace SnCore.Services
     }
 
     [Serializable()]
-    public class TransitArrayElementService : TransitService
+    public class TransitArrayElementService<T> : TransitService
+        where T : IDbObject
     {
         protected int mIndex = -1;
         protected int mNextIndex = -1;
@@ -99,7 +100,7 @@ namespace SnCore.Services
 
         }
 
-        public TransitArrayElementService(int id, object element, IList collection)
+        public TransitArrayElementService(int id, T element, IList<T> collection)
             : base(id)
         {
             mIndex = collection.IndexOf(element);
@@ -108,13 +109,13 @@ namespace SnCore.Services
             if (mIndex > 0)
             {
                 mPrevIndex = mIndex - 1;
-                mPrevId = (int) element.GetType().GetProperty("Id").GetValue(collection[mPrevIndex], null);
+                mPrevId = collection[mPrevIndex].Id;
             }
 
             if (mIndex + 1 < collection.Count)
             {
                 mNextIndex = mIndex + 1;
-                mNextId = (int)element.GetType().GetProperty("Id").GetValue(collection[mNextIndex], null);
+                mNextId = collection[mNextIndex].Id;
             }
         }
     }

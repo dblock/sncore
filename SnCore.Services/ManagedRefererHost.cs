@@ -96,7 +96,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mTotal;
             }
             set
@@ -135,7 +134,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed RefererHost.
     /// </summary>
-    public class ManagedRefererHost : ManagedService
+    public class ManagedRefererHost : ManagedService<RefererHost>
     {
         public class InvalidRefererHostException : SoapException
         {

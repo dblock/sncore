@@ -106,7 +106,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                string query = string.Format("SELECT COUNT(s) FROM AccountStory s WHERE s.Account.Id = {0}", id);
+                string query = string.Format("SELECT COUNT(*) FROM AccountStory s WHERE s.Account.Id = {0}", id);
                 if (queryoptions != null)
                 {
                     if (queryoptions.PublishedOnly)
@@ -129,7 +129,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery("SELECT COUNT(s) FROM AccountStory s WHERE s.Publish = 1").UniqueResult();
+                return (int) session.CreateQuery("SELECT COUNT(*) FROM AccountStory s WHERE s.Publish = 1").UniqueResult();
             }
         }
 
@@ -361,7 +361,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery(string.Format("SELECT COUNT(p) FROM AccountStoryPicture p WHERE p.AccountStory.Id = {0}",
+                return (int) session.CreateQuery(string.Format("SELECT COUNT(*) FROM AccountStoryPicture p WHERE p.AccountStory.Id = {0}",
                     storyid)).UniqueResult();
             }
         }

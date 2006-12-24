@@ -94,7 +94,7 @@ namespace SnCore.Services
 
         public IQuery CreateCountQuery(ISession session)
         {
-            return session.CreateQuery("SELECT COUNT(e) FROM AccountEvent e, ScheduleInstance si " + CreateSubQuery(session));
+            return session.CreateQuery("SELECT COUNT(*) FROM AccountEvent e, ScheduleInstance si " + CreateSubQuery(session));
         }
 
         public IQuery CreateQuery(ISession session)
@@ -483,7 +483,7 @@ namespace SnCore.Services
             Email = evt.Email;
             Website = evt.Website;
             Cost = evt.Cost;
-            PictureId = ManagedService.GetRandomElementId(evt.AccountEventPictures);
+            PictureId = ManagedService<AccountEventPicture>.GetRandomElementId(evt.AccountEventPictures);
 
             StartDateTime = si.StartDateTime;
             EndDateTime = si.EndDateTime;

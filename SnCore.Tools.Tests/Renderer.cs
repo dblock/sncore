@@ -93,7 +93,7 @@ namespace SnCore.Tools.Tests
         {
             TestDataItem[] testdata = 
             {
-                new TestDataItem("<a href=\"javascript:__doPostBack('ctl00$menuLogout','')\">logout</a>", "")
+                new TestDataItem("<a href=\"javascript:__doPostBack('ctl00$menuLogout','')\">logout</a>", "<a>logout</a>")
             };
 
             foreach (TestDataItem test in testdata)

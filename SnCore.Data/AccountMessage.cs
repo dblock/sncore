@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'AccountMessage' entities.
@@ -9,12 +9,10 @@ using System;
     ///This class maps to the 'AccountMessage' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountMessage
+    public class AccountMessage : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private Account m_Account;
         private AccountMessageFolder m_AccountMessageFolder;
@@ -25,7 +23,6 @@ using System;
         private System.String m_Subject;
         private System.Boolean m_Unread;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -41,7 +38,7 @@ using System;
         ///The property maps to the column 'AccountMessage_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -64,7 +61,7 @@ using System;
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  Account Account
+        virtual public Account Account
         {
             get
             {
@@ -91,7 +88,7 @@ using System;
         ///The property maps to the column 'AccountMessageFolder_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  AccountMessageFolder AccountMessageFolder
+        virtual public AccountMessageFolder AccountMessageFolder
         {
             get
             {
@@ -116,7 +113,7 @@ using System;
         ///The property maps to the column 'Body' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Body
+        virtual public System.String Body
         {
             get
             {
@@ -141,7 +138,7 @@ using System;
         ///The property maps to the column 'RecepientAccount_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 RecepientAccountId
+        virtual public System.Int32 RecepientAccountId
         {
             get
             {
@@ -166,7 +163,7 @@ using System;
         ///The property maps to the column 'SenderAccount_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 SenderAccountId
+        virtual public System.Int32 SenderAccountId
         {
             get
             {
@@ -191,7 +188,7 @@ using System;
         ///The property maps to the column 'Sent' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Sent
+        virtual public System.DateTime Sent
         {
             get
             {
@@ -216,7 +213,7 @@ using System;
         ///The property maps to the column 'Subject' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Subject
+        virtual public System.String Subject
         {
             get
             {
@@ -241,7 +238,7 @@ using System;
         ///The property maps to the column 'Unread' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Boolean Unread
+        virtual public System.Boolean Unread
         {
             get
             {
@@ -255,11 +252,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

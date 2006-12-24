@@ -151,7 +151,7 @@ namespace SnCore.Services
 
     }
 
-    public class ManagedAccountInvitation : ManagedService
+    public class ManagedAccountInvitation : ManagedService<AccountInvitation>
     {
         private AccountInvitation mAccountInvitation = null;
 
@@ -215,7 +215,7 @@ namespace SnCore.Services
 
         public void Delete()
         {
-            mAccountInvitation.Account.AccountStories.Remove(mAccountInvitation);
+            mAccountInvitation.Account.AccountInvitations.Remove(mAccountInvitation);
             Session.Delete(mAccountInvitation);
         }
 

@@ -203,7 +203,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed address.
     /// </summary>
-    public class ManagedAccountAddress : ManagedService
+    public class ManagedAccountAddress : ManagedService<AccountAddress>
     {
         private AccountAddress mAccountAddress = null;
 

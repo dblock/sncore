@@ -172,7 +172,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed social bookmark.
     /// </summary>
-    public class ManagedBookmark : ManagedService
+    public class ManagedBookmark : ManagedService<Bookmark>
     {
         private Bookmark mBookmark = null;
 

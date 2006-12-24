@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'DiscussionPost' entities.
@@ -9,23 +9,20 @@ using System;
     ///This class maps to the 'DiscussionPost' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class DiscussionPost
+    public class DiscussionPost : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private System.Int32 m_AccountId;
         private System.String m_Body;
         private System.DateTime m_Created;
         private DiscussionPost m_DiscussionPostParent;
-        private System.Collections.IList m_DiscussionPosts;
+        private System.Collections.Generic.IList<DiscussionPost> m_DiscussionPosts;
         private DiscussionThread m_DiscussionThread;
         private System.DateTime m_Modified;
         private System.String m_Subject;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -41,7 +38,7 @@ using System;
         ///The property maps to the column 'DiscussionPost_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -62,7 +59,7 @@ using System;
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 AccountId
+        virtual public System.Int32 AccountId
         {
             get
             {
@@ -87,7 +84,7 @@ using System;
         ///The property maps to the column 'Body' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Body
+        virtual public System.String Body
         {
             get
             {
@@ -112,7 +109,7 @@ using System;
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Created
+        virtual public System.DateTime Created
         {
             get
             {
@@ -139,7 +136,7 @@ using System;
         ///The property maps to the column 'DiscussionPostParent_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  DiscussionPost DiscussionPostParent
+        virtual public DiscussionPost DiscussionPostParent
         {
             get
             {
@@ -171,7 +168,7 @@ using System;
         ///The property maps to the identity column 'DiscussionPostParent_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList DiscussionPosts
+        virtual public System.Collections.Generic.IList<DiscussionPost> DiscussionPosts
         {
             get
             {
@@ -198,7 +195,7 @@ using System;
         ///The property maps to the column 'DiscussionThread_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  DiscussionThread DiscussionThread
+        virtual public DiscussionThread DiscussionThread
         {
             get
             {
@@ -223,7 +220,7 @@ using System;
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Modified
+        virtual public System.DateTime Modified
         {
             get
             {
@@ -248,7 +245,7 @@ using System;
         ///The property maps to the column 'Subject' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Subject
+        virtual public System.String Subject
         {
             get
             {
@@ -262,11 +259,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

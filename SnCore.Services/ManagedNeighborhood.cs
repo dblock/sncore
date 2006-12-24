@@ -97,7 +97,7 @@ namespace SnCore.Services
 
     }
 
-    public class ManagedNeighborhood : ManagedService
+    public class ManagedNeighborhood : ManagedService<Neighborhood>
     {
         public class InvalidNeighborhoodException : SoapException
         {

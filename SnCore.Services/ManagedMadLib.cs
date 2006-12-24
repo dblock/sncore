@@ -130,7 +130,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed MadLib.
     /// </summary>
-    public class ManagedMadLib : ManagedService
+    public class ManagedMadLib : ManagedService<MadLib>
     {
         private MadLib mMadLib = null;
 

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'FeedType' entities.
@@ -9,14 +9,12 @@ using System;
     ///This class maps to the 'FeedType' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class FeedType
+    public class FeedType : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
-        private System.Collections.IList m_AccountFeeds;
+        private System.Collections.Generic.IList<AccountFeed> m_AccountFeeds;
         private System.String m_Name;
         private System.Int32 m_SpanColumns;
         private System.Int32 m_SpanColumnsPreview;
@@ -24,7 +22,6 @@ using System;
         private System.Int32 m_SpanRowsPreview;
         private System.String m_Xsl;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -40,7 +37,7 @@ using System;
         ///The property maps to the column 'FeedType_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -68,7 +65,7 @@ using System;
         ///The property maps to the identity column 'FeedType_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountFeeds
+        virtual public System.Collections.Generic.IList<AccountFeed> AccountFeeds
         {
             get
             {
@@ -93,7 +90,7 @@ using System;
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Name
+        virtual public System.String Name
         {
             get
             {
@@ -118,7 +115,7 @@ using System;
         ///The property maps to the column 'SpanColumns' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 SpanColumns
+        virtual public System.Int32 SpanColumns
         {
             get
             {
@@ -143,7 +140,7 @@ using System;
         ///The property maps to the column 'SpanColumnsPreview' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 SpanColumnsPreview
+        virtual public System.Int32 SpanColumnsPreview
         {
             get
             {
@@ -168,7 +165,7 @@ using System;
         ///The property maps to the column 'SpanRows' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 SpanRows
+        virtual public System.Int32 SpanRows
         {
             get
             {
@@ -193,7 +190,7 @@ using System;
         ///The property maps to the column 'SpanRowsPreview' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 SpanRowsPreview
+        virtual public System.Int32 SpanRowsPreview
         {
             get
             {
@@ -218,7 +215,7 @@ using System;
         ///The property maps to the column 'Xsl' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Xsl
+        virtual public System.String Xsl
         {
             get
             {
@@ -232,11 +229,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

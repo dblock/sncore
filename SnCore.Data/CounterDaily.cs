@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'CounterDaily' entities.
@@ -9,17 +9,14 @@ using System;
     ///This class maps to the 'CounterDaily' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class CounterDaily
+    public class CounterDaily : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private System.DateTime m_Timestamp;
         private System.Int32 m_Total;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -35,7 +32,7 @@ using System;
         ///The property maps to the column 'CounterDaily_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -56,7 +53,7 @@ using System;
         ///The property maps to the column 'Timestamp' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Timestamp
+        virtual public System.DateTime Timestamp
         {
             get
             {
@@ -81,7 +78,7 @@ using System;
         ///The property maps to the column 'Total' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Total
+        virtual public System.Int32 Total
         {
             get
             {
@@ -95,11 +92,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

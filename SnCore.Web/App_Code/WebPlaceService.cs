@@ -187,7 +187,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)queryoptions.CreateCountQuery(session).UniqueResult();
+                return (int) queryoptions.CreateCountQuery(session).UniqueResult();
             }
         }
 
@@ -371,8 +371,8 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery(string.Format(
-                    "SELECT COUNT(p) FROM PlacePicture p WHERE p.Place.Id = {0}",
+                return (int) session.CreateQuery(string.Format(
+                    "SELECT COUNT(*) FROM PlacePicture p WHERE p.Place.Id = {0}",
                     id)).UniqueResult();
             }
         }
@@ -698,8 +698,8 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery(string.Format(
-                    "SELECT COUNT(s) FROM AccountPlace s WHERE s.Place.Id = {0}",
+                return (int) session.CreateQuery(string.Format(
+                    "SELECT COUNT(*) FROM AccountPlace s WHERE s.Place.Id = {0}",
                     id)).UniqueResult();
             }
         }
@@ -753,8 +753,8 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery(string.Format(
-                    "SELECT COUNT(s) FROM AccountPlace s WHERE s.Account.Id = {0}",
+                return (int) session.CreateQuery(string.Format(
+                    "SELECT COUNT(*) FROM AccountPlace s WHERE s.Account.Id = {0}",
                     id)).UniqueResult();
             }
         }
@@ -1147,8 +1147,8 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery(string.Format(
-                    "SELECT COUNT(s) FROM AccountPlaceFavorite s WHERE s.Place.Id = {0}",
+                return (int) session.CreateQuery(string.Format(
+                    "SELECT COUNT(*) FROM AccountPlaceFavorite s WHERE s.Place.Id = {0}",
                     id)).UniqueResult();
             }
         }
@@ -1207,8 +1207,8 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery(string.Format(
-                    "SELECT COUNT(s) FROM AccountPlaceFavorite s WHERE s.Account.Id = {0}",
+                return (int) session.CreateQuery(string.Format(
+                    "SELECT COUNT(*) FROM AccountPlaceFavorite s WHERE s.Account.Id = {0}",
                     id)).UniqueResult();
             }
         }
@@ -1806,7 +1806,7 @@ namespace SnCore.WebServices
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
                 IQuery query = session.CreateQuery(
-                   "SELECT COUNT(place) FROM PlaceProperty p, PlacePropertyGroup g, PlacePropertyValue v, Place place" +
+                   "SELECT COUNT(*) FROM PlaceProperty p, PlacePropertyGroup g, PlacePropertyValue v, Place place" +
                    " WHERE place.Id = v.Place.Id" +
                    " AND v.Place.Id = place.Id" +
                    " AND v.PlaceProperty.Id = p.Id" +
@@ -1817,7 +1817,7 @@ namespace SnCore.WebServices
                    "  OR v.Value LIKE '%\"" + Renderer.SqlEncode(propertyvalue) + "\"%'" +
                    " ) AND g.Name = '" + Renderer.SqlEncode(groupname) + "'");
 
-                return (int)query.UniqueResult();
+                return (int) query.UniqueResult();
             }
         }
 
@@ -2070,8 +2070,8 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery(string.Format(
-                    "SELECT COUNT(a) FROM PlaceAttribute a WHERE a.Place.Id = {0}",
+                return (int) session.CreateQuery(string.Format(
+                    "SELECT COUNT(*) FROM PlaceAttribute a WHERE a.Place.Id = {0}",
                     id)).UniqueResult();
             }
         }
@@ -2147,7 +2147,7 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 IQuery q = session.CreateQuery("SELECT COUNT(DISTINCT apf.Place) FROM AccountPlaceFavorite apf");
-                return (int)q.UniqueResult();
+                return (int) (long) q.UniqueResult();
             }
         }
 
@@ -2492,8 +2492,8 @@ namespace SnCore.WebServices
                     throw new ManagedAccount.AccessDeniedException();
                 }
 
-                return (int)session.CreateQuery(string.Format(
-                    "SELECT COUNT(i) FROM PlaceQueueItem i WHERE i.PlaceQueue.Id = {0}",
+                return (int) session.CreateQuery(string.Format(
+                    "SELECT COUNT(*) FROM PlaceQueueItem i WHERE i.PlaceQueue.Id = {0}",
                     id)).UniqueResult();
             }
         }
@@ -2609,7 +2609,7 @@ namespace SnCore.WebServices
                 {
                     TransitDistinctPlaceNeighborhood tnh = new TransitDistinctPlaceNeighborhood((int) nh[0]);
                     tnh.Name = (string) nh[1];
-                    tnh.Count = (int) nh[2];
+                    tnh.Count = (long) nh[2];
                     result.Add(tnh);
                 }
 

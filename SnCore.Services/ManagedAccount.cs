@@ -102,7 +102,7 @@ namespace SnCore.Services
 
         public IQuery CreateCountQuery(ISession session)
         {
-            return session.CreateQuery("SELECT COUNT(DISTINCT a.Id) FROM Account a, AccountEmail e" + CreateSubQuery(session));
+            return session.CreateQuery("SELECT COUNT(DISTINCT a) FROM Account a, AccountEmail e" + CreateSubQuery(session));
         }
 
         public IQuery CreateQuery(ISession session)
@@ -179,24 +179,24 @@ namespace SnCore.Services
 
             // new photos (count one week of photos)
 
-            NewPictures = (int)session.CreateQuery(string.Format("SELECT COUNT(p) FROM AccountPicture p " +
+            NewPictures = (int) session.CreateQuery(string.Format("SELECT COUNT(*) FROM AccountPicture p " +
                 "WHERE p.Account.Id = {0} AND p.Modified > '{1}' AND p.Hidden = 0",
                 a.Id, limit))
                 .UniqueResult();
 
-            NewDiscussionPosts = (int)session.CreateQuery(string.Format("SELECT COUNT(p) FROM DiscussionPost p, Discussion d, DiscussionThread t " +
+            NewDiscussionPosts = (int) session.CreateQuery(string.Format("SELECT COUNT(*) FROM DiscussionPost p, Discussion d, DiscussionThread t " +
                 "WHERE p.AccountId = {0} AND p.Modified > '{1}' AND p.DiscussionThread.Id = t.Id and t.Discussion.Id = d.Id AND d.Personal = 0",
                 a.Id, limit))
                 .UniqueResult();
 
-            NewSyndicatedContent = (int)session.CreateQuery(string.Format("SELECT COUNT(f) FROM AccountFeed f " +
+            NewSyndicatedContent = (int) session.CreateQuery(string.Format("SELECT COUNT(*) FROM AccountFeed f " +
                 "WHERE f.Account.Id = {0} AND f.Created > '{1}'",
                 a.Id, limit))
                 .UniqueResult();
 
         }
 
-        protected int Count
+        protected long Count
         {
             get
             {
@@ -206,7 +206,7 @@ namespace SnCore.Services
 
         public static int CompareByLastActivity(TransitAccountActivity left, TransitAccountActivity right)
         {
-            return right.Count - left.Count;
+            return right.Count.CompareTo(left.Count);
         }
 
         public static int CompareByLastLogin(TransitAccountActivity left, TransitAccountActivity right)
@@ -473,7 +473,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed account.
     /// </summary>
-    public class ManagedAccount : ManagedService
+    public class ManagedAccount : ManagedService<Account>
     {
         public static int MinimumPasswordLength = 4;
         public static int MaxOfAnything = 250;
@@ -889,7 +889,7 @@ namespace SnCore.Services
             e.Verified = emailverified;
             e.Created = e.Modified = DateTime.UtcNow;
 
-            if (mAccount.AccountEmails == null) mAccount.AccountEmails = new ArrayList();
+            if (mAccount.AccountEmails == null) mAccount.AccountEmails = new List<AccountEmail>();
             
             if (!IsAdministrator() && mAccount.AccountEmails.Count >= MaxOfAnything)
             {
@@ -1185,7 +1185,7 @@ namespace SnCore.Services
             o.IdentityUrl = url.IdentityUrl;
             o.Created = o.Modified = DateTime.UtcNow;
 
-            if (mAccount.AccountOpenIds == null) mAccount.AccountOpenIds = new ArrayList();
+            if (mAccount.AccountOpenIds == null) mAccount.AccountOpenIds = new List<AccountOpenId>();
 
             if (!IsAdministrator() && mAccount.AccountOpenIds.Count >= MaxOfAnything)
             {
@@ -1211,7 +1211,7 @@ namespace SnCore.Services
             {
                 a.Created = a.Modified;
                 a.Account = mAccount;
-                if (mAccount.AccountAddresses == null) mAccount.AccountAddresses = new ArrayList();
+                if (mAccount.AccountAddresses == null) mAccount.AccountAddresses = new List<AccountAddress>();
                 if (!IsAdministrator() && mAccount.AccountAddresses.Count >= MaxOfAnything)
                 {
                     throw new QuotaExceededException();
@@ -1244,7 +1244,7 @@ namespace SnCore.Services
             {
                 p.Account = mAccount;
                 p.Created = p.Modified;
-                if (mAccount.AccountSurveyAnswers == null) mAccount.AccountSurveyAnswers = new ArrayList();
+                if (mAccount.AccountSurveyAnswers == null) mAccount.AccountSurveyAnswers = new List<AccountSurveyAnswer>();
                 if (!IsAdministrator() && mAccount.AccountSurveyAnswers.Count >= MaxOfAnything)
                 {
                     throw new QuotaExceededException();
@@ -1280,7 +1280,7 @@ namespace SnCore.Services
             if (w.Id == 0)
             {
                 w.Account = mAccount;
-                if (mAccount.AccountWebsites == null) mAccount.AccountWebsites = new ArrayList();
+                if (mAccount.AccountWebsites == null) mAccount.AccountWebsites = new List<AccountWebsite>();
                 if (!IsAdministrator() && mAccount.AccountWebsites.Count >= MaxOfAnything)
                 {
                     throw new QuotaExceededException();
@@ -1323,7 +1323,7 @@ namespace SnCore.Services
             message.SenderAccountId = Id;
             message.RecepientAccountId = message.Account.Id;
 
-            if (message.Account.AccountMessages == null) message.Account.AccountMessages = new ArrayList();
+            if (message.Account.AccountMessages == null) message.Account.AccountMessages = new List<AccountMessage>();
             message.Account.AccountMessages.Add(message);
             Session.Save(message);
 
@@ -1349,7 +1349,7 @@ namespace SnCore.Services
                         .Add(Expression.Eq("Name", "sent"))
                         .Add(Expression.IsNull("AccountMessageFolderParent"))
                         .UniqueResult();
-            if (mAccount.AccountMessages == null) mAccount.AccountMessages = new ArrayList();
+            if (mAccount.AccountMessages == null) mAccount.AccountMessages = new List<AccountMessage>();
             mAccount.AccountMessages.Add(s);
             Session.Save(s);
 
@@ -1369,7 +1369,7 @@ namespace SnCore.Services
             {
                 p.Created = p.Modified;
                 p.Account = mAccount;
-                if (mAccount.AccountPictures == null) mAccount.AccountPictures = new ArrayList();
+                if (mAccount.AccountPictures == null) mAccount.AccountPictures = new List<AccountPicture>();
                 if (!IsAdministrator() && mAccount.AccountPictures.Count >= MaxOfAnything)
                 {
                     throw new QuotaExceededException();
@@ -1428,7 +1428,7 @@ namespace SnCore.Services
                 e.Account = mAccount;
                 e.Created = e.Modified;
 
-                if (mAccount.AccountMessageFolders == null) mAccount.AccountMessageFolders = new ArrayList();
+                if (mAccount.AccountMessageFolders == null) mAccount.AccountMessageFolders = new List<AccountMessageFolder>();
                 if (!IsAdministrator() && mAccount.AccountMessageFolders.Count >= MaxOfAnything)
                 {
                     throw new QuotaExceededException();
@@ -1622,7 +1622,7 @@ namespace SnCore.Services
             {
                 s.Account = mAccount;
                 s.Created = s.Modified;
-                if (mAccount.AccountStories == null) mAccount.AccountStories = new ArrayList();
+                if (mAccount.AccountStories == null) mAccount.AccountStories = new List<AccountStory>();
                 if (!IsAdministrator() && mAccount.AccountStories.Count >= MaxOfAnything)
                 {
                     throw new QuotaExceededException();
@@ -1657,7 +1657,7 @@ namespace SnCore.Services
             {
                 s.Account = mAccount;
                 s.Created = s.Modified;
-                if (mAccount.AccountInvitations == null) mAccount.AccountInvitations = new ArrayList();
+                if (mAccount.AccountInvitations == null) mAccount.AccountInvitations = new List<AccountInvitation>();
                 if (!IsAdministrator() && mAccount.AccountInvitations.Count >= MaxOfAnything)
                 {
                     throw new QuotaExceededException();
@@ -2147,7 +2147,7 @@ namespace SnCore.Services
             {
                 r.Account = mAccount;
                 r.Created = r.Modified;
-                if (mAccount.AccountRedirects == null) mAccount.AccountRedirects = new ArrayList();
+                if (mAccount.AccountRedirects == null) mAccount.AccountRedirects = new List<AccountRedirect>();
                 if (!IsAdministrator() && mAccount.AccountRedirects.Count >= MaxOfAnything)
                 {
                     throw new QuotaExceededException();
@@ -2174,7 +2174,7 @@ namespace SnCore.Services
             if (acct.AccountPictures == null || acct.AccountPictures.Count == 0)
                 return 0;
 
-            ArrayList copyofcollection = new ArrayList(acct.AccountPictures.Count);
+            List<AccountPicture> copyofcollection = new List<AccountPicture>(acct.AccountPictures.Count);
 
             foreach (AccountPicture ap in acct.AccountPictures)
             {
@@ -2184,7 +2184,7 @@ namespace SnCore.Services
                 }
             }
 
-            return ManagedService.GetRandomElementId(copyofcollection);
+            return ManagedService<AccountPicture>.GetRandomElementId(copyofcollection);
         }
     }
 }

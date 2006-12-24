@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'AccountEventPicture' entities.
@@ -9,12 +9,10 @@ using System;
     ///This class maps to the 'AccountEventPicture' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountEventPicture
+    public class AccountEventPicture : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private AccountEvent m_AccountEvent;
         private System.DateTime m_Created;
@@ -23,7 +21,6 @@ using System;
         private System.String m_Name;
         private System.Byte[] m_Picture;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -39,7 +36,7 @@ using System;
         ///The property maps to the column 'AccountEventPicture_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -62,7 +59,7 @@ using System;
         ///The property maps to the column 'AccountEvent_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  AccountEvent AccountEvent
+        virtual public AccountEvent AccountEvent
         {
             get
             {
@@ -87,7 +84,7 @@ using System;
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Created
+        virtual public System.DateTime Created
         {
             get
             {
@@ -112,7 +109,7 @@ using System;
         ///The property maps to the column 'Description' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Description
+        virtual public System.String Description
         {
             get
             {
@@ -137,7 +134,7 @@ using System;
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Modified
+        virtual public System.DateTime Modified
         {
             get
             {
@@ -162,7 +159,7 @@ using System;
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Name
+        virtual public System.String Name
         {
             get
             {
@@ -187,7 +184,7 @@ using System;
         ///The property maps to the column 'Picture' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Byte[] Picture
+        virtual public System.Byte[] Picture
         {
             get
             {
@@ -201,11 +198,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

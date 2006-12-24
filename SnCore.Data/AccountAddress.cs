@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'AccountAddress' entities.
@@ -9,12 +9,10 @@ using System;
     ///This class maps to the 'AccountAddress' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountAddress
+    public class AccountAddress : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private Account m_Account;
         private System.Int32 m_AddressId;
@@ -28,7 +26,6 @@ using System;
         private System.String m_Street;
         private System.String m_Zip;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -44,7 +41,7 @@ using System;
         ///The property maps to the column 'AccountAddress_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -67,7 +64,7 @@ using System;
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  Account Account
+        virtual public Account Account
         {
             get
             {
@@ -92,7 +89,7 @@ using System;
         ///The property maps to the column 'Address_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 AddressId
+        virtual public System.Int32 AddressId
         {
             get
             {
@@ -117,7 +114,7 @@ using System;
         ///The property maps to the column 'Apt' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Apt
+        virtual public System.String Apt
         {
             get
             {
@@ -142,7 +139,7 @@ using System;
         ///The property maps to the column 'City' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String City
+        virtual public System.String City
         {
             get
             {
@@ -169,7 +166,7 @@ using System;
         ///The property maps to the column 'Country_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  Country Country
+        virtual public Country Country
         {
             get
             {
@@ -194,7 +191,7 @@ using System;
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Created
+        virtual public System.DateTime Created
         {
             get
             {
@@ -219,7 +216,7 @@ using System;
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Modified
+        virtual public System.DateTime Modified
         {
             get
             {
@@ -244,7 +241,7 @@ using System;
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Name
+        virtual public System.String Name
         {
             get
             {
@@ -271,7 +268,7 @@ using System;
         ///The property maps to the column 'State_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  State State
+        virtual public State State
         {
             get
             {
@@ -296,7 +293,7 @@ using System;
         ///The property maps to the column 'Street' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Street
+        virtual public System.String Street
         {
             get
             {
@@ -321,7 +318,7 @@ using System;
         ///The property maps to the column 'Zip' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Zip
+        virtual public System.String Zip
         {
             get
             {
@@ -335,11 +332,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

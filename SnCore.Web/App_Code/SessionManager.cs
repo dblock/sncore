@@ -928,7 +928,7 @@ public class SessionManager
                     service.GetType().Name, invoke, ex.Message), ex);
             }
         }
-        return (int)count;
+        return (int) count;
     }
 
     public TransitType GetCachedItem<TransitType>(

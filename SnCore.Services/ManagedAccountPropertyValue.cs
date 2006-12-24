@@ -109,7 +109,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountPropertyValue : ManagedService
+    public class ManagedAccountPropertyValue : ManagedService<AccountPropertyValue>
     {
         private AccountPropertyValue mAccountPropertyValue = null;
 

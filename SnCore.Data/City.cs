@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'City' entities.
@@ -9,21 +9,18 @@ using System;
     ///This class maps to the 'City' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class City
+    public class City : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private Country m_Country;
         private System.String m_Name;
-        private System.Collections.IList m_Places;
+        private System.Collections.Generic.IList<Place> m_Places;
         private State m_State;
         private System.String m_Tag;
-        private System.Collections.IList m_Neighborhoods;
+        private System.Collections.Generic.IList<Neighborhood> m_Neighborhoods;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -39,7 +36,7 @@ using System;
         ///The property maps to the column 'City_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -62,7 +59,7 @@ using System;
         ///The property maps to the column 'Country_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  Country Country
+        virtual public Country Country
         {
             get
             {
@@ -87,7 +84,7 @@ using System;
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Name
+        virtual public System.String Name
         {
             get
             {
@@ -119,7 +116,7 @@ using System;
         ///The property maps to the identity column 'City_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList Places
+        virtual public System.Collections.Generic.IList<Place> Places
         {
             get
             {
@@ -146,7 +143,7 @@ using System;
         ///The property maps to the column 'State_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  State State
+        virtual public State State
         {
             get
             {
@@ -171,7 +168,7 @@ using System;
         ///The property maps to the column 'Tag' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Tag
+        virtual public System.String Tag
         {
             get
             {
@@ -202,7 +199,7 @@ using System;
         ///The property maps to the identity column 'City_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList Neighborhoods
+        virtual public System.Collections.Generic.IList<Neighborhood> Neighborhoods
         {
             get
             {
@@ -216,11 +213,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

@@ -159,7 +159,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountBlog : ManagedService
+    public class ManagedAccountBlog : ManagedService<AccountBlog>
     {
         private AccountBlog mAccountBlog = null;
 

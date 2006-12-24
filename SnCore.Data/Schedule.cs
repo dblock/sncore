@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'Schedule' entities.
@@ -9,14 +9,12 @@ using System;
     ///This class maps to the 'Schedule' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class Schedule
+    public class Schedule : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
-        private System.Collections.IList m_AccountEvents;
+        private System.Collections.Generic.IList<AccountEvent> m_AccountEvents;
         private System.Boolean m_AllDay;
         private System.Int32 m_DailyEveryNDays;
         private System.DateTime m_EndDateTime;
@@ -39,9 +37,8 @@ using System;
         private Account m_Account;
         private System.DateTime m_Created;
         private System.DateTime m_Modified;
-        private System.Collections.IList m_ScheduleInstances;
+        private System.Collections.Generic.IList<ScheduleInstance> m_ScheduleInstances;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -57,7 +54,7 @@ using System;
         ///The property maps to the column 'Schedule_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -85,7 +82,7 @@ using System;
         ///The property maps to the identity column 'Schedule_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountEvents
+        virtual public System.Collections.Generic.IList<AccountEvent> AccountEvents
         {
             get
             {
@@ -110,7 +107,7 @@ using System;
         ///The property maps to the column 'AllDay' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Boolean AllDay
+        virtual public System.Boolean AllDay
         {
             get
             {
@@ -135,7 +132,7 @@ using System;
         ///The property maps to the column 'Daily_EveryNDays' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 DailyEveryNDays
+        virtual public System.Int32 DailyEveryNDays
         {
             get
             {
@@ -160,7 +157,7 @@ using System;
         ///The property maps to the column 'EndDateTime' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime EndDateTime
+        virtual public System.DateTime EndDateTime
         {
             get
             {
@@ -185,7 +182,7 @@ using System;
         ///The property maps to the column 'Endless' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Boolean Endless
+        virtual public System.Boolean Endless
         {
             get
             {
@@ -210,7 +207,7 @@ using System;
         ///The property maps to the column 'EndOccurrences' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 EndOccurrences
+        virtual public System.Int32 EndOccurrences
         {
             get
             {
@@ -235,7 +232,7 @@ using System;
         ///The property maps to the column 'Monthly_Day' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 MonthlyDay
+        virtual public System.Int32 MonthlyDay
         {
             get
             {
@@ -260,7 +257,7 @@ using System;
         ///The property maps to the column 'MonthlyEx_DayIndex' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 MonthlyExDayIndex
+        virtual public System.Int32 MonthlyExDayIndex
         {
             get
             {
@@ -285,7 +282,7 @@ using System;
         ///The property maps to the column 'MonthlyEx_DayName' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 MonthlyExDayName
+        virtual public System.Int32 MonthlyExDayName
         {
             get
             {
@@ -310,7 +307,7 @@ using System;
         ///The property maps to the column 'MonthlyEx_Month' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 MonthlyExMonth
+        virtual public System.Int32 MonthlyExMonth
         {
             get
             {
@@ -335,7 +332,7 @@ using System;
         ///The property maps to the column 'Monthly_Month' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 MonthlyMonth
+        virtual public System.Int32 MonthlyMonth
         {
             get
             {
@@ -360,7 +357,7 @@ using System;
         ///The property maps to the column 'RecurrencePattern' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int16 RecurrencePattern
+        virtual public System.Int16 RecurrencePattern
         {
             get
             {
@@ -385,7 +382,7 @@ using System;
         ///The property maps to the column 'StartDateTime' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime StartDateTime
+        virtual public System.DateTime StartDateTime
         {
             get
             {
@@ -410,7 +407,7 @@ using System;
         ///The property maps to the column 'Weekly_DaysOfWeek' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int16 WeeklyDaysOfWeek
+        virtual public System.Int16 WeeklyDaysOfWeek
         {
             get
             {
@@ -435,7 +432,7 @@ using System;
         ///The property maps to the column 'Weekly_EveryNWeeks' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 WeeklyEveryNWeeks
+        virtual public System.Int32 WeeklyEveryNWeeks
         {
             get
             {
@@ -460,7 +457,7 @@ using System;
         ///The property maps to the column 'Yearly_Day' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 YearlyDay
+        virtual public System.Int32 YearlyDay
         {
             get
             {
@@ -485,7 +482,7 @@ using System;
         ///The property maps to the column 'YearlyEx_DayIndex' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 YearlyExDayIndex
+        virtual public System.Int32 YearlyExDayIndex
         {
             get
             {
@@ -510,7 +507,7 @@ using System;
         ///The property maps to the column 'YearlyEx_DayName' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 YearlyExDayName
+        virtual public System.Int32 YearlyExDayName
         {
             get
             {
@@ -535,7 +532,7 @@ using System;
         ///The property maps to the column 'YearlyEx_Month' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 YearlyExMonth
+        virtual public System.Int32 YearlyExMonth
         {
             get
             {
@@ -560,7 +557,7 @@ using System;
         ///The property maps to the column 'Yearly_Month' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 YearlyMonth
+        virtual public System.Int32 YearlyMonth
         {
             get
             {
@@ -587,7 +584,7 @@ using System;
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  Account Account
+        virtual public Account Account
         {
             get
             {
@@ -612,7 +609,7 @@ using System;
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Created
+        virtual public System.DateTime Created
         {
             get
             {
@@ -637,7 +634,7 @@ using System;
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Modified
+        virtual public System.DateTime Modified
         {
             get
             {
@@ -668,7 +665,7 @@ using System;
         ///The property maps to the identity column 'Schedule_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList ScheduleInstances
+        virtual public System.Collections.Generic.IList<ScheduleInstance> ScheduleInstances
         {
             get
             {
@@ -682,11 +679,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

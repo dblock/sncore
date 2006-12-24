@@ -176,7 +176,7 @@ namespace SnCore.Services
             AccountName = o.Account.Name;
             PlaceName = o.Place.Name;
             AccountPictureId = ManagedAccount.GetRandomAccountPictureId(o.Account);
-            PlacePictureId = ManagedService.GetRandomElementId(o.Place.PlacePictures);
+            PlacePictureId = ManagedService<PlacePicture>.GetRandomElementId(o.Place.PlacePictures);
             if (o.Place.City != null) PlaceCity = o.Place.City.Name;
             if (o.Place.City != null && o.Place.City.State != null) PlaceState = o.Place.City.State.Name;
             if (o.Place.City != null && o.Place.City.Country != null) PlaceCountry = o.Place.City.Country.Name;
@@ -197,7 +197,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountPlaceFavorite : ManagedService
+    public class ManagedAccountPlaceFavorite : ManagedService<AccountPlaceFavorite>
     {
         private AccountPlaceFavorite mAccountPlaceFavorite = null;
 

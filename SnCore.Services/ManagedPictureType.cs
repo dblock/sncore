@@ -51,7 +51,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed picture type.
     /// </summary>
-    public class ManagedPictureType : ManagedService
+    public class ManagedPictureType : ManagedService<PictureType>
     {
         private PictureType mPictureType = null;
 

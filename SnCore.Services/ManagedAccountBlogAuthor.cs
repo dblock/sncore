@@ -173,7 +173,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountBlogAuthor : ManagedService
+    public class ManagedAccountBlogAuthor : ManagedService<AccountBlogAuthor>
     {
         private AccountBlogAuthor mAccountBlogAuthor = null;
 

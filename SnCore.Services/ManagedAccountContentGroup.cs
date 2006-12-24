@@ -175,7 +175,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountContentGroup : ManagedService
+    public class ManagedAccountContentGroup : ManagedService<AccountContentGroup>
     {
         private AccountContentGroup mAccountContentGroup = null;
 

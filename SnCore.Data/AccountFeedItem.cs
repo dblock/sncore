@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'AccountFeedItem' entities.
@@ -9,12 +9,10 @@ using System;
     ///This class maps to the 'AccountFeedItem' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountFeedItem
+    public class AccountFeedItem : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private AccountFeed m_AccountFeed;
         private System.DateTime m_Created;
@@ -23,9 +21,8 @@ using System;
         private System.String m_Link;
         private System.String m_Title;
         private System.DateTime m_Updated;
-        private System.Collections.IList m_AccountFeedItemImgs;
+        private System.Collections.Generic.IList<AccountFeedItemImg> m_AccountFeedItemImgs;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -41,7 +38,7 @@ using System;
         ///The property maps to the column 'AccountFeedItem_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -64,7 +61,7 @@ using System;
         ///The property maps to the column 'AccountFeed_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  AccountFeed AccountFeed
+        virtual public AccountFeed AccountFeed
         {
             get
             {
@@ -89,7 +86,7 @@ using System;
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Created
+        virtual public System.DateTime Created
         {
             get
             {
@@ -114,7 +111,7 @@ using System;
         ///The property maps to the column 'Description' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Description
+        virtual public System.String Description
         {
             get
             {
@@ -139,7 +136,7 @@ using System;
         ///The property maps to the column 'Guid' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Guid
+        virtual public System.String Guid
         {
             get
             {
@@ -164,7 +161,7 @@ using System;
         ///The property maps to the column 'Link' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Link
+        virtual public System.String Link
         {
             get
             {
@@ -189,7 +186,7 @@ using System;
         ///The property maps to the column 'Title' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Title
+        virtual public System.String Title
         {
             get
             {
@@ -214,7 +211,7 @@ using System;
         ///The property maps to the column 'Updated' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Updated
+        virtual public System.DateTime Updated
         {
             get
             {
@@ -245,7 +242,7 @@ using System;
         ///The property maps to the identity column 'AccountFeedItem_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountFeedItemImgs
+        virtual public System.Collections.Generic.IList<AccountFeedItemImg> AccountFeedItemImgs
         {
             get
             {
@@ -259,11 +256,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

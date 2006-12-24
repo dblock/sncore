@@ -241,7 +241,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed account message.
     /// </summary>
-    public class ManagedAccountMessage : ManagedService
+    public class ManagedAccountMessage : ManagedService<AccountMessage>
     {
         private AccountMessage mAccountMessage = null;
 

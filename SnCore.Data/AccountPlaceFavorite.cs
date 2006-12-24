@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'AccountPlaceFavorite' entities.
@@ -9,18 +9,15 @@ using System;
     ///This class maps to the 'AccountPlaceFavorite' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountPlaceFavorite
+    public class AccountPlaceFavorite : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private Account m_Account;
         private System.DateTime m_Created;
         private Place m_Place;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -36,7 +33,7 @@ using System;
         ///The property maps to the column 'AccountPlaceFavorite_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -59,7 +56,7 @@ using System;
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  Account Account
+        virtual public Account Account
         {
             get
             {
@@ -84,7 +81,7 @@ using System;
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Created
+        virtual public System.DateTime Created
         {
             get
             {
@@ -111,7 +108,7 @@ using System;
         ///The property maps to the column 'Place_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  Place Place
+        virtual public Place Place
         {
             get
             {
@@ -125,11 +122,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

@@ -302,7 +302,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery(
+                return (int) session.CreateQuery(
                     "SELECT COUNT(*) from Discussion d" +
                     " WHERE d.Personal = 0").UniqueResult();
             }
@@ -353,7 +353,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery(
+                return (int) session.CreateQuery(
                     "SELECT COUNT(*) from Discussion d" +
                     " where d.Account.Id = " + user_id.ToString() +
                     " and d.Personal = 0").UniqueResult();
@@ -420,7 +420,7 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 return (int) session.CreateQuery(string.Format(
-                    "SELECT COUNT(p) FROM DiscussionPost p WHERE p.DiscussionThread.Id = {0}", id))
+                    "SELECT COUNT(*) FROM DiscussionPost p WHERE p.DiscussionThread.Id = {0}", id))
                     .UniqueResult();                    
             }
         }
@@ -686,7 +686,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery(
+                return (int) session.CreateQuery(
                     "SELECT COUNT(*) from DiscussionPost post" +
                     " where post.DiscussionThread.Discussion.Id = " + id.ToString() +
                     " and post.DiscussionPostParent is null").UniqueResult();
@@ -704,8 +704,8 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery(
-                    "SELECT COUNT(t) from DiscussionThread t, Discussion d" +
+                return (int) session.CreateQuery(
+                    "SELECT COUNT(*) from DiscussionThread t, Discussion d" +
                         " WHERE t.Discussion.Id = d.Id " +
                         " AND d.Personal = 0").UniqueResult();
             }
@@ -762,8 +762,8 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery(
-                    "SELECT COUNT(Post) FROM DiscussionPost Post, DiscussionThread Thread, Discussion Discussion" +
+                return (int) session.CreateQuery(
+                    "SELECT COUNT(*) FROM DiscussionPost Post, DiscussionThread Thread, Discussion Discussion" +
                     " WHERE Post.DiscussionThread.Id = Thread.Id" +
                     " AND Thread.Discussion.Id = Discussion.Id" +
                     " AND Post.DiscussionPostParent IS NULL" +
@@ -911,7 +911,7 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 IQuery query = session.CreateQuery(queryoptions.CountQuery);
-                return (int)query.UniqueResult();
+                return (int) query.UniqueResult();
             }
         }
 

@@ -72,7 +72,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed tag word.
     /// </summary>
-    public class ManagedTagWordAccount : ManagedService
+    public class ManagedTagWordAccount : ManagedService<TagWordAccount>
     {
         private TagWordAccount mTagWordAccount = null;
 

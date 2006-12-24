@@ -49,7 +49,7 @@ namespace SnCore.Services
         }
     }
 
-    public class TransitAccountStoryPicture : TransitArrayElementService
+    public class TransitAccountStoryPicture : TransitArrayElementService<AccountStoryPicture>
     {
         private int mCommentCount;
 
@@ -57,7 +57,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mCommentCount;
             }
             set
@@ -203,7 +202,7 @@ namespace SnCore.Services
 
     }
 
-    public class ManagedAccountStoryPicture : ManagedService
+    public class ManagedAccountStoryPicture : ManagedService<AccountStoryPicture>
     {
         private AccountStoryPicture mAccountStoryPicture = null;
 

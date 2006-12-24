@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'RefererHost' entities.
@@ -9,12 +9,10 @@ using System;
     ///This class maps to the 'RefererHost' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class RefererHost
+    public class RefererHost : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private System.DateTime m_Created;
         private System.String m_Host;
@@ -22,10 +20,9 @@ using System;
         private System.String m_LastRequestUri;
         private System.Int64 m_Total;
         private System.DateTime m_Updated;
-        private System.Collections.IList m_RefererHostDups;
-        private System.Collections.IList m_RefererAccounts;
+        private System.Collections.Generic.IList<RefererHostDup> m_RefererHostDups;
+        private System.Collections.Generic.IList<RefererAccount> m_RefererAccounts;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -41,7 +38,7 @@ using System;
         ///The property maps to the column 'RefererHost_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -62,7 +59,7 @@ using System;
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Created
+        virtual public System.DateTime Created
         {
             get
             {
@@ -87,7 +84,7 @@ using System;
         ///The property maps to the column 'Host' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Host
+        virtual public System.String Host
         {
             get
             {
@@ -112,7 +109,7 @@ using System;
         ///The property maps to the column 'LastRefererUri' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String LastRefererUri
+        virtual public System.String LastRefererUri
         {
             get
             {
@@ -137,7 +134,7 @@ using System;
         ///The property maps to the column 'LastRequestUri' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String LastRequestUri
+        virtual public System.String LastRequestUri
         {
             get
             {
@@ -162,7 +159,7 @@ using System;
         ///The property maps to the column 'Total' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int64 Total
+        virtual public System.Int64 Total
         {
             get
             {
@@ -187,7 +184,7 @@ using System;
         ///The property maps to the column 'Updated' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Updated
+        virtual public System.DateTime Updated
         {
             get
             {
@@ -218,7 +215,7 @@ using System;
         ///The property maps to the identity column 'RefererHost_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList RefererHostDups
+        virtual public System.Collections.Generic.IList<RefererHostDup> RefererHostDups
         {
             get
             {
@@ -249,7 +246,7 @@ using System;
         ///The property maps to the identity column 'RefererHost_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList RefererAccounts
+        virtual public System.Collections.Generic.IList<RefererAccount> RefererAccounts
         {
             get
             {
@@ -263,11 +260,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

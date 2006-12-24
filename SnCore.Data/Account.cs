@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'Account' entities.
@@ -9,65 +9,62 @@ using System;
     ///This class maps to the 'Account' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class Account
+    public class Account : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
-        private System.Collections.IList m_AccountAddresses;
-        private System.Collections.IList m_AccountBlogAuthors;
-        private System.Collections.IList m_AccountBlogs;
-        private System.Collections.IList m_AccountEmailMessages;
-        private System.Collections.IList m_AccountEmails;
-        private System.Collections.IList m_AccountEvents;
-        private System.Collections.IList m_AccountFeeds;
-        private System.Collections.IList m_AccountFriendRequests;
-        private System.Collections.IList m_AccountFriends;
-        private System.Collections.IList m_AccountInvitations;
-        private System.Collections.IList m_AccountMessageFolders;
-        private System.Collections.IList m_AccountMessages;
-        private System.Collections.IList m_AccountOpenIds;
-        private System.Collections.IList m_AccountPictures;
-        private System.Collections.IList m_AccountPlaceFavorites;
-        private System.Collections.IList m_AccountPlaceRequests;
-        private System.Collections.IList m_AccountPlaces;
-        private System.Collections.IList m_AccountStories;
-        private System.Collections.IList m_AccountSurveyAnswers;
-        private System.Collections.IList m_AccountWebsites;
+        private System.Collections.Generic.IList<AccountAddress> m_AccountAddresses;
+        private System.Collections.Generic.IList<AccountBlogAuthor> m_AccountBlogAuthors;
+        private System.Collections.Generic.IList<AccountBlog> m_AccountBlogs;
+        private System.Collections.Generic.IList<AccountEmailMessage> m_AccountEmailMessages;
+        private System.Collections.Generic.IList<AccountEmail> m_AccountEmails;
+        private System.Collections.Generic.IList<AccountEvent> m_AccountEvents;
+        private System.Collections.Generic.IList<AccountFeed> m_AccountFeeds;
+        private System.Collections.Generic.IList<AccountFriendRequest> m_AccountFriendRequests;
+        private System.Collections.Generic.IList<AccountFriend> m_AccountFriends;
+        private System.Collections.Generic.IList<AccountInvitation> m_AccountInvitations;
+        private System.Collections.Generic.IList<AccountMessageFolder> m_AccountMessageFolders;
+        private System.Collections.Generic.IList<AccountMessage> m_AccountMessages;
+        private System.Collections.Generic.IList<AccountOpenId> m_AccountOpenIds;
+        private System.Collections.Generic.IList<AccountPicture> m_AccountPictures;
+        private System.Collections.Generic.IList<AccountPlaceFavorite> m_AccountPlaceFavorites;
+        private System.Collections.Generic.IList<AccountPlaceRequest> m_AccountPlaceRequests;
+        private System.Collections.Generic.IList<AccountPlace> m_AccountPlaces;
+        private System.Collections.Generic.IList<AccountStory> m_AccountStories;
+        private System.Collections.Generic.IList<AccountSurveyAnswer> m_AccountSurveyAnswers;
+        private System.Collections.Generic.IList<AccountWebsite> m_AccountWebsites;
         private System.DateTime m_Birthday;
         private System.String m_City;
         private Country m_Country;
         private System.DateTime m_Created;
-        private System.Collections.IList m_Discussions;
+        private System.Collections.Generic.IList<Discussion> m_Discussions;
         private System.Boolean m_Enabled;
         private System.Boolean m_IsAdministrator;
-        private System.Collections.IList m_KeenAccountFriendRequests;
-        private System.Collections.IList m_KeenAccountFriends;
+        private System.Collections.Generic.IList<AccountFriendRequest> m_KeenAccountFriendRequests;
+        private System.Collections.Generic.IList<AccountFriend> m_KeenAccountFriends;
         private System.DateTime m_LastLogin;
         private System.DateTime m_Modified;
         private System.String m_Name;
         private System.String m_Password;
-        private System.Collections.IList m_Places;
-        private System.Collections.IList m_ReminderEvents;
+        private System.Collections.Generic.IList<Place> m_Places;
+        private System.Collections.Generic.IList<ReminderEvent> m_ReminderEvents;
         private System.String m_Signature;
         private State m_State;
-        private System.Collections.IList m_Schedules;
-        private System.Collections.IList m_RefererAccounts;
-        private System.Collections.IList m_AccountContentGroups;
-        private System.Collections.IList m_AccountPropertyValues;
-        private System.Collections.IList m_AccountAttributes;
-        private System.Collections.IList m_AccountLicenses;
+        private System.Collections.Generic.IList<Schedule> m_Schedules;
+        private System.Collections.Generic.IList<RefererAccount> m_RefererAccounts;
+        private System.Collections.Generic.IList<AccountContentGroup> m_AccountContentGroups;
+        private System.Collections.Generic.IList<AccountPropertyValue> m_AccountPropertyValues;
+        private System.Collections.Generic.IList<AccountAttribute> m_AccountAttributes;
+        private System.Collections.Generic.IList<AccountLicense> m_AccountLicenses;
         private System.Boolean m_IsPasswordExpired;
-        private System.Collections.IList m_CampaignAccountRecepients;
+        private System.Collections.Generic.IList<CampaignAccountRecepient> m_CampaignAccountRecepients;
         private System.Int32 m_TimeZone;
-        private System.Collections.IList m_MadLibs;
-        private System.Collections.IList m_PlaceQueues;
-        private System.Collections.IList m_PlacePictures;
-        private System.Collections.IList m_AccountRedirects;
+        private System.Collections.Generic.IList<MadLib> m_MadLibs;
+        private System.Collections.Generic.IList<PlaceQueue> m_PlaceQueues;
+        private System.Collections.Generic.IList<PlacePicture> m_PlacePictures;
+        private System.Collections.Generic.IList<AccountRedirect> m_AccountRedirects;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -83,7 +80,7 @@ using System;
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -111,7 +108,7 @@ using System;
         ///The property maps to the identity column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountAddresses
+        virtual public System.Collections.Generic.IList<AccountAddress> AccountAddresses
         {
             get
             {
@@ -143,7 +140,7 @@ using System;
         ///The property maps to the identity column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountBlogAuthors
+        virtual public System.Collections.Generic.IList<AccountBlogAuthor> AccountBlogAuthors
         {
             get
             {
@@ -175,7 +172,7 @@ using System;
         ///The property maps to the identity column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountBlogs
+        virtual public System.Collections.Generic.IList<AccountBlog> AccountBlogs
         {
             get
             {
@@ -207,7 +204,7 @@ using System;
         ///The property maps to the identity column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountEmailMessages
+        virtual public System.Collections.Generic.IList<AccountEmailMessage> AccountEmailMessages
         {
             get
             {
@@ -239,7 +236,7 @@ using System;
         ///The property maps to the identity column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountEmails
+        virtual public System.Collections.Generic.IList<AccountEmail> AccountEmails
         {
             get
             {
@@ -271,7 +268,7 @@ using System;
         ///The property maps to the identity column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountEvents
+        virtual public System.Collections.Generic.IList<AccountEvent> AccountEvents
         {
             get
             {
@@ -303,7 +300,7 @@ using System;
         ///The property maps to the identity column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountFeeds
+        virtual public System.Collections.Generic.IList<AccountFeed> AccountFeeds
         {
             get
             {
@@ -335,7 +332,7 @@ using System;
         ///The property maps to the identity column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountFriendRequests
+        virtual public System.Collections.Generic.IList<AccountFriendRequest> AccountFriendRequests
         {
             get
             {
@@ -367,7 +364,7 @@ using System;
         ///The property maps to the identity column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountFriends
+        virtual public System.Collections.Generic.IList<AccountFriend> AccountFriends
         {
             get
             {
@@ -399,7 +396,7 @@ using System;
         ///The property maps to the identity column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountInvitations
+        virtual public System.Collections.Generic.IList<AccountInvitation> AccountInvitations
         {
             get
             {
@@ -431,7 +428,7 @@ using System;
         ///The property maps to the identity column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountMessageFolders
+        virtual public System.Collections.Generic.IList<AccountMessageFolder> AccountMessageFolders
         {
             get
             {
@@ -463,7 +460,7 @@ using System;
         ///The property maps to the identity column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountMessages
+        virtual public System.Collections.Generic.IList<AccountMessage> AccountMessages
         {
             get
             {
@@ -495,7 +492,7 @@ using System;
         ///The property maps to the identity column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountOpenIds
+        virtual public System.Collections.Generic.IList<AccountOpenId> AccountOpenIds
         {
             get
             {
@@ -527,7 +524,7 @@ using System;
         ///The property maps to the identity column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountPictures
+        virtual public System.Collections.Generic.IList<AccountPicture> AccountPictures
         {
             get
             {
@@ -559,7 +556,7 @@ using System;
         ///The property maps to the identity column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountPlaceFavorites
+        virtual public System.Collections.Generic.IList<AccountPlaceFavorite> AccountPlaceFavorites
         {
             get
             {
@@ -591,7 +588,7 @@ using System;
         ///The property maps to the identity column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountPlaceRequests
+        virtual public System.Collections.Generic.IList<AccountPlaceRequest> AccountPlaceRequests
         {
             get
             {
@@ -623,7 +620,7 @@ using System;
         ///The property maps to the identity column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountPlaces
+        virtual public System.Collections.Generic.IList<AccountPlace> AccountPlaces
         {
             get
             {
@@ -655,7 +652,7 @@ using System;
         ///The property maps to the identity column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountStories
+        virtual public System.Collections.Generic.IList<AccountStory> AccountStories
         {
             get
             {
@@ -687,7 +684,7 @@ using System;
         ///The property maps to the identity column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountSurveyAnswers
+        virtual public System.Collections.Generic.IList<AccountSurveyAnswer> AccountSurveyAnswers
         {
             get
             {
@@ -719,7 +716,7 @@ using System;
         ///The property maps to the identity column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountWebsites
+        virtual public System.Collections.Generic.IList<AccountWebsite> AccountWebsites
         {
             get
             {
@@ -744,7 +741,7 @@ using System;
         ///The property maps to the column 'Birthday' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Birthday
+        virtual public System.DateTime Birthday
         {
             get
             {
@@ -769,7 +766,7 @@ using System;
         ///The property maps to the column 'City' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String City
+        virtual public System.String City
         {
             get
             {
@@ -796,7 +793,7 @@ using System;
         ///The property maps to the column 'Country_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  Country Country
+        virtual public Country Country
         {
             get
             {
@@ -821,7 +818,7 @@ using System;
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Created
+        virtual public System.DateTime Created
         {
             get
             {
@@ -853,7 +850,7 @@ using System;
         ///The property maps to the identity column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList Discussions
+        virtual public System.Collections.Generic.IList<Discussion> Discussions
         {
             get
             {
@@ -878,7 +875,7 @@ using System;
         ///The property maps to the column 'Enabled' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Boolean Enabled
+        virtual public System.Boolean Enabled
         {
             get
             {
@@ -903,7 +900,7 @@ using System;
         ///The property maps to the column 'IsAdministrator' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Boolean IsAdministrator
+        virtual public System.Boolean IsAdministrator
         {
             get
             {
@@ -935,7 +932,7 @@ using System;
         ///The property maps to the identity column 'Keen_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList KeenAccountFriendRequests
+        virtual public System.Collections.Generic.IList<AccountFriendRequest> KeenAccountFriendRequests
         {
             get
             {
@@ -967,7 +964,7 @@ using System;
         ///The property maps to the identity column 'Keen_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList KeenAccountFriends
+        virtual public System.Collections.Generic.IList<AccountFriend> KeenAccountFriends
         {
             get
             {
@@ -992,7 +989,7 @@ using System;
         ///The property maps to the column 'LastLogin' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime LastLogin
+        virtual public System.DateTime LastLogin
         {
             get
             {
@@ -1017,7 +1014,7 @@ using System;
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Modified
+        virtual public System.DateTime Modified
         {
             get
             {
@@ -1042,7 +1039,7 @@ using System;
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Name
+        virtual public System.String Name
         {
             get
             {
@@ -1067,7 +1064,7 @@ using System;
         ///The property maps to the column 'Password' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Password
+        virtual public System.String Password
         {
             get
             {
@@ -1099,7 +1096,7 @@ using System;
         ///The property maps to the identity column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList Places
+        virtual public System.Collections.Generic.IList<Place> Places
         {
             get
             {
@@ -1131,7 +1128,7 @@ using System;
         ///The property maps to the identity column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList ReminderEvents
+        virtual public System.Collections.Generic.IList<ReminderEvent> ReminderEvents
         {
             get
             {
@@ -1156,7 +1153,7 @@ using System;
         ///The property maps to the column 'Signature' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Signature
+        virtual public System.String Signature
         {
             get
             {
@@ -1183,7 +1180,7 @@ using System;
         ///The property maps to the column 'State_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  State State
+        virtual public State State
         {
             get
             {
@@ -1215,7 +1212,7 @@ using System;
         ///The property maps to the identity column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList Schedules
+        virtual public System.Collections.Generic.IList<Schedule> Schedules
         {
             get
             {
@@ -1246,7 +1243,7 @@ using System;
         ///The property maps to the identity column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList RefererAccounts
+        virtual public System.Collections.Generic.IList<RefererAccount> RefererAccounts
         {
             get
             {
@@ -1277,7 +1274,7 @@ using System;
         ///The property maps to the identity column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountContentGroups
+        virtual public System.Collections.Generic.IList<AccountContentGroup> AccountContentGroups
         {
             get
             {
@@ -1308,7 +1305,7 @@ using System;
         ///The property maps to the identity column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountPropertyValues
+        virtual public System.Collections.Generic.IList<AccountPropertyValue> AccountPropertyValues
         {
             get
             {
@@ -1339,7 +1336,7 @@ using System;
         ///The property maps to the identity column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountAttributes
+        virtual public System.Collections.Generic.IList<AccountAttribute> AccountAttributes
         {
             get
             {
@@ -1370,7 +1367,7 @@ using System;
         ///The property maps to the identity column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountLicenses
+        virtual public System.Collections.Generic.IList<AccountLicense> AccountLicenses
         {
             get
             {
@@ -1395,7 +1392,7 @@ using System;
         ///The property maps to the column 'IsPasswordExpired' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Boolean IsPasswordExpired
+        virtual public System.Boolean IsPasswordExpired
         {
             get
             {
@@ -1426,7 +1423,7 @@ using System;
         ///The property maps to the identity column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList CampaignAccountRecepients
+        virtual public System.Collections.Generic.IList<CampaignAccountRecepient> CampaignAccountRecepients
         {
             get
             {
@@ -1451,7 +1448,7 @@ using System;
         ///The property maps to the column 'TimeZone' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 TimeZone
+        virtual public System.Int32 TimeZone
         {
             get
             {
@@ -1482,7 +1479,7 @@ using System;
         ///The property maps to the identity column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList MadLibs
+        virtual public System.Collections.Generic.IList<MadLib> MadLibs
         {
             get
             {
@@ -1513,7 +1510,7 @@ using System;
         ///The property maps to the identity column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList PlaceQueues
+        virtual public System.Collections.Generic.IList<PlaceQueue> PlaceQueues
         {
             get
             {
@@ -1544,7 +1541,7 @@ using System;
         ///The property maps to the identity column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList PlacePictures
+        virtual public System.Collections.Generic.IList<PlacePicture> PlacePictures
         {
             get
             {
@@ -1575,7 +1572,7 @@ using System;
         ///The property maps to the identity column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountRedirects
+        virtual public System.Collections.Generic.IList<AccountRedirect> AccountRedirects
         {
             get
             {
@@ -1589,11 +1586,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

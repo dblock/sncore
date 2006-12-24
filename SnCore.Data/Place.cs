@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'Place' entities.
@@ -9,18 +9,16 @@ using System;
     ///This class maps to the 'Place' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class Place
+    public class Place : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private Account m_Account;
-        private System.Collections.IList m_AccountEvents;
-        private System.Collections.IList m_AccountPlaceFavorites;
-        private System.Collections.IList m_AccountPlaceRequests;
-        private System.Collections.IList m_AccountPlaces;
+        private System.Collections.Generic.IList<AccountEvent> m_AccountEvents;
+        private System.Collections.Generic.IList<AccountPlaceFavorite> m_AccountPlaceFavorites;
+        private System.Collections.Generic.IList<AccountPlaceRequest> m_AccountPlaceRequests;
+        private System.Collections.Generic.IList<AccountPlace> m_AccountPlaces;
         private City m_City;
         private System.DateTime m_Created;
         private System.String m_CrossStreet;
@@ -30,18 +28,17 @@ using System;
         private System.DateTime m_Modified;
         private System.String m_Name;
         private System.String m_Phone;
-        private System.Collections.IList m_PlaceNames;
-        private System.Collections.IList m_PlacePictures;
+        private System.Collections.Generic.IList<PlaceName> m_PlaceNames;
+        private System.Collections.Generic.IList<PlacePicture> m_PlacePictures;
         private System.String m_Street;
         private PlaceType m_Type;
         private System.String m_Website;
         private System.String m_Zip;
-        private System.Collections.IList m_PlacePropertyValues;
-        private System.Collections.IList m_PlaceAttributes;
-        private System.Collections.IList m_PlaceQueueItems;
+        private System.Collections.Generic.IList<PlacePropertyValue> m_PlacePropertyValues;
+        private System.Collections.Generic.IList<PlaceAttribute> m_PlaceAttributes;
+        private System.Collections.Generic.IList<PlaceQueueItem> m_PlaceQueueItems;
         private Neighborhood m_Neighborhood;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -57,7 +54,7 @@ using System;
         ///The property maps to the column 'Place_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -80,7 +77,7 @@ using System;
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  Account Account
+        virtual public Account Account
         {
             get
             {
@@ -112,7 +109,7 @@ using System;
         ///The property maps to the identity column 'Place_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountEvents
+        virtual public System.Collections.Generic.IList<AccountEvent> AccountEvents
         {
             get
             {
@@ -144,7 +141,7 @@ using System;
         ///The property maps to the identity column 'Place_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountPlaceFavorites
+        virtual public System.Collections.Generic.IList<AccountPlaceFavorite> AccountPlaceFavorites
         {
             get
             {
@@ -176,7 +173,7 @@ using System;
         ///The property maps to the identity column 'Place_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountPlaceRequests
+        virtual public System.Collections.Generic.IList<AccountPlaceRequest> AccountPlaceRequests
         {
             get
             {
@@ -208,7 +205,7 @@ using System;
         ///The property maps to the identity column 'Place_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountPlaces
+        virtual public System.Collections.Generic.IList<AccountPlace> AccountPlaces
         {
             get
             {
@@ -235,7 +232,7 @@ using System;
         ///The property maps to the column 'City_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  City City
+        virtual public City City
         {
             get
             {
@@ -260,7 +257,7 @@ using System;
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Created
+        virtual public System.DateTime Created
         {
             get
             {
@@ -285,7 +282,7 @@ using System;
         ///The property maps to the column 'CrossStreet' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String CrossStreet
+        virtual public System.String CrossStreet
         {
             get
             {
@@ -310,7 +307,7 @@ using System;
         ///The property maps to the column 'Description' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Description
+        virtual public System.String Description
         {
             get
             {
@@ -335,7 +332,7 @@ using System;
         ///The property maps to the column 'Email' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Email
+        virtual public System.String Email
         {
             get
             {
@@ -360,7 +357,7 @@ using System;
         ///The property maps to the column 'Fax' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Fax
+        virtual public System.String Fax
         {
             get
             {
@@ -385,7 +382,7 @@ using System;
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Modified
+        virtual public System.DateTime Modified
         {
             get
             {
@@ -410,7 +407,7 @@ using System;
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Name
+        virtual public System.String Name
         {
             get
             {
@@ -435,7 +432,7 @@ using System;
         ///The property maps to the column 'Phone' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Phone
+        virtual public System.String Phone
         {
             get
             {
@@ -467,7 +464,7 @@ using System;
         ///The property maps to the identity column 'Place_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList PlaceNames
+        virtual public System.Collections.Generic.IList<PlaceName> PlaceNames
         {
             get
             {
@@ -499,7 +496,7 @@ using System;
         ///The property maps to the identity column 'Place_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList PlacePictures
+        virtual public System.Collections.Generic.IList<PlacePicture> PlacePictures
         {
             get
             {
@@ -524,7 +521,7 @@ using System;
         ///The property maps to the column 'Street' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Street
+        virtual public System.String Street
         {
             get
             {
@@ -551,7 +548,7 @@ using System;
         ///The property maps to the column 'Type' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  PlaceType Type
+        virtual public PlaceType Type
         {
             get
             {
@@ -576,7 +573,7 @@ using System;
         ///The property maps to the column 'Website' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Website
+        virtual public System.String Website
         {
             get
             {
@@ -601,7 +598,7 @@ using System;
         ///The property maps to the column 'Zip' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Zip
+        virtual public System.String Zip
         {
             get
             {
@@ -632,7 +629,7 @@ using System;
         ///The property maps to the identity column 'Place_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList PlacePropertyValues
+        virtual public System.Collections.Generic.IList<PlacePropertyValue> PlacePropertyValues
         {
             get
             {
@@ -663,7 +660,7 @@ using System;
         ///The property maps to the identity column 'Place_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList PlaceAttributes
+        virtual public System.Collections.Generic.IList<PlaceAttribute> PlaceAttributes
         {
             get
             {
@@ -694,7 +691,7 @@ using System;
         ///The property maps to the identity column 'Place_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList PlaceQueueItems
+        virtual public System.Collections.Generic.IList<PlaceQueueItem> PlaceQueueItems
         {
             get
             {
@@ -721,7 +718,7 @@ using System;
         ///The property maps to the column 'Neighborhood_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  Neighborhood Neighborhood
+        virtual public Neighborhood Neighborhood
         {
             get
             {
@@ -735,11 +732,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'Bookmark' entities.
@@ -9,12 +9,10 @@ using System;
     ///This class maps to the 'Bookmark' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class Bookmark
+    public class Bookmark : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private System.DateTime m_Created;
         private System.String m_Description;
@@ -24,7 +22,6 @@ using System;
         private System.String m_Name;
         private System.String m_Url;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -40,7 +37,7 @@ using System;
         ///The property maps to the column 'Bookmark_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -61,7 +58,7 @@ using System;
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Created
+        virtual public System.DateTime Created
         {
             get
             {
@@ -86,7 +83,7 @@ using System;
         ///The property maps to the column 'Description' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Description
+        virtual public System.String Description
         {
             get
             {
@@ -111,7 +108,7 @@ using System;
         ///The property maps to the column 'FullBitmap' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Byte[] FullBitmap
+        virtual public System.Byte[] FullBitmap
         {
             get
             {
@@ -136,7 +133,7 @@ using System;
         ///The property maps to the column 'LinkBitmap' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Byte[] LinkBitmap
+        virtual public System.Byte[] LinkBitmap
         {
             get
             {
@@ -161,7 +158,7 @@ using System;
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Modified
+        virtual public System.DateTime Modified
         {
             get
             {
@@ -186,7 +183,7 @@ using System;
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Name
+        virtual public System.String Name
         {
             get
             {
@@ -211,7 +208,7 @@ using System;
         ///The property maps to the column 'Url' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Url
+        virtual public System.String Url
         {
             get
             {
@@ -225,11 +222,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

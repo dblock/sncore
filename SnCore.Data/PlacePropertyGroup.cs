@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'PlacePropertyGroup' entities.
@@ -9,18 +9,15 @@ using System;
     ///This class maps to the 'PlacePropertyGroup' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class PlacePropertyGroup
+    public class PlacePropertyGroup : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private System.String m_Description;
         private System.String m_Name;
-        private System.Collections.IList m_PlaceProperties;
+        private System.Collections.Generic.IList<PlaceProperty> m_PlaceProperties;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -36,7 +33,7 @@ using System;
         ///The property maps to the column 'PlacePropertyGroup_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -57,7 +54,7 @@ using System;
         ///The property maps to the column 'Description' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Description
+        virtual public System.String Description
         {
             get
             {
@@ -82,7 +79,7 @@ using System;
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Name
+        virtual public System.String Name
         {
             get
             {
@@ -113,7 +110,7 @@ using System;
         ///The property maps to the identity column 'PlacePropertyGroup_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList PlaceProperties
+        virtual public System.Collections.Generic.IList<PlaceProperty> PlaceProperties
         {
             get
             {
@@ -127,11 +124,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

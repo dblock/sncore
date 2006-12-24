@@ -197,7 +197,7 @@ namespace SnCore.Services
             AccountName = o.Account.Name;
             PlaceName = o.Place.Name;
             AccountPictureId = ManagedAccount.GetRandomAccountPictureId(o.Account);
-            PlacePictureId = ManagedService.GetRandomElementId(o.Place.PlacePictures);
+            PlacePictureId = ManagedService<PlacePicture>.GetRandomElementId(o.Place.PlacePictures);
             CanWrite = o.Type.CanWrite;
         }
 
@@ -218,7 +218,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountPlace : ManagedService
+    public class ManagedAccountPlace : ManagedService<AccountPlace>
     {
         private AccountPlace mAccountPlace = null;
 

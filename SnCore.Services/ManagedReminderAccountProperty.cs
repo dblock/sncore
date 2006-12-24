@@ -116,7 +116,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed ReminderAccountProperty.
     /// </summary>
-    public class ManagedReminderAccountProperty : ManagedService
+    public class ManagedReminderAccountProperty : ManagedService<ReminderAccountProperty>
     {
         private ReminderAccountProperty mReminderAccountProperty = null;
 

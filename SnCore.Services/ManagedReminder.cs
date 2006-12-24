@@ -186,7 +186,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed reminder.
     /// </summary>
-    public class ManagedReminder : ManagedService
+    public class ManagedReminder : ManagedService<Reminder>
     {
         private Reminder mReminder = null;
 

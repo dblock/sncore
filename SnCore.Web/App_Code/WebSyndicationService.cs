@@ -287,8 +287,8 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery(string.Format(
-                    "SELECT COUNT(i) FROM AccountFeed i WHERE i.Account.Id = {0}",
+                return (int) session.CreateQuery(string.Format(
+                    "SELECT COUNT(*) FROM AccountFeed i WHERE i.Account.Id = {0}",
                         id)).UniqueResult();
             }
         }
@@ -344,7 +344,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery("SELECT COUNT(f) " +
+                return (int) session.CreateQuery("SELECT COUNT(*) " +
                     "FROM AccountFeed f").UniqueResult();
             }
         }
@@ -423,8 +423,8 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery(
-                    "SELECT COUNT(i) FROM AccountFeedItem i" +
+                return (int) session.CreateQuery(
+                    "SELECT COUNT(*) FROM AccountFeedItem i" +
                     " WHERE i.AccountFeed.Publish = 1").UniqueResult();
             }
         }
@@ -443,7 +443,7 @@ namespace SnCore.WebServices
                 IQuery q = session.CreateQuery(
                     "SELECT i FROM AccountFeedItem i" +
                     " WHERE i.AccountFeed.Publish = 1" +
-                    " ORDER BY Created DESC");
+                    " ORDER BY i.Created DESC");
 
                 if (options != null)
                 {
@@ -500,8 +500,8 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery(string.Format(
-                    "SELECT COUNT(i) FROM AccountFeedItem i WHERE i.AccountFeed.Id = {0}",
+                return (int) session.CreateQuery(string.Format(
+                    "SELECT COUNT(*) FROM AccountFeedItem i WHERE i.AccountFeed.Id = {0}",
                         id)).UniqueResult();
             }
         }
@@ -620,7 +620,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)options.CreateCountQuery(session).UniqueResult();
+                return (int) options.CreateCountQuery(session).UniqueResult();
             }
         }
 

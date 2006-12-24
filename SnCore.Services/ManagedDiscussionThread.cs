@@ -87,7 +87,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed discussion thread.
     /// </summary>
-    public class ManagedDiscussionThread : ManagedService
+    public class ManagedDiscussionThread : ManagedService<DiscussionThread>
     {
         private DiscussionThread mDiscussionThread = null;
 

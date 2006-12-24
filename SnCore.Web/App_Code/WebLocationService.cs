@@ -39,7 +39,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery("SELECT COUNT(c) FROM Country c").UniqueResult();
+                return (int) session.CreateQuery("SELECT COUNT(*) FROM Country c").UniqueResult();
             }
         }
 
@@ -160,7 +160,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery("SELECT COUNT(s) FROM State s").UniqueResult();
+                return (int) session.CreateQuery("SELECT COUNT(*) FROM State s").UniqueResult();
             }
         }
 
@@ -302,7 +302,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery("SELECT COUNT(c) FROM City c").UniqueResult();
+                return (int) session.CreateQuery("SELECT COUNT(*) FROM City c").UniqueResult();
             }
         }
 
@@ -540,7 +540,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery("SELECT COUNT(nh) FROM Neighborhood nh").UniqueResult();
+                return (int) session.CreateQuery("SELECT COUNT(*) FROM Neighborhood nh").UniqueResult();
             }
         }
 

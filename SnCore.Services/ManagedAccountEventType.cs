@@ -48,7 +48,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountEventType : ManagedService
+    public class ManagedAccountEventType : ManagedService<AccountEventType>
     {
         private AccountEventType mAccountEventType = null;
 

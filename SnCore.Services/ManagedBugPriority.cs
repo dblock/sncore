@@ -51,7 +51,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed bug Priority.
     /// </summary>
-    public class ManagedBugPriority : ManagedService
+    public class ManagedBugPriority : ManagedService<BugPriority>
     {
         private BugPriority mBugPriority = null;
 

@@ -49,7 +49,7 @@ namespace SnCore.Services
 
     }
 
-    public class ManagedSurvey : ManagedService
+    public class ManagedSurvey : ManagedService<Survey>
     {
         public class InvalidSurveyException : SoapException
         {

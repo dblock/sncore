@@ -102,7 +102,7 @@ public partial class TagWordsViewControl : Control
             }
     }
 
-    public int GetFontSize(int frequency)
+    public long GetFontSize(int frequency)
     {
         int frequencyDelta = MaxFrequency - MinFrequency;
         if (frequencyDelta <= 0)

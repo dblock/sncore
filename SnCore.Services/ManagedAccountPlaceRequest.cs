@@ -2,7 +2,7 @@ using System;
 using NHibernate;
 using System.Text;
 using System.Security.Cryptography;
-using System.Collections;
+using System.Collections.Generic;
 using NHibernate.Expression;
 using System.Web.Services.Protocols;
 using System.Xml;
@@ -152,7 +152,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountPlaceRequest : ManagedService
+    public class ManagedAccountPlaceRequest : ManagedService<AccountPlaceRequest>
     {
         private AccountPlaceRequest mAccountPlaceRequest = null;
 
@@ -236,10 +236,10 @@ namespace SnCore.Services
             place.Description = string.Format("System-approved on {0}.", DateTime.UtcNow.ToString());
             Session.Save(place);
 
-            if (mAccountPlaceRequest.Account.AccountPlaces == null) mAccountPlaceRequest.Account.AccountPlaces = new ArrayList();
+            if (mAccountPlaceRequest.Account.AccountPlaces == null) mAccountPlaceRequest.Account.AccountPlaces = new List<AccountPlace>();
             mAccountPlaceRequest.Account.AccountPlaces.Add(place);
 
-            if (mAccountPlaceRequest.Place.AccountPlaces == null) mAccountPlaceRequest.Place.AccountPlaces = new ArrayList();
+            if (mAccountPlaceRequest.Place.AccountPlaces == null) mAccountPlaceRequest.Place.AccountPlaces = new List<AccountPlace>();
             mAccountPlaceRequest.Place.AccountPlaces.Add(place);
 
             ManagedAccount recepient = new ManagedAccount(Session, mAccountPlaceRequest.Account);

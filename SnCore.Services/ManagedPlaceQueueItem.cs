@@ -166,7 +166,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedPlaceQueueItem : ManagedService
+    public class ManagedPlaceQueueItem : ManagedService<PlaceQueueItem>
     {
         private PlaceQueueItem mPlaceQueueItem = null;
 

@@ -141,7 +141,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountAttribute : ManagedService
+    public class ManagedAccountAttribute : ManagedService<AccountAttribute>
     {
         private AccountAttribute mAccountAttribute = null;
 

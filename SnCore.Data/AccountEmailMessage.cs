@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'AccountEmailMessage' entities.
@@ -9,12 +9,10 @@ using System;
     ///This class maps to the 'AccountEmailMessage' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountEmailMessage
+    public class AccountEmailMessage : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private Account m_Account;
         private System.String m_Body;
@@ -27,7 +25,6 @@ using System;
         private System.Boolean m_Sent;
         private System.String m_Subject;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -43,7 +40,7 @@ using System;
         ///The property maps to the column 'AccountEmailMessage_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -66,7 +63,7 @@ using System;
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  Account Account
+        virtual public Account Account
         {
             get
             {
@@ -91,7 +88,7 @@ using System;
         ///The property maps to the column 'Body' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Body
+        virtual public System.String Body
         {
             get
             {
@@ -116,7 +113,7 @@ using System;
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Created
+        virtual public System.DateTime Created
         {
             get
             {
@@ -141,7 +138,7 @@ using System;
         ///The property maps to the column 'DeleteSent' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Boolean DeleteSent
+        virtual public System.Boolean DeleteSent
         {
             get
             {
@@ -166,7 +163,7 @@ using System;
         ///The property maps to the column 'MailFrom' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String MailFrom
+        virtual public System.String MailFrom
         {
             get
             {
@@ -191,7 +188,7 @@ using System;
         ///The property maps to the column 'MailTo' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String MailTo
+        virtual public System.String MailTo
         {
             get
             {
@@ -216,7 +213,7 @@ using System;
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Modified
+        virtual public System.DateTime Modified
         {
             get
             {
@@ -241,7 +238,7 @@ using System;
         ///The property maps to the column 'SendError' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String SendError
+        virtual public System.String SendError
         {
             get
             {
@@ -266,7 +263,7 @@ using System;
         ///The property maps to the column 'Sent' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Boolean Sent
+        virtual public System.Boolean Sent
         {
             get
             {
@@ -291,7 +288,7 @@ using System;
         ///The property maps to the column 'Subject' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Subject
+        virtual public System.String Subject
         {
             get
             {
@@ -305,11 +302,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

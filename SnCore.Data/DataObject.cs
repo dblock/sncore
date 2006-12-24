@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'DataObject' entities.
@@ -9,19 +9,16 @@ using System;
     ///This class maps to the 'DataObject' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class DataObject
+    public class DataObject : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
-        private System.Collections.IList m_Features;
+        private System.Collections.Generic.IList<Feature> m_Features;
         private System.String m_Name;
-        private System.Collections.IList m_Reminders;
-        private System.Collections.IList m_MadLibInstances;
+        private System.Collections.Generic.IList<Reminder> m_Reminders;
+        private System.Collections.Generic.IList<MadLibInstance> m_MadLibInstances;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -37,7 +34,7 @@ using System;
         ///The property maps to the column 'DataObject_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -65,7 +62,7 @@ using System;
         ///The property maps to the identity column 'DataObject_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList Features
+        virtual public System.Collections.Generic.IList<Feature> Features
         {
             get
             {
@@ -90,7 +87,7 @@ using System;
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Name
+        virtual public System.String Name
         {
             get
             {
@@ -122,7 +119,7 @@ using System;
         ///The property maps to the identity column 'DataObject_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList Reminders
+        virtual public System.Collections.Generic.IList<Reminder> Reminders
         {
             get
             {
@@ -153,7 +150,7 @@ using System;
         ///The property maps to the identity column 'DataObject_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList MadLibInstances
+        virtual public System.Collections.Generic.IList<MadLibInstance> MadLibInstances
         {
             get
             {
@@ -167,11 +164,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

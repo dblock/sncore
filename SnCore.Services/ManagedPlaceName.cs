@@ -94,7 +94,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed place alternative name.
     /// </summary>
-    public class ManagedPlaceName : ManagedService
+    public class ManagedPlaceName : ManagedService<PlaceName>
     {
         private PlaceName mPlaceName = null;
 

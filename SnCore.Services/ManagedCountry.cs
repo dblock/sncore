@@ -51,7 +51,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed country.
     /// </summary>
-    public class ManagedCountry : ManagedService
+    public class ManagedCountry : ManagedService<Country>
     {
         public class InvalidCountryException : SoapException
         {

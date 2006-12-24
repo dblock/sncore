@@ -885,8 +885,8 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery(string.Format(
-                    "SELECT COUNT(r) FROM ReminderAccountProperty r WHERE r.Reminder.Id = {0}",
+                return (int) session.CreateQuery(string.Format(
+                    "SELECT COUNT(*) FROM ReminderAccountProperty r WHERE r.Reminder.Id = {0}",
                     reminder_id)).UniqueResult();
             }
         }
@@ -1348,7 +1348,7 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 return (int) session.CreateQuery(string.Format(
-                    "SELECT COUNT(f) FROM Feature f WHERE f.DataObject.Id = {0}",
+                    "SELECT COUNT(*) FROM Feature f WHERE f.DataObject.Id = {0}",
                     ManagedDataObject.Find(session, featuretype))).UniqueResult();
             }
         }

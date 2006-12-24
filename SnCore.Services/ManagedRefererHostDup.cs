@@ -101,7 +101,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed RefererHostDup.
     /// </summary>
-    public class ManagedRefererHostDup : ManagedService
+    public class ManagedRefererHostDup : ManagedService<RefererHostDup>
     {
         private RefererHostDup mRefererHostDup = null;
 

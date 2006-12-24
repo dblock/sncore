@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'AccountPlace' entities.
@@ -9,12 +9,10 @@ using System;
     ///This class maps to the 'AccountPlace' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountPlace
+    public class AccountPlace : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private Account m_Account;
         private System.DateTime m_Created;
@@ -23,7 +21,6 @@ using System;
         private Place m_Place;
         private AccountPlaceType m_Type;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -39,7 +36,7 @@ using System;
         ///The property maps to the column 'AccountPlace_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -62,7 +59,7 @@ using System;
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  Account Account
+        virtual public Account Account
         {
             get
             {
@@ -87,7 +84,7 @@ using System;
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Created
+        virtual public System.DateTime Created
         {
             get
             {
@@ -112,7 +109,7 @@ using System;
         ///The property maps to the column 'Description' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Description
+        virtual public System.String Description
         {
             get
             {
@@ -137,7 +134,7 @@ using System;
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Modified
+        virtual public System.DateTime Modified
         {
             get
             {
@@ -164,7 +161,7 @@ using System;
         ///The property maps to the column 'Place_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  Place Place
+        virtual public Place Place
         {
             get
             {
@@ -191,7 +188,7 @@ using System;
         ///The property maps to the column 'Type_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  AccountPlaceType Type
+        virtual public AccountPlaceType Type
         {
             get
             {
@@ -205,11 +202,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

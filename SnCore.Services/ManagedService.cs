@@ -1,15 +1,15 @@
 using System;
 using NHibernate;
-using System.Collections;
+using System.Collections.Generic;
 using System.Web.Hosting;
 
 namespace SnCore.Services
 {
-    public class ManagedService
+    public class ManagedServiceImpl
     {
         private ISession mSession = null;
 
-        public ManagedService(ISession session)
+        public ManagedServiceImpl(ISession session)
         {
             Session = session;
         }
@@ -24,15 +24,24 @@ namespace SnCore.Services
             {
                 mSession = value;
             }
+        }       
+    }
+
+    public class ManagedService<T> : ManagedServiceImpl
+        where T : IDbObject
+    {
+        public ManagedService(ISession session)
+            : base(session)
+        {
+
         }
 
-        public static int GetRandomElementId(IList collection)
+        public static int GetRandomElementId(IList<T> collection)
         {
             if (collection == null || collection.Count == 0)
                 return 0;
 
-            object resultobject = collection[new Random().Next() % collection.Count];
-            return (int)resultobject.GetType().GetProperty("Id").GetValue(resultobject, null);
+            return collection[new Random().Next() % collection.Count].Id;
         }
     }
 }

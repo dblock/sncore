@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'Reminder' entities.
@@ -9,12 +9,10 @@ using System;
     ///This class maps to the 'Reminder' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class Reminder
+    public class Reminder : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private DataObject m_DataObject;
         private System.String m_DataObjectField;
@@ -23,11 +21,10 @@ using System;
         private System.DateTime m_LastRun;
         private System.String m_LastRunError;
         private System.Boolean m_Recurrent;
-        private System.Collections.IList m_ReminderEvents;
+        private System.Collections.Generic.IList<ReminderEvent> m_ReminderEvents;
         private System.String m_Url;
-        private System.Collections.IList m_ReminderAccountProperties;
+        private System.Collections.Generic.IList<ReminderAccountProperty> m_ReminderAccountProperties;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -43,7 +40,7 @@ using System;
         ///The property maps to the column 'Reminder_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -66,7 +63,7 @@ using System;
         ///The property maps to the column 'DataObject_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  DataObject DataObject
+        virtual public DataObject DataObject
         {
             get
             {
@@ -91,7 +88,7 @@ using System;
         ///The property maps to the column 'DataObjectField' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String DataObjectField
+        virtual public System.String DataObjectField
         {
             get
             {
@@ -116,7 +113,7 @@ using System;
         ///The property maps to the column 'DeltaHours' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 DeltaHours
+        virtual public System.Int32 DeltaHours
         {
             get
             {
@@ -141,7 +138,7 @@ using System;
         ///The property maps to the column 'Enabled' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Boolean Enabled
+        virtual public System.Boolean Enabled
         {
             get
             {
@@ -166,7 +163,7 @@ using System;
         ///The property maps to the column 'LastRun' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime LastRun
+        virtual public System.DateTime LastRun
         {
             get
             {
@@ -191,7 +188,7 @@ using System;
         ///The property maps to the column 'LastRunError' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String LastRunError
+        virtual public System.String LastRunError
         {
             get
             {
@@ -216,7 +213,7 @@ using System;
         ///The property maps to the column 'Recurrent' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Boolean Recurrent
+        virtual public System.Boolean Recurrent
         {
             get
             {
@@ -248,7 +245,7 @@ using System;
         ///The property maps to the identity column 'Reminder_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList ReminderEvents
+        virtual public System.Collections.Generic.IList<ReminderEvent> ReminderEvents
         {
             get
             {
@@ -273,7 +270,7 @@ using System;
         ///The property maps to the column 'Url' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Url
+        virtual public System.String Url
         {
             get
             {
@@ -304,7 +301,7 @@ using System;
         ///The property maps to the identity column 'Reminder_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList ReminderAccountProperties
+        virtual public System.Collections.Generic.IList<ReminderAccountProperty> ReminderAccountProperties
         {
             get
             {
@@ -318,11 +315,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

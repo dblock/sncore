@@ -70,9 +70,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NHibernate">
-      <Name>NHibernate</Name>
-      <HintPath>..\nhibernate\bin\NHibernate.dll</HintPath>
+    <Reference Include="NHibernate, Version=1.2.0.2002, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\NHibernate-Bin\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <Name>nunit.framework</Name>
@@ -102,6 +102,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AccountPictureTest.cs" />
+    <Compile Include="AccountPlaceFavoriteTest.cs" />
     <Compile Include="AccountTest.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -115,6 +116,7 @@
     <Compile Include="NHibernateTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="PlaceTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

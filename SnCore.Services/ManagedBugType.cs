@@ -51,7 +51,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed bug Type.
     /// </summary>
-    public class ManagedBugType : ManagedService
+    public class ManagedBugType : ManagedService<BugType>
     {
         private BugType mBugType = null;
 

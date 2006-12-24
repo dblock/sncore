@@ -50,7 +50,7 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 
-                return (int) session.CreateQuery(string.Format("SELECT COUNT(m) FROM MadLib m WHERE m.Account.Id = {0}",
+                return (int) session.CreateQuery(string.Format("SELECT COUNT(*) FROM MadLib m WHERE m.Account.Id = {0}",
                     accountid)).UniqueResult();
             }
         }
@@ -178,7 +178,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int)session.CreateQuery(string.Format("SELECT COUNT(m) FROM MadLibInstance m WHERE m.DataObject.Id = {0} AND m.ObjectId = {1}",
+                return (int) session.CreateQuery(string.Format("SELECT COUNT(*) FROM MadLibInstance m WHERE m.DataObject.Id = {0} AND m.ObjectId = {1}",
                     ManagedDataObject.Find(session, table), id)).UniqueResult();
             }
         }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'RefererQuery' entities.
@@ -9,19 +9,16 @@ using System;
     ///This class maps to the 'RefererQuery' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class RefererQuery
+    public class RefererQuery : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private System.DateTime m_Created;
         private System.String m_Keywords;
         private System.Int32 m_Total;
         private System.DateTime m_Updated;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -37,7 +34,7 @@ using System;
         ///The property maps to the column 'RefererQuery_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -58,7 +55,7 @@ using System;
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Created
+        virtual public System.DateTime Created
         {
             get
             {
@@ -83,7 +80,7 @@ using System;
         ///The property maps to the column 'Keywords' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Keywords
+        virtual public System.String Keywords
         {
             get
             {
@@ -108,7 +105,7 @@ using System;
         ///The property maps to the column 'Total' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Total
+        virtual public System.Int32 Total
         {
             get
             {
@@ -133,7 +130,7 @@ using System;
         ///The property maps to the column 'Updated' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Updated
+        virtual public System.DateTime Updated
         {
             get
             {
@@ -147,11 +144,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

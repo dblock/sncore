@@ -7,7 +7,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed system information.
     /// </summary>
-    public class ManagedSystem : ManagedService
+    public class ManagedSystem : ManagedServiceImpl
     {
         public ManagedSystem(ISession session)
             : base(session)

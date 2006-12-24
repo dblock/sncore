@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'AccountPicture' entities.
@@ -9,12 +9,10 @@ using System;
     ///This class maps to the 'AccountPicture' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountPicture
+    public class AccountPicture : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private Account m_Account;
         private System.Byte[] m_Bitmap;
@@ -24,7 +22,6 @@ using System;
         private System.String m_Name;
         private System.Boolean m_Hidden;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -40,7 +37,7 @@ using System;
         ///The property maps to the column 'AccountPicture_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -63,7 +60,7 @@ using System;
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  Account Account
+        virtual public Account Account
         {
             get
             {
@@ -88,7 +85,7 @@ using System;
         ///The property maps to the column 'Bitmap' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Byte[] Bitmap
+        virtual public System.Byte[] Bitmap
         {
             get
             {
@@ -113,7 +110,7 @@ using System;
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Created
+        virtual public System.DateTime Created
         {
             get
             {
@@ -138,7 +135,7 @@ using System;
         ///The property maps to the column 'Description' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Description
+        virtual public System.String Description
         {
             get
             {
@@ -163,7 +160,7 @@ using System;
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Modified
+        virtual public System.DateTime Modified
         {
             get
             {
@@ -188,7 +185,7 @@ using System;
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Name
+        virtual public System.String Name
         {
             get
             {
@@ -213,7 +210,7 @@ using System;
         ///The property maps to the column 'Hidden' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Boolean Hidden
+        virtual public System.Boolean Hidden
         {
             get
             {
@@ -227,11 +224,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

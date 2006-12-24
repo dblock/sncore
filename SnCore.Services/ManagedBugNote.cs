@@ -146,7 +146,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed bug Note.
     /// </summary>
-    public class ManagedBugNote : ManagedService
+    public class ManagedBugNote : ManagedService<BugNote>
     {
         private BugNote mBugNote = null;
 

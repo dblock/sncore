@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'AccountFeed' entities.
@@ -9,15 +9,13 @@ using System;
     ///This class maps to the 'AccountFeed' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountFeed
+    public class AccountFeed : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private Account m_Account;
-        private System.Collections.IList m_AccountFeedItems;
+        private System.Collections.Generic.IList<AccountFeedItem> m_AccountFeedItems;
         private System.DateTime m_Created;
         private System.String m_Description;
         private FeedType m_FeedType;
@@ -32,7 +30,6 @@ using System;
         private System.String m_Username;
         private System.Boolean m_PublishImgs;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -48,7 +45,7 @@ using System;
         ///The property maps to the column 'AccountFeed_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -71,7 +68,7 @@ using System;
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  Account Account
+        virtual public Account Account
         {
             get
             {
@@ -103,7 +100,7 @@ using System;
         ///The property maps to the identity column 'AccountFeed_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Collections.IList AccountFeedItems
+        virtual public System.Collections.Generic.IList<AccountFeedItem> AccountFeedItems
         {
             get
             {
@@ -128,7 +125,7 @@ using System;
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Created
+        virtual public System.DateTime Created
         {
             get
             {
@@ -153,7 +150,7 @@ using System;
         ///The property maps to the column 'Description' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Description
+        virtual public System.String Description
         {
             get
             {
@@ -180,7 +177,7 @@ using System;
         ///The property maps to the column 'FeedType_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  FeedType FeedType
+        virtual public FeedType FeedType
         {
             get
             {
@@ -205,7 +202,7 @@ using System;
         ///The property maps to the column 'FeedUrl' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String FeedUrl
+        virtual public System.String FeedUrl
         {
             get
             {
@@ -230,7 +227,7 @@ using System;
         ///The property maps to the column 'LastError' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String LastError
+        virtual public System.String LastError
         {
             get
             {
@@ -255,7 +252,7 @@ using System;
         ///The property maps to the column 'LinkUrl' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String LinkUrl
+        virtual public System.String LinkUrl
         {
             get
             {
@@ -280,7 +277,7 @@ using System;
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Name
+        virtual public System.String Name
         {
             get
             {
@@ -305,7 +302,7 @@ using System;
         ///The property maps to the column 'Password' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Password
+        virtual public System.String Password
         {
             get
             {
@@ -330,7 +327,7 @@ using System;
         ///The property maps to the column 'Publish' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Boolean Publish
+        virtual public System.Boolean Publish
         {
             get
             {
@@ -355,7 +352,7 @@ using System;
         ///The property maps to the column 'Updated' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Updated
+        virtual public System.DateTime Updated
         {
             get
             {
@@ -380,7 +377,7 @@ using System;
         ///The property maps to the column 'UpdateFrequency' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 UpdateFrequency
+        virtual public System.Int32 UpdateFrequency
         {
             get
             {
@@ -405,7 +402,7 @@ using System;
         ///The property maps to the column 'Username' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Username
+        virtual public System.String Username
         {
             get
             {
@@ -430,7 +427,7 @@ using System;
         ///The property maps to the column 'PublishImgs' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Boolean PublishImgs
+        virtual public System.Boolean PublishImgs
         {
             get
             {
@@ -444,11 +441,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 

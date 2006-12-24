@@ -1,4 +1,4 @@
-using System;
+﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
     ///Persistent domain entity class representing 'AccountBlogPost' entities.
@@ -9,12 +9,10 @@ using System;
     ///This class maps to the 'AccountBlogPost' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountBlogPost
+    public class AccountBlogPost : IDbObject
     {
 #region " Generated Code Region "
-        //Private field variables
 
-        //Holds property values
         private System.Int32 m_Id;
         private AccountBlog m_AccountBlog;
         private System.Int32 m_AccountId;
@@ -24,7 +22,6 @@ using System;
         private System.DateTime m_Modified;
         private System.String m_Title;
 
-        //Public properties
         ///--------------------------------------------------------------------------------
         ///<summary>
         ///Persistent primitive identity property.
@@ -40,7 +37,7 @@ using System;
         ///The property maps to the column 'AccountBlogPost_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 Id
+        virtual public System.Int32 Id
         {
             get
             {
@@ -63,7 +60,7 @@ using System;
         ///The property maps to the column 'AccountBlog_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  AccountBlog AccountBlog
+        virtual public AccountBlog AccountBlog
         {
             get
             {
@@ -88,7 +85,7 @@ using System;
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.Int32 AccountId
+        virtual public System.Int32 AccountId
         {
             get
             {
@@ -113,7 +110,7 @@ using System;
         ///The property maps to the column 'AccountName' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String AccountName
+        virtual public System.String AccountName
         {
             get
             {
@@ -138,7 +135,7 @@ using System;
         ///The property maps to the column 'Body' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Body
+        virtual public System.String Body
         {
             get
             {
@@ -163,7 +160,7 @@ using System;
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Created
+        virtual public System.DateTime Created
         {
             get
             {
@@ -188,7 +185,7 @@ using System;
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.DateTime Modified
+        virtual public System.DateTime Modified
         {
             get
             {
@@ -213,7 +210,7 @@ using System;
         ///The property maps to the column 'Title' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        public  System.String Title
+        virtual public System.String Title
         {
             get
             {
@@ -227,11 +224,9 @@ using System;
 
 #endregion //Generated Code Region
 
-        //Add your synchronized custom code here:
 #region " Synchronized Custom Code Region "
 #endregion //Synchronized Custom Code Region
 
-        //Add your unsynchronized custom code here:
 #region " Unsynchronized Custom Code Region "
 
 
