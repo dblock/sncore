@@ -122,6 +122,7 @@ namespace SnCore.Services
             catch (NHibernate.ObjectNotFoundException)
             {
                 AccountName = "Unknown";
+                AccountId = -1;
             }
             BugId = o.Bug.Id;
             Created = o.Created;

@@ -79,7 +79,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new TransitAccountStory(session, e));
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -161,7 +160,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new TransitAccountStory(session, e));
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -405,7 +403,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new ManagedAccountStoryPicture(session, p).TransitAccountStoryPicture);
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }

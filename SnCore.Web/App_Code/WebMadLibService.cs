@@ -93,7 +93,6 @@ namespace SnCore.WebServices
                     result.Add(new TransitMadLib(madlib));
                 }
 
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -212,7 +211,6 @@ namespace SnCore.WebServices
                     result.Add(new ManagedMadLibInstance(session, madlibinstance).TransitMadLibInstance);
                 }
 
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }

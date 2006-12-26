@@ -221,7 +221,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 int result = ManagedDiscussion.GetDiscussionId(session, accountid, name, objectid, createonerror);
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -287,7 +286,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new ManagedDiscussion(session, d).TransitDiscussion);
                 }
-                session.Flush();
                 return result;
             }
         }
@@ -336,7 +334,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new ManagedDiscussion(session, d).TransitDiscussion);
                 }
-                session.Flush();
                 return result;
             }
         }

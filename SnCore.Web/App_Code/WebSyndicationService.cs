@@ -68,7 +68,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitFeedType result = new ManagedFeedType(session, id).TransitFeedType;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -85,7 +84,6 @@ namespace SnCore.WebServices
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitFeedType result = new ManagedFeedType(session,
                     ManagedFeedType.Find(session, name)).TransitFeedType;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -106,7 +104,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new ManagedFeedType(session, type).TransitFeedType);
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -251,7 +248,6 @@ namespace SnCore.WebServices
                     result.FeedUrl = string.Empty;
                 }
 
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -329,7 +325,6 @@ namespace SnCore.WebServices
                     }
                     result.Add(f);
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -380,7 +375,6 @@ namespace SnCore.WebServices
                     f.FeedUrl = string.Empty;
                     result.Add(f);
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }

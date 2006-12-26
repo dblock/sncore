@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Services;
+using SnCore.Tools.Web;
 
 /// <summary>
 /// This e-mail template should be used with a Reminder:
@@ -26,7 +27,7 @@ public partial class EmailAccountLoginReminder : AuthenticatedPage
     {
         get
         {
-            if (mAccount == null)
+            if (mAccount == null && RequestId > 0)
             {
                 mAccount = SessionManager.AccountService.GetAccountById(RequestId);
             }
@@ -40,6 +41,14 @@ public partial class EmailAccountLoginReminder : AuthenticatedPage
         {
             return string.Format("mailto:{0}", Render(SessionManager.GetCachedConfiguration(
                 "SnCore.Admin.EmailAddress", "admin@localhost.com")));
+        }
+    }
+
+    public void Page_Load(object sender, EventArgs e)
+    {
+        if (RequestId > 0)
+        {
+            labelName.Text = Renderer.Render(Account.Name);
         }
     }
 }

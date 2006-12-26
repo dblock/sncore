@@ -67,7 +67,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitBugPriority result = new ManagedBugPriority(session, id).TransitBugPriority;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -88,7 +87,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new ManagedBugPriority(session, priority).TransitBugPriority);
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -161,7 +159,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitBugSeverity result = new ManagedBugSeverity(session, id).TransitBugSeverity;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -182,7 +179,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new ManagedBugSeverity(session, severity).TransitBugSeverity);
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -255,7 +251,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitBugResolution result = new ManagedBugResolution(session, id).TransitBugResolution;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -277,7 +272,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new ManagedBugResolution(session, resolution).TransitBugResolution);
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -350,7 +344,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitBugStatus result = new ManagedBugStatus(session, id).TransitBugStatus;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -371,7 +364,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new ManagedBugStatus(session, status).TransitBugStatus);
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -444,7 +436,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitBugType result = new ManagedBugType(session, id).TransitBugType;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -465,7 +456,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new ManagedBugType(session, type).TransitBugType);
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -538,7 +528,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitBugProject result = new ManagedBugProject(session, id).TransitBugProject;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -559,7 +548,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new ManagedBugProject(session, project).TransitBugProject);
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -736,7 +724,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitBug result = new ManagedBug(session, id).TransitBug;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -776,7 +763,6 @@ namespace SnCore.WebServices
                     result.Add(new ManagedBug(session, bug).TransitBug);
                 }
 
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -832,7 +818,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new ManagedBugNote(session, note).TransitBugNote);
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -902,7 +887,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitBugNote result = new ManagedBugNote(session, id).TransitBugNote;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }

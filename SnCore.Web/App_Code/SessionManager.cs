@@ -892,11 +892,17 @@ public class SessionManager
         {
             MethodInfo mi = service.GetType().GetMethod(invoke);
             if (mi == null) throw new ArgumentException(string.Format("Invalid method \"{0}:{1}\"", service.GetType().Name, invoke));
+#if DEBUGTS
+            DateTime s = DateTime.UtcNow;
+#endif
             result = (List<TransitType>)mi.Invoke(service, args);
             if (result != null)
             {
                 Cache.Insert(key, result, null, Cache.NoAbsoluteExpiration, cacheduration);
             }
+#if DEBUGTS
+            Debug.WriteLine(string.Format("{0}: {1}", invoke, DateTime.UtcNow.Subtract(s).TotalSeconds));
+#endif
         }
 
         return result;
@@ -917,6 +923,9 @@ public class SessionManager
         {
             MethodInfo mi = service.GetType().GetMethod(invoke);
             if (mi == null) throw new ArgumentException(string.Format("Invalid method \"{0}.{1}\"", service.GetType().Name, invoke));
+#if DEBUGTS
+            DateTime s = DateTime.UtcNow;
+#endif
             try
             {
                 count = (int)mi.Invoke(service, args);
@@ -927,6 +936,9 @@ public class SessionManager
                 throw new Exception(string.Format("{0}.{1}: {2}",
                     service.GetType().Name, invoke, ex.Message), ex);
             }
+#if DEBUGTS
+            Debug.WriteLine(string.Format("{0}: {1}", invoke, DateTime.UtcNow.Subtract(s).TotalSeconds));
+#endif
         }
         return (int) count;
     }
@@ -946,7 +958,9 @@ public class SessionManager
         {
             MethodInfo mi = service.GetType().GetMethod(invoke);
             if (mi == null) throw new ArgumentException(string.Format("Invalid method \"{0}.{1}\"", service.GetType().Name, invoke));
-
+#if DEBUGTS
+            DateTime s = DateTime.UtcNow;
+#endif
             try
             {
                 result = (TransitType)mi.Invoke(service, args);
@@ -960,6 +974,9 @@ public class SessionManager
                 throw new Exception(string.Format("{0}.{1}: {2}", 
                     service.GetType().Name, invoke, ex.Message), ex);
             }
+#if DEBUGTS
+            Debug.WriteLine(string.Format("{0}: {1}", invoke, DateTime.UtcNow.Subtract(s).TotalSeconds));
+#endif
         }
 
         return result;

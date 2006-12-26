@@ -423,6 +423,7 @@ namespace SnCore.Services
                 catch (NHibernate.ObjectNotFoundException)
                 {
                     bug.AccountName = "Unknown";
+                    bug.AccountId = -1;
                 }
 
                 return bug;

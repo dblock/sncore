@@ -65,7 +65,6 @@ namespace SnCore.WebServices
                     result.Add(new TransitAccountLicense(e));
                 }
 
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }

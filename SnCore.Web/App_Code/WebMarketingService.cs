@@ -85,7 +85,6 @@ namespace SnCore.WebServices
                     result.Add(new TransitCampaign(campaign));
                 }
 
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -222,7 +221,6 @@ namespace SnCore.WebServices
                     result.Add(new TransitCampaignAccountRecepient(recepient));
                 }
 
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }

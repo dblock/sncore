@@ -99,7 +99,6 @@ namespace SnCore.WebServices
                     result.Add(new TransitAccountContentGroup(group));
                 }
 
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -126,7 +125,6 @@ namespace SnCore.WebServices
                     result.Add(new TransitAccountContentGroup(group));
                 }
 
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }

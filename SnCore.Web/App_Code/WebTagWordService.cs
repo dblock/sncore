@@ -96,7 +96,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitTagWord result = new ManagedTagWord(session, id).TransitTagWord;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -146,7 +145,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new ManagedTagWord(session, tagword).TransitTagWord);
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -235,7 +233,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new ManagedAccount(session, acct).TransitAccount);
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -281,7 +278,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new ManagedAccount(session, acct).TransitAccount);
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }

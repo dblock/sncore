@@ -43,6 +43,11 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Web References\SnCore.WebServices.WebAccountService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\SnCore.WebServices.WebStatsService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -53,6 +58,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="WebAccountServiceTest.cs" />
     <Compile Include="WebMiscTests.cs" />
     <Compile Include="WebPlaceServiceTest.cs" />
     <Compile Include="WebStatsServiceTest.cs" />
@@ -61,6 +67,17 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
+    <WebReferenceUrl Include="http://localhost/SnCoreWeb/WebAccountService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\SnCore.WebServices.WebAccountService\</RelPath>
+      <UpdateFromURL>http://localhost/SnCoreWeb/WebAccountService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>SnCore_Web_Tests_SnCore_WebServices_WebAccountService_WebAccountService</CachedSettingsPropName>
+    </WebReferenceUrl>
     <WebReferenceUrl Include="http://localhost/SnCoreWeb/WebStatsService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\SnCore.WebServices.WebStatsService\</RelPath>
@@ -99,6 +116,7 @@
     <None Include="Web References\SnCore.WebServices.WebPlaceService\WebPlaceService.disco" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Web References\SnCore.WebServices.WebAccountService\WebAccountService.wsdl" />
     <None Include="Web References\SnCore.WebServices.WebPlaceService\TransitAccountPlace1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
@@ -190,6 +208,80 @@
       <Project>{53F80219-6028-406B-819A-E79AE4D56995}</Project>
       <Name>SnCore.Tools</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Web References\SnCore.WebServices.WebAccountService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\SnCore.WebServices.WebAccountService\TransitAccount.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SnCore.WebServices.WebAccountService\TransitAccountActivity.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SnCore.WebServices.WebAccountService\TransitAccountAddress.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SnCore.WebServices.WebAccountService\TransitAccountAttribute.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SnCore.WebServices.WebAccountService\TransitAccountEmail.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SnCore.WebServices.WebAccountService\TransitAccountEmailConfirmation.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SnCore.WebServices.WebAccountService\TransitAccountInvitation.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SnCore.WebServices.WebAccountService\TransitAccountMessage.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SnCore.WebServices.WebAccountService\TransitAccountMessageFolder.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SnCore.WebServices.WebAccountService\TransitAccountOpenId.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SnCore.WebServices.WebAccountService\TransitAccountPermissions.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SnCore.WebServices.WebAccountService\TransitAccountPicture.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SnCore.WebServices.WebAccountService\TransitAccountPictureWithBitmap.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SnCore.WebServices.WebAccountService\TransitAccountPictureWithThumbnail.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SnCore.WebServices.WebAccountService\TransitAccountProperty.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SnCore.WebServices.WebAccountService\TransitAccountPropertyGroup.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SnCore.WebServices.WebAccountService\TransitAccountPropertyValue.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SnCore.WebServices.WebAccountService\TransitAccountRedirect.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SnCore.WebServices.WebAccountService\TransitAccountSurveyAnswer.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SnCore.WebServices.WebAccountService\TransitAccountWebsite.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SnCore.WebServices.WebAccountService\TransitOpenIdRedirect.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SnCore.WebServices.WebAccountService\TransitSurvey.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SnCore.WebServices.WebAccountService\WebAccountService.disco" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -203,7 +203,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitAccount result = ManagedAccount.FindByEmail(session, emailaddress).TransitAccount;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -862,7 +861,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new TransitAccountEmail(e));
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -979,7 +977,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new TransitAccountAddress(e));
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -1084,7 +1081,6 @@ namespace SnCore.WebServices
                     }
                 }
 
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -1133,7 +1129,6 @@ namespace SnCore.WebServices
                     result.Add(new ManagedAccountSurveyAnswer(session, a).TransitAccountSurveyAnswer);
                 }
 
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -1320,7 +1315,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new ManagedAccountPicture(session, e).GetTransitAccountPicture(list));
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -1387,7 +1381,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new TransitAccountWebsite(e));
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -1495,7 +1488,6 @@ namespace SnCore.WebServices
                     TransitAccountMessageFolder folder = new TransitAccountMessageFolder(enumerator.Current);
                     result.Add(folder);
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -1609,7 +1601,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new ManagedAccountMessage(session, e).TransitAccountMessage);
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -1875,7 +1866,6 @@ namespace SnCore.WebServices
                     i.Code = string.Empty;
                     result.Add(i);
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -2074,7 +2064,6 @@ namespace SnCore.WebServices
                     result.Add(new ManagedSurvey(session, s).TransitSurvey);
                 }
 
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -2200,7 +2189,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new TransitAccountOpenId(e));
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -2317,7 +2305,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitAccountPropertyGroup result = new ManagedAccountPropertyGroup(session, id).TransitAccountPropertyGroup;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -2339,7 +2326,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new ManagedAccountPropertyGroup(session, pg).TransitAccountPropertyGroup);
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -2412,7 +2398,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitAccountProperty result = new ManagedAccountProperty(session, id).TransitAccountProperty;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -2438,7 +2423,6 @@ namespace SnCore.WebServices
                     result.Add(new ManagedAccountProperty(session, p).TransitAccountProperty);
                 }
 
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -2592,7 +2576,6 @@ namespace SnCore.WebServices
                 }
 
                 TransitAccountPropertyValue result = new ManagedAccountPropertyValue(session, ppv).TransitAccountPropertyValue;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -2636,7 +2619,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitAccountPropertyValue result = new ManagedAccountPropertyValue(session, id).TransitAccountPropertyValue;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -2678,7 +2660,6 @@ namespace SnCore.WebServices
                     }
                 }
 
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -2800,7 +2781,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitAccountAttribute result = new ManagedAccountAttribute(session, id).TransitAccountAttribute;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -2849,7 +2829,6 @@ namespace SnCore.WebServices
                     result.Add(new ManagedAccountAttribute(session, attribute).TransitAccountAttribute);
                 }
 
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -2964,7 +2943,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new TransitAccountRedirect(e));
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -3002,7 +2980,6 @@ namespace SnCore.WebServices
                     result.Add(new TransitAccountRedirect(e));
                 }
 
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }

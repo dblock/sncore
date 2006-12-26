@@ -100,7 +100,6 @@ namespace SnCore.WebServices
                     result.Add(evt);
                 }
 
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -231,7 +230,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitAccountEventType result = new ManagedAccountEventType(session, id).TransitAccountEventType;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -253,7 +251,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new ManagedAccountEventType(session, eventtype).TransitAccountEventType);
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -403,7 +400,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new ManagedAccountEventPicture(session, p).TransitAccountEventPicture);
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }

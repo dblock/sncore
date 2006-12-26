@@ -146,7 +146,6 @@ namespace SnCore.WebServices
                     result.Add(new ManagedRefererHost(session, h).TransitRefererHost);
                 }
 
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -191,7 +190,6 @@ namespace SnCore.WebServices
                     result.Add(new ManagedRefererQuery(session, q).TransitRefererQuery);
                 }
 
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -257,7 +255,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitRefererHostDup result = new ManagedRefererHostDup(session, id).TransitRefererHostDup;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -278,7 +275,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new ManagedRefererHostDup(session, rhd).TransitRefererHostDup);
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -351,7 +347,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitRefererAccount result = new ManagedRefererAccount(session, id).TransitRefererAccount;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -401,7 +396,6 @@ namespace SnCore.WebServices
                     result.Add(new ManagedRefererAccount(session, rhd).TransitRefererAccount);
                 }
 
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }

@@ -92,7 +92,7 @@ namespace SnCore.Services
             b.Append(CreateSubQuery(session));
             if (!string.IsNullOrEmpty(SortOrder))
             {
-                b.AppendFormat(" ORDER BY {0} {1}", SortOrder, SortAscending ? "ASC" : "DESC");
+                b.AppendFormat(" ORDER BY e.{0} {1}", SortOrder, SortAscending ? "ASC" : "DESC");
             }
 
             return session.CreateQuery(b.ToString());

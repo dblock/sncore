@@ -65,7 +65,6 @@ namespace SnCore.WebServices
                     result.Add(new TransitAccountBlog(e));
                 }
 
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -91,7 +90,6 @@ namespace SnCore.WebServices
                     result.Add(new TransitAccountBlog(e.AccountBlog));
                 }
 
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }

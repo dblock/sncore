@@ -10,7 +10,7 @@
   <tr>
    <td>
     <p>
-     Dear <b><% Response.Write(Renderer.Render(Account.Name)); %></b>
+     Dear <b><asp:Label ID="labelName" runat="server" /></b>,
     </p>
     <p>
      We noticed that you have not checked your account for a month. Your friends miss you. Please come back!

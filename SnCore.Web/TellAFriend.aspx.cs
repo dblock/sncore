@@ -56,8 +56,7 @@ public partial class TellAFriend : AuthenticatedPage
                 }
 
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Tell a Friend", Request, "TellAFriend.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode(subject, Request.Url));
+                sitemapdata.Add(new SiteMapDataAttributeNode(string.Format("Tell a Friend: {0}", subject), Request.Url));
                 StackSiteMap(sitemapdata);
             }
     }

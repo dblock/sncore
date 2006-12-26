@@ -98,7 +98,6 @@ namespace SnCore.WebServices
                     }
                     result.Add(tc);
                 }
-                session.Flush();
                 return result;
             }
         }
@@ -254,7 +253,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new TransitSurveyQuestion(e));
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -390,7 +388,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new TransitSurvey(s));
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -450,7 +447,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitPicture result = new ManagedPicture(session, id).TransitPicture;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -472,7 +468,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new ManagedPicture(session, picture).TransitPicture);
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -545,7 +540,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitPictureType result = new ManagedPictureType(session, id).TransitPictureType;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -567,7 +561,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new ManagedPictureType(session, picturetype).TransitPictureType);
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -763,7 +756,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitReminder result = new ManagedReminder(session, id).TransitReminder;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -784,7 +776,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new ManagedReminder(session, reminder).TransitReminder);
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -871,7 +862,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitReminderAccountProperty result = new ManagedReminderAccountProperty(session, id).TransitReminderAccountProperty;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -920,7 +910,6 @@ namespace SnCore.WebServices
                         .TransitReminderAccountProperty);
                 }
 
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -993,7 +982,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitReminderEvent result = new ManagedReminderEvent(session, id).TransitReminderEvent;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -1014,7 +1002,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new ManagedReminderEvent(session, reminderevent).TransitReminderEvent);
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -1066,7 +1053,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new ManagedDataObject(session, dataobject).TransitDataObject);
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -1091,7 +1077,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(property.Name);
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -1128,7 +1113,6 @@ namespace SnCore.WebServices
                     i.Code = string.Empty;
                     result.Add(i);
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -1174,7 +1158,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitBookmark result = new ManagedBookmark(session, id).TransitBookmark;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -1212,7 +1195,6 @@ namespace SnCore.WebServices
 
                     result.Add(new ManagedBookmark(session, bookmark).TransitBookmark);
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -1332,7 +1314,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitFeature result = new ManagedFeature(session, id).TransitFeature;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -1382,7 +1363,6 @@ namespace SnCore.WebServices
                     result.Add(new ManagedFeature(session, feature).TransitFeature);
                 }
 
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -1512,7 +1492,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitSchedule result = new ManagedSchedule(session, id).TransitSchedule;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -1533,7 +1512,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new ManagedSchedule(session, schedule).TransitSchedule);
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -1619,7 +1597,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitAttribute result = new ManagedAttribute(session, id).TransitAttribute;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -1635,7 +1612,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitAttributeWithBitmap result = new ManagedAttribute(session, id).TransitAttributeWithBitmap;
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
@@ -1681,7 +1657,6 @@ namespace SnCore.WebServices
                 {
                     result.Add(new ManagedAttribute(session, attr).TransitAttribute);
                 }
-                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }
