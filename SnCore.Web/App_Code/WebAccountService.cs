@@ -57,7 +57,7 @@ namespace SnCore.WebServices
         /// <summary>
         /// Check whether a beta password is set.
         /// </summary>
-        [WebMethod(Description = "Check whether a beta password is set.", CacheDuration=60)]
+        [WebMethod(Description = "Check whether a beta password is set.", CacheDuration = 60)]
         public bool IsBetaPasswordSet()
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
@@ -65,7 +65,7 @@ namespace SnCore.WebServices
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
                 string s = ManagedConfiguration.GetValue(session, "SnCore.Beta.Password", string.Empty);
-                return ! string.IsNullOrEmpty(s);
+                return !string.IsNullOrEmpty(s);
             }
         }
 
@@ -461,7 +461,7 @@ namespace SnCore.WebServices
 
                 // the e-mail confirmation contains the code that should only be readable by the user via his e-mail
                 // hence only admin can see it otherwise
-                if (! user.IsAdministrator())
+                if (!user.IsAdministrator())
                 {
                     throw new ManagedAccount.AccessDeniedException();
                 }
@@ -576,7 +576,7 @@ namespace SnCore.WebServices
                 c.SetMaxResults(options.PageSize);
             }
 
-            return (IList<AccountPicture>) c.List();
+            return c.List<AccountPicture>();
         }
 
         /// <summary>
@@ -725,9 +725,9 @@ namespace SnCore.WebServices
         public void ChangePassword(string ticket, int accountid, string oldpassword, string newpassword)
         {
             ChangePasswordMd5(
-                ticket, 
-                accountid, 
-                string.IsNullOrEmpty(oldpassword) ? string.Empty : ManagedAccount.GetPasswordHash(oldpassword), 
+                ticket,
+                accountid,
+                string.IsNullOrEmpty(oldpassword) ? string.Empty : ManagedAccount.GetPasswordHash(oldpassword),
                 newpassword);
         }
 
@@ -805,11 +805,11 @@ namespace SnCore.WebServices
 
                 if (!user.HasVerifiedEmail)
                     throw new ManagedAccount.NoVerifiedEmailException();
-                
+
                 m.MailFrom = new MailAddress(user.ActiveEmailAddress, user.Name).ToString();
                 m.Sent = false;
                 m.Created = m.Modified = DateTime.UtcNow;
-                
+
                 session.Save(m);
                 SnCore.Data.Hibernate.Session.Flush();
                 return m.Id;
@@ -828,7 +828,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int) session.CreateQuery(string.Format(
+                return (int)session.CreateQuery(string.Format(
                     "SELECT COUNT(*) FROM AccountEmail s WHERE s.Account.Id = {0}",
                     id)).UniqueResult();
             }
@@ -1028,7 +1028,7 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
-                return (int) session.CreateQuery(string.Format(
+                return (int)session.CreateQuery(string.Format(
                     "SELECT COUNT(*) FROM AccountSurveyAnswer a, SurveyQuestion q" +
                     " where a.Account.Id = {0} and a.SurveyQuestion.Id = q.Id and q.Survey.Id = {1}",
                     id, surveyid)).UniqueResult();
@@ -1100,7 +1100,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int) session.CreateQuery("SELECT COUNT(*) FROM AccountSurveyAnswer a WHERE a.SurveyQuestion.Id = "
+                return (int)session.CreateQuery("SELECT COUNT(*) FROM AccountSurveyAnswer a WHERE a.SurveyQuestion.Id = "
                     + id.ToString()).UniqueResult();
             }
         }
@@ -1287,7 +1287,7 @@ namespace SnCore.WebServices
                     if (!po.Hidden) query.AppendFormat(" AND ap.Hidden = 0");
                 }
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int) session.CreateQuery(query.ToString()).UniqueResult();
+                return (int)session.CreateQuery(query.ToString()).UniqueResult();
             }
         }
 
@@ -1343,7 +1343,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int) session.CreateQuery(string.Format(
+                return (int)session.CreateQuery(string.Format(
                     "SELECT COUNT(*) FROM AccountWebsite s WHERE s.Account.Id = {0}",
                     id)).UniqueResult();
             }
@@ -1827,7 +1827,7 @@ namespace SnCore.WebServices
                 if (invitation.Id == 0)
                 {
                     // ignore users already invited
-                    AccountInvitation ai = (AccountInvitation) session.CreateCriteria(typeof(AccountInvitation))
+                    AccountInvitation ai = (AccountInvitation)session.CreateCriteria(typeof(AccountInvitation))
                         .Add(Expression.Eq("Email", invitation.Email))
                         .Add(Expression.Eq("Account.Id", a.Id))
                         .UniqueResult();
@@ -1902,7 +1902,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int) session.CreateQuery("SELECT COUNT(*) FROM AccountInvitation i WHERE i.Account.Id = "
+                return (int)session.CreateQuery("SELECT COUNT(*) FROM AccountInvitation i WHERE i.Account.Id = "
                     + id.ToString()).UniqueResult();
             }
         }
@@ -2083,7 +2083,7 @@ namespace SnCore.WebServices
 
         #region Search
 
-        protected IList InternalSearchAccounts(ISession session, string s, ServiceQueryOptions options)
+        protected IList<Account> InternalSearchAccounts(ISession session, string s, ServiceQueryOptions options)
         {
             int maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
             IQuery query = session.CreateSQLQuery(
@@ -2113,7 +2113,8 @@ namespace SnCore.WebServices
                     "FROM #Results GROUP BY Account_Id\n" +
                     "ORDER BY SUM(RANK) DESC\n" +
 
-                    "SELECT {Account.*} FROM {Account}, #Unique_Results\n" +
+                    "SELECT " + (options != null ? options.GetSqlQueryTop() : string.Empty) + 
+                    "{Account.*} FROM {Account}, #Unique_Results\n" +
                     "WHERE Account.Account_Id = #Unique_Results.Account_Id\n" +
                     "ORDER BY #Unique_Results.RANK DESC\n" +
 
@@ -2123,13 +2124,13 @@ namespace SnCore.WebServices
                     "Account",
                     typeof(Account));
 
-            if (options != null)
-            {
-                query.SetFirstResult(options.FirstResult);
-                query.SetMaxResults(options.PageSize);
-            }
+            //if (options != null)
+            //{
+            //    query.SetFirstResult(options.FirstResult);
+            //    query.SetMaxResults(options.PageSize);
+            //}
 
-            return query.List();
+            return WebServiceQueryOptions<Account>.Apply(options, query.List<Account>());
         }
 
         /// <summary>
@@ -2145,7 +2146,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                IList accounts = InternalSearchAccounts(session, s, options);
+                IList<Account> accounts = InternalSearchAccounts(session, s, options);
 
                 List<TransitAccountActivity> result = new List<TransitAccountActivity>(accounts.Count);
                 foreach (Account account in accounts)
@@ -2430,7 +2431,7 @@ namespace SnCore.WebServices
                 IList ps = session.CreateCriteria(typeof(AccountProperty))
                     .Add(Expression.Eq("AccountPropertyGroup.Id", gid))
                     .List();
-                
+
                 List<TransitAccountProperty> result = new List<TransitAccountProperty>(ps.Count);
                 foreach (AccountProperty p in ps)
                 {
@@ -2542,7 +2543,7 @@ namespace SnCore.WebServices
                    "  OR v.Value LIKE '%{" + Renderer.SqlEncode(propertyvalue) + "}%'" +
                    " ) AND g.Name = '" + Renderer.SqlEncode(groupname) + "'");
 
-                return (int) query.UniqueResult();
+                return (int)query.UniqueResult();
             }
         }
 
@@ -2586,7 +2587,7 @@ namespace SnCore.WebServices
                 if (ppv == null)
                 {
                     throw new Exception(string.Format(
-                        "No property value for \"{0}\" of account \"{0}\" of group \"{0}\" found.", 
+                        "No property value for \"{0}\" of account \"{0}\" of group \"{0}\" found.",
                         propertyname, accountid, groupname));
                 }
 
@@ -2670,7 +2671,7 @@ namespace SnCore.WebServices
                 List<TransitAccountPropertyValue> result = new List<TransitAccountPropertyValue>(propertyvalues.Count);
                 foreach (AccountPropertyValue propertyvalue in propertyvalues)
                 {
-                    if ((propertyvalue.AccountProperty.AccountPropertyGroup.Id == groupid) 
+                    if ((propertyvalue.AccountProperty.AccountPropertyGroup.Id == groupid)
                         && propertyvalue.AccountProperty.Publish)
                     {
                         result.Add(new ManagedAccountPropertyValue(session, propertyvalue).TransitAccountPropertyValue);
@@ -2711,7 +2712,7 @@ namespace SnCore.WebServices
 
                 foreach (AccountProperty property in properties)
                 {
-                    AccountPropertyValue value = (AccountPropertyValue) session.CreateCriteria(typeof(AccountPropertyValue))
+                    AccountPropertyValue value = (AccountPropertyValue)session.CreateCriteria(typeof(AccountPropertyValue))
                         .Add(Expression.Eq("Account.Id", accountid))
                         .Add(Expression.Eq("AccountProperty.Id", property.Id))
                         .UniqueResult();
@@ -2721,7 +2722,7 @@ namespace SnCore.WebServices
                         value = new AccountPropertyValue();
                         value.AccountProperty = property;
                         value.Value = property.DefaultValue;
-                        value.Account = (Account) session.Load(typeof(Account), accountid);
+                        value.Account = (Account)session.Load(typeof(Account), accountid);
                     }
 
                     result.Add(new TransitAccountPropertyValue(value));
@@ -2772,7 +2773,7 @@ namespace SnCore.WebServices
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedAccount user = new ManagedAccount(session, userid);
 
-                if (! user.IsAdministrator())
+                if (!user.IsAdministrator())
                 {
                     throw new ManagedAccount.AccessDeniedException();
                 }
@@ -2815,7 +2816,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int) session.CreateQuery(string.Format(
+                return (int)session.CreateQuery(string.Format(
                     "SELECT COUNT(*) FROM AccountAttribute a WHERE a.Account.Id = {0}",
                     id)).UniqueResult();
             }
@@ -2867,7 +2868,7 @@ namespace SnCore.WebServices
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedAccount user = new ManagedAccount(session, userid);
 
-                if (! user.IsAdministrator())
+                if (!user.IsAdministrator())
                 {
                     throw new ManagedAccount.AccessDeniedException();
                 }
@@ -2899,7 +2900,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int) session.CreateQuery(string.Format(
+                return (int)session.CreateQuery(string.Format(
                     "SELECT COUNT(*) FROM AccountRedirect s WHERE s.Account.Id = {0}",
                     id)).UniqueResult();
             }
@@ -2920,7 +2921,7 @@ namespace SnCore.WebServices
                     throw new ManagedAccount.AccessDeniedException();
                 }
 
-                return (int) session.CreateQuery(
+                return (int)session.CreateQuery(
                     "SELECT COUNT(*) FROM AccountRedirect s").UniqueResult();
             }
         }
@@ -3035,14 +3036,14 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
-                AccountRedirect redirect = (AccountRedirect) session.CreateCriteria(typeof(AccountRedirect))
+                AccountRedirect redirect = (AccountRedirect)session.CreateCriteria(typeof(AccountRedirect))
                     .Add(Expression.Eq("Account.Id", GetAccountId(ticket)))
                     .Add(Expression.Eq("SourceUri", uri))
                     .UniqueResult();
 
-                if (redirect == null) 
+                if (redirect == null)
                     return null;
-                
+
                 return new ManagedAccountRedirect(session, redirect).TransitAccountRedirect;
             }
         }
@@ -3059,7 +3060,7 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
-                AccountRedirect redirect = (AccountRedirect) session.CreateCriteria(typeof(AccountRedirect))
+                AccountRedirect redirect = (AccountRedirect)session.CreateCriteria(typeof(AccountRedirect))
                     .Add(Expression.Eq("Account.Id", GetAccountId(ticket)))
                     .Add(Expression.Eq("TargetUri", uri))
                     .UniqueResult();

@@ -83,7 +83,7 @@ namespace SnCore.Services
             if (!string.IsNullOrEmpty(Email))
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.AppendFormat("e.Address = '{0}'", Renderer.SqlEncode(Email));
+                b.AppendFormat("(EXISTS ( FROM AccountEmail ae WHERE ae.Account = a AND ae.Address = '{0}'))", Renderer.SqlEncode(Email));
             }
 
             // delay accounts, prevent bots from pushing accounts on top
@@ -94,21 +94,18 @@ namespace SnCore.Services
                 b.AppendFormat("LastLogin < '{0}'", DateTime.UtcNow.AddMinutes(-15));
             }
 
-            b.Append(b.Length > 0 ? " AND " : " WHERE ");
-            b.Append("e.Account.Id = a.Id");
-
             return b.ToString();
         }
 
         public IQuery CreateCountQuery(ISession session)
         {
-            return session.CreateQuery("SELECT COUNT(DISTINCT a) FROM Account a, AccountEmail e" + CreateSubQuery(session));
+            return session.CreateQuery("SELECT COUNT(*) FROM Account a " + CreateSubQuery(session));
         }
 
         public IQuery CreateQuery(ISession session)
         {
             StringBuilder b = new StringBuilder();
-            b.Append("SELECT DISTINCT a FROM Account a, AccountEmail e");
+            b.Append("SELECT a FROM Account a ");
             b.Append(CreateSubQuery(session));
             if (!string.IsNullOrEmpty(SortOrder))
             {

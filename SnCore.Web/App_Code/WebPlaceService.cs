@@ -1287,7 +1287,7 @@ namespace SnCore.WebServices
 
         #region Search
 
-        protected IList InternalSearchPlaces(ISession session, string s, ServiceQueryOptions options)
+        protected IList<Place> InternalSearchPlaces(ISession session, string s, ServiceQueryOptions options)
         {
             int maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
             IQuery query = session.CreateSQLQuery(
@@ -1318,7 +1318,8 @@ namespace SnCore.WebServices
                     "FROM #Results GROUP BY Place_Id\n" +
                     "ORDER BY SUM(RANK) DESC\n" +
 
-                    "SELECT {Place.*} FROM {Place}, #Unique_Results\n" +
+                    "SELECT " + (options != null ? options.GetSqlQueryTop() : string.Empty) + 
+                    "{Place.*} FROM {Place}, #Unique_Results\n" +
                     "WHERE Place.Place_Id = #Unique_Results.Place_Id\n" +
                     "ORDER BY #Unique_Results.RANK DESC\n" +
 
@@ -1328,13 +1329,13 @@ namespace SnCore.WebServices
                     "Place",
                     typeof(Place));
 
-            if (options != null)
-            {
-                query.SetFirstResult(options.FirstResult);
-                query.SetMaxResults(options.PageSize);
-            }
+            //if (options != null)
+            //{
+            //    query.SetFirstResult(options.FirstResult);
+            //    query.SetMaxResults(options.PageSize);
+            //}
 
-            return query.List();
+            return WebServiceQueryOptions<Place>.Apply(options, query.List<Place>());
         }
 
         /// <summary>
@@ -1350,7 +1351,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                IList places = InternalSearchPlaces(session, s, options);
+                IList<Place> places = InternalSearchPlaces(session, s, options);
 
                 List<TransitPlace> result = new List<TransitPlace>(places.Count);
                 foreach (Place p in places)
@@ -2161,6 +2162,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
+
                 IQuery q = session.CreateSQLQuery(
                     "CREATE TABLE #fav (	[Id] [int],	[Score] [int] )\n" +
                     "INSERT INTO #fav ( [Id], [Score] ) " +
@@ -2169,7 +2171,8 @@ namespace SnCore.WebServices
                     "INSERT INTO #pl ( [Id], [Score] )" +
                     " SELECT Id, SUM(Score) AS 'Score' FROM #fav " +
                     " GROUP BY Id\n" +
-                    "SELECT {Place.*} FROM {Place} INNER JOIN #pl" +
+                    "SELECT " + (serviceoptions != null ? serviceoptions.GetSqlQueryTop() : string.Empty) + 
+                    " {Place.*} FROM {Place} INNER JOIN #pl" +
                     " ON #pl.Id = Place.Place_Id" +
                     " ORDER BY [Score] DESC\n" +
                     "DROP TABLE #pl\n" +
@@ -2177,15 +2180,15 @@ namespace SnCore.WebServices
                     "Place",
                     typeof(Place));
 
-                if (serviceoptions != null)
-                {
-                    q.SetMaxResults(serviceoptions.PageSize);
-                    q.SetFirstResult(serviceoptions.FirstResult);
-                }
+                //if (serviceoptions != null)
+                //{
+                //    q.SetMaxResults(serviceoptions.PageSize);
+                //    q.SetFirstResult(serviceoptions.FirstResult);
+                //}
 
-                IList list = q.List();
-
+                IList<Place> list = WebServiceQueryOptions<Place>.Apply(serviceoptions, q.List<Place>());
                 List<TransitPlace> result = new List<TransitPlace>(list.Count);
+
                 foreach (Place p in list)
                 {
                     result.Add(new ManagedPlace(session, p).GetTransitPlace());

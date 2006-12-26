@@ -3,6 +3,8 @@ using NUnit.Framework;
 using SnCore.Data;
 using NHibernate;
 using NHibernate.Cfg;
+using System.Collections.Generic;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.Data.Tests
 {
@@ -132,6 +134,32 @@ namespace SnCore.Data.Tests
             Session.Delete(city);
             Session.Delete(country);
             Session.Flush();
+        }
+
+        [Test]
+        public void TestSelectWithTempTable()
+        {
+            IQuery q = Session.CreateSQLQuery(
+                "CREATE TABLE #fav (	[Id] [int],	[Score] [int] )\n" +
+                "INSERT INTO #fav ( [Id], [Score] ) " +
+                " SELECT Place_Id, 1 FROM AccountPlaceFavorite " +
+                "CREATE TABLE #pl (	[Id] [int],	[Score] [int] )\n" +
+                "INSERT INTO #pl ( [Id], [Score] )" +
+                " SELECT Id, SUM(Score) AS 'Score' FROM #fav " +
+                " GROUP BY Id\n" +
+                "SELECT {Place.*} FROM {Place} INNER JOIN #pl" +
+                " ON #pl.Id = Place.Place_Id" +
+                " ORDER BY [Score] DESC\n" +
+                "DROP TABLE #pl\n" +
+                "DROP TABLE #fav ",
+                "Place",
+                typeof(Place));
+
+            //q.SetMaxResults(10);
+            //q.SetFirstResult(1);
+
+            IList<Place> places = SnCore.Data.Hibernate.Collection<Place>.ApplyServiceOptions(0, 10, q.List<Place>());
+            Console.WriteLine("Places: {0}", places.Count);
         }
     }
 }

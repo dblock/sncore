@@ -229,7 +229,7 @@ public partial class PlaceView : Page
 
                 labelSuggestedOn.Text = Adjust(place.Created).ToString("d");
 
-                linkAdminEdit.Visible = place.CanWrite;
+                linkAdminEdit.Visible = place.CanWrite || SessionManager.IsAdministrator;
                 linkAdminEdit.NavigateUrl = string.Format("PlaceEdit.aspx?id={0}", place.Id);
                 linkAdminAttributes.NavigateUrl = string.Format("PlaceAttributesManage.aspx?id={0}", place.Id);
 

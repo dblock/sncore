@@ -187,6 +187,7 @@ public partial class AccountsView : AccountPersonPage
         checkboxPicturesOnly.Checked = false;
         inputName.Text = string.Empty;
         inputCity.Text = string.Empty;
+        inputEmailAddress.Text = string.Empty;
         SelectLocation(sender, new SelectLocationEventArgs(SessionManager.Account));
         GetData();
         panelSearch.Update();
@@ -200,6 +201,7 @@ public partial class AccountsView : AccountPersonPage
         inputState.ClearSelection();
         inputCity.Text = string.Empty;
         inputName.Text = string.Empty;
+        inputEmailAddress.Text = string.Empty;
         GetData();
         panelSearch.Update();
     }
@@ -212,6 +214,7 @@ public partial class AccountsView : AccountPersonPage
         inputState.ClearSelection();
         inputCity.Text = string.Empty;
         inputName.Text = string.Empty;
+        inputEmailAddress.Text = string.Empty;
         GetData();
         panelSearch.Update();
     }

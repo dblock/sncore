@@ -46,7 +46,7 @@
      <p>
       We may modify these terms from time to time at our sole discretion, as set forth
       in Section 9. You agree to check these terms regularly and accept all modified terms.
-      You may review the current version of this Service Agreement at <a href='AccountTermsOfUse.aspx'>
+      You may review the current version of this Service Agreement at <a href='TermsOfUse.aspx'>
        <% Response.Write(Renderer.Render(SessionManager.GetCachedConfiguration("SnCore.WebSite.Url", "http://localhost/"))); %>
       </a>.</p>
      <p>

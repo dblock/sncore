@@ -31,6 +31,7 @@
     <Reference Include="nunit.framework, Version=2.2.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml" />
@@ -52,6 +53,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="WebMiscTests.cs" />
     <Compile Include="WebPlaceServiceTest.cs" />
     <Compile Include="WebStatsServiceTest.cs" />
   </ItemGroup>
@@ -86,7 +88,6 @@
     <None Include="Web References\SnCore.WebServices.WebPlaceService\WebPlaceService.wsdl" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -179,6 +180,16 @@
     </None>
     <None Include="Web References\SnCore.WebServices.WebStatsService\WebStatsService.disco" />
     <None Include="Web References\SnCore.WebServices.WebStatsService\WebStatsService.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SgmlReader\sgmlreaderdll\SgmlReaderDll8.csproj">
+      <Project>{499527FF-AE52-450F-B3E3-4AD53E1712AD}</Project>
+      <Name>SgmlReaderDll8</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SnCore.Tools\SnCore.Tools.csproj">
+      <Project>{53F80219-6028-406B-819A-E79AE4D56995}</Project>
+      <Name>SnCore.Tools</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

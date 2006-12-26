@@ -21,9 +21,6 @@
       </div>
      </td>
      <td align="right" valign="middle">
-     <!--
-      <SnCore:RssLink ID="linkRelRss" runat="server" NavigateUrl="PlacesByPropertyValueViewRss.aspx" />
-       -->
      </td>
     </tr>
    </table>

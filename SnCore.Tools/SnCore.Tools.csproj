@@ -45,6 +45,7 @@
     <Compile Include="HtmlAbsoluteLinksWriter.cs" />
     <Compile Include="HtmlImageExtractor.cs" />
     <Compile Include="HtmlReaderWriter.cs" />
+    <Compile Include="HtmlUriExtractor.cs" />
     <Compile Include="NameValueCollectionSerializer.cs" />
     <Compile Include="PersistentlyHashable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

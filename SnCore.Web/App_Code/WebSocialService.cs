@@ -107,7 +107,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int) (long) queryoptions.CreateCountQuery(session).UniqueResult();
+                return (int) queryoptions.CreateCountQuery(session).UniqueResult();
             }
         }
 

@@ -99,7 +99,7 @@
      </asp:TemplateColumn>
      <asp:TemplateColumn ItemStyle-Width="75">
       <itemtemplate>
-       <SnCore:RssLink ID="linkRelRss" runat="server" NavigateUrl='DiscussionRss.aspx?id=<%# Eval("Id") %>'
+       <SnCore:RssLink ID="linkRelRss" runat="server" NavigateUrl='<%# string.Format("DiscussionRss.aspx?id={0}", Eval("Id")) %>'
         Title='<%# base.Render(Eval("Name")) %>' />
       </itemtemplate>
      </asp:TemplateColumn>

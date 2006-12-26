@@ -9,6 +9,7 @@ using System.Web.Services.Protocols;
 using System.Diagnostics;
 using System.Web.Hosting;
 using SnCore.Tools.Web;
+using System.Collections.Generic;
 
 namespace SnCore.WebServices
 {
@@ -40,6 +41,11 @@ namespace SnCore.WebServices
             string hash = string.Format("{0}:{1}", PageSize, PageNumber);
             return hash.GetHashCode();
         }
+
+        public string GetSqlQueryTop()
+        {
+            return string.Format(" TOP {0} ", FirstResult + PageSize);
+        }
     };
 
     public class WebService : SoapService
@@ -68,6 +74,18 @@ namespace SnCore.WebServices
             return new SqlConnection(
              SnCore.Data.Hibernate.Session.Configuration.GetProperty(
               "hibernate.connection.connection_string"));
+        }
+    }
+
+    public abstract class WebServiceQueryOptions<T>
+    {
+        public static IList<T> Apply(ServiceQueryOptions options, IList<T> collection)
+        {
+            if (options == null)
+                return collection;
+
+            return SnCore.Data.Hibernate.Collection<T>.ApplyServiceOptions(
+                options.FirstResult, options.PageSize, collection);            
         }
     }
 }
