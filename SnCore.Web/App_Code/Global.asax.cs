@@ -20,7 +20,6 @@ public class Global : SnCore.Tools.Web.HostedApplication
     private SystemTagWordService mTagWordService = new SystemTagWordService();
     private SystemReminderService mSystemReminderService = new SystemReminderService();
     private SystemSyndicationService mSystemSyndicationService = new SystemSyndicationService();
-    private SystemRedirectService mSystemRedirectService = new SystemRedirectService();
 
     public Global()
     {
@@ -53,7 +52,6 @@ public class Global : SnCore.Tools.Web.HostedApplication
         mTagWordService.Start();
         mSystemReminderService.Start();
         mSystemSyndicationService.Start();
-        mSystemRedirectService.Start();
 
         WebBackEndService backend = new WebBackEndService();
         EventLog.WriteEntry(string.Format("Running with back-end services {0}.", backend.GetVersion()), EventLogEntryType.Information);

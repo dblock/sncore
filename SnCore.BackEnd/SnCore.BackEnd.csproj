@@ -41,7 +41,6 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemMailMessageService.cs" />
-    <Compile Include="SystemRedirectService.cs" />
     <Compile Include="SystemReminderService.cs" />
     <Compile Include="SystemService.cs" />
     <Compile Include="SystemSyndicationService.cs" />

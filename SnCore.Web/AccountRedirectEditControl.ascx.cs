@@ -68,12 +68,12 @@ public partial class AccountRedirectEditControl : Control
         {
             SessionManager.AccountService.DeleteAccountRedirect(SessionManager.Ticket, RedirectId);
             RedirectId = 0;
-            ReportInfo("Redirect deleted, it may take a few minutes to de-activate.");
+            ReportInfo("Redirect deleted, it may take a few seconds to de-activate.");
         }
         else
         {
             RedirectId = redirect.Id = SessionManager.AccountService.AddAccountRedirect(SessionManager.Ticket, redirect);
-            ReportInfo("Redirect updated, it may take a few minutes to activate.");
+            ReportInfo("Redirect updated, it may take a few seconds to activate.");
         }
 
         panelPermanentRedirect.Update();

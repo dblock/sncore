@@ -3066,6 +3066,7 @@ namespace SnCore.WebServices
                     ManagedAccount a = new ManagedAccount(session, id);
                     int result = a.CreateOrUpdate(redirect);
                     SnCore.Data.Hibernate.Session.Flush();
+                    ManagedAccountRedirect.UpdateMap(session);
                     return result;
                 }
                 catch (NHibernate.ADOException ex)
@@ -3095,6 +3096,7 @@ namespace SnCore.WebServices
                 }
                 redirect.Delete();
                 SnCore.Data.Hibernate.Session.Flush();
+                ManagedAccountRedirect.UpdateMap(session);
             }
         }
 

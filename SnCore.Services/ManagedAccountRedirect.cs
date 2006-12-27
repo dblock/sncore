@@ -5,6 +5,8 @@ using NHibernate.Expression;
 using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.Xml;
+using System.IO;
+using System.Text;
 
 namespace SnCore.Services
 {
@@ -133,6 +135,8 @@ namespace SnCore.Services
 
     public class ManagedAccountRedirect : ManagedService<AccountRedirect>
     {
+        private static readonly object s_lock = new object();
+
         public class InvalidUriException : SoapException
         {
             public InvalidUriException(string uri)
@@ -211,6 +215,36 @@ namespace SnCore.Services
                 {
                     throw new InvalidUriException(uri);
                 }
+            }
+        }
+
+        public static void UpdateMap(ISession session)
+        {
+            lock (s_lock)
+            {
+                StringBuilder sb = new StringBuilder();
+
+                IList redirects = session.CreateCriteria(typeof(AccountRedirect))
+                    .List();
+
+                //sb.AppendLine("RewriteLog  c:\\temp\\iirfLog.out");
+                //sb.AppendLine("RewriteLogLevel 3");
+
+                foreach (AccountRedirect redirect in redirects)
+                {
+                    sb.AppendFormat("RewriteRule    ^/{0}([\\/]*)$    /{1}",
+                        redirect.SourceUri, redirect.TargetUri);
+                    sb.AppendLine();
+                }
+
+                string inipath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "IsapiRewrite\\IsapiRewrite4.ini");
+                Console.WriteLine(inipath);
+
+                FileStream f = new FileStream(inipath, FileMode.OpenOrCreate | FileMode.Truncate, FileAccess.Write);
+                StreamWriter sw = new StreamWriter(f);
+                sw.Write(sb);
+                sw.Close();
+                f.Close();
             }
         }
     }
