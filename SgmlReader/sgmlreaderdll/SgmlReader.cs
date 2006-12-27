@@ -1456,8 +1456,15 @@ namespace Sgml {
             char ch = this.current.ReadChar();
             if (ch == '#') {
                 string charent = this.current.ExpandCharEntity();
-                sb.Append(charent);
-                ch = this.current.ReadChar();
+                if (charent.Length != 0)
+                {
+                    sb.Append(charent);
+                    ch = this.current.ReadChar();
+                }
+                else
+                {
+                    sb.Append(ch);
+                }
             } 
             else {
                 this.name.Length = 0;

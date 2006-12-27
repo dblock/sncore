@@ -6,7 +6,7 @@
  <div class="sncore_h2">
   Mad Lib
  </div>
- <asp:HyperLink ID="linkBack" Text="&#187; Cancel" CssClass="sncore_cancel" NavigateUrl="MadLibsManage.aspx"
+ <asp:HyperLink ID="linkBack" Text="&#187; Cancel" CssClass="sncore_cancel" NavigateUrl="AccountMadLibsManage.aspx"
   runat="server" />
  <table class="sncore_account_table">
   <tr>

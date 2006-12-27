@@ -345,6 +345,7 @@ namespace Sgml {
                 int unicode = CtrlMap[i];
                 return Convert.ToChar(unicode).ToString();
             }
+            if (v == 0) return string.Empty;
             return Convert.ToChar(v).ToString();
         }
 
