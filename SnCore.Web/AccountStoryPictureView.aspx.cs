@@ -29,8 +29,7 @@ public partial class AccountStoryPictureView : Page
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Stories", Request, "AccountStoriesView.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode(s.Name, Request, string.Format("AccountStoryView.aspx?id={0}", s.Id)));
-            sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request, string.Format("AccountStoryPicturesView.aspx?id={0}", s.Id)));
-            sitemapdata.Add(new SiteMapDataAttributeNode(p.Name, Request.Url));
+            sitemapdata.Add(new SiteMapDataAttributeNode(string.Format("Pictures > {0}", p.Name), Request.Url));
             StackSiteMap(sitemapdata);
         }
 

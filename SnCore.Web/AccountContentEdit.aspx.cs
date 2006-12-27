@@ -41,7 +41,7 @@ public partial class AccountContentEdit : AuthenticatedPage
                 inputText.Text = tf.Text;
                 inputTimestamp.SelectedDate = Adjust(tf.Timestamp);
 
-                linkPreview.NavigateUrl = string.Format("AccountContentView.aspx?id={0}", RequestId);
+                linkPreview.NavigateUrl = string.Format("AccountContentGroupView.aspx?id={0}", tf.AccountContentGroupId);
             }
             else
             {
