@@ -30,7 +30,7 @@ public partial class MarketingCampaignAccountRecepientsManage : AuthenticatedPag
             inputAccountPropertyGroup_SelectedIndexChanged(sender, e);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Marketing Campaigns", Request, "MarketingCampaignsManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode(tc.Name, Request, string.Format("MarketingCampaignEdit.aspx?id={0}", tc.Id)));
             sitemapdata.Add(new SiteMapDataAttributeNode("Recepients", Request.Url));

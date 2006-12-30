@@ -22,7 +22,7 @@ public partial class SystemAccountPlaceTypesManage : AuthenticatedPage
                 gridManage.DataBind();
 
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
                 sitemapdata.Add(new SiteMapDataAttributeNode("Account Place Types", Request.Url));
                 StackSiteMap(sitemapdata);
             }

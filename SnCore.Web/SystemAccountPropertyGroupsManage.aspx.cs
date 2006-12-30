@@ -22,7 +22,7 @@ public partial class SystemAccountPropertyGroupsManage : AuthenticatedPage
                 gridManage.DataBind();
 
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
                 sitemapdata.Add(new SiteMapDataAttributeNode("Account Property Groups", Request.Url));
                 StackSiteMap(sitemapdata);
             }

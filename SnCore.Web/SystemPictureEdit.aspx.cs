@@ -20,7 +20,7 @@ public partial class SystemPictureEdit : AuthenticatedPage
             if (!IsPostBack)
             {
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
                 sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request, "SystemPicturesManage.aspx"));
 
                 inputType.DataSource = SessionManager.SystemService.GetPictureTypes();

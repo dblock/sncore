@@ -15,8 +15,6 @@ public partial class AccountMenuControl : Control
     {
         if (!IsPostBack)
         {
-            panelSystem.Visible = SessionManager.IsLoggedIn && SessionManager.IsAdministrator;
-
             if (SessionManager.IsLoggedIn)
             {
                 linkInbox.InnerText = string.Format("Inbox ({0})",

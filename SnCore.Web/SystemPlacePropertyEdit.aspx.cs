@@ -42,7 +42,7 @@ public partial class SystemPlacePropertyEdit : AuthenticatedPage
             if (!IsPostBack)
             {
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
                 sitemapdata.Add(new SiteMapDataAttributeNode("Place Property Groups", Request, "SystemPlacePropertyGroupsManage.aspx"));
                 sitemapdata.Add(new SiteMapDataAttributeNode(PropertyGroup.Name, Request, string.Format("SystemPlacePropertyGroupEdit.aspx?id={0}", PropertyGroupId)));
 

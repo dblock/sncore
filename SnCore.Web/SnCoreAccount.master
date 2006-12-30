@@ -1,11 +1,13 @@
 <%@ Master Language="C#" AutoEventWireup="true" CodeFile="SnCoreAccount.master.cs" Inherits="SnCoreAccount" MasterPageFile="~/SnCore.master"  %>
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="SystemMenu" Src="SystemMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="AccountContent" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <table class="sncore_table">
   <tr>
    <td valign="top" width="150">
     <SnCore:AccountMenu runat="server" ID="menu" />
+    <SnCore:SystemMenu runat="server" ID="systemmenu" />
    </td>
    <td valign="top" width="*">
     <asp:ContentPlaceHolder ID="AccountContentPlaceHolder" runat="server">

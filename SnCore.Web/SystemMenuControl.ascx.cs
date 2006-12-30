@@ -9,13 +9,10 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 
-public partial class SnCoreAccount : MasterPage
+public partial class SystemMenuControl : Control
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!IsPostBack)
-        {
-            systemmenu.Visible = SessionManager.IsLoggedIn && SessionManager.IsAdministrator;
-        }
+
     }
 }

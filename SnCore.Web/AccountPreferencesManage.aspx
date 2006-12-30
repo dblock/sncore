@@ -8,6 +8,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountPropertyGroups" Src="AccountPropertyGroupsControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountRedirectEdit" Src="AccountRedirectEditControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="SystemMenu" Src="SystemMenuControl.ascx" %>
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <asp:Content ID="Content" ContentPlaceHolderID="AccountContentPlaceHolder" runat="Server">
  <table cellspacing="0" cellpadding="4" class="sncore_account_table">

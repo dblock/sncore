@@ -25,7 +25,7 @@ public partial class SystemAccountPlaceRequestsManage : AuthenticatedPage
                 gridManage.DataBind();
 
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
                 sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "AccountPlacesManage.aspx"));
                 sitemapdata.Add(new SiteMapDataAttributeNode("Property Requests", Request.Url));
                 StackSiteMap(sitemapdata);

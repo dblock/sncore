@@ -23,7 +23,7 @@ public partial class SystemCountriesManage : AuthenticatedPage
                 GetData(sender, e);
 
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
                 sitemapdata.Add(new SiteMapDataAttributeNode("Countries", Request.Url));
                 StackSiteMap(sitemapdata);
             }

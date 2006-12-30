@@ -22,7 +22,7 @@ public partial class SystemStatesManage : AuthenticatedPage
                 GetData(sender, e);
 
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
                 sitemapdata.Add(new SiteMapDataAttributeNode("States", Request.Url));
                 StackSiteMap(sitemapdata);
             }
