@@ -66,33 +66,37 @@
    <asp:HyperLink ID="linkNew" Text="&#187; Create New" NavigateUrl="AccountContentEdit.aspx"
     runat="server" />
   </div>
-  <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManageContent"
-   OnItemCommand="gridManageContent_ItemCommand" AutoGenerateColumns="false" CssClass="sncore_account_table"
-   AllowPaging="true" AllowCustomPaging="true" PageSize="5">
-   <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
-   <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
-   <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
-    PrevPageText="Prev" HorizontalAlign="Center" />
-   <Columns>
-    <asp:BoundColumn DataField="Id" Visible="false" />
-    <asp:TemplateColumn HeaderText="Content" ItemStyle-HorizontalAlign="Left">
-     <itemtemplate>        
-      <div class="sncore_link">
-       <a href='AccountContentEdit.aspx?id=<%# Eval("Id") %>&gid=<%# base.RequestId %>'>
-        &#187; <%# base.Render(Eval("Tag")) %>
-        &#187; edit
-       </a>
-       &#187; <%# base.Adjust(Eval("Timestamp")).ToString("d") %>
-       <asp:LinkButton id="linkDelete" Text="&#187; delete" runat="server" CommandName="Delete" 
-        CommandArgument='<%# Eval("Id") %>' OnClientClick="return confirm('Are you sure you want to delete this content?')" />
-      </div>
-      <div class="sncore_message_body">
-       <%# ((bool) Eval("AccountContentGroupTrusted")) ? Eval("Text") : base.RenderEx(Eval("Text"))  %>
-      </div>
-     </itemtemplate>
-    </asp:TemplateColumn>
-   </Columns>
-  </SnCoreWebControls:PagedGrid>
+  <asp:UpdatePanel ID="panelContentUpdate" runat="server" UpdateMode="Conditional" RenderMode="Inline">
+   <ContentTemplate>
+    <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManageContent"
+     OnItemCommand="gridManageContent_ItemCommand" AutoGenerateColumns="false" CssClass="sncore_account_table"
+     AllowPaging="true" AllowCustomPaging="true" PageSize="5">
+     <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
+     <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
+     <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
+      PrevPageText="Prev" HorizontalAlign="Center" />
+     <Columns>
+      <asp:BoundColumn DataField="Id" Visible="false" />
+      <asp:TemplateColumn HeaderText="Content" ItemStyle-HorizontalAlign="Left">
+       <itemtemplate>        
+        <div class="sncore_link">
+         <a href='AccountContentEdit.aspx?id=<%# Eval("Id") %>&gid=<%# base.RequestId %>'>
+          &#187; <%# base.Render(Eval("Tag")) %>
+          &#187; edit
+         </a>
+         &#187; <%# base.Adjust(Eval("Timestamp")).ToString("d") %>
+         <asp:LinkButton id="linkDelete" Text="&#187; delete" runat="server" CommandName="Delete" 
+          CommandArgument='<%# Eval("Id") %>' OnClientClick="return confirm('Are you sure you want to delete this content?')" />
+        </div>
+        <div class="sncore_message_body">
+         <%# ((bool) Eval("AccountContentGroupTrusted")) ? Eval("Text") : base.RenderEx(Eval("Text"))  %>
+        </div>
+       </itemtemplate>
+      </asp:TemplateColumn>
+     </Columns>
+    </SnCoreWebControls:PagedGrid>
+   </ContentTemplate>
+  </asp:UpdatePanel>
  </asp:Panel>
  <SnCore:AccountReminder ID="accountReminder" runat="server" Style="width: 582px;" />
 </asp:Content>

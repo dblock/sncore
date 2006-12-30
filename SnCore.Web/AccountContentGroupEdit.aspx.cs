@@ -22,6 +22,8 @@ public partial class AccountContentGroupEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
+        gridManageContent.OnGetDataSource += new EventHandler(gridManageContent_OnGetDataSource);
+
         if (!IsPostBack)
         {
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
@@ -68,6 +70,7 @@ public partial class AccountContentGroupEdit : AuthenticatedPage
         options.PageNumber = gridManageContent.CurrentPageIndex;
         gridManageContent.DataSource = SessionManager.ContentService.GetAccountContentsById(
             SessionManager.Ticket, RequestId, options);
+        panelContentUpdate.Update();
     }
 
     public void GetData(object sender, EventArgs e)
