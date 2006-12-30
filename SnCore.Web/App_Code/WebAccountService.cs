@@ -3040,6 +3040,7 @@ namespace SnCore.WebServices
                 AccountRedirect redirect = (AccountRedirect)session.CreateCriteria(typeof(AccountRedirect))
                     .Add(Expression.Eq("Account.Id", GetAccountId(ticket)))
                     .Add(Expression.Eq("TargetUri", uri))
+                    .SetMaxResults(1)
                     .UniqueResult();
 
                 if (redirect == null)
