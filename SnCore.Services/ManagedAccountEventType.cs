@@ -12,7 +12,7 @@ using System.IO;
 
 namespace SnCore.Services
 {
-    public class TransitAccountEventType : TransitService
+    public class TransitAccountEventType : TransitService<AccountEventType>
     {
         private string mName;
 
@@ -20,7 +20,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mName;
             }
             set
@@ -34,24 +33,28 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountEventType(AccountEventType o)
-            : base(o.Id)
+        public TransitAccountEventType(AccountEventType instance)
+            : base(instance)
         {
-            Name = o.Name;
+
         }
 
-        public AccountEventType GetAccountEventType(ISession session)
+        public override void SetInstance(AccountEventType instance)
         {
-            AccountEventType p = (Id != 0) ? (AccountEventType)session.Load(typeof(AccountEventType), Id) : new AccountEventType();
-            p.Name = this.Name;
-            return p;
+            Name = instance.Name;
+            base.SetInstance(instance);
+        }
+
+        public override AccountEventType GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            AccountEventType instance = base.GetInstance(session, sec);
+            instance.Name = this.Name;
+            return instance;
         }
     }
 
-    public class ManagedAccountEventType : ManagedService<AccountEventType>
+    public class ManagedAccountEventType : ManagedService<AccountEventType, TransitAccountEventType>
     {
-        private AccountEventType mAccountEventType = null;
-
         public ManagedAccountEventType(ISession session)
             : base(session)
         {
@@ -59,48 +62,15 @@ namespace SnCore.Services
         }
 
         public ManagedAccountEventType(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountEventType = (AccountEventType)session.Load(typeof(AccountEventType), id);
+
         }
 
         public ManagedAccountEventType(ISession session, AccountEventType value)
-            : base(session)
+            : base(session, value)
         {
-            mAccountEventType = value;
-        }
 
-        public ManagedAccountEventType(ISession session, TransitAccountEventType value)
-            : base(session)
-        {
-            mAccountEventType = value.GetAccountEventType(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mAccountEventType.Id;
-            }
-        }
-
-        public TransitAccountEventType TransitAccountEventType
-        {
-            get
-            {
-                return new TransitAccountEventType(mAccountEventType);
-            }
-        }
-
-        public void CreateOrUpdate(TransitAccountEventType o)
-        {
-            mAccountEventType = o.GetAccountEventType(Session);
-            Session.Save(mAccountEventType);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mAccountEventType);
         }
 
         public static AccountEventType Find(ISession session, string name)
@@ -113,6 +83,13 @@ namespace SnCore.Services
         public static int FindId(ISession session, string name)
         {
             return Find(session, name).Id;
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            return acl;
         }
     }
 }

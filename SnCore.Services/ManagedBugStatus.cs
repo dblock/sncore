@@ -12,7 +12,7 @@ using System.IO;
 
 namespace SnCore.Services
 {
-    public class TransitBugStatus : TransitService
+    public class TransitBugStatus : TransitService<BugStatu>
     {
         private string mName;
 
@@ -34,27 +34,28 @@ namespace SnCore.Services
 
         }
 
-        public TransitBugStatus(BugStatu o)
-            : base(o.Id)
+        public TransitBugStatus(BugStatu value)
+            : base(value)
         {
-            Name = o.Name;
+
         }
 
-        public BugStatu GetBugStatus(ISession session)
+        public override void SetInstance(BugStatu instance)
         {
-            BugStatu p = (Id != 0) ? (BugStatu)session.Load(typeof(BugStatu), Id) : new BugStatu();
-            p.Name = this.Name;
-            return p;
+            Name = instance.Name;
+            base.SetInstance(instance);
+        }
+
+        public override BugStatu GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            BugStatu instance = base.GetInstance(session, sec);
+            instance.Name = this.Name;
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed bug Status.
-    /// </summary>
-    public class ManagedBugStatus : ManagedService<BugStatu>
+    public class ManagedBugStatus : ManagedService<BugStatu, TransitBugStatus>
     {
-        private BugStatu mBugStatus = null;
-
         public ManagedBugStatus(ISession session)
             : base(session)
         {
@@ -62,48 +63,15 @@ namespace SnCore.Services
         }
 
         public ManagedBugStatus(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mBugStatus = (BugStatu)session.Load(typeof(BugStatu), id);
+
         }
 
         public ManagedBugStatus(ISession session, BugStatu value)
-            : base(session)
+            : base(session, value)
         {
-            mBugStatus = value;
-        }
 
-        public ManagedBugStatus(ISession session, TransitBugStatus value)
-            : base(session)
-        {
-            mBugStatus = value.GetBugStatus(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mBugStatus.Id;
-            }
-        }
-
-        public TransitBugStatus TransitBugStatus
-        {
-            get
-            {
-                return new TransitBugStatus(mBugStatus);
-            }
-        }
-
-        public void CreateOrUpdate(TransitBugStatus o)
-        {
-            mBugStatus = o.GetBugStatus(Session);
-            Session.Save(mBugStatus);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mBugStatus);
         }
 
         public static BugStatu Find(ISession session, string name)
@@ -119,5 +87,11 @@ namespace SnCore.Services
             return status == null ? 0 : status.Id;
         }
 
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            return acl;
+        }
     }
 }

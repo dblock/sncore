@@ -53,6 +53,13 @@ namespace SnCore.Data.Hibernate
                     return _config;
                 }
             }
+            set
+            {
+                lock (_locker)
+                {
+                    _config = value;
+                }
+            }
         }
 
         private static void CreateConfiguration()
@@ -81,6 +88,13 @@ namespace SnCore.Data.Hibernate
                     }
                 }
                 return _factory;
+            }
+            set
+            {
+                lock (_locker)
+                {
+                    _factory = value;
+                }
             }
         }
 

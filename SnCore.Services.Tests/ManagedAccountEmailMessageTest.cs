@@ -22,12 +22,12 @@ namespace SnCore.Services.Tests
             ManagedAccount a = new ManagedAccount(Session);
             try
             {
-                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
                 a.SendAccountEmailMessage("foo@localhost.com", "bar@localhost.com", "subject", "body", true);
             }
             finally
             {
-                a.Delete();
+                a.Delete(AdminSecurityContext);
             }
         }
     }

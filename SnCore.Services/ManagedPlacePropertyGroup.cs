@@ -12,7 +12,7 @@ using System.IO;
 
 namespace SnCore.Services
 {
-    public class TransitPlacePropertyGroup : TransitService
+    public class TransitPlacePropertyGroup : TransitService<PlacePropertyGroup>
     {
         private string mName;
 
@@ -48,26 +48,30 @@ namespace SnCore.Services
 
         }
 
-        public TransitPlacePropertyGroup(PlacePropertyGroup o)
-            : base(o.Id)
+        public TransitPlacePropertyGroup(PlacePropertyGroup instance)
+            : base(instance)
         {
-            Name = o.Name;
-            Description = o.Description;
+
         }
 
-        public PlacePropertyGroup GetPlacePropertyGroup(ISession session)
+        public override void SetInstance(PlacePropertyGroup instance)
         {
-            PlacePropertyGroup p = (Id != 0) ? (PlacePropertyGroup)session.Load(typeof(PlacePropertyGroup), Id) : new PlacePropertyGroup();
-            p.Name = this.Name;
-            p.Description = this.Description;
-            return p;
+            Name = instance.Name;
+            Description = instance.Description;
+            base.SetInstance(instance);
+        }
+
+        public override PlacePropertyGroup GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            PlacePropertyGroup instance = base.GetInstance(session, sec);
+            instance.Name = this.Name;
+            instance.Description = this.Description;
+            return instance;
         }
     }
 
-    public class ManagedPlacePropertyGroup : ManagedService<PlacePropertyGroup>
+    public class ManagedPlacePropertyGroup : ManagedService<PlacePropertyGroup, TransitPlacePropertyGroup>
     {
-        private PlacePropertyGroup mPlacePropertyGroup = null;
-
         public ManagedPlacePropertyGroup(ISession session)
             : base(session)
         {
@@ -75,48 +79,15 @@ namespace SnCore.Services
         }
 
         public ManagedPlacePropertyGroup(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mPlacePropertyGroup = (PlacePropertyGroup)session.Load(typeof(PlacePropertyGroup), id);
+
         }
 
         public ManagedPlacePropertyGroup(ISession session, PlacePropertyGroup value)
-            : base(session)
+            : base(session, value)
         {
-            mPlacePropertyGroup = value;
-        }
 
-        public ManagedPlacePropertyGroup(ISession session, TransitPlacePropertyGroup value)
-            : base(session)
-        {
-            mPlacePropertyGroup = value.GetPlacePropertyGroup(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mPlacePropertyGroup.Id;
-            }
-        }
-
-        public TransitPlacePropertyGroup TransitPlacePropertyGroup
-        {
-            get
-            {
-                return new TransitPlacePropertyGroup(mPlacePropertyGroup);
-            }
-        }
-
-        public void CreateOrUpdate(TransitPlacePropertyGroup o)
-        {
-            mPlacePropertyGroup = o.GetPlacePropertyGroup(Session);
-            Session.Save(mPlacePropertyGroup);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mPlacePropertyGroup);
         }
 
         public static PlacePropertyGroup Find(ISession session, string name)
@@ -129,6 +100,13 @@ namespace SnCore.Services
         public static int FindId(ISession session, string name)
         {
             return Find(session, name).Id;
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            return acl;
         }
     }
 }

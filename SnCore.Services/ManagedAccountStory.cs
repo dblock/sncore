@@ -5,6 +5,7 @@ using NHibernate.Expression;
 using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.Xml;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
@@ -30,7 +31,7 @@ namespace SnCore.Services
         }
     }
 
-    public class TransitAccountStory : TransitService
+    public class TransitAccountStory : TransitService<AccountStory>
     {
         private string mName;
 
@@ -122,17 +123,17 @@ namespace SnCore.Services
             }
         }
 
-        private int mAccountStoryPictureId;
+        private int mPictureId;
 
         public int AccountStoryPictureId
         {
             get
             {
-                return mAccountStoryPictureId;
+                return mPictureId;
             }
             set
             {
-                mAccountStoryPictureId = value;
+                mPictureId = value;
             }
         }
 
@@ -185,43 +186,46 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountStory(ISession session, AccountStory s)
-            : base(s.Id)
+        public TransitAccountStory(AccountStory value)
+            : base(value)
         {
-            Name = s.Name;
-            Summary = s.Summary;
-            AccountId = s.Account.Id;
-            AccountName = s.Account.Name;
-            AccountPictureId = ManagedAccount.GetRandomAccountPictureId(s.Account);
-            AccountStoryPictureId = ManagedService<AccountStoryPicture>.GetRandomElementId(s.AccountStoryPictures);
-            Created = s.Created;
-            Modified = s.Modified;
-            Publish = s.Publish;
-            CommentCount = ManagedDiscussion.GetDiscussionPostCount(session, s.Account.Id,
-                ManagedDiscussion.AccountStoryDiscussion, s.Id);
+
         }
 
-        public AccountStory GetAccountStory(ISession session)
+        public TransitAccountStory(ISession session, AccountStory value)
+            : base(value)
         {
-            AccountStory s = (Id != 0) ? (AccountStory)session.Load(typeof(AccountStory), Id) : new AccountStory();
-
-            if (Id == 0)
-            {
-                if (AccountId > 0) s.Account = (Account)session.Load(typeof(Account), this.AccountId);
-            }
-
-            s.Name = this.Name;
-            s.Summary = this.Summary;
-            s.Publish = this.Publish;
-            return s;
+            CommentCount = ManagedDiscussion.GetDiscussionPostCount(session, value.Account.Id,
+                ManagedDiscussion.AccountStoryDiscussion, value.Id);
         }
 
+        public override void SetInstance(AccountStory value)
+        {
+            Name = value.Name;
+            Summary = value.Summary;
+            AccountId = value.Account.Id;
+            AccountName = value.Account.Name;
+            AccountPictureId = ManagedAccount.GetRandomAccountPictureId(value.Account);
+            AccountStoryPictureId = ManagedService<AccountStoryPicture, TransitAccountStoryPicture>.GetRandomElementId(value.AccountStoryPictures);
+            Created = value.Created;
+            Modified = value.Modified;
+            Publish = value.Publish;
+            base.SetInstance(value);
+        }
+
+        public override AccountStory GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            AccountStory instance = base.GetInstance(session, sec);
+            if (Id == 0) instance.Account = GetOwner(session, AccountId, sec);
+            instance.Name = this.Name;
+            instance.Summary = this.Summary;
+            instance.Publish = this.Publish;
+            return instance;
+        }
     }
 
-    public class ManagedAccountStory : ManagedService<AccountStory>
+    public class ManagedAccountStory : ManagedService<AccountStory, TransitAccountStory>
     {
-        private AccountStory mAccountStory = null;
-
         public ManagedAccountStory(ISession session)
             : base(session)
         {
@@ -229,30 +233,22 @@ namespace SnCore.Services
         }
 
         public ManagedAccountStory(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountStory = (AccountStory)session.Load(typeof(AccountStory), id);
+
         }
 
         public ManagedAccountStory(ISession session, AccountStory value)
-            : base(session)
+            : base(session, value)
         {
-            mAccountStory = value;
-        }
 
-        public int Id
-        {
-            get
-            {
-                return mAccountStory.Id;
-            }
         }
 
         public int AccountId
         {
             get
             {
-                return mAccountStory.Account.Id;
+                return mInstance.Account.Id;
             }
         }
 
@@ -260,7 +256,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountStory.Name;
+                return mInstance.Name;
             }
         }
 
@@ -268,59 +264,36 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountStory.Summary;
+                return mInstance.Summary;
             }
         }
 
-        public TransitAccountStory TransitAccountStory
-        {
-            get
-            {
-                return new TransitAccountStory(Session, mAccountStory);
-            }
-        }
-
-        public void Delete()
-        {
+        public override void Delete(ManagedSecurityContext sec)
+        {            
+            base.Delete(sec);
             ManagedFeature.Delete(Session, "AccountStory", Id);
-            mAccountStory.Account.AccountStories.Remove(mAccountStory);
-            Session.Delete(mAccountStory);
-        }
-
-        public ManagedAccountStoryPicture AddAccountStoryPicture(TransitAccountStoryPicture Picture)
-        {
-            AccountStoryPicture p = Picture.GetAccountStoryPicture(Session);
-
-            // check that editing story Picture of current story
-            if (p.Id != 0 && p.AccountStory.Id != Id)
-            {
-                throw new ManagedAccount.AccessDeniedException();
-            }
-
-            p.AccountStory = mAccountStory;
-            p.Modifed = DateTime.UtcNow;
-
-            if (p.Id == 0)
-            {
-                p.Created = p.Modifed;
-                if (mAccountStory.AccountStoryPictures == null) mAccountStory.AccountStoryPictures = new List<AccountStoryPicture>();
-                if (mAccountStory.AccountStoryPictures.Count >= ManagedAccount.MaxOfAnything)
-                {
-                    throw new ManagedAccount.QuotaExceededException();
-                }
-                mAccountStory.AccountStoryPictures.Add(p);
-                p.Location = mAccountStory.AccountStoryPictures.Count;
-            }
-
-            Session.Save(p);
-
-            return new ManagedAccountStoryPicture(Session, p);
+            Collection<AccountStory>.GetSafeCollection(mInstance.Account.AccountStories).Remove(mInstance);
         }
 
         public void AddTagWordsTo(ManagedTagWordCollection tags)
         {
-            tags.AddData(mAccountStory.Summary);
-            tags.AddData(mAccountStory.Name);
+            tags.AddData(mInstance.Summary);
+            tags.AddData(mInstance.Name);
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowCreateAndRetrieve());
+            acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
+            return acl;
         }
     }
 }

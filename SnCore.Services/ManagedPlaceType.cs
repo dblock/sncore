@@ -12,7 +12,7 @@ using System.IO;
 
 namespace SnCore.Services
 {
-    public class TransitPlaceType : TransitService
+    public class TransitPlaceType : TransitService<PlaceType>
     {
         private string mName;
 
@@ -34,24 +34,28 @@ namespace SnCore.Services
 
         }
 
-        public TransitPlaceType(PlaceType o)
-            : base(o.Id)
+        public TransitPlaceType(PlaceType value)
+            : base(value)
         {
-            Name = o.Name;
+
         }
 
-        public PlaceType GetPlaceType(ISession session)
+        public override void SetInstance(PlaceType instance)
         {
-            PlaceType p = (Id != 0) ? (PlaceType)session.Load(typeof(PlaceType), Id) : new PlaceType();
-            p.Name = this.Name;
-            return p;
+            Name = instance.Name;
+            base.SetInstance(instance);
+        }
+
+        public override PlaceType GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            PlaceType instance = base.GetInstance(session, sec);
+            instance.Name = this.Name;
+            return instance;
         }
     }
 
-    public class ManagedPlaceType : ManagedService<PlaceType>
+    public class ManagedPlaceType : ManagedService<PlaceType, TransitPlaceType>
     {
-        private PlaceType mPlaceType = null;
-
         public ManagedPlaceType(ISession session)
             : base(session)
         {
@@ -59,48 +63,15 @@ namespace SnCore.Services
         }
 
         public ManagedPlaceType(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mPlaceType = (PlaceType)session.Load(typeof(PlaceType), id);
+
         }
 
         public ManagedPlaceType(ISession session, PlaceType value)
-            : base(session)
+            : base(session, value)
         {
-            mPlaceType = value;
-        }
 
-        public ManagedPlaceType(ISession session, TransitPlaceType value)
-            : base(session)
-        {
-            mPlaceType = value.GetPlaceType(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mPlaceType.Id;
-            }
-        }
-
-        public TransitPlaceType TransitPlaceType
-        {
-            get
-            {
-                return new TransitPlaceType(mPlaceType);
-            }
-        }
-
-        public void CreateOrUpdate(TransitPlaceType o)
-        {
-            mPlaceType = o.GetPlaceType(Session);
-            Session.Save(mPlaceType);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mPlaceType);
         }
 
         public static PlaceType Find(ISession session, string name)
@@ -113,6 +84,13 @@ namespace SnCore.Services
         public static int FindId(ISession session, string name)
         {
             return Find(session, name).Id;
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            return acl;
         }
     }
 }

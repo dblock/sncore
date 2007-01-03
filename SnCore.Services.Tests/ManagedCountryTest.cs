@@ -22,9 +22,9 @@ namespace SnCore.Services.Tests
             TransitCountry t = new TransitCountry();
             t.Name = Guid.NewGuid().ToString();
             ManagedCountry c = new ManagedCountry(Session);
-            c.Create(t);
+            c.CreateOrUpdate(t, AdminSecurityContext);
             Session.Flush();
-            c.Delete();
+            c.Delete(AdminSecurityContext);
             Session.Flush();
         }
 
@@ -34,7 +34,7 @@ namespace SnCore.Services.Tests
             TransitCountry t = new TransitCountry();
             t.Name = Guid.NewGuid().ToString();
             ManagedCountry c = new ManagedCountry(Session);
-            c.Create(t);
+            c.CreateOrUpdate(t, AdminSecurityContext);
             Session.Flush();
             try
             {
@@ -42,7 +42,7 @@ namespace SnCore.Services.Tests
             }
             finally
             {
-                c.Delete();
+                c.Delete(AdminSecurityContext);
             }
             Session.Flush();
         }

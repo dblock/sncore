@@ -20,7 +20,7 @@ using Atom.Core;
 
 namespace SnCore.Services
 {
-    public class TransitAccountContentGroup : TransitService
+    public class TransitAccountContentGroup : TransitService<AccountContentGroup>
     {
         private string mName;
 
@@ -111,24 +111,6 @@ namespace SnCore.Services
             }
         }
 
-        public TransitAccountContentGroup()
-        {
-
-        }
-
-        public TransitAccountContentGroup(AccountContentGroup o)
-            : base(o.Id)
-        {
-            Name = o.Name;
-            Description = o.Description;
-            Created = o.Created;
-            Modified = o.Modified;
-            AccountId = o.Account.Id;
-            AccountName = o.Account.Name;
-            Trusted = o.Trusted;
-            Login = o.Login;
-        }
-
         private bool mTrusted;
 
         public bool Trusted
@@ -157,28 +139,43 @@ namespace SnCore.Services
             }
         }
 
-
-        public AccountContentGroup GetAccountContentGroup(ISession session)
+        public TransitAccountContentGroup()
         {
-            AccountContentGroup p = (Id != 0) ? (AccountContentGroup)session.Load(typeof(AccountContentGroup), Id) : new AccountContentGroup();
 
-            if (Id == 0)
-            {
-                if (AccountId > 0) p.Account = (Account)session.Load(typeof(Account), AccountId);
-            }
+        }
 
-            p.Name = this.Name;
-            p.Description = this.Description;
-            p.Trusted = this.Trusted;
-            p.Login = this.Login;
-            return p;
+        public TransitAccountContentGroup(AccountContentGroup value)
+            : base(value)
+        {
+        }
+
+        public override void SetInstance(AccountContentGroup value)
+        {
+            Name = value.Name;
+            Description = value.Description;
+            Created = value.Created;
+            Modified = value.Modified;
+            AccountId = value.Account.Id;
+            AccountName = value.Account.Name;
+            Trusted = value.Trusted;
+            Login = value.Login;
+            base.SetInstance(value);
+        }
+
+        public override AccountContentGroup GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            AccountContentGroup instance = base.GetInstance(session, sec);
+            if (Id == 0) instance.Account = GetOwner(session, AccountId, sec);
+            instance.Name = this.Name;
+            instance.Description = this.Description;
+            instance.Trusted = this.Trusted;
+            instance.Login = this.Login;
+            return instance;
         }
     }
 
-    public class ManagedAccountContentGroup : ManagedService<AccountContentGroup>
+    public class ManagedAccountContentGroup : ManagedService<AccountContentGroup, TransitAccountContentGroup>
     {
-        private AccountContentGroup mAccountContentGroup = null;
-
         public ManagedAccountContentGroup(ISession session)
             : base(session)
         {
@@ -186,50 +183,23 @@ namespace SnCore.Services
         }
 
         public ManagedAccountContentGroup(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountContentGroup = (AccountContentGroup)session.Load(typeof(AccountContentGroup), id);
+
         }
 
         public ManagedAccountContentGroup(ISession session, AccountContentGroup value)
-            : base(session)
+            : base(session, value)
         {
-            mAccountContentGroup = value;
-        }
 
-        public ManagedAccountContentGroup(ISession session, TransitAccountContentGroup value)
-            : base(session)
-        {
-            mAccountContentGroup = value.GetAccountContentGroup(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mAccountContentGroup.Id;
-            }
         }
 
         public int AccountId
         {
             get
             {
-                return mAccountContentGroup.Account.Id;
+                return mInstance.Account.Id;
             }
-        }
-
-        public TransitAccountContentGroup TransitAccountContentGroup
-        {
-            get
-            {
-                return new TransitAccountContentGroup(mAccountContentGroup);
-            }
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mAccountContentGroup);
         }
 
         public void CheckPermissions(string ticket)
@@ -240,10 +210,24 @@ namespace SnCore.Services
 
         public void CheckPermissions(int user_id)
         {
-            if (mAccountContentGroup.Login && user_id <= 0)
+            if (mInstance.Login && user_id <= 0)
             {
                 throw new ManagedAccount.AccessDeniedException();
             }
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            return acl;
         }
     }
 }

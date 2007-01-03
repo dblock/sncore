@@ -5,7 +5,7 @@ using System.Collections;
 
 namespace SnCore.Services
 {
-    public class TransitSurveyQuestion : TransitService
+    public class TransitSurveyQuestion : TransitService<SurveyQuestion>
     {
         private int mSurveyId;
 
@@ -57,27 +57,31 @@ namespace SnCore.Services
 
         }
 
-        public TransitSurveyQuestion(SurveyQuestion p)
-            : base(p.Id)
+        public TransitSurveyQuestion(SurveyQuestion instance)
+            : base(instance)
         {
-            Question = p.Question;
-            SurveyId = p.Survey.Id;
-            SurveyName = p.Survey.Name;
+
         }
 
-        public SurveyQuestion GetSurveyQuestion(ISession session)
+        public override void SetInstance(SurveyQuestion instance)
         {
-            SurveyQuestion p = (Id != 0) ? (SurveyQuestion)session.Load(typeof(SurveyQuestion), Id) : new SurveyQuestion();
-            p.Question = this.Question;
-            p.Survey = (Survey)session.Load(typeof(Survey), this.SurveyId);
-            return p;
+            Question = instance.Question;
+            SurveyId = instance.Survey.Id;
+            SurveyName = instance.Survey.Name;
+            base.SetInstance(instance);
+        }
+
+        public override SurveyQuestion GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            SurveyQuestion instance = base.GetInstance(session, sec);
+            instance.Question = this.Question;
+            instance.Survey = (Survey)session.Load(typeof(Survey), this.SurveyId);
+            return instance;
         }
     }
 
-    public class ManagedSurveyQuestion : ManagedService<SurveyQuestion>
+    public class ManagedSurveyQuestion : ManagedService<SurveyQuestion, TransitSurveyQuestion>
     {
-        private SurveyQuestion mSurveyQuestion = null;
-
         public ManagedSurveyQuestion(ISession session)
             : base(session)
         {
@@ -85,50 +89,30 @@ namespace SnCore.Services
         }
 
         public ManagedSurveyQuestion(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mSurveyQuestion = (SurveyQuestion)session.Load(typeof(SurveyQuestion), id);
+
         }
 
         public ManagedSurveyQuestion(ISession session, SurveyQuestion value)
-            : base(session)
+            : base(session, value)
         {
-            mSurveyQuestion = value;
-        }
 
-        public int Id
-        {
-            get
-            {
-                return mSurveyQuestion.Id;
-            }
         }
 
         public string Question
         {
             get
             {
-                return mSurveyQuestion.Question;
+                return mInstance.Question;
             }
         }
 
-        public TransitSurveyQuestion TransitSurveyQuestion
+        public override ACL GetACL()
         {
-            get
-            {
-                return new TransitSurveyQuestion(mSurveyQuestion);
-            }
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mSurveyQuestion);
-        }
-
-        public void Create(TransitSurveyQuestion q)
-        {
-            mSurveyQuestion = q.GetSurveyQuestion(Session);
-            Session.Save(mSurveyQuestion);
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            return acl;
         }
     }
 }

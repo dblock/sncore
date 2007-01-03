@@ -12,7 +12,7 @@ using System.IO;
 
 namespace SnCore.Services
 {
-    public class TransitAccountPropertyValue : TransitService
+    public class TransitAccountPropertyValue : TransitService<AccountPropertyValue>
     {
         private int mAccountId;
 
@@ -89,30 +89,34 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountPropertyValue(AccountPropertyValue o)
-            : base(o.Id)
+        public TransitAccountPropertyValue(AccountPropertyValue instance)
+            : base(instance)
         {
-            AccountId = o.Account.Id;
-            AccountProperty = new TransitAccountProperty(o.AccountProperty);
-            Created = o.Created;
-            Modified = o.Modified;
-            Value = o.Value;
+
         }
 
-        public AccountPropertyValue GetAccountPropertyValue(ISession session)
+        public override void SetInstance(AccountPropertyValue instance)
         {
-            AccountPropertyValue p = (Id != 0) ? (AccountPropertyValue)session.Load(typeof(AccountPropertyValue), Id) : new AccountPropertyValue();
-            p.Account = (this.AccountId > 0) ? (Account)session.Load(typeof(Account), AccountId) : null;
-            p.AccountProperty = (this.AccountProperty != null && this.AccountProperty.Id > 0) ? (AccountProperty)session.Load(typeof(AccountProperty), this.AccountProperty.Id) : null;
-            p.Value = this.Value;
-            return p;
+            AccountId = instance.Account.Id;
+            AccountProperty = new TransitAccountProperty(instance.AccountProperty);
+            Created = instance.Created;
+            Modified = instance.Modified;
+            Value = instance.Value;
+            base.SetInstance(instance);
+        }
+
+        public override AccountPropertyValue GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            AccountPropertyValue instance = base.GetInstance(session, sec);
+            instance.Account = (this.AccountId > 0) ? (Account)session.Load(typeof(Account), AccountId) : null;
+            instance.AccountProperty = (this.AccountProperty != null && this.AccountProperty.Id > 0) ? (AccountProperty)session.Load(typeof(AccountProperty), this.AccountProperty.Id) : null;
+            instance.Value = this.Value;
+            return instance;
         }
     }
 
-    public class ManagedAccountPropertyValue : ManagedService<AccountPropertyValue>
+    public class ManagedAccountPropertyValue : ManagedService<AccountPropertyValue, TransitAccountPropertyValue>
     {
-        private AccountPropertyValue mAccountPropertyValue = null;
-
         public ManagedAccountPropertyValue(ISession session)
             : base(session)
         {
@@ -120,50 +124,38 @@ namespace SnCore.Services
         }
 
         public ManagedAccountPropertyValue(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountPropertyValue = (AccountPropertyValue)session.Load(typeof(AccountPropertyValue), id);
+
         }
 
         public ManagedAccountPropertyValue(ISession session, AccountPropertyValue value)
-            : base(session)
+            : base(session, value)
         {
-            mAccountPropertyValue = value;
-        }
 
-        public ManagedAccountPropertyValue(ISession session, TransitAccountPropertyValue value)
-            : base(session)
-        {
-            mAccountPropertyValue = value.GetAccountPropertyValue(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mAccountPropertyValue.Id;
-            }
         }
 
         public int AccountId
         {
             get
             {
-                return mAccountPropertyValue.Account.Id;
+                return mInstance.Account.Id;
             }
         }
 
-        public TransitAccountPropertyValue TransitAccountPropertyValue
+        protected override void Save(ManagedSecurityContext sec)
         {
-            get
-            {
-                return new TransitAccountPropertyValue(mAccountPropertyValue);
-            }
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
         }
 
-        public void Delete()
+        public override ACL GetACL()
         {
-            Session.Delete(mAccountPropertyValue);
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowCreateAndRetrieve());
+            acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
+            return acl;
         }
     }
 }

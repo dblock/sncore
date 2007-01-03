@@ -12,8 +12,36 @@ using System.IO;
 
 namespace SnCore.Services
 {
-    public class TransitTagWordAccount : TransitService
+    public class TransitTagWordAccount : TransitService<TagWordAccount>
     {
+        private DateTime mCreated;
+
+        public DateTime Created
+        {
+            get
+            {
+                return mCreated;
+            }
+            set
+            {
+                mCreated = value;
+            }
+        }
+
+        private DateTime mModified;
+
+        public DateTime Modified
+        {
+            get
+            {
+                return mModified;
+            }
+            set
+            {
+                mModified = value;
+            }
+        }
+
         private string mWord;
 
         public string Word
@@ -49,33 +77,36 @@ namespace SnCore.Services
         }
 
         public TransitTagWordAccount(TagWordAccount o)
-            : base(o.Id)
+            : base(o)
         {
-            Word = o.TagWord.Word;
-            AccountId = o.AccountId;
+
         }
 
-        public TagWordAccount GetTagWordAccount(ISession session)
+        public override void SetInstance(TagWordAccount value)
         {
-            TagWordAccount p = (Id != 0) ? (TagWordAccount)session.Load(typeof(TagWordAccount), Id) : new TagWordAccount();
-            p.TagWord = ManagedTagWord.Find(session, this.Word);
+            Word = value.TagWord.Word;
+            AccountId = value.AccountId;
+            Created = value.Created;
+            Modified = value.Modified;
+            base.SetInstance(value);
+        }
+
+        public override TagWordAccount GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            TagWordAccount instance = base.GetInstance(session, sec);
+            instance.TagWord = ManagedTagWord.Find(session, this.Word);
 
             if (Id == 0)
             {
-                p.AccountId = this.AccountId;
+                instance.AccountId = this.AccountId;
             }
 
-            return p;
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed tag word.
-    /// </summary>
-    public class ManagedTagWordAccount : ManagedService<TagWordAccount>
+    public class ManagedTagWordAccount : ManagedService<TagWordAccount, TransitTagWordAccount>
     {
-        private TagWordAccount mTagWordAccount = null;
-
         public ManagedTagWordAccount(ISession session)
             : base(session)
         {
@@ -83,50 +114,15 @@ namespace SnCore.Services
         }
 
         public ManagedTagWordAccount(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mTagWordAccount = (TagWordAccount)session.Load(typeof(TagWordAccount), id);
+
         }
 
         public ManagedTagWordAccount(ISession session, TagWordAccount value)
-            : base(session)
+            : base(session, value)
         {
-            mTagWordAccount = value;
-        }
 
-        public ManagedTagWordAccount(ISession session, TransitTagWordAccount value)
-            : base(session)
-        {
-            mTagWordAccount = value.GetTagWordAccount(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mTagWordAccount.Id;
-            }
-        }
-
-        public TransitTagWordAccount TransitTagWordAccount
-        {
-            get
-            {
-                return new TransitTagWordAccount(mTagWordAccount);
-            }
-        }
-
-        public void CreateOrUpdate(TransitTagWordAccount o)
-        {
-            mTagWordAccount = o.GetTagWordAccount(Session);
-            mTagWordAccount.Modified = DateTime.UtcNow;
-            if (Id == 0) mTagWordAccount.Created = mTagWordAccount.Modified;
-            Session.Save(mTagWordAccount);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mTagWordAccount);
         }
 
         public static TagWordAccount Find(ISession session, string word)
@@ -141,5 +137,18 @@ namespace SnCore.Services
             return Find(session, name).Id;
         }
 
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            return acl;
+        }
     }
 }

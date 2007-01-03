@@ -12,7 +12,7 @@ using System.IO;
 
 namespace SnCore.Services
 {
-    public class TransitMadLib : TransitService
+    public class TransitMadLib : TransitService<MadLib>
     {
         private string mName;
 
@@ -106,34 +106,35 @@ namespace SnCore.Services
 
         }
 
-        public TransitMadLib(MadLib c)
-            : base(c.Id)
+        public TransitMadLib(MadLib instance)
+            : base(instance)
         {
-            Name = c.Name;
-            Template = c.Template;
-            Created = c.Created;
-            Modified = c.Modified;
-            AccountId = c.Account.Id;
-            AccountName = c.Account.Name;
+
         }
 
-        public MadLib GetMadLib(ISession session)
+        public override void SetInstance(MadLib instance)
         {
-            MadLib p = (Id != 0) ? (MadLib)session.Load(typeof(MadLib), Id) : new MadLib();
-            p.Name = this.Name;
-            p.Template = this.Template;
-            if (Id == 0 && AccountId > 0) p.Account = (Account)session.Load(typeof(Account), AccountId);
-            return p;
+            Name = instance.Name;
+            Template = instance.Template;
+            Created = instance.Created;
+            Modified = instance.Modified;
+            AccountId = instance.Account.Id;
+            AccountName = instance.Account.Name;
+            base.SetInstance(instance);
+        }
+
+        public override MadLib GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            MadLib instance = base.GetInstance(session, sec);
+            instance.Name = this.Name;
+            instance.Template = this.Template;
+            if (Id == 0 && AccountId > 0) instance.Account = (Account)session.Load(typeof(Account), AccountId);
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed MadLib.
-    /// </summary>
-    public class ManagedMadLib : ManagedService<MadLib>
+    public class ManagedMadLib : ManagedService<MadLib, TransitMadLib>
     {
-        private MadLib mMadLib = null;
-
         public ManagedMadLib(ISession session)
             : base(session)
         {
@@ -141,58 +142,38 @@ namespace SnCore.Services
         }
 
         public ManagedMadLib(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mMadLib = (MadLib)session.Load(typeof(MadLib), id);
+
         }
 
         public ManagedMadLib(ISession session, MadLib value)
-            : base(session)
+            : base(session, value)
         {
-            mMadLib = value;
-        }
 
-        public ManagedMadLib(ISession session, TransitMadLib value)
-            : base(session)
-        {
-            mMadLib = value.GetMadLib(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mMadLib.Id;
-            }
         }
 
         public int AccountId
         {
             get
             {
-                return mMadLib.Account.Id;
+                return mInstance.Account.Id;
             }
         }
 
-        public TransitMadLib TransitMadLib
+        protected override void Save(ManagedSecurityContext sec)
         {
-            get
-            {
-                return new TransitMadLib(mMadLib);
-            }
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
         }
 
-        public void CreateOrUpdate(TransitMadLib c)
+        public override ACL GetACL()
         {
-            mMadLib = c.GetMadLib(Session);
-            mMadLib.Modified = DateTime.UtcNow;
-            if (mMadLib.Id == 0) mMadLib.Created = mMadLib.Modified;
-            Session.Save(mMadLib);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mMadLib);
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowCreateAndRetrieve());
+            acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
+            return acl;
         }
     }
 }

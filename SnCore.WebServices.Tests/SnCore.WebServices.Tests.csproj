@@ -1,0 +1,78 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8620AD9D-1515-43EE-A0A2-9D502ADF8308}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SnCore.WebServices.Tests</RootNamespace>
+    <AssemblyName>SnCore.WebServices.Tests</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="NHibernate, Version=1.2.0.2002, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\NHibernate-Bin\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.2.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="WebServiceImplBugPriorityTest.cs" />
+    <Compile Include="WebServiceImplBugSeverityTest.cs" />
+    <Compile Include="WebServiceImplTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SnCore.Data.Hibernate\SnCore.Data.Hibernate.csproj">
+      <Project>{437F9693-8C20-49BD-A4FD-68A88E9A92C0}</Project>
+      <Name>SnCore.Data.Hibernate</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SnCore.Data.Tests\SnCore.Data.Tests.csproj">
+      <Project>{67A52AD0-9E51-4899-82A8-D2E2E7455069}</Project>
+      <Name>SnCore.Data.Tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SnCore.Data\SnCore.Data.csproj">
+      <Project>{F78C3AFB-D0CE-4F92-A180-371293D0D937}</Project>
+      <Name>SnCore.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SnCore.Services\SnCore.Services.csproj">
+      <Project>{5AEB26B1-4C6C-42ED-86A0-2E5FD6CE53E2}</Project>
+      <Name>SnCore.Services</Name>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\SnCore.WebServices\SnCore.WebServices.csproj">
+      <Project>{A18A417F-A1C5-43F2-BAC2-00B1A924E60F}</Project>
+      <Name>SnCore.WebServices</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

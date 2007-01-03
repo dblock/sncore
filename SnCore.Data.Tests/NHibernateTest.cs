@@ -11,6 +11,7 @@ namespace SnCore.Data.Tests
     /// </summary>
     public class NHibernateTest
     {
+        private static NHibernate.Cfg.Configuration mConfiguration = null;
         private static ISessionFactory mFactory = null;
         private ISession mSession;
 
@@ -19,19 +20,34 @@ namespace SnCore.Data.Tests
 
         }
 
+        public static NHibernate.Cfg.Configuration Configuration
+        {
+            get
+            {
+                if (mConfiguration == null)
+                {
+                    mConfiguration = new NHibernate.Cfg.Configuration();
+                    mConfiguration.Properties.Add("hibernate.dialect", "NHibernate.Dialect.MsSql2005Dialect");
+                    mConfiguration.Properties.Add("hibernate.connection.provider", "NHibernate.Connection.DriverConnectionProvider");
+                    mConfiguration.Properties.Add("hibernate.connection.driver_class", "NHibernate.Driver.SqlClientDriver");
+                    mConfiguration.Properties.Add("hibernate.connection.connection_string", "Server=localhost;initial catalog=SnCore;Integrated Security=SSPI");
+                    mConfiguration.AddAssembly("SnCore.Data");
+                }
+                return mConfiguration;
+            }
+            set
+            {
+                mConfiguration = value;
+            }
+        }
+
         public static ISessionFactory Factory
         {
             get
             {
                 if (mFactory == null)
                 {
-                    NHibernate.Cfg.Configuration cfg = new NHibernate.Cfg.Configuration();
-                    cfg.Properties.Add("hibernate.dialect", "NHibernate.Dialect.MsSql2000Dialect");
-                    cfg.Properties.Add("hibernate.connection.provider", "NHibernate.Connection.DriverConnectionProvider");
-                    cfg.Properties.Add("hibernate.connection.driver_class", "NHibernate.Driver.SqlClientDriver");
-                    cfg.Properties.Add("hibernate.connection.connection_string", "Server=localhost;initial catalog=SnCore;Integrated Security=SSPI");
-                    cfg.AddAssembly("SnCore.Data");
-                    mFactory = cfg.BuildSessionFactory();
+                    mFactory = Configuration.BuildSessionFactory();
                 }
                 return mFactory;
             }

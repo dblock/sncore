@@ -18,7 +18,7 @@ using System.Net;
 
 namespace SnCore.Services
 {
-    public class TransitFriendsPlaceQueueItem : TransitService
+    public class TransitFriendsPlaceQueueItem
     {
         private TransitPlace mPlace;
 
@@ -55,7 +55,7 @@ namespace SnCore.Services
         }
     }
 
-    public class TransitPlaceQueueItem : TransitService
+    public class TransitPlaceQueueItem : TransitService<PlaceQueueItem>
     {
         private int mPlaceId;
 
@@ -130,46 +130,50 @@ namespace SnCore.Services
 
         }
 
-        public TransitPlaceQueueItem(PlaceQueueItem o)
-            : base(o.Id)
+        public TransitPlaceQueueItem(PlaceQueueItem instance)
+            : base(instance)
         {
-            Created = o.Created;
-            Updated = o.Updated;
-            mPlace = new TransitPlace(o.Place);
+
         }
 
-        public PlaceQueueItem GetPlaceQueueItem(ISession session)
+        public override void SetInstance(PlaceQueueItem instance)
         {
-            PlaceQueueItem p = null;
+            Created = instance.Created;
+            Updated = instance.Updated;
+            mPlace = new TransitPlace(instance.Place);
+            base.SetInstance(instance);
+        }
+
+        public override PlaceQueueItem GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            PlaceQueueItem instance = null;
 
             if (Id != 0)
             {
-                p = (PlaceQueueItem)session.Load(typeof(PlaceQueueItem), Id);
+                instance = (PlaceQueueItem)session.Load(typeof(PlaceQueueItem), Id);
             }
             else
             {
-                p = (PlaceQueueItem)session.CreateCriteria(typeof(PlaceQueueItem))
+                instance = (PlaceQueueItem)session.CreateCriteria(typeof(PlaceQueueItem))
                    .Add(Expression.Eq("Place.Id", PlaceId))
                    .Add(Expression.Eq("PlaceQueue.Id", PlaceQueueId))
                    .UniqueResult();
 
-                if (p == null) p = new PlaceQueueItem();
+                if (instance == null) instance = new PlaceQueueItem();
             }
 
             if (Id == 0)
             {
-                if (PlaceQueueId > 0) p.PlaceQueue = (PlaceQueue)session.Load(typeof(PlaceQueue), PlaceQueueId);
-                if (PlaceId > 0) p.Place = (Place)session.Load(typeof(Place), PlaceId);
+                if (PlaceQueueId > 0) instance.PlaceQueue = (PlaceQueue)session.Load(typeof(PlaceQueue), PlaceQueueId);
+                if (PlaceId > 0) instance.Place = (Place)session.Load(typeof(Place), PlaceId);
             }
 
-            return p;
+            return instance;
         }
     }
 
-    public class ManagedPlaceQueueItem : ManagedService<PlaceQueueItem>
+    public class ManagedPlaceQueueItem : ManagedService<PlaceQueueItem, TransitPlaceQueueItem>
     {
-        private PlaceQueueItem mPlaceQueueItem = null;
-
         public ManagedPlaceQueueItem(ISession session)
             : base(session)
         {
@@ -177,59 +181,23 @@ namespace SnCore.Services
         }
 
         public ManagedPlaceQueueItem(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mPlaceQueueItem = (PlaceQueueItem)session.Load(typeof(PlaceQueueItem), id);
+
         }
 
         public ManagedPlaceQueueItem(ISession session, PlaceQueueItem value)
-            : base(session)
+            : base(session, value)
         {
-            mPlaceQueueItem = value;
-        }
 
-        public ManagedPlaceQueueItem(ISession session, TransitPlaceQueueItem value)
-            : base(session)
-        {
-            mPlaceQueueItem = value.GetPlaceQueueItem(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mPlaceQueueItem.Id;
-            }
         }
 
         public int PlaceQueueId
         {
             get
             {
-                return mPlaceQueueItem.PlaceQueue.Id;
+                return mInstance.PlaceQueue.Id;
             }
-        }
-
-        public TransitPlaceQueueItem TransitPlaceQueueItem
-        {
-            get
-            {
-                return new TransitPlaceQueueItem(mPlaceQueueItem);
-            }
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mPlaceQueueItem);
-        }
-
-
-        public void CreateOrUpdate(TransitPlaceQueueItem o)
-        {
-            mPlaceQueueItem = o.GetPlaceQueueItem(Session);
-            mPlaceQueueItem.Updated = DateTime.UtcNow;
-            if (mPlaceQueueItem.Id == 0) mPlaceQueueItem.Created = mPlaceQueueItem.Updated;
-            Session.Save(mPlaceQueueItem);
         }
 
         public static void GetPlaces(Account acct, Dictionary<Place, List<Account>> list)
@@ -251,7 +219,7 @@ namespace SnCore.Services
                     List<Account> row = null;
                     if (list.TryGetValue(item.Place, out row))
                     {
-                        if (! row.Contains(acct))
+                        if (!row.Contains(acct))
                         {
                             row.Add(acct);
                         }
@@ -264,6 +232,21 @@ namespace SnCore.Services
                     }
                 }
             }
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            mInstance.Updated = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Updated;
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowCreateAndRetrieve());
+            acl.Add(new ACLAccount(mInstance.PlaceQueue.Account, DataOperation.All));
+            return acl;
         }
     }
 }

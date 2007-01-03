@@ -12,7 +12,7 @@ using System.IO;
 
 namespace SnCore.Services
 {
-    public class TransitCity : TransitService
+    public class TransitCity : TransitService<City>
     {
         private string mName;
 
@@ -79,28 +79,32 @@ namespace SnCore.Services
 
         }
 
-        public TransitCity(City c)
-            : base(c.Id)
+        public TransitCity(City value)
+            : base(value)
         {
-            Name = c.Name;
-            Tag = c.Tag;
-            State = c.State == null ? string.Empty : c.State.Name;
-            Country = c.Country.Name;
         }
 
-        public City GetCity(ISession session)
+        public override void SetInstance(City value)
         {
-            City c = (Id != 0) ? (City)session.Load(typeof(City), Id) : new City();
-            c.Name = this.Name;
-            c.Tag = this.Tag;
-            c.State = string.IsNullOrEmpty(State) ? null : ManagedState.Find(session, State, Country);
-            c.Country = string.IsNullOrEmpty(Country) ? null : ManagedCountry.Find(session, Country);
-            return c;
+            Name = value.Name;
+            Tag = value.Tag;
+            State = value.State == null ? string.Empty : value.State.Name;
+            Country = value.Country.Name;
+            base.SetInstance(value);
         }
 
+        public override City GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            City instance = base.GetInstance(session, sec);
+            instance.Name = this.Name;
+            instance.Tag = this.Tag;
+            instance.State = string.IsNullOrEmpty(State) ? null : ManagedState.Find(session, State, Country);
+            instance.Country = string.IsNullOrEmpty(Country) ? null : ManagedCountry.Find(session, Country);
+            return instance;
+        }
     }
 
-    public class ManagedCity : ManagedService<City>
+    public class ManagedCity : ManagedService<City, TransitCity>
     {
         public class InvalidCityException : SoapException
         {
@@ -111,8 +115,6 @@ namespace SnCore.Services
             }
         }
 
-        private City mCity = null;
-
         public ManagedCity(ISession session)
             : base(session)
         {
@@ -120,50 +122,23 @@ namespace SnCore.Services
         }
 
         public ManagedCity(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mCity = (City)session.Load(typeof(City), id);
+
         }
 
         public ManagedCity(ISession session, City value)
-            : base(session)
+            : base(session, value)
         {
-            mCity = value;
-        }
 
-        public int Id
-        {
-            get
-            {
-                return mCity.Id;
-            }
         }
 
         public string Name
         {
             get
             {
-                return mCity.Name;
+                return mInstance.Name;
             }
-        }
-
-        public TransitCity TransitCity
-        {
-            get
-            {
-                return new TransitCity(mCity);
-            }
-        }
-
-        public void Create(TransitCity s)
-        {
-            mCity = s.GetCity(Session);
-            Session.Save(mCity);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mCity);
         }
 
         public static City FindOrCreate(ISession session, string name, string state, string country)
@@ -246,14 +221,14 @@ namespace SnCore.Services
 
         public int Merge(int id)
         {
-            if (id == mCity.Id)
+            if (id == mInstance.Id)
             {
                 throw new Exception("Cannot merge city into self");
             }
 
             int count = 0;
 
-            City merge = (City) Session.Load(typeof(City), id);
+            City merge = (City)Session.Load(typeof(City), id);
 
             // update places
             if (merge.Places != null)
@@ -261,7 +236,7 @@ namespace SnCore.Services
                 count += merge.Places.Count;
                 foreach (Place place in merge.Places)
                 {
-                    place.City = mCity;
+                    place.City = mInstance;
                     Session.Save(place);
                 }
             }
@@ -274,7 +249,7 @@ namespace SnCore.Services
             count += accounts.Count;
             foreach (Account account in accounts)
             {
-                account.City = mCity.Name;
+                account.City = mInstance.Name;
                 Session.Save(account);
             }
 
@@ -286,12 +261,19 @@ namespace SnCore.Services
             count += accountaddresses.Count;
             foreach (AccountAddress accountaddress in accountaddresses)
             {
-                accountaddress.City = mCity.Name;
+                accountaddress.City = mInstance.Name;
                 Session.Save(accountaddress);
             }
 
             Session.Delete(merge);
             return count;
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            return acl;
         }
     }
 }

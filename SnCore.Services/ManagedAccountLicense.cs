@@ -5,10 +5,11 @@ using NHibernate.Expression;
 using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.Xml;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
-    public class TransitAccountLicense : TransitService
+    public class TransitAccountLicense : TransitService<AccountLicense>
     {
         private string mName;
 
@@ -104,37 +105,40 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountLicense(AccountLicense s)
-            : base(s.Id)
+        public TransitAccountLicense(AccountLicense value)
+            : base(value)
         {
-            Name = s.Name;
-            LicenseUrl = s.LicenseUrl;
-            ImageUrl = s.ImageUrl;
-            AccountId = s.Account.Id;
-            Created = s.Created;
-            Modified = s.Modified;
+
         }
 
-        public AccountLicense GetAccountLicense(ISession session)
+        public override void SetInstance(AccountLicense value)
         {
-            AccountLicense s = (Id != 0) ? (AccountLicense)session.Load(typeof(AccountLicense), Id) : new AccountLicense();
-
-            if (Id == 0)
-            {
-                if (AccountId > 0) s.Account = (Account)session.Load(typeof(Account), this.AccountId);
-            }
-
-            s.Name = this.Name;
-            s.LicenseUrl = this.LicenseUrl;
-            s.ImageUrl = this.ImageUrl;
-            return s;
+            Name = value.Name;
+            LicenseUrl = value.LicenseUrl;
+            ImageUrl = value.ImageUrl;
+            AccountId = value.Account.Id;
+            Created = value.Created;
+            Modified = value.Modified;
+            base.SetInstance(value);
         }
 
+        public override AccountLicense GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            AccountLicense instance = base.GetInstance(session, sec);
+            if (Id == 0) instance.Account = GetOwner(session, AccountId, sec);
+            instance.Name = this.Name;
+            instance.LicenseUrl = this.LicenseUrl;
+            instance.ImageUrl = this.ImageUrl;
+            return instance;
+        }
     }
 
-    public class ManagedAccountLicense : ManagedService<AccountLicense>
+    public class ManagedAccountLicense : ManagedService<AccountLicense, TransitAccountLicense>
     {
-        private AccountLicense mAccountLicense = null;
+        public ManagedAccountLicense()
+        {
+
+        }
 
         public ManagedAccountLicense(ISession session)
             : base(session)
@@ -143,30 +147,23 @@ namespace SnCore.Services
         }
 
         public ManagedAccountLicense(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountLicense = (AccountLicense)session.Load(typeof(AccountLicense), id);
+
         }
 
         public ManagedAccountLicense(ISession session, AccountLicense value)
-            : base(session)
+            : base(session, value)
         {
-            mAccountLicense = value;
+
         }
 
-        public int Id
-        {
-            get
-            {
-                return mAccountLicense.Id;
-            }
-        }
 
         public int AccountId
         {
             get
             {
-                return mAccountLicense.Account.Id;
+                return mInstance.Account.Id;
             }
         }
 
@@ -174,7 +171,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountLicense.Name;
+                return mInstance.Name;
             }
         }
 
@@ -182,7 +179,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountLicense.LicenseUrl;
+                return mInstance.LicenseUrl;
             }
         }
 
@@ -190,23 +187,30 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountLicense.ImageUrl;
+                return mInstance.ImageUrl;
             }
         }
 
-        public TransitAccountLicense TransitAccountLicense
-        {
-            get
-            {
-                return new TransitAccountLicense(mAccountLicense);
-            }
-        }
-
-        public void Delete()
+        public override void Delete(ManagedSecurityContext sec)
         {
             ManagedFeature.Delete(Session, "AccountLicense", Id);
-            mAccountLicense.Account.AccountLicenses.Remove(mAccountLicense);
-            Session.Delete(mAccountLicense);
+            Collection<AccountLicense>.GetSafeCollection(mInstance.Account.AccountLicenses).Remove(mInstance);
+            base.Delete(sec);
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowCreateAndRetrieve());
+            acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
+            return acl;
         }
     }
 }

@@ -12,7 +12,7 @@ using System.IO;
 
 namespace SnCore.Services
 {
-    public class TransitAccountPropertyGroup : TransitService
+    public class TransitAccountPropertyGroup : TransitService<AccountPropertyGroup>
     {
         private string mName;
 
@@ -48,26 +48,30 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountPropertyGroup(AccountPropertyGroup o)
-            : base(o.Id)
+        public TransitAccountPropertyGroup(AccountPropertyGroup value)
+            : base(value)
         {
-            Name = o.Name;
-            Description = o.Description;
+
         }
 
-        public AccountPropertyGroup GetAccountPropertyGroup(ISession session)
+        public override void SetInstance(AccountPropertyGroup value)
         {
-            AccountPropertyGroup p = (Id != 0) ? (AccountPropertyGroup)session.Load(typeof(AccountPropertyGroup), Id) : new AccountPropertyGroup();
-            p.Name = this.Name;
-            p.Description = this.Description;
-            return p;
+            Name = value.Name;
+            Description = value.Description;
+            base.SetInstance(value);
+        }
+
+        public override AccountPropertyGroup GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            AccountPropertyGroup instance = base.GetInstance(session, sec);
+            instance.Name = this.Name;
+            instance.Description = this.Description;
+            return instance;
         }
     }
 
-    public class ManagedAccountPropertyGroup : ManagedService<AccountPropertyGroup>
+    public class ManagedAccountPropertyGroup : ManagedService<AccountPropertyGroup, TransitAccountPropertyGroup>
     {
-        private AccountPropertyGroup mAccountPropertyGroup = null;
-
         public ManagedAccountPropertyGroup(ISession session)
             : base(session)
         {
@@ -75,48 +79,15 @@ namespace SnCore.Services
         }
 
         public ManagedAccountPropertyGroup(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountPropertyGroup = (AccountPropertyGroup)session.Load(typeof(AccountPropertyGroup), id);
+
         }
 
         public ManagedAccountPropertyGroup(ISession session, AccountPropertyGroup value)
-            : base(session)
+            : base(session, value)
         {
-            mAccountPropertyGroup = value;
-        }
 
-        public ManagedAccountPropertyGroup(ISession session, TransitAccountPropertyGroup value)
-            : base(session)
-        {
-            mAccountPropertyGroup = value.GetAccountPropertyGroup(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mAccountPropertyGroup.Id;
-            }
-        }
-
-        public TransitAccountPropertyGroup TransitAccountPropertyGroup
-        {
-            get
-            {
-                return new TransitAccountPropertyGroup(mAccountPropertyGroup);
-            }
-        }
-
-        public void CreateOrUpdate(TransitAccountPropertyGroup o)
-        {
-            mAccountPropertyGroup = o.GetAccountPropertyGroup(Session);
-            Session.Save(mAccountPropertyGroup);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mAccountPropertyGroup);
         }
 
         public static AccountPropertyGroup Find(ISession session, string name)
@@ -129,6 +100,13 @@ namespace SnCore.Services
         public static int FindId(ISession session, string name)
         {
             return Find(session, name).Id;
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            return acl;
         }
     }
 }

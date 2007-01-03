@@ -25,7 +25,7 @@ namespace SnCore.Services.Tests
 
             try
             {
-                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
 
                 TransitCountry tc = new TransitCountry();
                 tc.Name = Guid.NewGuid().ToString();
@@ -33,8 +33,8 @@ namespace SnCore.Services.Tests
                 ts.Name = Guid.NewGuid().ToString();
                 ts.Country = tc.Name;
 
-                c.Create(tc);
-                s.Create(ts);
+                c.CreateOrUpdate(tc, AdminSecurityContext);
+                s.CreateOrUpdate(ts, AdminSecurityContext);
                 
                 TransitAccountAddress ta = new TransitAccountAddress();
                 ta.Apt = "123";
@@ -45,15 +45,16 @@ namespace SnCore.Services.Tests
                 ta.Street = "Houston St.";
                 ta.Zip = "10001";
 
-                a.CreateOrUpdate(ta);
+                ManagedAccountAddress m_a = new ManagedAccountAddress(Session);
+                m_a.CreateOrUpdate(ta, new ManagedSecurityContext(a.Instance));
             }
             finally
             {
                 try
                 {
-                    a.Delete();
-                    s.Delete();
-                    c.Delete();
+                    a.Delete(AdminSecurityContext);
+                    s.Delete(AdminSecurityContext);
+                    c.Delete(AdminSecurityContext);
                 }
                 catch
                 {

@@ -24,15 +24,15 @@ namespace SnCore.Services.Tests
 
             try
             {
-                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
                 TransitAccountEmail e = new TransitAccountEmail();
                 e.Address = "foo2@localhost.com";
                 e.Created = e.Modified = DateTime.UtcNow;
-                a.Create(e);
+                a.Create(e, AdminSecurityContext);
             }
             finally
             {
-                a.Delete();
+                a.Delete(AdminSecurityContext);
             }
         }
 
@@ -43,16 +43,16 @@ namespace SnCore.Services.Tests
 
             try
             {
-                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
                 TransitAccountEmail e = new TransitAccountEmail();
                 e.Address = "foo2@localhost.com";
                 e.Created = e.Modified = DateTime.UtcNow;
-                ManagedAccountEmail addedemail = new ManagedAccountEmail(Session, a.Create(e));
-                addedemail.Delete();
+                ManagedAccountEmail addedemail = new ManagedAccountEmail(Session, a.Create(e, AdminSecurityContext));
+                addedemail.Delete(AdminSecurityContext);
             }
             finally
             {
-                a.Delete();
+                a.Delete(AdminSecurityContext);
             }
         }
 
@@ -64,7 +64,7 @@ namespace SnCore.Services.Tests
 
             try
             {
-                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
 
                 IList list = Session.CreateCriteria(typeof(AccountEmail))
                     .Add(Expression.Eq("Account.Id", a.Id))
@@ -73,12 +73,12 @@ namespace SnCore.Services.Tests
                 foreach (AccountEmail e in list)
                 {
                     ManagedAccountEmail email = new ManagedAccountEmail(Session, e);
-                    email.Delete();
+                    email.Delete(AdminSecurityContext);
                 }
             }
             finally
             {
-                a.Delete();
+                a.Delete(AdminSecurityContext);
             }
         }
 
@@ -89,17 +89,17 @@ namespace SnCore.Services.Tests
 
             try
             {
-                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
                 a.VerifyAllEmails();
                 TransitAccountEmail e = new TransitAccountEmail();
                 e.Address = "foo2@localhost.com";
                 e.Created = e.Modified = DateTime.UtcNow;
-                ManagedAccountEmail addedemail = new ManagedAccountEmail(Session, a.Create(e));
-                addedemail.Delete();
+                ManagedAccountEmail addedemail = new ManagedAccountEmail(Session, a.Create(e, AdminSecurityContext));
+                addedemail.Delete(AdminSecurityContext);
             }
             finally
             {
-                a.Delete();
+                a.Delete(AdminSecurityContext);
             }
         }
 
@@ -111,7 +111,7 @@ namespace SnCore.Services.Tests
 
             try
             {
-                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
                 a.VerifyAllEmails();
 
                 IList list = Session.CreateCriteria(typeof(AccountEmail))
@@ -121,12 +121,12 @@ namespace SnCore.Services.Tests
                 foreach (AccountEmail e in list)
                 {
                     ManagedAccountEmail email = new ManagedAccountEmail(Session, e);
-                    email.Delete();
+                    email.Delete(AdminSecurityContext);
                 }
             }
             finally
             {
-                a.Delete();
+                a.Delete(AdminSecurityContext);
             }
         }
 

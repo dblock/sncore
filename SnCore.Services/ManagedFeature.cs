@@ -13,7 +13,7 @@ using System.IO;
 namespace SnCore.Services
 {
 
-    public class TransitFeature : TransitService
+    public class TransitFeature : TransitService<Feature>
     {
         private string mDataObjectName;
         private int mDataRowId;
@@ -60,34 +60,40 @@ namespace SnCore.Services
 
         }
 
-        public TransitFeature(ISession session, Feature f)
-            : base(f.Id)
+        public TransitFeature(ISession session, Feature instance)
+            : base(instance)
         {
-            DataRowId = f.DataRowId;
-            DataObjectName = ((DataObject) session.Load(typeof(DataObject), f.DataObject.Id)).Name;
-            Created = f.Created;
+            DataObjectName = ((DataObject) session.Load(typeof(DataObject), instance.DataObject.Id)).Name;
         }
 
-        public Feature GetFeature(ISession session)
+        public TransitFeature(Feature instance)
+            : base(instance)
         {
-            Feature feature = (Id != 0) ? (Feature) session.Load(typeof(Feature), Id) : new Feature();
-            feature.DataRowId = DataRowId;            
-            if (! string.IsNullOrEmpty(DataObjectName)) 
-                feature.DataObject = (DataObject) session.CreateCriteria(typeof(DataObject))
+
+        }
+
+        public override void SetInstance(Feature instance)
+        {
+            DataRowId = instance.DataRowId;
+            Created = instance.Created;
+            base.SetInstance(instance);
+        }
+
+        public override Feature GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            Feature instance = base.GetInstance(session, sec);
+            instance.DataRowId = DataRowId;
+            if (!string.IsNullOrEmpty(DataObjectName))
+                instance.DataObject = (DataObject)session.CreateCriteria(typeof(DataObject))
                     .Add(Expression.Eq("Name", DataObjectName))
                     .UniqueResult();
-            feature.Created = (Id != 0) ? Created : DateTime.UtcNow;
-            return feature;
+            instance.Created = (Id != 0) ? Created : DateTime.UtcNow;
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed feature.
-    /// </summary>
-    public class ManagedFeature : ManagedService<Feature>
+    public class ManagedFeature : ManagedService<Feature, TransitFeature>
     {
-        private Feature mFeature;
-
         public ManagedFeature(ISession session)
             : base(session)
         {
@@ -95,60 +101,33 @@ namespace SnCore.Services
         }
 
         public ManagedFeature(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mFeature = (Feature)Session.Load(typeof(Feature), id);
+
         }
 
         public ManagedFeature(ISession session, Feature value)
-            : base(session)
+            : base(session, value)
         {
-            mFeature = value;
-        }
 
-        public int Id
-        {
-            get
-            {
-                return mFeature.Id;
-            }
         }
 
         public ManagedDataObject DataObject
         {
             get
             {
-                return new ManagedDataObject(Session, mFeature.DataObject);
-            }
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mFeature);
-        }
-
-        public void CreateOrUpdate(TransitFeature f)
-        {
-            mFeature = f.GetFeature(Session);
-            Session.Save(mFeature);
-        }
-
-        public TransitFeature TransitFeature
-        {
-            get
-            {
-                return new TransitFeature(Session, mFeature);
+                return new ManagedDataObject(Session, mInstance.DataObject);
             }
         }
 
         public static int GetLatestFeatureId(ISession session, string objectname)
-        {            
+        {
             return GetLatestFeatureId(session, ManagedDataObject.Find(session, objectname));
         }
 
         public static int GetLatestFeatureId(ISession session, int objectid)
         {
-            Feature feature = (Feature) session.CreateCriteria(typeof(Feature))
+            Feature feature = (Feature)session.CreateCriteria(typeof(Feature))
                 .Add(Expression.Eq("DataObject.Id", objectid))
                 .AddOrder(Order.Desc("Created"))
                 .SetMaxResults(1)
@@ -184,6 +163,19 @@ namespace SnCore.Services
         {
             return session.Delete(string.Format("from Feature f where f.DataObject.Id = {0} AND f.DataRowId = {1}",
                 ManagedDataObject.Find(session, table), id));
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            if (mInstance.Id == 0) mInstance.Created = DateTime.UtcNow;
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            return acl;
         }
     }
 }

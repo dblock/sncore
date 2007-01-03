@@ -7,10 +7,11 @@ using System.Web.Services.Protocols;
 using System.Xml;
 using System.IO;
 using System.Text;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
-    public class TransitAccountRedirect : TransitService
+    public class TransitAccountRedirect : TransitService<AccountRedirect>
     {
         private string mSourceUri;
 
@@ -106,34 +107,34 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountRedirect(AccountRedirect r)
-            : base(r.Id)
+        public TransitAccountRedirect(AccountRedirect instance)
+            : base(instance)
         {
-            SourceUri = r.SourceUri;
-            TargetUri = r.TargetUri;
-            AccountId = r.Account.Id;
-            AccountName = r.Account.Name;
-            Created = r.Created;
-            Modified = r.Modified;
+
         }
 
-        public AccountRedirect GetAccountRedirect(ISession session)
+        public override void SetInstance(AccountRedirect instance)
         {
-            AccountRedirect r = (Id != 0) ? (AccountRedirect)session.Load(typeof(AccountRedirect), Id) : new AccountRedirect();
-
-            if (Id == 0)
-            {
-                if (AccountId > 0) r.Account = (Account)session.Load(typeof(Account), AccountId);
-            }
-
-            r.TargetUri = this.TargetUri.Trim().Trim("/".ToCharArray());
-            r.SourceUri = this.SourceUri.Trim().Trim("/".ToCharArray());
-            return r;
+            SourceUri = instance.SourceUri;
+            TargetUri = instance.TargetUri;
+            AccountId = instance.Account.Id;
+            AccountName = instance.Account.Name;
+            Created = instance.Created;
+            Modified = instance.Modified;
+            base.SetInstance(instance);
         }
 
+        public override AccountRedirect GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            AccountRedirect instance = base.GetInstance(session, sec);
+            if (Id == 0) instance.Account = GetOwner(session, AccountId, sec);
+            instance.TargetUri = this.TargetUri.Trim().Trim("/".ToCharArray());
+            instance.SourceUri = this.SourceUri.Trim().Trim("/".ToCharArray());
+            return instance;
+        }
     }
 
-    public class ManagedAccountRedirect : ManagedService<AccountRedirect>
+    public class ManagedAccountRedirect : ManagedService<AccountRedirect, TransitAccountRedirect>
     {
         private static readonly object s_lock = new object();
 
@@ -146,8 +147,6 @@ namespace SnCore.Services
             }
         }
 
-        private AccountRedirect mAccountRedirect = null;
-
         public ManagedAccountRedirect(ISession session)
             : base(session)
         {
@@ -155,50 +154,34 @@ namespace SnCore.Services
         }
 
         public ManagedAccountRedirect(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountRedirect = (AccountRedirect)session.Load(typeof(AccountRedirect), id);
+
         }
 
         public ManagedAccountRedirect(ISession session, AccountRedirect value)
-            : base(session)
+            : base(session, value)
         {
-            mAccountRedirect = value;
+
         }
 
-        public int Id
+        public override void Delete(ManagedSecurityContext sec)
         {
-            get
-            {
-                return mAccountRedirect.Id;
-            }
-        }
-
-        public TransitAccountRedirect TransitAccountRedirect
-        {
-            get
-            {
-                return new TransitAccountRedirect(mAccountRedirect);
-            }
-        }
-
-        public void Delete()
-        {
-            mAccountRedirect.Account.AccountRedirects.Remove(mAccountRedirect);
-            Session.Delete(mAccountRedirect);
+            Collection<AccountRedirect>.GetSafeCollection(mInstance.Account.AccountRedirects).Remove(mInstance);
+            base.Delete(sec);
         }
 
         public Account Account
         {
             get
             {
-                return mAccountRedirect.Account;
+                return mInstance.Account;
             }
         }
 
         public static void CheckTargetUri(string uri)
         {
-            if (! Uri.IsWellFormedUriString(uri, UriKind.Relative))
+            if (!Uri.IsWellFormedUriString(uri, UriKind.Relative))
             {
                 throw new InvalidUriException(uri);
             }
@@ -246,6 +229,23 @@ namespace SnCore.Services
                 sw.Close();
                 f.Close();
             }
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            CheckSourceUri(mInstance.SourceUri);
+            CheckTargetUri(mInstance.TargetUri);
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowCreateAndRetrieve());
+            acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
+            return acl;
         }
     }
 }

@@ -10,10 +10,11 @@ using System.Resources;
 using System.Net.Mail;
 using System.IO;
 using SnCore.Tools.Web;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
-    public class TransitAccountBlogPost : TransitService
+    public class TransitAccountBlogPost : TransitService<AccountBlogPost>
     {
         private int mAccountBlogId;
 
@@ -197,19 +198,18 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountBlogPost(ISession session, AccountBlogPost o)
-            : base(o.Id)
+        public TransitAccountBlogPost(AccountBlogPost instance)
+            : base(instance)
         {
-            AccountBlogId = o.AccountBlog.Id;
-            Title = o.Title;
-            Body = o.Body;
-            Created = o.Created;
-            Modified = o.Modified;
-            AccountId = o.AccountId;
 
+        }
+
+        public TransitAccountBlogPost(ISession session, AccountBlogPost instance)
+            : base(instance)
+        {
             try
             {
-                Account acct = (Account)session.Load(typeof(Account), o.AccountId);
+                Account acct = (Account)session.Load(typeof(Account), instance.AccountId);
                 AccountPictureId = ManagedAccount.GetRandomAccountPictureId(acct);
             }
             catch (NHibernate.ObjectNotFoundException)
@@ -218,34 +218,44 @@ namespace SnCore.Services
                 AccountPictureId = 0;
             }
 
-            AccountName = o.AccountName;
-            AccountBlogName = o.AccountBlog.Name;
-
             CommentCount = ManagedDiscussion.GetDiscussionPostCount(
-                session, o.AccountBlog.Account.Id, ManagedDiscussion.AccountBlogPostDiscussion, o.Id);
+                session, instance.AccountBlog.Account.Id, ManagedDiscussion.AccountBlogPostDiscussion, instance.Id);
         }
 
-        public AccountBlogPost GetAccountBlogPost(ISession session)
+        public override void SetInstance(AccountBlogPost instance)
         {
-            AccountBlogPost p = (Id != 0) ? (AccountBlogPost)session.Load(typeof(AccountBlogPost), Id) : new AccountBlogPost();
-            p.Title = this.Title;
-            p.Body = this.Body;
+            AccountBlogId = instance.AccountBlog.Id;
+            Title = instance.Title;
+            Body = instance.Body;
+            Created = instance.Created;
+            Modified = instance.Modified;
+            AccountId = instance.AccountId;
+
+            AccountName = instance.AccountName;
+            AccountBlogName = instance.AccountBlog.Name;
+
+            base.SetInstance(instance);
+        }
+
+        public override AccountBlogPost GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            AccountBlogPost instance = base.GetInstance(session, sec);
+            instance.Title = this.Title;
+            instance.Body = this.Body;
 
             if (Id == 0)
             {
-                p.AccountName = this.AccountName;
-                p.AccountId = this.AccountId;
-                p.AccountBlog = (AccountBlog)session.Load(typeof(AccountBlog), AccountBlogId);
+                instance.AccountName = this.AccountName;
+                instance.AccountId = this.AccountId;
+                instance.AccountBlog = (AccountBlog)session.Load(typeof(AccountBlog), AccountBlogId);
             }
 
-            return p;
+            return instance;
         }
     }
 
-    public class ManagedAccountBlogPost : ManagedService<AccountBlogPost>
+    public class ManagedAccountBlogPost : ManagedService<AccountBlogPost, TransitAccountBlogPost>
     {
-        private AccountBlogPost mAccountBlogPost = null;
-
         public ManagedAccountBlogPost(ISession session)
             : base(session)
         {
@@ -253,72 +263,29 @@ namespace SnCore.Services
         }
 
         public ManagedAccountBlogPost(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountBlogPost = (AccountBlogPost)session.Load(typeof(AccountBlogPost), id);
+
         }
 
         public ManagedAccountBlogPost(ISession session, AccountBlogPost value)
-            : base(session)
+            : base(session, value)
         {
-            mAccountBlogPost = value;
+
         }
 
-        public ManagedAccountBlogPost(ISession session, TransitAccountBlogPost value)
-            : base(session)
+        public override void Delete(ManagedSecurityContext sec)
         {
-            mAccountBlogPost = value.GetAccountBlogPost(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mAccountBlogPost.Id;
-            }
-        }
-
-        public TransitAccountBlogPost TransitAccountBlogPost
-        {
-            get
-            {
-                return new TransitAccountBlogPost(Session, mAccountBlogPost);
-            }
-        }
-
-        public void CreateOrUpdate(TransitAccountBlogPost o)
-        {
-            mAccountBlogPost = o.GetAccountBlogPost(Session);
-            mAccountBlogPost.Modified = DateTime.UtcNow;
-            if (Id == 0) mAccountBlogPost.Created = mAccountBlogPost.Modified;
-            Session.Save(mAccountBlogPost);
-        }
-
-        public void Delete()
-        {
-            try
-            {
-                int DiscussionId = ManagedDiscussion.GetDiscussionId(
-                    Session, mAccountBlogPost.AccountBlog.Account.Id, ManagedDiscussion.AccountBlogPostDiscussion,
-                    mAccountBlogPost.Id, false);
-                Discussion mDiscussion = (Discussion)Session.Load(typeof(Discussion), DiscussionId);
-                Session.Delete(mDiscussion);
-            }
-            catch (ManagedDiscussion.DiscussionNotFoundException)
-            {
-
-            }
-
+            ManagedDiscussion.FindAndDelete(Session, mInstance.AccountBlog.Account.Id, ManagedDiscussion.AccountBlogPostDiscussion, mInstance.Id);
             ManagedFeature.Delete(Session, "AccountBlogPost", Id);
-
-            Session.Delete(mAccountBlogPost);
+            base.Delete(sec);
         }
 
         public int AccountBlogId
         {
             get
             {
-                return mAccountBlogPost.AccountBlog.Id;
+                return mInstance.AccountBlog.Id;
             }
         }
 
@@ -326,8 +293,31 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountBlogPost.AccountId;
+                return mInstance.AccountId;
             }
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            acl.Add(new ACLAccount(mInstance.AccountBlog.Account, DataOperation.All));
+            foreach (AccountBlogAuthor author in Collection<AccountBlogAuthor>.GetSafeCollection(mInstance.AccountBlog.AccountBlogAuthors))
+            {
+                int op = (int) DataOperation.None;
+                if (author.AllowDelete) op |= (int) DataOperation.Delete;
+                if (author.AllowEdit) op |= (int) DataOperation.Update;
+                if (author.AllowPost) op |= (int) DataOperation.Create;
+                acl.Add(new ACLAccount(author.Account, op));
+            }
+            return acl;
         }
     }
 }

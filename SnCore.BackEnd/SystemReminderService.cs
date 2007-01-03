@@ -118,7 +118,7 @@ namespace SnCore.BackEndServices
 
                 if (bDelete)
                 {
-                    ma.Delete();
+                    ma.Delete(ManagedAccount.GetAdminSecurityContext(session));
                 }
             }
 

@@ -5,7 +5,7 @@ using NHibernate.Expression;
 
 namespace SnCore.Services
 {
-    public class TransitAccountFriend : TransitService
+    public class TransitAccountFriend : TransitService<AccountFriend>
     {
         private int mFriendId;
 
@@ -72,26 +72,41 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountFriend(AccountFriend e)
-            : this(e, false)
+        public TransitAccountFriend(AccountFriend instance)
+            : this(instance, false)
         {
 
         }
 
-        public TransitAccountFriend(AccountFriend e, bool invert)
-            : base(e.Id)
+        public TransitAccountFriend(AccountFriend instance, bool invert)
+            : base(instance)
         {
-            FriendId = invert ? e.Account.Id : e.Keen.Id;
-            FriendPictureId = ManagedAccount.GetRandomAccountPictureId(invert ? e.Account : e.Keen);
-            FriendName = invert ? e.Account.Name : e.Keen.Name;
-            Created = e.Created;
+            if (invert)
+            {
+                FriendId = instance.Account.Id;
+                FriendPictureId = ManagedAccount.GetRandomAccountPictureId(instance.Account);
+                FriendName = instance.Account.Name;
+            }
+        }
+
+        public override void  SetInstance(AccountFriend instance)
+        {
+            FriendId = instance.Keen.Id;
+            FriendPictureId = ManagedAccount.GetRandomAccountPictureId(instance.Keen);
+            FriendName = instance.Keen.Name;
+            Created = instance.Created;
+            base.SetInstance(instance);
+        }
+
+        public override AccountFriend GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            AccountFriend instance = base.GetInstance(session, sec);
+            if (FriendId > 0) instance.Keen = (Account) session.Load(typeof(Account), FriendId);
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed friend.
-    /// </summary>
-    public class ManagedAccountFriend : ManagedService<AccountFriend>
+    public class ManagedAccountFriend : ManagedService<AccountFriend, TransitAccountFriend>
     {
         private AccountFriend mAccountFriend = null;
 
@@ -102,23 +117,15 @@ namespace SnCore.Services
         }
 
         public ManagedAccountFriend(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountFriend = (AccountFriend)session.Load(typeof(AccountFriend), id);
+
         }
 
         public ManagedAccountFriend(ISession session, AccountFriend value)
-            : base(session)
+            : base(session, value)
         {
-            mAccountFriend = value;
-        }
 
-        public int Id
-        {
-            get
-            {
-                return mAccountFriend.Id;
-            }
         }
 
         public int AccountId
@@ -137,15 +144,7 @@ namespace SnCore.Services
             }
         }
 
-        public TransitAccountFriend TransitAccountFriend
-        {
-            get
-            {
-                return new TransitAccountFriend(mAccountFriend);
-            }
-        }
-
-        public void Delete()
+        public override void Delete(ManagedSecurityContext sec)
         {
             mAccountFriend.Account.AccountFriends.Remove(mAccountFriend);
 
@@ -160,7 +159,21 @@ namespace SnCore.Services
                 }
             }
 
-            Session.Delete(mAccountFriend);
+            base.Delete(sec);
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            if (mInstance.Id == 0) mInstance.Created = DateTime.UtcNow; 
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowCreateAndRetrieve());
+            acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
+            return acl;
         }
     }
 }

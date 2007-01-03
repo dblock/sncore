@@ -28,7 +28,7 @@ namespace SnCore.Services.Tests
 
             try
             {
-                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
 
                 TransitCountry tc = new TransitCountry();
                 tc.Name = Guid.NewGuid().ToString();
@@ -42,13 +42,13 @@ namespace SnCore.Services.Tests
                 ts.Country = tc.Name;
                 ts.State = tt.Name;
 
-                c.Create(tc);
-                t.Create(tt);
-                s.Create(ts);
+                c.CreateOrUpdate(tc, AdminSecurityContext);
+                t.CreateOrUpdate(tt, AdminSecurityContext);
+                s.CreateOrUpdate(ts, AdminSecurityContext);
 
                 TransitPlaceType t_type = new TransitPlaceType();
                 t_type.Name = Guid.NewGuid().ToString();
-                type.CreateOrUpdate(t_type);
+                type.CreateOrUpdate(t_type, AdminSecurityContext);
 
                 TransitPlace t_place = new TransitPlace();
                 t_place.Name = Guid.NewGuid().ToString();
@@ -58,17 +58,19 @@ namespace SnCore.Services.Tests
                 t_place.State = tt.Name;
                 t_place.AccountId = a.Id;
                 t_place.Website = Guid.NewGuid().ToString();
-                a.CreateOrUpdate(t_place);
+
+                ManagedPlace m_place = new ManagedPlace(Session);
+                m_place.CreateOrUpdate(t_place, a.GetSecurityContext());
             }
             finally
             {
                 try
                 {
-                    a.Delete();
-                    type.Delete();
-                    s.Delete();
-                    t.Delete();
-                    c.Delete();
+                    a.Delete(AdminSecurityContext);
+                    type.Delete(AdminSecurityContext);
+                    s.Delete(AdminSecurityContext);
+                    t.Delete(AdminSecurityContext);
+                    c.Delete(AdminSecurityContext);
                 }
                 catch
                 {

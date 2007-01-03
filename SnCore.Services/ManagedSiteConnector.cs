@@ -22,21 +22,6 @@ namespace SnCore.Services
             return new Uri(baseuri);
         }
 
-        public static Account GetAdminAccount(ISession session)
-        {
-            Account account = (Account)session.CreateCriteria(typeof(Account))
-                .Add(Expression.Eq("IsAdministrator", true))
-                .SetMaxResults(1)
-                .UniqueResult();
-
-            if (account == null)
-            {
-                throw new Exception("Missing Administrator");
-            }
-
-            return account;
-        }
-
         public static Cookie GetAdminAuthCookie(ISession session)
         {
 #if DEBUG
@@ -45,8 +30,7 @@ namespace SnCore.Services
                 return null;
             }
 #endif
-            return new Cookie(sSnCoreAuthCookieName, 
-                FormsAuthentication.GetAuthCookie(GetAdminAccount(session).Id.ToString(), false).Value);
+            return new Cookie(sSnCoreAuthCookieName, ManagedAccount.GetAdminTicket(session));
         }
 
         public static string GetContentAsAdmin(ISession session, string relativeuri)
@@ -69,7 +53,7 @@ namespace SnCore.Services
             string relativeuri)
         {
             AccountEmailMessage message = new AccountEmailMessage();
-            message.Account = GetAdminAccount(session);
+            message.Account = ManagedAccount.GetAdminAccount(session);
             message.Body = GetContentAsAdmin(session, relativeuri);
             message.Subject = ContentPage.GetContentSubject(message.Body);
             message.MailTo = mailto;

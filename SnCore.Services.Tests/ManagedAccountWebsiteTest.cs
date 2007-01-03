@@ -23,18 +23,19 @@ namespace SnCore.Services.Tests
 
             try
             {
-                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
 
                 TransitAccountWebsite ta = new TransitAccountWebsite();
                 ta.Name = "My Website";
                 ta.Description = "Lots of details.";
                 ta.Url = "http://www.dblock.org";
 
-                a.CreateOrUpdate(ta);
+                ManagedAccountWebsite m_a = new ManagedAccountWebsite(Session);
+                m_a.CreateOrUpdate(ta, a.GetSecurityContext());
             }
             finally
             {
-                a.Delete();
+                a.Delete(a.GetSecurityContext());
             }
         }
 
@@ -46,21 +47,24 @@ namespace SnCore.Services.Tests
 
             try
             {
-                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
-                b.Create("Test User 2", "testpassword", "foo2@localhost.com", DateTime.UtcNow);
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
+                b.Create("Test User 2", "testpassword", "foo2@localhost.com", DateTime.UtcNow, AdminSecurityContext);
 
                 TransitAccountWebsite ta = new TransitAccountWebsite();
                 ta.Name = "My Website";
                 ta.Description = "Lots of details.";
                 ta.Url = "http://www.dblock.org";
 
-                a.CreateOrUpdate(ta);
-                b.CreateOrUpdate(ta);
+                ManagedAccountWebsite m_a = new ManagedAccountWebsite(Session);
+                m_a.CreateOrUpdate(ta, a.GetSecurityContext());
+
+                ManagedAccountWebsite m_b = new ManagedAccountWebsite(Session);
+                m_b.CreateOrUpdate(ta, b.GetSecurityContext());
             }
             finally
             {
-                a.Delete();
-                b.Delete();
+                a.Delete(a.GetSecurityContext());
+                b.Delete(b.GetSecurityContext());
             }
         }
 
@@ -73,18 +77,19 @@ namespace SnCore.Services.Tests
 
             try
             {
-                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
 
                 TransitAccountWebsite ta = new TransitAccountWebsite();
                 ta.Name = "My Website";
                 ta.Description = "Lots of details.";
                 ta.Url = "<script>attack!</script>";
 
-                a.CreateOrUpdate(ta);
+                ManagedAccountWebsite m_w = new ManagedAccountWebsite(Session);
+                m_w.CreateOrUpdate(ta, a.GetSecurityContext());
             }
             finally
             {
-                a.Delete();
+                a.Delete(AdminSecurityContext);
             }
         }
 

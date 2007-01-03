@@ -17,7 +17,7 @@ namespace SnCore.Services
     public class DiscussionQueryOptions
     {
         public int AccountId;
-        public bool TopOfThreadOnly = true;
+        public bool TopOfThRetreiveOnly = true;
 
         public override int GetHashCode()
         {
@@ -30,10 +30,10 @@ namespace SnCore.Services
             {
                 return "SELECT COUNT(*) FROM DiscussionPost tp, DiscussionThread t, Discussion d" +
                        " WHERE tp.AccountId = " + AccountId.ToString() +
-                       " AND t.Discussion.Id = d.Id" +
-                       " AND d.Personal = 0" +
+                       " AND t.Discussion.Id = instance.Id" +
+                       " AND instance.Personal = 0" +
                        " AND t.Id = tp.DiscussionThread.Id" +
-                       (TopOfThreadOnly ? " AND tp.DiscussionPostParent IS NULL" : string.Empty);
+                       (TopOfThRetreiveOnly ? " AND tp.DiscussionPostParent IS NULL" : string.Empty);
             }
         }
 
@@ -43,16 +43,16 @@ namespace SnCore.Services
             {
                 return "SELECT tp FROM DiscussionPost tp, DiscussionThread t, Discussion d" +
                        " WHERE tp.AccountId = " + AccountId.ToString() +
-                       " AND t.Discussion.Id = d.Id" +
-                       " AND d.Personal = 0" +
+                       " AND t.Discussion.Id = instance.Id" +
+                       " AND instance.Personal = 0" +
                        " AND t.Id = tp.DiscussionThread.Id" +
-                       (TopOfThreadOnly ? " AND tp.DiscussionPostParent IS NULL" : string.Empty) +
+                       (TopOfThRetreiveOnly ? " AND tp.DiscussionPostParent IS NULL" : string.Empty) +
                        " ORDER BY t.Created DESC";
             }
         }
     }
 
-    public class TransitDiscussion : TransitService
+    public class TransitDiscussion : TransitService<Discussion>
     {
         private string mName;
 
@@ -174,18 +174,18 @@ namespace SnCore.Services
             }
         }
 
-        private long mThreadCount;
+        private long mThRetreiveCount;
 
-        public long ThreadCount
+        public long ThRetreiveCount
         {
             get
             {
 
-                return mThreadCount;
+                return mThRetreiveCount;
             }
             set
             {
-                mThreadCount = value;
+                mThRetreiveCount = value;
             }
         }
 
@@ -194,41 +194,49 @@ namespace SnCore.Services
 
         }
 
-        public TransitDiscussion(ISession session, Discussion d)
-            : base(d.Id)
+        public TransitDiscussion(Discussion instance)
+            : base(instance)
         {
-            Name = d.Name;
-            Description = d.Description;
-            AccountId = d.Account.Id;
-            Created = d.Created;
-            Modified = d.Modified;
-            Personal = d.Personal;
-            ObjectId = d.ObjectId;
-            PostCount = ManagedDiscussion.GetDiscussionPostCount(session, d.Id);
-            ThreadCount = ManagedDiscussion.GetDiscussionThreadCount(session, d.Id);
+
         }
 
-        public Discussion GetDiscussion(ISession session)
+        public TransitDiscussion(ISession session, Discussion instance)
+            : base(instance)
         {
-            Discussion d = (Id != 0) ? (Discussion)session.Load(typeof(Discussion), Id) : new Discussion();
+            PostCount = ManagedDiscussion.GetDiscussionPostCount(session, instance.Id);
+            ThRetreiveCount = ManagedDiscussion.GetDiscussionThreadCount(session, instance.Id);
+        }
+
+        public override void SetInstance(Discussion instance)
+        {
+            Name = instance.Name;
+            Description = instance.Description;
+            AccountId = instance.Account.Id;
+            Created = instance.Created;
+            Modified = instance.Modified;
+            Personal = instance.Personal;
+            ObjectId = instance.ObjectId;
+            base.SetInstance(instance);
+        }
+
+        public override Discussion GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            Discussion instance = base.GetInstance(session, sec);
 
             if (Id == 0)
             {
-                if (AccountId > 0) d.Account = (Account)session.Load(typeof(Account), this.AccountId);
-                d.Personal = this.Personal;
-                d.ObjectId = this.ObjectId;
+                instance.Account = GetOwner(session, AccountId, sec);
+                instance.Personal = this.Personal;
+                instance.ObjectId = this.ObjectId;
             }
 
-            d.Name = this.Name;
-            d.Description = this.Description;
-            return d;
+            instance.Name = this.Name;
+            instance.Description = this.Description;
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed discussion.
-    /// </summary>
-    public class ManagedDiscussion : ManagedService<Discussion>
+    public class ManagedDiscussion : ManagedService<Discussion, TransitDiscussion>
     {
         public const string AccountPictureDiscussion = "Picture Comments";
         public const string AccountStoryDiscussion = "Story Comments";
@@ -250,8 +258,6 @@ namespace SnCore.Services
             }
         }
 
-        private Discussion mDiscussion = null;
-
         public ManagedDiscussion(ISession session)
             : base(session)
         {
@@ -259,30 +265,22 @@ namespace SnCore.Services
         }
 
         public ManagedDiscussion(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mDiscussion = (Discussion)session.Load(typeof(Discussion), id);
+
         }
 
         public ManagedDiscussion(ISession session, Discussion value)
-            : base(session)
+            : base(session, value)
         {
-            mDiscussion = value;
-        }
 
-        public int Id
-        {
-            get
-            {
-                return mDiscussion.Id;
-            }
         }
 
         public string Name
         {
             get
             {
-                return mDiscussion.Name;
+                return mInstance.Name;
             }
         }
 
@@ -290,7 +288,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mDiscussion.Description;
+                return mInstance.Description;
             }
         }
 
@@ -298,7 +296,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mDiscussion.Account.Id;
+                return mInstance.Account.Id;
             }
         }
 
@@ -306,53 +304,29 @@ namespace SnCore.Services
         {
             get
             {
-                return mDiscussion.Personal;
+                return mInstance.Personal;
             }
         }
 
-        public TransitDiscussion TransitDiscussion
-        {
-            get
-            {
-                return new TransitDiscussion(Session, mDiscussion);
-            }
-        }
-
-        public void Create(
-            string name,
-            string description,
-            int accountid,
-            bool personal)
+        public void Create(string name, string description, bool personal, ManagedSecurityContext sec)
         {
             TransitDiscussion t = new TransitDiscussion();
             t.Name = name;
             t.Description = description;
-            t.AccountId = accountid;
+            t.AccountId = sec.Account.Id;
             t.Personal = personal;
             t.Created = t.Modified = DateTime.UtcNow;
-            Create(t);
-        }
-
-        public void Create(TransitDiscussion c)
-        {
-            mDiscussion = c.GetDiscussion(Session);
-            mDiscussion.Modified = DateTime.UtcNow;
-            if (mDiscussion.Id == 0) mDiscussion.Created = mDiscussion.Modified;
-            Session.Save(mDiscussion);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mDiscussion);
+            CreateOrUpdate(t, sec);
         }
 
         public int CreatePost(
             int accountid,
             int parentid,
             string subject,
-            string body)
+            string body,
+            ManagedSecurityContext sec)
         {
-            DiscussionThread thread = null;
+            DiscussionThread thRetreive = null;
             DiscussionPost parent = null;
 
             if (parentid != 0)
@@ -363,47 +337,47 @@ namespace SnCore.Services
                     throw new ArgumentException();
                 }
 
-                thread = parent.DiscussionThread;
-                if (thread.Discussion.Id != Id)
+                thRetreive = parent.DiscussionThread;
+                if (thRetreive.Discussion.Id != Id)
                 {
                     throw new ArgumentException();
                 }
 
-                thread.Modified = DateTime.UtcNow;
-                Session.Save(thread);
+                thRetreive.Modified = DateTime.UtcNow;
+                Session.Save(thRetreive);
             }
             else
             {
-                thread = new DiscussionThread();
-                thread.Created = thread.Modified = DateTime.UtcNow;
-                thread.Discussion = mDiscussion;
-                Session.Save(thread);
+                thRetreive = new DiscussionThread();
+                thRetreive.Created = thRetreive.Modified = DateTime.UtcNow;
+                thRetreive.Discussion = mInstance;
+                Session.Save(thRetreive);
 
-                if (mDiscussion.DiscussionThreads == null) mDiscussion.DiscussionThreads = new List<DiscussionThread>();
-                mDiscussion.DiscussionThreads.Add(thread);
+                if (mInstance.DiscussionThreads == null) mInstance.DiscussionThreads = new List<DiscussionThread>();
+                mInstance.DiscussionThreads.Add(thRetreive);
             }
 
             DiscussionPost result = new DiscussionPost();
             result.AccountId = accountid;
-            result.Created = result.Modified = thread.Modified;
+            result.Created = result.Modified = thRetreive.Modified;
             result.DiscussionPostParent = parent;
-            result.DiscussionThread = thread;
+            result.DiscussionThread = thRetreive;
             result.Subject = subject;
             result.Body = body;
             Session.Save(result);
 
-            mDiscussion.Modified = DateTime.UtcNow;
-            Session.Save(mDiscussion);
+            mInstance.Modified = DateTime.UtcNow;
+            Session.Save(mInstance);
 
             Session.Flush();
 
-            if (thread.DiscussionPosts == null) thread.DiscussionPosts = new List<DiscussionPost>();
-            thread.DiscussionPosts.Add(result);
+            if (thRetreive.DiscussionPosts == null) thRetreive.DiscussionPosts = new List<DiscussionPost>();
+            thRetreive.DiscussionPosts.Add(result);
 
             try
             {
                 ManagedAccount ra = new ManagedAccount(Session, accountid);
-                ManagedAccount ma = new ManagedAccount(Session, parent != null ? parent.AccountId : thread.Discussion.Account.Id);
+                ManagedAccount ma = new ManagedAccount(Session, parent != null ? parent.AccountId : thRetreive.Discussion.Account.Id);
 
                 if (ra.Id != ma.Id)
                 {
@@ -463,7 +437,7 @@ namespace SnCore.Services
                     " FROM DiscussionPost p, DiscussionThread t" +
                     " WHERE p.DiscussionThread.Id = t.Id" +
                     " AND t.Discussion.Id = {0}",
-                    discussionid.ToString())).UniqueResult();
+                    discussionid)).UniqueResult();
         }
 
         public static int GetDiscussionThreadCount(ISession session, int discussionid)
@@ -476,42 +450,102 @@ namespace SnCore.Services
                     discussionid)).UniqueResult();
         }
 
-        public static int GetDiscussionId(ISession session, int accountid, string name, int objectid, bool createonerror)
+        public static bool FindAndDelete(
+            ISession session,
+            int accountid,
+            string name,
+            int objectid)
         {
-            Discussion existingtagdiscussion = (Discussion)session.CreateCriteria(typeof(Discussion))
-                .Add(Expression.Eq("Name", name))
-                .Add(Expression.Eq("Account.Id", accountid))
-                .Add(Expression.Eq("ObjectId", objectid))
-                .Add(Expression.Eq("Personal", true))
-                .UniqueResult();
-
-            if (existingtagdiscussion != null)
+            Discussion discussion = Find(session, accountid, name, objectid);
+            if (discussion != null)
             {
-                return existingtagdiscussion.Id;
-            }
-            else if (createonerror)
-            {
-                TransitDiscussion td = new TransitDiscussion();
-                td.AccountId = accountid;
-                td.Name = name;
-                td.Personal = true;
-                td.Description = string.Empty;
-                td.Created = td.Modified = DateTime.UtcNow;
-                td.ObjectId = objectid;
-                ManagedDiscussion d = new ManagedDiscussion(session);
-                d.Create(td);
-                return d.Id;
+                session.Delete(discussion);
+                return true;
             }
             else
             {
+                return false;
+            }
+        }
+
+        public static Discussion Find(
+            ISession session,
+            int accountid,
+            string name,
+            int objectid)
+        {
+            return (Discussion)
+                session.CreateCriteria(typeof(Discussion))
+                    .Add(Expression.Eq("Name", name))
+                    .Add(Expression.Eq("Account.Id", accountid))
+                    .Add(Expression.Eq("ObjectId", objectid))
+                    .Add(Expression.Eq("Personal", true))
+                    .UniqueResult();
+        }
+
+        public static int GetDiscussionId(
+            ISession session, 
+            int accountid, 
+            string name, 
+            int objectid)
+        {
+            Discussion d = Find(session, accountid, name, objectid);
+
+            if (d == null)
+            {
                 throw new ManagedDiscussion.DiscussionNotFoundException();
             }
+
+            return d.Id;
+        }
+
+        public static int GetOrCreateDiscussionId(
+            ISession session, 
+            int accountid,
+            string name, 
+            int objectid,
+            ManagedSecurityContext sec)
+        {
+            Discussion d = Find(session, accountid, name, objectid);
+
+            if (d != null)
+            {
+                return d.Id;
+            }
+
+            TransitDiscussion td = new TransitDiscussion();
+            td.AccountId = accountid;
+            td.Name = name;
+            td.Personal = true;
+            td.Description = string.Empty;
+            td.Created = td.Modified = DateTime.UtcNow;
+            td.ObjectId = objectid;
+
+            // creating a discussion that belongs to a different user (commenting on someone's items)
+            ManagedDiscussion m_d = new ManagedDiscussion(session);
+            ManagedSecurityContext o_sec = new ManagedSecurityContext(session, accountid);
+            return m_d.CreateOrUpdate(td, o_sec);
         }
 
         public void MigrateToAccount(Account newowner)
         {
-            mDiscussion.Account = newowner;
-            Session.Save(mDiscussion);
+            mInstance.Account = newowner;
+            Session.Save(mInstance);
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
+            return acl;
         }
     }
 }

@@ -20,6 +20,7 @@ using Janrain.OpenId.Store;
 using Janrain.OpenId;
 using Janrain.OpenId.Consumer;
 using SnCore.Tools;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
@@ -176,17 +177,17 @@ namespace SnCore.Services
 
             // new photos (count one week of photos)
 
-            NewPictures = (int) session.CreateQuery(string.Format("SELECT COUNT(*) FROM AccountPicture p " +
+            NewPictures = (int)session.CreateQuery(string.Format("SELECT COUNT(*) FROM AccountPicture p " +
                 "WHERE p.Account.Id = {0} AND p.Modified > '{1}' AND p.Hidden = 0",
                 a.Id, limit))
                 .UniqueResult();
 
-            NewDiscussionPosts = (int) session.CreateQuery(string.Format("SELECT COUNT(*) FROM DiscussionPost p, Discussion d, DiscussionThread t " +
+            NewDiscussionPosts = (int)session.CreateQuery(string.Format("SELECT COUNT(*) FROM DiscussionPost p, Discussion d, DiscussionThread t " +
                 "WHERE p.AccountId = {0} AND p.Modified > '{1}' AND p.DiscussionThread.Id = t.Id and t.Discussion.Id = d.Id AND d.Personal = 0",
                 a.Id, limit))
                 .UniqueResult();
 
-            NewSyndicatedContent = (int) session.CreateQuery(string.Format("SELECT COUNT(*) FROM AccountFeed f " +
+            NewSyndicatedContent = (int)session.CreateQuery(string.Format("SELECT COUNT(*) FROM AccountFeed f " +
                 "WHERE f.Account.Id = {0} AND f.Created > '{1}'",
                 a.Id, limit))
                 .UniqueResult();
@@ -212,7 +213,7 @@ namespace SnCore.Services
         }
     }
 
-    public class TransitOpenIdRedirect : TransitService
+    public class TransitOpenIdRedirect
     {
         private string mUrl;
         private string mToken;
@@ -253,7 +254,7 @@ namespace SnCore.Services
         }
     }
 
-    public class TransitAccountPermissions : TransitService
+    public class TransitAccountPermissions
     {
         private bool mIsAdministrator;
 
@@ -279,28 +280,47 @@ namespace SnCore.Services
         }
     }
 
-    public class TransitAccount : TransitService
+    public class TransitAccount : TransitService<Account>
     {
         public TransitAccount()
         {
 
         }
 
-        public TransitAccount(Account a)
-            : base(a.Id)
+        public TransitAccount(Account instance)
+            : base(instance)
         {
-            Name = a.Name;
-            Birthday = a.Birthday;
-            LastLogin = a.LastLogin;
-            State = (a.State == null) ? string.Empty : a.State.Name;
-            Country = (a.Country == null) ? string.Empty : a.Country.Name;
-            City = a.City;
-            TimeZone = a.TimeZone;
-            Signature = a.Signature;
-            mIsAdministrator = a.IsAdministrator;
-            IsPasswordExpired = a.IsPasswordExpired;
+        }
+
+        public override void SetInstance(Account instance)
+        {
+            Name = instance.Name;
+            Birthday = instance.Birthday;
+            LastLogin = instance.LastLogin;
+            State = (instance.State == null) ? string.Empty : instance.State.Name;
+            Country = (instance.Country == null) ? string.Empty : instance.Country.Name;
+            City = instance.City;
+            TimeZone = instance.TimeZone;
+            Signature = instance.Signature;
+            mIsAdministrator = instance.IsAdministrator;
+            IsPasswordExpired = instance.IsPasswordExpired;
             // random picture from the account
-            PictureId = ManagedAccount.GetRandomAccountPictureId(a);
+            PictureId = ManagedAccount.GetRandomAccountPictureId(instance);
+            base.SetInstance(instance);
+        }
+
+        public override Account GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            Account instance = base.GetInstance(session, sec);
+            instance.Name = Name;
+            instance.Birthday = Birthday;
+            instance.LastLogin = LastLogin;
+            instance.State = ManagedState.Find(session, State, Country);
+            instance.Country = ManagedCountry.Find(session, Country);
+            instance.City = City;
+            instance.TimeZone = TimeZone;
+            instance.Signature = Signature;
+            return instance;
         }
 
         private bool mIsPasswordExpired = false;
@@ -470,7 +490,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed account.
     /// </summary>
-    public class ManagedAccount : ManagedService<Account>
+    public class ManagedAccount : ManagedService<Account, TransitAccount>
     {
         public static int MinimumPasswordLength = 4;
         public static int MaxOfAnything = 250;
@@ -515,7 +535,7 @@ namespace SnCore.Services
         public class AccountExistsException : SoapException
         {
             public AccountExistsException()
-                : base("Account already exists", SoapException.ClientFaultCode)
+                : base("Account alRetreivey exists", SoapException.ClientFaultCode)
             {
 
             }
@@ -530,13 +550,11 @@ namespace SnCore.Services
             }
         }
 
-        private Account mAccount;
-
         public string Name
         {
             get
             {
-                return mAccount.Name;
+                return mInstance.Name;
             }
         }
 
@@ -547,57 +565,49 @@ namespace SnCore.Services
         }
 
         public ManagedAccount(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccount = (Account)Session.Load(typeof(Account), id);
+
         }
 
         public ManagedAccount(ISession session, Account value)
-            : base(session)
+            : base(session, value)
         {
-            mAccount = value;
-        }
 
-        public int Id
-        {
-            get
-            {
-                return mAccount.Id;
-            }
         }
 
         public DateTime Birthday
         {
             get
             {
-                return mAccount.Birthday;
+                return mInstance.Birthday;
             }
             set
             {
-                mAccount.Birthday = value;
+                mInstance.Birthday = value;
             }
         }
 
         public bool IsPasswordValid(string password)
         {
-            return mAccount.Password == GetPasswordHash(password);
+            return mInstance.Password == GetPasswordHash(password);
         }
 
-        public TransitAccount TransitAccount
+#if DEBUG
+        private static bool _encrypttickets = true;
+
+        public static bool EncryptTickets
         {
             get
             {
-                return new TransitAccount(mAccount);
+                return _encrypttickets;
             }
-        }
-
-        public TransitAccountActivity TransitAccountActivity
-        {
-            get
+            set
             {
-                return new TransitAccountActivity(Session, mAccount);
+                _encrypttickets = value;
             }
         }
+#endif
 
         public static int GetAccountId(string ticket, int def)
         {
@@ -605,6 +615,13 @@ namespace SnCore.Services
             {
                 return def;
             }
+
+#if DEBUG
+            if (!_encrypttickets)
+            {
+                return int.Parse(ticket);
+            }
+#endif
 
             FormsAuthenticationTicket t = FormsAuthentication.Decrypt(ticket);
             if (t == null)
@@ -621,6 +638,13 @@ namespace SnCore.Services
 
         public static int GetAccountId(string ticket)
         {
+#if DEBUG
+            if (!_encrypttickets)
+            {
+                return int.Parse(ticket);
+            }
+#endif
+
             FormsAuthenticationTicket t = FormsAuthentication.Decrypt(ticket);
             if (t == null)
             {
@@ -648,57 +672,41 @@ namespace SnCore.Services
 
         #region CRUD
 
-        public void Delete()
+        public override void Delete(ManagedSecurityContext sec)
         {
             ITransaction t = Session.BeginTransaction();
 
             try
             {
-                try
-                {
-                    int DiscussionId = ManagedDiscussion.GetDiscussionId(
-                        Session, mAccount.Id, ManagedDiscussion.AccountTagsDiscussion, 0, false);
-                    Discussion mDiscussion = (Discussion)Session.Load(typeof(Discussion), DiscussionId);
-                    Session.Delete(mDiscussion);
-                }
-                catch (ManagedDiscussion.DiscussionNotFoundException)
-                {
-
-                }
+                ManagedDiscussion.FindAndDelete(Session, mInstance.Id, ManagedDiscussion.AccountTagsDiscussion, 0);
 
                 Account newowner = (Account)Session.CreateCriteria(typeof(Account))
                     .Add(Expression.Eq("IsAdministrator", true))
-                    .Add(Expression.Not(Expression.Eq("Id", mAccount.Id)))
+                    .Add(Expression.Not(Expression.Eq("Id", mInstance.Id)))
                     .SetMaxResults(1)
                     .UniqueResult();
 
                 // orphan places
-                if (mAccount.Places != null)
+                foreach (Place place in Collection<Place>.GetSafeCollection(mInstance.Places))
                 {
-                    foreach (Place place in mAccount.Places)
-                    {
-                        ManagedPlace mp = new ManagedPlace(Session, place);
-                        mp.MigrateToAccount(newowner);
-                    }
+                    ManagedPlace mp = new ManagedPlace(Session, place);
+                    mp.MigrateToAccount(newowner, sec);
                 }
 
                 // orphan public discussions
-                if (mAccount.Discussions != null)
+                foreach (Discussion d in Collection<Discussion>.GetSafeCollection(mInstance.Discussions))
                 {
-                    foreach (Discussion d in mAccount.Discussions)
+                    if (!d.Personal)
                     {
-                        if (!d.Personal)
-                        {
-                            ManagedDiscussion md = new ManagedDiscussion(Session, d);
-                            md.MigrateToAccount(newowner);
-                        }
+                        ManagedDiscussion md = new ManagedDiscussion(Session, d);
+                        md.MigrateToAccount(newowner);
                     }
                 }
 
                 // delete friends and friend requests
                 Session.Delete(string.Format("from AccountFriend f where f.Account.Id = {0} or f.Keen.Id = {0}", Id));
                 Session.Delete(string.Format("from AccountFriendRequest f where f.Account.Id = {0} or f.Keen.Id = {0}", Id));
-                
+
                 // delete features
                 ManagedFeature.Delete(Session, "Account", Id);
 
@@ -706,7 +714,7 @@ namespace SnCore.Services
                 Session.Delete(string.Format("from AccountBlogAuthor ba where ba.Account.Id = {0}", Id));
 
                 // delete account
-                Session.Delete(mAccount);
+                base.Delete(sec);
                 t.Commit();
             }
             catch
@@ -716,43 +724,43 @@ namespace SnCore.Services
             }
         }
 
-        public int Create(string name, string password, string emailaddress, DateTime birthday)
+        public int Create(string name, string password, string emailaddress, DateTime birthday, ManagedSecurityContext sec)
         {
             TransitAccount ta = new TransitAccount();
             ta.Name = name;
             ta.Birthday = birthday;
 
-            return Create(password, emailaddress, ta);
+            return Create(password, emailaddress, ta, sec);
         }
 
-        public int Create(string password, string emailaddress, TransitAccount ta)
+        public int Create(string password, string emailaddress, TransitAccount ta, ManagedSecurityContext sec)
         {
-            return Create(password, emailaddress, ta, false);
+            return Create(password, emailaddress, ta, false, sec);
         }
 
-        public int Create(string password, string emailaddress, TransitAccount ta, bool emailverified)
+        public int Create(string password, string emailaddress, TransitAccount ta, bool emailverified, ManagedSecurityContext sec)
         {
             try
             {
-                return InternalCreate(password, emailaddress, ta, emailverified);
+                return InternalCreate(password, emailaddress, ta, emailverified, sec);
             }
             catch
             {
-                mAccount = null;
+                mInstance = null;
                 throw;
             }
         }
 
-        public int CreateWithOpenId(string consumerurl, TransitAccount ta)
+        public int CreateWithOpenId(string consumerurl, TransitAccount ta, ManagedSecurityContext sec)
         {
             try
             {
-                int result = InternalCreateWithOpenId(consumerurl, ta);
+                int result = InternalCreateWithOpenId(consumerurl, ta, sec);
                 return result;
             }
             catch
             {
-                mAccount = null;
+                mInstance = null;
                 throw;
             }
         }
@@ -763,75 +771,75 @@ namespace SnCore.Services
              new MD5CryptoServiceProvider().ComputeHash(Encoding.Default.GetBytes(password)));
         }
 
-        protected int InternalCreate(string password, string emailaddress, TransitAccount ta, bool emailverified)
+        protected int InternalCreate(string password, string emailaddress, TransitAccount ta, bool emailverified, ManagedSecurityContext sec)
         {
             if (password.Length < MinimumPasswordLength)
             {
                 throw new PasswordTooShortException();
             }
 
-            mAccount = new Account();
-            mAccount.Enabled = true;
-            mAccount.LastLogin = DateTime.UtcNow;
-            mAccount.Password = GetPasswordHash(password);
+            mInstance = new Account();
+            mInstance.Enabled = true;
+            mInstance.LastLogin = DateTime.UtcNow;
+            mInstance.Password = GetPasswordHash(password);
 
-            Update(ta);
+            Update(ta, sec);
 
             TransitAccountEmail email = new TransitAccountEmail();
             email.Address = new MailAddress(emailaddress).Address;
-            Create(email, emailverified);
+            Create(email, emailverified, sec);
 
-            CreateAccountSystemMessageFolders();
+            CreateAccountSystemMessageFolders(sec);
 
-            return mAccount.Id;
+            return mInstance.Id;
         }
 
-        protected int InternalCreateWithOpenId(string consumerurl, TransitAccount ta)
+        protected int InternalCreateWithOpenId(string consumerurl, TransitAccount ta, ManagedSecurityContext sec)
         {
-            mAccount = new Account();
-            mAccount.Enabled = true;
-            mAccount.LastLogin = DateTime.UtcNow;
-            mAccount.Password = GetPasswordHash(Guid.NewGuid().ToString());
+            mInstance = new Account();
+            mInstance.Enabled = true;
+            mInstance.LastLogin = DateTime.UtcNow;
+            mInstance.Password = GetPasswordHash(Guid.NewGuid().ToString());
 
-            Update(ta);
+            Update(ta, sec);
 
             TransitAccountOpenId openid = new TransitAccountOpenId();
             openid.IdentityUrl = consumerurl;
             Create(openid);
 
-            CreateAccountSystemMessageFolders();
+            CreateAccountSystemMessageFolders(sec);
 
-            return mAccount.Id;
+            return mInstance.Id;
         }
 
-        public void Update(TransitAccount ta)
+        public void Update(TransitAccount ta, ManagedSecurityContext sec)
         {
-            mAccount.Name = ta.Name;
-            mAccount.Birthday = ta.Birthday;
-            mAccount.City = ta.City;
-            mAccount.TimeZone = ta.TimeZone;
-            mAccount.Signature = ta.Signature;
+            mInstance.Name = ta.Name;
+            mInstance.Birthday = ta.Birthday;
+            mInstance.City = ta.City;
+            mInstance.TimeZone = ta.TimeZone;
+            mInstance.Signature = ta.Signature;
 
-            mAccount.Country = (ta.Country != null && ta.Country.Length > 0)
+            mInstance.Country = (ta.Country != null && ta.Country.Length > 0)
                 ? (Country)Session.Load(typeof(Country), ManagedCountry.GetCountryId(Session, ta.Country))
                 : null;
 
-            mAccount.LastLogin = mAccount.Modified = DateTime.UtcNow;
-            if (Id == 0) mAccount.Created = mAccount.Modified;
+            mInstance.LastLogin = mInstance.Modified = DateTime.UtcNow;
+            if (Id == 0) mInstance.Created = mInstance.Modified;
 
-            mAccount.State = (ta.State != null && ta.State.Length > 0)
+            mInstance.State = (ta.State != null && ta.State.Length > 0)
                 ? (State)Session.Load(typeof(State), ManagedState.GetStateId(Session, ta.State, ta.Country))
                 : null;
 
-            if (mAccount.State != null && mAccount.Country != null)
+            if (mInstance.State != null && mInstance.Country != null)
             {
-                if (mAccount.State.Country.Id != mAccount.Country.Id)
+                if (mInstance.State.Country.Id != mInstance.Country.Id)
                 {
                     throw new ManagedCountry.InvalidCountryException();
                 }
             }
 
-            Session.Save(mAccount);
+            Session.Save(mInstance);
         }
 
         #endregion
@@ -854,7 +862,7 @@ namespace SnCore.Services
             m.Subject = subject;
             m.Body = body;
             m.DeleteSent = deletesent;
-            m.Account = mAccount;
+            m.Account = mInstance;
 
             Session.Save(m);
 
@@ -863,7 +871,7 @@ namespace SnCore.Services
 
         public void VerifyAllEmails()
         {
-            foreach (AccountEmail e in mAccount.AccountEmails)
+            foreach (AccountEmail e in Collection<AccountEmail>.GetSafeCollection(mInstance.AccountEmails))
             {
                 foreach (AccountEmailConfirmation c in e.AccountEmailConfirmations)
                 {
@@ -873,27 +881,27 @@ namespace SnCore.Services
             }
         }
 
-        public int Create(TransitAccountEmail email)
+        public int Create(TransitAccountEmail email, ManagedSecurityContext sec)
         {
-            return Create(email, false);
+            return Create(email, false, sec);
         }
 
-        public int Create(TransitAccountEmail email, bool emailverified)
+        public int Create(TransitAccountEmail email, bool emailverified, ManagedSecurityContext sec)
         {
             AccountEmail e = new AccountEmail();
-            e.Account = mAccount;
+            e.Account = mInstance;
             e.Address = new MailAddress(email.Address.Trim().ToLower()).Address;
             e.Verified = emailverified;
             e.Created = e.Modified = DateTime.UtcNow;
 
-            if (mAccount.AccountEmails == null) mAccount.AccountEmails = new List<AccountEmail>();
-            
-            if (!IsAdministrator() && mAccount.AccountEmails.Count >= MaxOfAnything)
+            if (mInstance.AccountEmails == null) mInstance.AccountEmails = new List<AccountEmail>();
+
+            if (!IsAdministrator() && mInstance.AccountEmails.Count >= MaxOfAnything)
             {
                 throw new QuotaExceededException();
             }
 
-            mAccount.AccountEmails.Add(e);
+            mInstance.AccountEmails.Add(e);
             Session.Save(e);
             Session.Flush();
 
@@ -903,12 +911,12 @@ namespace SnCore.Services
             return me.Id;
         }
 
-        public void Update(TransitAccountEmail o)
+        public void Update(TransitAccountEmail o, ManagedSecurityContext sec)
         {
             // clear principal flags if this e-mail becomes principal
             if (o.Principal)
             {
-                foreach (AccountEmail e in mAccount.AccountEmails)
+                foreach (AccountEmail e in Collection<AccountEmail>.GetSafeCollection(mInstance.AccountEmails))
                 {
                     if (e.Principal)
                     {
@@ -928,14 +936,11 @@ namespace SnCore.Services
         {
             get
             {
-                if (mAccount.AccountEmails != null)
+                foreach (AccountEmail e in Collection<AccountEmail>.GetSafeCollection(mInstance.AccountEmails))
                 {
-                    foreach (AccountEmail e in mAccount.AccountEmails)
+                    if (e.Verified)
                     {
-                        if (e.Verified)
-                        {
-                            return true;
-                        }
+                        return true;
                     }
                 }
 
@@ -947,12 +952,9 @@ namespace SnCore.Services
         {
             get
             {
-                if (mAccount.AccountEmails == null)
-                    return null;
-
                 string result = null;
 
-                foreach (AccountEmail e in mAccount.AccountEmails)
+                foreach (AccountEmail e in Collection<AccountEmail>.GetSafeCollection(mInstance.AccountEmails))
                 {
                     result = e.Address;
 
@@ -1002,10 +1004,10 @@ namespace SnCore.Services
 
         public bool UpdateLastLogin()
         {
-            if (mAccount.LastLogin.AddMinutes(30) < DateTime.UtcNow)
+            if (mInstance.LastLogin.AddMinutes(30) < DateTime.UtcNow)
             {
-                mAccount.LastLogin = DateTime.UtcNow;
-                Session.SaveOrUpdate(mAccount);
+                mInstance.LastLogin = DateTime.UtcNow;
+                Session.SaveOrUpdate(mInstance);
                 return true;
             }
 
@@ -1120,9 +1122,9 @@ namespace SnCore.Services
                 throw new PasswordTooShortException();
             }
 
-            mAccount.Password = GetPasswordHash(newpassword);
-            mAccount.IsPasswordExpired = expired;
-            Session.Save(mAccount);
+            mInstance.Password = GetPasswordHash(newpassword);
+            mInstance.IsPasswordExpired = expired;
+            Session.Save(mInstance);
         }
 
         public void ChangePassword(string oldpassword, string newpassword)
@@ -1137,13 +1139,13 @@ namespace SnCore.Services
                 throw new PasswordTooShortException();
             }
 
-            if (mAccount.Password != oldpasswordhash)
+            if (mInstance.Password != oldpasswordhash)
             {
                 throw new AccessDeniedException();
             }
-            mAccount.Password = GetPasswordHash(newpassword);
-            mAccount.IsPasswordExpired = false;
-            Session.Save(mAccount);
+            mInstance.Password = GetPasswordHash(newpassword);
+            mInstance.IsPasswordExpired = false;
+            Session.Save(mInstance);
         }
 
         #endregion
@@ -1152,24 +1154,24 @@ namespace SnCore.Services
 
         public void PromoteAdministrator()
         {
-            mAccount.IsAdministrator = true;
-            Session.Save(mAccount);
+            mInstance.IsAdministrator = true;
+            Session.Save(mInstance);
         }
 
         public void DemoteAdministrator()
         {
-            if (!mAccount.IsAdministrator)
+            if (!mInstance.IsAdministrator)
             {
                 throw new InvalidOperationException("Account does not have administrative permissions.");
             }
 
-            mAccount.IsAdministrator = false;
-            Session.Save(mAccount);
+            mInstance.IsAdministrator = false;
+            Session.Save(mInstance);
         }
 
         public bool IsAdministrator()
         {
-            return mAccount.IsAdministrator;
+            return mInstance.IsAdministrator;
         }
 
         #endregion
@@ -1178,125 +1180,23 @@ namespace SnCore.Services
         public int Create(TransitAccountOpenId url)
         {
             AccountOpenId o = new AccountOpenId();
-            o.Account = mAccount;
+            o.Account = mInstance;
             o.IdentityUrl = url.IdentityUrl;
             o.Created = o.Modified = DateTime.UtcNow;
 
-            if (mAccount.AccountOpenIds == null) mAccount.AccountOpenIds = new List<AccountOpenId>();
+            if (mInstance.AccountOpenIds == null) mInstance.AccountOpenIds = new List<AccountOpenId>();
 
-            if (!IsAdministrator() && mAccount.AccountOpenIds.Count >= MaxOfAnything)
+            if (!IsAdministrator() && mInstance.AccountOpenIds.Count >= MaxOfAnything)
             {
                 throw new QuotaExceededException();
             }
 
-            mAccount.AccountOpenIds.Add(o);
+            mInstance.AccountOpenIds.Add(o);
             Session.Save(o);
 
             ManagedAccountOpenId mo = new ManagedAccountOpenId(Session, o);
             return mo.Id;
         }
-        #endregion
-
-        #region Address
-
-        public int CreateOrUpdate(TransitAccountAddress address)
-        {
-            AccountAddress a = address.GetAccountAddress(Session);
-            a.Modified = DateTime.UtcNow;
-
-            if (a.Id == 0)
-            {
-                a.Created = a.Modified;
-                a.Account = mAccount;
-                if (mAccount.AccountAddresses == null) mAccount.AccountAddresses = new List<AccountAddress>();
-                if (!IsAdministrator() && mAccount.AccountAddresses.Count >= MaxOfAnything)
-                {
-                    throw new QuotaExceededException();
-                }
-                mAccount.AccountAddresses.Add(a);
-            }
-            else
-            {
-                // check whether editing address of self
-                if (a.Account.Id != mAccount.Id)
-                {
-                    throw new AccessDeniedException();
-                }
-            }
-
-            Session.Save(a);
-            return a.Id;
-        }
-
-        #endregion
-
-        #region Survey Answer
-
-        public int CreateOrUpdate(TransitAccountSurveyAnswer SurveyAnswer)
-        {
-            AccountSurveyAnswer p = SurveyAnswer.GetAccountSurveyAnswer(Session);
-            p.Modified = DateTime.UtcNow;
-
-            if (p.Id == 0)
-            {
-                p.Account = mAccount;
-                p.Created = p.Modified;
-                if (mAccount.AccountSurveyAnswers == null) mAccount.AccountSurveyAnswers = new List<AccountSurveyAnswer>();
-                if (!IsAdministrator() && mAccount.AccountSurveyAnswers.Count >= MaxOfAnything)
-                {
-                    throw new QuotaExceededException();
-                }
-                mAccount.AccountSurveyAnswers.Add(p);
-            }
-            else
-            {
-                // check that editing SurveyAnswer of self
-                if (p.Account.Id != Id)
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-            }
-
-            Session.Save(p);
-            return p.Id;
-        }
-
-        #endregion
-
-        #region Website
-
-        public int CreateOrUpdate(TransitAccountWebsite website)
-        {
-            AccountWebsite w = website.GetAccountWebsite(Session);
-
-            if (!Uri.IsWellFormedUriString(website.Url, UriKind.Absolute))
-            {
-                throw new ManagedAccountWebsite.InvalidUriException();
-            }
-
-            if (w.Id == 0)
-            {
-                w.Account = mAccount;
-                if (mAccount.AccountWebsites == null) mAccount.AccountWebsites = new List<AccountWebsite>();
-                if (!IsAdministrator() && mAccount.AccountWebsites.Count >= MaxOfAnything)
-                {
-                    throw new QuotaExceededException();
-                }
-                mAccount.AccountWebsites.Add(w);
-            }
-            else
-            {
-                // check that editing website of self
-                if (w.Account.Id != Id)
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-            }
-
-            Session.Save(w);
-            return w.Id;
-        }
-
         #endregion
 
         #region Message
@@ -1305,9 +1205,9 @@ namespace SnCore.Services
         /// Send from this account to message.Account.
         /// </summary>
         /// <returns></returns>
-        public int SendAccountMessage(TransitAccountMessage m)
+        public int SendAccountMessage(TransitAccountMessage m, ManagedSecurityContext sec)
         {
-            AccountMessage message = m.GetAccountMessage(Session);
+            AccountMessage message = m.GetInstance(Session, sec);
 
             // check that sending message as self
             if (message.SenderAccountId != 0 && message.SenderAccountId != Id)
@@ -1336,8 +1236,8 @@ namespace SnCore.Services
             }
 
             // save a copy in sent items
-            AccountMessage s = m.GetAccountMessage(Session);
-            s.Account = mAccount;
+            AccountMessage s = m.GetInstance(Session, sec);
+            s.Account = mInstance;
             s.Sent = message.Sent;
             s.SenderAccountId = Id;
             s.RecepientAccountId = message.Account.Id;
@@ -1346,8 +1246,8 @@ namespace SnCore.Services
                         .Add(Expression.Eq("Name", "sent"))
                         .Add(Expression.IsNull("AccountMessageFolderParent"))
                         .UniqueResult();
-            if (mAccount.AccountMessages == null) mAccount.AccountMessages = new List<AccountMessage>();
-            mAccount.AccountMessages.Add(s);
+            if (mInstance.AccountMessages == null) mInstance.AccountMessages = new List<AccountMessage>();
+            mInstance.AccountMessages.Add(s);
             Session.Save(s);
 
             return message.Id;
@@ -1355,41 +1255,9 @@ namespace SnCore.Services
 
         #endregion
 
-        #region Picture
-
-        public int CreateOrUpdate(TransitAccountPictureWithBitmap picture)
-        {
-            AccountPicture p = picture.GetAccountPicture(Session);
-            p.Modified = DateTime.UtcNow;
-
-            if (p.Id == 0)
-            {
-                p.Created = p.Modified;
-                p.Account = mAccount;
-                if (mAccount.AccountPictures == null) mAccount.AccountPictures = new List<AccountPicture>();
-                if (!IsAdministrator() && mAccount.AccountPictures.Count >= MaxOfAnything)
-                {
-                    throw new QuotaExceededException();
-                }
-                mAccount.AccountPictures.Add(p);
-            }
-            else
-            {
-                if (p.Account.Id != mAccount.Id)
-                {
-                    throw new AccessDeniedException();
-                }
-            }
-
-            Session.Save(p);
-            return p.Id;
-        }
-
-        #endregion
-
         #region MessageFolder
 
-        public void CreateAccountSystemMessageFolders()
+        public void CreateAccountSystemMessageFolders(ManagedSecurityContext sec)
         {
             string[] SystemFolders = 
             {
@@ -1405,62 +1273,16 @@ namespace SnCore.Services
                     TransitAccountMessageFolder tf = new TransitAccountMessageFolder();
                     tf.Name = folder;
                     tf.System = true;
-                    CreateOrUpdate(tf);
+                    tf.AccountId = Id;
+
+                    ManagedAccountMessageFolder m_folder = new ManagedAccountMessageFolder(Session);
+                    m_folder.CreateOrUpdate(tf, sec);
                 }
                 catch
                 {
                     // ignore unique key constraint
                 }
             }
-        }
-
-        public int CreateOrUpdate(TransitAccountMessageFolder messagefolder)
-        {
-            AccountMessageFolder e = messagefolder.GetAccountMessageFolder(Session);
-
-            e.Modified = DateTime.UtcNow;
-
-            if (e.Id == 0)
-            {
-                e.Account = mAccount;
-                e.Created = e.Modified;
-
-                if (mAccount.AccountMessageFolders == null) mAccount.AccountMessageFolders = new List<AccountMessageFolder>();
-                if (!IsAdministrator() && mAccount.AccountMessageFolders.Count >= MaxOfAnything)
-                {
-                    throw new QuotaExceededException();
-                }
-            }
-            else
-            {
-                if (e.Account.Id != mAccount.Id)
-                {
-                    throw new AccessDeniedException();
-                }
-            }
-
-            // don't allow moving folder between users
-            if (e.AccountMessageFolderParent != null && e.AccountMessageFolderParent.Account.Id != e.Account.Id)
-            {
-                throw new ManagedAccount.AccessDeniedException();
-            }
-
-            try
-            {
-                Session.Save(e);
-            }
-            catch
-            {
-                Session.Evict(e);
-                throw;
-            }
-
-            if (messagefolder.Id == 0)
-            {
-                mAccount.AccountMessageFolders.Add(e);
-            }
-
-            return e.Id;
         }
 
         #endregion
@@ -1516,23 +1338,19 @@ namespace SnCore.Services
 
         public bool HasFriend(int friendid)
         {
-            IList friends = Session.Find(
-                string.Format("from AccountFriend f where " +
+            return ((int)Session.CreateQuery(
+                string.Format("SELECT COUNT(*) FROM AccountFriend f where " +
                     "(f.Account.Id = {0} and f.Keen.Id = {1}) or " +
                     "(f.Keen.Id = {0} and f.Account.Id = {1})",
-                    Id, friendid));
-
-            return friends.Count > 0;
+                    Id, friendid)).UniqueResult() > 0);
         }
 
         public bool HasFriendRequest(int friendid)
         {
-            IList friendrequests = Session.Find(
-                string.Format("from AccountFriendRequest f where " +
+            return ((int)Session.CreateQuery(
+                string.Format("SELECT COUNT(*) FROM AccountFriendRequest f where " +
                     "(f.Account.Id = {0} and f.Keen.Id = {1})",
-                    Id, friendid));
-
-            return friendrequests.Count > 0;
+                    Id, friendid)).UniqueResult() > 0);
         }
 
         public int CreateAccountFriendRequest(int friendid, string message)
@@ -1546,23 +1364,23 @@ namespace SnCore.Services
 
             AccountFriendRequest request = new AccountFriendRequest();
             // the request belongs to the requester
-            request.Account = mAccount;
+            request.Account = mInstance;
             request.Keen = (Account)Session.Load(typeof(Account), friendid);
             request.Message = message;
             request.Created = DateTime.UtcNow;
 
-            // check whether a user is already friends with
+            // check whether a user is alRetreivey friends with
             if (HasFriend(friendid))
             {
                 throw new SoapException(string.Format(
-                    "{0} is already your friend.", request.Keen.Name),
+                    "{0} is alRetreivey your friend.", request.Keen.Name),
                     SoapException.ClientFaultCode);
             }
 
             if (HasFriendRequest(friendid))
             {
                 throw new SoapException(string.Format(
-                    "You have already asked {0} to be your friend.", request.Keen.Name),
+                    "You have alRetreivey asked {0} to be your friend.", request.Keen.Name),
                     SoapException.ClientFaultCode);
             }
 
@@ -1583,102 +1401,6 @@ namespace SnCore.Services
 
         #endregion
 
-        #region Story
-
-        public int CreateOrUpdateWithPictures(TransitAccountStory Story, TransitAccountStoryPictureWithPicture[] Pictures)
-        {
-            ManagedAccountStory s = new ManagedAccountStory(Session, CreateOrUpdate(Story));
-
-            foreach (TransitAccountStoryPictureWithPicture p in Pictures)
-            {
-                s.AddAccountStoryPicture(p);
-            }
-
-            return s.Id;
-        }
-
-        public int CreateOrUpdateWithPictures(TransitAccountStory Story, TransitAccountStoryPicture[] Pictures)
-        {
-            ManagedAccountStory s = new ManagedAccountStory(Session, CreateOrUpdate(Story));
-
-            foreach (TransitAccountStoryPicture p in Pictures)
-            {
-                s.AddAccountStoryPicture(p);
-            }
-
-            return s.Id;
-        }
-
-        public int CreateOrUpdate(TransitAccountStory Story)
-        {
-            AccountStory s = Story.GetAccountStory(Session);
-
-            s.Modified = DateTime.UtcNow;
-
-            if (s.Id == 0)
-            {
-                s.Account = mAccount;
-                s.Created = s.Modified;
-                if (mAccount.AccountStories == null) mAccount.AccountStories = new List<AccountStory>();
-                if (!IsAdministrator() && mAccount.AccountStories.Count >= MaxOfAnything)
-                {
-                    throw new QuotaExceededException();
-                }
-                mAccount.AccountStories.Add(s);
-            }
-            else
-            {
-                // check that editing Story of self
-                if (s.Account.Id != mAccount.Id && !IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-            }
-
-            Session.Save(s);
-
-            return s.Id;
-        }
-
-        #endregion
-
-        #region Invitation
-
-        public int CreateOrUpdate(TransitAccountInvitation Invitation)
-        {
-            AccountInvitation s = Invitation.GetAccountInvitation(Session);
-
-            s.Modified = DateTime.UtcNow;
-
-            if (s.Id == 0)
-            {
-                s.Account = mAccount;
-                s.Created = s.Modified;
-                if (mAccount.AccountInvitations == null) mAccount.AccountInvitations = new List<AccountInvitation>();
-                if (!IsAdministrator() && mAccount.AccountInvitations.Count >= MaxOfAnything)
-                {
-                    throw new QuotaExceededException();
-                }
-                mAccount.AccountInvitations.Add(s);
-            }
-            else
-            {
-                // check that editing Invitation of self
-                if (s.Account.Id != Id)
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-            }
-
-            Session.Save(s);
-
-            ManagedAccountInvitation result = new ManagedAccountInvitation(Session, s);
-            result.Send();
-            return result.Id;
-        }
-
-        #endregion
-
         #region Tag Words
 
         public void UpdateTagWords()
@@ -1686,23 +1408,17 @@ namespace SnCore.Services
             ManagedTagWordCollection tags = new ManagedTagWordCollection();
 
             // update tagwords from stories
-            if (mAccount.AccountStories != null)
+            foreach (AccountStory story in Collection<AccountStory>.GetSafeCollection(mInstance.AccountStories))
             {
-                foreach (AccountStory story in mAccount.AccountStories)
-                {
-                    new ManagedAccountStory(Session, story).AddTagWordsTo(tags);
-                    System.Threading.Thread.Sleep(500);
-                }
+                new ManagedAccountStory(Session, story).AddTagWordsTo(tags);
+                System.Threading.Thread.Sleep(500);
             }
 
             // update tagwords from surveys
-            if (mAccount.AccountSurveyAnswers != null)
+            foreach (AccountSurveyAnswer answer in Collection<AccountSurveyAnswer>.GetSafeCollection(mInstance.AccountSurveyAnswers))
             {
-                foreach (AccountSurveyAnswer answer in mAccount.AccountSurveyAnswers)
-                {
-                    new ManagedAccountSurveyAnswer(Session, answer).AddTagWordsTo(tags);
-                    System.Threading.Thread.Sleep(500);
-                }
+                new ManagedAccountSurveyAnswer(Session, answer).AddTagWordsTo(tags);
+                System.Threading.Thread.Sleep(500);
             }
 
             foreach (string tag in tags)
@@ -1763,409 +1479,6 @@ namespace SnCore.Services
 
         #endregion
 
-        #region Account Feed
-
-        public int CreateOrUpdate(TransitAccountFeed o)
-        {
-            AccountFeed feed = o.GetAccountFeed(Session);
-
-            if (feed.Id != 0)
-            {
-                if (feed.Account.Id != Id && !IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                feed.LastError = "Feed has not yet been updated since last save.";
-            }
-
-            feed.Updated = DateTime.UtcNow;
-            if (feed.Id == 0) feed.Created = feed.Updated;
-            Session.Save(feed);
-            return feed.Id;
-        }
-
-        #endregion
-
-        #region Account Schedule
-
-        public int CreateOrUpdate(TransitSchedule o)
-        {
-            Schedule schedule = o.GetSchedule(Session);
-
-            if (schedule.Id != 0)
-            {
-                if (schedule.Account.Id != Id && !IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-            }
-
-            schedule.Account = mAccount;
-            schedule.Modified = DateTime.UtcNow;
-            if (schedule.Id == 0) schedule.Created = schedule.Modified;
-            Session.Save(schedule);
-
-            ManagedSchedule m_s = new ManagedSchedule(Session, schedule);
-            m_s.UpdateInstances();
-
-            return schedule.Id;
-        }
-
-        #endregion
-
-        #region Account License
-
-        public int CreateOrUpdate(TransitAccountLicense o)
-        {
-            AccountLicense license = o.GetAccountLicense(Session);
-
-            if (license.Id != 0)
-            {
-                if (license.Account.Id != Id && !IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-            }
-
-            license.Modified = DateTime.UtcNow;
-            if (license.Id == 0) license.Created = license.Modified;
-            Session.Save(license);
-            return license.Id;
-        }
-
-        #endregion
-
-        #region Account Blog
-
-        public int CreateOrUpdate(TransitAccountBlog o)
-        {
-            AccountBlog blog = o.GetAccountBlog(Session);
-
-            if (blog.Id != 0)
-            {
-                if (blog.Account.Id != Id && !IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-            }
-
-            blog.Updated = DateTime.UtcNow;
-            if (blog.Id == 0) blog.Created = blog.Updated;
-            Session.Save(blog);
-            return blog.Id;
-        }
-
-        public int CreateOrUpdate(TransitAccountBlogPost o)
-        {
-            AccountBlogPost post = o.GetAccountBlogPost(Session);
-            ManagedAccountBlog blog = new ManagedAccountBlog(Session, post.AccountBlog);
-
-            if (post.Id != 0)
-            {
-                // always can edit your own post
-                if (post.AccountId != Id && !blog.CanEdit(Id))
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-            }
-            else
-            {
-                if (!blog.CanPost(Id))
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-            }
-
-            post.Modified = DateTime.UtcNow;
-            if (post.Id == 0)
-            {
-                post.Created = post.Modified;
-                post.AccountId = Id;
-                post.AccountName = Name;
-            }
-            Session.Save(post);
-            return post.Id;
-        }
-
-        public int CreateOrUpdate(TransitAccountBlogAuthor o)
-        {
-            AccountBlogAuthor author = o.GetAccountBlogAuthor(Session);
-
-            // only the blog owner can edit the blog permissions
-            if (author.AccountBlog.Account.Id != Id && !IsAdministrator())
-            {
-                throw new ManagedAccount.AccessDeniedException();
-            }
-
-            Session.Save(author);
-            return author.Id;
-        }
-
-        #endregion
-
-        #region Place
-
-        public int CreateOrUpdate(TransitPlace o)
-        {
-            Place place = o.GetPlace(Session);
-            place.Modified = DateTime.UtcNow;
-
-            if (place.Id == 0)
-            {
-                place.Created = place.Modified;
-                place.Account = mAccount;
-            }
-            else
-            {
-                if (place.Account.Id != mAccount.Id && !IsAdministrator())
-                {
-                    ManagedPlace m_place = new ManagedPlace(Session, place.Id);
-                    if (!m_place.CanWrite(Id))
-                    {
-                        throw new AccessDeniedException();
-                    }
-                }
-            }
-
-            Session.Save(place);
-            return place.Id;
-        }
-
-        #endregion
-
-        #region Account Place Request
-        public int CreateOrUpdate(TransitAccountPlaceRequest o)
-        {
-            AccountPlace e_place = (AccountPlace)Session.CreateCriteria(typeof(AccountPlace))
-                .Add(Expression.Eq("Account.Id", o.AccountId))
-                .Add(Expression.Eq("Place.Id", o.PlaceId))
-                .UniqueResult();
-
-            if (e_place != null)
-            {
-                throw new SoapException("You already have a relationship with this place.",
-                    SoapException.ClientFaultCode);
-            }
-
-            AccountPlaceRequest request = o.GetAccountPlaceRequest(Session);
-
-            if (request.Id != 0)
-            {
-                if (request.Account.Id != mAccount.Id && !IsAdministrator())
-                {
-                    throw new AccessDeniedException();
-                }
-            }
-            else
-            {
-                request.Submitted = DateTime.UtcNow;
-            }
-
-            Session.Save(request);
-            Session.Flush();
-
-            ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
-                Session,
-                new MailAddress(ManagedConfiguration.GetValue(Session, "SnCore.Admin.EmailAddress", "admin@localhost.com"),
-                    ManagedConfiguration.GetValue(Session, "SnCore.Admin.Name", "Admin")).ToString(),
-                string.Format("EmailAccountPlaceRequest.aspx?id={0}", request.Id));
-
-            if (request.Place.AccountPlaces != null)
-            {
-                foreach (AccountPlace place in request.Place.AccountPlaces)
-                {
-                    if (place.Type.CanWrite)
-                    {
-                        ManagedAccount acct = new ManagedAccount(Session, place.Account);
-
-                        if (! acct.HasVerifiedEmail)
-                            continue;
-
-                        ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
-                            Session,
-                            new MailAddress(acct.ActiveEmailAddress, acct.Name).ToString(),
-                            string.Format("EmailAccountPlaceRequest.aspx?id={0}", request.Id));
-                    }
-                }
-            }
-
-            return request.Id;
-        }
-        #endregion
-
-        #region Account Place
-
-        public int CreateOrUpdate(TransitAccountPlace o)
-        {
-            AccountPlace place = o.GetAccountPlace(Session);
-
-            if (place.Id != 0)
-            {
-                if (place.Account.Id != mAccount.Id && !IsAdministrator())
-                {
-                    throw new AccessDeniedException();
-                }
-            }
-
-            place.Modified = DateTime.UtcNow;
-            if (place.Id == 0) place.Created = place.Modified;
-            Session.Save(place);
-            return place.Id;
-        }
-
-        #endregion
-
-        #region Account Place Favorite
-
-        public int CreateOrUpdate(TransitAccountPlaceFavorite o)
-        {
-            AccountPlaceFavorite pf = o.GetAccountPlaceFavorite(Session);
-
-            if (pf.Id != 0)
-            {
-                // cannot modify an existing favorite
-                throw new AccessDeniedException();
-            }
-
-            if (pf.Id == 0) pf.Created = DateTime.UtcNow;
-            Session.Save(pf);
-            return pf.Id;
-        }
-
-        #endregion
-
-        #region Account Property Value
-
-        public int CreateOrUpdate(TransitAccountPropertyValue o)
-        {
-            AccountPropertyValue propertyvalue = o.GetAccountPropertyValue(Session);
-
-            if (propertyvalue.Id != 0)
-            {
-                if (propertyvalue.Account.Id != mAccount.Id && !IsAdministrator())
-                {
-                    throw new AccessDeniedException();
-                }
-            }
-
-            propertyvalue.Modified = DateTime.UtcNow;
-            if (propertyvalue.Id == 0) propertyvalue.Created = propertyvalue.Modified;
-            Session.Save(propertyvalue);
-            return propertyvalue.Id;
-        }
-
-        #endregion
-
-
-        #region Account Event
-
-        public int CreateOrUpdate(TransitAccountEvent o)
-        {
-            AccountEvent ev = o.GetAccountEvent(Session);
-
-            if (ev.Id != 0)
-            {
-                if (ev.Account.Id != Id && !IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-            }
-
-            ev.Modified = DateTime.UtcNow;
-            if (ev.Id == 0) ev.Created = ev.Modified;
-            Session.Save(ev);
-            return ev.Id;
-        }
-
-        #endregion
-
-        #region Account Content Group
-
-        public int CreateOrUpdate(TransitAccountContentGroup o)
-        {
-            AccountContentGroup group = o.GetAccountContentGroup(Session);
-
-            if (group.Id != 0)
-            {
-                if (group.Account.Id != Id && !IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-            }
-            else
-            {
-                group.Account = mAccount;
-            }
-
-            if (!IsAdministrator() && group.Trusted)
-            {
-                throw new Exception("Only administrators can create trusted content.");
-            }
-
-            group.Modified = DateTime.UtcNow;
-            if (group.Id == 0) group.Created = group.Modified;
-            Session.Save(group);
-            return group.Id;
-        }
-
-        public int CreateOrUpdate(TransitAccountContent o)
-        {
-            AccountContent content = o.GetAccountContent(Session);
-            ManagedAccountContentGroup group = new ManagedAccountContentGroup(Session, content.AccountContentGroup);
-
-            if (content.Id != 0)
-            {
-                if (content.AccountContentGroup.Account.Id != Id && !IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-            }
-
-            content.Modified = DateTime.UtcNow;
-            if (content.Id == 0) content.Created = content.Modified;
-            Session.Save(content);
-            return content.Id;
-        }
-
-        #endregion
-
-        #region Redirect
-
-        public int CreateOrUpdate(TransitAccountRedirect redirect)
-        {
-            AccountRedirect r = redirect.GetAccountRedirect(Session);
-            ManagedAccountRedirect.CheckSourceUri(r.SourceUri);
-            ManagedAccountRedirect.CheckTargetUri(r.TargetUri);
-
-            r.Modified = DateTime.UtcNow;
-
-            if (r.Id == 0)
-            {
-                r.Account = mAccount;
-                r.Created = r.Modified;
-                if (mAccount.AccountRedirects == null) mAccount.AccountRedirects = new List<AccountRedirect>();
-                if (!IsAdministrator() && mAccount.AccountRedirects.Count >= MaxOfAnything)
-                {
-                    throw new QuotaExceededException();
-                }
-                mAccount.AccountRedirects.Add(r);
-            }
-            else
-            {
-                // check that editing Redirect of self
-                if (r.Account.Id != Id)
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-            }
-
-            Session.Save(r);
-            return r.Id;
-        }
-
-        #endregion
-
         public static int GetRandomAccountPictureId(Account acct)
         {
             if (acct.AccountPictures == null || acct.AccountPictures.Count == 0)
@@ -2181,7 +1494,51 @@ namespace SnCore.Services
                 }
             }
 
-            return ManagedService<AccountPicture>.GetRandomElementId(copyofcollection);
+            return ManagedService<AccountPicture, TransitAccountPicture>.GetRandomElementId(copyofcollection);
+        }
+
+        public static Account GetAdminAccount(ISession session)
+        {
+            Account account = (Account)session.CreateCriteria(typeof(Account))
+                .Add(Expression.Eq("IsAdministrator", true))
+                .SetMaxResults(1)
+                .UniqueResult();
+
+            if (account == null)
+            {
+                throw new Exception("Missing Administrator");
+            }
+
+            return account;
+        }
+
+        public static string GetAdminTicket(ISession session)
+        {
+            Account account = GetAdminAccount(session);
+#if DEBUG
+            if (!EncryptTickets)
+            {
+                return account.Id.ToString();
+            }
+#endif
+            return FormsAuthentication.GetAuthCookie(account.Id.ToString(), false).Value;
+        }
+
+        public static ManagedSecurityContext GetAdminSecurityContext(ISession session)
+        {
+            return new ManagedSecurityContext(GetAdminAccount(session));
+        }
+
+        public ManagedSecurityContext GetSecurityContext()
+        {
+            return new ManagedSecurityContext(mInstance);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLAccount(mInstance, DataOperation.All));
+            return acl;
         }
     }
 }

@@ -5,8 +5,7 @@ using NHibernate.Expression;
 
 namespace SnCore.Services
 {
-
-    public class TransitDataObject : TransitService
+    public class TransitDataObject : TransitService<DataObject>
     {
         private string mName;
 
@@ -28,27 +27,28 @@ namespace SnCore.Services
 
         }
 
-        public TransitDataObject(DataObject o)
-            : base(o.Id)
+        public TransitDataObject(DataObject instance)
+            : base(instance)
         {
-            Name = o.Name;
+
         }
 
-        public DataObject GetDataObject(ISession session)
+        public override void SetInstance(DataObject instance)
         {
-            DataObject p = (Id != 0) ? (DataObject)session.Load(typeof(DataObject), Id) : new DataObject();
-            p.Name = this.Name;
-            return p;
+            Name = instance.Name;
+            base.SetInstance(instance);
+        }
+
+        public override DataObject GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            DataObject instance = base.GetInstance(session, sec);
+            instance.Name = this.Name;
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed data object.
-    /// </summary>
-    public class ManagedDataObject : ManagedService<DataObject>
+    public class ManagedDataObject : ManagedService<DataObject, TransitDataObject>
     {
-        private DataObject mDataObject = null;
-
         public ManagedDataObject(ISession session)
             : base(session)
         {
@@ -56,44 +56,28 @@ namespace SnCore.Services
         }
 
         public ManagedDataObject(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mDataObject = (DataObject)session.Load(typeof(DataObject), id);
+
         }
 
-        public ManagedDataObject(ISession session, DataObject value)
-            : base(session)
+        public ManagedDataObject(ISession session, DataObject instance)
+            : base(session, instance)
         {
-            mDataObject = value;
-        }
 
-        public int Id
-        {
-            get
-            {
-                return mDataObject.Id;
-            }
         }
 
         public string Name
         {
             get
             {
-                return mDataObject.Name;
-            }
-        }
-
-        public TransitDataObject TransitDataObject
-        {
-            get
-            {
-                return new TransitDataObject(mDataObject);
+                return mInstance.Name;
             }
         }
 
         public static DataObject FindObject(ISession session, string name)
         {
-            return (DataObject) session.CreateCriteria(typeof(DataObject))
+            return (DataObject)session.CreateCriteria(typeof(DataObject))
                 .Add(Expression.Eq("Name", name))
                 .UniqueResult();
         }
@@ -108,6 +92,13 @@ namespace SnCore.Services
             }
 
             return dtao.Id;
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            return acl;
         }
     }
 }

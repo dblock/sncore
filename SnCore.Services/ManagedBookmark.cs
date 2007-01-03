@@ -39,16 +39,16 @@ namespace SnCore.Services
             LinkBitmap = b.LinkBitmap;
         }
 
-        public override Bookmark GetBookmark(ISession session)
+        public override Bookmark GetInstance(ISession session, ManagedSecurityContext sec)
         {
-            Bookmark b = base.GetBookmark(session);
-            if (this.LinkBitmap != null) b.LinkBitmap = this.LinkBitmap;
-            if (this.FullBitmap != null) b.FullBitmap = this.FullBitmap;
-            return b;
+            Bookmark instance = base.GetInstance(session, sec);
+            if (this.LinkBitmap != null) instance.LinkBitmap = this.LinkBitmap;
+            if (this.FullBitmap != null) instance.FullBitmap = this.FullBitmap;
+            return instance;
         }
     }
 
-    public class TransitBookmark : TransitService
+    public class TransitBookmark : TransitService<Bookmark>
     {
         private bool mHasFullBitmap;
 
@@ -147,35 +147,36 @@ namespace SnCore.Services
 
         }
 
-        public TransitBookmark(Bookmark b)
-            : base(b.Id)
+        public TransitBookmark(Bookmark instance)
+            : base(instance)
         {
-            Name = b.Name;
-            Description = b.Description;
-            Url = b.Url;
-            Created = b.Created;
-            Modified = b.Modified;
-            mHasFullBitmap = (b.FullBitmap != null);
-            mHasLinkBitmap = (b.LinkBitmap != null);
+
         }
 
-        public virtual Bookmark GetBookmark(ISession session)
+        public override void SetInstance(Bookmark instance)
         {
-            Bookmark b = (Id > 0) ? (Bookmark)session.Load(typeof(Bookmark), Id) : new Bookmark();
-            b.Name = this.Name;
-            b.Description = this.Description;
-            b.Url = this.Url;
-            return b;
+            Name = instance.Name;
+            Description = instance.Description;
+            Url = instance.Url;
+            Created = instance.Created;
+            Modified = instance.Modified;
+            mHasFullBitmap = (instance.FullBitmap != null);
+            mHasLinkBitmap = (instance.LinkBitmap != null);
+            base.SetInstance(instance);
+        }
+
+        public override Bookmark GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            Bookmark instance = base.GetInstance(session, sec);
+            instance.Name = this.Name;
+            instance.Description = this.Description;
+            instance.Url = this.Url;
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed social bookmark.
-    /// </summary>
-    public class ManagedBookmark : ManagedService<Bookmark>
+    public class ManagedBookmark : ManagedService<Bookmark, TransitBookmark>
     {
-        private Bookmark mBookmark = null;
-
         public ManagedBookmark(ISession session)
             : base(session)
         {
@@ -183,30 +184,22 @@ namespace SnCore.Services
         }
 
         public ManagedBookmark(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mBookmark = (Bookmark)session.Load(typeof(Bookmark), id);
+
         }
 
         public ManagedBookmark(ISession session, Bookmark value)
-            : base(session)
+            : base(session, value)
         {
-            mBookmark = value;
-        }
 
-        public int Id
-        {
-            get
-            {
-                return mBookmark.Id;
-            }
         }
 
         public string Name
         {
             get
             {
-                return mBookmark.Name;
+                return mInstance.Name;
             }
         }
 
@@ -214,7 +207,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mBookmark.Description;
+                return mInstance.Description;
             }
         }
 
@@ -222,7 +215,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mBookmark.FullBitmap;
+                return mInstance.FullBitmap;
             }
         }
 
@@ -230,7 +223,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mBookmark.LinkBitmap;
+                return mInstance.LinkBitmap;
             }
         }
 
@@ -238,7 +231,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mBookmark.Url;
+                return mInstance.Url;
             }
         }
 
@@ -246,7 +239,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mBookmark.Created;
+                return mInstance.Created;
             }
         }
 
@@ -254,38 +247,22 @@ namespace SnCore.Services
         {
             get
             {
-                return mBookmark.Modified;
+                return mInstance.Modified;
             }
         }
 
-        public TransitBookmarkWithBitmaps TransitBookmarkWithBitmaps
+        protected override void Save(ManagedSecurityContext sec)
         {
-            get
-            {
-                TransitBookmarkWithBitmaps pic = new TransitBookmarkWithBitmaps(mBookmark);
-                return pic;
-            }
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
         }
 
-        public TransitBookmark TransitBookmark
+        public override ACL GetACL()
         {
-            get
-            {
-                return new TransitBookmark(mBookmark);
-            }
-        }
-
-        public void CreateOrUpdate(TransitBookmark o)
-        {
-            mBookmark = o.GetBookmark(Session);
-            mBookmark.Modified = DateTime.UtcNow;
-            if (Id == 0) mBookmark.Created = mBookmark.Modified;
-            Session.Save(mBookmark);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mBookmark);
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            return acl;
         }
     }
 }

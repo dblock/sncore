@@ -18,7 +18,7 @@ using System.Net;
 
 namespace SnCore.Services
 {
-    public class TransitPlaceQueue : TransitService
+    public class TransitPlaceQueue : TransitService<PlaceQueue>
     {
         private string mName;
 
@@ -47,36 +47,6 @@ namespace SnCore.Services
             set
             {
                 mDescription = value;
-            }
-        }
-
-        private DateTime mCreated;
-
-        public DateTime Created
-        {
-            get
-            {
-
-                return mCreated;
-            }
-            set
-            {
-                mCreated = value;
-            }
-        }
-
-        private DateTime mModified;
-
-        public DateTime Modified
-        {
-            get
-            {
-
-                return mModified;
-            }
-            set
-            {
-                mModified = value;
             }
         }
 
@@ -153,46 +123,75 @@ namespace SnCore.Services
             }
         }
 
+        private DateTime mCreated;
+
+        public DateTime Created
+        {
+            get
+            {
+
+                return mCreated;
+            }
+            set
+            {
+                mCreated = value;
+            }
+        }
+
+        private DateTime mModified;
+
+        public DateTime Modified
+        {
+            get
+            {
+
+                return mModified;
+            }
+            set
+            {
+                mModified = value;
+            }
+        }
+
         public TransitPlaceQueue()
         {
 
         }
 
-        public TransitPlaceQueue(PlaceQueue o)
-            : base(o.Id)
+        public TransitPlaceQueue(PlaceQueue value)
+            : base(value)
         {
-            Name = o.Name;
-            Description = o.Description;
-            Created = o.Created;
-            Modified = o.Modified;
-            PublishAll = o.PublishAll;
-            PublishFriends = o.PublishFriends;
-            AccountId = o.Account.Id;
-            AccountName = o.Account.Name;
-            AccountPictureId = ManagedAccount.GetRandomAccountPictureId(o.Account);
+
         }
 
-        public PlaceQueue GetPlaceQueue(ISession session)
+        public override void SetInstance(PlaceQueue value)
         {
-            PlaceQueue p = (Id != 0) ? (PlaceQueue)session.Load(typeof(PlaceQueue), Id) : new PlaceQueue();
+            Name = value.Name;
+            Description = value.Description;
+            Created = value.Created;
+            Modified = value.Modified;
+            PublishAll = value.PublishAll;
+            PublishFriends = value.PublishFriends;
+            AccountId = value.Account.Id;
+            AccountName = value.Account.Name;
+            AccountPictureId = ManagedAccount.GetRandomAccountPictureId(value.Account);
+            base.SetInstance(value);
+        }
 
-            if (Id == 0)
-            {
-                if (AccountId > 0) p.Account = (Account)session.Load(typeof(Account), AccountId);
-            }
-
-            p.Name = this.Name;
-            p.Description = this.Description;
-            p.PublishAll = this.PublishAll;
-            p.PublishFriends = this.PublishFriends;
-            return p;
+        public override PlaceQueue GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            PlaceQueue instance = base.GetInstance(session, sec);
+            if (Id == 0) instance.Account = GetOwner(session, AccountId, sec);
+            instance.Name = this.Name;
+            instance.Description = this.Description;
+            instance.PublishAll = this.PublishAll;
+            instance.PublishFriends = this.PublishFriends;
+            return instance;
         }
     }
 
-    public class ManagedPlaceQueue : ManagedService<PlaceQueue>
+    public class ManagedPlaceQueue : ManagedService<PlaceQueue, TransitPlaceQueue>
     {
-        private PlaceQueue mPlaceQueue = null;
-
         public ManagedPlaceQueue(ISession session)
             : base(session)
         {
@@ -200,62 +199,29 @@ namespace SnCore.Services
         }
 
         public ManagedPlaceQueue(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mPlaceQueue = (PlaceQueue)session.Load(typeof(PlaceQueue), id);
+
         }
 
         public ManagedPlaceQueue(ISession session, PlaceQueue value)
-            : base(session)
+            : base(session, value)
         {
-            mPlaceQueue = value;
-        }
 
-        public ManagedPlaceQueue(ISession session, TransitPlaceQueue value)
-            : base(session)
-        {
-            mPlaceQueue = value.GetPlaceQueue(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mPlaceQueue.Id;
-            }
         }
 
         public int AccountId
         {
             get
             {
-                return mPlaceQueue.Account.Id;
+                return Object.Account.Id;
             }
-        }
-
-        public TransitPlaceQueue TransitPlaceQueue
-        {
-            get
-            {
-                return new TransitPlaceQueue(mPlaceQueue);
-            }
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mPlaceQueue);
-        }
-
-        public void CreateOrUpdate(TransitPlaceQueue o)
-        {
-            mPlaceQueue = o.GetPlaceQueue(Session);
-            Session.Save(mPlaceQueue);
         }
 
         public bool CanWrite(int user_id)
         {
             // owner
-            if (mPlaceQueue.Account.Id == user_id)
+            if (Object.Account.Id == user_id)
                 return true;
 
             return false;
@@ -264,26 +230,26 @@ namespace SnCore.Services
         public bool CanDelete(int user_id)
         {
             // owner
-            if (mPlaceQueue.Account.Id == user_id)
+            if (Object.Account.Id == user_id)
                 return true;
 
             return false;
         }
 
-        public bool CanRead(int user_id)
+        public bool CanRetreive(int user_id)
         {
             // published to everyone
-            if (mPlaceQueue.PublishAll)
+            if (Object.PublishAll)
                 return true;
 
             // owner
-            if (mPlaceQueue.Account.Id == user_id)
+            if (Object.Account.Id == user_id)
                 return true;
 
             // publish to friends
-            if (user_id != 0 && mPlaceQueue.PublishFriends && mPlaceQueue.Account.AccountFriends != null)
+            if (user_id != 0 && Object.PublishFriends && Object.Account.AccountFriends != null)
             {
-                foreach (AccountFriend friend in mPlaceQueue.Account.AccountFriends)
+                foreach (AccountFriend friend in Object.Account.AccountFriends)
                 {
                     if (friend.Id == user_id)
                         return true;
@@ -291,6 +257,21 @@ namespace SnCore.Services
             }
 
             return false;
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowCreateAndRetrieve());
+            acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
+            return acl;
         }
     }
 }

@@ -11,6 +11,7 @@ using System.Net.Mail;
 using System.IO;
 using SnCore.Tools;
 using SnCore.Tools.Web;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
@@ -99,7 +100,7 @@ namespace SnCore.Services
         }
     };
 
-    public class TransitAccountEvent : TransitService
+    public class TransitAccountEvent : TransitService<AccountEvent>
     {
         private int mPictureId = 0;
 
@@ -200,18 +201,18 @@ namespace SnCore.Services
             }
         }
 
-        private string mAccountEventType;
+        private string mInstanceType;
 
         public string AccountEventType
         {
             get
             {
 
-                return mAccountEventType;
+                return mInstanceType;
             }
             set
             {
-                mAccountEventType = value;
+                mInstanceType = value;
             }
         }
 
@@ -693,60 +694,66 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountEvent(AccountEvent o)
-            : base(o.Id)
+        public TransitAccountEvent(AccountEvent instance)
+            : base(instance)
         {
-            AccountEventType = o.AccountEventType.Name;
-            Description = o.Description;
-            Created = o.Created;
-            Modified = o.Modified;
-            AccountId = o.Account.Id;
-            AccountName = o.Account.Name;
-            ScheduleId = o.Schedule.Id;
-            PlaceId = o.Place.Id;
-            PlaceName = o.Place.Name;
-            if (o.Place.City != null) PlaceCity = o.Place.City.Name;
-            if (o.Place.City != null && o.Place.City.Country != null) PlaceCountry = o.Place.City.Country.Name;
-            if (o.Place.City != null && o.Place.City.State != null) PlaceState = o.Place.City.State.Name;
-            if (o.Place.Neighborhood != null) PlaceNeighborhood = o.Place.Neighborhood.Name;
-            Name = o.Name;
-            Phone = o.Phone;
-            Email = o.Email;
-            Website = o.Website;
-            Cost = o.Cost;
-            Publish = o.Publish;
-            PictureId = ManagedService<AccountEventPicture>.GetRandomElementId(o.AccountEventPictures);
+
         }
 
-        public AccountEvent GetAccountEvent(ISession session)
+        public override void SetInstance(AccountEvent instance)
         {
-            AccountEvent e = (Id != 0) ? (AccountEvent)session.Load(typeof(AccountEvent), Id) : new AccountEvent();
-            e.Description = this.Description;
-            e.Name = this.Name;
-            e.Phone = this.Phone;
-            e.Email = this.Email;
-            e.Website = this.Website;
-            e.Cost = this.Cost;
-            e.Publish = this.Publish;
-            e.AccountEventType = ManagedAccountEventType.Find(session, this.AccountEventType);
+            AccountEventType = instance.AccountEventType.Name;
+            Description = instance.Description;
+            Created = instance.Created;
+            Modified = instance.Modified;
+            AccountId = instance.Account.Id;
+            AccountName = instance.Account.Name;
+            ScheduleId = instance.Schedule.Id;
+            PlaceId = instance.Place.Id;
+            PlaceName = instance.Place.Name;
+            if (instance.Place.City != null) PlaceCity = instance.Place.City.Name;
+            if (instance.Place.City != null && instance.Place.City.Country != null) PlaceCountry = instance.Place.City.Country.Name;
+            if (instance.Place.City != null && instance.Place.City.State != null) PlaceState = instance.Place.City.State.Name;
+            if (instance.Place.Neighborhood != null) PlaceNeighborhood = instance.Place.Neighborhood.Name;
+            Name = instance.Name;
+            Phone = instance.Phone;
+            Email = instance.Email;
+            Website = instance.Website;
+            Cost = instance.Cost;
+            Publish = instance.Publish;
+            PictureId = ManagedService<AccountEventPicture, TransitAccountEventPicture>.GetRandomElementId(instance.AccountEventPictures);
+            base.SetInstance(instance);
+        }
+
+        public override AccountEvent GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            AccountEvent instance = base.GetInstance(session, sec);
+            instance.Description = this.Description;
+            instance.Name = this.Name;
+            instance.Phone = this.Phone;
+            instance.Email = this.Email;
+            instance.Website = this.Website;
+            instance.Cost = this.Cost;
+            instance.Publish = this.Publish;
+            instance.AccountEventType = ManagedAccountEventType.Find(session, this.AccountEventType);
 
             if (Id == 0)
             {
                 // the account and the Event cannot be switched after the relationship is created
-                if (AccountId > 0) e.Account = (Account)session.Load(typeof(Account), AccountId);
-                if (ScheduleId > 0) e.Schedule = (Schedule)session.Load(typeof(Schedule), ScheduleId);
+                instance.Account = GetOwner(session, AccountId, sec);
+                instance.Schedule = (Schedule)session.Load(typeof(Schedule), ScheduleId);
             }
 
-            if (PlaceId > 0) e.Place = (Place)session.Load(typeof(Place), PlaceId);
-            return e;
+            if (PlaceId > 0) instance.Place = (Place)session.Load(typeof(Place), PlaceId);
+            return instance;
         }
 
-        public void CreateSchedule(ISession session, int offset)
+        public void CreateSchedule(ISession session, int offset, ManagedSecurityContext sec)
         {
             ManagedSchedule m_s = new ManagedSchedule(session, ScheduleId);
             Schedule = m_s.ToString(offset);
 
-            TransitSchedule s = m_s.TransitSchedule;
+            TransitSchedule s = m_s.GetTransitInstance(sec);
 
             switch ((RecurrencePattern)s.RecurrencePattern)
             {
@@ -789,10 +796,8 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountEvent : ManagedService<AccountEvent>
+    public class ManagedAccountEvent : ManagedService<AccountEvent, TransitAccountEvent>
     {
-        private AccountEvent mAccountEvent = null;
-
         public ManagedAccountEvent(ISession session)
             : base(session)
         {
@@ -800,52 +805,30 @@ namespace SnCore.Services
         }
 
         public ManagedAccountEvent(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountEvent = (AccountEvent)session.Load(typeof(AccountEvent), id);
+
         }
 
         public ManagedAccountEvent(ISession session, AccountEvent value)
-            : base(session)
+            : base(session, value)
         {
-            mAccountEvent = value;
-        }
 
-        public ManagedAccountEvent(ISession session, TransitAccountEvent value)
-            : base(session)
-        {
-            mAccountEvent = value.GetAccountEvent(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mAccountEvent.Id;
-            }
-        }
-
-        public TransitAccountEvent TransitAccountEvent
-        {
-            get
-            {
-                return new TransitAccountEvent(mAccountEvent);
-            }
         }
 
         public Account Account
         {
             get
             {
-                return mAccountEvent.Account;
+                return mInstance.Account;
             }
         }
 
-        public void Delete()
+        public override void Delete(ManagedSecurityContext sec)
         {
             ManagedFeature.Delete(Session, "AccountEvent", Id);
-            mAccountEvent.Account.AccountEvents.Remove(mAccountEvent);
-            Session.Delete(mAccountEvent);
+            Collection<AccountEvent>.GetSafeCollection(mInstance.Account.AccountEvents).Remove(mInstance);
+            base.Delete(sec);
         }
 
         public string ToVCalendarString()
@@ -860,32 +843,32 @@ namespace SnCore.Services
             b.AppendLine(string.Format("UID:{0}", Id.ToString()));
 
             StringBuilder fb = new StringBuilder();
-            if (!mAccountEvent.Schedule.Endless)
+            if (!mInstance.Schedule.Endless)
             {
-                fb.Append((mAccountEvent.Schedule.EndOccurrences > 0)
-                    ? string.Format("COUNT={0};", mAccountEvent.Schedule.EndOccurrences)
-                    : string.Format("UNTIL={0};", mAccountEvent.Schedule.EndDateTime.ToString(@"yyyyMMdd\THHmmss\Z")));
+                fb.Append((mInstance.Schedule.EndOccurrences > 0)
+                    ? string.Format("COUNT={0};", mInstance.Schedule.EndOccurrences)
+                    : string.Format("UNTIL={0};", mInstance.Schedule.EndDateTime.ToString(@"yyyyMMdd\THHmmss\Z")));
             }
 
-            if (mAccountEvent.Schedule.AllDay)
+            if (mInstance.Schedule.AllDay)
             {
-                b.AppendLine(string.Format("DTSTART;VALUE=DATE:{0}", mAccountEvent.Schedule.StartDateTime.ToString(@"yyyyMMdd")));
-                b.AppendLine(string.Format("DTEND;VALUE=DATE:{0}", mAccountEvent.Schedule.EndDateTime.AddDays(1).ToString(@"yyyyMMdd")));
+                b.AppendLine(string.Format("DTSTART;VALUE=DATE:{0}", mInstance.Schedule.StartDateTime.ToString(@"yyyyMMdd")));
+                b.AppendLine(string.Format("DTEND;VALUE=DATE:{0}", mInstance.Schedule.EndDateTime.AddDays(1).ToString(@"yyyyMMdd")));
             }
             else
             {
-                b.AppendLine(string.Format("DTSTART:{0}", mAccountEvent.Schedule.StartDateTime.ToString(@"yyyyMMdd\THHmmss\Z")));
-                b.AppendLine(string.Format("DTEND:{0}", mAccountEvent.Schedule.EndDateTime.ToString(@"yyyyMMdd\THHmmss\Z")));
+                b.AppendLine(string.Format("DTSTART:{0}", mInstance.Schedule.StartDateTime.ToString(@"yyyyMMdd\THHmmss\Z")));
+                b.AppendLine(string.Format("DTEND:{0}", mInstance.Schedule.EndDateTime.ToString(@"yyyyMMdd\THHmmss\Z")));
             }
 
-            switch ((RecurrencePattern)mAccountEvent.Schedule.RecurrencePattern)
+            switch ((RecurrencePattern)mInstance.Schedule.RecurrencePattern)
             {
                 case RecurrencePattern.None:
                     break;
                 case RecurrencePattern.Daily_EveryNDays:
                     b.Append("RRULE:FREQ=DAILY;");
                     b.Append(fb.ToString());
-                    b.AppendLine(string.Format("INTERVAL={0}", mAccountEvent.Schedule.DailyEveryNDays));
+                    b.AppendLine(string.Format("INTERVAL={0}", mInstance.Schedule.DailyEveryNDays));
                     break;
                 case RecurrencePattern.Daily_EveryWeekday:
                     b.AppendFormat("RRULE:FREQ=DAILY;");
@@ -895,11 +878,11 @@ namespace SnCore.Services
                 case RecurrencePattern.Weekly:
                     b.AppendFormat("RRULE:FREQ=WEEKLY;");
                     b.Append(fb.ToString());
-                    b.Append(string.Format("INTERVAL={0};", mAccountEvent.Schedule.WeeklyEveryNWeeks));
+                    b.Append(string.Format("INTERVAL={0};", mInstance.Schedule.WeeklyEveryNWeeks));
                     StringBuilder wb = new StringBuilder();
                     for (int i = 0; i < 7; i++)
                     {
-                        if ((mAccountEvent.Schedule.WeeklyDaysOfWeek & (short)Math.Pow(2, i)) > 0)
+                        if ((mInstance.Schedule.WeeklyDaysOfWeek & (short)Math.Pow(2, i)) > 0)
                         {
                             if (wb.Length > 0) wb.Append(",");
                             wb.Append(((DayOfWeek)i).ToString().Substring(0, 2).ToUpper());
@@ -913,7 +896,7 @@ namespace SnCore.Services
                     b.Append("RRULE:FREQ=MONTHLY;");
                     b.Append(fb.ToString());
                     b.AppendLine(string.Format("INTERVAL={1};BYMONTHDAY={0};WKST=SU",
-                        mAccountEvent.Schedule.MonthlyDay, mAccountEvent.Schedule.MonthlyMonth));
+                        mInstance.Schedule.MonthlyDay, mInstance.Schedule.MonthlyMonth));
                     break;
                 case RecurrencePattern.Monthly_NthWeekDayOfEveryNMonth:
                     // first thursday of every 2 months: RRULE:FREQ=MONTHLY;INTERVAL=2;BYDAY=TH;BYSETPOS=1;WKST=SU
@@ -923,8 +906,8 @@ namespace SnCore.Services
                     // last monday of every 2 months: RRULE:FREQ=MONTHLY;INTERVAL=2;BYDAY=MO;BYSETPOS=-1;WKST=SU
                     b.Append("RRULE:FREQ=MONTHLY;");
                     b.Append(fb.ToString());
-                    b.Append(string.Format("INTERVAL={0};", mAccountEvent.Schedule.MonthlyExMonth));
-                    switch ((DayName)mAccountEvent.Schedule.MonthlyExDayName)
+                    b.Append(string.Format("INTERVAL={0};", mInstance.Schedule.MonthlyExMonth));
+                    switch ((DayName)mInstance.Schedule.MonthlyExDayName)
                     {
                         case DayName.day:
                             b.Append("BYDAY=SU,MO,TU,WE,TH,FR,SA;");
@@ -936,26 +919,26 @@ namespace SnCore.Services
                             b.Append("BYDAY=SU,SA;");
                             break;
                         default:
-                            b.Append(string.Format("BYDAY={0};", ((DayOfWeek)mAccountEvent.Schedule.MonthlyExDayName)
+                            b.Append(string.Format("BYDAY={0};", ((DayOfWeek)mInstance.Schedule.MonthlyExDayName)
                                 .ToString().Substring(0, 2).ToUpper()));
                             break;
                     }
-                    b.Append(string.Format("BYSETPOS={0};", mAccountEvent.Schedule.MonthlyExDayIndex));
+                    b.Append(string.Format("BYSETPOS={0};", mInstance.Schedule.MonthlyExDayIndex));
                     b.AppendLine("WKST=SU");
                     break;
                 case RecurrencePattern.Yearly_DayNOfMonth:
                     // every april 23 RRULE:FREQ=YEARLY;INTERVAL=1;BYMONTHDAY=23;BYMONTH=4;WKST=SU
                     b.Append("RRULE:FREQ=YEARLY;INTERVAL=1;");
                     b.Append(fb.ToString());
-                    b.AppendFormat("BYMONTHDAY={0};", mAccountEvent.Schedule.YearlyDay);
-                    b.AppendFormat("BYMONTH={0};", mAccountEvent.Schedule.YearlyMonth);
+                    b.AppendFormat("BYMONTHDAY={0};", mInstance.Schedule.YearlyDay);
+                    b.AppendFormat("BYMONTH={0};", mInstance.Schedule.YearlyMonth);
                     b.AppendLine("WKST=SU");
                     break;
                 case RecurrencePattern.Yearly_NthWeekDayOfMonth:
                     // every first sunday of every fifth month RRULE:FREQ=YEARLY;COUNT=10;INTERVAL=1;BYDAY=SU;BYMONTH=5;BYSETPOS=1;WKST=SU
                     b.Append("RRULE:FREQ=YEARLY;INTERVAL=1;");
                     b.Append(fb.ToString());
-                    switch ((DayName)mAccountEvent.Schedule.YearlyExDayName)
+                    switch ((DayName)mInstance.Schedule.YearlyExDayName)
                     {
                         case DayName.day:
                             b.Append("BYDAY=SU,MO,TU,WE,TH,FR,SA;");
@@ -967,32 +950,47 @@ namespace SnCore.Services
                             b.Append("BYDAY=SU,SA;");
                             break;
                         default:
-                            b.Append(string.Format("BYDAY={0};", ((DayOfWeek)mAccountEvent.Schedule.MonthlyExDayName)
+                            b.Append(string.Format("BYDAY={0};", ((DayOfWeek)mInstance.Schedule.MonthlyExDayName)
                                 .ToString().Substring(0, 2).ToUpper()));
                             break;
                     }
-                    b.AppendFormat("BYSETPOS={0};", mAccountEvent.Schedule.YearlyExDayIndex);
-                    b.AppendFormat("BYMONTH={0};", mAccountEvent.Schedule.YearlyExMonth);
+                    b.AppendFormat("BYSETPOS={0};", mInstance.Schedule.YearlyExDayIndex);
+                    b.AppendFormat("BYMONTH={0};", mInstance.Schedule.YearlyExMonth);
                     b.AppendLine("WKST=SU");
                     break;
             }
 
-            b.AppendLine(string.Format("LOCATION;ENCODING=QUOTED-PRINTABLE:{0}", QuotedPrintable.Encode(mAccountEvent.Place.Name)));
-            b.AppendLine(string.Format("SUMMARY;ENCODING=QUOTED-PRINTABLE:{0}", QuotedPrintable.Encode(mAccountEvent.Name)));
+            b.AppendLine(string.Format("LOCATION;ENCODING=QUOTED-PRINTABLE:{0}", QuotedPrintable.Encode(mInstance.Place.Name)));
+            b.AppendLine(string.Format("SUMMARY;ENCODING=QUOTED-PRINTABLE:{0}", QuotedPrintable.Encode(mInstance.Name)));
             b.AppendLine(string.Format("DESCRIPTION;ENCODING=QUOTED-PRINTABLE:{0}",
                 QuotedPrintable.Encode(
                     string.Format("{0}\r\n{1}/AccountEventView.aspx?id={2}",
-                        Renderer.RemoveHtml(mAccountEvent.Description),
+                        Renderer.RemoveHtml(mInstance.Description),
                         ManagedConfiguration.GetValue(Session, "SnCore.WebSite.Url", "http://localhost/SnCore"),
-                        mAccountEvent.Id))));
+                        mInstance.Id))));
             b.AppendLine("PRIORITY:3");
-            if (!string.IsNullOrEmpty(mAccountEvent.Email))
+            if (!string.IsNullOrEmpty(mInstance.Email))
             {
-                b.AppendLine(string.Format("ORGANIZER:MAILTO:{0}", mAccountEvent.Email));
+                b.AppendLine(string.Format("ORGANIZER:MAILTO:{0}", mInstance.Email));
             }
             b.AppendLine("END:VEVENT");
             b.AppendLine("END:VCALENDAR");
             return b.ToString();
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowCreateAndRetrieve());
+            acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
+            return acl;
         }
     }
 }

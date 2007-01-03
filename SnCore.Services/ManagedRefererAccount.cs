@@ -13,7 +13,7 @@ using SnCore.Tools.Web;
 
 namespace SnCore.Services
 {
-    public class TransitRefererAccount : TransitService
+    public class TransitRefererAccount : TransitService<RefererAccount>
     {
         private int mAccountPictureId;
 
@@ -138,34 +138,34 @@ namespace SnCore.Services
         }
 
         public TransitRefererAccount(RefererAccount o)
-            : base(o.Id)
+            : base(o)
         {
-            RefererHostName = o.RefererHost.Host;
-            RefererHostLastRefererUri = o.RefererHost.LastRefererUri;
-            RefererHostTotal = o.RefererHost.Total;
-            AccountPictureId = ManagedAccount.GetRandomAccountPictureId(o.Account);
-            AccountId = o.Account.Id;
-            AccountName = o.Account.Name;
-            Created = o.Created;
-            Modified = o.Modified;
         }
 
-        public RefererAccount GetRefererAccount(ISession session)
+        public override void SetInstance(RefererAccount value)
         {
-            RefererAccount p = (Id != 0) ? (RefererAccount)session.Load(typeof(RefererAccount), Id) : new RefererAccount();
-            p.RefererHost = string.IsNullOrEmpty(this.RefererHostName) ? null : ManagedRefererHost.Find(session, this.RefererHostName);
-            p.Account = (AccountId != 0) ? (Account)session.Load(typeof(Account), AccountId) : null;
-            return p;
+            RefererHostName = value.RefererHost.Host;
+            RefererHostLastRefererUri = value.RefererHost.LastRefererUri;
+            RefererHostTotal = value.RefererHost.Total;
+            AccountPictureId = ManagedAccount.GetRandomAccountPictureId(value.Account);
+            AccountId = value.Account.Id;
+            AccountName = value.Account.Name;
+            Created = value.Created;
+            Modified = value.Modified;
+            base.SetInstance(value);
+        }
+
+        public override RefererAccount GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            RefererAccount instance = base.GetInstance(session, sec);
+            instance.RefererHost = string.IsNullOrEmpty(this.RefererHostName) ? null : ManagedRefererHost.Find(session, this.RefererHostName);
+            instance.Account = (AccountId != 0) ? (Account) session.Load(typeof(Account), AccountId) : null;
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed RefererAccount.
-    /// </summary>
-    public class ManagedRefererAccount : ManagedService<RefererAccount>
+    public class ManagedRefererAccount : ManagedService<RefererAccount, TransitRefererAccount>
     {
-        private RefererAccount mRefererAccount = null;
-
         public ManagedRefererAccount(ISession session)
             : base(session)
         {
@@ -173,50 +173,29 @@ namespace SnCore.Services
         }
 
         public ManagedRefererAccount(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mRefererAccount = (RefererAccount)session.Load(typeof(RefererAccount), id);
+
         }
 
         public ManagedRefererAccount(ISession session, RefererAccount value)
-            : base(session)
+            : base(session, value)
         {
-            mRefererAccount = value;
+
         }
 
-        public ManagedRefererAccount(ISession session, TransitRefererAccount value)
-            : base(session)
+        protected override void Save(ManagedSecurityContext sec)
         {
-            mRefererAccount = value.GetRefererAccount(session);
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
         }
 
-        public int Id
+        public override ACL GetACL()
         {
-            get
-            {
-                return mRefererAccount.Id;
-            }
-        }
-
-        public TransitRefererAccount TransitRefererAccount
-        {
-            get
-            {
-                return new TransitRefererAccount(mRefererAccount);
-            }
-        }
-
-        public void CreateOrUpdate(TransitRefererAccount o)
-        {
-            mRefererAccount = o.GetRefererAccount(Session);
-            mRefererAccount.Modified = DateTime.UtcNow;
-            if (Id == 0) mRefererAccount.Created = mRefererAccount.Modified;
-            Session.Save(mRefererAccount);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mRefererAccount);
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            return acl;
         }
     }
 }

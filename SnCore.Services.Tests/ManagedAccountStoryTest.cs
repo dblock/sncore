@@ -23,16 +23,17 @@ namespace SnCore.Services.Tests
 
             try
             {
-                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
 
                 TransitAccountStory s = new TransitAccountStory();
                 s.Name = Guid.NewGuid().ToString();
                 s.Summary = Guid.NewGuid().ToString();
-                a.CreateOrUpdate(s);                
+                ManagedAccountStory m_s = new ManagedAccountStory(Session);
+                m_s.CreateOrUpdate(s, a.GetSecurityContext());
             }
             finally
             {
-                a.Delete();
+                a.Delete(AdminSecurityContext);
                 Session.Flush();
             }
         }
@@ -44,23 +45,24 @@ namespace SnCore.Services.Tests
 
             try
             {
-                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
 
                 TransitAccountStory s = new TransitAccountStory();
                 s.Name = Guid.NewGuid().ToString();
                 s.Summary = Guid.NewGuid().ToString();
-                ManagedAccountStory ms = new ManagedAccountStory(Session, a.CreateOrUpdate(s));
+                ManagedAccountStory ms = new ManagedAccountStory(Session);
+                int story_id = ms.CreateOrUpdate(s, a.GetSecurityContext());
                 TransitAccountStoryPicture p = new TransitAccountStoryPicture();
                 p.Name = Guid.NewGuid().ToString();
-
-                ms.AddAccountStoryPicture(p);
+                p.AccountStoryId = story_id;
+                ManagedAccountStoryPicture mp = new ManagedAccountStoryPicture(Session);
+                mp.CreateOrUpdate(p, a.GetSecurityContext());
             }
             finally
             {
-                a.Delete();
+                a.Delete(AdminSecurityContext);
                 Session.Flush();
             }
         }
-
     }
 }

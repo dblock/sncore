@@ -12,7 +12,7 @@ using System.IO;
 
 namespace SnCore.Services
 {
-    public class TransitBugType : TransitService
+    public class TransitBugType : TransitService<BugType>
     {
         private string mName;
 
@@ -34,27 +34,28 @@ namespace SnCore.Services
 
         }
 
-        public TransitBugType(BugType o)
-            : base(o.Id)
+        public TransitBugType(BugType value)
+            : base(value)
         {
-            Name = o.Name;
+
         }
 
-        public BugType GetBugType(ISession session)
+        public override void SetInstance(BugType instance)
         {
-            BugType p = (Id != 0) ? (BugType)session.Load(typeof(BugType), Id) : new BugType();
-            p.Name = this.Name;
-            return p;
+            Name = instance.Name;
+            base.SetInstance(instance);
+        }
+
+        public override BugType GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            BugType instance = base.GetInstance(session, sec);
+            instance.Name = this.Name;
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed bug Type.
-    /// </summary>
-    public class ManagedBugType : ManagedService<BugType>
+    public class ManagedBugType : ManagedService<BugType, TransitBugType>
     {
-        private BugType mBugType = null;
-
         public ManagedBugType(ISession session)
             : base(session)
         {
@@ -62,48 +63,15 @@ namespace SnCore.Services
         }
 
         public ManagedBugType(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mBugType = (BugType)session.Load(typeof(BugType), id);
+
         }
 
         public ManagedBugType(ISession session, BugType value)
-            : base(session)
+            : base(session, value)
         {
-            mBugType = value;
-        }
 
-        public ManagedBugType(ISession session, TransitBugType value)
-            : base(session)
-        {
-            mBugType = value.GetBugType(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mBugType.Id;
-            }
-        }
-
-        public TransitBugType TransitBugType
-        {
-            get
-            {
-                return new TransitBugType(mBugType);
-            }
-        }
-
-        public void CreateOrUpdate(TransitBugType o)
-        {
-            mBugType = o.GetBugType(Session);
-            Session.Save(mBugType);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mBugType);
         }
 
         public static BugType Find(ISession session, string name)
@@ -116,6 +84,13 @@ namespace SnCore.Services
         public static int FindId(ISession session, string name)
         {
             return Find(session, name).Id;
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            return acl;
         }
     }
 }

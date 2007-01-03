@@ -10,10 +10,11 @@ using System.Resources;
 using System.Net.Mail;
 using System.IO;
 using System.Collections.Generic;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
-    public class TransitDiscussionPost : TransitService
+    public class TransitDiscussionPost : TransitService<DiscussionPost>
     {
         private bool mCanEdit = false;
 
@@ -120,18 +121,18 @@ namespace SnCore.Services
             }
         }
 
-        private int mDiscussionPostParentId = 0;
+        private int mInstanceParentId = 0;
 
         public int DiscussionPostParentId
         {
             get
             {
 
-                return mDiscussionPostParentId;
+                return mInstanceParentId;
             }
             set
             {
-                mDiscussionPostParentId = value;
+                mInstanceParentId = value;
             }
         }
 
@@ -275,20 +276,20 @@ namespace SnCore.Services
 
         }
 
-        public DiscussionPost GetDiscussionPost(ISession session)
+        public override DiscussionPost GetInstance(ISession session, ManagedSecurityContext sec)
         {
-            DiscussionPost d = (Id != 0) ? (DiscussionPost)session.Load(typeof(DiscussionPost), Id) : new DiscussionPost();
+            DiscussionPost instance = base.GetInstance(session, sec);
 
             if (Id == 0)
             {
-                d.DiscussionThread = (DiscussionThread)session.Load(typeof(DiscussionThread), this.DiscussionThreadId);
-                d.DiscussionPostParent = (DiscussionPost)session.Load(typeof(DiscussionPost), this.DiscussionPostParentId);
-                d.AccountId = this.AccountId;
+                instance.DiscussionThread = (DiscussionThread)session.Load(typeof(DiscussionThread), this.DiscussionThreadId);
+                instance.DiscussionPostParent = (DiscussionPost)session.Load(typeof(DiscussionPost), this.DiscussionPostParentId);
+                instance.AccountId = this.AccountId;
             }
 
-            d.Body = this.Body;
-            d.Subject = this.Subject;
-            return d;
+            instance.Body = this.Body;
+            instance.Subject = this.Subject;
+            return instance;
         }
 
         public void SetPermissions(Discussion d, ManagedAccount a)
@@ -310,13 +311,8 @@ namespace SnCore.Services
         }
     }
 
-    /// <summary>
-    /// Managed discussion post.
-    /// </summary>
-    public class ManagedDiscussionPost : ManagedService<DiscussionPost>
+    public class ManagedDiscussionPost : ManagedService<DiscussionPost, TransitDiscussionPost>
     {
-        private DiscussionPost mDiscussionPost = null;
-
         public ManagedDiscussionPost(ISession session)
             : base(session)
         {
@@ -324,114 +320,117 @@ namespace SnCore.Services
         }
 
         public ManagedDiscussionPost(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mDiscussionPost = (DiscussionPost)session.Load(typeof(DiscussionPost), id);
+
         }
 
         public ManagedDiscussionPost(ISession session, DiscussionPost value)
-            : base(session)
+            : base(session, value)
         {
-            mDiscussionPost = value;
+
         }
 
         public int DiscussionId
         {
             get
             {
-                return mDiscussionPost.DiscussionThread.Discussion.Id;
+                return mInstance.DiscussionThread.Discussion.Id;
             }
         }
 
-        public int Id
+        public override void Delete(ManagedSecurityContext sec)
         {
-            get
+            foreach (DiscussionPost post in Collection<DiscussionPost>.GetSafeCollection(mInstance.DiscussionPosts))
             {
-                return mDiscussionPost.Id;
-            }
-        }
-
-        public void Create(TransitDiscussionPost c)
-        {
-            mDiscussionPost = c.GetDiscussionPost(Session);
-            mDiscussionPost.Modified = DateTime.UtcNow;
-            if (mDiscussionPost.Id == 0) mDiscussionPost.Created = mDiscussionPost.Modified;
-            Session.Save(mDiscussionPost);
-        }
-
-        public void Delete()
-        {
-            if (mDiscussionPost.DiscussionPosts != null)
-            {
-                foreach (DiscussionPost post in mDiscussionPost.DiscussionPosts)
-                {
-                    new ManagedDiscussionPost(Session, post).Delete();
-                }
-
-                mDiscussionPost.DiscussionPosts = null;
-                mDiscussionPost.DiscussionThread.DiscussionPosts.Remove(mDiscussionPost);
+                new ManagedDiscussionPost(Session, post).Delete(sec);
             }
 
-            Session.Delete(mDiscussionPost);
+            mInstance.DiscussionPosts = null;
+            Collection<DiscussionPost>.GetSafeCollection(mInstance.DiscussionThread.DiscussionPosts).Remove(mInstance);
+
+            base.Delete(sec);
         }
 
-        public TransitDiscussionPost GetTransitDiscussionPost()
+        public override TransitDiscussionPost GetTransitInstance(ManagedSecurityContext sec)
         {
-            TransitDiscussionPost result = new TransitDiscussionPost();
-            result.Id = Id;
+            TransitDiscussionPost t_instance = base.GetTransitInstance(sec);
 
             try
             {
-                Account acct = (Account)Session.Load(typeof(Account), mDiscussionPost.AccountId);
-                result.AccountName = (acct != null) ? acct.Name : "Unknown User";
-                result.AccountPictureId = ManagedAccount.GetRandomAccountPictureId(acct);
+                Account acct = (Account)Session.Load(typeof(Account), mInstance.AccountId);
+                t_instance.AccountName = (acct != null) ? acct.Name : "Unknown User";
+                t_instance.AccountPictureId = ManagedAccount.GetRandomAccountPictureId(acct);
             }
             catch (ObjectNotFoundException)
             {
 
             }
 
-            result.DiscussionName = mDiscussionPost.DiscussionThread.Discussion.Name;
-            result.DiscussionId = mDiscussionPost.DiscussionThread.Discussion.Id;
-            result.DiscussionThreadId = mDiscussionPost.DiscussionThread.Id;
-            result.DiscussionThreadModified = mDiscussionPost.DiscussionThread.Modified;
-            result.DiscussionThreadCount =
-                (mDiscussionPost.DiscussionThread.DiscussionPosts != null) ?
-                    mDiscussionPost.DiscussionThread.DiscussionPosts.Count :
+            t_instance.DiscussionName = mInstance.DiscussionThread.Discussion.Name;
+            t_instance.DiscussionId = mInstance.DiscussionThread.Discussion.Id;
+            t_instance.DiscussionThreadId = mInstance.DiscussionThread.Id;
+            t_instance.DiscussionThreadModified = mInstance.DiscussionThread.Modified;
+            t_instance.DiscussionThreadCount =
+                (mInstance.DiscussionThread.DiscussionPosts != null) ?
+                    mInstance.DiscussionThread.DiscussionPosts.Count :
                     0;
-            result.RepliesCount =
-                (mDiscussionPost.DiscussionPosts != null) ?
-                    mDiscussionPost.DiscussionPosts.Count :
+            t_instance.RepliesCount =
+                (mInstance.DiscussionPosts != null) ?
+                    mInstance.DiscussionPosts.Count :
                     0;
-            result.DiscussionPostParentId = (mDiscussionPost.DiscussionPostParent == null) ? 0 : mDiscussionPost.DiscussionPostParent.Id;
-            result.AccountId = mDiscussionPost.AccountId;
-            result.Body = mDiscussionPost.Body;
-            result.Subject = mDiscussionPost.Subject;
-            result.Created = mDiscussionPost.Created;
-            result.Modified = mDiscussionPost.Modified;
-            result.Level = 0;
-            DiscussionPost parent = mDiscussionPost.DiscussionPostParent;
-            while (parent != null && parent != mDiscussionPost)
+            t_instance.DiscussionPostParentId = (mInstance.DiscussionPostParent == null) ? 0 : mInstance.DiscussionPostParent.Id;
+            t_instance.AccountId = mInstance.AccountId;
+            t_instance.Body = mInstance.Body;
+            t_instance.Subject = mInstance.Subject;
+            t_instance.Created = mInstance.Created;
+            t_instance.Modified = mInstance.Modified;
+            t_instance.Level = 0;
+            DiscussionPost parent = mInstance.DiscussionPostParent;
+            while (parent != null && parent != mInstance)
             {
-                result.Level++;
+                t_instance.Level++;
                 parent = parent.DiscussionPostParent;
             }
+            return t_instance;
+        }
+
+        public List<TransitDiscussionPost> GetPosts(ManagedSecurityContext sec)
+        {
+            if (mInstance.DiscussionPosts == null)
+                return new List<TransitDiscussionPost>();
+
+            List<TransitDiscussionPost> result = new List<TransitDiscussionPost>(mInstance.DiscussionPosts.Count);
+            foreach (DiscussionPost post in Collection<DiscussionPost>.GetSafeCollection(mInstance.DiscussionPosts))
+            {
+                ManagedDiscussionPost m_post = new ManagedDiscussionPost(Session, post);
+                result.Insert(0, m_post.GetTransitInstance(sec));
+                result.InsertRange(1, m_post.GetPosts(sec));
+            }
+
             return result;
         }
 
-        public List<TransitDiscussionPost> GetPosts()
+        protected override void Save(ManagedSecurityContext sec)
         {
-            if (mDiscussionPost.DiscussionPosts == null)
-                return new List<TransitDiscussionPost>();
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
+        }
 
-            List<TransitDiscussionPost> result = new List<TransitDiscussionPost>(mDiscussionPost.DiscussionPosts.Count);
-            foreach (DiscussionPost post in mDiscussionPost.DiscussionPosts)
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowCreateAndRetrieve());
+            try
             {
-                ManagedDiscussionPost m_post = new ManagedDiscussionPost(Session, post);
-                result.Insert(0, m_post.GetTransitDiscussionPost());
-                result.InsertRange(1, m_post.GetPosts());
+                acl.Add(new ACLAccount((Account)Session.Load(typeof(Account), mInstance.AccountId), DataOperation.All));
             }
-            return result;
+            catch (ObjectNotFoundException)
+            {
+
+            }
+            return acl;
         }
     }
 }

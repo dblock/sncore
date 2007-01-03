@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using NHibernate.Expression;
 using SnCore.Tools.Web;
 using System.Net.Mail;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
-    public class TransitAccountFriendRequest : TransitService
+    public class TransitAccountFriendRequest : TransitService<AccountFriendRequest>
     {
         private int mAccountId;
 
@@ -134,29 +135,39 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountFriendRequest(AccountFriendRequest e)
-            : base(e.Id)
+        public TransitAccountFriendRequest(AccountFriendRequest value)
+            : base(value)
         {
-            KeenPictureId = ManagedAccount.GetRandomAccountPictureId(e.Keen);
-            KeenName = e.Keen.Name;
-            KeenId = e.Keen.Id;
 
-            AccountPictureId = ManagedAccount.GetRandomAccountPictureId(e.Account);
-            AccountName = e.Account.Name;
-            AccountId = e.Account.Id;
+        }
 
-            Message = e.Message;
-            Created = e.Created;
+        public override void SetInstance(AccountFriendRequest value)
+        {
+            KeenPictureId = ManagedAccount.GetRandomAccountPictureId(value.Keen);
+            KeenName = value.Keen.Name;
+            KeenId = value.Keen.Id;
+
+            AccountPictureId = ManagedAccount.GetRandomAccountPictureId(value.Account);
+            AccountName = value.Account.Name;
+            AccountId = value.Account.Id;
+
+            Message = value.Message;
+            Created = value.Created;
+            base.SetInstance(value);
+        }
+
+        public override AccountFriendRequest GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            AccountFriendRequest instance = base.GetInstance(session, sec);
+            if (KeenId > 0) instance.Keen = (Account) session.Load(typeof(Account), KeenId);
+            if (AccountId > 0) instance.Account = (Account) session.Load(typeof(Account), AccountId);
+            instance.Message = Message;
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed FriendRequest.
-    /// </summary>
-    public class ManagedAccountFriendRequest : ManagedService<AccountFriendRequest>
+    public class ManagedAccountFriendRequest : ManagedService<AccountFriendRequest, TransitAccountFriendRequest>
     {
-        private AccountFriendRequest mAccountFriendRequest = null;
-
         public ManagedAccountFriendRequest(ISession session)
             : base(session)
         {
@@ -164,43 +175,28 @@ namespace SnCore.Services
         }
 
         public ManagedAccountFriendRequest(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountFriendRequest = (AccountFriendRequest)session.Load(typeof(AccountFriendRequest), id);
+
         }
 
         public ManagedAccountFriendRequest(ISession session, AccountFriendRequest value)
-            : base(session)
+            : base(session, value)
         {
-            mAccountFriendRequest = value;
+
         }
 
-        public int Id
+        public override void Delete(ManagedSecurityContext sec)
         {
-            get
-            {
-                return mAccountFriendRequest.Id;
-            }
+            Collection<AccountFriendRequest>.GetSafeCollection(mInstance.Account.AccountFriendRequests).Remove(mInstance);
+            base.Delete(sec);
         }
 
-        public TransitAccountFriendRequest TransitAccountFriendRequest
-        {
-            get
-            {
-                return new TransitAccountFriendRequest(mAccountFriendRequest);
-            }
-        }
-
-        public void Delete()
-        {
-            mAccountFriendRequest.Account.AccountFriendRequests.Remove(mAccountFriendRequest);
-            Session.Delete(mAccountFriendRequest);
-        }
-
+        // TODO: introduce security context
         public void Reject(string message)
         {
-            Account requester = mAccountFriendRequest.Account;
-            Account approver = mAccountFriendRequest.Keen;
+            Account requester = mInstance.Account;
+            Account approver = mInstance.Keen;
 
             if (message != null && message.Length > 0)
             {
@@ -215,24 +211,24 @@ namespace SnCore.Services
                 }
 
                 // delete the request when user notified
-                if (mAccountFriendRequest.Account.AccountFriendRequests != null)
-                    mAccountFriendRequest.Account.AccountFriendRequests.Remove(mAccountFriendRequest);
+                Collection<AccountFriendRequest>.GetSafeCollection(mInstance.Account.AccountFriendRequests).Remove(mInstance);
 
-                Session.Delete(mAccountFriendRequest);
+                Session.Delete(mInstance);
             }
             else
             {
                 // silently reject the request
-                mAccountFriendRequest.Rejected = true;
-                Session.Save(mAccountFriendRequest);
+                mInstance.Rejected = true;
+                Session.Save(mInstance);
             }
         }
 
+        // TODO: introduce security context
         public void Accept(string message)
         {
             AccountFriend friend = new AccountFriend();
-            friend.Account = mAccountFriendRequest.Account;
-            friend.Keen = mAccountFriendRequest.Keen;
+            friend.Account = mInstance.Account;
+            friend.Keen = mInstance.Keen;
             friend.Created = DateTime.UtcNow;
             Session.Save(friend);
 
@@ -246,21 +242,20 @@ namespace SnCore.Services
                     string.Format("EmailAccountFriendRequestAccept.aspx?id={0}&message={1}", this.Id, Renderer.UrlEncode(message)));
             }
 
-            Session.Delete(mAccountFriendRequest);
+            Session.Delete(mInstance);
 
             // delete a reciproque request if any
             AccountFriendRequest rr = (AccountFriendRequest)Session.CreateCriteria(typeof(AccountFriendRequest))
-                .Add(Expression.Eq("Account.Id", mAccountFriendRequest.Keen.Id))
-                .Add(Expression.Eq("Keen.Id", mAccountFriendRequest.Account.Id))
+                .Add(Expression.Eq("Account.Id", mInstance.Keen.Id))
+                .Add(Expression.Eq("Keen.Id", mInstance.Account.Id))
                 .UniqueResult();
 
             if (rr != null)
             {
                 Session.Delete(rr);
             }
-                
-            if (mAccountFriendRequest.Account.AccountFriendRequests != null)
-                mAccountFriendRequest.Account.AccountFriendRequests.Remove(mAccountFriendRequest);
+
+            Collection<AccountFriendRequest>.GetSafeCollection(mInstance.Account.AccountFriendRequests).Remove(mInstance);
 
             if (friend.Account.AccountFriends == null) friend.Account.AccountFriends = new List<AccountFriend>();
             friend.Account.AccountFriends.Add(friend);
@@ -270,7 +265,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountFriendRequest.Account.Id;
+                return mInstance.Account.Id;
             }
         }
 
@@ -278,8 +273,23 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountFriendRequest.Keen.Id;
+                return mInstance.Keen.Id;
             }
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            if (mInstance.Id == 0) mInstance.Created = DateTime.UtcNow;
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowCreate());
+            acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
+            acl.Add(new ACLAccount(mInstance.Keen, DataOperation.Update | DataOperation.Retreive));
+            return acl;
         }
     }
 }

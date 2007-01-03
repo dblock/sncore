@@ -3,10 +3,11 @@ using NHibernate;
 using System.Collections;
 using NHibernate.Expression;
 using System.Web.Services.Protocols;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
-    public class TransitPlaceAttribute : TransitService
+    public class TransitPlaceAttribute : TransitService<PlaceAttribute>
     {
         private TransitAttribute mAttribute;
 
@@ -102,49 +103,52 @@ namespace SnCore.Services
 
         }
 
-        public TransitPlaceAttribute(PlaceAttribute attribute)
-            : base(attribute.Id)
+        public TransitPlaceAttribute(PlaceAttribute value)
+            : base(value)
         {
-            PlaceId = attribute.Place.Id;
-            AttributeId = attribute.Attribute.Id;
-            Value = attribute.Value;
-            Url = attribute.Url;
-            Created = attribute.Created;
-            Attribute = new TransitAttribute(attribute.Attribute);
         }
 
-        public PlaceAttribute GetPlaceAttribute(ISession session)
+        public override void  SetInstance(PlaceAttribute value)
         {
-            PlaceAttribute result = (Id > 0) ? (PlaceAttribute)session.Load(typeof(PlaceAttribute), Id) : new PlaceAttribute();
-            result.Url = Url;
-            result.Value = Value;
+            PlaceId = value.Place.Id;
+            AttributeId = value.Attribute.Id;
+            Value = value.Value;
+            Url = value.Url;
+            Created = value.Created;
+            Attribute = new TransitAttribute(value.Attribute);
+            base.SetInstance(value);
+        }
+
+        public override PlaceAttribute GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            PlaceAttribute instance = base.GetInstance(session, sec);
+            instance.Url = Url;
+            instance.Value = Value;
 
             if (Id == 0)
             {
-                if (PlaceId > 0) result.Place = (Place)session.Load(typeof(Place), PlaceId);
-                if (AttributeId > 0) result.Attribute = (Attribute)session.Load(typeof(Attribute), AttributeId);
+                if (PlaceId > 0) instance.Place = (Place)session.Load(typeof(Place), PlaceId);
+                if (AttributeId > 0) instance.Attribute = (Attribute)session.Load(typeof(Attribute), AttributeId);
             }
             else
             {
-                if (AttributeId != result.Attribute.Id)
+                if (AttributeId != instance.Attribute.Id)
                 {
                     throw new InvalidOperationException();
                 }
 
-                if (PlaceId != result.Place.Id)
+                if (PlaceId != instance.Place.Id)
                 {
                     throw new InvalidOperationException();
                 }
             }
 
-            return result;
+            return instance;
         }
     }
 
-    public class ManagedPlaceAttribute : ManagedService<PlaceAttribute>
+    public class ManagedPlaceAttribute : ManagedService<PlaceAttribute, TransitPlaceAttribute>
     {
-        private PlaceAttribute mPlaceAttribute = null;
-
         public ManagedPlaceAttribute(ISession session)
             : base(session)
         {
@@ -152,36 +156,22 @@ namespace SnCore.Services
         }
 
         public ManagedPlaceAttribute(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mPlaceAttribute = (PlaceAttribute)session.Load(typeof(PlaceAttribute), id);
-        }
 
-        public ManagedPlaceAttribute(ISession session, TransitPlaceAttribute tae)
-            : base(session)
-        {
-            mPlaceAttribute = tae.GetPlaceAttribute(session);
         }
 
         public ManagedPlaceAttribute(ISession session, PlaceAttribute value)
-            : base(session)
+            : base(session, value)
         {
-            mPlaceAttribute = value;
-        }
 
-        public int Id
-        {
-            get
-            {
-                return mPlaceAttribute.Id;
-            }
         }
 
         public string Value
         {
             get
             {
-                return mPlaceAttribute.Value;
+                return mInstance.Value;
             }
         }
 
@@ -189,7 +179,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mPlaceAttribute.Url;
+                return mInstance.Url;
             }
         }
 
@@ -197,30 +187,27 @@ namespace SnCore.Services
         {
             get
             {
-                return mPlaceAttribute.Created;
+                return mInstance.Created;
             }
         }
 
-        public TransitPlaceAttribute TransitPlaceAttribute
+        public override void Delete(ManagedSecurityContext sec)
         {
-            get
-            {
-                return new TransitPlaceAttribute(mPlaceAttribute);
-            }
+            Collection<PlaceAttribute>.GetSafeCollection(mInstance.Place.PlaceAttributes).Remove(mInstance);
+            base.Delete(sec);
         }
 
-        public void Delete()
+        protected override void Save(ManagedSecurityContext sec)
         {
-            mPlaceAttribute.Place.PlaceAttributes.Remove(mPlaceAttribute);
-            Session.Delete(mPlaceAttribute);
+            if (mInstance.Id == 0) mInstance.Created = DateTime.UtcNow;
+            base.Save(sec);
         }
 
-        public ManagedPlace Place
+        public override ACL GetACL()
         {
-            get
-            {
-                return new ManagedPlace(Session, mPlaceAttribute.Place);
-            }
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            return acl;
         }
     }
 }

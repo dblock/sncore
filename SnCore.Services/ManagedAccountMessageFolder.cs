@@ -3,10 +3,11 @@ using NHibernate;
 using System.Collections;
 using System.Collections.Generic;
 using SnCore.Tools.Collections;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
-    public class TransitAccountMessageFolder : TransitService
+    public class TransitAccountMessageFolder : TransitService<AccountMessageFolder>
     {
         private string mFullPath;
 
@@ -58,7 +59,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mCreated;
             }
             set
@@ -73,7 +73,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mModified;
             }
             set
@@ -97,18 +96,17 @@ namespace SnCore.Services
             }
         }
 
-        private int mAccountMessageFolderParentId = 0;
+        private int mInstanceParentId = 0;
 
         public int AccountMessageFolderParentId
         {
             get
             {
-
-                return mAccountMessageFolderParentId;
+                return mInstanceParentId;
             }
             set
             {
-                mAccountMessageFolderParentId = value;
+                mInstanceParentId = value;
             }
         }
 
@@ -118,7 +116,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mLevel;
             }
             set
@@ -146,45 +143,53 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountMessageFolder(AccountMessageFolder p)
-            : base(p.Id)
+        public TransitAccountMessageFolder(AccountMessageFolder value)
+            : base(value)
         {
-            Name = p.Name;
-            System = p.System;
-            Created = p.Created;
-            Modified = p.Modified;
-            AccountId = p.Account.Id;
-            AccountMessageFolderParentId = (p.AccountMessageFolderParent != null) ?
-                p.AccountMessageFolderParent.Id : 0;
+
+        }
+
+        public override void SetInstance(AccountMessageFolder value)
+        {
+            Name = value.Name;
+            System = value.System;
+            Created = value.Created;
+            Modified = value.Modified;
+            AccountId = value.Account.Id;
+            AccountMessageFolderParentId = (value.AccountMessageFolderParent != null) ?
+                value.AccountMessageFolderParent.Id : 0;
 
             FullPath = Name;
-            AccountMessageFolder parent = p.AccountMessageFolderParent;
+
+            AccountMessageFolder parent = value.AccountMessageFolderParent;
             while (parent != null)
             {
                 Level++;
                 FullPath = FullPath.Insert(0, parent.Name + "/");
                 parent = parent.AccountMessageFolderParent;
             }
+
+            base.SetInstance(value);
         }
 
-        public AccountMessageFolder GetAccountMessageFolder(ISession session)
+        public override AccountMessageFolder GetInstance(ISession session, ManagedSecurityContext sec)
         {
-            AccountMessageFolder p = (Id != 0) ? (AccountMessageFolder)session.Load(typeof(AccountMessageFolder), Id) : new AccountMessageFolder();
+            AccountMessageFolder instance = base.GetInstance(session, sec);
 
             if (Id == 0)
             {
-                if (AccountId > 0) p.Account = (Account)session.Load(typeof(Account), this.AccountId);
-                p.System = this.System;
+                instance.Account = GetOwner(session, AccountId, sec);
+                instance.System = this.System;
             }
 
-            p.Name = this.Name;
+            instance.Name = this.Name;
 
-            p.AccountMessageFolderParent =
+            instance.AccountMessageFolderParent =
                 (this.AccountMessageFolderParentId != 0) ?
                 (AccountMessageFolder)session.Load(typeof(AccountMessageFolder), this.AccountMessageFolderParentId) :
                 null;
 
-            return p;
+            return instance;
         }
     }
 
@@ -226,13 +231,8 @@ namespace SnCore.Services
         }
     }
 
-    /// <summary>
-    /// Managed account message folder.
-    /// </summary>
-    public class ManagedAccountMessageFolder : ManagedService<AccountMessageFolder>
+    public class ManagedAccountMessageFolder : ManagedService<AccountMessageFolder, TransitAccountMessageFolder>
     {
-        private AccountMessageFolder mAccountMessageFolder = null;
-
         public ManagedAccountMessageFolder(ISession session)
             : base(session)
         {
@@ -240,69 +240,52 @@ namespace SnCore.Services
         }
 
         public ManagedAccountMessageFolder(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountMessageFolder = (AccountMessageFolder)session.Load(typeof(AccountMessageFolder), id);
+
         }
 
         public ManagedAccountMessageFolder(ISession session, AccountMessageFolder value)
-            : base(session)
+            : base(session, value)
         {
-            mAccountMessageFolder = value;
-        }
 
-        public int Id
-        {
-            get
-            {
-                return mAccountMessageFolder.Id;
-            }
         }
 
         public int AccountId
         {
             get
             {
-                return mAccountMessageFolder.Account.Id;
+                return mInstance.Account.Id;
             }
         }
 
-        public TransitAccountMessageFolder TransitAccountMessageFolder
+        public override TransitAccountMessageFolder GetTransitInstance(ManagedSecurityContext sec)
         {
-            get
-            {
-                TransitAccountMessageFolder f = new TransitAccountMessageFolder(mAccountMessageFolder);
-                f.MessageCount = MessageCount;
-                return f;
-            }
+            TransitAccountMessageFolder t_instance = base.GetTransitInstance(sec);
+            t_instance.MessageCount = MessageCount;
+            return t_instance;
         }
 
-        public void Delete()
+        public override void Delete(ManagedSecurityContext sec)
         {
-            if (mAccountMessageFolder.AccountMessageFolders != null)
+            foreach (AccountMessageFolder accountmessagefolder in Collection<AccountMessageFolder>.GetSafeCollection(mInstance.AccountMessageFolders))
             {
-                foreach (AccountMessageFolder accountmessagefolder in mAccountMessageFolder.AccountMessageFolders)
-                {
-                    new ManagedAccountMessageFolder(Session, accountmessagefolder).Delete();
-                }
+                new ManagedAccountMessageFolder(Session, accountmessagefolder).Delete(sec);
             }
 
             DeleteAccountMessages();
-            mAccountMessageFolder.Account.AccountMessageFolders.Remove(mAccountMessageFolder);
-            Session.Delete(mAccountMessageFolder);
+            Collection<AccountMessageFolder>.GetSafeCollection(mInstance.Account.AccountMessageFolders).Remove(mInstance);
+            base.Delete(sec);
         }
 
         public void DeleteAccountMessages()
         {
-            if (mAccountMessageFolder.AccountMessages != null)
+            foreach (AccountMessage accountmessage in Collection<AccountMessage>.GetSafeCollection(mInstance.AccountMessages))
             {
-                foreach (AccountMessage accountmessage in mAccountMessageFolder.AccountMessages)
-                {
-                    Session.Delete(accountmessage);
-                }
+                Session.Delete(accountmessage);
             }
 
-            mAccountMessageFolder.AccountMessages = null;
+            mInstance.AccountMessages = null;
         }
 
         public int MessageCount
@@ -315,7 +298,7 @@ namespace SnCore.Services
 
         public static int GetMessageFolderMessageCount(ISession session, int folderid)
         {
-            return (int) session.CreateQuery(
+            return (int)session.CreateQuery(
                 string.Format(
                     "select count(*)" +
                     " from AccountMessage m, AccountMessageFolder f" +
@@ -328,8 +311,23 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountMessageFolder.Account;
+                return mInstance.Account;
             }
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowCreate());
+            acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
+            return acl;
         }
     }
 }

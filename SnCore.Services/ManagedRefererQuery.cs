@@ -13,7 +13,7 @@ using SnCore.Tools.Web;
 
 namespace SnCore.Services
 {
-    public class TransitRefererQuery : TransitService
+    public class TransitRefererQuery : TransitService<RefererQuery>
     {
         private string mKeywords;
 
@@ -80,31 +80,31 @@ namespace SnCore.Services
 
         }
 
-        public TransitRefererQuery(RefererQuery o)
-            : base(o.Id)
+        public TransitRefererQuery(RefererQuery instance)
+            : base(instance)
         {
-            Keywords = o.Keywords;
-            Created = o.Created;
-            Updated = o.Updated;
-            Total = o.Total;
         }
 
-        public RefererQuery GetRefererQuery(ISession session)
+        public override void SetInstance(RefererQuery instance)
         {
-            RefererQuery p = (Id != 0) ? (RefererQuery)session.Load(typeof(RefererQuery), Id) : new RefererQuery();
-            p.Keywords = this.Keywords;
-            p.Total = this.Total;
-            return p;
+            Keywords = instance.Keywords;
+            Created = instance.Created;
+            Updated = instance.Updated;
+            Total = instance.Total;
+            base.SetInstance(instance);
+        }
+
+        public override RefererQuery GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            RefererQuery instance = base.GetInstance(session, sec);
+            instance.Keywords = this.Keywords;
+            instance.Total = this.Total;
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed RefererQuery.
-    /// </summary>
-    public class ManagedRefererQuery : ManagedService<RefererQuery>
+    public class ManagedRefererQuery : ManagedService<RefererQuery, TransitRefererQuery>
     {
-        private RefererQuery mRefererQuery = null;
-
         public ManagedRefererQuery(ISession session)
             : base(session)
         {
@@ -112,42 +112,28 @@ namespace SnCore.Services
         }
 
         public ManagedRefererQuery(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mRefererQuery = (RefererQuery)session.Load(typeof(RefererQuery), id);
+
         }
 
         public ManagedRefererQuery(ISession session, RefererQuery value)
-            : base(session)
+            : base(session, value)
         {
-            mRefererQuery = value;
+
         }
 
-        public ManagedRefererQuery(ISession session, TransitRefererQuery value)
-            : base(session)
+        protected override void Save(ManagedSecurityContext sec)
         {
-            mRefererQuery = value.GetRefererQuery(session);
+            mInstance.Updated = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Updated;
+            base.Save(sec);
         }
 
-        public int Id
+        public override ACL GetACL()
         {
-            get
-            {
-                return mRefererQuery.Id;
-            }
-        }
-
-        public TransitRefererQuery TransitRefererQuery
-        {
-            get
-            {
-                return new TransitRefererQuery(mRefererQuery);
-            }
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mRefererQuery);
+            ACL acl = base.GetACL();
+            return acl;
         }
     }
 }

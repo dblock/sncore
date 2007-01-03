@@ -24,10 +24,10 @@ namespace SnCore.Services.Tests
 
             try
             {
-                a.Create("Test User 1", "testpassword", "foo1@localhost.com", DateTime.UtcNow);
+                a.Create("Test User 1", "testpassword", "foo1@localhost.com", DateTime.UtcNow, AdminSecurityContext);
                 a.VerifyAllEmails();
 
-                b.Create("Test User 2", "testpassword", "foo2@localhost.com", DateTime.UtcNow);
+                b.Create("Test User 2", "testpassword", "foo2@localhost.com", DateTime.UtcNow, AdminSecurityContext);
                 b.VerifyAllEmails();
 
                 a.CreateAccountFriendRequest(
@@ -36,8 +36,8 @@ namespace SnCore.Services.Tests
             }
             finally
             {
-                a.Delete();
-                b.Delete();
+                a.Delete(a.GetSecurityContext());
+                b.Delete(b.GetSecurityContext());
             }
         }
 
@@ -49,10 +49,10 @@ namespace SnCore.Services.Tests
 
             try
             {
-                a.Create("Test User 1", "testpassword", "foo1@localhost.com", DateTime.UtcNow);
+                a.Create("Test User 1", "testpassword", "foo1@localhost.com", DateTime.UtcNow, AdminSecurityContext);
                 a.VerifyAllEmails();
 
-                b.Create("Test User 2", "testpassword", "foo2@localhost.com", DateTime.UtcNow);
+                b.Create("Test User 2", "testpassword", "foo2@localhost.com", DateTime.UtcNow, AdminSecurityContext);
                 b.VerifyAllEmails();
 
                 ManagedAccountFriendRequest r = new ManagedAccountFriendRequest(Session, a.CreateAccountFriendRequest(
@@ -63,8 +63,8 @@ namespace SnCore.Services.Tests
             }
             finally
             {
-                a.Delete();
-                b.Delete();
+                a.Delete(a.GetSecurityContext());
+                b.Delete(b.GetSecurityContext());
             }
         }
 
@@ -76,10 +76,10 @@ namespace SnCore.Services.Tests
 
             try
             {
-                a.Create("Test User 1", "testpassword", "foo1@localhost.com", DateTime.UtcNow);
+                a.Create("Test User 1", "testpassword", "foo1@localhost.com", DateTime.UtcNow, AdminSecurityContext);
                 a.VerifyAllEmails();
 
-                b.Create("Test User 2", "testpassword", "foo2@localhost.com", DateTime.UtcNow);
+                b.Create("Test User 2", "testpassword", "foo2@localhost.com", DateTime.UtcNow, AdminSecurityContext);
                 b.VerifyAllEmails();
 
                 ManagedAccountFriendRequest r = new ManagedAccountFriendRequest(Session, a.CreateAccountFriendRequest(
@@ -90,8 +90,8 @@ namespace SnCore.Services.Tests
             }
             finally
             {
-                a.Delete();
-                b.Delete();
+                a.Delete(a.GetSecurityContext());
+                b.Delete(b.GetSecurityContext());
             }
         }
 

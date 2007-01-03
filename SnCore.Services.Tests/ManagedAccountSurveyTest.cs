@@ -20,34 +20,32 @@ namespace SnCore.Services.Tests
         public void CreateAccountSurvey()
         {
             ManagedAccount a = new ManagedAccount(Session);
-            Survey s = new Survey();
-            SurveyQuestion q = new SurveyQuestion();
+            ManagedSurvey m_survey = new ManagedSurvey(Session);
+            ManagedSurveyQuestion m_question = new ManagedSurveyQuestion(Session);
+            ManagedAccountSurveyAnswer m_answer = new ManagedAccountSurveyAnswer(Session);
 
             try
             {
-                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
 
-                s.Name = Guid.NewGuid().ToString();
-                
-                q.Survey = s;
-                q.Question = Guid.NewGuid().ToString();
+                TransitSurvey t_survey = new TransitSurvey();
+                t_survey.Name = Guid.NewGuid().ToString();
+                m_survey.CreateOrUpdate(t_survey, AdminSecurityContext);
 
-                Session.Save(s);
-                Session.Save(q);
+                TransitSurveyQuestion t_question = new TransitSurveyQuestion();
+                t_question.SurveyId = m_survey.Id;
+                t_question.Question = Guid.NewGuid().ToString();
+                m_question.CreateOrUpdate(t_question, AdminSecurityContext);
 
                 TransitAccountSurveyAnswer ta = new TransitAccountSurveyAnswer();
-                ta.SurveyQuestion = q.Question;
-                ta.SurveyQuestionId = q.Id;
+                ta.SurveyQuestionId = m_question.Id;
                 ta.Answer = Guid.NewGuid().ToString();
-
-                a.CreateOrUpdate(ta);
+                m_answer.CreateOrUpdate(ta, a.GetSecurityContext());
             }
             finally
             {
-                a.Delete();
-                Session.Delete(q);
-                Session.Delete(s);
-                Session.Flush();
+                m_answer.Delete(a.GetSecurityContext());
+                a.Delete(AdminSecurityContext);
             }
         }
     }

@@ -32,27 +32,27 @@ namespace SnCore.Services.Tests
             {
                 TransitBugPriority t_priority = new TransitBugPriority();
                 t_priority.Name = Guid.NewGuid().ToString();
-                priority.CreateOrUpdate(t_priority);
+                priority.CreateOrUpdate(t_priority, AdminSecurityContext);
 
                 TransitBugProject t_project = new TransitBugProject();
                 t_project.Name = Guid.NewGuid().ToString();
-                project.CreateOrUpdate(t_project);
+                project.CreateOrUpdate(t_project, AdminSecurityContext);
 
                 TransitBugResolution t_resolution = new TransitBugResolution();
                 t_resolution.Name = Guid.NewGuid().ToString();
-                resolution.CreateOrUpdate(t_resolution);
+                resolution.CreateOrUpdate(t_resolution, AdminSecurityContext);
 
                 TransitBugSeverity t_severity = new TransitBugSeverity();
                 t_severity.Name = Guid.NewGuid().ToString();
-                severity.CreateOrUpdate(t_severity);
+                severity.CreateOrUpdate(t_severity, AdminSecurityContext);
 
                 TransitBugStatus t_status = new TransitBugStatus();
                 t_status.Name = Guid.NewGuid().ToString();
-                status.CreateOrUpdate(t_status);
+                status.CreateOrUpdate(t_status, AdminSecurityContext);
 
                 TransitBugType t_type = new TransitBugType();
                 t_type.Name = Guid.NewGuid().ToString();
-                type.CreateOrUpdate(t_type);
+                type.CreateOrUpdate(t_type, AdminSecurityContext);
 
                 TransitBug t_bug = new TransitBug();
                 t_bug.Priority = t_priority.Name;
@@ -63,17 +63,17 @@ namespace SnCore.Services.Tests
                 t_bug.Subject = Guid.NewGuid().ToString();
                 t_bug.Type = t_type.Name;
                 t_bug.Details = Guid.NewGuid().ToString();
-                bug.CreateOrUpdate(t_bug);
+                bug.CreateOrUpdate(t_bug, AdminSecurityContext);
             }
             finally
             {
-                bug.Delete();
-                priority.Delete();
-                resolution.Delete();
-                severity.Delete();
-                status.Delete();
-                type.Delete();
-                project.Delete();
+                bug.Delete(AdminSecurityContext);
+                priority.Delete(AdminSecurityContext);
+                resolution.Delete(AdminSecurityContext);
+                severity.Delete(AdminSecurityContext);
+                status.Delete(AdminSecurityContext);
+                type.Delete(AdminSecurityContext);
+                project.Delete(AdminSecurityContext);
             }
         }
 
@@ -93,27 +93,27 @@ namespace SnCore.Services.Tests
             {
                 TransitBugPriority t_priority = new TransitBugPriority();
                 t_priority.Name = Guid.NewGuid().ToString();
-                priority.CreateOrUpdate(t_priority);
+                priority.CreateOrUpdate(t_priority, AdminSecurityContext);
 
                 TransitBugProject t_project = new TransitBugProject();
                 t_project.Name = Guid.NewGuid().ToString();
-                project.CreateOrUpdate(t_project);
+                project.CreateOrUpdate(t_project, AdminSecurityContext);
 
                 TransitBugResolution t_resolution = new TransitBugResolution();
                 t_resolution.Name = Guid.NewGuid().ToString();
-                resolution.CreateOrUpdate(t_resolution);
+                resolution.CreateOrUpdate(t_resolution, AdminSecurityContext);
 
                 TransitBugSeverity t_severity = new TransitBugSeverity();
                 t_severity.Name = Guid.NewGuid().ToString();
-                severity.CreateOrUpdate(t_severity);
+                severity.CreateOrUpdate(t_severity, AdminSecurityContext);
 
                 TransitBugStatus t_status = new TransitBugStatus();
                 t_status.Name = Guid.NewGuid().ToString();
-                status.CreateOrUpdate(t_status);
+                status.CreateOrUpdate(t_status, AdminSecurityContext);
 
                 TransitBugType t_type = new TransitBugType();
                 t_type.Name = Guid.NewGuid().ToString();
-                type.CreateOrUpdate(t_type);
+                type.CreateOrUpdate(t_type, AdminSecurityContext);
 
                 TransitBug t_bug = new TransitBug();
                 t_bug.Priority = t_priority.Name;
@@ -125,20 +125,20 @@ namespace SnCore.Services.Tests
                 t_bug.Type = t_type.Name;
                 t_bug.Details = Guid.NewGuid().ToString();
                 
-                bug.CreateOrUpdate(t_bug);
-                linkedbug.CreateOrUpdate(t_bug);
-                bug.LinkTo(linkedbug);
+                bug.CreateOrUpdate(t_bug, AdminSecurityContext);
+                linkedbug.CreateOrUpdate(t_bug, AdminSecurityContext);
+                bug.LinkTo(linkedbug, AdminSecurityContext);
             }
             finally
             {
-                bug.Delete();
-                linkedbug.Delete();
-                priority.Delete();
-                resolution.Delete();
-                severity.Delete();
-                status.Delete();
-                type.Delete();
-                project.Delete();
+                bug.Delete(AdminSecurityContext);
+                linkedbug.Delete(AdminSecurityContext);
+                priority.Delete(AdminSecurityContext);
+                resolution.Delete(AdminSecurityContext);
+                severity.Delete(AdminSecurityContext);
+                status.Delete(AdminSecurityContext);
+                type.Delete(AdminSecurityContext);
+                project.Delete(AdminSecurityContext);
             }
         }
 
@@ -157,27 +157,27 @@ namespace SnCore.Services.Tests
             {
                 TransitBugPriority t_priority = new TransitBugPriority();
                 t_priority.Name = Guid.NewGuid().ToString();
-                priority.CreateOrUpdate(t_priority);
+                priority.CreateOrUpdate(t_priority, AdminSecurityContext);
 
                 TransitBugProject t_project = new TransitBugProject();
                 t_project.Name = Guid.NewGuid().ToString();
-                project.CreateOrUpdate(t_project);
+                project.CreateOrUpdate(t_project, AdminSecurityContext);
 
                 TransitBugResolution t_resolution = new TransitBugResolution();
                 t_resolution.Name = Guid.NewGuid().ToString();
-                resolution.CreateOrUpdate(t_resolution);
+                resolution.CreateOrUpdate(t_resolution, AdminSecurityContext);
 
                 TransitBugSeverity t_severity = new TransitBugSeverity();
                 t_severity.Name = Guid.NewGuid().ToString();
-                severity.CreateOrUpdate(t_severity);
+                severity.CreateOrUpdate(t_severity, AdminSecurityContext);
 
                 TransitBugStatus t_status = new TransitBugStatus();
                 t_status.Name = Guid.NewGuid().ToString();
-                status.CreateOrUpdate(t_status);
+                status.CreateOrUpdate(t_status, AdminSecurityContext);
 
                 TransitBugType t_type = new TransitBugType();
                 t_type.Name = Guid.NewGuid().ToString();
-                type.CreateOrUpdate(t_type);
+                type.CreateOrUpdate(t_type, AdminSecurityContext);
 
                 TransitBug t_bug = new TransitBug();
                 t_bug.Priority = t_priority.Name;
@@ -188,7 +188,7 @@ namespace SnCore.Services.Tests
                 t_bug.Subject = "subject";
                 t_bug.Type = t_type.Name;
                 t_bug.Details = "details";
-                bug.CreateOrUpdate(t_bug);
+                bug.CreateOrUpdate(t_bug, AdminSecurityContext);
 
                 {
                     TransitBugQueryOptions qo = new TransitBugQueryOptions();
@@ -234,13 +234,13 @@ namespace SnCore.Services.Tests
             }
             finally
             {
-                bug.Delete();
-                priority.Delete();
-                resolution.Delete();
-                severity.Delete();
-                status.Delete();
-                type.Delete();
-                project.Delete();
+                bug.Delete(AdminSecurityContext);
+                priority.Delete(AdminSecurityContext);
+                resolution.Delete(AdminSecurityContext);
+                severity.Delete(AdminSecurityContext);
+                status.Delete(AdminSecurityContext);
+                type.Delete(AdminSecurityContext);
+                project.Delete(AdminSecurityContext);
             }
         }
     }

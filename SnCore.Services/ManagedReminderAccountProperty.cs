@@ -12,7 +12,7 @@ using System.IO;
 
 namespace SnCore.Services
 {
-    public class TransitReminderAccountProperty : TransitService
+    public class TransitReminderAccountProperty : TransitService<ReminderAccountProperty>
     {
         private string mValue;
 
@@ -92,34 +92,35 @@ namespace SnCore.Services
 
         }
 
-        public TransitReminderAccountProperty(ReminderAccountProperty o)
-            : base(o.Id)
+        public TransitReminderAccountProperty(ReminderAccountProperty instance)
+            : base(instance)
         {
-            ReminderId = o.Reminder.Id;
-            AccountPropertyId = o.AccountProperty.Id;
-            AccountPropertyName = o.AccountProperty.Name;
-            Value = o.Value;
-            Unset = o.Unset;
+
         }
 
-        public ReminderAccountProperty GetReminderAccountProperty(ISession session)
+        public override void SetInstance(ReminderAccountProperty instance)
         {
-            ReminderAccountProperty p = (Id != 0) ? (ReminderAccountProperty)session.Load(typeof(ReminderAccountProperty), Id) : new ReminderAccountProperty();
-            if (this.ReminderId > 0) p.Reminder = (Reminder)session.Load(typeof(Reminder), this.ReminderId);
-            if (this.AccountPropertyId > 0) p.AccountProperty = (AccountProperty)session.Load(typeof(AccountProperty), this.AccountPropertyId);
-            p.Value = this.Value;
-            p.Unset = this.Unset;
-            return p;
+            ReminderId = instance.Reminder.Id;
+            AccountPropertyId = instance.AccountProperty.Id;
+            AccountPropertyName = instance.AccountProperty.Name;
+            Value = instance.Value;
+            Unset = instance.Unset;
+            base.SetInstance(instance);
+        }
+
+        public override ReminderAccountProperty GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            ReminderAccountProperty instance = base.GetInstance(session, sec);
+            if (this.ReminderId > 0) instance.Reminder = (Reminder)session.Load(typeof(Reminder), this.ReminderId);
+            if (this.AccountPropertyId > 0) instance.AccountProperty = (AccountProperty)session.Load(typeof(AccountProperty), this.AccountPropertyId);
+            instance.Value = this.Value;
+            instance.Unset = this.Unset;
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed ReminderAccountProperty.
-    /// </summary>
-    public class ManagedReminderAccountProperty : ManagedService<ReminderAccountProperty>
+    public class ManagedReminderAccountProperty : ManagedService<ReminderAccountProperty, TransitReminderAccountProperty>
     {
-        private ReminderAccountProperty mReminderAccountProperty = null;
-
         public ManagedReminderAccountProperty(ISession session)
             : base(session)
         {
@@ -127,48 +128,21 @@ namespace SnCore.Services
         }
 
         public ManagedReminderAccountProperty(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mReminderAccountProperty = (ReminderAccountProperty)session.Load(typeof(ReminderAccountProperty), id);
+
         }
 
         public ManagedReminderAccountProperty(ISession session, ReminderAccountProperty value)
-            : base(session)
+            : base(session, value)
         {
-            mReminderAccountProperty = value;
+
         }
 
-        public ManagedReminderAccountProperty(ISession session, TransitReminderAccountProperty value)
-            : base(session)
+        public override ACL GetACL()
         {
-            mReminderAccountProperty = value.GetReminderAccountProperty(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mReminderAccountProperty.Id;
-            }
-        }
-
-        public TransitReminderAccountProperty TransitReminderAccountProperty
-        {
-            get
-            {
-                return new TransitReminderAccountProperty(mReminderAccountProperty);
-            }
-        }
-
-        public void CreateOrUpdate(TransitReminderAccountProperty o)
-        {
-            mReminderAccountProperty = o.GetReminderAccountProperty(Session);
-            Session.Save(mReminderAccountProperty);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mReminderAccountProperty);
+            ACL acl = base.GetACL();
+            return acl;
         }
     }
 }

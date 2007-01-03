@@ -15,17 +15,17 @@ namespace SnCore.Services
 
         }
 
-        public TransitPictureWithBitmap(Picture p)
-            : base(p)
+        public TransitPictureWithBitmap(Picture value)
+            : base(value)
         {
-            Bitmap = p.Bitmap;
+            Bitmap = value.Bitmap;
         }
 
-        public override Picture GetPicture(ISession session)
+        public override Picture GetInstance(ISession session, ManagedSecurityContext sec)
         {
-            Picture p = base.GetPicture(session);
-            if (this.Bitmap != null) p.Bitmap = this.Bitmap;
-            return p;
+            Picture instance = base.GetInstance(session, sec);
+            if (this.Bitmap != null) instance.Bitmap = this.Bitmap;
+            return instance;
         }
     }
 
@@ -38,15 +38,15 @@ namespace SnCore.Services
 
         }
 
-        public TransitPictureWithThumbnail(Picture p)
-            : base(p)
+        public TransitPictureWithThumbnail(Picture value)
+            : base(value)
         {
-            Thumbnail = new ThumbnailBitmap(p.Bitmap).Thumbnail;
+            Thumbnail = new ThumbnailBitmap(value.Bitmap).Thumbnail;
         }
     }
 
 
-    public class TransitPicture : TransitService
+    public class TransitPicture : TransitService<Picture>
     {
         private string mName;
 
@@ -129,32 +129,33 @@ namespace SnCore.Services
         }
 
         public TransitPicture(Picture p)
-            : base(p.Id)
+            : base(p)
         {
-            Name = p.Name;
-            Description = p.Description;
-            Created = p.Created;
-            Modified = p.Modified;
-            Type = p.Type.Name;
+
         }
 
-        public virtual Picture GetPicture(ISession session)
+        public override void SetInstance(Picture value)
         {
-            Picture p = (Id > 0) ? (Picture)session.Load(typeof(Picture), Id) : new Picture();
-            p.Name = this.Name;
-            p.Description = this.Description;
-            if (!string.IsNullOrEmpty(this.Type)) p.Type = ManagedPictureType.Find(session, this.Type);
-            return p;
+            Name = value.Name;
+            Description = value.Description;
+            Created = value.Created;
+            Modified = value.Modified;
+            Type = value.Type.Name;
+            base.SetInstance(value);
+        }
+
+        public override Picture GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            Picture instance = base.GetInstance(session, sec);
+            instance.Name = this.Name;
+            instance.Description = this.Description;
+            if (!string.IsNullOrEmpty(this.Type)) instance.Type = ManagedPictureType.Find(session, this.Type);
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed picture.
-    /// </summary>
-    public class ManagedPicture : ManagedService<Picture>
+    public class ManagedPicture : ManagedService<Picture, TransitPicture>
     {
-        private Picture mPicture = null;
-
         public ManagedPicture(ISession session)
             : base(session)
         {
@@ -162,30 +163,22 @@ namespace SnCore.Services
         }
 
         public ManagedPicture(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mPicture = (Picture)session.Load(typeof(Picture), id);
+
         }
 
         public ManagedPicture(ISession session, Picture value)
-            : base(session)
+            : base(session, value)
         {
-            mPicture = value;
-        }
 
-        public int Id
-        {
-            get
-            {
-                return mPicture.Id;
-            }
         }
 
         public string Name
         {
             get
             {
-                return mPicture.Name;
+                return mInstance.Name;
             }
         }
 
@@ -193,7 +186,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mPicture.Description;
+                return mInstance.Description;
             }
         }
 
@@ -201,7 +194,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mPicture.Bitmap;
+                return mInstance.Bitmap;
             }
         }
 
@@ -209,7 +202,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mPicture.Created;
+                return mInstance.Created;
             }
         }
 
@@ -217,47 +210,34 @@ namespace SnCore.Services
         {
             get
             {
-                return mPicture.Modified;
+                return mInstance.Modified;
             }
         }
 
-        public TransitPictureWithBitmap TransitPictureWithBitmap
+        public TransitPictureWithBitmap GetTransitPictureWithBitmap()
         {
-            get
-            {
-                TransitPictureWithBitmap pic = new TransitPictureWithBitmap(mPicture);
-                return pic;
-            }
+            TransitPictureWithBitmap pic = new TransitPictureWithBitmap(mInstance);
+            return pic;
         }
 
-        public TransitPictureWithThumbnail TransitPictureWithThumbnail
+        public TransitPictureWithThumbnail GetTransitPictureWithThumbnail()
         {
-            get
-            {
-                TransitPictureWithThumbnail pic = new TransitPictureWithThumbnail(mPicture);
-                return pic;
-            }
+            TransitPictureWithThumbnail pic = new TransitPictureWithThumbnail(mInstance);
+            return pic;
         }
 
-        public TransitPicture TransitPicture
+        protected override void Save(ManagedSecurityContext sec)
         {
-            get
-            {
-                return new TransitPicture(mPicture);
-            }
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
         }
 
-        public void CreateOrUpdate(TransitPicture o)
+        public override ACL GetACL()
         {
-            mPicture = o.GetPicture(Session);
-            mPicture.Modified = DateTime.UtcNow;
-            if (Id == 0) mPicture.Created = mPicture.Modified;
-            Session.Save(mPicture);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mPicture);
-        }
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            return acl;
+        }    
     }
 }

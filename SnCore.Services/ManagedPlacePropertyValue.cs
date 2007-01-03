@@ -43,7 +43,7 @@ namespace SnCore.Services
         }
     }
 
-    public class TransitPlacePropertyValue : TransitService
+    public class TransitPlacePropertyValue : TransitService<PlacePropertyValue>
     {
         private int mPlaceId;
 
@@ -120,30 +120,34 @@ namespace SnCore.Services
 
         }
 
-        public TransitPlacePropertyValue(PlacePropertyValue o)
-            : base(o.Id)
+        public TransitPlacePropertyValue(PlacePropertyValue instance)
+            : base(instance)
         {
-            if (o.Place != null) PlaceId = o.Place.Id;
-            PlaceProperty = new TransitPlaceProperty(o.PlaceProperty);
-            Created = o.Created;
-            Modified = o.Modified;
-            Value = o.Value;
+
         }
 
-        public PlacePropertyValue GetPlacePropertyValue(ISession session)
+        public override void SetInstance(PlacePropertyValue instance)
         {
-            PlacePropertyValue p = (Id != 0) ? (PlacePropertyValue)session.Load(typeof(PlacePropertyValue), Id) : new PlacePropertyValue();
-            p.Place = (this.PlaceId > 0) ? (Place)session.Load(typeof(Place), PlaceId) : null;
-            p.PlaceProperty = (this.PlaceProperty != null && this.PlaceProperty.Id > 0) ? (PlaceProperty)session.Load(typeof(PlaceProperty), this.PlaceProperty.Id) : null;
-            p.Value = this.Value;
-            return p;
+            if (instance.Place != null) PlaceId = instance.Place.Id;
+            PlaceProperty = new TransitPlaceProperty(instance.PlaceProperty);
+            Created = instance.Created;
+            Modified = instance.Modified;
+            Value = instance.Value;
+            base.SetInstance(instance);
+        }
+
+        public override PlacePropertyValue GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            PlacePropertyValue instance = base.GetInstance(session, sec);
+            instance.Place = (this.PlaceId > 0) ? (Place)session.Load(typeof(Place), PlaceId) : null;
+            instance.PlaceProperty = (this.PlaceProperty != null && this.PlaceProperty.Id > 0) ? (PlaceProperty)session.Load(typeof(PlaceProperty), this.PlaceProperty.Id) : null;
+            instance.Value = this.Value;
+            return instance;
         }
     }
 
-    public class ManagedPlacePropertyValue : ManagedService<PlacePropertyValue>
+    public class ManagedPlacePropertyValue : ManagedService<PlacePropertyValue, TransitPlacePropertyValue>
     {
-        private PlacePropertyValue mPlacePropertyValue = null;
-
         public ManagedPlacePropertyValue(ISession session)
             : base(session)
         {
@@ -151,50 +155,37 @@ namespace SnCore.Services
         }
 
         public ManagedPlacePropertyValue(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mPlacePropertyValue = (PlacePropertyValue)session.Load(typeof(PlacePropertyValue), id);
+
         }
 
         public ManagedPlacePropertyValue(ISession session, PlacePropertyValue value)
-            : base(session)
+            : base(session, value)
         {
-            mPlacePropertyValue = value;
-        }
 
-        public ManagedPlacePropertyValue(ISession session, TransitPlacePropertyValue value)
-            : base(session)
-        {
-            mPlacePropertyValue = value.GetPlacePropertyValue(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mPlacePropertyValue.Id;
-            }
         }
 
         public int PlaceId
         {
             get
             {
-                return mPlacePropertyValue.Place.Id;
+                return mInstance.Place.Id;
             }
         }
 
-        public TransitPlacePropertyValue TransitPlacePropertyValue
+        protected override void Save(ManagedSecurityContext sec)
         {
-            get
-            {
-                return new TransitPlacePropertyValue(mPlacePropertyValue);
-            }
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
         }
 
-        public void Delete()
+        public override ACL GetACL()
         {
-            Session.Delete(mPlacePropertyValue);
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            return acl;
         }
     }
 }

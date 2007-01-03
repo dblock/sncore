@@ -21,5 +21,10 @@ namespace SnCore.Data.Hibernate
 
             return result;
         }
+
+        public static IList<T> GetSafeCollection(IList<T> collection)
+        {
+            return (collection == null) ? new List<T>() : collection;
+        }
     }
 }

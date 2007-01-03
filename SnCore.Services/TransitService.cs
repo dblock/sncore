@@ -3,125 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Web;
+using NHibernate;
 
 namespace SnCore.Services
 {
-    public enum TransitSortDirection
+    public interface ITransitService
     {
-        Ascending,
-        Descending
+        int Id { get; set; }
+        IDbObject GetDbObjectInstance(ISession session, ManagedSecurityContext sec);
+        void SetDbObjectInstance(IDbObject value);
     }
 
     [Serializable()]
-    public class TransitArrayElementService<T> : TransitService
-        where T : IDbObject
-    {
-        protected int mIndex = -1;
-        protected int mNextIndex = -1;
-        protected int mPrevIndex = -1;
-        protected int mNextId = -1;
-        protected int mPrevId = -1;
-        protected int mCount = 0;
-
-        public int Count
-        {
-            get
-            {
-                return mCount;
-            }
-            set
-            {
-                mCount = value;
-            }
-        }
-
-        public int NextIndex
-        {
-            get
-            {
-                return mNextIndex;
-            }
-            set
-            {
-                mNextIndex = value;
-            }
-        }
-
-        public int PrevIndex
-        {
-            get
-            {
-                return mPrevIndex;
-            }
-            set
-            {
-                mPrevIndex = value;
-            }
-        }
-
-        public int Index
-        {
-            get
-            {
-                return mIndex;
-            }
-            set
-            {
-                mIndex = value;
-            }
-        }
-
-        public int NextId
-        {
-            get
-            {
-                return mNextId;
-            }
-            set
-            {
-                mNextId = value;
-            }
-        }
-
-        public int PrevId
-        {
-            get
-            {
-                return mPrevId;
-            }
-            set
-            {
-                mPrevId = value;
-            }
-        }
-
-        public TransitArrayElementService()
-        {
-
-        }
-
-        public TransitArrayElementService(int id, T element, IList<T> collection)
-            : base(id)
-        {
-            mIndex = collection.IndexOf(element);
-            mCount = collection.Count;
-            
-            if (mIndex > 0)
-            {
-                mPrevIndex = mIndex - 1;
-                mPrevId = collection[mPrevIndex].Id;
-            }
-
-            if (mIndex + 1 < collection.Count)
-            {
-                mNextIndex = mIndex + 1;
-                mNextId = collection[mNextIndex].Id;
-            }
-        }
-    }
-
-    [Serializable()]
-    public class TransitService
+    public abstract class TransitService<DatabaseType> : ITransitService
+        where DatabaseType: IDbObject, new()
     {
         private int mId;
 
@@ -133,6 +28,22 @@ namespace SnCore.Services
         public TransitService(int id)
         {
             Id = id;
+        }
+
+        public TransitService(DatabaseType o)
+        {
+            Id = o.Id;
+            SetInstance(o);
+        }
+
+        public virtual void SetInstance(IDbObject instance)
+        {
+            SetInstance((DatabaseType) instance);
+        }
+
+        public virtual void SetInstance(DatabaseType instance)
+        {
+            Id = instance.Id;
         }
 
         public int Id
@@ -147,18 +58,29 @@ namespace SnCore.Services
             }
         }
 
-        public static string Encode(string value)
+        public IDbObject GetDbObjectInstance(ISession session, ManagedSecurityContext sec)
         {
-            if (value == null)
-                return string.Empty;
-            return HttpUtility.HtmlEncode(value).Replace("\r\n", "<br/>");
+            return GetInstance(session, sec);
         }
 
-        public static string Decode(string value)
+        public void SetDbObjectInstance(IDbObject value)
         {
-            if (value == null)
-                return string.Empty;
-            return HttpUtility.HtmlDecode(value);
+            SetInstance(value);
+        }
+
+        public virtual DatabaseType GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            DatabaseType o = (Id != 0) ? (DatabaseType)session.Load(typeof(DatabaseType), Id) : new DatabaseType();
+            return o;
+        }
+
+        public Account GetOwner(ISession session, int id, ManagedSecurityContext sec)
+        {
+            if (id == 0) return sec.Account; // current security context id
+            if (id != 0 && id == sec.Account.Id) return sec.Account; // the id requested matches the security context id
+            if (id != 0 && sec.IsAdministrator()) return (Account) session.Load(typeof(Account), id); // the administrator can get any id
+            if (id != 0 && !sec.IsAdministrator()) throw new ManagedAccount.AccessDeniedException(); // attempt to change ownership
+            return sec.Account; // whatever is in the security context
         }
     }
 }

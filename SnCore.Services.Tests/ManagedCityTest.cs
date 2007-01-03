@@ -38,16 +38,16 @@ namespace SnCore.Services.Tests
                 ts.Country = tc.Name;
                 ts.State = tt.Name;
 
-                c.Create(tc);
-                t.Create(tt);
-                s.Create(ts);
+                c.CreateOrUpdate(tc, AdminSecurityContext);
+                t.CreateOrUpdate(tt, AdminSecurityContext);
+                s.CreateOrUpdate(ts, AdminSecurityContext);
                 Session.Flush();
             }
             finally
             {
-                s.Delete();
-                t.Delete();
-                c.Delete();
+                s.Delete(AdminSecurityContext);
+                t.Delete(AdminSecurityContext);
+                c.Delete(AdminSecurityContext);
             }
         }
 
@@ -70,18 +70,18 @@ namespace SnCore.Services.Tests
                 ts.Country = tc.Name;
                 ts.State = tt.Name;
 
-                c.Create(tc);
-                t.Create(tt);
+                c.CreateOrUpdate(tc, AdminSecurityContext);
+                t.CreateOrUpdate(tt, AdminSecurityContext);
                 Session.Flush();
-                s.Create(ts);
+                s.CreateOrUpdate(ts, AdminSecurityContext);
                 Session.Flush();
                 ManagedCity.GetCityId(Session, ts.Name, tt.Name, tc.Name);
             }
             finally
             {
-                s.Delete();
-                t.Delete();
-                c.Delete();
+                s.Delete(AdminSecurityContext);
+                t.Delete(AdminSecurityContext);
+                c.Delete(AdminSecurityContext);
             }
         }
 
@@ -101,16 +101,16 @@ namespace SnCore.Services.Tests
                 tt.Name = Guid.NewGuid().ToString();
                 tt.Country = tc.Name;
 
-                c.Create(tc);
-                t.Create(tt);
+                c.CreateOrUpdate(tc, AdminSecurityContext);
+                t.CreateOrUpdate(tt, AdminSecurityContext);
                 Session.Flush();
 
                 ManagedCity.GetCityId(Session, Guid.NewGuid().ToString(), tt.Name, tc.Name);
             }
             finally
             {
-                t.Delete();
-                c.Delete();
+                t.Delete(AdminSecurityContext);
+                c.Delete(AdminSecurityContext);
             }
         }
 

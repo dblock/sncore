@@ -12,7 +12,7 @@ using System.IO;
 
 namespace SnCore.Services
 {
-    public class TransitBugSeverity : TransitService
+    public class TransitBugSeverity : TransitService<BugSeverity>
     {
         private string mName;
 
@@ -34,26 +34,32 @@ namespace SnCore.Services
 
         }
 
-        public TransitBugSeverity(BugSeverity o)
-            : base(o.Id)
+        public TransitBugSeverity(BugSeverity value)
+            : base(value)
         {
-            Name = o.Name;
+
         }
 
-        public BugSeverity GetBugSeverity(ISession session)
+        public override void SetInstance(BugSeverity value)
         {
-            BugSeverity p = (Id != 0) ? (BugSeverity)session.Load(typeof(BugSeverity), Id) : new BugSeverity();
-            p.Name = this.Name;
-            return p;
+            Name = value.Name;
+            base.SetInstance(value);
+        }
+
+        public override BugSeverity GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            BugSeverity instance = base.GetInstance(session, sec);
+            instance.Name = this.Name;
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed bug Severity.
-    /// </summary>
-    public class ManagedBugSeverity : ManagedService<BugSeverity>
+    public class ManagedBugSeverity : ManagedService<BugSeverity, TransitBugSeverity>
     {
-        private BugSeverity mBugSeverity = null;
+        public ManagedBugSeverity()
+        {
+
+        }
 
         public ManagedBugSeverity(ISession session)
             : base(session)
@@ -62,48 +68,15 @@ namespace SnCore.Services
         }
 
         public ManagedBugSeverity(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mBugSeverity = (BugSeverity)session.Load(typeof(BugSeverity), id);
+
         }
 
         public ManagedBugSeverity(ISession session, BugSeverity value)
-            : base(session)
+            : base(session, value)
         {
-            mBugSeverity = value;
-        }
 
-        public ManagedBugSeverity(ISession session, TransitBugSeverity value)
-            : base(session)
-        {
-            mBugSeverity = value.GetBugSeverity(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mBugSeverity.Id;
-            }
-        }
-
-        public TransitBugSeverity TransitBugSeverity
-        {
-            get
-            {
-                return new TransitBugSeverity(mBugSeverity);
-            }
-        }
-
-        public void CreateOrUpdate(TransitBugSeverity o)
-        {
-            mBugSeverity = o.GetBugSeverity(Session);
-            Session.Save(mBugSeverity);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mBugSeverity);
         }
 
         public static BugSeverity Find(ISession session, string name)
@@ -118,5 +91,11 @@ namespace SnCore.Services
             return Find(session, name).Id;
         }
 
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            return acl;
+        }
     }
 }

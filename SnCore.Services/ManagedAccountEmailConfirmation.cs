@@ -6,7 +6,7 @@ using System.Net.Mail;
 
 namespace SnCore.Services
 {
-    public class TransitAccountEmailConfirmation : TransitService
+    public class TransitAccountEmailConfirmation : TransitService<AccountEmailConfirmation>
     {
         private TransitAccountEmail mAccountEmail;
 
@@ -41,18 +41,26 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountEmailConfirmation(AccountEmailConfirmation c)
-            : base(c.Id)
+        public TransitAccountEmailConfirmation(AccountEmailConfirmation value)
+            : base(value)
         {
-            mAccountEmail = new TransitAccountEmail(c.AccountEmail);
-            mCode = c.Code;
+        }
+
+        public override void SetInstance(AccountEmailConfirmation value)
+        {
+            mAccountEmail = new TransitAccountEmail(value.AccountEmail);
+            mCode = value.Code;
+            base.SetInstance(value);
+        }
+
+        public override AccountEmailConfirmation GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            AccountEmailConfirmation instance = base.GetInstance(session, sec);
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed e-mail confirmation;
-    /// </summary>
-    public class ManagedAccountEmailConfirmation : ManagedService<AccountEmailConfirmation>
+    public class ManagedAccountEmailConfirmation : ManagedService<AccountEmailConfirmation, TransitAccountEmailConfirmation>
     {
         public class InvalidCodeException : Exception
         {
@@ -78,8 +86,6 @@ namespace SnCore.Services
 
         }
 
-        private AccountEmailConfirmation mAccountEmailConfirmation = null;
-
         public ManagedAccountEmailConfirmation(ISession session)
             : base(session)
         {
@@ -87,28 +93,20 @@ namespace SnCore.Services
         }
 
         public ManagedAccountEmailConfirmation(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountEmailConfirmation = (AccountEmailConfirmation)session.Load(typeof(AccountEmailConfirmation), id);
+
         }
 
         public ManagedAccountEmailConfirmation(ISession session, AccountEmailConfirmation value)
-            : base(session)
+            : base(session, value)
         {
-            mAccountEmailConfirmation = value;
-        }
 
-        public int Id
-        {
-            get
-            {
-                return mAccountEmailConfirmation.Id;
-            }
         }
 
         public string Verify(string password, string code)
         {
-            if (mAccountEmailConfirmation.AccountEmail.Account.Password != ManagedAccount.GetPasswordHash(password))
+            if (mInstance.AccountEmail.Account.Password != ManagedAccount.GetPasswordHash(password))
             {
                 throw new ManagedAccount.AccessDeniedException();
             }
@@ -118,32 +116,32 @@ namespace SnCore.Services
 
         public string Verify(string code)
         {
-            if (mAccountEmailConfirmation.Code != code)
+            if (mInstance.Code != code)
             {
                 throw new InvalidCodeException(code);
             }
 
-            mAccountEmailConfirmation.AccountEmail.Verified = true;
-            mAccountEmailConfirmation.AccountEmail.Modified = DateTime.UtcNow;
-            Session.Update(mAccountEmailConfirmation.AccountEmail);
-            mAccountEmailConfirmation.AccountEmail.AccountEmailConfirmations = null;
-            Session.Delete(mAccountEmailConfirmation);
+            mInstance.AccountEmail.Verified = true;
+            mInstance.AccountEmail.Modified = DateTime.UtcNow;
+            Session.Save(mInstance.AccountEmail);
+            mInstance.AccountEmail.AccountEmailConfirmations = null;
+            Session.Delete(mInstance);
 
             // reset any other AccountEmail with the same value to unverified (reclaim)
             IList reclaimlist = Session.CreateCriteria(typeof(AccountEmail))
-             .Add(Expression.Eq("Address", mAccountEmailConfirmation.AccountEmail.Address))
-             .Add(Expression.Eq("Verified", true))
-             .Add(Expression.Not(Expression.Eq("Id", mAccountEmailConfirmation.AccountEmail.Id))).List();
+                 .Add(Expression.Eq("Address", mInstance.AccountEmail.Address))
+                 .Add(Expression.Eq("Verified", true))
+                 .Add(Expression.Not(Expression.Eq("Id", mInstance.AccountEmail.Id))).List();
 
             foreach (AccountEmail ae in reclaimlist)
             {
                 ae.Verified = false;
-                Session.Update(ae);
+                Session.Save(ae);
             }
 
-            string email = mAccountEmailConfirmation.AccountEmail.Address;
+            string email = mInstance.AccountEmail.Address;
 
-            mAccountEmailConfirmation = null;
+            mInstance = null;
             return email;
         }
 
@@ -151,15 +149,7 @@ namespace SnCore.Services
         {
             get
             {
-                return new ManagedAccountEmail(Session, mAccountEmailConfirmation.AccountEmail);
-            }
-        }
-
-        public TransitAccountEmailConfirmation TransitAccountEmailConfirmation
-        {
-            get
-            {
-                return new TransitAccountEmailConfirmation(mAccountEmailConfirmation);
+                return new ManagedAccountEmail(Session, mInstance.AccountEmail);
             }
         }
 
@@ -167,8 +157,15 @@ namespace SnCore.Services
         {
             ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
                 Session,
-                new MailAddress(mAccountEmailConfirmation.AccountEmail.Address, mAccountEmailConfirmation.AccountEmail.Account.Name).ToString(),
-                string.Format("EmailAccountEmailVerify.aspx?id={0}", mAccountEmailConfirmation.Id));
+                new MailAddress(mInstance.AccountEmail.Address, mInstance.AccountEmail.Account.Name).ToString(),
+                string.Format("EmailAccountEmailVerify.aspx?id={0}", mInstance.Id));
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLAccount(mInstance.AccountEmail.Account, DataOperation.All));
+            return acl;
         }
     }
 }

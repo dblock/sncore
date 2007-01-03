@@ -10,6 +10,7 @@ using System.Resources;
 using System.Net.Mail;
 using System.IO;
 using SnCore.Tools;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
@@ -76,7 +77,7 @@ namespace SnCore.Services
     }
 
     [Serializable()]
-    public class TransitSchedule : TransitService
+    public class TransitSchedule : TransitService<Schedule>
     {
         private int mAccountId;
 
@@ -183,7 +184,7 @@ namespace SnCore.Services
             }
         }
 
-        private int mMonthlyExDayIndex = (int) DayIndex.first;
+        private int mMonthlyExDayIndex = (int)DayIndex.first;
 
         public int MonthlyExDayIndex
         {
@@ -413,86 +414,89 @@ namespace SnCore.Services
 
         }
 
-        public TransitSchedule(Schedule s)
-            : base(s.Id)
+        public TransitSchedule(Schedule value)
+            : base(value)
         {
-            this.AccountId = s.Account.Id;
-            this.RecurrencePattern = (RecurrencePattern)s.RecurrencePattern;
-            this.Created = s.Created;
-            this.Modified = s.Modified;
 
-            switch ((RecurrencePattern)s.RecurrencePattern)
+        }
+
+        public override void SetInstance(Schedule value)
+        {
+            this.AccountId = value.Account.Id;
+            this.RecurrencePattern = (RecurrencePattern) value.RecurrencePattern;
+            this.Created = value.Created;
+            this.Modified = value.Modified;
+
+            switch ((RecurrencePattern) value.RecurrencePattern)
             {
                 case RecurrencePattern.None:
-                    this.AllDay = s.AllDay;
+                    this.AllDay = value.AllDay;
                     break;
                 case RecurrencePattern.Daily_EveryNDays:
-                    this.DailyEveryNDays = s.DailyEveryNDays;
+                    this.DailyEveryNDays = value.DailyEveryNDays;
                     break;
                 case RecurrencePattern.Daily_EveryWeekday:
                     break;
                 case RecurrencePattern.Weekly:
-                    this.WeeklyDaysOfWeek = s.WeeklyDaysOfWeek;
-                    this.WeeklyEveryNWeeks = s.WeeklyEveryNWeeks;
+                    this.WeeklyDaysOfWeek = value.WeeklyDaysOfWeek;
+                    this.WeeklyEveryNWeeks = value.WeeklyEveryNWeeks;
                     break;
                 case RecurrencePattern.Monthly_DayNOfEveryNMonths:
-                    this.MonthlyDay = s.MonthlyDay;
-                    this.MonthlyMonth = s.MonthlyMonth;
+                    this.MonthlyDay = value.MonthlyDay;
+                    this.MonthlyMonth = value.MonthlyMonth;
                     break;
                 case RecurrencePattern.Monthly_NthWeekDayOfEveryNMonth:
-                    this.MonthlyExDayIndex = s.MonthlyExDayIndex;
-                    this.MonthlyExDayName = s.MonthlyExDayName;
-                    this.MonthlyExMonth = s.MonthlyExMonth;
+                    this.MonthlyExDayIndex = value.MonthlyExDayIndex;
+                    this.MonthlyExDayName = value.MonthlyExDayName;
+                    this.MonthlyExMonth = value.MonthlyExMonth;
                     break;
                 case RecurrencePattern.Yearly_DayNOfMonth:
-                    this.YearlyDay = s.YearlyDay;
-                    this.YearlyMonth = s.YearlyMonth;
+                    this.YearlyDay = value.YearlyDay;
+                    this.YearlyMonth = value.YearlyMonth;
                     break;
                 case RecurrencePattern.Yearly_NthWeekDayOfMonth:
-                    this.YearlyExDayIndex = s.YearlyExDayIndex;
-                    this.YearlyExDayName = s.YearlyExDayName;
-                    this.YearlyExMonth = s.YearlyExMonth;
+                    this.YearlyExDayIndex = value.YearlyExDayIndex;
+                    this.YearlyExDayName = value.YearlyExDayName;
+                    this.YearlyExMonth = value.YearlyExMonth;
                     break;
             }
 
-            this.EndDateTime = s.EndDateTime;
-            this.Endless = s.Endless;
-            this.EndOccurrences = s.EndOccurrences;
-            this.StartDateTime = s.StartDateTime;
+            this.EndDateTime = value.EndDateTime;
+            this.Endless = value.Endless;
+            this.EndOccurrences = value.EndOccurrences;
+            this.StartDateTime = value.StartDateTime;
+            base.SetInstance(value);
         }
 
-        public Schedule GetSchedule(ISession session)
+        public override Schedule GetInstance(ISession session, ManagedSecurityContext sec)
         {
-            Schedule p = (Id != 0) ? (Schedule)session.Load(typeof(Schedule), Id) : new Schedule();
-            p.AllDay = this.AllDay;
-            p.DailyEveryNDays = this.DailyEveryNDays;
-            p.EndDateTime = this.EndDateTime;
-            p.Endless = this.Endless;
-            p.EndOccurrences = this.EndOccurrences;
-            p.MonthlyDay = this.MonthlyDay;
-            p.MonthlyMonth = this.MonthlyMonth;
-            p.MonthlyExDayIndex = this.MonthlyExDayIndex;
-            p.MonthlyExDayName = this.MonthlyExDayName;
-            p.MonthlyExMonth = this.MonthlyExMonth;
-            p.RecurrencePattern = (short)this.RecurrencePattern;
-            p.StartDateTime = this.StartDateTime;
-            p.WeeklyDaysOfWeek = this.WeeklyDaysOfWeek;
-            p.WeeklyEveryNWeeks = this.WeeklyEveryNWeeks;
-            p.YearlyDay = this.YearlyDay;
-            p.YearlyMonth = this.YearlyMonth;
-            p.YearlyExDayIndex = this.YearlyExDayIndex;
-            p.YearlyExDayName = this.YearlyExDayName;
-            p.YearlyExMonth = this.YearlyExMonth;
-            if (Id == 0 && AccountId > 0) p.Account = (Account)session.Load(typeof(Account), this.AccountId);
-            return p;
+            Schedule instance = base.GetInstance(session, sec);
+            instance.AllDay = this.AllDay;
+            instance.DailyEveryNDays = this.DailyEveryNDays;
+            instance.EndDateTime = this.EndDateTime;
+            instance.Endless = this.Endless;
+            instance.EndOccurrences = this.EndOccurrences;
+            instance.MonthlyDay = this.MonthlyDay;
+            instance.MonthlyMonth = this.MonthlyMonth;
+            instance.MonthlyExDayIndex = this.MonthlyExDayIndex;
+            instance.MonthlyExDayName = this.MonthlyExDayName;
+            instance.MonthlyExMonth = this.MonthlyExMonth;
+            instance.RecurrencePattern = (short)this.RecurrencePattern;
+            instance.StartDateTime = this.StartDateTime;
+            instance.WeeklyDaysOfWeek = this.WeeklyDaysOfWeek;
+            instance.WeeklyEveryNWeeks = this.WeeklyEveryNWeeks;
+            instance.YearlyDay = this.YearlyDay;
+            instance.YearlyMonth = this.YearlyMonth;
+            instance.YearlyExDayIndex = this.YearlyExDayIndex;
+            instance.YearlyExDayName = this.YearlyExDayName;
+            instance.YearlyExMonth = this.YearlyExMonth;
+            if (Id == 0 && AccountId > 0) instance.Account = (Account)session.Load(typeof(Account), this.AccountId);
+            return instance;
         }
-
     }
 
-    public class ManagedSchedule : ManagedService<Schedule>
+    public class ManagedSchedule : ManagedService<Schedule, TransitSchedule>
     {
-        private Schedule mSchedule = null;
-
         public ManagedSchedule(ISession session)
             : base(session)
         {
@@ -500,50 +504,34 @@ namespace SnCore.Services
         }
 
         public ManagedSchedule(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mSchedule = (Schedule)session.Load(typeof(Schedule), id);
+
         }
 
         public ManagedSchedule(ISession session, Schedule value)
-            : base(session)
+            : base(session, value)
         {
-            mSchedule = value;
-        }
 
-        public int Id
-        {
-            get
-            {
-                return mSchedule.Id;
-            }
         }
 
         public int AccountId
         {
             get
             {
-                return mSchedule.Account.Id;
-            }
-        }
-
-        public TransitSchedule TransitSchedule
-        {
-            get
-            {
-                return new TransitSchedule(mSchedule);
+                return mInstance.Account.Id;
             }
         }
 
         public string ToString(int offset)
         {
             StringBuilder result = new StringBuilder();
-            DateTime start = mSchedule.StartDateTime.AddHours(offset);
-            DateTime end = mSchedule.EndDateTime.AddHours(offset);
+            DateTime start = mInstance.StartDateTime.AddHours(offset);
+            DateTime end = mInstance.EndDateTime.AddHours(offset);
 
-            if (mSchedule.RecurrencePattern == (short)RecurrencePattern.None)
+            if (mInstance.RecurrencePattern == (short)RecurrencePattern.None)
             {
-                if (mSchedule.AllDay)
+                if (mInstance.AllDay)
                 {
                     if (start.Date == end.Date)
                     {
@@ -558,7 +546,7 @@ namespace SnCore.Services
                 }
                 else
                 {
-                    TimeSpan delta = (mSchedule.EndDateTime - mSchedule.StartDateTime);
+                    TimeSpan delta = (mInstance.EndDateTime - mInstance.StartDateTime);
                     result.AppendFormat("Runs {0} to {1} ({2} hour{3}).",
                         start.ToString("f"),
                         end.ToString(start.Date == end.Date ? "hh:mm tt" : "f"),
@@ -572,51 +560,51 @@ namespace SnCore.Services
                 start.TimeOfDay.Hours.ToString("00"), start.TimeOfDay.Minutes.ToString("00"),
                 end.TimeOfDay.Hours.ToString("00"), end.TimeOfDay.Minutes.ToString("00"));
 
-            switch ((RecurrencePattern)mSchedule.RecurrencePattern)
+            switch ((RecurrencePattern)mInstance.RecurrencePattern)
             {
                 case RecurrencePattern.Daily_EveryNDays:
-                    result.AppendFormat("every {0} day(s)", mSchedule.DailyEveryNDays);
+                    result.AppendFormat("every {0} day(s)", mInstance.DailyEveryNDays);
                     break;
                 case RecurrencePattern.Daily_EveryWeekday:
                     result.Append("every weekday");
                     break;
                 case RecurrencePattern.Weekly:
-                    result.AppendFormat("every {0} week(s) on", mSchedule.WeeklyEveryNWeeks);
+                    result.AppendFormat("every {0} week(s) on", mInstance.WeeklyEveryNWeeks);
                     for (int i = 0; i < 7; i++)
                     {
-                        if ((mSchedule.WeeklyDaysOfWeek & (short)Math.Pow(2, i)) > 0)
+                        if ((mInstance.WeeklyDaysOfWeek & (short)Math.Pow(2, i)) > 0)
                             result.Append(" " + ((DaysOfWeek)i).ToString());
                     }
                     break;
                 case RecurrencePattern.Monthly_DayNOfEveryNMonths:
-                    result.AppendFormat("on day {0} of every {1} month(s)", mSchedule.MonthlyDay, mSchedule.MonthlyMonth);
+                    result.AppendFormat("on day {0} of every {1} month(s)", mInstance.MonthlyDay, mInstance.MonthlyMonth);
                     break;
                 case RecurrencePattern.Monthly_NthWeekDayOfEveryNMonth:
                     result.AppendFormat("the {0} {1} of every {2} month(s)",
-                        ((DayIndex)mSchedule.MonthlyExDayIndex).ToString(),
-                        ((DayName)mSchedule.MonthlyExDayName).ToString(),
-                        mSchedule.MonthlyExMonth);
+                        ((DayIndex)mInstance.MonthlyExDayIndex).ToString(),
+                        ((DayName)mInstance.MonthlyExDayName).ToString(),
+                        mInstance.MonthlyExMonth);
                     break;
                 case RecurrencePattern.Yearly_DayNOfMonth:
                     result.AppendFormat("yearly every {0} {1}",
-                        ((MonthName)mSchedule.YearlyMonth).ToString(),
-                        mSchedule.YearlyDay);
+                        ((MonthName)mInstance.YearlyMonth).ToString(),
+                        mInstance.YearlyDay);
                     break;
                 case RecurrencePattern.Yearly_NthWeekDayOfMonth:
                     result.AppendFormat("yearly the {0} {1} of {2}",
-                        ((DayIndex)mSchedule.YearlyExDayIndex).ToString(),
-                        ((DayName)mSchedule.YearlyExDayName).ToString(),
-                        ((MonthName)mSchedule.YearlyExMonth).ToString());
+                        ((DayIndex)mInstance.YearlyExDayIndex).ToString(),
+                        ((DayName)mInstance.YearlyExDayName).ToString(),
+                        ((MonthName)mInstance.YearlyExMonth).ToString());
                     break;
             }
 
             result.AppendFormat(" starting {0}", start.Date.ToString("dddd, dd MMMM yyyy"));
 
-            if (!mSchedule.Endless)
+            if (!mInstance.Endless)
             {
-                if (mSchedule.EndOccurrences > 0)
+                if (mInstance.EndOccurrences > 0)
                 {
-                    result.AppendFormat(". Ends after {0} occurrences.", mSchedule.EndOccurrences);
+                    result.AppendFormat(". Ends after {0} occurrences.", mInstance.EndOccurrences);
                 }
                 else
                 {
@@ -631,16 +619,11 @@ namespace SnCore.Services
             return result.ToString();
         }
 
-        public void Delete()
-        {
-            Session.Delete(mSchedule);
-        }
-
         public RecurrencePattern RecurrencePattern
         {
             get
             {
-                return (RecurrencePattern)mSchedule.RecurrencePattern;
+                return (RecurrencePattern)mInstance.RecurrencePattern;
             }
         }
 
@@ -652,12 +635,12 @@ namespace SnCore.Services
         {
             get
             {
-                if (mSchedule.ScheduleInstances == null)
+                if (mInstance.ScheduleInstances == null)
                     return true;
 
-                foreach (ScheduleInstance instance in mSchedule.ScheduleInstances)
+                foreach (ScheduleInstance instance in Collection<ScheduleInstance>.GetSafeCollection(mInstance.ScheduleInstances))
                 {
-                    if (instance.Modified < mSchedule.Modified)
+                    if (instance.Modified < mInstance.Modified)
                         return true;
                 }
 
@@ -672,11 +655,11 @@ namespace SnCore.Services
         /// <returns>number of instances generated</returns>
         public int UpdateInstances()
         {
-            int result = 
-                (RecurrencePattern == RecurrencePattern.None) ? 
+            int result =
+                (RecurrencePattern == RecurrencePattern.None) ?
                     UpdateInstances_None() : UpdateInstances_Recurrent();
 
-            Session.Save(mSchedule);
+            Session.Save(mInstance);
             return result;
         }
 
@@ -687,24 +670,24 @@ namespace SnCore.Services
         /// <returns></returns>
         private ScheduleInstance GetOrCreateScheduleInstance(int index)
         {
-            if (mSchedule.ScheduleInstances == null)
+            if (mInstance.ScheduleInstances == null)
             {
-                mSchedule.ScheduleInstances = new List<ScheduleInstance>();
+                mInstance.ScheduleInstances = new List<ScheduleInstance>();
             }
 
-            if (index < mSchedule.ScheduleInstances.Count)
+            if (index < mInstance.ScheduleInstances.Count)
             {
-                ScheduleInstance instance = (ScheduleInstance) mSchedule.ScheduleInstances[index];
-                instance.Modified = mSchedule.Modified;
+                ScheduleInstance instance = (ScheduleInstance)mInstance.ScheduleInstances[index];
+                instance.Modified = mInstance.Modified;
                 return instance;
             }
 
             ScheduleInstance result = new ScheduleInstance();
-            result.Schedule = mSchedule;
+            result.Schedule = mInstance;
             result.Instance = index;
-            result.Created = result.Modified = mSchedule.Modified;
-            
-            mSchedule.ScheduleInstances.Add(result);
+            result.Created = result.Modified = mInstance.Modified;
+
+            mInstance.ScheduleInstances.Add(result);
 
             return result;
         }
@@ -712,8 +695,8 @@ namespace SnCore.Services
         private int UpdateInstances_None()
         {
             ScheduleInstance instance = GetOrCreateScheduleInstance(0);
-            instance.StartDateTime = mSchedule.StartDateTime;
-            instance.EndDateTime = mSchedule.AllDay ? mSchedule.EndDateTime.AddDays(1) : mSchedule.EndDateTime;
+            instance.StartDateTime = mInstance.StartDateTime;
+            instance.EndDateTime = mInstance.AllDay ? mInstance.EndDateTime.AddDays(1) : mInstance.EndDateTime;
             Session.Save(instance);
             return 1;
         }
@@ -727,11 +710,11 @@ namespace SnCore.Services
                 return true;
 
             // end after X occurrences
-            if (mSchedule.EndOccurrences > 0 && ! mSchedule.Endless && (instance >= mSchedule.EndOccurrences))
+            if (mInstance.EndOccurrences > 0 && !mInstance.Endless && (instance >= mInstance.EndOccurrences))
                 return true;
 
             // an event that is not endless ends on EndDateTime
-            if ((mSchedule.EndOccurrences == 0 && ! mSchedule.Endless && (current > mSchedule.EndDateTime)))
+            if ((mInstance.EndOccurrences == 0 && !mInstance.Endless && (current > mInstance.EndDateTime)))
                 return true;
 
             return false;
@@ -744,7 +727,7 @@ namespace SnCore.Services
                 // every n days, simply adds number of days
                 case RecurrencePattern.Daily_EveryNDays:
                     {
-                        current = current.AddDays(mSchedule.DailyEveryNDays);
+                        current = current.AddDays(mInstance.DailyEveryNDays);
                         break;
                     }
                 // every week-day skips week-end days
@@ -761,7 +744,7 @@ namespace SnCore.Services
                 case RecurrencePattern.Weekly:
                     {
                         // if doesn't ever occur (should be disallowed by UI)
-                        if (mSchedule.WeeklyDaysOfWeek == 0)
+                        if (mInstance.WeeklyDaysOfWeek == 0)
                         {
                             throw new Exception("No days of week selected for a weekly schedule.");
                         }
@@ -770,7 +753,7 @@ namespace SnCore.Services
                             do
                             {
                                 current = current.AddDays(1);
-                            } while (((short)Math.Pow(2, (short)current.DayOfWeek) & mSchedule.WeeklyDaysOfWeek) == 0) ;
+                            } while (((short)Math.Pow(2, (short)current.DayOfWeek) & mInstance.WeeklyDaysOfWeek) == 0);
                         }
 
                         break;
@@ -785,56 +768,56 @@ namespace SnCore.Services
                             {
                                 current = current.AddDays(1);
                             }
-                            while (current.Day != mSchedule.MonthlyDay);
+                            while (current.Day != mInstance.MonthlyDay);
 
                             skipped++;
                         }
-                        while (mSchedule.MonthlyMonth != 0 && skipped != mSchedule.MonthlyMonth);
+                        while (mInstance.MonthlyMonth != 0 && skipped != mInstance.MonthlyMonth);
                         break;
                     }
 
-                // the ((DayIndex)mSchedule.MonthlyExDayIndex) 
-                // (DayName)mSchedule.MonthlyExDayName 
-                // of every mSchedule.MonthlyExMonth month(s)
+                // the ((DayIndex)mInstance.MonthlyExDayIndex) 
+                // (DayName)mInstance.MonthlyExDayName 
+                // of every mInstance.MonthlyExMonth month(s)
                 case RecurrencePattern.Monthly_NthWeekDayOfEveryNMonth:
                     {
                         int skipped_matchingmonth = 0;
                         do
                         {
-                            while(true)
+                            while (true)
                             {
                                 current = current.AddDays(1);
 
                                 // is this a matching day name
                                 if (
-                                    mSchedule.MonthlyExDayName == (int) current.DayOfWeek ||
-                                    mSchedule.MonthlyExDayName == (short) DayName.day ||
-                                    (mSchedule.MonthlyExDayName == (short) DayName.weekday 
-                                        && current.DayOfWeek != DayOfWeek.Sunday 
+                                    mInstance.MonthlyExDayName == (int)current.DayOfWeek ||
+                                    mInstance.MonthlyExDayName == (short)DayName.day ||
+                                    (mInstance.MonthlyExDayName == (short)DayName.weekday
+                                        && current.DayOfWeek != DayOfWeek.Sunday
                                         && current.DayOfWeek != DayOfWeek.Saturday) ||
-                                    (mSchedule.MonthlyExDayName == (short) DayName.weekendday 
-                                        && (current.DayOfWeek == DayOfWeek.Sunday 
+                                    (mInstance.MonthlyExDayName == (short)DayName.weekendday
+                                        && (current.DayOfWeek == DayOfWeek.Sunday
                                             || current.DayOfWeek == DayOfWeek.Saturday))
                                    )
                                 {
                                     // is it the last occurence this month?
-                                    if (mSchedule.MonthlyExDayIndex == (short)DayIndex.last &&
+                                    if (mInstance.MonthlyExDayIndex == (short)DayIndex.last &&
                                         CBusinessDay.IsLastDayOfWeekOccurrenceThisMonth(current))
                                         break;
-                                    
+
                                     // which occurrence is it this month?
-                                    if (CBusinessDay.GetDayOfWeekOccurrenceThisMonth(current) == mSchedule.MonthlyExDayIndex)
+                                    if (CBusinessDay.GetDayOfWeekOccurrenceThisMonth(current) == mInstance.MonthlyExDayIndex)
                                         break;
                                 }
                             }
 
                             skipped_matchingmonth++;
                         }
-                        while (mSchedule.MonthlyExMonth != 0 && skipped_matchingmonth != mSchedule.MonthlyExMonth);
+                        while (mInstance.MonthlyExMonth != 0 && skipped_matchingmonth != mInstance.MonthlyExMonth);
                         break;
                     }
 
-                 // yearly every ((MonthName)mSchedule.YearlyMonth) YearlyDay
+                // yearly every ((MonthName)mInstance.YearlyMonth) YearlyDay
                 case RecurrencePattern.Yearly_DayNOfMonth:
                     {
                         current = current.AddDays(1); // skip the current instance
@@ -845,7 +828,7 @@ namespace SnCore.Services
                         do
                         {
                             // get the instance next year
-                            result = new DateTime(result.Year + 1, mSchedule.YearlyMonth, mSchedule.YearlyDay)
+                            result = new DateTime(result.Year + 1, mInstance.YearlyMonth, mInstance.YearlyDay)
                                 .Add(current.TimeOfDay);
 
                         } while (current > result);
@@ -854,7 +837,7 @@ namespace SnCore.Services
                         break;
                     }
 
-                // yearly the ((DayIndex)mSchedule.YearlyExDayIndex) ((DayName)mSchedule.YearlyExDayName) of ((MonthName)mSchedule.YearlyExMonth)
+                // yearly the ((DayIndex)mInstance.YearlyExDayIndex) ((DayName)mInstance.YearlyExDayName) of ((MonthName)mInstance.YearlyExMonth)
                 case RecurrencePattern.Yearly_NthWeekDayOfMonth:
                     {
                         current = current.AddDays(1); // skip the current instance
@@ -865,20 +848,20 @@ namespace SnCore.Services
                         do
                         {
                             // get the instance next year
-                            result = new DateTime(result.Year + 1, mSchedule.YearlyExMonth, 1)
+                            result = new DateTime(result.Year + 1, mInstance.YearlyExMonth, 1)
                                 .Add(current.TimeOfDay);
 
                             while (true)
                             {
-                                if ((short) result.DayOfWeek == mSchedule.YearlyExDayName)
+                                if ((short)result.DayOfWeek == mInstance.YearlyExDayName)
                                 {
                                     // is it the last occurence this month?
-                                    if (mSchedule.YearlyExDayIndex == (short)DayIndex.last &&
+                                    if (mInstance.YearlyExDayIndex == (short)DayIndex.last &&
                                         CBusinessDay.IsLastDayOfWeekOccurrenceThisMonth(result))
                                         break;
 
                                     // which occurrence is it this month?
-                                    if (CBusinessDay.GetDayOfWeekOccurrenceThisMonth(result) == mSchedule.YearlyExDayIndex)
+                                    if (CBusinessDay.GetDayOfWeekOccurrenceThisMonth(result) == mInstance.YearlyExDayIndex)
                                         break;
                                 }
 
@@ -899,18 +882,18 @@ namespace SnCore.Services
             // find the first occurrence starting with yesterday (this morning)
 
             // daily schedule is an exception, it's not a search and starts today
-            DateTime current = (RecurrencePattern == RecurrencePattern.Daily_EveryNDays) 
-                ? mSchedule.StartDateTime 
-                : GetNextRecurrence(mSchedule.StartDateTime.AddDays(-1));
-        
+            DateTime current = (RecurrencePattern == RecurrencePattern.Daily_EveryNDays)
+                ? mInstance.StartDateTime
+                : GetNextRecurrence(mInstance.StartDateTime.AddDays(-1));
+
             int instance = 0;
-            while (! IsRecurrentPastDate(current, instance))
+            while (!IsRecurrentPastDate(current, instance))
             {
                 ScheduleInstance si = GetOrCreateScheduleInstance(instance);
                 // starts on the date, with a timeofday delta (days may have 23 hours for daylight saving)
-                si.StartDateTime = current.Date.Add(mSchedule.StartDateTime.TimeOfDay);
+                si.StartDateTime = current.Date.Add(mInstance.StartDateTime.TimeOfDay);
                 // add the duration of the recurrent event
-                si.EndDateTime = current.Add(mSchedule.EndDateTime.TimeOfDay - mSchedule.StartDateTime.TimeOfDay);
+                si.EndDateTime = current.Add(mInstance.EndDateTime.TimeOfDay - mInstance.StartDateTime.TimeOfDay);
                 // instance number
                 si.Instance = instance;
                 // save
@@ -922,6 +905,21 @@ namespace SnCore.Services
 
             return instance;
         }
-    }
 
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
+            UpdateInstances();
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowCreateAndRetrieve());
+            acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
+            return acl;
+        }
+    }
 }

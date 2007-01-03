@@ -12,7 +12,7 @@ using System.IO;
 
 namespace SnCore.Services
 {
-    public class TransitBugProject : TransitService
+    public class TransitBugProject : TransitService<BugProject>
     {
         private string mName;
 
@@ -20,7 +20,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mName;
             }
             set
@@ -35,7 +34,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mDescription;
             }
             set
@@ -79,31 +77,32 @@ namespace SnCore.Services
 
         }
 
-        public TransitBugProject(BugProject o)
-            : base(o.Id)
+        public TransitBugProject(BugProject value)
+            : base(value)
         {
-            Name = o.Name;
-            Description = o.Description;
-            Created = o.Created;
-            Modified = o.Modified;
+
         }
 
-        public BugProject GetBugProject(ISession session)
+        public override void SetInstance(BugProject value)
         {
-            BugProject p = (Id != 0) ? (BugProject)session.Load(typeof(BugProject), Id) : new BugProject();
-            p.Name = this.Name;
-            p.Description = this.Description;
-            return p;
+            Name = value.Name;
+            Description = value.Description;
+            Created = value.Created;
+            Modified = value.Modified;
+            base.SetInstance(value);
+        }
+
+        public override BugProject GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            BugProject instance = base.GetInstance(session, sec);
+            instance.Name = this.Name;
+            instance.Description = this.Description;
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed bug project.
-    /// </summary>
-    public class ManagedBugProject : ManagedService<BugProject>
+    public class ManagedBugProject : ManagedService<BugProject, TransitBugProject>
     {
-        private BugProject mBugProject = null;
-
         public ManagedBugProject(ISession session)
             : base(session)
         {
@@ -111,50 +110,15 @@ namespace SnCore.Services
         }
 
         public ManagedBugProject(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mBugProject = (BugProject)session.Load(typeof(BugProject), id);
+
         }
 
         public ManagedBugProject(ISession session, BugProject value)
-            : base(session)
+            : base(session, value)
         {
-            mBugProject = value;
-        }
 
-        public ManagedBugProject(ISession session, TransitBugProject value)
-            : base(session)
-        {
-            mBugProject = value.GetBugProject(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mBugProject.Id;
-            }
-        }
-
-        public TransitBugProject TransitBugProject
-        {
-            get
-            {
-                return new TransitBugProject(mBugProject);
-            }
-        }
-
-        public void CreateOrUpdate(TransitBugProject o)
-        {
-            mBugProject = o.GetBugProject(Session);
-            mBugProject.Modified = DateTime.UtcNow;
-            if (Id == 0) mBugProject.Created = mBugProject.Modified;
-            Session.Save(mBugProject);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mBugProject);
         }
 
         public static BugProject Find(ISession session, string name)
@@ -169,5 +133,18 @@ namespace SnCore.Services
             return Find(session, name).Id;
         }
 
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            return acl;
+        }
     }
 }

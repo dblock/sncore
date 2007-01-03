@@ -12,7 +12,7 @@ using System.IO;
 
 namespace SnCore.Services
 {
-    public class TransitBugPriority : TransitService
+    public class TransitBugPriority : TransitService<BugPriority>
     {
         private string mName;
 
@@ -34,26 +34,32 @@ namespace SnCore.Services
 
         }
 
-        public TransitBugPriority(BugPriority o)
-            : base(o.Id)
+        public TransitBugPriority(BugPriority value)
+            : base(value)
         {
-            Name = o.Name;
+
         }
 
-        public BugPriority GetBugPriority(ISession session)
+        public override void SetInstance(BugPriority value)
         {
-            BugPriority p = (Id != 0) ? (BugPriority)session.Load(typeof(BugPriority), Id) : new BugPriority();
-            p.Name = this.Name;
-            return p;
+            Name = value.Name;
+            base.SetInstance(value);
+        }
+
+        public override BugPriority GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            BugPriority instance = base.GetInstance(session, sec);
+            instance.Name = this.Name;
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed bug Priority.
-    /// </summary>
-    public class ManagedBugPriority : ManagedService<BugPriority>
+    public class ManagedBugPriority : ManagedService<BugPriority, TransitBugPriority>
     {
-        private BugPriority mBugPriority = null;
+        public ManagedBugPriority()
+        {
+
+        }
 
         public ManagedBugPriority(ISession session)
             : base(session)
@@ -62,48 +68,15 @@ namespace SnCore.Services
         }
 
         public ManagedBugPriority(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mBugPriority = (BugPriority)session.Load(typeof(BugPriority), id);
+
         }
 
         public ManagedBugPriority(ISession session, BugPriority value)
-            : base(session)
+            : base(session, value)
         {
-            mBugPriority = value;
-        }
 
-        public ManagedBugPriority(ISession session, TransitBugPriority value)
-            : base(session)
-        {
-            mBugPriority = value.GetBugPriority(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mBugPriority.Id;
-            }
-        }
-
-        public TransitBugPriority TransitBugPriority
-        {
-            get
-            {
-                return new TransitBugPriority(mBugPriority);
-            }
-        }
-
-        public void CreateOrUpdate(TransitBugPriority o)
-        {
-            mBugPriority = o.GetBugPriority(Session);
-            Session.Save(mBugPriority);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mBugPriority);
         }
 
         public static BugPriority Find(ISession session, string name)
@@ -116,6 +89,13 @@ namespace SnCore.Services
         public static int FindId(ISession session, string name)
         {
             return Find(session, name).Id;
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            return acl;
         }
     }
 }

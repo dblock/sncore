@@ -12,7 +12,7 @@ using System.IO;
 
 namespace SnCore.Services
 {
-    public class TransitAccountProperty : TransitService
+    public class TransitAccountProperty : TransitService<AccountProperty>
     {
         private bool mPublish;
 
@@ -104,34 +104,38 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountProperty(AccountProperty o)
-            : base(o.Id)
+        public TransitAccountProperty(AccountProperty value)
+            : base(value)
         {
-            Name = o.Name;
-            Description = o.Description;
-            Type = Type.GetType(o.TypeName);
-            DefaultValue = o.DefaultValue;
-            Publish = o.Publish;
-            AccountPropertyGroupId = o.AccountPropertyGroup.Id;
+
         }
 
-        public AccountProperty GetAccountProperty(ISession session)
+        public override void SetInstance(AccountProperty value)
         {
-            AccountProperty p = (Id != 0) ? (AccountProperty)session.Load(typeof(AccountProperty), Id) : new AccountProperty();
-            p.AccountPropertyGroup = (AccountPropertyGroupId > 0) ? (AccountPropertyGroup)session.Load(typeof(AccountPropertyGroup), AccountPropertyGroupId) : null;
-            p.Name = this.Name;
-            p.Description = this.Description;
-            p.DefaultValue = this.DefaultValue;
-            p.TypeName = this.Type.ToString();
-            p.Publish = this.Publish;
-            return p;
+            Name = value.Name;
+            Description = value.Description;
+            Type = Type.GetType(value.TypeName);
+            DefaultValue = value.DefaultValue;
+            Publish = value.Publish;
+            AccountPropertyGroupId = value.AccountPropertyGroup.Id;
+            base.SetInstance(value);
+        }
+
+        public override AccountProperty GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            AccountProperty instance = base.GetInstance(session, sec);
+            instance.AccountPropertyGroup = (AccountPropertyGroupId > 0) ? (AccountPropertyGroup)session.Load(typeof(AccountPropertyGroup), AccountPropertyGroupId) : null;
+            instance.Name = this.Name;
+            instance.Description = this.Description;
+            instance.DefaultValue = this.DefaultValue;
+            instance.TypeName = this.Type.ToString();
+            instance.Publish = this.Publish;
+            return instance;
         }
     }
 
-    public class ManagedAccountProperty : ManagedService<AccountProperty>
+    public class ManagedAccountProperty : ManagedService<AccountProperty, TransitAccountProperty>
     {
-        private AccountProperty mAccountProperty = null;
-
         public ManagedAccountProperty(ISession session)
             : base(session)
         {
@@ -139,48 +143,22 @@ namespace SnCore.Services
         }
 
         public ManagedAccountProperty(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountProperty = (AccountProperty)session.Load(typeof(AccountProperty), id);
+
         }
 
         public ManagedAccountProperty(ISession session, AccountProperty value)
-            : base(session)
+            : base(session, value)
         {
-            mAccountProperty = value;
+
         }
 
-        public ManagedAccountProperty(ISession session, TransitAccountProperty value)
-            : base(session)
+        public override ACL GetACL()
         {
-            mAccountProperty = value.GetAccountProperty(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mAccountProperty.Id;
-            }
-        }
-
-        public TransitAccountProperty TransitAccountProperty
-        {
-            get
-            {
-                return new TransitAccountProperty(mAccountProperty);
-            }
-        }
-
-        public void CreateOrUpdate(TransitAccountProperty o)
-        {
-            mAccountProperty = o.GetAccountProperty(Session);
-            Session.Save(mAccountProperty);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mAccountProperty);
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            return acl;
         }
     }
 }

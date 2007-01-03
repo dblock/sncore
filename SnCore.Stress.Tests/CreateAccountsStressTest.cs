@@ -46,6 +46,8 @@ namespace SnCore.Stress.Tests
 
         public void CreateManyAccounts(int count)
         {
+            ManagedSecurityContext sec = ManagedAccount.GetAdminSecurityContext(Session);
+
             TransitCountry tc = new TransitCountry();
             tc.Name = Guid.NewGuid().ToString();
             TransitState ts = new TransitState();
@@ -53,10 +55,10 @@ namespace SnCore.Stress.Tests
             ts.Country = tc.Name;
 
             ManagedCountry c = new ManagedCountry(Session);
-            c.Create(tc);
+            c.CreateOrUpdate(tc, sec);
 
             ManagedState s = new ManagedState(Session);
-            s.Create(ts);
+            s.CreateOrUpdate(ts, sec);
 
             TransitAccountAddress ta = new TransitAccountAddress();
             ta.Apt = "123";
@@ -76,9 +78,11 @@ namespace SnCore.Stress.Tests
                     name,
                     "password",
                     string.Format("{0}@localhost.com", name),
-                    DateTime.UtcNow);
+                    DateTime.UtcNow, 
+                    sec);
 
-                a.CreateOrUpdate(ta);
+                ManagedAccountAddress ma = new ManagedAccountAddress(Session);
+                ma.CreateOrUpdate(ta, a.GetSecurityContext());
             }
         }
 
@@ -109,7 +113,8 @@ namespace SnCore.Stress.Tests
                     }
 
                     ManagedAccount ma = new ManagedAccount(Session, a);
-                    ma.CreateOrUpdate(s);
+                    ManagedAccountStory ms = new ManagedAccountStory(Session);
+                    ms.CreateOrUpdate(s, ma.GetSecurityContext());
                 }
             }
         }

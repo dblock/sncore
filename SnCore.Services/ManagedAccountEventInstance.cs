@@ -116,7 +116,7 @@ namespace SnCore.Services
         }
     };
 
-    public class TransitAccountEventInstance : TransitService
+    public class TransitAccountEventInstance : TransitService<ScheduleInstance>
     {
         private int mAccountEventId = 0;
 
@@ -454,15 +454,20 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountEventInstance(ScheduleInstance si)
-            : base(si.Id)
+        public TransitAccountEventInstance(ScheduleInstance instance)
+            : base(instance)
         {
-            if (si.Schedule.AccountEvents == null || si.Schedule.AccountEvents.Count != 1)
+
+        }
+
+        public override void SetInstance(ScheduleInstance instance)
+        {
+            if (instance.Schedule.AccountEvents == null || instance.Schedule.AccountEvents.Count != 1)
             {
-                throw new Exception(string.Format("Orphaned schedule instance {0}.", si.Id));
+                throw new Exception(string.Format("Orphaned schedule instance {0}.", instance.Id));
             }
 
-            AccountEvent evt = (AccountEvent)si.Schedule.AccountEvents[0];
+            AccountEvent evt = (AccountEvent)instance.Schedule.AccountEvents[0];
 
             AccountEventId = evt.Id;
             AccountEventType = evt.AccountEventType.Name;
@@ -483,11 +488,22 @@ namespace SnCore.Services
             Email = evt.Email;
             Website = evt.Website;
             Cost = evt.Cost;
-            PictureId = ManagedService<AccountEventPicture>.GetRandomElementId(evt.AccountEventPictures);
+            PictureId = ManagedService<AccountEventPicture, TransitAccountEventPicture>.GetRandomElementId(evt.AccountEventPictures);
 
-            StartDateTime = si.StartDateTime;
-            EndDateTime = si.EndDateTime;
-            Instance = si.Instance;
+            StartDateTime = instance.StartDateTime;
+            EndDateTime = instance.EndDateTime;
+            Instance = instance.Instance;
+
+            base.SetInstance(instance);
+        }
+
+        public override ScheduleInstance GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            ScheduleInstance instance = base.GetInstance(session, sec);
+            if (ScheduleId > 0) instance.Schedule = (Schedule) session.Load(typeof(Schedule), ScheduleId);
+            instance.EndDateTime = EndDateTime;
+            instance.StartDateTime = StartDateTime;
+            return instance;
         }
     }
 }

@@ -12,7 +12,7 @@ using System.IO;
 
 namespace SnCore.Services
 {
-    public class TransitCampaignAccountRecepient : TransitService
+    public class TransitCampaignAccountRecepient : TransitService<CampaignAccountRecepient>
     {
         private int mCampaignId;
 
@@ -116,35 +116,39 @@ namespace SnCore.Services
 
         }
 
-        public TransitCampaignAccountRecepient(CampaignAccountRecepient c)
-            : base(c.Id)
+        public TransitCampaignAccountRecepient(CampaignAccountRecepient value)
+            : base(value)
         {
-            CampaignId = c.Campaign.Id;
-            AccountId = c.Account.Id;
-            Sent = c.Sent;
-            Created = c.Created;
-            Modified = c.Modified;
-            LastError = c.LastError;
-            mAccount = new TransitAccount(c.Account);
+
         }
 
-        public CampaignAccountRecepient GetCampaignAccountRecepient(ISession session)
+        public override void SetInstance(CampaignAccountRecepient value)
         {
-            CampaignAccountRecepient p = (Id != 0) ? (CampaignAccountRecepient)session.Load(typeof(CampaignAccountRecepient), Id) : new CampaignAccountRecepient();
-            if (CampaignId > 0) p.Campaign = (Campaign)session.Load(typeof(Campaign), CampaignId);
-            if (AccountId > 0) p.Account = (Account)session.Load(typeof(Account), AccountId);
-            p.Sent = this.Sent;
-            return p;
+            CampaignId = value.Campaign.Id;
+            AccountId = value.Account.Id;
+            Sent = value.Sent;
+            Created = value.Created;
+            Modified = value.Modified;
+            LastError = value.LastError;
+            mAccount = new TransitAccount(value.Account);
+            base.SetInstance(value);
+        }
+
+        public override CampaignAccountRecepient GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            CampaignAccountRecepient instance = base.GetInstance(session, sec);
+            if (Id == 0)
+            {
+                instance.Campaign = (Campaign)session.Load(typeof(Campaign), CampaignId);
+                instance.Account = GetOwner(session, AccountId, sec);
+            }
+            instance.Sent = this.Sent;
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed CampaignAccountRecepient.
-    /// </summary>
-    public class ManagedCampaignAccountRecepient : ManagedService<CampaignAccountRecepient>
+    public class ManagedCampaignAccountRecepient : ManagedService<CampaignAccountRecepient, TransitCampaignAccountRecepient>
     {
-        private CampaignAccountRecepient mCampaignAccountRecepient = null;
-
         public ManagedCampaignAccountRecepient(ISession session)
             : base(session)
         {
@@ -152,44 +156,28 @@ namespace SnCore.Services
         }
 
         public ManagedCampaignAccountRecepient(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mCampaignAccountRecepient = (CampaignAccountRecepient)session.Load(typeof(CampaignAccountRecepient), id);
+
         }
 
         public ManagedCampaignAccountRecepient(ISession session, CampaignAccountRecepient value)
-            : base(session)
+            : base(session, value)
         {
-            mCampaignAccountRecepient = value;
+
         }
 
-        public int Id
+        protected override void Save(ManagedSecurityContext sec)
         {
-            get
-            {
-                return mCampaignAccountRecepient.Id;
-            }
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
         }
 
-        public TransitCampaignAccountRecepient TransitCampaignAccountRecepient
+        public override ACL GetACL()
         {
-            get
-            {
-                return new TransitCampaignAccountRecepient(mCampaignAccountRecepient);
-            }
-        }
-
-        public void CreateOrUpdate(TransitCampaignAccountRecepient c)
-        {
-            mCampaignAccountRecepient = c.GetCampaignAccountRecepient(Session);
-            mCampaignAccountRecepient.Modified = DateTime.UtcNow;
-            if (mCampaignAccountRecepient.Id == 0) mCampaignAccountRecepient.Created = mCampaignAccountRecepient.Modified;
-            Session.Save(mCampaignAccountRecepient);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mCampaignAccountRecepient);
+            ACL acl = base.GetACL();
+            return acl;
         }
     }
 }

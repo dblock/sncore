@@ -3,10 +3,11 @@ using NHibernate;
 using System.Collections;
 using System.IO;
 using SnCore.Tools.Drawing;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
-    public class TransitPlaceName : TransitService
+    public class TransitPlaceName : TransitService<PlaceName>
     {
         private string mName;
 
@@ -73,31 +74,32 @@ namespace SnCore.Services
 
         }
 
-        public TransitPlaceName(PlaceName p)
-            : base(p.Id)
+        public TransitPlaceName(PlaceName instance)
+            : base(instance)
         {
-            Name = p.Name;
-            Created = p.Created;
-            Modified = p.Modified;
-            PlaceId = p.Place.Id;
+
         }
 
-        public virtual PlaceName GetPlaceName(ISession session)
+        public override void SetInstance(PlaceName instance)
         {
-            PlaceName p = (Id > 0) ? (PlaceName)session.Load(typeof(PlaceName), Id) : new PlaceName();
-            p.Name = this.Name;
-            p.Place = (Place)session.Load(typeof(Place), PlaceId);
-            return p;
+            Name = instance.Name;
+            Created = instance.Created;
+            Modified = instance.Modified;
+            PlaceId = instance.Place.Id;
+            base.SetInstance(instance);
+        }
+
+        public override PlaceName GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            PlaceName instance = base.GetInstance(session, sec);
+            instance.Name = this.Name;
+            instance.Place = (Place)session.Load(typeof(Place), PlaceId);
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed place alternative name.
-    /// </summary>
-    public class ManagedPlaceName : ManagedService<PlaceName>
+    public class ManagedPlaceName : ManagedService<PlaceName, TransitPlaceName>
     {
-        private PlaceName mPlaceName = null;
-
         public ManagedPlaceName(ISession session)
             : base(session)
         {
@@ -105,30 +107,22 @@ namespace SnCore.Services
         }
 
         public ManagedPlaceName(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mPlaceName = (PlaceName)session.Load(typeof(PlaceName), id);
+
         }
 
         public ManagedPlaceName(ISession session, PlaceName value)
-            : base(session)
+            : base(session, value)
         {
-            mPlaceName = value;
-        }
 
-        public int Id
-        {
-            get
-            {
-                return mPlaceName.Id;
-            }
         }
 
         public string Name
         {
             get
             {
-                return mPlaceName.Name;
+                return mInstance.Name;
             }
         }
 
@@ -136,7 +130,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mPlaceName.Created;
+                return mInstance.Created;
             }
         }
 
@@ -144,37 +138,36 @@ namespace SnCore.Services
         {
             get
             {
-                return mPlaceName.Modified;
+                return mInstance.Modified;
             }
-        }
-
-        public TransitPlaceName TransitPlaceName
-        {
-            get
-            {
-                return new TransitPlaceName(mPlaceName);
-            }
-        }
-
-        public void CreateOrUpdate(TransitPlaceName o)
-        {
-            mPlaceName = o.GetPlaceName(Session);
-            mPlaceName.Modified = DateTime.UtcNow;
-            if (Id == 0) mPlaceName.Created = mPlaceName.Modified;
-            Session.Save(mPlaceName);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mPlaceName);
         }
 
         public Place Place
         {
             get
             {
-                return mPlaceName.Place;
+                return mInstance.Place;
             }
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            acl.Add(new ACLAccount(mInstance.Place.Account, DataOperation.All));
+            foreach (AccountPlace relationship in Collection<AccountPlace>.GetSafeCollection(mInstance.Place.AccountPlaces))
+            {
+                acl.Add(new ACLAccount(relationship.Account,
+                    relationship.Type.CanWrite ? DataOperation.Update : DataOperation.Retreive));
+            }
+            return acl;
         }
     }
 }

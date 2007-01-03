@@ -13,7 +13,7 @@ using SnCore.Tools.Web;
 
 namespace SnCore.Services
 {
-    public class TransitMadLibInstance : TransitService
+    public class TransitMadLibInstance : TransitService<MadLibInstance>
     {
         private string mText;
 
@@ -176,37 +176,38 @@ namespace SnCore.Services
 
         }
 
-        public TransitMadLibInstance(MadLibInstance c)
-            : base(c.Id)
+        public TransitMadLibInstance(MadLibInstance instance)
+            : base(instance)
         {
-            AccountId = c.AccountId;
-            Text = c.Text;
-            ObjectId = c.ObjectId;
-            ObjectName = c.DataObject.Name;
-            MadLibId = c.MadLib.Id;
-            Created = c.Created;
-            Modified = c.Modified;
+
         }
 
-        public MadLibInstance GetMadLibInstance(ISession session)
+        public override void SetInstance(MadLibInstance instance)
         {
-            MadLibInstance p = (Id != 0) ? (MadLibInstance)session.Load(typeof(MadLibInstance), Id) : new MadLibInstance();
-            if (Id == 0) p.MadLib = (MadLib)session.Load(typeof(MadLib), this.MadLibId);
-            p.Text = this.Text;
-            p.ObjectId = this.ObjectId;
-            p.DataObject = ManagedDataObject.FindObject(session, this.ObjectName);
-            p.AccountId = this.AccountId;
-            return p;
+            AccountId = instance.AccountId;
+            Text = instance.Text;
+            ObjectId = instance.ObjectId;
+            ObjectName = instance.DataObject.Name;
+            MadLibId = instance.MadLib.Id;
+            Created = instance.Created;
+            Modified = instance.Modified;
+            base.SetInstance(instance);
+        }
+
+        public override MadLibInstance GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            MadLibInstance instance = base.GetInstance(session, sec);
+            if (Id == 0) instance.MadLib = (MadLib)session.Load(typeof(MadLib), this.MadLibId);
+            instance.Text = this.Text;
+            instance.ObjectId = this.ObjectId;
+            instance.DataObject = ManagedDataObject.FindObject(session, this.ObjectName);
+            instance.AccountId = this.AccountId;
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed MadLibInstance.
-    /// </summary>
-    public class ManagedMadLibInstance : ManagedService<MadLibInstance>
+    public class ManagedMadLibInstance : ManagedService<MadLibInstance, TransitMadLibInstance>
     {
-        private MadLibInstance mMadLibInstance = null;
-
         public ManagedMadLibInstance(ISession session)
             : base(session)
         {
@@ -214,79 +215,45 @@ namespace SnCore.Services
         }
 
         public ManagedMadLibInstance(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mMadLibInstance = (MadLibInstance)session.Load(typeof(MadLibInstance), id);
+
         }
 
         public ManagedMadLibInstance(ISession session, MadLibInstance value)
-            : base(session)
+            : base(session, value)
         {
-            mMadLibInstance = value;
+
         }
 
-        public ManagedMadLibInstance(ISession session, TransitMadLibInstance value)
-            : base(session)
+        public override TransitMadLibInstance GetTransitInstance(ManagedSecurityContext sec)
         {
-            mMadLibInstance = value.GetMadLibInstance(session);
-        }
+            TransitMadLibInstance instance = base.GetTransitInstance(sec);
 
-        public int Id
-        {
-            get
+            try
             {
-                return mMadLibInstance.Id;
+                Account acct = (Account)Session.Load(typeof(Account), mInstance.AccountId);
+                instance.AccountName = (acct != null) ? acct.Name : "Unknown User";
+                instance.AccountPictureId = ManagedAccount.GetRandomAccountPictureId(acct);
             }
-        }
-
-        public int AccountId
-        {
-            get
+            catch (ObjectNotFoundException)
             {
-                return mMadLibInstance.AccountId;
-            }
-        }
 
-        public TransitMadLibInstance TransitMadLibInstance
-        {
-            get
-            {
-                TransitMadLibInstance instance = new TransitMadLibInstance(mMadLibInstance);
-
-                try
-                {
-                    Account acct = (Account)Session.Load(typeof(Account), mMadLibInstance.AccountId);
-                    instance.AccountName = (acct != null) ? acct.Name : "Unknown User";
-                    instance.AccountPictureId = ManagedAccount.GetRandomAccountPictureId(acct);
-                }
-                catch (ObjectNotFoundException)
-                {
-
-                }
-
-                return instance;
-            }
-        }
-
-        public void CreateOrUpdate(TransitMadLibInstance c)
-        {
-            mMadLibInstance = c.GetMadLibInstance(Session);
-            mMadLibInstance.Modified = DateTime.UtcNow;
-            
-            if (mMadLibInstance.Id == 0)
-            {
-                mMadLibInstance.Created = mMadLibInstance.Modified;
             }
 
-            Session.Save(mMadLibInstance);
-            Session.Flush();
+            return instance;
+        }
 
-            if (c.Id == 0 && c.ObjectAccountId > 0)
+        public override int CreateOrUpdate(TransitMadLibInstance instance, ManagedSecurityContext sec)
+        {
+            base.CreateOrUpdate(instance, sec);
+
+            if (instance.Id == 0 && instance.ObjectAccountId > 0)
             {
                 try
                 {
-                    ManagedAccount ra = new ManagedAccount(Session, c.AccountId);
-                    ManagedAccount ma = new ManagedAccount(Session, c.ObjectAccountId);
+                    ManagedAccount ra = new ManagedAccount(Session, instance.AccountId);
+                    ManagedAccount ma = new ManagedAccount(Session, instance.ObjectAccountId);
 
                     if (ra.Id != ma.Id)
                     {
@@ -297,8 +264,8 @@ namespace SnCore.Services
                                 Session,
                                 new MailAddress(replyTo, ma.Name).ToString(),
                                 string.Format("EmailAccountMadLibInstance.aspx?aid={0}&ObjectName={1}&oid={2}&mid={3}&id={4}&ReturnUrl={5}",
-                                    c.ObjectAccountId, mMadLibInstance.DataObject.Name, mMadLibInstance.ObjectId, 
-                                    mMadLibInstance.MadLib.Id, mMadLibInstance.Id, Renderer.UrlEncode(c.ObjectUri)));
+                                    instance.ObjectAccountId, mInstance.DataObject.Name, mInstance.ObjectId,
+                                    mInstance.MadLib.Id, mInstance.Id, Renderer.UrlEncode(instance.ObjectUri)));
                         }
                     }
                 }
@@ -307,12 +274,30 @@ namespace SnCore.Services
                     // replying to an account that does not exist
                 }
             }
-            
+
+            return mInstance.Id;
         }
 
-        public void Delete()
+        protected override void Save(ManagedSecurityContext sec)
         {
-            Session.Delete(mMadLibInstance);
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowCreateAndRetrieve());
+            try
+            {
+                acl.Add(new ACLAccount((Account)Session.Load(typeof(Account), mInstance.AccountId), DataOperation.All));
+            }
+            catch (ObjectNotFoundException)
+            {
+
+            }
+            return acl;
         }
     }
 }

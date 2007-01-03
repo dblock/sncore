@@ -12,7 +12,7 @@ using System.IO;
 
 namespace SnCore.Services
 {
-    public class TransitFeedType : TransitService
+    public class TransitFeedType : TransitService<FeedType>
     {
         private string mName;
 
@@ -110,33 +110,37 @@ namespace SnCore.Services
         }
 
         public TransitFeedType(FeedType o)
-            : base(o.Id)
+            : base(o)
         {
-            Name = o.Name;
-            Xsl = o.Xsl;
-            SpanRows = o.SpanRows;
-            SpanColumns = o.SpanColumns;
-            SpanRowsPreview = o.SpanRowsPreview;
-            SpanColumnsPreview = o.SpanColumnsPreview;
+
         }
 
-        public FeedType GetFeedType(ISession session)
+        public override void SetInstance(FeedType value)
         {
-            FeedType p = (Id != 0) ? (FeedType)session.Load(typeof(FeedType), Id) : new FeedType();
-            p.Name = this.Name;
-            p.SpanColumns = this.SpanColumns;
-            p.SpanRows = this.SpanRows;
-            p.SpanColumnsPreview = this.SpanColumnsPreview;
-            p.SpanRowsPreview = this.SpanRowsPreview;
-            if (!string.IsNullOrEmpty(this.Xsl)) p.Xsl = this.Xsl;
-            return p;
+            Name = value.Name;
+            Xsl = value.Xsl;
+            SpanRows = value.SpanRows;
+            SpanColumns = value.SpanColumns;
+            SpanRowsPreview = value.SpanRowsPreview;
+            SpanColumnsPreview = value.SpanColumnsPreview;
+            base.SetInstance(value);
+        }
+
+        public override FeedType GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            FeedType instance = base.GetInstance(session, sec);
+            instance.Name = this.Name;
+            instance.SpanColumns = this.SpanColumns;
+            instance.SpanRows = this.SpanRows;
+            instance.SpanColumnsPreview = this.SpanColumnsPreview;
+            instance.SpanRowsPreview = this.SpanRowsPreview;
+            if (!string.IsNullOrEmpty(this.Xsl)) instance.Xsl = this.Xsl;
+            return instance;
         }
     }
 
-    public class ManagedFeedType : ManagedService<FeedType>
+    public class ManagedFeedType : ManagedService<FeedType, TransitFeedType>
     {
-        private FeedType mFeedType = null;
-
         public ManagedFeedType(ISession session)
             : base(session)
         {
@@ -144,48 +148,15 @@ namespace SnCore.Services
         }
 
         public ManagedFeedType(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mFeedType = (FeedType)session.Load(typeof(FeedType), id);
+
         }
 
         public ManagedFeedType(ISession session, FeedType value)
-            : base(session)
+            : base(session, value)
         {
-            mFeedType = value;
-        }
 
-        public ManagedFeedType(ISession session, TransitFeedType value)
-            : base(session)
-        {
-            mFeedType = value.GetFeedType(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mFeedType.Id;
-            }
-        }
-
-        public TransitFeedType TransitFeedType
-        {
-            get
-            {
-                return new TransitFeedType(mFeedType);
-            }
-        }
-
-        public void CreateOrUpdate(TransitFeedType o)
-        {
-            mFeedType = o.GetFeedType(Session);
-            Session.Save(mFeedType);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mFeedType);
         }
 
         public static FeedType Find(ISession session, string name)
@@ -210,6 +181,13 @@ namespace SnCore.Services
                     result = feedtype;
             }
             return result;
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            return acl;
         }
     }
 }

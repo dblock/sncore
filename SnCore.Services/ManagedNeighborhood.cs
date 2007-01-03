@@ -12,7 +12,7 @@ using System.IO;
 
 namespace SnCore.Services
 {
-    public class TransitNeighborhood : TransitService
+    public class TransitNeighborhood : TransitService<Neighborhood>
     {
         private string mName;
 
@@ -78,26 +78,31 @@ namespace SnCore.Services
 
         }
 
-        public TransitNeighborhood(Neighborhood c)
-            : base(c.Id)
+        public TransitNeighborhood(Neighborhood value)
+            : base(value)
         {
-            Name = c.Name;
-            if (c.City != null) City = c.City.Name;
-            if (c.City != null && c.City.State != null) State = c.City.State.Name;
-            if (c.City != null && c.City.Country != null) Country = c.City.Country.Name;
+
         }
 
-        public Neighborhood GetNeighborhood(ISession session)
+        public override void SetInstance(Neighborhood value)
         {
-            Neighborhood c = (Id != 0) ? (Neighborhood)session.Load(typeof(Neighborhood), Id) : new Neighborhood();
-            c.Name = this.Name;
-            if (! string.IsNullOrEmpty(City)) c.City = ManagedCity.Find(session, City, State, Country);
-            return c;
+            Name = value.Name;
+            if (value.City != null) City = value.City.Name;
+            if (value.City != null && value.City.State != null) State = value.City.State.Name;
+            if (value.City != null && value.City.Country != null) Country = value.City.Country.Name;
+            base.SetInstance(value);
         }
 
+        public override Neighborhood GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            Neighborhood instance = base.GetInstance(session, sec);
+            instance.Name = this.Name;
+            if (!string.IsNullOrEmpty(City)) instance.City = ManagedCity.Find(session, City, State, Country);
+            return instance;
+        }
     }
 
-    public class ManagedNeighborhood : ManagedService<Neighborhood>
+    public class ManagedNeighborhood : ManagedService<Neighborhood, TransitNeighborhood>
     {
         public class InvalidNeighborhoodException : SoapException
         {
@@ -108,8 +113,6 @@ namespace SnCore.Services
             }
         }
 
-        private Neighborhood mNeighborhood = null;
-
         public ManagedNeighborhood(ISession session)
             : base(session)
         {
@@ -117,50 +120,23 @@ namespace SnCore.Services
         }
 
         public ManagedNeighborhood(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mNeighborhood = (Neighborhood)session.Load(typeof(Neighborhood), id);
+
         }
 
         public ManagedNeighborhood(ISession session, Neighborhood value)
-            : base(session)
+            : base(session, value)
         {
-            mNeighborhood = value;
-        }
 
-        public int Id
-        {
-            get
-            {
-                return mNeighborhood.Id;
-            }
         }
 
         public string Name
         {
             get
             {
-                return mNeighborhood.Name;
+                return mInstance.Name;
             }
-        }
-
-        public TransitNeighborhood TransitNeighborhood
-        {
-            get
-            {
-                return new TransitNeighborhood(mNeighborhood);
-            }
-        }
-
-        public void Create(TransitNeighborhood s)
-        {
-            mNeighborhood = s.GetNeighborhood(Session);
-            Session.Save(mNeighborhood);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mNeighborhood);
         }
 
         public static Neighborhood FindOrCreate(ISession session, string name, string city, string state, string country)
@@ -193,7 +169,7 @@ namespace SnCore.Services
 
             City c = ManagedCity.Find(session, city, state, country);
 
-            Neighborhood neighborhood = (Neighborhood) session.CreateCriteria(typeof(Neighborhood))
+            Neighborhood neighborhood = (Neighborhood)session.CreateCriteria(typeof(Neighborhood))
                 .Add(Expression.Eq("Name", name))
                 .Add(Expression.Eq("City.Id", c.Id))
                 .UniqueResult();
@@ -213,7 +189,7 @@ namespace SnCore.Services
 
         public int Merge(int id)
         {
-            if (id == mNeighborhood.Id)
+            if (id == mInstance.Id)
             {
                 throw new Exception("Cannot merge neighborhood into self");
             }
@@ -228,7 +204,7 @@ namespace SnCore.Services
                 count += merge.Places.Count;
                 foreach (Place place in merge.Places)
                 {
-                    place.Neighborhood = mNeighborhood;
+                    place.Neighborhood = mInstance;
                     Session.Save(place);
                 }
             }
@@ -238,6 +214,13 @@ namespace SnCore.Services
 
             Session.Delete(merge);
             return count;
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            return acl;
         }
     }
 }

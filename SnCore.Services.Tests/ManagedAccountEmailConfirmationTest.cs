@@ -20,7 +20,7 @@ namespace SnCore.Services.Tests
         public void VerifyEmail()
         {
             ManagedAccount a = new ManagedAccount(Session);
-            a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+            a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
             Session.Flush();
 
             try
@@ -29,7 +29,7 @@ namespace SnCore.Services.Tests
             }
             finally
             {
-                a.Delete();
+                a.Delete(AdminSecurityContext);
                 Session.Flush();
             }
         }
@@ -39,7 +39,7 @@ namespace SnCore.Services.Tests
         public void VerifyEmailInvalid()
         {
             ManagedAccount a = new ManagedAccount(Session);
-            a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+            a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
             Session.Flush();
 
             try
@@ -65,7 +65,7 @@ namespace SnCore.Services.Tests
             }
             finally
             {
-                a.Delete();
+                a.Delete(AdminSecurityContext);
                 Session.Flush();
             }
         }
@@ -78,10 +78,10 @@ namespace SnCore.Services.Tests
 
             try
             {
-                a.Create("TestVerifyEmailReclaim1", "password", "reclaim@localhost.com", DateTime.UtcNow);
+                a.Create("TestVerifyEmailReclaim1", "password", "reclaim@localhost.com", DateTime.UtcNow, AdminSecurityContext);
                 a.VerifyAllEmails();
 
-                b.Create("TestVerifyEmailReclaim2", "password", "reclaim@localhost.com", DateTime.UtcNow);
+                b.Create("TestVerifyEmailReclaim2", "password", "reclaim@localhost.com", DateTime.UtcNow, AdminSecurityContext);
                 b.VerifyAllEmails();
 
                 {
@@ -108,8 +108,8 @@ namespace SnCore.Services.Tests
             }
             finally
             {
-                a.Delete();
-                b.Delete();
+                a.Delete(a.GetSecurityContext());
+                b.Delete(b.GetSecurityContext());
             }
 
             Session.Flush();

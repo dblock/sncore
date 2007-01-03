@@ -12,7 +12,7 @@ using System.IO;
 
 namespace SnCore.Services
 {
-    public class TransitBugResolution : TransitService
+    public class TransitBugResolution : TransitService<BugResolution>
     {
         private string mName;
 
@@ -34,27 +34,28 @@ namespace SnCore.Services
 
         }
 
-        public TransitBugResolution(BugResolution o)
-            : base(o.Id)
+        public TransitBugResolution(BugResolution instance)
+            : base(instance)
         {
-            Name = o.Name;
+
         }
 
-        public BugResolution GetBugResolution(ISession session)
+        public override void SetInstance(BugResolution instance)
         {
-            BugResolution p = (Id != 0) ? (BugResolution)session.Load(typeof(BugResolution), Id) : new BugResolution();
-            p.Name = this.Name;
-            return p;
+            Name = instance.Name;
+            base.SetInstance(instance);
+        }
+
+        public override BugResolution GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            BugResolution instance = base.GetInstance(session, sec);
+            instance.Name = this.Name;
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed bug Resolution.
-    /// </summary>
-    public class ManagedBugResolution : ManagedService<BugResolution>
+    public class ManagedBugResolution : ManagedService<BugResolution, TransitBugResolution>
     {
-        private BugResolution mBugResolution = null;
-
         public ManagedBugResolution(ISession session)
             : base(session)
         {
@@ -62,48 +63,15 @@ namespace SnCore.Services
         }
 
         public ManagedBugResolution(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mBugResolution = (BugResolution)session.Load(typeof(BugResolution), id);
+
         }
 
-        public ManagedBugResolution(ISession session, BugResolution value)
-            : base(session)
+        public ManagedBugResolution(ISession session, BugResolution instance)
+            : base(session, instance)
         {
-            mBugResolution = value;
-        }
 
-        public ManagedBugResolution(ISession session, TransitBugResolution value)
-            : base(session)
-        {
-            mBugResolution = value.GetBugResolution(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mBugResolution.Id;
-            }
-        }
-
-        public TransitBugResolution TransitBugResolution
-        {
-            get
-            {
-                return new TransitBugResolution(mBugResolution);
-            }
-        }
-
-        public void CreateOrUpdate(TransitBugResolution o)
-        {
-            mBugResolution = o.GetBugResolution(Session);
-            Session.Save(mBugResolution);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mBugResolution);
         }
 
         public static BugResolution Find(ISession session, string name)
@@ -118,5 +86,11 @@ namespace SnCore.Services
             return Find(session, name).Id;
         }
 
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            return acl;
+        }
     }
 }

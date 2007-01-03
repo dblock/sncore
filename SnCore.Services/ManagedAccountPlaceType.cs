@@ -12,7 +12,7 @@ using System.IO;
 
 namespace SnCore.Services
 {
-    public class TransitAccountPlaceType : TransitService
+    public class TransitAccountPlaceType : TransitService<AccountPlaceType>
     {
         private string mName;
 
@@ -64,28 +64,32 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountPlaceType(AccountPlaceType o)
-            : base(o.Id)
+        public TransitAccountPlaceType(AccountPlaceType instance)
+            : base(instance)
         {
-            Name = o.Name;
-            Description = o.Description;
-            CanWrite = o.CanWrite;
+
         }
 
-        public AccountPlaceType GetAccountPlaceType(ISession session)
+        public override void SetInstance(AccountPlaceType instance)
         {
-            AccountPlaceType p = (Id != 0) ? (AccountPlaceType)session.Load(typeof(AccountPlaceType), Id) : new AccountPlaceType();
-            p.Name = this.Name;
-            p.Description = this.Description;
-            p.CanWrite = this.CanWrite;
-            return p;
+            Name = instance.Name;
+            Description = instance.Description;
+            CanWrite = instance.CanWrite;
+            base.SetInstance(instance);
+        }
+
+        public override AccountPlaceType GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            AccountPlaceType instance = base.GetInstance(session, sec);
+            instance.Name = this.Name;
+            instance.Description = this.Description;
+            instance.CanWrite = this.CanWrite;
+            return instance;
         }
     }
 
-    public class ManagedAccountPlaceType : ManagedService<AccountPlaceType>
+    public class ManagedAccountPlaceType : ManagedService<AccountPlaceType, TransitAccountPlaceType>
     {
-        private AccountPlaceType mAccountPlaceType = null;
-
         public ManagedAccountPlaceType(ISession session)
             : base(session)
         {
@@ -93,48 +97,15 @@ namespace SnCore.Services
         }
 
         public ManagedAccountPlaceType(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountPlaceType = (AccountPlaceType)session.Load(typeof(AccountPlaceType), id);
+
         }
 
         public ManagedAccountPlaceType(ISession session, AccountPlaceType value)
-            : base(session)
+            : base(session, value)
         {
-            mAccountPlaceType = value;
-        }
 
-        public ManagedAccountPlaceType(ISession session, TransitAccountPlaceType value)
-            : base(session)
-        {
-            mAccountPlaceType = value.GetAccountPlaceType(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mAccountPlaceType.Id;
-            }
-        }
-
-        public TransitAccountPlaceType TransitAccountPlaceType
-        {
-            get
-            {
-                return new TransitAccountPlaceType(mAccountPlaceType);
-            }
-        }
-
-        public void CreateOrUpdate(TransitAccountPlaceType o)
-        {
-            mAccountPlaceType = o.GetAccountPlaceType(Session);
-            Session.Save(mAccountPlaceType);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mAccountPlaceType);
         }
 
         public static AccountPlaceType Find(ISession session, string name)
@@ -147,6 +118,13 @@ namespace SnCore.Services
         public static int FindId(ISession session, string name)
         {
             return Find(session, name).Id;
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            return acl;
         }
     }
 }

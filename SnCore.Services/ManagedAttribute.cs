@@ -36,15 +36,15 @@ namespace SnCore.Services
             Bitmap = b.Bitmap;
         }
 
-        public override Attribute GetAttribute(ISession session)
+        public override Attribute GetInstance(ISession session, ManagedSecurityContext sec)
         {
-            Attribute b = base.GetAttribute(session);
-            if (this.Bitmap != null) b.Bitmap = this.Bitmap;
-            return b;
+            Attribute instance = base.GetInstance(session, sec);
+            if (this.Bitmap != null) instance.Bitmap = this.Bitmap;
+            return instance;
         }
     }
 
-    public class TransitAttribute : TransitService
+    public class TransitAttribute : TransitService<Attribute>
     {
         private bool mHasBitmap;
 
@@ -147,36 +147,36 @@ namespace SnCore.Services
 
         }
 
-        public TransitAttribute(Attribute b)
-            : base(b.Id)
+        public TransitAttribute(Attribute instance)
+            : base(instance)
         {
-            Name = b.Name;
-            Description = b.Description;
-            DefaultUrl = b.DefaultUrl;
-            DefaultValue = b.DefaultValue;
-            Created = b.Created;
-            Modified = b.Modified;
-            mHasBitmap = (b.Bitmap != null);
         }
 
-        public virtual Attribute GetAttribute(ISession session)
+        public override void SetInstance(Attribute instance)
         {
-            Attribute b = (Id > 0) ? (Attribute)session.Load(typeof(Attribute), Id) : new Attribute();
-            b.Name = this.Name;
-            b.Description = this.Description;
-            b.DefaultUrl = this.DefaultUrl;
-            b.DefaultValue = this.DefaultValue;
-            return b;
+            Name = instance.Name;
+            Description = instance.Description;
+            DefaultUrl = instance.DefaultUrl;
+            DefaultValue = instance.DefaultValue;
+            Created = instance.Created;
+            Modified = instance.Modified;
+            mHasBitmap = (instance.Bitmap != null);
+            base.SetInstance(instance);
+        }
+
+        public override Attribute GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            Attribute instance = base.GetInstance(session, sec);
+            instance.Name = this.Name;
+            instance.Description = this.Description;
+            instance.DefaultUrl = this.DefaultUrl;
+            instance.DefaultValue = this.DefaultValue;
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed attributes.
-    /// </summary>
-    public class ManagedAttribute : ManagedService<Attribute>
+    public class ManagedAttribute : ManagedService<Attribute, TransitAttribute>
     {
-        private Attribute mAttribute = null;
-
         public ManagedAttribute(ISession session)
             : base(session)
         {
@@ -184,30 +184,22 @@ namespace SnCore.Services
         }
 
         public ManagedAttribute(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAttribute = (Attribute)session.Load(typeof(Attribute), id);
+
         }
 
         public ManagedAttribute(ISession session, Attribute value)
-            : base(session)
+            : base(session, value)
         {
-            mAttribute = value;
-        }
 
-        public int Id
-        {
-            get
-            {
-                return mAttribute.Id;
-            }
         }
 
         public string Name
         {
             get
             {
-                return mAttribute.Name;
+                return mInstance.Name;
             }
         }
 
@@ -215,7 +207,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mAttribute.Description;
+                return mInstance.Description;
             }
         }
 
@@ -223,7 +215,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mAttribute.Bitmap;
+                return mInstance.Bitmap;
             }
         }
 
@@ -231,7 +223,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mAttribute.DefaultUrl;
+                return mInstance.DefaultUrl;
             }
         }
 
@@ -239,7 +231,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mAttribute.DefaultValue;
+                return mInstance.DefaultValue;
             }
         }
 
@@ -247,7 +239,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mAttribute.Created;
+                return mInstance.Created;
             }
         }
 
@@ -255,38 +247,23 @@ namespace SnCore.Services
         {
             get
             {
-                return mAttribute.Modified;
+                return mInstance.Modified;
             }
         }
 
-        public TransitAttributeWithBitmap TransitAttributeWithBitmap
+        protected override void Save(ManagedSecurityContext sec)
         {
-            get
-            {
-                TransitAttributeWithBitmap pic = new TransitAttributeWithBitmap(mAttribute);
-                return pic;
-            }
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
         }
 
-        public TransitAttribute TransitAttribute
-        {
-            get
-            {
-                return new TransitAttribute(mAttribute);
-            }
-        }
 
-        public void CreateOrUpdate(TransitAttribute o)
+        public override ACL GetACL()
         {
-            mAttribute = o.GetAttribute(Session);
-            mAttribute.Modified = DateTime.UtcNow;
-            if (Id == 0) mAttribute.Created = mAttribute.Modified;
-            Session.Save(mAttribute);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mAttribute);
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            return acl;
         }
     }
 }

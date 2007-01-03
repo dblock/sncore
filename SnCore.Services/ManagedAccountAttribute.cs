@@ -3,10 +3,11 @@ using NHibernate;
 using System.Collections;
 using NHibernate.Expression;
 using System.Web.Services.Protocols;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
-    public class TransitAccountAttribute : TransitService
+    public class TransitAccountAttribute : TransitService<AccountAttribute>
     {
         private TransitAttribute mAttribute;
 
@@ -102,49 +103,53 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountAttribute(AccountAttribute attribute)
-            : base(attribute.Id)
+        public TransitAccountAttribute(AccountAttribute instance)
+            : base(instance)
         {
-            AccountId = attribute.Account.Id;
-            AttributeId = attribute.Attribute.Id;
-            Value = attribute.Value;
-            Url = attribute.Url;
-            Created = attribute.Created;
-            Attribute = new TransitAttribute(attribute.Attribute);
+
         }
 
-        public AccountAttribute GetAccountAttribute(ISession session)
+        public override void SetInstance(AccountAttribute instance)
         {
-            AccountAttribute result = (Id > 0) ? (AccountAttribute)session.Load(typeof(AccountAttribute), Id) : new AccountAttribute();
-            result.Url = Url;
-            result.Value = Value;
+            AccountId = instance.Account.Id;
+            AttributeId = instance.Attribute.Id;
+            Value = instance.Value;
+            Url = instance.Url;
+            Created = instance.Created;
+            Attribute = new TransitAttribute(instance.Attribute);
+            base.SetInstance(instance);
+        }
+
+        public override AccountAttribute GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            AccountAttribute instance = base.GetInstance(session, sec);
+            instance.Url = Url;
+            instance.Value = Value;
 
             if (Id == 0)
             {
-                if (AccountId > 0) result.Account = (Account)session.Load(typeof(Account), AccountId);
-                if (AttributeId > 0) result.Attribute = (Attribute)session.Load(typeof(Attribute), AttributeId);
+                instance.Account = GetOwner(session, AccountId, sec);
+                instance.Attribute = (Attribute)session.Load(typeof(Attribute), AttributeId);
             }
             else
             {
-                if (AttributeId != result.Attribute.Id)
+                if (AttributeId != instance.Attribute.Id)
                 {
                     throw new InvalidOperationException();
                 }
 
-                if (AccountId != result.Account.Id)
+                if (AccountId != instance.Account.Id)
                 {
                     throw new InvalidOperationException();
                 }
             }
 
-            return result;
+            return instance;
         }
     }
 
-    public class ManagedAccountAttribute : ManagedService<AccountAttribute>
+    public class ManagedAccountAttribute : ManagedService<AccountAttribute, TransitAccountAttribute>
     {
-        private AccountAttribute mAccountAttribute = null;
-
         public ManagedAccountAttribute(ISession session)
             : base(session)
         {
@@ -152,36 +157,22 @@ namespace SnCore.Services
         }
 
         public ManagedAccountAttribute(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountAttribute = (AccountAttribute)session.Load(typeof(AccountAttribute), id);
-        }
 
-        public ManagedAccountAttribute(ISession session, TransitAccountAttribute tae)
-            : base(session)
-        {
-            mAccountAttribute = tae.GetAccountAttribute(session);
         }
 
         public ManagedAccountAttribute(ISession session, AccountAttribute value)
-            : base(session)
+            : base(session, value)
         {
-            mAccountAttribute = value;
-        }
 
-        public int Id
-        {
-            get
-            {
-                return mAccountAttribute.Id;
-            }
         }
 
         public string Value
         {
             get
             {
-                return mAccountAttribute.Value;
+                return mInstance.Value;
             }
         }
 
@@ -189,7 +180,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountAttribute.Url;
+                return mInstance.Url;
             }
         }
 
@@ -197,30 +188,27 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountAttribute.Created;
+                return mInstance.Created;
             }
         }
 
-        public TransitAccountAttribute TransitAccountAttribute
+        public override void Delete(ManagedSecurityContext sec)
         {
-            get
-            {
-                return new TransitAccountAttribute(mAccountAttribute);
-            }
+            Collection<AccountAttribute>.GetSafeCollection(mInstance.Account.AccountAttributes).Remove(mInstance);
+            base.Delete(sec);
         }
 
-        public void Delete()
+        protected override void Save(ManagedSecurityContext sec)
         {
-            mAccountAttribute.Account.AccountAttributes.Remove(mAccountAttribute);
-            Session.Delete(mAccountAttribute);
+            if (mInstance.Id == 0) mInstance.Created = DateTime.UtcNow;
+            base.Save(sec);
         }
 
-        public ManagedAccount Account
+        public override ACL GetACL()
         {
-            get
-            {
-                return new ManagedAccount(Session, mAccountAttribute.Account);
-            }
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            return acl;
         }
     }
 }

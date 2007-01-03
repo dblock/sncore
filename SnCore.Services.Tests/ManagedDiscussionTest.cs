@@ -24,7 +24,7 @@ namespace SnCore.Services.Tests
 
             try
             {
-                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
 
                 TransitDiscussion t = new TransitDiscussion();
                 t.Name = Guid.NewGuid().ToString();
@@ -32,14 +32,14 @@ namespace SnCore.Services.Tests
                 t.AccountId = a.Id;
                 t.Personal = false;
                 t.Created = t.Modified = DateTime.UtcNow;
-                d.Create(t);
+                d.CreateOrUpdate(t, a.GetSecurityContext());
 
                 Session.Flush();
             }
             finally
             {
-                d.Delete();
-                a.Delete();
+                d.Delete(a.GetSecurityContext());
+                a.Delete(a.GetSecurityContext());
             }
         }
 
@@ -51,15 +51,15 @@ namespace SnCore.Services.Tests
 
             try
             {
-                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
-                d.Create("New Discussion", "Description", a.Id, false);
-                d.CreatePost(a.Id, 0, "subject", "body");
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
+                d.Create("New Discussion", "Description", false, a.GetSecurityContext());
+                d.CreatePost(a.Id, 0, "subject", "body", a.GetSecurityContext());
                 Session.Flush();
             }
             finally
             {
-                d.Delete();
-                a.Delete();
+                d.Delete(a.GetSecurityContext());
+                a.Delete(a.GetSecurityContext());
             }
         }
 
@@ -71,16 +71,16 @@ namespace SnCore.Services.Tests
 
             try
             {
-                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
-                d.Create("New Discussion", "Description", a.Id, false);
-                int newid = d.CreatePost(a.Id, 0, "subject", "body");
-                d.CreatePost(a.Id, newid, "subject", "body");
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
+                d.Create("New Discussion", "Description", false, a.GetSecurityContext());
+                int newid = d.CreatePost(a.Id, 0, "subject", "body", a.GetSecurityContext());
+                d.CreatePost(a.Id, newid, "subject", "body", a.GetSecurityContext());
                 Session.Flush();
             }
             finally
             {
-                d.Delete();
-                a.Delete();
+                d.Delete(a.GetSecurityContext());
+                a.Delete(a.GetSecurityContext());
             }
         }
 
@@ -94,23 +94,24 @@ namespace SnCore.Services.Tests
 
             try
             {
-                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
 
-                d1.Create("New Discussion1", "Description1", a.Id, false);
-                int d1newid = d1.CreatePost(a.Id, 0, "subject1", "body1");
+                
+                d1.Create("New Discussion1", "Description1", false, a.GetSecurityContext());
+                int d1newid = d1.CreatePost(a.Id, 0, "subject1", "body1", a.GetSecurityContext());
 
-                d2.Create("New Discussion2", "Description2", a.Id, false);
-                d2.CreatePost(a.Id, 0, "subject2", "body2");
+                d2.Create("New Discussion2", "Description2", false, a.GetSecurityContext());
+                d2.CreatePost(a.Id, 0, "subject2", "body2", a.GetSecurityContext());
 
                 // can't create child of other discussion
-                d2.CreatePost(a.Id, d1newid, "subject", "body");
+                d2.CreatePost(a.Id, d1newid, "subject", "body", a.GetSecurityContext());
                 Session.Flush();
             }
             finally
             {
-                d1.Delete();
-                d2.Delete();
-                a.Delete();
+                d1.Delete(AdminSecurityContext);
+                d2.Delete(AdminSecurityContext);
+                a.Delete(AdminSecurityContext);
             }
         }
 

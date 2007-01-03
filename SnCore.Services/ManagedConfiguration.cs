@@ -12,7 +12,7 @@ using System.IO;
 
 namespace SnCore.Services
 {
-    public class TransitConfiguration : TransitService
+    public class TransitConfiguration : TransitService<Configuration>
     {
         private string mName;
 
@@ -64,31 +64,32 @@ namespace SnCore.Services
 
         }
 
-        public TransitConfiguration(Configuration e)
-            : base(e.Id)
+        public TransitConfiguration(Configuration instance)
+            : base(instance)
         {
-            Name = e.OptionName;
-            Value = e.OptionValue;
-            Password = e.Password;
+
         }
 
-        public Configuration GetConfiguration(ISession session)
+        public override void SetInstance(Configuration instance)
         {
-            Configuration c = (Id > 0) ? (Configuration)session.Load(typeof(Configuration), Id) : new Configuration();
-            c.OptionName = this.Name;
-            c.OptionValue = this.Value;
-            c.Password = this.Password;
-            return c;
+            Name = instance.OptionName;
+            Value = instance.OptionValue;
+            Password = instance.Password;
+            base.SetInstance(instance);
+        }
+
+        public override Configuration GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            Configuration instance = base.GetInstance(session, sec);
+            instance.OptionName = this.Name;
+            instance.OptionValue = this.Value;
+            instance.Password = this.Password;
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed configuration.
-    /// </summary>
-    public class ManagedConfiguration : ManagedService<Configuration>
+    public class ManagedConfiguration : ManagedService<Configuration, TransitConfiguration>
     {
-        private Configuration mConfiguration = null;
-
         public class InvalidConfigurationException : SoapException
         {
             public InvalidConfigurationException()
@@ -105,37 +106,22 @@ namespace SnCore.Services
         }
 
         public ManagedConfiguration(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mConfiguration = (Configuration)session.Load(typeof(Configuration), id);
+
         }
 
         public ManagedConfiguration(ISession session, Configuration value)
-            : base(session)
+            : base(session, value)
         {
-            mConfiguration = value;
-        }
 
-        public ManagedConfiguration(ISession session, TransitConfiguration value)
-            : base(session)
-        {
-            mConfiguration.OptionName = value.Name;
-            mConfiguration.OptionValue = value.Value;
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mConfiguration.Id;
-            }
         }
 
         public string Name
         {
             get
             {
-                return mConfiguration.OptionName;
+                return mInstance.OptionName;
             }
         }
 
@@ -143,29 +129,8 @@ namespace SnCore.Services
         {
             get
             {
-                return mConfiguration.OptionValue;
+                return mInstance.OptionValue;
             }
-        }
-
-        public TransitConfiguration TransitConfiguration
-        {
-            get
-            {
-                return new TransitConfiguration(mConfiguration);
-            }
-        }
-
-        public void Create(TransitConfiguration c)
-        {
-            mConfiguration = new Configuration();
-            mConfiguration.OptionName = c.Name;
-            mConfiguration.OptionValue = c.Value;
-            Session.Save(mConfiguration);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mConfiguration);
         }
 
         public static ManagedConfiguration GetConfigurationByName(ISession session, string name)
@@ -246,6 +211,13 @@ namespace SnCore.Services
         public static int GetConfigurationId(ISession session, string name)
         {
             return GetConfiguration(session, name).Id;
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            return acl;
         }
     }
 }

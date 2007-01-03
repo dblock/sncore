@@ -12,7 +12,7 @@ using System.IO;
 
 namespace SnCore.Services
 {
-    public class TransitReminderEvent : TransitService
+    public class TransitReminderEvent : TransitService<ReminderEvent>
     {
         private int mReminderId;
 
@@ -79,36 +79,37 @@ namespace SnCore.Services
 
         }
 
-        public TransitReminderEvent(ReminderEvent o)
-            : base(o.Id)
+        public TransitReminderEvent(ReminderEvent instance)
+            : base(instance)
         {
-            ReminderId = o.Reminder.Id;
-            AccountId = o.Account.Id;
-            Created = o.Created;
-            Modified = o.Modified;
+
         }
 
-        public ReminderEvent GetReminderEvent(ISession session)
+        public override void SetInstance(ReminderEvent instance)
         {
-            ReminderEvent p = (Id != 0) ? (ReminderEvent)session.Load(typeof(ReminderEvent), Id) : new ReminderEvent();
+            ReminderId = instance.Reminder.Id;
+            AccountId = instance.Account.Id;
+            Created = instance.Created;
+            Modified = instance.Modified;
+            base.SetInstance(instance);
+        }
+
+        public override ReminderEvent GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            ReminderEvent instance = base.GetInstance(session, sec);
 
             if (Id == 0)
             {
-                if (ReminderId > 0) p.Reminder = (Reminder)session.Load(typeof(Reminder), ReminderId);
-                if (AccountId > 0) p.Account = (Account)session.Load(typeof(Account), AccountId);
+                instance.Reminder = (Reminder)session.Load(typeof(Reminder), ReminderId);
+                instance.Account = (Account)session.Load(typeof(Account), AccountId);
             }
 
-            return p;
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed ReminderEvent.
-    /// </summary>
-    public class ManagedReminderEvent : ManagedService<ReminderEvent>
+    public class ManagedReminderEvent : ManagedService<ReminderEvent, TransitReminderEvent>
     {
-        private ReminderEvent mReminderEvent = null;
-
         public ManagedReminderEvent(ISession session)
             : base(session)
         {
@@ -116,50 +117,28 @@ namespace SnCore.Services
         }
 
         public ManagedReminderEvent(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mReminderEvent = (ReminderEvent)session.Load(typeof(ReminderEvent), id);
+
         }
 
         public ManagedReminderEvent(ISession session, ReminderEvent value)
-            : base(session)
+            : base(session, value)
         {
-            mReminderEvent = value;
+
         }
 
-        public ManagedReminderEvent(ISession session, TransitReminderEvent value)
-            : base(session)
+        protected override void Save(ManagedSecurityContext sec)
         {
-            mReminderEvent = value.GetReminderEvent(session);
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
         }
 
-        public int Id
+        public override ACL GetACL()
         {
-            get
-            {
-                return mReminderEvent.Id;
-            }
-        }
-
-        public TransitReminderEvent TransitReminderEvent
-        {
-            get
-            {
-                return new TransitReminderEvent(mReminderEvent);
-            }
-        }
-
-        public void CreateOrUpdate(TransitReminderEvent o)
-        {
-            mReminderEvent = o.GetReminderEvent(Session);
-            mReminderEvent.Modified = DateTime.UtcNow;
-            if (mReminderEvent.Id == 0) mReminderEvent.Created = mReminderEvent.Modified;
-            Session.Save(mReminderEvent);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mReminderEvent);
+            ACL acl = base.GetACL();
+            return acl;
         }
     }
 }

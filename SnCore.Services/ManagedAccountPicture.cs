@@ -214,7 +214,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed picture.
     /// </summary>
-    public class ManagedAccountPicture : ManagedService<AccountPicture>
+    public class ManagedAccountPicture : ManagedService<AccountPicture, TransitAccountPicture>
     {
         private AccountPicture mAccountPicture = null;
 
@@ -234,14 +234,6 @@ namespace SnCore.Services
             : base(session)
         {
             mAccountPicture = value;
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mAccountPicture.Id;
-            }
         }
 
         public string Name
@@ -319,20 +311,9 @@ namespace SnCore.Services
             }
         }
 
-        public void Delete()
+        public override void Delete(ManagedSecurityContext sec)
         {
-            try
-            {
-                int DiscussionId = ManagedDiscussion.GetDiscussionId(
-                    Session, mAccountPicture.Account.Id, ManagedDiscussion.AccountPictureDiscussion, mAccountPicture.Id, false);
-                Discussion mDiscussion = (Discussion)Session.Load(typeof(Discussion), DiscussionId);
-                Session.Delete(mDiscussion);
-            }
-            catch (ManagedDiscussion.DiscussionNotFoundException)
-            {
-
-            }
-
+            ManagedDiscussion.FindAndDelete(Session, mAccountPicture.Account.Id, ManagedDiscussion.AccountPictureDiscussion, mAccountPicture.Id);
             mAccountPicture.Account.AccountPictures.Remove(mAccountPicture);
             Session.Delete(mAccountPicture);
         }
@@ -343,6 +324,21 @@ namespace SnCore.Services
             {
                 return mAccountPicture.Account;
             }
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowCreateAndRetrieve());
+            acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
+            return acl;
         }
     }
 }

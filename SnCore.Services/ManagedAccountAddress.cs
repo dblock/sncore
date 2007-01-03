@@ -1,10 +1,11 @@
 using System;
 using NHibernate;
 using System.Collections;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
-    public class TransitAccountAddress : TransitService
+    public class TransitAccountAddress : TransitService<AccountAddress>
     {
         private int mAccountId;
 
@@ -161,52 +162,45 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountAddress(AccountAddress e)
-            : base(e.Id)
+        public TransitAccountAddress(AccountAddress instance)
+            : base(instance)
         {
-            AccountId = e.Account.Id;
-            Name = e.Name;
-            Street = e.Street;
-            Apt = e.Apt;
-            City = e.City;
-            Country = e.Country.Name;
-            State = e.State.Name;
-            Zip = e.Zip;
-            Created = e.Created;
-            Modified = e.Modified;
+
         }
 
-        public AccountAddress GetAccountAddress(ISession session)
+        public override void SetInstance(AccountAddress instance)
         {
-            AccountAddress a = (Id != 0) ? (AccountAddress)session.Load(typeof(AccountAddress), Id) : new AccountAddress();
+            AccountId = instance.Account.Id;
+            Name = instance.Name;
+            Street = instance.Street;
+            Apt = instance.Apt;
+            City = instance.City;
+            Country = instance.Country.Name;
+            State = (instance.State != null ? instance.State.Name : string.Empty);
+            Zip = instance.Zip;
+            Created = instance.Created;
+            Modified = instance.Modified;
+            base.SetInstance(instance);
+        }
 
-            if (Id == 0)
-            {
-                if (AccountId > 0) a.Account = (Account)session.Load(typeof(Account), AccountId);
-            }
-
-            a.Apt = this.Apt;
-            a.City = this.City;
-            a.Country = (Country)session.Load(typeof(Country), ManagedCountry.GetCountryId(session, this.Country));
-            a.Name = this.Name;
-            a.State = (State)session.Load(typeof(State), ManagedState.GetStateId(session, this.State, this.Country));
-            if (a.State.Country.Id != a.Country.Id)
-            {
-                throw new ManagedCountry.InvalidCountryException();
-            }
-            a.Street = this.Street;
-            a.Zip = this.Zip;
-            return a;
+        public override AccountAddress GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            AccountAddress instance = base.GetInstance(session, sec);
+            if (Id == 0) instance.Account = base.GetOwner(session, AccountId, sec);
+            instance.Apt = this.Apt;
+            instance.City = this.City;
+            instance.Country = (Country) session.Load(typeof(Country), ManagedCountry.GetCountryId(session, this.Country));
+            instance.Name = this.Name;
+            instance.State = (State) session.Load(typeof(State), ManagedState.GetStateId(session, this.State, this.Country));
+            if (instance.State.Country.Id != instance.Country.Id) throw new ManagedCountry.InvalidCountryException();
+            instance.Street = this.Street;
+            instance.Zip = this.Zip;
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed address.
-    /// </summary>
-    public class ManagedAccountAddress : ManagedService<AccountAddress>
+    public class ManagedAccountAddress : ManagedService<AccountAddress, TransitAccountAddress>
     {
-        private AccountAddress mAccountAddress = null;
-
         public ManagedAccountAddress(ISession session)
             : base(session)
         {
@@ -214,38 +208,22 @@ namespace SnCore.Services
         }
 
         public ManagedAccountAddress(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountAddress = (AccountAddress)session.Load(typeof(AccountAddress), id);
+
         }
 
         public ManagedAccountAddress(ISession session, AccountAddress value)
-            : base(session)
+            : base(session, value)
         {
-            mAccountAddress = value;
-        }
 
-        public int AccountId
-        {
-            get
-            {
-                return mAccountAddress.Account.Id;
-            }
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mAccountAddress.Id;
-            }
         }
 
         public string Name
         {
             get
             {
-                return mAccountAddress.Name;
+                return mInstance.Name;
             }
         }
 
@@ -253,7 +231,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountAddress.Apt;
+                return mInstance.Apt;
             }
         }
 
@@ -261,7 +239,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountAddress.City;
+                return mInstance.City;
             }
         }
 
@@ -269,7 +247,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountAddress.Country.Name;
+                return mInstance.Country.Name;
             }
         }
 
@@ -277,7 +255,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountAddress.State.Name;
+                return mInstance.State.Name;
             }
         }
 
@@ -285,7 +263,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountAddress.Zip;
+                return mInstance.Zip;
             }
         }
 
@@ -293,7 +271,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountAddress.Created;
+                return mInstance.Created;
             }
         }
 
@@ -301,30 +279,37 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountAddress.Modified;
+                return mInstance.Modified;
             }
         }
 
-        public TransitAccountAddress TransitAccountAddress
+        public override void Delete(ManagedSecurityContext sec)
         {
-            get
-            {
-                return new TransitAccountAddress(mAccountAddress);
-            }
-        }
-
-        public void Delete()
-        {
-            mAccountAddress.Account.AccountAddresses.Remove(mAccountAddress);
-            Session.Delete(mAccountAddress);
+            Collection<AccountAddress>.GetSafeCollection(mInstance.Account.AccountAddresses).Remove(mInstance);
+            base.Delete(sec);
         }
 
         public Account Account
         {
             get
             {
-                return mAccountAddress.Account;
+                return mInstance.Account;
             }
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowCreateAndRetrieve());
+            acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
+            return acl;
         }
     }
 }

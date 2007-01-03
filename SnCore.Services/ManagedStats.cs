@@ -294,9 +294,6 @@ namespace SnCore.Services
         }
     }
 
-    /// <summary>
-    /// Managed stats and tracker.
-    /// </summary>
     public class ManagedStats : ManagedServiceImpl
     {
         public ManagedStats(ISession session)
@@ -691,7 +688,7 @@ namespace SnCore.Services
             while (ts <= now)
             {
                 DateTime ts_current = new DateTime(ts.Year, ts.Month, 1, 0, 0, 0);
-                CounterMonthly c = (CounterMonthly)Session.CreateCriteria(typeof(CounterMonthly))
+                CounterMonthly c = (CounterMonthly) Session.CreateCriteria(typeof(CounterMonthly))
                     .Add(Expression.Eq("Timestamp", ts_current))
                     .UniqueResult();
 

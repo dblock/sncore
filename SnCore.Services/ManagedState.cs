@@ -12,7 +12,7 @@ using System.IO;
 
 namespace SnCore.Services
 {
-    public class TransitState : TransitService
+    public class TransitState : TransitService<State>
     {
         private string mName;
 
@@ -49,24 +49,29 @@ namespace SnCore.Services
 
         }
 
-        public TransitState(State s)
-            : base(s.Id)
+        public TransitState(State instance)
+            : base(instance)
         {
-            Name = s.Name;
-            Country = s.Country.Name;
+
         }
 
-        public State GetState(ISession session)
+        public override void SetInstance(State instance)
         {
-            State p = (Id != 0) ? (State)session.Load(typeof(State), Id) : new State();
-            p.Name = this.Name;
-            p.Country = (Country)session.Load(typeof(Country), ManagedCountry.GetCountryId(session, Country));
-            return p;
+            Name = instance.Name;
+            Country = instance.Country.Name;
+            base.SetInstance(instance);
         }
 
+        public override State GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            State instance = base.GetInstance(session, sec);
+            instance.Name = this.Name;
+            instance.Country = (Country)session.Load(typeof(Country), ManagedCountry.GetCountryId(session, Country));
+            return instance;
+        }
     }
 
-    public class ManagedState : ManagedService<State>
+    public class ManagedState : ManagedService<State, TransitState>
     {
         public class InvalidStateException : SoapException
         {
@@ -77,8 +82,6 @@ namespace SnCore.Services
             }
         }
 
-        private State mState = null;
-
         public ManagedState(ISession session)
             : base(session)
         {
@@ -86,50 +89,23 @@ namespace SnCore.Services
         }
 
         public ManagedState(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mState = (State)session.Load(typeof(State), id);
+
         }
 
         public ManagedState(ISession session, State value)
-            : base(session)
+            : base(session, value)
         {
-            mState = value;
-        }
 
-        public int Id
-        {
-            get
-            {
-                return mState.Id;
-            }
         }
 
         public string Name
         {
             get
             {
-                return mState.Name;
+                return mInstance.Name;
             }
-        }
-
-        public TransitState TransitState
-        {
-            get
-            {
-                return new TransitState(mState);
-            }
-        }
-
-        public void Create(TransitState s)
-        {
-            mState = s.GetState(Session);
-            Session.Save(mState);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mState);
         }
 
         public static State Find(ISession session, string name, string country)
@@ -152,5 +128,11 @@ namespace SnCore.Services
             return Find(session, name, country).Id;
         }
 
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            return acl;
+        }
     }
 }

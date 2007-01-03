@@ -5,10 +5,11 @@ using NHibernate.Expression;
 using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.Xml;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
-    public class TransitAccountWebsite : TransitService
+    public class TransitAccountWebsite : TransitService<AccountWebsite>
     {
         private string mUrl;
 
@@ -75,33 +76,33 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountWebsite(AccountWebsite w)
-            : base(w.Id)
+        public TransitAccountWebsite(AccountWebsite instance)
+            : base(instance)
         {
-            Url = w.Url;
-            Name = w.Name;
-            Description = w.Description;
-            AccountId = w.Account.Id;
+
         }
 
-        public AccountWebsite GetAccountWebsite(ISession session)
+        public override void SetInstance(AccountWebsite instance)
         {
-            AccountWebsite w = (Id != 0) ? (AccountWebsite)session.Load(typeof(AccountWebsite), Id) : new AccountWebsite();
-
-            if (Id == 0)
-            {
-                if (AccountId > 0) w.Account = (Account)session.Load(typeof(Account), AccountId);
-            }
-
-            w.Name = this.Name;
-            w.Description = this.Description;
-            w.Url = this.Url;
-            return w;
+            Url = instance.Url;
+            Name = instance.Name;
+            Description = instance.Description;
+            AccountId = instance.Account.Id;
+            base.SetInstance(instance);
         }
 
+        public override AccountWebsite GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            AccountWebsite instance = base.GetInstance(session, sec);
+            if (Id == 0) instance.Account = base.GetOwner(session, AccountId, sec);
+            instance.Name = this.Name;
+            instance.Description = this.Description;
+            instance.Url = this.Url;
+            return instance;
+        }
     }
 
-    public class ManagedAccountWebsite : ManagedService<AccountWebsite>
+    public class ManagedAccountWebsite : ManagedService<AccountWebsite, TransitAccountWebsite>
     {
         public class InvalidUriException : SoapException
         {
@@ -112,8 +113,6 @@ namespace SnCore.Services
             }
         }
 
-        private AccountWebsite mAccountWebsite = null;
-
         public ManagedAccountWebsite(ISession session)
             : base(session)
         {
@@ -121,30 +120,22 @@ namespace SnCore.Services
         }
 
         public ManagedAccountWebsite(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountWebsite = (AccountWebsite)session.Load(typeof(AccountWebsite), id);
+
         }
 
         public ManagedAccountWebsite(ISession session, AccountWebsite value)
-            : base(session)
+            : base(session, value)
         {
-            mAccountWebsite = value;
-        }
 
-        public int Id
-        {
-            get
-            {
-                return mAccountWebsite.Id;
-            }
         }
 
         public string Url
         {
             get
             {
-                return mAccountWebsite.Url;
+                return mInstance.Url;
             }
         }
 
@@ -152,7 +143,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountWebsite.Description;
+                return mInstance.Description;
             }
         }
 
@@ -160,30 +151,30 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountWebsite.Name;
+                return mInstance.Name;
             }
         }
 
-        public TransitAccountWebsite TransitAccountWebsite
+        public override void Delete(ManagedSecurityContext sec)
         {
-            get
-            {
-                return new TransitAccountWebsite(mAccountWebsite);
-            }
+            Collection<AccountWebsite>.GetSafeCollection(mInstance.Account.AccountWebsites).Remove(mInstance);
+            base.Delete(sec);
         }
 
-        public void Delete()
+        protected override void Save(ManagedSecurityContext sec)
         {
-            mAccountWebsite.Account.AccountWebsites.Remove(mAccountWebsite);
-            Session.Delete(mAccountWebsite);
+            if (!Uri.IsWellFormedUriString(mInstance.Url, UriKind.Absolute))
+                throw new ManagedAccountWebsite.InvalidUriException();
+
+            base.Save(sec);
         }
 
-        public Account Account
+        public override ACL GetACL()
         {
-            get
-            {
-                return mAccountWebsite.Account;
-            }
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowCreateAndRetrieve());
+            acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
+            return acl;
         }
     }
 }

@@ -13,7 +13,7 @@ using SnCore.Tools.Web;
 
 namespace SnCore.Services
 {
-    public class TransitRefererHostDup : TransitService
+    public class TransitRefererHostDup : TransitService<RefererHostDup>
     {
         private string mHost;
 
@@ -80,31 +80,32 @@ namespace SnCore.Services
 
         }
 
-        public TransitRefererHostDup(RefererHostDup o)
-            : base(o.Id)
+        public TransitRefererHostDup(RefererHostDup instance)
+            : base(instance)
         {
-            Host = o.Host;
-            RefererHost = o.RefererHost.Host;
-            Created = o.Created;
-            Modified = o.Modified;
+
         }
 
-        public RefererHostDup GetRefererHostDup(ISession session)
+        public override void SetInstance(RefererHostDup instance)
         {
-            RefererHostDup d = (Id != 0) ? (RefererHostDup)session.Load(typeof(RefererHostDup), Id) : new RefererHostDup();
-            d.Host = this.Host;
-            d.RefererHost = ManagedRefererHost.Find(session, this.RefererHost);
-            return d;
+            Host = instance.Host;
+            RefererHost = instance.RefererHost.Host;
+            Created = instance.Created;
+            Modified = instance.Modified;
+            base.SetInstance(instance);
+        }
+
+        public override RefererHostDup GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            RefererHostDup instance = base.GetInstance(session, sec);
+            instance.Host = this.Host;
+            instance.RefererHost = ManagedRefererHost.Find(session, this.RefererHost);
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed RefererHostDup.
-    /// </summary>
-    public class ManagedRefererHostDup : ManagedService<RefererHostDup>
+    public class ManagedRefererHostDup : ManagedService<RefererHostDup, TransitRefererHostDup>
     {
-        private RefererHostDup mRefererHostDup = null;
-
         public ManagedRefererHostDup(ISession session)
             : base(session)
         {
@@ -112,65 +113,49 @@ namespace SnCore.Services
         }
 
         public ManagedRefererHostDup(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mRefererHostDup = (RefererHostDup)session.Load(typeof(RefererHostDup), id);
+
         }
 
         public ManagedRefererHostDup(ISession session, RefererHostDup value)
-            : base(session)
+            : base(session, value)
         {
-            mRefererHostDup = value;
+
         }
 
-        public ManagedRefererHostDup(ISession session, TransitRefererHostDup value)
-            : base(session)
+        public override int CreateOrUpdate(TransitRefererHostDup instance, ManagedSecurityContext sec)
         {
-            mRefererHostDup = value.GetRefererHostDup(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mRefererHostDup.Id;
-            }
-        }
-
-        public TransitRefererHostDup TransitRefererHostDup
-        {
-            get
-            {
-                return new TransitRefererHostDup(mRefererHostDup);
-            }
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mRefererHostDup);
-        }
-
-        public void CreateOrUpdate(TransitRefererHostDup o)
-        {
-            Session.Save(ManagedRefererHost.FindOrCreate(Session, o.RefererHost));
-            mRefererHostDup = o.GetRefererHostDup(Session);
-            mRefererHostDup.Modified = DateTime.UtcNow;
-            if (Id == 0) mRefererHostDup.Created = mRefererHostDup.Modified;
+            RefererHost rh = ManagedRefererHost.FindOrCreate(Session, instance.RefererHost);
 
             // merge existing dup hosts
             IList hosts = Session.CreateCriteria(typeof(RefererHost))
-                .Add(Expression.Like("Host", mRefererHostDup.Host)).List();
+                .Add(Expression.Like("Host", instance.Host)).List();
 
             foreach (RefererHost host in hosts)
             {
-                if (host != mRefererHostDup.RefererHost)
+                if (host != rh)
                 {
-                    mRefererHostDup.RefererHost.Total += host.Total;
+                    rh.Total += host.Total;
                     Session.Delete(host);
                 }
             }
 
-            Session.Save(mRefererHostDup);
+            Session.Save(rh);
+            return base.CreateOrUpdate(instance, sec);
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            return acl;
         }
     }
 }

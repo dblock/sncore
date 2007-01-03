@@ -28,14 +28,15 @@ namespace SnCore.BackEnd.Tests
         [Test]
         public void TestCleanupStaleAccounts_2()
         {
+            ManagedSecurityContext sec = ManagedAccount.GetAdminSecurityContext(Session);
             string email = string.Format("{0}@sncore.com", Guid.NewGuid().ToString());
 
             // create an account with an unverified e-mail, make sure the e-mail is sent
             ManagedAccount ma = new ManagedAccount(Session);
-            int id = ma.Create("TestCleanupStaleAccounts", "password", email, DateTime.UtcNow);
+            int id = ma.Create("TestCleanupStaleAccounts", "password", email, DateTime.UtcNow, sec);
 
             ManagedAccount mb = new ManagedAccount(Session);
-            int id2 = mb.Create("TestCleanupStaleAccounts", "password", email, DateTime.UtcNow);
+            int id2 = mb.Create("TestCleanupStaleAccounts", "password", email, DateTime.UtcNow, sec);
             mb.VerifyAllEmails();
 
             bool fDeleted = false;
@@ -64,21 +65,22 @@ namespace SnCore.BackEnd.Tests
             {
                 if (!fDeleted)
                 {
-                    ma.Delete();
+                    ma.Delete(sec);
                 }
 
-                mb.Delete();
+                mb.Delete(sec);
             }
         }
 
         [Test]
         public void TestCleanupStaleAccounts_1()
         {
+            ManagedSecurityContext sec = ManagedAccount.GetAdminSecurityContext(Session);
             string email = string.Format("{0}@sncore.com", Guid.NewGuid().ToString());
  
             // create an account with an unverified e-mail, make sure the e-mail is sent
             ManagedAccount ma = new ManagedAccount(Session);
-            int id = ma.Create("TestCleanupStaleAccounts", "password", email, DateTime.UtcNow);
+            int id = ma.Create("TestCleanupStaleAccounts", "password", email, DateTime.UtcNow, sec);
 
             bool fDeleted = false;
 
@@ -125,7 +127,7 @@ namespace SnCore.BackEnd.Tests
             {
                 if (!fDeleted)
                 {
-                    ma.Delete();
+                    ma.Delete(sec);
                 }
             }
         }

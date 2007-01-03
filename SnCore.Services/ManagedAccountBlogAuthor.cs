@@ -20,7 +20,7 @@ using Atom.Core;
 
 namespace SnCore.Services
 {
-    public class TransitAccountBlogAuthor : TransitService
+    public class TransitAccountBlogAuthor : TransitService<AccountBlogAuthor>
     {
         private int mAccountId;
 
@@ -142,41 +142,45 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountBlogAuthor(AccountBlogAuthor o)
-            : base(o.Id)
+        public TransitAccountBlogAuthor(AccountBlogAuthor value)
+            : base(value)
         {
-            AccountId = o.Account.Id;
-            AccountName = o.Account.Name;
-            AccountPictureId = ManagedAccount.GetRandomAccountPictureId(o.Account);
-            AccountBlogId = o.AccountBlog.Id;
-            AccountBlogName = o.AccountBlog.Name;
-            AllowDelete = o.AllowDelete;
-            AllowEdit = o.AllowEdit;
-            AllowPost = o.AllowPost;
+
         }
 
-        public AccountBlogAuthor GetAccountBlogAuthor(ISession session)
+        public override void SetInstance(AccountBlogAuthor value)
         {
-            AccountBlogAuthor p = (Id != 0) ? (AccountBlogAuthor)session.Load(typeof(AccountBlogAuthor), Id) : new AccountBlogAuthor();
+            AccountId = value.Account.Id;
+            AccountName = value.Account.Name;
+            AccountPictureId = ManagedAccount.GetRandomAccountPictureId(value.Account);
+            AccountBlogId = value.AccountBlog.Id;
+            AccountBlogName = value.AccountBlog.Name;
+            AllowDelete = value.AllowDelete;
+            AllowEdit = value.AllowEdit;
+            AllowPost = value.AllowPost;
+            base.SetInstance(value);
+        }
+
+        public override AccountBlogAuthor GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            AccountBlogAuthor instance = base.GetInstance(session, sec);
 
             if (Id == 0)
             {
-                if (AccountId > 0) p.Account = (Account)session.Load(typeof(Account), AccountId);
-                if (AccountBlogId > 0) p.AccountBlog = (AccountBlog)session.Load(typeof(AccountBlog), AccountBlogId);
+                instance.Account = GetOwner(session, AccountId, sec);
+                instance.AccountBlog = (AccountBlog)session.Load(typeof(AccountBlog), AccountBlogId);
             }
 
-            p.AllowPost = AllowPost;
-            p.AllowEdit = AllowEdit;
-            p.AllowDelete = AllowDelete;
+            instance.AllowPost = AllowPost;
+            instance.AllowEdit = AllowEdit;
+            instance.AllowDelete = AllowDelete;
 
-            return p;
+            return instance;
         }
     }
 
-    public class ManagedAccountBlogAuthor : ManagedService<AccountBlogAuthor>
+    public class ManagedAccountBlogAuthor : ManagedService<AccountBlogAuthor, TransitAccountBlogAuthor>
     {
-        private AccountBlogAuthor mAccountBlogAuthor = null;
-
         public ManagedAccountBlogAuthor(ISession session)
             : base(session)
         {
@@ -184,50 +188,31 @@ namespace SnCore.Services
         }
 
         public ManagedAccountBlogAuthor(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountBlogAuthor = (AccountBlogAuthor)session.Load(typeof(AccountBlogAuthor), id);
+
         }
 
         public ManagedAccountBlogAuthor(ISession session, AccountBlogAuthor value)
-            : base(session)
+            : base(session, value)
         {
-            mAccountBlogAuthor = value;
-        }
 
-        public ManagedAccountBlogAuthor(ISession session, TransitAccountBlogAuthor value)
-            : base(session)
-        {
-            mAccountBlogAuthor = value.GetAccountBlogAuthor(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mAccountBlogAuthor.Id;
-            }
         }
 
         public int BlogAccountId
         {
             get
             {
-                return mAccountBlogAuthor.AccountBlog.Account.Id;
+                return mInstance.AccountBlog.Account.Id;
             }
         }
 
-        public TransitAccountBlogAuthor TransitAccountBlogAuthor
+        public override ACL GetACL()
         {
-            get
-            {
-                return new TransitAccountBlogAuthor(mAccountBlogAuthor);
-            }
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mAccountBlogAuthor);
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            acl.Add(new ACLAccount(mInstance.AccountBlog.Account, DataOperation.All));
+            return acl;
         }
     }
 }

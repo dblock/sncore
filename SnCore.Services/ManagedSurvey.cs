@@ -12,7 +12,7 @@ using System.IO;
 
 namespace SnCore.Services
 {
-    public class TransitSurvey : TransitService
+    public class TransitSurvey : TransitService<Survey>
     {
         private string mName;
 
@@ -34,22 +34,27 @@ namespace SnCore.Services
 
         }
 
-        public TransitSurvey(Survey s)
-            : base(s.Id)
+        public TransitSurvey(Survey value)
+            : base(value)
         {
-            Name = s.Name;
+
         }
 
-        public Survey GetSurvey(ISession session)
+        public override void SetInstance(Survey value)
         {
-            Survey p = (Id != 0) ? (Survey)session.Load(typeof(Survey), Id) : new Survey();
-            p.Name = this.Name;
-            return p;
+            Name = value.Name;
+            base.SetInstance(value);
         }
 
+        public override Survey GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            Survey instance = base.GetInstance(session, sec);
+            instance.Name = Name;
+            return instance;
+        }
     }
 
-    public class ManagedSurvey : ManagedService<Survey>
+    public class ManagedSurvey : ManagedService<Survey, TransitSurvey>
     {
         public class InvalidSurveyException : SoapException
         {
@@ -60,8 +65,6 @@ namespace SnCore.Services
             }
         }
 
-        private Survey mSurvey = null;
-
         public ManagedSurvey(ISession session)
             : base(session)
         {
@@ -69,50 +72,23 @@ namespace SnCore.Services
         }
 
         public ManagedSurvey(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mSurvey = (Survey)session.Load(typeof(Survey), id);
+
         }
 
         public ManagedSurvey(ISession session, Survey value)
-            : base(session)
+            : base(session, value)
         {
-            mSurvey = value;
-        }
 
-        public int Id
-        {
-            get
-            {
-                return mSurvey.Id;
-            }
         }
 
         public string Name
         {
             get
             {
-                return mSurvey.Name;
+                return mInstance.Name;
             }
-        }
-
-        public TransitSurvey TransitSurvey
-        {
-            get
-            {
-                return new TransitSurvey(mSurvey);
-            }
-        }
-
-        public void Create(TransitSurvey s)
-        {
-            mSurvey = s.GetSurvey(Session);
-            Session.Save(mSurvey);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mSurvey);
         }
 
         public static int GetSurveyId(ISession session, string name)
@@ -127,6 +103,13 @@ namespace SnCore.Services
             }
 
             return s.Id;
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            return acl;
         }
     }
 }

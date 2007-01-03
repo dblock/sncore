@@ -201,7 +201,7 @@ namespace SnCore.Services
 
     }
 
-    public class ManagedAccountEventPicture : ManagedService<AccountEventPicture>
+    public class ManagedAccountEventPicture : ManagedService<AccountEventPicture, TransitAccountEventPicture>
     {
         private AccountEventPicture mAccountEventPicture = null;
 
@@ -221,14 +221,6 @@ namespace SnCore.Services
             : base(session)
         {
             mAccountEventPicture = value;
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mAccountEventPicture.Id;
-            }
         }
 
         public int AccountId
@@ -252,34 +244,25 @@ namespace SnCore.Services
             }
         }
 
-        public TransitAccountEventPictureWithPicture TransitAccountEventPictureWithPicture
-        {
-            get
-            {
-                return new TransitAccountEventPictureWithPicture(mAccountEventPicture);
-            }
-        }
-
-        public TransitAccountEventPictureWithThumbnail TransitAccountEventPictureWithThumbnail
-        {
-            get
-            {
-                return new TransitAccountEventPictureWithThumbnail(mAccountEventPicture);
-            }
-        }
-
-        public void CreateOrUpdate(TransitAccountEventPicture o)
-        {
-            mAccountEventPicture = o.GetAccountEventPicture(Session);
-            mAccountEventPicture.Modified = DateTime.UtcNow;
-            if (Id == 0) mAccountEventPicture.Created = mAccountEventPicture.Modified;
-            Session.Save(mAccountEventPicture);
-        }
-
-        public void Delete()
+        public override void Delete(ManagedSecurityContext sec)
         {
             mAccountEventPicture.AccountEvent.AccountEventPictures.Remove(mAccountEventPicture);
-            Session.Delete(mAccountEventPicture);
+            base.Delete(sec);
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowCreateAndRetrieve());
+            acl.Add(new ACLAccount(mInstance.AccountEvent.Account, DataOperation.All));
+            return acl;
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.Xml;
 using SnCore.Tools.Drawing;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
@@ -25,11 +26,11 @@ namespace SnCore.Services
             HasPicture = true;
         }
 
-        public override AccountStoryPicture GetAccountStoryPicture(ISession session)
+        public override AccountStoryPicture GetInstance(ISession session, ManagedSecurityContext sec)
         {
-            AccountStoryPicture p = base.GetAccountStoryPicture(session);
-            p.Picture = Picture;
-            return p;
+            AccountStoryPicture instance = base.GetInstance(session, sec);
+            instance.Picture = Picture;
+            return instance;
         }
     }
 
@@ -186,26 +187,18 @@ namespace SnCore.Services
             Modified = p.Modifed;
         }
 
-        public virtual AccountStoryPicture GetAccountStoryPicture(ISession session)
+        public override AccountStoryPicture GetInstance(ISession session, ManagedSecurityContext sec)
         {
-            AccountStoryPicture p = (Id != 0) ? (AccountStoryPicture)session.Load(typeof(AccountStoryPicture), Id) : new AccountStoryPicture();
-
-            if (Id == 0)
-            {
-                if (AccountStoryId > 0) p.AccountStory = (AccountStory)session.Load(typeof(AccountStory), this.AccountStoryId);
-            }
-
-            p.Location = this.Location;
-            p.Name = this.Name;
-            return p;
+            AccountStoryPicture instance = base.GetInstance(session, sec);
+            if (Id == 0) instance.AccountStory = (AccountStory) session.Load(typeof(AccountStory), AccountStoryId);
+            instance.Location = Location;
+            instance.Name = Name;
+            return instance;
         }
-
     }
 
-    public class ManagedAccountStoryPicture : ManagedService<AccountStoryPicture>
+    public class ManagedAccountStoryPicture : ManagedService<AccountStoryPicture, TransitAccountStoryPicture>
     {
-        private AccountStoryPicture mAccountStoryPicture = null;
-
         public ManagedAccountStoryPicture(ISession session)
             : base(session)
         {
@@ -213,30 +206,22 @@ namespace SnCore.Services
         }
 
         public ManagedAccountStoryPicture(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountStoryPicture = (AccountStoryPicture)session.Load(typeof(AccountStoryPicture), id);
+
         }
 
         public ManagedAccountStoryPicture(ISession session, AccountStoryPicture value)
-            : base(session)
+            : base(session, value)
         {
-            mAccountStoryPicture = value;
-        }
 
-        public int Id
-        {
-            get
-            {
-                return mAccountStoryPicture.Id;
-            }
         }
 
         public int Location
         {
             get
             {
-                return mAccountStoryPicture.Location;
+                return mInstance.Location;
             }
         }
 
@@ -244,48 +229,19 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountStoryPicture.AccountStory.Account.Id;
+                return mInstance.AccountStory.Account.Id;
             }
         }
 
-        public TransitAccountStoryPicture TransitAccountStoryPicture
+        public override void Delete(ManagedSecurityContext sec)
         {
-            get
-            {
-                TransitAccountStoryPicture pic = new TransitAccountStoryPicture(mAccountStoryPicture);
-                pic.CommentCount = ManagedDiscussion.GetDiscussionPostCount(
-                    Session, mAccountStoryPicture.AccountStory.Account.Id,
-                    ManagedDiscussion.AccountStoryPictureDiscussion, mAccountStoryPicture.Id);
-                pic.Counter = ManagedStats.GetCounter(Session, "AccountStoryPicture.aspx", mAccountStoryPicture.Id);
-                return pic;
-            }
-        }
-
-        public TransitAccountStoryPictureWithPicture TransitAccountStoryPictureWithPicture
-        {
-            get
-            {
-                return new TransitAccountStoryPictureWithPicture(mAccountStoryPicture);
-            }
-        }
-
-        public TransitAccountStoryPictureWithThumbnail TransitAccountStoryPictureWithThumbnail
-        {
-            get
-            {
-                return new TransitAccountStoryPictureWithThumbnail(mAccountStoryPicture);
-            }
-        }
-
-        public void Delete()
-        {
-            mAccountStoryPicture.AccountStory.AccountStoryPictures.Remove(mAccountStoryPicture);
-            Session.Delete(mAccountStoryPicture);
+            Collection<AccountStoryPicture>.GetSafeCollection(mInstance.AccountStory.AccountStoryPictures).Remove(mInstance);
+            base.Delete(sec);
 
             // renumber the order of Pictures
-            foreach (AccountStoryPicture p in mAccountStoryPicture.AccountStory.AccountStoryPictures)
+            foreach (AccountStoryPicture p in Collection<AccountStoryPicture>.GetSafeCollection(mInstance.AccountStory.AccountStoryPictures))
             {
-                if (p.Location >= mAccountStoryPicture.Location)
+                if (p.Location >= Object.Location)
                 {
                     p.Location = p.Location - 1;
                     Session.Save(p);
@@ -295,26 +251,26 @@ namespace SnCore.Services
 
         public void Move(int Disp)
         {
-            int newLocation = mAccountStoryPicture.Location + Disp;
+            int newLocation = mInstance.Location + Disp;
 
-            if (newLocation < 1 || newLocation > mAccountStoryPicture.AccountStory.AccountStoryPictures.Count)
+            if (newLocation < 1 || newLocation > mInstance.AccountStory.AccountStoryPictures.Count)
             {
                 // throw new ArgumentOutOfRangeException();
                 return;
             }
 
-            foreach (AccountStoryPicture p in mAccountStoryPicture.AccountStory.AccountStoryPictures)
+            foreach (AccountStoryPicture p in Collection<AccountStoryPicture>.GetSafeCollection(mInstance.AccountStory.AccountStoryPictures))
             {
-                if (p.Location == mAccountStoryPicture.Location)
+                if (p.Location == mInstance.Location)
                 {
                     // this item
                 }
-                else if (p.Location < mAccountStoryPicture.Location && p.Location >= newLocation)
+                else if (p.Location < mInstance.Location && p.Location >= newLocation)
                 {
                     // item was before me but switched sides
                     p.Location++;
                 }
-                else if (p.Location > mAccountStoryPicture.Location && p.Location <= newLocation)
+                else if (p.Location > mInstance.Location && p.Location <= newLocation)
                 {
                     // item was after me, but switched sides
                     p.Location--;
@@ -323,9 +279,24 @@ namespace SnCore.Services
                 Session.Save(p);
             }
 
-            mAccountStoryPicture.Location = newLocation;
-            Session.Save(mAccountStoryPicture);
+            mInstance.Location = newLocation;
+            Session.Save(mInstance);
             Session.Flush();
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            mInstance.Modifed = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modifed;
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowCreateAndRetrieve());
+            acl.Add(new ACLAccount(mInstance.AccountStory.Account, DataOperation.All));
+            return acl;
         }
     }
 }

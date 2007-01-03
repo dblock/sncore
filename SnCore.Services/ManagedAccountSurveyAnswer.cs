@@ -2,10 +2,11 @@ using System;
 using NHibernate;
 using NHibernate.Expression;
 using System.Collections;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
-    public class TransitAccountSurveyAnswer : TransitService
+    public class TransitAccountSurveyAnswer : TransitService<AccountSurveyAnswer>
     {
         private int mAccountId;
 
@@ -132,39 +133,42 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountSurveyAnswer(AccountSurveyAnswer p)
-            : base(p.Id)
+        public TransitAccountSurveyAnswer(AccountSurveyAnswer value)
+            : base(value)
         {
-            SurveyQuestion = p.SurveyQuestion.Question;
-            SurveyQuestionId = p.SurveyQuestion.Id;
-            AccountId = p.Account.Id;
-            AccountName = p.Account.Name;
-            AccountPictureId = ManagedAccount.GetRandomAccountPictureId(p.Account);
-            Answer = p.Answer;
-            Created = p.Created;
-            Modified = p.Modified;
+
         }
 
-        public AccountSurveyAnswer GetAccountSurveyAnswer(ISession session)
+        public override void  SetInstance(AccountSurveyAnswer value)
         {
-            AccountSurveyAnswer p = (Id != 0) ? (AccountSurveyAnswer)session.Load(typeof(AccountSurveyAnswer), Id) : new AccountSurveyAnswer();
+ 	          SurveyQuestion = value.SurveyQuestion.Question;
+            SurveyQuestionId = value.SurveyQuestion.Id;
+            AccountId = value.Account.Id;
+            AccountName = value.Account.Name;
+            AccountPictureId = ManagedAccount.GetRandomAccountPictureId(value.Account);
+            Answer = value.Answer;
+            Created = value.Created;
+            Modified = value.Modified;
+            base.SetInstance(value);
+        }
 
-            if (Id == 0)
+        public override AccountSurveyAnswer GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            AccountSurveyAnswer instance = base.GetInstance(session, sec);
+
+            if (Id == 0) 
             {
-                // survey queston and account cannot be modified after creation
-                if (AccountId > 0) p.Account = (Account)session.Load(typeof(Account), this.AccountId);
-                if (SurveyQuestionId > 0) p.SurveyQuestion = (SurveyQuestion)session.Load(typeof(SurveyQuestion), this.SurveyQuestionId);
+                instance.Account = GetOwner(session, AccountId, sec);
+                instance.SurveyQuestion = (SurveyQuestion)session.Load(typeof(SurveyQuestion), this.SurveyQuestionId);
             }
 
-            p.Answer = this.Answer;
-            return p;
+            instance.Answer = this.Answer;
+            return instance;
         }
     }
 
-    public class ManagedAccountSurveyAnswer : ManagedService<AccountSurveyAnswer>
+    public class ManagedAccountSurveyAnswer : ManagedService<AccountSurveyAnswer, TransitAccountSurveyAnswer>
     {
-        private AccountSurveyAnswer mAccountSurveyAnswer = null;
-
         public ManagedAccountSurveyAnswer(ISession session)
             : base(session)
         {
@@ -172,30 +176,22 @@ namespace SnCore.Services
         }
 
         public ManagedAccountSurveyAnswer(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountSurveyAnswer = (AccountSurveyAnswer)session.Load(typeof(AccountSurveyAnswer), id);
+            
         }
 
         public ManagedAccountSurveyAnswer(ISession session, AccountSurveyAnswer value)
-            : base(session)
+            : base(session, value)
         {
-            mAccountSurveyAnswer = value;
-        }
 
-        public int Id
-        {
-            get
-            {
-                return mAccountSurveyAnswer.Id;
-            }
         }
 
         public string Question
         {
             get
             {
-                return mAccountSurveyAnswer.SurveyQuestion.Question;
+                return mInstance.SurveyQuestion.Question;
             }
         }
 
@@ -203,7 +199,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountSurveyAnswer.Answer;
+                return mInstance.Answer;
             }
         }
 
@@ -211,7 +207,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountSurveyAnswer.Created;
+                return mInstance.Created;
             }
         }
 
@@ -219,35 +215,43 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountSurveyAnswer.Modified;
+                return mInstance.Modified;
             }
         }
 
-        public TransitAccountSurveyAnswer TransitAccountSurveyAnswer
+        public override void Delete(ManagedSecurityContext sec)
         {
-            get
-            {
-                return new TransitAccountSurveyAnswer(mAccountSurveyAnswer);
-            }
-        }
-
-        public void Delete()
-        {
-            mAccountSurveyAnswer.Account.AccountSurveyAnswers.Remove(mAccountSurveyAnswer);
-            Session.Delete(mAccountSurveyAnswer);
+            Collection<AccountSurveyAnswer>.GetSafeCollection(mInstance.Account.AccountSurveyAnswers).Remove(mInstance);
+            base.Delete(sec);
         }
 
         public void AddTagWordsTo(ManagedTagWordCollection tags)
         {
-            tags.AddData(mAccountSurveyAnswer.Answer);
+            tags.AddData(mInstance.Answer);
         }
 
         public Account Account
         {
             get
             {
-                return mAccountSurveyAnswer.Account;
+                return mInstance.Account;
             }
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
+        }
+
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowCreateAndRetrieve());
+            acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
+            return acl;
         }
     }
 }

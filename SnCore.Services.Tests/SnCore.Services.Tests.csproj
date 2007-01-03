@@ -125,6 +125,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ManagedAccountAddressTest.cs" />
+    <Compile Include="ManagedAccountCRUDTest.cs" />
+    <Compile Include="ManagedAccountLicenseTest.cs" />
     <Compile Include="ManagedAccountEmailConfirmationTest.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -141,10 +143,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ManagedAccountWebsiteTest.cs" />
+    <Compile Include="ManagedACLTest.cs" />
     <Compile Include="ManagedBugTest.cs" />
     <Compile Include="ManagedCityTest.cs" />
     <Compile Include="ManagedConfigurationTest.cs" />
     <Compile Include="ManagedCountryTest.cs" />
+    <Compile Include="ManagedCRUDTest.cs" />
     <Compile Include="ManagedDiscussionTest.cs" />
     <Compile Include="ManagedPlaceQueueTest.cs" />
     <Compile Include="ManagedPlaceTest.cs" />

@@ -20,7 +20,7 @@ using Atom.Core;
 
 namespace SnCore.Services
 {
-    public class TransitAccountContent : TransitService
+    public class TransitAccountContent : TransitService<AccountContent>
     {
         private string mTag;
 
@@ -96,31 +96,31 @@ namespace SnCore.Services
             }
         }
 
-        private int mAccountContentGroupId;
+        private int mInstanceGroupId;
 
         public int AccountContentGroupId
         {
             get
             {
-                return mAccountContentGroupId;
+                return mInstanceGroupId;
             }
             set
             {
-                mAccountContentGroupId = value;
+                mInstanceGroupId = value;
             }
         }
 
-        private bool mAccountContentGroupTrusted;
+        private bool mInstanceGroupTrusted;
 
         public bool AccountContentGroupTrusted
         {
             get
             {
-                return mAccountContentGroupTrusted;
+                return mInstanceGroupTrusted;
             }
             set
             {
-                mAccountContentGroupTrusted = value;
+                mInstanceGroupTrusted = value;
             }
         }
 
@@ -129,33 +129,37 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountContent(AccountContent o)
-            : base(o.Id)
+        public TransitAccountContent(AccountContent instance)
+            : base(instance)
         {
-            Tag = o.Tag;
-            Text = o.Text;
-            Timestamp = o.Timestamp;
-            AccountContentGroupId = o.AccountContentGroup.Id;
-            AccountContentGroupTrusted = o.AccountContentGroup.Trusted;
-            Created = o.Created;
-            Modified = o.Modified;
+
         }
 
-        public AccountContent GetAccountContent(ISession session)
+        public override void SetInstance(AccountContent instance)
         {
-            AccountContent p = (Id != 0) ? (AccountContent)session.Load(typeof(AccountContent), Id) : new AccountContent();
-            p.AccountContentGroup = (AccountContentGroup)session.Load(typeof(AccountContentGroup), AccountContentGroupId);
-            p.Tag = this.Tag;
-            p.Text = this.Text;
-            p.Timestamp = this.Timestamp;
-            return p;
+            Tag = instance.Tag;
+            Text = instance.Text;
+            Timestamp = instance.Timestamp;
+            AccountContentGroupId = instance.AccountContentGroup.Id;
+            AccountContentGroupTrusted = instance.AccountContentGroup.Trusted;
+            Created = instance.Created;
+            Modified = instance.Modified;
+            base.SetInstance(instance);
+        }
+
+        public override AccountContent GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            AccountContent instance = base.GetInstance(session, sec);
+            instance.AccountContentGroup = (AccountContentGroup)session.Load(typeof(AccountContentGroup), AccountContentGroupId);
+            instance.Tag = this.Tag;
+            instance.Text = this.Text;
+            instance.Timestamp = this.Timestamp;
+            return instance;
         }
     }
 
-    public class ManagedAccountContent : ManagedService<AccountContent>
+    public class ManagedAccountContent : ManagedService<AccountContent, TransitAccountContent>
     {
-        private AccountContent mAccountContent = null;
-
         public ManagedAccountContent(ISession session)
             : base(session)
         {
@@ -163,50 +167,37 @@ namespace SnCore.Services
         }
 
         public ManagedAccountContent(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountContent = (AccountContent)session.Load(typeof(AccountContent), id);
+
         }
 
         public ManagedAccountContent(ISession session, AccountContent value)
-            : base(session)
+            : base(session, value)
         {
-            mAccountContent = value;
-        }
 
-        public ManagedAccountContent(ISession session, TransitAccountContent value)
-            : base(session)
-        {
-            mAccountContent = value.GetAccountContent(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mAccountContent.Id;
-            }
         }
 
         public int AccountId
         {
             get
             {
-                return mAccountContent.AccountContentGroup.Account.Id;
+                return mInstance.AccountContentGroup.Account.Id;
             }
         }
 
-        public TransitAccountContent TransitAccountContent
+        protected override void Save(ManagedSecurityContext sec)
         {
-            get
-            {
-                return new TransitAccountContent(mAccountContent);
-            }
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
         }
 
-        public void Delete()
+        public override ACL GetACL()
         {
-            Session.Delete(mAccountContent);
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            return acl;
         }
     }
 }

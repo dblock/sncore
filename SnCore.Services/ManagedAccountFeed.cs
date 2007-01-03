@@ -23,7 +23,7 @@ using SnCore.Tools.Drawing;
 
 namespace SnCore.Services
 {
-    public class TransitAccountFeed : TransitService
+    public class TransitAccountFeed : TransitService<AccountFeed>
     {
         private string mName;
 
@@ -271,54 +271,52 @@ namespace SnCore.Services
         }
 
         public TransitAccountFeed(AccountFeed o)
-            : base(o.Id)
+            : base(o)
         {
-            Name = o.Name;
-            Description = o.Description;
-            Created = o.Created;
-            Updated = o.Updated;
-            LastError = o.LastError;
-            AccountId = o.Account.Id;
-            AccountName = o.Account.Name;
-            AccountPictureId = ManagedAccount.GetRandomAccountPictureId(o.Account);
-            Username = o.Username;
-            Password = o.Password;
-            UpdateFrequency = o.UpdateFrequency;
-            FeedUrl = o.FeedUrl;
-            LinkUrl = o.LinkUrl;
-            FeedType = o.FeedType.Name;
-            Publish = o.Publish;
-            PublishImgs = o.PublishImgs;
         }
 
-        public AccountFeed GetAccountFeed(ISession session)
+        public override void SetInstance(AccountFeed value)
         {
-            AccountFeed p = (Id != 0) ? (AccountFeed)session.Load(typeof(AccountFeed), Id) : new AccountFeed();
+            Name = value.Name;
+            Description = value.Description;
+            Created = value.Created;
+            Updated = value.Updated;
+            LastError = value.LastError;
+            AccountId = value.Account.Id;
+            AccountName = value.Account.Name;
+            AccountPictureId = ManagedAccount.GetRandomAccountPictureId(value.Account);
+            Username = value.Username;
+            Password = value.Password;
+            UpdateFrequency = value.UpdateFrequency;
+            FeedUrl = value.FeedUrl;
+            LinkUrl = value.LinkUrl;
+            FeedType = value.FeedType.Name;
+            Publish = value.Publish;
+            PublishImgs = value.PublishImgs;
+            base.SetInstance(value);
+        }
 
-            if (Id == 0)
-            {
-                if (AccountId > 0) p.Account = (Account)session.Load(typeof(Account), AccountId);
-            }
-
-            p.Name = this.Name;
-            p.Description = this.Description;
-            p.LastError = this.LastError;
-            p.Username = this.Username;
-            p.Password = this.Password;
-            p.UpdateFrequency = this.UpdateFrequency;
-            p.FeedUrl = this.FeedUrl;
-            p.LinkUrl = this.LinkUrl;
-            p.Publish = this.Publish;
-            p.PublishImgs = this.PublishImgs;
-            if (!string.IsNullOrEmpty(this.FeedType)) p.FeedType = ManagedFeedType.Find(session, this.FeedType);
-            return p;
+        public override AccountFeed GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            AccountFeed instance = base.GetInstance(session, sec);
+            if (Id == 0) instance.Account = GetOwner(session, AccountId, sec);
+            instance.Name = this.Name;
+            instance.Description = this.Description;
+            instance.LastError = this.LastError;
+            instance.Username = this.Username;
+            instance.Password = this.Password;
+            instance.UpdateFrequency = this.UpdateFrequency;
+            instance.FeedUrl = this.FeedUrl;
+            instance.LinkUrl = this.LinkUrl;
+            instance.Publish = this.Publish;
+            instance.PublishImgs = this.PublishImgs;
+            if (!string.IsNullOrEmpty(this.FeedType)) instance.FeedType = ManagedFeedType.Find(session, this.FeedType);
+            return instance;
         }
     }
 
-    public class ManagedAccountFeed : ManagedService<AccountFeed>
+    public class ManagedAccountFeed : ManagedService<AccountFeed, TransitAccountFeed>
     {
-        private AccountFeed mAccountFeed = null;
-
         public ManagedAccountFeed(ISession session)
             : base(session)
         {
@@ -326,67 +324,45 @@ namespace SnCore.Services
         }
 
         public ManagedAccountFeed(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountFeed = (AccountFeed)session.Load(typeof(AccountFeed), id);
+
         }
 
         public ManagedAccountFeed(ISession session, AccountFeed value)
-            : base(session)
+            : base(session, value)
         {
-            mAccountFeed = value;
-        }
 
-        public ManagedAccountFeed(ISession session, TransitAccountFeed value)
-            : base(session)
-        {
-            mAccountFeed = value.GetAccountFeed(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mAccountFeed.Id;
-            }
         }
 
         public int AccountId
         {
             get
             {
-                return mAccountFeed.Account.Id;
+                return mInstance.Account.Id;
             }
         }
 
-        public TransitAccountFeed TransitAccountFeed
-        {
-            get
-            {
-                return new TransitAccountFeed(mAccountFeed);
-            }
-        }
-
-        public void Delete()
+        public override void Delete(ManagedSecurityContext sec)
         {
             ManagedFeature.Delete(Session, "AccountFeed", Id);
-            Session.Delete(mAccountFeed);
+            base.Delete(sec);
         }
 
         public HttpWebRequest GetFeedHttpRequest()
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(mAccountFeed.FeedUrl);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(mInstance.FeedUrl);
             System.Net.ServicePointManager.Expect100Continue = false;
             request.UserAgent = "SnCore/1.0";
             request.Timeout = 60 * 1000;
             request.KeepAlive = false;
             request.MaximumAutomaticRedirections = 5;
 
-            if (!string.IsNullOrEmpty(mAccountFeed.Username))
+            if (!string.IsNullOrEmpty(mInstance.Username))
             {
                 request.Credentials = new NetworkCredential(
-                                mAccountFeed.Username,
-                                mAccountFeed.Password,
+                                mInstance.Username,
+                                mInstance.Password,
                                 null);
             }
 
@@ -407,11 +383,11 @@ namespace SnCore.Services
 
         protected XmlDocument Transform(XmlDocument feed)
         {
-            if (!string.IsNullOrEmpty(mAccountFeed.FeedType.Xsl))
+            if (!string.IsNullOrEmpty(mInstance.FeedType.Xsl))
             {
                 StringBuilder ts = new StringBuilder();
                 XslCompiledTransform fxsl = new XslCompiledTransform();
-                fxsl.Load(new XmlTextReader(new StringReader(mAccountFeed.FeedType.Xsl)), null, null);
+                fxsl.Load(new XmlTextReader(new StringReader(mInstance.FeedType.Xsl)), null, null);
                 XPathDocument nav = new XPathDocument(new StringReader(feed.OuterXml));
                 StringWriter sw = new StringWriter(ts);
                 XmlTextWriter tw = new XmlTextWriter(sw);
@@ -431,22 +407,22 @@ namespace SnCore.Services
             if (feed.Entries.Count == 0)
                 return false;
 
-            if (string.IsNullOrEmpty(mAccountFeed.Name) && feed.Title != null)
-                mAccountFeed.Name = feed.Title.Content;
+            if (string.IsNullOrEmpty(mInstance.Name) && feed.Title != null)
+                mInstance.Name = feed.Title.Content;
 
-            if (string.IsNullOrEmpty(mAccountFeed.Description) && feed.SubTitle != null)
-                mAccountFeed.Description = feed.SubTitle.Content;
+            if (string.IsNullOrEmpty(mInstance.Description) && feed.SubTitle != null)
+                mInstance.Description = feed.SubTitle.Content;
 
-            if (string.IsNullOrEmpty(mAccountFeed.Description) && (feed.Tagline != null))
-                mAccountFeed.Description = feed.Tagline.Content;
+            if (string.IsNullOrEmpty(mInstance.Description) && (feed.Tagline != null))
+                mInstance.Description = feed.Tagline.Content;
 
-            if (string.IsNullOrEmpty(mAccountFeed.LinkUrl) && feed.Links.Count > 0)
+            if (string.IsNullOrEmpty(mInstance.LinkUrl) && feed.Links.Count > 0)
             {
                 foreach (AtomLink link in feed.Links)
                 {
                     if (link.Rel == Relationship.Alternate)
                     {
-                        mAccountFeed.LinkUrl = link.HRef.ToString();
+                        mInstance.LinkUrl = link.HRef.ToString();
                     }
                 }
             }
@@ -496,7 +472,7 @@ namespace SnCore.Services
                     deleted.Remove(item);
                 }
 
-                item.AccountFeed = mAccountFeed;
+                item.AccountFeed = mInstance;
                 item.Description = string.Empty;
                 foreach (AtomContent content in atomitem.Contents)
                 {
@@ -520,7 +496,7 @@ namespace SnCore.Services
                 }
 
                 item.Title = atomitem.Title.Content;
-                
+
                 if (atomitem.Links.Count > 0)
                 {
                     foreach (AtomLink link in atomitem.Links)
@@ -548,14 +524,14 @@ namespace SnCore.Services
 
             foreach (RssChannel rsschannel in feed.Channels)
             {
-                if (string.IsNullOrEmpty(mAccountFeed.Name))
-                    mAccountFeed.Name = rsschannel.Title;
+                if (string.IsNullOrEmpty(mInstance.Name))
+                    mInstance.Name = rsschannel.Title;
 
-                if (string.IsNullOrEmpty(mAccountFeed.Description))
-                    mAccountFeed.Description = rsschannel.Description;
+                if (string.IsNullOrEmpty(mInstance.Description))
+                    mInstance.Description = rsschannel.Description;
 
-                if (string.IsNullOrEmpty(mAccountFeed.LinkUrl))
-                    mAccountFeed.LinkUrl = rsschannel.Link.ToString();
+                if (string.IsNullOrEmpty(mInstance.LinkUrl))
+                    mInstance.LinkUrl = rsschannel.Link.ToString();
 
                 foreach (RssItem rssitem in rsschannel.Items)
                 {
@@ -596,7 +572,7 @@ namespace SnCore.Services
                         deleted.Remove(item);
                     }
 
-                    item.AccountFeed = mAccountFeed;
+                    item.AccountFeed = mInstance;
                     item.Description = string.IsNullOrEmpty(rssitem.Content) ? rssitem.Description : rssitem.Content;
                     item.Title = rssitem.Title;
                     if (rssitem.Link != null) item.Link = rssitem.Link.ToString();
@@ -611,20 +587,20 @@ namespace SnCore.Services
 
         public int Update()
         {
-            mAccountFeed.Updated = DateTime.UtcNow;
+            mInstance.Updated = DateTime.UtcNow;
 
-            IList<AccountFeedItem> deleted = mAccountFeed.AccountFeedItems;
+            IList<AccountFeedItem> deleted = mInstance.AccountFeedItems;
             List<AccountFeedItem> updated = new List<AccountFeedItem>();
 
             bool fUpdated = Update(RssFeed.Read(GetFeedHttpRequest()), deleted, updated);
 
-            if (! fUpdated) fUpdated = Update(AtomFeed.Load(GetFeedStream(),
-               new Uri("http://www.w3.org/2005/Atom")), deleted, updated);
+            if (!fUpdated) fUpdated = Update(AtomFeed.Load(GetFeedStream(),
+              new Uri("http://www.w3.org/2005/Atom")), deleted, updated);
 
-            if (! fUpdated) fUpdated = Update(AtomFeed.Load(GetFeedStream(), 
-                new Uri("http://purl.org/atom/ns#")), deleted, updated);
+            if (!fUpdated) fUpdated = Update(AtomFeed.Load(GetFeedStream(),
+               new Uri("http://purl.org/atom/ns#")), deleted, updated);
 
-            if (! fUpdated)
+            if (!fUpdated)
             {
                 throw new Exception("Invalid or empty RSS or ATOM feed.");
             }
@@ -640,14 +616,14 @@ namespace SnCore.Services
                 foreach (AccountFeedItem item in updated)
                     Session.SaveOrUpdate(item);
 
-                mAccountFeed.AccountFeedItems = updated;
-                mAccountFeed.LastError = string.Empty;
-                Session.SaveOrUpdate(mAccountFeed);
+                mInstance.AccountFeedItems = updated;
+                mInstance.LastError = string.Empty;
+                Session.SaveOrUpdate(mInstance);
             }
             catch (Exception ex)
             {
-                mAccountFeed.LastError = ex.Message;
-                Session.Save(mAccountFeed);
+                mInstance.LastError = ex.Message;
+                Session.Save(mInstance);
                 throw;
             }
 
@@ -658,10 +634,10 @@ namespace SnCore.Services
         {
             int result = 0;
             Uri basehref = null;
-            Uri.TryCreate(mAccountFeed.LinkUrl, UriKind.Absolute, out basehref);
+            Uri.TryCreate(mInstance.LinkUrl, UriKind.Absolute, out basehref);
 
             IList items = Session.CreateCriteria(typeof(AccountFeedItem))
-                .Add(Expression.Eq("AccountFeed.Id", mAccountFeed.Id))
+                .Add(Expression.Eq("AccountFeed.Id", mInstance.Id))
                 .List();
 
             foreach (AccountFeedItem item in items)
@@ -691,7 +667,7 @@ namespace SnCore.Services
 
                     if (x_img != null)
                     {
-                        // image already exists
+                        // image alRetreivey exists
                         continue;
                     }
 
@@ -712,10 +688,10 @@ namespace SnCore.Services
                         if (data == null) throw new Exception("Missing file data.");
                         ThumbnailBitmap bitmap = new ThumbnailBitmap(data);
                         x_img.Thumbnail = bitmap.Thumbnail;
-                        x_img.Visible = mAccountFeed.PublishImgs;
+                        x_img.Visible = mInstance.PublishImgs;
 
                         // hide images smaller than the thumbnail size
-                        if (bitmap.Size.Height < ThumbnailBitmap.ThumbnailSize.Height 
+                        if (bitmap.Size.Height < ThumbnailBitmap.ThumbnailSize.Height
                             || bitmap.Size.Width < ThumbnailBitmap.ThumbnailSize.Width)
                         {
                             x_img.Visible = false;
@@ -733,6 +709,27 @@ namespace SnCore.Services
             }
 
             return result;
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            mInstance.Updated = DateTime.UtcNow;
+
+            if (mInstance.Id == 0)
+            {
+                mInstance.Created = mInstance.Updated;
+                mInstance.LastError = "Feed has not yet been updated since last save.";
+            }
+
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowCreateAndRetrieve());
+            acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
+            return acl;
         }
     }
 }

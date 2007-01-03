@@ -10,10 +10,11 @@ using System.Resources;
 using System.Net.Mail;
 using System.IO;
 using SnCore.Tools.Web;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
-    public class TransitAccountPlace : TransitService
+    public class TransitAccountPlace : TransitService<AccountPlace>
     {
         private string mType;
 
@@ -185,43 +186,47 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountPlace(AccountPlace o)
-            : base(o.Id)
+        public TransitAccountPlace(AccountPlace instance)
+            : base(instance)
         {
-            Type = o.Type.Name;
-            Description = o.Description;
-            Created = o.Created;
-            Modified = o.Modified;
-            AccountId = o.Account.Id;
-            PlaceId = o.Place.Id;
-            AccountName = o.Account.Name;
-            PlaceName = o.Place.Name;
-            AccountPictureId = ManagedAccount.GetRandomAccountPictureId(o.Account);
-            PlacePictureId = ManagedService<PlacePicture>.GetRandomElementId(o.Place.PlacePictures);
-            CanWrite = o.Type.CanWrite;
+
         }
 
-        public AccountPlace GetAccountPlace(ISession session)
+        public override void SetInstance(AccountPlace instance)
         {
-            AccountPlace p = (Id != 0) ? (AccountPlace)session.Load(typeof(AccountPlace), Id) : new AccountPlace();
-            p.Description = this.Description;
-            p.Type = ManagedAccountPlaceType.Find(session, this.Type);
+            Type = instance.Type.Name;
+            Description = instance.Description;
+            Created = instance.Created;
+            Modified = instance.Modified;
+            AccountId = instance.Account.Id;
+            PlaceId = instance.Place.Id;
+            AccountName = instance.Account.Name;
+            PlaceName = instance.Place.Name;
+            AccountPictureId = ManagedAccount.GetRandomAccountPictureId(instance.Account);
+            PlacePictureId = ManagedService<PlacePicture, TransitPlacePicture>.GetRandomElementId(instance.Place.PlacePictures);
+            CanWrite = instance.Type.CanWrite;
+            base.SetInstance(instance);
+        }
+
+        public override AccountPlace GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            AccountPlace instance = base.GetInstance(session, sec);
+            instance.Description = this.Description;
+            instance.Type = ManagedAccountPlaceType.Find(session, this.Type);
 
             if (Id == 0)
             {
                 // the account and the place cannot be switched after the relationship is created
-                if (AccountId > 0) p.Account = (Account)session.Load(typeof(Account), AccountId);
-                if (PlaceId > 0) p.Place = (Place)session.Load(typeof(Place), PlaceId);
+                instance.Account = GetOwner(session, AccountId, sec);
+                instance.Place = (Place)session.Load(typeof(Place), PlaceId);
             }
 
-            return p;
+            return instance;
         }
     }
 
-    public class ManagedAccountPlace : ManagedService<AccountPlace>
+    public class ManagedAccountPlace : ManagedService<AccountPlace, TransitAccountPlace>
     {
-        private AccountPlace mAccountPlace = null;
-
         public ManagedAccountPlace(ISession session)
             : base(session)
         {
@@ -229,60 +234,47 @@ namespace SnCore.Services
         }
 
         public ManagedAccountPlace(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountPlace = (AccountPlace)session.Load(typeof(AccountPlace), id);
-        }
 
-        public ManagedAccountPlace(ISession session, AccountPlace value)
-            : base(session)
-        {
-            mAccountPlace = value;
-        }
-
-        public ManagedAccountPlace(ISession session, TransitAccountPlace value)
-            : base(session)
-        {
-            mAccountPlace = value.GetAccountPlace(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mAccountPlace.Id;
-            }
-        }
-
-        public TransitAccountPlace TransitAccountPlace
-        {
-            get
-            {
-                return new TransitAccountPlace(mAccountPlace);
-            }
         }
 
         public Account Account
         {
             get
             {
-                return mAccountPlace.Account;
+                return mInstance.Account;
             }
         }
 
-        public void Delete()
+        public override void Delete(ManagedSecurityContext sec)
         {
-            mAccountPlace.Account.AccountPlaces.Remove(mAccountPlace);
-            mAccountPlace.Place.AccountPlaces.Remove(mAccountPlace);
-            Session.Delete(mAccountPlace);
+            Collection<AccountPlace>.GetSafeCollection(mInstance.Account.AccountPlaces).Remove(mInstance);
+            Collection<AccountPlace>.GetSafeCollection(mInstance.Place.AccountPlaces).Remove(mInstance);
+            base.Delete(sec);
         }
 
         public Place Place
         {
             get
             {
-                return mAccountPlace.Place;
+                return mInstance.Place;
             }
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowCreateAndRetrieve());
+            acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
+            return acl;
         }
     }
 }

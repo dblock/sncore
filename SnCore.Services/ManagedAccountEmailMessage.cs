@@ -1,10 +1,11 @@
 using System;
 using NHibernate;
 using System.Collections;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
-    public class TransitAccountEmailMessage : TransitService
+    public class TransitAccountEmailMessage : TransitService<AccountEmailMessage>
     {
         private string mSubject;
 
@@ -146,41 +147,42 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountEmailMessage(AccountEmailMessage e)
-            : base(e.Id)
+        public TransitAccountEmailMessage(AccountEmailMessage value)
+            : base(value)
         {
-            Subject = e.Subject;
-            Body = e.Body;
-            DeleteSent = e.DeleteSent;
-            Sent = e.Sent;
-            SendError = e.SendError;
-            MailTo = e.MailTo;
-            MailFrom = e.MailFrom;
-            Created = e.Created;
-            Modified = e.Modified;
+
         }
 
-        public AccountEmailMessage GetAccountEmailMessage()
+        public override void SetInstance(AccountEmailMessage value)
         {
-            AccountEmailMessage message = new AccountEmailMessage();
-            message.Subject = this.Subject;
-            message.Body = this.Body;
-            message.DeleteSent = this.DeleteSent;
-            message.Sent = this.Sent;
-            message.SendError = this.SendError;
-            message.MailTo = this.MailTo;
-            message.MailFrom = this.MailFrom;
-            return message;
+            Subject = value.Subject;
+            Body = value.Body;
+            DeleteSent = value.DeleteSent;
+            Sent = value.Sent;
+            SendError = value.SendError;
+            MailTo = value.MailTo;
+            MailFrom = value.MailFrom;
+            Created = value.Created;
+            Modified = value.Modified;
+            base.SetInstance(value);
+        }
+
+        public override AccountEmailMessage GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            AccountEmailMessage instance = base.GetInstance(session, sec);
+            instance.Subject = this.Subject;
+            instance.Body = this.Body;
+            instance.DeleteSent = this.DeleteSent;
+            instance.Sent = this.Sent;
+            instance.SendError = this.SendError;
+            instance.MailTo = this.MailTo;
+            instance.MailFrom = this.MailFrom;
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed e-mail message.
-    /// </summary>
-    public class ManagedAccountEmailMessage : ManagedService<AccountEmailMessage>
+    public class ManagedAccountEmailMessage : ManagedService<AccountEmailMessage, TransitAccountEmailMessage>
     {
-        private AccountEmailMessage mAccountEmailMessage = null;
-
         public ManagedAccountEmailMessage(ISession session)
             : base(session)
         {
@@ -188,30 +190,22 @@ namespace SnCore.Services
         }
 
         public ManagedAccountEmailMessage(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountEmailMessage = (AccountEmailMessage)session.Load(typeof(AccountEmailMessage), id);
+
         }
 
         public ManagedAccountEmailMessage(ISession session, AccountEmailMessage value)
-            : base(session)
+            : base(session, value)
         {
-            mAccountEmailMessage = value;
-        }
 
-        public int Id
-        {
-            get
-            {
-                return mAccountEmailMessage.Id;
-            }
         }
 
         public string Body
         {
             get
             {
-                return mAccountEmailMessage.Body; ;
+                return mInstance.Body; ;
             }
         }
 
@@ -219,7 +213,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountEmailMessage.Created;
+                return mInstance.Created;
             }
         }
 
@@ -227,7 +221,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountEmailMessage.Modified;
+                return mInstance.Modified;
             }
         }
 
@@ -235,7 +229,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountEmailMessage.Subject;
+                return mInstance.Subject;
             }
         }
 
@@ -243,7 +237,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountEmailMessage.DeleteSent;
+                return mInstance.DeleteSent;
             }
         }
 
@@ -251,7 +245,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountEmailMessage.SendError;
+                return mInstance.SendError;
             }
         }
 
@@ -259,7 +253,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountEmailMessage.MailTo;
+                return mInstance.MailTo;
             }
         }
 
@@ -267,7 +261,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountEmailMessage.MailFrom;
+                return mInstance.MailFrom;
             }
         }
 
@@ -275,22 +269,28 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountEmailMessage.Sent; ;
+                return mInstance.Sent; ;
             }
         }
 
-        public TransitAccountEmailMessage TransitAccountEmailMessage
+        public override void Delete(ManagedSecurityContext sec)
         {
-            get
-            {
-                return new TransitAccountEmailMessage(mAccountEmailMessage);
-            }
+            Collection<AccountEmailMessage>.GetSafeCollection(mInstance.Account.AccountEmailMessages).Remove(mInstance);
+            base.Delete(sec);
         }
 
-        public void Delete()
+        protected override void Save(ManagedSecurityContext sec)
         {
-            mAccountEmailMessage.Account.AccountEmailMessages.Remove(mAccountEmailMessage);
-            Session.Delete(mAccountEmailMessage);
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
+            return acl;
         }
     }
 }

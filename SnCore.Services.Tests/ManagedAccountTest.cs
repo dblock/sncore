@@ -20,9 +20,9 @@ namespace SnCore.Services.Tests
         public void CreateAccount()
         {
             ManagedAccount a = new ManagedAccount(Session);
-            a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+            a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
             Session.Flush();
-            a.Delete();
+            a.Delete(AdminSecurityContext);
             Session.Flush();
         }
 
@@ -32,7 +32,7 @@ namespace SnCore.Services.Tests
             ManagedAccount a = new ManagedAccount(Session);
             try
             {
-                a.Create("LoginTestUser", "password", "logintest@localhost.com", DateTime.UtcNow);
+                a.Create("LoginTestUser", "password", "logintest@localhost.com", DateTime.UtcNow, AdminSecurityContext);
                 a.VerifyAllEmails();
                 Session.Flush();
 
@@ -41,7 +41,7 @@ namespace SnCore.Services.Tests
             }
             finally
             {
-                a.Delete();
+                a.Delete(AdminSecurityContext);
             }
         }
 
@@ -51,7 +51,7 @@ namespace SnCore.Services.Tests
             ManagedAccount a = new ManagedAccount(Session);
             try
             {
-                a.Create("LoginTestUser", "password", "logintest@localhost.com", DateTime.UtcNow);
+                a.Create("LoginTestUser", "password", "logintest@localhost.com", DateTime.UtcNow, AdminSecurityContext);
                 a.VerifyAllEmails();
                 Session.Flush();
 
@@ -60,7 +60,7 @@ namespace SnCore.Services.Tests
             }
             finally
             {
-                a.Delete();
+                a.Delete(AdminSecurityContext);
             }
         }
 
@@ -71,7 +71,7 @@ namespace SnCore.Services.Tests
             ManagedAccount a = new ManagedAccount(Session);
             try
             {
-                a.Create("LoginTestUser", "password", "logintest@localhost.com", DateTime.UtcNow);
+                a.Create("LoginTestUser", "password", "logintest@localhost.com", DateTime.UtcNow, AdminSecurityContext);
                 a.VerifyAllEmails();
                 Session.Flush();
 
@@ -79,7 +79,7 @@ namespace SnCore.Services.Tests
             }
             finally
             {
-                a.Delete();
+                a.Delete(AdminSecurityContext);
             }
         }
 
@@ -91,15 +91,15 @@ namespace SnCore.Services.Tests
             ManagedAccount b = new ManagedAccount(Session);
             try
             {
-                a.Create("LoginTestUser", "password", "logintest@localhost.com", DateTime.UtcNow);
-                b.Create("LoginTestUser", "password", "logintest@localhost.com", DateTime.UtcNow);
+                a.Create("LoginTestUser", "password", "logintest@localhost.com", DateTime.UtcNow, AdminSecurityContext);
+                b.Create("LoginTestUser", "password", "logintest@localhost.com", DateTime.UtcNow, AdminSecurityContext);
                 Session.Flush();
                 ManagedAccount.Login(Session, "logintest@localhost.com", "password");
             }
             finally
             {
-                a.Delete();
-                b.Delete();
+                a.Delete(a.GetSecurityContext());
+                b.Delete(b.GetSecurityContext());
             }
         }
 
@@ -109,13 +109,13 @@ namespace SnCore.Services.Tests
             ManagedAccount a = new ManagedAccount(Session);
             try
             {
-                a.Create("LoginTestUser", "password", "logintest@localhost.com", DateTime.UtcNow);
+                a.Create("LoginTestUser", "password", "logintest@localhost.com", DateTime.UtcNow, AdminSecurityContext);
                 Session.Flush();
                 a.ChangePassword("password", "newpassword");
             }
             finally
             {
-                a.Delete();
+                a.Delete(AdminSecurityContext);
             }
         }
 
@@ -126,13 +126,13 @@ namespace SnCore.Services.Tests
             ManagedAccount a = new ManagedAccount(Session);
             try
             {
-                a.Create("LoginTestUser", "password", "logintest@localhost.com", DateTime.UtcNow);
+                a.Create("LoginTestUser", "password", "logintest@localhost.com", DateTime.UtcNow, AdminSecurityContext);
                 Session.Flush();
                 a.ChangePassword("invalid password", "newpassword");
             }
             finally
             {
-                a.Delete();
+                a.Delete(a.GetSecurityContext());
             }
         }
 
@@ -143,13 +143,13 @@ namespace SnCore.Services.Tests
             ManagedAccount a = new ManagedAccount(Session);
             try
             {
-                a.Create("LoginTestUser", "password", "logintest@localhost.com", DateTime.UtcNow);
+                a.Create("LoginTestUser", "password", "logintest@localhost.com", DateTime.UtcNow, AdminSecurityContext);
                 Session.Flush();
                 a.ChangePassword("password", "new");
             }
             finally
             {
-                a.Delete();
+                a.Delete(AdminSecurityContext);
             }
         }
 
@@ -159,7 +159,7 @@ namespace SnCore.Services.Tests
             ManagedAccount a = new ManagedAccount(Session);
             try
             {
-                a.Create("AdministratorTestUser", "password", "administrator@localhost.com", DateTime.UtcNow);
+                a.Create("AdministratorTestUser", "password", "administrator@localhost.com", DateTime.UtcNow, AdminSecurityContext);
                 Session.Flush();
                 Assert.AreEqual(a.IsAdministrator(), false);
 
@@ -191,7 +191,7 @@ namespace SnCore.Services.Tests
             }
             finally
             {
-                a.Delete();
+                a.Delete(AdminSecurityContext);
             }
         }
 
@@ -201,13 +201,13 @@ namespace SnCore.Services.Tests
             ManagedAccount a = new ManagedAccount(Session);
             try
             {
-                a.Create("LoginTestUser", "password", "logintest@localhost.com", DateTime.UtcNow);
+                a.Create("LoginTestUser", "password", "logintest@localhost.com", DateTime.UtcNow, AdminSecurityContext);
                 Session.Flush();
                 // TODO
             }
             finally
             {
-                a.Delete();
+                a.Delete(AdminSecurityContext);
             }
         }
 

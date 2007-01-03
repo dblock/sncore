@@ -10,10 +10,11 @@ using System.Resources;
 using System.Net.Mail;
 using System.IO;
 using System.Collections.Generic;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
-    public class TransitDiscussionThread : TransitService
+    public class TransitDiscussionThread : TransitService<DiscussionThread>
     {
         private DateTime mCreated;
 
@@ -65,32 +66,33 @@ namespace SnCore.Services
 
         }
 
-        public TransitDiscussionThread(DiscussionThread d)
-            : base(d.Id)
+        public TransitDiscussionThread(DiscussionThread value)
+            : base(value)
         {
-            Created = d.Created;
-            Modified = d.Modified;
-            DiscussionId = d.Discussion.Id;
+
         }
 
-        public DiscussionThread GetDiscussionThread(ISession session)
+        public override void SetInstance(DiscussionThread value)
         {
-            DiscussionThread d = (Id != 0) ? (DiscussionThread)session.Load(typeof(DiscussionThread), Id) : new DiscussionThread();
+            Created = value.Created;
+            Modified = value.Modified;
+            DiscussionId = value.Discussion.Id;
+            base.SetInstance(value);
+        }
+
+        public override DiscussionThread GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            DiscussionThread instance = base.GetInstance(session, sec);
             if (Id == 0)
             {
-                d.Discussion = (Discussion)session.Load(typeof(Discussion), this.DiscussionId);
+                instance.Discussion = (Discussion)session.Load(typeof(Discussion), this.DiscussionId);
             }
-            return d;
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed discussion thread.
-    /// </summary>
-    public class ManagedDiscussionThread : ManagedService<DiscussionThread>
+    public class ManagedDiscussionThread : ManagedService<DiscussionThread, TransitDiscussionThread>
     {
-        private DiscussionThread mDiscussionThread = null;
-
         public ManagedDiscussionThread(ISession session)
             : base(session)
         {
@@ -98,51 +100,44 @@ namespace SnCore.Services
         }
 
         public ManagedDiscussionThread(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mDiscussionThread = (DiscussionThread)session.Load(typeof(DiscussionThread), id);
+
         }
 
         public ManagedDiscussionThread(ISession session, DiscussionThread value)
-            : base(session)
+            : base(session, value)
         {
-            mDiscussionThread = value;
+
         }
 
-        public int Id
-        {
-            get
-            {
-                return mDiscussionThread.Id;
-            }
-        }
-
-        public List<TransitDiscussionPost> GetPosts()
+        public List<TransitDiscussionPost> GetPosts(ManagedSecurityContext sec)
         {
             List<TransitDiscussionPost> result = new List<TransitDiscussionPost>();
-            foreach (DiscussionPost post in mDiscussionThread.DiscussionPosts)
+            foreach (DiscussionPost post in Collection<DiscussionPost>.GetSafeCollection(mInstance.DiscussionPosts))
             {
                 if (post.DiscussionPostParent == null)
                 {
                     ManagedDiscussionPost m_post = new ManagedDiscussionPost(Session, post);
-                    result.Insert(0, m_post.GetTransitDiscussionPost());
-                    result.InsertRange(1, m_post.GetPosts());
+                    result.Insert(0, m_post.GetTransitInstance(sec));
+                    result.InsertRange(1, m_post.GetPosts(sec));
                 }
             }
             return result;
         }
 
-        public void Create(TransitDiscussionThread c)
+        protected override void Save(ManagedSecurityContext sec)
         {
-            mDiscussionThread = c.GetDiscussionThread(Session);
-            mDiscussionThread.Modified = DateTime.UtcNow;
-            if (mDiscussionThread.Id == 0) mDiscussionThread.Created = mDiscussionThread.Modified;
-            Session.Save(mDiscussionThread);
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
         }
 
-        public void Delete()
+        public override ACL GetACL()
         {
-            Session.Delete(mDiscussionThread);
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowCreateAndRetrieve());
+            return acl;
         }
     }
 }

@@ -13,7 +13,7 @@ using System.Collections.Generic;
 
 namespace SnCore.Services
 {
-    public class TransitBugLink : TransitService
+    public class TransitBugLink : TransitService<BugLink>
     {
         private int mBugId;
 
@@ -50,32 +50,32 @@ namespace SnCore.Services
 
         }
 
-        public TransitBugLink(BugLink o)
-            : base(o.Id)
+        public TransitBugLink(BugLink value)
+            : base(value)
         {
-            BugId = o.Bug.Id;
-            RelatedBugId = o.RelatedBug.Id;
         }
 
-        public BugLink GetBugLink(ISession session)
+        public override void SetInstance(BugLink value)
         {
-            BugLink p = (Id != 0) ? (BugLink)session.Load(typeof(BugLink), Id) : new BugLink();
+            BugId = value.Bug.Id;
+            RelatedBugId = value.RelatedBug.Id;
+            base.SetInstance(value);
+        }
+
+        public override BugLink GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            BugLink instance = base.GetInstance(session, sec);
             if (Id == 0)
             {
-                p.Bug = (Bug)session.Load(typeof(Bug), this.BugId);
-                p.RelatedBug = (Bug)session.Load(typeof(Bug), this.RelatedBugId);
+                instance.Bug = (Bug)session.Load(typeof(Bug), this.BugId);
+                instance.RelatedBug = (Bug)session.Load(typeof(Bug), this.RelatedBugId);
             }
-            return p;
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed bug Link.
-    /// </summary>
-    public class ManagedBugLink : ManagedService<BugLink>
+    public class ManagedBugLink : ManagedService<BugLink, TransitBugLink>
     {
-        private BugLink mBugLink = null;
-
         public ManagedBugLink(ISession session)
             : base(session)
         {
@@ -83,52 +83,35 @@ namespace SnCore.Services
         }
 
         public ManagedBugLink(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mBugLink = (BugLink)session.Load(typeof(BugLink), id);
+
         }
 
         public ManagedBugLink(ISession session, BugLink value)
-            : base(session)
+            : base(session, value)
         {
-            mBugLink = value;
+
         }
 
-        public ManagedBugLink(ISession session, TransitBugLink value)
-            : base(session)
+        public override int CreateOrUpdate(TransitBugLink instance, ManagedSecurityContext sec)
         {
-            mBugLink = value.GetBugLink(session);
-        }
+            base.CreateOrUpdate(instance, sec);
 
-        public int Id
-        {
-            get
+            if (mInstance.Bug.BugLinks == null)
             {
-                return mBugLink.Id;
+                mInstance.Bug.BugLinks = new List<BugLink>();
             }
+
+            mInstance.Bug.BugLinks.Add(mInstance);
+            return mInstance.Id;
         }
 
-        public TransitBugLink TransitBugLink
+        public override ACL GetACL()
         {
-            get
-            {
-                return new TransitBugLink(mBugLink);
-            }
-        }
-
-        public void CreateOrUpdate(TransitBugLink o)
-        {
-            mBugLink = o.GetBugLink(Session);
-            Session.Save(mBugLink);
-
-            if (mBugLink.Bug.BugLinks == null)
-                mBugLink.Bug.BugLinks = new List<BugLink>();
-            mBugLink.Bug.BugLinks.Add(mBugLink);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mBugLink);
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            return acl;
         }
     }
 }

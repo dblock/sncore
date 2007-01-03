@@ -68,7 +68,7 @@ namespace SnCore.Services
         }
     };
 
-    public class TransitAccountFeedItemImg : TransitService
+    public class TransitAccountFeedItemImg : TransitService<AccountFeedItemImg>
     {
         private int mAccountId;
 
@@ -276,43 +276,47 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountFeedItemImg(ISession session, AccountFeedItemImg o)
-            : base(o.Id)
+        public TransitAccountFeedItemImg(ISession session, AccountFeedItemImg instance)
+            : base(instance)
         {
-            AccountFeedItemId = o.AccountFeedItem.Id;
-            Url = o.Url;
-            Description = o.Description;
-            Created = o.Created;
-            Modified = o.Modified;
-            Interesting = o.Interesting;
-            Visible = o.Visible;
-            LastError = o.LastError;
-            Thumbnail = o.Thumbnail;
-            AccountFeedItemTitle = o.AccountFeedItem.Title;
-            AccountFeedName = o.AccountFeedItem.AccountFeed.Name;
-            AccountName = o.AccountFeedItem.AccountFeed.Account.Name;
-            AccountId = o.AccountFeedItem.AccountFeed.Account.Id;
-            AccountFeedId = o.AccountFeedItem.AccountFeed.Id;
+
         }
 
-        public AccountFeedItemImg GetAccountFeedItemImg(ISession session)
+        public override void SetInstance(AccountFeedItemImg instance)
         {
-            AccountFeedItemImg p = (Id != 0) ? (AccountFeedItemImg)session.Load(typeof(AccountFeedItemImg), Id) : new AccountFeedItemImg();
-            p.Url = this.Url;
-            p.Description = this.Description;
-            p.Interesting = this.Interesting;
-            p.Visible = this.Visible;
-            p.LastError = this.LastError;
-            if (this.Thumbnail != null) p.Thumbnail = this.Thumbnail;
-            if (this.AccountFeedItemId != 0) p.AccountFeedItem = (AccountFeedItem)session.Load(typeof(AccountFeedItem), AccountFeedItemId);
-            return p;
+            AccountFeedItemId = instance.AccountFeedItem.Id;
+            Url = instance.Url;
+            Description = instance.Description;
+            Created = instance.Created;
+            Modified = instance.Modified;
+            Interesting = instance.Interesting;
+            Visible = instance.Visible;
+            LastError = instance.LastError;
+            Thumbnail = instance.Thumbnail;
+            AccountFeedItemTitle = instance.AccountFeedItem.Title;
+            AccountFeedName = instance.AccountFeedItem.AccountFeed.Name;
+            AccountName = instance.AccountFeedItem.AccountFeed.Account.Name;
+            AccountId = instance.AccountFeedItem.AccountFeed.Account.Id;
+            AccountFeedId = instance.AccountFeedItem.AccountFeed.Id;
+            base.SetInstance(instance);
+        }
+
+        public override AccountFeedItemImg GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            AccountFeedItemImg instance = base.GetInstance(session, sec);
+            instance.Url = this.Url;
+            instance.Description = this.Description;
+            instance.Interesting = this.Interesting;
+            instance.Visible = this.Visible;
+            instance.LastError = this.LastError;
+            if (this.Thumbnail != null) instance.Thumbnail = this.Thumbnail;
+            if (this.AccountFeedItemId != 0) instance.AccountFeedItem = (AccountFeedItem)session.Load(typeof(AccountFeedItem), AccountFeedItemId);
+            return instance;
         }
     }
 
-    public class ManagedAccountFeedItemImg : ManagedService<AccountFeedItemImg>
+    public class ManagedAccountFeedItemImg : ManagedService<AccountFeedItemImg, TransitAccountFeedItemImg>
     {
-        private AccountFeedItemImg mAccountFeedItemImg = null;
-
         public ManagedAccountFeedItemImg(ISession session)
             : base(session)
         {
@@ -320,50 +324,30 @@ namespace SnCore.Services
         }
 
         public ManagedAccountFeedItemImg(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountFeedItemImg = (AccountFeedItemImg)session.Load(typeof(AccountFeedItemImg), id);
+
         }
 
         public ManagedAccountFeedItemImg(ISession session, AccountFeedItemImg value)
-            : base(session)
+            : base(session, value)
         {
-            mAccountFeedItemImg = value;
+
         }
 
-        public ManagedAccountFeedItemImg(ISession session, TransitAccountFeedItemImg value)
-            : base(session)
+        protected override void Save(ManagedSecurityContext sec)
         {
-            mAccountFeedItemImg = value.GetAccountFeedItemImg(session);
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
         }
 
-        public int Id
+        public override ACL GetACL()
         {
-            get
-            {
-                return mAccountFeedItemImg.Id;
-            }
-        }
-
-        public TransitAccountFeedItemImg TransitAccountFeedItemImg
-        {
-            get
-            {
-                return new TransitAccountFeedItemImg(Session, mAccountFeedItemImg);
-            }
-        }
-
-        public void CreateOrUpdate(TransitAccountFeedItemImg o)
-        {
-            mAccountFeedItemImg = o.GetAccountFeedItemImg(Session);
-            mAccountFeedItemImg.Modified = DateTime.UtcNow;
-            if (Id == 0) mAccountFeedItemImg.Created = mAccountFeedItemImg.Modified;
-            Session.Save(mAccountFeedItemImg);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mAccountFeedItemImg);
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            acl.Add(new ACLAccount(mInstance.AccountFeedItem.AccountFeed.Account, DataOperation.All));
+            return acl;
         }
     }
 }

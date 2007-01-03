@@ -20,7 +20,7 @@ using Atom.Core;
 
 namespace SnCore.Services
 {
-    public class TransitAccountBlog : TransitService
+    public class TransitAccountBlog : TransitService<AccountBlog>
     {
         private string mName;
 
@@ -132,37 +132,36 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountBlog(AccountBlog o)
-            : base(o.Id)
+        public TransitAccountBlog(AccountBlog instance)
+            : base(instance)
         {
-            Name = o.Name;
-            Description = o.Description;
-            Created = o.Created;
-            Updated = o.Updated;
-            AccountId = o.Account.Id;
-            AccountName = o.Account.Name;
-            AccountPictureId = ManagedAccount.GetRandomAccountPictureId(o.Account);
+
         }
 
-        public AccountBlog GetAccountBlog(ISession session)
+        public override void SetInstance(AccountBlog instance)
         {
-            AccountBlog p = (Id != 0) ? (AccountBlog)session.Load(typeof(AccountBlog), Id) : new AccountBlog();
+            Name = instance.Name;
+            Description = instance.Description;
+            Created = instance.Created;
+            Updated = instance.Updated;
+            AccountId = instance.Account.Id;
+            AccountName = instance.Account.Name;
+            AccountPictureId = ManagedAccount.GetRandomAccountPictureId(instance.Account);
+            base.SetInstance(instance);
+        }
 
-            if (Id == 0)
-            {
-                if (AccountId > 0) p.Account = (Account)session.Load(typeof(Account), AccountId);
-            }
-
-            p.Name = this.Name;
-            p.Description = this.Description;
-            return p;
+        public override AccountBlog GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            AccountBlog instance = base.GetInstance(session, sec);
+            if (Id == 0) instance.Account = GetOwner(session, AccountId, sec);
+            instance.Name = this.Name;
+            instance.Description = this.Description;
+            return instance;
         }
     }
 
-    public class ManagedAccountBlog : ManagedService<AccountBlog>
+    public class ManagedAccountBlog : ManagedService<AccountBlog, TransitAccountBlog>
     {
-        private AccountBlog mAccountBlog = null;
-
         public ManagedAccountBlog(ISession session)
             : base(session)
         {
@@ -170,69 +169,42 @@ namespace SnCore.Services
         }
 
         public ManagedAccountBlog(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountBlog = (AccountBlog)session.Load(typeof(AccountBlog), id);
+
         }
 
         public ManagedAccountBlog(ISession session, AccountBlog value)
-            : base(session)
+            : base(session, value)
         {
-            mAccountBlog = value;
-        }
 
-        public ManagedAccountBlog(ISession session, TransitAccountBlog value)
-            : base(session)
-        {
-            mAccountBlog = value.GetAccountBlog(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mAccountBlog.Id;
-            }
         }
 
         public int AccountId
         {
             get
             {
-                return mAccountBlog.Account.Id;
+                return Object.Account.Id;
             }
         }
 
-        public TransitAccountBlog TransitAccountBlog
-        {
-            get
-            {
-                return new TransitAccountBlog(mAccountBlog);
-            }
-        }
-
-        public void Delete()
+        public override void Delete(ManagedSecurityContext sec)
         {
             ManagedFeature.Delete(Session, "AccountBlog", Id);
             AccountFeed feed = GetSyndicatedFeed();
-
-            if (feed != null)
-            {
-                Session.Delete(feed);
-            }
-
-            Session.Delete(mAccountBlog);
+            if (feed != null) Session.Delete(feed);
+            base.Delete(sec);
         }
 
         public bool CanDelete(int id)
         {
-            if (mAccountBlog.Account.Id == id)
+            if (Object.Account.Id == id)
                 return true;
 
-            if (mAccountBlog.AccountBlogAuthors == null)
+            if (Object.AccountBlogAuthors == null)
                 return false;
 
-            foreach (AccountBlogAuthor author in mAccountBlog.AccountBlogAuthors)
+            foreach (AccountBlogAuthor author in Object.AccountBlogAuthors)
             {
                 if (author.Account.Id == id && author.AllowDelete)
                 {
@@ -245,13 +217,13 @@ namespace SnCore.Services
 
         public bool CanEdit(int id)
         {
-            if (mAccountBlog.Account.Id == id)
+            if (Object.Account.Id == id)
                 return true;
 
-            if (mAccountBlog.AccountBlogAuthors == null)
+            if (Object.AccountBlogAuthors == null)
                 return false;
 
-            foreach (AccountBlogAuthor author in mAccountBlog.AccountBlogAuthors)
+            foreach (AccountBlogAuthor author in Object.AccountBlogAuthors)
             {
                 if (author.Account.Id == id && author.AllowEdit)
                 {
@@ -264,13 +236,13 @@ namespace SnCore.Services
 
         public bool CanPost(int id)
         {
-            if (mAccountBlog.Account.Id == id)
+            if (Object.Account.Id == id)
                 return true;
 
-            if (mAccountBlog.AccountBlogAuthors == null)
+            if (Object.AccountBlogAuthors == null)
                 return false;
 
-            foreach (AccountBlogAuthor author in mAccountBlog.AccountBlogAuthors)
+            foreach (AccountBlogAuthor author in Object.AccountBlogAuthors)
             {
                 if (author.Account.Id == id && author.AllowPost)
                 {
@@ -292,7 +264,7 @@ namespace SnCore.Services
             get
             {
                 string website = ManagedConfiguration.GetValue(Session, "SnCore.WebSite.Url", "http://localhost/SnCore");
-                return string.Format("{0}/AccountBlogRss.aspx?id={1}", website, mAccountBlog.Id);
+                return string.Format("{0}/AccountBlogRss.aspx?id={1}", website, Object.Id);
             }
         }
 
@@ -301,7 +273,7 @@ namespace SnCore.Services
             get
             {
                 string website = ManagedConfiguration.GetValue(Session, "SnCore.WebSite.Url", "http://localhost/SnCore");
-                return string.Format("{0}/AccountBlog.aspx?id={1}", website, mAccountBlog.Id);
+                return string.Format("{0}/AccountBlog.aspx?id={1}", website, Object.Id);
             }
         }
 
@@ -320,7 +292,7 @@ namespace SnCore.Services
             if (feed == null)
             {
                 feed = new AccountFeed();
-                feed.Account = mAccountBlog.Account;
+                feed.Account = Object.Account;
                 feed.Created = feed.Updated = DateTime.UtcNow;
                 feed.UpdateFrequency = 12;
                 feed.PublishImgs = true;
@@ -334,10 +306,25 @@ namespace SnCore.Services
                 feed.Updated = DateTime.UtcNow;
             }
 
-            feed.Name = mAccountBlog.Name;
-            feed.Description = mAccountBlog.Description;
+            feed.Name = Object.Name;
+            feed.Description = Object.Description;
             Session.Save(feed);
             return feed.Id;
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            mInstance.Updated = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Updated;
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowCreateAndRetrieve());
+            acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
+            return acl;
         }
     }
 }

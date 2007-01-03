@@ -23,16 +23,18 @@ namespace SnCore.Services.Tests
 
             try
             {
-                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
 
                 TransitAccountMessageFolder tf = new TransitAccountMessageFolder();
                 tf.Name = Guid.NewGuid().ToString();
                 tf.System = false;
-                a.CreateOrUpdate(tf);
+
+                ManagedAccountMessageFolder m_f = new ManagedAccountMessageFolder(Session);
+                m_f.CreateOrUpdate(tf, AdminSecurityContext);
             }
             finally
             {
-                a.Delete();
+                a.Delete(AdminSecurityContext);
             }
         }
     }

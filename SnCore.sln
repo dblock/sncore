@@ -35,7 +35,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SnCore.Docs", "SnCore.Docs\
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "http://localhost/SnCoreWeb/", "http://localhost/SnCoreWeb", "{6FDDCDCC-EBEE-405B-86B3-05A418A9B40D}"
 	ProjectSection(WebsiteProperties) = preProject
-		ProjectReferences = "{53F80219-6028-406B-819A-E79AE4D56995}|SnCore.Tools.dll;{3E4122EA-09F7-4D3A-BD40-3AE4D54A3DA0}|Wilco.Web.dll;{6AA41A44-B048-4370-A084-E7BE64DF2811}|SnCore.WebControls.dll;{5AEB26B1-4C6C-42ED-86A0-2E5FD6CE53E2}|SnCore.Services.dll;{437F9693-8C20-49BD-A4FD-68A88E9A92C0}|SnCore.Data.Hibernate.dll;{9354A6E8-72CD-4E69-92E7-C2740F5B5F16}|SnCore.BackEnd.dll;{615D15C5-42A4-4710-A713-D0678F7F7ED1}|SnCore.SiteMap.dll;{F78C3AFB-D0CE-4F92-A180-371293D0D937}|SnCore.Data.dll;"
+		ProjectReferences = "{53F80219-6028-406B-819A-E79AE4D56995}|SnCore.Tools.dll;{3E4122EA-09F7-4D3A-BD40-3AE4D54A3DA0}|Wilco.Web.dll;{6AA41A44-B048-4370-A084-E7BE64DF2811}|SnCore.WebControls.dll;{5AEB26B1-4C6C-42ED-86A0-2E5FD6CE53E2}|SnCore.Services.dll;{437F9693-8C20-49BD-A4FD-68A88E9A92C0}|SnCore.Data.Hibernate.dll;{9354A6E8-72CD-4E69-92E7-C2740F5B5F16}|SnCore.BackEnd.dll;{615D15C5-42A4-4710-A713-D0678F7F7ED1}|SnCore.SiteMap.dll;{F78C3AFB-D0CE-4F92-A180-371293D0D937}|SnCore.Data.dll;{A18A417F-A1C5-43F2-BAC2-00B1A924E60F}|SnCore.WebServices.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/SnCoreWeb"
 		Debug.AspNetCompiler.PhysicalPath = "SnCore.Web\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\SnCoreWeb\"
@@ -138,6 +138,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnCore.Web.Tests", "SnCore.
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnCore.SiteMap", "SnCore.SiteMap\SnCore.SiteMap.csproj", "{615D15C5-42A4-4710-A713-D0678F7F7ED1}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnCore.WebServices", "SnCore.WebServices\SnCore.WebServices.csproj", "{A18A417F-A1C5-43F2-BAC2-00B1A924E60F}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnCore.WebServices.Tests", "SnCore.WebServices.Tests\SnCore.WebServices.Tests.csproj", "{8620AD9D-1515-43EE-A0A2-9D502ADF8308}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
@@ -421,6 +433,30 @@ Global
 		{615D15C5-42A4-4710-A713-D0678F7F7ED1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{615D15C5-42A4-4710-A713-D0678F7F7ED1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{615D15C5-42A4-4710-A713-D0678F7F7ED1}.Release|Win32.ActiveCfg = Release|Any CPU
+		{A18A417F-A1C5-43F2-BAC2-00B1A924E60F}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{A18A417F-A1C5-43F2-BAC2-00B1A924E60F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A18A417F-A1C5-43F2-BAC2-00B1A924E60F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A18A417F-A1C5-43F2-BAC2-00B1A924E60F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A18A417F-A1C5-43F2-BAC2-00B1A924E60F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A18A417F-A1C5-43F2-BAC2-00B1A924E60F}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{A18A417F-A1C5-43F2-BAC2-00B1A924E60F}.Release|.NET.ActiveCfg = Release|Any CPU
+		{A18A417F-A1C5-43F2-BAC2-00B1A924E60F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A18A417F-A1C5-43F2-BAC2-00B1A924E60F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A18A417F-A1C5-43F2-BAC2-00B1A924E60F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A18A417F-A1C5-43F2-BAC2-00B1A924E60F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A18A417F-A1C5-43F2-BAC2-00B1A924E60F}.Release|Win32.ActiveCfg = Release|Any CPU
+		{8620AD9D-1515-43EE-A0A2-9D502ADF8308}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{8620AD9D-1515-43EE-A0A2-9D502ADF8308}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8620AD9D-1515-43EE-A0A2-9D502ADF8308}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8620AD9D-1515-43EE-A0A2-9D502ADF8308}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{8620AD9D-1515-43EE-A0A2-9D502ADF8308}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{8620AD9D-1515-43EE-A0A2-9D502ADF8308}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{8620AD9D-1515-43EE-A0A2-9D502ADF8308}.Release|.NET.ActiveCfg = Release|Any CPU
+		{8620AD9D-1515-43EE-A0A2-9D502ADF8308}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8620AD9D-1515-43EE-A0A2-9D502ADF8308}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8620AD9D-1515-43EE-A0A2-9D502ADF8308}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{8620AD9D-1515-43EE-A0A2-9D502ADF8308}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{8620AD9D-1515-43EE-A0A2-9D502ADF8308}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -10,10 +10,11 @@ using System.Resources;
 using System.Net.Mail;
 using System.IO;
 using SnCore.Tools.Web;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
-    public class TransitAccountPlaceFavorite : TransitService
+    public class TransitAccountPlaceFavorite : TransitService<AccountPlaceFavorite>
     {
         private DateTime mCreated;
 
@@ -167,40 +168,44 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountPlaceFavorite(AccountPlaceFavorite o)
-            : base(o.Id)
+        public TransitAccountPlaceFavorite(AccountPlaceFavorite instance)
+            : base(instance)
         {
-            Created = o.Created;
-            AccountId = o.Account.Id;
-            PlaceId = o.Place.Id;
-            AccountName = o.Account.Name;
-            PlaceName = o.Place.Name;
-            AccountPictureId = ManagedAccount.GetRandomAccountPictureId(o.Account);
-            PlacePictureId = ManagedService<PlacePicture>.GetRandomElementId(o.Place.PlacePictures);
-            if (o.Place.City != null) PlaceCity = o.Place.City.Name;
-            if (o.Place.City != null && o.Place.City.State != null) PlaceState = o.Place.City.State.Name;
-            if (o.Place.City != null && o.Place.City.Country != null) PlaceCountry = o.Place.City.Country.Name;
+
         }
 
-        public AccountPlaceFavorite GetAccountPlaceFavorite(ISession session)
+        public override void SetInstance(AccountPlaceFavorite instance)
         {
-            AccountPlaceFavorite p = (Id != 0) ? (AccountPlaceFavorite)session.Load(typeof(AccountPlaceFavorite), Id) : new AccountPlaceFavorite();
+            Created = instance.Created;
+            AccountId = instance.Account.Id;
+            PlaceId = instance.Place.Id;
+            AccountName = instance.Account.Name;
+            PlaceName = instance.Place.Name;
+            AccountPictureId = ManagedAccount.GetRandomAccountPictureId(instance.Account);
+            PlacePictureId = ManagedService<PlacePicture, TransitPlacePicture>.GetRandomElementId(instance.Place.PlacePictures);
+            if (instance.Place.City != null) PlaceCity = instance.Place.City.Name;
+            if (instance.Place.City != null && instance.Place.City.State != null) PlaceState = instance.Place.City.State.Name;
+            if (instance.Place.City != null && instance.Place.City.Country != null) PlaceCountry = instance.Place.City.Country.Name;
+            base.SetInstance(instance);
+        }
+
+        public override AccountPlaceFavorite GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            AccountPlaceFavorite instance = base.GetInstance(session, sec);
 
             if (Id == 0)
             {
                 // the account and the place cannot be switched after the relationship is created
-                if (AccountId > 0) p.Account = (Account)session.Load(typeof(Account), AccountId);
-                if (PlaceId > 0) p.Place = (Place)session.Load(typeof(Place), PlaceId);
+                instance.Account = GetOwner(session, AccountId, sec);
+                instance.Place = (Place)session.Load(typeof(Place), PlaceId);
             }
 
-            return p;
+            return instance;
         }
     }
 
-    public class ManagedAccountPlaceFavorite : ManagedService<AccountPlaceFavorite>
+    public class ManagedAccountPlaceFavorite : ManagedService<AccountPlaceFavorite, TransitAccountPlaceFavorite>
     {
-        private AccountPlaceFavorite mAccountPlaceFavorite = null;
-
         public ManagedAccountPlaceFavorite(ISession session)
             : base(session)
         {
@@ -208,60 +213,52 @@ namespace SnCore.Services
         }
 
         public ManagedAccountPlaceFavorite(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountPlaceFavorite = (AccountPlaceFavorite)session.Load(typeof(AccountPlaceFavorite), id);
+
         }
 
         public ManagedAccountPlaceFavorite(ISession session, AccountPlaceFavorite value)
-            : base(session)
+            : base(session, value)
         {
-            mAccountPlaceFavorite = value;
-        }
 
-        public ManagedAccountPlaceFavorite(ISession session, TransitAccountPlaceFavorite value)
-            : base(session)
-        {
-            mAccountPlaceFavorite = value.GetAccountPlaceFavorite(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mAccountPlaceFavorite.Id;
-            }
-        }
-
-        public TransitAccountPlaceFavorite TransitAccountPlaceFavorite
-        {
-            get
-            {
-                return new TransitAccountPlaceFavorite(mAccountPlaceFavorite);
-            }
         }
 
         public Account Account
         {
             get
             {
-                return mAccountPlaceFavorite.Account;
+                return mInstance.Account;
             }
         }
 
-        public void Delete()
+        public override void Delete(ManagedSecurityContext sec)
         {
-            mAccountPlaceFavorite.Account.AccountPlaceFavorites.Remove(mAccountPlaceFavorite);
-            mAccountPlaceFavorite.Place.AccountPlaceFavorites.Remove(mAccountPlaceFavorite);
-            Session.Delete(mAccountPlaceFavorite);
+            Collection<AccountPlaceFavorite>.GetSafeCollection(mInstance.Account.AccountPlaceFavorites).Remove(mInstance);
+            Collection<AccountPlaceFavorite>.GetSafeCollection(mInstance.Place.AccountPlaceFavorites).Remove(mInstance);
+            base.Delete(sec);
         }
 
         public Place Place
         {
             get
             {
-                return mAccountPlaceFavorite.Place;
+                return mInstance.Place;
             }
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            if (mInstance.Id == 0) mInstance.Created = DateTime.UtcNow; 
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowCreateAndRetrieve());
+            acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
+            return acl;
         }
     }
 }

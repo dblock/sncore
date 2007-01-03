@@ -11,10 +11,11 @@ using System.Net.Mail;
 using System.IO;
 using SnCore.Tools.Web;
 using SnCore.Tools;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
-    public class TransitDistinctPlaceNeighborhood : TransitService
+    public class TransitDistinctPlaceNeighborhood
     {
         private string mName;
 
@@ -45,12 +46,6 @@ namespace SnCore.Services
         }
 
         public TransitDistinctPlaceNeighborhood()
-        {
-
-        }
-
-        public TransitDistinctPlaceNeighborhood(int id)
-            : base(id)
         {
 
         }
@@ -85,49 +80,49 @@ namespace SnCore.Services
             if (!string.IsNullOrEmpty(Neighborhood))
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.AppendFormat("p.Neighborhood.Id = '{0}'", ManagedNeighborhood.GetNeighborhoodId(session, Neighborhood, City, State, Country));
+                b.AppendFormat("instance.Neighborhood.Id = '{0}'", ManagedNeighborhood.GetNeighborhoodId(session, Neighborhood, City, State, Country));
             }
 
             if (!string.IsNullOrEmpty(City))
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.AppendFormat("p.City.Id = '{0}'", ManagedCity.GetCityId(session, City, State, Country));
+                b.AppendFormat("instance.City.Id = '{0}'", ManagedCity.GetCityId(session, City, State, Country));
             }
 
             if (!string.IsNullOrEmpty(Country))
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.AppendFormat("p.City.Country.Id = {0}", ManagedCountry.GetCountryId(session, Country));
+                b.AppendFormat("instance.City.Country.Id = {0}", ManagedCountry.GetCountryId(session, Country));
             }
 
             if (!string.IsNullOrEmpty(State))
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.AppendFormat("p.City.State.Id = {0}", ManagedState.GetStateId(session, State, Country));
+                b.AppendFormat("instance.City.State.Id = {0}", ManagedState.GetStateId(session, State, Country));
             }
 
             if (!string.IsNullOrEmpty(Name))
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.AppendFormat("p.Name LIKE '%{0}%'", Renderer.SqlEncode(Name));
+                b.AppendFormat("instance.Name LIKE '%{0}%'", Renderer.SqlEncode(Name));
             }
 
             if (!string.IsNullOrEmpty(Type))
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.AppendFormat("p.Type.Id = {0}", ManagedPlaceType.FindId(session, Type));
+                b.AppendFormat("instance.Type.Id = {0}", ManagedPlaceType.FindId(session, Type));
             }
 
             if (AccountId != 0)
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.AppendFormat("p.Account.Id = {0}", AccountId);
+                b.AppendFormat("instance.Account.Id = {0}", AccountId);
             }
 
             if (PicturesOnly)
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.Append("EXISTS ELEMENTS(p.PlacePictures)");
+                b.Append("EXISTS ELEMENTS(instance.PlacePictures)");
             }
 
             return b.ToString();
@@ -153,7 +148,7 @@ namespace SnCore.Services
     };
 
     [Serializable()]
-    public class TransitPlace : TransitService
+    public class TransitPlace : TransitService<Place>
     {
         private string mName;
 
@@ -443,56 +438,57 @@ namespace SnCore.Services
 
         }
 
-        public TransitPlace(Place o)
-            : base(o.Id)
+        public TransitPlace(Place value)
+            : base(value)
         {
-            Name = o.Name;
-            Type = o.Type.Name;
-            Description = o.Description;
-            Created = o.Created;
-            Modified = o.Modified;
-            Street = o.Street;
-            Zip = o.Zip;
-            CrossStreet = o.CrossStreet;
-            Phone = o.Phone;
-            Fax = o.Fax;
-            Email = o.Email;
-            Website = o.Website;
-            if (o.City != null) City = o.City.Name;
-            if (o.City != null && o.City.State != null) State = o.City.State.Name;
-            if (o.City != null && o.City.Country != null) Country = o.City.Country.Name;
-            if (o.Neighborhood != null) Neighborhood = o.Neighborhood.Name;
-            PictureId = ManagedService<PlacePicture>.GetRandomElementId(o.PlacePictures);
-            AccountId = o.Account.Id;
+
         }
 
-        public Place GetPlace(ISession session)
+        public override void SetInstance(Place instance)
         {
-            Place p = (Id != 0) ? (Place)session.Load(typeof(Place), Id) : new Place();
-            p.Name = this.Name;
-            p.Type = ManagedPlaceType.Find(session, this.Type);
-            p.Description = this.Description;
-            p.Street = this.Street;
-            p.Zip = this.Zip;
-            p.CrossStreet = this.CrossStreet;
-            p.Phone = this.Phone;
-            p.Fax = this.Fax;
-            p.Email = this.Email;
-            p.Website = this.Website;
-            if (AccountId > 0) p.Account = (Account)session.Load(typeof(Account), AccountId);
-            if (!string.IsNullOrEmpty(City)) p.City = ManagedCity.FindOrCreate(session, City, State, Country);
-            if (!string.IsNullOrEmpty(Neighborhood) && !string.IsNullOrEmpty(City)) p.Neighborhood = ManagedNeighborhood.FindOrCreate(session, Neighborhood, City, State, Country);
-            return p;
+            Name = instance.Name;
+            Type = instance.Type.Name;
+            Description = instance.Description;
+            Created = instance.Created;
+            Modified = instance.Modified;
+            Street = instance.Street;
+            Zip = instance.Zip;
+            CrossStreet = instance.CrossStreet;
+            Phone = instance.Phone;
+            Fax = instance.Fax;
+            Email = instance.Email;
+            Website = instance.Website;
+            if (instance.City != null) City = instance.City.Name;
+            if (instance.City != null && instance.City.State != null) State = instance.City.State.Name;
+            if (instance.City != null && instance.City.Country != null) Country = instance.City.Country.Name;
+            if (instance.Neighborhood != null) Neighborhood = instance.Neighborhood.Name;
+            PictureId = ManagedService<PlacePicture, TransitPlacePicture>.GetRandomElementId(instance.PlacePictures);
+            AccountId = instance.Account.Id;
+            base.SetInstance(instance);
+        }
+
+        public override Place GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            Place instance = base.GetInstance(session, sec);
+            instance.Name = this.Name;
+            instance.Type = ManagedPlaceType.Find(session, this.Type);
+            instance.Description = this.Description;
+            instance.Street = this.Street;
+            instance.Zip = this.Zip;
+            instance.CrossStreet = this.CrossStreet;
+            instance.Phone = this.Phone;
+            instance.Fax = this.Fax;
+            instance.Email = this.Email;
+            instance.Website = this.Website;
+            if (Id == 0) instance.Account = GetOwner(session, AccountId, sec);
+            if (!string.IsNullOrEmpty(City)) instance.City = ManagedCity.FindOrCreate(session, City, State, Country);
+            if (!string.IsNullOrEmpty(Neighborhood) && !string.IsNullOrEmpty(City)) instance.Neighborhood = ManagedNeighborhood.FindOrCreate(session, Neighborhood, City, State, Country);
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed place.
-    /// </summary>
-    public class ManagedPlace : ManagedService<Place>
+    public class ManagedPlace : ManagedService<Place, TransitPlace>
     {
-        private Place mPlace = null;
-
         public ManagedPlace(ISession session)
             : base(session)
         {
@@ -500,71 +496,36 @@ namespace SnCore.Services
         }
 
         public ManagedPlace(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mPlace = (Place)session.Load(typeof(Place), id);
+
         }
 
         public ManagedPlace(ISession session, Place value)
-            : base(session)
+            : base(session, value)
         {
-            mPlace = value;
+
         }
 
-        public ManagedPlace(ISession session, TransitPlace value)
-            : base(session)
+        public override TransitPlace GetTransitInstance(ManagedSecurityContext sec)
         {
-            mPlace = value.GetPlace(session);
+            TransitPlace instance = base.GetTransitInstance(sec);
+            // TODO if (user_id > 0) instance.CanWrite = CanWrite(user_id);
+            return instance;
         }
 
-        public int Id
+        public override void Delete(ManagedSecurityContext sec)
         {
-            get
+            ManagedDiscussion.FindAndDelete(Session, mInstance.Account.Id, ManagedDiscussion.PlaceDiscussion, mInstance.Id);
+
+            foreach (PlacePicture pic in Collection<PlacePicture>.GetSafeCollection(mInstance.PlacePictures))
             {
-                return mPlace.Id;
-            }
-        }
-
-        public TransitPlace GetTransitPlace()
-        {
-            return new TransitPlace(mPlace);
-        }
-
-        public TransitPlace GetTransitPlace(int user_id)
-        {
-            TransitPlace tp = new TransitPlace(mPlace);
-            if (user_id > 0) tp.CanWrite = CanWrite(user_id);
-            return tp;
-        }
-
-        public void Delete()
-        {
-            try
-            {
-                int DiscussionId = ManagedDiscussion.GetDiscussionId(
-                    Session, mPlace.Account.Id, ManagedDiscussion.PlaceDiscussion, mPlace.Id, false);
-                Discussion mDiscussion = (Discussion)Session.Load(typeof(Discussion), DiscussionId);
-                Session.Delete(mDiscussion);
-            }
-            catch (ManagedDiscussion.DiscussionNotFoundException)
-            {
-
+                new ManagedPlacePicture(Session, pic).Delete(sec);
             }
 
-            if (mPlace.PlacePictures != null)
+            foreach (AccountEvent evt in Collection<AccountEvent>.GetSafeCollection(mInstance.AccountEvents))
             {
-                foreach (PlacePicture pic in mPlace.PlacePictures)
-                {
-                    new ManagedPlacePicture(Session, pic).Delete();
-                }
-            }
-
-            if (mPlace.AccountEvents != null)
-            {
-                foreach (AccountEvent evt in mPlace.AccountEvents)
-                {
-                    new ManagedAccountEvent(Session, evt).Delete();
-                }
+                new ManagedAccountEvent(Session, evt).Delete(sec);
             }
 
             Session.Delete(string.Format("FROM AccountPlace f WHERE f.Place.Id = {0}", Id));
@@ -572,19 +533,19 @@ namespace SnCore.Services
             Session.Delete(string.Format("FROM AccountPlaceFavorite f WHERE f.Place.Id = {0}", Id));
             Session.Delete(string.Format("FROM PlaceQueueItem q WHERE q.Place.Id = {0}", Id));
             ManagedFeature.Delete(Session, "Place", Id);
-            Session.Delete(mPlace);
+            base.Delete(sec);
         }
 
         public bool CanWrite(int accountid)
         {
             // person suggesting a place can write
-            if (mPlace.Account.Id == accountid)
+            if (mInstance.Account.Id == accountid)
                 return true;
 
-            if (mPlace.AccountPlaces == null)
+            if (mInstance.AccountPlaces == null)
                 return false;
 
-            foreach (AccountPlace ap in mPlace.AccountPlaces)
+            foreach (AccountPlace ap in Collection<AccountPlace>.GetSafeCollection(mInstance.AccountPlaces))
             {
                 if (ap.Account.Id == accountid && ap.Type.CanWrite)
                 {
@@ -595,12 +556,12 @@ namespace SnCore.Services
             return false;
         }
 
-        public void MigrateToAccount(Account newowner)
+        public void MigrateToAccount(Account newowner, ManagedSecurityContext sec)
         {
             // migrate pictures
             IList pictures = Session.CreateCriteria(typeof(PlacePicture))
-                .Add(Expression.Eq("Account.Id", mPlace.Account.Id))
-                .Add(Expression.Eq("Place.Id", mPlace.Id))
+                .Add(Expression.Eq("Account.Id", mInstance.Account.Id))
+                .Add(Expression.Eq("Place.Id", mInstance.Id))
                 .List();
 
             foreach (PlacePicture pp in pictures)
@@ -610,36 +571,36 @@ namespace SnCore.Services
             }
 
             // migrate review discussion
-            int did = ManagedDiscussion.GetDiscussionId(
-                Session, mPlace.Account.Id, ManagedDiscussion.PlaceDiscussion, mPlace.Id, false);
+            Discussion d = ManagedDiscussion.Find(Session, mInstance.Account.Id, ManagedDiscussion.PlaceDiscussion, mInstance.Id);
 
-            ManagedDiscussion md = new ManagedDiscussion(Session, did);
-            md.MigrateToAccount(newowner);
-
-            mPlace.Account = newowner;
-            Session.Save(mPlace);
-        }
-
-        #region Place Property Value
-
-        public int CreateOrUpdate(TransitPlacePropertyValue o)
-        {
-            PlacePropertyValue propertyvalue = o.GetPlacePropertyValue(Session);
-
-            if (propertyvalue.Id != 0)
+            if (d != null)
             {
-                if (propertyvalue.Place.Id != mPlace.Id)
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
+                ManagedDiscussion md = new ManagedDiscussion(Session, d);
+                md.MigrateToAccount(newowner);
             }
 
-            propertyvalue.Modified = DateTime.UtcNow;
-            if (propertyvalue.Id == 0) propertyvalue.Created = propertyvalue.Modified;
-            Session.Save(propertyvalue);
-            return propertyvalue.Id;
+            mInstance.Account = newowner;
+            Session.Save(mInstance);
         }
 
-        #endregion
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowCreateAndRetrieve());
+            acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
+            foreach (AccountPlace relationship in Collection<AccountPlace>.GetSafeCollection(mInstance.AccountPlaces))
+            {
+                acl.Add(new ACLAccount(relationship.Account,
+                    relationship.Type.CanWrite ? DataOperation.Update : DataOperation.Retreive));
+            }
+            return acl;
+        }
     }
 }

@@ -29,7 +29,7 @@ namespace SnCore.Services.Tests
             }
             finally
             {
-                c.Delete();
+                c.Delete(AdminSecurityContext);
             }
         }
 

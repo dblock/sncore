@@ -21,7 +21,7 @@ namespace SnCore.Services
         New
     };
 
-    public class TransitTagWord : TransitService
+    public class TransitTagWord : TransitService<TagWord>
     {
         private int mFrequency = -1;
 
@@ -29,7 +29,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mFrequency;
             }
             set
@@ -44,7 +43,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mWord;
             }
             set
@@ -59,7 +57,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mPromoted;
             }
             set
@@ -74,7 +71,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mExcluded;
             }
             set
@@ -88,31 +84,32 @@ namespace SnCore.Services
 
         }
 
-        public TransitTagWord(TagWord o)
-            : base(o.Id)
+        public TransitTagWord(TagWord value)
+            : base(value)
         {
-            Word = o.Word;
-            Promoted = o.Promoted;
-            Excluded = o.Excluded;
+
         }
 
-        public TagWord GetTagWord(ISession session)
+        public override void SetInstance(TagWord value)
         {
-            TagWord p = (Id != 0) ? (TagWord)session.Load(typeof(TagWord), Id) : new TagWord();
-            p.Word = this.Word;
-            p.Promoted = this.Promoted;
-            p.Excluded = this.Excluded;
-            return p;
+            base.SetInstance(value);
+            Word = value.Word;
+            Promoted = value.Promoted;
+            Excluded = value.Excluded;
+        }
+
+        public override TagWord GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            TagWord instance = base.GetInstance(session, sec);
+            instance.Word = this.Word;
+            instance.Promoted = this.Promoted;
+            instance.Excluded = this.Excluded;
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed tag word.
-    /// </summary>
-    public class ManagedTagWord : ManagedService<TagWord>
+    public class ManagedTagWord : ManagedService<TagWord, TransitTagWord>
     {
-        private TagWord mTagWord = null;
-
         public ManagedTagWord(ISession session)
             : base(session)
         {
@@ -120,52 +117,24 @@ namespace SnCore.Services
         }
 
         public ManagedTagWord(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mTagWord = (TagWord)session.Load(typeof(TagWord), id);
+
         }
 
-        public ManagedTagWord(ISession session, TagWord value)
-            : base(session)
+        public ManagedTagWord(ISession session, TagWord instance)
+            : base(session, instance)
         {
-            mTagWord = value;
+
         }
 
-        public ManagedTagWord(ISession session, TransitTagWord value)
-            : base(session)
+        public override TransitTagWord GetTransitInstance(ManagedSecurityContext sec)
         {
-            mTagWord = value.GetTagWord(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mTagWord.Id;
-            }
-        }
-
-        public TransitTagWord TransitTagWord
-        {
-            get
-            {
-                TransitTagWord word = new TransitTagWord(mTagWord);
-                word.Frequency = (int) Session.CreateQuery(string.Format(
-                    "SELECT COUNT(*) FROM TagWord w, TagWordAccount a WHERE w.Id = {0} AND a.TagWord.Id = w.Id",
-                    word.Id)).UniqueResult();
-                return word;
-            }
-        }
-
-        public void CreateOrUpdate(TransitTagWord o)
-        {
-            mTagWord = o.GetTagWord(Session);
-            Session.Save(mTagWord);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mTagWord);
+            TransitTagWord t_instance = base.GetTransitInstance(sec);
+            t_instance.Frequency = (int) Session.CreateQuery(string.Format(
+                "SELECT COUNT(*) FROM TagWord w, TagWordAccount a WHERE w.Id = {0} AND a.TagWord.Id = w.Id",
+                t_instance.Id)).UniqueResult();
+            return t_instance;
         }
 
         public static TagWord Find(ISession session, string word)
@@ -178,6 +147,12 @@ namespace SnCore.Services
         public static int FindId(ISession session, string name)
         {
             return Find(session, name).Id;
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            return acl;
         }
     }
 

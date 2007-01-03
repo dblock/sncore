@@ -144,7 +144,7 @@ namespace SnCore.Services
         }
     };
 
-    public class TransitBug : TransitService
+    public class TransitBug : TransitService<Bug>
     {
         private string mSubject;
 
@@ -331,52 +331,68 @@ namespace SnCore.Services
 
         }
 
-        public TransitBug(Bug o)
-            : base(o.Id)
+        public TransitBug(Bug instance)
+            : base(instance)
         {
-            Subject = o.Subject;
-            Details = o.Details;
-            Created = o.Created;
-            Updated = o.Updated;
-            Status = o.Status.Name;
-            Type = o.Type.Name;
-            AccountId = o.AccountId;
-            Priority = o.Priority.Name;
-            Severity = o.Severity.Name;
-            Resolution = o.Resolution.Name;
-            ProjectId = o.Project.Id;
+
         }
 
-        public Bug GetBug(ISession session)
+        public TransitBug(ISession session, Bug instance)
+            : base(instance)
         {
-            Bug p = (Id != 0) ? (Bug)session.Load(typeof(Bug), Id) : new Bug();
+            try
+            {
+                Account account = (Account) session.Load(typeof(Account), instance.AccountId);
+                AccountName = (account != null) ? account.Name : string.Empty;
+            }
+            catch (NHibernate.ObjectNotFoundException)
+            {
+                AccountName = "Unknown";
+                AccountId = -1;
+            }
+        }
+
+        public override void SetInstance(Bug instance)
+        {
+            Subject = instance.Subject;
+            Details = instance.Details;
+            Created = instance.Created;
+            Updated = instance.Updated;
+            Status = instance.Status.Name;
+            Type = instance.Type.Name;
+            AccountId = instance.AccountId;
+            Priority = instance.Priority.Name;
+            Severity = instance.Severity.Name;
+            Resolution = instance.Resolution.Name;
+            ProjectId = instance.Project.Id;
+            base.SetInstance(instance);
+        }
+
+        public override Bug GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            Bug instance = base.GetInstance(session, sec);
 
             if (Id == 0)
             {
-                p.AccountId = this.AccountId;
-                p.Project = (BugProject)session.Load(typeof(BugProject), this.ProjectId);
+                instance.AccountId = this.AccountId;
+                instance.Project = (BugProject)session.Load(typeof(BugProject), this.ProjectId);
             }
 
-            p.Subject = this.Subject;
-            p.Details = this.Details;
-            if (!string.IsNullOrEmpty(this.Status)) p.Status = ManagedBugStatus.Find(session, this.Status);
-            if (p.Status == null) p.Status = (BugStatu)session.Load(typeof(BugStatu), ManagedBugStatus.FindId(session, "Open"));
-            if (!string.IsNullOrEmpty(this.Type)) p.Type = ManagedBugType.Find(session, this.Type);
-            if (!string.IsNullOrEmpty(this.Priority)) p.Priority = ManagedBugPriority.Find(session, this.Priority);
-            if (!string.IsNullOrEmpty(this.Severity)) p.Severity = ManagedBugSeverity.Find(session, this.Severity);
-            if (!string.IsNullOrEmpty(this.Resolution)) p.Resolution = ManagedBugResolution.Find(session, this.Resolution);
-            if (p.Resolution == null) p.Resolution = (BugResolution)session.Load(typeof(BugResolution), ManagedBugResolution.FindId(session, "None"));
-            return p;
+            instance.Subject = this.Subject;
+            instance.Details = this.Details;
+            if (!string.IsNullOrEmpty(this.Status)) instance.Status = ManagedBugStatus.Find(session, this.Status);
+            if (instance.Status == null) instance.Status = (BugStatu)session.Load(typeof(BugStatu), ManagedBugStatus.FindId(session, "Open"));
+            if (!string.IsNullOrEmpty(this.Type)) instance.Type = ManagedBugType.Find(session, this.Type);
+            if (!string.IsNullOrEmpty(this.Priority)) instance.Priority = ManagedBugPriority.Find(session, this.Priority);
+            if (!string.IsNullOrEmpty(this.Severity)) instance.Severity = ManagedBugSeverity.Find(session, this.Severity);
+            if (!string.IsNullOrEmpty(this.Resolution)) instance.Resolution = ManagedBugResolution.Find(session, this.Resolution);
+            if (instance.Resolution == null) instance.Resolution = (BugResolution)session.Load(typeof(BugResolution), ManagedBugResolution.FindId(session, "None"));
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed bug.
-    /// </summary>
-    public class ManagedBug : ManagedService<Bug>
+    public class ManagedBug : ManagedService<Bug, TransitBug>
     {
-        private Bug mBug = null;
-
         public ManagedBug(ISession session)
             : base(session)
         {
@@ -384,78 +400,35 @@ namespace SnCore.Services
         }
 
         public ManagedBug(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mBug = (Bug)session.Load(typeof(Bug), id);
+
         }
 
         public ManagedBug(ISession session, Bug value)
-            : base(session)
+            : base(session, value)
         {
-            mBug = value;
-        }
 
-        public ManagedBug(ISession session, TransitBug value)
-            : base(session)
-        {
-            mBug = value.GetBug(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mBug.Id;
-            }
-        }
-
-        public TransitBug TransitBug
-        {
-            get
-            {
-                TransitBug bug = new TransitBug(mBug);
-
-                try
-                {
-                    Account account = (Account)Session.Load(typeof(Account), bug.AccountId);
-                    bug.AccountName = (account != null) ? account.Name : string.Empty;
-                }
-                catch (NHibernate.ObjectNotFoundException)
-                {
-                    bug.AccountName = "Unknown";
-                    bug.AccountId = -1;
-                }
-
-                return bug;
-            }
-        }
-
-        public void CreateOrUpdate(TransitBug o)
-        {
-            mBug = o.GetBug(Session);
-            mBug.Updated = DateTime.UtcNow;
-            if (Id == 0) mBug.Created = mBug.Updated;
-            Session.Save(mBug);
         }
 
         public void Resolve(string resolution)
         {
-            switch (mBug.Status.Name)
+            switch (mInstance.Status.Name)
             {
                 case "Resolved":
                 case "Closed":
                     throw new InvalidOperationException();
             }
 
-            mBug.Status = ManagedBugStatus.Find(Session, "Resolved");
-            mBug.Resolution = ManagedBugResolution.Find(Session, resolution);
-            mBug.Updated = DateTime.UtcNow;
-            Session.Save(mBug);
+            mInstance.Status = ManagedBugStatus.Find(Session, "Resolved");
+            mInstance.Resolution = ManagedBugResolution.Find(Session, resolution);
+            mInstance.Updated = DateTime.UtcNow;
+            Session.Save(mInstance);
         }
 
         public void Close()
         {
-            switch (mBug.Status.Name)
+            switch (mInstance.Status.Name)
             {
                 case "Resolved":
                     break;
@@ -463,19 +436,19 @@ namespace SnCore.Services
                     throw new InvalidOperationException();
             }
 
-            mBug.Status = ManagedBugStatus.Find(Session, "Closed");
-            mBug.Updated = DateTime.UtcNow;
-            Session.Save(mBug);
+            mInstance.Status = ManagedBugStatus.Find(Session, "Closed");
+            mInstance.Updated = DateTime.UtcNow;
+            Session.Save(mInstance);
 
             // notify that the bug has been closed, account may not exist any more
 
             try
             {
-                ManagedAccount acct = new ManagedAccount(Session, mBug.AccountId);
+                ManagedAccount acct = new ManagedAccount(Session, mInstance.AccountId);
                 ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
                     Session,
                     new MailAddress(acct.ActiveEmailAddress, acct.Name).ToString(),
-                    string.Format("EmailBugClosed.aspx?id={0}", mBug.Id));
+                    string.Format("EmailBugClosed.aspx?id={0}", mInstance.Id));
             }
             catch
             {
@@ -485,7 +458,7 @@ namespace SnCore.Services
 
         public void Reopen()
         {
-            switch (mBug.Status.Name)
+            switch (mInstance.Status.Name)
             {
                 case "Resolved":
                 case "Closed":
@@ -494,29 +467,40 @@ namespace SnCore.Services
                     throw new InvalidOperationException();
             }
 
-            mBug.Status = ManagedBugStatus.Find(Session, "Reopened");
-            mBug.Updated = DateTime.UtcNow;
-            Session.Save(mBug);
+            mInstance.Status = ManagedBugStatus.Find(Session, "Reopened");
+            mInstance.Updated = DateTime.UtcNow;
+            Session.Save(mInstance);
         }
 
-        public void Delete()
+        public override void Delete(ManagedSecurityContext sec)
         {
-            Session.Delete(
-                string.Format("FROM BugLink b WHERE b.Bug.Id = {0} OR b.RelatedBug.Id = {0}",
-                    Id));
-
-            mBug.BugLinks = null;
-            Session.Delete(mBug);
+            Session.Delete(string.Format("FROM BugLink b WHERE b.Bug.Id = {0} OR b.RelatedBug.Id = {0}", Id));
+            mInstance.BugLinks = null;
+            base.Delete(sec);
         }
 
-        public void LinkTo(ManagedBug bug)
+        public void LinkTo(ManagedBug bug, ManagedSecurityContext sec)
         {
             TransitBugLink t_link = new TransitBugLink();
             t_link.BugId = Id;
             t_link.RelatedBugId = bug.Id;
 
             ManagedBugLink link = new ManagedBugLink(Session);
-            link.CreateOrUpdate(t_link);
+            link.CreateOrUpdate(t_link, sec);
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            mInstance.Updated = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Updated;
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowCreateAndRetrieve());
+            return acl;
         }
     }
 }

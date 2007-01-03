@@ -4,9 +4,6 @@ using NHibernate;
 
 namespace SnCore.Services
 {
-    /// <summary>
-    /// Managed system information.
-    /// </summary>
     public class ManagedSystem : ManagedServiceImpl
     {
         public ManagedSystem(ISession session)

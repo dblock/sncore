@@ -9,10 +9,11 @@ using System.Xml;
 using System.Resources;
 using System.Net.Mail;
 using System.IO;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
-    public class TransitReminder : TransitService
+    public class TransitReminder : TransitService<Reminder>
     {
         private string mUrl;
 
@@ -104,18 +105,18 @@ namespace SnCore.Services
             }
         }
 
-        private int mReminderEventCount;
+        private int mInstanceEventCount;
 
         public int ReminderEventCount
         {
             get
             {
 
-                return mReminderEventCount;
+                return mInstanceEventCount;
             }
             set
             {
-                mReminderEventCount = value;
+                mInstanceEventCount = value;
             }
         }
 
@@ -154,42 +155,46 @@ namespace SnCore.Services
 
         }
 
-        public TransitReminder(Reminder o)
-            : base(o.Id)
+        public TransitReminder(Reminder value)
+            : base(value)
         {
-            Url = o.Url;
-            DeltaHours = o.DeltaHours;
-            DataObjectField = o.DataObjectField;
-            DataObject_Id = o.DataObject.Id;
-            Recurrent = o.Recurrent;
-            Enabled = o.Enabled;
-            ReminderEventCount = o.ReminderEvents.Count;
-            LastRun = o.LastRun;
-            LastRunError = o.LastRunError;
+
         }
 
-        public Reminder GetReminder(ISession session)
+        public override void SetInstance(Reminder instance)
         {
-            Reminder p = (Id != 0) ? (Reminder)session.Load(typeof(Reminder), Id) : new Reminder();
-            p.Url = this.Url;
-            p.DeltaHours = this.DeltaHours;
-            p.DataObjectField = this.DataObjectField;
-            if (this.DataObject_Id > 0) p.DataObject = (DataObject)session.Load(typeof(DataObject), this.DataObject_Id);
-            p.Recurrent = this.Recurrent;
-            p.Enabled = this.Enabled;
-            p.LastRun = this.LastRun;
-            p.LastRunError = this.LastRunError;
-            return p;
+            Url = instance.Url;
+            DeltaHours = instance.DeltaHours;
+            DataObjectField = instance.DataObjectField;
+            DataObject_Id = instance.DataObject.Id;
+            Recurrent = instance.Recurrent;
+            Enabled = instance.Enabled;
+            ReminderEventCount = instance.ReminderEvents.Count;
+            LastRun = instance.LastRun;
+            LastRunError = instance.LastRunError;
+            base.SetInstance(instance);
+        }
+
+        public override Reminder GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            Reminder instance = base.GetInstance(session, sec);
+            instance.Url = this.Url;
+            instance.DeltaHours = this.DeltaHours;
+            instance.DataObjectField = this.DataObjectField;
+            if (this.DataObject_Id > 0) instance.DataObject = (DataObject)session.Load(typeof(DataObject), this.DataObject_Id);
+            instance.Recurrent = this.Recurrent;
+            instance.Enabled = this.Enabled;
+            instance.LastRun = this.LastRun;
+            instance.LastRunError = this.LastRunError;
+            return instance;
         }
     }
 
     /// <summary>
     /// Managed reminder.
     /// </summary>
-    public class ManagedReminder : ManagedService<Reminder>
+    public class ManagedReminder : ManagedService<Reminder, TransitReminder>
     {
-        private Reminder mReminder = null;
-
         public ManagedReminder(ISession session)
             : base(session)
         {
@@ -197,49 +202,15 @@ namespace SnCore.Services
         }
 
         public ManagedReminder(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mReminder = (Reminder)session.Load(typeof(Reminder), id);
+
         }
 
         public ManagedReminder(ISession session, Reminder value)
-            : base(session)
+            : base(session, value)
         {
-            mReminder = value;
-        }
 
-        public ManagedReminder(ISession session, TransitReminder value)
-            : base(session)
-        {
-            mReminder = value.GetReminder(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mReminder.Id;
-            }
-        }
-
-        public TransitReminder TransitReminder
-        {
-            get
-            {
-                return new TransitReminder(mReminder);
-            }
-        }
-
-        public void CreateOrUpdate(TransitReminder o)
-        {
-            mReminder = o.GetReminder(Session);
-            if (o.Id == 0) mReminder.LastRun = DateTime.UtcNow;
-            Session.Save(mReminder);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mReminder);
         }
 
         public bool CanSend(Account account)
@@ -249,14 +220,10 @@ namespace SnCore.Services
 
         public bool CanSend(int account_id)
         {
-            // reminder has no properties
-            if (mReminder.ReminderAccountProperties == null)
-                return true;
-
-            foreach (ReminderAccountProperty rap in mReminder.ReminderAccountProperties)
+            foreach (ReminderAccountProperty rap in Collection<ReminderAccountProperty>.GetSafeCollection(mInstance.ReminderAccountProperties))
             {
                 // find the account property value
-                AccountPropertyValue apv = (AccountPropertyValue) Session.CreateCriteria(typeof(AccountPropertyValue))
+                AccountPropertyValue apv = (AccountPropertyValue)Session.CreateCriteria(typeof(AccountPropertyValue))
                     .Add(Expression.Eq("Account.Id", account_id))
                     .Add(Expression.Eq("AccountProperty.Id", rap.AccountProperty.Id))
                     .SetMaxResults(1)
@@ -277,6 +244,12 @@ namespace SnCore.Services
             }
 
             return true;
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            return acl;
         }
     }
 }

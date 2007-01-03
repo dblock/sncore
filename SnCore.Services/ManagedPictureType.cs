@@ -12,7 +12,7 @@ using System.IO;
 
 namespace SnCore.Services
 {
-    public class TransitPictureType : TransitService
+    public class TransitPictureType : TransitService<PictureType>
     {
         private string mName;
 
@@ -34,27 +34,28 @@ namespace SnCore.Services
 
         }
 
-        public TransitPictureType(PictureType o)
-            : base(o.Id)
+        public TransitPictureType(PictureType instance)
+            : base(instance)
         {
-            Name = o.Name;
+
         }
 
-        public PictureType GetPictureType(ISession session)
+        public override void SetInstance(PictureType instance)
         {
-            PictureType p = (Id != 0) ? (PictureType)session.Load(typeof(PictureType), Id) : new PictureType();
-            p.Name = this.Name;
-            return p;
+            Name = instance.Name;
+            base.SetInstance(instance);
+        }
+
+        public override PictureType GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            PictureType instance = base.GetInstance(session, sec);
+            instance.Name = this.Name;
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed picture type.
-    /// </summary>
-    public class ManagedPictureType : ManagedService<PictureType>
+    public class ManagedPictureType : ManagedService<PictureType, TransitPictureType>
     {
-        private PictureType mPictureType = null;
-
         public ManagedPictureType(ISession session)
             : base(session)
         {
@@ -62,48 +63,15 @@ namespace SnCore.Services
         }
 
         public ManagedPictureType(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mPictureType = (PictureType)session.Load(typeof(PictureType), id);
+
         }
 
         public ManagedPictureType(ISession session, PictureType value)
-            : base(session)
+            : base(session, value)
         {
-            mPictureType = value;
-        }
 
-        public ManagedPictureType(ISession session, TransitPictureType value)
-            : base(session)
-        {
-            mPictureType = value.GetPictureType(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mPictureType.Id;
-            }
-        }
-
-        public TransitPictureType TransitPictureType
-        {
-            get
-            {
-                return new TransitPictureType(mPictureType);
-            }
-        }
-
-        public void CreateOrUpdate(TransitPictureType o)
-        {
-            mPictureType = o.GetPictureType(Session);
-            Session.Save(mPictureType);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mPictureType);
         }
 
         public static PictureType Find(ISession session, string name)
@@ -116,6 +84,13 @@ namespace SnCore.Services
         public static int FindId(ISession session, string name)
         {
             return Find(session, name).Id;
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            return acl;
         }
     }
 }

@@ -12,7 +12,7 @@ using System.IO;
 
 namespace SnCore.Services
 {
-    public class TransitCountry : TransitService
+    public class TransitCountry : TransitService<Country>
     {
         private string mName;
 
@@ -34,24 +34,27 @@ namespace SnCore.Services
 
         }
 
-        public TransitCountry(Country c)
-            : base(c.Id)
+        public TransitCountry(Country instance)
+            : base(instance)
         {
-            Name = c.Name;
+
         }
 
-        public Country GetCountry(ISession session)
+        public override void SetInstance(Country instance)
         {
-            Country p = (Id != 0) ? (Country)session.Load(typeof(Country), Id) : new Country();
-            p.Name = this.Name;
-            return p;
+            Name = instance.Name;
+            base.SetInstance(instance);
+        }
+
+        public override Country GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            Country instance = base.GetInstance(session, sec);
+            instance.Name = this.Name;
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed country.
-    /// </summary>
-    public class ManagedCountry : ManagedService<Country>
+    public class ManagedCountry : ManagedService<Country, TransitCountry>
     {
         public class InvalidCountryException : SoapException
         {
@@ -62,8 +65,6 @@ namespace SnCore.Services
             }
         }
 
-        private Country mCountry = null;
-
         public ManagedCountry(ISession session)
             : base(session)
         {
@@ -71,56 +72,23 @@ namespace SnCore.Services
         }
 
         public ManagedCountry(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mCountry = (Country)session.Load(typeof(Country), id);
+
         }
 
-        public ManagedCountry(ISession session, Country value)
-            : base(session)
+        public ManagedCountry(ISession session, Country instance)
+            : base(session, instance)
         {
-            mCountry = value;
-        }
 
-        public ManagedCountry(ISession session, TransitCountry value)
-            : base(session)
-        {
-            mCountry.Name = value.Name;
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mCountry.Id;
-            }
         }
 
         public string Name
         {
             get
             {
-                return mCountry.Name;
+                return mInstance.Name;
             }
-        }
-
-        public TransitCountry TransitCountry
-        {
-            get
-            {
-                return new TransitCountry(mCountry);
-            }
-        }
-
-        public void Create(TransitCountry c)
-        {
-            mCountry = c.GetCountry(Session);
-            Session.Save(mCountry);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mCountry);
         }
 
         public static Country Find(ISession session, string name)
@@ -140,6 +108,13 @@ namespace SnCore.Services
         public static int GetCountryId(ISession session, string name)
         {
             return Find(session, name).Id;
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            return acl;
         }
     }
 }

@@ -9,7 +9,7 @@ using SnCore.Tools.Web;
 
 namespace SnCore.Services
 {
-    public class TransitAccountInvitation : TransitService
+    public class TransitAccountInvitation : TransitService<AccountInvitation>
     {
         private string mEmail;
 
@@ -121,37 +121,42 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountInvitation(AccountInvitation s)
-            : base(s.Id)
+        public TransitAccountInvitation(AccountInvitation instance)
+            : base(instance)
         {
-            Email = s.Email;
-            Code = s.Code;
-            AccountId = s.Account.Id;
-            AccountName = s.Account.Name;
-            Message = s.Message;
-            Created = s.Created;
-            Modified = s.Modified;
+
         }
 
-        public AccountInvitation GetAccountInvitation(ISession session)
+        public override void SetInstance(AccountInvitation instance)
         {
-            AccountInvitation s = (Id != 0) ? (AccountInvitation)session.Load(typeof(AccountInvitation), Id) : new AccountInvitation();
+            Email = instance.Email;
+            Code = instance.Code;
+            AccountId = instance.Account.Id;
+            AccountName = instance.Account.Name;
+            Message = instance.Message;
+            Created = instance.Created;
+            Modified = instance.Modified;
+            base.SetInstance(instance);
+        }
+
+        public override AccountInvitation GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            AccountInvitation instance = base.GetInstance(session, sec);
 
             if (Id == 0)
             {
                 // invitations cannot be modified post-send
-                s.Email = this.Email;
-                s.Code = this.Code;
-                s.Message = this.Message;
-                if (AccountId > 0) s.Account = (Account)session.Load(typeof(Account), this.AccountId);
+                instance.Email = this.Email;
+                instance.Code = this.Code;
+                instance.Message = this.Message;
+                instance.Account = GetOwner(session, AccountId, sec);
             }
 
-            return s;
+            return instance;
         }
-
     }
 
-    public class ManagedAccountInvitation : ManagedService<AccountInvitation>
+    public class ManagedAccountInvitation : ManagedService<AccountInvitation, TransitAccountInvitation>
     {
         private AccountInvitation mAccountInvitation = null;
 
@@ -162,23 +167,15 @@ namespace SnCore.Services
         }
 
         public ManagedAccountInvitation(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountInvitation = (AccountInvitation)session.Load(typeof(AccountInvitation), id);
+
         }
 
         public ManagedAccountInvitation(ISession session, AccountInvitation value)
-            : base(session)
+            : base(session, value)
         {
-            mAccountInvitation = value;
-        }
 
-        public int Id
-        {
-            get
-            {
-                return mAccountInvitation.Id;
-            }
         }
 
         public int AccountId
@@ -205,18 +202,10 @@ namespace SnCore.Services
             }
         }
 
-        public TransitAccountInvitation TransitAccountInvitation
-        {
-            get
-            {
-                return new TransitAccountInvitation(mAccountInvitation);
-            }
-        }
-
-        public void Delete()
+        public override void Delete(ManagedSecurityContext sec)
         {
             mAccountInvitation.Account.AccountInvitations.Remove(mAccountInvitation);
-            Session.Delete(mAccountInvitation);
+            base.Delete(sec);
         }
 
         public void Send()
@@ -225,6 +214,21 @@ namespace SnCore.Services
                 Session,
                 mAccountInvitation.Email,
                 string.Format("EmailAccountInvitation.aspx?id={0}", mAccountInvitation.Id));
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowCreate());
+            acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
+            return acl;
         }
     }
 }

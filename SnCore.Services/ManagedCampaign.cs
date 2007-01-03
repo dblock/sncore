@@ -12,7 +12,7 @@ using System.IO;
 
 namespace SnCore.Services
 {
-    public class TransitCampaign : TransitService
+    public class TransitCampaign : TransitService<Campaign>
     {
         private string mName;
 
@@ -148,40 +148,41 @@ namespace SnCore.Services
 
         }
 
-        public TransitCampaign(Campaign c)
-            : base(c.Id)
+        public TransitCampaign(Campaign instance)
+            : base(instance)
         {
-            Name = c.Name;
-            Description = c.Description;
-            SenderName = c.SenderName;
-            SenderEmailAddress = c.SenderEmailAddress;
-            Url = c.Url;
-            Active = c.Active;
-            Created = c.Created;
-            Modified = c.Modified;
-            Processed = c.Processed;
+
         }
 
-        public Campaign GetCampaign(ISession session)
+        public override void SetInstance(Campaign instance)
         {
-            Campaign p = (Id != 0) ? (Campaign)session.Load(typeof(Campaign), Id) : new Campaign();
-            p.Name = this.Name;
-            p.Description = this.Description;
-            p.SenderName = this.SenderName;
-            p.SenderEmailAddress = this.SenderEmailAddress;
-            p.Url = this.Url;
-            p.Active = this.Active;
-            return p;
+            Name = instance.Name;
+            Description = instance.Description;
+            SenderName = instance.SenderName;
+            SenderEmailAddress = instance.SenderEmailAddress;
+            Url = instance.Url;
+            Active = instance.Active;
+            Created = instance.Created;
+            Modified = instance.Modified;
+            Processed = instance.Processed;
+            base.SetInstance(instance);
+        }
+
+        public override Campaign GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            Campaign instance = base.GetInstance(session, sec);
+            instance.Name = this.Name;
+            instance.Description = this.Description;
+            instance.SenderName = this.SenderName;
+            instance.SenderEmailAddress = this.SenderEmailAddress;
+            instance.Url = this.Url;
+            instance.Active = this.Active;
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed Campaign.
-    /// </summary>
-    public class ManagedCampaign : ManagedService<Campaign>
+    public class ManagedCampaign : ManagedService<Campaign, TransitCampaign>
     {
-        private Campaign mCampaign = null;
-
         public ManagedCampaign(ISession session)
             : base(session)
         {
@@ -189,50 +190,28 @@ namespace SnCore.Services
         }
 
         public ManagedCampaign(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mCampaign = (Campaign)session.Load(typeof(Campaign), id);
+
         }
 
         public ManagedCampaign(ISession session, Campaign value)
-            : base(session)
+            : base(session, value)
         {
-            mCampaign = value;
+
         }
 
-        public ManagedCampaign(ISession session, TransitCampaign value)
-            : base(session)
+        protected override void Save(ManagedSecurityContext sec)
         {
-            mCampaign = value.GetCampaign(session);
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Processed = mInstance.Created = mInstance.Modified;
+            base.Save(sec);
         }
 
-        public int Id
+        public override ACL GetACL()
         {
-            get
-            {
-                return mCampaign.Id;
-            }
-        }
-
-        public TransitCampaign TransitCampaign
-        {
-            get
-            {
-                return new TransitCampaign(mCampaign);
-            }
-        }
-
-        public void CreateOrUpdate(TransitCampaign c)
-        {
-            mCampaign = c.GetCampaign(Session);
-            mCampaign.Modified = DateTime.UtcNow;
-            if (mCampaign.Id == 0) mCampaign.Processed = mCampaign.Created = mCampaign.Modified;
-            Session.Save(mCampaign);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mCampaign);
+            ACL acl = base.GetACL();
+            return acl;
         }
     }
 }

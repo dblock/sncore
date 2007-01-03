@@ -3,10 +3,11 @@ using NHibernate;
 using System.Collections;
 using NHibernate.Expression;
 using System.Web.Services.Protocols;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
-    public class TransitAccountOpenId : TransitService
+    public class TransitAccountOpenId : TransitService<AccountOpenId>
     {
         private string mIdentityUrl;
 
@@ -73,33 +74,37 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountOpenId(AccountOpenId e)
-            : base(e.Id)
+        public TransitAccountOpenId(AccountOpenId value)
+            : base(value)
         {
-            AccountId = e.Account.Id;
-            IdentityUrl = e.IdentityUrl;
-            Created = e.Created;
-            Modified = e.Modified;
+
         }
 
-        public AccountOpenId GetAccountOpenId(ISession session)
+        public override void SetInstance(AccountOpenId value)
         {
-            AccountOpenId result = (Id > 0) ? (AccountOpenId)session.Load(typeof(AccountOpenId), Id) : new AccountOpenId();
+            AccountId = value.Account.Id;
+            IdentityUrl = value.IdentityUrl;
+            Created = value.Created;
+            Modified = value.Modified;
+            base.SetInstance(value);
+        }
+
+        public override AccountOpenId GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            AccountOpenId instance = base.GetInstance(session, sec);
 
             if (Id == 0)
             {
-                result.IdentityUrl = IdentityUrl.Trim();
-                if (AccountId > 0) result.Account = (Account)session.Load(typeof(Account), AccountId);
+                instance.IdentityUrl = IdentityUrl.Trim();
+                instance.Account = GetOwner(session, AccountId, sec);
             }
 
-            return result;
+            return instance;
         }
     }
 
-    public class ManagedAccountOpenId : ManagedService<AccountOpenId>
+    public class ManagedAccountOpenId : ManagedService<AccountOpenId, TransitAccountOpenId>
     {
-        private AccountOpenId mAccountOpenId = null;
-
         public ManagedAccountOpenId(ISession session)
             : base(session)
         {
@@ -107,36 +112,22 @@ namespace SnCore.Services
         }
 
         public ManagedAccountOpenId(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountOpenId = (AccountOpenId)session.Load(typeof(AccountOpenId), id);
-        }
 
-        public ManagedAccountOpenId(ISession session, TransitAccountOpenId tae)
-            : base(session)
-        {
-            mAccountOpenId = tae.GetAccountOpenId(session);
         }
 
         public ManagedAccountOpenId(ISession session, AccountOpenId value)
-            : base(session)
+            : base(session, value)
         {
-            mAccountOpenId = value;
-        }
 
-        public int Id
-        {
-            get
-            {
-                return mAccountOpenId.Id;
-            }
         }
 
         public string IdentityUrl
         {
             get
             {
-                return mAccountOpenId.IdentityUrl;
+                return mInstance.IdentityUrl;
             }
         }
 
@@ -144,7 +135,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountOpenId.Created;
+                return mInstance.Created;
             }
         }
 
@@ -152,47 +143,54 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountOpenId.Modified;
+                return mInstance.Modified;
             }
         }
 
-        public TransitAccountOpenId TransitAccountOpenId
-        {
-            get
-            {
-                return new TransitAccountOpenId(mAccountOpenId);
-            }
-        }
-
-        public void Delete()
+        public override void Delete(ManagedSecurityContext sec)
         {
             bool canDelete = false;
 
             // can delete if more than one openid exists
-            if (mAccountOpenId.Account.AccountOpenIds != null && mAccountOpenId.Account.AccountOpenIds.Count > 1)
+            if (mInstance.Account.AccountOpenIds != null && mInstance.Account.AccountOpenIds.Count > 1)
                 canDelete = true;
 
             // can delete if there're e-mails that allow login
-            if (mAccountOpenId.Account.AccountEmails != null && mAccountOpenId.Account.AccountEmails.Count > 0)
+            if (mInstance.Account.AccountEmails != null && mInstance.Account.AccountEmails.Count > 0)
                 canDelete = true;
 
             if (!canDelete)
             {
                 throw new SoapException(
-                    "You cannot delete the last open id.", 
+                    "You cannot delete the last open id.",
                     SoapException.ClientFaultCode);
             }
 
-            mAccountOpenId.Account.AccountOpenIds.Remove(mAccountOpenId);
-            Session.Delete(mAccountOpenId);
+            Collection<AccountOpenId>.GetSafeCollection(mInstance.Account.AccountOpenIds).Remove(mInstance);
+            base.Delete(sec);
         }
 
         public ManagedAccount Account
         {
             get
             {
-                return new ManagedAccount(Session, mAccountOpenId.Account);
+                return new ManagedAccount(Session, mInstance.Account);
             }
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowCreate());
+            acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
+            return acl;
         }
     }
 }

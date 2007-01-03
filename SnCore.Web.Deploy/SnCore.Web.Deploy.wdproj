@@ -75,6 +75,10 @@
       <Project>{6AA41A44-B048-4370-A084-E7BE64DF2811}</Project>
       <Name>SnCore.WebControls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SnCore.WebServices\SnCore.WebServices.csproj">
+      <Project>{A18A417F-A1C5-43F2-BAC2-00B1A924E60F}</Project>
+      <Name>SnCore.WebServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Wilco.Web\Wilco.Web\Wilco.Web.csproj">
       <Project>{3E4122EA-09F7-4D3A-BD40-3AE4D54A3DA0}</Project>
       <Name>Wilco.Web</Name>

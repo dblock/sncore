@@ -25,7 +25,7 @@ namespace SnCore.Services.Tests
 
             try
             {
-                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
                 TransitPlaceQueue t_q = new TransitPlaceQueue();
 
                 t_q.AccountId = a.Id;
@@ -33,7 +33,7 @@ namespace SnCore.Services.Tests
                 t_q.PublishAll = false;
                 t_q.PublishFriends = true;
 
-                q = t_q.GetPlaceQueue(Session);
+                q = t_q.GetInstance(Session, a.GetSecurityContext());
                 q.Created = q.Modified = DateTime.UtcNow;
                 Session.Save(q);
                 Session.Flush();
@@ -43,7 +43,7 @@ namespace SnCore.Services.Tests
             finally
             {
                 if (q != null) Session.Delete(q);
-                a.Delete();
+                a.Delete(AdminSecurityContext);
             }
         }
     }

@@ -32,14 +32,14 @@ namespace SnCore.Services.Tests
                 ts.Name = Guid.NewGuid().ToString();
                 ts.Country = tc.Name;
 
-                c.Create(tc);
-                s.Create(ts);
+                c.CreateOrUpdate(tc, AdminSecurityContext);
+                s.CreateOrUpdate(ts, AdminSecurityContext);
                 Session.Flush();
             }
             finally
             {
-                s.Delete();
-                c.Delete();
+                s.Delete(AdminSecurityContext);
+                c.Delete(AdminSecurityContext);
             }
         }
 
@@ -57,16 +57,16 @@ namespace SnCore.Services.Tests
                 ts.Name = Guid.NewGuid().ToString();
                 ts.Country = tc.Name;
 
-                c.Create(tc);
+                c.CreateOrUpdate(tc, AdminSecurityContext);
                 Session.Flush();
-                s.Create(ts);
+                s.CreateOrUpdate(ts, AdminSecurityContext);
                 Session.Flush();
                 ManagedState.GetStateId(Session, ts.Name, tc.Name);
             }
             finally
             {
-                s.Delete();
-                c.Delete();
+                s.Delete(AdminSecurityContext);
+                c.Delete(AdminSecurityContext);
             }
         }
 
@@ -82,14 +82,14 @@ namespace SnCore.Services.Tests
                 TransitCountry tc = new TransitCountry();
                 tc.Name = Guid.NewGuid().ToString();
 
-                c.Create(tc);
+                c.CreateOrUpdate(tc, AdminSecurityContext);
                 Session.Flush();
 
                 ManagedState.GetStateId(Session, Guid.NewGuid().ToString(), tc.Name);
             }
             finally
             {
-                c.Delete();
+                c.Delete(AdminSecurityContext);
             }
         }
 

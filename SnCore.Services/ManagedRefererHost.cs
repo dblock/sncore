@@ -13,7 +13,7 @@ using SnCore.Tools.Web;
 
 namespace SnCore.Services
 {
-    public class TransitRefererHost : TransitService
+    public class TransitRefererHost : TransitService<RefererHost>
     {
         private string mHost;
 
@@ -110,31 +110,33 @@ namespace SnCore.Services
         }
 
         public TransitRefererHost(RefererHost o)
-            : base(o.Id)
+            : base(o)
         {
-            Host = o.Host;
-            LastRefererUri = o.LastRefererUri;
-            LastRequestUri = o.LastRequestUri;
-            Created = o.Created;
-            Updated = o.Updated;
-            Total = o.Total;
         }
 
-        public RefererHost GetRefererHost(ISession session)
+        public override void SetInstance(RefererHost value)
         {
-            RefererHost p = (Id != 0) ? (RefererHost)session.Load(typeof(RefererHost), Id) : new RefererHost();
-            p.Host = this.Host;
-            p.LastRefererUri = this.LastRefererUri;
-            p.LastRequestUri = this.LastRequestUri;
-            p.Total = this.Total;
-            return p;
+            Host = value.Host;
+            LastRefererUri = value.LastRefererUri;
+            LastRequestUri = value.LastRequestUri;
+            Created = value.Created;
+            Updated = value.Updated;
+            Total = value.Total;
+            base.SetInstance(value);
+        }
+
+        public override RefererHost GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            RefererHost instance = base.GetInstance(session, sec);
+            instance.Host = this.Host;
+            instance.LastRefererUri = this.LastRefererUri;
+            instance.LastRequestUri = this.LastRequestUri;
+            instance.Total = this.Total;
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed RefererHost.
-    /// </summary>
-    public class ManagedRefererHost : ManagedService<RefererHost>
+    public class ManagedRefererHost : ManagedService<RefererHost, TransitRefererHost>
     {
         public class InvalidRefererHostException : SoapException
         {
@@ -145,8 +147,6 @@ namespace SnCore.Services
             }
         }
 
-        private RefererHost mRefererHost = null;
-
         public ManagedRefererHost(ISession session)
             : base(session)
         {
@@ -154,42 +154,15 @@ namespace SnCore.Services
         }
 
         public ManagedRefererHost(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mRefererHost = (RefererHost)session.Load(typeof(RefererHost), id);
+
         }
 
         public ManagedRefererHost(ISession session, RefererHost value)
-            : base(session)
+            : base(session, value)
         {
-            mRefererHost = value;
-        }
 
-        public ManagedRefererHost(ISession session, TransitRefererHost value)
-            : base(session)
-        {
-            mRefererHost = value.GetRefererHost(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mRefererHost.Id;
-            }
-        }
-
-        public TransitRefererHost TransitRefererHost
-        {
-            get
-            {
-                return new TransitRefererHost(mRefererHost);
-            }
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mRefererHost);
         }
 
         public static RefererHost FindOrCreate(ISession session, string host)
@@ -229,5 +202,17 @@ namespace SnCore.Services
             return Find(session, host).Id;
         }
 
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            mInstance.Updated = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Updated;
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            return acl;
+        }
     }
 }

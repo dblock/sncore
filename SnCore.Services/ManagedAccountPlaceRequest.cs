@@ -10,10 +10,11 @@ using System.Resources;
 using System.Net.Mail;
 using System.IO;
 using SnCore.Tools.Web;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
-    public class TransitAccountPlaceRequest : TransitService
+    public class TransitAccountPlaceRequest : TransitService<AccountPlaceRequest>
     {
         private DateTime mSubmitted;
 
@@ -125,37 +126,41 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountPlaceRequest(AccountPlaceRequest o)
-            : base(o.Id)
+        public TransitAccountPlaceRequest(AccountPlaceRequest value)
+            : base(value)
         {
-            Submitted = o.Submitted;
-            AccountId = o.Account.Id;
-            PlaceId = o.Place.Id;
-            Type = o.Type.Name;
-            Message = o.Message;
-            PlaceName = o.Place.Name;
-            AccountName = o.Account.Name;
+
         }
 
-        public AccountPlaceRequest GetAccountPlaceRequest(ISession session)
+        public override void SetInstance(AccountPlaceRequest value)
         {
-            AccountPlaceRequest p = (Id != 0) ? (AccountPlaceRequest)session.Load(typeof(AccountPlaceRequest), Id) : new AccountPlaceRequest();
-            p.Message = this.Message;
-            p.Submitted = this.Submitted;
+            Submitted = value.Submitted;
+            AccountId = value.Account.Id;
+            PlaceId = value.Place.Id;
+            Type = value.Type.Name;
+            Message = value.Message;
+            PlaceName = value.Place.Name;
+            AccountName = value.Account.Name;
+            base.SetInstance(value);
+        }
+
+        public override AccountPlaceRequest GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            AccountPlaceRequest instance = base.GetInstance(session, sec);
+            instance.Message = this.Message;
+            instance.Submitted = this.Submitted;
             if (Id == 0)
             {
-                if (!string.IsNullOrEmpty(this.Type)) p.Type = ManagedAccountPlaceType.Find(session, this.Type);
-                if (PlaceId > 0) p.Place = (Place)session.Load(typeof(Place), PlaceId);
-                if (AccountId > 0) p.Account = (Account)session.Load(typeof(Account), AccountId);
+                instance.Type = ManagedAccountPlaceType.Find(session, this.Type);
+                instance.Place = (Place)session.Load(typeof(Place), PlaceId);
+                instance.Account = GetOwner(session, AccountId, sec);
             }
-            return p;
+            return instance;
         }
     }
 
-    public class ManagedAccountPlaceRequest : ManagedService<AccountPlaceRequest>
+    public class ManagedAccountPlaceRequest : ManagedService<AccountPlaceRequest, TransitAccountPlaceRequest>
     {
-        private AccountPlaceRequest mAccountPlaceRequest = null;
-
         public ManagedAccountPlaceRequest(ISession session)
             : base(session)
         {
@@ -163,55 +168,29 @@ namespace SnCore.Services
         }
 
         public ManagedAccountPlaceRequest(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountPlaceRequest = (AccountPlaceRequest)session.Load(typeof(AccountPlaceRequest), id);
+
         }
 
         public ManagedAccountPlaceRequest(ISession session, AccountPlaceRequest value)
-            : base(session)
+            : base(session, value)
         {
-            mAccountPlaceRequest = value;
-        }
 
-        public ManagedAccountPlaceRequest(ISession session, TransitAccountPlaceRequest value)
-            : base(session)
-        {
-            mAccountPlaceRequest = value.GetAccountPlaceRequest(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mAccountPlaceRequest.Id;
-            }
-        }
-
-        public TransitAccountPlaceRequest TransitAccountPlaceRequest
-        {
-            get
-            {
-                return new TransitAccountPlaceRequest(mAccountPlaceRequest);
-            }
         }
 
         public Account Account
         {
             get
             {
-                return mAccountPlaceRequest.Account;
+                return mInstance.Account;
             }
         }
 
-        public void Delete()
-        {
-            Session.Delete(mAccountPlaceRequest);
-        }
-
+        // TODO: introduce security context
         public void Reject(string message)
         {
-            ManagedAccount recepient = new ManagedAccount(Session, mAccountPlaceRequest.Account);
+            ManagedAccount recepient = new ManagedAccount(Session, mInstance.Account);
             string sentto = recepient.ActiveEmailAddress;
             if (sentto != null)
             {
@@ -222,27 +201,28 @@ namespace SnCore.Services
             }
 
             // delete the request when user notified
-            mAccountPlaceRequest.Account.AccountPlaceRequests.Remove(mAccountPlaceRequest);
-            Session.Delete(mAccountPlaceRequest);
+            Collection<AccountPlaceRequest>.GetSafeCollection(mInstance.Account.AccountPlaceRequests).Remove(mInstance);
+            Session.Delete(mInstance);
         }
 
+        // TODO: introduce security context
         public void Accept(string message)
         {
             AccountPlace place = new AccountPlace();
-            place.Account = mAccountPlaceRequest.Account;
-            place.Place = mAccountPlaceRequest.Place;
+            place.Account = mInstance.Account;
+            place.Place = mInstance.Place;
             place.Created = place.Modified = DateTime.UtcNow;
-            place.Type = mAccountPlaceRequest.Type;
+            place.Type = mInstance.Type;
             place.Description = string.Format("System-approved on {0}.", DateTime.UtcNow.ToString());
             Session.Save(place);
 
-            if (mAccountPlaceRequest.Account.AccountPlaces == null) mAccountPlaceRequest.Account.AccountPlaces = new List<AccountPlace>();
-            mAccountPlaceRequest.Account.AccountPlaces.Add(place);
+            if (mInstance.Account.AccountPlaces == null) mInstance.Account.AccountPlaces = new List<AccountPlace>();
+            mInstance.Account.AccountPlaces.Add(place);
 
-            if (mAccountPlaceRequest.Place.AccountPlaces == null) mAccountPlaceRequest.Place.AccountPlaces = new List<AccountPlace>();
-            mAccountPlaceRequest.Place.AccountPlaces.Add(place);
+            if (mInstance.Place.AccountPlaces == null) mInstance.Place.AccountPlaces = new List<AccountPlace>();
+            mInstance.Place.AccountPlaces.Add(place);
 
-            ManagedAccount recepient = new ManagedAccount(Session, mAccountPlaceRequest.Account);
+            ManagedAccount recepient = new ManagedAccount(Session, mInstance.Account);
             string sentto = recepient.ActiveEmailAddress;
             if (sentto != null)
             {
@@ -253,16 +233,73 @@ namespace SnCore.Services
             }
 
             // delete the request when user notified
-            mAccountPlaceRequest.Account.AccountPlaceRequests.Remove(mAccountPlaceRequest);
-            Session.Delete(mAccountPlaceRequest);
+            Collection<AccountPlaceRequest>.GetSafeCollection(mInstance.Account.AccountPlaceRequests).Remove(mInstance);
+            Session.Delete(mInstance);
         }
 
         public Place Place
         {
             get
             {
-                return mAccountPlaceRequest.Place;
+                return mInstance.Place;
             }
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowCreateAndDelete());
+            acl.Add(new ACLAccount(mInstance.Account, DataOperation.Delete | DataOperation.Retreive));
+            return acl;
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            if (Id == 0) mInstance.Submitted = DateTime.UtcNow;
+            base.Save(sec);
+        }
+
+        public override int CreateOrUpdate(TransitAccountPlaceRequest t_instance, ManagedSecurityContext sec)
+        {
+            if (t_instance.Id == 0)
+            {
+                AccountPlace e_place = (AccountPlace)Session.CreateCriteria(typeof(AccountPlace))
+                    .Add(Expression.Eq("Account.Id", t_instance.AccountId))
+                    .Add(Expression.Eq("Place.Id", t_instance.PlaceId))
+                    .UniqueResult();
+
+                if (e_place != null)
+                {
+                    throw new Exception("You already have a relationship with this place.");
+                }
+            }
+
+            int id = base.CreateOrUpdate(t_instance, sec);
+            Session.Flush();
+
+            ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
+                Session,
+                new MailAddress(ManagedConfiguration.GetValue(Session, "SnCore.Admin.EmailAddress", "admin@localhost.com"),
+                    ManagedConfiguration.GetValue(Session, "SnCore.Admin.Name", "Admin")).ToString(),
+                string.Format("EmailAccountPlaceRequest.aspx?id={0}", id));
+
+            foreach (AccountPlace place in Collection<AccountPlace>.GetSafeCollection(mInstance.Place.AccountPlaces))
+            {
+                if (place.Type.CanWrite)
+                {
+                    ManagedAccount acct = new ManagedAccount(Session, place.Account);
+
+                    if (!acct.HasVerifiedEmail)
+                        continue;
+
+                    ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
+                        Session,
+                        new MailAddress(acct.ActiveEmailAddress, acct.Name).ToString(),
+                        string.Format("EmailAccountPlaceRequest.aspx?id={0}", id));
+                }
+            }
+
+            return id;
         }
     }
 }

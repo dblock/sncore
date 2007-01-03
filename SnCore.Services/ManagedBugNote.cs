@@ -12,7 +12,7 @@ using System.IO;
 
 namespace SnCore.Services
 {
-    public class TransitBugNote : TransitService
+    public class TransitBugNote : TransitService<BugNote>
     {
         private string mDetails;
 
@@ -109,14 +109,18 @@ namespace SnCore.Services
 
         }
 
-        public TransitBugNote(ISession session, BugNote o)
-            : base(o.Id)
+        public TransitBugNote(BugNote instance)
+            : base(instance)
         {
-            Details = o.Details;
-            AccountId = o.AccountId;
+
+        }
+
+        public TransitBugNote(ISession session, BugNote instance)
+            : base(instance)
+        {
             try
             {
-                Account account = (Account)session.Load(typeof(Account), o.AccountId);
+                Account account = (Account)session.Load(typeof(Account), instance.AccountId);
                 AccountName = (account != null) ? account.Name : string.Empty;
             }
             catch (NHibernate.ObjectNotFoundException)
@@ -124,33 +128,35 @@ namespace SnCore.Services
                 AccountName = "Unknown";
                 AccountId = -1;
             }
-            BugId = o.Bug.Id;
-            Created = o.Created;
-            Modified = o.Modified;
         }
 
-        public BugNote GetBugNote(ISession session)
+        public override void SetInstance(BugNote instance)
         {
-            BugNote p = (Id != 0) ? (BugNote)session.Load(typeof(BugNote), Id) : new BugNote();
+            Details = instance.Details;
+            AccountId = instance.AccountId;
+            BugId = instance.Bug.Id;
+            Created = instance.Created;
+            Modified = instance.Modified;
+            base.SetInstance(instance);
+        }
+
+        public override BugNote GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            BugNote instance = base.GetInstance(session, sec);
 
             if (Id == 0)
             {
-                p.Bug = (Id == 0 && BugId != 0) ? (Bug)session.Load(typeof(Bug), this.BugId) : null;
-                p.AccountId = this.AccountId;
+                instance.Bug = (Id == 0 && BugId != 0) ? (Bug)session.Load(typeof(Bug), this.BugId) : null;
+                instance.AccountId = this.AccountId;
             }
 
-            p.Details = this.Details;
-            return p;
+            instance.Details = this.Details;
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed bug Note.
-    /// </summary>
-    public class ManagedBugNote : ManagedService<BugNote>
+    public class ManagedBugNote : ManagedService<BugNote, TransitBugNote>
     {
-        private BugNote mBugNote = null;
-
         public ManagedBugNote(ISession session)
             : base(session)
         {
@@ -158,50 +164,29 @@ namespace SnCore.Services
         }
 
         public ManagedBugNote(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mBugNote = (BugNote)session.Load(typeof(BugNote), id);
+
         }
 
         public ManagedBugNote(ISession session, BugNote value)
-            : base(session)
+            : base(session, value)
         {
-            mBugNote = value;
+
         }
 
-        public ManagedBugNote(ISession session, TransitBugNote value)
-            : base(session)
+        protected override void Save(ManagedSecurityContext sec)
         {
-            mBugNote = value.GetBugNote(session);
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
         }
 
-        public int Id
+        public override ACL GetACL()
         {
-            get
-            {
-                return mBugNote.Id;
-            }
-        }
-
-        public TransitBugNote TransitBugNote
-        {
-            get
-            {
-                return new TransitBugNote(Session, mBugNote);
-            }
-        }
-
-        public void CreateOrUpdate(TransitBugNote o)
-        {
-            mBugNote = o.GetBugNote(Session);
-            mBugNote.Modified = DateTime.UtcNow;
-            if (Id == 0) mBugNote.Created = mBugNote.Modified;
-            Session.Save(mBugNote);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mBugNote);
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowCreateAndRetrieve());
+            return acl;
         }
     }
 }

@@ -3,6 +3,7 @@ using NHibernate;
 using System.Collections;
 using System.IO;
 using SnCore.Tools.Drawing;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
@@ -211,7 +212,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed place picture.
     /// </summary>
-    public class ManagedPlacePicture : ManagedService<PlacePicture>
+    public class ManagedPlacePicture : ManagedService<PlacePicture, TransitPlacePicture>
     {
         private PlacePicture mPlacePicture = null;
 
@@ -231,14 +232,6 @@ namespace SnCore.Services
             : base(session)
         {
             mPlacePicture = value;
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mPlacePicture.Id;
-            }
         }
 
         public string Name
@@ -312,19 +305,6 @@ namespace SnCore.Services
             }
         }
 
-        public void CreateOrUpdate(TransitPlacePicture o)
-        {
-            mPlacePicture = o.GetPlacePicture(Session);
-            mPlacePicture.Modified = DateTime.UtcNow;
-            if (Id == 0) mPlacePicture.Created = mPlacePicture.Modified;
-            Session.Save(mPlacePicture);
-        }
-
-        public void Delete()
-        {
-            Session.Delete(mPlacePicture);
-        }
-
         public Place Place
         {
             get
@@ -350,6 +330,26 @@ namespace SnCore.Services
                 return true;
 
             return false;
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowCreateAndRetrieve());
+            acl.Add(new ACLAccount(mInstance.Place.Account, DataOperation.All));
+            foreach (AccountPlace relationship in Collection<AccountPlace>.GetSafeCollection(mInstance.Place.AccountPlaces))
+            {
+                acl.Add(new ACLAccount(relationship.Account,
+                    relationship.Type.CanWrite ? DataOperation.Update : DataOperation.Retreive));
+            }
+            return acl;
         }
     }
 }

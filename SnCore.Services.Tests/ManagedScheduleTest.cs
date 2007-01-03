@@ -27,7 +27,7 @@ namespace SnCore.Services.Tests
 
             try
             {
-                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
 
                 TransitSchedule ts = new TransitSchedule();
 
@@ -36,10 +36,10 @@ namespace SnCore.Services.Tests
                 ts.RecurrencePattern = RecurrencePattern.None;
                 ts.EndDateTime = ts.StartDateTime.AddHours(1);
 
-                int schedule_id = a.CreateOrUpdate(ts);
+                ManagedSchedule m_s = new ManagedSchedule(Session);
+                int schedule_id = m_s.CreateOrUpdate(ts, AdminSecurityContext);
 
                 Schedule s = (Schedule)Session.Load(typeof(Schedule), schedule_id);
-                ManagedSchedule m_s = new ManagedSchedule(Session, s);
 
                 Assert.AreEqual(s.ScheduleInstances.Count, 1, "There's more than one instance on a non-recurrent schedule.");
 
@@ -70,7 +70,7 @@ namespace SnCore.Services.Tests
             }
             finally
             {
-                a.Delete();
+                a.Delete(AdminSecurityContext);
             }
         }
 
@@ -83,20 +83,19 @@ namespace SnCore.Services.Tests
 
             try
             {
-                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
 
                 TransitSchedule ts = new TransitSchedule();
-
                 ts.AccountId = a.Id;
                 ts.StartDateTime = DateTime.UtcNow;
                 ts.RecurrencePattern = RecurrencePattern.None;
                 ts.AllDay = true;
                 ts.EndDateTime = ts.StartDateTime; // all that day, will be adjusted +1 and end within 24 hours
 
-                int schedule_id = a.CreateOrUpdate(ts);
+                ManagedSchedule m_s = new ManagedSchedule(Session);
+                int schedule_id = m_s.CreateOrUpdate(ts, AdminSecurityContext);
 
                 Schedule s = (Schedule)Session.Load(typeof(Schedule), schedule_id);
-                ManagedSchedule m_s = new ManagedSchedule(Session, s);
 
                 m_s.UpdateInstances();
 
@@ -112,7 +111,7 @@ namespace SnCore.Services.Tests
             }
             finally
             {
-                a.Delete();
+                a.Delete(AdminSecurityContext);
             }
         }
 
@@ -125,7 +124,7 @@ namespace SnCore.Services.Tests
 
             try
             {
-                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
 
                 TransitSchedule ts = new TransitSchedule();
 
@@ -137,10 +136,10 @@ namespace SnCore.Services.Tests
                 ts.EndOccurrences = 10;
                 ts.EndDateTime = DateTime.UtcNow.AddHours(1);
 
-                int schedule_id = a.CreateOrUpdate(ts);
+                ManagedSchedule m_s = new ManagedSchedule(Session);
+                int schedule_id = m_s.CreateOrUpdate(ts, AdminSecurityContext);
 
                 Schedule s = (Schedule)Session.Load(typeof(Schedule), schedule_id);
-                ManagedSchedule m_s = new ManagedSchedule(Session, s);
 
                 Assert.AreEqual(ts.EndOccurrences, s.ScheduleInstances.Count, "There's more than ten instance on this schedule.");
 
@@ -161,7 +160,7 @@ namespace SnCore.Services.Tests
             }
             finally
             {
-                a.Delete();
+                a.Delete(AdminSecurityContext);
             }
         }
 
@@ -176,7 +175,7 @@ namespace SnCore.Services.Tests
 
             try
             {
-                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
 
                 TransitSchedule ts = new TransitSchedule();
 
@@ -186,10 +185,10 @@ namespace SnCore.Services.Tests
                 ts.Endless = true;
                 ts.EndDateTime = DateTime.UtcNow.AddHours(1);
 
-                int schedule_id = a.CreateOrUpdate(ts);
+                ManagedSchedule m_s = new ManagedSchedule(Session);
+                int schedule_id = m_s.CreateOrUpdate(ts, AdminSecurityContext);
 
                 Schedule s = (Schedule)Session.Load(typeof(Schedule), schedule_id);
-                ManagedSchedule m_s = new ManagedSchedule(Session, s);
 
                 Assert.IsNotNull(s.ScheduleInstances, "Schedule instances cannot be null.");
 
@@ -202,7 +201,7 @@ namespace SnCore.Services.Tests
             }
             finally
             {
-                a.Delete();
+                a.Delete(AdminSecurityContext);
             }
         }
 
@@ -217,7 +216,7 @@ namespace SnCore.Services.Tests
 
             try
             {
-                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
 
                 TransitSchedule ts = new TransitSchedule();
 
@@ -229,10 +228,10 @@ namespace SnCore.Services.Tests
                 ts.Endless = true;
                 ts.EndDateTime = DateTime.UtcNow.AddHours(1);
 
-                int schedule_id = a.CreateOrUpdate(ts);
+                ManagedSchedule m_s = new ManagedSchedule(Session);
+                int schedule_id = m_s.CreateOrUpdate(ts, AdminSecurityContext);
 
                 Schedule s = (Schedule)Session.Load(typeof(Schedule), schedule_id);
-                ManagedSchedule m_s = new ManagedSchedule(Session, s);
 
                 Assert.IsNotNull(s.ScheduleInstances, "Schedule instances cannot be null.");
 
@@ -246,7 +245,7 @@ namespace SnCore.Services.Tests
             }
             finally
             {
-                a.Delete();
+                a.Delete(AdminSecurityContext);
             }
         }
 
@@ -261,7 +260,7 @@ namespace SnCore.Services.Tests
 
             try
             {
-                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
 
                 TransitSchedule ts = new TransitSchedule();
 
@@ -273,10 +272,10 @@ namespace SnCore.Services.Tests
                 ts.Endless = true;
                 ts.EndDateTime = DateTime.UtcNow.AddHours(1);
 
-                int schedule_id = a.CreateOrUpdate(ts);
+                ManagedSchedule m_s = new ManagedSchedule(Session);
+                int schedule_id = m_s.CreateOrUpdate(ts, AdminSecurityContext);
 
                 Schedule s = (Schedule)Session.Load(typeof(Schedule), schedule_id);
-                ManagedSchedule m_s = new ManagedSchedule(Session, s);
 
                 Assert.IsNotNull(s.ScheduleInstances, "Schedule instances cannot be null.");
 
@@ -296,7 +295,7 @@ namespace SnCore.Services.Tests
             }
             finally
             {
-                a.Delete();
+                a.Delete(AdminSecurityContext);
             }
         }
 
@@ -311,7 +310,7 @@ namespace SnCore.Services.Tests
 
             try
             {
-                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
 
                 TransitSchedule ts = new TransitSchedule();
 
@@ -323,10 +322,10 @@ namespace SnCore.Services.Tests
                 ts.Endless = true;
                 ts.EndDateTime = DateTime.UtcNow.AddHours(1);
 
-                int schedule_id = a.CreateOrUpdate(ts);
+                ManagedSchedule m_s = new ManagedSchedule(Session);
+                int schedule_id = m_s.CreateOrUpdate(ts, AdminSecurityContext);
 
                 Schedule s = (Schedule)Session.Load(typeof(Schedule), schedule_id);
-                ManagedSchedule m_s = new ManagedSchedule(Session, s);
 
                 Assert.IsNotNull(s.ScheduleInstances, "Schedule instances cannot be null.");
 
@@ -339,7 +338,7 @@ namespace SnCore.Services.Tests
             }
             finally
             {
-                a.Delete();
+                a.Delete(AdminSecurityContext);
             }
         }
 
@@ -354,7 +353,7 @@ namespace SnCore.Services.Tests
 
             try
             {
-                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
 
                 TransitSchedule ts = new TransitSchedule();
 
@@ -366,10 +365,10 @@ namespace SnCore.Services.Tests
                 ts.Endless = true;
                 ts.EndDateTime = DateTime.UtcNow.AddHours(1);
 
-                int schedule_id = a.CreateOrUpdate(ts);
+                ManagedSchedule m_s = new ManagedSchedule(Session);
+                int schedule_id = m_s.CreateOrUpdate(ts, AdminSecurityContext);
 
                 Schedule s = (Schedule)Session.Load(typeof(Schedule), schedule_id);
-                ManagedSchedule m_s = new ManagedSchedule(Session, s);
 
                 Assert.IsNotNull(s.ScheduleInstances, "Schedule instances cannot be null.");
 
@@ -382,7 +381,7 @@ namespace SnCore.Services.Tests
             }
             finally
             {
-                a.Delete();
+                a.Delete(AdminSecurityContext);
             }
         }
 
@@ -397,7 +396,7 @@ namespace SnCore.Services.Tests
 
             try
             {
-                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
 
                 TransitSchedule ts = new TransitSchedule();
 
@@ -409,10 +408,10 @@ namespace SnCore.Services.Tests
                 ts.Endless = true;
                 ts.EndDateTime = DateTime.UtcNow.AddHours(1);
 
-                int schedule_id = a.CreateOrUpdate(ts);
+                ManagedSchedule m_s = new ManagedSchedule(Session);
+                int schedule_id = m_s.CreateOrUpdate(ts, AdminSecurityContext);
 
                 Schedule s = (Schedule)Session.Load(typeof(Schedule), schedule_id);
-                ManagedSchedule m_s = new ManagedSchedule(Session, s);
 
                 Assert.IsNotNull(s.ScheduleInstances, "Schedule instances cannot be null.");
 
@@ -425,7 +424,7 @@ namespace SnCore.Services.Tests
             }
             finally
             {
-                a.Delete();
+                a.Delete(AdminSecurityContext);
             }
         }
 
@@ -440,7 +439,7 @@ namespace SnCore.Services.Tests
 
             try
             {
-                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow);
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
 
                 TransitSchedule ts = new TransitSchedule();
 
@@ -453,10 +452,10 @@ namespace SnCore.Services.Tests
                 ts.Endless = true;
                 ts.EndDateTime = DateTime.UtcNow.AddHours(1);
 
-                int schedule_id = a.CreateOrUpdate(ts);
+                ManagedSchedule m_s = new ManagedSchedule(Session);
+                int schedule_id = m_s.CreateOrUpdate(ts, AdminSecurityContext);
 
                 Schedule s = (Schedule)Session.Load(typeof(Schedule), schedule_id);
-                ManagedSchedule m_s = new ManagedSchedule(Session, s);
 
                 Assert.IsNotNull(s.ScheduleInstances, "Schedule instances cannot be null.");
 
@@ -470,7 +469,7 @@ namespace SnCore.Services.Tests
             }
             finally
             {
-                a.Delete();
+                a.Delete(AdminSecurityContext);
             }
         }
 

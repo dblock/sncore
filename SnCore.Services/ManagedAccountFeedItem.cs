@@ -13,7 +13,7 @@ using SnCore.Tools.Web;
 
 namespace SnCore.Services
 {
-    public class TransitAccountFeedItem : TransitService
+    public class TransitAccountFeedItem : TransitService<AccountFeedItem>
     {
         private int mAccountFeedId;
 
@@ -213,41 +213,49 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountFeedItem(ISession session, AccountFeedItem o)
-            : base(o.Id)
+        public TransitAccountFeedItem(AccountFeedItem value)
+            : base(value)
         {
-            AccountFeedId = o.AccountFeed.Id;
-            Title = o.Title;
-            Description = o.Description;
-            Link = o.Link;
-            Guid = o.Guid;
-            Created = o.Created;
-            Updated = o.Updated;
-            AccountId = o.AccountFeed.Account.Id;
-            AccountPictureId = ManagedAccount.GetRandomAccountPictureId(o.AccountFeed.Account);
-            AccountName = o.AccountFeed.Account.Name;
-            AccountFeedName = o.AccountFeed.Name;
-            AccountFeedLinkUrl = o.AccountFeed.LinkUrl;
-            CommentCount = ManagedDiscussion.GetDiscussionPostCount(
-                session, o.AccountFeed.Account.Id, ManagedDiscussion.AccountFeedItemDiscussion, o.Id);
         }
 
-        public AccountFeedItem GetAccountFeedItem(ISession session)
+        public TransitAccountFeedItem(ISession session, AccountFeedItem value)
+            : base(value)
         {
-            AccountFeedItem p = (Id != 0) ? (AccountFeedItem)session.Load(typeof(AccountFeedItem), Id) : new AccountFeedItem();
-            p.Title = this.Title;
-            p.Description = this.Description;
-            p.Link = this.Link;
-            p.Guid = this.Guid;
-            if (this.AccountFeedId != 0) p.AccountFeed = (AccountFeed)session.Load(typeof(AccountFeed), AccountFeedId);
-            return p;
+            CommentCount = ManagedDiscussion.GetDiscussionPostCount(
+                session, value.AccountFeed.Account.Id, ManagedDiscussion.AccountFeedItemDiscussion, value.Id);
+        }
+
+        public override void SetInstance(AccountFeedItem value)
+        {
+            AccountFeedId = value.AccountFeed.Id;
+            Title = value.Title;
+            Description = value.Description;
+            Link = value.Link;
+            Guid = value.Guid;
+            Created = value.Created;
+            Updated = value.Updated;
+            AccountId = value.AccountFeed.Account.Id;
+            AccountPictureId = ManagedAccount.GetRandomAccountPictureId(value.AccountFeed.Account);
+            AccountName = value.AccountFeed.Account.Name;
+            AccountFeedName = value.AccountFeed.Name;
+            AccountFeedLinkUrl = value.AccountFeed.LinkUrl;
+            base.SetInstance(value);
+        }
+
+        public override AccountFeedItem GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            AccountFeedItem instance = base.GetInstance(session, sec);
+            instance.Title = this.Title;
+            instance.Description = this.Description;
+            instance.Link = this.Link;
+            instance.Guid = this.Guid;
+            if (this.AccountFeedId != 0) instance.AccountFeed = (AccountFeed)session.Load(typeof(AccountFeed), AccountFeedId);
+            return instance;
         }
     }
 
-    public class ManagedAccountFeedItem : ManagedService<AccountFeedItem>
+    public class ManagedAccountFeedItem : ManagedService<AccountFeedItem, TransitAccountFeedItem>
     {
-        private AccountFeedItem mAccountFeedItem = null;
-
         public ManagedAccountFeedItem(ISession session)
             : base(session)
         {
@@ -255,64 +263,37 @@ namespace SnCore.Services
         }
 
         public ManagedAccountFeedItem(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountFeedItem = (AccountFeedItem)session.Load(typeof(AccountFeedItem), id);
+
         }
 
         public ManagedAccountFeedItem(ISession session, AccountFeedItem value)
-            : base(session)
+            : base(session, value)
         {
-            mAccountFeedItem = value;
+
         }
 
-        public ManagedAccountFeedItem(ISession session, TransitAccountFeedItem value)
-            : base(session)
+        public override void Delete(ManagedSecurityContext sec)
         {
-            mAccountFeedItem = value.GetAccountFeedItem(session);
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mAccountFeedItem.Id;
-            }
-        }
-
-        public TransitAccountFeedItem TransitAccountFeedItem
-        {
-            get
-            {
-                return new TransitAccountFeedItem(Session, mAccountFeedItem);
-            }
-        }
-
-        public void CreateOrUpdate(TransitAccountFeedItem o)
-        {
-            mAccountFeedItem = o.GetAccountFeedItem(Session);
-            mAccountFeedItem.Updated = DateTime.UtcNow;
-            if (Id == 0) mAccountFeedItem.Created = mAccountFeedItem.Updated;
-            Session.Save(mAccountFeedItem);
-        }
-
-        public void Delete()
-        {
-            try
-            {
-                int DiscussionId = ManagedDiscussion.GetDiscussionId(
-                    Session, mAccountFeedItem.AccountFeed.Account.Id, ManagedDiscussion.AccountFeedItemDiscussion,
-                    mAccountFeedItem.Id, false);
-                Discussion mDiscussion = (Discussion)Session.Load(typeof(Discussion), DiscussionId);
-                Session.Delete(mDiscussion);
-            }
-            catch (ManagedDiscussion.DiscussionNotFoundException)
-            {
-
-            }
-
+            ManagedDiscussion.FindAndDelete(Session, mInstance.AccountFeed.Account.Id, ManagedDiscussion.AccountFeedItemDiscussion, mInstance.Id);
             ManagedFeature.Delete(Session, "AccountFeedItem", Id);
-            Session.Delete(mAccountFeedItem);
+            base.Delete(sec);
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            mInstance.Updated = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Updated;
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            acl.Add(new ACLAccount(mInstance.AccountFeed.Account, DataOperation.All));
+            return acl;
         }
     }
 }

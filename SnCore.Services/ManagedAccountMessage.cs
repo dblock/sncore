@@ -2,10 +2,11 @@ using System;
 using NHibernate;
 using NHibernate.Expression;
 using System.Collections;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
-    public class TransitAccountMessage : TransitService
+    public class TransitAccountMessage : TransitService<AccountMessage>
     {
         private string mSubject;
 
@@ -52,18 +53,18 @@ namespace SnCore.Services
             }
         }
 
-        private bool mUnread;
+        private bool mUnRetreive;
 
-        public bool Unread
+        public bool UnRetreive
         {
             get
             {
 
-                return mUnread;
+                return mUnRetreive;
             }
             set
             {
-                mUnread = value;
+                mUnRetreive = value;
             }
         }
 
@@ -82,18 +83,18 @@ namespace SnCore.Services
             }
         }
 
-        private int mAccountMessageFolderId;
+        private int mInstanceFolderId;
 
         public int AccountMessageFolderId
         {
             get
             {
 
-                return mAccountMessageFolderId;
+                return mInstanceFolderId;
             }
             set
             {
-                mAccountMessageFolderId = value;
+                mInstanceFolderId = value;
             }
         }
 
@@ -192,59 +193,85 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountMessage(AccountMessage p)
-            : base(p.Id)
+        public TransitAccountMessage(AccountMessage instance)
+            : base(instance)
         {
-            Subject = p.Subject;
-            Body = p.Body;
-            Sent = p.Sent;
-            Unread = p.Unread;
-            AccountMessageFolderId = p.AccountMessageFolder.Id;
-            AccountId = p.Account.Id;
-            RecepientAccountId = p.RecepientAccountId;
-            SenderAccountId = p.SenderAccountId;
+
         }
 
-        public AccountMessage GetAccountMessage(ISession session)
+        public TransitAccountMessage(ISession session, AccountMessage instance)
+            : base(instance)
         {
-            AccountMessage p = (Id != 0) ? (AccountMessage)session.Load(typeof(AccountMessage), Id) : new AccountMessage();
+            Account sender = (Account) session.CreateCriteria(typeof(Account))
+                    .Add(Expression.Eq("Id", instance.SenderAccountId))
+                    .UniqueResult();
+
+            if (sender != null)
+            {
+                SenderAccountPictureId = ManagedAccount.GetRandomAccountPictureId(sender);
+                SenderAccountName = sender.Name;
+            }
+
+            Account recepient = (Account) session.CreateCriteria(typeof(Account))
+                    .Add(Expression.Eq("Id", instance.RecepientAccountId))
+                    .UniqueResult();
+
+            if (recepient != null)
+            {
+                RecepientAccountPictureId = ManagedAccount.GetRandomAccountPictureId(recepient);
+                RecepientAccountName = recepient.Name;
+            }
+        }
+
+        public override void SetInstance(AccountMessage instance)
+        {
+            Subject = instance.Subject;
+            Body = instance.Body;
+            Sent = instance.Sent;
+            UnRetreive = instance.Unread;
+            AccountMessageFolderId = instance.AccountMessageFolder.Id;
+            AccountId = instance.Account.Id;
+            RecepientAccountId = instance.RecepientAccountId;
+            SenderAccountId = instance.SenderAccountId;
+
+            base.SetInstance(instance);
+        }
+
+        public override AccountMessage GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            AccountMessage instance = base.GetInstance(session, sec);
 
             if (Id == 0)
             {
                 // sent messages cannot be modified
-                p.Subject = this.Subject;
-                p.Body = this.Body;
-                p.Sent = this.Sent;
-                p.Unread = this.Unread;
-                p.SenderAccountId = this.SenderAccountId;
-                p.RecepientAccountId = this.RecepientAccountId;
-                if (AccountId > 0) p.Account = (Account)session.Load(typeof(Account), this.AccountId);
+                instance.Subject = this.Subject;
+                instance.Body = this.Body;
+                instance.Sent = this.Sent;
+                instance.Unread = this.UnRetreive;
+                instance.SenderAccountId = this.SenderAccountId;
+                instance.RecepientAccountId = this.RecepientAccountId;
+                instance.Account = GetOwner(session, AccountId, sec);
             }
 
             if (AccountMessageFolderId == 0)
             {
-                p.AccountMessageFolder = (AccountMessageFolder)session.CreateCriteria(typeof(AccountMessageFolder))
+                instance.AccountMessageFolder = (AccountMessageFolder)session.CreateCriteria(typeof(AccountMessageFolder))
                     .Add(Expression.Eq("Name", "inbox"))
                     .Add(Expression.Eq("Account.Id", this.AccountId))
                     .UniqueResult();
             }
             else
             {
-                p.AccountMessageFolder = (AccountMessageFolder)session.Load(
+                instance.AccountMessageFolder = (AccountMessageFolder)session.Load(
                     typeof(AccountMessageFolder), AccountMessageFolderId);
             }
 
-            return p;
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed account message.
-    /// </summary>
-    public class ManagedAccountMessage : ManagedService<AccountMessage>
+    public class ManagedAccountMessage : ManagedService<AccountMessage, TransitAccountMessage>
     {
-        private AccountMessage mAccountMessage = null;
-
         public ManagedAccountMessage(ISession session)
             : base(session)
         {
@@ -252,73 +279,43 @@ namespace SnCore.Services
         }
 
         public ManagedAccountMessage(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountMessage = (AccountMessage)session.Load(typeof(AccountMessage), id);
+
         }
 
         public ManagedAccountMessage(ISession session, AccountMessage value)
-            : base(session)
+            : base(session, value)
         {
-            mAccountMessage = value;
-        }
 
-        public int Id
-        {
-            get
-            {
-                return mAccountMessage.Id;
-            }
         }
 
         public int AccountId
         {
             get
             {
-                return mAccountMessage.Account.Id;
+                return mInstance.Account.Id;
             }
         }
 
-        public TransitAccountMessage TransitAccountMessage
+        public override void Delete(ManagedSecurityContext sec)
         {
-            get
-            {
-                TransitAccountMessage tam = new TransitAccountMessage(mAccountMessage);
-
-                Account sender = (Account)Session.CreateCriteria(typeof(Account))
-                        .Add(Expression.Eq("Id", tam.SenderAccountId))
-                        .UniqueResult();
-
-                if (sender != null)
-                {
-                    tam.SenderAccountPictureId = ManagedAccount.GetRandomAccountPictureId(sender);
-                    tam.SenderAccountName = sender.Name;
-                }
-
-                Account recepient = (Account)Session.CreateCriteria(typeof(Account))
-                        .Add(Expression.Eq("Id", tam.RecepientAccountId))
-                        .UniqueResult();
-
-                if (recepient != null)
-                {
-                    tam.RecepientAccountPictureId = ManagedAccount.GetRandomAccountPictureId(recepient);
-                    tam.RecepientAccountName = recepient.Name;
-                }
-
-                return tam;
-            }
+            Collection<AccountMessage>.GetSafeCollection(mInstance.Account.AccountMessages).Remove(mInstance);
+            base.Delete(sec);
         }
 
-        public void Delete()
+        public void MarkMessageAsRetreiveUnRetreive(bool value)
         {
-            mAccountMessage.Account.AccountMessages.Remove(mAccountMessage);
-            Session.Delete(mAccountMessage);
+            mInstance.Unread = value;
+            Session.SaveOrUpdate(mInstance);
         }
 
-        public void MarkMessageAsReadUnread(bool value)
+        public override ACL GetACL()
         {
-            mAccountMessage.Unread = value;
-            Session.SaveOrUpdate(mAccountMessage);
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowCreate());
+            acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
+            return acl;
         }
     }
 }

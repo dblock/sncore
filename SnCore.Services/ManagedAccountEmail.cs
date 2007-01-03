@@ -3,10 +3,11 @@ using NHibernate;
 using System.Collections.Generic;
 using NHibernate.Expression;
 using System.Web.Services.Protocols;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
-    public class TransitAccountEmail : TransitService
+    public class TransitAccountEmail : TransitService<AccountEmail>
     {
         private string mAddress;
 
@@ -103,40 +104,41 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountEmail(AccountEmail e)
-            : base(e.Id)
+        public TransitAccountEmail(AccountEmail value)
+            : base(value)
         {
-            AccountId = e.Account.Id;
-            Address = e.Address;
-            Verified = e.Verified;
-            Principal = e.Principal;
-            Created = e.Created;
-            Modified = e.Modified;
+
         }
 
-        public AccountEmail GetAccountEmail(ISession session)
+        public override void SetInstance(AccountEmail instance)
         {
-            AccountEmail result = (Id > 0) ? (AccountEmail)session.Load(typeof(AccountEmail), Id) : new AccountEmail();
+            AccountId = instance.Account.Id;
+            Address = instance.Address;
+            Verified = instance.Verified;
+            Principal = instance.Principal;
+            Created = instance.Created;
+            Modified = instance.Modified;
+            base.SetInstance(instance);
+        }
+
+        public override AccountEmail GetInstance(ISession session, ManagedSecurityContext sec)
+        {
+            AccountEmail instance = base.GetInstance(session, sec);
 
             if (Id == 0)
             {
-                result.Address = Address.Trim();
-                result.Verified = Verified;
-                if (AccountId > 0) result.Account = (Account)session.Load(typeof(Account), AccountId);
+                instance.Address = Address.Trim();
+                instance.Verified = Verified;
+                instance.Account = GetOwner(session, AccountId, sec);
             }
 
-            result.Principal = Principal;
-            return result;
+            instance.Principal = Principal;
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed e-mail.
-    /// </summary>
-    public class ManagedAccountEmail : ManagedService<AccountEmail>
+    public class ManagedAccountEmail : ManagedService<AccountEmail, TransitAccountEmail>
     {
-        private AccountEmail mAccountEmail = null;
-
         public ManagedAccountEmail(ISession session)
             : base(session)
         {
@@ -144,36 +146,22 @@ namespace SnCore.Services
         }
 
         public ManagedAccountEmail(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountEmail = (AccountEmail)session.Load(typeof(AccountEmail), id);
+
         }
 
-        public ManagedAccountEmail(ISession session, TransitAccountEmail tae)
-            : base(session)
+        public ManagedAccountEmail(ISession session, AccountEmail instance)
+            : base(session, instance)
         {
-            mAccountEmail = tae.GetAccountEmail(session);
-        }
 
-        public ManagedAccountEmail(ISession session, AccountEmail value)
-            : base(session)
-        {
-            mAccountEmail = value;
-        }
-
-        public int Id
-        {
-            get
-            {
-                return mAccountEmail.Id;
-            }
         }
 
         public string Address
         {
             get
             {
-                return mAccountEmail.Address;
+                return mInstance.Address;
             }
         }
 
@@ -181,7 +169,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountEmail.Created;
+                return mInstance.Created;
             }
         }
 
@@ -189,44 +177,33 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountEmail.Modified;
+                return mInstance.Modified;
             }
         }
 
-        public List<ManagedAccountEmailConfirmation> ManagedAccountEmailConfirmations
+        public List<ManagedAccountEmailConfirmation> GetManagedAccountEmailConfirmations()
         {
-            get
+            List<ManagedAccountEmailConfirmation> list = new List<ManagedAccountEmailConfirmation>();
+            foreach (AccountEmailConfirmation aec in Collection<AccountEmailConfirmation>.GetSafeCollection(mInstance.AccountEmailConfirmations))
             {
-                List<ManagedAccountEmailConfirmation> list = new List<ManagedAccountEmailConfirmation>();
-                foreach (AccountEmailConfirmation aec in mAccountEmail.AccountEmailConfirmations)
-                {
-                    list.Add(new ManagedAccountEmailConfirmation(Session, aec));
-                }
-                return list;
+                list.Add(new ManagedAccountEmailConfirmation(Session, aec));
             }
+            return list;
         }
 
         public bool Verified
         {
             get
             {
-                return mAccountEmail.Verified;
+                return mInstance.Verified;
             }
         }
 
-        public TransitAccountEmail TransitAccountEmail
-        {
-            get
-            {
-                return new TransitAccountEmail(mAccountEmail);
-            }
-        }
-
-        public void Delete()
+        public override void Delete(ManagedSecurityContext sec)
         {
             bool canDelete = false;
 
-            foreach (AccountEmail email in mAccountEmail.Account.AccountEmails)
+            foreach (AccountEmail email in Collection<AccountEmail>.GetSafeCollection(mInstance.Account.AccountEmails))
             {
                 if (email.Id == Id)
                     continue;
@@ -252,16 +229,17 @@ namespace SnCore.Services
                     SoapException.ClientFaultCode);
             }
 
-            mAccountEmail.Account.AccountEmails.Remove(mAccountEmail);
-            mAccountEmail.AccountEmailConfirmations = null;
-            Session.Delete(mAccountEmail);
+            Collection<AccountEmail>.GetSafeCollection(mInstance.Account.AccountEmails).Remove(mInstance);
+            mInstance.AccountEmailConfirmations = null;
+            base.Delete(sec);
+
         }
 
         public ManagedAccount Account
         {
             get
             {
-                return new ManagedAccount(Session, mAccountEmail.Account);
+                return new ManagedAccount(Session, mInstance.Account);
             }
         }
 
@@ -270,35 +248,47 @@ namespace SnCore.Services
             if (this.Verified)
                 return null;
 
-            if (mAccountEmail.AccountEmailConfirmations != null)
+            // find and existing pending confirmation
+            foreach (AccountEmailConfirmation c in Collection<AccountEmailConfirmation>.GetSafeCollection(mInstance.AccountEmailConfirmations))
             {
-                // find and existing pending confirmation
-                foreach (AccountEmailConfirmation c in mAccountEmail.AccountEmailConfirmations)
+                if (c.AccountEmail.Id == Id)
                 {
-                    if (c.AccountEmail.Id == Id)
-                    {
-                        ManagedAccountEmailConfirmation existingac = new ManagedAccountEmailConfirmation(Session, c);
-                        existingac.Send();
-                        return existingac;
-                    }
+                    ManagedAccountEmailConfirmation existingac = new ManagedAccountEmailConfirmation(Session, c);
+                    existingac.Send();
+                    return existingac;
                 }
             }
 
             AccountEmailConfirmation ac = new AccountEmailConfirmation();
-            ac.AccountEmail = mAccountEmail;
+            ac.AccountEmail = mInstance;
             ac.Code = Guid.NewGuid().ToString();
             Session.Save(ac);
 
-            if (mAccountEmail.AccountEmailConfirmations == null)
+            if (mInstance.AccountEmailConfirmations == null)
             {
-                mAccountEmail.AccountEmailConfirmations = new List<AccountEmailConfirmation>();
+                mInstance.AccountEmailConfirmations = new List<AccountEmailConfirmation>();
             }
 
-            mAccountEmail.AccountEmailConfirmations.Add(ac);
+            mInstance.AccountEmailConfirmations.Add(ac);
 
             ManagedAccountEmailConfirmation mac = new ManagedAccountEmailConfirmation(Session, ac);
             mac.Send();
             return mac;
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
+        }
+
+        public override ACL GetACL()
+        {
+            ACL acl = base.GetACL();
+            acl.Add(new ACLEveryoneAllowCreate());
+            acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
+            return acl;
         }
     }
 }
