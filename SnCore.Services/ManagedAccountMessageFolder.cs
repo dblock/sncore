@@ -233,6 +233,11 @@ namespace SnCore.Services
 
     public class ManagedAccountMessageFolder : ManagedService<AccountMessageFolder, TransitAccountMessageFolder>
     {
+        public ManagedAccountMessageFolder()
+        {
+
+        }
+
         public ManagedAccountMessageFolder(ISession session)
             : base(session)
         {

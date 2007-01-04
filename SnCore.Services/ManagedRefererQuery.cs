@@ -105,6 +105,11 @@ namespace SnCore.Services
 
     public class ManagedRefererQuery : ManagedService<RefererQuery, TransitRefererQuery>
     {
+        public ManagedRefererQuery()
+        {
+
+        }
+
         public ManagedRefererQuery(ISession session)
             : base(session)
         {

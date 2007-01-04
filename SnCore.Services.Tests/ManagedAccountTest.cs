@@ -9,11 +9,34 @@ using NHibernate.Expression;
 namespace SnCore.Services.Tests
 {
     [TestFixture]
-    public class ManagedAccountTest : ManagedServiceTest
+    public class ManagedAccountTest : ManagedCRUDTest<Account, TransitAccount, ManagedAccount>
     {
         public ManagedAccountTest()
         {
 
+        }
+
+        public override ManagedAccount Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new ManagedAccount(Session);
+                    _instance.Create(Guid.NewGuid().ToString(), "password", string.Format("{0}@domain.com", Guid.NewGuid()), 
+                        DateTime.UtcNow, AdminSecurityContext);
+                }
+                return base.Instance;
+            }
+        }
+
+        public override TransitAccount GetTransitInstance()
+        {
+            TransitAccount t_instance = new TransitAccount();
+            t_instance.Birthday = DateTime.UtcNow;
+            t_instance.LastLogin = DateTime.UtcNow;
+            t_instance.Name = Guid.NewGuid().ToString();
+            return t_instance;
         }
 
         [Test]

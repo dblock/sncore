@@ -82,6 +82,11 @@ namespace SnCore.Services
 
     public class ManagedSurveyQuestion : ManagedService<SurveyQuestion, TransitSurveyQuestion>
     {
+        public ManagedSurveyQuestion()
+        {
+
+        }
+
         public ManagedSurveyQuestion(ISession session)
             : base(session)
         {

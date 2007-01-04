@@ -227,6 +227,11 @@ namespace SnCore.Services
 
     public class ManagedAccountPlace : ManagedService<AccountPlace, TransitAccountPlace>
     {
+        public ManagedAccountPlace()
+        {
+
+        }
+
         public ManagedAccountPlace(ISession session)
             : base(session)
         {

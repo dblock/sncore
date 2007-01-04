@@ -6,6 +6,7 @@ using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.Xml;
 using SnCore.Tools.Drawing;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
@@ -25,11 +26,11 @@ namespace SnCore.Services
             HasPicture = true;
         }
 
-        public override AccountEventPicture GetAccountEventPicture(ISession session)
+        public override AccountEventPicture GetInstance(ISession session, ManagedSecurityContext sec)
         {
-            AccountEventPicture p = base.GetAccountEventPicture(session);
-            p.Picture = Picture;
-            return p;
+            AccountEventPicture t_instance = base.GetInstance(session, sec);
+            t_instance.Picture = Picture;
+            return t_instance;
         }
     }
 
@@ -185,25 +186,27 @@ namespace SnCore.Services
             Modified = p.Modified;
         }
 
-        public virtual AccountEventPicture GetAccountEventPicture(ISession session)
+        public override AccountEventPicture GetInstance(ISession session, ManagedSecurityContext sec)
         {
-            AccountEventPicture p = (Id != 0) ? (AccountEventPicture)session.Load(typeof(AccountEventPicture), Id) : new AccountEventPicture();
+            AccountEventPicture t_instance = base.GetInstance(session, sec);
 
             if (Id == 0)
             {
-                if (AccountEventId > 0) p.AccountEvent = (AccountEvent)session.Load(typeof(AccountEvent), this.AccountEventId);
+                if (AccountEventId > 0) t_instance.AccountEvent = (AccountEvent)session.Load(typeof(AccountEvent), this.AccountEventId);
             }
 
-            p.Name = this.Name;
-            p.Description = this.Description;
-            return p;
+            t_instance.Name = this.Name;
+            t_instance.Description = this.Description;
+            return t_instance;
         }
-
     }
 
     public class ManagedAccountEventPicture : ManagedService<AccountEventPicture, TransitAccountEventPicture>
     {
-        private AccountEventPicture mAccountEventPicture = null;
+        public ManagedAccountEventPicture()
+        {
+
+        }
 
         public ManagedAccountEventPicture(ISession session)
             : base(session)
@@ -212,41 +215,20 @@ namespace SnCore.Services
         }
 
         public ManagedAccountEventPicture(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountEventPicture = (AccountEventPicture)session.Load(typeof(AccountEventPicture), id);
+
         }
 
         public ManagedAccountEventPicture(ISession session, AccountEventPicture value)
-            : base(session)
+            : base(session, value)
         {
-            mAccountEventPicture = value;
-        }
 
-        public int AccountId
-        {
-            get
-            {
-                return mAccountEventPicture.AccountEvent.Account.Id;
-            }
-        }
-
-        public TransitAccountEventPicture TransitAccountEventPicture
-        {
-            get
-            {
-                TransitAccountEventPicture pic = new TransitAccountEventPicture(mAccountEventPicture);
-                pic.CommentCount = ManagedDiscussion.GetDiscussionPostCount(
-                    Session, mAccountEventPicture.AccountEvent.Account.Id,
-                    ManagedDiscussion.AccountEventPictureDiscussion, mAccountEventPicture.Id);
-                pic.Counter = ManagedStats.GetCounter(Session, "AccountEventPicture.aspx", mAccountEventPicture.Id);
-                return pic;
-            }
         }
 
         public override void Delete(ManagedSecurityContext sec)
         {
-            mAccountEventPicture.AccountEvent.AccountEventPictures.Remove(mAccountEventPicture);
+            Collection<AccountEventPicture>.GetSafeCollection(mInstance.AccountEvent.AccountEventPictures).Remove(mInstance);
             base.Delete(sec);
         }
 

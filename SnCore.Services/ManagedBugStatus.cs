@@ -56,6 +56,11 @@ namespace SnCore.Services
 
     public class ManagedBugStatus : ManagedService<BugStatu, TransitBugStatus>
     {
+        public ManagedBugStatus()
+        {
+
+        }
+
         public ManagedBugStatus(ISession session)
             : base(session)
         {

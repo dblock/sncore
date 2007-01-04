@@ -199,6 +199,11 @@ namespace SnCore.Services
 
     public class ManagedAccountStoryPicture : ManagedService<AccountStoryPicture, TransitAccountStoryPicture>
     {
+        public ManagedAccountStoryPicture()
+        {
+
+        }
+
         public ManagedAccountStoryPicture(ISession session)
             : base(session)
         {

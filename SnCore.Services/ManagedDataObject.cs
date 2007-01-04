@@ -49,6 +49,11 @@ namespace SnCore.Services
 
     public class ManagedDataObject : ManagedService<DataObject, TransitDataObject>
     {
+        public ManagedDataObject()
+        {
+
+        }
+
         public ManagedDataObject(ISession session)
             : base(session)
         {

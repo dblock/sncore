@@ -161,6 +161,11 @@ namespace SnCore.Services
 
     public class ManagedAccountPlaceRequest : ManagedService<AccountPlaceRequest, TransitAccountPlaceRequest>
     {
+        public ManagedAccountPlaceRequest()
+        {
+
+        }
+
         public ManagedAccountPlaceRequest(ISession session)
             : base(session)
         {

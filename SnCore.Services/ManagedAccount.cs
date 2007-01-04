@@ -315,8 +315,8 @@ namespace SnCore.Services
             instance.Name = Name;
             instance.Birthday = Birthday;
             instance.LastLogin = LastLogin;
-            instance.State = ManagedState.Find(session, State, Country);
-            instance.Country = ManagedCountry.Find(session, Country);
+            if (! string.IsNullOrEmpty(State)) instance.State = ManagedState.Find(session, State, Country);
+            if (! string.IsNullOrEmpty(Country)) instance.Country = ManagedCountry.Find(session, Country);
             instance.City = City;
             instance.TimeZone = TimeZone;
             instance.Signature = Signature;
@@ -556,6 +556,11 @@ namespace SnCore.Services
             {
                 return mInstance.Name;
             }
+        }
+
+        public ManagedAccount()
+        {
+
         }
 
         public ManagedAccount(ISession session)
@@ -1532,6 +1537,13 @@ namespace SnCore.Services
         public ManagedSecurityContext GetSecurityContext()
         {
             return new ManagedSecurityContext(mInstance);
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            mInstance.Modified = DateTime.UtcNow;
+            if (Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
         }
 
         public override ACL GetACL()

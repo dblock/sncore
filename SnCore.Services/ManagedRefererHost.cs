@@ -147,6 +147,11 @@ namespace SnCore.Services
             }
         }
 
+        public ManagedRefererHost()
+        {
+
+        }
+
         public ManagedRefererHost(ISession session)
             : base(session)
         {

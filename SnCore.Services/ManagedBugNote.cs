@@ -157,6 +157,11 @@ namespace SnCore.Services
 
     public class ManagedBugNote : ManagedService<BugNote, TransitBugNote>
     {
+        public ManagedBugNote()
+        {
+
+        }
+
         public ManagedBugNote(ISession session)
             : base(session)
         {

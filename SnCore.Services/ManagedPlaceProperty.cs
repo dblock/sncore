@@ -152,6 +152,11 @@ namespace SnCore.Services
 
     public class ManagedPlaceProperty : ManagedService<PlaceProperty, TransitPlaceProperty>
     {
+        public ManagedPlaceProperty()
+        {
+
+        }
+
         public ManagedPlaceProperty(ISession session)
             : base(session)
         {

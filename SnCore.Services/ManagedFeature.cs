@@ -94,6 +94,11 @@ namespace SnCore.Services
 
     public class ManagedFeature : ManagedService<Feature, TransitFeature>
     {
+        public ManagedFeature()
+        {
+
+        }
+
         public ManagedFeature(ISession session)
             : base(session)
         {

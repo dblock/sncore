@@ -56,6 +56,11 @@ namespace SnCore.Services
 
     public class ManagedBugResolution : ManagedService<BugResolution, TransitBugResolution>
     {
+        public ManagedBugResolution()
+        {
+
+        }
+
         public ManagedBugResolution(ISession session)
             : base(session)
         {

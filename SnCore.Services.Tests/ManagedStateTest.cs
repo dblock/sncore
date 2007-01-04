@@ -11,12 +11,37 @@ using SnCore.Tools.Web;
 namespace SnCore.Services.Tests
 {
     [TestFixture]
-    public class ManagedStateTest : ManagedServiceTest
+    public class ManagedStateTest : ManagedCRUDTest<State, TransitState, ManagedState>
     {
+        private ManagedCountryTest _country = new ManagedCountryTest();
+
+        [SetUp]
+        public override void SetUp()
+        {
+            base.SetUp();
+            _country.SetUp();
+        }
+
+        [TearDown]
+        public override void TearDown()
+        {
+            _country.TearDown();
+            base.TearDown();
+        }
+
+        public override TransitState GetTransitInstance()
+        {
+            TransitState t_instance = new TransitState();
+            t_instance.Country = _country.Instance.Name;
+            t_instance.Name = Guid.NewGuid().ToString();
+            return t_instance;
+        }
+
         public ManagedStateTest()
         {
             
         }
+
 
         [Test]
         public void CreateState()

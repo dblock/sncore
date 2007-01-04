@@ -115,6 +115,11 @@ namespace SnCore.Services
             }
         }
 
+        public ManagedCity()
+        {
+
+        }
+
         public ManagedCity(ISession session)
             : base(session)
         {

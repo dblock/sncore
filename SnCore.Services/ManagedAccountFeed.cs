@@ -317,6 +317,11 @@ namespace SnCore.Services
 
     public class ManagedAccountFeed : ManagedService<AccountFeed, TransitAccountFeed>
     {
+        public ManagedAccountFeed()
+        {
+
+        }
+
         public ManagedAccountFeed(ISession session)
             : base(session)
         {

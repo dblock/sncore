@@ -110,6 +110,11 @@ namespace SnCore.Services
 
     public class ManagedReminderEvent : ManagedService<ReminderEvent, TransitReminderEvent>
     {
+        public ManagedReminderEvent()
+        {
+
+        }
+
         public ManagedReminderEvent(ISession session)
             : base(session)
         {

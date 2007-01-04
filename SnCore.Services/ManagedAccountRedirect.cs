@@ -147,6 +147,11 @@ namespace SnCore.Services
             }
         }
 
+        public ManagedAccountRedirect()
+        {
+
+        }
+
         public ManagedAccountRedirect(ISession session)
             : base(session)
         {

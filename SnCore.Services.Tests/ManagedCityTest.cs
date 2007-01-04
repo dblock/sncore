@@ -10,11 +10,36 @@ using System.Diagnostics;
 namespace SnCore.Services.Tests
 {
     [TestFixture]
-    public class ManagedCityTest : ManagedServiceTest
+    public class ManagedCityTest : ManagedCRUDTest<City, TransitCity, ManagedCity>
     {
+        private ManagedStateTest _state = new ManagedStateTest();
+
+        [SetUp]
+        public override void SetUp()
+        {
+            base.SetUp();
+            _state.SetUp();
+        }
+
+        [TearDown]
+        public override void TearDown()
+        {
+            _state.TearDown();
+            base.TearDown();
+        }
+
         public ManagedCityTest()
         {
 
+        }
+
+        public override TransitCity GetTransitInstance()
+        {
+            TransitCity t_instance = new TransitCity();
+            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Country = _state.Instance.Instance.Country.Name;
+            t_instance.State = _state.Instance.Name;
+            return t_instance;
         }
 
         [Test]

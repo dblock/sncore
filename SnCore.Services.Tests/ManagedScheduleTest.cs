@@ -11,11 +11,36 @@ using SnCore.Tools;
 namespace SnCore.Services.Tests
 {
     [TestFixture]
-    public class ManagedScheduleTest : ManagedServiceTest
+    public class ManagedScheduleTest : ManagedCRUDTest<Schedule, TransitSchedule, ManagedSchedule>
     {
+        private ManagedAccountTest _account = new ManagedAccountTest();
+
+        public override void SetUp()
+        {
+            base.SetUp();
+            _account.SetUp();
+        }
+
+        public override void TearDown()
+        {
+            _account.TearDown();
+            base.TearDown();
+        }
+
         public ManagedScheduleTest()
         {
 
+        }
+
+        public override TransitSchedule GetTransitInstance()
+        {
+            TransitSchedule t_instance = new TransitSchedule();
+            t_instance.StartDateTime = DateTime.UtcNow;
+            t_instance.EndDateTime = DateTime.UtcNow;
+            t_instance.EndOccurrences = 2;
+            t_instance.RecurrencePattern = RecurrencePattern.Daily_EveryNDays;
+            t_instance.AccountId = _account.Instance.Id;
+            return t_instance;
         }
 
         [Test]

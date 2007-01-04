@@ -141,6 +141,11 @@ namespace SnCore.Services
 
     public class ManagedFeedType : ManagedService<FeedType, TransitFeedType>
     {
+        public ManagedFeedType()
+        {
+
+        }
+
         public ManagedFeedType(ISession session)
             : base(session)
         {

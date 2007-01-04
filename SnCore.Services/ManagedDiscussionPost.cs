@@ -313,6 +313,11 @@ namespace SnCore.Services
 
     public class ManagedDiscussionPost : ManagedService<DiscussionPost, TransitDiscussionPost>
     {
+        public ManagedDiscussionPost()
+        {
+
+        }
+
         public ManagedDiscussionPost(ISession session)
             : base(session)
         {

@@ -256,6 +256,11 @@ namespace SnCore.Services
 
     public class ManagedAccountFeedItem : ManagedService<AccountFeedItem, TransitAccountFeedItem>
     {
+        public ManagedAccountFeedItem()
+        {
+
+        }
+
         public ManagedAccountFeedItem(ISession session)
             : base(session)
         {

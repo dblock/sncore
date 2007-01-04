@@ -65,6 +65,11 @@ namespace SnCore.Services
             }
         }
 
+        public ManagedSurvey()
+        {
+
+        }
+
         public ManagedSurvey(ISession session)
             : base(session)
         {

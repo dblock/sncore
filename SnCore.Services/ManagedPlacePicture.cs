@@ -214,7 +214,10 @@ namespace SnCore.Services
     /// </summary>
     public class ManagedPlacePicture : ManagedService<PlacePicture, TransitPlacePicture>
     {
-        private PlacePicture mPlacePicture = null;
+        public ManagedPlacePicture()
+        {
+
+        }
 
         public ManagedPlacePicture(ISession session)
             : base(session)
@@ -223,22 +226,22 @@ namespace SnCore.Services
         }
 
         public ManagedPlacePicture(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mPlacePicture = (PlacePicture)session.Load(typeof(PlacePicture), id);
+            
         }
 
         public ManagedPlacePicture(ISession session, PlacePicture value)
-            : base(session)
+            : base(session, value)
         {
-            mPlacePicture = value;
+            
         }
 
         public string Name
         {
             get
             {
-                return mPlacePicture.Name;
+                return mInstance.Name;
             }
         }
 
@@ -246,7 +249,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mPlacePicture.Description;
+                return mInstance.Description;
             }
         }
 
@@ -254,7 +257,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mPlacePicture.Bitmap;
+                return mInstance.Bitmap;
             }
         }
 
@@ -262,7 +265,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mPlacePicture.Created;
+                return mInstance.Created;
             }
         }
 
@@ -270,38 +273,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mPlacePicture.Modified;
-            }
-        }
-
-        public TransitPlacePictureWithBitmap TransitPlacePictureWithBitmap
-        {
-            get
-            {
-                TransitPlacePictureWithBitmap pic = new TransitPlacePictureWithBitmap(mPlacePicture);
-                return pic;
-            }
-        }
-
-        public TransitPlacePictureWithThumbnail TransitPlacePictureWithThumbnail
-        {
-            get
-            {
-                TransitPlacePictureWithThumbnail pic = new TransitPlacePictureWithThumbnail(mPlacePicture);
-                return pic;
-            }
-        }
-
-        public TransitPlacePicture TransitPlacePicture
-        {
-            get
-            {
-                TransitPlacePicture pic = new TransitPlacePicture(mPlacePicture);
-                pic.CommentCount = ManagedDiscussion.GetDiscussionPostCount(
-                    Session, mPlacePicture.Place.Account.Id,
-                    ManagedDiscussion.PlacePictureDiscussion, mPlacePicture.Id);
-                pic.Counter = ManagedStats.GetCounter(Session, "PlacePicture.aspx", mPlacePicture.Id);
-                return pic;
+                return mInstance.Modified;
             }
         }
 
@@ -309,22 +281,22 @@ namespace SnCore.Services
         {
             get
             {
-                return mPlacePicture.Place;
+                return mInstance.Place;
             }
         }
 
         public void MigrateToAccount(Account newowner)
         {
-            mPlacePicture.Account = newowner;
-            Session.Save(mPlacePicture);
+            mInstance.Account = newowner;
+            Session.Save(mInstance);
         }
 
         public bool CanWrite(int user_id)
         {
-            if (mPlacePicture.Account.Id == user_id)
+            if (mInstance.Account.Id == user_id)
                 return true;
 
-            ManagedPlace m_place = new ManagedPlace(Session, mPlacePicture.Place);
+            ManagedPlace m_place = new ManagedPlace(Session, mInstance.Place);
 
             if (m_place.CanWrite(user_id))
                 return true;

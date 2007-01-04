@@ -181,6 +181,11 @@ namespace SnCore.Services
 
     public class ManagedAccountBlogAuthor : ManagedService<AccountBlogAuthor, TransitAccountBlogAuthor>
     {
+        public ManagedAccountBlogAuthor()
+        {
+
+        }
+
         public ManagedAccountBlogAuthor(ISession session)
             : base(session)
         {

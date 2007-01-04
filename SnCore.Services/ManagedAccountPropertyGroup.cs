@@ -72,6 +72,11 @@ namespace SnCore.Services
 
     public class ManagedAccountPropertyGroup : ManagedService<AccountPropertyGroup, TransitAccountPropertyGroup>
     {
+        public ManagedAccountPropertyGroup()
+        {
+
+        }
+
         public ManagedAccountPropertyGroup(ISession session)
             : base(session)
         {

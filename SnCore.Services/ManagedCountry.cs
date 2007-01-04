@@ -65,6 +65,11 @@ namespace SnCore.Services
             }
         }
 
+        public ManagedCountry()
+        {
+
+        }
+
         public ManagedCountry(ISession session)
             : base(session)
         {

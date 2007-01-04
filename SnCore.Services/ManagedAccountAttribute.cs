@@ -150,6 +150,11 @@ namespace SnCore.Services
 
     public class ManagedAccountAttribute : ManagedService<AccountAttribute, TransitAccountAttribute>
     {
+        public ManagedAccountAttribute()
+        {
+
+        }
+
         public ManagedAccountAttribute(ISession session)
             : base(session)
         {

@@ -317,6 +317,11 @@ namespace SnCore.Services
 
     public class ManagedAccountFeedItemImg : ManagedService<AccountFeedItemImg, TransitAccountFeedItemImg>
     {
+        public ManagedAccountFeedItemImg()
+        {
+
+        }
+
         public ManagedAccountFeedItemImg(ISession session)
             : base(session)
         {

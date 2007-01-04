@@ -149,6 +149,11 @@ namespace SnCore.Services
 
     public class ManagedCampaignAccountRecepient : ManagedService<CampaignAccountRecepient, TransitCampaignAccountRecepient>
     {
+        public ManagedCampaignAccountRecepient()
+        {
+
+        }
+
         public ManagedCampaignAccountRecepient(ISession session)
             : base(session)
         {

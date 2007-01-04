@@ -158,7 +158,10 @@ namespace SnCore.Services
 
     public class ManagedAccountInvitation : ManagedService<AccountInvitation, TransitAccountInvitation>
     {
-        private AccountInvitation mAccountInvitation = null;
+        public ManagedAccountInvitation()
+        {
+
+        }
 
         public ManagedAccountInvitation(ISession session)
             : base(session)
@@ -182,7 +185,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountInvitation.Account.Id;
+                return mInstance.Account.Id;
             }
         }
 
@@ -190,7 +193,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountInvitation.Email;
+                return mInstance.Email;
             }
         }
 
@@ -198,13 +201,13 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountInvitation.Code;
+                return mInstance.Code;
             }
         }
 
         public override void Delete(ManagedSecurityContext sec)
         {
-            mAccountInvitation.Account.AccountInvitations.Remove(mAccountInvitation);
+            mInstance.Account.AccountInvitations.Remove(mInstance);
             base.Delete(sec);
         }
 
@@ -212,8 +215,8 @@ namespace SnCore.Services
         {
             ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
                 Session,
-                mAccountInvitation.Email,
-                string.Format("EmailAccountInvitation.aspx?id={0}", mAccountInvitation.Id));
+                mInstance.Email,
+                string.Format("EmailAccountInvitation.aspx?id={0}", mInstance.Id));
         }
 
         protected override void Save(ManagedSecurityContext sec)

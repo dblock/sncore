@@ -177,6 +177,11 @@ namespace SnCore.Services
 
     public class ManagedAttribute : ManagedService<Attribute, TransitAttribute>
     {
+        public ManagedAttribute()
+        {
+
+        }
+
         public ManagedAttribute(ISession session)
             : base(session)
         {

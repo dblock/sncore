@@ -148,6 +148,11 @@ namespace SnCore.Services
 
     public class ManagedPlacePropertyValue : ManagedService<PlacePropertyValue, TransitPlacePropertyValue>
     {
+        public ManagedPlacePropertyValue()
+        {
+
+        }
+
         public ManagedPlacePropertyValue(ISession session)
             : base(session)
         {

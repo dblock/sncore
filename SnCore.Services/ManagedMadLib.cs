@@ -135,6 +135,11 @@ namespace SnCore.Services
 
     public class ManagedMadLib : ManagedService<MadLib, TransitMadLib>
     {
+        public ManagedMadLib()
+        {
+
+        }
+
         public ManagedMadLib(ISession session)
             : base(session)
         {

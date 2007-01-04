@@ -166,6 +166,11 @@ namespace SnCore.Services
 
     public class ManagedRefererAccount : ManagedService<RefererAccount, TransitRefererAccount>
     {
+        public ManagedRefererAccount()
+        {
+
+        }
+
         public ManagedRefererAccount(ISession session)
             : base(session)
         {

@@ -497,6 +497,11 @@ namespace SnCore.Services
 
     public class ManagedSchedule : ManagedService<Schedule, TransitSchedule>
     {
+        public ManagedSchedule()
+        {
+
+        }
+
         public ManagedSchedule(ISession session)
             : base(session)
         {

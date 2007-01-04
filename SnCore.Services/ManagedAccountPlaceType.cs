@@ -90,6 +90,11 @@ namespace SnCore.Services
 
     public class ManagedAccountPlaceType : ManagedService<AccountPlaceType, TransitAccountPlaceType>
     {
+        public ManagedAccountPlaceType()
+        {
+
+        }
+
         public ManagedAccountPlaceType(ISession session)
             : base(session)
         {

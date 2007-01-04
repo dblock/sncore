@@ -32,11 +32,11 @@ namespace SnCore.Services
             Bitmap = p.Bitmap;
         }
 
-        public new AccountPicture GetAccountPicture(ISession session)
+        public override AccountPicture GetInstance(ISession session, ManagedSecurityContext sec)
         {
-            AccountPicture p = base.GetAccountPicture(session);
-            if (this.Bitmap != null) p.Bitmap = this.Bitmap;
-            return p;
+            AccountPicture instance = base.GetInstance(session, sec);
+            if (this.Bitmap != null) instance.Bitmap = this.Bitmap; 
+            return instance;
         }
     }
 
@@ -199,24 +199,28 @@ namespace SnCore.Services
 
         }
 
-        public AccountPicture GetAccountPicture(ISession session)
+        public override AccountPicture GetInstance(ISession session, ManagedSecurityContext sec)
         {
-            AccountPicture p = (Id > 0) ? (AccountPicture)session.Load(typeof(AccountPicture), Id) : new AccountPicture();
-            p.Name = this.Name;
-            p.Description = this.Description;
-            p.Hidden = this.Hidden;
-            if (this.Id == 0) p.Created = p.Modified = DateTime.UtcNow;
-            else p.Modified = DateTime.UtcNow;
-            return p;
+            AccountPicture instance = base.GetInstance(session, sec);
+            instance.Name = this.Name;
+            instance.Description = this.Description;
+            instance.Hidden = this.Hidden;
+            instance.Modified = DateTime.UtcNow;
+            if (Id == 0)
+            {
+                instance.Account = GetOwner(session, AccountId, sec);
+                instance.Created = instance.Modified;
+            }
+            return instance;
         }
     }
 
-    /// <summary>
-    /// Managed picture.
-    /// </summary>
     public class ManagedAccountPicture : ManagedService<AccountPicture, TransitAccountPicture>
     {
-        private AccountPicture mAccountPicture = null;
+        public ManagedAccountPicture()
+        {
+
+        }
 
         public ManagedAccountPicture(ISession session)
             : base(session)
@@ -225,22 +229,22 @@ namespace SnCore.Services
         }
 
         public ManagedAccountPicture(ISession session, int id)
-            : base(session)
+            : base(session, id)
         {
-            mAccountPicture = (AccountPicture)session.Load(typeof(AccountPicture), id);
+
         }
 
         public ManagedAccountPicture(ISession session, AccountPicture value)
-            : base(session)
+            : base(session, value)
         {
-            mAccountPicture = value;
+
         }
 
         public string Name
         {
             get
             {
-                return mAccountPicture.Name;
+                return mInstance.Name;
             }
         }
 
@@ -248,7 +252,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountPicture.Description;
+                return mInstance.Description;
             }
         }
 
@@ -256,7 +260,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountPicture.Bitmap;
+                return mInstance.Bitmap;
             }
         }
 
@@ -264,7 +268,7 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountPicture.Created;
+                return mInstance.Created;
             }
         }
 
@@ -272,57 +276,36 @@ namespace SnCore.Services
         {
             get
             {
-                return mAccountPicture.Modified;
+                return mInstance.Modified;
             }
         }
 
         public TransitAccountPictureWithBitmap GetTransitAccountPictureWithBitmap()
         {
-            TransitAccountPictureWithBitmap pic = new TransitAccountPictureWithBitmap(mAccountPicture);
+            TransitAccountPictureWithBitmap pic = new TransitAccountPictureWithBitmap(mInstance);
             return pic;
-        }
-
-        public TransitAccountPictureWithThumbnail GetTransitAccountPictureWithThumbnail()
-        {
-            TransitAccountPictureWithThumbnail pic = new TransitAccountPictureWithThumbnail(mAccountPicture);
-            return pic;
-        }
-
-        public TransitAccountPicture GetTransitAccountPicture(IList<AccountPicture> collection)
-        {
-            TransitAccountPicture pic = new TransitAccountPicture(mAccountPicture, collection);
-            pic.CommentCount = ManagedDiscussion.GetDiscussionPostCount(
-                Session, mAccountPicture.Account.Id,
-                ManagedDiscussion.AccountPictureDiscussion, mAccountPicture.Id);
-            pic.Counter = ManagedStats.GetCounter(Session, "AccountPicture.aspx", mAccountPicture.Id);
-            return pic;
-        }
-
-        public TransitAccountPicture GetTransitAccountPicture()
-        {
-            return GetTransitAccountPicture(mAccountPicture.Account.AccountPictures);
         }
 
         public int AccountId
         {
             get
             {
-                return mAccountPicture.Account.Id;
+                return mInstance.Account.Id;
             }
         }
 
         public override void Delete(ManagedSecurityContext sec)
         {
-            ManagedDiscussion.FindAndDelete(Session, mAccountPicture.Account.Id, ManagedDiscussion.AccountPictureDiscussion, mAccountPicture.Id);
-            mAccountPicture.Account.AccountPictures.Remove(mAccountPicture);
-            Session.Delete(mAccountPicture);
+            ManagedDiscussion.FindAndDelete(Session, mInstance.Account.Id, ManagedDiscussion.AccountPictureDiscussion, mInstance.Id);
+            mInstance.Account.AccountPictures.Remove(mInstance);
+            Session.Delete(mInstance);
         }
 
         public Account Account
         {
             get
             {
-                return mAccountPicture.Account;
+                return mInstance.Account;
             }
         }
 

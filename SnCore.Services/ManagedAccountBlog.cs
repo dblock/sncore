@@ -162,6 +162,11 @@ namespace SnCore.Services
 
     public class ManagedAccountBlog : ManagedService<AccountBlog, TransitAccountBlog>
     {
+        public ManagedAccountBlog()
+        {
+
+        }
+
         public ManagedAccountBlog(ISession session)
             : base(session)
         {

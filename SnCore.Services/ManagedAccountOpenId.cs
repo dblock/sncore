@@ -105,6 +105,11 @@ namespace SnCore.Services
 
     public class ManagedAccountOpenId : ManagedService<AccountOpenId, TransitAccountOpenId>
     {
+        public ManagedAccountOpenId()
+        {
+
+        }
+
         public ManagedAccountOpenId(ISession session)
             : base(session)
         {

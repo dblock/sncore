@@ -149,6 +149,11 @@ namespace SnCore.Services
 
     public class ManagedPlaceAttribute : ManagedService<PlaceAttribute, TransitPlaceAttribute>
     {
+        public ManagedPlaceAttribute()
+        {
+
+        }
+
         public ManagedPlaceAttribute(ISession session)
             : base(session)
         {

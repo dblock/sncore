@@ -5,18 +5,44 @@ using NUnit.Framework;
 
 namespace SnCore.Services.Tests
 {
-    public abstract class ManagedCRUDTest<DatabaseType, TransitType, ManagedType> : ManagedServiceTest
+    public abstract class ManagedCRUDTest<DatabaseType, TransitType, ManagedType> : ManagedServiceTest, IDisposable 
         where ManagedType: IManagedService, new()
         where TransitType: ITransitService, new()
         where DatabaseType: IDbObject, new()
     {
+        protected ManagedType _instance = default(ManagedType);
+
+        public virtual ManagedType Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new ManagedType();
+                    TransitType t_instance = GetTransitInstance();
+                    _instance.Session = Session;
+                    _instance.CreateOrUpdateDbObject(t_instance, GetSecurityContext());
+                }
+
+                return _instance;
+            }
+        }
+
         public ManagedCRUDTest()
         {
 
         }
 
-        public abstract TransitType GetTransitInstance();
+        public void Dispose()
+        {
+            if (_instance != null)
+            {
+                _instance.Delete(GetSecurityContext());
+            }
+        }
 
+        public abstract TransitType GetTransitInstance();
+        
         protected virtual ManagedSecurityContext GetSecurityContext()
         {
             return AdminSecurityContext;
@@ -35,6 +61,7 @@ namespace SnCore.Services.Tests
             finally
             {
                 m_instance.Delete(AdminSecurityContext);
+                Session.Flush();
             }
         }
 
@@ -62,6 +89,7 @@ namespace SnCore.Services.Tests
             finally
             {
                 m_instance.Delete(AdminSecurityContext);
+                Session.Flush();
             }
         }
 

@@ -100,6 +100,11 @@ namespace SnCore.Services
 
     public class ManagedPlaceName : ManagedService<PlaceName, TransitPlaceName>
     {
+        public ManagedPlaceName()
+        {
+
+        }
+
         public ManagedPlaceName(ISession session)
             : base(session)
         {

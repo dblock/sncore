@@ -190,11 +190,13 @@ namespace SnCore.Services
         }
     }
 
-    /// <summary>
-    /// Managed reminder.
-    /// </summary>
     public class ManagedReminder : ManagedService<Reminder, TransitReminder>
     {
+        public ManagedReminder()
+        {
+        
+        }
+
         public ManagedReminder(ISession session)
             : base(session)
         {

@@ -183,6 +183,11 @@ namespace SnCore.Services
 
     public class ManagedCampaign : ManagedService<Campaign, TransitCampaign>
     {
+        public ManagedCampaign()
+        {
+
+        }
+
         public ManagedCampaign(ISession session)
             : base(session)
         {

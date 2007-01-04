@@ -9,8 +9,33 @@ using NHibernate.Expression;
 namespace SnCore.Services.Tests
 {
     [TestFixture]
-    public class ManagedAccountMessageFolderTest : ManagedServiceTest
+    public class ManagedAccountMessageFolderTest : ManagedCRUDTest<AccountMessageFolder, TransitAccountMessageFolder, ManagedAccountMessageFolder>
     {
+        private ManagedAccountTest _account = new ManagedAccountTest();
+
+        [SetUp]
+        public override void SetUp()
+        {
+            base.SetUp();
+            _account.SetUp();
+        }
+
+        [TearDown]
+        public override void TearDown()
+        {
+            _account.TearDown();
+            base.TearDown();
+        }
+
+        public override TransitAccountMessageFolder GetTransitInstance()
+        {
+            TransitAccountMessageFolder t_instance = new TransitAccountMessageFolder();
+            t_instance.AccountId = _account.Instance.Id;
+            t_instance.Name = Guid.NewGuid().ToString(); ;
+            t_instance.System = false;
+            return t_instance;
+        }
+
         public ManagedAccountMessageFolderTest()
         {
 

@@ -226,6 +226,11 @@ namespace SnCore.Services
 
     public class ManagedAccountStory : ManagedService<AccountStory, TransitAccountStory>
     {
+        public ManagedAccountStory()
+        {
+
+        }
+
         public ManagedAccountStory(ISession session)
             : base(session)
         {

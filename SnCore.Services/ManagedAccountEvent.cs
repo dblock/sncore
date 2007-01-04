@@ -798,6 +798,11 @@ namespace SnCore.Services
 
     public class ManagedAccountEvent : ManagedService<AccountEvent, TransitAccountEvent>
     {
+        public ManagedAccountEvent()
+        {
+
+        }
+
         public ManagedAccountEvent(ISession session)
             : base(session)
         {

@@ -103,6 +103,11 @@ namespace SnCore.Services
 
     public class ManagedBugProject : ManagedService<BugProject, TransitBugProject>
     {
+        public ManagedBugProject()
+        {
+
+        }
+
         public ManagedBugProject(ISession session)
             : base(session)
         {

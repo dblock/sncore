@@ -19,11 +19,42 @@ using SnCore.Tools.Web;
 namespace SnCore.Services.Tests
 {
     [TestFixture]
-    public class ManagedAccountFeedTest : ManagedServiceTest
+    public class ManagedAccountFeedTest : ManagedCRUDTest<AccountFeed, TransitAccountFeed, ManagedAccountFeed>
     {
+        private ManagedAccountTest _account = new ManagedAccountTest();
+        private ManagedFeedTypeTest _type = new ManagedFeedTypeTest();
+
+        [SetUp]
+        public override void SetUp()
+        {
+            base.SetUp();
+            _account.SetUp();
+            _type.SetUp();
+        }
+
+        [TearDown]
+        public override void TearDown()
+        {
+            _type.TearDown();
+            _account.TearDown();
+            base.TearDown();
+        }
+
         public ManagedAccountFeedTest()
         {
 
+        }
+
+        public override TransitAccountFeed GetTransitInstance()
+        {
+            TransitAccountFeed t_instance = new TransitAccountFeed();
+            t_instance.AccountId = _account.Instance.Id;
+            t_instance.Description = Guid.NewGuid().ToString();
+            t_instance.FeedType = _type.Instance.Instance.Name;
+            t_instance.FeedUrl = string.Format("http://uri/{0}", Guid.NewGuid());
+            t_instance.LinkUrl = string.Format("http://uri/{0}", Guid.NewGuid());
+            t_instance.Name = Guid.NewGuid().ToString();
+            return t_instance;
         }
 
         [Test]

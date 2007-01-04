@@ -177,6 +177,11 @@ namespace SnCore.Services
 
     public class ManagedBookmark : ManagedService<Bookmark, TransitBookmark>
     {
+        public ManagedBookmark()
+        {
+
+        }
+
         public ManagedBookmark(ISession session)
             : base(session)
         {

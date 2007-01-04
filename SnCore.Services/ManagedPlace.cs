@@ -489,6 +489,11 @@ namespace SnCore.Services
 
     public class ManagedPlace : ManagedService<Place, TransitPlace>
     {
+        public ManagedPlace()
+        {
+
+        }
+
         public ManagedPlace(ISession session)
             : base(session)
         {

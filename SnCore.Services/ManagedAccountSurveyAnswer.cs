@@ -169,6 +169,11 @@ namespace SnCore.Services
 
     public class ManagedAccountSurveyAnswer : ManagedService<AccountSurveyAnswer, TransitAccountSurveyAnswer>
     {
+        public ManagedAccountSurveyAnswer()
+        {
+
+        }
+
         public ManagedAccountSurveyAnswer(ISession session)
             : base(session)
         {

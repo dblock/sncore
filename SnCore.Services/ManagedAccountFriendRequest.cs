@@ -168,6 +168,11 @@ namespace SnCore.Services
 
     public class ManagedAccountFriendRequest : ManagedService<AccountFriendRequest, TransitAccountFriendRequest>
     {
+        public ManagedAccountFriendRequest()
+        {
+
+        }
+
         public ManagedAccountFriendRequest(ISession session)
             : base(session)
         {

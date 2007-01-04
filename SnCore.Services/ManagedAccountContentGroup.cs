@@ -176,6 +176,11 @@ namespace SnCore.Services
 
     public class ManagedAccountContentGroup : ManagedService<AccountContentGroup, TransitAccountContentGroup>
     {
+        public ManagedAccountContentGroup()
+        {
+
+        }
+
         public ManagedAccountContentGroup(ISession session)
             : base(session)
         {

@@ -53,18 +53,18 @@ namespace SnCore.Services
             }
         }
 
-        private bool mUnRetreive;
+        private bool mUnRead;
 
-        public bool UnRetreive
+        public bool UnRead
         {
             get
             {
 
-                return mUnRetreive;
+                return mUnRead;
             }
             set
             {
-                mUnRetreive = value;
+                mUnRead = value;
             }
         }
 
@@ -228,7 +228,7 @@ namespace SnCore.Services
             Subject = instance.Subject;
             Body = instance.Body;
             Sent = instance.Sent;
-            UnRetreive = instance.Unread;
+            UnRead = instance.Unread;
             AccountMessageFolderId = instance.AccountMessageFolder.Id;
             AccountId = instance.Account.Id;
             RecepientAccountId = instance.RecepientAccountId;
@@ -247,7 +247,7 @@ namespace SnCore.Services
                 instance.Subject = this.Subject;
                 instance.Body = this.Body;
                 instance.Sent = this.Sent;
-                instance.Unread = this.UnRetreive;
+                instance.Unread = this.UnRead;
                 instance.SenderAccountId = this.SenderAccountId;
                 instance.RecepientAccountId = this.RecepientAccountId;
                 instance.Account = GetOwner(session, AccountId, sec);
@@ -272,6 +272,11 @@ namespace SnCore.Services
 
     public class ManagedAccountMessage : ManagedService<AccountMessage, TransitAccountMessage>
     {
+        public ManagedAccountMessage()
+        {
+
+        }
+
         public ManagedAccountMessage(ISession session)
             : base(session)
         {
@@ -304,7 +309,7 @@ namespace SnCore.Services
             base.Delete(sec);
         }
 
-        public void MarkMessageAsRetreiveUnRetreive(bool value)
+        public void MarkMessageAsRetreiveUnRead(bool value)
         {
             mInstance.Unread = value;
             Session.SaveOrUpdate(mInstance);

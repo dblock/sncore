@@ -82,6 +82,11 @@ namespace SnCore.Services
             }
         }
 
+        public ManagedState()
+        {
+
+        }
+
         public ManagedState(ISession session)
             : base(session)
         {

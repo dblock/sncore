@@ -107,6 +107,11 @@ namespace SnCore.Services
 
     public class ManagedTagWordAccount : ManagedService<TagWordAccount, TransitTagWordAccount>
     {
+        public ManagedTagWordAccount()
+        {
+
+        }
+
         public ManagedTagWordAccount(ISession session)
             : base(session)
         {

@@ -113,6 +113,11 @@ namespace SnCore.Services
             }
         }
 
+        public ManagedNeighborhood()
+        {
+
+        }
+
         public ManagedNeighborhood(ISession session)
             : base(session)
         {

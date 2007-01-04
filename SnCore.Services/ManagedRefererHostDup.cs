@@ -106,6 +106,11 @@ namespace SnCore.Services
 
     public class ManagedRefererHostDup : ManagedService<RefererHostDup, TransitRefererHostDup>
     {
+        public ManagedRefererHostDup()
+        {
+
+        }
+
         public ManagedRefererHostDup(ISession session)
             : base(session)
         {

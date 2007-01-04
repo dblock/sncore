@@ -121,6 +121,11 @@ namespace SnCore.Services
 
     public class ManagedReminderAccountProperty : ManagedService<ReminderAccountProperty, TransitReminderAccountProperty>
     {
+        public ManagedReminderAccountProperty()
+        {
+
+        }
+
         public ManagedReminderAccountProperty(ISession session)
             : base(session)
         {

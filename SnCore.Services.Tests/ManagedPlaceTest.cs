@@ -9,11 +9,46 @@ using NUnit.Framework;
 namespace SnCore.Services.Tests
 {
     [TestFixture]
-    public class ManagedPlaceTest : ManagedServiceTest
+    public class ManagedPlaceTest : ManagedCRUDTest<Place, TransitPlace, ManagedPlace>
     {
+        private ManagedAccountTest _account = new ManagedAccountTest();
+        private ManagedCityTest _city = new ManagedCityTest();
+        private ManagedPlaceTypeTest _type = new ManagedPlaceTypeTest();
+
+        [SetUp]
+        public override void SetUp()
+        {
+            base.SetUp();
+            _type.SetUp();
+            _account.SetUp();
+            _city.SetUp();
+        }
+
+        [TearDown]
+        public override void TearDown()
+        {
+            _type.TearDown();
+            _city.TearDown();
+            _account.TearDown();
+            base.TearDown();
+        }
+
         public ManagedPlaceTest()
         {
 
+        }
+
+        public override TransitPlace GetTransitInstance()
+        {
+            TransitPlace t_instance = new TransitPlace();
+            t_instance.AccountId = _account.Instance.Id;
+            t_instance.City = _city.Instance.Name;
+            t_instance.Country = _city.Instance.Instance.Country.Name;
+            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.State = _city.Instance.Instance.State.Name;
+            t_instance.Type = _type.Instance.Instance.Name;
+            t_instance.Website = Guid.NewGuid().ToString();
+            return t_instance;
         }
 
         [Test]

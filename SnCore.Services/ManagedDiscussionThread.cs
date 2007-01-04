@@ -93,6 +93,11 @@ namespace SnCore.Services
 
     public class ManagedDiscussionThread : ManagedService<DiscussionThread, TransitDiscussionThread>
     {
+        public ManagedDiscussionThread()
+        {
+
+        }
+
         public ManagedDiscussionThread(ISession session)
             : base(session)
         {

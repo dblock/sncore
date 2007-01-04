@@ -9,11 +9,18 @@ using NHibernate.Expression;
 namespace SnCore.Services.Tests
 {
     [TestFixture]
-    public class ManagedCountryTest : ManagedServiceTest
+    public class ManagedCountryTest : ManagedCRUDTest<Country, TransitCountry, ManagedCountry>
     {
         public ManagedCountryTest()
         {
 
+        }
+
+        public override TransitCountry GetTransitInstance()
+        {
+            TransitCountry t_instance = new TransitCountry();
+            t_instance.Name = Guid.NewGuid().ToString();
+            return t_instance;
         }
 
         [Test]

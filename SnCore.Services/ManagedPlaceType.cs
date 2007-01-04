@@ -56,6 +56,11 @@ namespace SnCore.Services
 
     public class ManagedPlaceType : ManagedService<PlaceType, TransitPlaceType>
     {
+        public ManagedPlaceType()
+        {
+
+        }
+
         public ManagedPlaceType(ISession session)
             : base(session)
         {

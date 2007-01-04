@@ -55,6 +55,11 @@ namespace SnCore.Services
 
     public class ManagedAccountEventType : ManagedService<AccountEventType, TransitAccountEventType>
     {
+        public ManagedAccountEventType()
+        {
+
+        }
+
         public ManagedAccountEventType(ISession session)
             : base(session)
         {

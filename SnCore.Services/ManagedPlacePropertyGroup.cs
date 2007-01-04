@@ -72,6 +72,11 @@ namespace SnCore.Services
 
     public class ManagedPlacePropertyGroup : ManagedService<PlacePropertyGroup, TransitPlacePropertyGroup>
     {
+        public ManagedPlacePropertyGroup()
+        {
+
+        }
+
         public ManagedPlacePropertyGroup(ISession session)
             : base(session)
         {

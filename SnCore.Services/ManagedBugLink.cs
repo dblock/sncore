@@ -76,6 +76,11 @@ namespace SnCore.Services
 
     public class ManagedBugLink : ManagedService<BugLink, TransitBugLink>
     {
+        public ManagedBugLink()
+        {
+
+        }
+
         public ManagedBugLink(ISession session)
             : base(session)
         {

@@ -56,6 +56,11 @@ namespace SnCore.Services
 
     public class ManagedPictureType : ManagedService<PictureType, TransitPictureType>
     {
+        public ManagedPictureType()
+        {
+
+        }
+
         public ManagedPictureType(ISession session)
             : base(session)
         {
