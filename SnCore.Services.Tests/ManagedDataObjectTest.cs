@@ -16,6 +16,7 @@ namespace SnCore.Services.Tests
         public override TransitDataObject GetTransitInstance()
         {
             TransitDataObject t_instance = new TransitDataObject();
+            t_instance.Name = Guid.NewGuid().ToString();
             return t_instance;
         }
     }

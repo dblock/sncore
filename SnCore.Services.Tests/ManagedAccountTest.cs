@@ -40,6 +40,18 @@ namespace SnCore.Services.Tests
         }
 
         [Test]
+        public override void TestCreateAndDelete()
+        {
+            Assert.IsTrue(Instance.Id > 0);
+        }
+
+        [Test]
+        public override void TestUpdateAndRetrieve()
+        {
+            
+        }
+
+        [Test]
         public void CreateAccount()
         {
             ManagedAccount a = new ManagedAccount(Session);

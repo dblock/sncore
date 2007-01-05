@@ -9,11 +9,40 @@ using NHibernate.Expression;
 namespace SnCore.Services.Tests
 {
     [TestFixture]
-    public class ManagedDiscussionTest : ManagedServiceTest
+    public class ManagedDiscussionTest : ManagedCRUDTest<Discussion, TransitDiscussion, ManagedDiscussion>
     {
+        private ManagedAccountTest _account = new ManagedAccountTest();
+        private ManagedDataObjectTest _object = new ManagedDataObjectTest();
+
+        [SetUp]
+        public override void SetUp()
+        {
+            base.SetUp();
+            _object.SetUp();
+            _account.SetUp();
+        }
+
+        [TearDown]
+        public override void TearDown()
+        {
+            _account.TearDown();
+            _object.TearDown();
+            base.TearDown();
+        }
+
         public ManagedDiscussionTest()
         {
 
+        }
+
+        public override TransitDiscussion GetTransitInstance()
+        {
+            TransitDiscussion t_instance = new TransitDiscussion();
+            t_instance.AccountId = _account.Instance.Id;
+            t_instance.Description = Guid.NewGuid().ToString();
+            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.ObjectId = _object.Instance.Id;
+            return t_instance;
         }
 
         [Test]

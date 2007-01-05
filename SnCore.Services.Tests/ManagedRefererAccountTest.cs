@@ -8,6 +8,25 @@ namespace SnCore.Services.Tests
     [TestFixture]
     public class ManagedRefererAccountTest : ManagedCRUDTest<RefererAccount, TransitRefererAccount, ManagedRefererAccount>
     {
+        private ManagedAccountTest _account = new ManagedAccountTest();
+        private ManagedRefererHostTest _host = new ManagedRefererHostTest();
+
+        [SetUp]
+        public override void SetUp()
+        {
+            base.SetUp();
+            _account.SetUp();
+            _host.SetUp();
+        }
+
+        [TearDown]
+        public override void TearDown()
+        {
+            _host.TearDown();
+            _account.TearDown();
+            base.TearDown();
+        }
+
         public ManagedRefererAccountTest()
         {
 
@@ -16,6 +35,10 @@ namespace SnCore.Services.Tests
         public override TransitRefererAccount GetTransitInstance()
         {
             TransitRefererAccount t_instance = new TransitRefererAccount();
+            t_instance.AccountId = _account.Instance.Id;
+            t_instance.RefererHostLastRefererUri = string.Format("http://uri/{0}", Guid.NewGuid());
+            t_instance.RefererHostName = _host.Instance.Instance.Host;
+            t_instance.RefererHostTotal = 1;
             return t_instance;
         }
     }

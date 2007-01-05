@@ -8,6 +8,22 @@ namespace SnCore.Services.Tests
     [TestFixture]
     public class ManagedDiscussionThreadTest : ManagedCRUDTest<DiscussionThread, TransitDiscussionThread, ManagedDiscussionThread>
     {
+        private ManagedDiscussionTest _discussion = new ManagedDiscussionTest();
+
+        [SetUp]
+        public override void SetUp()
+        {
+            base.SetUp();
+            _discussion.SetUp();
+        }
+
+        [TearDown]
+        public override void TearDown()
+        {
+            _discussion.TearDown();
+            base.TearDown();
+        }
+
         public ManagedDiscussionThreadTest()
         {
 
@@ -16,6 +32,7 @@ namespace SnCore.Services.Tests
         public override TransitDiscussionThread GetTransitInstance()
         {
             TransitDiscussionThread t_instance = new TransitDiscussionThread();
+            t_instance.DiscussionId = _discussion.Instance.Id;
             return t_instance;
         }
     }

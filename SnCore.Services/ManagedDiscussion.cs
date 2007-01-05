@@ -174,18 +174,18 @@ namespace SnCore.Services
             }
         }
 
-        private long mThRetreiveCount;
+        private long mThreadCount;
 
-        public long ThRetreiveCount
+        public long ThreadCount
         {
             get
             {
 
-                return mThRetreiveCount;
+                return mThreadCount;
             }
             set
             {
-                mThRetreiveCount = value;
+                mThreadCount = value;
             }
         }
 
@@ -204,7 +204,7 @@ namespace SnCore.Services
             : base(instance)
         {
             PostCount = ManagedDiscussion.GetDiscussionPostCount(session, instance.Id);
-            ThRetreiveCount = ManagedDiscussion.GetDiscussionThreadCount(session, instance.Id);
+            ThreadCount = ManagedDiscussion.GetDiscussionThreadCount(session, instance.Id);
         }
 
         public override void SetInstance(Discussion instance)
@@ -256,6 +256,11 @@ namespace SnCore.Services
             {
 
             }
+        }
+
+        public ManagedDiscussion()
+        {
+
         }
 
         public ManagedDiscussion(ISession session)
@@ -326,7 +331,7 @@ namespace SnCore.Services
             string body,
             ManagedSecurityContext sec)
         {
-            DiscussionThread thRetreive = null;
+            DiscussionThread thread = null;
             DiscussionPost parent = null;
 
             if (parentid != 0)
@@ -337,31 +342,31 @@ namespace SnCore.Services
                     throw new ArgumentException();
                 }
 
-                thRetreive = parent.DiscussionThread;
-                if (thRetreive.Discussion.Id != Id)
+                thread = parent.DiscussionThread;
+                if (thread.Discussion.Id != Id)
                 {
                     throw new ArgumentException();
                 }
 
-                thRetreive.Modified = DateTime.UtcNow;
-                Session.Save(thRetreive);
+                thread.Modified = DateTime.UtcNow;
+                Session.Save(thread);
             }
             else
             {
-                thRetreive = new DiscussionThread();
-                thRetreive.Created = thRetreive.Modified = DateTime.UtcNow;
-                thRetreive.Discussion = mInstance;
-                Session.Save(thRetreive);
+                thread = new DiscussionThread();
+                thread.Created = thread.Modified = DateTime.UtcNow;
+                thread.Discussion = mInstance;
+                Session.Save(thread);
 
                 if (mInstance.DiscussionThreads == null) mInstance.DiscussionThreads = new List<DiscussionThread>();
-                mInstance.DiscussionThreads.Add(thRetreive);
+                mInstance.DiscussionThreads.Add(thread);
             }
 
             DiscussionPost result = new DiscussionPost();
             result.AccountId = accountid;
-            result.Created = result.Modified = thRetreive.Modified;
+            result.Created = result.Modified = thread.Modified;
             result.DiscussionPostParent = parent;
-            result.DiscussionThread = thRetreive;
+            result.DiscussionThread = thread;
             result.Subject = subject;
             result.Body = body;
             Session.Save(result);
@@ -371,13 +376,13 @@ namespace SnCore.Services
 
             Session.Flush();
 
-            if (thRetreive.DiscussionPosts == null) thRetreive.DiscussionPosts = new List<DiscussionPost>();
-            thRetreive.DiscussionPosts.Add(result);
+            if (thread.DiscussionPosts == null) thread.DiscussionPosts = new List<DiscussionPost>();
+            thread.DiscussionPosts.Add(result);
 
             try
             {
                 ManagedAccount ra = new ManagedAccount(Session, accountid);
-                ManagedAccount ma = new ManagedAccount(Session, parent != null ? parent.AccountId : thRetreive.Discussion.Account.Id);
+                ManagedAccount ma = new ManagedAccount(Session, parent != null ? parent.AccountId : thread.Discussion.Account.Id);
 
                 if (ra.Id != ma.Id)
                 {

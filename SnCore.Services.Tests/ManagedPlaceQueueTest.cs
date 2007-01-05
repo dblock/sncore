@@ -10,11 +10,36 @@ using System.Diagnostics;
 namespace SnCore.Services.Tests
 {
     [TestFixture]
-    public class ManagedPlaceQueueTest : ManagedServiceTest
+    public class ManagedPlaceQueueTest : ManagedCRUDTest<PlaceQueue, TransitPlaceQueue, ManagedPlaceQueue>
     {
+        private ManagedAccountTest _account = new ManagedAccountTest();
+
+        [SetUp]
+        public override void SetUp()
+        {
+            base.SetUp();
+            _account.SetUp();
+        }
+
+        [TearDown]
+        public override void TearDown()
+        {
+            _account.TearDown();
+            base.TearDown();
+        }
+
         public ManagedPlaceQueueTest()
         {
 
+        }
+
+        public override TransitPlaceQueue GetTransitInstance()
+        {
+            TransitPlaceQueue t_instance = new TransitPlaceQueue();
+            t_instance.AccountId = _account.Instance.Id;
+            t_instance.Description = Guid.NewGuid().ToString();
+            t_instance.Name = Guid.NewGuid().ToString();
+            return t_instance;
         }
 
         [Test]

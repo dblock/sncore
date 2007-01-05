@@ -393,6 +393,11 @@ namespace SnCore.Services
 
     public class ManagedBug : ManagedService<Bug, TransitBug>
     {
+        public ManagedBug()
+        {
+
+        }
+
         public ManagedBug(ISession session)
             : base(session)
         {

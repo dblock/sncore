@@ -282,9 +282,9 @@ namespace SnCore.Services
 
             if (Id == 0)
             {
-                instance.DiscussionThread = (DiscussionThread)session.Load(typeof(DiscussionThread), this.DiscussionThreadId);
-                instance.DiscussionPostParent = (DiscussionPost)session.Load(typeof(DiscussionPost), this.DiscussionPostParentId);
-                instance.AccountId = this.AccountId;
+                if (DiscussionThreadId > 0) instance.DiscussionThread = (DiscussionThread)session.Load(typeof(DiscussionThread), this.DiscussionThreadId);
+                if (DiscussionPostParentId > 0) instance.DiscussionPostParent = (DiscussionPost)session.Load(typeof(DiscussionPost), this.DiscussionPostParentId);
+                if (AccountId > 0) instance.AccountId = this.AccountId;
             }
 
             instance.Body = this.Body;

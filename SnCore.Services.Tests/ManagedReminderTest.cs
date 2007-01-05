@@ -8,6 +8,22 @@ namespace SnCore.Services.Tests
     [TestFixture]
     public class ManagedReminderTest : ManagedCRUDTest<Reminder, TransitReminder, ManagedReminder>
     {
+        private ManagedDataObjectTest _dataobject = new ManagedDataObjectTest();
+
+        [SetUp]
+        public override void SetUp()
+        {
+            base.SetUp();
+            _dataobject.SetUp();
+        }
+
+        [TearDown]
+        public override void TearDown()
+        {
+            _dataobject.TearDown();
+            base.TearDown();
+        }
+
         public ManagedReminderTest()
         {
 
@@ -16,6 +32,10 @@ namespace SnCore.Services.Tests
         public override TransitReminder GetTransitInstance()
         {
             TransitReminder t_instance = new TransitReminder();
+            t_instance.DataObject_Id = _dataobject.Instance.Id;
+            t_instance.DataObjectField = Guid.NewGuid().ToString();
+            t_instance.Url = string.Format("http://uri/{0}", Guid.NewGuid());
+            t_instance.LastRun = DateTime.UtcNow;
             return t_instance;
         }
     }

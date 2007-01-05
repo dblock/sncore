@@ -22,11 +22,11 @@ namespace SnCore.Services
             Bitmap = p.Bitmap;
         }
 
-        public override PlacePicture GetPlacePicture(ISession session)
+        public override PlacePicture GetInstance(ISession session, ManagedSecurityContext sec)
         {
-            PlacePicture p = base.GetPlacePicture(session);
-            if (this.Bitmap != null) p.Bitmap = this.Bitmap;
-            return p;
+            PlacePicture instance = base.GetInstance(session, sec);
+            instance.Bitmap = Bitmap;
+            return instance;
         }
     }
 
@@ -198,13 +198,16 @@ namespace SnCore.Services
             AccountName = p.Account.Name;
         }
 
-        public virtual PlacePicture GetPlacePicture(ISession session)
+        public override PlacePicture GetInstance(ISession session, ManagedSecurityContext sec)
         {
-            PlacePicture p = (Id > 0) ? (PlacePicture)session.Load(typeof(PlacePicture), Id) : new PlacePicture();
+            PlacePicture p = base.GetInstance(session, sec);
             p.Name = this.Name;
             p.Description = this.Description;
-            if (Id == 0 && PlaceId > 0) p.Place = (Place)session.Load(typeof(Place), PlaceId);
-            if (Id == 0 && AccountId > 0) p.Account = (Account)session.Load(typeof(Account), AccountId);
+            if (Id == 0)
+            {
+                if (PlaceId > 0) p.Place = (Place)session.Load(typeof(Place), PlaceId);
+                if (AccountId > 0) p.Account = (Account)session.Load(typeof(Account), AccountId);
+            }
             return p;
         }
     }

@@ -10,8 +10,57 @@ using NUnit.Framework;
 namespace SnCore.Services.Tests
 {
     [TestFixture]
-    public class ManagedBugTest : ManagedServiceTest
+    public class ManagedBugTest : ManagedCRUDTest<Bug, TransitBug, ManagedBug>
     {
+        private ManagedAccountTest _account = new ManagedAccountTest();
+        private ManagedBugPriorityTest _priority = new ManagedBugPriorityTest();
+        private ManagedBugSeverityTest _severity = new ManagedBugSeverityTest();
+        private ManagedBugResolutionTest _resolution = new ManagedBugResolutionTest();
+        private ManagedBugStatusTest _status = new ManagedBugStatusTest();
+        private ManagedBugTypeTest _type = new ManagedBugTypeTest();
+        private ManagedBugProjectTest _project = new ManagedBugProjectTest();
+
+        [SetUp]
+        public override void SetUp()
+        {
+            base.SetUp();
+            _project.SetUp();
+            _account.SetUp();
+            _priority.SetUp();
+            _severity.SetUp();
+            _resolution.SetUp();
+            _status.SetUp();
+            _type.SetUp();
+        }
+
+        [TearDown]
+        public override void TearDown()
+        {
+            _type.TearDown();
+            _status.TearDown();
+            _resolution.TearDown();
+            _severity.TearDown();
+            _priority.TearDown();
+            _account.TearDown();
+            _project.TearDown();
+            base.TearDown();
+        }
+
+        public override TransitBug GetTransitInstance()
+        {
+            TransitBug t_instance = new TransitBug();
+            t_instance.AccountId = _account.Instance.Id;
+            t_instance.Details = Guid.NewGuid().ToString();
+            t_instance.Priority = _priority.Instance.Instance.Name;
+            t_instance.Resolution = _resolution.Instance.Instance.Name;
+            t_instance.Severity = _severity.Instance.Instance.Name;
+            t_instance.Status = _status.Instance.Instance.Name;
+            t_instance.Subject = Guid.NewGuid().ToString();
+            t_instance.Type = _type.Instance.Instance.Name;
+            t_instance.ProjectId = _project.Instance.Id;
+            return t_instance;
+        }
+
         public ManagedBugTest()
         {
 

@@ -8,6 +8,22 @@ namespace SnCore.Services.Tests
     [TestFixture]
     public class ManagedNeighborhoodTest : ManagedCRUDTest<Neighborhood, TransitNeighborhood, ManagedNeighborhood>
     {
+        private ManagedCityTest _city = new ManagedCityTest();
+
+        [SetUp]
+        public override void SetUp()
+        {
+            base.SetUp();
+            _city.SetUp();
+        }
+
+        [TearDown]
+        public override void TearDown()
+        {
+            _city.TearDown();
+            base.TearDown();
+        }
+
         public ManagedNeighborhoodTest()
         {
 
@@ -17,6 +33,9 @@ namespace SnCore.Services.Tests
         {
             TransitNeighborhood t_instance = new TransitNeighborhood();
             t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.City = _city.Instance.Name;
+            t_instance.Country = _city.Instance.Instance.Country.Name;
+            t_instance.State = _city.Instance.Instance.State.Name;
             return t_instance;
         }
     }

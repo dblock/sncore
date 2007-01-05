@@ -75,7 +75,7 @@ namespace SnCore.Services
         {
             SurveyQuestion instance = base.GetInstance(session, sec);
             instance.Question = this.Question;
-            instance.Survey = (Survey)session.Load(typeof(Survey), this.SurveyId);
+            if (Id == 0) instance.Survey = (Survey)session.Load(typeof(Survey), this.SurveyId);
             return instance;
         }
     }

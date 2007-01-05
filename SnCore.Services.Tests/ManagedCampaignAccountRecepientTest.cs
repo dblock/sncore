@@ -8,6 +8,25 @@ namespace SnCore.Services.Tests
     [TestFixture]
     public class ManagedCampaignAccountRecepientTest : ManagedCRUDTest<CampaignAccountRecepient, TransitCampaignAccountRecepient, ManagedCampaignAccountRecepient>
     {
+        private ManagedAccountTest _account = new ManagedAccountTest();
+        private ManagedCampaignTest _campaign = new ManagedCampaignTest();
+
+        [SetUp]
+        public override void SetUp()
+        {
+            base.SetUp();
+            _account.SetUp();
+            _campaign.SetUp();
+        }
+
+        [TearDown]
+        public override void TearDown()
+        {
+            _campaign.SetUp();
+            _account.TearDown();
+            base.TearDown();
+        }
+
         public ManagedCampaignAccountRecepientTest()
         {
 
@@ -16,6 +35,8 @@ namespace SnCore.Services.Tests
         public override TransitCampaignAccountRecepient GetTransitInstance()
         {
             TransitCampaignAccountRecepient t_instance = new TransitCampaignAccountRecepient();
+            t_instance.AccountId = _account.Instance.Id;
+            t_instance.CampaignId = _campaign.Instance.Id;
             return t_instance;
         }
     }

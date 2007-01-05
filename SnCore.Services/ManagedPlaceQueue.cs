@@ -192,6 +192,11 @@ namespace SnCore.Services
 
     public class ManagedPlaceQueue : ManagedService<PlaceQueue, TransitPlaceQueue>
     {
+        public ManagedPlaceQueue()
+        {
+
+        }
+
         public ManagedPlaceQueue(ISession session)
             : base(session)
         {
