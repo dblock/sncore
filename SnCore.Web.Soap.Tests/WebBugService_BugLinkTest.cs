@@ -4,18 +4,18 @@ using System.Text;
 using NUnit.Framework;
 using System.Web.Services.Protocols;
 
-namespace SnCore.Web.Soap.Tests
+namespace SnCore.Web.Soap.Tests.WebBugServiceTests
 {
     [TestFixture]
-    public class WebBugService_BugLinkTest : WebServiceTest<WebBugService.TransitBugLink>
+    public class BugLinkTest : WebServiceTest<WebBugService.TransitBugLink>
     {
-        private WebBugService_BugTest _bug1 = new WebBugService_BugTest();
+        private BugTest _bug1 = new BugTest();
         private int _bug1_id = 0;
 
-        private WebBugService_BugTest _bug2 = new WebBugService_BugTest();
+        private BugTest _bug2 = new BugTest();
         private int _bug2_id = 0;
 
-        public WebBugService_BugLinkTest()
+        public BugLinkTest()
             : base("BugLink", new WebBugService.WebBugService())
         {
         }

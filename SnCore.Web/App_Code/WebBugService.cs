@@ -38,7 +38,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create or update a bug priority.")]
         public int CreateOrUpdateBugPriority(string ticket, TransitBugPriority priority)
         {
-            return WebServiceImpl<TransitBugPriority, ManagedBugPriority, BugPriority>.CreateOrUpdateAdmin(
+            return WebServiceImpl<TransitBugPriority, ManagedBugPriority, BugPriority>.CreateOrUpdate(
                 ticket, priority);
         }
 
@@ -47,10 +47,10 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>transit bug priority</returns>
         [WebMethod(Description = "Get a bug priority.")]
-        public TransitBugPriority GetBugPriorityById(int id)
+        public TransitBugPriority GetBugPriorityById(string ticket, int id)
         {
             return WebServiceImpl<TransitBugPriority, ManagedBugPriority, BugPriority>.GetById(
-                id);
+                ticket, id);
         }
 
         /// <summary>
@@ -58,10 +58,21 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>list of transit bug priorities</returns>
         [WebMethod(Description = "Get all bug priorities.")]
-        public List<TransitBugPriority> GetBugPriorities(ServiceQueryOptions options)
+        public List<TransitBugPriority> GetBugPriorities(string ticket, ServiceQueryOptions options)
         {
             return WebServiceImpl<TransitBugPriority, ManagedBugPriority, BugPriority>.GetList(
-                options);
+                ticket, options);
+        }
+
+        /// <summary>
+        /// Get all bug priorities count.
+        /// </summary>
+        /// <returns>number of bug priorities</returns>
+        [WebMethod(Description = "Get all bug priorities count.")]
+        public int GetBugPrioritiesCount(string ticket)
+        {
+            return WebServiceImpl<TransitBugPriority, ManagedBugPriority, BugPriority>.GetCount(
+                ticket);
         }
 
         /// <summary>
@@ -72,7 +83,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete a bug priority.")]
         public void DeleteBugPriority(string ticket, int id)
         {
-            WebServiceImpl<TransitBugPriority, ManagedBugPriority, BugPriority>.DeleteAdmin(
+            WebServiceImpl<TransitBugPriority, ManagedBugPriority, BugPriority>.Delete(
                 ticket, id);
         }
 
@@ -88,7 +99,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create or update a bug severity.")]
         public int CreateOrUpdateBugSeverity(string ticket, TransitBugSeverity severity)
         {
-            return WebServiceImpl<TransitBugSeverity, ManagedBugSeverity, BugSeverity>.CreateOrUpdateAdmin(
+            return WebServiceImpl<TransitBugSeverity, ManagedBugSeverity, BugSeverity>.CreateOrUpdate(
                 ticket, severity);
         }
 
@@ -97,10 +108,10 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>transit bug severity</returns>
         [WebMethod(Description = "Get a bug severity.")]
-        public TransitBugSeverity GetBugSeverityById(int id)
+        public TransitBugSeverity GetBugSeverityById(string ticket, int id)
         {
             return WebServiceImpl<TransitBugSeverity, ManagedBugSeverity, BugSeverity>.GetById(
-                id);
+                ticket, id);
         }
 
         /// <summary>
@@ -108,10 +119,21 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>list of transit bug severities</returns>
         [WebMethod(Description = "Get all bug severities.")]
-        public List<TransitBugSeverity> GetBugSeverities(ServiceQueryOptions options)
+        public List<TransitBugSeverity> GetBugSeverities(string ticket, ServiceQueryOptions options)
         {
             return WebServiceImpl<TransitBugSeverity, ManagedBugSeverity, BugSeverity>.GetList(
-                options);
+                ticket, options);
+        }
+
+        /// <summary>
+        /// Get all bug severities count.
+        /// </summary>
+        /// <returns>number of bug severities</returns>
+        [WebMethod(Description = "Get all bug severities count.")]
+        public int GetBugSeveritiesCount(string ticket)
+        {
+            return WebServiceImpl<TransitBugSeverity, ManagedBugSeverity, BugSeverity>.GetCount(
+                ticket);
         }
 
         /// <summary>
@@ -122,7 +144,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete a bug severity.")]
         public void DeleteBugSeverity(string ticket, int id)
         {
-            WebServiceImpl<TransitBugSeverity, ManagedBugSeverity, BugSeverity>.DeleteAdmin(
+            WebServiceImpl<TransitBugSeverity, ManagedBugSeverity, BugSeverity>.Delete(
                 ticket, id);
         }
 
@@ -138,7 +160,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create or update a bug resolution.")]
         public int CreateOrUpdateBugResolution(string ticket, TransitBugResolution resolution)
         {
-            return WebServiceImpl<TransitBugResolution, ManagedBugResolution, BugResolution>.CreateOrUpdateAdmin(
+            return WebServiceImpl<TransitBugResolution, ManagedBugResolution, BugResolution>.CreateOrUpdate(
                 ticket, resolution);
         }
 
@@ -147,10 +169,10 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>transit bug resolution</returns>
         [WebMethod(Description = "Get a bug resolution.")]
-        public TransitBugResolution GetBugResolutionById(int id)
+        public TransitBugResolution GetBugResolutionById(string ticket, int id)
         {
             return WebServiceImpl<TransitBugResolution, ManagedBugResolution, BugResolution>.GetById(
-                id);
+                ticket, id);
         }
 
         /// <summary>
@@ -158,10 +180,21 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>list of transit bug resolutions</returns>
         [WebMethod(Description = "Get all bug resolutions.")]
-        public List<TransitBugResolution> GetBugResolutions(ServiceQueryOptions options)
+        public List<TransitBugResolution> GetBugResolutions(string ticket, ServiceQueryOptions options)
         {
             return WebServiceImpl<TransitBugResolution, ManagedBugResolution, BugResolution>.GetList(
-                options);
+                ticket, options);
+        }
+
+        /// <summary>
+        /// Get all bug resolutions count.
+        /// </summary>
+        /// <returns>number of bug resolutions</returns>
+        [WebMethod(Description = "Get all bug resolutions count.")]
+        public int GetBugResolutionsCount(string ticket)
+        {
+            return WebServiceImpl<TransitBugResolution, ManagedBugResolution, BugResolution>.GetCount(
+                ticket);
         }
 
         /// <summary>
@@ -172,7 +205,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete a bug resolution.")]
         public void DeleteBugResolution(string ticket, int id)
         {
-            WebServiceImpl<TransitBugResolution, ManagedBugResolution, BugResolution>.DeleteAdmin(
+            WebServiceImpl<TransitBugResolution, ManagedBugResolution, BugResolution>.Delete(
                 ticket, id);
         }
 
@@ -188,7 +221,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create or update a bug status.")]
         public int CreateOrUpdateBugStatus(string ticket, TransitBugStatus status)
         {
-            return WebServiceImpl<TransitBugStatus, ManagedBugStatus, BugStatus>.CreateOrUpdateAdmin(
+            return WebServiceImpl<TransitBugStatus, ManagedBugStatus, BugStatu>.CreateOrUpdate(
                 ticket, status);
         }
 
@@ -197,10 +230,10 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>transit bug status</returns>
         [WebMethod(Description = "Get a bug status.")]
-        public TransitBugStatus GetBugStatusById(int id)
+        public TransitBugStatus GetBugStatusById(string ticket, int id)
         {
-            return WebServiceImpl<TransitBugStatus, ManagedBugStatus, BugStatus>.GetById(
-                id);
+            return WebServiceImpl<TransitBugStatus, ManagedBugStatus, BugStatu>.GetById(
+                ticket, id);
         }
 
         /// <summary>
@@ -208,10 +241,21 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>list of transit bug statuses</returns>
         [WebMethod(Description = "Get all bug statuses.")]
-        public List<TransitBugStatus> GetBugStatuses(ServiceQueryOptions options)
+        public List<TransitBugStatus> GetBugStatuses(string ticket, ServiceQueryOptions options)
         {
-            return WebServiceImpl<TransitBugStatus, ManagedBugStatus, BugStatus>.GetList(
-                options);
+            return WebServiceImpl<TransitBugStatus, ManagedBugStatus, BugStatu>.GetList(
+                ticket, options);
+        }
+
+        /// <summary>
+        /// Get all bug statuses count.
+        /// </summary>
+        /// <returns>number of bug statuses</returns>
+        [WebMethod(Description = "Get all bug statuses count.")]
+        public int GetBugStatusesCount(string ticket)
+        {
+            return WebServiceImpl<TransitBugStatus, ManagedBugStatus, BugStatu>.GetCount(
+                ticket);
         }
 
         /// <summary>
@@ -222,7 +266,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete a bug status.")]
         public void DeleteBugStatus(string ticket, int id)
         {
-            WebServiceImpl<TransitBugStatus, ManagedBugStatus, BugStatus>.DeleteAdmin(
+            WebServiceImpl<TransitBugStatus, ManagedBugStatus, BugStatu>.Delete(
                 ticket, id);
         }
 
@@ -238,7 +282,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create or update a bug type.")]
         public int CreateOrUpdateBugType(string ticket, TransitBugType type)
         {
-            return WebServiceImpl<TransitBugType, ManagedBugType, BugType>.CreateOrUpdateAdmin(
+            return WebServiceImpl<TransitBugType, ManagedBugType, BugType>.CreateOrUpdate(
                 ticket, type);
         }
 
@@ -247,10 +291,21 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>transit bug type</returns>
         [WebMethod(Description = "Get a bug type.")]
-        public TransitBugType GetBugTypeById(int id)
+        public TransitBugType GetBugTypeById(string ticket, int id)
         {
             return WebServiceImpl<TransitBugType, ManagedBugType, BugType>.GetById(
-                id);
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Get all bug types count.
+        /// </summary>
+        /// <returns>number of bug types</returns>
+        [WebMethod(Description = "Get all bug types count.")]
+        public int GetBugTypesCount(string ticket)
+        {
+            return WebServiceImpl<TransitBugType, ManagedBugType, BugType>.GetCount(
+                ticket);
         }
 
         /// <summary>
@@ -258,10 +313,10 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>list of transit bug types</returns>
         [WebMethod(Description = "Get all bug types.")]
-        public List<TransitBugType> GetBugTypes(ServiceQueryOptions options)
+        public List<TransitBugType> GetBugTypes(string ticket, ServiceQueryOptions options)
         {
             return WebServiceImpl<TransitBugType, ManagedBugType, BugType>.GetList(
-                options);
+                ticket, options);
         }
 
         /// <summary>
@@ -272,7 +327,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete a bug type.")]
         public void DeleteBugType(string ticket, int id)
         {
-            WebServiceImpl<TransitBugType, ManagedBugType, BugType>.DeleteAdmin(
+            WebServiceImpl<TransitBugType, ManagedBugType, BugType>.Delete(
                 ticket, id);
         }
 
@@ -288,7 +343,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create or update a bug project.")]
         public int CreateOrUpdateBugProject(string ticket, TransitBugProject project)
         {
-            return WebServiceImpl<TransitBugProject, ManagedBugProject, BugProject>.CreateOrUpdateAdmin(
+            return WebServiceImpl<TransitBugProject, ManagedBugProject, BugProject>.CreateOrUpdate(
                 ticket, project);
         }
 
@@ -297,10 +352,10 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>transit bug project</returns>
         [WebMethod(Description = "Get a bug project.")]
-        public TransitBugProject GetBugProjectById(int id)
+        public TransitBugProject GetBugProjectById(string ticket, int id)
         {
             return WebServiceImpl<TransitBugProject, ManagedBugProject, BugProject>.GetById(
-                id);
+                ticket, id);
         }
 
         /// <summary>
@@ -308,10 +363,21 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>list of transit bug projects</returns>
         [WebMethod(Description = "Get all bug projects.")]
-        public List<TransitBugProject> GetBugProjects(ServiceQueryOptions options)
+        public List<TransitBugProject> GetBugProjects(string ticket, ServiceQueryOptions options)
         {
             return WebServiceImpl<TransitBugProject, ManagedBugProject, BugProject>.GetList(
-                options);
+                ticket, options);
+        }
+
+        /// <summary>
+        /// Get all bug projects count.
+        /// </summary>
+        /// <returns>number of bug projects</returns>
+        [WebMethod(Description = "Get all bug projects count.")]
+        public int GetBugProjectsCount(string ticket)
+        {
+            return WebServiceImpl<TransitBugProject, ManagedBugProject, BugProject>.GetCount(
+                ticket);
         }
 
         /// <summary>
@@ -322,7 +388,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete a bug project.")]
         public void DeleteBugProject(string ticket, int id)
         {
-            WebServiceImpl<TransitBugProject, ManagedBugProject, BugProject>.DeleteAdmin(
+            WebServiceImpl<TransitBugProject, ManagedBugProject, BugProject>.Delete(
                 ticket, id);
         }
 
@@ -334,27 +400,60 @@ namespace SnCore.WebServices
         /// Create or update a bug.
         /// </summary>
         /// <param name="ticket">authentication ticket</param>
-        /// <param name="">transit bug </param>
+        /// <param name="project">transit bug</param>
         [WebMethod(Description = "Create or update a bug.")]
         public int CreateOrUpdateBug(string ticket, TransitBug bug)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
+            return WebServiceImpl<TransitBug, ManagedBug, Bug>.CreateOrUpdate(
+                ticket, bug);
+        }
 
-                if (!user.IsAdministrator() && bug.Id > 0)
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
+        /// <summary>
+        /// Get a bug.
+        /// </summary>
+        /// <returns>transit bug</returns>
+        [WebMethod(Description = "Get a bug.")]
+        public TransitBug GetBugById(string ticket, int id)
+        {
+            return WebServiceImpl<TransitBug, ManagedBug, Bug>.GetById(
+                ticket, id);
+        }
 
-                ManagedBug m_bug = new ManagedBug(session);
-                if (bug.Id == 0) bug.AccountId = userid;
-                m_bug.CreateOrUpdate(bug);
-                SnCore.Data.Hibernate.Session.Flush();
-                return m_bug.Id;
-            }
+        /// <summary>
+        /// Get all bugs count.
+        /// </summary>
+        /// <returns>number of bugs</returns>
+        [WebMethod(Description = "Get all bugs statuses count.")]
+        public int GetBugsCount(string ticket, int project_id)
+        {
+            string query = string.Format("WHERE Bug.Project.Id = {0}", project_id);
+            return WebServiceImpl<TransitBug, ManagedBug, Bug>.GetCount(
+                ticket, query);
+        }
+
+        /// <summary>
+        /// Get all bugs.
+        /// </summary>
+        /// <returns>list of transit bugs</returns>
+        [WebMethod(Description = "Get all bugs.")]
+        public List<TransitBug> GetBugs(string ticket, int project_id, ServiceQueryOptions options)
+        {
+            ICriterion[] expressions = { Expression.Eq("Project.Id", project_id) };
+            Order[] orders = { Order.Desc("Created") };
+            return WebServiceImpl<TransitBug, ManagedBug, Bug>.GetList(
+                ticket, options, expressions, orders);
+        }
+
+        /// <summary>
+        /// Delete a bug.
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete a bug.")]
+        public void DeleteBug(string ticket, int id)
+        {
+            WebServiceImpl<TransitBug, ManagedBug, Bug>.Delete(
+                ticket, id);
         }
 
         /// <summary>
@@ -366,28 +465,21 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Resolve a bug.")]
         public void ResolveBug(string ticket, int bugid, string resolution, string note)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
-
-                if (!user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
 
                 ManagedBug bug = new ManagedBug(session, bugid);
-                bug.Resolve(resolution);
+                bug.Resolve(resolution, sec);
 
                 if (note.Length > 0)
                 {
                     TransitBugNote t_note = new TransitBugNote();
                     t_note.BugId = bug.Id;
-                    t_note.AccountId = userid;
                     t_note.Details = note;
                     ManagedBugNote m_note = new ManagedBugNote(session);
-                    m_note.CreateOrUpdate(t_note);
+                    m_note.CreateOrUpdate(t_note, sec);
                 }
 
                 SnCore.Data.Hibernate.Session.Flush();
@@ -402,26 +494,19 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Close a bug.")]
         public void CloseBug(string ticket, int bugid)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
-
-                if (!user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
 
                 ManagedBug bug = new ManagedBug(session, bugid);
-                bug.Close();
+                bug.Close(sec);
 
                 ManagedBugNote note = new ManagedBugNote(session);
                 TransitBugNote t_note = new TransitBugNote();
                 t_note.BugId = bug.Id;
-                t_note.AccountId = userid;
                 t_note.Details = "Bug closed.";
-                note.CreateOrUpdate(t_note);
+                note.CreateOrUpdate(t_note, sec);
 
                 SnCore.Data.Hibernate.Session.Flush();
             }
@@ -435,138 +520,53 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Reopen a bug.")]
         public void ReopenBug(string ticket, int bugid)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
-
-                if (!user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
 
                 ManagedBug bug = new ManagedBug(session, bugid);
-                bug.Reopen();
+                bug.Reopen(sec);
 
                 ManagedBugNote note = new ManagedBugNote(session);
                 TransitBugNote t_note = new TransitBugNote();
                 t_note.BugId = bug.Id;
-                t_note.AccountId = userid;
                 t_note.Details = "Bug reopened.";
-                note.CreateOrUpdate(t_note);
+                note.CreateOrUpdate(t_note, sec);
 
-                SnCore.Data.Hibernate.Session.Flush();
-            }
-        }
-
-        /// <summary>
-        /// Get a bug.
-        /// </summary>
-        /// <returns>transit bug </returns>
-        [WebMethod(Description = "Get a bug.")]
-        public TransitBug GetBugById(int id)
-        {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                TransitBug result = new ManagedBug(session, id).TransitBug;
-                return result;
-            }
-        }
-
-        /// <summary>
-        /// Get all bugs count.
-        /// </summary>
-        [WebMethod(Description = "Get all bugs.")]
-        public int GetBugsCount(TransitBugQueryOptions bugoptions)
-        {
-            return GetBugs(bugoptions, null).Count;
-        }
-
-        /// <summary>
-        /// Get all bugs.
-        /// </summary>
-        [WebMethod(Description = "Get all bugs.")]
-        public List<TransitBug> GetBugs(TransitBugQueryOptions bugoptions, ServiceQueryOptions options)
-        {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                IQuery q = bugoptions.GetQuery(session);
-
-                if (options != null)
-                {
-                    q.SetFirstResult(options.FirstResult);
-                    q.SetMaxResults(options.PageSize);
-                }
-
-                IList s = q.List();
-
-                List<TransitBug> result = new List<TransitBug>(s.Count);
-                foreach (Bug bug in s)
-                {
-                    result.Add(new ManagedBug(session, bug).TransitBug);
-                }
-
-                return result;
-            }
-        }
-
-        /// <summary>
-        /// Delete a bug 
-        /// <param name="ticket">authentication ticket</param>
-        /// <param name="id">id</param>
-        /// </summary>
-        [WebMethod(Description = "Delete a bug.")]
-        public void DeleteBug(string ticket, int id)
-        {
-            int userid = ManagedAccount.GetAccountId(ticket);
-
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                ManagedAccount user = new ManagedAccount(session, userid);
-
-                if (!user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                ManagedBug m_bug = new ManagedBug(session, id);
-                m_bug.Delete();
                 SnCore.Data.Hibernate.Session.Flush();
             }
         }
 
         #endregion
 
-        #region Notes
+        #region Bug Note
 
         /// <summary>
         /// Get all bug notes.
         /// </summary>
-        /// <param name="projectid">project id</param>
+        /// <param name="bug_id">bug id</param>
         /// <returns>list of transit bug notes</returns>
         [WebMethod(Description = "Get all bug notes.")]
-        public List<TransitBugNote> GetBugNotes(int bugid)
+        public List<TransitBugNote> GetBugNotes(string ticket, int bug_id, ServiceQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                IList s = session.CreateCriteria(typeof(BugNote))
-                    .Add(Expression.Eq("Bug.Id", bugid))
-                    .AddOrder(Order.Desc("Modified"))
-                    .List();
-                List<TransitBugNote> result = new List<TransitBugNote>(s.Count);
-                foreach (BugNote note in s)
-                {
-                    result.Add(new ManagedBugNote(session, note).TransitBugNote);
-                }
-                return result;
-            }
+            ICriterion[] expressions = { Expression.Eq("Bug.Id", bug_id) };
+            Order[] orders = { Order.Desc("Modified") };
+            return WebServiceImpl<TransitBugNote, ManagedBugNote, BugNote>.GetList(
+                ticket, options, expressions, orders);
+        }
+
+        /// <summary>
+        /// Get all bug notes count.
+        /// </summary>
+        /// <param name="bug_id">bug id</param>
+        /// <returns>number of bug notes</returns>
+        [WebMethod(Description = "Get all bug notes count.")]
+        public int GetBugNotesCount(string ticket, int bug_id)
+        {
+            string query = string.Format("WHERE Bug_Id = {0}", bug_id);
+            return WebServiceImpl<TransitBugNote, ManagedBugNote, BugNote>.GetCount(
+                ticket, query);
         }
 
         /// <summary>
@@ -577,23 +577,8 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete a bug note.")]
         public void DeleteBugNote(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
-
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                ManagedAccount user = new ManagedAccount(session, userid);
-
-                if (!user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                ManagedBugNote m_bugnote = new ManagedBugNote(session, id);
-                m_bugnote.Delete();
-                SnCore.Data.Hibernate.Session.Flush();
-            }
+            WebServiceImpl<TransitBugNote, ManagedBugNote, BugNote>.Delete(
+                ticket, id);
         }
 
         /// <summary>
@@ -604,23 +589,8 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create or update a bug note.")]
         public int CreateOrUpdateBugNote(string ticket, TransitBugNote bugnote)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
-
-                if (!user.IsAdministrator() && bugnote.Id > 0)
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                ManagedBugNote m_bugnote = new ManagedBugNote(session);
-                bugnote.AccountId = userid;
-                m_bugnote.CreateOrUpdate(bugnote);
-                SnCore.Data.Hibernate.Session.Flush();
-                return m_bugnote.Id;
-            }
+            return WebServiceImpl<TransitBugNote, ManagedBugNote, BugNote>.CreateOrUpdate(
+                ticket, bugnote);
         }
 
         /// <summary>
@@ -628,14 +598,75 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>transit bug note</returns>
         [WebMethod(Description = "Get a bug note.")]
-        public TransitBugNote GetBugNoteById(int id)
+        public TransitBugNote GetBugNoteById(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                TransitBugNote result = new ManagedBugNote(session, id).TransitBugNote;
-                return result;
-            }
+            return WebServiceImpl<TransitBugNote, ManagedBugNote, BugNote>.GetById(
+                ticket, id);
+        }
+
+        #endregion
+
+        #region Bug Link
+
+        /// <summary>
+        /// Get all bug links.
+        /// </summary>
+        /// <param name="bug_id">bug id</param>
+        /// <returns>list of transit bug links</returns>
+        [WebMethod(Description = "Get all bug links.")]
+        public List<TransitBugLink> GetBugLinks(string ticket, int bug_id, ServiceQueryOptions options)
+        {
+            ICriterion[] expressions = { Expression.Eq("Bug.Id", bug_id) };
+            return WebServiceImpl<TransitBugLink, ManagedBugLink, BugLink>.GetList(
+                ticket, options, expressions, null);
+        }
+
+        /// <summary>
+        /// Get all bug links count.
+        /// </summary>
+        /// <param name="bug_id">bug id</param>
+        /// <returns>number of bug links</returns>
+        [WebMethod(Description = "Get all bug links count.")]
+        public int GetBugLinksCount(string ticket, int bug_id)
+        {
+            string query = string.Format("WHERE Bug_Id = {0}", bug_id);
+            return WebServiceImpl<TransitBugLink, ManagedBugLink, BugLink>.GetCount(
+                ticket, query);
+        }
+
+        /// <summary>
+        /// Delete a bug link.
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete a bug link.")]
+        public void DeleteBugLink(string ticket, int id)
+        {
+            WebServiceImpl<TransitBugLink, ManagedBugLink, BugLink>.Delete(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Create or update a bug link.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="">transit bug link</param>
+        [WebMethod(Description = "Create or update a bug link.")]
+        public int CreateOrUpdateBugLink(string ticket, TransitBugLink buglink)
+        {
+            return WebServiceImpl<TransitBugLink, ManagedBugLink, BugLink>.CreateOrUpdate(
+                ticket, buglink);
+        }
+
+        /// <summary>
+        /// Get a bug link.
+        /// </summary>
+        /// <returns>transit bug link</returns>
+        [WebMethod(Description = "Get a bug link.")]
+        public TransitBugLink GetBugLinkById(string ticket, int id)
+        {
+            return WebServiceImpl<TransitBugLink, ManagedBugLink, BugLink>.GetById(
+                ticket, id);
         }
 
         #endregion

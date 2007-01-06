@@ -280,6 +280,26 @@ namespace SnCore.Services
         {
             mInstance.Modified = DateTime.UtcNow;
             if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            
+            if (mInstance.Principal && !mInstance.Verified)
+            {
+                // an unverified e-mail cannot be set to principal
+                throw new ManagedAccount.AccessDeniedException();
+            }
+
+            if (mInstance.Principal)
+            {
+                // clear principal flags if this e-mail becomes principal
+                foreach (AccountEmail email in Collection<AccountEmail>.GetSafeCollection(mInstance.Account.AccountEmails))
+                {
+                    if (email.Principal)
+                    {
+                        email.Principal = false;
+                        Session.Save(email);
+                    }
+                }
+            }
+
             base.Save(sec);
         }
 

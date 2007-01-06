@@ -52,20 +52,21 @@ namespace SnCore.Services
             string mailto,
             string relativeuri)
         {
-            AccountEmailMessage message = new AccountEmailMessage();
-            message.Account = ManagedAccount.GetAdminAccount(session);
-            message.Body = GetContentAsAdmin(session, relativeuri);
-            message.Subject = ContentPage.GetContentSubject(message.Body);
-            message.MailTo = mailto;
-            // hide admin's e-mail
-            message.MailFrom = new MailAddress(ManagedConfiguration.GetValue(
-                session, "SnCore.Admin.EmailAddress", "admin@localhost.com"), ManagedConfiguration.GetValue(
-                session, "SnCore.Admin.Name", "Admin")).ToString();
-            message.Sent = false;
-            message.DeleteSent = true;
-            message.Created = message.Modified = DateTime.UtcNow;
-            session.Save(message);
-            session.Flush();
+            // TODO
+            //AccountEmailMessage message = new AccountEmailMessage();
+            //message.Account = ManagedAccount.GetAdminAccount(session);
+            //message.Body = GetContentAsAdmin(session, relativeuri);
+            //message.Subject = ContentPage.GetContentSubject(message.Body);
+            //message.MailTo = mailto;
+            //// hide admin's e-mail
+            //message.MailFrom = new MailAddress(ManagedConfiguration.GetValue(
+            //    session, "SnCore.Admin.EmailAddress", "admin@localhost.com"), ManagedConfiguration.GetValue(
+            //    session, "SnCore.Admin.Name", "Admin")).ToString();
+            //message.Sent = false;
+            //message.DeleteSent = true;
+            //message.Created = message.Modified = DateTime.UtcNow;
+            //session.Save(message);
+            //session.Flush();
         }
     }
 }

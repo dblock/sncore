@@ -99,6 +99,12 @@ namespace SnCore.Services
             }
         }
 
+        public ManagedConfiguration()
+        {
+
+        }
+
+
         public ManagedConfiguration(ISession session)
             : base(session)
         {

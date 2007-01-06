@@ -4,10 +4,10 @@ using System.Text;
 using NUnit.Framework;
 using System.Web.Services.Protocols;
 
-namespace SnCore.Web.Soap.Tests
+namespace SnCore.Web.Soap.Tests.WebBugServiceTests
 {
     [TestFixture]
-    public class WebBugServiceTest
+    public class EndpointTests
     {
         [Test]
         public void TestEndpoint()

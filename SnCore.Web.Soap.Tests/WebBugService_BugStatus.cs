@@ -4,12 +4,12 @@ using System.Text;
 using NUnit.Framework;
 using System.Web.Services.Protocols;
 
-namespace SnCore.Web.Soap.Tests
+namespace SnCore.Web.Soap.Tests.WebBugServiceTests
 {
     [TestFixture]
-    public class WebBugService_BugStatusTest : WebServiceTest<WebBugService.TransitBugStatus>
+    public class BugStatusTest : WebServiceTest<WebBugService.TransitBugStatus>
     {
-        public WebBugService_BugStatusTest()
+        public BugStatusTest()
             : base("BugStatus", "BugStatuses", new WebBugService.WebBugService())
         {
         }

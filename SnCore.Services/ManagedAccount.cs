@@ -254,32 +254,6 @@ namespace SnCore.Services
         }
     }
 
-    public class TransitAccountPermissions
-    {
-        private bool mIsAdministrator;
-
-        public bool IsAdministrator
-        {
-            get
-            {
-                return mIsAdministrator;
-            }
-            set
-            {
-                mIsAdministrator = value;
-            }
-        }
-
-        public TransitAccountPermissions()
-        {
-        }
-
-        public TransitAccountPermissions(ManagedAccount a)
-        {
-            IsAdministrator = a.IsAdministrator();
-        }
-    }
-
     public class TransitAccount : TransitService<Account>
     {
         public TransitAccount()
@@ -314,9 +288,20 @@ namespace SnCore.Services
             Account instance = base.GetInstance(session, sec);
             instance.Name = Name;
             instance.Birthday = Birthday;
-            instance.LastLogin = LastLogin;
-            if (! string.IsNullOrEmpty(State)) instance.State = ManagedState.Find(session, State, Country);
-            if (! string.IsNullOrEmpty(Country)) instance.Country = ManagedCountry.Find(session, Country);
+
+            if (Id == 0)
+            {
+                if (Password.Length < ManagedAccount.MinimumPasswordLength)
+                {
+                    throw new ManagedAccount.PasswordTooShortException();
+                }
+
+                instance.Password = ManagedAccount.GetPasswordHash(Password);
+                instance.LastLogin = DateTime.UtcNow;
+            }
+
+            if (!string.IsNullOrEmpty(State)) instance.State = ManagedState.Find(session, State, Country);
+            if (!string.IsNullOrEmpty(Country)) instance.Country = ManagedCountry.Find(session, Country);
             instance.City = City;
             instance.TimeZone = TimeZone;
             instance.Signature = Signature;
@@ -478,6 +463,20 @@ namespace SnCore.Services
             set
             {
                 mSignature = value;
+            }
+        }
+
+        private string mPassword;
+
+        public string Password
+        {
+            get
+            {
+                return mPassword;
+            }
+            set
+            {
+                mPassword = value;
             }
         }
 
@@ -734,20 +733,20 @@ namespace SnCore.Services
             TransitAccount ta = new TransitAccount();
             ta.Name = name;
             ta.Birthday = birthday;
-
-            return Create(password, emailaddress, ta, sec);
+            ta.Password = password;
+            return Create(emailaddress, ta, sec);
         }
 
-        public int Create(string password, string emailaddress, TransitAccount ta, ManagedSecurityContext sec)
+        public int Create(string emailaddress, TransitAccount ta, ManagedSecurityContext sec)
         {
-            return Create(password, emailaddress, ta, false, sec);
+            return Create(emailaddress, ta, false, sec);
         }
 
-        public int Create(string password, string emailaddress, TransitAccount ta, bool emailverified, ManagedSecurityContext sec)
+        public int Create(string emailaddress, TransitAccount ta, bool emailverified, ManagedSecurityContext sec)
         {
             try
             {
-                return InternalCreate(password, emailaddress, ta, emailverified, sec);
+                return InternalCreate(emailaddress, ta, emailverified, sec);
             }
             catch
             {
@@ -760,8 +759,7 @@ namespace SnCore.Services
         {
             try
             {
-                int result = InternalCreateWithOpenId(consumerurl, ta, sec);
-                return result;
+                return InternalCreateWithOpenId(consumerurl, ta, sec);
             }
             catch
             {
@@ -777,75 +775,38 @@ namespace SnCore.Services
              new MD5CryptoServiceProvider().ComputeHash(Encoding.Default.GetBytes(password)));
         }
 
-        protected int InternalCreate(string password, string emailaddress, TransitAccount ta, bool emailverified, ManagedSecurityContext sec)
+        protected int InternalCreate(string emailaddress, TransitAccount ta, bool emailverified, ManagedSecurityContext sec)
         {
-            if (password.Length < MinimumPasswordLength)
-            {
-                throw new PasswordTooShortException();
-            }
+            CreateOrUpdate(ta, sec);
 
-            mInstance = new Account();
-            mInstance.Enabled = true;
-            mInstance.LastLogin = DateTime.UtcNow;
-            mInstance.Password = GetPasswordHash(password);
+            TransitAccountEmail t_email = new TransitAccountEmail();
+            t_email.AccountId = mInstance.Id;
+            t_email.Address = new MailAddress(emailaddress).Address;
+            t_email.Principal = false;
+            t_email.Verified = emailverified;
 
-            Update(ta, sec);
-
-            TransitAccountEmail email = new TransitAccountEmail();
-            email.Address = new MailAddress(emailaddress).Address;
-            Create(email, emailverified, sec);
+            ManagedAccountEmail m_instance = new ManagedAccountEmail(Session);
+            m_instance.CreateOrUpdate(t_email, sec);
+            m_instance.Confirm();
 
             CreateAccountSystemMessageFolders(sec);
-
+            
             return mInstance.Id;
         }
 
         protected int InternalCreateWithOpenId(string consumerurl, TransitAccount ta, ManagedSecurityContext sec)
         {
-            mInstance = new Account();
-            mInstance.Enabled = true;
-            mInstance.LastLogin = DateTime.UtcNow;
-            mInstance.Password = GetPasswordHash(Guid.NewGuid().ToString());
+            ta.Password = Guid.NewGuid().ToString(); // random password for recovery
+            CreateOrUpdate(ta, sec);
 
-            Update(ta, sec);
-
-            TransitAccountOpenId openid = new TransitAccountOpenId();
-            openid.IdentityUrl = consumerurl;
-            Create(openid);
+            TransitAccountOpenId t_openid = new TransitAccountOpenId();
+            t_openid.IdentityUrl = consumerurl;
+            t_openid.AccountId = Id;
+            ManagedAccountOpenId m_openid = new ManagedAccountOpenId(Session);
+            m_openid.CreateOrUpdate(t_openid, sec);
 
             CreateAccountSystemMessageFolders(sec);
-
             return mInstance.Id;
-        }
-
-        public void Update(TransitAccount ta, ManagedSecurityContext sec)
-        {
-            mInstance.Name = ta.Name;
-            mInstance.Birthday = ta.Birthday;
-            mInstance.City = ta.City;
-            mInstance.TimeZone = ta.TimeZone;
-            mInstance.Signature = ta.Signature;
-
-            mInstance.Country = (ta.Country != null && ta.Country.Length > 0)
-                ? (Country)Session.Load(typeof(Country), ManagedCountry.GetCountryId(Session, ta.Country))
-                : null;
-
-            mInstance.LastLogin = mInstance.Modified = DateTime.UtcNow;
-            if (Id == 0) mInstance.Created = mInstance.Modified;
-
-            mInstance.State = (ta.State != null && ta.State.Length > 0)
-                ? (State)Session.Load(typeof(State), ManagedState.GetStateId(Session, ta.State, ta.Country))
-                : null;
-
-            if (mInstance.State != null && mInstance.Country != null)
-            {
-                if (mInstance.State.Country.Id != mInstance.Country.Id)
-                {
-                    throw new ManagedCountry.InvalidCountryException();
-                }
-            }
-
-            Session.Save(mInstance);
         }
 
         #endregion
@@ -885,57 +846,6 @@ namespace SnCore.Services
                     mac.Verify(c.Code);
                 }
             }
-        }
-
-        public int Create(TransitAccountEmail email, ManagedSecurityContext sec)
-        {
-            return Create(email, false, sec);
-        }
-
-        public int Create(TransitAccountEmail email, bool emailverified, ManagedSecurityContext sec)
-        {
-            AccountEmail e = new AccountEmail();
-            e.Account = mInstance;
-            e.Address = new MailAddress(email.Address.Trim().ToLower()).Address;
-            e.Verified = emailverified;
-            e.Created = e.Modified = DateTime.UtcNow;
-
-            if (mInstance.AccountEmails == null) mInstance.AccountEmails = new List<AccountEmail>();
-
-            if (!IsAdministrator() && mInstance.AccountEmails.Count >= MaxOfAnything)
-            {
-                throw new QuotaExceededException();
-            }
-
-            mInstance.AccountEmails.Add(e);
-            Session.Save(e);
-            Session.Flush();
-
-            ManagedAccountEmail me = new ManagedAccountEmail(Session, e);
-            me.Confirm();
-
-            return me.Id;
-        }
-
-        public void Update(TransitAccountEmail o, ManagedSecurityContext sec)
-        {
-            // clear principal flags if this e-mail becomes principal
-            if (o.Principal)
-            {
-                foreach (AccountEmail e in Collection<AccountEmail>.GetSafeCollection(mInstance.AccountEmails))
-                {
-                    if (e.Principal)
-                    {
-                        e.Principal = false;
-                        Session.SaveOrUpdate(e);
-                    }
-                }
-            }
-
-            AccountEmail email = (AccountEmail)Session.Load(typeof(AccountEmail), o.Id);
-            email.Modified = DateTime.UtcNow;
-            email.Principal = o.Principal;
-            Session.SaveOrUpdate(email);
         }
 
         public bool HasVerifiedEmail
@@ -1013,7 +923,8 @@ namespace SnCore.Services
             if (mInstance.LastLogin.AddMinutes(30) < DateTime.UtcNow)
             {
                 mInstance.LastLogin = DateTime.UtcNow;
-                Session.SaveOrUpdate(mInstance);
+                Session.Save(mInstance);
+                Session.Flush();
                 return true;
             }
 
@@ -1185,29 +1096,6 @@ namespace SnCore.Services
             return mInstance.IsAdministrator;
         }
 
-        #endregion
-
-        #region OpenId
-        public int Create(TransitAccountOpenId url)
-        {
-            AccountOpenId o = new AccountOpenId();
-            o.Account = mInstance;
-            o.IdentityUrl = url.IdentityUrl;
-            o.Created = o.Modified = DateTime.UtcNow;
-
-            if (mInstance.AccountOpenIds == null) mInstance.AccountOpenIds = new List<AccountOpenId>();
-
-            if (!IsAdministrator() && mInstance.AccountOpenIds.Count >= MaxOfAnything)
-            {
-                throw new QuotaExceededException();
-            }
-
-            mInstance.AccountOpenIds.Add(o);
-            Session.Save(o);
-
-            ManagedAccountOpenId mo = new ManagedAccountOpenId(Session, o);
-            return mo.Id;
-        }
         #endregion
 
         #region Message

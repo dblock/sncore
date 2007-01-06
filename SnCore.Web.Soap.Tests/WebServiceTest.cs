@@ -40,6 +40,22 @@ namespace SnCore.Web.Soap.Tests
         {
             if (string.IsNullOrEmpty(mUserTicket))
             {
+                WebAuthService.WebAuthService endpoint = new WebAuthService.WebAuthService();
+                try
+                {
+                    mUserTicket = endpoint.Login("user@localhost.com", "password");
+                }
+                catch (SoapException)
+                {
+                    WebAccountService.TransitAccount t_instance = new WebAccountService.TransitAccount();
+                    t_instance.Name = Guid.NewGuid().ToString();
+                    t_instance.Password = "password";
+                    t_instance.Birthday = DateTime.UtcNow.AddYears(-10);
+                    WebAccountService.WebAccountService account_endpoint = new WebAccountService.WebAccountService();
+                    int id = account_endpoint.CreateAccount(string.Empty, "user@localhost.com", t_instance);
+                    Assert.IsTrue(id > 0);
+                    mUserTicket = endpoint.Login("user@localhost.com", "password");
+                }
             }
 
             return mUserTicket;
@@ -49,7 +65,7 @@ namespace SnCore.Web.Soap.Tests
         {
             if (string.IsNullOrEmpty(mAdminTicket))
             {
-                WebAccountService.WebAccountService endpoint = new WebAccountService.WebAccountService();
+                WebAuthService.WebAuthService endpoint = new WebAuthService.WebAuthService();
                 mAdminTicket = endpoint.Login("admin@localhost.com", "password");
             }
 
@@ -182,7 +198,7 @@ namespace SnCore.Web.Soap.Tests
             int id1 = Create(ticket);
             int count2 = GetCount(ticket);
             Assert.IsTrue(count2 >= 0 && count1 + 1 == count2);
-            int id2 = (int) GetInstancePropertyById(ticket, id1, "Id");
+            int id2 = (int)GetInstancePropertyById(ticket, id1, "Id");
             Assert.AreEqual(id1, id2);
             int count3 = GetMany(ticket, null);
             Assert.IsTrue(count2 == count3);

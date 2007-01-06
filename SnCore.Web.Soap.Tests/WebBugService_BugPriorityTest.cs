@@ -4,12 +4,12 @@ using System.Text;
 using NUnit.Framework;
 using System.Web.Services.Protocols;
 
-namespace SnCore.Web.Soap.Tests
+namespace SnCore.Web.Soap.Tests.WebBugServiceTests
 {
     [TestFixture]
-    public class WebBugService_BugPriorityTest : WebServiceTest<WebBugService.TransitBugPriority>
+    public class BugPriorityTest : WebServiceTest<WebBugService.TransitBugPriority>
     {
-        public WebBugService_BugPriorityTest()
+        public BugPriorityTest()
             : base("BugPriority", "BugPriorities", new WebBugService.WebBugService())
         {
         }

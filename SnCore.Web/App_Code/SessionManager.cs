@@ -38,27 +38,27 @@ public class SessionManager
     private HttpRequest mRequest = null;
     private HttpResponse mResponse = null;
     private string mTicket = string.Empty;
-    private TransitAccountPermissions mAccountPermissions = null;
     private TransitAccount mAccount = null;
 
-    private WebLicenseService mLicenseService = null;
-    private WebContentService mContentService = null;
+    private WebAuthService mAuthService = null;
+    //private WebLicenseService mLicenseService = null;
+    //private WebContentService mContentService = null;
     private WebAccountService mAccountService = null;
-    private WebLocationService mWebLocationService = null;
+    //private WebLocationService mWebLocationService = null;
     private WebSystemService mWebSystemService = null;
-    private WebDiscussionService mWebDiscussionService = null;
-    private WebSocialService mWebSocialService = null;
-    private WebStoryService mWebStoryService = null;
+    //private WebDiscussionService mWebDiscussionService = null;
+    //private WebSocialService mWebSocialService = null;
+    //private WebStoryService mWebStoryService = null;
     private WebBugService mWebBugService = null;
-    private WebTagWordService mWebTagWordService = null;
-    private WebSyndicationService mWebSyndicationService = null;
-    private WebBackEndService mWebBackEndService = null;
-    private WebPlaceService mWebPlaceService = null;
-    private WebBlogService mWebBlogService = null;
-    private WebEventService mWebEventService = null;
-    private WebStatsService mWebStatsService = null;
-    private WebMarketingService mWebMarketingService = null;
-    private WebMadLibService mWebMadLibService = null;
+    //private WebTagWordService mWebTagWordService = null;
+    //private WebSyndicationService mWebSyndicationService = null;
+    //private WebBackEndService mWebBackEndService = null;
+    //private WebPlaceService mWebPlaceService = null;
+    //private WebBlogService mWebBlogService = null;
+    //private WebEventService mWebEventService = null;
+    //private WebStatsService mWebStatsService = null;
+    //private WebMarketingService mWebMarketingService = null;
+    //private WebMadLibService mWebMadLibService = null;
 
     public Cache Cache
     {
@@ -144,7 +144,7 @@ public class SessionManager
 
                 if (string.IsNullOrEmpty(mTicket))
                 {
-                    AccountService.GetAccountId(authcookie.Value);
+                    AuthService.GetAccountId(authcookie.Value);
                     mTicket = authcookie.Value;
                     Cache.Insert(string.Format("ticket:{0}", authcookie.Value),
                         mTicket, null, Cache.NoAbsoluteExpiration, SessionManager.DefaultCacheTimeSpan);
@@ -182,27 +182,28 @@ public class SessionManager
         if (s_RequestsLastCommit.Add(s_RequestCommitInterval) >= tsr.Timestamp)
             return;
 
-        // commit tracked requests
-        lock (s_Requests)
-        {
-            if (s_RequestsLastCommit.Add(s_RequestCommitInterval) < tsr.Timestamp)
-            {
-                try
-                {
-                    StatsService.TrackMultipleRequests(s_Requests.ToArray());
-                }
-                catch(Exception ex)
-                {
-                    EventLog.WriteEntry(string.Format("Error tracking multiple requests.\n{0}", ex.Message),
-                        EventLogEntryType.Warning);
-                }
-                finally
-                {
-                    s_Requests.Clear();
-                    s_RequestsLastCommit = tsr.Timestamp;
-                }
-            }
-        }
+        // TODO
+        //// commit tracked requests
+        //lock (s_Requests)
+        //{
+        //    if (s_RequestsLastCommit.Add(s_RequestCommitInterval) < tsr.Timestamp)
+        //    {
+        //        try
+        //        {
+        //            StatsService.TrackMultipleRequests(s_Requests.ToArray());
+        //        }
+        //        catch(Exception ex)
+        //        {
+        //            EventLog.WriteEntry(string.Format("Error tracking multiple requests.\n{0}", ex.Message),
+        //                EventLogEntryType.Warning);
+        //        }
+        //        finally
+        //        {
+        //            s_Requests.Clear();
+        //            s_RequestsLastCommit = tsr.Timestamp;
+        //        }
+        //    }
+        //}
     }
 
     protected Nullable<DateTime> GetLastVisit(HttpRequest request)
@@ -316,7 +317,7 @@ public class SessionManager
                         mAccount = (TransitAccount)Cache[string.Format("account:{0}", Ticket)];
                         if (mAccount == null)
                         {
-                            mAccount = AccountService.GetAccount(Ticket);
+                            mAccount = AuthService.GetAccount(Ticket);
                             Cache.Insert(string.Format("account:{0}", Ticket),
                                 mAccount, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
                         }
@@ -331,34 +332,11 @@ public class SessionManager
         }
     }
 
-    public TransitAccountPermissions AccountPermissions
-    {
-        get
-        {
-            if (mAccountPermissions == null)
-            {
-                if (IsLoggedIn)
-                {
-                    mAccountPermissions = (TransitAccountPermissions)
-                        Cache[string.Format("accountpermissions:{0}", Ticket)];
-
-                    if (mAccountPermissions == null)
-                    {
-                        mAccountPermissions = AccountService.GetAccountPermissions(Ticket);
-                        Cache.Insert(string.Format("accountpermissions:{0}", Ticket),
-                            mAccountPermissions, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
-                    }
-                }
-            }
-            return mAccountPermissions;
-        }
-    }
-
     public bool IsAdministrator
     {
         get
         {
-            return AccountPermissions != null ? AccountPermissions.IsAdministrator : false;
+            return Account != null ? Account.IsAdministrator : false;
         }
     }
 
@@ -457,39 +435,39 @@ public class SessionManager
         }
     }
 
-    public WebContentService ContentService
-    {
-        get
-        {
-            if (mContentService == null)
-            {
-                mContentService = (WebContentService) Cache["SnCore.SessionManager.ContentService"];
-                if (mContentService == null)
-                {
-                    mContentService = new WebContentService();
-                    Cache["SnCore.SessionManager.ContentService"] = mContentService;
-                }
-            }
-            return mContentService;
-        }
-    }
+    //public WebContentService ContentService
+    //{
+    //    get
+    //    {
+    //        if (mContentService == null)
+    //        {
+    //            mContentService = (WebContentService) Cache["SnCore.SessionManager.ContentService"];
+    //            if (mContentService == null)
+    //            {
+    //                mContentService = new WebContentService();
+    //                Cache["SnCore.SessionManager.ContentService"] = mContentService;
+    //            }
+    //        }
+    //        return mContentService;
+    //    }
+    //}
 
-    public WebLicenseService LicenseService
-    {
-        get
-        {
-            if (mLicenseService == null)
-            {
-                mLicenseService = (WebLicenseService)Cache["SnCore.SessionManager.LicenseService"];
-                if (mLicenseService == null)
-                {
-                    mLicenseService = new WebLicenseService();
-                    Cache["SnCore.SessionManager.LicenseService"] = mLicenseService;
-                }
-            }
-            return mLicenseService;
-        }
-    }
+    //public WebLicenseService LicenseService
+    //{
+    //    get
+    //    {
+    //        if (mLicenseService == null)
+    //        {
+    //            mLicenseService = (WebLicenseService)Cache["SnCore.SessionManager.LicenseService"];
+    //            if (mLicenseService == null)
+    //            {
+    //                mLicenseService = new WebLicenseService();
+    //                Cache["SnCore.SessionManager.LicenseService"] = mLicenseService;
+    //            }
+    //        }
+    //        return mLicenseService;
+    //    }
+    //}
 
     public WebAccountService AccountService
     {
@@ -505,6 +483,23 @@ public class SessionManager
                 }
             }
             return mAccountService;
+        }
+    }
+
+    public WebAuthService AuthService
+    {
+        get
+        {
+            if (mAuthService == null)
+            {
+                mAuthService = (WebAuthService)Cache["SnCore.SessionManager.AuthService"];
+                if (mAuthService == null)
+                {
+                    mAuthService = new WebAuthService();
+                    Cache["SnCore.SessionManager.AuthService"] = mAuthService;
+                }
+            }
+            return mAuthService;
         }
     }
 
@@ -525,92 +520,92 @@ public class SessionManager
         }
     }
 
-    public WebStatsService StatsService
-    {
-        get
-        {
-            if (mWebStatsService == null)
-            {
-                mWebStatsService = (WebStatsService)Cache["SnCore.SessionManager.StatsService"];
-                if (mWebStatsService == null)
-                {
-                    mWebStatsService = new WebStatsService();
-                    Cache["SnCore.SessionManager.StatsService"] = mWebStatsService;
-                }
-            }
-            return mWebStatsService;
-        }
-    }
+    //public WebStatsService StatsService
+    //{
+    //    get
+    //    {
+    //        if (mWebStatsService == null)
+    //        {
+    //            mWebStatsService = (WebStatsService)Cache["SnCore.SessionManager.StatsService"];
+    //            if (mWebStatsService == null)
+    //            {
+    //                mWebStatsService = new WebStatsService();
+    //                Cache["SnCore.SessionManager.StatsService"] = mWebStatsService;
+    //            }
+    //        }
+    //        return mWebStatsService;
+    //    }
+    //}
 
-    public WebTagWordService TagWordService
-    {
-        get
-        {
-            if (mWebTagWordService == null)
-            {
-                mWebTagWordService = (WebTagWordService)Cache["SnCore.SessionManager.TagWordService"];
-                if (mWebTagWordService == null)
-                {
-                    mWebTagWordService = new WebTagWordService();
-                    Cache["SnCore.SessionManager.TagWordService"] = mWebTagWordService;
-                }
-            }
+    //public WebTagWordService TagWordService
+    //{
+    //    get
+    //    {
+    //        if (mWebTagWordService == null)
+    //        {
+    //            mWebTagWordService = (WebTagWordService)Cache["SnCore.SessionManager.TagWordService"];
+    //            if (mWebTagWordService == null)
+    //            {
+    //                mWebTagWordService = new WebTagWordService();
+    //                Cache["SnCore.SessionManager.TagWordService"] = mWebTagWordService;
+    //            }
+    //        }
 
-            return mWebTagWordService;
-        }
-    }
+    //        return mWebTagWordService;
+    //    }
+    //}
 
-    public WebSocialService SocialService
-    {
-        get
-        {
-            if (mWebSocialService == null)
-            {
-                mWebSocialService = (WebSocialService)Cache["SnCore.SessionManager.SocialService"];
-                if (mWebSocialService == null)
-                {
-                    mWebSocialService = new WebSocialService();
-                    Cache["SnCore.SessionManager.SocialService"] = mWebSocialService;
-                }
-            }
-            return mWebSocialService;
-        }
-    }
+    //public WebSocialService SocialService
+    //{
+    //    get
+    //    {
+    //        if (mWebSocialService == null)
+    //        {
+    //            mWebSocialService = (WebSocialService)Cache["SnCore.SessionManager.SocialService"];
+    //            if (mWebSocialService == null)
+    //            {
+    //                mWebSocialService = new WebSocialService();
+    //                Cache["SnCore.SessionManager.SocialService"] = mWebSocialService;
+    //            }
+    //        }
+    //        return mWebSocialService;
+    //    }
+    //}
 
-    public WebStoryService StoryService
-    {
-        get
-        {
-            if (mWebStoryService == null)
-            {
-                mWebStoryService = (WebStoryService)Cache["SnCore.SessionManager.StoryService"];
-                if (mWebStoryService == null)
-                {
-                    mWebStoryService = new WebStoryService();
-                    Cache["SnCore.SessionManager.StoryService"] = mWebStoryService;
-                }
-            }
+    //public WebStoryService StoryService
+    //{
+    //    get
+    //    {
+    //        if (mWebStoryService == null)
+    //        {
+    //            mWebStoryService = (WebStoryService)Cache["SnCore.SessionManager.StoryService"];
+    //            if (mWebStoryService == null)
+    //            {
+    //                mWebStoryService = new WebStoryService();
+    //                Cache["SnCore.SessionManager.StoryService"] = mWebStoryService;
+    //            }
+    //        }
 
-            return mWebStoryService;
-        }
-    }
+    //        return mWebStoryService;
+    //    }
+    //}
 
-    public WebLocationService LocationService
-    {
-        get
-        {
-            if (mWebLocationService == null)
-            {
-                mWebLocationService = (WebLocationService)Cache["SnCore.SessionManager.LocationService"];
-                if (mWebLocationService == null)
-                {
-                    mWebLocationService = new WebLocationService();
-                    Cache["SnCore.SessionManager.LocationService"] = mWebLocationService;
-                }
-            }
-            return mWebLocationService;
-        }
-    }
+    //public WebLocationService LocationService
+    //{
+    //    get
+    //    {
+    //        if (mWebLocationService == null)
+    //        {
+    //            mWebLocationService = (WebLocationService)Cache["SnCore.SessionManager.LocationService"];
+    //            if (mWebLocationService == null)
+    //            {
+    //                mWebLocationService = new WebLocationService();
+    //                Cache["SnCore.SessionManager.LocationService"] = mWebLocationService;
+    //            }
+    //        }
+    //        return mWebLocationService;
+    //    }
+    //}
 
     public WebSystemService SystemService
     {
@@ -629,141 +624,141 @@ public class SessionManager
         }
     }
 
-    public WebMarketingService MarketingService
-    {
-        get
-        {
-            if (mWebMarketingService == null)
-            {
-                mWebMarketingService = (WebMarketingService) Cache["SnCore.SessionManager.MarketingService"];
-                if (mWebMarketingService == null)
-                {
-                    mWebMarketingService = new WebMarketingService();
-                    Cache["SnCore.SessionManager.MarketingService"] = mWebMarketingService;
-                }
-            }
-            return mWebMarketingService;
-        }
-    }
+    //public WebMarketingService MarketingService
+    //{
+    //    get
+    //    {
+    //        if (mWebMarketingService == null)
+    //        {
+    //            mWebMarketingService = (WebMarketingService) Cache["SnCore.SessionManager.MarketingService"];
+    //            if (mWebMarketingService == null)
+    //            {
+    //                mWebMarketingService = new WebMarketingService();
+    //                Cache["SnCore.SessionManager.MarketingService"] = mWebMarketingService;
+    //            }
+    //        }
+    //        return mWebMarketingService;
+    //    }
+    //}
 
-    public WebMadLibService MadLibService
-    {
-        get
-        {
-            if (mWebMadLibService == null)
-            {
-                mWebMadLibService = (WebMadLibService)Cache["SnCore.SessionManager.MadLibService"];
-                if (mWebMadLibService == null)
-                {
-                    mWebMadLibService = new WebMadLibService();
-                    Cache["SnCore.SessionManager.MadLibService"] = mWebMadLibService;
-                }
-            }
-            return mWebMadLibService;
-        }
-    }
+    //public WebMadLibService MadLibService
+    //{
+    //    get
+    //    {
+    //        if (mWebMadLibService == null)
+    //        {
+    //            mWebMadLibService = (WebMadLibService)Cache["SnCore.SessionManager.MadLibService"];
+    //            if (mWebMadLibService == null)
+    //            {
+    //                mWebMadLibService = new WebMadLibService();
+    //                Cache["SnCore.SessionManager.MadLibService"] = mWebMadLibService;
+    //            }
+    //        }
+    //        return mWebMadLibService;
+    //    }
+    //}
 
-    public WebEventService EventService
-    {
-        get
-        {
-            if (mWebEventService == null)
-            {
-                mWebEventService = (WebEventService)Cache["SnCore.SessionManager.EventService"];
-                if (mWebEventService == null)
-                {
-                    mWebEventService = new WebEventService();
-                    Cache["SnCore.SessionManager.EventService"] = mWebEventService;
-                }
-            }
-            return mWebEventService;
-        }
-    }
+    //public WebEventService EventService
+    //{
+    //    get
+    //    {
+    //        if (mWebEventService == null)
+    //        {
+    //            mWebEventService = (WebEventService)Cache["SnCore.SessionManager.EventService"];
+    //            if (mWebEventService == null)
+    //            {
+    //                mWebEventService = new WebEventService();
+    //                Cache["SnCore.SessionManager.EventService"] = mWebEventService;
+    //            }
+    //        }
+    //        return mWebEventService;
+    //    }
+    //}
 
-    public WebDiscussionService DiscussionService
-    {
-        get
-        {
-            if (mWebDiscussionService == null)
-            {
-                mWebDiscussionService = (WebDiscussionService)Cache["SnCore.SessionManager.DiscussionService"];
-                if (mWebDiscussionService == null)
-                {
-                    mWebDiscussionService = new WebDiscussionService();
-                    Cache["SnCore.SessionManager.DiscussionService"] = mWebDiscussionService;
-                }
-            }
-            return mWebDiscussionService;
-        }
-    }
+    //public WebDiscussionService DiscussionService
+    //{
+    //    get
+    //    {
+    //        if (mWebDiscussionService == null)
+    //        {
+    //            mWebDiscussionService = (WebDiscussionService)Cache["SnCore.SessionManager.DiscussionService"];
+    //            if (mWebDiscussionService == null)
+    //            {
+    //                mWebDiscussionService = new WebDiscussionService();
+    //                Cache["SnCore.SessionManager.DiscussionService"] = mWebDiscussionService;
+    //            }
+    //        }
+    //        return mWebDiscussionService;
+    //    }
+    //}
 
-    public WebSyndicationService SyndicationService
-    {
-        get
-        {
-            if (mWebSyndicationService == null)
-            {
-                mWebSyndicationService = (WebSyndicationService)Cache["SnCore.SessionManager.SyndicationService"];
-                if (mWebSyndicationService == null)
-                {
-                    mWebSyndicationService = new WebSyndicationService();
-                    Cache["SnCore.SessionManager.SyndicationService"] = mWebSyndicationService;
-                }
-            }
-            return mWebSyndicationService;
-        }
-    }
+    //public WebSyndicationService SyndicationService
+    //{
+    //    get
+    //    {
+    //        if (mWebSyndicationService == null)
+    //        {
+    //            mWebSyndicationService = (WebSyndicationService)Cache["SnCore.SessionManager.SyndicationService"];
+    //            if (mWebSyndicationService == null)
+    //            {
+    //                mWebSyndicationService = new WebSyndicationService();
+    //                Cache["SnCore.SessionManager.SyndicationService"] = mWebSyndicationService;
+    //            }
+    //        }
+    //        return mWebSyndicationService;
+    //    }
+    //}
 
-    public WebBackEndService BackEndService
-    {
-        get
-        {
-            if (mWebBackEndService == null)
-            {
-                mWebBackEndService = (WebBackEndService)Cache["SnCore.SessionManager.BackEndService"];
-                if (mWebBackEndService == null)
-                {
-                    mWebBackEndService = new WebBackEndService();
-                    Cache["SnCore.SessionManager.BackEndService"] = mWebBackEndService;
-                }
-            }
-            return mWebBackEndService;
-        }
-    }
+    //public WebBackEndService BackEndService
+    //{
+    //    get
+    //    {
+    //        if (mWebBackEndService == null)
+    //        {
+    //            mWebBackEndService = (WebBackEndService)Cache["SnCore.SessionManager.BackEndService"];
+    //            if (mWebBackEndService == null)
+    //            {
+    //                mWebBackEndService = new WebBackEndService();
+    //                Cache["SnCore.SessionManager.BackEndService"] = mWebBackEndService;
+    //            }
+    //        }
+    //        return mWebBackEndService;
+    //    }
+    //}
 
-    public WebPlaceService PlaceService
-    {
-        get
-        {
-            if (mWebPlaceService == null)
-            {
-                mWebPlaceService = (WebPlaceService)Cache["SnCore.SessionManager.PlaceService"];
-                if (mWebPlaceService == null)
-                {
-                    mWebPlaceService = new WebPlaceService();
-                    Cache["SnCore.SessionManager.PlaceService"] = mWebPlaceService;
-                }
-            }
-            return mWebPlaceService;
-        }
-    }
+    //public WebPlaceService PlaceService
+    //{
+    //    get
+    //    {
+    //        if (mWebPlaceService == null)
+    //        {
+    //            mWebPlaceService = (WebPlaceService)Cache["SnCore.SessionManager.PlaceService"];
+    //            if (mWebPlaceService == null)
+    //            {
+    //                mWebPlaceService = new WebPlaceService();
+    //                Cache["SnCore.SessionManager.PlaceService"] = mWebPlaceService;
+    //            }
+    //        }
+    //        return mWebPlaceService;
+    //    }
+    //}
 
-    public WebBlogService BlogService
-    {
-        get
-        {
-            if (mWebBlogService == null)
-            {
-                mWebBlogService = (WebBlogService) Cache["SnCore.SessionManager.BlogService"];
-                if (mWebBlogService == null)
-                {
-                    mWebBlogService = new WebBlogService();
-                    Cache["SnCore.SessionManager.BlogService"] = mWebBlogService;
-                }
-            }
-            return mWebBlogService;
-        }
-    }
+    //public WebBlogService BlogService
+    //{
+    //    get
+    //    {
+    //        if (mWebBlogService == null)
+    //        {
+    //            mWebBlogService = (WebBlogService) Cache["SnCore.SessionManager.BlogService"];
+    //            if (mWebBlogService == null)
+    //            {
+    //                mWebBlogService = new WebBlogService();
+    //                Cache["SnCore.SessionManager.BlogService"] = mWebBlogService;
+    //            }
+    //        }
+    //        return mWebBlogService;
+    //    }
+    //}
 
     static Regex MarkupExpression = new Regex(@"(?<tag>[\[]+)(?<name>[\w\s]*):(?<value>[\w\s\'\-!]*)[\]]+",
         RegexOptions.IgnoreCase);
@@ -797,19 +792,22 @@ public class SessionManager
         }
         else
         {
-            object[] args = { tagname, tagvalue };
-            TransitPlace p = GetCachedItem<TransitPlace>(PlaceService, "FindPlace", args);
+            return string.Empty;
 
-            if (p == null)
-            {
-                return string.Format("<a href=\"{3}/PlaceView.aspx?city={0}&name={1}\">{2}</a>",
-                    Renderer.UrlEncode(tagname), Renderer.UrlEncode(tagvalue), Renderer.Render(tagvalue), WebsiteUrl);
-            }
-            else
-            {
-                return string.Format("<a href=\"{2}/PlaceView.aspx?id={0}\">{1}</a>",
-                    p.Id, Renderer.Render(p.Name), WebsiteUrl);
-            }
+            // TODO
+            //object[] args = { tagname, tagvalue };
+            //TransitPlace p = GetCachedItem<TransitPlace>(PlaceService, "FindPlace", args);
+
+            //if (p == null)
+            //{
+            //    return string.Format("<a href=\"{3}/PlaceView.aspx?city={0}&name={1}\">{2}</a>",
+            //        Renderer.UrlEncode(tagname), Renderer.UrlEncode(tagvalue), Renderer.Render(tagvalue), WebsiteUrl);
+            //}
+            //else
+            //{
+            //    return string.Format("<a href=\"{2}/PlaceView.aspx?id={0}\">{1}</a>",
+            //        p.Id, Renderer.Render(p.Name), WebsiteUrl);
+            //}
         }
     }
 
