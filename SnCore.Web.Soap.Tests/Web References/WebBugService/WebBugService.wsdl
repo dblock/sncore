@@ -778,6 +778,98 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetBugLinks">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="bug_id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugLinksResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetBugLinksResult" type="tns:ArrayOfTransitBugLink" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitBugLink">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitBugLink" nillable="true" type="tns:TransitBugLink" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitBugLink">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfBugLink">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="BugId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="RelatedBugId" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfBugLink" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetBugLinksCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="bug_id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugLinksCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetBugLinksCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteBugLink">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteBugLinkResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="CreateOrUpdateBugLink">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="buglink" type="tns:TransitBugLink" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateOrUpdateBugLinkResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateBugLinkResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugLinkById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugLinkByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetBugLinkByIdResult" type="tns:TransitBugLink" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="CreateOrUpdateBugPrioritySoapIn">
@@ -1038,6 +1130,36 @@
   <wsdl:message name="GetBugNoteByIdSoapOut">
     <wsdl:part name="parameters" element="tns:GetBugNoteByIdResponse" />
   </wsdl:message>
+  <wsdl:message name="GetBugLinksSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBugLinks" />
+  </wsdl:message>
+  <wsdl:message name="GetBugLinksSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBugLinksResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBugLinksCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBugLinksCount" />
+  </wsdl:message>
+  <wsdl:message name="GetBugLinksCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBugLinksCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteBugLinkSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteBugLink" />
+  </wsdl:message>
+  <wsdl:message name="DeleteBugLinkSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteBugLinkResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateBugLinkSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateBugLink" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateBugLinkSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateBugLinkResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBugLinkByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBugLinkById" />
+  </wsdl:message>
+  <wsdl:message name="GetBugLinkByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBugLinkByIdResponse" />
+  </wsdl:message>
   <wsdl:portType name="WebBugServiceSoap">
     <wsdl:operation name="CreateOrUpdateBugPriority">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a bug priority.</wsdl:documentation>
@@ -1253,6 +1375,31 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a bug note.</wsdl:documentation>
       <wsdl:input message="tns:GetBugNoteByIdSoapIn" />
       <wsdl:output message="tns:GetBugNoteByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBugLinks">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all bug links.</wsdl:documentation>
+      <wsdl:input message="tns:GetBugLinksSoapIn" />
+      <wsdl:output message="tns:GetBugLinksSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBugLinksCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all bug links count.</wsdl:documentation>
+      <wsdl:input message="tns:GetBugLinksCountSoapIn" />
+      <wsdl:output message="tns:GetBugLinksCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBugLink">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a bug link.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteBugLinkSoapIn" />
+      <wsdl:output message="tns:DeleteBugLinkSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateBugLink">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a bug link.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateBugLinkSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateBugLinkSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBugLinkById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a bug link.</wsdl:documentation>
+      <wsdl:input message="tns:GetBugLinkByIdSoapIn" />
+      <wsdl:output message="tns:GetBugLinkByIdSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WebBugServiceSoap" type="tns:WebBugServiceSoap">
@@ -1644,6 +1791,51 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetBugLinks">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetBugLinks" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugLinksCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetBugLinksCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBugLink">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteBugLink" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateBugLink">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateBugLink" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugLinkById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetBugLinkById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="WebBugServiceSoap12" type="tns:WebBugServiceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -2027,6 +2219,51 @@
     </wsdl:operation>
     <wsdl:operation name="GetBugNoteById">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetBugNoteById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugLinks">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetBugLinks" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugLinksCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetBugLinksCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBugLink">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteBugLink" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateBugLink">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateBugLink" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugLinkById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetBugLinkById" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

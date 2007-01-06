@@ -28,6 +28,14 @@ namespace SnCore.Web.Soap.Tests
             mEndPoint = endpoint;
         }
 
+        public SoapHttpClientProtocol EndPoint
+        {
+            get
+            {
+                return mEndPoint;
+            }
+        }
+
         public string GetUserTicket()
         {
             if (string.IsNullOrEmpty(mUserTicket))
@@ -84,13 +92,13 @@ namespace SnCore.Web.Soap.Tests
         {
             try
             {
-                // create an instance
-                Console.WriteLine("Creating {0}", mOne);
+                // Console.Write("Creating {0}", mOne);
                 TransitType t_instance = GetTransitInstance();
                 object[] args = { ticket, t_instance };
                 int id = (int)mEndPoint.GetType().InvokeMember(string.Format("CreateOrUpdate{0}", mOne),
                     BindingFlags.InvokeMethod, null, mEndPoint, args);
                 Assert.IsTrue(id > 0);
+                Console.WriteLine("Created {0}:{1}", mOne, id);
                 return id;
             }
             catch (TargetInvocationException ex)

@@ -27,6 +27,7 @@ namespace SnCore.Web.Soap.Tests.WebBugService {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="WebBugServiceSoap", Namespace="http://www.vestris.com/sncore/ns/")]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfBugLink))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfBugNote))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfBug))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfBugProject))]
@@ -122,6 +123,16 @@ namespace SnCore.Web.Soap.Tests.WebBugService {
         private System.Threading.SendOrPostCallback CreateOrUpdateBugNoteOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetBugNoteByIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetBugLinksOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetBugLinksCountOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback DeleteBugLinkOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback CreateOrUpdateBugLinkOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetBugLinkByIdOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -289,6 +300,21 @@ namespace SnCore.Web.Soap.Tests.WebBugService {
         
         /// <remarks/>
         public event GetBugNoteByIdCompletedEventHandler GetBugNoteByIdCompleted;
+        
+        /// <remarks/>
+        public event GetBugLinksCompletedEventHandler GetBugLinksCompleted;
+        
+        /// <remarks/>
+        public event GetBugLinksCountCompletedEventHandler GetBugLinksCountCompleted;
+        
+        /// <remarks/>
+        public event DeleteBugLinkCompletedEventHandler DeleteBugLinkCompleted;
+        
+        /// <remarks/>
+        public event CreateOrUpdateBugLinkCompletedEventHandler CreateOrUpdateBugLinkCompleted;
+        
+        /// <remarks/>
+        public event GetBugLinkByIdCompletedEventHandler GetBugLinkByIdCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/CreateOrUpdateBugPriority", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -1609,6 +1635,162 @@ namespace SnCore.Web.Soap.Tests.WebBugService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetBugLinks", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitBugLink[] GetBugLinks(string ticket, int bug_id, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetBugLinks", new object[] {
+                        ticket,
+                        bug_id,
+                        options});
+            return ((TransitBugLink[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetBugLinksAsync(string ticket, int bug_id, ServiceQueryOptions options) {
+            this.GetBugLinksAsync(ticket, bug_id, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetBugLinksAsync(string ticket, int bug_id, ServiceQueryOptions options, object userState) {
+            if ((this.GetBugLinksOperationCompleted == null)) {
+                this.GetBugLinksOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetBugLinksOperationCompleted);
+            }
+            this.InvokeAsync("GetBugLinks", new object[] {
+                        ticket,
+                        bug_id,
+                        options}, this.GetBugLinksOperationCompleted, userState);
+        }
+        
+        private void OnGetBugLinksOperationCompleted(object arg) {
+            if ((this.GetBugLinksCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetBugLinksCompleted(this, new GetBugLinksCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetBugLinksCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetBugLinksCount(string ticket, int bug_id) {
+            object[] results = this.Invoke("GetBugLinksCount", new object[] {
+                        ticket,
+                        bug_id});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetBugLinksCountAsync(string ticket, int bug_id) {
+            this.GetBugLinksCountAsync(ticket, bug_id, null);
+        }
+        
+        /// <remarks/>
+        public void GetBugLinksCountAsync(string ticket, int bug_id, object userState) {
+            if ((this.GetBugLinksCountOperationCompleted == null)) {
+                this.GetBugLinksCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetBugLinksCountOperationCompleted);
+            }
+            this.InvokeAsync("GetBugLinksCount", new object[] {
+                        ticket,
+                        bug_id}, this.GetBugLinksCountOperationCompleted, userState);
+        }
+        
+        private void OnGetBugLinksCountOperationCompleted(object arg) {
+            if ((this.GetBugLinksCountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetBugLinksCountCompleted(this, new GetBugLinksCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/DeleteBugLink", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void DeleteBugLink(string ticket, int id) {
+            this.Invoke("DeleteBugLink", new object[] {
+                        ticket,
+                        id});
+        }
+        
+        /// <remarks/>
+        public void DeleteBugLinkAsync(string ticket, int id) {
+            this.DeleteBugLinkAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void DeleteBugLinkAsync(string ticket, int id, object userState) {
+            if ((this.DeleteBugLinkOperationCompleted == null)) {
+                this.DeleteBugLinkOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDeleteBugLinkOperationCompleted);
+            }
+            this.InvokeAsync("DeleteBugLink", new object[] {
+                        ticket,
+                        id}, this.DeleteBugLinkOperationCompleted, userState);
+        }
+        
+        private void OnDeleteBugLinkOperationCompleted(object arg) {
+            if ((this.DeleteBugLinkCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.DeleteBugLinkCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/CreateOrUpdateBugLink", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int CreateOrUpdateBugLink(string ticket, TransitBugLink buglink) {
+            object[] results = this.Invoke("CreateOrUpdateBugLink", new object[] {
+                        ticket,
+                        buglink});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void CreateOrUpdateBugLinkAsync(string ticket, TransitBugLink buglink) {
+            this.CreateOrUpdateBugLinkAsync(ticket, buglink, null);
+        }
+        
+        /// <remarks/>
+        public void CreateOrUpdateBugLinkAsync(string ticket, TransitBugLink buglink, object userState) {
+            if ((this.CreateOrUpdateBugLinkOperationCompleted == null)) {
+                this.CreateOrUpdateBugLinkOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCreateOrUpdateBugLinkOperationCompleted);
+            }
+            this.InvokeAsync("CreateOrUpdateBugLink", new object[] {
+                        ticket,
+                        buglink}, this.CreateOrUpdateBugLinkOperationCompleted, userState);
+        }
+        
+        private void OnCreateOrUpdateBugLinkOperationCompleted(object arg) {
+            if ((this.CreateOrUpdateBugLinkCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.CreateOrUpdateBugLinkCompleted(this, new CreateOrUpdateBugLinkCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetBugLinkById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitBugLink GetBugLinkById(string ticket, int id) {
+            object[] results = this.Invoke("GetBugLinkById", new object[] {
+                        ticket,
+                        id});
+            return ((TransitBugLink)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetBugLinkByIdAsync(string ticket, int id) {
+            this.GetBugLinkByIdAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetBugLinkByIdAsync(string ticket, int id, object userState) {
+            if ((this.GetBugLinkByIdOperationCompleted == null)) {
+                this.GetBugLinkByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetBugLinkByIdOperationCompleted);
+            }
+            this.InvokeAsync("GetBugLinkById", new object[] {
+                        ticket,
+                        id}, this.GetBugLinkByIdOperationCompleted, userState);
+        }
+        
+        private void OnGetBugLinkByIdOperationCompleted(object arg) {
+            if ((this.GetBugLinkByIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetBugLinkByIdCompleted(this, new GetBugLinkByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -1666,6 +1848,61 @@ namespace SnCore.Web.Soap.Tests.WebBugService {
             }
             set {
                 this.idField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitBugLink))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public abstract partial class TransitServiceOfBugLink {
+        
+        private int idField;
+        
+        /// <remarks/>
+        public int Id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitBugLink : TransitServiceOfBugLink {
+        
+        private int bugIdField;
+        
+        private int relatedBugIdField;
+        
+        /// <remarks/>
+        public int BugId {
+            get {
+                return this.bugIdField;
+            }
+            set {
+                this.bugIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int RelatedBugId {
+            get {
+                return this.relatedBugIdField;
+            }
+            set {
+                this.relatedBugIdField = value;
             }
         }
     }
@@ -3104,6 +3341,114 @@ namespace SnCore.Web.Soap.Tests.WebBugService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((TransitBugNote)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetBugLinksCompletedEventHandler(object sender, GetBugLinksCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetBugLinksCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetBugLinksCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitBugLink[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitBugLink[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetBugLinksCountCompletedEventHandler(object sender, GetBugLinksCountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetBugLinksCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetBugLinksCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void DeleteBugLinkCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void CreateOrUpdateBugLinkCompletedEventHandler(object sender, CreateOrUpdateBugLinkCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class CreateOrUpdateBugLinkCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal CreateOrUpdateBugLinkCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetBugLinkByIdCompletedEventHandler(object sender, GetBugLinkByIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetBugLinkByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetBugLinkByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitBugLink Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitBugLink)(this.results[0]));
             }
         }
     }

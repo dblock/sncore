@@ -14,6 +14,7 @@ namespace SnCore.Web.Soap.Tests
         int _type_id = 0;
         int _status_id = 0;
         int _resolution_id = 0;
+        int _resolution2_id = 0;
         int _project_id = 0;
 
         public WebBugService_BugTest()
@@ -29,6 +30,7 @@ namespace SnCore.Web.Soap.Tests
             _type_id = new WebBugService_BugTypeTest().Create(GetAdminTicket());
             _status_id = new WebBugService_BugStatusTest().Create(GetAdminTicket());
             _resolution_id = new WebBugService_BugResolutionTest().Create(GetAdminTicket());
+            _resolution2_id = new WebBugService_BugResolutionTest().Create(GetAdminTicket());
             _project_id = new WebBugService_BugProjectTest().Create(GetAdminTicket());
         }
 
@@ -41,6 +43,7 @@ namespace SnCore.Web.Soap.Tests
             new WebBugService_BugTypeTest().Delete(GetAdminTicket(), _type_id);
             new WebBugService_BugStatusTest().Delete(GetAdminTicket(), _status_id);
             new WebBugService_BugResolutionTest().Delete(GetAdminTicket(), _resolution_id);
+            new WebBugService_BugResolutionTest().Delete(GetAdminTicket(), _resolution2_id);
         }
 
         public override WebBugService.TransitBug GetTransitInstance()
@@ -67,6 +70,38 @@ namespace SnCore.Web.Soap.Tests
         {
             object[] args = { ticket, _project_id, options };
             return args;
+        }
+
+        [Test]
+        public void TestResolve()
+        {
+            int id = Create(GetAdminTicket());
+            string current_resolution = (string) GetInstancePropertyById(GetAdminTicket(), id, "Resolution");
+            Console.WriteLine("Current resolution: {0}", current_resolution);
+            string target_resolution = (string) new WebBugService_BugResolutionTest().GetInstancePropertyById(GetAdminTicket(), _resolution2_id, "Name");
+            WebBugService.WebBugService endpoint = (WebBugService.WebBugService) EndPoint;
+            endpoint.ResolveBug(GetAdminTicket(), id, target_resolution, Guid.NewGuid().ToString());
+            string new_resolution = (string) GetInstancePropertyById(GetAdminTicket(), id, "Resolution");
+            Console.WriteLine("New resolution: {0}", new_resolution);
+            Assert.AreNotEqual(current_resolution, new_resolution);
+            Assert.AreEqual(new_resolution, target_resolution);
+        }
+
+        [Test]
+        public void TestClose()
+        {
+            int id = Create(GetAdminTicket());
+            string current_status = (string) GetInstancePropertyById(GetAdminTicket(), id, "Status");
+            Console.WriteLine("Current status: {0}", current_status);
+            WebBugService.WebBugService endpoint = (WebBugService.WebBugService)EndPoint;
+            string target_resolution = (string)new WebBugService_BugResolutionTest().GetInstancePropertyById(GetAdminTicket(), _resolution2_id, "Name");
+            endpoint.ResolveBug(GetAdminTicket(), id, target_resolution, Guid.NewGuid().ToString());
+            endpoint.CloseBug(GetAdminTicket(), id);
+            string new_status = (string) GetInstancePropertyById(GetAdminTicket(), id, "Status");
+            Console.WriteLine("New status: {0}", new_status);
+            Assert.AreNotEqual(current_status, new_status);
+            Assert.AreEqual(new_status, "Closed");
+            Delete(GetAdminTicket(), id);
         }
     }
 }
