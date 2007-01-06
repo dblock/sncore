@@ -187,15 +187,21 @@ namespace SnCore.Services
         }
 
         public TransitPlacePicture(PlacePicture p)
-            : base(p.Id, p, p.Place.PlacePictures)
+            : base(p, p.Place.PlacePictures)
         {
-            Name = p.Name;
-            Description = p.Description;
-            Created = p.Created;
-            Modified = p.Modified;
-            PlaceId = p.Place.Id;
-            AccountId = p.Account.Id;
-            AccountName = p.Account.Name;
+
+        }
+
+        public override void SetInstance(PlacePicture instance)
+        {
+            base.SetInstance(instance);
+            Name = instance.Name;
+            Description = instance.Description;
+            Created = instance.Created;
+            Modified = instance.Modified;
+            PlaceId = instance.Place.Id;
+            AccountId = instance.Account.Id;
+            AccountName = instance.Account.Name;
         }
 
         public override PlacePicture GetInstance(ISession session, ManagedSecurityContext sec)
@@ -231,13 +237,13 @@ namespace SnCore.Services
         public ManagedPlacePicture(ISession session, int id)
             : base(session, id)
         {
-            
+
         }
 
         public ManagedPlacePicture(ISession session, PlacePicture value)
             : base(session, value)
         {
-            
+
         }
 
         public string Name
@@ -305,6 +311,16 @@ namespace SnCore.Services
                 return true;
 
             return false;
+        }
+
+        public override TransitPlacePicture GetTransitInstance(ManagedSecurityContext sec)
+        {
+            TransitPlacePicture t_instance = base.GetTransitInstance(sec);
+            t_instance.CommentCount = ManagedDiscussion.GetDiscussionPostCount(
+                Session, mInstance.Place.Account.Id,
+                ManagedDiscussion.PlacePictureDiscussion, mInstance.Id);
+            t_instance.Counter = ManagedStats.GetCounter(Session, "PlacePicture.aspx", mInstance.Id);
+            return t_instance;
         }
 
         protected override void Save(ManagedSecurityContext sec)

@@ -177,20 +177,26 @@ namespace SnCore.Services
         }
 
         public TransitAccountStoryPicture(AccountStoryPicture p)
-            : base(p.Id, p, p.AccountStory.AccountStoryPictures)
+            : base(p, p.AccountStory.AccountStoryPictures)
         {
-            Location = p.Location;
-            AccountStoryId = p.AccountStory.Id;
-            HasPicture = p.Picture != null;
-            Name = p.Name;
-            Created = p.Created;
-            Modified = p.Modifed;
+
+        }
+
+        public override void SetInstance(AccountStoryPicture instance)
+        {
+            base.SetInstance(instance);
+            Location = instance.Location;
+            AccountStoryId = instance.AccountStory.Id;
+            HasPicture = instance.Picture != null;
+            Name = instance.Name;
+            Created = instance.Created;
+            Modified = instance.Modifed;
         }
 
         public override AccountStoryPicture GetInstance(ISession session, ManagedSecurityContext sec)
         {
             AccountStoryPicture instance = base.GetInstance(session, sec);
-            if (Id == 0) instance.AccountStory = (AccountStory) session.Load(typeof(AccountStory), AccountStoryId);
+            if (Id == 0) instance.AccountStory = (AccountStory)session.Load(typeof(AccountStory), AccountStoryId);
             instance.Location = Location;
             instance.Name = Name;
             return instance;

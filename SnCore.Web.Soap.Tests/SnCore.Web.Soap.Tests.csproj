@@ -57,6 +57,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\WebSystemService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="WebAuthService_GetAccountTest.cs" />
     <Compile Include="WebAuthService_LoginTest.cs" />
     <Compile Include="WebAuthService_SignUpTest.cs" />
@@ -71,6 +76,8 @@
     <Compile Include="WebBugService_BugTest.cs" />
     <Compile Include="WebBugService_BugTypeTest.cs" />
     <Compile Include="WebServiceTest.cs" />
+    <Compile Include="WebSystemServiceTest.cs" />
+    <Compile Include="WebSystemService_ConfigurationTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <WebReferences Include="Web References\" />
@@ -108,6 +115,17 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebBugService_WebBugService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebSystemService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WebSystemService\</RelPath>
+      <UpdateFromURL>http://dblock-black.orangebitch.com/SnCoreWeb/WebSystemService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebSystemService_WebSystemService</CachedSettingsPropName>
     </WebReferenceUrl>
   </ItemGroup>
   <ItemGroup>
@@ -171,6 +189,17 @@
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\WebAuthService\WebAuthService.disco" />
+    <None Include="Web References\WebSystemService\WebSystemService.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\WebSystemService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\WebSystemService\TransitConfiguration.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebSystemService\WebSystemService.disco" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

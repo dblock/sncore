@@ -76,7 +76,7 @@ namespace SnCore.WebServices
 
         #endregion
 
-        #region Type
+        #region Configuration
 
         /// <summary>
         /// Create or update a configuration.

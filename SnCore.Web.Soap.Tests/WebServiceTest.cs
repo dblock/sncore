@@ -104,12 +104,11 @@ namespace SnCore.Web.Soap.Tests
             }
         }
 
-        public int Create(string ticket)
+        public int Create(string ticket, TransitType t_instance)
         {
             try
             {
                 // Console.Write("Creating {0}", mOne);
-                TransitType t_instance = GetTransitInstance();
                 object[] args = { ticket, t_instance };
                 int id = (int)mEndPoint.GetType().InvokeMember(string.Format("CreateOrUpdate{0}", mOne),
                     BindingFlags.InvokeMethod, null, mEndPoint, args);
@@ -121,6 +120,11 @@ namespace SnCore.Web.Soap.Tests
             {
                 throw ex.InnerException;
             }
+        }
+
+        public int Create(string ticket)
+        {
+            return Create(ticket, GetTransitInstance());
         }
 
         public object GetInstancePropertyById(string ticket, int id, string name)

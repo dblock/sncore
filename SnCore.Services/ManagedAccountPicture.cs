@@ -35,7 +35,7 @@ namespace SnCore.Services
         public override AccountPicture GetInstance(ISession session, ManagedSecurityContext sec)
         {
             AccountPicture instance = base.GetInstance(session, sec);
-            if (this.Bitmap != null) instance.Bitmap = this.Bitmap; 
+            if (this.Bitmap != null) instance.Bitmap = this.Bitmap;
             return instance;
         }
     }
@@ -183,14 +183,20 @@ namespace SnCore.Services
         }
 
         public TransitAccountPicture(AccountPicture p, IList<AccountPicture> collection)
-            : base(p.Id, p, collection)
+            : base(p, collection)
         {
-            Name = p.Name;
-            Description = p.Description;
-            Created = p.Created;
-            Modified = p.Modified;
-            AccountId = p.Account.Id;
-            Hidden = p.Hidden;
+
+        }
+
+        public override void SetInstance(AccountPicture instance)
+        {
+            base.SetInstance(instance);
+            Name = instance.Name;
+            Description = instance.Description;
+            Created = instance.Created;
+            Modified = instance.Modified;
+            AccountId = instance.Account.Id;
+            Hidden = instance.Hidden;
         }
 
         public TransitAccountPicture(AccountPicture p)
@@ -299,6 +305,16 @@ namespace SnCore.Services
             ManagedDiscussion.FindAndDelete(Session, mInstance.Account.Id, ManagedDiscussion.AccountPictureDiscussion, mInstance.Id);
             mInstance.Account.AccountPictures.Remove(mInstance);
             Session.Delete(mInstance);
+        }
+
+        public override TransitAccountPicture GetTransitInstance(ManagedSecurityContext sec)
+        {
+            TransitAccountPicture t_instance = base.GetTransitInstance(sec);
+            t_instance.CommentCount = ManagedDiscussion.GetDiscussionPostCount(
+                Session, mInstance.Account.Id,
+                ManagedDiscussion.AccountPictureDiscussion, mInstance.Id);
+            t_instance.Counter = ManagedStats.GetCounter(Session, "AccountPicture.aspx", mInstance.Id);
+            return t_instance;
         }
 
         public Account Account

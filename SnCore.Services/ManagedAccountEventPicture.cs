@@ -176,14 +176,20 @@ namespace SnCore.Services
         }
 
         public TransitAccountEventPicture(AccountEventPicture p)
-            : base(p.Id, p, p.AccountEvent.AccountEventPictures)
+            : base(p, p.AccountEvent.AccountEventPictures)
         {
-            AccountEventId = p.AccountEvent.Id;
-            HasPicture = p.Picture != null;
-            Name = p.Name;
-            Description = p.Description;
-            Created = p.Created;
-            Modified = p.Modified;
+
+        }
+
+        public override void SetInstance(AccountEventPicture instance)
+        {
+            base.SetInstance(instance);
+            AccountEventId = instance.AccountEvent.Id;
+            HasPicture = instance.Picture != null;
+            Name = instance.Name;
+            Description = instance.Description;
+            Created = instance.Created;
+            Modified = instance.Modified;
         }
 
         public override AccountEventPicture GetInstance(ISession session, ManagedSecurityContext sec)
@@ -224,6 +230,16 @@ namespace SnCore.Services
             : base(session, value)
         {
 
+        }
+
+        public override TransitAccountEventPicture GetTransitInstance(ManagedSecurityContext sec)
+        {
+            TransitAccountEventPicture t_instance = base.GetTransitInstance(sec);
+            t_instance.CommentCount = ManagedDiscussion.GetDiscussionPostCount(
+                Session, mInstance.AccountEvent.Account.Id,
+                ManagedDiscussion.AccountEventPictureDiscussion, mInstance.Id);
+            t_instance.Counter = ManagedStats.GetCounter(Session, "AccountEventPicture.aspx", mInstance.Id);
+            return t_instance;
         }
 
         public override void Delete(ManagedSecurityContext sec)

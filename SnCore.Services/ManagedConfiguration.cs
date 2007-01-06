@@ -73,8 +73,9 @@ namespace SnCore.Services
         public override void SetInstance(Configuration instance)
         {
             Name = instance.OptionName;
-            Value = instance.OptionValue;
             Password = instance.Password;
+            Value = instance.OptionValue;
+            if (Password) Value = string.Empty;
             base.SetInstance(instance);
         }
 

@@ -302,6 +302,16 @@ namespace SnCore.Services
 
             if (!string.IsNullOrEmpty(State)) instance.State = ManagedState.Find(session, State, Country);
             if (!string.IsNullOrEmpty(Country)) instance.Country = ManagedCountry.Find(session, Country);
+
+
+            if (instance.State != null && instance.Country != null)
+            {
+                if (instance.State.Country.Id != instance.Country.Id)
+                {
+                    throw new ManagedCountry.InvalidCountryException();
+                }
+            }
+
             instance.City = City;
             instance.TimeZone = TimeZone;
             instance.Signature = Signature;
