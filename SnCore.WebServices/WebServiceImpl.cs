@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using SnCore.Services;
 using NHibernate;
+using NHibernate.Expression;
 
 namespace SnCore.WebServices
 {
@@ -52,15 +53,29 @@ namespace SnCore.WebServices
 
         public static List<TransitType> GetList(string ticket, ServiceQueryOptions options)
         {
+            return GetList(ticket, options, null, null);
+        }
+
+        public static List<TransitType> GetList(string ticket, ServiceQueryOptions options, ICriterion[] expressions, Order[] orders)
+        {
             using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
                 ICriteria criteria = session.CreateCriteria(typeof(DataType));
+                // optional criterion expressions
+                if (expressions != null)
+                    foreach (ICriterion criterion in expressions)
+                        criteria.Add(criterion);
+                // options orders
+                if (orders != null)
+                    foreach (Order order in orders)
+                        criteria.AddOrder(order);
+                // query options
                 if (options != null)
                 {
-                    criteria.SetMaxResults(options.PageSize);
-                    criteria.SetFirstResult(options.FirstResult);
+                    if (options.PageSize > 0) criteria.SetMaxResults(options.PageSize);
+                    if (options.FirstResult > 0) criteria.SetFirstResult(options.FirstResult);
                 }
                 IList<DataType> list = criteria.List<DataType>();
                 List<TransitType> result = new List<TransitType>(list.Count);
@@ -73,5 +88,23 @@ namespace SnCore.WebServices
                 return result;
             }
         }
+
+        public static int GetCount(string ticket)
+        {
+            return GetCount(ticket, string.Empty);
+        }
+
+        public static int GetCount(string ticket, string expression)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
+            {
+                // TODO: check permissions
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                string query = string.Format("SELECT COUNT(*) FROM {0} {0} {1}", 
+                    typeof(DataType).Name, expression);
+                return (int)session.CreateQuery(query).UniqueResult();
+            }
+        }
+
     }
 }

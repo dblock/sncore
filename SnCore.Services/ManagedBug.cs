@@ -416,7 +416,7 @@ namespace SnCore.Services
 
         }
 
-        public void Resolve(string resolution)
+        public void Resolve(string resolution, ManagedSecurityContext sec)
         {
             switch (mInstance.Status.Name)
             {
@@ -427,11 +427,10 @@ namespace SnCore.Services
 
             mInstance.Status = ManagedBugStatus.Find(Session, "Resolved");
             mInstance.Resolution = ManagedBugResolution.Find(Session, resolution);
-            mInstance.Updated = DateTime.UtcNow;
-            Session.Save(mInstance);
+            Save(sec);
         }
 
-        public void Close()
+        public void Close(ManagedSecurityContext sec)
         {
             switch (mInstance.Status.Name)
             {
@@ -442,8 +441,7 @@ namespace SnCore.Services
             }
 
             mInstance.Status = ManagedBugStatus.Find(Session, "Closed");
-            mInstance.Updated = DateTime.UtcNow;
-            Session.Save(mInstance);
+            Save(sec);
 
             // notify that the bug has been closed, account may not exist any more
 
@@ -461,7 +459,7 @@ namespace SnCore.Services
             }
         }
 
-        public void Reopen()
+        public void Reopen(ManagedSecurityContext sec)
         {
             switch (mInstance.Status.Name)
             {
@@ -473,8 +471,7 @@ namespace SnCore.Services
             }
 
             mInstance.Status = ManagedBugStatus.Find(Session, "Reopened");
-            mInstance.Updated = DateTime.UtcNow;
-            Session.Save(mInstance);
+            Save(sec);
         }
 
         public override void Delete(ManagedSecurityContext sec)
@@ -504,7 +501,8 @@ namespace SnCore.Services
         public override ACL GetACL()
         {
             ACL acl = base.GetACL();
-            acl.Add(new ACLEveryoneAllowCreateAndRetrieve());
+            acl.Add(new ACLEveryoneAllowRetrieve());
+            acl.Add(new ACLAuthenticatedAllowCreate());
             return acl;
         }
     }

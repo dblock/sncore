@@ -74,23 +74,9 @@ namespace SnCore.Services
         }
     }
 
-    public class ACLEveryoneAllowCreate : ACLBaseEntry
+    public class ACLAuthenticatedAllowCreateAndDelete : ACLBaseEntry
     {
-        public ACLEveryoneAllowCreate()
-            : base(DataOperation.Create, DataOperationPermission.Allow)
-        {
-
-        }
-
-        public override ACLVerdict Apply(ManagedSecurityContext sec, DataOperation op)
-        {
-            return (op == DataOperation.Create) ? ACLVerdict.Allowed : ACLVerdict.None;
-        }
-    }
-
-    public class ACLEveryoneAllowCreateAndDelete : ACLBaseEntry
-    {
-        public ACLEveryoneAllowCreateAndDelete()
+        public ACLAuthenticatedAllowCreateAndDelete()
             : base(DataOperation.Create | DataOperation.Delete, DataOperationPermission.Allow)
         {
 
@@ -102,17 +88,22 @@ namespace SnCore.Services
         }
     }
 
-    public class ACLEveryoneAllowCreateAndRetrieve : ACLBaseEntry
+    public class ACLAuthenticatedAllowCreate : ACLBaseEntry
     {
-        public ACLEveryoneAllowCreateAndRetrieve()
-            : base(DataOperation.Retreive | DataOperation.Create, DataOperationPermission.Allow)
+        public ACLAuthenticatedAllowCreate()
+            : base(DataOperation.Create, DataOperationPermission.Allow)
         {
 
         }
 
         public override ACLVerdict Apply(ManagedSecurityContext sec, DataOperation op)
         {
-            return (op == DataOperation.Retreive || op == DataOperation.Create) ? ACLVerdict.Allowed : ACLVerdict.None;
+            if (op == DataOperation.Create && sec.Account != null)
+            {
+                return ACLVerdict.Allowed;
+            }
+
+            return ACLVerdict.None;
         }
     }
 

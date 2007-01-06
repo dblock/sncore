@@ -772,6 +772,7 @@ namespace SnCore.Services
 
         public static string GetPasswordHash(string password)
         {
+            if (password == null) password = string.Empty;
             return Encoding.Default.GetString(
              new MD5CryptoServiceProvider().ComputeHash(Encoding.Default.GetBytes(password)));
         }
@@ -1019,17 +1020,22 @@ namespace SnCore.Services
             return false;
         }
 
-        public static ManagedAccount Login(ISession session, string emailaddress, string password)
+        public static ManagedAccount Login(ISession session, string email, string password)
         {
-            return LoginMd5(session, emailaddress, GetPasswordHash(password));
+            return LoginMd5(session, email, GetPasswordHash(password));
         }
 
-        public static ManagedAccount LoginMd5(ISession session, string emailaddress, string passwordhash)
+        public static ManagedAccount LoginMd5(ISession session, string email, string passwordhash)
         {
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(passwordhash))
+            {
+                throw new ManagedAccount.AccessDeniedException();
+            }
+
             // find a verified e-mail associated with an account with the same password
             AccountEmail e = (AccountEmail)session.CreateCriteria(typeof(AccountEmail))
                     .Add(Expression.Eq("Verified", true))
-                    .Add(Expression.Eq("Address", emailaddress.Trim().ToLower()))
+                    .Add(Expression.Eq("Address", email.Trim().ToLower()))
                     .UniqueResult();
 
             if (e == null)
@@ -1045,7 +1051,7 @@ namespace SnCore.Services
                 {
                     e = (AccountEmail)session.CreateCriteria(typeof(AccountEmail))
                         .Add(Expression.Eq("Verified", false))
-                        .Add(Expression.Eq("Address", emailaddress.Trim().ToLower()))
+                        .Add(Expression.Eq("Address", email.Trim().ToLower()))
                         .UniqueResult();
                 }
                 catch (NonUniqueResultException)

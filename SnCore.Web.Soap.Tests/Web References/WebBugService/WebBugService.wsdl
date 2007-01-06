@@ -1,0 +1,2046 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.vestris.com/sncore/ns/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.vestris.com/sncore/ns/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.vestris.com/sncore/ns/">
+      <s:element name="CreateOrUpdateBugPriority">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="priority" type="tns:TransitBugPriority" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitBugPriority">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfBugPriority">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfBugPriority" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrUpdateBugPriorityResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateBugPriorityResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugPriorityById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugPriorityByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetBugPriorityByIdResult" type="tns:TransitBugPriority" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugPriorities">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ServiceQueryOptions">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="PageSize" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="PageNumber" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetBugPrioritiesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetBugPrioritiesResult" type="tns:ArrayOfTransitBugPriority" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitBugPriority">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitBugPriority" nillable="true" type="tns:TransitBugPriority" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetBugPrioritiesCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugPrioritiesCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetBugPrioritiesCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteBugPriority">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteBugPriorityResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="CreateOrUpdateBugSeverity">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="severity" type="tns:TransitBugSeverity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitBugSeverity">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfBugSeverity">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfBugSeverity" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrUpdateBugSeverityResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateBugSeverityResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugSeverityById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugSeverityByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetBugSeverityByIdResult" type="tns:TransitBugSeverity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugSeverities">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugSeveritiesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetBugSeveritiesResult" type="tns:ArrayOfTransitBugSeverity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitBugSeverity">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitBugSeverity" nillable="true" type="tns:TransitBugSeverity" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetBugSeveritiesCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugSeveritiesCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetBugSeveritiesCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteBugSeverity">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteBugSeverityResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="CreateOrUpdateBugResolution">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="resolution" type="tns:TransitBugResolution" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitBugResolution">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfBugResolution">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfBugResolution" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrUpdateBugResolutionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateBugResolutionResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugResolutionById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugResolutionByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetBugResolutionByIdResult" type="tns:TransitBugResolution" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugResolutions">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugResolutionsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetBugResolutionsResult" type="tns:ArrayOfTransitBugResolution" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitBugResolution">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitBugResolution" nillable="true" type="tns:TransitBugResolution" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetBugResolutionsCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugResolutionsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetBugResolutionsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteBugResolution">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteBugResolutionResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="CreateOrUpdateBugStatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="status" type="tns:TransitBugStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitBugStatus">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfBugStatu">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfBugStatu" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrUpdateBugStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateBugStatusResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugStatusById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugStatusByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetBugStatusByIdResult" type="tns:TransitBugStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugStatuses">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugStatusesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetBugStatusesResult" type="tns:ArrayOfTransitBugStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitBugStatus">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitBugStatus" nillable="true" type="tns:TransitBugStatus" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetBugStatusesCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugStatusesCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetBugStatusesCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteBugStatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteBugStatusResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="CreateOrUpdateBugType">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="type" type="tns:TransitBugType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitBugType">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfBugType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfBugType" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrUpdateBugTypeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateBugTypeResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugTypeById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugTypeByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetBugTypeByIdResult" type="tns:TransitBugType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugTypesCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugTypesCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetBugTypesCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugTypes">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugTypesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetBugTypesResult" type="tns:ArrayOfTransitBugType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitBugType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitBugType" nillable="true" type="tns:TransitBugType" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="DeleteBugType">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteBugTypeResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="CreateOrUpdateBugProject">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="project" type="tns:TransitBugProject" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitBugProject">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfBugProject">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfBugProject" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrUpdateBugProjectResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateBugProjectResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugProjectById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugProjectByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetBugProjectByIdResult" type="tns:TransitBugProject" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugProjects">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugProjectsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetBugProjectsResult" type="tns:ArrayOfTransitBugProject" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitBugProject">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitBugProject" nillable="true" type="tns:TransitBugProject" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetBugProjectsCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugProjectsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetBugProjectsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteBugProject">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteBugProjectResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="CreateOrUpdateBug">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="bug" type="tns:TransitBug" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitBug">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfBug">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Subject" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Details" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Updated" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="Status" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Type" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Priority" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Severity" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Resolution" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="ProjectId" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfBug" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrUpdateBugResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateBugResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetBugByIdResult" type="tns:TransitBug" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugsCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="project_id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetBugsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugs">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="project_id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetBugsResult" type="tns:ArrayOfTransitBug" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitBug">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitBug" nillable="true" type="tns:TransitBug" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="DeleteBug">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteBugResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="ResolveBug">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="bugid" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="resolution" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="note" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ResolveBugResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="CloseBug">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="bugid" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CloseBugResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="ReopenBug">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="bugid" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReopenBugResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetBugNotes">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="bug_id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugNotesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetBugNotesResult" type="tns:ArrayOfTransitBugNote" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitBugNote">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitBugNote" nillable="true" type="tns:TransitBugNote" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitBugNote">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfBugNote">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Details" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountName" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="BugId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfBugNote" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetBugNotesCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="bug_id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugNotesCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetBugNotesCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteBugNote">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteBugNoteResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="CreateOrUpdateBugNote">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="bugnote" type="tns:TransitBugNote" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateOrUpdateBugNoteResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateBugNoteResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugNoteById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugNoteByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetBugNoteByIdResult" type="tns:TransitBugNote" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="CreateOrUpdateBugPrioritySoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateBugPriority" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateBugPrioritySoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateBugPriorityResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBugPriorityByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBugPriorityById" />
+  </wsdl:message>
+  <wsdl:message name="GetBugPriorityByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBugPriorityByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBugPrioritiesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBugPriorities" />
+  </wsdl:message>
+  <wsdl:message name="GetBugPrioritiesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBugPrioritiesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBugPrioritiesCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBugPrioritiesCount" />
+  </wsdl:message>
+  <wsdl:message name="GetBugPrioritiesCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBugPrioritiesCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteBugPrioritySoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteBugPriority" />
+  </wsdl:message>
+  <wsdl:message name="DeleteBugPrioritySoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteBugPriorityResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateBugSeveritySoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateBugSeverity" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateBugSeveritySoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateBugSeverityResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBugSeverityByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBugSeverityById" />
+  </wsdl:message>
+  <wsdl:message name="GetBugSeverityByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBugSeverityByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBugSeveritiesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBugSeverities" />
+  </wsdl:message>
+  <wsdl:message name="GetBugSeveritiesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBugSeveritiesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBugSeveritiesCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBugSeveritiesCount" />
+  </wsdl:message>
+  <wsdl:message name="GetBugSeveritiesCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBugSeveritiesCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteBugSeveritySoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteBugSeverity" />
+  </wsdl:message>
+  <wsdl:message name="DeleteBugSeveritySoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteBugSeverityResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateBugResolutionSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateBugResolution" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateBugResolutionSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateBugResolutionResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBugResolutionByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBugResolutionById" />
+  </wsdl:message>
+  <wsdl:message name="GetBugResolutionByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBugResolutionByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBugResolutionsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBugResolutions" />
+  </wsdl:message>
+  <wsdl:message name="GetBugResolutionsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBugResolutionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBugResolutionsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBugResolutionsCount" />
+  </wsdl:message>
+  <wsdl:message name="GetBugResolutionsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBugResolutionsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteBugResolutionSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteBugResolution" />
+  </wsdl:message>
+  <wsdl:message name="DeleteBugResolutionSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteBugResolutionResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateBugStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateBugStatus" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateBugStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateBugStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBugStatusByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBugStatusById" />
+  </wsdl:message>
+  <wsdl:message name="GetBugStatusByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBugStatusByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBugStatusesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBugStatuses" />
+  </wsdl:message>
+  <wsdl:message name="GetBugStatusesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBugStatusesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBugStatusesCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBugStatusesCount" />
+  </wsdl:message>
+  <wsdl:message name="GetBugStatusesCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBugStatusesCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteBugStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteBugStatus" />
+  </wsdl:message>
+  <wsdl:message name="DeleteBugStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteBugStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateBugTypeSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateBugType" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateBugTypeSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateBugTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBugTypeByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBugTypeById" />
+  </wsdl:message>
+  <wsdl:message name="GetBugTypeByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBugTypeByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBugTypesCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBugTypesCount" />
+  </wsdl:message>
+  <wsdl:message name="GetBugTypesCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBugTypesCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBugTypesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBugTypes" />
+  </wsdl:message>
+  <wsdl:message name="GetBugTypesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBugTypesResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteBugTypeSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteBugType" />
+  </wsdl:message>
+  <wsdl:message name="DeleteBugTypeSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteBugTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateBugProjectSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateBugProject" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateBugProjectSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateBugProjectResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBugProjectByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBugProjectById" />
+  </wsdl:message>
+  <wsdl:message name="GetBugProjectByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBugProjectByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBugProjectsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBugProjects" />
+  </wsdl:message>
+  <wsdl:message name="GetBugProjectsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBugProjectsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBugProjectsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBugProjectsCount" />
+  </wsdl:message>
+  <wsdl:message name="GetBugProjectsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBugProjectsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteBugProjectSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteBugProject" />
+  </wsdl:message>
+  <wsdl:message name="DeleteBugProjectSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteBugProjectResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateBugSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateBug" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateBugSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateBugResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBugByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBugById" />
+  </wsdl:message>
+  <wsdl:message name="GetBugByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBugByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBugsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBugsCount" />
+  </wsdl:message>
+  <wsdl:message name="GetBugsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBugsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBugsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBugs" />
+  </wsdl:message>
+  <wsdl:message name="GetBugsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBugsResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteBugSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteBug" />
+  </wsdl:message>
+  <wsdl:message name="DeleteBugSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteBugResponse" />
+  </wsdl:message>
+  <wsdl:message name="ResolveBugSoapIn">
+    <wsdl:part name="parameters" element="tns:ResolveBug" />
+  </wsdl:message>
+  <wsdl:message name="ResolveBugSoapOut">
+    <wsdl:part name="parameters" element="tns:ResolveBugResponse" />
+  </wsdl:message>
+  <wsdl:message name="CloseBugSoapIn">
+    <wsdl:part name="parameters" element="tns:CloseBug" />
+  </wsdl:message>
+  <wsdl:message name="CloseBugSoapOut">
+    <wsdl:part name="parameters" element="tns:CloseBugResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReopenBugSoapIn">
+    <wsdl:part name="parameters" element="tns:ReopenBug" />
+  </wsdl:message>
+  <wsdl:message name="ReopenBugSoapOut">
+    <wsdl:part name="parameters" element="tns:ReopenBugResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBugNotesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBugNotes" />
+  </wsdl:message>
+  <wsdl:message name="GetBugNotesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBugNotesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBugNotesCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBugNotesCount" />
+  </wsdl:message>
+  <wsdl:message name="GetBugNotesCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBugNotesCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteBugNoteSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteBugNote" />
+  </wsdl:message>
+  <wsdl:message name="DeleteBugNoteSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteBugNoteResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateBugNoteSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateBugNote" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateBugNoteSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateBugNoteResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBugNoteByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBugNoteById" />
+  </wsdl:message>
+  <wsdl:message name="GetBugNoteByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBugNoteByIdResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WebBugServiceSoap">
+    <wsdl:operation name="CreateOrUpdateBugPriority">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a bug priority.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateBugPrioritySoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateBugPrioritySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBugPriorityById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a bug priority.</wsdl:documentation>
+      <wsdl:input message="tns:GetBugPriorityByIdSoapIn" />
+      <wsdl:output message="tns:GetBugPriorityByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBugPriorities">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all bug priorities.</wsdl:documentation>
+      <wsdl:input message="tns:GetBugPrioritiesSoapIn" />
+      <wsdl:output message="tns:GetBugPrioritiesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBugPrioritiesCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all bug priorities count.</wsdl:documentation>
+      <wsdl:input message="tns:GetBugPrioritiesCountSoapIn" />
+      <wsdl:output message="tns:GetBugPrioritiesCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBugPriority">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a bug priority.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteBugPrioritySoapIn" />
+      <wsdl:output message="tns:DeleteBugPrioritySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateBugSeverity">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a bug severity.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateBugSeveritySoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateBugSeveritySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBugSeverityById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a bug severity.</wsdl:documentation>
+      <wsdl:input message="tns:GetBugSeverityByIdSoapIn" />
+      <wsdl:output message="tns:GetBugSeverityByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBugSeverities">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all bug severities.</wsdl:documentation>
+      <wsdl:input message="tns:GetBugSeveritiesSoapIn" />
+      <wsdl:output message="tns:GetBugSeveritiesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBugSeveritiesCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all bug severities count.</wsdl:documentation>
+      <wsdl:input message="tns:GetBugSeveritiesCountSoapIn" />
+      <wsdl:output message="tns:GetBugSeveritiesCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBugSeverity">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a bug severity.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteBugSeveritySoapIn" />
+      <wsdl:output message="tns:DeleteBugSeveritySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateBugResolution">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a bug resolution.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateBugResolutionSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateBugResolutionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBugResolutionById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a bug resolution.</wsdl:documentation>
+      <wsdl:input message="tns:GetBugResolutionByIdSoapIn" />
+      <wsdl:output message="tns:GetBugResolutionByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBugResolutions">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all bug resolutions.</wsdl:documentation>
+      <wsdl:input message="tns:GetBugResolutionsSoapIn" />
+      <wsdl:output message="tns:GetBugResolutionsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBugResolutionsCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all bug resolutions count.</wsdl:documentation>
+      <wsdl:input message="tns:GetBugResolutionsCountSoapIn" />
+      <wsdl:output message="tns:GetBugResolutionsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBugResolution">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a bug resolution.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteBugResolutionSoapIn" />
+      <wsdl:output message="tns:DeleteBugResolutionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateBugStatus">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a bug status.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateBugStatusSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateBugStatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBugStatusById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a bug status.</wsdl:documentation>
+      <wsdl:input message="tns:GetBugStatusByIdSoapIn" />
+      <wsdl:output message="tns:GetBugStatusByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBugStatuses">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all bug statuses.</wsdl:documentation>
+      <wsdl:input message="tns:GetBugStatusesSoapIn" />
+      <wsdl:output message="tns:GetBugStatusesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBugStatusesCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all bug statuses count.</wsdl:documentation>
+      <wsdl:input message="tns:GetBugStatusesCountSoapIn" />
+      <wsdl:output message="tns:GetBugStatusesCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBugStatus">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a bug status.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteBugStatusSoapIn" />
+      <wsdl:output message="tns:DeleteBugStatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateBugType">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a bug type.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateBugTypeSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateBugTypeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBugTypeById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a bug type.</wsdl:documentation>
+      <wsdl:input message="tns:GetBugTypeByIdSoapIn" />
+      <wsdl:output message="tns:GetBugTypeByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBugTypesCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all bug types count.</wsdl:documentation>
+      <wsdl:input message="tns:GetBugTypesCountSoapIn" />
+      <wsdl:output message="tns:GetBugTypesCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBugTypes">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all bug types.</wsdl:documentation>
+      <wsdl:input message="tns:GetBugTypesSoapIn" />
+      <wsdl:output message="tns:GetBugTypesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBugType">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a bug type.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteBugTypeSoapIn" />
+      <wsdl:output message="tns:DeleteBugTypeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateBugProject">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a bug project.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateBugProjectSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateBugProjectSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBugProjectById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a bug project.</wsdl:documentation>
+      <wsdl:input message="tns:GetBugProjectByIdSoapIn" />
+      <wsdl:output message="tns:GetBugProjectByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBugProjects">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all bug projects.</wsdl:documentation>
+      <wsdl:input message="tns:GetBugProjectsSoapIn" />
+      <wsdl:output message="tns:GetBugProjectsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBugProjectsCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all bug projects count.</wsdl:documentation>
+      <wsdl:input message="tns:GetBugProjectsCountSoapIn" />
+      <wsdl:output message="tns:GetBugProjectsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBugProject">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a bug project.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteBugProjectSoapIn" />
+      <wsdl:output message="tns:DeleteBugProjectSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateBug">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a bug.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateBugSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateBugSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBugById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a bug.</wsdl:documentation>
+      <wsdl:input message="tns:GetBugByIdSoapIn" />
+      <wsdl:output message="tns:GetBugByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBugsCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all bugs statuses count.</wsdl:documentation>
+      <wsdl:input message="tns:GetBugsCountSoapIn" />
+      <wsdl:output message="tns:GetBugsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBugs">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all bugs.</wsdl:documentation>
+      <wsdl:input message="tns:GetBugsSoapIn" />
+      <wsdl:output message="tns:GetBugsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBug">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a bug.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteBugSoapIn" />
+      <wsdl:output message="tns:DeleteBugSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ResolveBug">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Resolve a bug.</wsdl:documentation>
+      <wsdl:input message="tns:ResolveBugSoapIn" />
+      <wsdl:output message="tns:ResolveBugSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CloseBug">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Close a bug.</wsdl:documentation>
+      <wsdl:input message="tns:CloseBugSoapIn" />
+      <wsdl:output message="tns:CloseBugSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReopenBug">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Reopen a bug.</wsdl:documentation>
+      <wsdl:input message="tns:ReopenBugSoapIn" />
+      <wsdl:output message="tns:ReopenBugSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBugNotes">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all bug notes.</wsdl:documentation>
+      <wsdl:input message="tns:GetBugNotesSoapIn" />
+      <wsdl:output message="tns:GetBugNotesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBugNotesCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all bug notes count.</wsdl:documentation>
+      <wsdl:input message="tns:GetBugNotesCountSoapIn" />
+      <wsdl:output message="tns:GetBugNotesCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBugNote">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a bug note.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteBugNoteSoapIn" />
+      <wsdl:output message="tns:DeleteBugNoteSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateBugNote">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a bug note.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateBugNoteSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateBugNoteSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBugNoteById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a bug note.</wsdl:documentation>
+      <wsdl:input message="tns:GetBugNoteByIdSoapIn" />
+      <wsdl:output message="tns:GetBugNoteByIdSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WebBugServiceSoap" type="tns:WebBugServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CreateOrUpdateBugPriority">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateBugPriority" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugPriorityById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetBugPriorityById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugPriorities">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetBugPriorities" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugPrioritiesCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetBugPrioritiesCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBugPriority">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteBugPriority" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateBugSeverity">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateBugSeverity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugSeverityById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetBugSeverityById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugSeverities">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetBugSeverities" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugSeveritiesCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetBugSeveritiesCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBugSeverity">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteBugSeverity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateBugResolution">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateBugResolution" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugResolutionById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetBugResolutionById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugResolutions">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetBugResolutions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugResolutionsCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetBugResolutionsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBugResolution">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteBugResolution" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateBugStatus">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateBugStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugStatusById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetBugStatusById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugStatuses">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetBugStatuses" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugStatusesCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetBugStatusesCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBugStatus">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteBugStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateBugType">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateBugType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugTypeById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetBugTypeById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugTypesCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetBugTypesCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugTypes">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetBugTypes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBugType">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteBugType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateBugProject">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateBugProject" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugProjectById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetBugProjectById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugProjects">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetBugProjects" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugProjectsCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetBugProjectsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBugProject">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteBugProject" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateBug">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateBug" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetBugById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugsCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetBugsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugs">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetBugs" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBug">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteBug" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ResolveBug">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/ResolveBug" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CloseBug">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CloseBug" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReopenBug">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/ReopenBug" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugNotes">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetBugNotes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugNotesCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetBugNotesCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBugNote">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteBugNote" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateBugNote">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateBugNote" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugNoteById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetBugNoteById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WebBugServiceSoap12" type="tns:WebBugServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CreateOrUpdateBugPriority">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateBugPriority" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugPriorityById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetBugPriorityById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugPriorities">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetBugPriorities" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugPrioritiesCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetBugPrioritiesCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBugPriority">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteBugPriority" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateBugSeverity">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateBugSeverity" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugSeverityById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetBugSeverityById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugSeverities">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetBugSeverities" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugSeveritiesCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetBugSeveritiesCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBugSeverity">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteBugSeverity" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateBugResolution">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateBugResolution" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugResolutionById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetBugResolutionById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugResolutions">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetBugResolutions" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugResolutionsCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetBugResolutionsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBugResolution">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteBugResolution" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateBugStatus">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateBugStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugStatusById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetBugStatusById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugStatuses">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetBugStatuses" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugStatusesCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetBugStatusesCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBugStatus">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteBugStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateBugType">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateBugType" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugTypeById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetBugTypeById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugTypesCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetBugTypesCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugTypes">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetBugTypes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBugType">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteBugType" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateBugProject">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateBugProject" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugProjectById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetBugProjectById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugProjects">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetBugProjects" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugProjectsCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetBugProjectsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBugProject">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteBugProject" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateBug">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateBug" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetBugById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugsCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetBugsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugs">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetBugs" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBug">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteBug" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ResolveBug">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/ResolveBug" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CloseBug">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CloseBug" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReopenBug">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/ReopenBug" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugNotes">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetBugNotes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugNotesCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetBugNotesCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBugNote">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteBugNote" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateBugNote">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateBugNote" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugNoteById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetBugNoteById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WebBugService">
+    <wsdl:port name="WebBugServiceSoap" binding="tns:WebBugServiceSoap">
+      <soap:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebBugService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WebBugServiceSoap12" binding="tns:WebBugServiceSoap12">
+      <soap12:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebBugService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
