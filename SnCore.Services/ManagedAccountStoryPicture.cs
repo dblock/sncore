@@ -10,48 +10,32 @@ using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
-    public class TransitAccountStoryPictureWithPicture : TransitAccountStoryPicture
-    {
-        public byte[] Picture;
-
-        public TransitAccountStoryPictureWithPicture()
-        {
-
-        }
-
-        public TransitAccountStoryPictureWithPicture(AccountStoryPicture p)
-            : base(p)
-        {
-            Picture = p.Picture;
-            HasPicture = true;
-        }
-
-        public override AccountStoryPicture GetInstance(ISession session, ManagedSecurityContext sec)
-        {
-            AccountStoryPicture instance = base.GetInstance(session, sec);
-            instance.Picture = Picture;
-            return instance;
-        }
-    }
-
-    public class TransitAccountStoryPictureWithThumbnail : TransitAccountStoryPicture
-    {
-        public byte[] Thumbnail;
-
-        public TransitAccountStoryPictureWithThumbnail()
-        {
-
-        }
-
-        public TransitAccountStoryPictureWithThumbnail(AccountStoryPicture p)
-            : base(p)
-        {
-            Thumbnail = new ThumbnailBitmap(p.Picture).Thumbnail;
-        }
-    }
-
     public class TransitAccountStoryPicture : TransitArrayElementService<AccountStoryPicture>
     {
+        private byte[] mPicture;
+
+        public byte[] Picture
+        {
+            get
+            {
+                return mPicture;
+            }
+            set
+            {
+                mPicture = value;
+            }
+        }
+
+        private byte[] mThumbnail;
+
+        public byte[] Thumbnail
+        {
+            get
+            {
+                return mThumbnail;
+            }
+        }
+
         private int mCommentCount;
 
         public int CommentCount
@@ -93,21 +77,6 @@ namespace SnCore.Services
             set
             {
                 mAccountStoryId = value;
-            }
-        }
-
-        private bool mHasPicture = false;
-
-        public bool HasPicture
-        {
-            get
-            {
-
-                return mHasPicture;
-            }
-            set
-            {
-                mHasPicture = value;
             }
         }
 
@@ -187,18 +156,20 @@ namespace SnCore.Services
             base.SetInstance(instance);
             Location = instance.Location;
             AccountStoryId = instance.AccountStory.Id;
-            HasPicture = instance.Picture != null;
             Name = instance.Name;
             Created = instance.Created;
             Modified = instance.Modifed;
+            Picture = instance.Picture;
+            if (instance.Picture != null) mThumbnail = new ThumbnailBitmap(instance.Picture).Thumbnail;
         }
 
         public override AccountStoryPicture GetInstance(ISession session, ManagedSecurityContext sec)
         {
             AccountStoryPicture instance = base.GetInstance(session, sec);
             if (Id == 0) instance.AccountStory = (AccountStory)session.Load(typeof(AccountStory), AccountStoryId);
-            instance.Location = Location;
+            if (Id == 0) instance.Location = Location;
             instance.Name = Name;
+            if (Picture != null) instance.Picture = Picture;
             return instance;
         }
     }
@@ -260,8 +231,10 @@ namespace SnCore.Services
             }
         }
 
-        public void Move(int Disp)
+        public void Move(ManagedSecurityContext sec, int Disp)
         {
+            GetACL().Check(sec, DataOperation.Update);
+
             int newLocation = mInstance.Location + Disp;
 
             if (newLocation < 1 || newLocation > mInstance.AccountStory.AccountStoryPictures.Count)
@@ -299,6 +272,7 @@ namespace SnCore.Services
         {
             mInstance.Modifed = DateTime.UtcNow;
             if (mInstance.Id == 0) mInstance.Created = mInstance.Modifed;
+            if (mInstance.Id == 0) mInstance.Location = Collection<AccountStoryPicture>.GetSafeCollection(mInstance.AccountStory.AccountStoryPictures).Count + 1;
             base.Save(sec);
         }
 

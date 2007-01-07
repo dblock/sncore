@@ -32,5 +32,8 @@
     <Setting Name="SnCore_Web_Soap_Tests_WebMadLibService_WebMadLibService" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://dblock-black.orangebitch.com/SnCoreWeb/WebMadLibService.asmx</Value>
     </Setting>
+    <Setting Name="SnCore_Web_Soap_Tests_WebStoryService_WebStoryService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://dblock-black.orangebitch.com/SnCoreWeb/WebStoryService.asmx</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

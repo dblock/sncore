@@ -82,6 +82,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\WebStoryService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\WebSystemService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -123,6 +128,9 @@
     <Compile Include="WebStatsService_RefererQueryTest.cs" />
     <Compile Include="WebStatsService_StatsTest.cs" />
     <Compile Include="WebStatsService_TrackTest.cs" />
+    <Compile Include="WebStoryServiceTest.cs" />
+    <Compile Include="WebStoryService_AccountStoryPictureTest.cs" />
+    <Compile Include="WebStoryService_AccountStoryTest.cs" />
     <Compile Include="WebSystemServiceTest.cs" />
     <Compile Include="WebSystemService_ConfigurationTest.cs" />
   </ItemGroup>
@@ -217,6 +225,17 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebStatsService_WebStatsService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebStoryService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WebStoryService\</RelPath>
+      <UpdateFromURL>http://dblock-black.orangebitch.com/SnCoreWeb/WebStoryService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebStoryService_WebStoryService</CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebSystemService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
@@ -387,6 +406,26 @@
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\WebMadLibService\WebMadLibService.disco" />
+    <None Include="Web References\WebStoryService\WebStoryService.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\WebStoryService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\WebStoryService\TransitAccountStory.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebStoryService\TransitAccountStoryPicture.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebStoryService\WebStoryService.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SnCore.Tools\SnCore.Tools.csproj">
+      <Project>{53F80219-6028-406B-819A-E79AE4D56995}</Project>
+      <Name>SnCore.Tools</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,0 +1,817 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.vestris.com/sncore/ns/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.vestris.com/sncore/ns/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.vestris.com/sncore/ns/">
+      <s:element name="GetAccountStories">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="queryoptions" type="tns:AccountStoryQueryOptions" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="AccountStoryQueryOptions">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="PublishedOnly" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ServiceQueryOptions">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="PageSize" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="PageNumber" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountStoriesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountStoriesResult" type="tns:ArrayOfTransitAccountStory" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitAccountStory">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountStory" nillable="true" type="tns:TransitAccountStory" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitAccountStory">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfAccountStory">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Summary" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountName" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountStoryPictureId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountPictureId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="CommentCount" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="Publish" type="s:boolean" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfAccountStory" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountStoriesCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="queryoptions" type="tns:AccountStoryQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountStoriesCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAccountStoriesCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllAccountStoriesCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllAccountStoriesCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAllAccountStoriesCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllAccountStories">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllAccountStoriesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllAccountStoriesResult" type="tns:ArrayOfTransitAccountStory" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountStoryById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountStoryByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountStoryByIdResult" type="tns:TransitAccountStory" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateOrUpdateAccountStory">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="story" type="tns:TransitAccountStory" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateOrUpdateAccountStoryResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateAccountStoryResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountStory">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountStoryResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="SearchAccountStories">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="s" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchAccountStoriesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SearchAccountStoriesResult" type="tns:ArrayOfTransitAccountStory" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchAccountStoriesCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="s" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchAccountStoriesCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SearchAccountStoriesCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountStoryPictureById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountStoryPictureByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountStoryPictureByIdResult" type="tns:TransitAccountStoryPicture" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitAccountStoryPicture">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitArrayElementServiceOfAccountStoryPicture">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Picture" type="s:base64Binary" />
+              <s:element minOccurs="1" maxOccurs="1" name="CommentCount" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="Location" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountStoryId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="Counter" type="tns:TransitCounter" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitArrayElementServiceOfAccountStoryPicture">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfAccountStoryPicture">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="NextIndex" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="PrevIndex" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="Index" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="NextId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="PrevId" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfAccountStoryPicture" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitCounter">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfCounter">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Total" type="s:long" />
+              <s:element minOccurs="0" maxOccurs="1" name="Uri" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfCounter" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="DeleteAccountStoryPicture">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountStoryPictureResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="MoveAccountStoryPicture">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="disp" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MoveAccountStoryPictureResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetAccountStoryPicturesCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountStoryPicturesCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAccountStoryPicturesCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountStoryPictures">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountStoryPicturesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountStoryPicturesResult" type="tns:ArrayOfTransitAccountStoryPicture" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitAccountStoryPicture">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountStoryPicture" nillable="true" type="tns:TransitAccountStoryPicture" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountStoryPictureIfModifiedSinceById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="ifModifiedSince" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountStoryPictureIfModifiedSinceByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountStoryPictureIfModifiedSinceByIdResult" type="tns:TransitAccountStoryPicture" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateOrUpdateAccountStoryPicture">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="picture" type="tns:TransitAccountStoryPicture" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateOrUpdateAccountStoryPictureResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateAccountStoryPictureResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetAccountStoriesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountStories" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountStoriesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountStoriesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountStoriesCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountStoriesCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountStoriesCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountStoriesCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAllAccountStoriesCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllAccountStoriesCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAllAccountStoriesCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllAccountStoriesCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAllAccountStoriesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllAccountStories" />
+  </wsdl:message>
+  <wsdl:message name="GetAllAccountStoriesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllAccountStoriesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountStoryByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountStoryById" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountStoryByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountStoryByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAccountStorySoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountStory" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAccountStorySoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountStoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountStorySoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteAccountStory" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountStorySoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteAccountStoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="SearchAccountStoriesSoapIn">
+    <wsdl:part name="parameters" element="tns:SearchAccountStories" />
+  </wsdl:message>
+  <wsdl:message name="SearchAccountStoriesSoapOut">
+    <wsdl:part name="parameters" element="tns:SearchAccountStoriesResponse" />
+  </wsdl:message>
+  <wsdl:message name="SearchAccountStoriesCountSoapIn">
+    <wsdl:part name="parameters" element="tns:SearchAccountStoriesCount" />
+  </wsdl:message>
+  <wsdl:message name="SearchAccountStoriesCountSoapOut">
+    <wsdl:part name="parameters" element="tns:SearchAccountStoriesCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountStoryPictureByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountStoryPictureById" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountStoryPictureByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountStoryPictureByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountStoryPictureSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteAccountStoryPicture" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountStoryPictureSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteAccountStoryPictureResponse" />
+  </wsdl:message>
+  <wsdl:message name="MoveAccountStoryPictureSoapIn">
+    <wsdl:part name="parameters" element="tns:MoveAccountStoryPicture" />
+  </wsdl:message>
+  <wsdl:message name="MoveAccountStoryPictureSoapOut">
+    <wsdl:part name="parameters" element="tns:MoveAccountStoryPictureResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountStoryPicturesCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountStoryPicturesCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountStoryPicturesCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountStoryPicturesCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountStoryPicturesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountStoryPictures" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountStoryPicturesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountStoryPicturesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountStoryPictureIfModifiedSinceByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountStoryPictureIfModifiedSinceById" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountStoryPictureIfModifiedSinceByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountStoryPictureIfModifiedSinceByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAccountStoryPictureSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountStoryPicture" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAccountStoryPictureSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountStoryPictureResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WebStoryServiceSoap">
+    <wsdl:operation name="GetAccountStories">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account stories.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountStoriesSoapIn" />
+      <wsdl:output message="tns:GetAccountStoriesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountStoriesCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account stories count.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountStoriesCountSoapIn" />
+      <wsdl:output message="tns:GetAccountStoriesCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAccountStoriesCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all published account stories count.</wsdl:documentation>
+      <wsdl:input message="tns:GetAllAccountStoriesCountSoapIn" />
+      <wsdl:output message="tns:GetAllAccountStoriesCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAccountStories">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all published account stories.</wsdl:documentation>
+      <wsdl:input message="tns:GetAllAccountStoriesSoapIn" />
+      <wsdl:output message="tns:GetAllAccountStoriesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountStoryById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account story by id.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountStoryByIdSoapIn" />
+      <wsdl:output message="tns:GetAccountStoryByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountStory">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update an account story.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateAccountStorySoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateAccountStorySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountStory">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a story.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteAccountStorySoapIn" />
+      <wsdl:output message="tns:DeleteAccountStorySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SearchAccountStories">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Return stories matching a query.</wsdl:documentation>
+      <wsdl:input message="tns:SearchAccountStoriesSoapIn" />
+      <wsdl:output message="tns:SearchAccountStoriesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SearchAccountStoriesCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Return the number of stories matching a query.</wsdl:documentation>
+      <wsdl:input message="tns:SearchAccountStoriesCountSoapIn" />
+      <wsdl:output message="tns:SearchAccountStoriesCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountStoryPictureById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account story picture by id.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountStoryPictureByIdSoapIn" />
+      <wsdl:output message="tns:GetAccountStoryPictureByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountStoryPicture">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete an account story picture.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteAccountStoryPictureSoapIn" />
+      <wsdl:output message="tns:DeleteAccountStoryPictureSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MoveAccountStoryPicture">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Move a story picture.</wsdl:documentation>
+      <wsdl:input message="tns:MoveAccountStoryPictureSoapIn" />
+      <wsdl:output message="tns:MoveAccountStoryPictureSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountStoryPicturesCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get story pictures count.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountStoryPicturesCountSoapIn" />
+      <wsdl:output message="tns:GetAccountStoryPicturesCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountStoryPictures">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get story pictures.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountStoryPicturesSoapIn" />
+      <wsdl:output message="tns:GetAccountStoryPicturesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountStoryPictureIfModifiedSinceById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get story picture picture data if modified since.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountStoryPictureIfModifiedSinceByIdSoapIn" />
+      <wsdl:output message="tns:GetAccountStoryPictureIfModifiedSinceByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountStoryPicture">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update an account story picture.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateAccountStoryPictureSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateAccountStoryPictureSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WebStoryServiceSoap" type="tns:WebStoryServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetAccountStories">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountStories" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountStoriesCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountStoriesCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAccountStoriesCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAllAccountStoriesCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAccountStories">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAllAccountStories" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountStoryById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountStoryById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountStory">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountStory" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountStory">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountStory" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchAccountStories">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/SearchAccountStories" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchAccountStoriesCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/SearchAccountStoriesCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountStoryPictureById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountStoryPictureById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountStoryPicture">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountStoryPicture" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MoveAccountStoryPicture">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/MoveAccountStoryPicture" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountStoryPicturesCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountStoryPicturesCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountStoryPictures">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountStoryPictures" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountStoryPictureIfModifiedSinceById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountStoryPictureIfModifiedSinceById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountStoryPicture">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountStoryPicture" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WebStoryServiceSoap12" type="tns:WebStoryServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetAccountStories">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountStories" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountStoriesCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountStoriesCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAccountStoriesCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAllAccountStoriesCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAccountStories">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAllAccountStories" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountStoryById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountStoryById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountStory">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountStory" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountStory">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountStory" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchAccountStories">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/SearchAccountStories" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchAccountStoriesCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/SearchAccountStoriesCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountStoryPictureById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountStoryPictureById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountStoryPicture">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountStoryPicture" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MoveAccountStoryPicture">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/MoveAccountStoryPicture" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountStoryPicturesCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountStoryPicturesCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountStoryPictures">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountStoryPictures" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountStoryPictureIfModifiedSinceById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountStoryPictureIfModifiedSinceById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountStoryPicture">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountStoryPicture" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WebStoryService">
+    <wsdl:port name="WebStoryServiceSoap" binding="tns:WebStoryServiceSoap">
+      <soap:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebStoryService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WebStoryServiceSoap12" binding="tns:WebStoryServiceSoap12">
+      <soap12:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebStoryService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
