@@ -92,5 +92,15 @@ namespace SnCore.Web.Soap.Tests.Properties {
                 return ((string)(this["SnCore_Web_Soap_Tests_WebLicenseService_WebLicenseService"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://dblock-black.orangebitch.com/SnCoreWeb/WebContentService.asmx")]
+        public string SnCore_Web_Soap_Tests_WebContentService_WebContentService {
+            get {
+                return ((string)(this["SnCore_Web_Soap_Tests_WebContentService_WebContentService"]));
+            }
+        }
     }
 }

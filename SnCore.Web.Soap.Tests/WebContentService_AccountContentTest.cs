@@ -1,0 +1,55 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using NUnit.Framework;
+using System.Web.Services.Protocols;
+
+namespace SnCore.Web.Soap.Tests.WebContentServiceTests
+{
+    [TestFixture]
+    public class AccountContentTest : WebServiceTest<WebContentService.TransitAccountContent>
+    {
+        private AccountContentGroupTest _group = new AccountContentGroupTest();
+        int _group_id = 0;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _group_id = _group.Create(GetAdminTicket());
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            _group.Delete(GetAdminTicket(), _group_id);
+        }
+
+        public AccountContentTest()
+            : base("AccountContent", new WebContentServiceNoCache())
+        {
+
+        }
+
+        public override WebContentService.TransitAccountContent GetTransitInstance()
+        {
+            WebContentService.TransitAccountContent t_instance = new WebContentService.TransitAccountContent();
+            t_instance.AccountContentGroupId = _group_id;
+            t_instance.Tag = Guid.NewGuid().ToString();
+            t_instance.Text = Guid.NewGuid().ToString();
+            t_instance.Timestamp = DateTime.UtcNow;
+            return t_instance;
+        }
+
+        public override object[] GetCountArgs(string ticket)
+        {
+            object[] args = { ticket, _group_id };
+            return args;
+        }
+
+        public override object[] GetArgs(string ticket, object options)
+        {
+            object[] args = { ticket, _group_id, options };
+            return args;
+        }
+    }
+}

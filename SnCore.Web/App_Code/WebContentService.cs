@@ -32,75 +32,13 @@ namespace SnCore.WebServices
         #region Account Content Group
 
         /// <summary>
-        /// Get account contents.
-        /// </summary>
-        /// <param name="ticket">authentication ticket</param>
-        /// <returns>transit account contents</returns>
-        [WebMethod(Description = "Get account content groups.")]
-        public List<TransitAccountContentGroup> GetAccountContentGroups(string ticket, ServiceQueryOptions options)
-        {
-            return GetAccountContentGroupsById(ManagedAccount.GetAccountId(ticket), options);
-        }
-
-        /// <summary>
         /// Get account content groups count.
         /// </summary>
         [WebMethod(Description = "Get account content groups count.", CacheDuration = 60)]
-        public int GetAccountContentGroupsCount(string ticket)
+        public int GetAccountContentGroupsCount(string ticket, int id)
         {
-            return GetAccountContentGroupsCountById(ManagedAccount.GetAccountId(ticket));
-        }
-
-        /// <summary>
-        /// Get account content groups count.
-        /// </summary>
-        [WebMethod(Description = "Get account content groups count.", CacheDuration = 60)]
-        public int GetAccountContentGroupsCountById(int accountid)
-        {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int) session.CreateQuery(string.Format(
-                    "SELECT COUNT(*) FROM AccountContentGroup g WHERE g.Account.Id = {0}",
-                        accountid)).UniqueResult();
-            }
-        }
-
-        /// <summary>
-        /// Get all account content groups count.
-        /// </summary>
-        [WebMethod(Description = "Get all account content groups count.", CacheDuration = 60)]
-        public int GetAllAccountContentGroupsCount()
-        {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int) session.CreateQuery("SELECT COUNT(*) FROM AccountContentGroup g").UniqueResult();
-            }
-        }
-
-        /// <summary>
-        /// Get all account content groups.
-        /// </summary>
-        /// <returns>transit account content groups</returns>
-        [WebMethod(Description = "Get all account content groups.", CacheDuration = 60)]
-        public List<TransitAccountContentGroup> GetAllAccountContentGroups(ServiceQueryOptions options)
-        {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                IList list = session.CreateCriteria(typeof(AccountContentGroup))
-                    .AddOrder(Order.Desc("Created"))
-                    .List();
-
-                List<TransitAccountContentGroup> result = new List<TransitAccountContentGroup>(list.Count);
-                foreach (AccountContentGroup group in list)
-                {
-                    result.Add(new TransitAccountContentGroup(group));
-                }
-
-                return result;
-            }
+            return WebServiceImpl<TransitAccountContentGroup, ManagedAccountContentGroup, AccountContentGroup>.GetCount(
+                ticket, string.Format("WHERE AccountContentGroup.Account.Id = {0}", id));
         }
 
         /// <summary>
@@ -109,65 +47,36 @@ namespace SnCore.WebServices
         /// <param name="id">account id</param>
         /// <returns>transit account content groups</returns>
         [WebMethod(Description = "Get account content groups.", CacheDuration = 60)]
-        public List<TransitAccountContentGroup> GetAccountContentGroupsById(int id, ServiceQueryOptions options)
+        public List<TransitAccountContentGroup> GetAccountContentGroups(string ticket, int id, ServiceQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                IList list = session.CreateCriteria(typeof(AccountContentGroup))
-                    .Add(Expression.Eq("Account.Id", id))
-                    .AddOrder(Order.Desc("Created"))
-                    .List();
-
-                List<TransitAccountContentGroup> result = new List<TransitAccountContentGroup>(list.Count);
-                foreach (AccountContentGroup group in list)
-                {
-                    result.Add(new TransitAccountContentGroup(group));
-                }
-
-                return result;
-            }
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
+            Order[] orders = { Order.Desc("Created") };
+            return WebServiceImpl<TransitAccountContentGroup, ManagedAccountContentGroup, AccountContentGroup>.GetList(
+                ticket, options, expressions, orders);
         }
 
         /// <summary>
         /// Create or update a content group.
         /// </summary>
         /// <param name="ticket">authentication ticket</param>
-        /// <param name="content">content group</param>
+        /// <param name="group">content group</param>
         [WebMethod(Description = "Create a content group.")]
         public int CreateOrUpdateAccountContentGroup(string ticket, TransitAccountContentGroup group)
         {
-            int id = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount a = new ManagedAccount(session, id);
-                int result = a.CreateOrUpdate(group);
-                SnCore.Data.Hibernate.Session.Flush();
-                return result;
-            }
+            return WebServiceImpl<TransitAccountContentGroup, ManagedAccountContentGroup, AccountContentGroup>.CreateOrUpdate(
+                ticket, group);
         }
 
         /// <summary>
         /// Delete a content group.
         /// </summary>
         /// <param name="ticket">authentication ticket</param>
-        /// <param name="groupid">content group id</param>
+        /// <param name="id">content group id</param>
         [WebMethod(Description = "Delete a content group.")]
-        public void DeleteAccountContentGroup(string ticket, int groupid)
+        public void DeleteAccountContentGroup(string ticket, int id)
         {
-            int id = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccountContentGroup g = new ManagedAccountContentGroup(session, groupid);
-                ManagedAccount acct = new ManagedAccount(session, id);
-                if (acct.Id != g.AccountId && ! acct.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-                SnCore.Data.Hibernate.Session.Flush();
-            }
+            WebServiceImpl<TransitAccountContentGroup, ManagedAccountContentGroup, AccountContentGroup>.Delete(
+                ticket, id);
         }
 
         /// <summary>
@@ -179,11 +88,8 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account content group by id.")]
         public TransitAccountContentGroup GetAccountContentGroupById(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                return new ManagedAccountContentGroup(session, id).TransitAccountContentGroup;
-            }
+            return WebServiceImpl<TransitAccountContentGroup, ManagedAccountContentGroup, AccountContentGroup>.GetById(
+                ticket, id);
         }
 
         #endregion
@@ -199,32 +105,20 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account content by id.")]
         public TransitAccountContent GetAccountContentById(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                return new ManagedAccountContent(session, id).TransitAccountContent;
-            }
+            return WebServiceImpl<TransitAccountContent, ManagedAccountContent, AccountContent>.GetById(
+                ticket, id);
         }
 
         /// <summary>
-        /// Get account contents count.
+        /// Get account content count.
         /// </summary>
         /// <param name="id">account group id</param>
         /// <returns>transit account contents count</returns>
         [WebMethod(Description = "Get account contents count by group id.", CacheDuration = 60)]
-        public int GetAccountContentsCountById(string ticket, int id)
+        public int GetAccountContentsCount(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                ManagedAccountContentGroup m = new ManagedAccountContentGroup(session, id);
-                m.CheckPermissions(ticket);
-
-                return (int) session.CreateQuery(string.Format(
-                    "SELECT COUNT(*) FROM AccountContent c WHERE c.AccountContentGroup.Id = {0}",
-                        id)).UniqueResult();
-            }
+            return WebServiceImpl<TransitAccountContent, ManagedAccountContent, AccountContent>.GetCount(
+                ticket, string.Format("WHERE AccountContent.AccountContentGroup.Id = {0}", id));
         }
 
         /// <summary>
@@ -232,55 +126,24 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>transit account contents</returns>
         [WebMethod(Description = "Get account contents in a group.", CacheDuration = 60)]
-        public List<TransitAccountContent> GetAccountContentsById(string ticket, int id, ServiceQueryOptions options)
+        public List<TransitAccountContent> GetAccountContents(string ticket, int id, ServiceQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                ManagedAccountContentGroup m = new ManagedAccountContentGroup(session, id);
-                m.CheckPermissions(ticket);
-
-                ICriteria c = session.CreateCriteria(typeof(AccountContent))
-                    .Add(Expression.Eq("AccountContentGroup.Id", id))
-                    .AddOrder(Order.Desc("Timestamp"));
-
-                if (options != null)
-                {
-                    c.SetMaxResults(options.PageSize);
-                    c.SetFirstResult(options.FirstResult);
-                }
-
-                IList list = c.List();
-
-                List<TransitAccountContent> result = new List<TransitAccountContent>(list.Count);
-
-                foreach (AccountContent item in list)
-                {
-                    result.Add(new ManagedAccountContent(session, item).TransitAccountContent);
-                }
-
-                return result;
-            }
+            ICriterion[] expressions = { Expression.Eq("AccountContentGroup.Id", id) };
+            Order[] orders = { Order.Desc("Timestamp") };
+            return WebServiceImpl<TransitAccountContent, ManagedAccountContent, AccountContent>.GetList(
+                ticket, options, expressions, orders);
         }
 
         /// <summary>
         /// Create or update an account content.
         /// </summary>
         /// <param name="ticket">authentication ticket</param>
-        /// <param name="content">new content</param>
+        /// <param name="content">content</param>
         [WebMethod(Description = "Create an account content.")]
         public int CreateOrUpdateAccountContent(string ticket, TransitAccountContent content)
         {
-            int id = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount a = new ManagedAccount(session, id);
-                int result = a.CreateOrUpdate(content);
-                SnCore.Data.Hibernate.Session.Flush();
-                return result;
-            }
+            return WebServiceImpl<TransitAccountContent, ManagedAccountContent, AccountContent>.CreateOrUpdate(
+                ticket, content);
         }
 
         /// <summary>
@@ -289,23 +152,10 @@ namespace SnCore.WebServices
         /// <param name="ticket">authentication ticket</param>
         /// <param name="contentid">id</param>
         [WebMethod(Description = "Delete an account content.")]
-        public void DeleteAccountContent(string ticket, int contentid)
+        public void DeleteAccountContent(string ticket, int id)
         {
-            int id = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccountContent content = new ManagedAccountContent(session, contentid);
-                ManagedAccount acct = new ManagedAccount(session, id);
-
-                if (content.AccountId != acct.Id && ! acct.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                content.Delete();
-                SnCore.Data.Hibernate.Session.Flush();
-            }
+            WebServiceImpl<TransitAccountContent, ManagedAccountContent, AccountContent>.Delete(
+                ticket, id);
         }
 
         #endregion

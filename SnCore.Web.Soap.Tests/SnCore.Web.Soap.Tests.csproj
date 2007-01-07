@@ -57,6 +57,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\WebContentService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\WebLicenseService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -87,6 +92,9 @@
     <Compile Include="WebBugService_BugStatus.cs" />
     <Compile Include="WebBugService_BugTest.cs" />
     <Compile Include="WebBugService_BugTypeTest.cs" />
+    <Compile Include="WebContentServiceTest.cs" />
+    <Compile Include="WebContentService_AccountContentGroupTest.cs" />
+    <Compile Include="WebContentService_AccountContentTest.cs" />
     <Compile Include="WebLicenseServiceTest.cs" />
     <Compile Include="WebLicenseService_AccountLicenseTest.cs" />
     <Compile Include="WebServiceTest.cs" />
@@ -136,6 +144,17 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebBugService_WebBugService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebContentService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WebContentService\</RelPath>
+      <UpdateFromURL>http://dblock-black.orangebitch.com/SnCoreWeb/WebContentService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebContentService_WebContentService</CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebLicenseService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
@@ -272,6 +291,7 @@
     <None Include="Web References\WebStatsService\WebStatsService.wsdl" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Web References\WebContentService\WebContentService.wsdl" />
     <None Include="Web References\WebLicenseService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -280,6 +300,19 @@
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\WebLicenseService\WebLicenseService.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\WebContentService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\WebContentService\TransitAccountContent.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebContentService\TransitAccountContentGroup.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebContentService\WebContentService.disco" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -207,20 +207,6 @@ namespace SnCore.Services
             }
         }
 
-        public void CheckPermissions(string ticket)
-        {
-            int user_id = ManagedAccount.GetAccountId(ticket, 0);
-            CheckPermissions(user_id);
-        }
-
-        public void CheckPermissions(int user_id)
-        {
-            if (mInstance.Login && user_id <= 0)
-            {
-                throw new ManagedAccount.AccessDeniedException();
-            }
-        }
-
         protected override void Save(ManagedSecurityContext sec)
         {
             mInstance.Modified = DateTime.UtcNow;
@@ -231,7 +217,15 @@ namespace SnCore.Services
         public override ACL GetACL()
         {
             ACL acl = base.GetACL();
-            acl.Add(new ACLEveryoneAllowRetrieve());
+            acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
+            if (mInstance.Login)
+            {
+                acl.Add(new ACLAuthenticatedAllowRetrieve());
+            }
+            else
+            {
+                acl.Add(new ACLEveryoneAllowRetrieve());
+            }
             return acl;
         }
     }
