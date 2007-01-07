@@ -224,8 +224,13 @@ namespace SnCore.Services
             return Find(session, name, state, country).Id;
         }
 
-        public int Merge(int id)
+        public int Merge(ManagedSecurityContext sec, int id)
         {
+            if (!sec.IsAdministrator())
+            {
+                throw new ManagedAccount.AccessDeniedException();
+            }
+
             if (id == mInstance.Id)
             {
                 throw new Exception("Cannot merge city into self");

@@ -26,5 +26,8 @@
     <Setting Name="SnCore_Web_Soap_Tests_WebContentService_WebContentService" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://dblock-black.orangebitch.com/SnCoreWeb/WebContentService.asmx</Value>
     </Setting>
+    <Setting Name="SnCore_Web_Soap_Tests_WebLocationService_WebLocationService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://dblock-black.orangebitch.com/SnCoreWeb/WebLocationService.asmx</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

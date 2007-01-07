@@ -67,6 +67,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\WebLocationService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\WebStatsService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -97,6 +102,11 @@
     <Compile Include="WebContentService_AccountContentTest.cs" />
     <Compile Include="WebLicenseServiceTest.cs" />
     <Compile Include="WebLicenseService_AccountLicenseTest.cs" />
+    <Compile Include="WebLocationServiceTest.cs" />
+    <Compile Include="WebLocationService_CityTest.cs" />
+    <Compile Include="WebLocationService_CountryTest.cs" />
+    <Compile Include="WebLocationService_NeighborhoodTest.cs" />
+    <Compile Include="WebLocationService_StateTest.cs" />
     <Compile Include="WebServiceTest.cs" />
     <Compile Include="WebStatsService_CounterTest.cs" />
     <Compile Include="WebStatsService_RefererAccountTest.cs" />
@@ -166,6 +176,17 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebLicenseService_WebLicenseService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebLocationService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WebLocationService\</RelPath>
+      <UpdateFromURL>http://dblock-black.orangebitch.com/SnCoreWeb/WebLocationService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebLocationService_WebLocationService</CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebStatsService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
@@ -313,6 +334,26 @@
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\WebContentService\WebContentService.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\WebLocationService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\WebLocationService\TransitCity.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebLocationService\TransitCountry.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebLocationService\TransitNeighborhood.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebLocationService\TransitState.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebLocationService\WebLocationService.disco" />
+    <None Include="Web References\WebLocationService\WebLocationService.wsdl" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
