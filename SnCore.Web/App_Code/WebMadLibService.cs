@@ -33,68 +33,23 @@ namespace SnCore.WebServices
         /// <summary>
         /// Gets mad libs count.
         /// </summary>
-        [WebMethod(Description = "Get mad libs count.")]
-        public int GetMadLibsCount(string ticket)
-        {
-            int userid = ManagedAccount.GetAccountId(ticket);
-            return GetMadLibsCountById(userid);
-        }
-
-        /// <summary>
-        /// Gets mad libs count.
-        /// </summary>
         [WebMethod(Description = "Get mad libs count.", CacheDuration = 60)]
-        public int GetMadLibsCountById(int accountid)
+        public int GetMadLibsCount(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                
-                return (int) session.CreateQuery(string.Format("SELECT COUNT(*) FROM MadLib m WHERE m.Account.Id = {0}",
-                    accountid)).UniqueResult();
-            }
+            return WebServiceImpl<TransitMadLib, ManagedMadLib, MadLib>.GetCount(
+                 ticket, string.Format("WHERE MadLib.Account.Id = {0}", id));
         }
 
         /// <summary>
         /// Get all mad libs.
         /// </summary>
         [WebMethod(Description = "Get all mad libs.", CacheDuration = 60)]
-        public List<TransitMadLib> GetMadLibs(string ticket, ServiceQueryOptions options)
+        public List<TransitMadLib> GetMadLibs(string ticket, int id, ServiceQueryOptions options)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
-            return GetMadLibsById(userid, options);
-        }
-
-        /// <summary>
-        /// Get all mad libs.
-        /// </summary>
-        [WebMethod(Description = "Get all mad libs.", CacheDuration = 60)]
-        public List<TransitMadLib> GetMadLibsById(int accountid, ServiceQueryOptions options)
-        {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                ICriteria c = session.CreateCriteria(typeof(MadLib))
-                    .Add(Expression.Eq("Account.Id", accountid))
-                    .AddOrder(Order.Desc("Created"));
-
-                if (options != null)
-                {
-                    c.SetFirstResult(options.FirstResult);
-                    c.SetMaxResults(options.PageSize);
-                }
-
-                IList list = c.List();
-
-                List<TransitMadLib> result = new List<TransitMadLib>(list.Count);
-                foreach (MadLib madlib in list)
-                {
-                    result.Add(new TransitMadLib(madlib));
-                }
-
-                return result;
-            }
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
+            Order[] orders = { Order.Desc("Created") };
+            return WebServiceImpl<TransitMadLib, ManagedMadLib, MadLib>.GetList(
+                ticket, options, expressions, orders); 
         }
 
         /// <summary>
@@ -104,26 +59,8 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create or update a mad lib.")]
         public int CreateOrUpdateMadLib(string ticket, TransitMadLib madlib)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                if (madlib.AccountId == 0) madlib.AccountId = userid;
-
-                // for now simple users have no use of madlibs and cannot create them
-                ManagedAccount user = new ManagedAccount(session, userid);
-                if (!user.IsAdministrator() /*&& (madlib.AccountId != userid) */)
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                ManagedMadLib m_madlib = new ManagedMadLib(session);
-                m_madlib.CreateOrUpdate(madlib);
-
-                SnCore.Data.Hibernate.Session.Flush();
-                return m_madlib.Id;
-            }
+            return WebServiceImpl<TransitMadLib, ManagedMadLib, MadLib>.CreateOrUpdate(
+                ticket, madlib);
         }
 
         /// <summary>
@@ -133,21 +70,8 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete a mad lib.")]
         public void DeleteMadLib(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                ManagedMadLib madlib = new ManagedMadLib(session, id);
-                ManagedAccount user = new ManagedAccount(session, userid);
-                if (madlib.AccountId != userid && ! user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
- 
-                madlib.Delete();
-                SnCore.Data.Hibernate.Session.Flush();
-            }
+            WebServiceImpl<TransitMadLib, ManagedMadLib, MadLib>.Delete(
+                ticket, id);
         }
 
         /// <summary>
@@ -155,13 +79,10 @@ namespace SnCore.WebServices
         /// </summary>
         /// <param name="ticket">authentication ticket</param>
         [WebMethod(Description = "Get a mad lib by id.")]
-        public TransitMadLib GetMadLibById(int id)
+        public TransitMadLib GetMadLibById(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                return new ManagedMadLib(session, id).TransitMadLib;
-            }
+            return WebServiceImpl<TransitMadLib, ManagedMadLib, MadLib>.GetById(
+                ticket, id);
         }
 
         #endregion
@@ -172,47 +93,43 @@ namespace SnCore.WebServices
         /// Gets mad lib instances count.
         /// </summary>
         [WebMethod(Description = "Get mad lib instances count.", CacheDuration = 60)]
-        public int GetMadLibInstancesCount(string table, int id)
+        public int GetMadLibInstancesCount(string ticket, string table, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            int object_id = 0;
+            using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int) session.CreateQuery(string.Format("SELECT COUNT(*) FROM MadLibInstance m WHERE m.DataObject.Id = {0} AND m.ObjectId = {1}",
-                    ManagedDataObject.Find(session, table), id)).UniqueResult();
+                object_id = ManagedDataObject.Find(session, table);
             }
+
+            return WebServiceImpl<TransitMadLibInstance, ManagedMadLibInstance, MadLibInstance>.GetCount(
+                ticket, string.Format("WHERE MadLibInstance.DataObject.Id = '{0}' AND MadLibInstance.ObjectId = {1}",
+                    object_id, id)); 
         }
 
         /// <summary>
         /// Get all mad lib instances.
         /// </summary>
         [WebMethod(Description = "Get all mad lib instances.", CacheDuration = 60)]
-        public List<TransitMadLibInstance> GetMadLibInstances(string table, int id, ServiceQueryOptions options)
+        public List<TransitMadLibInstance> GetMadLibInstances(string ticket, string table, int id, ServiceQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            int object_id = 0;
+            using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                ICriteria c = session.CreateCriteria(typeof(MadLibInstance))
-                    .Add(Expression.Eq("DataObject.Id", ManagedDataObject.Find(session, table)))
-                    .Add(Expression.Eq("ObjectId", id))
-                    .AddOrder(Order.Desc("Created"));
-
-                if (options != null)
-                {
-                    c.SetFirstResult(options.FirstResult);
-                    c.SetMaxResults(options.PageSize);
-                }
-
-                IList list = c.List();
-
-                List<TransitMadLibInstance> result = new List<TransitMadLibInstance>(list.Count);
-                foreach (MadLibInstance madlibinstance in list)
-                {
-                    result.Add(new ManagedMadLibInstance(session, madlibinstance).TransitMadLibInstance);
-                }
-
-                return result;
+                object_id = ManagedDataObject.Find(session, table);
             }
+
+            ICriterion[] expressions = 
+            {
+                Expression.Eq("DataObject.Id", object_id),
+                Expression.Eq("ObjectId", id)
+            };
+
+            Order[] orders = { Order.Desc("Created") };
+
+            return WebServiceImpl<TransitMadLibInstance, ManagedMadLibInstance, MadLibInstance>.GetList(
+                ticket, options, expressions, orders);
         }
 
         /// <summary>
@@ -222,19 +139,8 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create or update a mad lib.")]
         public int CreateOrUpdateMadLibInstance(string ticket, TransitMadLibInstance madlibinstance)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                if (madlibinstance.AccountId == 0) madlibinstance.AccountId = userid;
-
-                ManagedMadLibInstance m_madlibinstance = new ManagedMadLibInstance(session);
-                m_madlibinstance.CreateOrUpdate(madlibinstance);
-
-                SnCore.Data.Hibernate.Session.Flush();
-                return m_madlibinstance.Id;
-            }
+            return WebServiceImpl<TransitMadLibInstance, ManagedMadLibInstance, MadLibInstance>.CreateOrUpdate(
+                ticket, madlibinstance);
         }
 
         /// <summary>
@@ -244,21 +150,8 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete a mad lib.")]
         public void DeleteMadLibInstance(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                ManagedMadLibInstance madlibinstance = new ManagedMadLibInstance(session, id);
-                ManagedAccount user = new ManagedAccount(session, userid);
-                if (madlibinstance.AccountId != userid && !user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                madlibinstance.Delete();
-                SnCore.Data.Hibernate.Session.Flush();
-            }
+            WebServiceImpl<TransitMadLibInstance, ManagedMadLibInstance, MadLibInstance>.Delete(
+                ticket, id);
         }
 
         /// <summary>
@@ -266,13 +159,10 @@ namespace SnCore.WebServices
         /// </summary>
         /// <param name="ticket">authentication ticket</param>
         [WebMethod(Description = "Get a mad lib instance by id.")]
-        public TransitMadLibInstance GetMadLibInstanceById(int id)
+        public TransitMadLibInstance GetMadLibInstanceById(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                return new ManagedMadLibInstance(session, id).TransitMadLibInstance;
-            }
+            return WebServiceImpl<TransitMadLibInstance, ManagedMadLibInstance, MadLibInstance>.GetById(
+                ticket, id);
         }
 
         #endregion

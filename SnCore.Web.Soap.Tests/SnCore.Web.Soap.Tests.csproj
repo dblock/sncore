@@ -72,6 +72,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\WebMadLibService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\WebStatsService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -107,6 +112,9 @@
     <Compile Include="WebLocationService_CountryTest.cs" />
     <Compile Include="WebLocationService_NeighborhoodTest.cs" />
     <Compile Include="WebLocationService_StateTest.cs" />
+    <Compile Include="WebMadLibServiceTest.cs" />
+    <Compile Include="WebMadLibService_MadLibInstanceTest.cs" />
+    <Compile Include="WebMadLibService_MadLibTest.cs" />
     <Compile Include="WebServiceTest.cs" />
     <Compile Include="WebStatsService_CounterTest.cs" />
     <Compile Include="WebStatsService_RefererAccountTest.cs" />
@@ -187,6 +195,17 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebLocationService_WebLocationService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebMadLibService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WebMadLibService\</RelPath>
+      <UpdateFromURL>http://dblock-black.orangebitch.com/SnCoreWeb/WebMadLibService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebMadLibService_WebMadLibService</CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebStatsService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
@@ -354,6 +373,20 @@
     </None>
     <None Include="Web References\WebLocationService\WebLocationService.disco" />
     <None Include="Web References\WebLocationService\WebLocationService.wsdl" />
+    <None Include="Web References\WebMadLibService\WebMadLibService.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\WebMadLibService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\WebMadLibService\TransitMadLib.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebMadLibService\TransitMadLibInstance.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebMadLibService\WebMadLibService.disco" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

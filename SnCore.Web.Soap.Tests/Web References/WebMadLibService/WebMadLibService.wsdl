@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.vestris.com/sncore/ns/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.vestris.com/sncore/ns/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.vestris.com/sncore/ns/">
+      <s:element name="GetMadLibsCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMadLibsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetMadLibsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMadLibs">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ServiceQueryOptions">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="PageSize" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="PageNumber" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetMadLibsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMadLibsResult" type="tns:ArrayOfTransitMadLib" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitMadLib">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitMadLib" nillable="true" type="tns:TransitMadLib" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitMadLib">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfMadLib">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Template" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountName" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfMadLib" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrUpdateMadLib">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="madlib" type="tns:TransitMadLib" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateOrUpdateMadLibResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateMadLibResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteMadLib">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteMadLibResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetMadLibById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMadLibByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMadLibByIdResult" type="tns:TransitMadLib" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMadLibInstancesCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="table" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMadLibInstancesCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetMadLibInstancesCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMadLibInstances">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="table" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMadLibInstancesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMadLibInstancesResult" type="tns:ArrayOfTransitMadLibInstance" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitMadLibInstance">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitMadLibInstance" nillable="true" type="tns:TransitMadLibInstance" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitMadLibInstance">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfMadLibInstance">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Text" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="ObjectName" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="ObjectId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="ObjectAccountId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="ObjectUri" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountName" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountPictureId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="MadLibId" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfMadLibInstance" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrUpdateMadLibInstance">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="madlibinstance" type="tns:TransitMadLibInstance" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateOrUpdateMadLibInstanceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateMadLibInstanceResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteMadLibInstance">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteMadLibInstanceResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetMadLibInstanceById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMadLibInstanceByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMadLibInstanceByIdResult" type="tns:TransitMadLibInstance" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetMadLibsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMadLibsCount" />
+  </wsdl:message>
+  <wsdl:message name="GetMadLibsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMadLibsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMadLibsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMadLibs" />
+  </wsdl:message>
+  <wsdl:message name="GetMadLibsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMadLibsResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateMadLibSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateMadLib" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateMadLibSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateMadLibResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteMadLibSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteMadLib" />
+  </wsdl:message>
+  <wsdl:message name="DeleteMadLibSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteMadLibResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMadLibByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMadLibById" />
+  </wsdl:message>
+  <wsdl:message name="GetMadLibByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMadLibByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMadLibInstancesCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMadLibInstancesCount" />
+  </wsdl:message>
+  <wsdl:message name="GetMadLibInstancesCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMadLibInstancesCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMadLibInstancesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMadLibInstances" />
+  </wsdl:message>
+  <wsdl:message name="GetMadLibInstancesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMadLibInstancesResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateMadLibInstanceSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateMadLibInstance" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateMadLibInstanceSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateMadLibInstanceResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteMadLibInstanceSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteMadLibInstance" />
+  </wsdl:message>
+  <wsdl:message name="DeleteMadLibInstanceSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteMadLibInstanceResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMadLibInstanceByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMadLibInstanceById" />
+  </wsdl:message>
+  <wsdl:message name="GetMadLibInstanceByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMadLibInstanceByIdResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WebMadLibServiceSoap">
+    <wsdl:operation name="GetMadLibsCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get mad libs count.</wsdl:documentation>
+      <wsdl:input message="tns:GetMadLibsCountSoapIn" />
+      <wsdl:output message="tns:GetMadLibsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMadLibs">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all mad libs.</wsdl:documentation>
+      <wsdl:input message="tns:GetMadLibsSoapIn" />
+      <wsdl:output message="tns:GetMadLibsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateMadLib">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a mad lib.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateMadLibSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateMadLibSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteMadLib">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a mad lib.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteMadLibSoapIn" />
+      <wsdl:output message="tns:DeleteMadLibSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMadLibById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a mad lib by id.</wsdl:documentation>
+      <wsdl:input message="tns:GetMadLibByIdSoapIn" />
+      <wsdl:output message="tns:GetMadLibByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMadLibInstancesCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get mad lib instances count.</wsdl:documentation>
+      <wsdl:input message="tns:GetMadLibInstancesCountSoapIn" />
+      <wsdl:output message="tns:GetMadLibInstancesCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMadLibInstances">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all mad lib instances.</wsdl:documentation>
+      <wsdl:input message="tns:GetMadLibInstancesSoapIn" />
+      <wsdl:output message="tns:GetMadLibInstancesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateMadLibInstance">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a mad lib.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateMadLibInstanceSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateMadLibInstanceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteMadLibInstance">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a mad lib.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteMadLibInstanceSoapIn" />
+      <wsdl:output message="tns:DeleteMadLibInstanceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMadLibInstanceById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a mad lib instance by id.</wsdl:documentation>
+      <wsdl:input message="tns:GetMadLibInstanceByIdSoapIn" />
+      <wsdl:output message="tns:GetMadLibInstanceByIdSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WebMadLibServiceSoap" type="tns:WebMadLibServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetMadLibsCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetMadLibsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMadLibs">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetMadLibs" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateMadLib">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateMadLib" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteMadLib">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteMadLib" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMadLibById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetMadLibById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMadLibInstancesCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetMadLibInstancesCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMadLibInstances">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetMadLibInstances" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateMadLibInstance">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateMadLibInstance" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteMadLibInstance">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteMadLibInstance" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMadLibInstanceById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetMadLibInstanceById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WebMadLibServiceSoap12" type="tns:WebMadLibServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetMadLibsCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetMadLibsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMadLibs">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetMadLibs" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateMadLib">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateMadLib" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteMadLib">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteMadLib" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMadLibById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetMadLibById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMadLibInstancesCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetMadLibInstancesCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMadLibInstances">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetMadLibInstances" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateMadLibInstance">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateMadLibInstance" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteMadLibInstance">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteMadLibInstance" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMadLibInstanceById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetMadLibInstanceById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WebMadLibService">
+    <wsdl:port name="WebMadLibServiceSoap" binding="tns:WebMadLibServiceSoap">
+      <soap:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebMadLibService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WebMadLibServiceSoap12" binding="tns:WebMadLibServiceSoap12">
+      <soap12:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebMadLibService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
