@@ -1,0 +1,1419 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.vestris.com/sncore/ns/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.vestris.com/sncore/ns/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.vestris.com/sncore/ns/">
+      <s:element name="TrackSingleRequest">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="request" type="tns:TransitStatsRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitStatsRequest">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="IncrementNewUser" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="IncrementReturningUser" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="Timestamp" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="RequestUri" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="RefererUri" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="RefererQuery" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="TrackSingleRequestResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="TrackMultipleRequests">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="requests" type="tns:ArrayOfTransitStatsRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitStatsRequest">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitStatsRequest" nillable="true" type="tns:TransitStatsRequest" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="TrackMultipleRequestsResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetSummary">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetSummaryResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSummaryResult" type="tns:TransitStatsSummary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitStatsSummary">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Hourly" type="tns:ArrayOfTransitSummarizedCounter" />
+          <s:element minOccurs="0" maxOccurs="1" name="ReturningDaily" type="tns:ArrayOfTransitSummarizedCounter" />
+          <s:element minOccurs="0" maxOccurs="1" name="NewDaily" type="tns:ArrayOfTransitSummarizedCounter" />
+          <s:element minOccurs="0" maxOccurs="1" name="Daily" type="tns:ArrayOfTransitSummarizedCounter" />
+          <s:element minOccurs="0" maxOccurs="1" name="Weekly" type="tns:ArrayOfTransitSummarizedCounter" />
+          <s:element minOccurs="0" maxOccurs="1" name="Monthly" type="tns:ArrayOfTransitSummarizedCounter" />
+          <s:element minOccurs="0" maxOccurs="1" name="Yearly" type="tns:ArrayOfTransitSummarizedCounter" />
+          <s:element minOccurs="1" maxOccurs="1" name="TotalHits" type="s:long" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfTransitSummarizedCounter">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitSummarizedCounter" nillable="true" type="tns:TransitSummarizedCounter" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitSummarizedCounter">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Timestamp" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="Total" type="s:long" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetRefererHostsCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRefererHostsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetRefererHostsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRefererHosts">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ServiceQueryOptions">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="PageSize" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="PageNumber" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetRefererHostsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetRefererHostsResult" type="tns:ArrayOfTransitRefererHost" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitRefererHost">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitRefererHost" nillable="true" type="tns:TransitRefererHost" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitRefererHost">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfRefererHost">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Host" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="LastRefererUri" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="LastRequestUri" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Updated" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Total" type="s:long" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfRefererHost" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrUpdateRefererHost">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="refererhost" type="tns:TransitRefererHost" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateOrUpdateRefererHostResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateRefererHostResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRefererHostById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRefererHostByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetRefererHostByIdResult" type="tns:TransitRefererHost" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteRefererHost">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteRefererHostResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetRefererQueriesCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRefererQueriesCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetRefererQueriesCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRefererQueries">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRefererQueriesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetRefererQueriesResult" type="tns:ArrayOfTransitRefererQuery" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitRefererQuery">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitRefererQuery" nillable="true" type="tns:TransitRefererQuery" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitRefererQuery">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfRefererQuery">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Keywords" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Updated" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Total" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfRefererQuery" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrUpdateRefererQuery">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="refererquery" type="tns:TransitRefererQuery" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateOrUpdateRefererQueryResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateRefererQueryResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRefererQueryById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRefererQueryByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetRefererQueryByIdResult" type="tns:TransitRefererQuery" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteRefererQuery">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteRefererQueryResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetCounterByUri">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="uri" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCounterByUriResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCounterByUriResult" type="tns:TransitCounter" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitCounter">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfCounter">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Total" type="s:long" />
+              <s:element minOccurs="0" maxOccurs="1" name="Uri" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfCounter" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetCountersCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCountersCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetCountersCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCounters">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCountersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCountersResult" type="tns:ArrayOfTransitCounter" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitCounter">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitCounter" nillable="true" type="tns:TransitCounter" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrUpdateCounter">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="counter" type="tns:TransitCounter" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateOrUpdateCounterResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateCounterResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCounterById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCounterByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCounterByIdResult" type="tns:TransitCounter" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteCounter">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteCounterResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="CreateOrUpdateRefererHostDup">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="refererhostdup" type="tns:TransitRefererHostDup" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitRefererHostDup">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfRefererHostDup">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Host" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="RefererHost" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfRefererHostDup" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrUpdateRefererHostDupResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateRefererHostDupResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRefererHostDupById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRefererHostDupByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetRefererHostDupByIdResult" type="tns:TransitRefererHostDup" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRefererHostDups">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRefererHostDupsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetRefererHostDupsResult" type="tns:ArrayOfTransitRefererHostDup" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitRefererHostDup">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitRefererHostDup" nillable="true" type="tns:TransitRefererHostDup" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetRefererHostDupsCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRefererHostDupsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetRefererHostDupsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteRefererHostDup">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteRefererHostDupResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="CreateOrUpdateRefererAccount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="refererhostaccount" type="tns:TransitRefererAccount" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitRefererAccount">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfRefererAccount">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="AccountPictureId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountName" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="RefererHostLastRefererUri" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="RefererHostName" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="RefererHostTotal" type="s:long" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfRefererAccount" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrUpdateRefererAccountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateRefererAccountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRefererAccountById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRefererAccountByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetRefererAccountByIdResult" type="tns:TransitRefererAccount" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRefererAccountsCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRefererAccountsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetRefererAccountsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRefererAccounts">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRefererAccountsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetRefererAccountsResult" type="tns:ArrayOfTransitRefererAccount" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitRefererAccount">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitRefererAccount" nillable="true" type="tns:TransitRefererAccount" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="DeleteRefererAccount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteRefererAccountResponse">
+        <s:complexType />
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="TrackSingleRequestSoapIn">
+    <wsdl:part name="parameters" element="tns:TrackSingleRequest" />
+  </wsdl:message>
+  <wsdl:message name="TrackSingleRequestSoapOut">
+    <wsdl:part name="parameters" element="tns:TrackSingleRequestResponse" />
+  </wsdl:message>
+  <wsdl:message name="TrackMultipleRequestsSoapIn">
+    <wsdl:part name="parameters" element="tns:TrackMultipleRequests" />
+  </wsdl:message>
+  <wsdl:message name="TrackMultipleRequestsSoapOut">
+    <wsdl:part name="parameters" element="tns:TrackMultipleRequestsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSummarySoapIn">
+    <wsdl:part name="parameters" element="tns:GetSummary" />
+  </wsdl:message>
+  <wsdl:message name="GetSummarySoapOut">
+    <wsdl:part name="parameters" element="tns:GetSummaryResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRefererHostsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRefererHostsCount" />
+  </wsdl:message>
+  <wsdl:message name="GetRefererHostsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRefererHostsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRefererHostsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRefererHosts" />
+  </wsdl:message>
+  <wsdl:message name="GetRefererHostsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRefererHostsResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateRefererHostSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateRefererHost" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateRefererHostSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateRefererHostResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRefererHostByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRefererHostById" />
+  </wsdl:message>
+  <wsdl:message name="GetRefererHostByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRefererHostByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteRefererHostSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteRefererHost" />
+  </wsdl:message>
+  <wsdl:message name="DeleteRefererHostSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteRefererHostResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRefererQueriesCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRefererQueriesCount" />
+  </wsdl:message>
+  <wsdl:message name="GetRefererQueriesCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRefererQueriesCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRefererQueriesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRefererQueries" />
+  </wsdl:message>
+  <wsdl:message name="GetRefererQueriesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRefererQueriesResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateRefererQuerySoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateRefererQuery" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateRefererQuerySoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateRefererQueryResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRefererQueryByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRefererQueryById" />
+  </wsdl:message>
+  <wsdl:message name="GetRefererQueryByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRefererQueryByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteRefererQuerySoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteRefererQuery" />
+  </wsdl:message>
+  <wsdl:message name="DeleteRefererQuerySoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteRefererQueryResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCounterByUriSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCounterByUri" />
+  </wsdl:message>
+  <wsdl:message name="GetCounterByUriSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCounterByUriResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCountersCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCountersCount" />
+  </wsdl:message>
+  <wsdl:message name="GetCountersCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCountersCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCountersSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCounters" />
+  </wsdl:message>
+  <wsdl:message name="GetCountersSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCountersResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateCounterSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateCounter" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateCounterSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateCounterResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCounterByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCounterById" />
+  </wsdl:message>
+  <wsdl:message name="GetCounterByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCounterByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteCounterSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteCounter" />
+  </wsdl:message>
+  <wsdl:message name="DeleteCounterSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteCounterResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateRefererHostDupSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateRefererHostDup" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateRefererHostDupSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateRefererHostDupResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRefererHostDupByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRefererHostDupById" />
+  </wsdl:message>
+  <wsdl:message name="GetRefererHostDupByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRefererHostDupByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRefererHostDupsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRefererHostDups" />
+  </wsdl:message>
+  <wsdl:message name="GetRefererHostDupsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRefererHostDupsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRefererHostDupsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRefererHostDupsCount" />
+  </wsdl:message>
+  <wsdl:message name="GetRefererHostDupsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRefererHostDupsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteRefererHostDupSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteRefererHostDup" />
+  </wsdl:message>
+  <wsdl:message name="DeleteRefererHostDupSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteRefererHostDupResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateRefererAccountSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateRefererAccount" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateRefererAccountSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateRefererAccountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRefererAccountByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRefererAccountById" />
+  </wsdl:message>
+  <wsdl:message name="GetRefererAccountByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRefererAccountByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRefererAccountsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRefererAccountsCount" />
+  </wsdl:message>
+  <wsdl:message name="GetRefererAccountsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRefererAccountsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRefererAccountsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRefererAccounts" />
+  </wsdl:message>
+  <wsdl:message name="GetRefererAccountsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRefererAccountsResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteRefererAccountSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteRefererAccount" />
+  </wsdl:message>
+  <wsdl:message name="DeleteRefererAccountSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteRefererAccountResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WebStatsServiceSoap">
+    <wsdl:operation name="TrackSingleRequest">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Track a request.</wsdl:documentation>
+      <wsdl:input message="tns:TrackSingleRequestSoapIn" />
+      <wsdl:output message="tns:TrackSingleRequestSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="TrackMultipleRequests">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Track multiple requests.</wsdl:documentation>
+      <wsdl:input message="tns:TrackMultipleRequestsSoapIn" />
+      <wsdl:output message="tns:TrackMultipleRequestsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSummary">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get stats summary.</wsdl:documentation>
+      <wsdl:input message="tns:GetSummarySoapIn" />
+      <wsdl:output message="tns:GetSummarySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererHostsCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get referer hosts count.</wsdl:documentation>
+      <wsdl:input message="tns:GetRefererHostsCountSoapIn" />
+      <wsdl:output message="tns:GetRefererHostsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererHosts">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get referer hosts.</wsdl:documentation>
+      <wsdl:input message="tns:GetRefererHostsSoapIn" />
+      <wsdl:output message="tns:GetRefererHostsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateRefererHost">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a referer host.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateRefererHostSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateRefererHostSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererHostById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a referer host.</wsdl:documentation>
+      <wsdl:input message="tns:GetRefererHostByIdSoapIn" />
+      <wsdl:output message="tns:GetRefererHostByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteRefererHost">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a referer host.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteRefererHostSoapIn" />
+      <wsdl:output message="tns:DeleteRefererHostSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererQueriesCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get referer queries count.</wsdl:documentation>
+      <wsdl:input message="tns:GetRefererQueriesCountSoapIn" />
+      <wsdl:output message="tns:GetRefererQueriesCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererQueries">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get referer queries.</wsdl:documentation>
+      <wsdl:input message="tns:GetRefererQueriesSoapIn" />
+      <wsdl:output message="tns:GetRefererQueriesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateRefererQuery">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a referer query.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateRefererQuerySoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateRefererQuerySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererQueryById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a referer query.</wsdl:documentation>
+      <wsdl:input message="tns:GetRefererQueryByIdSoapIn" />
+      <wsdl:output message="tns:GetRefererQueryByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteRefererQuery">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a referer query.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteRefererQuerySoapIn" />
+      <wsdl:output message="tns:DeleteRefererQuerySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCounterByUri">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get counter for an url.</wsdl:documentation>
+      <wsdl:input message="tns:GetCounterByUriSoapIn" />
+      <wsdl:output message="tns:GetCounterByUriSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCountersCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get counters count.</wsdl:documentation>
+      <wsdl:input message="tns:GetCountersCountSoapIn" />
+      <wsdl:output message="tns:GetCountersCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCounters">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get counters.</wsdl:documentation>
+      <wsdl:input message="tns:GetCountersSoapIn" />
+      <wsdl:output message="tns:GetCountersSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateCounter">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a counter.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateCounterSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateCounterSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCounterById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a counter.</wsdl:documentation>
+      <wsdl:input message="tns:GetCounterByIdSoapIn" />
+      <wsdl:output message="tns:GetCounterByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCounter">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a counter.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteCounterSoapIn" />
+      <wsdl:output message="tns:DeleteCounterSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateRefererHostDup">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a referer host dup.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateRefererHostDupSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateRefererHostDupSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererHostDupById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a referer host dup.</wsdl:documentation>
+      <wsdl:input message="tns:GetRefererHostDupByIdSoapIn" />
+      <wsdl:output message="tns:GetRefererHostDupByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererHostDups">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all referer host dups.</wsdl:documentation>
+      <wsdl:input message="tns:GetRefererHostDupsSoapIn" />
+      <wsdl:output message="tns:GetRefererHostDupsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererHostDupsCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get referer host dups count.</wsdl:documentation>
+      <wsdl:input message="tns:GetRefererHostDupsCountSoapIn" />
+      <wsdl:output message="tns:GetRefererHostDupsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteRefererHostDup">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a referer host dup.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteRefererHostDupSoapIn" />
+      <wsdl:output message="tns:DeleteRefererHostDupSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateRefererAccount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a referer account.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateRefererAccountSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateRefererAccountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererAccountById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a referer account.</wsdl:documentation>
+      <wsdl:input message="tns:GetRefererAccountByIdSoapIn" />
+      <wsdl:output message="tns:GetRefererAccountByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererAccountsCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get referer accounts count.</wsdl:documentation>
+      <wsdl:input message="tns:GetRefererAccountsCountSoapIn" />
+      <wsdl:output message="tns:GetRefererAccountsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererAccounts">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all referer accounts.</wsdl:documentation>
+      <wsdl:input message="tns:GetRefererAccountsSoapIn" />
+      <wsdl:output message="tns:GetRefererAccountsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteRefererAccount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a referer account.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteRefererAccountSoapIn" />
+      <wsdl:output message="tns:DeleteRefererAccountSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WebStatsServiceSoap" type="tns:WebStatsServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="TrackSingleRequest">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/TrackSingleRequest" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TrackMultipleRequests">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/TrackMultipleRequests" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSummary">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetSummary" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererHostsCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetRefererHostsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererHosts">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetRefererHosts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateRefererHost">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateRefererHost" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererHostById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetRefererHostById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteRefererHost">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteRefererHost" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererQueriesCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetRefererQueriesCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererQueries">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetRefererQueries" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateRefererQuery">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateRefererQuery" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererQueryById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetRefererQueryById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteRefererQuery">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteRefererQuery" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCounterByUri">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetCounterByUri" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCountersCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetCountersCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCounters">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetCounters" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateCounter">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateCounter" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCounterById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetCounterById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCounter">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteCounter" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateRefererHostDup">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateRefererHostDup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererHostDupById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetRefererHostDupById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererHostDups">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetRefererHostDups" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererHostDupsCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetRefererHostDupsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteRefererHostDup">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteRefererHostDup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateRefererAccount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateRefererAccount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererAccountById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetRefererAccountById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererAccountsCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetRefererAccountsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererAccounts">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetRefererAccounts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteRefererAccount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteRefererAccount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WebStatsServiceSoap12" type="tns:WebStatsServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="TrackSingleRequest">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/TrackSingleRequest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TrackMultipleRequests">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/TrackMultipleRequests" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSummary">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetSummary" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererHostsCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetRefererHostsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererHosts">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetRefererHosts" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateRefererHost">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateRefererHost" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererHostById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetRefererHostById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteRefererHost">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteRefererHost" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererQueriesCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetRefererQueriesCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererQueries">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetRefererQueries" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateRefererQuery">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateRefererQuery" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererQueryById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetRefererQueryById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteRefererQuery">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteRefererQuery" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCounterByUri">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetCounterByUri" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCountersCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetCountersCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCounters">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetCounters" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateCounter">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateCounter" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCounterById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetCounterById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCounter">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteCounter" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateRefererHostDup">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateRefererHostDup" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererHostDupById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetRefererHostDupById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererHostDups">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetRefererHostDups" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererHostDupsCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetRefererHostDupsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteRefererHostDup">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteRefererHostDup" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateRefererAccount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateRefererAccount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererAccountById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetRefererAccountById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererAccountsCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetRefererAccountsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRefererAccounts">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetRefererAccounts" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteRefererAccount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteRefererAccount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WebStatsService">
+    <wsdl:port name="WebStatsServiceSoap" binding="tns:WebStatsServiceSoap">
+      <soap:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebStatsService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WebStatsServiceSoap12" binding="tns:WebStatsServiceSoap12">
+      <soap12:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebStatsService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

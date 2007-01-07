@@ -47,13 +47,38 @@ namespace SnCore.WebServices
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
                 ManagedType m_type = new ManagedType();
                 m_type.LoadInstance(session, id);
-                return (TransitType) m_type.GetTransitServiceInstance(sec);
+                return (TransitType)m_type.GetTransitServiceInstance(sec);
             }
         }
 
         public static List<TransitType> GetList(string ticket, ServiceQueryOptions options)
         {
-            return GetList(ticket, options, null, null);
+            return GetList(ticket, options, (ICriterion[]) null, (Order[]) null);
+        }
+
+        private static List<TransitType> GetTransformedList(ISession session, ManagedSecurityContext sec, IList<DataType> list)
+        {
+            List<TransitType> result = new List<TransitType>(list.Count);
+            foreach (DataType instance in list)
+            {
+                ManagedType m_instance = new ManagedType();
+                m_instance.SetDbObjectInstance(session, instance);
+                result.Add((TransitType)m_instance.GetTransitServiceInstance(sec));
+            }
+            return result;
+        }
+
+        public static List<TransitType> GetList(string ticket, ServiceQueryOptions options, string sqlquery, string returnalias)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                IQuery query = session.CreateSQLQuery(sqlquery, returnalias, typeof(DataType));
+                if (options != null && options.PageSize > 0) query.SetMaxResults(options.PageSize);
+                if (options != null && options.FirstResult > 0) query.SetFirstResult(options.FirstResult);
+                return GetTransformedList(session, sec, query.List<DataType>());
+            }
         }
 
         public static List<TransitType> GetList(string ticket, ServiceQueryOptions options, ICriterion[] expressions, Order[] orders)
@@ -72,20 +97,9 @@ namespace SnCore.WebServices
                     foreach (Order order in orders)
                         criteria.AddOrder(order);
                 // query options
-                if (options != null)
-                {
-                    if (options.PageSize > 0) criteria.SetMaxResults(options.PageSize);
-                    if (options.FirstResult > 0) criteria.SetFirstResult(options.FirstResult);
-                }
-                IList<DataType> list = criteria.List<DataType>();
-                List<TransitType> result = new List<TransitType>(list.Count);
-                foreach (DataType instance in list)
-                {
-                    ManagedType m_instance = new ManagedType();
-                    m_instance.SetDbObjectInstance(session, instance);
-                    result.Add((TransitType) m_instance.GetTransitServiceInstance(sec));
-                }
-                return result;
+                if (options != null && options.PageSize > 0) criteria.SetMaxResults(options.PageSize);
+                if (options != null && options.FirstResult > 0) criteria.SetFirstResult(options.FirstResult);
+                return GetTransformedList(session, sec, criteria.List<DataType>());
             }
         }
 
@@ -100,7 +114,7 @@ namespace SnCore.WebServices
             {
                 // TODO: check permissions
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                string query = string.Format("SELECT COUNT(*) FROM {0} {0} {1}", 
+                string query = string.Format("SELECT COUNT(*) FROM {0} {0} {1}",
                     typeof(DataType).Name, expression);
                 return (int)session.CreateQuery(query).UniqueResult();
             }

@@ -26,10 +26,10 @@ namespace SnCore.Web.Soap.Tests.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://dblock-black.orangebitch.com/SnCoreWeb/WebBugService.asmx")]
-        public string SnCore_Web_Soap_Tests_WebBugService_WebBugService {
+        [global::System.Configuration.DefaultSettingValueAttribute("http://dblock-black.orangebitch.com/SnCoreWeb/WebAuthService.asmx")]
+        public string SnCore_Web_Soap_Tests_WebAuthService_WebAuthService {
             get {
-                return ((string)(this["SnCore_Web_Soap_Tests_WebBugService_WebBugService"]));
+                return ((string)(this["SnCore_Web_Soap_Tests_WebAuthService_WebAuthService"]));
             }
         }
         
@@ -47,9 +47,9 @@ namespace SnCore.Web.Soap.Tests.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
         [global::System.Configuration.DefaultSettingValueAttribute("http://dblock-black.orangebitch.com/SnCoreWeb/WebAuthService.asmx")]
-        public string SnCore_Web_Soap_Tests_WebAuthService_WebAuthService {
+        public string SnCore_Web_Soap_Tests_WebAuthService_WebAuthService1 {
             get {
-                return ((string)(this["SnCore_Web_Soap_Tests_WebAuthService_WebAuthService"]));
+                return ((string)(this["SnCore_Web_Soap_Tests_WebAuthService_WebAuthService1"]));
             }
         }
         
@@ -60,6 +60,26 @@ namespace SnCore.Web.Soap.Tests.Properties {
         public string SnCore_Web_Soap_Tests_WebSystemService_WebSystemService {
             get {
                 return ((string)(this["SnCore_Web_Soap_Tests_WebSystemService_WebSystemService"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://dblock-black.orangebitch.com/SnCoreWeb/WebStatsService.asmx")]
+        public string SnCore_Web_Soap_Tests_WebStatsService_WebStatsService {
+            get {
+                return ((string)(this["SnCore_Web_Soap_Tests_WebStatsService_WebStatsService"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://dblock-black.orangebitch.com/SnCoreWeb/WebBugService.asmx")]
+        public string SnCore_Web_Soap_Tests_WebBugService_WebBugService {
+            get {
+                return ((string)(this["SnCore_Web_Soap_Tests_WebBugService_WebBugService"]));
             }
         }
     }

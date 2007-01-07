@@ -4,11 +4,11 @@ using System.Text;
 using NUnit.Framework;
 using System.Web.Services.Protocols;
 
-namespace SnCore.Web.Soap.Tests.WebBugServiceTests
+namespace SnCore.Web.Soap.Tests.WebAuthServiceTests
 {
-    public class WebBugServiceNoCache : WebBugService.WebBugService
+    public class WebAuthServiceNoCache : WebAuthService.WebAuthService
     {
-        public WebBugServiceNoCache()
+        public WebAuthServiceNoCache()
         {
 
         }
@@ -27,7 +27,7 @@ namespace SnCore.Web.Soap.Tests.WebBugServiceTests
         [Test]
         public void TestEndpoint()
         {
-            WebBugServiceNoCache endpoint = new WebBugServiceNoCache();
+            WebAuthServiceNoCache endpoint = new WebAuthServiceNoCache();
             Assert.IsFalse(string.IsNullOrEmpty(endpoint.Url));
         }
     }

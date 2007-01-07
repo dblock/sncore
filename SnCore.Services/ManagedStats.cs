@@ -10,68 +10,11 @@ using SnCore.Tools.Web;
 
 namespace SnCore.Services
 {
-    public class TransitCounter
-    {
-        public TransitCounter()
-        {
-            mTimestamp = DateTime.UtcNow;
-            mTotal = 0;
-        }
-
-        public TransitCounter(DateTime ts, long total)
-        {
-            mTimestamp = ts;
-            mTotal = total;
-        }
-
-        public TransitCounter(Counter c)
-        {
-            if (c != null)
-            {
-                mTimestamp = c.Created;
-                mTotal = c.Total;
-            }
-            else
-            {
-                mTimestamp = DateTime.UtcNow;
-                mTotal = 0;
-            }
-        }
-
-        private DateTime mTimestamp;
-
-        public DateTime Timestamp
-        {
-            get
-            {
-                return mTimestamp;
-            }
-            set
-            {
-                mTimestamp = value;
-            }
-        }
-
-        private long mTotal;
-
-        public long Total
-        {
-            get
-            {
-                return mTotal;
-            }
-            set
-            {
-                mTotal = value;
-            }
-        }
-    }
-
     public class TransitStatsSummary
     {
-        private List<TransitCounter> mHourly = new List<TransitCounter>(24);
+        private List<TransitSummarizedCounter> mHourly = new List<TransitSummarizedCounter>(25);
 
-        public List<TransitCounter> Hourly
+        public List<TransitSummarizedCounter> Hourly
         {
             get
             {
@@ -83,9 +26,9 @@ namespace SnCore.Services
             }
         }
 
-        private List<TransitCounter> mReturningDaily = new List<TransitCounter>(14);
+        private List<TransitSummarizedCounter> mReturningDaily = new List<TransitSummarizedCounter>(14);
 
-        public List<TransitCounter> ReturningDaily
+        public List<TransitSummarizedCounter> ReturningDaily
         {
             get
             {
@@ -97,9 +40,9 @@ namespace SnCore.Services
             }
         }
 
-        private List<TransitCounter> mNewDaily = new List<TransitCounter>(14);
+        private List<TransitSummarizedCounter> mNewDaily = new List<TransitSummarizedCounter>(15);
 
-        public List<TransitCounter> NewDaily
+        public List<TransitSummarizedCounter> NewDaily
         {
             get
             {
@@ -111,9 +54,9 @@ namespace SnCore.Services
             }
         }
 
-        private List<TransitCounter> mDaily = new List<TransitCounter>(14);
+        private List<TransitSummarizedCounter> mDaily = new List<TransitSummarizedCounter>(14);
 
-        public List<TransitCounter> Daily
+        public List<TransitSummarizedCounter> Daily
         {
             get
             {
@@ -125,9 +68,9 @@ namespace SnCore.Services
             }
         }
 
-        private List<TransitCounter> mWeekly = new List<TransitCounter>(8);
+        private List<TransitSummarizedCounter> mWeekly = new List<TransitSummarizedCounter>(54);
 
-        public List<TransitCounter> Weekly
+        public List<TransitSummarizedCounter> Weekly
         {
             get
             {
@@ -139,9 +82,9 @@ namespace SnCore.Services
             }
         }
 
-        private List<TransitCounter> mMonthly = new List<TransitCounter>(12);
+        private List<TransitSummarizedCounter> mMonthly = new List<TransitSummarizedCounter>(12);
 
-        public List<TransitCounter> Monthly
+        public List<TransitSummarizedCounter> Monthly
         {
             get
             {
@@ -153,9 +96,9 @@ namespace SnCore.Services
             }
         }
 
-        private List<TransitCounter> mYearly = new List<TransitCounter>();
+        private List<TransitSummarizedCounter> mYearly = new List<TransitSummarizedCounter>(6);
 
-        public List<TransitCounter> Yearly
+        public List<TransitSummarizedCounter> Yearly
         {
             get
             {
@@ -576,9 +519,9 @@ namespace SnCore.Services
             Session.Save(cntr);
         }
 
-        public List<TransitCounter> GetSummaryHourly()
+        public List<TransitSummarizedCounter> GetSummaryHourly()
         {
-            List<TransitCounter> result = new List<TransitCounter>();
+            List<TransitSummarizedCounter> result = new List<TransitSummarizedCounter>();
             DateTime now = DateTime.UtcNow;
             DateTime ts = now.AddHours(-24);
             while (ts <= now)
@@ -588,16 +531,16 @@ namespace SnCore.Services
                     .Add(Expression.Eq("Timestamp", ts_current))
                     .UniqueResult();
 
-                result.Add((c == null) ? new TransitCounter(ts_current, 0) : new TransitCounter(c.Timestamp, c.Total));
+                result.Add((c == null) ? new TransitSummarizedCounter(ts_current, 0) : new TransitSummarizedCounter(c.Timestamp, c.Total));
                 ts = ts.AddHours(1);
             }
 
             return result;
         }
 
-        public List<TransitCounter> GetSummaryDaily()
+        public List<TransitSummarizedCounter> GetSummaryDaily()
         {
-            List<TransitCounter> result = new List<TransitCounter>();
+            List<TransitSummarizedCounter> result = new List<TransitSummarizedCounter>();
             DateTime now = DateTime.UtcNow;
             DateTime ts = now.AddDays(-14);
             while (ts <= now)
@@ -607,16 +550,16 @@ namespace SnCore.Services
                     .Add(Expression.Eq("Timestamp", ts_current))
                     .UniqueResult();
 
-                result.Add((c == null) ? new TransitCounter(ts_current, 0) : new TransitCounter(c.Timestamp, c.Total));
+                result.Add((c == null) ? new TransitSummarizedCounter(ts_current, 0) : new TransitSummarizedCounter(c.Timestamp, c.Total));
                 ts = ts.AddDays(1);
             }
 
             return result;
         }
 
-        public List<TransitCounter> GetSummaryReturningDaily()
+        public List<TransitSummarizedCounter> GetSummaryReturningDaily()
         {
-            List<TransitCounter> result = new List<TransitCounter>();
+            List<TransitSummarizedCounter> result = new List<TransitSummarizedCounter>();
             DateTime now = DateTime.UtcNow;
             DateTime ts = now.AddDays(-14);
             while (ts <= now)
@@ -626,16 +569,16 @@ namespace SnCore.Services
                     .Add(Expression.Eq("Timestamp", ts_current))
                     .UniqueResult();
 
-                result.Add((c == null) ? new TransitCounter(ts_current, 0) : new TransitCounter(c.Timestamp, c.ReturningTotal));
+                result.Add((c == null) ? new TransitSummarizedCounter(ts_current, 0) : new TransitSummarizedCounter(c.Timestamp, c.ReturningTotal));
                 ts = ts.AddDays(1);
             }
 
             return result;
         }
 
-        public List<TransitCounter> GetSummaryNewDaily()
+        public List<TransitSummarizedCounter> GetSummaryNewDaily()
         {
-            List<TransitCounter> result = new List<TransitCounter>();
+            List<TransitSummarizedCounter> result = new List<TransitSummarizedCounter>();
             DateTime now = DateTime.UtcNow;
             DateTime ts = now.AddDays(-14);
             while (ts <= now)
@@ -645,16 +588,16 @@ namespace SnCore.Services
                     .Add(Expression.Eq("Timestamp", ts_current))
                     .UniqueResult();
 
-                result.Add((c == null) ? new TransitCounter(ts_current, 0) : new TransitCounter(c.Timestamp, c.NewTotal));
+                result.Add((c == null) ? new TransitSummarizedCounter(ts_current, 0) : new TransitSummarizedCounter(c.Timestamp, c.NewTotal));
                 ts = ts.AddDays(1);
             }
 
             return result;
         }
 
-        public List<TransitCounter> GetSummaryWeekly()
+        public List<TransitSummarizedCounter> GetSummaryWeekly()
         {
-            List<TransitCounter> result = new List<TransitCounter>();
+            List<TransitSummarizedCounter> result = new List<TransitSummarizedCounter>();
             DateTime now = DateTime.UtcNow;
             DateTime ts = now.AddYears(-1);
 
@@ -668,7 +611,7 @@ namespace SnCore.Services
                     .Add(Expression.Eq("Timestamp", ts_current))
                     .UniqueResult();
 
-                result.Add((c == null) ? new TransitCounter(ts_current, 0) : new TransitCounter(c.Timestamp, c.Total));
+                result.Add((c == null) ? new TransitSummarizedCounter(ts_current, 0) : new TransitSummarizedCounter(c.Timestamp, c.Total));
                 ts = ts.AddDays(7);
             }
 
@@ -679,9 +622,9 @@ namespace SnCore.Services
         /// Monthly hits, twelve months.
         /// </summary>
         /// <returns></returns>
-        public List<TransitCounter> GetSummaryMonthly()
+        public List<TransitSummarizedCounter> GetSummaryMonthly()
         {
-            List<TransitCounter> result = new List<TransitCounter>();
+            List<TransitSummarizedCounter> result = new List<TransitSummarizedCounter>();
             DateTime now = DateTime.UtcNow;
             DateTime ts = now.AddMonths(-12);
 
@@ -692,7 +635,7 @@ namespace SnCore.Services
                     .Add(Expression.Eq("Timestamp", ts_current))
                     .UniqueResult();
 
-                result.Add((c == null) ? new TransitCounter(ts_current, 0) : new TransitCounter(c.Timestamp, c.Total));
+                result.Add((c == null) ? new TransitSummarizedCounter(ts_current, 0) : new TransitSummarizedCounter(c.Timestamp, c.Total));
                 ts = ts.AddMonths(1);
             }
 
@@ -703,9 +646,9 @@ namespace SnCore.Services
         /// Yearly hits, five years.
         /// </summary>
         /// <returns></returns>
-        public List<TransitCounter> GetSummaryYearly()
+        public List<TransitSummarizedCounter> GetSummaryYearly()
         {
-            List<TransitCounter> result = new List<TransitCounter>();
+            List<TransitSummarizedCounter> result = new List<TransitSummarizedCounter>();
             DateTime now = DateTime.UtcNow;
 
             for (int i = -5; i <= 0; i++)
@@ -715,7 +658,7 @@ namespace SnCore.Services
                     .Add(Expression.Eq("Timestamp", ts_current))
                     .UniqueResult();
 
-                result.Add((c == null) ? new TransitCounter(ts_current, 0) : new TransitCounter(c.Timestamp, c.Total));
+                result.Add((c == null) ? new TransitSummarizedCounter(ts_current, 0) : new TransitSummarizedCounter(c.Timestamp, c.Total));
             }
 
             return result;
@@ -740,15 +683,13 @@ namespace SnCore.Services
             return summary;
         }
 
-        public static TransitCounter GetCounter(ISession session, string pageviewfilename, int id)
+        public static TransitCounter FindByUri(ISession session, string pageviewfilename, int id, ManagedSecurityContext sec)
         {
             string uri = string.Format("{0}/{1}?id={2}", 
                 ManagedConfiguration.GetValue(session, "SnCore.WebSite.Url", "http://localhost/SnCore"),
                 pageviewfilename, id);
 
-            return new TransitCounter((Counter)session.CreateCriteria(typeof(Counter))
-                .Add(Expression.Eq("Uri", uri))
-                .UniqueResult());
+            return ManagedCounter.FindByUri(session, uri, sec);
         }
     }
 }

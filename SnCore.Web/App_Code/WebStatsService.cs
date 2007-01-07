@@ -26,6 +26,7 @@ namespace SnCore.WebServices
     {
         public WebStatsService()
         {
+
         }
 
         #region Track Requests
@@ -106,62 +107,82 @@ namespace SnCore.WebServices
             }
         }
 
+        #endregion
+
+        #region Referer Hosts
+
         /// <summary>
         /// Get referer hosts count.
         /// </summary>
+        /// <param name="ticket">authentication ticket</param>
         /// <returns>transit referer hosts</returns>
         [WebMethod(Description = "Get referer hosts count.", CacheDuration = 60)]
-        public int GetRefererHostsCount()
+        public int GetRefererHostsCount(string ticket)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int) session.CreateQuery("SELECT COUNT(*) from RefererHost rh").UniqueResult();
-            }
+            return WebServiceImpl<TransitRefererHost, ManagedRefererHost, RefererHost>.GetCount(
+                ticket);
         }
 
         /// <summary>
-        /// Get referer hosts.
+        /// Get all referer hosts.
         /// </summary>
         /// <returns>transit referer hosts</returns>
         [WebMethod(Description = "Get referer hosts.", CacheDuration = 60)]
-        public List<TransitRefererHost> GetRefererHosts(ServiceQueryOptions options)
+        public List<TransitRefererHost> GetRefererHosts(string ticket, ServiceQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ICriteria c = session.CreateCriteria(typeof(RefererHost))
-                    .AddOrder(Order.Desc("Total"));
-
-                if (options != null)
-                {
-                    c.SetMaxResults(options.PageSize);
-                    c.SetFirstResult(options.FirstResult);
-                }
-
-                IList refererhosts = c.List();
-                List<TransitRefererHost> result = new List<TransitRefererHost>(refererhosts.Count);
-                foreach (RefererHost h in refererhosts)
-                {
-                    result.Add(new ManagedRefererHost(session, h).TransitRefererHost);
-                }
-
-                return result;
-            }
+            Order[] orders = { Order.Desc("Total") };
+            return WebServiceImpl<TransitRefererHost, ManagedRefererHost, RefererHost>.GetList(
+                ticket, options, null, orders);
         }
+
+        /// <summary>
+        /// Create or update a referer host.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="type">transit referer host</param>
+        [WebMethod(Description = "Create or update a referer host.")]
+        public int CreateOrUpdateRefererHost(string ticket, TransitRefererHost refererhost)
+        {
+            return WebServiceImpl<TransitRefererHost, ManagedRefererHost, RefererHost>.CreateOrUpdate(
+                ticket, refererhost);
+        }
+
+        /// <summary>
+        /// Get a referer host.
+        /// </summary>
+        /// <returns>transit referer host</returns>
+        [WebMethod(Description = "Get a referer host.")]
+        public TransitRefererHost GetRefererHostById(string ticket, int id)
+        {
+            return WebServiceImpl<TransitRefererHost, ManagedRefererHost, RefererHost>.GetById(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Delete a referer host.
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete a referer host.")]
+        public void DeleteRefererHost(string ticket, int id)
+        {
+            WebServiceImpl<TransitRefererHost, ManagedRefererHost, RefererHost>.Delete(
+                ticket, id);
+        }
+
+        #endregion
+
+        #region Referer Queries
 
         /// <summary>
         /// Get referer queries count.
         /// </summary>
         /// <returns>transit referer queries count</returns>
         [WebMethod(Description = "Get referer queries count.", CacheDuration = 60)]
-        public int GetRefererQueriesCount()
+        public int GetRefererQueriesCount(string ticket)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int) session.CreateQuery("SELECT COUNT(*) from RefererQuery rq").UniqueResult();
-            }
+            return WebServiceImpl<TransitRefererQuery, ManagedRefererQuery, RefererQuery>.GetCount(
+                ticket);
         }
 
         /// <summary>
@@ -169,29 +190,46 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>transit referer queries</returns>
         [WebMethod(Description = "Get referer queries.", CacheDuration = 60)]
-        public List<TransitRefererQuery> GetRefererQueries(ServiceQueryOptions options)
+        public List<TransitRefererQuery> GetRefererQueries(string ticket, ServiceQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ICriteria c = session.CreateCriteria(typeof(RefererQuery))
-                    .AddOrder(Order.Desc("Total"));
+            Order[] orders = { Order.Desc("Total") };
+            return WebServiceImpl<TransitRefererQuery, ManagedRefererQuery, RefererQuery>.GetList(
+                ticket, options, null, orders);
+        }
 
-                if (options != null)
-                {
-                    c.SetMaxResults(options.PageSize);
-                    c.SetFirstResult(options.FirstResult);
-                }
+        /// <summary>
+        /// Create or update a referer query.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="type">transit referer query</param>
+        [WebMethod(Description = "Create or update a referer query.")]
+        public int CreateOrUpdateRefererQuery(string ticket, TransitRefererQuery refererquery)
+        {
+            return WebServiceImpl<TransitRefererQuery, ManagedRefererQuery, RefererQuery>.CreateOrUpdate(
+                ticket, refererquery);
+        }
 
-                IList refererqueries = c.List();
-                List<TransitRefererQuery> result = new List<TransitRefererQuery>(refererqueries.Count);
-                foreach (RefererQuery q in refererqueries)
-                {
-                    result.Add(new ManagedRefererQuery(session, q).TransitRefererQuery);
-                }
+        /// <summary>
+        /// Get a referer query.
+        /// </summary>
+        /// <returns>transit referer query</returns>
+        [WebMethod(Description = "Get a referer query.")]
+        public TransitRefererQuery GetRefererQueryById(string ticket, int id)
+        {
+            return WebServiceImpl<TransitRefererQuery, ManagedRefererQuery, RefererQuery>.GetById(
+                ticket, id);
+        }
 
-                return result;
-            }
+        /// <summary>
+        /// Delete a referer query.
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete a referer query.")]
+        public void DeleteRefererQuery(string ticket, int id)
+        {
+            WebServiceImpl<TransitRefererQuery, ManagedRefererQuery, RefererQuery>.Delete(
+                ticket, id);
         }
 
         #endregion
@@ -203,15 +241,73 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>transit referer queries</returns>
         [WebMethod(Description = "Get counter for an url.", CacheDuration = 60)]
-        public TransitCounter GetCounterByUri(string uri)
+        public TransitCounter GetCounterByUri(string ticket, string uri)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return new TransitCounter((Counter)session.CreateCriteria(typeof(Counter))
-                        .Add(Expression.Eq("Uri", uri))
-                        .UniqueResult());
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                return ManagedCounter.FindByUri(session, uri, sec);
             }
+        }
+
+        /// <summary>
+        /// Get counters count.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <returns>transit counters</returns>
+        [WebMethod(Description = "Get counters count.", CacheDuration = 60)]
+        public int GetCountersCount(string ticket)
+        {
+            return WebServiceImpl<TransitCounter, ManagedCounter, Counter>.GetCount(
+                ticket);
+        }
+
+        /// <summary>
+        /// Get all counters.
+        /// </summary>
+        /// <returns>transit counters</returns>
+        [WebMethod(Description = "Get counters.", CacheDuration = 60)]
+        public List<TransitCounter> GetCounters(string ticket, ServiceQueryOptions options)
+        {
+            Order[] orders = { Order.Desc("Total") };
+            return WebServiceImpl<TransitCounter, ManagedCounter, Counter>.GetList(
+                ticket, options, null, orders);
+        }
+
+        /// <summary>
+        /// Create or update a counter.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="type">transit counter</param>
+        [WebMethod(Description = "Create or update a counter.")]
+        public int CreateOrUpdateCounter(string ticket, TransitCounter counter)
+        {
+            return WebServiceImpl<TransitCounter, ManagedCounter, Counter>.CreateOrUpdate(
+                ticket, counter);
+        }
+
+        /// <summary>
+        /// Get a counter.
+        /// </summary>
+        /// <returns>transit counter</returns>
+        [WebMethod(Description = "Get a counter.")]
+        public TransitCounter GetCounterById(string ticket, int id)
+        {
+            return WebServiceImpl<TransitCounter, ManagedCounter, Counter>.GetById(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Delete a counter.
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete a counter.")]
+        public void DeleteCounter(string ticket, int id)
+        {
+            WebServiceImpl<TransitCounter, ManagedCounter, Counter>.Delete(
+                ticket, id);
         }
 
         #endregion
@@ -226,22 +322,8 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create or update a referer host dup.")]
         public int CreateOrUpdateRefererHostDup(string ticket, TransitRefererHostDup refererhostdup)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
-
-                if (!user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                ManagedRefererHostDup m_refererhostdup = new ManagedRefererHostDup(session);
-                m_refererhostdup.CreateOrUpdate(refererhostdup);
-                SnCore.Data.Hibernate.Session.Flush();
-                return m_refererhostdup.Id;
-            }
+            return WebServiceImpl<TransitRefererHostDup, ManagedRefererHostDup, RefererHostDup>.CreateOrUpdate(
+                ticket, refererhostdup);
         }
 
         /// <summary>
@@ -249,14 +331,10 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>transit referer host dup</returns>
         [WebMethod(Description = "Get a referer host dup.")]
-        public TransitRefererHostDup GetRefererHostDupById(int id)
+        public TransitRefererHostDup GetRefererHostDupById(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                TransitRefererHostDup result = new ManagedRefererHostDup(session, id).TransitRefererHostDup;
-                return result;
-            }
+            return WebServiceImpl<TransitRefererHostDup, ManagedRefererHostDup, RefererHostDup>.GetById(
+                ticket, id);
         }
 
         /// <summary>
@@ -264,19 +342,21 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>list of transit referer host dups</returns>
         [WebMethod(Description = "Get all referer host dups.", CacheDuration = 60)]
-        public List<TransitRefererHostDup> GetRefererHostDups()
+        public List<TransitRefererHostDup> GetRefererHostDups(string ticket, ServiceQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                IList refererhostdup = session.CreateCriteria(typeof(RefererHostDup)).List();
-                List<TransitRefererHostDup> result = new List<TransitRefererHostDup>(refererhostdup.Count);
-                foreach (RefererHostDup rhd in refererhostdup)
-                {
-                    result.Add(new ManagedRefererHostDup(session, rhd).TransitRefererHostDup);
-                }
-                return result;
-            }
+            return WebServiceImpl<TransitRefererHostDup, ManagedRefererHostDup, RefererHostDup>.GetList(
+                ticket, options);
+        }
+
+        /// <summary>
+        /// Get all referer host dups count.
+        /// </summary>
+        /// <returns>number of transit referer host dups</returns>
+        [WebMethod(Description = "Get referer host dups count.", CacheDuration = 60)]
+        public int GetRefererHostDupsCount(string ticket)
+        {
+            return WebServiceImpl<TransitRefererHostDup, ManagedRefererHostDup, RefererHostDup>.GetCount(
+                ticket);
         }
 
         /// <summary>
@@ -287,23 +367,8 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete a referer host dup.")]
         public void DeleteRefererHostDup(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
-
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                ManagedAccount user = new ManagedAccount(session, userid);
-
-                if (!user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                ManagedRefererHostDup m_refererhostdup = new ManagedRefererHostDup(session, id);
-                m_refererhostdup.Delete();
-                SnCore.Data.Hibernate.Session.Flush();
-            }
+            WebServiceImpl<TransitRefererHostDup, ManagedRefererHostDup, RefererHostDup>.Delete(
+                ticket, id);
         }
 
         #endregion
@@ -318,22 +383,8 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create or update a referer account.")]
         public int CreateOrUpdateRefererAccount(string ticket, TransitRefererAccount refererhostaccount)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
-
-                if (!user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                ManagedRefererAccount m_refererhostaccount = new ManagedRefererAccount(session);
-                m_refererhostaccount.CreateOrUpdate(refererhostaccount);
-                SnCore.Data.Hibernate.Session.Flush();
-                return m_refererhostaccount.Id;
-            }
+            return WebServiceImpl<TransitRefererAccount, ManagedRefererAccount, RefererAccount>.CreateOrUpdate(
+                ticket, refererhostaccount);
         }
 
         /// <summary>
@@ -341,28 +392,21 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>transit referer account</returns>
         [WebMethod(Description = "Get a referer account.")]
-        public TransitRefererAccount GetRefererAccountById(int id)
+        public TransitRefererAccount GetRefererAccountById(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                TransitRefererAccount result = new ManagedRefererAccount(session, id).TransitRefererAccount;
-                return result;
-            }
+            return WebServiceImpl<TransitRefererAccount, ManagedRefererAccount, RefererAccount>.GetById(
+                ticket, id);
         }
 
         /// <summary>
-        /// Get referer account count.
+        /// Get referer accounts count.
         /// </summary>
         /// <returns>number of referer accounts</returns>
         [WebMethod(Description = "Get referer accounts count.")]
-        public int GetRefererAccountsCount()
+        public int GetRefererAccountsCount(string ticket)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int) session.CreateQuery("SELECT COUNT(*) from RefererAccount ra").UniqueResult();
-            }
+            return WebServiceImpl<TransitRefererAccount, ManagedRefererAccount, RefererAccount>.GetCount(
+                ticket);
         }
 
         /// <summary>
@@ -370,34 +414,12 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>list of transit referer accounts</returns>
         [WebMethod(Description = "Get all referer accounts.", CacheDuration = 60)]
-        public List<TransitRefererAccount> GetRefererAccounts(ServiceQueryOptions options)
+        public List<TransitRefererAccount> GetRefererAccounts(string ticket, ServiceQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                IQuery query = session.CreateSQLQuery(
-                    "SELECT {ra.*} FROM RefererAccount {ra}, RefererHost rh" +
+            return WebServiceImpl<TransitRefererAccount, ManagedRefererAccount, RefererAccount>.GetList(
+                ticket, options, "SELECT {ra.*} FROM RefererAccount {ra}, RefererHost rh" +
                     " WHERE ra.RefererHost_Id = rh.RefererHost_Id" +
-                    " ORDER BY rh.Total DESC",
-                    "ra",
-                    typeof(RefererAccount));
-
-                if (options != null)
-                {
-                    query.SetMaxResults(options.PageSize);
-                    query.SetFirstResult(options.FirstResult);
-                }
-
-                IList refererhostaccount = query.List();
-                List<TransitRefererAccount> result = new List<TransitRefererAccount>(refererhostaccount.Count);
-                foreach (RefererAccount rhd in refererhostaccount)
-                {
-                    result.Add(new ManagedRefererAccount(session, rhd).TransitRefererAccount);
-                }
-
-                return result;
-            }
+                    " ORDER BY rh.Total DESC", "ra");
         }
 
         /// <summary>
@@ -408,23 +430,8 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete a referer account.")]
         public void DeleteRefererAccount(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
-
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                ManagedAccount user = new ManagedAccount(session, userid);
-
-                if (!user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                ManagedRefererAccount m_refererhostaccount = new ManagedRefererAccount(session, id);
-                m_refererhostaccount.Delete();
-                SnCore.Data.Hibernate.Session.Flush();
-            }
+            WebServiceImpl<TransitRefererAccount, ManagedRefererAccount, RefererAccount>.Delete(
+                ticket, id);
         }
 
         #endregion

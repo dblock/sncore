@@ -36,6 +36,17 @@ namespace SnCore.Web.Soap.Tests
             }
         }
 
+        private void CreateUserAccount()
+        {
+            WebAccountService.TransitAccount t_instance = new WebAccountService.TransitAccount();
+            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Password = "password";
+            t_instance.Birthday = DateTime.UtcNow.AddYears(-10);
+            WebAccountService.WebAccountService account_endpoint = new WebAccountService.WebAccountService();
+            int id = account_endpoint.CreateAccount(string.Empty, "user@localhost.com", t_instance);
+            Assert.IsTrue(id > 0);
+        }
+
         public string GetUserTicket()
         {
             if (string.IsNullOrEmpty(mUserTicket))
@@ -47,18 +58,24 @@ namespace SnCore.Web.Soap.Tests
                 }
                 catch (SoapException)
                 {
-                    WebAccountService.TransitAccount t_instance = new WebAccountService.TransitAccount();
-                    t_instance.Name = Guid.NewGuid().ToString();
-                    t_instance.Password = "password";
-                    t_instance.Birthday = DateTime.UtcNow.AddYears(-10);
-                    WebAccountService.WebAccountService account_endpoint = new WebAccountService.WebAccountService();
-                    int id = account_endpoint.CreateAccount(string.Empty, "user@localhost.com", t_instance);
-                    Assert.IsTrue(id > 0);
+                    CreateUserAccount();
                     mUserTicket = endpoint.Login("user@localhost.com", "password");
                 }
             }
 
             return mUserTicket;
+        }
+
+        public WebAuthService.TransitAccount GetUserAccount()
+        {
+            WebAuthService.WebAuthService endpoint = new WebAuthService.WebAuthService();
+            return endpoint.GetAccount(GetUserTicket());
+        }
+
+        public WebAuthService.TransitAccount GetAdminAccount()
+        {
+            WebAuthService.WebAuthService endpoint = new WebAuthService.WebAuthService();
+            return endpoint.GetAccount(GetAdminTicket());
         }
 
         public string GetAdminTicket()
@@ -164,8 +181,12 @@ namespace SnCore.Web.Soap.Tests
         {
             try
             {
+                string assembly = mEndPoint.GetType().Assembly.GetName().Name;
+                string type = mEndPoint.GetType().Name;
+                if (type.EndsWith("NoCache")) type = mEndPoint.GetType().BaseType.Name;
+
                 object options = Activator.CreateInstance(mEndPoint.GetType().Assembly.GetType(
-                    string.Format("{0}.{1}.ServiceQueryOptions", mEndPoint.GetType().Assembly.GetName().Name, mEndPoint.GetType().Name)));
+                    string.Format("{0}.{1}.ServiceQueryOptions", assembly, type)));
 
                 object[] pagenumber_args = { page };
                 options.GetType().InvokeMember("PageNumber", BindingFlags.SetProperty, null, options, pagenumber_args);

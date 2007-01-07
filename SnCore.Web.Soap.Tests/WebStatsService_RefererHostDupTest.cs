@@ -1,0 +1,26 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using NUnit.Framework;
+using System.Web.Services.Protocols;
+
+namespace SnCore.Web.Soap.Tests.WebStatsServiceTests
+{
+    [TestFixture]
+    public class RefererHostDupTest : WebServiceTest<WebStatsService.TransitRefererHostDup>
+    {
+        public RefererHostDupTest()
+            : base("RefererHostDup", new WebStatsServiceNoCache())
+        {
+
+        }
+
+        public override WebStatsService.TransitRefererHostDup GetTransitInstance()
+        {
+            WebStatsService.TransitRefererHostDup t_instance = new WebStatsService.TransitRefererHostDup();
+            t_instance.Host = Guid.NewGuid().ToString();
+            t_instance.RefererHost = Guid.NewGuid().ToString();
+            return t_instance;
+        }
+    }
+}

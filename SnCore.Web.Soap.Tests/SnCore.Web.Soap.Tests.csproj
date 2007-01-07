@@ -57,14 +57,21 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\WebStatsService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\WebSystemService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="WebAuthServiceTest.cs" />
     <Compile Include="WebAuthService_GetAccountTest.cs" />
     <Compile Include="WebAuthService_LoginTest.cs" />
     <Compile Include="WebAuthService_SignUpTest.cs" />
+    <Compile Include="WebbStatsServiceTest.cs" />
     <Compile Include="WebBugServiceTest.cs" />
     <Compile Include="WebBugService_BugLinkTest.cs" />
     <Compile Include="WebBugService_BugNoteTest.cs" />
@@ -76,6 +83,13 @@
     <Compile Include="WebBugService_BugTest.cs" />
     <Compile Include="WebBugService_BugTypeTest.cs" />
     <Compile Include="WebServiceTest.cs" />
+    <Compile Include="WebStatsService_CounterTest.cs" />
+    <Compile Include="WebStatsService_RefererAccountTest.cs" />
+    <Compile Include="WebStatsService_RefererHostDupTest.cs" />
+    <Compile Include="WebStatsService_RefererHostTest.cs" />
+    <Compile Include="WebStatsService_RefererQueryTest.cs" />
+    <Compile Include="WebStatsService_StatsTest.cs" />
+    <Compile Include="WebStatsService_TrackTest.cs" />
     <Compile Include="WebSystemServiceTest.cs" />
     <Compile Include="WebSystemService_ConfigurationTest.cs" />
   </ItemGroup>
@@ -115,6 +129,17 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebBugService_WebBugService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebStatsService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WebStatsService\</RelPath>
+      <UpdateFromURL>http://dblock-black.orangebitch.com/SnCoreWeb/WebStatsService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebStatsService_WebStatsService</CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebSystemService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
@@ -200,6 +225,32 @@
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\WebSystemService\WebSystemService.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\WebStatsService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\WebStatsService\TransitCounter.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebStatsService\TransitRefererAccount.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebStatsService\TransitRefererHost.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebStatsService\TransitRefererHostDup.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebStatsService\TransitRefererQuery.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebStatsService\TransitStatsSummary.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebStatsService\WebStatsService.disco" />
+    <None Include="Web References\WebStatsService\WebStatsService.wsdl" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

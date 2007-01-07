@@ -238,7 +238,7 @@ namespace SnCore.Services
             t_instance.CommentCount = ManagedDiscussion.GetDiscussionPostCount(
                 Session, mInstance.AccountEvent.Account.Id,
                 ManagedDiscussion.AccountEventPictureDiscussion, mInstance.Id);
-            t_instance.Counter = ManagedStats.GetCounter(Session, "AccountEventPicture.aspx", mInstance.Id);
+            t_instance.Counter = ManagedStats.FindByUri(Session, "AccountEventPicture.aspx", mInstance.Id, sec);
             return t_instance;
         }
 
