@@ -57,6 +57,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\WebLicenseService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\WebStatsService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -82,6 +87,8 @@
     <Compile Include="WebBugService_BugStatus.cs" />
     <Compile Include="WebBugService_BugTest.cs" />
     <Compile Include="WebBugService_BugTypeTest.cs" />
+    <Compile Include="WebLicenseServiceTest.cs" />
+    <Compile Include="WebLicenseService_AccountLicenseTest.cs" />
     <Compile Include="WebServiceTest.cs" />
     <Compile Include="WebStatsService_CounterTest.cs" />
     <Compile Include="WebStatsService_RefererAccountTest.cs" />
@@ -129,6 +136,17 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebBugService_WebBugService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebLicenseService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WebLicenseService\</RelPath>
+      <UpdateFromURL>http://dblock-black.orangebitch.com/SnCoreWeb/WebLicenseService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebLicenseService_WebLicenseService</CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebStatsService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
@@ -227,6 +245,7 @@
     <None Include="Web References\WebSystemService\WebSystemService.disco" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Web References\WebLicenseService\WebLicenseService.wsdl" />
     <None Include="Web References\WebStatsService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -251,6 +270,16 @@
     </None>
     <None Include="Web References\WebStatsService\WebStatsService.disco" />
     <None Include="Web References\WebStatsService\WebStatsService.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\WebLicenseService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\WebLicenseService\TransitAccountLicense.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebLicenseService\WebLicenseService.disco" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

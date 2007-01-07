@@ -39,6 +39,30 @@ namespace SnCore.WebServices
             }
         }
 
+        public static TransitType GetByCriterion(string ticket, ICriterion criterion)
+        {
+            ICriterion[] criterions = { criterion };
+            return GetByCriterion(ticket, criterions);
+        }
+
+        public static TransitType GetByCriterion(string ticket, ICriterion[] criterions)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                ManagedType m_type = new ManagedType();
+                ICriteria criteria = session.CreateCriteria(typeof(DataType));
+                if (criterions != null)
+                    foreach (ICriterion criterion in criterions)
+                        criteria.Add(criterion);
+                DataType instance = criteria.UniqueResult<DataType>();
+                if (instance == null) throw new ObjectNotFoundException(criteria.ToString(), typeof(DataType));
+                m_type.SetDbObjectInstance(session, instance);
+                return (TransitType)m_type.GetTransitServiceInstance(sec);
+            }
+        }
+
         public static TransitType GetById(string ticket, int id)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))

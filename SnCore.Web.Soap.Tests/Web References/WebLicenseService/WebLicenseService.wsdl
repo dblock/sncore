@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.vestris.com/sncore/ns/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.vestris.com/sncore/ns/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.vestris.com/sncore/ns/">
+      <s:element name="GetAccountLicenses">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ServiceQueryOptions">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="PageSize" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="PageNumber" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountLicensesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountLicensesResult" type="tns:ArrayOfTransitAccountLicense" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitAccountLicense">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountLicense" nillable="true" type="tns:TransitAccountLicense" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitAccountLicense">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfAccountLicense">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="LicenseUrl" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="ImageUrl" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfAccountLicense" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountLicensesCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountLicensesCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAccountLicensesCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountLicenseById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountLicenseByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountLicenseByIdResult" type="tns:TransitAccountLicense" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountLicenseByAccountId">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountLicenseByAccountIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountLicenseByAccountIdResult" type="tns:TransitAccountLicense" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateOrUpdateAccountLicense">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="license" type="tns:TransitAccountLicense" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateOrUpdateAccountLicenseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateAccountLicenseResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountLicense">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountLicenseResponse">
+        <s:complexType />
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetAccountLicensesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountLicenses" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountLicensesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountLicensesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountLicensesCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountLicensesCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountLicensesCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountLicensesCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountLicenseByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountLicenseById" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountLicenseByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountLicenseByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountLicenseByAccountIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountLicenseByAccountId" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountLicenseByAccountIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountLicenseByAccountIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAccountLicenseSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountLicense" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAccountLicenseSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountLicenseResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountLicenseSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteAccountLicense" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountLicenseSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteAccountLicenseResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WebLicenseServiceSoap">
+    <wsdl:operation name="GetAccountLicenses">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account licenses.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountLicensesSoapIn" />
+      <wsdl:output message="tns:GetAccountLicensesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountLicensesCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account licenses count.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountLicensesCountSoapIn" />
+      <wsdl:output message="tns:GetAccountLicensesCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountLicenseById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account license by id.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountLicenseByIdSoapIn" />
+      <wsdl:output message="tns:GetAccountLicenseByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountLicenseByAccountId">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account license by account id.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountLicenseByAccountIdSoapIn" />
+      <wsdl:output message="tns:GetAccountLicenseByAccountIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountLicense">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create a license.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateAccountLicenseSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateAccountLicenseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountLicense">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a license.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteAccountLicenseSoapIn" />
+      <wsdl:output message="tns:DeleteAccountLicenseSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WebLicenseServiceSoap" type="tns:WebLicenseServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetAccountLicenses">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountLicenses" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountLicensesCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountLicensesCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountLicenseById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountLicenseById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountLicenseByAccountId">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountLicenseByAccountId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountLicense">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountLicense" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountLicense">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountLicense" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WebLicenseServiceSoap12" type="tns:WebLicenseServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetAccountLicenses">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountLicenses" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountLicensesCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountLicensesCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountLicenseById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountLicenseById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountLicenseByAccountId">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountLicenseByAccountId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountLicense">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountLicense" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountLicense">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountLicense" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WebLicenseService">
+    <wsdl:port name="WebLicenseServiceSoap" binding="tns:WebLicenseServiceSoap">
+      <soap:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebLicenseService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WebLicenseServiceSoap12" binding="tns:WebLicenseServiceSoap12">
+      <soap12:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebLicenseService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
