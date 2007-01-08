@@ -92,6 +92,19 @@ namespace SnCore.WebServices
             return result;
         }
 
+        public static List<TransitType> GetList(string ticket, ServiceQueryOptions options, string sqlquery)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                IQuery query = session.CreateQuery(sqlquery);
+                if (options != null && options.PageSize > 0) query.SetMaxResults(options.PageSize);
+                if (options != null && options.FirstResult > 0) query.SetFirstResult(options.FirstResult);
+                return GetTransformedList(session, sec, query.List<DataType>());
+            }
+        }
+
         public static List<TransitType> GetList(string ticket, ServiceQueryOptions options, string sqlquery, string returnalias)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
@@ -140,7 +153,7 @@ namespace SnCore.WebServices
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 string query = string.Format("SELECT COUNT(*) FROM {0} {0} {1}",
                     typeof(DataType).Name, expression);
-                return (int)session.CreateQuery(query).UniqueResult();
+                return session.CreateQuery(query).UniqueResult<int>();
             }
         }
 

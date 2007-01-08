@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.vestris.com/sncore/ns/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.vestris.com/sncore/ns/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.vestris.com/sncore/ns/">
+      <s:element name="CreateOrUpdateTagWord">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tagword" type="tns:TransitTagWord" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitTagWord">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfTagWord">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="Frequency" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="Word" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Promoted" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="Excluded" type="s:boolean" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfTagWord" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrUpdateTagWordResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateTagWordResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTagWordById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTagWordByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTagWordByIdResult" type="tns:TransitTagWord" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTagWords">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="queryoptions" type="tns:TransitTagWordQueryOptions" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:simpleType name="TransitTagWordQueryOptions">
+        <s:restriction base="s:string">
+          <s:enumeration value="Promoted" />
+          <s:enumeration value="Excluded" />
+          <s:enumeration value="New" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ServiceQueryOptions">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="PageSize" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="PageNumber" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetTagWordsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTagWordsResult" type="tns:ArrayOfTransitTagWord" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitTagWord">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitTagWord" nillable="true" type="tns:TransitTagWord" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetTagWordsCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="queryoptions" type="tns:TransitTagWordQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTagWordsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetTagWordsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteTagWord">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteTagWordResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetTagWordAccountsById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTagWordAccountsByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTagWordAccountsByIdResult" type="tns:ArrayOfTransitAccount" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitAccount">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccount" nillable="true" type="tns:TransitAccount" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitAccount">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfAccount">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="IsPasswordExpired" type="s:boolean" />
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Birthday" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="LastLogin" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="PictureId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="TimeZone" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="Signature" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfAccount" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SearchTagWordAccounts">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="search" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchTagWordAccountsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SearchTagWordAccountsResult" type="tns:ArrayOfTransitAccount" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="CreateOrUpdateTagWordSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateTagWord" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateTagWordSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateTagWordResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTagWordByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTagWordById" />
+  </wsdl:message>
+  <wsdl:message name="GetTagWordByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTagWordByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTagWordsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTagWords" />
+  </wsdl:message>
+  <wsdl:message name="GetTagWordsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTagWordsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTagWordsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTagWordsCount" />
+  </wsdl:message>
+  <wsdl:message name="GetTagWordsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTagWordsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteTagWordSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteTagWord" />
+  </wsdl:message>
+  <wsdl:message name="DeleteTagWordSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteTagWordResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTagWordAccountsByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTagWordAccountsById" />
+  </wsdl:message>
+  <wsdl:message name="GetTagWordAccountsByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTagWordAccountsByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="SearchTagWordAccountsSoapIn">
+    <wsdl:part name="parameters" element="tns:SearchTagWordAccounts" />
+  </wsdl:message>
+  <wsdl:message name="SearchTagWordAccountsSoapOut">
+    <wsdl:part name="parameters" element="tns:SearchTagWordAccountsResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WebTagWordServiceSoap">
+    <wsdl:operation name="CreateOrUpdateTagWord">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a tag word.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateTagWordSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateTagWordSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTagWordById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a tag word.</wsdl:documentation>
+      <wsdl:input message="tns:GetTagWordByIdSoapIn" />
+      <wsdl:output message="tns:GetTagWordByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTagWords">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all tag words.</wsdl:documentation>
+      <wsdl:input message="tns:GetTagWordsSoapIn" />
+      <wsdl:output message="tns:GetTagWordsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTagWordsCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all tag words count.</wsdl:documentation>
+      <wsdl:input message="tns:GetTagWordsCountSoapIn" />
+      <wsdl:output message="tns:GetTagWordsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteTagWord">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a tag word.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteTagWordSoapIn" />
+      <wsdl:output message="tns:DeleteTagWordSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTagWordAccountsById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get tag word accounts.</wsdl:documentation>
+      <wsdl:input message="tns:GetTagWordAccountsByIdSoapIn" />
+      <wsdl:output message="tns:GetTagWordAccountsByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SearchTagWordAccounts">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search tag word accounts.</wsdl:documentation>
+      <wsdl:input message="tns:SearchTagWordAccountsSoapIn" />
+      <wsdl:output message="tns:SearchTagWordAccountsSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WebTagWordServiceSoap" type="tns:WebTagWordServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CreateOrUpdateTagWord">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateTagWord" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTagWordById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetTagWordById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTagWords">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetTagWords" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTagWordsCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetTagWordsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteTagWord">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteTagWord" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTagWordAccountsById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetTagWordAccountsById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchTagWordAccounts">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/SearchTagWordAccounts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WebTagWordServiceSoap12" type="tns:WebTagWordServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CreateOrUpdateTagWord">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateTagWord" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTagWordById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetTagWordById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTagWords">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetTagWords" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTagWordsCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetTagWordsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteTagWord">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteTagWord" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTagWordAccountsById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetTagWordAccountsById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchTagWordAccounts">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/SearchTagWordAccounts" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WebTagWordService">
+    <wsdl:port name="WebTagWordServiceSoap" binding="tns:WebTagWordServiceSoap">
+      <soap:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebTagWordService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WebTagWordServiceSoap12" binding="tns:WebTagWordServiceSoap12">
+      <soap12:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebTagWordService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

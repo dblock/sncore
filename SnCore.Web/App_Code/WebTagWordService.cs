@@ -30,6 +30,8 @@ namespace SnCore.WebServices
 
         }
 
+        #region Tag Words
+
         /// <summary>
         /// Create or update a tag word.
         /// </summary>
@@ -38,51 +40,8 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create or update a tag word.")]
         public int CreateOrUpdateTagWord(string ticket, TransitTagWord tagword)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
-
-                if (!user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                ManagedTagWord m_tagword = new ManagedTagWord(session);
-                m_tagword.CreateOrUpdate(tagword);
-                SnCore.Data.Hibernate.Session.Flush();
-                return m_tagword.Id;
-            }
-        }
-
-        /// <summary>
-        /// Create or update tag words.
-        /// </summary>
-        /// <param name="ticket">authentication ticket</param>
-        /// <param name="tagwords">transit tag words</param>
-        [WebMethod(Description = "Create or update tag words.")]
-        public void CreateOrUpdateTagWords(string ticket, TransitTagWord[] tagwords)
-        {
-            int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
-
-                if (!user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                foreach (TransitTagWord word in tagwords)
-                {
-                    ManagedTagWord m_tagword = new ManagedTagWord(session);
-                    m_tagword.CreateOrUpdate(word);
-                }
-
-                SnCore.Data.Hibernate.Session.Flush();
-            }
+            return WebServiceImpl<TransitTagWord, ManagedTagWord, TagWord>.CreateOrUpdate(
+                ticket, tagword);
         }
 
         /// <summary>
@@ -90,14 +49,10 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>transit tag word</returns>
         [WebMethod(Description = "Get a tag word.")]
-        public TransitTagWord GetTagWordById(int id)
+        public TransitTagWord GetTagWordById(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                TransitTagWord result = new ManagedTagWord(session, id).TransitTagWord;
-                return result;
-            }
+            return WebServiceImpl<TransitTagWord, ManagedTagWord, TagWord>.GetById(
+                ticket, id);
         }
 
         /// <summary>
@@ -107,46 +62,27 @@ namespace SnCore.WebServices
         /// <param name="options">options</param>
         /// <returns>list of transit tag words</returns>
         [WebMethod(Description = "Get all tag words.")]
-        public List<TransitTagWord> GetTagWords(TransitTagWordQueryOptions options, ServiceQueryOptions serviceoptions)
+        public List<TransitTagWord> GetTagWords(string ticket, TransitTagWordQueryOptions queryoptions, ServiceQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            StringBuilder query = new StringBuilder();
+            query.Append("SELECT word FROM TagWord word LEFT JOIN word.TagWordAccounts acct");
+            query.Append(" GROUP BY word.Id, word.Promoted, word.Excluded, word.Word");
+            switch(queryoptions)
             {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                // IList tagwords = session.CreateCriteria(typeof(TagWord)).List();
-
-                string where = string.Empty;
-                switch (options)
-                {
-                    case TransitTagWordQueryOptions.Excluded:
-                        where = "WHERE Excluded = 1";
-                        break;
-                    case TransitTagWordQueryOptions.New:
-                        where = "WHERE Excluded = 0 and Promoted = 0";
-                        break;
-                    case TransitTagWordQueryOptions.Promoted:
-                        where = "WHERE Promoted = 1";
-                        break;
-                }
-
-                IQuery query = session.CreateQuery(string.Format(
-                    "SELECT word FROM TagWord word LEFT JOIN word.TagWordAccounts acct " + 
-                    "GROUP BY word.Id, word.Promoted, word.Excluded, word.Word {0} ORDER BY COUNT(acct) DESC", where));
-
-                if (serviceoptions != null)
-                {
-                    query.SetFirstResult(serviceoptions.FirstResult);
-                    query.SetMaxResults(serviceoptions.PageSize);
-                }
-
-                IList tagwords = query.List();
-
-                List<TransitTagWord> result = new List<TransitTagWord>(tagwords.Count);
-                foreach (TagWord tagword in tagwords)
-                {
-                    result.Add(new ManagedTagWord(session, tagword).TransitTagWord);
-                }
-                return result;
+                case TransitTagWordQueryOptions.Excluded:
+                    query.Append(" WHERE Excluded = 1");
+                    break;
+                case TransitTagWordQueryOptions.New:
+                    query.Append(" WHERE Excluded = 0 and Promoted = 0");
+                    break;
+                case TransitTagWordQueryOptions.Promoted:
+                    query.Append(" WHERE Promoted = 1");
+                    break;
             }
+            query.Append(" ORDER BY COUNT(acct) DESC");
+
+            return WebServiceImpl<TransitTagWord, ManagedTagWord, TagWord>.GetList(
+                ticket, options, query.ToString());
         }
 
         /// <summary>
@@ -155,31 +91,24 @@ namespace SnCore.WebServices
         /// <param name="max">maximum number of tag words</param>
         /// <param name="options">options</param>
         [WebMethod(Description = "Get all tag words count.")]
-        public int GetTagWordsCount(TransitTagWordQueryOptions options)
+        public int GetTagWordsCount(string ticket, TransitTagWordQueryOptions queryoptions)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            string query = null;
+            switch (queryoptions)
             {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                string where = string.Empty;
-                switch (options)
-                {
-                    case TransitTagWordQueryOptions.Excluded:
-                        where = "WHERE Excluded = 1";
-                        break;
-                    case TransitTagWordQueryOptions.New:
-                        where = "WHERE Excluded = 0 and Promoted = 0";
-                        break;
-                    case TransitTagWordQueryOptions.Promoted:
-                        where = "WHERE Promoted = 1";
-                        break;
-                }
-
-                IQuery query = session.CreateQuery(string.Format(
-                    "SELECT COUNT(*) FROM TagWord word {0}", where));
-
-                return (int) query.UniqueResult();
+                case TransitTagWordQueryOptions.Excluded:
+                    query = "WHERE TagWord.Excluded = 1";
+                    break;
+                case TransitTagWordQueryOptions.New:
+                    query = "WHERE TagWord.Excluded = 0 and TagWord.Promoted = 0";
+                    break;
+                case TransitTagWordQueryOptions.Promoted:
+                    query = "WHERE TagWord.Promoted = 1";
+                    break;
             }
+
+            return WebServiceImpl<TransitTagWord, ManagedTagWord, TagWord>.GetCount(
+                ticket, query.ToString());
         }
 
         /// <summary>
@@ -190,23 +119,8 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete a tag word.")]
         public void DeleteTagWord(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
-
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                ManagedAccount user = new ManagedAccount(session, userid);
-
-                if (!user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                ManagedTagWord m_tagword = new ManagedTagWord(session, id);
-                m_tagword.Delete();
-                SnCore.Data.Hibernate.Session.Flush();
-            }
+            WebServiceImpl<TransitTagWord, ManagedTagWord, TagWord>.Delete(
+                ticket, id);
         }
 
         /// <summary>
@@ -215,26 +129,18 @@ namespace SnCore.WebServices
         /// <param name="id">tag word id</param>
         /// <returns>list of transit accounts</returns>
         [WebMethod(Description = "Get tag word accounts.", CacheDuration = 60)]
-        public List<TransitAccount> GetTagWordAccountsById(int id)
+        public List<TransitAccount> GetTagWordAccountsById(string ticket, int id, ServiceQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                IList tagwordaccounts = session.CreateQuery(
-                    string.Format(
-                        "SELECT acct FROM Account acct, TagWordAccount twa " +
-                        "WHERE acct.Id = twa.AccountId " + 
-                        "AND twa.TagWord.Id = {0} " +
-                        "ORDER BY acct.LastLogin DESC",
-                    id)).List();
+            StringBuilder query = new StringBuilder();
+            query.AppendFormat(
+                "SELECT acct FROM Account acct, TagWordAccount twa " +
+                "WHERE acct.Id = twa.AccountId " +
+                "AND twa.TagWord.Id = {0} " +
+                "ORDER BY acct.LastLogin DESC",
+                id);
 
-                List<TransitAccount> result = new List<TransitAccount>(tagwordaccounts.Count);
-                foreach (Account acct in tagwordaccounts)
-                {
-                    result.Add(new ManagedAccount(session, acct).TransitAccount);
-                }
-                return result;
-            }
+            return WebServiceImpl<TransitAccount, ManagedAccount, Account>.GetList(
+                ticket, options, query.ToString());
         }
 
         /// <summary>
@@ -243,43 +149,31 @@ namespace SnCore.WebServices
         /// <param name="search">search string</param>
         /// <returns>list of transit accounts</returns>
         [WebMethod(Description = "Search tag word accounts.", CacheDuration = 60)]
-        public List<TransitAccount> SearchTagWordAccounts(string search)
+        public List<TransitAccount> SearchTagWordAccounts(string ticket, string search, ServiceQueryOptions options)
         {
             MatchCollection mc = Regex.Matches(search, @"\w+");
 
             if (mc.Count == 0)
-            {
                 return null;
-            }
 
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            StringBuilder query = new StringBuilder();
+            query.Append("SELECT DISTINCT acct FROM Account acct, TagWordAccount twa");
+            query.Append(" WHERE acct.Id = twa.AccountId AND (");
+            StringBuilder subquery = new StringBuilder();
+            foreach (Match m in mc)
             {
-                StringBuilder query = new StringBuilder(
-                    "SELECT DISTINCT acct FROM Account acct, TagWordAccount twa " +
-                    "WHERE acct.Id = twa.AccountId AND (");
+                if (subquery.Length > 0)
+                    subquery.Append(" OR ");
 
-                StringBuilder subquery = new StringBuilder();
-                foreach (Match m in mc)
-                {
-                    if (subquery.Length > 0)
-                    {
-                        subquery.Append(" OR ");
-                    }
-                    subquery.Append(string.Format("twa.TagWord.Word LIKE '%{0}%'", m.Value.ToLower()));
-                }
-
-                query.Append(subquery);        
-                query.Append(") ORDER BY acct.LastLogin DESC");
-
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                IList tagwordaccounts = session.CreateQuery(query.ToString()).List();
-                List<TransitAccount> result = new List<TransitAccount>(tagwordaccounts.Count);
-                foreach (Account acct in tagwordaccounts)
-                {
-                    result.Add(new ManagedAccount(session, acct).TransitAccount);
-                }
-                return result;
+                subquery.Append(string.Format("twa.TagWord.Word LIKE '%{0}%'", m.Value.ToLower()));
             }
+            query.Append(subquery);
+            query.Append(") ORDER BY acct.LastLogin DESC");
+
+            return WebServiceImpl<TransitAccount, ManagedAccount, Account>.GetList(
+                ticket, options, query.ToString());
         }
+
+        #endregion
     }
 }
