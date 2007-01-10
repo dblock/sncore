@@ -7,28 +7,29 @@ using NUnit.Framework;
 
 namespace SnCore.Web.Soap.Tests
 {
-    public abstract class WebServiceTest<TransitType>
+    public abstract class WebServiceTest<TransitType, EndPointType>
+        where EndPointType : new()
     {
         private string mOne;
         private string mMany;
-        private SoapHttpClientProtocol mEndPoint;
+        private EndPointType mEndPoint;
         private string mAdminTicket = string.Empty;
         private string mUserTicket = string.Empty;
 
-        public WebServiceTest(string one, SoapHttpClientProtocol endpoint)
-            : this(one, string.Format("{0}s", one), endpoint)
+        public WebServiceTest(string one)
+            : this(one, string.Format("{0}s", one))
         {
 
         }
 
-        public WebServiceTest(string one, string many, SoapHttpClientProtocol endpoint)
+        public WebServiceTest(string one, string many)
         {
             mOne = one;
             mMany = many;
-            mEndPoint = endpoint;
+            mEndPoint = new EndPointType();
         }
 
-        public SoapHttpClientProtocol EndPoint
+        public EndPointType EndPoint
         {
             get
             {

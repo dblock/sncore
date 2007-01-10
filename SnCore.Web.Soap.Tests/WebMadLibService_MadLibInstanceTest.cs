@@ -7,7 +7,7 @@ using System.Web.Services.Protocols;
 namespace SnCore.Web.Soap.Tests.WebMadLibServiceTests
 {
     [TestFixture]
-    public class MadLibInstanceTest : WebServiceTest<WebMadLibService.TransitMadLibInstance>
+    public class MadLibInstanceTest : WebServiceTest<WebMadLibService.TransitMadLibInstance, WebMadLibServiceNoCache>
     {
         private MadLibTest _madlib = new MadLibTest();
         private int _madlib_id = 0;
@@ -25,7 +25,7 @@ namespace SnCore.Web.Soap.Tests.WebMadLibServiceTests
         }
 
         public MadLibInstanceTest()
-            : base("MadLibInstance", new WebMadLibServiceNoCache())
+            : base("MadLibInstance")
         {
 
         }

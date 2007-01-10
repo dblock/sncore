@@ -7,7 +7,7 @@ using System.Web.Services.Protocols;
 namespace SnCore.Web.Soap.Tests.WebBugServiceTests
 {
     [TestFixture]
-    public class BugLinkTest : WebServiceTest<WebBugService.TransitBugLink>
+    public class BugLinkTest : WebServiceTest<WebBugService.TransitBugLink, WebBugServiceNoCache>
     {
         private BugTest _bug1 = new BugTest();
         private int _bug1_id = 0;
@@ -16,7 +16,7 @@ namespace SnCore.Web.Soap.Tests.WebBugServiceTests
         private int _bug2_id = 0;
 
         public BugLinkTest()
-            : base("BugLink", new WebBugService.WebBugService())
+            : base("BugLink")
         {
         }
 

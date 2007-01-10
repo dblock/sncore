@@ -7,10 +7,10 @@ using System.Web.Services.Protocols;
 namespace SnCore.Web.Soap.Tests.WebContentServiceTests
 {
     [TestFixture]
-    public class AccountContentGroupTest : WebServiceTest<WebContentService.TransitAccountContentGroup>
+    public class AccountContentGroupTest : WebServiceTest<WebContentService.TransitAccountContentGroup, WebContentServiceNoCache>
     {
         public AccountContentGroupTest()
-            : base("AccountContentGroup", new WebContentServiceNoCache())
+            : base("AccountContentGroup")
         {
 
         }

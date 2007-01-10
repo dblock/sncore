@@ -7,7 +7,7 @@ using System.Web.Services.Protocols;
 namespace SnCore.Web.Soap.Tests.WebLocationServiceTests
 {
     [TestFixture]
-    public class NeighborhoodTest : WebServiceTest<WebLocationService.TransitNeighborhood>
+    public class NeighborhoodTest : WebServiceTest<WebLocationService.TransitNeighborhood, WebLocationServiceNoCache>
     {
         public CityTest _city = new CityTest();
         public int _city_id = 0;
@@ -27,7 +27,7 @@ namespace SnCore.Web.Soap.Tests.WebLocationServiceTests
         }
 
         public NeighborhoodTest()
-            : base("Neighborhood", new WebLocationServiceNoCache())
+            : base("Neighborhood")
         {
         }
 
@@ -46,11 +46,10 @@ namespace SnCore.Web.Soap.Tests.WebLocationServiceTests
         public void GetNeighborhoodsByCityIdTest()
         {
             WebLocationService.TransitNeighborhood t_instance = GetTransitInstance();
-            WebLocationServiceNoCache endpoint = (WebLocationServiceNoCache)EndPoint;
-            int id = endpoint.CreateOrUpdateNeighborhood(GetAdminTicket(), t_instance);
-            int count = endpoint.GetNeighborhoodsByCityIdCount(GetAdminTicket(), _city_id);
+            int id = EndPoint.CreateOrUpdateNeighborhood(GetAdminTicket(), t_instance);
+            int count = EndPoint.GetNeighborhoodsByCityIdCount(GetAdminTicket(), _city_id);
             Assert.IsTrue(count > 0);
-            WebLocationService.TransitNeighborhood[] neighborhoods = endpoint.GetNeighborhoodsByCityId(GetAdminTicket(), _city_id, null);
+            WebLocationService.TransitNeighborhood[] neighborhoods = EndPoint.GetNeighborhoodsByCityId(GetAdminTicket(), _city_id, null);
             bool bFound = false;
             foreach (WebLocationService.TransitNeighborhood neighborhood in neighborhoods)
             {
@@ -61,16 +60,15 @@ namespace SnCore.Web.Soap.Tests.WebLocationServiceTests
                 }
             }
             Assert.IsTrue(bFound, "Neighborhood was not returned from GetNeighborhoodsByCityId");
-            endpoint.DeleteNeighborhood(GetAdminTicket(), id);
+            EndPoint.DeleteNeighborhood(GetAdminTicket(), id);
         }
 
         [Test]
         public void SearchNeighborhoodByNameTest()
         {
             WebLocationService.TransitNeighborhood t_instance = GetTransitInstance();
-            WebLocationServiceNoCache endpoint = (WebLocationServiceNoCache)EndPoint;
-            int id = endpoint.CreateOrUpdateNeighborhood(GetAdminTicket(), t_instance);
-            WebLocationService.TransitNeighborhood[] neighborhoods = endpoint.SearchNeighborhoodsByName(GetAdminTicket(), t_instance.Name, null);
+            int id = EndPoint.CreateOrUpdateNeighborhood(GetAdminTicket(), t_instance);
+            WebLocationService.TransitNeighborhood[] neighborhoods = EndPoint.SearchNeighborhoodsByName(GetAdminTicket(), t_instance.Name, null);
             bool bFound = false;
             foreach (WebLocationService.TransitNeighborhood neighborhood in neighborhoods)
             {
@@ -81,19 +79,18 @@ namespace SnCore.Web.Soap.Tests.WebLocationServiceTests
                 }
             }
             Assert.IsTrue(bFound, "Neighborhood was not returned from SearchNeighborhoodsByName");
-            endpoint.DeleteNeighborhood(GetAdminTicket(), id);
+            EndPoint.DeleteNeighborhood(GetAdminTicket(), id);
         }
 
         [Test]
         public void MergeNeighborhoodsTest()
         {
-            WebLocationServiceNoCache endpoint = (WebLocationServiceNoCache)EndPoint;
             WebLocationService.TransitNeighborhood t_instance1 = GetTransitInstance();
-            int id1 = endpoint.CreateOrUpdateNeighborhood(GetAdminTicket(), t_instance1);
+            int id1 = EndPoint.CreateOrUpdateNeighborhood(GetAdminTicket(), t_instance1);
             WebLocationService.TransitNeighborhood t_instance2 = GetTransitInstance();
-            int id2 = endpoint.CreateOrUpdateNeighborhood(GetAdminTicket(), t_instance2);
-            endpoint.MergeNeighborhoods(GetAdminTicket(), id1, id2);
-            endpoint.DeleteNeighborhood(GetAdminTicket(), id1);
+            int id2 = EndPoint.CreateOrUpdateNeighborhood(GetAdminTicket(), t_instance2);
+            EndPoint.MergeNeighborhoods(GetAdminTicket(), id1, id2);
+            EndPoint.DeleteNeighborhood(GetAdminTicket(), id1);
             // TODO: implement a GetCityById that doesn't throw, check that id2 doesn't exist any more
         }
     }

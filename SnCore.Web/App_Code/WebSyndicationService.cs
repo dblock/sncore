@@ -14,6 +14,7 @@ using System.Web.Security;
 using Microsoft.Web.Services3;
 using Microsoft.Web.Services3.Design;
 using SnCore.Tools.Web;
+using System.Text;
 
 namespace SnCore.WebServices
 {
@@ -39,22 +40,8 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create or update an account feed type.")]
         public int CreateOrUpdateFeedType(string ticket, TransitFeedType type)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
-
-                if (!user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                ManagedFeedType m_type = new ManagedFeedType(session);
-                m_type.CreateOrUpdate(type);
-                SnCore.Data.Hibernate.Session.Flush();
-                return m_type.Id;
-            }
+            return WebServiceImpl<TransitFeedType, ManagedFeedType, FeedType>.CreateOrUpdate(
+                ticket, type);
         }
 
         /// <summary>
@@ -62,14 +49,10 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>transit account feed type</returns>
         [WebMethod(Description = "Get an account feed type.")]
-        public TransitFeedType GetFeedTypeById(int id)
+        public TransitFeedType GetFeedTypeById(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                TransitFeedType result = new ManagedFeedType(session, id).TransitFeedType;
-                return result;
-            }
+            return WebServiceImpl<TransitFeedType, ManagedFeedType, FeedType>.GetById(
+                ticket, id);
         }
 
         /// <summary>
@@ -77,15 +60,11 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>transit account feed type</returns>
         [WebMethod(Description = "Get an account feed type by name.")]
-        public TransitFeedType GetFeedTypeByName(string name)
+        public TransitFeedType GetFeedTypeByName(string ticket, string name)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                TransitFeedType result = new ManagedFeedType(session,
-                    ManagedFeedType.Find(session, name)).TransitFeedType;
-                return result;
-            }
+            ICriterion[] expression = { Expression.Eq("Name", name) };
+            return WebServiceImpl<TransitFeedType, ManagedFeedType, FeedType>.GetByCriterion(
+                ticket, expression);
         }
 
         /// <summary>
@@ -93,19 +72,21 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>list of transit account feed types</returns>
         [WebMethod(Description = "Get all account feed types.")]
-        public List<TransitFeedType> GetFeedTypes()
+        public List<TransitFeedType> GetFeedTypes(string ticket, ServiceQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                IList types = session.CreateCriteria(typeof(FeedType)).List();
-                List<TransitFeedType> result = new List<TransitFeedType>(types.Count);
-                foreach (FeedType type in types)
-                {
-                    result.Add(new ManagedFeedType(session, type).TransitFeedType);
-                }
-                return result;
-            }
+            return WebServiceImpl<TransitFeedType, ManagedFeedType, FeedType>.GetList(
+                ticket, options);
+        }
+
+        /// <summary>
+        /// Get all AccountFeed types count.
+        /// </summary>
+        /// <returns>number of transit account feed types</returns>
+        [WebMethod(Description = "Get all account feed types count.")]
+        public int GetFeedTypesCount(string ticket)
+        {
+            return WebServiceImpl<TransitFeedType, ManagedFeedType, FeedType>.GetCount(
+                ticket);
         }
 
         /// <summary>
@@ -116,24 +97,10 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete an account feed type.")]
         public void DeleteFeedType(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
-
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                ManagedAccount user = new ManagedAccount(session, userid);
-
-                if (!user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                ManagedFeedType m_type = new ManagedFeedType(session, id);
-                m_type.Delete();
-                SnCore.Data.Hibernate.Session.Flush();
-            }
+            WebServiceImpl<TransitFeedType, ManagedFeedType, FeedType>.Delete(
+                ticket, id);
         }
+
         #endregion
 
         #region AccountFeed
@@ -145,33 +112,19 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create or update an account feed.")]
         public int CreateOrUpdateAccountFeed(string ticket, TransitAccountFeed feed)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            int id = WebServiceImpl<TransitAccountFeed, ManagedAccountFeed, AccountFeed>.CreateOrUpdate(
+                ticket, feed);
+
+            try
             {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
-
-                if ((feed.AccountId != 0) && (feed.AccountId != user.Id) && (!user.IsAdministrator()))
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                if (feed.AccountId == 0) feed.AccountId = user.Id;
-                ManagedAccount account = new ManagedAccount(session, feed.AccountId);
-                feed.Id = account.CreateOrUpdate(feed);
-
-                try
-                {
-                    ManagedAccountFeed m_feed = new ManagedAccountFeed(session, feed.Id);
-                    m_feed.Update();
-                }
-                catch
-                {
-                }
-
-                SnCore.Data.Hibernate.Session.Flush();
-                return feed.Id;
+                UpdateAccountFeedItems(ticket, id);
             }
+            catch
+            {
+
+            }
+
+            return id;
         }
 
         /// <summary>
@@ -180,23 +133,14 @@ namespace SnCore.WebServices
         /// <param name="ticket">authentication ticket</param>
         /// <param name="feedid">feed id</param>
         [WebMethod(Description = "Create or update an account feed.")]
-        public int UpdateAccountFeedItems(string ticket, int feedid)
+        public int UpdateAccountFeedItems(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
-                ManagedAccountFeed m_feed = new ManagedAccountFeed(session, feedid);
-
-                if ((m_feed.AccountId != 0) && (m_feed.AccountId != user.Id) && (!user.IsAdministrator()))
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                int result = m_feed.Update();
-                SnCore.Data.Hibernate.Session.Flush();
-                return result;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                ManagedAccountFeed feed = new ManagedAccountFeed(session, id);
+                return feed.Update(sec);
             }
         }
 
@@ -206,23 +150,14 @@ namespace SnCore.WebServices
         /// <param name="ticket">authentication ticket</param>
         /// <param name="feedid">feed id</param>
         [WebMethod(Description = "Create or update account feed item images.")]
-        public int UpdateAccountFeedItemImgs(string ticket, int feedid)
+        public int UpdateAccountFeedItemImgs(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
-                ManagedAccountFeed m_feed = new ManagedAccountFeed(session, feedid);
-
-                if ((m_feed.AccountId != 0) && (m_feed.AccountId != user.Id) && (!user.IsAdministrator()))
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                int result = m_feed.UpdateImages();
-                SnCore.Data.Hibernate.Session.Flush();
-                return result;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                ManagedAccountFeed feed = new ManagedAccountFeed(session, id);
+                return feed.UpdateImages(sec);
             }
         }
 
@@ -233,44 +168,8 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get an account feed.")]
         public TransitAccountFeed GetAccountFeedById(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket, 0);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                TransitAccountFeed result = new ManagedAccountFeed(session, id).TransitAccountFeed;
-                ManagedAccount user = (userid > 0) ? new ManagedAccount(session, userid) : null;
-
-                if ((user == null) || ((user.Id != result.AccountId) && !user.IsAdministrator()))
-                {
-                    // clear potentially private fields
-                    result.Username = string.Empty;
-                    result.Password = string.Empty;
-                    result.FeedUrl = string.Empty;
-                }
-
-                return result;
-            }
-        }
-
-
-        /// <summary>
-        /// Get account feeds.
-        /// </summary>
-        /// <returns>list of account feeds</returns>
-        [WebMethod(Description = "Get account feeds.")]
-        public List<TransitAccountFeed> GetAccountFeeds(string ticket, ServiceQueryOptions options)
-        {
-            return GetAccountFeedsById(ticket, ManagedAccount.GetAccountId(ticket), options);
-        }
-
-        /// <summary>
-        /// Get account feeds count.
-        /// </summary>
-        /// <returns>number of account feeds</returns>
-        [WebMethod(Description = "Get account feeds count.")]
-        public int GetAccountFeedsCount(string ticket)
-        {
-            return GetAccountFeedsCountById(ManagedAccount.GetAccountId(ticket));
+            return WebServiceImpl<TransitAccountFeed, ManagedAccountFeed, AccountFeed>.GetById(
+                ticket, id);
         }
 
         /// <summary>
@@ -278,70 +177,33 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>number of account feeds</returns>
         [WebMethod(Description = "Get account feeds count.", CacheDuration = 60)]
-        public int GetAccountFeedsCountById(int id)
+        public int GetAccountFeedsCount(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int) session.CreateQuery(string.Format(
-                    "SELECT COUNT(*) FROM AccountFeed i WHERE i.Account.Id = {0}",
-                        id)).UniqueResult();
-            }
+            return WebServiceImpl<TransitAccountFeed, ManagedAccountFeed, AccountFeed>.GetCount(
+                ticket, string.Format("WHERE AccountFeed.Account.Id = {0}", id));
         }
-
 
         /// <summary>
         /// Get account feeds.
         /// </summary>
         /// <returns>list of account feeds</returns>
         [WebMethod(Description = "Get account feeds.", CacheDuration = 60)]
-        public List<TransitAccountFeed> GetAccountFeedsById(string ticket, int id, ServiceQueryOptions options)
+        public List<TransitAccountFeed> GetAccountFeeds(string ticket, int id, ServiceQueryOptions options)
         {
-            int userid = ManagedAccount.GetAccountId(ticket, 0);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = (userid > 0) ? new ManagedAccount(session, userid) : null;
-                ICriteria c = session.CreateCriteria(typeof(AccountFeed))
-                    .Add(Expression.Eq("Account.Id", id));
-
-                if (options != null)
-                {
-                    c.SetFirstResult(options.FirstResult);
-                    c.SetMaxResults(options.PageSize);
-                }
-
-                IList feeds = c.List();
-                List<TransitAccountFeed> result = new List<TransitAccountFeed>(feeds.Count);
-                foreach (AccountFeed feed in feeds)
-                {
-                    TransitAccountFeed f = new ManagedAccountFeed(session, feed).TransitAccountFeed;
-                    if ((user == null) || ((user.Id != f.AccountId) && !user.IsAdministrator()))
-                    {
-                        // clear potentially private fields
-                        f.Username = string.Empty;
-                        f.Password = string.Empty;
-                        f.FeedUrl = string.Empty;
-                    }
-                    result.Add(f);
-                }
-                return result;
-            }
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
+            return WebServiceImpl<TransitAccountFeed, ManagedAccountFeed, AccountFeed>.GetList(
+                ticket, options, expressions, null);
         }
 
         /// <summary>
-        /// Get updated account feeds count.
+        /// Get all account feeds count.
         /// </summary>
-        /// <returns>updated account feeds count</returns>
-        [WebMethod(Description = "Get updated account feeds count.", CacheDuration = 60)]
-        public int GetUpdatedAccountFeedsCount()
+        /// <returns>all account feeds count</returns>
+        [WebMethod(Description = "Get all account feeds count.", CacheDuration = 60)]
+        public int GetAllAccountFeedsCount(string ticket)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int) session.CreateQuery("SELECT COUNT(*) " +
-                    "FROM AccountFeed f").UniqueResult();
-            }
+            return WebServiceImpl<TransitAccountFeed, ManagedAccountFeed, AccountFeed>.GetCount(
+                ticket);
         }
 
         /// <summary>
@@ -349,34 +211,14 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>list of updated account feeds</returns>
         [WebMethod(Description = "Get updated account feeds.", CacheDuration = 60)]
-        public List<TransitAccountFeed> GetUpdatedAccountFeeds(ServiceQueryOptions options)
+        public List<TransitAccountFeed> GetAllAccountFeeds(string ticket, ServiceQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                IQuery query = session.CreateQuery(
-                    "SELECT feed.Id FROM AccountFeed feed LEFT JOIN feed.AccountFeedItems item " +
-                    "GROUP BY feed.Id ORDER BY MAX(item.Created) DESC");
-
-                if (options != null)
-                {
-                    query.SetFirstResult(options.FirstResult);
-                    query.SetMaxResults(options.PageSize);
-                }
-
-                IList feeds = query.List();
-                List<TransitAccountFeed> result = new List<TransitAccountFeed>(feeds.Count);
-                foreach (int feed_id in feeds)
-                {
-                    TransitAccountFeed f = new ManagedAccountFeed(session, feed_id).TransitAccountFeed;
-                    // clear potentially private fields
-                    f.Username = string.Empty;
-                    f.Password = string.Empty;
-                    f.FeedUrl = string.Empty;
-                    result.Add(f);
-                }
-                return result;
-            }
+            return WebServiceImpl<TransitAccountFeed, ManagedAccountFeed, AccountFeed>.GetListFromIds(
+                ticket, options,
+                    "SELECT AccountFeed.Id FROM AccountFeed AccountFeed " + 
+                    "JOIN AccountFeed.AccountFeedItems AccountFeedItem " +
+                    "GROUP BY AccountFeed " +
+                    "ORDER BY MAX(AccountFeedItem.Created) DESC");
         }
 
         /// <summary>
@@ -387,22 +229,10 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete an account feed.")]
         public void DeleteAccountFeed(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
-                ManagedAccountFeed m_feed = new ManagedAccountFeed(session, id);
-
-                if (m_feed.AccountId != userid && !user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                m_feed.Delete();
-                SnCore.Data.Hibernate.Session.Flush();
-            }
+            WebServiceImpl<TransitAccountFeed, ManagedAccountFeed, AccountFeed>.Delete(
+                ticket, id);
         }
+
         #endregion
 
         #region AccountFeedItem
@@ -411,16 +241,11 @@ namespace SnCore.WebServices
         /// Get account feed items count.
         /// </summary>
         /// <returns>transit account feed items count</returns>
-        [WebMethod(Description = "Get account feed items count.", CacheDuration = 60)]
-        public int GetAccountFeedItemsCount()
+        [WebMethod(Description = "Get all account feed items count.", CacheDuration = 60)]
+        public int GetAllAccountFeedItemsCount(string ticket)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int) session.CreateQuery(
-                    "SELECT COUNT(*) FROM AccountFeedItem i" +
-                    " WHERE i.AccountFeed.Publish = 1").UniqueResult();
-            }
+            return WebServiceImpl<TransitAccountFeedItem, ManagedAccountFeedItem, AccountFeedItem>.GetCount(
+                ticket, "WHERE AccountFeedItem.AccountFeed.Publish = 1");
         }
 
         /// <summary>
@@ -428,34 +253,25 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>transit account feed items</returns>
         [WebMethod(Description = "Get account feed items.", CacheDuration = 60)]
-        public List<TransitAccountFeedItem> GetAccountFeedItems(ServiceQueryOptions options)
+        public List<TransitAccountFeedItem> GetAllAccountFeedItems(string ticket, ServiceQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
+            ICriterion[] expressions = { Expression.Eq("AccountFeed.Publish", 1) };
+            Order[] orders = { Order.Desc("Created") };
+            return WebServiceImpl<TransitAccountFeedItem, ManagedAccountFeedItem, AccountFeedItem>.GetList(
+                ticket, options, expressions, orders);
+        }
 
-                IQuery q = session.CreateQuery(
-                    "SELECT i FROM AccountFeedItem i" +
-                    " WHERE i.AccountFeed.Publish = 1" +
-                    " ORDER BY i.Created DESC");
 
-                if (options != null)
-                {
-                    q.SetMaxResults(options.PageSize);
-                    q.SetFirstResult(options.FirstResult);
-                }
-
-                IList list = q.List();
-
-                List<TransitAccountFeedItem> result = new List<TransitAccountFeedItem>(list.Count);
-
-                foreach (AccountFeedItem item in list)
-                {
-                    result.Add(new ManagedAccountFeedItem(session, item).TransitAccountFeedItem);
-                }
-
-                return result;
-            }
+        /// <summary>
+        /// Delete an account feed item.
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete an account feed item.")]
+        public void DeleteAccountFeedItem(string ticket, int id)
+        {
+            WebServiceImpl<TransitAccountFeedItem, ManagedAccountFeedItem, AccountFeedItem>.Delete(
+                ticket, id);
         }
 
 
@@ -470,12 +286,8 @@ namespace SnCore.WebServices
         {
             try
             {
-                using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-                {
-                    // todo: persmissions for story
-                    ISession session = SnCore.Data.Hibernate.Session.Current;
-                    return new ManagedAccountFeedItem(session, id).TransitAccountFeedItem;
-                }
+                return WebServiceImpl<TransitAccountFeedItem, ManagedAccountFeedItem, AccountFeedItem>.GetById(
+                    ticket, id);
             }
             catch (ObjectNotFoundException)
             {
@@ -489,15 +301,10 @@ namespace SnCore.WebServices
         /// <param name="id">account feed id</param>
         /// <returns>transit account feed items count</returns>
         [WebMethod(Description = "Get account feed items count.", CacheDuration = 60)]
-        public int GetAccountFeedItemsCountById(int id)
+        public int GetAccountFeedItemsCount(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int) session.CreateQuery(string.Format(
-                    "SELECT COUNT(*) FROM AccountFeedItem i WHERE i.AccountFeed.Id = {0}",
-                        id)).UniqueResult();
-            }
+            return WebServiceImpl<TransitAccountFeedItem, ManagedAccountFeedItem, AccountFeedItem>.GetCount(
+                ticket, string.Format("WHERE AccountFeedItem.AccountFeed.Id = {0}", id));
         }
 
         /// <summary>
@@ -505,82 +312,56 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>transit account feed items</returns>
         [WebMethod(Description = "Get account feed items.", CacheDuration = 60)]
-        public List<TransitAccountFeedItem> GetAccountFeedItemsById(int id, ServiceQueryOptions options)
+        public List<TransitAccountFeedItem> GetAccountFeedItems(string ticket, int id, ServiceQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                ICriteria c = session.CreateCriteria(typeof(AccountFeedItem))
-                    .Add(Expression.Eq("AccountFeed.Id", id))
-                    .AddOrder(Order.Desc("Created"));
-
-                if (options != null)
-                {
-                    c.SetMaxResults(options.PageSize);
-                    c.SetFirstResult(options.FirstResult);
-                }
-
-                IList list = c.List();
-
-                List<TransitAccountFeedItem> result = new List<TransitAccountFeedItem>(list.Count);
-
-                foreach (AccountFeedItem item in list)
-                {
-                    result.Add(new ManagedAccountFeedItem(session, item).TransitAccountFeedItem);
-                }
-
-                return result;
-            }
+            ICriterion[] expressions = { Expression.Eq("AccountFeed.Id", id) };
+            Order[] orders = { Order.Desc("Created") };
+            return WebServiceImpl<TransitAccountFeedItem, ManagedAccountFeedItem, AccountFeedItem>.GetList(
+                ticket, options, expressions, orders);
         }
+
+        /// <summary>
+        /// Create or update an  account feed item.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        [WebMethod(Description = "Create or update an account feed item.")]
+        public int CreateOrUpdateAccountFeedItem(string ticket, TransitAccountFeedItem item)
+        {
+            return WebServiceImpl<TransitAccountFeedItem, ManagedAccountFeedItem, AccountFeedItem>.CreateOrUpdate(
+                ticket, item);
+        }
+
         #endregion
 
         #region Search
-
-        protected IList InternalSearchAccountFeedItems(ISession session, string s, ServiceQueryOptions options)
-        {
-            int maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
-            IQuery query = session.CreateSQLQuery(
-                    "SELECT {AccountFeedItem.*} FROM AccountFeedItem {AccountFeedItem}" +
-                    " INNER JOIN FREETEXTTABLE(AccountFeedItem, ([Title], [Description]), '" + Renderer.SqlEncode(s) + "', " +
-                        maxsearchresults.ToString() + ") AS ft " +
-                    " ON AccountFeedItem.AccountFeedItem_Id = ft.[KEY] " +
-                    " ORDER BY ft.[RANK] DESC",
-                    "AccountFeedItem",
-                    typeof(AccountFeedItem));
-
-            if (options != null)
-            {
-                query.SetFirstResult(options.FirstResult);
-                query.SetMaxResults(options.PageSize);
-            }
-
-            return query.List();
-        }
 
         /// <summary>
         /// Search feed items.
         /// </summary>
         /// <returns></returns>
         [WebMethod(Description = "Search feed items.", CacheDuration = 60)]
-        public List<TransitAccountFeedItem> SearchAccountFeedItems(string s, ServiceQueryOptions options)
+        public List<TransitAccountFeedItem> SearchAccountFeedItems(string ticket, string s, ServiceQueryOptions options)
         {
             if (string.IsNullOrEmpty(s))
+            {
                 return new List<TransitAccountFeedItem>();
+            }
 
+            int maxsearchresults = 128;
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                IList FeedItems = InternalSearchAccountFeedItems(session, s, options);
-
-                List<TransitAccountFeedItem> result = new List<TransitAccountFeedItem>(FeedItems.Count);
-                foreach (AccountFeedItem FeedItem in FeedItems)
-                {
-                    result.Add(new ManagedAccountFeedItem(session, FeedItem).TransitAccountFeedItem);
-                }
-
-                return result;
+                maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
             }
+
+            StringBuilder query = new StringBuilder();
+            query.Append("SELECT {AccountFeedItem.*} FROM AccountFeedItem {AccountFeedItem}");
+            query.AppendFormat(" INNER JOIN FREETEXTTABLE(AccountFeedItem, ([Title], [Description]), '{0}', {1}) as ft ", Renderer.SqlEncode(s), maxsearchresults);
+            query.Append(" ON AccountFeedItem.AccountFeedItem_Id = ft.[KEY] ");
+            query.Append(" ORDER BY ft.[RANK] DESC");
+
+            return WebServiceImpl<TransitAccountFeedItem, ManagedAccountFeedItem, AccountFeedItem>.GetList(
+                ticket, options, query.ToString(), "AccountFeedItem");
         }
 
         /// <summary>
@@ -588,16 +369,12 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>number of feed items</returns>
         [WebMethod(Description = "Return the number of feed items matching a query.", CacheDuration = 60)]
-        public int SearchAccountFeedItemsCount(string s)
+        public int SearchAccountFeedItemsCount(string ticket, string s)
         {
             if (string.IsNullOrEmpty(s))
                 return 0;
 
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                return InternalSearchAccountFeedItems(session, s, null).Count;
-            }
+            return SearchAccountFeedItems(ticket, s, null).Count;
         }
 
         #endregion
@@ -609,13 +386,10 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>transit account feed item images count</returns>
         [WebMethod(Description = "Get account feed item images count.", CacheDuration = 60)]
-        public int GetAccountFeedItemImgsCount(TransitAccountFeedItemImgQueryOptions options)
+        public int GetAccountFeedItemImgsCount(string ticket, TransitAccountFeedItemImgQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int) options.CreateCountQuery(session).UniqueResult();
-            }
+            return WebServiceImpl<TransitAccountFeedItemImg, ManagedAccountFeedItemImg, AccountFeedItemImg>.GetCount(
+                ticket, options.CreateCountQuery());
         }
 
         /// <summary>
@@ -623,33 +397,10 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>transit account feed item images</returns>
         [WebMethod(Description = "Get account feed item images.", CacheDuration = 60)]
-        public List<TransitAccountFeedItemImg> GetAccountFeedItemImgs(TransitAccountFeedItemImgQueryOptions qopt, ServiceQueryOptions options)
+        public List<TransitAccountFeedItemImg> GetAccountFeedItemImgs(string ticket, TransitAccountFeedItemImgQueryOptions qopt, ServiceQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                IQuery q = qopt.CreateQuery(session);
-
-                if (options != null)
-                {
-                    q.SetMaxResults(options.PageSize);
-                    q.SetFirstResult(options.FirstResult);
-                }
-
-                IList list = q.List();
-
-                List<TransitAccountFeedItemImg> result = new List<TransitAccountFeedItemImg>(list.Count);
-
-                foreach (AccountFeedItemImg item in list)
-                {
-                    TransitAccountFeedItemImg img = new ManagedAccountFeedItemImg(session, item).TransitAccountFeedItemImg;
-                    img.Thumbnail = null;
-                    result.Add(img);
-                }
-
-                return result;
-            }
+            return WebServiceImpl<TransitAccountFeedItemImg, ManagedAccountFeedItemImg, AccountFeedItemImg>.GetList(
+                ticket, options, qopt.CreateQuery());
         }
 
         /// <summary>
@@ -661,11 +412,8 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account feed item image by id.")]
         public TransitAccountFeedItemImg GetAccountFeedItemImgById(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                return new ManagedAccountFeedItemImg(session, id).TransitAccountFeedItemImg;
-            }
+            return WebServiceImpl<TransitAccountFeedItemImg, ManagedAccountFeedItemImg, AccountFeedItemImg>.GetById(
+                ticket, id);
         }
 
         /// <summary>
@@ -676,24 +424,21 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create or update an account feed item image.")]
         public int CreateOrUpdateAccountFeedItemImg(string ticket, TransitAccountFeedItemImg img)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
-
-                if (!user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                ManagedAccountFeedItemImg m_img = new ManagedAccountFeedItemImg(session);
-                m_img.CreateOrUpdate(img);
-                SnCore.Data.Hibernate.Session.Flush();
-                return img.Id;
-            }
+            return WebServiceImpl<TransitAccountFeedItemImg, ManagedAccountFeedItemImg, AccountFeedItemImg>.CreateOrUpdate(
+                ticket, img);
         }
 
+        /// <summary>
+        /// Delete an account feed item image.
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete an account feed item.")]
+        public void DeleteAccountFeedItemImg(string ticket, int id)
+        {
+            WebServiceImpl<TransitAccountFeedItemImg, ManagedAccountFeedItemImg, AccountFeedItemImg>.Delete(
+                ticket, id);
+        }
 
         #endregion
     }

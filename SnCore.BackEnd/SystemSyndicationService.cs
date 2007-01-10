@@ -33,6 +33,8 @@ namespace SnCore.BackEndServices
 
         public void RunSyndication(ISession session)
         {
+            ManagedSecurityContext sec = ManagedAccount.GetAdminSecurityContext(session);
+
             IQuery query = session.CreateSQLQuery(
                 "SELECT {AccountFeed.*} FROM AccountFeed" +
                 " WHERE (NOT EXISTS ( SELECT AccountFeedItem_Id FROM AccountFeedItem item WHERE item.AccountFeed_Id = AccountFeed.AccountFeed_Id ))" +
@@ -48,8 +50,8 @@ namespace SnCore.BackEndServices
                 try
                 {
                     ManagedAccountFeed m_feed = new ManagedAccountFeed(session, feed);
-                    m_feed.Update();
-                    m_feed.UpdateImages();
+                    m_feed.Update(sec);
+                    m_feed.UpdateImages(sec);
                 }
                 catch (Exception ex)
                 {

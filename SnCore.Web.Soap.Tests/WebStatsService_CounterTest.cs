@@ -7,10 +7,10 @@ using System.Web.Services.Protocols;
 namespace SnCore.Web.Soap.Tests.WebStatsServiceTests
 {
     [TestFixture]
-    public class CounterTest : WebServiceTest<WebStatsService.TransitCounter>
+    public class CounterTest : WebServiceTest<WebStatsService.TransitCounter, WebStatsServiceNoCache>
     {
         public CounterTest()
-            : base("Counter", new WebStatsServiceNoCache())
+            : base("Counter")
         {
 
         }

@@ -7,10 +7,10 @@ using System.Web.Services.Protocols;
 namespace SnCore.Web.Soap.Tests.WebStatsServiceTests
 {
     [TestFixture]
-    public class RefererQueryTest : WebServiceTest<WebStatsService.TransitRefererQuery>
+    public class RefererQueryTest : WebServiceTest<WebStatsService.TransitRefererQuery, WebStatsServiceNoCache>
     {
         public RefererQueryTest()
-            : base("RefererQuery", "RefererQueries", new WebStatsServiceNoCache())
+            : base("RefererQuery", "RefererQueries")
         {
 
         }

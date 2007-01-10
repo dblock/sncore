@@ -32,34 +32,33 @@ namespace SnCore.Services
             if (VisibleOnly)
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.Append("i.Visible = 1");
+                b.Append("AccountFeedItemImg.Visible = 1");
             }
 
             if (InterestingOnly)
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.Append("i.Interesting = 1");
+                b.Append("AccountFeedItemImg.Interesting = 1");
             }
 
             return b.ToString();
         }
 
-        public IQuery CreateCountQuery(ISession session)
+        public string CreateCountQuery()
         {
-            return session.CreateQuery("SELECT COUNT(*) FROM AccountFeedItemImg i " + CreateSubQuery());
+            return CreateSubQuery();
         }
 
-        public IQuery CreateQuery(ISession session)
+        public string CreateQuery()
         {
             StringBuilder b = new StringBuilder();
-            b.Append("SELECT i FROM AccountFeedItemImg i");
+            b.Append("SELECT AccountFeedItemImg FROM AccountFeedItemImg AccountFeedItemImg");
             b.Append(CreateSubQuery());
             if (!string.IsNullOrEmpty(SortOrder))
             {
                 b.AppendFormat(" ORDER BY {0} {1}", SortOrder, SortAscending ? "ASC" : "DESC");
             }
-
-            return session.CreateQuery(b.ToString());
+            return b.ToString();
         }
 
         public override int GetHashCode()

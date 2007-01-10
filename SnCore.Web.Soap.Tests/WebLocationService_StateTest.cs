@@ -7,7 +7,7 @@ using System.Web.Services.Protocols;
 namespace SnCore.Web.Soap.Tests.WebLocationServiceTests
 {
     [TestFixture]
-    public class StateTest : WebServiceTest<WebLocationService.TransitState>
+    public class StateTest : WebServiceTest<WebLocationService.TransitState, WebLocationServiceNoCache>
     {
         public CountryTest _country = new CountryTest();
         public int _country_id = 0;
@@ -25,7 +25,7 @@ namespace SnCore.Web.Soap.Tests.WebLocationServiceTests
         }
 
         public StateTest()
-            : base("State", new WebLocationServiceNoCache())
+            : base("State")
         {
         }
 
@@ -42,11 +42,10 @@ namespace SnCore.Web.Soap.Tests.WebLocationServiceTests
         public void GetStatesByCountryIdTest()
         {
             WebLocationService.TransitState t_instance = GetTransitInstance();
-            WebLocationServiceNoCache endpoint = (WebLocationServiceNoCache) EndPoint;
-            int id = endpoint.CreateOrUpdateState(GetAdminTicket(), t_instance);
-            int count = endpoint.GetStatesByCountryIdCount(GetAdminTicket(), _country_id);
+            int id = EndPoint.CreateOrUpdateState(GetAdminTicket(), t_instance);
+            int count = EndPoint.GetStatesByCountryIdCount(GetAdminTicket(), _country_id);
             Assert.IsTrue(count > 0);
-            WebLocationService.TransitState[] states = endpoint.GetStatesByCountryId(GetAdminTicket(), _country_id, null);
+            WebLocationService.TransitState[] states = EndPoint.GetStatesByCountryId(GetAdminTicket(), _country_id, null);
             bool bFound = false;
             foreach (WebLocationService.TransitState state in states)
             {
@@ -57,7 +56,7 @@ namespace SnCore.Web.Soap.Tests.WebLocationServiceTests
                 }
             }
             Assert.IsTrue(bFound, "State was not returned from GetStatesByCountryId");
-            endpoint.DeleteState(GetAdminTicket(), id);
+            EndPoint.DeleteState(GetAdminTicket(), id);
         }
     }
 }

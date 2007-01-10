@@ -7,7 +7,7 @@ using System.Web.Services.Protocols;
 namespace SnCore.Web.Soap.Tests.WebLocationServiceTests
 {
     [TestFixture]
-    public class CityTest : WebServiceTest<WebLocationService.TransitCity>
+    public class CityTest : WebServiceTest<WebLocationService.TransitCity, WebLocationServiceNoCache>
     {
         public StateTest _state = new StateTest();
         public int _state_id = 0;
@@ -27,7 +27,7 @@ namespace SnCore.Web.Soap.Tests.WebLocationServiceTests
         }
 
         public CityTest()
-            : base("City", "Cities", new WebLocationServiceNoCache())
+            : base("City", "Cities")
         {
 
         }
@@ -46,11 +46,10 @@ namespace SnCore.Web.Soap.Tests.WebLocationServiceTests
         public void GetCitiesByCountryIdTest()
         {
             WebLocationService.TransitCity t_instance = GetTransitInstance();
-            WebLocationServiceNoCache endpoint = (WebLocationServiceNoCache)EndPoint;
-            int id = endpoint.CreateOrUpdateCity(GetAdminTicket(), t_instance);
-            int count = endpoint.GetCitiesByCountryIdCount(GetAdminTicket(), _state._country_id);
+            int id = EndPoint.CreateOrUpdateCity(GetAdminTicket(), t_instance);
+            int count = EndPoint.GetCitiesByCountryIdCount(GetAdminTicket(), _state._country_id);
             Assert.IsTrue(count > 0);
-            WebLocationService.TransitCity[] cities = endpoint.GetCitiesByCountryId(GetAdminTicket(), _state._country_id, null);
+            WebLocationService.TransitCity[] cities = EndPoint.GetCitiesByCountryId(GetAdminTicket(), _state._country_id, null);
             bool bFound = false;
             foreach (WebLocationService.TransitCity city in cities)
             {
@@ -61,18 +60,17 @@ namespace SnCore.Web.Soap.Tests.WebLocationServiceTests
                 }
             }
             Assert.IsTrue(bFound, "City was not returned from GetCitiesByCountryId");
-            endpoint.DeleteCity(GetAdminTicket(), id);
+            EndPoint.DeleteCity(GetAdminTicket(), id);
         }
 
         [Test]
         public void GetCitiesByStateIdTest()
         {
             WebLocationService.TransitCity t_instance = GetTransitInstance();
-            WebLocationServiceNoCache endpoint = (WebLocationServiceNoCache)EndPoint;
-            int id = endpoint.CreateOrUpdateCity(GetAdminTicket(), t_instance);
-            int count = endpoint.GetCitiesByStateIdCount(GetAdminTicket(), _state_id);
+            int id = EndPoint.CreateOrUpdateCity(GetAdminTicket(), t_instance);
+            int count = EndPoint.GetCitiesByStateIdCount(GetAdminTicket(), _state_id);
             Assert.IsTrue(count > 0);
-            WebLocationService.TransitCity[] cities = endpoint.GetCitiesByStateId(GetAdminTicket(), _state_id, null);
+            WebLocationService.TransitCity[] cities = EndPoint.GetCitiesByStateId(GetAdminTicket(), _state_id, null);
             bool bFound = false;
             foreach (WebLocationService.TransitCity city in cities)
             {
@@ -83,27 +81,25 @@ namespace SnCore.Web.Soap.Tests.WebLocationServiceTests
                 }
             }
             Assert.IsTrue(bFound, "City was not returned from GetCitiesByStateId");
-            endpoint.DeleteCity(GetAdminTicket(), id);
+            EndPoint.DeleteCity(GetAdminTicket(), id);
         }
 
         [Test]
         public void GetCityByTagTest()
         {
             WebLocationService.TransitCity t_instance = GetTransitInstance();
-            WebLocationServiceNoCache endpoint = (WebLocationServiceNoCache)EndPoint;
-            int id = endpoint.CreateOrUpdateCity(GetAdminTicket(), t_instance);
-            WebLocationService.TransitCity city = endpoint.GetCityByTag(GetAdminTicket(), t_instance.Tag);
+            int id = EndPoint.CreateOrUpdateCity(GetAdminTicket(), t_instance);
+            WebLocationService.TransitCity city = EndPoint.GetCityByTag(GetAdminTicket(), t_instance.Tag);
             Assert.IsNotNull(city, "City was not returned from GetCityByTag");
-            endpoint.DeleteCity(GetAdminTicket(), id);
+            EndPoint.DeleteCity(GetAdminTicket(), id);
         }
 
         [Test]
         public void SearchCityByNameTest()
         {
             WebLocationService.TransitCity t_instance = GetTransitInstance();
-            WebLocationServiceNoCache endpoint = (WebLocationServiceNoCache)EndPoint;
-            int id = endpoint.CreateOrUpdateCity(GetAdminTicket(), t_instance);
-            WebLocationService.TransitCity[] cities = endpoint.SearchCitiesByName(GetAdminTicket(), t_instance.Name, null);
+            int id = EndPoint.CreateOrUpdateCity(GetAdminTicket(), t_instance);
+            WebLocationService.TransitCity[] cities = EndPoint.SearchCitiesByName(GetAdminTicket(), t_instance.Name, null);
             bool bFound = false;
             foreach (WebLocationService.TransitCity city in cities)
             {
@@ -114,19 +110,18 @@ namespace SnCore.Web.Soap.Tests.WebLocationServiceTests
                 }
             }
             Assert.IsTrue(bFound, "City was not returned from SearchCitiesByName");
-            endpoint.DeleteCity(GetAdminTicket(), id);
+            EndPoint.DeleteCity(GetAdminTicket(), id);
         }
 
         [Test]
         public void MergeCitiesTest()
         {
-            WebLocationServiceNoCache endpoint = (WebLocationServiceNoCache)EndPoint;
             WebLocationService.TransitCity t_instance1 = GetTransitInstance();
-            int id1 = endpoint.CreateOrUpdateCity(GetAdminTicket(), t_instance1);
+            int id1 = EndPoint.CreateOrUpdateCity(GetAdminTicket(), t_instance1);
             WebLocationService.TransitCity t_instance2 = GetTransitInstance();
-            int id2 = endpoint.CreateOrUpdateCity(GetAdminTicket(), t_instance2);
-            endpoint.MergeCities(GetAdminTicket(), id1, id2);
-            endpoint.DeleteCity(GetAdminTicket(), id1);
+            int id2 = EndPoint.CreateOrUpdateCity(GetAdminTicket(), t_instance2);
+            EndPoint.MergeCities(GetAdminTicket(), id1, id2);
+            EndPoint.DeleteCity(GetAdminTicket(), id1);
             // TODO: implement a GetCityById that doesn't throw, check that id2 doesn't exist any more
         }
     }

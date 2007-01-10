@@ -286,7 +286,7 @@ namespace SnCore.Services
             AccountName = value.Account.Name;
             AccountPictureId = ManagedAccount.GetRandomAccountPictureId(value.Account);
             Username = value.Username;
-            Password = value.Password;
+            // Password = value.Password;
             UpdateFrequency = value.UpdateFrequency;
             FeedUrl = value.FeedUrl;
             LinkUrl = value.LinkUrl;
@@ -590,8 +590,10 @@ namespace SnCore.Services
             return true;
         }
 
-        public int Update()
+        public int Update(ManagedSecurityContext sec)
         {
+            GetACL().Check(sec, DataOperation.Update);
+
             mInstance.Updated = DateTime.UtcNow;
 
             IList<AccountFeedItem> deleted = mInstance.AccountFeedItems;
@@ -635,8 +637,10 @@ namespace SnCore.Services
             return updated.Count;
         }
 
-        public int UpdateImages()
+        public int UpdateImages(ManagedSecurityContext sec)
         {
+            GetACL().Check(sec, DataOperation.Update);
+
             int result = 0;
             Uri basehref = null;
             Uri.TryCreate(mInstance.LinkUrl, UriKind.Absolute, out basehref);

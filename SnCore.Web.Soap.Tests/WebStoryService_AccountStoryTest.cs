@@ -8,10 +8,10 @@ using System.Threading;
 namespace SnCore.Web.Soap.Tests.WebStoryServiceTests
 {
     [TestFixture]
-    public class AccountStoryTest : WebServiceTest<WebStoryService.TransitAccountStory>
+    public class AccountStoryTest : WebServiceTest<WebStoryService.TransitAccountStory, WebStoryServiceNoCache>
     {
         public AccountStoryTest()
-            : base("AccountStory", "AccountStories", new WebStoryServiceNoCache())
+            : base("AccountStory", "AccountStories")
         {
 
         }
@@ -45,12 +45,11 @@ namespace SnCore.Web.Soap.Tests.WebStoryServiceTests
         [Test]
         public void TestGetAllStories()
         {
-            WebStoryServiceNoCache endpoint = (WebStoryServiceNoCache)EndPoint;
-            int count1 = endpoint.GetAllAccountStoriesCount(GetAdminTicket());
+            int count1 = EndPoint.GetAllAccountStoriesCount(GetAdminTicket());
             int id = Create(GetAdminTicket());
-            int count2 = endpoint.GetAllAccountStoriesCount(GetAdminTicket());
+            int count2 = EndPoint.GetAllAccountStoriesCount(GetAdminTicket());
             Assert.AreEqual(count1 + 1, count2);
-            WebStoryService.TransitAccountStory[] stories = endpoint.GetAllAccountStories(GetAdminTicket(), null);
+            WebStoryService.TransitAccountStory[] stories = EndPoint.GetAllAccountStories(GetAdminTicket(), null);
             Assert.AreEqual(stories.Length, count2);
             Delete(GetAdminTicket(), id);
         }
@@ -58,14 +57,13 @@ namespace SnCore.Web.Soap.Tests.WebStoryServiceTests
         [Test]
         public void TestSearchStories()
         {
-            WebStoryServiceNoCache endpoint = (WebStoryServiceNoCache)EndPoint;
             WebStoryService.TransitAccountStory t_instance = GetTransitInstance();
             int id = Create(GetAdminTicket(), t_instance);
             Thread.Sleep(3 * 1000); // wait for the search index to flush
-            int count = endpoint.SearchAccountStoriesCount(GetAdminTicket(), t_instance.Name);
+            int count = EndPoint.SearchAccountStoriesCount(GetAdminTicket(), t_instance.Name);
             Console.WriteLine("Search {0}: {1}", t_instance.Name, count);
             Assert.IsTrue(count > 0);
-            WebStoryService.TransitAccountStory[] searchresults = endpoint.SearchAccountStories(GetAdminTicket(), t_instance.Name, null);
+            WebStoryService.TransitAccountStory[] searchresults = EndPoint.SearchAccountStories(GetAdminTicket(), t_instance.Name, null);
             bool bFound = false;
             foreach (WebStoryService.TransitAccountStory story in searchresults)
             {

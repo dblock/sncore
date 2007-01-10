@@ -142,5 +142,15 @@ namespace SnCore.Web.Soap.Tests.Properties {
                 return ((string)(this["SnCore_Web_Soap_Tests_WebTagWordService_WebTagWordService"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://dblock-black.orangebitch.com/SnCoreWeb/WebSyndicationService.asmx")]
+        public string SnCore_Web_Soap_Tests_WebSyndicationService_WebSyndicationService {
+            get {
+                return ((string)(this["SnCore_Web_Soap_Tests_WebSyndicationService_WebSyndicationService"]));
+            }
+        }
     }
 }

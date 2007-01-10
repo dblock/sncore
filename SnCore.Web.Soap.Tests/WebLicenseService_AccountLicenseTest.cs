@@ -7,10 +7,10 @@ using System.Web.Services.Protocols;
 namespace SnCore.Web.Soap.Tests.WebLicenseServiceTests
 {
     [TestFixture]
-    public class AccountLicenseTest : WebServiceTest<WebLicenseService.TransitAccountLicense>
+    public class AccountLicenseTest : WebServiceTest<WebLicenseService.TransitAccountLicense, WebLicenseServiceNoCache>
     {
         public AccountLicenseTest()
-            : base("AccountLicense", new WebLicenseServiceNoCache())
+            : base("AccountLicense")
         {
 
         }
@@ -40,8 +40,7 @@ namespace SnCore.Web.Soap.Tests.WebLicenseServiceTests
         [Test]
         public void GetAccountLicenseByAccountIdTest()
         {
-            WebLicenseServiceNoCache endpoint = (WebLicenseServiceNoCache) EndPoint;
-            WebLicenseService.TransitAccountLicense t_instance = endpoint.GetAccountLicenseByAccountId(
+            WebLicenseService.TransitAccountLicense t_instance = EndPoint.GetAccountLicenseByAccountId(
                 GetAdminTicket(), GetUserAccount().Id);
             if (t_instance != null) Console.WriteLine(t_instance.Name);
         }

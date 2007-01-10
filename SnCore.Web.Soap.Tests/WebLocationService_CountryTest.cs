@@ -7,10 +7,10 @@ using System.Web.Services.Protocols;
 namespace SnCore.Web.Soap.Tests.WebLocationServiceTests
 {
     [TestFixture]
-    public class CountryTest : WebServiceTest<WebLocationService.TransitCountry>
+    public class CountryTest : WebServiceTest<WebLocationService.TransitCountry, WebLocationServiceNoCache>
     {
         public CountryTest()
-            : base("Country", "Countries", new WebLocationService.WebLocationService())
+            : base("Country", "Countries")
         {
         }
 

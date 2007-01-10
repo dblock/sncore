@@ -6,11 +6,26 @@ using System.Web.Services.Protocols;
 
 namespace SnCore.Web.Soap.Tests.WebSystemServiceTests
 {
+    public class WebSystemServiceNoCache : WebSystemService.WebSystemService
+    {
+        public WebSystemServiceNoCache()
+        {
+
+        }
+
+        protected override System.Net.WebRequest GetWebRequest(Uri uri)
+        {
+            System.Net.WebRequest request = base.GetWebRequest(uri);
+            request.Headers.Add("Cache-Control", "no-cache");
+            return request;
+        }
+    }
+
     [TestFixture]
-    public class ConfigurationTest : WebServiceTest<WebSystemService.TransitConfiguration>
+    public class ConfigurationTest : WebServiceTest<WebSystemService.TransitConfiguration, WebSystemServiceNoCache>
     {
         public ConfigurationTest()
-            : base("Configuration", new WebSystemService.WebSystemService())
+            : base("Configuration")
         {
         }
 

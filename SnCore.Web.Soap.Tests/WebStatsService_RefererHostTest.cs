@@ -7,10 +7,10 @@ using System.Web.Services.Protocols;
 namespace SnCore.Web.Soap.Tests.WebStatsServiceTests
 {
     [TestFixture]
-    public class RefererHostTest : WebServiceTest<WebStatsService.TransitRefererHost>
+    public class RefererHostTest : WebServiceTest<WebStatsService.TransitRefererHost, WebStatsServiceNoCache>
     {
         public RefererHostTest()
-            : base("RefererHost", new WebStatsServiceNoCache())
+            : base("RefererHost")
         {
 
         }

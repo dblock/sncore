@@ -7,10 +7,10 @@ using System.Web.Services.Protocols;
 namespace SnCore.Web.Soap.Tests.WebBugServiceTests
 {
     [TestFixture]
-    public class BugResolutionTest : WebServiceTest<WebBugService.TransitBugResolution>
+    public class BugResolutionTest : WebServiceTest<WebBugService.TransitBugResolution, WebBugServiceNoCache>
     {
         public BugResolutionTest()
-            : base("BugResolution", new WebBugService.WebBugService())
+            : base("BugResolution")
         {
         }
 

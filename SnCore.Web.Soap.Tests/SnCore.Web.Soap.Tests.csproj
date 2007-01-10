@@ -87,6 +87,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\WebSyndicationService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\WebSystemService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -136,6 +141,11 @@
     <Compile Include="WebStoryServiceTest.cs" />
     <Compile Include="WebStoryService_AccountStoryPictureTest.cs" />
     <Compile Include="WebStoryService_AccountStoryTest.cs" />
+    <Compile Include="WebSyndicationServiceTest.cs" />
+    <Compile Include="WebSyndicationService_AccountFeedItemImgTest.cs" />
+    <Compile Include="WebSyndicationService_AccountFeedItemTest.cs" />
+    <Compile Include="WebSyndicationService_AccountFeedTest.cs" />
+    <Compile Include="WebSyndicationService_FeedTypeTest.cs" />
     <Compile Include="WebSystemServiceTest.cs" />
     <Compile Include="WebSystemService_ConfigurationTest.cs" />
     <Compile Include="WebTagWordServiceTest.cs" />
@@ -243,6 +253,17 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebStoryService_WebStoryService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebSyndicationService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WebSyndicationService\</RelPath>
+      <UpdateFromURL>http://dblock-black.orangebitch.com/SnCoreWeb/WebSyndicationService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebSyndicationService_WebSyndicationService</CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebSystemService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
@@ -458,6 +479,26 @@
     </None>
     <None Include="Web References\WebTagWordService\WebTagWordService.disco" />
     <None Include="Web References\WebTagWordService\WebTagWordService.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\WebSyndicationService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\WebSyndicationService\TransitAccountFeed.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebSyndicationService\TransitAccountFeedItem.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebSyndicationService\TransitAccountFeedItemImg.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebSyndicationService\TransitFeedType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebSyndicationService\WebSyndicationService.disco" />
+    <None Include="Web References\WebSyndicationService\WebSyndicationService.wsdl" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

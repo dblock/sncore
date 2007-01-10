@@ -38,5 +38,8 @@
     <Setting Name="SnCore_Web_Soap_Tests_WebTagWordService_WebTagWordService" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://dblock-black.orangebitch.com/SnCoreWeb/WebTagWordService.asmx</Value>
     </Setting>
+    <Setting Name="SnCore_Web_Soap_Tests_WebSyndicationService_WebSyndicationService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://dblock-black.orangebitch.com/SnCoreWeb/WebSyndicationService.asmx</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
