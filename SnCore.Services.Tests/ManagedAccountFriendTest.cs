@@ -59,7 +59,7 @@ namespace SnCore.Services.Tests
                     b.Id,
                     "Please be my friend!"));
 
-                r.Accept("thanks!");
+                r.Accept(AdminSecurityContext, "thanks!");
             }
             finally
             {
@@ -86,7 +86,7 @@ namespace SnCore.Services.Tests
                     b.Id,
                     "Please be my friend!"));
 
-                r.Reject("no thanks!");
+                r.Reject(AdminSecurityContext, "no thanks!");
             }
             finally
             {

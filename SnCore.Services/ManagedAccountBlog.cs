@@ -185,14 +185,6 @@ namespace SnCore.Services
 
         }
 
-        public int AccountId
-        {
-            get
-            {
-                return Object.Account.Id;
-            }
-        }
-
         public override void Delete(ManagedSecurityContext sec)
         {
             ManagedFeature.Delete(Session, "AccountBlog", Id);
@@ -203,13 +195,13 @@ namespace SnCore.Services
 
         public bool CanDelete(int id)
         {
-            if (Object.Account.Id == id)
+            if (mInstance.Account.Id == id)
                 return true;
 
-            if (Object.AccountBlogAuthors == null)
+            if (mInstance.AccountBlogAuthors == null)
                 return false;
 
-            foreach (AccountBlogAuthor author in Object.AccountBlogAuthors)
+            foreach (AccountBlogAuthor author in mInstance.AccountBlogAuthors)
             {
                 if (author.Account.Id == id && author.AllowDelete)
                 {
@@ -222,13 +214,13 @@ namespace SnCore.Services
 
         public bool CanEdit(int id)
         {
-            if (Object.Account.Id == id)
+            if (mInstance.Account.Id == id)
                 return true;
 
-            if (Object.AccountBlogAuthors == null)
+            if (mInstance.AccountBlogAuthors == null)
                 return false;
 
-            foreach (AccountBlogAuthor author in Object.AccountBlogAuthors)
+            foreach (AccountBlogAuthor author in mInstance.AccountBlogAuthors)
             {
                 if (author.Account.Id == id && author.AllowEdit)
                 {
@@ -241,13 +233,13 @@ namespace SnCore.Services
 
         public bool CanPost(int id)
         {
-            if (Object.Account.Id == id)
+            if (mInstance.Account.Id == id)
                 return true;
 
-            if (Object.AccountBlogAuthors == null)
+            if (mInstance.AccountBlogAuthors == null)
                 return false;
 
-            foreach (AccountBlogAuthor author in Object.AccountBlogAuthors)
+            foreach (AccountBlogAuthor author in mInstance.AccountBlogAuthors)
             {
                 if (author.Account.Id == id && author.AllowPost)
                 {
@@ -258,18 +250,12 @@ namespace SnCore.Services
             return false;
         }
 
-        public void SetPermissions(int accountid, TransitAccountBlogPost post)
-        {
-            post.CanEdit = ((post.AccountId == accountid) || CanEdit(accountid));
-            post.CanDelete = ((post.AccountId == accountid) || CanDelete(accountid));
-        }
-
         public string FeedUrl
         {
             get
             {
                 string website = ManagedConfiguration.GetValue(Session, "SnCore.WebSite.Url", "http://localhost/SnCore");
-                return string.Format("{0}/AccountBlogRss.aspx?id={1}", website, Object.Id);
+                return string.Format("{0}/AccountBlogRss.aspx?id={1}", website, mInstance.Id);
             }
         }
 
@@ -278,7 +264,7 @@ namespace SnCore.Services
             get
             {
                 string website = ManagedConfiguration.GetValue(Session, "SnCore.WebSite.Url", "http://localhost/SnCore");
-                return string.Format("{0}/AccountBlog.aspx?id={1}", website, Object.Id);
+                return string.Format("{0}/AccountBlog.aspx?id={1}", website, mInstance.Id);
             }
         }
 
@@ -290,14 +276,16 @@ namespace SnCore.Services
                 .UniqueResult();
         }
 
-        public int Syndicate()
+        public int Syndicate(ManagedSecurityContext sec)
         {
+            GetACL().Check(sec, DataOperation.Update);
+
             AccountFeed feed = GetSyndicatedFeed();
 
             if (feed == null)
             {
                 feed = new AccountFeed();
-                feed.Account = Object.Account;
+                feed.Account = mInstance.Account;
                 feed.Created = feed.Updated = DateTime.UtcNow;
                 feed.UpdateFrequency = 12;
                 feed.PublishImgs = true;
@@ -311,8 +299,8 @@ namespace SnCore.Services
                 feed.Updated = DateTime.UtcNow;
             }
 
-            feed.Name = Object.Name;
-            feed.Description = Object.Description;
+            feed.Name = mInstance.Name;
+            feed.Description = mInstance.Description;
             Session.Save(feed);
             return feed.Id;
         }

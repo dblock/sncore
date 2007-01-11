@@ -53,6 +53,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\WebBlogService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\WebBugService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -117,6 +122,10 @@
     <Compile Include="WebAuthService_GetAccountTest.cs" />
     <Compile Include="WebAuthService_LoginTest.cs" />
     <Compile Include="WebAuthService_SignUpTest.cs" />
+    <Compile Include="WebBlogServiceTest.cs" />
+    <Compile Include="WebBlogService_AccountBlogAuthorTest.cs" />
+    <Compile Include="WebBlogService_AccountBlogPostTest.cs" />
+    <Compile Include="WebBlogService_AccountBlogTest.cs" />
     <Compile Include="WebMarketingService_CampaignTest.cs" />
     <Compile Include="WebMarketingServiceTest.cs" />
     <Compile Include="WebMarketingService_CampaignAccountRecepientTest.cs" />
@@ -195,6 +204,17 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebAuthService_WebAuthService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebBlogService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WebBlogService\</RelPath>
+      <UpdateFromURL>http://dblock-black.orangebitch.com/SnCoreWeb/WebBlogService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebBlogService_WebBlogService</CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebBugService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
@@ -562,6 +582,7 @@
     <None Include="Web References\WebSocialService\WebSocialService.wsdl" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Web References\WebBlogService\WebBlogService.wsdl" />
     <None Include="Web References\WebMarketingService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -574,6 +595,22 @@
     </None>
     <None Include="Web References\WebMarketingService\WebMarketingService.disco" />
     <None Include="Web References\WebMarketingService\WebMarketingService.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\WebBlogService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\WebBlogService\TransitAccountBlog.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebBlogService\TransitAccountBlogAuthor.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebBlogService\TransitAccountBlogPost.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebBlogService\WebBlogService.disco" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

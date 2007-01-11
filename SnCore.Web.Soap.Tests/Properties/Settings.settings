@@ -47,5 +47,8 @@
     <Setting Name="SnCore_Web_Soap_Tests_WebMarketingService_WebMarketingService" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://dblock-black.orangebitch.com/SnCoreWeb/WebMarketingService.asmx</Value>
     </Setting>
+    <Setting Name="SnCore_Web_Soap_Tests_WebBlogService_WebBlogService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://dblock-black.orangebitch.com/SnCoreWeb/WebBlogService.asmx</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

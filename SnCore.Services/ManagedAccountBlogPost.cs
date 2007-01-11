@@ -245,8 +245,9 @@ namespace SnCore.Services
 
             if (Id == 0)
             {
-                instance.AccountName = this.AccountName;
-                instance.AccountId = this.AccountId;
+                Account owner = GetOwner(session, AccountId, sec);
+                instance.AccountName = owner.Name;
+                instance.AccountId = owner.Id;
                 instance.AccountBlog = (AccountBlog)session.Load(typeof(AccountBlog), AccountBlogId);
             }
 
@@ -279,27 +280,24 @@ namespace SnCore.Services
 
         }
 
+        public override TransitAccountBlogPost GetTransitInstance(ManagedSecurityContext sec)
+        {
+            ManagedAccountBlog m_blog = new ManagedAccountBlog(Session, mInstance.AccountBlog);
+            TransitAccountBlogPost t_post = base.GetTransitInstance(sec);
+            if (sec.Account != null)
+            {
+                int accountid = sec.Account.Id;
+                t_post.CanEdit = ((mInstance.AccountId == accountid) || m_blog.CanEdit(accountid));
+                t_post.CanDelete = ((mInstance.AccountId == accountid) || m_blog.CanDelete(accountid));
+            }
+            return t_post;
+        }
+
         public override void Delete(ManagedSecurityContext sec)
         {
             ManagedDiscussion.FindAndDelete(Session, mInstance.AccountBlog.Account.Id, ManagedDiscussion.AccountBlogPostDiscussion, mInstance.Id);
             ManagedFeature.Delete(Session, "AccountBlogPost", Id);
             base.Delete(sec);
-        }
-
-        public int AccountBlogId
-        {
-            get
-            {
-                return mInstance.AccountBlog.Id;
-            }
-        }
-
-        public int AccountId
-        {
-            get
-            {
-                return mInstance.AccountId;
-            }
         }
 
         protected override void Save(ManagedSecurityContext sec)
