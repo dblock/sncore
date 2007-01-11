@@ -1,0 +1,689 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.vestris.com/sncore/ns/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.vestris.com/sncore/ns/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.vestris.com/sncore/ns/">
+      <s:element name="GetCampaignsCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCampaignsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetCampaignsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCampaigns">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ServiceQueryOptions">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="PageSize" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="PageNumber" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetCampaignsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCampaignsResult" type="tns:ArrayOfTransitCampaign" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitCampaign">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitCampaign" nillable="true" type="tns:TransitCampaign" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitCampaign">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfCampaign">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="SenderName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="SenderEmailAddress" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Url" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Active" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="Processed" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfCampaign" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrUpdateCampaign">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="campaign" type="tns:TransitCampaign" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateOrUpdateCampaignResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateCampaignResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteCampaign">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteCampaignResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetCampaignById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCampaignByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCampaignByIdResult" type="tns:TransitCampaign" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCampaignAccountRecepientsCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCampaignAccountRecepientsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetCampaignAccountRecepientsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCampaignAccountRecepients">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCampaignAccountRecepientsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCampaignAccountRecepientsResult" type="tns:ArrayOfTransitCampaignAccountRecepient" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitCampaignAccountRecepient">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitCampaignAccountRecepient" nillable="true" type="tns:TransitCampaignAccountRecepient" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitCampaignAccountRecepient">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfCampaignAccountRecepient">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="CampaignId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="Sent" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="LastError" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfCampaignAccountRecepient" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrUpdateCampaignAccountRecepient">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="recepient" type="tns:TransitCampaignAccountRecepient" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateOrUpdateCampaignAccountRecepientResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateCampaignAccountRecepientResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteCampaignAccountRecepient">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteCampaignAccountRecepientResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="DeleteCampaignAccountRecepients">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteCampaignAccountRecepientsResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetCampaignAccountRecepientById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCampaignAccountRecepientByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCampaignAccountRecepientByIdResult" type="tns:TransitCampaignAccountRecepient" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ImportCampaignAccountRecepients">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="recepients" type="tns:ArrayOfTransitCampaignAccountRecepient" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ImportCampaignAccountRecepientsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ImportCampaignAccountRecepientsResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ImportCampaignAccountEmails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="campaign_id" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="verified_emails" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="unverified_emails" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ImportCampaignAccountEmailsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ImportCampaignAccountEmailsResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ImportCampaignAccountPropertyValues">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="campaign_id" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="pid" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="value" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="unset" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ImportCampaignAccountPropertyValuesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ImportCampaignAccountPropertyValuesResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetCampaignsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCampaignsCount" />
+  </wsdl:message>
+  <wsdl:message name="GetCampaignsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCampaignsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCampaignsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCampaigns" />
+  </wsdl:message>
+  <wsdl:message name="GetCampaignsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCampaignsResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateCampaignSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateCampaign" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateCampaignSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateCampaignResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteCampaignSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteCampaign" />
+  </wsdl:message>
+  <wsdl:message name="DeleteCampaignSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteCampaignResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCampaignByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCampaignById" />
+  </wsdl:message>
+  <wsdl:message name="GetCampaignByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCampaignByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCampaignAccountRecepientsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCampaignAccountRecepientsCount" />
+  </wsdl:message>
+  <wsdl:message name="GetCampaignAccountRecepientsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCampaignAccountRecepientsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCampaignAccountRecepientsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCampaignAccountRecepients" />
+  </wsdl:message>
+  <wsdl:message name="GetCampaignAccountRecepientsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCampaignAccountRecepientsResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateCampaignAccountRecepientSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateCampaignAccountRecepient" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateCampaignAccountRecepientSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateCampaignAccountRecepientResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteCampaignAccountRecepientSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteCampaignAccountRecepient" />
+  </wsdl:message>
+  <wsdl:message name="DeleteCampaignAccountRecepientSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteCampaignAccountRecepientResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteCampaignAccountRecepientsSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteCampaignAccountRecepients" />
+  </wsdl:message>
+  <wsdl:message name="DeleteCampaignAccountRecepientsSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteCampaignAccountRecepientsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCampaignAccountRecepientByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCampaignAccountRecepientById" />
+  </wsdl:message>
+  <wsdl:message name="GetCampaignAccountRecepientByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCampaignAccountRecepientByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="ImportCampaignAccountRecepientsSoapIn">
+    <wsdl:part name="parameters" element="tns:ImportCampaignAccountRecepients" />
+  </wsdl:message>
+  <wsdl:message name="ImportCampaignAccountRecepientsSoapOut">
+    <wsdl:part name="parameters" element="tns:ImportCampaignAccountRecepientsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ImportCampaignAccountEmailsSoapIn">
+    <wsdl:part name="parameters" element="tns:ImportCampaignAccountEmails" />
+  </wsdl:message>
+  <wsdl:message name="ImportCampaignAccountEmailsSoapOut">
+    <wsdl:part name="parameters" element="tns:ImportCampaignAccountEmailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ImportCampaignAccountPropertyValuesSoapIn">
+    <wsdl:part name="parameters" element="tns:ImportCampaignAccountPropertyValues" />
+  </wsdl:message>
+  <wsdl:message name="ImportCampaignAccountPropertyValuesSoapOut">
+    <wsdl:part name="parameters" element="tns:ImportCampaignAccountPropertyValuesResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WebMarketingServiceSoap">
+    <wsdl:operation name="GetCampaignsCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get marketing campaigns count.</wsdl:documentation>
+      <wsdl:input message="tns:GetCampaignsCountSoapIn" />
+      <wsdl:output message="tns:GetCampaignsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCampaigns">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all marketing campaigns.</wsdl:documentation>
+      <wsdl:input message="tns:GetCampaignsSoapIn" />
+      <wsdl:output message="tns:GetCampaignsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateCampaign">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a marketing campaign.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateCampaignSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateCampaignSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCampaign">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a marketing campaign.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteCampaignSoapIn" />
+      <wsdl:output message="tns:DeleteCampaignSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCampaignById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a marketing campaign by id.</wsdl:documentation>
+      <wsdl:input message="tns:GetCampaignByIdSoapIn" />
+      <wsdl:output message="tns:GetCampaignByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCampaignAccountRecepientsCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get marketing campaign account recepients count.</wsdl:documentation>
+      <wsdl:input message="tns:GetCampaignAccountRecepientsCountSoapIn" />
+      <wsdl:output message="tns:GetCampaignAccountRecepientsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCampaignAccountRecepients">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all marketing campaign accounts.</wsdl:documentation>
+      <wsdl:input message="tns:GetCampaignAccountRecepientsSoapIn" />
+      <wsdl:output message="tns:GetCampaignAccountRecepientsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateCampaignAccountRecepient">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a marketing campaign account recepient.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateCampaignAccountRecepientSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateCampaignAccountRecepientSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCampaignAccountRecepient">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a marketing campaign account recepient.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteCampaignAccountRecepientSoapIn" />
+      <wsdl:output message="tns:DeleteCampaignAccountRecepientSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCampaignAccountRecepients">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete all marketing campaign account recepients.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteCampaignAccountRecepientsSoapIn" />
+      <wsdl:output message="tns:DeleteCampaignAccountRecepientsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCampaignAccountRecepientById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a marketing campaign account recepient by id.</wsdl:documentation>
+      <wsdl:input message="tns:GetCampaignAccountRecepientByIdSoapIn" />
+      <wsdl:output message="tns:GetCampaignAccountRecepientByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ImportCampaignAccountRecepients">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Import marketing campaign account recepeients by account ids.</wsdl:documentation>
+      <wsdl:input message="tns:ImportCampaignAccountRecepientsSoapIn" />
+      <wsdl:output message="tns:ImportCampaignAccountRecepientsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ImportCampaignAccountEmails">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Import marketing campaign account emails.</wsdl:documentation>
+      <wsdl:input message="tns:ImportCampaignAccountEmailsSoapIn" />
+      <wsdl:output message="tns:ImportCampaignAccountEmailsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ImportCampaignAccountPropertyValues">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Import accounts into a marketing campaign by matching property value.</wsdl:documentation>
+      <wsdl:input message="tns:ImportCampaignAccountPropertyValuesSoapIn" />
+      <wsdl:output message="tns:ImportCampaignAccountPropertyValuesSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WebMarketingServiceSoap" type="tns:WebMarketingServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetCampaignsCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetCampaignsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCampaigns">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetCampaigns" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateCampaign">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateCampaign" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCampaign">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteCampaign" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCampaignById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetCampaignById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCampaignAccountRecepientsCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetCampaignAccountRecepientsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCampaignAccountRecepients">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetCampaignAccountRecepients" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateCampaignAccountRecepient">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateCampaignAccountRecepient" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCampaignAccountRecepient">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteCampaignAccountRecepient" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCampaignAccountRecepients">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteCampaignAccountRecepients" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCampaignAccountRecepientById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetCampaignAccountRecepientById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ImportCampaignAccountRecepients">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/ImportCampaignAccountRecepients" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ImportCampaignAccountEmails">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/ImportCampaignAccountEmails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ImportCampaignAccountPropertyValues">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/ImportCampaignAccountPropertyValues" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WebMarketingServiceSoap12" type="tns:WebMarketingServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetCampaignsCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetCampaignsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCampaigns">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetCampaigns" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateCampaign">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateCampaign" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCampaign">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteCampaign" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCampaignById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetCampaignById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCampaignAccountRecepientsCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetCampaignAccountRecepientsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCampaignAccountRecepients">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetCampaignAccountRecepients" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateCampaignAccountRecepient">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateCampaignAccountRecepient" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCampaignAccountRecepient">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteCampaignAccountRecepient" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCampaignAccountRecepients">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteCampaignAccountRecepients" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCampaignAccountRecepientById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetCampaignAccountRecepientById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ImportCampaignAccountRecepients">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/ImportCampaignAccountRecepients" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ImportCampaignAccountEmails">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/ImportCampaignAccountEmails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ImportCampaignAccountPropertyValues">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/ImportCampaignAccountPropertyValues" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WebMarketingService">
+    <wsdl:port name="WebMarketingServiceSoap" binding="tns:WebMarketingServiceSoap">
+      <soap:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebMarketingService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WebMarketingServiceSoap12" binding="tns:WebMarketingServiceSoap12">
+      <soap12:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebMarketingService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

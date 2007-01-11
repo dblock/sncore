@@ -78,6 +78,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\WebMarketingService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\WebSocialService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -112,7 +117,10 @@
     <Compile Include="WebAuthService_GetAccountTest.cs" />
     <Compile Include="WebAuthService_LoginTest.cs" />
     <Compile Include="WebAuthService_SignUpTest.cs" />
-    <Compile Include="WebbStatsServiceTest.cs" />
+    <Compile Include="WebMarketingService_CampaignTest.cs" />
+    <Compile Include="WebMarketingServiceTest.cs" />
+    <Compile Include="WebMarketingService_CampaignAccountRecepientTest.cs" />
+    <Compile Include="WebStatsServiceTest.cs" />
     <Compile Include="WebBugServiceTest.cs" />
     <Compile Include="WebBugService_BugLinkTest.cs" />
     <Compile Include="WebBugService_BugNoteTest.cs" />
@@ -242,6 +250,17 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebMadLibService_WebMadLibService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebMarketingService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WebMarketingService\</RelPath>
+      <UpdateFromURL>http://dblock-black.orangebitch.com/SnCoreWeb/WebMarketingService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebMarketingService_WebMarketingService</CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebSocialService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
@@ -541,6 +560,20 @@
     </None>
     <None Include="Web References\WebSocialService\WebSocialService.disco" />
     <None Include="Web References\WebSocialService\WebSocialService.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\WebMarketingService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\WebMarketingService\TransitCampaign.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebMarketingService\TransitCampaignAccountRecepient.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebMarketingService\WebMarketingService.disco" />
+    <None Include="Web References\WebMarketingService\WebMarketingService.wsdl" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

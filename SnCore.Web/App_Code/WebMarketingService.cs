@@ -36,19 +36,8 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get marketing campaigns count.", CacheDuration = 60)]
         public int GetCampaignsCount(string ticket)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                
-                ManagedAccount user = new ManagedAccount(session, userid);
-                if (!user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                return (int) session.CreateQuery("SELECT COUNT(*) FROM Campaign c").UniqueResult();
-            }
+            return WebServiceImpl<TransitCampaign, ManagedCampaign, Campaign>.GetCount(
+                ticket);
         }
 
         /// <summary>
@@ -57,36 +46,8 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all marketing campaigns.", CacheDuration = 60)]
         public List<TransitCampaign> GetCampaigns(string ticket, ServiceQueryOptions options)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                ManagedAccount user = new ManagedAccount(session, userid);
-                if (!user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                ICriteria c = session.CreateCriteria(typeof(Campaign))
-                    .AddOrder(Order.Desc("Created"));
-
-                if (options != null)
-                {
-                    c.SetFirstResult(options.FirstResult);
-                    c.SetMaxResults(options.PageSize);
-                }
-
-                IList list = c.List();
-
-                List<TransitCampaign> result = new List<TransitCampaign>(list.Count);
-                foreach (Campaign campaign in list)
-                {
-                    result.Add(new TransitCampaign(campaign));
-                }
-
-                return result;
-            }
+            return WebServiceImpl<TransitCampaign, ManagedCampaign, Campaign>.GetList(
+                ticket, options);
         }
 
         /// <summary>
@@ -96,23 +57,8 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create or update a marketing campaign.")]
         public int CreateOrUpdateCampaign(string ticket, TransitCampaign campaign)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                ManagedAccount user = new ManagedAccount(session, userid);
-                if (!user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                ManagedCampaign mc = new ManagedCampaign(session);
-                mc.CreateOrUpdate(campaign);
-
-                SnCore.Data.Hibernate.Session.Flush();
-                return mc.Id;
-            }
+            return WebServiceImpl<TransitCampaign, ManagedCampaign, Campaign>.CreateOrUpdate(
+                ticket, campaign);
         }
 
         /// <summary>
@@ -122,21 +68,8 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete a marketing campaign.")]
         public void DeleteCampaign(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                ManagedAccount user = new ManagedAccount(session, userid);
-                if (!user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
- 
-                ManagedCampaign mc = new ManagedCampaign(session, id);
-                mc.Delete();
-                SnCore.Data.Hibernate.Session.Flush();
-            }
+            WebServiceImpl<TransitCampaign, ManagedCampaign, Campaign>.Delete(
+                ticket, id);
         }
 
         /// <summary>
@@ -146,19 +79,8 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get a marketing campaign by id.")]
         public TransitCampaign GetCampaignById(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                ManagedAccount user = new ManagedAccount(session, userid);
-                if (!user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                return new ManagedCampaign(session, id).TransitCampaign;
-            }
+            return WebServiceImpl<TransitCampaign, ManagedCampaign, Campaign>.GetById(
+                ticket, id);
         }
 
         #endregion
@@ -169,60 +91,21 @@ namespace SnCore.WebServices
         /// Get campaign accounts count.
         /// </summary>
         [WebMethod(Description = "Get marketing campaign account recepients count.", CacheDuration = 60)]
-        public int GetCampaignAccountRecepientsByIdCount(string ticket, int id)
+        public int GetCampaignAccountRecepientsCount(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                ManagedAccount user = new ManagedAccount(session, userid);
-                if (!user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                return (int) session.CreateQuery(string.Format(
-                    "SELECT COUNT(*) FROM CampaignAccountRecepient ca WHERE ca.Campaign.Id = {0}", id)).UniqueResult();
-            }
+            return WebServiceImpl<TransitCampaignAccountRecepient, ManagedCampaignAccountRecepient, CampaignAccountRecepient>.GetCount(
+                ticket, string.Format("WHERE CampaignAccountRecepient.Campaign.Id = {0}", id));
         }
 
         /// <summary>
         /// Get all marketing campaign account recepients.
         /// </summary>
         [WebMethod(Description = "Get all marketing campaign accounts.", CacheDuration = 60)]
-        public List<TransitCampaignAccountRecepient> GetCampaignAccountRecepientsById(string ticket, int id, ServiceQueryOptions options)
+        public List<TransitCampaignAccountRecepient> GetCampaignAccountRecepients(string ticket, int id, ServiceQueryOptions options)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                ManagedAccount user = new ManagedAccount(session, userid);
-                if (!user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                ICriteria c = session.CreateCriteria(typeof(CampaignAccountRecepient))
-                    .Add(Expression.Eq("Campaign.Id", id));
-
-                if (options != null)
-                {
-                    c.SetFirstResult(options.FirstResult);
-                    c.SetMaxResults(options.PageSize);
-                }
-
-                IList list = c.List();
-
-                List<TransitCampaignAccountRecepient> result = new List<TransitCampaignAccountRecepient>(list.Count);
-                foreach (CampaignAccountRecepient recepient in list)
-                {
-                    result.Add(new TransitCampaignAccountRecepient(recepient));
-                }
-
-                return result;
-            }
+            ICriterion[] expressions = { Expression.Eq("Campaign.Id", id) };
+            return WebServiceImpl<TransitCampaignAccountRecepient, ManagedCampaignAccountRecepient, CampaignAccountRecepient>.GetList(
+                ticket, options, expressions, null);
         }
 
         /// <summary>
@@ -232,24 +115,52 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create or update a marketing campaign account recepient.")]
         public int CreateOrUpdateCampaignAccountRecepient(string ticket, TransitCampaignAccountRecepient recepient)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            return WebServiceImpl<TransitCampaignAccountRecepient, ManagedCampaignAccountRecepient, CampaignAccountRecepient>.CreateOrUpdate(
+                ticket, recepient);
+        }
+
+        /// <summary>
+        /// Delete a marketing campaign account recepient.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        [WebMethod(Description = "Delete a marketing campaign account recepient.")]
+        public void DeleteCampaignAccountRecepient(string ticket, int id)
+        {
+            WebServiceImpl<TransitCampaignAccountRecepient, ManagedCampaignAccountRecepient, CampaignAccountRecepient>.Delete(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Delete all marketing campaign account recepients.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        [WebMethod(Description = "Delete all marketing campaign account recepients.")]
+        public void DeleteCampaignAccountRecepients(string ticket, int id)
+        {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                ManagedAccount user = new ManagedAccount(session, userid);
-                if (!user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                ManagedCampaignAccountRecepient mc = new ManagedCampaignAccountRecepient(session);
-                mc.CreateOrUpdate(recepient);
-
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                ManagedCampaign campaign = new ManagedCampaign(session, id);
+                campaign.DeleteRecepients(sec);
                 SnCore.Data.Hibernate.Session.Flush();
-                return mc.Id;
             }
         }
+
+        /// <summary>
+        /// Get a marketing campaign account recepient by id.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        [WebMethod(Description = "Get a marketing campaign account recepient by id.")]
+        public TransitCampaignAccountRecepient GetCampaignAccountRecepientById(string ticket, int id)
+        {
+            return WebServiceImpl<TransitCampaignAccountRecepient, ManagedCampaignAccountRecepient, CampaignAccountRecepient>.GetById(
+                ticket, id);
+        }
+
+        #endregion
+
+        #region Import Marketing Campaign Account Recepients
 
         /// <summary>
         /// Import marketing campaign account recepeients by account ids.
@@ -258,17 +169,10 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Import marketing campaign account recepeients by account ids.")]
         public int ImportCampaignAccountRecepients(string ticket, TransitCampaignAccountRecepient[] recepients)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                ManagedAccount user = new ManagedAccount(session, userid);
-                if (!user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
                 ITransaction trans = session.BeginTransaction();
 
                 int count = 0;
@@ -286,7 +190,7 @@ namespace SnCore.WebServices
                             continue;
 
                         ManagedCampaignAccountRecepient newrecepient = new ManagedCampaignAccountRecepient(session);
-                        newrecepient.CreateOrUpdate(recepient);
+                        newrecepient.CreateOrUpdate(recepient, sec);
                         count++;
                     }
 
@@ -310,17 +214,10 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Import marketing campaign account emails.")]
         public int ImportCampaignAccountEmails(string ticket, int campaign_id, bool verified_emails, bool unverified_emails)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                ManagedAccount user = new ManagedAccount(session, userid);
-                if (!user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
                 ITransaction trans = session.BeginTransaction();
 
                 int count = 0;
@@ -359,7 +256,7 @@ namespace SnCore.WebServices
                         newtransitrecepient.CampaignId = campaign_id;
                         newtransitrecepient.Created = newtransitrecepient.Modified = DateTime.UtcNow;
                         newtransitrecepient.Sent = false;
-                        newrecepient.CreateOrUpdate(newtransitrecepient);
+                        newrecepient.CreateOrUpdate(newtransitrecepient, sec);
                         count++;
                     }
 
@@ -387,12 +284,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                ManagedAccount user = new ManagedAccount(session, userid);
-                if (!user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
 
                 ITransaction trans = session.BeginTransaction();
 
@@ -443,7 +335,7 @@ namespace SnCore.WebServices
                         newtransitrecepient.CampaignId = campaign_id;
                         newtransitrecepient.Created = newtransitrecepient.Modified = DateTime.UtcNow;
                         newtransitrecepient.Sent = false;
-                        newrecepient.CreateOrUpdate(newtransitrecepient);
+                        newrecepient.CreateOrUpdate(newtransitrecepient, sec);
                         count++;
                     }
 
@@ -460,76 +352,7 @@ namespace SnCore.WebServices
             }
         }
 
-        /// <summary>
-        /// Delete a marketing campaign account recepient.
-        /// </summary>
-        /// <param name="ticket">authentication ticket</param>
-        [WebMethod(Description = "Delete a marketing campaign account recepient.")]
-        public void DeleteCampaignAccountRecepient(string ticket, int id)
-        {
-            int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                ManagedAccount user = new ManagedAccount(session, userid);
-                if (!user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                ManagedCampaignAccountRecepient mc = new ManagedCampaignAccountRecepient(session, id);
-                mc.Delete();
-                SnCore.Data.Hibernate.Session.Flush();
-            }
-        }
-
-        /// <summary>
-        /// Delete all marketing campaign account recepients.
-        /// </summary>
-        /// <param name="ticket">authentication ticket</param>
-        [WebMethod(Description = "Delete all marketing campaign account recepients.")]
-        public void DeleteCampaignAccountRecepients(string ticket, int id)
-        {
-            int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                ManagedAccount user = new ManagedAccount(session, userid);
-                if (!user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                session.Delete(string.Format("FROM CampaignAccountRecepient r WHERE r.Campaign.Id = {0}", id));
-                SnCore.Data.Hibernate.Session.Flush();
-            }
-        }
-
-        /// <summary>
-        /// Get a marketing campaign account recepient by id.
-        /// </summary>
-        /// <param name="ticket">authentication ticket</param>
-        [WebMethod(Description = "Get a marketing campaign account recepient by id.")]
-        public TransitCampaignAccountRecepient GetCampaignAccountRecepientById(string ticket, int id)
-        {
-            int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                ManagedAccount user = new ManagedAccount(session, userid);
-                if (!user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                return new ManagedCampaignAccountRecepient(session, id).TransitCampaignAccountRecepient;
-            }
-        }
-
-        #endregion
+       #endregion
 
     }
 }

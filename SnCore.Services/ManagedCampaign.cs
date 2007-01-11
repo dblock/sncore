@@ -218,5 +218,13 @@ namespace SnCore.Services
             ACL acl = base.GetACL();
             return acl;
         }
+
+        public void DeleteRecepients(ManagedSecurityContext sec)
+        {
+            GetACL().Check(sec, DataOperation.Update);
+            Session.Delete(string.Format(
+                "FROM CampaignAccountRecepient CampaignAccountRecepient WHERE CampaignAccountRecepient.Campaign.Id = {0}", 
+                mInstance.Id));
+        }
     }
 }
