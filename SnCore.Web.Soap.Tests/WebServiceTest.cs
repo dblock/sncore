@@ -7,14 +7,11 @@ using NUnit.Framework;
 
 namespace SnCore.Web.Soap.Tests
 {
-    public abstract class WebServiceTest<TransitType, EndPointType>
+    public abstract class WebServiceTest<TransitType, EndPointType> : WebServiceBaseTest<EndPointType>
         where EndPointType : new()
     {
         private string mOne;
         private string mMany;
-        private EndPointType mEndPoint;
-        private string mAdminTicket = string.Empty;
-        private string mUserTicket = string.Empty;
 
         public WebServiceTest(string one)
             : this(one, string.Format("{0}s", one))
@@ -26,68 +23,6 @@ namespace SnCore.Web.Soap.Tests
         {
             mOne = one;
             mMany = many;
-            mEndPoint = new EndPointType();
-        }
-
-        public EndPointType EndPoint
-        {
-            get
-            {
-                return mEndPoint;
-            }
-        }
-
-        private void CreateUserAccount()
-        {
-            WebAccountService.TransitAccount t_instance = new WebAccountService.TransitAccount();
-            t_instance.Name = Guid.NewGuid().ToString();
-            t_instance.Password = "password";
-            t_instance.Birthday = DateTime.UtcNow.AddYears(-10);
-            WebAccountService.WebAccountService account_endpoint = new WebAccountService.WebAccountService();
-            int id = account_endpoint.CreateAccount(string.Empty, "user@localhost.com", t_instance);
-            Assert.IsTrue(id > 0);
-        }
-
-        public string GetUserTicket()
-        {
-            if (string.IsNullOrEmpty(mUserTicket))
-            {
-                WebAuthService.WebAuthService endpoint = new WebAuthService.WebAuthService();
-                try
-                {
-                    mUserTicket = endpoint.Login("user@localhost.com", "password");
-                }
-                catch (SoapException)
-                {
-                    CreateUserAccount();
-                    mUserTicket = endpoint.Login("user@localhost.com", "password");
-                }
-            }
-
-            return mUserTicket;
-        }
-
-        public WebAuthService.TransitAccount GetUserAccount()
-        {
-            WebAuthService.WebAuthService endpoint = new WebAuthService.WebAuthService();
-            return endpoint.GetAccount(GetUserTicket());
-        }
-
-        public WebAuthService.TransitAccount GetAdminAccount()
-        {
-            WebAuthService.WebAuthService endpoint = new WebAuthService.WebAuthService();
-            return endpoint.GetAccount(GetAdminTicket());
-        }
-
-        public string GetAdminTicket()
-        {
-            if (string.IsNullOrEmpty(mAdminTicket))
-            {
-                WebAuthService.WebAuthService endpoint = new WebAuthService.WebAuthService();
-                mAdminTicket = endpoint.Login("admin@localhost.com", "password");
-            }
-
-            return mAdminTicket;
         }
 
         public abstract TransitType GetTransitInstance();
@@ -109,8 +44,8 @@ namespace SnCore.Web.Soap.Tests
             try
             {
                 object[] args = GetCountArgs(ticket);
-                int count = (int)mEndPoint.GetType().InvokeMember(string.Format("Get{0}Count", mMany),
-                    BindingFlags.InvokeMethod, null, mEndPoint, args);
+                int count = (int) EndPoint.GetType().InvokeMember(string.Format("Get{0}Count", mMany),
+                    BindingFlags.InvokeMethod, null,  EndPoint, args);
 
                 Console.WriteLine("Count: {0}", count);
                 Assert.IsTrue(count >= 0);
@@ -128,8 +63,8 @@ namespace SnCore.Web.Soap.Tests
             {
                 // Console.Write("Creating {0}", mOne);
                 object[] args = { ticket, t_instance };
-                int id = (int)mEndPoint.GetType().InvokeMember(string.Format("CreateOrUpdate{0}", mOne),
-                    BindingFlags.InvokeMethod, null, mEndPoint, args);
+                int id = (int)EndPoint.GetType().InvokeMember(string.Format("CreateOrUpdate{0}", mOne),
+                    BindingFlags.InvokeMethod, null, EndPoint, args);
                 Assert.IsTrue(id > 0);
                 Console.WriteLine("Created {0}:{1}", mOne, id);
                 return id;
@@ -151,8 +86,8 @@ namespace SnCore.Web.Soap.Tests
             {
                 Console.WriteLine("Fetching {0}:{1}", mOne, id);
                 object[] args = { ticket, id };
-                TransitType t_instance_r = (TransitType)mEndPoint.GetType().InvokeMember(string.Format("Get{0}ById", mOne),
-                    BindingFlags.InvokeMethod, null, mEndPoint, args);
+                TransitType t_instance_r = (TransitType)EndPoint.GetType().InvokeMember(string.Format("Get{0}ById", mOne),
+                    BindingFlags.InvokeMethod, null, EndPoint, args);
                 // the retrieved instance must have an id
                 return t_instance_r.GetType().InvokeMember(name, BindingFlags.GetProperty, null, t_instance_r, null);
             }
@@ -168,34 +103,9 @@ namespace SnCore.Web.Soap.Tests
             {
                 Console.WriteLine("Fetching {0}", mMany);
                 object[] args = GetArgs(ticket, options);
-                TransitType[] t_instances = (TransitType[])mEndPoint.GetType().InvokeMember(string.Format("Get{0}", mMany),
-                    BindingFlags.InvokeMethod, null, mEndPoint, args);
+                TransitType[] t_instances = (TransitType[])EndPoint.GetType().InvokeMember(string.Format("Get{0}", mMany),
+                    BindingFlags.InvokeMethod, null, EndPoint, args);
                 return t_instances.Length;
-            }
-            catch (TargetInvocationException ex)
-            {
-                throw ex.InnerException;
-            }
-        }
-
-        public object GetServiceQueryOptions(int page, int size)
-        {
-            try
-            {
-                string assembly = mEndPoint.GetType().Assembly.GetName().Name;
-                string type = mEndPoint.GetType().Name;
-                if (type.EndsWith("NoCache")) type = mEndPoint.GetType().BaseType.Name;
-
-                object options = Activator.CreateInstance(mEndPoint.GetType().Assembly.GetType(
-                    string.Format("{0}.{1}.ServiceQueryOptions", assembly, type)));
-
-                object[] pagenumber_args = { page };
-                options.GetType().InvokeMember("PageNumber", BindingFlags.SetProperty, null, options, pagenumber_args);
-
-                object[] pagesize_args = { size };
-                options.GetType().InvokeMember("PageSize", BindingFlags.SetProperty, null, options, pagesize_args);
-
-                return options;
             }
             catch (TargetInvocationException ex)
             {
@@ -209,8 +119,8 @@ namespace SnCore.Web.Soap.Tests
             {
                 Console.WriteLine("Deleting {0}:{1}", mOne, id);
                 object[] args = { ticket, id };
-                mEndPoint.GetType().InvokeMember(string.Format("Delete{0}", mOne),
-                    BindingFlags.InvokeMethod, null, mEndPoint, args);
+                EndPoint.GetType().InvokeMember(string.Format("Delete{0}", mOne),
+                    BindingFlags.InvokeMethod, null, EndPoint, args);
             }
             catch (TargetInvocationException ex)
             {

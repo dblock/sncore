@@ -213,6 +213,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get updated account feeds.", CacheDuration = 60)]
         public List<TransitAccountFeed> GetAllAccountFeeds(string ticket, ServiceQueryOptions options)
         {
+            // TODO: transform query into returning AccountFeed items
             return WebServiceImpl<TransitAccountFeed, ManagedAccountFeed, AccountFeed>.GetListFromIds(
                 ticket, options,
                     "SELECT AccountFeed.Id FROM AccountFeed AccountFeed " + 

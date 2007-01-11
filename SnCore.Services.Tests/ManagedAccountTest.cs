@@ -246,5 +246,26 @@ namespace SnCore.Services.Tests
             }
         }
 
+        [Test]
+        public void TestAccountActivity()
+        {
+            ManagedAccount a = new ManagedAccount(Session);
+            try
+            {
+                a.Create("LoginTestUser", "password", "logintest@localhost.com", DateTime.UtcNow, AdminSecurityContext);
+                Session.Flush();
+
+                ManagedAccountActivity m_activity = new ManagedAccountActivity(Session, a.Instance);
+                TransitAccountActivity t_activity = m_activity.GetTransitInstance(GetSecurityContext());
+                Console.WriteLine("New syndicated content: {0}", t_activity.NewSyndicatedContent);
+                Console.WriteLine("New discussion posts: {0}", t_activity.NewDiscussionPosts);
+                Console.WriteLine("New pictures: {0}", t_activity.NewPictures);
+            }
+            finally
+            {
+                a.Delete(AdminSecurityContext);
+            }
+        }
+
     }
 }

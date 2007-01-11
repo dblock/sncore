@@ -25,10 +25,12 @@ namespace SnCore.Services.Tests
             try
             {
                 a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
-                TransitAccountEmail e = new TransitAccountEmail();
-                e.Address = "foo2@localhost.com";
-                e.Created = e.Modified = DateTime.UtcNow;
-                a.Create(e, AdminSecurityContext);
+                
+                TransitAccountEmail t_instance = new TransitAccountEmail();
+                t_instance.Address = "foo2@localhost.com";
+                t_instance.AccountId = a.Id;
+                ManagedAccountEmail m_instance = new ManagedAccountEmail(Session);
+                m_instance.CreateOrUpdate(t_instance, a.GetSecurityContext());
             }
             finally
             {
@@ -44,11 +46,13 @@ namespace SnCore.Services.Tests
             try
             {
                 a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
-                TransitAccountEmail e = new TransitAccountEmail();
-                e.Address = "foo2@localhost.com";
-                e.Created = e.Modified = DateTime.UtcNow;
-                ManagedAccountEmail addedemail = new ManagedAccountEmail(Session, a.Create(e, AdminSecurityContext));
-                addedemail.Delete(AdminSecurityContext);
+
+                TransitAccountEmail t_instance = new TransitAccountEmail();
+                t_instance.Address = "foo2@localhost.com";
+                t_instance.AccountId = a.Id;
+                ManagedAccountEmail m_instance = new ManagedAccountEmail(Session);
+                m_instance.CreateOrUpdate(t_instance, a.GetSecurityContext());
+                m_instance.Delete(AdminSecurityContext);
             }
             finally
             {
@@ -75,27 +79,6 @@ namespace SnCore.Services.Tests
                     ManagedAccountEmail email = new ManagedAccountEmail(Session, e);
                     email.Delete(AdminSecurityContext);
                 }
-            }
-            finally
-            {
-                a.Delete(AdminSecurityContext);
-            }
-        }
-
-        [Test]
-        public void DeleteAccountEmailConfirmed()
-        {
-            ManagedAccount a = new ManagedAccount(Session);
-
-            try
-            {
-                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
-                a.VerifyAllEmails();
-                TransitAccountEmail e = new TransitAccountEmail();
-                e.Address = "foo2@localhost.com";
-                e.Created = e.Modified = DateTime.UtcNow;
-                ManagedAccountEmail addedemail = new ManagedAccountEmail(Session, a.Create(e, AdminSecurityContext));
-                addedemail.Delete(AdminSecurityContext);
             }
             finally
             {

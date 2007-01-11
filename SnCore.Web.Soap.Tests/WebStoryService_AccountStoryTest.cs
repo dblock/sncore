@@ -64,15 +64,7 @@ namespace SnCore.Web.Soap.Tests.WebStoryServiceTests
             Console.WriteLine("Search {0}: {1}", t_instance.Name, count);
             Assert.IsTrue(count > 0);
             WebStoryService.TransitAccountStory[] searchresults = EndPoint.SearchAccountStories(GetAdminTicket(), t_instance.Name, null);
-            bool bFound = false;
-            foreach (WebStoryService.TransitAccountStory story in searchresults)
-            {
-                if (story.Id == id)
-                {
-                    bFound = true;
-                    break;
-                }
-            }
+            bool bFound = new TransitServiceCollection<WebStoryService.TransitAccountStory>(searchresults).ContainsId(id);
             Assert.IsTrue(bFound);
             Delete(GetAdminTicket(), id);
         }

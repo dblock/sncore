@@ -50,15 +50,7 @@ namespace SnCore.Web.Soap.Tests.WebLocationServiceTests
             int count = EndPoint.GetCitiesByCountryIdCount(GetAdminTicket(), _state._country_id);
             Assert.IsTrue(count > 0);
             WebLocationService.TransitCity[] cities = EndPoint.GetCitiesByCountryId(GetAdminTicket(), _state._country_id, null);
-            bool bFound = false;
-            foreach (WebLocationService.TransitCity city in cities)
-            {
-                if (city.Id == id)
-                {
-                    bFound = true;
-                    break;
-                }
-            }
+            bool bFound = new TransitServiceCollection<WebLocationService.TransitCity>(cities).ContainsId(id);
             Assert.IsTrue(bFound, "City was not returned from GetCitiesByCountryId");
             EndPoint.DeleteCity(GetAdminTicket(), id);
         }
@@ -71,15 +63,7 @@ namespace SnCore.Web.Soap.Tests.WebLocationServiceTests
             int count = EndPoint.GetCitiesByStateIdCount(GetAdminTicket(), _state_id);
             Assert.IsTrue(count > 0);
             WebLocationService.TransitCity[] cities = EndPoint.GetCitiesByStateId(GetAdminTicket(), _state_id, null);
-            bool bFound = false;
-            foreach (WebLocationService.TransitCity city in cities)
-            {
-                if (city.Id == id)
-                {
-                    bFound = true;
-                    break;
-                }
-            }
+            bool bFound = new TransitServiceCollection<WebLocationService.TransitCity>(cities).ContainsId(id);
             Assert.IsTrue(bFound, "City was not returned from GetCitiesByStateId");
             EndPoint.DeleteCity(GetAdminTicket(), id);
         }
@@ -100,15 +84,7 @@ namespace SnCore.Web.Soap.Tests.WebLocationServiceTests
             WebLocationService.TransitCity t_instance = GetTransitInstance();
             int id = EndPoint.CreateOrUpdateCity(GetAdminTicket(), t_instance);
             WebLocationService.TransitCity[] cities = EndPoint.SearchCitiesByName(GetAdminTicket(), t_instance.Name, null);
-            bool bFound = false;
-            foreach (WebLocationService.TransitCity city in cities)
-            {
-                if (city.Id == id)
-                {
-                    bFound = true;
-                    break;
-                }
-            }
+            bool bFound = new TransitServiceCollection<WebLocationService.TransitCity>(cities).ContainsId(id);
             Assert.IsTrue(bFound, "City was not returned from SearchCitiesByName");
             EndPoint.DeleteCity(GetAdminTicket(), id);
         }

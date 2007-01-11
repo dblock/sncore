@@ -94,6 +94,7 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ManagedAccountActivity.cs" />
     <Compile Include="ManagedAccountAddress.cs" />
     <Compile Include="ManagedAccountAttribute.cs" />
     <Compile Include="ManagedAccountBlog.cs" />

@@ -83,4 +83,49 @@ namespace SnCore.Services
             return sec.Account; // whatever is in the security context
         }
     }
+
+    public class TransitServiceCollection<TransitType>
+        where TransitType : ITransitService
+    {
+        private IEnumerable<ITransitService> mCollection = null;
+
+        public TransitServiceCollection()
+        {
+
+        }
+
+        public IEnumerable<ITransitService> Collection
+        {
+            get
+            {
+                return mCollection;
+            }
+            set
+            {
+                mCollection = value;
+            }
+        }
+
+        public TransitServiceCollection(IEnumerable<ITransitService> value)
+        {
+            mCollection = value;
+        }
+
+        public bool Contains(ITransitService item)
+        {
+            return ContainsId(item.Id);
+        }
+
+        public bool ContainsId(int id)
+        {
+            if (mCollection == null)
+                return false;
+
+            foreach (ITransitService instance in mCollection)
+                if (id == instance.Id)
+                    return true;
+
+            return false;
+        }
+    }
 }

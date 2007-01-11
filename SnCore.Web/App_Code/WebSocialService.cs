@@ -29,31 +29,21 @@ namespace SnCore.WebServices
 
         }
 
+        #region Account Activity
+
         /// <summary>
         /// Get new accounts.
         /// </summary>
         /// <returns>transit account</returns>
         [WebMethod(Description = "Get new accounts.", CacheDuration = 60)]
-        public List<TransitAccount> GetNewAccounts(int max)
+        public List<TransitAccount> GetNewAccounts(string ticket, ServiceQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                IList list = session.CreateQuery(
-                    "FROM Account acct WHERE EXISTS (" +
-                    " FROM AccountPicture picture WHERE picture.Account = acct AND picture.Hidden = 0" +
-                    ") ORDER BY acct.Created DESC")
-                    .SetMaxResults(max)
-                    .List();
-
-                List<TransitAccount> result = new List<TransitAccount>(list.Count);
-                foreach (Account a in list)
-                {
-                    result.Add(new ManagedAccount(session, a).TransitAccount);
-                }
-
-                return result;
-            }
+            return WebServiceImpl<TransitAccount, ManagedAccount, Account>.GetList(
+                ticket, options,
+                    "SELECT Account FROM Account Account WHERE EXISTS (" +
+                        " SELECT FROM AccountPicture AccountPicture " +
+                        " WHERE AccountPicture.Account = Account AND AccountPicture.Hidden = 0" +
+                        ") ORDER BY Account.Created DESC");
         }
 
         /// <summary>
@@ -61,26 +51,14 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>transit account</returns>
         [WebMethod(Description = "Get active accounts.", CacheDuration = 60)]
-        public List<TransitAccount> GetActiveAccounts(int max)
+        public List<TransitAccount> GetActiveAccounts(string ticket, ServiceQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                IList list = session.CreateQuery(
-                    "FROM Account acct WHERE EXISTS (" +
-                    " FROM AccountPicture picture WHERE picture.Account = acct AND picture.Hidden = 0" +
-                    ") ORDER BY acct.LastLogin DESC")
-                    .SetMaxResults(max)
-                    .List();
-
-                List<TransitAccount> result = new List<TransitAccount>(list.Count);
-                foreach (Account a in list)
-                {
-                    result.Add(new ManagedAccount(session, a).TransitAccount);
-                }
-
-                return result;
-            }
+            return WebServiceImpl<TransitAccount, ManagedAccount, Account>.GetList(
+                ticket, options,
+                    "SELECT Account FROM Account Account WHERE EXISTS (" +
+                        " FROM AccountPicture AccountPicture " +
+                        " WHERE AccountPicture.Account = Account AND AccountPicture.Hidden = 0" +
+                        ") ORDER BY Account.LastLogin DESC");
         }
 
         /// <summary>
@@ -88,13 +66,10 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>accounts count</returns>
         [WebMethod(Description = "Get accounts count.", CacheDuration = 60)]
-        public int GetAccountsCount()
+        public int GetAccountsCount(string ticket)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int) session.CreateQuery("SELECT COUNT(*) FROM Account a").UniqueResult();
-            }
+            return WebServiceImpl<TransitAccount, ManagedAccount, Account>.GetCount(
+                ticket);
         }
 
         /// <summary>
@@ -102,13 +77,10 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>transit account activity count</returns>
         [WebMethod(Description = "Get account activity count.", CacheDuration = 60)]
-        public int GetAccountActivityCount(AccountActivityQueryOptions queryoptions)
+        public int GetAccountActivityCount(string ticket, AccountActivityQueryOptions queryoptions)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int) queryoptions.CreateCountQuery(session).UniqueResult();
-            }
+            return WebServiceImpl<TransitAccountActivity, ManagedAccountActivity, Account>.GetCount(
+                ticket, queryoptions.CreateCountQuery());
         }
 
         /// <summary>
@@ -116,43 +88,15 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>transit account activity</returns>
         [WebMethod(Description = "Get account activity.", CacheDuration = 60)]
-        public List<TransitAccountActivity> GetAccountActivity(
-            AccountActivityQueryOptions queryoptions, 
-            ServiceQueryOptions serviceoptions)
+        public List<TransitAccountActivity> GetAccountActivity(string ticket, AccountActivityQueryOptions queryoptions, ServiceQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                IQuery q = queryoptions.CreateQuery(session);
-
-                if (serviceoptions != null)
-                {
-                    q.SetMaxResults(serviceoptions.PageSize);
-                    q.SetFirstResult(serviceoptions.PageNumber * serviceoptions.PageSize);
-                }
-
-                IList list = q.List();
-
-                List<TransitAccountActivity> result = new List<TransitAccountActivity>(list.Count);
-                foreach (Account a in list)
-                {
-                    result.Add(new ManagedAccount(session, a).TransitAccountActivity);
-                }
-
-                return result;
-            }
+            return WebServiceImpl<TransitAccountActivity, ManagedAccountActivity, Account>.GetList(
+                ticket, options, queryoptions.CreateQuery());
         }
 
-        /// <summary>
-        /// Get n-th degree count.
-        /// </summary>
-        /// <param name="ticket">authentication ticket</param>
-        /// <returns>number of n-th degree contacts</returns>
-        [WebMethod(Description = "Get n-th degree count.", CacheDuration = 60)]
-        public int GetNDegreeCount(string ticket, int deg)
-        {
-            return GetNDegreeCountById(ManagedAccount.GetAccountId(ticket), deg);
-        }
+        #endregion
+
+        #region N-th Degree of Separation
 
         /// <summary>
         /// Get n-th degree count.
@@ -160,25 +104,15 @@ namespace SnCore.WebServices
         /// <param name="id">account id</param>
         /// <returns>number of n-th degree contacts</returns>
         [WebMethod(Description = "Get n-th degree count.", CacheDuration = 60)]
-        public int GetNDegreeCountById(int accountid, int deg)
+        public int GetNDegreeCountById(string ticket, int id, int deg)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount acct = new ManagedAccount(session, accountid);
-                return acct.GetNDegreeCount(deg);
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                ManagedAccount acct = new ManagedAccount(session, id);
+                return acct.GetNDegreeCount(sec, deg);
             }
-        }
-
-        /// <summary>
-        /// Get 1st degree count.
-        /// </summary>
-        /// <param name="ticket">authentication ticket</param>
-        /// <returns>number of 1st degree contacts</returns>
-        [WebMethod(Description = "Get first degree count.", CacheDuration = 60)]
-        public int GetFirstDegreeCount(string ticket)
-        {
-            return GetFirstDegreeCountById(ManagedAccount.GetAccountId(ticket));
         }
 
         /// <summary>
@@ -187,53 +121,27 @@ namespace SnCore.WebServices
         /// <param name="id">account id</param>
         /// <returns>number of 1st degree contacts</returns>
         [WebMethod(Description = "Get 1st degree count.", CacheDuration = 60)]
-        public int GetFirstDegreeCountById(int accountid)
+        public int GetFirstDegreeCountById(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int) session.CreateQuery(string.Format(
-                    "SELECT COUNT(*) FROM AccountFriend f WHERE (f.Account.Id = {0} OR f.Keen.Id = {0}) ",
-                    accountid)).UniqueResult();
-            }
+            return WebServiceImpl<TransitAccountFriend, ManagedAccountFriend, AccountFriend>.GetCount(
+                ticket, string.Format("WHERE (AccountFriend.Account.Id = {0} OR AccountFriend.Keen.Id = {0}) ",
+                    id));
         }
 
-        /// <summary>
-        /// Get friends activity.
-        /// </summary>
-        /// <param name="ticket">authentication ticket</param>
-        /// <returns>transit account activity</returns>
-        [WebMethod(Description = "Get friends activity.", CacheDuration = 60)]
-        public List<TransitAccountActivity> GetFriendsActivity(string ticket, ServiceQueryOptions options)
-        {
-            return GetFriendsActivityById(ManagedAccount.GetAccountId(ticket), options);
-        }
+        #endregion
 
-        /// <summary>
-        /// Get friends activity count.
-        /// </summary>
-        /// <param name="ticket">authentication ticket</param>
-        /// <returns>transit account activity acount</returns>
-        [WebMethod(Description = "Get friends activity count.", CacheDuration = 60)]
-        public int GetFriendsActivityCount(string ticket)
-        {
-            return GetFriendsActivityCountById(ManagedAccount.GetAccountId(ticket));
-        }
+        #region Friends Activity
 
         /// <summary>
         /// Get friends activity count.
         /// </summary>
         /// <returns>transit account activity count</returns>
         [WebMethod(Description = "Get friends activity count.", CacheDuration = 60)]
-        public int GetFriendsActivityCountById(int accountid)
+        public int GetFriendsAccountActivityCount(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int) session.CreateQuery(string.Format(
-                    "SELECT COUNT(*) FROM AccountFriend f WHERE (f.Account.Id = {0} OR f.Keen.Id = {0}) ",
-                    accountid)).UniqueResult();
-            }
+            return WebServiceImpl<TransitAccountFriend, ManagedAccountFriend, AccountFriend>.GetCount(
+                ticket, string.Format("WHERE (AccountFriend.Account.Id = {0} OR AccountFriend.Keen.Id = {0}) ",
+                    id));
         }
 
         /// <summary>
@@ -241,39 +149,27 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>transit account activity</returns>
         [WebMethod(Description = "Get friends activity.", CacheDuration = 60)]
-        public List<TransitAccountActivity> GetFriendsActivityById(int accountid, ServiceQueryOptions options)
+        public List<TransitAccountActivity> GetFriendsAccountActivity(string ticket, int id, ServiceQueryOptions options)
         {
+            ManagedAccountActivity m_activity = null;
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                IQuery query = session.CreateQuery(string.Format(
-                    "SELECT f FROM AccountFriend f WHERE (f.Account.Id = {0} OR f.Keen.Id = {0}) ", 
-                    accountid));
-
-                if (options != null)
-                {
-                    query.SetMaxResults(options.PageSize);
-                    query.SetFirstResult(options.FirstResult);
-                }
-
-                IList list = query.List();
-
-                List<TransitAccountActivity> result = new List<TransitAccountActivity>(list.Count);
-
-                foreach (AccountFriend friend in list)
-                {
-                    result.Add((friend.Account.Id != accountid)
-                        ? new ManagedAccount(session, friend.Account).TransitAccountActivity
-                        : new ManagedAccount(session, friend.Keen).TransitAccountActivity);
-                }
-
-                result.Sort(TransitAccountActivity.CompareByLastActivity);
-
-                return result;
+                m_activity = new ManagedAccountActivity(session, id);
             }
+
+            List<TransitAccountActivity> result = WebServiceImpl<TransitAccountActivity, ManagedAccountFriend, AccountFriend>.GetList(
+                ticket, options, string.Format("SELECT AccountFriend FROM AccountFriend AccountFriend WHERE (AccountFriend.Account.Id = {0} OR AccountFriend.Keen.Id = {0})", id),
+                m_activity.GetTransformedInstanceFromAccountFriend);
+
+            result.Sort(TransitAccountActivity.CompareByLastActivity);
+
+            return result;
         }
 
+        #endregion
+
+        #region Friend Requests
 
         /// <summary>
         /// Create a new friend request.
@@ -283,25 +179,13 @@ namespace SnCore.WebServices
         /// <param name="message">optional message to send with the request</param>
         /// <returns>request id</returns>
         [WebMethod(Description = "Create a new friend request.")]
-        public int CreateAccountFriendRequest(string ticket, int friendid, string message)
+        public int CreateOrUpdateAccountFriendRequest(string ticket, int friendid, string message)
         {
             int userid = ManagedAccount.GetAccountId(ticket);
-
-            if (friendid == userid)
-            {
-                throw new SoapException(
-                    "You cannot be friends with yourself.", 
-                    SoapException.ClientFaultCode);
-            }
-
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedAccount acct = new ManagedAccount(session, userid);
-
-                if (!acct.HasVerifiedEmail)
-                    throw new ManagedAccount.NoVerifiedEmailException();
-
                 int result = acct.CreateAccountFriendRequest(friendid, message);
                 SnCore.Data.Hibernate.Session.Flush();
                 return result;
@@ -321,6 +205,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
+
                 ManagedAccountFriendRequest req;
                 try
                 {
@@ -332,14 +217,8 @@ namespace SnCore.WebServices
                         SoapException.ClientFaultCode);
                 }
 
-                ManagedAccount user = new ManagedAccount(session, userid);
-
-                if (req.KeenId != userid && ! user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                req.Accept(message);
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                req.Accept(sec, message);
                 SnCore.Data.Hibernate.Session.Flush();
             }
         }
@@ -353,7 +232,6 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Reject a friend request.")]
         public void RejectAccountFriendRequest(string ticket, int id, string message)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
@@ -368,36 +246,10 @@ namespace SnCore.WebServices
                         SoapException.ClientFaultCode);
                 }
 
-                ManagedAccount user = new ManagedAccount(session, userid);
-
-                if (req.KeenId != userid && ! user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                req.Reject(message);
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                req.Reject(sec, message);
                 SnCore.Data.Hibernate.Session.Flush();
             }
-        }
-
-        /// <summary>
-        /// Get total incoming friend requests.
-        /// </summary>
-        /// <param name="ticket">authentication ticket</param>
-        [WebMethod(Description = "Get friend request count.")]
-        public int GetAccountFriendRequestsCount(string ticket)
-        {
-            return GetAccountFriendRequestsCountById(ManagedAccount.GetAccountId(ticket));
-        }
-
-        /// <summary>
-        /// Get total friend requests sent.
-        /// </summary>
-        /// <param name="ticket">authentication ticket</param>
-        [WebMethod(Description = "Get friend request sent count.")]
-        public int GetAccountFriendRequestsSentCount(string ticket)
-        {
-            return GetAccountFriendRequestsSentCountById(ManagedAccount.GetAccountId(ticket));
         }
 
         /// <summary>
@@ -405,19 +257,10 @@ namespace SnCore.WebServices
         /// </summary>
         /// <param name="ticket">authentication ticket</param>
         [WebMethod(Description = "Get friend request sent count by account id.", CacheDuration = 60)]
-        public int GetAccountFriendRequestsSentCountById(int id)
+        public int GetSentAccountFriendRequestsCount(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                return (int) session.CreateQuery(
-                    string.Format(
-                        "select count(*)" +
-                        " from AccountFriendRequest r" +
-                        " where r.Account.Id = {0}",
-                        id)).UniqueResult();
-            }
+            return WebServiceImpl<TransitAccountFriendRequest, ManagedAccountFriendRequest, AccountFriendRequest>.GetCount(
+                ticket, string.Format("WHERE AccountFriendRequest.Account.Id = {0}", id));
         }
 
         /// <summary>
@@ -425,19 +268,10 @@ namespace SnCore.WebServices
         /// </summary>
         /// <param name="ticket">authentication ticket</param>
         [WebMethod(Description = "Get friend request count by account id.", CacheDuration = 60)]
-        public int GetAccountFriendRequestsCountById(int id)
+        public int GetAccountFriendRequestsCount(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                return (int) session.CreateQuery(
-                    string.Format(
-                        "select count(*)" +
-                        " from AccountFriendRequest r" +
-                        " where r.Keen.Id = {0} and r.Rejected = 0",
-                        id)).UniqueResult();
-            }
+            return WebServiceImpl<TransitAccountFriendRequest, ManagedAccountFriendRequest, AccountFriendRequest>.GetCount(
+                ticket, string.Format("WHERE AccountFriendRequest.Keen.Id = {0} AND AccountFriendRequest.Rejected = 0", id));
         }
 
         /// <summary>
@@ -445,31 +279,11 @@ namespace SnCore.WebServices
         /// </summary>
         /// <param name="ticket">authentication ticket</param>
         [WebMethod(Description = "Get sent friend requests.")]
-        public List<TransitAccountFriendRequest> GetAccountFriendRequestsSent(string ticket, ServiceQueryOptions options)
+        public List<TransitAccountFriendRequest> GetSentAccountFriendRequests(string ticket, int id, ServiceQueryOptions options)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                ICriteria c = session.CreateCriteria(typeof(AccountFriendRequest))
-                    .Add(Expression.Eq("Account.Id", userid));
- 
-                if (options != null)
-                {
-                    c.SetFirstResult(options.FirstResult);
-                    c.SetMaxResults(options.PageSize);
-                }
-
-                IList list = c.List();
-
-                List<TransitAccountFriendRequest> result = new List<TransitAccountFriendRequest>(list.Count);
-                foreach (AccountFriendRequest request in list)
-                {
-                    result.Add(new TransitAccountFriendRequest(request));
-                }
-                return result;
-            }
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
+            return WebServiceImpl<TransitAccountFriendRequest, ManagedAccountFriendRequest, AccountFriendRequest>.GetList(
+                ticket, options, expressions, null);
         }
 
         /// <summary>
@@ -477,32 +291,16 @@ namespace SnCore.WebServices
         /// </summary>
         /// <param name="ticket">authentication ticket</param>
         [WebMethod(Description = "Get outstanding friend requests.")]
-        public List<TransitAccountFriendRequest> GetAccountFriendRequests(string ticket, ServiceQueryOptions options)
+        public List<TransitAccountFriendRequest> GetAccountFriendRequests(string ticket, int id, ServiceQueryOptions options)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
+            ICriterion[] expressions = 
+            { 
+                Expression.Eq("Keen.Id", id),
+                Expression.Eq("Rejected", false)
+            };
 
-                ICriteria c = session.CreateCriteria(typeof(AccountFriendRequest))
-                    .Add(Expression.Eq("Keen.Id", userid))
-                    .Add(Expression.Eq("Rejected", false));
-
-                if (options != null)
-                {
-                    c.SetFirstResult(options.FirstResult);
-                    c.SetMaxResults(options.PageSize);
-                }
-
-                IList list = c.List();
-
-                List<TransitAccountFriendRequest> result = new List<TransitAccountFriendRequest>(list.Count);
-                foreach (AccountFriendRequest request in list)
-                {
-                    result.Add(new TransitAccountFriendRequest(request));
-                }
-                return result;
-            }
+            return WebServiceImpl<TransitAccountFriendRequest, ManagedAccountFriendRequest, AccountFriendRequest>.GetList(
+                ticket, options, expressions, null);
         }
 
         /// <summary>
@@ -513,20 +311,20 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete a friend request.")]
         public void DeleteAccountFriendRequest(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccountFriendRequest request = new ManagedAccountFriendRequest(session, id);
-                ManagedAccount user = new ManagedAccount(session, userid);
-                if (request.AccountId != userid && ! user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-                request.Delete();
-                SnCore.Data.Hibernate.Session.Flush();
-            }
+            WebServiceImpl<TransitAccountFriendRequest, ManagedAccountFriendRequest, AccountFriendRequest>.Delete(
+                ticket, id);
         }
+
+        [WebMethod(Description = "Get an account friend request.")]
+        public TransitAccountFriendRequest GetAccountFriendRequestById(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountFriendRequest, ManagedAccountFriendRequest, AccountFriendRequest>.GetById(
+                ticket, id);
+        }
+
+        #endregion
+
+        #region Friends
 
         /// <summary>
         /// Delete a friend.
@@ -536,53 +334,18 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete a friend.")]
         public void DeleteAccountFriend(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccountFriend friend = new ManagedAccountFriend(session, id);
-                ManagedAccount user = new ManagedAccount(session, userid);
-                if (friend.AccountId != userid && friend.KeenId != userid && ! user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-                friend.Delete();
-                SnCore.Data.Hibernate.Session.Flush();
-            }
-        }
-
-        /// <summary>
-        /// Get friends count.
-        /// </summary>
-        /// <param name="ticket">authentication ticket</param>
-        [WebMethod(Description = "Get friends count.")]
-        public int GetFriendsCount(string ticket)
-        {
-            return GetFriendsCountById(ManagedAccount.GetAccountId(ticket));
+            WebServiceImpl<TransitAccountFriend, ManagedAccountFriend, AccountFriend>.Delete(
+                ticket, id);
         }
 
         /// <summary>
         /// Get friends count.
         /// </summary>
         [WebMethod(Description = "Get friends count.")]
-        public int GetFriendsCountById(int id)
+        public int GetAccountFriendsCount(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int) session.CreateQuery(string.Format("SELECT COUNT(*) FROM AccountFriend f " +
-                        "WHERE (f.Account.Id = {0} OR f.Keen.Id = {0})", id)).UniqueResult();
-            }
-        }
-
-        /// <summary>
-        /// Get friends.
-        /// </summary>
-        /// <param name="ticket">authentication ticket</param>
-        [WebMethod(Description = "Get friends.")]
-        public List<TransitAccountFriend> GetFriends(string ticket, ServiceQueryOptions options)
-        {
-            return GetFriendsById(ticket, ManagedAccount.GetAccountId(ticket), options);
+            return WebServiceImpl<TransitAccountFriend, ManagedAccountFriend, AccountFriend>.GetCount(
+                ticket, string.Format("WHERE (AccountFriend.Account.Id = {0} OR AccountFriend.Keen.Id = {0})", id));
         }
 
         /// <summary>
@@ -591,54 +354,20 @@ namespace SnCore.WebServices
         /// <param name="ticket">authentication ticket</param>
         /// <param name="account id">account id</param>
         [WebMethod(Description = "Get friends.", CacheDuration = 60)]
-        public List<TransitAccountFriend> GetFriendsById(string ticket, int accountid, ServiceQueryOptions options)
+        public List<TransitAccountFriend> GetAccountFriends(string ticket, int id, ServiceQueryOptions options)
         {
-            // anyone can see everyone's friends (for now)
-            // int userid = ManagedAccount.GetAccountId(ticket);
+            ManagedAccount m_account = null;
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                IQuery q = session.CreateQuery(
-                    string.Format("SELECT FROM AccountFriend f " +
-                        "WHERE (f.Account.Id = {0} OR f.Keen.Id = {0}) " +
-                        "ORDER BY f.Created DESC", accountid));
-
-                if (options != null)
-                {
-                    q.SetFirstResult(options.FirstResult);
-                    q.SetMaxResults(options.PageSize);
-                }
-
-                IList list = q.List();
-
-                List<TransitAccountFriend> result = new List<TransitAccountFriend>(list.Count);
-                foreach (AccountFriend friend in list)
-                {
-                    result.Add(new TransitAccountFriend(friend, friend.Account.Id != accountid));
-                }
-
-                return result;
+                m_account = new ManagedAccount(session, id);
             }
+
+            return WebServiceImpl<TransitAccountFriend, ManagedAccountFriend, AccountFriend>.GetList(
+                ticket, options, string.Format("SELECT AccountFriend FROM AccountFriend AccountFriend WHERE (AccountFriend.Account.Id = {0} OR AccountFriend.Keen.Id = {0}) ORDER BY AccountFriend.Created DESC", id),
+                m_account.GetTransformedInstanceFromAccountFriend);
         }
 
-        [WebMethod(Description = "Get an account friend request.")]
-        public TransitAccountFriendRequest GetAccountFriendRequestById(string ticket, int id)
-        {
-            int user_id = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, user_id);
-                ManagedAccountFriendRequest r = new ManagedAccountFriendRequest(session, id);
-
-                if (r.AccountId != user.Id && r.KeenId != user.Id && ! user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                return r.TransitAccountFriendRequest;
-            }
-        }
+        #endregion
     }
 }

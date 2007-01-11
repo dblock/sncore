@@ -197,9 +197,10 @@ namespace SnCore.Services
             base.Delete(sec);
         }
 
-        // TODO: introduce security context
-        public void Reject(string message)
+        public void Reject(ManagedSecurityContext sec, string message)
         {
+            GetACL().Check(sec, DataOperation.Update);
+
             Account requester = mInstance.Account;
             Account approver = mInstance.Keen;
 
@@ -228,9 +229,10 @@ namespace SnCore.Services
             }
         }
 
-        // TODO: introduce security context
-        public void Accept(string message)
+        public void Accept(ManagedSecurityContext sec, string message)
         {
+            GetACL().Check(sec, DataOperation.Update);
+
             AccountFriend friend = new AccountFriend();
             friend.Account = mInstance.Account;
             friend.Keen = mInstance.Keen;
@@ -293,7 +295,7 @@ namespace SnCore.Services
             ACL acl = base.GetACL();
             acl.Add(new ACLAuthenticatedAllowCreate());
             acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
-            acl.Add(new ACLAccount(mInstance.Keen, DataOperation.Update | DataOperation.Retreive));
+            acl.Add(new ACLAccount(mInstance.Keen, DataOperation.Update | DataOperation.Retreive | DataOperation.Delete));
             return acl;
         }
     }

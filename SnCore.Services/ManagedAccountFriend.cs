@@ -2,6 +2,7 @@ using System;
 using NHibernate;
 using System.Collections;
 using NHibernate.Expression;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
@@ -108,7 +109,10 @@ namespace SnCore.Services
 
     public class ManagedAccountFriend : ManagedService<AccountFriend, TransitAccountFriend>
     {
-        private AccountFriend mAccountFriend = null;
+        public ManagedAccountFriend()
+        {
+
+        }
 
         public ManagedAccountFriend(ISession session)
             : base(session)
@@ -128,33 +132,17 @@ namespace SnCore.Services
 
         }
 
-        public int AccountId
-        {
-            get
-            {
-                return mAccountFriend.Account.Id;
-            }
-        }
-
-        public int KeenId
-        {
-            get
-            {
-                return mAccountFriend.Keen.Id;
-            }
-        }
-
         public override void Delete(ManagedSecurityContext sec)
         {
-            mAccountFriend.Account.AccountFriends.Remove(mAccountFriend);
+            Collection<AccountFriend>.GetSafeCollection(mInstance.Account.AccountFriends).Remove(mInstance);
 
             // delete the friend in the other direction
-            foreach (AccountFriend friend in mAccountFriend.Keen.AccountFriends)
+            foreach (AccountFriend friend in Collection<AccountFriend>.GetSafeCollection(mInstance.Keen.AccountFriends))
             {
-                if (friend.Keen.Id == mAccountFriend.Account.Id)
+                if (friend.Keen.Id == mInstance.Account.Id)
                 {
                     Session.Delete(friend);
-                    mAccountFriend.Keen.AccountFriends.Remove(friend);
+                    mInstance.Keen.AccountFriends.Remove(friend);
                     break;
                 }
             }
@@ -174,6 +162,7 @@ namespace SnCore.Services
             acl.Add(new ACLEveryoneAllowRetrieve());
             acl.Add(new ACLAuthenticatedAllowCreate());
             acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
+            acl.Add(new ACLAccount(mInstance.Keen, DataOperation.All));
             return acl;
         }
     }

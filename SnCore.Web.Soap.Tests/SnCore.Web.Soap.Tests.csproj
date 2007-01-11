@@ -42,6 +42,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="TransitServiceCollection.cs" />
     <Compile Include="Web References\WebAccountService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -73,6 +74,11 @@
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
     <Compile Include="Web References\WebMadLibService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\WebSocialService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
@@ -130,7 +136,12 @@
     <Compile Include="WebMadLibServiceTest.cs" />
     <Compile Include="WebMadLibService_MadLibInstanceTest.cs" />
     <Compile Include="WebMadLibService_MadLibTest.cs" />
+    <Compile Include="WebServiceBaseTest.cs" />
     <Compile Include="WebServiceTest.cs" />
+    <Compile Include="WebSocialServiceTest.cs" />
+    <Compile Include="WebSocialService_AccountActivityTest.cs" />
+    <Compile Include="WebSocialService_AccountFriendTest.cs" />
+    <Compile Include="WebSocialService_NthDegreeTest.cs" />
     <Compile Include="WebStatsService_CounterTest.cs" />
     <Compile Include="WebStatsService_RefererAccountTest.cs" />
     <Compile Include="WebStatsService_RefererHostDupTest.cs" />
@@ -231,6 +242,17 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebMadLibService_WebMadLibService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebSocialService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WebSocialService\</RelPath>
+      <UpdateFromURL>http://dblock-black.orangebitch.com/SnCoreWeb/WebSocialService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebSocialService_WebSocialService</CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebStatsService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
@@ -499,6 +521,26 @@
     </None>
     <None Include="Web References\WebSyndicationService\WebSyndicationService.disco" />
     <None Include="Web References\WebSyndicationService\WebSyndicationService.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\WebSocialService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\WebSocialService\TransitAccount.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebSocialService\TransitAccountActivity.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebSocialService\TransitAccountFriend.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebSocialService\TransitAccountFriendRequest.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebSocialService\WebSocialService.disco" />
+    <None Include="Web References\WebSocialService\WebSocialService.wsdl" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

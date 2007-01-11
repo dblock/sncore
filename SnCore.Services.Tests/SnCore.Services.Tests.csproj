@@ -84,6 +84,7 @@
     <Reference Include="System.Data">
       <Name>System.Data</Name>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
@@ -183,6 +184,7 @@
     <Compile Include="ManagedCampaignTest.cs" />
     <Compile Include="ManagedCityTest.cs" />
     <Compile Include="ManagedConfigurationTest.cs" />
+    <Compile Include="ManagedCounterTest.cs" />
     <Compile Include="ManagedCountryTest.cs" />
     <Compile Include="ManagedCRUDTest.cs" />
     <Compile Include="ManagedDataObjectTest.cs" />

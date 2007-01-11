@@ -80,19 +80,54 @@ namespace SnCore.WebServices
             return GetList(ticket, options, (ICriterion[]) null, (Order[]) null);
         }
 
-        private static List<TransitType> GetTransformedList(ISession session, ManagedSecurityContext sec, IList<DataType> list)
+        private static List<TransitType> GetTransformedList(ISession session, ManagedSecurityContext sec, IList<int> list)
         {
             List<TransitType> result = new List<TransitType>(list.Count);
-            foreach (DataType instance in list)
+            foreach (int id in list)
             {
-                ManagedType m_instance = new ManagedType();
-                m_instance.SetDbObjectInstance(session, instance);
-                result.Add((TransitType)m_instance.GetTransitServiceInstance(sec));
+                result.Add(GetTransformedInstanceFromId(session, sec, id));
             }
             return result;
         }
 
+        public delegate TransitType GetTransformedInstanceDelegate(ISession session, ManagedSecurityContext sec, DataType instance);
+
+        private static List<TransitType> GetTransformedList(ISession session, ManagedSecurityContext sec, IList<DataType> list, GetTransformedInstanceDelegate functor)
+        {
+            if (functor == null) functor = GetTransformedInstanceFromDataType;
+            List<TransitType> result = new List<TransitType>(list.Count);
+            foreach (DataType instance in list)
+            {
+                result.Add(functor(session, sec, instance));
+            }
+            return result;
+        }
+
+        private static TransitType GetTransformedInstanceFromDataType(ISession session, ManagedSecurityContext sec, DataType instance)
+        {
+            ManagedType m_instance = new ManagedType();
+            m_instance.SetDbObjectInstance(session, instance);
+            return (TransitType) m_instance.GetTransitServiceInstance(sec);
+        }
+
+        private static TransitType GetTransformedInstanceFromId(ISession session, ManagedSecurityContext sec, int id)
+        {
+            ManagedType m_instance = new ManagedType();
+            m_instance.LoadInstance(session, id);
+            return (TransitType) m_instance.GetTransitServiceInstance(sec);
+        }
+
+        private static List<TransitType> GetTransformedList(ISession session, ManagedSecurityContext sec, IList<DataType> list)
+        {
+            return GetTransformedList(session, sec, list, GetTransformedInstanceFromDataType);
+        }
+
         public static List<TransitType> GetList(string ticket, ServiceQueryOptions options, string sqlquery)
+        {
+            return GetList(ticket, options, sqlquery, GetTransformedInstanceFromDataType);
+        }
+
+        public static List<TransitType> GetList(string ticket, ServiceQueryOptions options, string sqlquery, GetTransformedInstanceDelegate functor)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
             {
@@ -101,11 +136,29 @@ namespace SnCore.WebServices
                 IQuery query = session.CreateQuery(sqlquery);
                 if (options != null && options.PageSize > 0) query.SetMaxResults(options.PageSize);
                 if (options != null && options.FirstResult > 0) query.SetFirstResult(options.FirstResult);
-                return GetTransformedList(session, sec, query.List<DataType>());
+                return GetTransformedList(session, sec, query.List<DataType>(), functor);
+            }
+        }
+
+        public static List<TransitType> GetListFromIds(string ticket, ServiceQueryOptions options, string sqlquery)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                IQuery query = session.CreateQuery(sqlquery);
+                if (options != null && options.PageSize > 0) query.SetMaxResults(options.PageSize);
+                if (options != null && options.FirstResult > 0) query.SetFirstResult(options.FirstResult);
+                return GetTransformedList(session, sec, query.List<int>());
             }
         }
 
         public static List<TransitType> GetList(string ticket, ServiceQueryOptions options, string sqlquery, string returnalias)
+        {
+            return GetList(ticket, options, sqlquery, returnalias, GetTransformedInstanceFromDataType);
+        }
+
+        public static List<TransitType> GetList(string ticket, ServiceQueryOptions options, string sqlquery, string returnalias, GetTransformedInstanceDelegate functor)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
             {
@@ -114,11 +167,16 @@ namespace SnCore.WebServices
                 IQuery query = session.CreateSQLQuery(sqlquery, returnalias, typeof(DataType));
                 if (options != null && options.PageSize > 0) query.SetMaxResults(options.PageSize);
                 if (options != null && options.FirstResult > 0) query.SetFirstResult(options.FirstResult);
-                return GetTransformedList(session, sec, query.List<DataType>());
+                return GetTransformedList(session, sec, query.List<DataType>(), functor);
             }
         }
 
         public static List<TransitType> GetList(string ticket, ServiceQueryOptions options, ICriterion[] expressions, Order[] orders)
+        {
+            return GetList(ticket, options, expressions, orders, GetTransformedInstanceFromDataType);
+        }
+
+        public static List<TransitType> GetList(string ticket, ServiceQueryOptions options, ICriterion[] expressions, Order[] orders, GetTransformedInstanceDelegate functor)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
             {
@@ -136,7 +194,7 @@ namespace SnCore.WebServices
                 // query options
                 if (options != null && options.PageSize > 0) criteria.SetMaxResults(options.PageSize);
                 if (options != null && options.FirstResult > 0) criteria.SetFirstResult(options.FirstResult);
-                return GetTransformedList(session, sec, criteria.List<DataType>());
+                return GetTransformedList(session, sec, criteria.List<DataType>(), functor);
             }
         }
 
@@ -156,6 +214,5 @@ namespace SnCore.WebServices
                 return session.CreateQuery(query).UniqueResult<int>();
             }
         }
-
     }
 }

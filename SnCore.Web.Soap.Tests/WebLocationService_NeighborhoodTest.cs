@@ -50,15 +50,7 @@ namespace SnCore.Web.Soap.Tests.WebLocationServiceTests
             int count = EndPoint.GetNeighborhoodsByCityIdCount(GetAdminTicket(), _city_id);
             Assert.IsTrue(count > 0);
             WebLocationService.TransitNeighborhood[] neighborhoods = EndPoint.GetNeighborhoodsByCityId(GetAdminTicket(), _city_id, null);
-            bool bFound = false;
-            foreach (WebLocationService.TransitNeighborhood neighborhood in neighborhoods)
-            {
-                if (neighborhood.Id == id)
-                {
-                    bFound = true;
-                    break;
-                }
-            }
+            bool bFound = new TransitServiceCollection<WebLocationService.TransitNeighborhood>(neighborhoods).ContainsId(id); 
             Assert.IsTrue(bFound, "Neighborhood was not returned from GetNeighborhoodsByCityId");
             EndPoint.DeleteNeighborhood(GetAdminTicket(), id);
         }
@@ -69,15 +61,7 @@ namespace SnCore.Web.Soap.Tests.WebLocationServiceTests
             WebLocationService.TransitNeighborhood t_instance = GetTransitInstance();
             int id = EndPoint.CreateOrUpdateNeighborhood(GetAdminTicket(), t_instance);
             WebLocationService.TransitNeighborhood[] neighborhoods = EndPoint.SearchNeighborhoodsByName(GetAdminTicket(), t_instance.Name, null);
-            bool bFound = false;
-            foreach (WebLocationService.TransitNeighborhood neighborhood in neighborhoods)
-            {
-                if (neighborhood.Id == id)
-                {
-                    bFound = true;
-                    break;
-                }
-            }
+            bool bFound = new TransitServiceCollection<WebLocationService.TransitNeighborhood>(neighborhoods).ContainsId(id);            
             Assert.IsTrue(bFound, "Neighborhood was not returned from SearchNeighborhoodsByName");
             EndPoint.DeleteNeighborhood(GetAdminTicket(), id);
         }
