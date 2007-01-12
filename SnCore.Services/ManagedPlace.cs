@@ -73,77 +73,76 @@ namespace SnCore.Services
         {
         }
 
-        public string CreateSubQuery(ISession session)
+        public string CreateSubQuery()
         {
             StringBuilder b = new StringBuilder();
 
             if (!string.IsNullOrEmpty(Neighborhood))
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.AppendFormat("instance.Neighborhood.Id = '{0}'", ManagedNeighborhood.GetNeighborhoodId(session, Neighborhood, City, State, Country));
+                b.AppendFormat("Place.Neighborhood.Name = '{0}'", Renderer.SqlEncode(Neighborhood));
             }
 
             if (!string.IsNullOrEmpty(City))
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.AppendFormat("instance.City.Id = '{0}'", ManagedCity.GetCityId(session, City, State, Country));
+                b.AppendFormat("Place.City.Name = '{0}'", Renderer.SqlEncode(City));
             }
 
             if (!string.IsNullOrEmpty(Country))
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.AppendFormat("instance.City.Country.Id = {0}", ManagedCountry.GetCountryId(session, Country));
+                b.AppendFormat("Place.City.Country.Id = '{0}'", Renderer.SqlEncode(Country));
             }
 
             if (!string.IsNullOrEmpty(State))
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.AppendFormat("instance.City.State.Id = {0}", ManagedState.GetStateId(session, State, Country));
+                b.AppendFormat("Place.City.State.Id = '{0}'", Renderer.SqlEncode(State));
             }
 
             if (!string.IsNullOrEmpty(Name))
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.AppendFormat("instance.Name LIKE '%{0}%'", Renderer.SqlEncode(Name));
+                b.AppendFormat("Place.Name LIKE '%{0}%'", Renderer.SqlEncode(Name));
             }
 
             if (!string.IsNullOrEmpty(Type))
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.AppendFormat("instance.Type.Id = {0}", ManagedPlaceType.FindId(session, Type));
+                b.AppendFormat("Place.Type.Name = '{0}'", Renderer.SqlEncode(Name));
             }
 
             if (AccountId != 0)
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.AppendFormat("instance.Account.Id = {0}", AccountId);
+                b.AppendFormat("Place.Account.Id = {0}", AccountId);
             }
 
             if (PicturesOnly)
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.Append("EXISTS ELEMENTS(instance.PlacePictures)");
+                b.Append("EXISTS ELEMENTS(Place.PlacePictures)");
             }
 
             return b.ToString();
         }
 
-        public IQuery CreateCountQuery(ISession session)
+        public string CreateCountQuery()
         {
-            return session.CreateQuery("SELECT COUNT(*) FROM Place p " + CreateSubQuery(session));
+            return CreateSubQuery();
         }
 
-        public IQuery CreateQuery(ISession session)
+        public string CreateQuery()
         {
             StringBuilder b = new StringBuilder();
-            b.Append("SELECT p FROM Place p");
-            b.Append(CreateSubQuery(session));
+            b.Append("SELECT Place FROM Place Place");
+            b.Append(CreateSubQuery());
             if (!string.IsNullOrEmpty(SortOrder))
             {
-                b.AppendFormat(" ORDER BY {0} {1}", SortOrder, SortAscending ? "ASC" : "DESC");
+                b.AppendFormat(" ORDER BY Place.{0} {1}", SortOrder, SortAscending ? "ASC" : "DESC");
             }
-
-            return session.CreateQuery(b.ToString());
+            return b.ToString();
         }
     };
 

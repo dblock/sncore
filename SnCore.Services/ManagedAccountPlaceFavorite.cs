@@ -206,6 +206,11 @@ namespace SnCore.Services
 
     public class ManagedAccountPlaceFavorite : ManagedService<AccountPlaceFavorite, TransitAccountPlaceFavorite>
     {
+        public ManagedAccountPlaceFavorite()
+        {
+
+        }
+
         public ManagedAccountPlaceFavorite(ISession session)
             : base(session)
         {

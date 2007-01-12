@@ -39,6 +39,12 @@ namespace SnCore.Web.Soap.Tests
             return args;
         }
 
+        public virtual object[] GetArg(string ticket, int id)
+        {
+            object[] args = { ticket, id };
+            return args;
+        }
+
         public int GetCount(string ticket)
         {
             try
@@ -85,7 +91,7 @@ namespace SnCore.Web.Soap.Tests
             try
             {
                 Console.WriteLine("Fetching {0}:{1}", mOne, id);
-                object[] args = { ticket, id };
+                object[] args = GetArg(ticket, id);
                 TransitType t_instance_r = (TransitType)EndPoint.GetType().InvokeMember(string.Format("Get{0}ById", mOne),
                     BindingFlags.InvokeMethod, null, EndPoint, args);
                 // the retrieved instance must have an id

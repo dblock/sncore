@@ -490,7 +490,7 @@ namespace SnCore.Services
             instance.YearlyExDayIndex = this.YearlyExDayIndex;
             instance.YearlyExDayName = this.YearlyExDayName;
             instance.YearlyExMonth = this.YearlyExMonth;
-            if (Id == 0 && AccountId > 0) instance.Account = (Account)session.Load(typeof(Account), this.AccountId);
+            if (Id == 0) instance.Account = GetOwner(session, AccountId, sec);
             return instance;
         }
     }

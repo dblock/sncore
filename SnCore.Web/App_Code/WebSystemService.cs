@@ -136,5 +136,161 @@ namespace SnCore.WebServices
         }
 
         #endregion
+
+        #region Schedule
+
+        /// <summary>
+        /// Create or update a schedule.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="schedule">transit  schedule</param>
+        [WebMethod(Description = "Create or update a schedule.")]
+        public int CreateOrUpdateSchedule(string ticket, TransitSchedule schedule)
+        {
+            return WebServiceImpl<TransitSchedule, ManagedSchedule, Schedule>.CreateOrUpdate(
+                ticket, schedule);
+        }
+
+        /// <summary>
+        /// Get a schedule.
+        /// </summary>
+        /// <returns>transit  schedule</returns>
+        [WebMethod(Description = "Get a schedule.")]
+        public TransitSchedule GetScheduleById(string ticket, int id)
+        {
+            return WebServiceImpl<TransitSchedule, ManagedSchedule, Schedule>.GetById(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Get all schedules.
+        /// </summary>
+        /// <returns>list of transit  schedules</returns>
+        [WebMethod(Description = "Get all schedules.")]
+        public List<TransitSchedule> GetSchedules(string ticket, ServiceQueryOptions options)
+        {
+            return WebServiceImpl<TransitSchedule, ManagedSchedule, Schedule>.GetList(
+                ticket, options);
+        }
+
+        /// <summary>
+        /// Get all schedules count.
+        /// </summary>
+        /// <returns>list of transit  schedules</returns>
+        [WebMethod(Description = "Get all schedules.")]
+        public int GetSchedulesCount(string ticket)
+        {
+            return WebServiceImpl<TransitSchedule, ManagedSchedule, Schedule>.GetCount(
+                ticket);
+        }
+
+        /// <summary>
+        /// Delete a schedule
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete a schedule.")]
+        public void DeleteSchedule(string ticket, int id)
+        {
+            WebServiceImpl<TransitSchedule, ManagedSchedule, Schedule>.Delete(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Get a humanly readable representation of a schedule.
+        /// </summary>
+        [WebMethod(Description = "Get a humanly readable representation of a schedule.")]
+        public string GetScheduleString(string ticket, TransitSchedule schedule, int offset)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                ManagedSchedule m_schedule = new ManagedSchedule(session, schedule.GetInstance(session, sec));
+                return m_schedule.ToString(offset);
+            }
+        }
+
+        #endregion
+
+        #region Attribute
+
+        /// <summary>
+        /// Create or update an attribute.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="PropertyGroup">transit attribute</param>
+        [WebMethod(Description = "Create or update an attribute.")]
+        public int CreateOrUpdateAttribute(string ticket, TransitAttribute attr)
+        {
+            return WebServiceImpl<TransitAttribute, ManagedAttribute, Attribute>.CreateOrUpdate(
+                ticket, attr);
+        }
+
+        /// <summary>
+        /// Get an attribute.
+        /// </summary>
+        /// <returns>transit attribute</returns>
+        [WebMethod(Description = "Get an attribute.")]
+        public TransitAttribute GetAttributeById(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAttribute, ManagedAttribute, Attribute>.GetById(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Get attribute data if modified since.
+        /// </summary>
+        /// <param name="id">attribute id</param>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="ifModifiedSince">last update date/time</param>
+        /// <returns>transit attribute with bitmap</returns>
+        [WebMethod(Description = "Get attribute data if modified since.", BufferResponse = true)]
+        public TransitAttribute GetAttributeIfModifiedSince(string ticket, int id, DateTime ifModifiedSince)
+        {
+            TransitAttribute t_instance = WebServiceImpl<TransitAttribute, ManagedAttribute, Attribute>.GetById(
+                ticket, id);
+
+            if (t_instance.Modified <= ifModifiedSince)
+                return null;
+
+            return t_instance;
+        }
+
+        /// <summary>
+        /// Get all attributes count.
+        /// </summary>
+        /// <returns>list of transit attributes</returns>
+        [WebMethod(Description = "Get all attributes count.")]
+        public int GetAttributesCount(string ticket)
+        {
+            return WebServiceImpl<TransitAttribute, ManagedAttribute, Attribute>.GetCount(
+                ticket);
+        }
+
+        /// <summary>
+        /// Get all attributes.
+        /// </summary>
+        /// <returns>list of transit attributes</returns>
+        [WebMethod(Description = "Get all attributes.")]
+        public List<TransitAttribute> GetAttributes(string ticket, ServiceQueryOptions options)
+        {
+            return WebServiceImpl<TransitAttribute, ManagedAttribute, Attribute>.GetList(
+                ticket, options);
+        }
+
+        /// <summary>
+        /// Delete an attribute
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete an attribute.")]
+        public void DeleteAttribute(string ticket, int id)
+        {
+            WebServiceImpl<TransitAttribute, ManagedAttribute, Attribute>.Delete(
+                ticket, id);
+        }
+
+        #endregion
     }
 }

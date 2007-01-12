@@ -149,6 +149,254 @@
       <s:element name="DeleteConfigurationResponse">
         <s:complexType />
       </s:element>
+      <s:element name="CreateOrUpdateSchedule">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="schedule" type="tns:TransitSchedule" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitSchedule">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfSchedule">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="AllDay" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="DailyEveryNDays" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="EndDateTime" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Endless" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="EndOccurrences" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="MonthlyDay" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="MonthlyExDayIndex" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="MonthlyExDayName" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="MonthlyExMonth" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="MonthlyMonth" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="RecurrencePattern" type="tns:RecurrencePattern" />
+              <s:element minOccurs="1" maxOccurs="1" name="StartDateTime" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="WeeklyDaysOfWeek" type="s:short" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="WeeklyEveryNWeeks" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="YearlyDay" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="YearlyExDayIndex" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="YearlyExDayName" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="YearlyExMonth" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="YearlyMonth" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfSchedule" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="RecurrencePattern">
+        <s:restriction base="s:string">
+          <s:enumeration value="None" />
+          <s:enumeration value="Daily_EveryNDays" />
+          <s:enumeration value="Daily_EveryWeekday" />
+          <s:enumeration value="Weekly" />
+          <s:enumeration value="Monthly_DayNOfEveryNMonths" />
+          <s:enumeration value="Monthly_NthWeekDayOfEveryNMonth" />
+          <s:enumeration value="Yearly_DayNOfMonth" />
+          <s:enumeration value="Yearly_NthWeekDayOfMonth" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="CreateOrUpdateScheduleResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateScheduleResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetScheduleById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetScheduleByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetScheduleByIdResult" type="tns:TransitSchedule" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSchedules">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSchedulesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSchedulesResult" type="tns:ArrayOfTransitSchedule" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitSchedule">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitSchedule" nillable="true" type="tns:TransitSchedule" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetSchedulesCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSchedulesCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetSchedulesCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteSchedule">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteScheduleResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetScheduleString">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="schedule" type="tns:TransitSchedule" />
+            <s:element minOccurs="1" maxOccurs="1" name="offset" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetScheduleStringResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetScheduleStringResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateOrUpdateAttribute">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="attr" type="tns:TransitAttribute" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitAttribute">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfAttribute">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="DefaultUrl" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="DefaultValue" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfAttribute" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrUpdateAttributeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateAttributeResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAttributeById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAttributeByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAttributeByIdResult" type="tns:TransitAttribute" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAttributeIfModifiedSince">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="ifModifiedSince" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAttributeIfModifiedSinceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAttributeIfModifiedSinceResult" type="tns:TransitAttribute" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAttributesCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAttributesCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAttributesCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAttributes">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAttributesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAttributesResult" type="tns:ArrayOfTransitAttribute" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitAttribute">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAttribute" nillable="true" type="tns:TransitAttribute" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="DeleteAttribute">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAttributeResponse">
+        <s:complexType />
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="GetVersionSoapIn">
@@ -211,6 +459,78 @@
   <wsdl:message name="DeleteConfigurationSoapOut">
     <wsdl:part name="parameters" element="tns:DeleteConfigurationResponse" />
   </wsdl:message>
+  <wsdl:message name="CreateOrUpdateScheduleSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateSchedule" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateScheduleSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateScheduleResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetScheduleByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetScheduleById" />
+  </wsdl:message>
+  <wsdl:message name="GetScheduleByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetScheduleByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSchedulesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSchedules" />
+  </wsdl:message>
+  <wsdl:message name="GetSchedulesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSchedulesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSchedulesCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSchedulesCount" />
+  </wsdl:message>
+  <wsdl:message name="GetSchedulesCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSchedulesCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteScheduleSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteSchedule" />
+  </wsdl:message>
+  <wsdl:message name="DeleteScheduleSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteScheduleResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetScheduleStringSoapIn">
+    <wsdl:part name="parameters" element="tns:GetScheduleString" />
+  </wsdl:message>
+  <wsdl:message name="GetScheduleStringSoapOut">
+    <wsdl:part name="parameters" element="tns:GetScheduleStringResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAttributeSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAttribute" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAttributeSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAttributeResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAttributeByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAttributeById" />
+  </wsdl:message>
+  <wsdl:message name="GetAttributeByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAttributeByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAttributeIfModifiedSinceSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAttributeIfModifiedSince" />
+  </wsdl:message>
+  <wsdl:message name="GetAttributeIfModifiedSinceSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAttributeIfModifiedSinceResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAttributesCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAttributesCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAttributesCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAttributesCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAttributesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAttributes" />
+  </wsdl:message>
+  <wsdl:message name="GetAttributesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAttributesResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAttributeSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteAttribute" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAttributeSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteAttributeResponse" />
+  </wsdl:message>
   <wsdl:portType name="WebSystemServiceSoap">
     <wsdl:operation name="GetVersion">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">System version.</wsdl:documentation>
@@ -261,6 +581,66 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a configuration.</wsdl:documentation>
       <wsdl:input message="tns:DeleteConfigurationSoapIn" />
       <wsdl:output message="tns:DeleteConfigurationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateSchedule">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a schedule.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateScheduleSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateScheduleSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetScheduleById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a schedule.</wsdl:documentation>
+      <wsdl:input message="tns:GetScheduleByIdSoapIn" />
+      <wsdl:output message="tns:GetScheduleByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSchedules">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all schedules.</wsdl:documentation>
+      <wsdl:input message="tns:GetSchedulesSoapIn" />
+      <wsdl:output message="tns:GetSchedulesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSchedulesCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all schedules.</wsdl:documentation>
+      <wsdl:input message="tns:GetSchedulesCountSoapIn" />
+      <wsdl:output message="tns:GetSchedulesCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteSchedule">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a schedule.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteScheduleSoapIn" />
+      <wsdl:output message="tns:DeleteScheduleSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetScheduleString">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a humanly readable representation of a schedule.</wsdl:documentation>
+      <wsdl:input message="tns:GetScheduleStringSoapIn" />
+      <wsdl:output message="tns:GetScheduleStringSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAttribute">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update an attribute.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateAttributeSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateAttributeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAttributeById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get an attribute.</wsdl:documentation>
+      <wsdl:input message="tns:GetAttributeByIdSoapIn" />
+      <wsdl:output message="tns:GetAttributeByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAttributeIfModifiedSince">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get attribute data if modified since.</wsdl:documentation>
+      <wsdl:input message="tns:GetAttributeIfModifiedSinceSoapIn" />
+      <wsdl:output message="tns:GetAttributeIfModifiedSinceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAttributesCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all attributes count.</wsdl:documentation>
+      <wsdl:input message="tns:GetAttributesCountSoapIn" />
+      <wsdl:output message="tns:GetAttributesCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAttributes">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all attributes.</wsdl:documentation>
+      <wsdl:input message="tns:GetAttributesSoapIn" />
+      <wsdl:output message="tns:GetAttributesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAttribute">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete an attribute.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteAttributeSoapIn" />
+      <wsdl:output message="tns:DeleteAttributeSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WebSystemServiceSoap" type="tns:WebSystemServiceSoap">
@@ -355,6 +735,114 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateSchedule">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateSchedule" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetScheduleById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetScheduleById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSchedules">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetSchedules" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSchedulesCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetSchedulesCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteSchedule">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteSchedule" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetScheduleString">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetScheduleString" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAttribute">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAttribute" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAttributeById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAttributeById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAttributeIfModifiedSince">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAttributeIfModifiedSince" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAttributesCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAttributesCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAttributes">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAttributes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAttribute">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAttribute" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="WebSystemServiceSoap12" type="tns:WebSystemServiceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -441,6 +929,114 @@
     </wsdl:operation>
     <wsdl:operation name="DeleteConfiguration">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteConfiguration" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateSchedule">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateSchedule" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetScheduleById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetScheduleById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSchedules">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetSchedules" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSchedulesCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetSchedulesCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteSchedule">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteSchedule" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetScheduleString">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetScheduleString" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAttribute">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAttribute" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAttributeById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAttributeById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAttributeIfModifiedSince">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAttributeIfModifiedSince" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAttributesCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAttributesCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAttributes">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAttributes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAttribute">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAttribute" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

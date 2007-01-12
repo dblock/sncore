@@ -57,17 +57,17 @@ namespace SnCore.Services
             }
         }
 
-        private Type mType;
+        private string mTypeName;
 
-        public Type Type
+        public string TypeName
         {
             get
             {
-                return mType;
+                return mTypeName;
             }
             set
             {
-                mType = value;
+                mTypeName = value;
             }
         }
 
@@ -128,7 +128,7 @@ namespace SnCore.Services
         {
             Name = instance.Name;
             Description = instance.Description;
-            Type = Type.GetType(instance.TypeName);
+            TypeName = instance.TypeName;
             DefaultValue = instance.DefaultValue;
             Publish = instance.Publish;
             PlacePropertyGroupId = instance.PlacePropertyGroup.Id;
@@ -144,7 +144,7 @@ namespace SnCore.Services
             instance.Name = this.Name;
             instance.Description = this.Description;
             instance.DefaultValue = this.DefaultValue;
-            instance.TypeName = this.Type.ToString();
+            instance.TypeName = this.TypeName;
             instance.Publish = this.Publish;
             return instance;
         }

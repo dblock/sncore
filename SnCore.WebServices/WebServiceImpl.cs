@@ -127,6 +127,19 @@ namespace SnCore.WebServices
             return GetList(ticket, options, sqlquery, GetTransformedInstanceFromDataType);
         }
 
+        public static IList<DataType> GetDataList(string ticket, ServiceQueryOptions options, string sqlquery)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                IQuery query = session.CreateQuery(sqlquery);
+                if (options != null && options.PageSize > 0) query.SetMaxResults(options.PageSize);
+                if (options != null && options.FirstResult > 0) query.SetFirstResult(options.FirstResult);
+                return query.List<DataType>();
+            }
+        }
+
         public static List<TransitType> GetList(string ticket, ServiceQueryOptions options, string sqlquery, GetTransformedInstanceDelegate functor)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))

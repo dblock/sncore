@@ -194,9 +194,19 @@ namespace SnCore.Services
         public static TransitCounter FindByUri(ISession session, string uri, ManagedSecurityContext sec)
         {
             ManagedCounter m_counter = new ManagedCounter();
-            m_counter.SetInstance(session, (Counter)session.CreateCriteria(typeof(Counter))
+            Counter counter = (Counter)session.CreateCriteria(typeof(Counter))
                     .Add(Expression.Eq("Uri", uri))
-                    .UniqueResult());
+                    .UniqueResult();
+
+            if (counter == null)
+            {
+                counter = new Counter();
+                counter.Uri = uri;
+                counter.Total = 0;
+                counter.Created = counter.Modified = DateTime.UtcNow;
+            }
+
+            m_counter.SetInstance(session, counter);
             return m_counter.GetTransitInstance(sec);
         }
 

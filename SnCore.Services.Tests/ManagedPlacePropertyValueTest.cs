@@ -36,8 +36,7 @@ namespace SnCore.Services.Tests
         {
             TransitPlacePropertyValue t_instance = new TransitPlacePropertyValue();
             t_instance.PlaceId = _place.Instance.Id;
-            t_instance.PlaceProperty = new TransitPlaceProperty();
-            t_instance.PlaceProperty.Id = _property.Instance.Id;
+            t_instance.PlacePropertyId = _property.Instance.Id;
             t_instance.Value = Guid.NewGuid().ToString();
             return t_instance;
         }

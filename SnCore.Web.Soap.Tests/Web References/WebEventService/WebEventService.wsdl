@@ -1,0 +1,1165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.vestris.com/sncore/ns/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.vestris.com/sncore/ns/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.vestris.com/sncore/ns/">
+      <s:element name="GetAccountEventsCountByAccountId">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountEventsCountByAccountIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAccountEventsCountByAccountIdResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountEventsByAccountId">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="utcoffset" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ServiceQueryOptions">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="PageSize" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="PageNumber" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountEventsByAccountIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountEventsByAccountIdResult" type="tns:ArrayOfTransitAccountEvent" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitAccountEvent">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountEvent" nillable="true" type="tns:TransitAccountEvent" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitAccountEvent">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfAccountEvent">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="PictureId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="PlaceId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="PlaceName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PlaceNeighborhood" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PlaceCity" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PlaceState" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PlaceCountry" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountEventType" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="ScheduleId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="Publish" type="s:boolean" />
+              <s:element minOccurs="0" maxOccurs="1" name="Cost" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Website" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Phone" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Schedule" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="AllDay" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="DailyEveryNDays" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="EndDateTime" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Endless" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="EndOccurrences" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="MonthlyDay" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="MonthlyExDayIndex" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="MonthlyExDayName" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="MonthlyExMonth" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="MonthlyMonth" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="RecurrencePattern" type="tns:RecurrencePattern" />
+              <s:element minOccurs="1" maxOccurs="1" name="StartDateTime" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="WeeklyDaysOfWeek" type="s:short" />
+              <s:element minOccurs="1" maxOccurs="1" name="WeeklyEveryNWeeks" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="YearlyDay" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="YearlyExDayIndex" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="YearlyExDayName" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="YearlyExMonth" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="YearlyMonth" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfAccountEvent" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="RecurrencePattern">
+        <s:restriction base="s:string">
+          <s:enumeration value="None" />
+          <s:enumeration value="Daily_EveryNDays" />
+          <s:enumeration value="Daily_EveryWeekday" />
+          <s:enumeration value="Weekly" />
+          <s:enumeration value="Monthly_DayNOfEveryNMonths" />
+          <s:enumeration value="Monthly_NthWeekDayOfEveryNMonth" />
+          <s:enumeration value="Yearly_DayNOfMonth" />
+          <s:enumeration value="Yearly_NthWeekDayOfMonth" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="GetAccountEventById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="utcoffset" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountEventByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountEventByIdResult" type="tns:TransitAccountEvent" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountEventVCalendarById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountEventVCalendarByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountEventVCalendarByIdResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateOrUpdateAccountEvent">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="evt" type="tns:TransitAccountEvent" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateOrUpdateAccountEventResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateAccountEventResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountEvent">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountEventResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetAccountEventsCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="qopt" type="tns:TransitAccountEventQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitAccountEventQueryOptions">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="SortOrder" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SortAscending" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Neighborhood" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Type" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="StartDateTime" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="EndDateTime" type="s:dateTime" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountEventsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAccountEventsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountEvents">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="utcoffset" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="qopt" type="tns:TransitAccountEventQueryOptions" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountEventsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountEventsResult" type="tns:ArrayOfTransitAccountEvent" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateOrUpdateAccountEventType">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="eventtype" type="tns:TransitAccountEventType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitAccountEventType">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfAccountEventType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfAccountEventType" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrUpdateAccountEventTypeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateAccountEventTypeResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountEventTypeById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountEventTypeByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountEventTypeByIdResult" type="tns:TransitAccountEventType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountEventTypes">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountEventTypesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountEventTypesResult" type="tns:ArrayOfTransitAccountEventType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitAccountEventType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountEventType" nillable="true" type="tns:TransitAccountEventType" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountEventTypesCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountEventTypesCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAccountEventTypesCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountEventType">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountEventTypeResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="CreateOrUpdateAccountEventPicture">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="eventpicture" type="tns:TransitAccountEventPicture" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitAccountEventPicture">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitArrayElementServiceOfAccountEventPicture">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Picture" type="s:base64Binary" />
+              <s:element minOccurs="0" maxOccurs="1" name="Thumbnail" type="s:base64Binary" />
+              <s:element minOccurs="1" maxOccurs="1" name="CommentCount" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountEventId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="HasPicture" type="s:boolean" />
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="Counter" type="tns:TransitCounter" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitArrayElementServiceOfAccountEventPicture">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfAccountEventPicture">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="NextIndex" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="PrevIndex" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="Index" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="NextId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="PrevId" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfAccountEventPicture" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitCounter">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfCounter">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Total" type="s:long" />
+              <s:element minOccurs="0" maxOccurs="1" name="Uri" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfCounter" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrUpdateAccountEventPictureResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateAccountEventPictureResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountEventPictureById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountEventPictureByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountEventPictureByIdResult" type="tns:TransitAccountEventPicture" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountEventPicture">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountEventPictureResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetAccountEventPicturesCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountEventPicturesCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAccountEventPicturesCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountEventPictures">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountEventPicturesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountEventPicturesResult" type="tns:ArrayOfTransitAccountEventPicture" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitAccountEventPicture">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountEventPicture" nillable="true" type="tns:TransitAccountEventPicture" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountEventPictureIfModifiedSinceById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="ifModifiedSince" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountEventPictureIfModifiedSinceByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountEventPictureIfModifiedSinceByIdResult" type="tns:TransitAccountEventPicture" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountEventInstances">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="qopt" type="tns:TransitAccountEventInstanceQueryOptions" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitAccountEventInstanceQueryOptions">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="SortOrder" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SortAscending" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Neighborhood" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Type" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="StartDateTime" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="EndDateTime" type="s:dateTime" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountEventInstancesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountEventInstancesResult" type="tns:ArrayOfTransitAccountEventInstance" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitAccountEventInstance">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountEventInstance" nillable="true" type="tns:TransitAccountEventInstance" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitAccountEventInstance">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfScheduleInstance">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="AccountEventId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="PictureId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="PlaceId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="PlaceName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PlaceNeighborhood" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PlaceCity" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PlaceState" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PlaceCountry" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountEventType" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="ScheduleId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="Cost" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Website" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Phone" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="StartDateTime" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="EndDateTime" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Instance" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfScheduleInstance" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountEventInstancesCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="qopt" type="tns:TransitAccountEventInstanceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountEventInstancesCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAccountEventInstancesCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetAccountEventsCountByAccountIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountEventsCountByAccountId" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEventsCountByAccountIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountEventsCountByAccountIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEventsByAccountIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountEventsByAccountId" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEventsByAccountIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountEventsByAccountIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEventByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountEventById" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEventByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountEventByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEventVCalendarByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountEventVCalendarById" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEventVCalendarByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountEventVCalendarByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAccountEventSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountEvent" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAccountEventSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountEventResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountEventSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteAccountEvent" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountEventSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteAccountEventResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEventsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountEventsCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEventsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountEventsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEventsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountEvents" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEventsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountEventsResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAccountEventTypeSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountEventType" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAccountEventTypeSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountEventTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEventTypeByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountEventTypeById" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEventTypeByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountEventTypeByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEventTypesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountEventTypes" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEventTypesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountEventTypesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEventTypesCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountEventTypesCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEventTypesCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountEventTypesCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountEventTypeSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteAccountEventType" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountEventTypeSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteAccountEventTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAccountEventPictureSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountEventPicture" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAccountEventPictureSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountEventPictureResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEventPictureByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountEventPictureById" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEventPictureByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountEventPictureByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountEventPictureSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteAccountEventPicture" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountEventPictureSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteAccountEventPictureResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEventPicturesCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountEventPicturesCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEventPicturesCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountEventPicturesCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEventPicturesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountEventPictures" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEventPicturesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountEventPicturesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEventPictureIfModifiedSinceByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountEventPictureIfModifiedSinceById" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEventPictureIfModifiedSinceByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountEventPictureIfModifiedSinceByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEventInstancesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountEventInstances" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEventInstancesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountEventInstancesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEventInstancesCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountEventInstancesCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEventInstancesCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountEventInstancesCountResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WebEventServiceSoap">
+    <wsdl:operation name="GetAccountEventsCountByAccountId">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account events count by account id.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountEventsCountByAccountIdSoapIn" />
+      <wsdl:output message="tns:GetAccountEventsCountByAccountIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventsByAccountId">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account events.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountEventsByAccountIdSoapIn" />
+      <wsdl:output message="tns:GetAccountEventsByAccountIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account event by id.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountEventByIdSoapIn" />
+      <wsdl:output message="tns:GetAccountEventByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventVCalendarById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account event VCalendar by id.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountEventVCalendarByIdSoapIn" />
+      <wsdl:output message="tns:GetAccountEventVCalendarByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountEvent">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create an event.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateAccountEventSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateAccountEventSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountEvent">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete an event.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteAccountEventSoapIn" />
+      <wsdl:output message="tns:DeleteAccountEventSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventsCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all account events count.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountEventsCountSoapIn" />
+      <wsdl:output message="tns:GetAccountEventsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEvents">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all account events.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountEventsSoapIn" />
+      <wsdl:output message="tns:GetAccountEventsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountEventType">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update an event type.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateAccountEventTypeSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateAccountEventTypeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventTypeById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get an event type.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountEventTypeByIdSoapIn" />
+      <wsdl:output message="tns:GetAccountEventTypeByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventTypes">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all event types.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountEventTypesSoapIn" />
+      <wsdl:output message="tns:GetAccountEventTypesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventTypesCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all event types count.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountEventTypesCountSoapIn" />
+      <wsdl:output message="tns:GetAccountEventTypesCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountEventType">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete an event type.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteAccountEventTypeSoapIn" />
+      <wsdl:output message="tns:DeleteAccountEventTypeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountEventPicture">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update an event picture.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateAccountEventPictureSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateAccountEventPictureSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventPictureById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account event picture by id.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountEventPictureByIdSoapIn" />
+      <wsdl:output message="tns:GetAccountEventPictureByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountEventPicture">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a event picture.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteAccountEventPictureSoapIn" />
+      <wsdl:output message="tns:DeleteAccountEventPictureSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventPicturesCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get event pictures count.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountEventPicturesCountSoapIn" />
+      <wsdl:output message="tns:GetAccountEventPicturesCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventPictures">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get event pictures.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountEventPicturesSoapIn" />
+      <wsdl:output message="tns:GetAccountEventPicturesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventPictureIfModifiedSinceById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get event picture picture data if modified since.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountEventPictureIfModifiedSinceByIdSoapIn" />
+      <wsdl:output message="tns:GetAccountEventPictureIfModifiedSinceByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventInstances">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all account event instances.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountEventInstancesSoapIn" />
+      <wsdl:output message="tns:GetAccountEventInstancesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventInstancesCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all account event instances count.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountEventInstancesCountSoapIn" />
+      <wsdl:output message="tns:GetAccountEventInstancesCountSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WebEventServiceSoap" type="tns:WebEventServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetAccountEventsCountByAccountId">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEventsCountByAccountId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventsByAccountId">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEventsByAccountId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEventById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventVCalendarById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEventVCalendarById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountEvent">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountEvent" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountEvent">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountEvent" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventsCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEventsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEvents">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEvents" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountEventType">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountEventType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventTypeById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEventTypeById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventTypes">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEventTypes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventTypesCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEventTypesCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountEventType">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountEventType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountEventPicture">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountEventPicture" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventPictureById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEventPictureById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountEventPicture">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountEventPicture" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventPicturesCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEventPicturesCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventPictures">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEventPictures" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventPictureIfModifiedSinceById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEventPictureIfModifiedSinceById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventInstances">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEventInstances" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventInstancesCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEventInstancesCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WebEventServiceSoap12" type="tns:WebEventServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetAccountEventsCountByAccountId">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEventsCountByAccountId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventsByAccountId">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEventsByAccountId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEventById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventVCalendarById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEventVCalendarById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountEvent">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountEvent" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountEvent">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountEvent" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventsCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEventsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEvents">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEvents" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountEventType">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountEventType" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventTypeById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEventTypeById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventTypes">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEventTypes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventTypesCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEventTypesCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountEventType">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountEventType" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountEventPicture">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountEventPicture" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventPictureById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEventPictureById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountEventPicture">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountEventPicture" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventPicturesCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEventPicturesCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventPictures">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEventPictures" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventPictureIfModifiedSinceById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEventPictureIfModifiedSinceById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventInstances">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEventInstances" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEventInstancesCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEventInstancesCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WebEventService">
+    <wsdl:port name="WebEventServiceSoap" binding="tns:WebEventServiceSoap">
+      <soap:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebEventService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WebEventServiceSoap12" binding="tns:WebEventServiceSoap12">
+      <soap12:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebEventService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

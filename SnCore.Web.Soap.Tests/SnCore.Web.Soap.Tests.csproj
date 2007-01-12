@@ -68,6 +68,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\WebEventService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\WebLicenseService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -84,6 +89,11 @@
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
     <Compile Include="Web References\WebMarketingService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\WebPlaceService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
@@ -126,9 +136,29 @@
     <Compile Include="WebBlogService_AccountBlogAuthorTest.cs" />
     <Compile Include="WebBlogService_AccountBlogPostTest.cs" />
     <Compile Include="WebBlogService_AccountBlogTest.cs" />
+    <Compile Include="WebEventServiceTest.cs" />
+    <Compile Include="WebEventService_AccountEventPictureTest.cs" />
+    <Compile Include="WebEventService_AccountEventTest.cs" />
+    <Compile Include="WebEventService_AccountEventTypeTest.cs" />
     <Compile Include="WebMarketingService_CampaignTest.cs" />
     <Compile Include="WebMarketingServiceTest.cs" />
     <Compile Include="WebMarketingService_CampaignAccountRecepientTest.cs" />
+    <Compile Include="WebPlaceServiceTest.cs" />
+    <Compile Include="WebPlaceService_AccountPlaceFavoriteTest.cs" />
+    <Compile Include="WebPlaceService_AccountPlaceRequestTest.cs" />
+    <Compile Include="WebPlaceService_AccountPlaceTest.cs" />
+    <Compile Include="WebPlaceService_AccountPlaceTypeTest.cs" />
+    <Compile Include="WebPlaceService_DistinctPlaceNeighborhoodTest.cs" />
+    <Compile Include="WebPlaceService_PlaceAttributeTest.cs" />
+    <Compile Include="WebPlaceService_PlaceNameTest.cs" />
+    <Compile Include="WebPlaceService_PlacePictureTest.cs" />
+    <Compile Include="WebPlaceService_PlacePropertyGroupTest.cs" />
+    <Compile Include="WebPlaceService_PlacePropertyTest.cs" />
+    <Compile Include="WebPlaceService_PlacePropertyValueTest.cs" />
+    <Compile Include="WebPlaceService_PlaceQueueItemTest.cs" />
+    <Compile Include="WebPlaceService_PlaceQueueTest.cs" />
+    <Compile Include="WebPlaceService_PlaceTest.cs" />
+    <Compile Include="WebPlaceService_PlaceTypeTest.cs" />
     <Compile Include="WebStatsServiceTest.cs" />
     <Compile Include="WebBugServiceTest.cs" />
     <Compile Include="WebBugService_BugLinkTest.cs" />
@@ -175,7 +205,9 @@
     <Compile Include="WebSyndicationService_AccountFeedTest.cs" />
     <Compile Include="WebSyndicationService_FeedTypeTest.cs" />
     <Compile Include="WebSystemServiceTest.cs" />
+    <Compile Include="WebSystemService_AttributeTest.cs" />
     <Compile Include="WebSystemService_ConfigurationTest.cs" />
+    <Compile Include="WebSystemService_ScheduleTest.cs" />
     <Compile Include="WebTagWordServiceTest.cs" />
     <Compile Include="WebTagWordService_TagWordTest.cs" />
   </ItemGroup>
@@ -238,6 +270,17 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebContentService_WebContentService</CachedSettingsPropName>
     </WebReferenceUrl>
+    <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebEventService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WebEventService\</RelPath>
+      <UpdateFromURL>http://dblock-black.orangebitch.com/SnCoreWeb/WebEventService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebEventService_WebEventService</CachedSettingsPropName>
+    </WebReferenceUrl>
     <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebLicenseService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\WebLicenseService\</RelPath>
@@ -281,6 +324,17 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebMarketingService_WebMarketingService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebPlaceService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WebPlaceService\</RelPath>
+      <UpdateFromURL>http://dblock-black.orangebitch.com/SnCoreWeb/WebPlaceService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebPlaceService_WebPlaceService</CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebSocialService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
@@ -611,6 +665,91 @@
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\WebBlogService\WebBlogService.disco" />
+    <None Include="Web References\WebEventService\WebEventService.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\WebEventService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\WebEventService\TransitAccountEvent.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebEventService\TransitAccountEventInstance.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebEventService\TransitAccountEventPicture.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebEventService\TransitAccountEventType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebEventService\WebEventService.disco" />
+    <None Include="Web References\WebPlaceService\WebPlaceService.wsdl" />
+    <None Include="Web References\WebSystemService\TransitSchedule.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\WebPlaceService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\WebPlaceService\TransitAccountPlace.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebPlaceService\TransitAccountPlaceFavorite.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebPlaceService\TransitAccountPlaceRequest.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebPlaceService\TransitAccountPlaceType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebPlaceService\TransitDistinctPlaceNeighborhood.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebPlaceService\TransitDistinctPlacePropertyValue.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebPlaceService\TransitFriendsPlaceQueueItem.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebPlaceService\TransitPlace.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebPlaceService\TransitPlaceAttribute.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebPlaceService\TransitPlaceName.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebPlaceService\TransitPlacePicture.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebPlaceService\TransitPlaceProperty.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebPlaceService\TransitPlacePropertyGroup.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebPlaceService\TransitPlacePropertyValue.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebPlaceService\TransitPlaceQueue.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebPlaceService\TransitPlaceQueueItem.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebPlaceService\TransitPlaceType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebPlaceService\WebPlaceService.disco" />
+    <None Include="Web References\WebSystemService\TransitAttribute.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

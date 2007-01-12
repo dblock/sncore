@@ -170,6 +170,7 @@
     <Compile Include="ManagedReminderAccountProperty.cs" />
     <Compile Include="ManagedReminderEvent.cs" />
     <Compile Include="ManagedSchedule.cs" />
+    <Compile Include="ManagedScheduleInstance.cs" />
     <Compile Include="ManagedSecurityContext.cs" />
     <Compile Include="ManagedSiteConnector.cs" />
     <Compile Include="ManagedStats.cs" />

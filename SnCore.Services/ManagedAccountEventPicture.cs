@@ -10,48 +10,36 @@ using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
-    public class TransitAccountEventPictureWithPicture : TransitAccountEventPicture
-    {
-        public byte[] Picture;
-
-        public TransitAccountEventPictureWithPicture()
-        {
-
-        }
-
-        public TransitAccountEventPictureWithPicture(AccountEventPicture p)
-            : base(p)
-        {
-            Picture = p.Picture;
-            HasPicture = true;
-        }
-
-        public override AccountEventPicture GetInstance(ISession session, ManagedSecurityContext sec)
-        {
-            AccountEventPicture t_instance = base.GetInstance(session, sec);
-            t_instance.Picture = Picture;
-            return t_instance;
-        }
-    }
-
-    public class TransitAccountEventPictureWithThumbnail : TransitAccountEventPicture
-    {
-        public byte[] Thumbnail;
-
-        public TransitAccountEventPictureWithThumbnail()
-        {
-
-        }
-
-        public TransitAccountEventPictureWithThumbnail(AccountEventPicture p)
-            : base(p)
-        {
-            Thumbnail = new ThumbnailBitmap(p.Picture).Thumbnail;
-        }
-    }
-
     public class TransitAccountEventPicture : TransitArrayElementService<AccountEventPicture>
     {
+        private byte[] mPicture;
+
+        public byte[] Picture
+        {
+            get
+            {
+                return mPicture;
+            }
+            set
+            {
+                mPicture = value;
+            }
+        }
+
+        private byte[] mThumbnail;
+
+        public byte[] Thumbnail
+        {
+            get
+            {
+                return mThumbnail;
+            }
+            set
+            {
+                mThumbnail = value;
+            }
+        }
+
         private int mCommentCount;
 
         public int CommentCount
@@ -185,7 +173,9 @@ namespace SnCore.Services
         {
             base.SetInstance(instance);
             AccountEventId = instance.AccountEvent.Id;
-            HasPicture = instance.Picture != null;
+            HasPicture = (instance.Picture != null);
+            Picture = instance.Picture;
+            Thumbnail = new ThumbnailBitmap(instance.Picture).Thumbnail;
             Name = instance.Name;
             Description = instance.Description;
             Created = instance.Created;
@@ -203,6 +193,7 @@ namespace SnCore.Services
 
             t_instance.Name = this.Name;
             t_instance.Description = this.Description;
+            if (this.Picture != null) t_instance.Picture = this.Picture;
             return t_instance;
         }
     }

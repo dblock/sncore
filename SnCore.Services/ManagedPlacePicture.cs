@@ -7,48 +7,36 @@ using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
-    public class TransitPlacePictureWithBitmap : TransitPlacePicture
-    {
-        public byte[] Bitmap;
-
-        public TransitPlacePictureWithBitmap()
-        {
-
-        }
-
-        public TransitPlacePictureWithBitmap(PlacePicture p)
-            : base(p)
-        {
-            Bitmap = p.Bitmap;
-        }
-
-        public override PlacePicture GetInstance(ISession session, ManagedSecurityContext sec)
-        {
-            PlacePicture instance = base.GetInstance(session, sec);
-            instance.Bitmap = Bitmap;
-            return instance;
-        }
-    }
-
-    public class TransitPlacePictureWithThumbnail : TransitPlacePicture
-    {
-        public byte[] Thumbnail;
-
-        public TransitPlacePictureWithThumbnail()
-        {
-
-        }
-
-        public TransitPlacePictureWithThumbnail(PlacePicture p)
-            : base(p)
-        {
-            Thumbnail = new ThumbnailBitmap(p.Bitmap).Thumbnail;
-        }
-    }
-
-
     public class TransitPlacePicture : TransitArrayElementService<PlacePicture>
     {
+        private byte[] mThumbnail;
+
+        public byte[] Thumbnail
+        {
+            get
+            {
+                return mThumbnail;
+            }
+            set
+            {
+                mThumbnail = value;
+            }
+        }
+
+        private byte[] mBitmap;
+
+        public byte[] Bitmap
+        {
+            get
+            {
+                return mBitmap;
+            }
+            set
+            {
+                mBitmap = value;
+            }
+        }
+
         private string mName;
 
         public string Name
@@ -202,6 +190,8 @@ namespace SnCore.Services
             PlaceId = instance.Place.Id;
             AccountId = instance.Account.Id;
             AccountName = instance.Account.Name;
+            Bitmap = instance.Bitmap;
+            Thumbnail = new ThumbnailBitmap(Bitmap).Thumbnail;
         }
 
         public override PlacePicture GetInstance(ISession session, ManagedSecurityContext sec)
@@ -212,8 +202,9 @@ namespace SnCore.Services
             if (Id == 0)
             {
                 if (PlaceId > 0) p.Place = (Place)session.Load(typeof(Place), PlaceId);
-                if (AccountId > 0) p.Account = (Account)session.Load(typeof(Account), AccountId);
+                p.Account = GetOwner(session, AccountId, sec);
             }
+            if (Bitmap != null) p.Bitmap = Bitmap;
             return p;
         }
     }

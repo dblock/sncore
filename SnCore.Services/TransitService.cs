@@ -76,7 +76,7 @@ namespace SnCore.Services
 
         public Account GetOwner(ISession session, int id, ManagedSecurityContext sec)
         {
-            if (id == 0) return sec.Account; // current security context id
+            if (id == 0 || sec.Account == null) return sec.Account; // current security context id
             if (id != 0 && id == sec.Account.Id) return sec.Account; // the id requested matches the security context id
             if (id != 0 && sec.IsAdministrator()) return (Account) session.Load(typeof(Account), id); // the administrator can get any id
             if (id != 0 && !sec.IsAdministrator()) throw new ManagedAccount.AccessDeniedException(); // attempt to change ownership

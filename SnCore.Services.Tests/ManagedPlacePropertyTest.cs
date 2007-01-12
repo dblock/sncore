@@ -37,7 +37,8 @@ namespace SnCore.Services.Tests
             t_instance.Description = Guid.NewGuid().ToString();
             t_instance.Name = Guid.NewGuid().ToString();
             t_instance.PlacePropertyGroupId = _group.Instance.Id;
-            t_instance.Type = typeof(System.String);
+            t_instance.TypeName = "System.String";
+            t_instance.Publish = true;
             return t_instance;
         }
     }

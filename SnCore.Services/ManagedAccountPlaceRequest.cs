@@ -192,9 +192,10 @@ namespace SnCore.Services
             }
         }
 
-        // TODO: introduce security context
-        public void Reject(string message)
+        public void Reject(ManagedSecurityContext sec, string message)
         {
+            GetACL().Check(sec, DataOperation.Delete);
+
             ManagedAccount recepient = new ManagedAccount(Session, mInstance.Account);
             string sentto = recepient.ActiveEmailAddress;
             if (sentto != null)
@@ -211,8 +212,10 @@ namespace SnCore.Services
         }
 
         // TODO: introduce security context
-        public void Accept(string message)
+        public void Accept(ManagedSecurityContext sec, string message)
         {
+            GetACL().Check(sec, DataOperation.Delete);
+
             AccountPlace place = new AccountPlace();
             place.Account = mInstance.Account;
             place.Place = mInstance.Place;

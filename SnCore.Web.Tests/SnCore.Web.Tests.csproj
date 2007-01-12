@@ -48,11 +48,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
-    <Compile Include="Web References\SnCore.WebServices.WebStatsService\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.map</DependentUpon>
-    </Compile>
     <Compile Include="Web References\SnCore.WebServices.WebPlaceService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -77,17 +72,6 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Tests_SnCore_WebServices_WebAccountService_WebAccountService</CachedSettingsPropName>
-    </WebReferenceUrl>
-    <WebReferenceUrl Include="http://localhost/SnCoreWeb/WebStatsService.asmx">
-      <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\SnCore.WebServices.WebStatsService\</RelPath>
-      <UpdateFromURL>http://localhost/SnCoreWeb/WebStatsService.asmx</UpdateFromURL>
-      <ServiceLocationURL>
-      </ServiceLocationURL>
-      <CachedDynamicPropName>
-      </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>SnCore_Web_Tests_SnCore_WebServices_WebStatsService_WebStatsService</CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://localhost/SnCoreWeb/WebPlaceService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
@@ -174,30 +158,6 @@
     <None Include="Web References\SnCore.WebServices.WebPlaceService\TransitPlaceType1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\SnCore.WebServices.WebStatsService\Reference.map">
-      <Generator>MSDiscoCodeGenerator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Web References\SnCore.WebServices.WebStatsService\TransitCounter.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\SnCore.WebServices.WebStatsService\TransitRefererAccount.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\SnCore.WebServices.WebStatsService\TransitRefererHost.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\SnCore.WebServices.WebStatsService\TransitRefererHostDup.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\SnCore.WebServices.WebStatsService\TransitRefererQuery.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\SnCore.WebServices.WebStatsService\TransitStatsSummary.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\SnCore.WebServices.WebStatsService\WebStatsService.disco" />
-    <None Include="Web References\SnCore.WebServices.WebStatsService\WebStatsService.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SgmlReader\sgmlreaderdll\SgmlReaderDll8.csproj">

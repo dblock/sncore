@@ -59,17 +59,17 @@ namespace SnCore.Services
             }
         }
 
-        private TransitPlaceProperty mPlaceProperty;
+        private int mPlacePropertyId;
 
-        public TransitPlaceProperty PlaceProperty
+        public int PlacePropertyId
         {
             get
             {
-                return mPlaceProperty;
+                return mPlacePropertyId;
             }
             set
             {
-                mPlaceProperty = value;
+                mPlacePropertyId = value;
             }
         }
 
@@ -129,7 +129,7 @@ namespace SnCore.Services
         public override void SetInstance(PlacePropertyValue instance)
         {
             if (instance.Place != null) PlaceId = instance.Place.Id;
-            PlaceProperty = new TransitPlaceProperty(instance.PlaceProperty);
+            if (instance.PlaceProperty != null) PlacePropertyId = instance.PlaceProperty.Id;
             Created = instance.Created;
             Modified = instance.Modified;
             Value = instance.Value;
@@ -140,7 +140,7 @@ namespace SnCore.Services
         {
             PlacePropertyValue instance = base.GetInstance(session, sec);
             instance.Place = (this.PlaceId > 0) ? (Place)session.Load(typeof(Place), PlaceId) : null;
-            instance.PlaceProperty = (this.PlaceProperty != null && this.PlaceProperty.Id > 0) ? (PlaceProperty)session.Load(typeof(PlaceProperty), this.PlaceProperty.Id) : null;
+            instance.PlaceProperty = (PlacePropertyId > 0) ? (PlaceProperty) session.Load(typeof(PlaceProperty), PlacePropertyId) : null;
             instance.Value = this.Value;
             return instance;
         }

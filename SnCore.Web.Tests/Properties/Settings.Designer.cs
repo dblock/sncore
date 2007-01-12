@@ -36,16 +36,6 @@ namespace SnCore.Web.Tests.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost/SnCoreWeb/WebStatsService.asmx")]
-        public string SnCore_Web_Tests_SnCore_WebServices_WebStatsService_WebStatsService {
-            get {
-                return ((string)(this["SnCore_Web_Tests_SnCore_WebServices_WebStatsService_WebStatsService"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
         [global::System.Configuration.DefaultSettingValueAttribute("http://localhost/SnCoreWeb/WebAccountService.asmx")]
         public string SnCore_Web_Tests_SnCore_WebServices_WebAccountService_WebAccountService {
             get {
