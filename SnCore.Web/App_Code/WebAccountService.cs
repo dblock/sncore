@@ -34,6 +34,105 @@ namespace SnCore.WebServices
 
         }
 
+        #region Login
+
+        /// <summary>
+        /// Login.
+        /// </summary>
+        /// <param name="email">verified e-mail address</param>
+        /// <param name="password">valid password</param>
+        /// <returns>authentication ticket for the current session</returns>
+        [WebMethod(Description = "Login.")]
+        public string Login(string email, string password)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount acct = ManagedAccount.Login(session, email, password);
+                HttpCookie cookie = FormsAuthentication.GetAuthCookie(acct.Id.ToString(), false);
+                SnCore.Data.Hibernate.Session.Flush();
+                return cookie.Value;
+            }
+        }
+
+        /// <summary>
+        /// Login to an account with an OpenId.
+        /// </summary>
+        /// <param name="openidurl">openid url</param>
+        /// <param name="returnurl">return url</param>
+        /// <returns>authentication ticket for the current session</returns>
+        [WebMethod(Description = "Login to an account.")]
+        public string LoginOpenId(string token, string[] names, string[] values)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount acct = ManagedAccount.LoginOpenId(session, token, new NameValueCollectionSerializer(names, values).Collection);
+                HttpCookie cookie = FormsAuthentication.GetAuthCookie(acct.Id.ToString(), false);
+                SnCore.Data.Hibernate.Session.Flush();
+                return cookie.Value;
+            }
+        }
+
+        /// <summary>
+        /// Login to an account using a verified e-mail address and a password hash.
+        /// Using the password hash avoids transferring the actual password accross an unsecure network.
+        /// </summary>
+        /// <param name="emailaddress">verified e-mail address</param>
+        /// <param name="passwordhash">valid password MD5 hash</param>
+        /// <returns>authentication ticket for the current session</returns>
+        [WebMethod(Description = "Login using a password hash.")]
+        public string LoginMd5(string emailaddress, string passwordhash)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount acct = ManagedAccount.LoginMd5(session, emailaddress, passwordhash);
+                HttpCookie cookie = FormsAuthentication.GetAuthCookie(acct.Id.ToString(), false);
+                SnCore.Data.Hibernate.Session.Flush();
+                return cookie.Value;
+            }
+        }
+
+        #endregion
+
+        #region Beta
+
+        /// <summary>
+        /// Verify beta password.
+        /// </summary>
+        /// <param name="password">password</param>
+        [WebMethod(Description = "Verify beta password.")]
+        public void VerifyBetaPassword(string betapassword)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                string s = ManagedConfiguration.GetValue(session, "SnCore.Beta.Password", string.Empty);
+                if (s != betapassword)
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Check whether a beta password is set.
+        /// </summary>
+        [WebMethod(Description = "Check whether a beta password is set.", CacheDuration = 60)]
+        public bool IsBetaPasswordSet()
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                string s = ManagedConfiguration.GetValue(session, "SnCore.Beta.Password", string.Empty);
+                return !string.IsNullOrEmpty(s);
+            }
+        }
+
+        #endregion
+
         #region SignUp
 
         /// <summary>
@@ -63,9 +162,103 @@ namespace SnCore.WebServices
             }
         }
 
+        /// <summary>
+        /// Create an account with openid.
+        /// </summary>
+        /// <param name="ta">transit account information</param>
+        /// <returns>account id</returns>
+        [WebMethod(Description = "Create an account with openid.")]
+        public int CreateAccountWithOpenId(string betapassword, string consumerurl, TransitAccount ta)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                string s = ManagedConfiguration.GetValue(session, "SnCore.Beta.Password", string.Empty);
+                if (s != betapassword)
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ManagedAccount acct = new ManagedAccount(session);
+                acct.CreateWithOpenId(consumerurl, ta, ManagedAccount.GetAdminSecurityContext(session));
+                SnCore.Data.Hibernate.Session.Flush();
+                return acct.Id;
+            }
+        }
+
+        /// <summary>
+        /// Get an OpenId redirect.
+        /// </summary>
+        /// <param name="openidurl">openid url</param>
+        /// <param name="returnurl">return url</param>
+        /// <returns>authentication ticket for the current session</returns>
+        [WebMethod(Description = "Get an openid redirect.")]
+        public TransitOpenIdRedirect GetOpenIdRedirect(string openidurl, string returnurl)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return ManagedAccount.GetOpenIdRedirect(session, openidurl, returnurl);
+            }
+        }
+
+        /// <summary>
+        /// Verify an OpenId.
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="c"></param>
+        /// <returns></returns>
+        [WebMethod(Description = "Verify an OpenId.")]
+        public string VerifyOpenId(string token, string[] names, string[] values)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return ManagedAccount.VerifyOpenId(token, new NameValueCollectionSerializer(names, values).Collection).ToString();
+            }
+        }
+
         #endregion
 
         #region Account
+
+        /// <summary>
+        /// Get account id.
+        /// </summary>
+        /// <param name="ticket">authentication ticket previously obtained from SnCore::WebAccountService::Login or SnCore::WebAccountService::LoginMd5</param>
+        /// <returns>account id</returns>
+        [WebMethod(Description = "Get account id.", CacheDuration = 60)]
+        public int GetAccountId(string ticket)
+        {
+            return ManagedAccount.GetAccountId(ticket);
+        }
+
+        /// <summary>
+        /// Get logged in account information. 
+        /// Also updates last login time on five minute intervals.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <returns>transit account</returns>
+        [WebMethod(Description = "Get account information.")]
+        public TransitAccount GetAccount(string ticket)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                try
+                {
+                    ISession session = SnCore.Data.Hibernate.Session.Current;
+                    ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                    ManagedAccount account = new ManagedAccount(session, sec.Account);
+                    account.UpdateLastLogin();
+                    return account.GetTransitInstance(sec);
+                }
+                catch (ObjectNotFoundException)
+                {
+                    return null;
+                }
+            }
+        }
 
         /// <summary>
         /// Get account information.
@@ -142,6 +335,308 @@ namespace SnCore.WebServices
 
             WebServiceImpl<TransitAccount, ManagedAccount, Account>.Delete(
                 ticket, id);
+        }
+
+        /// <summary>
+        /// Find an account by e-mail address.
+        /// </summary>
+        /// <param name="emailaddress">verified e-mail address</param>
+        /// <returns>authentication ticket for the current session</returns>
+        [WebMethod(Description = "Find an account by e-mail address.")]
+        public TransitAccount FindByEmail(string ticket, string emailaddress)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                ManagedAccount m_account = ManagedAccount.FindByEmail(session, emailaddress);
+                return m_account.GetTransitInstance(sec);
+            }
+        }
+
+        #endregion
+
+        #region AccountInvitation
+
+        /// <summary>
+        /// Create an account with an e-mail invitation and login.
+        /// </summary>
+        /// <param name="invitationid"></param>
+        /// <param name="code"></param>
+        /// <param name="ta"></param>
+        /// <returns></returns>
+        [WebMethod(Description = "Create an account and login.")]
+        public string CreateAccountWithInvitationAndLogin(int invitationid, string code, TransitAccount ta)
+        {
+            int id = CreateAccountWithInvitation(invitationid, code, ta);
+
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount account = new ManagedAccount(session, id);
+                HttpCookie cookie = FormsAuthentication.GetAuthCookie(account.Id.ToString(), false);
+                return cookie.Value;
+            }
+        }
+
+        /// <summary>
+        /// Create an account with an e-mail invitation.
+        /// </summary>
+        /// <param name="invitationid">invitation id</param>
+        /// <param name="code">code</param>
+        /// <param name="ta">transit account information</param>
+        /// <returns>account id</returns>
+        [WebMethod(Description = "Create an account.")]
+        public int CreateAccountWithInvitation(int invitationid, string code, TransitAccount ta)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                ManagedAccountInvitation invitation = new ManagedAccountInvitation(session, invitationid);
+                if (invitation.Code != code)
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ManagedAccount acct = new ManagedAccount(session);
+                int id = acct.Create(invitation.Instance.Email, ta, ManagedAccount.GetAdminSecurityContext(session));
+
+                TransitAccountFriend t_friend = new TransitAccountFriend();
+                AccountFriend friend = new AccountFriend();
+                friend.Account = (Account)session.Load(typeof(Account), invitation.AccountId);
+                friend.Keen = (Account)session.Load(typeof(Account), id);
+                friend.Created = DateTime.UtcNow;
+                session.Save(friend);
+
+                invitation.Delete(ManagedAccount.GetAdminSecurityContext(session));
+
+                SnCore.Data.Hibernate.Session.Flush();
+                return acct.Id;
+            }
+        }
+
+        [WebMethod(Description = "Decline an invitation.")]
+        public void DeclineInvitation(int id, string code)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                ManagedAccountInvitation invitation = new ManagedAccountInvitation(session, id);
+                if (invitation.Code != code)
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                invitation.Delete(ManagedAccount.GetAdminSecurityContext(session));
+                SnCore.Data.Hibernate.Session.Flush();
+            }
+        }
+
+        /// <summary>
+        /// Invite a person.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="invitation">transit invitation</param>
+        [WebMethod(Description = "Invite a person.")]
+        public TransitAccountInvitation GetAccountInvitationByEmail(string ticket, int id, string email)
+        {
+            ICriterion[] expressions = 
+            {
+                Expression.Eq("Email", email),
+                Expression.Eq("Account.Id", id)
+            };
+            
+            return WebServiceImpl<TransitAccountInvitation, ManagedAccountInvitation, AccountInvitation>.GetByCriterion(
+                ticket, expressions); 
+        }
+
+        /// <summary>
+        /// Invite a person.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="invitation">transit invitation</param>
+        [WebMethod(Description = "Invite a person.")]
+        public int CreateOrUpdateAccountInvitation(string ticket, TransitAccountInvitation invitation)
+        {
+            if (invitation.Id == 0)
+            {
+                try
+                {
+                    TransitAccountInvitation t_instance = GetAccountInvitationByEmail(ticket, invitation.AccountId, invitation.Email);
+                    throw new Exception("Existing Invitation Pending");
+                }
+                catch (ObjectNotFoundException)
+                {
+                }
+            }
+
+            return WebServiceImpl<TransitAccountInvitation, ManagedAccountInvitation, AccountInvitation>.CreateOrUpdate(
+                ticket, invitation);
+        }
+
+        /// <summary>
+        /// Get account invitations.
+        /// </summary>
+        /// <param name="id">account id</param>
+        /// <returns>transit account invitations</returns>
+        [WebMethod(Description = "Get account invitations.")]
+        public List<TransitAccountInvitation> GetAccountInvitations(string ticket, int id, ServiceQueryOptions options)
+        {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
+            Order[] orders = { Order.Desc("Created") };
+            return WebServiceImpl<TransitAccountInvitation, ManagedAccountInvitation, AccountInvitation>.GetList(
+                ticket, options, expressions, orders);
+        }
+
+        /// <summary>
+        /// Get account invitations count by id.
+        /// </summary>
+        /// <param name="id">account id</param>
+        /// <returns>number of outstanding account invitations</returns>
+        [WebMethod(Description = "Get account invitations count.", CacheDuration = 60)]
+        public int GetAccountInvitationsCount(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountInvitation, ManagedAccountInvitation, AccountInvitation>.GetCount(
+                ticket, string.Format("WHERE AccountInvitation.Account.Id = {0}", id));
+        }
+
+        /// <summary>
+        /// Get account invitation by id.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">invitation id</param>
+        /// <returns>transit account invitation</returns>
+        [WebMethod(Description = "Get account invitation by id.", CacheDuration = 60)]
+        public TransitAccountInvitation GetAccountInvitationById(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountInvitation, ManagedAccountInvitation, AccountInvitation>.GetById(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Delete a invitation.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="invitationid">invitation id</param>
+        [WebMethod(Description = "Delete a invitation.")]
+        public void DeleteAccountInvitation(string ticket, int id)
+        {
+            WebServiceImpl<TransitAccountInvitation, ManagedAccountInvitation, AccountInvitation>.Delete(
+                ticket, id);
+        }
+
+        #endregion
+
+        #region Promote and Demote
+
+        /// <summary>
+        /// Promote a user to an administrator.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">user id</param>
+        /// <returns></returns>
+        [WebMethod(Description = "Promote a user to an administrator.")]
+        public void PromoteAdministrator(string ticket, int id)
+        {
+            int userid = GetAccountId(ticket);
+
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                // check permissions: userid must have admin rights to the Accounts table
+                ManagedAccount user = new ManagedAccount(session, userid);
+                if (!user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ManagedAccount acct = new ManagedAccount(session, id);
+                if (acct.IsAdministrator())
+                {
+                    throw new SoapException("User is already an administrator.",
+                        SoapException.ClientFaultCode);
+                }
+
+                acct.PromoteAdministrator();
+
+                SnCore.Data.Hibernate.Session.Flush();
+            }
+        }
+
+        /// <summary>
+        /// Demote a user to from an administrator.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">user id</param>
+        /// <returns></returns>
+        [WebMethod(Description = "Demote a user from an administrator.")]
+        public void DemoteAdministrator(string ticket, int id)
+        {
+            int userid = GetAccountId(ticket);
+
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                // check permissions: userid must have admin rights to the Accounts table
+                ManagedAccount user = new ManagedAccount(session, userid);
+                if (!user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                if (user.Id == id)
+                {
+                    throw new SoapException("You cannot demote self.", SoapException.ClientFaultCode);
+                }
+
+                ManagedAccount acct = new ManagedAccount(session, id);
+                if (!acct.IsAdministrator())
+                {
+                    throw new SoapException("User is not an administrator.",
+                        SoapException.ClientFaultCode);
+                }
+
+                acct.DemoteAdministrator();
+
+                SnCore.Data.Hibernate.Session.Flush();
+            }
+        }
+
+        #endregion
+
+        #region Impersonate
+
+        /// <summary>
+        /// Impersonate an account (a user).
+        /// </summary>
+        /// <param name="id">user id</param>
+        /// <param name="ticket">authentication ticket</param>
+        /// <returns>authentication ticket for the impersonated user</returns>
+        [WebMethod(Description = "Impersonate an account (a user).")]
+        public string Impersonate(string ticket, int id)
+        {
+            int userid = GetAccountId(ticket);
+
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                // check permissions: userid must have admin rights to the Accounts table
+                ManagedAccount user = new ManagedAccount(session, userid);
+                if (!user.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ManagedAccount acct = new ManagedAccount(session, id);
+                HttpCookie cookie = FormsAuthentication.GetAuthCookie(acct.Id.ToString(), false);
+                SnCore.Data.Hibernate.Session.Flush();
+                return cookie.Value;
+            }
         }
 
         #endregion

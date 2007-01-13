@@ -72,7 +72,7 @@ namespace SnCore.WebServices
         public long GetUptime()
         {
             return ((TimeSpan)(DateTime.UtcNow - Global.Started)).Ticks;
-        }       
+        }
 
         #endregion
 
@@ -133,6 +133,53 @@ namespace SnCore.WebServices
         {
             WebServiceImpl<TransitConfiguration, ManagedConfiguration, Configuration>.Delete(
                 ticket, id);
+        }
+
+        /// <summary>
+        /// Get a configuration by name.
+        /// </summary>
+        /// <param name="ticket"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        [WebMethod(Description = "Get a configuration by name.")]
+        public TransitConfiguration GetConfigurationByName(string ticket, string name)
+        {
+            return WebServiceImpl<TransitConfiguration, ManagedConfiguration, Configuration>.GetByCriterion(
+                ticket, Expression.Eq("Name", name));
+        }
+
+        /// <summary>
+        /// Get a configuration value by name.
+        /// </summary>
+        /// <param name="ticket"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        [WebMethod(Description = "Get a configuration value by name.")]
+        public string GetConfigurationValue(string ticket, string name)
+        {
+            return WebServiceImpl<TransitConfiguration, ManagedConfiguration, Configuration>.GetByCriterion(
+                ticket, Expression.Eq("Name", name)).Value;
+        }
+
+        /// <summary>
+        /// Get a configuration value by name with default.
+        /// </summary>
+        /// <param name="ticket"></param>
+        /// <param name="name"></param>
+        /// <param name="defaultvalue"></param>
+        /// <returns></returns>
+        [WebMethod(Description = "Get a configuration value by name with default.")]
+        public string GetConfigurationValueWithDefault(string ticket, string name, string defaultvalue)
+        {
+            try
+            {
+                return WebServiceImpl<TransitConfiguration, ManagedConfiguration, Configuration>.GetByCriterion(
+                    ticket, Expression.Eq("Name", name)).Value;
+            }
+            catch (ObjectNotFoundException)
+            {
+                return defaultvalue;
+            }
         }
 
         #endregion

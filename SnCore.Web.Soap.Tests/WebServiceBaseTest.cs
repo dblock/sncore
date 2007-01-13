@@ -53,7 +53,7 @@ namespace SnCore.Web.Soap.Tests
 
         public string Login(string email, string password)
         {
-            WebAuthService.WebAuthService endpoint = new WebAuthService.WebAuthService();
+            WebAccountService.WebAccountService endpoint = new WebAccountService.WebAccountService();
             return endpoint.Login(email, password);
         }
 
@@ -75,15 +75,15 @@ namespace SnCore.Web.Soap.Tests
             return mUserTicket;
         }
 
-        public WebAuthService.TransitAccount GetUserAccount()
+        public WebAccountService.TransitAccount GetUserAccount()
         {
-            WebAuthService.WebAuthService endpoint = new WebAuthService.WebAuthService();
+            WebAccountService.WebAccountService endpoint = new WebAccountService.WebAccountService();
             return endpoint.GetAccount(GetUserTicket());
         }
 
-        public WebAuthService.TransitAccount GetAdminAccount()
+        public WebAccountService.TransitAccount GetAdminAccount()
         {
-            WebAuthService.WebAuthService endpoint = new WebAuthService.WebAuthService();
+            WebAccountService.WebAccountService endpoint = new WebAccountService.WebAccountService();
             return endpoint.GetAccount(GetAdminTicket());
         }
 
@@ -91,7 +91,7 @@ namespace SnCore.Web.Soap.Tests
         {
             if (string.IsNullOrEmpty(mAdminTicket))
             {
-                WebAuthService.WebAuthService endpoint = new WebAuthService.WebAuthService();
+                WebAccountService.WebAccountService endpoint = new WebAccountService.WebAccountService();
                 mAdminTicket = endpoint.Login("admin@localhost.com", "password");
             }
 

@@ -27,10 +27,31 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="WebAccountServiceSoap", Namespace="http://www.vestris.com/sncore/ns/")]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountInvitation))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccount))]
     public partial class WebAccountService : System.Web.Services.Protocols.SoapHttpClientProtocol {
         
+        private System.Threading.SendOrPostCallback LoginOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback LoginOpenIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback LoginMd5OperationCompleted;
+        
+        private System.Threading.SendOrPostCallback VerifyBetaPasswordOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback IsBetaPasswordSetOperationCompleted;
+        
         private System.Threading.SendOrPostCallback CreateAccountOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback CreateAccountWithOpenIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetOpenIdRedirectOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback VerifyOpenIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAccountByIdOperationCompleted;
         
@@ -39,6 +60,32 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         private System.Threading.SendOrPostCallback DeleteAccountOperationCompleted;
         
         private System.Threading.SendOrPostCallback DeleteAccountByIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback FindByEmailOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback CreateAccountWithInvitationAndLoginOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback CreateAccountWithInvitationOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback DeclineInvitationOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountInvitationByEmailOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback CreateOrUpdateAccountInvitationOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountInvitationsOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountInvitationsCountOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountInvitationByIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback DeleteAccountInvitationOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback PromoteAdministratorOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback DemoteAdministratorOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback ImpersonateOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -79,7 +126,37 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         }
         
         /// <remarks/>
+        public event LoginCompletedEventHandler LoginCompleted;
+        
+        /// <remarks/>
+        public event LoginOpenIdCompletedEventHandler LoginOpenIdCompleted;
+        
+        /// <remarks/>
+        public event LoginMd5CompletedEventHandler LoginMd5Completed;
+        
+        /// <remarks/>
+        public event VerifyBetaPasswordCompletedEventHandler VerifyBetaPasswordCompleted;
+        
+        /// <remarks/>
+        public event IsBetaPasswordSetCompletedEventHandler IsBetaPasswordSetCompleted;
+        
+        /// <remarks/>
         public event CreateAccountCompletedEventHandler CreateAccountCompleted;
+        
+        /// <remarks/>
+        public event CreateAccountWithOpenIdCompletedEventHandler CreateAccountWithOpenIdCompleted;
+        
+        /// <remarks/>
+        public event GetOpenIdRedirectCompletedEventHandler GetOpenIdRedirectCompleted;
+        
+        /// <remarks/>
+        public event VerifyOpenIdCompletedEventHandler VerifyOpenIdCompleted;
+        
+        /// <remarks/>
+        public event GetAccountIdCompletedEventHandler GetAccountIdCompleted;
+        
+        /// <remarks/>
+        public event GetAccountCompletedEventHandler GetAccountCompleted;
         
         /// <remarks/>
         public event GetAccountByIdCompletedEventHandler GetAccountByIdCompleted;
@@ -92,6 +169,195 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         /// <remarks/>
         public event DeleteAccountByIdCompletedEventHandler DeleteAccountByIdCompleted;
+        
+        /// <remarks/>
+        public event FindByEmailCompletedEventHandler FindByEmailCompleted;
+        
+        /// <remarks/>
+        public event CreateAccountWithInvitationAndLoginCompletedEventHandler CreateAccountWithInvitationAndLoginCompleted;
+        
+        /// <remarks/>
+        public event CreateAccountWithInvitationCompletedEventHandler CreateAccountWithInvitationCompleted;
+        
+        /// <remarks/>
+        public event DeclineInvitationCompletedEventHandler DeclineInvitationCompleted;
+        
+        /// <remarks/>
+        public event GetAccountInvitationByEmailCompletedEventHandler GetAccountInvitationByEmailCompleted;
+        
+        /// <remarks/>
+        public event CreateOrUpdateAccountInvitationCompletedEventHandler CreateOrUpdateAccountInvitationCompleted;
+        
+        /// <remarks/>
+        public event GetAccountInvitationsCompletedEventHandler GetAccountInvitationsCompleted;
+        
+        /// <remarks/>
+        public event GetAccountInvitationsCountCompletedEventHandler GetAccountInvitationsCountCompleted;
+        
+        /// <remarks/>
+        public event GetAccountInvitationByIdCompletedEventHandler GetAccountInvitationByIdCompleted;
+        
+        /// <remarks/>
+        public event DeleteAccountInvitationCompletedEventHandler DeleteAccountInvitationCompleted;
+        
+        /// <remarks/>
+        public event PromoteAdministratorCompletedEventHandler PromoteAdministratorCompleted;
+        
+        /// <remarks/>
+        public event DemoteAdministratorCompletedEventHandler DemoteAdministratorCompleted;
+        
+        /// <remarks/>
+        public event ImpersonateCompletedEventHandler ImpersonateCompleted;
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/Login", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string Login(string email, string password) {
+            object[] results = this.Invoke("Login", new object[] {
+                        email,
+                        password});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void LoginAsync(string email, string password) {
+            this.LoginAsync(email, password, null);
+        }
+        
+        /// <remarks/>
+        public void LoginAsync(string email, string password, object userState) {
+            if ((this.LoginOperationCompleted == null)) {
+                this.LoginOperationCompleted = new System.Threading.SendOrPostCallback(this.OnLoginOperationCompleted);
+            }
+            this.InvokeAsync("Login", new object[] {
+                        email,
+                        password}, this.LoginOperationCompleted, userState);
+        }
+        
+        private void OnLoginOperationCompleted(object arg) {
+            if ((this.LoginCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.LoginCompleted(this, new LoginCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/LoginOpenId", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string LoginOpenId(string token, string[] names, string[] values) {
+            object[] results = this.Invoke("LoginOpenId", new object[] {
+                        token,
+                        names,
+                        values});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void LoginOpenIdAsync(string token, string[] names, string[] values) {
+            this.LoginOpenIdAsync(token, names, values, null);
+        }
+        
+        /// <remarks/>
+        public void LoginOpenIdAsync(string token, string[] names, string[] values, object userState) {
+            if ((this.LoginOpenIdOperationCompleted == null)) {
+                this.LoginOpenIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnLoginOpenIdOperationCompleted);
+            }
+            this.InvokeAsync("LoginOpenId", new object[] {
+                        token,
+                        names,
+                        values}, this.LoginOpenIdOperationCompleted, userState);
+        }
+        
+        private void OnLoginOpenIdOperationCompleted(object arg) {
+            if ((this.LoginOpenIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.LoginOpenIdCompleted(this, new LoginOpenIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/LoginMd5", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string LoginMd5(string emailaddress, string passwordhash) {
+            object[] results = this.Invoke("LoginMd5", new object[] {
+                        emailaddress,
+                        passwordhash});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void LoginMd5Async(string emailaddress, string passwordhash) {
+            this.LoginMd5Async(emailaddress, passwordhash, null);
+        }
+        
+        /// <remarks/>
+        public void LoginMd5Async(string emailaddress, string passwordhash, object userState) {
+            if ((this.LoginMd5OperationCompleted == null)) {
+                this.LoginMd5OperationCompleted = new System.Threading.SendOrPostCallback(this.OnLoginMd5OperationCompleted);
+            }
+            this.InvokeAsync("LoginMd5", new object[] {
+                        emailaddress,
+                        passwordhash}, this.LoginMd5OperationCompleted, userState);
+        }
+        
+        private void OnLoginMd5OperationCompleted(object arg) {
+            if ((this.LoginMd5Completed != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.LoginMd5Completed(this, new LoginMd5CompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/VerifyBetaPassword", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void VerifyBetaPassword(string betapassword) {
+            this.Invoke("VerifyBetaPassword", new object[] {
+                        betapassword});
+        }
+        
+        /// <remarks/>
+        public void VerifyBetaPasswordAsync(string betapassword) {
+            this.VerifyBetaPasswordAsync(betapassword, null);
+        }
+        
+        /// <remarks/>
+        public void VerifyBetaPasswordAsync(string betapassword, object userState) {
+            if ((this.VerifyBetaPasswordOperationCompleted == null)) {
+                this.VerifyBetaPasswordOperationCompleted = new System.Threading.SendOrPostCallback(this.OnVerifyBetaPasswordOperationCompleted);
+            }
+            this.InvokeAsync("VerifyBetaPassword", new object[] {
+                        betapassword}, this.VerifyBetaPasswordOperationCompleted, userState);
+        }
+        
+        private void OnVerifyBetaPasswordOperationCompleted(object arg) {
+            if ((this.VerifyBetaPasswordCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.VerifyBetaPasswordCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/IsBetaPasswordSet", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool IsBetaPasswordSet() {
+            object[] results = this.Invoke("IsBetaPasswordSet", new object[0]);
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void IsBetaPasswordSetAsync() {
+            this.IsBetaPasswordSetAsync(null);
+        }
+        
+        /// <remarks/>
+        public void IsBetaPasswordSetAsync(object userState) {
+            if ((this.IsBetaPasswordSetOperationCompleted == null)) {
+                this.IsBetaPasswordSetOperationCompleted = new System.Threading.SendOrPostCallback(this.OnIsBetaPasswordSetOperationCompleted);
+            }
+            this.InvokeAsync("IsBetaPasswordSet", new object[0], this.IsBetaPasswordSetOperationCompleted, userState);
+        }
+        
+        private void OnIsBetaPasswordSetOperationCompleted(object arg) {
+            if ((this.IsBetaPasswordSetCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.IsBetaPasswordSetCompleted(this, new IsBetaPasswordSetCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/CreateAccount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -123,6 +389,161 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
             if ((this.CreateAccountCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.CreateAccountCompleted(this, new CreateAccountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/CreateAccountWithOpenId", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int CreateAccountWithOpenId(string betapassword, string consumerurl, TransitAccount ta) {
+            object[] results = this.Invoke("CreateAccountWithOpenId", new object[] {
+                        betapassword,
+                        consumerurl,
+                        ta});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void CreateAccountWithOpenIdAsync(string betapassword, string consumerurl, TransitAccount ta) {
+            this.CreateAccountWithOpenIdAsync(betapassword, consumerurl, ta, null);
+        }
+        
+        /// <remarks/>
+        public void CreateAccountWithOpenIdAsync(string betapassword, string consumerurl, TransitAccount ta, object userState) {
+            if ((this.CreateAccountWithOpenIdOperationCompleted == null)) {
+                this.CreateAccountWithOpenIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCreateAccountWithOpenIdOperationCompleted);
+            }
+            this.InvokeAsync("CreateAccountWithOpenId", new object[] {
+                        betapassword,
+                        consumerurl,
+                        ta}, this.CreateAccountWithOpenIdOperationCompleted, userState);
+        }
+        
+        private void OnCreateAccountWithOpenIdOperationCompleted(object arg) {
+            if ((this.CreateAccountWithOpenIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.CreateAccountWithOpenIdCompleted(this, new CreateAccountWithOpenIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetOpenIdRedirect", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitOpenIdRedirect GetOpenIdRedirect(string openidurl, string returnurl) {
+            object[] results = this.Invoke("GetOpenIdRedirect", new object[] {
+                        openidurl,
+                        returnurl});
+            return ((TransitOpenIdRedirect)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetOpenIdRedirectAsync(string openidurl, string returnurl) {
+            this.GetOpenIdRedirectAsync(openidurl, returnurl, null);
+        }
+        
+        /// <remarks/>
+        public void GetOpenIdRedirectAsync(string openidurl, string returnurl, object userState) {
+            if ((this.GetOpenIdRedirectOperationCompleted == null)) {
+                this.GetOpenIdRedirectOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetOpenIdRedirectOperationCompleted);
+            }
+            this.InvokeAsync("GetOpenIdRedirect", new object[] {
+                        openidurl,
+                        returnurl}, this.GetOpenIdRedirectOperationCompleted, userState);
+        }
+        
+        private void OnGetOpenIdRedirectOperationCompleted(object arg) {
+            if ((this.GetOpenIdRedirectCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetOpenIdRedirectCompleted(this, new GetOpenIdRedirectCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/VerifyOpenId", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string VerifyOpenId(string token, string[] names, string[] values) {
+            object[] results = this.Invoke("VerifyOpenId", new object[] {
+                        token,
+                        names,
+                        values});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void VerifyOpenIdAsync(string token, string[] names, string[] values) {
+            this.VerifyOpenIdAsync(token, names, values, null);
+        }
+        
+        /// <remarks/>
+        public void VerifyOpenIdAsync(string token, string[] names, string[] values, object userState) {
+            if ((this.VerifyOpenIdOperationCompleted == null)) {
+                this.VerifyOpenIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnVerifyOpenIdOperationCompleted);
+            }
+            this.InvokeAsync("VerifyOpenId", new object[] {
+                        token,
+                        names,
+                        values}, this.VerifyOpenIdOperationCompleted, userState);
+        }
+        
+        private void OnVerifyOpenIdOperationCompleted(object arg) {
+            if ((this.VerifyOpenIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.VerifyOpenIdCompleted(this, new VerifyOpenIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountId", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetAccountId(string ticket) {
+            object[] results = this.Invoke("GetAccountId", new object[] {
+                        ticket});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountIdAsync(string ticket) {
+            this.GetAccountIdAsync(ticket, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountIdAsync(string ticket, object userState) {
+            if ((this.GetAccountIdOperationCompleted == null)) {
+                this.GetAccountIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountIdOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountId", new object[] {
+                        ticket}, this.GetAccountIdOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountIdOperationCompleted(object arg) {
+            if ((this.GetAccountIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountIdCompleted(this, new GetAccountIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccount GetAccount(string ticket) {
+            object[] results = this.Invoke("GetAccount", new object[] {
+                        ticket});
+            return ((TransitAccount)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountAsync(string ticket) {
+            this.GetAccountAsync(ticket, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountAsync(string ticket, object userState) {
+            if ((this.GetAccountOperationCompleted == null)) {
+                this.GetAccountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountOperationCompleted);
+            }
+            this.InvokeAsync("GetAccount", new object[] {
+                        ticket}, this.GetAccountOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountOperationCompleted(object arg) {
+            if ((this.GetAccountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountCompleted(this, new GetAccountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -251,6 +672,413 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/FindByEmail", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccount FindByEmail(string ticket, string emailaddress) {
+            object[] results = this.Invoke("FindByEmail", new object[] {
+                        ticket,
+                        emailaddress});
+            return ((TransitAccount)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void FindByEmailAsync(string ticket, string emailaddress) {
+            this.FindByEmailAsync(ticket, emailaddress, null);
+        }
+        
+        /// <remarks/>
+        public void FindByEmailAsync(string ticket, string emailaddress, object userState) {
+            if ((this.FindByEmailOperationCompleted == null)) {
+                this.FindByEmailOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFindByEmailOperationCompleted);
+            }
+            this.InvokeAsync("FindByEmail", new object[] {
+                        ticket,
+                        emailaddress}, this.FindByEmailOperationCompleted, userState);
+        }
+        
+        private void OnFindByEmailOperationCompleted(object arg) {
+            if ((this.FindByEmailCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.FindByEmailCompleted(this, new FindByEmailCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/CreateAccountWithInvitationAndLogin", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string CreateAccountWithInvitationAndLogin(int invitationid, string code, TransitAccount ta) {
+            object[] results = this.Invoke("CreateAccountWithInvitationAndLogin", new object[] {
+                        invitationid,
+                        code,
+                        ta});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void CreateAccountWithInvitationAndLoginAsync(int invitationid, string code, TransitAccount ta) {
+            this.CreateAccountWithInvitationAndLoginAsync(invitationid, code, ta, null);
+        }
+        
+        /// <remarks/>
+        public void CreateAccountWithInvitationAndLoginAsync(int invitationid, string code, TransitAccount ta, object userState) {
+            if ((this.CreateAccountWithInvitationAndLoginOperationCompleted == null)) {
+                this.CreateAccountWithInvitationAndLoginOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCreateAccountWithInvitationAndLoginOperationCompleted);
+            }
+            this.InvokeAsync("CreateAccountWithInvitationAndLogin", new object[] {
+                        invitationid,
+                        code,
+                        ta}, this.CreateAccountWithInvitationAndLoginOperationCompleted, userState);
+        }
+        
+        private void OnCreateAccountWithInvitationAndLoginOperationCompleted(object arg) {
+            if ((this.CreateAccountWithInvitationAndLoginCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.CreateAccountWithInvitationAndLoginCompleted(this, new CreateAccountWithInvitationAndLoginCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/CreateAccountWithInvitation", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int CreateAccountWithInvitation(int invitationid, string code, TransitAccount ta) {
+            object[] results = this.Invoke("CreateAccountWithInvitation", new object[] {
+                        invitationid,
+                        code,
+                        ta});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void CreateAccountWithInvitationAsync(int invitationid, string code, TransitAccount ta) {
+            this.CreateAccountWithInvitationAsync(invitationid, code, ta, null);
+        }
+        
+        /// <remarks/>
+        public void CreateAccountWithInvitationAsync(int invitationid, string code, TransitAccount ta, object userState) {
+            if ((this.CreateAccountWithInvitationOperationCompleted == null)) {
+                this.CreateAccountWithInvitationOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCreateAccountWithInvitationOperationCompleted);
+            }
+            this.InvokeAsync("CreateAccountWithInvitation", new object[] {
+                        invitationid,
+                        code,
+                        ta}, this.CreateAccountWithInvitationOperationCompleted, userState);
+        }
+        
+        private void OnCreateAccountWithInvitationOperationCompleted(object arg) {
+            if ((this.CreateAccountWithInvitationCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.CreateAccountWithInvitationCompleted(this, new CreateAccountWithInvitationCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/DeclineInvitation", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void DeclineInvitation(int id, string code) {
+            this.Invoke("DeclineInvitation", new object[] {
+                        id,
+                        code});
+        }
+        
+        /// <remarks/>
+        public void DeclineInvitationAsync(int id, string code) {
+            this.DeclineInvitationAsync(id, code, null);
+        }
+        
+        /// <remarks/>
+        public void DeclineInvitationAsync(int id, string code, object userState) {
+            if ((this.DeclineInvitationOperationCompleted == null)) {
+                this.DeclineInvitationOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDeclineInvitationOperationCompleted);
+            }
+            this.InvokeAsync("DeclineInvitation", new object[] {
+                        id,
+                        code}, this.DeclineInvitationOperationCompleted, userState);
+        }
+        
+        private void OnDeclineInvitationOperationCompleted(object arg) {
+            if ((this.DeclineInvitationCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.DeclineInvitationCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountInvitationByEmail", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountInvitation GetAccountInvitationByEmail(string ticket, int id, string email) {
+            object[] results = this.Invoke("GetAccountInvitationByEmail", new object[] {
+                        ticket,
+                        id,
+                        email});
+            return ((TransitAccountInvitation)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountInvitationByEmailAsync(string ticket, int id, string email) {
+            this.GetAccountInvitationByEmailAsync(ticket, id, email, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountInvitationByEmailAsync(string ticket, int id, string email, object userState) {
+            if ((this.GetAccountInvitationByEmailOperationCompleted == null)) {
+                this.GetAccountInvitationByEmailOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountInvitationByEmailOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountInvitationByEmail", new object[] {
+                        ticket,
+                        id,
+                        email}, this.GetAccountInvitationByEmailOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountInvitationByEmailOperationCompleted(object arg) {
+            if ((this.GetAccountInvitationByEmailCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountInvitationByEmailCompleted(this, new GetAccountInvitationByEmailCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/CreateOrUpdateAccountInvitation", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int CreateOrUpdateAccountInvitation(string ticket, TransitAccountInvitation invitation) {
+            object[] results = this.Invoke("CreateOrUpdateAccountInvitation", new object[] {
+                        ticket,
+                        invitation});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void CreateOrUpdateAccountInvitationAsync(string ticket, TransitAccountInvitation invitation) {
+            this.CreateOrUpdateAccountInvitationAsync(ticket, invitation, null);
+        }
+        
+        /// <remarks/>
+        public void CreateOrUpdateAccountInvitationAsync(string ticket, TransitAccountInvitation invitation, object userState) {
+            if ((this.CreateOrUpdateAccountInvitationOperationCompleted == null)) {
+                this.CreateOrUpdateAccountInvitationOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCreateOrUpdateAccountInvitationOperationCompleted);
+            }
+            this.InvokeAsync("CreateOrUpdateAccountInvitation", new object[] {
+                        ticket,
+                        invitation}, this.CreateOrUpdateAccountInvitationOperationCompleted, userState);
+        }
+        
+        private void OnCreateOrUpdateAccountInvitationOperationCompleted(object arg) {
+            if ((this.CreateOrUpdateAccountInvitationCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.CreateOrUpdateAccountInvitationCompleted(this, new CreateOrUpdateAccountInvitationCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountInvitations", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountInvitation[] GetAccountInvitations(string ticket, int id, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetAccountInvitations", new object[] {
+                        ticket,
+                        id,
+                        options});
+            return ((TransitAccountInvitation[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountInvitationsAsync(string ticket, int id, ServiceQueryOptions options) {
+            this.GetAccountInvitationsAsync(ticket, id, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountInvitationsAsync(string ticket, int id, ServiceQueryOptions options, object userState) {
+            if ((this.GetAccountInvitationsOperationCompleted == null)) {
+                this.GetAccountInvitationsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountInvitationsOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountInvitations", new object[] {
+                        ticket,
+                        id,
+                        options}, this.GetAccountInvitationsOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountInvitationsOperationCompleted(object arg) {
+            if ((this.GetAccountInvitationsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountInvitationsCompleted(this, new GetAccountInvitationsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountInvitationsCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetAccountInvitationsCount(string ticket, int id) {
+            object[] results = this.Invoke("GetAccountInvitationsCount", new object[] {
+                        ticket,
+                        id});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountInvitationsCountAsync(string ticket, int id) {
+            this.GetAccountInvitationsCountAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountInvitationsCountAsync(string ticket, int id, object userState) {
+            if ((this.GetAccountInvitationsCountOperationCompleted == null)) {
+                this.GetAccountInvitationsCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountInvitationsCountOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountInvitationsCount", new object[] {
+                        ticket,
+                        id}, this.GetAccountInvitationsCountOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountInvitationsCountOperationCompleted(object arg) {
+            if ((this.GetAccountInvitationsCountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountInvitationsCountCompleted(this, new GetAccountInvitationsCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountInvitationById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountInvitation GetAccountInvitationById(string ticket, int id) {
+            object[] results = this.Invoke("GetAccountInvitationById", new object[] {
+                        ticket,
+                        id});
+            return ((TransitAccountInvitation)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountInvitationByIdAsync(string ticket, int id) {
+            this.GetAccountInvitationByIdAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountInvitationByIdAsync(string ticket, int id, object userState) {
+            if ((this.GetAccountInvitationByIdOperationCompleted == null)) {
+                this.GetAccountInvitationByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountInvitationByIdOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountInvitationById", new object[] {
+                        ticket,
+                        id}, this.GetAccountInvitationByIdOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountInvitationByIdOperationCompleted(object arg) {
+            if ((this.GetAccountInvitationByIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountInvitationByIdCompleted(this, new GetAccountInvitationByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/DeleteAccountInvitation", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void DeleteAccountInvitation(string ticket, int id) {
+            this.Invoke("DeleteAccountInvitation", new object[] {
+                        ticket,
+                        id});
+        }
+        
+        /// <remarks/>
+        public void DeleteAccountInvitationAsync(string ticket, int id) {
+            this.DeleteAccountInvitationAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void DeleteAccountInvitationAsync(string ticket, int id, object userState) {
+            if ((this.DeleteAccountInvitationOperationCompleted == null)) {
+                this.DeleteAccountInvitationOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDeleteAccountInvitationOperationCompleted);
+            }
+            this.InvokeAsync("DeleteAccountInvitation", new object[] {
+                        ticket,
+                        id}, this.DeleteAccountInvitationOperationCompleted, userState);
+        }
+        
+        private void OnDeleteAccountInvitationOperationCompleted(object arg) {
+            if ((this.DeleteAccountInvitationCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.DeleteAccountInvitationCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/PromoteAdministrator", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void PromoteAdministrator(string ticket, int id) {
+            this.Invoke("PromoteAdministrator", new object[] {
+                        ticket,
+                        id});
+        }
+        
+        /// <remarks/>
+        public void PromoteAdministratorAsync(string ticket, int id) {
+            this.PromoteAdministratorAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void PromoteAdministratorAsync(string ticket, int id, object userState) {
+            if ((this.PromoteAdministratorOperationCompleted == null)) {
+                this.PromoteAdministratorOperationCompleted = new System.Threading.SendOrPostCallback(this.OnPromoteAdministratorOperationCompleted);
+            }
+            this.InvokeAsync("PromoteAdministrator", new object[] {
+                        ticket,
+                        id}, this.PromoteAdministratorOperationCompleted, userState);
+        }
+        
+        private void OnPromoteAdministratorOperationCompleted(object arg) {
+            if ((this.PromoteAdministratorCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.PromoteAdministratorCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/DemoteAdministrator", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void DemoteAdministrator(string ticket, int id) {
+            this.Invoke("DemoteAdministrator", new object[] {
+                        ticket,
+                        id});
+        }
+        
+        /// <remarks/>
+        public void DemoteAdministratorAsync(string ticket, int id) {
+            this.DemoteAdministratorAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void DemoteAdministratorAsync(string ticket, int id, object userState) {
+            if ((this.DemoteAdministratorOperationCompleted == null)) {
+                this.DemoteAdministratorOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDemoteAdministratorOperationCompleted);
+            }
+            this.InvokeAsync("DemoteAdministrator", new object[] {
+                        ticket,
+                        id}, this.DemoteAdministratorOperationCompleted, userState);
+        }
+        
+        private void OnDemoteAdministratorOperationCompleted(object arg) {
+            if ((this.DemoteAdministratorCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.DemoteAdministratorCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/Impersonate", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string Impersonate(string ticket, int id) {
+            object[] results = this.Invoke("Impersonate", new object[] {
+                        ticket,
+                        id});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void ImpersonateAsync(string ticket, int id) {
+            this.ImpersonateAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void ImpersonateAsync(string ticket, int id, object userState) {
+            if ((this.ImpersonateOperationCompleted == null)) {
+                this.ImpersonateOperationCompleted = new System.Threading.SendOrPostCallback(this.OnImpersonateOperationCompleted);
+            }
+            this.InvokeAsync("Impersonate", new object[] {
+                        ticket,
+                        id}, this.ImpersonateOperationCompleted, userState);
+        }
+        
+        private void OnImpersonateOperationCompleted(object arg) {
+            if ((this.ImpersonateCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ImpersonateCompleted(this, new ImpersonateCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -279,6 +1107,10 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         private bool isPasswordExpiredField;
         
+        private System.DateTime createdField;
+        
+        private bool isAdministratorField;
+        
         private string nameField;
         
         private System.DateTime birthdayField;
@@ -306,6 +1138,26 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
             }
             set {
                 this.isPasswordExpiredField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Created {
+            get {
+                return this.createdField;
+            }
+            set {
+                this.createdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool IsAdministrator {
+            get {
+                return this.isAdministratorField;
+            }
+            set {
+                this.isAdministratorField = value;
             }
         }
         
@@ -433,6 +1285,295 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     }
     
     /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class ServiceQueryOptions {
+        
+        private int pageSizeField;
+        
+        private int pageNumberField;
+        
+        /// <remarks/>
+        public int PageSize {
+            get {
+                return this.pageSizeField;
+            }
+            set {
+                this.pageSizeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int PageNumber {
+            get {
+                return this.pageNumberField;
+            }
+            set {
+                this.pageNumberField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccountInvitation))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public abstract partial class TransitServiceOfAccountInvitation {
+        
+        private int idField;
+        
+        /// <remarks/>
+        public int Id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitAccountInvitation : TransitServiceOfAccountInvitation {
+        
+        private string emailField;
+        
+        private string codeField;
+        
+        private string messageField;
+        
+        private System.DateTime createdField;
+        
+        private System.DateTime modifiedField;
+        
+        private int accountIdField;
+        
+        private string accountNameField;
+        
+        /// <remarks/>
+        public string Email {
+            get {
+                return this.emailField;
+            }
+            set {
+                this.emailField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Code {
+            get {
+                return this.codeField;
+            }
+            set {
+                this.codeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Message {
+            get {
+                return this.messageField;
+            }
+            set {
+                this.messageField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Created {
+            get {
+                return this.createdField;
+            }
+            set {
+                this.createdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Modified {
+            get {
+                return this.modifiedField;
+            }
+            set {
+                this.modifiedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int AccountId {
+            get {
+                return this.accountIdField;
+            }
+            set {
+                this.accountIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string AccountName {
+            get {
+                return this.accountNameField;
+            }
+            set {
+                this.accountNameField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitOpenIdRedirect {
+        
+        private string urlField;
+        
+        private string tokenField;
+        
+        /// <remarks/>
+        public string Url {
+            get {
+                return this.urlField;
+            }
+            set {
+                this.urlField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Token {
+            get {
+                return this.tokenField;
+            }
+            set {
+                this.tokenField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void LoginCompletedEventHandler(object sender, LoginCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class LoginCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal LoginCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void LoginOpenIdCompletedEventHandler(object sender, LoginOpenIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class LoginOpenIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal LoginOpenIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void LoginMd5CompletedEventHandler(object sender, LoginMd5CompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class LoginMd5CompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal LoginMd5CompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void VerifyBetaPasswordCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void IsBetaPasswordSetCompletedEventHandler(object sender, IsBetaPasswordSetCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class IsBetaPasswordSetCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal IsBetaPasswordSetCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
     public delegate void CreateAccountCompletedEventHandler(object sender, CreateAccountCompletedEventArgs e);
     
@@ -454,6 +1595,136 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void CreateAccountWithOpenIdCompletedEventHandler(object sender, CreateAccountWithOpenIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class CreateAccountWithOpenIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal CreateAccountWithOpenIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetOpenIdRedirectCompletedEventHandler(object sender, GetOpenIdRedirectCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetOpenIdRedirectCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetOpenIdRedirectCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitOpenIdRedirect Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitOpenIdRedirect)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void VerifyOpenIdCompletedEventHandler(object sender, VerifyOpenIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class VerifyOpenIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal VerifyOpenIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetAccountIdCompletedEventHandler(object sender, GetAccountIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetAccountCompletedEventHandler(object sender, GetAccountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccount Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccount)(this.results[0]));
             }
         }
     }
@@ -517,6 +1788,256 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
     public delegate void DeleteAccountByIdCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void FindByEmailCompletedEventHandler(object sender, FindByEmailCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class FindByEmailCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal FindByEmailCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccount Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccount)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void CreateAccountWithInvitationAndLoginCompletedEventHandler(object sender, CreateAccountWithInvitationAndLoginCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class CreateAccountWithInvitationAndLoginCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal CreateAccountWithInvitationAndLoginCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void CreateAccountWithInvitationCompletedEventHandler(object sender, CreateAccountWithInvitationCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class CreateAccountWithInvitationCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal CreateAccountWithInvitationCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void DeclineInvitationCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetAccountInvitationByEmailCompletedEventHandler(object sender, GetAccountInvitationByEmailCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountInvitationByEmailCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountInvitationByEmailCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccountInvitation Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountInvitation)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void CreateOrUpdateAccountInvitationCompletedEventHandler(object sender, CreateOrUpdateAccountInvitationCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class CreateOrUpdateAccountInvitationCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal CreateOrUpdateAccountInvitationCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetAccountInvitationsCompletedEventHandler(object sender, GetAccountInvitationsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountInvitationsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountInvitationsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccountInvitation[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountInvitation[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetAccountInvitationsCountCompletedEventHandler(object sender, GetAccountInvitationsCountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountInvitationsCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountInvitationsCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetAccountInvitationByIdCompletedEventHandler(object sender, GetAccountInvitationByIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountInvitationByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountInvitationByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccountInvitation Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountInvitation)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void DeleteAccountInvitationCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void PromoteAdministratorCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void DemoteAdministratorCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void ImpersonateCompletedEventHandler(object sender, ImpersonateCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class ImpersonateCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal ImpersonateCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
 }
 
 #pragma warning restore 1591

@@ -48,11 +48,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
-    <Compile Include="Web References\WebAuthService\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.map</DependentUpon>
-    </Compile>
     <Compile Include="Web References\WebBlogService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -133,10 +128,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
-    <Compile Include="WebAuthServiceTest.cs" />
-    <Compile Include="WebAuthService_GetAccountTest.cs" />
-    <Compile Include="WebAuthService_LoginTest.cs" />
-    <Compile Include="WebAuthService_SignUpTest.cs" />
+    <Compile Include="WebAccountServiceTest.cs" />
+    <Compile Include="WebAccountService_AccountInvitationTest.cs" />
+    <Compile Include="WebAccountService_AdminTest.cs" />
+    <Compile Include="WebAccountService_BetaTest.cs" />
+    <Compile Include="WebAccountService_AccountTest.cs" />
+    <Compile Include="WebAccountService_LoginTest.cs" />
+    <Compile Include="WebAccountService_SignUpOpenIdTest.cs" />
+    <Compile Include="WebAccountService_SignUpTest.cs" />
     <Compile Include="WebBlogServiceTest.cs" />
     <Compile Include="WebBlogService_AccountBlogAuthorTest.cs" />
     <Compile Include="WebBlogService_AccountBlogPostTest.cs" />
@@ -235,17 +234,6 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebAccountService_WebAccountService</CachedSettingsPropName>
-    </WebReferenceUrl>
-    <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebAuthService.asmx">
-      <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\WebAuthService\</RelPath>
-      <UpdateFromURL>http://dblock-black.orangebitch.com/SnCoreWeb/WebAuthService.asmx</UpdateFromURL>
-      <ServiceLocationURL>
-      </ServiceLocationURL>
-      <CachedDynamicPropName>
-      </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebAuthService_WebAuthService</CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebBlogService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
@@ -468,7 +456,6 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="Web References\WebAccountService\WebAccountService.disco" />
-    <None Include="Web References\WebAuthService\WebAuthService.wsdl" />
     <None Include="Web References\WebBugService\TransitBugLink.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
@@ -477,14 +464,6 @@
     <None Include="Web References\WebAccountService\TransitAccount.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\WebAuthService\Reference.map">
-      <Generator>MSDiscoCodeGenerator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Web References\WebAuthService\TransitAccount.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\WebAuthService\WebAuthService.disco" />
     <None Include="Web References\WebSystemService\WebSystemService.wsdl" />
   </ItemGroup>
   <ItemGroup>
@@ -774,6 +753,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Web References\WebAccountService\TransitAccountInvitation.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebAccountService\TransitOpenIdRedirect.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
     <None Include="Web References\WebDiscussionService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>

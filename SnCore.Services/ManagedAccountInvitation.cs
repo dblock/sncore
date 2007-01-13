@@ -130,7 +130,7 @@ namespace SnCore.Services
         public override void SetInstance(AccountInvitation instance)
         {
             Email = instance.Email;
-            Code = instance.Code;
+            // Code = instance.Code;
             AccountId = instance.Account.Id;
             AccountName = instance.Account.Name;
             Message = instance.Message;
@@ -147,7 +147,8 @@ namespace SnCore.Services
             {
                 // invitations cannot be modified post-send
                 instance.Email = this.Email;
-                instance.Code = this.Code;
+                // admin can force a particular code (for unit testing)
+                instance.Code = (sec.IsAdministrator() && !string.IsNullOrEmpty(this.Code)) ? this.Code : Guid.NewGuid().ToString();
                 instance.Message = this.Message;
                 instance.Account = GetOwner(session, AccountId, sec);
             }

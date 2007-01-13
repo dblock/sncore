@@ -2,14 +2,14 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SnCore.Web.Soap.Tests.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="SnCore_Web_Soap_Tests_WebAuthService_WebAuthService" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://dblock-black.orangebitch.com/SnCoreWeb/WebAuthService.asmx</Value>
-    </Setting>
     <Setting Name="SnCore_Web_Soap_Tests_WebAccountService_WebAccountService" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://dblock-black.orangebitch.com/SnCoreWeb/WebAccountService.asmx</Value>
     </Setting>
-    <Setting Name="SnCore_Web_Soap_Tests_WebAuthService_WebAuthService1" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://dblock-black.orangebitch.com/SnCoreWeb/WebAuthService.asmx</Value>
+    <Setting Name="SnCore_Web_Soap_Tests_WebAccountService_WebAccountService1" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://dblock-black.orangebitch.com/SnCoreWeb/WebAccountService.asmx</Value>
+    </Setting>
+    <Setting Name="SnCore_Web_Soap_Tests_WebAccountService_WebAccountService11" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://dblock-black.orangebitch.com/SnCoreWeb/WebAccountService.asmx</Value>
     </Setting>
     <Setting Name="SnCore_Web_Soap_Tests_WebSystemService_WebSystemService" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://dblock-black.orangebitch.com/SnCoreWeb/WebSystemService.asmx</Value>

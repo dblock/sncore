@@ -40,7 +40,6 @@ public class SessionManager
     private string mTicket = string.Empty;
     private TransitAccount mAccount = null;
 
-    private WebAuthService mAuthService = null;
     //private WebLicenseService mLicenseService = null;
     //private WebContentService mContentService = null;
     private WebAccountService mAccountService = null;
@@ -144,7 +143,7 @@ public class SessionManager
 
                 if (string.IsNullOrEmpty(mTicket))
                 {
-                    AuthService.GetAccountId(authcookie.Value);
+                    AccountService.GetAccountId(authcookie.Value);
                     mTicket = authcookie.Value;
                     Cache.Insert(string.Format("ticket:{0}", authcookie.Value),
                         mTicket, null, Cache.NoAbsoluteExpiration, SessionManager.DefaultCacheTimeSpan);
@@ -317,7 +316,7 @@ public class SessionManager
                         mAccount = (TransitAccount)Cache[string.Format("account:{0}", Ticket)];
                         if (mAccount == null)
                         {
-                            mAccount = AuthService.GetAccount(Ticket);
+                            mAccount = AccountService.GetAccount(Ticket);
                             Cache.Insert(string.Format("account:{0}", Ticket),
                                 mAccount, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
                         }
@@ -483,23 +482,6 @@ public class SessionManager
                 }
             }
             return mAccountService;
-        }
-    }
-
-    public WebAuthService AuthService
-    {
-        get
-        {
-            if (mAuthService == null)
-            {
-                mAuthService = (WebAuthService)Cache["SnCore.SessionManager.AuthService"];
-                if (mAuthService == null)
-                {
-                    mAuthService = new WebAuthService();
-                    Cache["SnCore.SessionManager.AuthService"] = mAuthService;
-                }
-            }
-            return mAuthService;
         }
     }
 

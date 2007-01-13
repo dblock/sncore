@@ -87,7 +87,7 @@ namespace SnCore.Services
             City = instance.City;
             TimeZone = instance.TimeZone;
             Signature = instance.Signature;
-            mIsAdministrator = instance.IsAdministrator;
+            IsAdministrator = instance.IsAdministrator;
             IsPasswordExpired = instance.IsPasswordExpired;
             // random picture from the account
             PictureId = ManagedAccount.GetRandomAccountPictureId(instance);
@@ -165,6 +165,10 @@ namespace SnCore.Services
             get
             {
                 return mIsAdministrator;
+            }
+            set
+            {
+                mIsAdministrator = value;
             }
         }
 

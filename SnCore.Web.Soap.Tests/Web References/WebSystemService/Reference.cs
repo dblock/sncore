@@ -52,6 +52,12 @@ namespace SnCore.Web.Soap.Tests.WebSystemService {
         
         private System.Threading.SendOrPostCallback DeleteConfigurationOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetConfigurationByNameOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetConfigurationValueOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetConfigurationValueWithDefaultOperationCompleted;
+        
         private System.Threading.SendOrPostCallback CreateOrUpdateScheduleOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetScheduleByIdOperationCompleted;
@@ -143,6 +149,15 @@ namespace SnCore.Web.Soap.Tests.WebSystemService {
         
         /// <remarks/>
         public event DeleteConfigurationCompletedEventHandler DeleteConfigurationCompleted;
+        
+        /// <remarks/>
+        public event GetConfigurationByNameCompletedEventHandler GetConfigurationByNameCompleted;
+        
+        /// <remarks/>
+        public event GetConfigurationValueCompletedEventHandler GetConfigurationValueCompleted;
+        
+        /// <remarks/>
+        public event GetConfigurationValueWithDefaultCompletedEventHandler GetConfigurationValueWithDefaultCompleted;
         
         /// <remarks/>
         public event CreateOrUpdateScheduleCompletedEventHandler CreateOrUpdateScheduleCompleted;
@@ -464,6 +479,101 @@ namespace SnCore.Web.Soap.Tests.WebSystemService {
             if ((this.DeleteConfigurationCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.DeleteConfigurationCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetConfigurationByName", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitConfiguration GetConfigurationByName(string ticket, string name) {
+            object[] results = this.Invoke("GetConfigurationByName", new object[] {
+                        ticket,
+                        name});
+            return ((TransitConfiguration)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetConfigurationByNameAsync(string ticket, string name) {
+            this.GetConfigurationByNameAsync(ticket, name, null);
+        }
+        
+        /// <remarks/>
+        public void GetConfigurationByNameAsync(string ticket, string name, object userState) {
+            if ((this.GetConfigurationByNameOperationCompleted == null)) {
+                this.GetConfigurationByNameOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetConfigurationByNameOperationCompleted);
+            }
+            this.InvokeAsync("GetConfigurationByName", new object[] {
+                        ticket,
+                        name}, this.GetConfigurationByNameOperationCompleted, userState);
+        }
+        
+        private void OnGetConfigurationByNameOperationCompleted(object arg) {
+            if ((this.GetConfigurationByNameCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetConfigurationByNameCompleted(this, new GetConfigurationByNameCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetConfigurationValue", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string GetConfigurationValue(string ticket, string name) {
+            object[] results = this.Invoke("GetConfigurationValue", new object[] {
+                        ticket,
+                        name});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetConfigurationValueAsync(string ticket, string name) {
+            this.GetConfigurationValueAsync(ticket, name, null);
+        }
+        
+        /// <remarks/>
+        public void GetConfigurationValueAsync(string ticket, string name, object userState) {
+            if ((this.GetConfigurationValueOperationCompleted == null)) {
+                this.GetConfigurationValueOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetConfigurationValueOperationCompleted);
+            }
+            this.InvokeAsync("GetConfigurationValue", new object[] {
+                        ticket,
+                        name}, this.GetConfigurationValueOperationCompleted, userState);
+        }
+        
+        private void OnGetConfigurationValueOperationCompleted(object arg) {
+            if ((this.GetConfigurationValueCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetConfigurationValueCompleted(this, new GetConfigurationValueCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetConfigurationValueWithDefault", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string GetConfigurationValueWithDefault(string ticket, string name, string defaultvalue) {
+            object[] results = this.Invoke("GetConfigurationValueWithDefault", new object[] {
+                        ticket,
+                        name,
+                        defaultvalue});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetConfigurationValueWithDefaultAsync(string ticket, string name, string defaultvalue) {
+            this.GetConfigurationValueWithDefaultAsync(ticket, name, defaultvalue, null);
+        }
+        
+        /// <remarks/>
+        public void GetConfigurationValueWithDefaultAsync(string ticket, string name, string defaultvalue, object userState) {
+            if ((this.GetConfigurationValueWithDefaultOperationCompleted == null)) {
+                this.GetConfigurationValueWithDefaultOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetConfigurationValueWithDefaultOperationCompleted);
+            }
+            this.InvokeAsync("GetConfigurationValueWithDefault", new object[] {
+                        ticket,
+                        name,
+                        defaultvalue}, this.GetConfigurationValueWithDefaultOperationCompleted, userState);
+        }
+        
+        private void OnGetConfigurationValueWithDefaultOperationCompleted(object arg) {
+            if ((this.GetConfigurationValueWithDefaultCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetConfigurationValueWithDefaultCompleted(this, new GetConfigurationValueWithDefaultCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1622,6 +1732,84 @@ namespace SnCore.Web.Soap.Tests.WebSystemService {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
     public delegate void DeleteConfigurationCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetConfigurationByNameCompletedEventHandler(object sender, GetConfigurationByNameCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetConfigurationByNameCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetConfigurationByNameCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitConfiguration Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitConfiguration)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetConfigurationValueCompletedEventHandler(object sender, GetConfigurationValueCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetConfigurationValueCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetConfigurationValueCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetConfigurationValueWithDefaultCompletedEventHandler(object sender, GetConfigurationValueWithDefaultCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetConfigurationValueWithDefaultCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetConfigurationValueWithDefaultCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]

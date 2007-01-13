@@ -149,6 +149,52 @@
       <s:element name="DeleteConfigurationResponse">
         <s:complexType />
       </s:element>
+      <s:element name="GetConfigurationByName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetConfigurationByNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetConfigurationByNameResult" type="tns:TransitConfiguration" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetConfigurationValue">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetConfigurationValueResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetConfigurationValueResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetConfigurationValueWithDefault">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="defaultvalue" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetConfigurationValueWithDefaultResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetConfigurationValueWithDefaultResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="CreateOrUpdateSchedule">
         <s:complexType>
           <s:sequence>
@@ -459,6 +505,24 @@
   <wsdl:message name="DeleteConfigurationSoapOut">
     <wsdl:part name="parameters" element="tns:DeleteConfigurationResponse" />
   </wsdl:message>
+  <wsdl:message name="GetConfigurationByNameSoapIn">
+    <wsdl:part name="parameters" element="tns:GetConfigurationByName" />
+  </wsdl:message>
+  <wsdl:message name="GetConfigurationByNameSoapOut">
+    <wsdl:part name="parameters" element="tns:GetConfigurationByNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetConfigurationValueSoapIn">
+    <wsdl:part name="parameters" element="tns:GetConfigurationValue" />
+  </wsdl:message>
+  <wsdl:message name="GetConfigurationValueSoapOut">
+    <wsdl:part name="parameters" element="tns:GetConfigurationValueResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetConfigurationValueWithDefaultSoapIn">
+    <wsdl:part name="parameters" element="tns:GetConfigurationValueWithDefault" />
+  </wsdl:message>
+  <wsdl:message name="GetConfigurationValueWithDefaultSoapOut">
+    <wsdl:part name="parameters" element="tns:GetConfigurationValueWithDefaultResponse" />
+  </wsdl:message>
   <wsdl:message name="CreateOrUpdateScheduleSoapIn">
     <wsdl:part name="parameters" element="tns:CreateOrUpdateSchedule" />
   </wsdl:message>
@@ -581,6 +645,21 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a configuration.</wsdl:documentation>
       <wsdl:input message="tns:DeleteConfigurationSoapIn" />
       <wsdl:output message="tns:DeleteConfigurationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationByName">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a configuration by name.</wsdl:documentation>
+      <wsdl:input message="tns:GetConfigurationByNameSoapIn" />
+      <wsdl:output message="tns:GetConfigurationByNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationValue">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a configuration value by name.</wsdl:documentation>
+      <wsdl:input message="tns:GetConfigurationValueSoapIn" />
+      <wsdl:output message="tns:GetConfigurationValueSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationValueWithDefault">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a configuration value by name with default.</wsdl:documentation>
+      <wsdl:input message="tns:GetConfigurationValueWithDefaultSoapIn" />
+      <wsdl:output message="tns:GetConfigurationValueWithDefaultSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="CreateOrUpdateSchedule">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a schedule.</wsdl:documentation>
@@ -728,6 +807,33 @@
     </wsdl:operation>
     <wsdl:operation name="DeleteConfiguration">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteConfiguration" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationByName">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetConfigurationByName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationValue">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetConfigurationValue" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationValueWithDefault">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetConfigurationValueWithDefault" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -929,6 +1035,33 @@
     </wsdl:operation>
     <wsdl:operation name="DeleteConfiguration">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteConfiguration" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationByName">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetConfigurationByName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationValue">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetConfigurationValue" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationValueWithDefault">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetConfigurationValueWithDefault" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
