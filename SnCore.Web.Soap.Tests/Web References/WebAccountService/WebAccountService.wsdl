@@ -463,6 +463,232 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="ChangePassword">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="accountid" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="oldpassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="newpassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ChangePasswordResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="ChangePasswordMd5">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="accountid" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="oldpasswordhash" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="newpassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ChangePasswordMd5Response">
+        <s:complexType />
+      </s:element>
+      <s:element name="ResetPassword">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="emailaddress" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="dateofbirth" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ResetPasswordResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="CreateOrUpdateAccountEmail">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tae" type="tns:TransitAccountEmail" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitAccountEmail">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfAccountEmail">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Verified" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="Principal" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfAccountEmail" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrUpdateAccountEmailResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateAccountEmailResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountEmailsCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountEmailsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAccountEmailsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountEmails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountEmailsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountEmailsResult" type="tns:ArrayOfTransitAccountEmail" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitAccountEmail">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountEmail" nillable="true" type="tns:TransitAccountEmail" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountEmailById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountEmailByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountEmailByIdResult" type="tns:TransitAccountEmail" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountEmail">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountEmailResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="VerifyAccountEmail">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="code" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyAccountEmailResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VerifyAccountEmailResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountEmailConfirmationsCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountEmailConfirmationsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAccountEmailConfirmationsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountEmailConfirmations">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountEmailConfirmationsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountEmailConfirmationsResult" type="tns:ArrayOfTransitAccountEmailConfirmation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitAccountEmailConfirmation">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountEmailConfirmation" nillable="true" type="tns:TransitAccountEmailConfirmation" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitAccountEmailConfirmation">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfAccountEmailConfirmation">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="AccountEmail" type="tns:TransitAccountEmail" />
+              <s:element minOccurs="0" maxOccurs="1" name="Code" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfAccountEmailConfirmation" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountEmailConfirmationById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountEmailConfirmationByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountEmailConfirmationByIdResult" type="tns:TransitAccountEmailConfirmation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountEmailConfirmation">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountEmailConfirmationResponse">
+        <s:complexType />
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="LoginSoapIn">
@@ -633,6 +859,84 @@
   <wsdl:message name="ImpersonateSoapOut">
     <wsdl:part name="parameters" element="tns:ImpersonateResponse" />
   </wsdl:message>
+  <wsdl:message name="ChangePasswordSoapIn">
+    <wsdl:part name="parameters" element="tns:ChangePassword" />
+  </wsdl:message>
+  <wsdl:message name="ChangePasswordSoapOut">
+    <wsdl:part name="parameters" element="tns:ChangePasswordResponse" />
+  </wsdl:message>
+  <wsdl:message name="ChangePasswordMd5SoapIn">
+    <wsdl:part name="parameters" element="tns:ChangePasswordMd5" />
+  </wsdl:message>
+  <wsdl:message name="ChangePasswordMd5SoapOut">
+    <wsdl:part name="parameters" element="tns:ChangePasswordMd5Response" />
+  </wsdl:message>
+  <wsdl:message name="ResetPasswordSoapIn">
+    <wsdl:part name="parameters" element="tns:ResetPassword" />
+  </wsdl:message>
+  <wsdl:message name="ResetPasswordSoapOut">
+    <wsdl:part name="parameters" element="tns:ResetPasswordResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAccountEmailSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountEmail" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAccountEmailSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountEmailResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEmailsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountEmailsCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEmailsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountEmailsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEmailsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountEmails" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEmailsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountEmailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEmailByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountEmailById" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEmailByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountEmailByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountEmailSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteAccountEmail" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountEmailSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteAccountEmailResponse" />
+  </wsdl:message>
+  <wsdl:message name="VerifyAccountEmailSoapIn">
+    <wsdl:part name="parameters" element="tns:VerifyAccountEmail" />
+  </wsdl:message>
+  <wsdl:message name="VerifyAccountEmailSoapOut">
+    <wsdl:part name="parameters" element="tns:VerifyAccountEmailResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEmailConfirmationsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountEmailConfirmationsCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEmailConfirmationsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountEmailConfirmationsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEmailConfirmationsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountEmailConfirmations" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEmailConfirmationsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountEmailConfirmationsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEmailConfirmationByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountEmailConfirmationById" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountEmailConfirmationByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountEmailConfirmationByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountEmailConfirmationSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteAccountEmailConfirmation" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountEmailConfirmationSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteAccountEmailConfirmationResponse" />
+  </wsdl:message>
   <wsdl:portType name="WebAccountServiceSoap">
     <wsdl:operation name="Login">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Login.</wsdl:documentation>
@@ -773,6 +1077,71 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Impersonate an account (a user).</wsdl:documentation>
       <wsdl:input message="tns:ImpersonateSoapIn" />
       <wsdl:output message="tns:ImpersonateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangePassword">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Change password.</wsdl:documentation>
+      <wsdl:input message="tns:ChangePasswordSoapIn" />
+      <wsdl:output message="tns:ChangePasswordSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangePasswordMd5">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Change password with an existing Md5 hash.</wsdl:documentation>
+      <wsdl:input message="tns:ChangePasswordMd5SoapIn" />
+      <wsdl:output message="tns:ChangePasswordMd5SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ResetPassword">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Reset password.</wsdl:documentation>
+      <wsdl:input message="tns:ResetPasswordSoapIn" />
+      <wsdl:output message="tns:ResetPasswordSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountEmail">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update an account e-mail.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateAccountEmailSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateAccountEmailSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEmailsCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account e-mails count.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountEmailsCountSoapIn" />
+      <wsdl:output message="tns:GetAccountEmailsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEmails">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account e-mails.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountEmailsSoapIn" />
+      <wsdl:output message="tns:GetAccountEmailsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEmailById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get an account e-mail by id.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountEmailByIdSoapIn" />
+      <wsdl:output message="tns:GetAccountEmailByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountEmail">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete an account e-mail.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteAccountEmailSoapIn" />
+      <wsdl:output message="tns:DeleteAccountEmailSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="VerifyAccountEmail">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Verify an e-mail.</wsdl:documentation>
+      <wsdl:input message="tns:VerifyAccountEmailSoapIn" />
+      <wsdl:output message="tns:VerifyAccountEmailSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEmailConfirmationsCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account e-mail confirmations count.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountEmailConfirmationsCountSoapIn" />
+      <wsdl:output message="tns:GetAccountEmailConfirmationsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEmailConfirmations">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account e-mail confirmations.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountEmailConfirmationsSoapIn" />
+      <wsdl:output message="tns:GetAccountEmailConfirmationsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEmailConfirmationById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get an account e-mail confirmation by id.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountEmailConfirmationByIdSoapIn" />
+      <wsdl:output message="tns:GetAccountEmailConfirmationByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountEmailConfirmation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete an account e-mail confirmation.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteAccountEmailConfirmationSoapIn" />
+      <wsdl:output message="tns:DeleteAccountEmailConfirmationSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WebAccountServiceSoap" type="tns:WebAccountServiceSoap">
@@ -1029,6 +1398,123 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="ChangePassword">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/ChangePassword" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangePasswordMd5">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/ChangePasswordMd5" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ResetPassword">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/ResetPassword" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountEmail">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountEmail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEmailsCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEmailsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEmails">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEmails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEmailById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEmailById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountEmail">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountEmail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyAccountEmail">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/VerifyAccountEmail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEmailConfirmationsCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEmailConfirmationsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEmailConfirmations">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEmailConfirmations" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEmailConfirmationById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEmailConfirmationById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountEmailConfirmation">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountEmailConfirmation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="WebAccountServiceSoap12" type="tns:WebAccountServiceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -1277,6 +1763,123 @@
     </wsdl:operation>
     <wsdl:operation name="Impersonate">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/Impersonate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangePassword">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/ChangePassword" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangePasswordMd5">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/ChangePasswordMd5" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ResetPassword">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/ResetPassword" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountEmail">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountEmail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEmailsCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEmailsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEmails">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEmails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEmailById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEmailById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountEmail">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountEmail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyAccountEmail">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/VerifyAccountEmail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEmailConfirmationsCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEmailConfirmationsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEmailConfirmations">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEmailConfirmations" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountEmailConfirmationById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEmailConfirmationById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountEmailConfirmation">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountEmailConfirmation" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

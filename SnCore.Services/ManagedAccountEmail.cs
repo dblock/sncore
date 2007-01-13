@@ -132,13 +132,18 @@ namespace SnCore.Services
                 instance.Account = GetOwner(session, AccountId, sec);
             }
 
-            instance.Principal = Principal;
+            instance.Principal = Principal && instance.Verified;
             return instance;
         }
     }
 
     public class ManagedAccountEmail : ManagedService<AccountEmail, TransitAccountEmail>
     {
+        public ManagedAccountEmail()
+        {
+
+        }
+
         public ManagedAccountEmail(ISession session)
             : base(session)
         {
@@ -292,7 +297,7 @@ namespace SnCore.Services
                 // clear principal flags if this e-mail becomes principal
                 foreach (AccountEmail email in Collection<AccountEmail>.GetSafeCollection(mInstance.Account.AccountEmails))
                 {
-                    if (email.Principal)
+                    if (email.Principal && email.Id != mInstance.Id)
                     {
                         email.Principal = false;
                         Session.Save(email);

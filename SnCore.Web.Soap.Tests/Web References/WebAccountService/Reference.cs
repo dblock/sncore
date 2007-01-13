@@ -27,6 +27,8 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="WebAccountServiceSoap", Namespace="http://www.vestris.com/sncore/ns/")]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountEmailConfirmation))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountEmail))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountInvitation))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccount))]
     public partial class WebAccountService : System.Web.Services.Protocols.SoapHttpClientProtocol {
@@ -86,6 +88,32 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         private System.Threading.SendOrPostCallback DemoteAdministratorOperationCompleted;
         
         private System.Threading.SendOrPostCallback ImpersonateOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback ChangePasswordOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback ChangePasswordMd5OperationCompleted;
+        
+        private System.Threading.SendOrPostCallback ResetPasswordOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback CreateOrUpdateAccountEmailOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountEmailsCountOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountEmailsOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountEmailByIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback DeleteAccountEmailOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback VerifyAccountEmailOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountEmailConfirmationsCountOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountEmailConfirmationsOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountEmailConfirmationByIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback DeleteAccountEmailConfirmationOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -208,6 +236,45 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         /// <remarks/>
         public event ImpersonateCompletedEventHandler ImpersonateCompleted;
+        
+        /// <remarks/>
+        public event ChangePasswordCompletedEventHandler ChangePasswordCompleted;
+        
+        /// <remarks/>
+        public event ChangePasswordMd5CompletedEventHandler ChangePasswordMd5Completed;
+        
+        /// <remarks/>
+        public event ResetPasswordCompletedEventHandler ResetPasswordCompleted;
+        
+        /// <remarks/>
+        public event CreateOrUpdateAccountEmailCompletedEventHandler CreateOrUpdateAccountEmailCompleted;
+        
+        /// <remarks/>
+        public event GetAccountEmailsCountCompletedEventHandler GetAccountEmailsCountCompleted;
+        
+        /// <remarks/>
+        public event GetAccountEmailsCompletedEventHandler GetAccountEmailsCompleted;
+        
+        /// <remarks/>
+        public event GetAccountEmailByIdCompletedEventHandler GetAccountEmailByIdCompleted;
+        
+        /// <remarks/>
+        public event DeleteAccountEmailCompletedEventHandler DeleteAccountEmailCompleted;
+        
+        /// <remarks/>
+        public event VerifyAccountEmailCompletedEventHandler VerifyAccountEmailCompleted;
+        
+        /// <remarks/>
+        public event GetAccountEmailConfirmationsCountCompletedEventHandler GetAccountEmailConfirmationsCountCompleted;
+        
+        /// <remarks/>
+        public event GetAccountEmailConfirmationsCompletedEventHandler GetAccountEmailConfirmationsCompleted;
+        
+        /// <remarks/>
+        public event GetAccountEmailConfirmationByIdCompletedEventHandler GetAccountEmailConfirmationByIdCompleted;
+        
+        /// <remarks/>
+        public event DeleteAccountEmailConfirmationCompletedEventHandler DeleteAccountEmailConfirmationCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/Login", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -1079,6 +1146,418 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/ChangePassword", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void ChangePassword(string ticket, int accountid, string oldpassword, string newpassword) {
+            this.Invoke("ChangePassword", new object[] {
+                        ticket,
+                        accountid,
+                        oldpassword,
+                        newpassword});
+        }
+        
+        /// <remarks/>
+        public void ChangePasswordAsync(string ticket, int accountid, string oldpassword, string newpassword) {
+            this.ChangePasswordAsync(ticket, accountid, oldpassword, newpassword, null);
+        }
+        
+        /// <remarks/>
+        public void ChangePasswordAsync(string ticket, int accountid, string oldpassword, string newpassword, object userState) {
+            if ((this.ChangePasswordOperationCompleted == null)) {
+                this.ChangePasswordOperationCompleted = new System.Threading.SendOrPostCallback(this.OnChangePasswordOperationCompleted);
+            }
+            this.InvokeAsync("ChangePassword", new object[] {
+                        ticket,
+                        accountid,
+                        oldpassword,
+                        newpassword}, this.ChangePasswordOperationCompleted, userState);
+        }
+        
+        private void OnChangePasswordOperationCompleted(object arg) {
+            if ((this.ChangePasswordCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ChangePasswordCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/ChangePasswordMd5", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void ChangePasswordMd5(string ticket, int accountid, string oldpasswordhash, string newpassword) {
+            this.Invoke("ChangePasswordMd5", new object[] {
+                        ticket,
+                        accountid,
+                        oldpasswordhash,
+                        newpassword});
+        }
+        
+        /// <remarks/>
+        public void ChangePasswordMd5Async(string ticket, int accountid, string oldpasswordhash, string newpassword) {
+            this.ChangePasswordMd5Async(ticket, accountid, oldpasswordhash, newpassword, null);
+        }
+        
+        /// <remarks/>
+        public void ChangePasswordMd5Async(string ticket, int accountid, string oldpasswordhash, string newpassword, object userState) {
+            if ((this.ChangePasswordMd5OperationCompleted == null)) {
+                this.ChangePasswordMd5OperationCompleted = new System.Threading.SendOrPostCallback(this.OnChangePasswordMd5OperationCompleted);
+            }
+            this.InvokeAsync("ChangePasswordMd5", new object[] {
+                        ticket,
+                        accountid,
+                        oldpasswordhash,
+                        newpassword}, this.ChangePasswordMd5OperationCompleted, userState);
+        }
+        
+        private void OnChangePasswordMd5OperationCompleted(object arg) {
+            if ((this.ChangePasswordMd5Completed != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ChangePasswordMd5Completed(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/ResetPassword", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void ResetPassword(string emailaddress, System.DateTime dateofbirth) {
+            this.Invoke("ResetPassword", new object[] {
+                        emailaddress,
+                        dateofbirth});
+        }
+        
+        /// <remarks/>
+        public void ResetPasswordAsync(string emailaddress, System.DateTime dateofbirth) {
+            this.ResetPasswordAsync(emailaddress, dateofbirth, null);
+        }
+        
+        /// <remarks/>
+        public void ResetPasswordAsync(string emailaddress, System.DateTime dateofbirth, object userState) {
+            if ((this.ResetPasswordOperationCompleted == null)) {
+                this.ResetPasswordOperationCompleted = new System.Threading.SendOrPostCallback(this.OnResetPasswordOperationCompleted);
+            }
+            this.InvokeAsync("ResetPassword", new object[] {
+                        emailaddress,
+                        dateofbirth}, this.ResetPasswordOperationCompleted, userState);
+        }
+        
+        private void OnResetPasswordOperationCompleted(object arg) {
+            if ((this.ResetPasswordCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ResetPasswordCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/CreateOrUpdateAccountEmail", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int CreateOrUpdateAccountEmail(string ticket, TransitAccountEmail tae) {
+            object[] results = this.Invoke("CreateOrUpdateAccountEmail", new object[] {
+                        ticket,
+                        tae});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void CreateOrUpdateAccountEmailAsync(string ticket, TransitAccountEmail tae) {
+            this.CreateOrUpdateAccountEmailAsync(ticket, tae, null);
+        }
+        
+        /// <remarks/>
+        public void CreateOrUpdateAccountEmailAsync(string ticket, TransitAccountEmail tae, object userState) {
+            if ((this.CreateOrUpdateAccountEmailOperationCompleted == null)) {
+                this.CreateOrUpdateAccountEmailOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCreateOrUpdateAccountEmailOperationCompleted);
+            }
+            this.InvokeAsync("CreateOrUpdateAccountEmail", new object[] {
+                        ticket,
+                        tae}, this.CreateOrUpdateAccountEmailOperationCompleted, userState);
+        }
+        
+        private void OnCreateOrUpdateAccountEmailOperationCompleted(object arg) {
+            if ((this.CreateOrUpdateAccountEmailCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.CreateOrUpdateAccountEmailCompleted(this, new CreateOrUpdateAccountEmailCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountEmailsCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetAccountEmailsCount(string ticket, int id) {
+            object[] results = this.Invoke("GetAccountEmailsCount", new object[] {
+                        ticket,
+                        id});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountEmailsCountAsync(string ticket, int id) {
+            this.GetAccountEmailsCountAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountEmailsCountAsync(string ticket, int id, object userState) {
+            if ((this.GetAccountEmailsCountOperationCompleted == null)) {
+                this.GetAccountEmailsCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountEmailsCountOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountEmailsCount", new object[] {
+                        ticket,
+                        id}, this.GetAccountEmailsCountOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountEmailsCountOperationCompleted(object arg) {
+            if ((this.GetAccountEmailsCountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountEmailsCountCompleted(this, new GetAccountEmailsCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountEmails", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountEmail[] GetAccountEmails(string ticket, int id, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetAccountEmails", new object[] {
+                        ticket,
+                        id,
+                        options});
+            return ((TransitAccountEmail[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountEmailsAsync(string ticket, int id, ServiceQueryOptions options) {
+            this.GetAccountEmailsAsync(ticket, id, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountEmailsAsync(string ticket, int id, ServiceQueryOptions options, object userState) {
+            if ((this.GetAccountEmailsOperationCompleted == null)) {
+                this.GetAccountEmailsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountEmailsOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountEmails", new object[] {
+                        ticket,
+                        id,
+                        options}, this.GetAccountEmailsOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountEmailsOperationCompleted(object arg) {
+            if ((this.GetAccountEmailsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountEmailsCompleted(this, new GetAccountEmailsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountEmailById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountEmail GetAccountEmailById(string ticket, int id) {
+            object[] results = this.Invoke("GetAccountEmailById", new object[] {
+                        ticket,
+                        id});
+            return ((TransitAccountEmail)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountEmailByIdAsync(string ticket, int id) {
+            this.GetAccountEmailByIdAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountEmailByIdAsync(string ticket, int id, object userState) {
+            if ((this.GetAccountEmailByIdOperationCompleted == null)) {
+                this.GetAccountEmailByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountEmailByIdOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountEmailById", new object[] {
+                        ticket,
+                        id}, this.GetAccountEmailByIdOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountEmailByIdOperationCompleted(object arg) {
+            if ((this.GetAccountEmailByIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountEmailByIdCompleted(this, new GetAccountEmailByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/DeleteAccountEmail", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void DeleteAccountEmail(string ticket, int id) {
+            this.Invoke("DeleteAccountEmail", new object[] {
+                        ticket,
+                        id});
+        }
+        
+        /// <remarks/>
+        public void DeleteAccountEmailAsync(string ticket, int id) {
+            this.DeleteAccountEmailAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void DeleteAccountEmailAsync(string ticket, int id, object userState) {
+            if ((this.DeleteAccountEmailOperationCompleted == null)) {
+                this.DeleteAccountEmailOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDeleteAccountEmailOperationCompleted);
+            }
+            this.InvokeAsync("DeleteAccountEmail", new object[] {
+                        ticket,
+                        id}, this.DeleteAccountEmailOperationCompleted, userState);
+        }
+        
+        private void OnDeleteAccountEmailOperationCompleted(object arg) {
+            if ((this.DeleteAccountEmailCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.DeleteAccountEmailCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/VerifyAccountEmail", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string VerifyAccountEmail(string password, int id, string code) {
+            object[] results = this.Invoke("VerifyAccountEmail", new object[] {
+                        password,
+                        id,
+                        code});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void VerifyAccountEmailAsync(string password, int id, string code) {
+            this.VerifyAccountEmailAsync(password, id, code, null);
+        }
+        
+        /// <remarks/>
+        public void VerifyAccountEmailAsync(string password, int id, string code, object userState) {
+            if ((this.VerifyAccountEmailOperationCompleted == null)) {
+                this.VerifyAccountEmailOperationCompleted = new System.Threading.SendOrPostCallback(this.OnVerifyAccountEmailOperationCompleted);
+            }
+            this.InvokeAsync("VerifyAccountEmail", new object[] {
+                        password,
+                        id,
+                        code}, this.VerifyAccountEmailOperationCompleted, userState);
+        }
+        
+        private void OnVerifyAccountEmailOperationCompleted(object arg) {
+            if ((this.VerifyAccountEmailCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.VerifyAccountEmailCompleted(this, new VerifyAccountEmailCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountEmailConfirmationsCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetAccountEmailConfirmationsCount(string ticket, int id) {
+            object[] results = this.Invoke("GetAccountEmailConfirmationsCount", new object[] {
+                        ticket,
+                        id});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountEmailConfirmationsCountAsync(string ticket, int id) {
+            this.GetAccountEmailConfirmationsCountAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountEmailConfirmationsCountAsync(string ticket, int id, object userState) {
+            if ((this.GetAccountEmailConfirmationsCountOperationCompleted == null)) {
+                this.GetAccountEmailConfirmationsCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountEmailConfirmationsCountOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountEmailConfirmationsCount", new object[] {
+                        ticket,
+                        id}, this.GetAccountEmailConfirmationsCountOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountEmailConfirmationsCountOperationCompleted(object arg) {
+            if ((this.GetAccountEmailConfirmationsCountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountEmailConfirmationsCountCompleted(this, new GetAccountEmailConfirmationsCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountEmailConfirmations", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountEmailConfirmation[] GetAccountEmailConfirmations(string ticket, int id, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetAccountEmailConfirmations", new object[] {
+                        ticket,
+                        id,
+                        options});
+            return ((TransitAccountEmailConfirmation[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountEmailConfirmationsAsync(string ticket, int id, ServiceQueryOptions options) {
+            this.GetAccountEmailConfirmationsAsync(ticket, id, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountEmailConfirmationsAsync(string ticket, int id, ServiceQueryOptions options, object userState) {
+            if ((this.GetAccountEmailConfirmationsOperationCompleted == null)) {
+                this.GetAccountEmailConfirmationsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountEmailConfirmationsOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountEmailConfirmations", new object[] {
+                        ticket,
+                        id,
+                        options}, this.GetAccountEmailConfirmationsOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountEmailConfirmationsOperationCompleted(object arg) {
+            if ((this.GetAccountEmailConfirmationsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountEmailConfirmationsCompleted(this, new GetAccountEmailConfirmationsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountEmailConfirmationById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountEmailConfirmation GetAccountEmailConfirmationById(string ticket, int id) {
+            object[] results = this.Invoke("GetAccountEmailConfirmationById", new object[] {
+                        ticket,
+                        id});
+            return ((TransitAccountEmailConfirmation)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountEmailConfirmationByIdAsync(string ticket, int id) {
+            this.GetAccountEmailConfirmationByIdAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountEmailConfirmationByIdAsync(string ticket, int id, object userState) {
+            if ((this.GetAccountEmailConfirmationByIdOperationCompleted == null)) {
+                this.GetAccountEmailConfirmationByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountEmailConfirmationByIdOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountEmailConfirmationById", new object[] {
+                        ticket,
+                        id}, this.GetAccountEmailConfirmationByIdOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountEmailConfirmationByIdOperationCompleted(object arg) {
+            if ((this.GetAccountEmailConfirmationByIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountEmailConfirmationByIdCompleted(this, new GetAccountEmailConfirmationByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/DeleteAccountEmailConfirmation", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void DeleteAccountEmailConfirmation(string ticket, int id) {
+            this.Invoke("DeleteAccountEmailConfirmation", new object[] {
+                        ticket,
+                        id});
+        }
+        
+        /// <remarks/>
+        public void DeleteAccountEmailConfirmationAsync(string ticket, int id) {
+            this.DeleteAccountEmailConfirmationAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void DeleteAccountEmailConfirmationAsync(string ticket, int id, object userState) {
+            if ((this.DeleteAccountEmailConfirmationOperationCompleted == null)) {
+                this.DeleteAccountEmailConfirmationOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDeleteAccountEmailConfirmationOperationCompleted);
+            }
+            this.InvokeAsync("DeleteAccountEmailConfirmation", new object[] {
+                        ticket,
+                        id}, this.DeleteAccountEmailConfirmationOperationCompleted, userState);
+        }
+        
+        private void OnDeleteAccountEmailConfirmationOperationCompleted(object arg) {
+            if ((this.DeleteAccountEmailConfirmationCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.DeleteAccountEmailConfirmationCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -1270,6 +1749,164 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
     public abstract partial class TransitServiceOfAccount {
+        
+        private int idField;
+        
+        /// <remarks/>
+        public int Id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccountEmailConfirmation))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public abstract partial class TransitServiceOfAccountEmailConfirmation {
+        
+        private int idField;
+        
+        /// <remarks/>
+        public int Id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitAccountEmailConfirmation : TransitServiceOfAccountEmailConfirmation {
+        
+        private TransitAccountEmail accountEmailField;
+        
+        private string codeField;
+        
+        /// <remarks/>
+        public TransitAccountEmail AccountEmail {
+            get {
+                return this.accountEmailField;
+            }
+            set {
+                this.accountEmailField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Code {
+            get {
+                return this.codeField;
+            }
+            set {
+                this.codeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitAccountEmail : TransitServiceOfAccountEmail {
+        
+        private string addressField;
+        
+        private System.DateTime createdField;
+        
+        private System.DateTime modifiedField;
+        
+        private bool verifiedField;
+        
+        private bool principalField;
+        
+        private int accountIdField;
+        
+        /// <remarks/>
+        public string Address {
+            get {
+                return this.addressField;
+            }
+            set {
+                this.addressField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Created {
+            get {
+                return this.createdField;
+            }
+            set {
+                this.createdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Modified {
+            get {
+                return this.modifiedField;
+            }
+            set {
+                this.modifiedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool Verified {
+            get {
+                return this.verifiedField;
+            }
+            set {
+                this.verifiedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool Principal {
+            get {
+                return this.principalField;
+            }
+            set {
+                this.principalField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int AccountId {
+            get {
+                return this.accountIdField;
+            }
+            set {
+                this.accountIdField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccountEmail))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public abstract partial class TransitServiceOfAccountEmail {
         
         private int idField;
         
@@ -2038,6 +2675,234 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
             }
         }
     }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void ChangePasswordCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void ChangePasswordMd5CompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void ResetPasswordCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void CreateOrUpdateAccountEmailCompletedEventHandler(object sender, CreateOrUpdateAccountEmailCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class CreateOrUpdateAccountEmailCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal CreateOrUpdateAccountEmailCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetAccountEmailsCountCompletedEventHandler(object sender, GetAccountEmailsCountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountEmailsCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountEmailsCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetAccountEmailsCompletedEventHandler(object sender, GetAccountEmailsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountEmailsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountEmailsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccountEmail[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountEmail[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetAccountEmailByIdCompletedEventHandler(object sender, GetAccountEmailByIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountEmailByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountEmailByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccountEmail Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountEmail)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void DeleteAccountEmailCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void VerifyAccountEmailCompletedEventHandler(object sender, VerifyAccountEmailCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class VerifyAccountEmailCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal VerifyAccountEmailCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetAccountEmailConfirmationsCountCompletedEventHandler(object sender, GetAccountEmailConfirmationsCountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountEmailConfirmationsCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountEmailConfirmationsCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetAccountEmailConfirmationsCompletedEventHandler(object sender, GetAccountEmailConfirmationsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountEmailConfirmationsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountEmailConfirmationsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccountEmailConfirmation[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountEmailConfirmation[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetAccountEmailConfirmationByIdCompletedEventHandler(object sender, GetAccountEmailConfirmationByIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountEmailConfirmationByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountEmailConfirmationByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccountEmailConfirmation Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountEmailConfirmation)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void DeleteAccountEmailConfirmationCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
 }
 
 #pragma warning restore 1591

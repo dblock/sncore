@@ -86,6 +86,11 @@ namespace SnCore.Services
 
         }
 
+        public ManagedAccountEmailConfirmation()
+        {
+
+        }
+
         public ManagedAccountEmailConfirmation(ISession session)
             : base(session)
         {
@@ -164,7 +169,8 @@ namespace SnCore.Services
         public override ACL GetACL()
         {
             ACL acl = base.GetACL();
-            acl.Add(new ACLAccount(mInstance.AccountEmail.Account, DataOperation.All));
+            // user himself cannot see the e-mail confirmations, shouldn't be able to retrieve the code
+            // acl.Add(new ACLAccount(mInstance.AccountEmail.Account, DataOperation.All));
             return acl;
         }
     }

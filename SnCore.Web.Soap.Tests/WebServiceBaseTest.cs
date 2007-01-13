@@ -29,10 +29,15 @@ namespace SnCore.Web.Soap.Tests
 
         protected int CreateUser(string email, string password)
         {
+            return CreateUser(email, password, DateTime.UtcNow.AddYears(-10));
+        }
+
+        protected int CreateUser(string email, string password, DateTime dateofbirth)
+        {
             WebAccountService.TransitAccount t_instance = new WebAccountService.TransitAccount();
             t_instance.Name = Guid.NewGuid().ToString();
             t_instance.Password = password;
-            t_instance.Birthday = DateTime.UtcNow.AddYears(-10);
+            t_instance.Birthday = dateofbirth;
             WebAccountService.WebAccountService account_endpoint = new WebAccountService.WebAccountService();
             int id = account_endpoint.CreateAccount(string.Empty, email, t_instance);
             Console.WriteLine("Created user: {0}", id);

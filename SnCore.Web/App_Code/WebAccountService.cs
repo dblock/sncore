@@ -640,5 +640,240 @@ namespace SnCore.WebServices
         }
 
         #endregion
+
+        #region Password
+
+        /// <summary>
+        /// Change password.
+        /// </summary>
+        /// <param name="ticket">athentication ticket</param>
+        /// <param name="oldpassword">old password</param>
+        /// <param name="newpassword">new password</param>
+        /// <param name="accountid">account id</param>
+        [WebMethod(Description = "Change password.")]
+        public void ChangePassword(string ticket, int accountid, string oldpassword, string newpassword)
+        {
+            ChangePasswordMd5(
+                ticket,
+                accountid,
+                string.IsNullOrEmpty(oldpassword) ? string.Empty : ManagedAccount.GetPasswordHash(oldpassword),
+                newpassword);
+        }
+
+        /// <summary>
+        /// Change password.
+        /// </summary>
+        /// <param name="ticket">athentication ticket</param>
+        /// <param name="oldpassword">old password</param>
+        /// <param name="newpassword">new password</param>
+        /// <param name="accountid">account id</param>
+        [WebMethod(Description = "Change password with an existing Md5 hash.")]
+        public void ChangePasswordMd5(string ticket, int accountid, string oldpasswordhash, string newpassword)
+        {
+            int userid = GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                if (userid != accountid)
+                {
+                    ManagedAccount requester = new ManagedAccount(session, userid);
+                    if (!requester.IsAdministrator())
+                    {
+                        throw new ManagedAccount.AccessDeniedException();
+                    }
+
+                    ManagedAccount account = new ManagedAccount(session, accountid);
+                    account.ResetPassword(newpassword, false);
+                }
+                else
+                {
+                    ManagedAccount account = new ManagedAccount(session, accountid);
+                    account.ChangePasswordMd5(oldpasswordhash, newpassword);
+                }
+
+                SnCore.Data.Hibernate.Session.Flush();
+            }
+        }
+
+        /// <summary>
+        /// Reset password.
+        /// </summary>
+        [WebMethod(Description = "Reset password.")]
+        public void ResetPassword(string emailaddress, DateTime dateofbirth)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount a = ManagedAccount.FindByEmailAndBirthday(session, emailaddress, dateofbirth);
+                string newpassword = RandomPassword.Generate();
+                a.ResetPassword(newpassword, true);
+
+                // EmailAccountMessage
+                ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
+                    session,
+                    new MailAddress(a.ActiveEmailAddress, a.Name).ToString(),
+                    string.Format("EmailAccountPasswordReset.aspx?id={0}&Password={1}", a.Id, Renderer.UrlEncode(newpassword)));
+
+                SnCore.Data.Hibernate.Session.Flush();
+            }
+        }
+
+        #endregion
+
+        #region AccountEmail
+
+        /// <summary>
+        /// Create or update an account e-mail.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="tae">transit account e-mail</param>
+        [WebMethod(Description = "Create or update an account e-mail.")]
+        public int CreateOrUpdateAccountEmail(string ticket, TransitAccountEmail tae)
+        {
+            int id = WebServiceImpl<TransitAccountEmail, ManagedAccountEmail, AccountEmail>.CreateOrUpdate(
+                ticket, tae);
+
+            if (tae.Id == 0)
+            {
+                using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+                {
+                    ISession session = SnCore.Data.Hibernate.Session.Current;
+                    ManagedAccountEmail m_instance = new ManagedAccountEmail(session, id);
+                    m_instance.Confirm();
+                    SnCore.Data.Hibernate.Session.Flush();
+                }
+            }
+
+            return id;
+        }
+
+        /// <summary>
+        /// Get account e-mails count.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <returns>number of account e-mails</returns>
+        [WebMethod(Description = "Get account e-mails count.")]
+        public int GetAccountEmailsCount(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountEmail, ManagedAccountEmail, AccountEmail>.GetCount(
+                ticket, string.Format("WHERE AccountEmail.Account.Id = {0}", id));
+        }
+
+        /// <summary>
+        /// Get account e-mails.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <returns>transit e-mail</returns>
+        [WebMethod(Description = "Get account e-mails.")]
+        public List<TransitAccountEmail> GetAccountEmails(string ticket, int id, ServiceQueryOptions options)
+        {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
+            Order[] orders = { Order.Asc("Address") };
+            return WebServiceImpl<TransitAccountEmail, ManagedAccountEmail, AccountEmail>.GetList(
+                ticket, options, expressions, orders);
+        }
+
+        /// <summary>
+        /// Get an account e-mail by id.
+        /// </summary>
+        /// <param name="ticket"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [WebMethod(Description = "Get an account e-mail by id.")]
+        public TransitAccountEmail GetAccountEmailById(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountEmail, ManagedAccountEmail, AccountEmail>.GetById(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Delete an account e-mail.
+        /// </summary>
+        /// <param name="ticket"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [WebMethod(Description = "Delete an account e-mail.")]
+        public void DeleteAccountEmail(string ticket, int id)
+        {
+            WebServiceImpl<TransitAccountEmail, ManagedAccountEmail, AccountEmail>.Delete(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Verify an e-mail.
+        /// </summary>
+        /// <param name="password">account password</param>
+        /// <param name="id">e-mail confirmation request id</param>
+        /// <param name="code">e-mail confirmation request code</param>
+        /// <returns>verified e-mail address</returns>
+        [WebMethod(Description = "Verify an e-mail.")]
+        public string VerifyAccountEmail(string password, int id, string code)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccountEmailConfirmation c = new ManagedAccountEmailConfirmation(session, id);
+                string emailaddress = c.Verify(password, code);
+                SnCore.Data.Hibernate.Session.Flush();
+                return emailaddress;
+            }
+        }
+
+        #endregion
+
+        #region AccountEmailConfirmation
+
+        /// <summary>
+        /// Get account e-mail confirmations count.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <returns>number of account e-mail confirmations</returns>
+        [WebMethod(Description = "Get account e-mail confirmations count.")]
+        public int GetAccountEmailConfirmationsCount(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountEmailConfirmation, ManagedAccountEmailConfirmation, AccountEmailConfirmation>.GetCount(
+                ticket, string.Format("WHERE AccountEmailConfirmation.AccountEmail.Account.Id = {0}", id));
+        }
+
+        /// <summary>
+        /// Get account e-mail confirmations.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <returns>transit e-mail confirmation</returns>
+        [WebMethod(Description = "Get account e-mail confirmations.")]
+        public List<TransitAccountEmailConfirmation> GetAccountEmailConfirmations(string ticket, int id, ServiceQueryOptions options)
+        {
+            return WebServiceImpl<TransitAccountEmailConfirmation, ManagedAccountEmailConfirmation, AccountEmailConfirmation>.GetList(
+                ticket, options, string.Format("SELECT AccountEmailConfirmation FROM AccountEmailConfirmation AccountEmailConfirmation WHERE AccountEmailConfirmation.AccountEmail.Account.Id = {0}", id));
+        }
+
+        /// <summary>
+        /// Get an account e-mail confirmation by id.
+        /// </summary>
+        /// <param name="ticket"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [WebMethod(Description = "Get an account e-mail confirmation by id.")]
+        public TransitAccountEmailConfirmation GetAccountEmailConfirmationById(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountEmailConfirmation, ManagedAccountEmailConfirmation, AccountEmailConfirmation>.GetById(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Delete an account e-mail confirmation.
+        /// </summary>
+        /// <param name="ticket"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [WebMethod(Description = "Delete an account e-mail confirmation.")]
+        public void DeleteAccountEmailConfirmation(string ticket, int id)
+        {
+            WebServiceImpl<TransitAccountEmailConfirmation, ManagedAccountEmailConfirmation, AccountEmailConfirmation>.Delete(
+                ticket, id);
+        }
+
+        #endregion
     }
 }
