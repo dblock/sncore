@@ -518,7 +518,8 @@ namespace SnCore.Services
 
             try
             {
-                ManagedDiscussion.FindAndDelete(Session, mInstance.Id, ManagedDiscussion.AccountTagsDiscussion, 0);
+                ManagedDiscussion.FindAndDelete(
+                    Session, mInstance.Id, ManagedDiscussion.AccountTagsDiscussion, 0, sec);
 
                 Account newowner = (Account)Session.CreateCriteria(typeof(Account))
                     .Add(Expression.Eq("IsAdministrator", true))

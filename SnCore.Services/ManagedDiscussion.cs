@@ -28,12 +28,12 @@ namespace SnCore.Services
         {
             get
             {
-                return "SELECT COUNT(*) FROM DiscussionPost tp, DiscussionThread t, Discussion d" +
-                       " WHERE tp.AccountId = " + AccountId.ToString() +
+                return ", DiscussionThread t, Discussion d" +
+                       " WHERE DiscussionPost.AccountId = " + AccountId.ToString() +
                        " AND t.Discussion.Id = instance.Id" +
                        " AND instance.Personal = 0" +
-                       " AND t.Id = tp.DiscussionThread.Id" +
-                       (TopOfThRetreiveOnly ? " AND tp.DiscussionPostParent IS NULL" : string.Empty);
+                       " AND t.Id = DiscussionPost.DiscussionThread.Id" +
+                       (TopOfThRetreiveOnly ? " AND DiscussionPost.DiscussionPostParent IS NULL" : string.Empty);
             }
         }
 
@@ -313,97 +313,6 @@ namespace SnCore.Services
             }
         }
 
-        public void Create(string name, string description, bool personal, ManagedSecurityContext sec)
-        {
-            TransitDiscussion t = new TransitDiscussion();
-            t.Name = name;
-            t.Description = description;
-            t.AccountId = sec.Account.Id;
-            t.Personal = personal;
-            t.Created = t.Modified = DateTime.UtcNow;
-            CreateOrUpdate(t, sec);
-        }
-
-        public int CreatePost(
-            int accountid,
-            int parentid,
-            string subject,
-            string body,
-            ManagedSecurityContext sec)
-        {
-            DiscussionThread thread = null;
-            DiscussionPost parent = null;
-
-            if (parentid != 0)
-            {
-                parent = (DiscussionPost)Session.Load(typeof(DiscussionPost), parentid);
-                if (parent == null)
-                {
-                    throw new ArgumentException();
-                }
-
-                thread = parent.DiscussionThread;
-                if (thread.Discussion.Id != Id)
-                {
-                    throw new ArgumentException();
-                }
-
-                thread.Modified = DateTime.UtcNow;
-                Session.Save(thread);
-            }
-            else
-            {
-                thread = new DiscussionThread();
-                thread.Created = thread.Modified = DateTime.UtcNow;
-                thread.Discussion = mInstance;
-                Session.Save(thread);
-
-                if (mInstance.DiscussionThreads == null) mInstance.DiscussionThreads = new List<DiscussionThread>();
-                mInstance.DiscussionThreads.Add(thread);
-            }
-
-            DiscussionPost result = new DiscussionPost();
-            result.AccountId = accountid;
-            result.Created = result.Modified = thread.Modified;
-            result.DiscussionPostParent = parent;
-            result.DiscussionThread = thread;
-            result.Subject = subject;
-            result.Body = body;
-            Session.Save(result);
-
-            mInstance.Modified = DateTime.UtcNow;
-            Session.Save(mInstance);
-
-            Session.Flush();
-
-            if (thread.DiscussionPosts == null) thread.DiscussionPosts = new List<DiscussionPost>();
-            thread.DiscussionPosts.Add(result);
-
-            try
-            {
-                ManagedAccount ra = new ManagedAccount(Session, accountid);
-                ManagedAccount ma = new ManagedAccount(Session, parent != null ? parent.AccountId : thread.Discussion.Account.Id);
-
-                if (ra.Id != ma.Id)
-                {
-                    string replyTo = ma.ActiveEmailAddress;
-                    if (! string.IsNullOrEmpty(replyTo))
-                    {
-                        ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
-                            Session,
-                            new MailAddress(replyTo, ma.Name).ToString(),
-                            string.Format("EmailDiscussionPost.aspx?id={0}", result.Id));
-                    }
-                }
-            }
-            catch (ObjectNotFoundException)
-            {
-                // replying to an account that does not exist
-            }
-
-            return result.Id;
-        }
-
         public static int GetDiscussionThreadCount(ISession session, int accountid, string name, int objectid)
         {
             Discussion existingtagdiscussion = (Discussion)session.CreateCriteria(typeof(Discussion))
@@ -436,7 +345,7 @@ namespace SnCore.Services
 
         public static int GetDiscussionPostCount(ISession session, int discussionid)
         {
-            return (int) session.CreateQuery(
+            return (int)session.CreateQuery(
                 string.Format(
                     "SELECT COUNT(*)" +
                     " FROM DiscussionPost p, DiscussionThread t" +
@@ -447,7 +356,7 @@ namespace SnCore.Services
 
         public static int GetDiscussionThreadCount(ISession session, int discussionid)
         {
-            return (int) session.CreateQuery(
+            return (int)session.CreateQuery(
                 string.Format(
                     "SELECT COUNT(*)" +
                     " FROM DiscussionThread t " +
@@ -459,42 +368,48 @@ namespace SnCore.Services
             ISession session,
             int accountid,
             string name,
-            int objectid)
+            int objectid,
+            ManagedSecurityContext sec)
         {
-            Discussion discussion = Find(session, accountid, name, objectid);
-            if (discussion != null)
-            {
-                session.Delete(discussion);
-                return true;
-            }
-            else
-            {
+            Discussion discussion = Find(session, accountid, name, objectid, sec);
+            if (discussion == null)
                 return false;
-            }
+            ManagedDiscussion m_instance = new ManagedDiscussion(session, discussion);
+            m_instance.Delete(sec);
+            return true;
         }
 
         public static Discussion Find(
             ISession session,
             int accountid,
             string name,
-            int objectid)
+            int objectid,
+            ManagedSecurityContext sec)
         {
-            return (Discussion)
+            Discussion instance = (Discussion)
                 session.CreateCriteria(typeof(Discussion))
                     .Add(Expression.Eq("Name", name))
                     .Add(Expression.Eq("Account.Id", accountid))
                     .Add(Expression.Eq("ObjectId", objectid))
                     .Add(Expression.Eq("Personal", true))
                     .UniqueResult();
+
+            if (instance == null)
+                return null;
+
+            ManagedDiscussion m_instance = new ManagedDiscussion(session, instance);
+            m_instance.GetACL().Check(sec, DataOperation.Retreive);
+            return instance;
         }
 
         public static int GetDiscussionId(
-            ISession session, 
-            int accountid, 
-            string name, 
-            int objectid)
+            ISession session,
+            int accountid,
+            string name,
+            int objectid,
+            ManagedSecurityContext sec)
         {
-            Discussion d = Find(session, accountid, name, objectid);
+            Discussion d = Find(session, accountid, name, objectid, sec);
 
             if (d == null)
             {
@@ -505,13 +420,13 @@ namespace SnCore.Services
         }
 
         public static int GetOrCreateDiscussionId(
-            ISession session, 
+            ISession session,
             int accountid,
-            string name, 
+            string name,
             int objectid,
             ManagedSecurityContext sec)
         {
-            Discussion d = Find(session, accountid, name, objectid);
+            Discussion d = Find(session, accountid, name, objectid, sec);
 
             if (d != null)
             {
@@ -551,6 +466,20 @@ namespace SnCore.Services
             acl.Add(new ACLEveryoneAllowRetrieve());
             acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
             return acl;
+        }
+
+        public List<TransitDiscussionPost> GetDiscussionPosts(ManagedSecurityContext sec)
+        {
+            List<TransitDiscussionPost> result = new List<TransitDiscussionPost>();
+            if (mInstance.DiscussionThreads != null)
+            {
+                foreach (DiscussionThread thread in mInstance.DiscussionThreads)
+                {
+                    ManagedDiscussionThread m_thread = new ManagedDiscussionThread(Session, thread);
+                    result.AddRange(m_thread.GetDiscussionPosts(sec));
+                }
+            }
+            return result;
         }
     }
 }

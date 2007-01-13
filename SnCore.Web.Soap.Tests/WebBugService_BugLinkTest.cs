@@ -21,7 +21,7 @@ namespace SnCore.Web.Soap.Tests.WebBugServiceTests
         }
 
         [SetUp]
-        public void SetUp()
+        public override void SetUp()
         {
             _bug1.SetUp();
             _bug1_id = _bug1.Create(GetAdminTicket());
@@ -32,7 +32,7 @@ namespace SnCore.Web.Soap.Tests.WebBugServiceTests
         }
 
         [TearDown]
-        public void TearDown()
+        public override void TearDown()
         {
             _bug2.Delete(GetAdminTicket(), _bug2_id);
             _bug2.TearDown();

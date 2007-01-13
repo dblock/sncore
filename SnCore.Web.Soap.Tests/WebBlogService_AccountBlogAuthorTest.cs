@@ -19,13 +19,13 @@ namespace SnCore.Web.Soap.Tests.WebBlogServiceTests
         }
 
         [SetUp]
-        public void SetUp()
+        public override void SetUp()
         {
             _blog_id = _blog.Create(GetAdminTicket());
         }
 
         [TearDown]
-        public void TearDown()
+        public override void TearDown()
         {
             _blog.Delete(GetAdminTicket(), _blog_id);
         }

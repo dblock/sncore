@@ -165,5 +165,17 @@ namespace SnCore.Web.Soap.Tests
         {
             Create(string.Empty);
         }
+
+        [SetUp]
+        public virtual void SetUp()
+        {
+
+        }
+
+        [TearDown]
+        public virtual void TearDown()
+        {
+
+        }
     }
 }

@@ -235,6 +235,7 @@ namespace SnCore.Services
 
         public override void Delete(ManagedSecurityContext sec)
         {
+            ManagedDiscussion.FindAndDelete(Session, mInstance.AccountEvent.Account.Id, ManagedDiscussion.AccountEventPictureDiscussion, mInstance.Id, sec);
             Collection<AccountEventPicture>.GetSafeCollection(mInstance.AccountEvent.AccountEventPictures).Remove(mInstance);
             base.Delete(sec);
         }

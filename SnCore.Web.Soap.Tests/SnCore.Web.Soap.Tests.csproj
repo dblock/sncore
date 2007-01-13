@@ -68,6 +68,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\WebDiscussionService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\WebEventService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -136,6 +141,11 @@
     <Compile Include="WebBlogService_AccountBlogAuthorTest.cs" />
     <Compile Include="WebBlogService_AccountBlogPostTest.cs" />
     <Compile Include="WebBlogService_AccountBlogTest.cs" />
+    <Compile Include="WebDiscussionServiceTest.cs" />
+    <Compile Include="WebDiscussionService_DiscussionPostTest.cs" />
+    <Compile Include="WebDiscussionService_DiscussionTest.cs" />
+    <Compile Include="WebDiscussionService_DiscussionThreadTest.cs" />
+    <Compile Include="WebDiscussionService_GetOrCreateNamedDiscussionTest.cs" />
     <Compile Include="WebEventServiceTest.cs" />
     <Compile Include="WebEventService_AccountEventPictureTest.cs" />
     <Compile Include="WebEventService_AccountEventTest.cs" />
@@ -269,6 +279,17 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebContentService_WebContentService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebDiscussionService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WebDiscussionService\</RelPath>
+      <UpdateFromURL>http://dblock-black.orangebitch.com/SnCoreWeb/WebDiscussionService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebDiscussionService_WebDiscussionService</CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebEventService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
@@ -691,6 +712,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Web References\WebDiscussionService\WebDiscussionService.wsdl" />
     <None Include="Web References\WebPlaceService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -750,6 +772,22 @@
     <None Include="Web References\WebSystemService\TransitAttribute.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\WebDiscussionService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\WebDiscussionService\TransitDiscussion.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebDiscussionService\TransitDiscussionPost.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebDiscussionService\TransitDiscussionThread.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebDiscussionService\WebDiscussionService.disco" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

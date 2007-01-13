@@ -520,7 +520,8 @@ namespace SnCore.Services
 
         public override void Delete(ManagedSecurityContext sec)
         {
-            ManagedDiscussion.FindAndDelete(Session, mInstance.Account.Id, ManagedDiscussion.PlaceDiscussion, mInstance.Id);
+            ManagedDiscussion.FindAndDelete(
+                Session, mInstance.Account.Id, ManagedDiscussion.PlaceDiscussion, mInstance.Id, sec);
 
             foreach (PlacePicture pic in Collection<PlacePicture>.GetSafeCollection(mInstance.PlacePictures))
             {
@@ -575,7 +576,8 @@ namespace SnCore.Services
             }
 
             // migrate review discussion
-            Discussion d = ManagedDiscussion.Find(Session, mInstance.Account.Id, ManagedDiscussion.PlaceDiscussion, mInstance.Id);
+            Discussion d = ManagedDiscussion.Find(
+                Session, mInstance.Account.Id, ManagedDiscussion.PlaceDiscussion, mInstance.Id, sec);
 
             if (d != null)
             {

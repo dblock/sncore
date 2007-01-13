@@ -13,13 +13,13 @@ namespace SnCore.Web.Soap.Tests.WebMadLibServiceTests
         private int _madlib_id = 0;
 
         [SetUp]
-        public void SetUp()
+        public override void SetUp()
         {
             _madlib_id = _madlib.Create(GetAdminTicket());
         }
 
         [TearDown]
-        public void TearDown()
+        public override void TearDown()
         {
             _madlib.Delete(GetAdminTicket(), _madlib_id);
         }

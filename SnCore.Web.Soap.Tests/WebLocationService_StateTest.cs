@@ -13,13 +13,13 @@ namespace SnCore.Web.Soap.Tests.WebLocationServiceTests
         public int _country_id = 0;
 
         [SetUp]
-        public void SetUp()
+        public override void SetUp()
         {
             _country_id = _country.Create(GetAdminTicket());
         }
 
         [TearDown]
-        public void TearDown()
+        public override void TearDown()
         {
             _country.Delete(GetAdminTicket(), _country_id);
         }

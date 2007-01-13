@@ -13,13 +13,13 @@ namespace SnCore.Web.Soap.Tests.WebMarketingServiceTests
         private int _campaign_id = 0;
 
         [SetUp]
-        public void SetUp()
+        public override void SetUp()
         {
             _campaign_id = _campaign.Create(GetAdminTicket());
         }
 
         [TearDown]
-        public void TearDown()
+        public override void TearDown()
         {
             _campaign.Delete(GetAdminTicket(), _campaign_id);
         }

@@ -77,16 +77,28 @@ namespace SnCore.Services.Tests
         {
             ManagedAccount a = new ManagedAccount(Session);
             ManagedDiscussion d = new ManagedDiscussion(Session);
-
+            ManagedDiscussionPost p = new ManagedDiscussionPost(Session);
             try
             {
                 a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
-                d.Create("New Discussion", "Description", false, a.GetSecurityContext());
-                d.CreatePost(a.Id, 0, "subject", "body", a.GetSecurityContext());
+
+                TransitDiscussion t_d = new TransitDiscussion();
+                t_d.Description = Guid.NewGuid().ToString();
+                t_d.Name = Guid.NewGuid().ToString();
+                t_d.Personal = false;
+                d.CreateOrUpdate(t_d, a.GetSecurityContext());
+
+                TransitDiscussionPost t_p = new TransitDiscussionPost();
+                t_p.Subject = Guid.NewGuid().ToString();
+                t_p.Body = Guid.NewGuid().ToString();
+                t_p.DiscussionId = d.Id;
+                p.CreateOrUpdate(t_p, a.GetSecurityContext());
+
                 Session.Flush();
             }
             finally
             {
+                p.Delete(a.GetSecurityContext());
                 d.Delete(a.GetSecurityContext());
                 a.Delete(a.GetSecurityContext());
             }
@@ -97,17 +109,34 @@ namespace SnCore.Services.Tests
         {
             ManagedAccount a = new ManagedAccount(Session);
             ManagedDiscussion d = new ManagedDiscussion(Session);
-
+            ManagedDiscussionPost p = new ManagedDiscussionPost(Session);
             try
             {
                 a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
-                d.Create("New Discussion", "Description", false, a.GetSecurityContext());
-                int newid = d.CreatePost(a.Id, 0, "subject", "body", a.GetSecurityContext());
-                d.CreatePost(a.Id, newid, "subject", "body", a.GetSecurityContext());
+
+                TransitDiscussion t_d = new TransitDiscussion();
+                t_d.Description = Guid.NewGuid().ToString();
+                t_d.Name = Guid.NewGuid().ToString();
+                t_d.Personal = false;
+                d.CreateOrUpdate(t_d, a.GetSecurityContext());
+
+                TransitDiscussionPost t_p = new TransitDiscussionPost();
+                t_p.Subject = Guid.NewGuid().ToString();
+                t_p.Body = Guid.NewGuid().ToString();
+                t_p.DiscussionId = d.Id;
+
+                int id1 = p.CreateOrUpdate(t_p, a.GetSecurityContext());
+                Assert.AreNotEqual(0, id1);
+
+                t_p.DiscussionPostParentId = id1;
+                int id2 = p.CreateOrUpdate(t_p, a.GetSecurityContext());
+                Assert.AreNotEqual(0, id2);
+
                 Session.Flush();
             }
             finally
             {
+                p.Delete(a.GetSecurityContext());
                 d.Delete(a.GetSecurityContext());
                 a.Delete(a.GetSecurityContext());
             }
@@ -120,20 +149,38 @@ namespace SnCore.Services.Tests
             ManagedAccount a = new ManagedAccount(Session);
             ManagedDiscussion d1 = new ManagedDiscussion(Session);
             ManagedDiscussion d2 = new ManagedDiscussion(Session);
+            ManagedDiscussionPost p = new ManagedDiscussionPost(Session);
 
             try
             {
                 a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
 
-                
-                d1.Create("New Discussion1", "Description1", false, a.GetSecurityContext());
-                int d1newid = d1.CreatePost(a.Id, 0, "subject1", "body1", a.GetSecurityContext());
+                TransitDiscussion t_d = new TransitDiscussion();
+                t_d.Description = Guid.NewGuid().ToString();
+                t_d.Name = Guid.NewGuid().ToString();
+                t_d.Personal = false;
+                d1.CreateOrUpdate(t_d, a.GetSecurityContext());
 
-                d2.Create("New Discussion2", "Description2", false, a.GetSecurityContext());
-                d2.CreatePost(a.Id, 0, "subject2", "body2", a.GetSecurityContext());
+                t_d.Name = Guid.NewGuid().ToString();
+                d2.CreateOrUpdate(t_d, a.GetSecurityContext());
+
+                TransitDiscussionPost t_p = new TransitDiscussionPost();
+                t_p.Subject = Guid.NewGuid().ToString();
+                t_p.Body = Guid.NewGuid().ToString();
+                t_p.DiscussionId = d1.Id;
+
+                int id1 = p.CreateOrUpdate(t_p, a.GetSecurityContext());
+                Assert.AreNotEqual(0, id1);
+
+                t_p.DiscussionId = d2.Id;
+                int id2 = p.CreateOrUpdate(t_p, a.GetSecurityContext());
+                Assert.AreNotEqual(0, id2);
 
                 // can't create child of other discussion
-                d2.CreatePost(a.Id, d1newid, "subject", "body", a.GetSecurityContext());
+                t_p.DiscussionId = d1.Id;
+                t_p.DiscussionPostParentId = id2;
+                int id3 = p.CreateOrUpdate(t_p, a.GetSecurityContext());
+
                 Session.Flush();
             }
             finally

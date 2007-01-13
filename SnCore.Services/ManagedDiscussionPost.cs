@@ -282,9 +282,29 @@ namespace SnCore.Services
 
             if (Id == 0)
             {
-                if (DiscussionThreadId > 0) instance.DiscussionThread = (DiscussionThread)session.Load(typeof(DiscussionThread), this.DiscussionThreadId);
-                if (DiscussionPostParentId > 0) instance.DiscussionPostParent = (DiscussionPost)session.Load(typeof(DiscussionPost), this.DiscussionPostParentId);
-                if (AccountId > 0) instance.AccountId = this.AccountId;
+                if (DiscussionPostParentId > 0)
+                {
+                    instance.DiscussionPostParent = (DiscussionPost)session.Load(typeof(DiscussionPost), this.DiscussionPostParentId);
+                    instance.DiscussionThread = instance.DiscussionPostParent.DiscussionThread;
+                }
+                else if (DiscussionThreadId > 0)
+                {
+                    instance.DiscussionThread = (DiscussionThread)session.Load(typeof(DiscussionThread), this.DiscussionThreadId);
+                }
+                else
+                {
+                    instance.DiscussionThread = new DiscussionThread();
+                    instance.DiscussionThread.Discussion = (Discussion)session.Load(typeof(Discussion), this.DiscussionId);
+                    instance.DiscussionThread.Created = instance.DiscussionThread.Modified = DateTime.UtcNow;
+                }
+
+                if (DiscussionThreadId > 0 && instance.DiscussionThread.Id != DiscussionThreadId)
+                    throw new ArgumentException("Invalid Thread Id");
+
+                if (DiscussionId > 0 && instance.DiscussionThread.Discussion.Id != DiscussionId)
+                    throw new ArgumentException("Invalid Discussion Id");
+
+                instance.AccountId = GetOwner(session, AccountId, sec).Id;
             }
 
             instance.Body = this.Body;
@@ -292,22 +312,35 @@ namespace SnCore.Services
             return instance;
         }
 
-        public void SetPermissions(Discussion d, ManagedAccount a)
+        public override void SetInstance(DiscussionPost instance)
         {
-            if (a == null)
-                return;
+            DiscussionName = instance.DiscussionThread.Discussion.Name;
+            DiscussionId = instance.DiscussionThread.Discussion.Id;
+            DiscussionThreadId = instance.DiscussionThread.Id;
+            DiscussionThreadModified = instance.DiscussionThread.Modified;
+            DiscussionThreadCount =
+                (instance.DiscussionThread.DiscussionPosts != null) ?
+                    instance.DiscussionThread.DiscussionPosts.Count :
+                    0;
+            RepliesCount =
+                (instance.DiscussionPosts != null) ?
+                    instance.DiscussionPosts.Count :
+                    0;
+            DiscussionPostParentId = (instance.DiscussionPostParent == null) ? 0 : instance.DiscussionPostParent.Id;
+            AccountId = instance.AccountId;
+            Body = instance.Body;
+            Subject = instance.Subject;
+            Created = instance.Created;
+            Modified = instance.Modified;
+            Level = 0;
+            DiscussionPost parent = instance.DiscussionPostParent;
+            while (parent != null && parent != instance)
+            {
+                Level++;
+                parent = parent.DiscussionPostParent;
+            }
 
-            CanEdit =
-                (AccountId == a.Id) || // can edit your own posts
-                a.IsAdministrator();
-
-            if (d == null)
-                return;
-
-            CanDelete =
-                (CanEdit && RepliesCount == 0) || // can delete your own posts that have no replies
-                (a.Id == d.Account.Id) || // can delete any post in your own discussion
-                a.IsAdministrator();
+            base.SetInstance(instance);
         }
     }
 
@@ -359,45 +392,19 @@ namespace SnCore.Services
 
         public override TransitDiscussionPost GetTransitInstance(ManagedSecurityContext sec)
         {
-            TransitDiscussionPost t_instance = base.GetTransitInstance(sec);
-
+            TransitDiscussionPost post = base.GetTransitInstance(sec);
             try
             {
-                Account acct = (Account)Session.Load(typeof(Account), mInstance.AccountId);
-                t_instance.AccountName = (acct != null) ? acct.Name : "Unknown User";
-                t_instance.AccountPictureId = ManagedAccount.GetRandomAccountPictureId(acct);
+                Account acct = (Account)Session.Load(typeof(Account), post.AccountId);
+                post.AccountName = (acct != null) ? acct.Name : "Unknown User";
+                post.AccountPictureId = ManagedAccount.GetRandomAccountPictureId(acct);
             }
             catch (ObjectNotFoundException)
             {
-
+                post.AccountName = "Unknown User";
+                post.AccountPictureId = 0;
             }
-
-            t_instance.DiscussionName = mInstance.DiscussionThread.Discussion.Name;
-            t_instance.DiscussionId = mInstance.DiscussionThread.Discussion.Id;
-            t_instance.DiscussionThreadId = mInstance.DiscussionThread.Id;
-            t_instance.DiscussionThreadModified = mInstance.DiscussionThread.Modified;
-            t_instance.DiscussionThreadCount =
-                (mInstance.DiscussionThread.DiscussionPosts != null) ?
-                    mInstance.DiscussionThread.DiscussionPosts.Count :
-                    0;
-            t_instance.RepliesCount =
-                (mInstance.DiscussionPosts != null) ?
-                    mInstance.DiscussionPosts.Count :
-                    0;
-            t_instance.DiscussionPostParentId = (mInstance.DiscussionPostParent == null) ? 0 : mInstance.DiscussionPostParent.Id;
-            t_instance.AccountId = mInstance.AccountId;
-            t_instance.Body = mInstance.Body;
-            t_instance.Subject = mInstance.Subject;
-            t_instance.Created = mInstance.Created;
-            t_instance.Modified = mInstance.Modified;
-            t_instance.Level = 0;
-            DiscussionPost parent = mInstance.DiscussionPostParent;
-            while (parent != null && parent != mInstance)
-            {
-                t_instance.Level++;
-                parent = parent.DiscussionPostParent;
-            }
-            return t_instance;
+            return post;
         }
 
         public List<TransitDiscussionPost> GetPosts(ManagedSecurityContext sec)
@@ -419,8 +426,46 @@ namespace SnCore.Services
         protected override void Save(ManagedSecurityContext sec)
         {
             mInstance.Modified = DateTime.UtcNow;
-            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+
+            // message cannot span discussions
+            if (mInstance.DiscussionPostParent != null &&
+                mInstance.DiscussionPostParent.DiscussionThread.Discussion.Id != mInstance.DiscussionThread.Discussion.Id)
+            {
+                throw new ArgumentException("Invalid Discussion Id");
+            }
+
+            if (mInstance.Id == 0)
+            {
+                mInstance.Created = mInstance.Modified;
+                mInstance.DiscussionThread.Modified = mInstance.Modified;
+                Session.Save(mInstance.DiscussionThread);
+            }
             base.Save(sec);
+            Session.Flush();
+
+            try
+            {
+                ManagedAccount ra = new ManagedAccount(Session, mInstance.AccountId);
+                ManagedAccount ma = new ManagedAccount(Session, mInstance.DiscussionPostParent != null
+                    ? mInstance.DiscussionPostParent.AccountId
+                    : mInstance.DiscussionThread.Discussion.Account.Id);
+
+                if (ra.Id != ma.Id)
+                {
+                    string replyTo = ma.ActiveEmailAddress;
+                    if (!string.IsNullOrEmpty(replyTo))
+                    {
+                        ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
+                            Session,
+                            new MailAddress(replyTo, ma.Name).ToString(),
+                            string.Format("EmailDiscussionPost.aspx?id={0}", mInstance.Id));
+                    }
+                }
+            }
+            catch (ObjectNotFoundException)
+            {
+                // replying to an account that does not exist
+            }
         }
 
         public override ACL GetACL()

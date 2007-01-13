@@ -19,7 +19,7 @@ namespace SnCore.Web.Soap.Tests.WebEventServiceTests
         private int _place_id = 0;
 
         [SetUp]
-        public void SetUp()
+        public override void SetUp()
         {
             _type_id = _type.Create(GetAdminTicket());
             _schedule_id = _schedule.Create(GetAdminTicket());
@@ -28,7 +28,7 @@ namespace SnCore.Web.Soap.Tests.WebEventServiceTests
         }
 
         [TearDown]
-        public void TearDown()
+        public override void TearDown()
         {
             _place.Delete(GetAdminTicket(), _place_id);
             _place.TearDown();

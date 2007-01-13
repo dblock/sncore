@@ -15,13 +15,13 @@ namespace SnCore.Web.Soap.Tests.WebStoryServiceTests
         int _story_id = 0;
 
         [SetUp]
-        public void SetUp()
+        public override void SetUp()
         {
             _story_id = _story.Create(GetUserTicket());
         }
 
         [TearDown]
-        public void TearDown()
+        public override void TearDown()
         {
             _story.Delete(GetUserTicket(), _story_id);
         }

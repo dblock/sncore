@@ -19,13 +19,13 @@ namespace SnCore.Web.Soap.Tests.WebStatsServiceTests
         }
 
         [SetUp]
-        public void SetUp()
+        public override void SetUp()
         {
             _host_id = _host.Create(GetAdminTicket());
         }
 
         [TearDown]
-        public void TearDown()
+        public override void TearDown()
         {
             _host.Delete(GetAdminTicket(), _host_id);
         }

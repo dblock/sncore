@@ -16,19 +16,21 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
         public int _type_id = 0;
 
         [SetUp]
-        public void SetUp()
+        public override void SetUp()
         {
             _neighborhood.SetUp();
             _neighborhood_id = _neighborhood.Create(GetAdminTicket());
+            _type.SetUp();
             _type_id = _type.Create(GetAdminTicket());
         }
 
         [TearDown]
-        public void TearDown()
+        public override void TearDown()
         {
             _neighborhood.Delete(GetAdminTicket(), _neighborhood_id);
             _neighborhood.TearDown();
             _type.Delete(GetAdminTicket(), _type_id);
+            _type.TearDown();
         }
 
         public PlaceTest()

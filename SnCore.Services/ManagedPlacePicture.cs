@@ -334,5 +334,11 @@ namespace SnCore.Services
             }
             return acl;
         }
+
+        public override void Delete(ManagedSecurityContext sec)
+        {
+            ManagedDiscussion.FindAndDelete(Session, mInstance.Place.Account.Id, ManagedDiscussion.PlacePictureDiscussion, mInstance.Id, sec);
+            base.Delete(sec);
+        }
     }
 }

@@ -63,6 +63,21 @@ namespace SnCore.WebServices
             }
         }
 
+        public static TransitType GetByQuery(string ticket, string sqlquery)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                ManagedType m_type = new ManagedType();
+                IQuery query = session.CreateQuery(sqlquery);
+                DataType instance = query.UniqueResult<DataType>();
+                if (instance == null) throw new ObjectNotFoundException(sqlquery, typeof(DataType));
+                m_type.SetDbObjectInstance(session, instance);
+                return (TransitType)m_type.GetTransitServiceInstance(sec);
+            }
+        }
+
         public static TransitType GetById(string ticket, int id)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))

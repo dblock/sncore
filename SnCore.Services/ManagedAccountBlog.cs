@@ -17,6 +17,7 @@ using System.Xml.XPath;
 using System.Net;
 using Rss;
 using Atom.Core;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {

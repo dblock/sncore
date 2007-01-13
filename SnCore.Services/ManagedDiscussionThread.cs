@@ -116,7 +116,7 @@ namespace SnCore.Services
 
         }
 
-        public List<TransitDiscussionPost> GetPosts(ManagedSecurityContext sec)
+        public List<TransitDiscussionPost> GetDiscussionPosts(ManagedSecurityContext sec)
         {
             List<TransitDiscussionPost> result = new List<TransitDiscussionPost>();
             foreach (DiscussionPost post in Collection<DiscussionPost>.GetSafeCollection(mInstance.DiscussionPosts))
@@ -144,6 +144,22 @@ namespace SnCore.Services
             acl.Add(new ACLEveryoneAllowRetrieve());
             acl.Add(new ACLAuthenticatedAllowCreate());
             return acl;
+        }
+
+        public void Move(ManagedSecurityContext sec, int targetid)
+        {
+            GetACL().Check(sec, DataOperation.Delete | DataOperation.Create);
+
+            if (mInstance.Discussion.DiscussionThreads != null)
+                mInstance.Discussion.DiscussionThreads.Remove(mInstance);
+
+            mInstance.Discussion = (Discussion) Session.Load(
+                typeof(Discussion), targetid);
+
+            if (mInstance.Discussion.DiscussionThreads != null)
+                mInstance.Discussion.DiscussionThreads.Add(mInstance);
+
+            Save(sec);
         }
     }
 }

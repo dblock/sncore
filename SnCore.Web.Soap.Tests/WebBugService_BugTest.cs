@@ -23,7 +23,7 @@ namespace SnCore.Web.Soap.Tests.WebBugServiceTests
         }
 
         [SetUp]
-        public void SetUp()
+        public override void SetUp()
         {
             _priority_id = new BugPriorityTest().Create(GetAdminTicket());
             _severity_id = new BugSeverityTest().Create(GetAdminTicket());
@@ -35,7 +35,7 @@ namespace SnCore.Web.Soap.Tests.WebBugServiceTests
         }
 
         [TearDown]
-        public void TearDown()
+        public override void TearDown()
         {
             new BugProjectTest().Delete(GetAdminTicket(), _project_id);
             new BugPriorityTest().Delete(GetAdminTicket(), _priority_id);

@@ -274,8 +274,9 @@ namespace SnCore.Services
         }
 
         public override void Delete(ManagedSecurityContext sec)
-        {            
+        {           
             base.Delete(sec);
+            ManagedDiscussion.FindAndDelete(Session, mInstance.Account.Id, ManagedDiscussion.AccountStoryDiscussion, mInstance.Id, sec);
             ManagedFeature.Delete(Session, "AccountStory", Id);
             Collection<AccountStory>.GetSafeCollection(mInstance.Account.AccountStories).Remove(mInstance);
         }

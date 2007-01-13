@@ -13,13 +13,13 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationServiceTests
         private int _feedtype_id = 0;
 
         [SetUp]
-        public void SetUp()
+        public override void SetUp()
         {
             _feedtype_id = _feedtype.Create(GetAdminTicket());
         }
 
         [TearDown]
-        public void TearDown()
+        public override void TearDown()
         {
             _feedtype.Delete(GetAdminTicket(), _feedtype_id);
         }

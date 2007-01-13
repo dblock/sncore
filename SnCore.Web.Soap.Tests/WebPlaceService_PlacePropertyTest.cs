@@ -13,13 +13,13 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
         public int _group_id = 0;
 
         [SetUp]
-        public void SetUp()
+        public override void SetUp()
         {
             _group_id = _group.Create(GetAdminTicket());
         }
 
         [TearDown]
-        public void TearDown()
+        public override void TearDown()
         {
             _group.Delete(GetAdminTicket(), _group_id);
         }

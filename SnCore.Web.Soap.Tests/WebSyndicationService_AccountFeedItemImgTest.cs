@@ -14,14 +14,14 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationServiceTests
         private int _accountfeeditem_id = 0;
 
         [SetUp]
-        public void SetUp()
+        public override void SetUp()
         {
             _accountfeeditem.SetUp();
             _accountfeeditem_id = _accountfeeditem.Create(GetUserTicket());
         }
 
         [TearDown]
-        public void TearDown()
+        public override void TearDown()
         {
             _accountfeeditem.Delete(GetUserTicket(), _accountfeeditem_id);
             _accountfeeditem.TearDown();

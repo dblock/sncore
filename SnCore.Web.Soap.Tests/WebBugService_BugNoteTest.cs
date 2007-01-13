@@ -18,14 +18,14 @@ namespace SnCore.Web.Soap.Tests.WebBugServiceTests
         }
 
         [SetUp]
-        public void SetUp()
+        public override void SetUp()
         {
             _bug.SetUp();
             _bug_id = _bug.Create(GetAdminTicket());
         }
 
         [TearDown]
-        public void TearDown()
+        public override void TearDown()
         {
             _bug.Delete(GetAdminTicket(), _bug_id);
             _bug.TearDown();

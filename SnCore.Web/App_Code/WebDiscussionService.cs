@@ -29,16 +29,23 @@ namespace SnCore.WebServices
 
         }
 
-        #region Discussion
+        #region Named Discussions
 
         /// <summary>
         /// Add or get the current user tag discussion.
         /// </summary>
         /// <param name="accountid">account id</param>
         [WebMethod(Description = "Add or get the current user tag discussion.")]
-        public int GetTagDiscussionId(int accountid)
+        public int GetOrCreateAccountTagsDiscussionId(string ticket, int id)
         {
-            return GetDiscussionId(accountid, ManagedDiscussion.AccountTagsDiscussion, 0, true);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                Account instance = (Account)session.Load(typeof(Account), id);
+                return ManagedDiscussion.GetOrCreateDiscussionId(
+                    session, instance.Id, ManagedDiscussion.AccountTagsDiscussion, id, sec);
+            }
         }
 
         /// <summary>
@@ -46,17 +53,16 @@ namespace SnCore.WebServices
         /// </summary>
         /// <param name="pictureid">picture id</param>
         [WebMethod(Description = "Add or get the account picture comment discussion.", CacheDuration = 60)]
-        public int GetAccountPictureDiscussionId(int pictureid)
+        public int GetOrCreateAccountPictureDiscussionId(string ticket, int id)
         {
-            int accountid = 0;
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccountPicture p = new ManagedAccountPicture(session, pictureid);
-                accountid = p.AccountId;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                AccountPicture instance = (AccountPicture)session.Load(typeof(AccountPicture), id);
+                return ManagedDiscussion.GetOrCreateDiscussionId(
+                    session, instance.Account.Id, ManagedDiscussion.AccountPictureDiscussion, id, sec);
             }
-
-            return GetDiscussionId(accountid, ManagedDiscussion.AccountPictureDiscussion, pictureid, true);
         }
 
         /// <summary>
@@ -64,17 +70,16 @@ namespace SnCore.WebServices
         /// </summary>
         /// <param name="eventpictureid">event picture id</param>
         [WebMethod(Description = "Add or get the account event picture comment discussion.", CacheDuration = 60)]
-        public int GetAccountEventPictureDiscussionId(int pictureid)
+        public int GetOrCreateAccountEventPictureDiscussionId(string ticket, int id)
         {
-            int accountid = 0;
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccountEventPicture p = new ManagedAccountEventPicture(session, pictureid);
-                accountid = p.AccountId;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                AccountEventPicture instance = (AccountEventPicture)session.Load(typeof(AccountEventPicture), id);
+                return ManagedDiscussion.GetOrCreateDiscussionId(
+                    session, instance.AccountEvent.Account.Id, ManagedDiscussion.AccountEventPictureDiscussion, id, sec);
             }
-
-            return GetDiscussionId(accountid, ManagedDiscussion.AccountEventPictureDiscussion, pictureid, true);
         }
 
         /// <summary>
@@ -82,36 +87,33 @@ namespace SnCore.WebServices
         /// </summary>
         /// <param name="pictureid">picture id</param>
         [WebMethod(Description = "Add or get the place picture comment discussion.", CacheDuration = 60)]
-        public int GetPlacePictureDiscussionId(int pictureid)
+        public int GetOrCreatePlacePictureDiscussionId(string ticket, int id)
         {
-            int accountid = 0;
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedPlacePicture p = new ManagedPlacePicture(session, pictureid);
-                accountid = p.Place.Account.Id;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                PlacePicture instance = (PlacePicture)session.Load(typeof(PlacePicture), id);
+                return ManagedDiscussion.GetOrCreateDiscussionId(
+                    session, instance.Place.Account.Id, ManagedDiscussion.PlacePictureDiscussion, id, sec);
             }
-
-            return GetDiscussionId(accountid, ManagedDiscussion.PlacePictureDiscussion, pictureid, true);
         }
-
 
         /// <summary>
         /// Add or get the current story picture comment discussion.
         /// </summary>
         /// <param name="pictureid">picture id</param>
         [WebMethod(Description = "Add or get the current story picture comment discussion.", CacheDuration = 60)]
-        public int GetAccountStoryPictureDiscussionId(int pictureid)
+        public int GetOrCreateAccountStoryPictureDiscussionId(string ticket, int id)
         {
-            int accountid = 0;
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccountStoryPicture p = new ManagedAccountStoryPicture(session, pictureid);
-                accountid = p.AccountId;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                AccountStoryPicture instance = (AccountStoryPicture)session.Load(typeof(AccountStoryPicture), id);
+                return ManagedDiscussion.GetOrCreateDiscussionId(
+                    session, instance.AccountStory.Account.Id, ManagedDiscussion.AccountStoryPictureDiscussion, id, sec);
             }
-
-            return GetDiscussionId(accountid, ManagedDiscussion.AccountStoryPictureDiscussion, pictureid, true);
         }
 
         /// <summary>
@@ -119,17 +121,16 @@ namespace SnCore.WebServices
         /// </summary>
         /// <param name="accountid">account id</param>
         [WebMethod(Description = "Add or get the current account story comment discussion.", CacheDuration = 60)]
-        public int GetAccountStoryDiscussionId(int storyid)
+        public int GetOrCreateAccountStoryDiscussionId(string ticket, int id)
         {
-            int accountid = 0;
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccountStory s = new ManagedAccountStory(session, storyid);
-                accountid = s.AccountId;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                AccountStory instance = (AccountStory)session.Load(typeof(AccountStory), id);
+                return ManagedDiscussion.GetOrCreateDiscussionId(
+                    session, instance.Account.Id, ManagedDiscussion.AccountStoryDiscussion, id, sec);
             }
-
-            return GetDiscussionId(accountid, ManagedDiscussion.AccountStoryDiscussion, storyid, true);
         }
 
         /// <summary>
@@ -137,17 +138,16 @@ namespace SnCore.WebServices
         /// </summary>
         /// <param name="placeid">place id</param>
         [WebMethod(Description = "Add or get the place comments discussion.")]
-        public int GetPlaceDiscussionId(int id)
+        public int GetOrCreatePlaceDiscussionId(string ticket, int id)
         {
-            int accountid = 0;
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                Place p = (Place)session.Load(typeof(Place), id);
-                accountid = p.Account.Id;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                Place instance = (Place)session.Load(typeof(Place), id);
+                return ManagedDiscussion.GetOrCreateDiscussionId(
+                    session, instance.Account.Id, ManagedDiscussion.PlaceDiscussion, id, sec);
             }
-
-            return GetDiscussionId(accountid, ManagedDiscussion.PlaceDiscussion, id, true);
         }
 
         /// <summary>
@@ -155,17 +155,16 @@ namespace SnCore.WebServices
         /// </summary>
         /// <param name="eventid">event id</param>
         [WebMethod(Description = "Add or get the account event comment discussion.", CacheDuration = 60)]
-        public int GetAccountEventDiscussionId(int eventid)
+        public int GetOrCreateAccountEventDiscussionId(string ticket, int id)
         {
-            int accountid = 0;
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccountEvent evt = new ManagedAccountEvent(session, eventid);
-                accountid = evt.Account.Id;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                AccountEvent instance = (AccountEvent)session.Load(typeof(AccountEvent), id);
+                return ManagedDiscussion.GetOrCreateDiscussionId(
+                    session, instance.Account.Id, ManagedDiscussion.AccountEventDiscussion, id, sec);
             }
-
-            return GetDiscussionId(accountid, ManagedDiscussion.AccountEventDiscussion, eventid, true);
         }
 
         /// <summary>
@@ -173,17 +172,16 @@ namespace SnCore.WebServices
         /// </summary>
         /// <param name="accountfeeditemid">feed item id</param>
         [WebMethod(Description = "Add or get the feed item discussion.")]
-        public int GetAccountFeedItemDiscussionId(int id)
+        public int GetOrCreateAccountFeedItemDiscussionId(string ticket, int id)
         {
-            int accountid = 0;
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                AccountFeedItem i = (AccountFeedItem)session.Load(typeof(AccountFeedItem), id);
-                accountid = i.AccountFeed.Account.Id;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                AccountFeedItem instance = (AccountFeedItem)session.Load(typeof(AccountFeedItem), id);
+                return ManagedDiscussion.GetOrCreateDiscussionId(
+                    session, instance.AccountFeed.Account.Id, ManagedDiscussion.AccountFeedItemDiscussion, id, sec);
             }
-
-            return GetDiscussionId(accountid, ManagedDiscussion.AccountFeedItemDiscussion, id, true);
         }
 
         /// <summary>
@@ -191,17 +189,16 @@ namespace SnCore.WebServices
         /// </summary>
         /// <param name="accountblogpostid">blog post id</param>
         [WebMethod(Description = "Add or get the blog post discussion.")]
-        public int GetAccountBlogPostDiscussionId(int id)
+        public int GetOrCreateAccountBlogPostDiscussionId(string ticket, int id)
         {
-            int accountid = 0;
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                AccountBlogPost i = (AccountBlogPost)session.Load(typeof(AccountBlogPost), id);
-                accountid = i.AccountBlog.Account.Id;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                AccountBlogPost instance = (AccountBlogPost)session.Load(typeof(AccountBlogPost), id);
+                return ManagedDiscussion.GetOrCreateDiscussionId(
+                    session, instance.AccountBlog.Account.Id, ManagedDiscussion.AccountBlogPostDiscussion, id, sec);
             }
-
-            return GetDiscussionId(accountid, ManagedDiscussion.AccountBlogPostDiscussion, id, true);
         }
 
         /// <summary>
@@ -210,21 +207,25 @@ namespace SnCore.WebServices
         /// <param name="accountid">account id</param>
         /// <param name="name">discussion name</param>
         [WebMethod(Description = "Get a discussion id.")]
-        public int GetDiscussionId(int accountid, string name)
+        public int GetDiscussionId(string ticket, int accountid, string name)
         {
-            return GetDiscussionId(accountid, name, 0, false);
+            return GetDiscussionId(ticket, accountid, name, 0);
         }
 
-        protected int GetDiscussionId(int accountid, string name, int objectid, bool createonerror)
+        protected int GetDiscussionId(string ticket, int accountid, string name, int objectid)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                int result = ManagedDiscussion.GetDiscussionId(session, accountid, name, objectid, createonerror);
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                int result = ManagedDiscussion.GetDiscussionId(session, accountid, name, objectid, sec);
                 return result;
             }
         }
 
+        #endregion
+
+        #region Discussion
 
         /// <summary>
         /// Add a discussion.
@@ -232,32 +233,10 @@ namespace SnCore.WebServices
         /// <param name="ticket">authentication ticket</param>
         /// <param name="discussion">transit discussion</param>
         [WebMethod(Description = "Add a discussion.")]
-        public int AddDiscussion(string ticket, TransitDiscussion discussion)
+        public int CreateOrUpdateDiscussion(string ticket, TransitDiscussion discussion)
         {
-            int id = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount a = new ManagedAccount(session, id);
-
-                if (discussion.AccountId == 0)
-                {
-                    discussion.AccountId = id;
-                }
-
-                if (discussion.AccountId != a.Id && ! a.IsAdministrator())
-                {
-                    // the discussion will belong to the current user
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                discussion.Created = discussion.Modified = DateTime.UtcNow;
-
-                ManagedDiscussion d = new ManagedDiscussion(session);
-                d.Create(discussion);
-                SnCore.Data.Hibernate.Session.Flush();
-                return d.Id;
-            }
+            return WebServiceImpl<TransitDiscussion, ManagedDiscussion, Discussion>.CreateOrUpdate(
+                ticket, discussion);
         }
 
         /// <summary>
@@ -265,29 +244,12 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>list of discussions</returns>
         [WebMethod(Description = "Get all discussions.", CacheDuration = 30)]
-        public List<TransitDiscussion> GetDiscussions(ServiceQueryOptions options)
+        public List<TransitDiscussion> GetDiscussions(string ticket, ServiceQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ICriteria c = session.CreateCriteria(typeof(Discussion))
-                    .Add(Expression.Eq("Personal", false))
-                    .AddOrder(Order.Desc("Modified"));
-
-                if (options != null)
-                {
-                    c.SetFirstResult(options.FirstResult);
-                    c.SetMaxResults(options.PageSize);
-                }
-
-                IList discussions = c.List();
-                List<TransitDiscussion> result = new List<TransitDiscussion>(discussions.Count);
-                foreach (Discussion d in discussions)
-                {
-                    result.Add(new ManagedDiscussion(session, d).TransitDiscussion);
-                }
-                return result;
-            }
+            ICriterion[] expressions = { Expression.Eq("Personal", false) };
+            Order[] orders = { Order.Desc("Modified") };
+            return WebServiceImpl<TransitDiscussion, ManagedDiscussion, Discussion>.GetList(
+                ticket, options, expressions, orders);
         }
 
         /// <summary>
@@ -295,15 +257,10 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>number of account discussions</returns>
         [WebMethod(Description = "Get discussions count.")]
-        public int GetDiscussionsCount()
+        public int GetDiscussionsCount(string ticket)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int) session.CreateQuery(
-                    "SELECT COUNT(*) from Discussion d" +
-                    " WHERE d.Personal = 0").UniqueResult();
-            }
+            return WebServiceImpl<TransitDiscussion, ManagedDiscussion, Discussion>.GetCount(
+                ticket, "WHERE Discussion.Personal = 0");
         }
 
         /// <summary>
@@ -311,31 +268,16 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>list of discussions</returns>
         [WebMethod(Description = "Get account discussions.")]
-        public List<TransitDiscussion> GetAccountDiscussions(string ticket, ServiceQueryOptions options)
+        public List<TransitDiscussion> GetAccountDiscussions(string ticket, int id, ServiceQueryOptions options)
         {
-            int user_id = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            ICriterion[] expressions = 
             {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ICriteria c = session.CreateCriteria(typeof(Discussion))
-                    .Add(Expression.Eq("Personal", false))
-                    .Add(Expression.Eq("Account.Id", user_id));
+                Expression.Eq("Personal", false),
+                Expression.Eq("Account.Id", id)
+            };
 
-                if (options != null)
-                {
-                    c.SetFirstResult(options.FirstResult);
-                    c.SetMaxResults(options.PageSize);
-                }
-
-                IList discussions = c.List();
-
-                List<TransitDiscussion> result = new List<TransitDiscussion>(discussions.Count);
-                foreach (Discussion d in discussions)
-                {
-                    result.Add(new ManagedDiscussion(session, d).TransitDiscussion);
-                }
-                return result;
-            }
+            return WebServiceImpl<TransitDiscussion, ManagedDiscussion, Discussion>.GetList(
+                ticket, options, expressions, null);
         }
 
         /// <summary>
@@ -344,17 +286,10 @@ namespace SnCore.WebServices
         /// <param name="id">account id</param>
         /// <returns>number of account discussions</returns>
         [WebMethod(Description = "Get account discussions count.")]
-        public int GetAccountDiscussionsCount(string ticket)
+        public int GetAccountDiscussionsCount(string ticket, int id)
         {
-            int user_id = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int) session.CreateQuery(
-                    "SELECT COUNT(*) from Discussion d" +
-                    " where d.Account.Id = " + user_id.ToString() +
-                    " and d.Personal = 0").UniqueResult();
-            }
+            return WebServiceImpl<TransitDiscussion, ManagedDiscussion, Discussion>.GetCount(
+                ticket, string.Format("WHERE Discussion.Account.Id = {0} AND Discussion.Personal = 0", id));
         }
 
         /// <summary>
@@ -365,24 +300,8 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete a discussion.")]
         public void DeleteDiscussion(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
-
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                // check permissions: userid must have admin rights to the Accounts table
-                ManagedAccount user = new ManagedAccount(session, userid);
-                ManagedDiscussion m = new ManagedDiscussion(session, id);
-
-                if (m.AccountId != userid && !user.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                m.Delete();
-                session.Flush();
-            }
+            WebServiceImpl<TransitDiscussion, ManagedDiscussion, Discussion>.Delete(
+                ticket, id);
         }
 
         /// <summary>
@@ -391,18 +310,15 @@ namespace SnCore.WebServices
         /// <param name="id">discussion id</param>
         /// <returns></returns>
         [WebMethod(Description = "Get discussion by id.", CacheDuration = 30)]
-        public TransitDiscussion GetDiscussionById(int id)
+        public TransitDiscussion GetDiscussionById(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                return new ManagedDiscussion(session, id).TransitDiscussion;
-            }
+            return WebServiceImpl<TransitDiscussion, ManagedDiscussion, Discussion>.GetById(
+                ticket, id);
         }
 
         #endregion
 
-        #region Discussion Posts
+        #region DiscussionPost
 
         /// <summary>
         /// Get discussion thread posts count.
@@ -412,14 +328,8 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get discussion thread posts count.")]
         public int GetDiscussionThreadPostsCount(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket, 0);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int) session.CreateQuery(string.Format(
-                    "SELECT COUNT(*) FROM DiscussionPost p WHERE p.DiscussionThread.Id = {0}", id))
-                    .UniqueResult();                    
-            }
+            return WebServiceImpl<TransitDiscussionPost, ManagedDiscussionPost, DiscussionPost>.GetCount(
+                ticket, string.Format("WHERE DiscussionThread.Id = {0}", id));
         }
 
         /// <summary>
@@ -430,24 +340,13 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get discussion thread posts.")]
         public List<TransitDiscussionPost> GetDiscussionThreadPosts(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket, 0);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount acct = (userid > 0) ? new ManagedAccount(session, userid) : null;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
 
-                DiscussionThread thread = (DiscussionThread)session.Load(typeof(DiscussionThread), id);
-                ManagedDiscussionThread m_thread = new ManagedDiscussionThread(session, thread);
-                List<TransitDiscussionPost> result = m_thread.GetPosts();
-
-                if (acct != null)
-                {
-                    foreach (TransitDiscussionPost post in result)
-                    {
-                        post.SetPermissions(thread.Discussion, acct);
-                    }
-                }
-                return result;
+                ManagedDiscussionThread m_thread = new ManagedDiscussionThread(session, id);
+                return m_thread.GetDiscussionPosts(sec);
             }
         }
 
@@ -457,42 +356,10 @@ namespace SnCore.WebServices
         /// <param name="ticket">authentication ticket</param>
         /// <param name="post">transit discussion post</param>
         [WebMethod(Description = "Add a discussion post.")]
-        public int AddDiscussionPost(string ticket, TransitDiscussionPost post)
+        public int CreateOrUpdateDiscussionPost(string ticket, TransitDiscussionPost post)
         {
-            int userid = ManagedAccount.GetAccountId(ticket, 0);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount a = new ManagedAccount(session, userid);
-
-                if (!a.HasVerifiedEmail)
-                    throw new ManagedAccount.NoVerifiedEmailException();
-
-                if (post.AccountId == 0) post.AccountId = userid;
-
-                if (post.AccountId != a.Id)
-                {
-                    // the discussion post will belong to the current user
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                int result = 0;
-                if (post.Id > 0)
-                {
-                    DiscussionPost p = (DiscussionPost)session.Load(typeof(DiscussionPost), post.Id);
-                    p.Body = post.Body;
-                    p.Subject = post.Subject;
-                    p.Modified = DateTime.UtcNow;
-                    session.Save(p);
-                }
-                else
-                {
-                    ManagedDiscussion d = new ManagedDiscussion(session, post.DiscussionId);
-                    result = d.CreatePost(post.AccountId, post.DiscussionPostParentId, post.Subject, post.Body);
-                }
-                SnCore.Data.Hibernate.Session.Flush();
-                return result;
-            }
+            return WebServiceImpl<TransitDiscussionPost, ManagedDiscussionPost, DiscussionPost>.CreateOrUpdate(
+                ticket, post);
         }
 
         /// <summary>
@@ -504,22 +371,20 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get discussion post by id.")]
         public TransitDiscussionPost GetDiscussionPostById(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket, 0);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount acct = (userid > 0) ? new ManagedAccount(session, userid) : null;
+            return WebServiceImpl<TransitDiscussionPost, ManagedDiscussionPost, DiscussionPost>.GetById(
+                ticket, id);
+        }
 
-                TransitDiscussionPost post = new ManagedDiscussionPost(session, id).GetTransitDiscussionPost();
-
-                if (acct != null)
-                {
-                    Discussion d = (Discussion)session.Load(typeof(Discussion), post.DiscussionId);
-                    post.SetPermissions(d, acct);
-                }
-
-                return post;
-            }
+        /// <summary>
+        /// Get discussion posts count.
+        /// </summary>
+        /// <param name="id">discussion id</param>
+        /// <returns></returns>
+        [WebMethod(Description = "Get discussion posts count.")]
+        public int GetDiscussionPostsCount(string ticket, int id)
+        {
+            return WebServiceImpl<TransitDiscussionPost, ManagedDiscussionPost, DiscussionPost>.GetCount(
+                ticket, string.Format("WHERE DiscussionPost.DiscussionThread.Discussion.Id = {0}", id));
         }
 
         /// <summary>
@@ -530,39 +395,20 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get discussion posts.")]
         public List<TransitDiscussionPost> GetDiscussionPosts(string ticket, int id, ServiceQueryOptions options)
         {
-            int userid = ManagedAccount.GetAccountId(ticket, 0);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount acct = (userid > 0) ? new ManagedAccount(session, userid) : null;
-
-                Discussion d = (Discussion)session.Load(typeof(Discussion), id);
-                List<TransitDiscussionPost> result = new List<TransitDiscussionPost>(
-                    d.DiscussionThreads != null ? d.DiscussionThreads.Count : 0);
-
-                if (d.DiscussionThreads != null)
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                ManagedDiscussion m_discussion = new ManagedDiscussion(session, id);
+                List<TransitDiscussionPost> result = m_discussion.GetDiscussionPosts(sec);
+                if (options != null)
                 {
-                    foreach (DiscussionThread thread in d.DiscussionThreads)
+                    if (options.FirstResult > 0) result.RemoveRange(0, options.FirstResult);
+                    if (options.PageSize > 0 && result.Count > options.PageSize)
                     {
-                        ManagedDiscussionThread m_thread = new ManagedDiscussionThread(session, thread);
-                        result.AddRange(m_thread.GetPosts());
-                    }
-
-                    if (options != null)
-                    {
-                        if (options.FirstResult > 0) result.RemoveRange(0, options.FirstResult);
-                        if (options.PageSize > 0 && result.Count > options.PageSize) result.RemoveRange(options.PageSize, result.Count - options.PageSize);
-                    }
-
-                    if (acct != null)
-                    {
-                        foreach (TransitDiscussionPost post in result)
-                        {
-                            post.SetPermissions(d, acct);
-                        }
+                        result.RemoveRange(options.PageSize, result.Count - options.PageSize);
                     }
                 }
-
                 return result;
             }
         }
@@ -572,13 +418,10 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns></returns>
         [WebMethod(Description = "Get latest discussion posts.", CacheDuration = 60)]
-        public List<TransitDiscussionPost> GetLatestDiscussionPosts()
+        public List<TransitDiscussionPost> GetLatestDiscussionPosts(string ticket, ServiceQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                IQuery query = session.CreateSQLQuery(
+            return WebServiceImpl<TransitDiscussionPost, ManagedDiscussionPost, DiscussionPost>.GetList(
+                ticket, options,
                     "SELECT {Post.*} FROM DiscussionPost {Post}" +
                     " WHERE Post.DiscussionPost_Id IN ( " +
                     "  SELECT MAX(DiscussionPost_Id) FROM DiscussionPost dp, DiscussionThread dt, Discussion d" +
@@ -588,19 +431,7 @@ namespace SnCore.WebServices
                     "   AND d.Personal = 0" +
                     "   GROUP BY d.Discussion_Id" +
                     " ) ORDER BY Post.Modified DESC",
-                    "Post",
-                    typeof(DiscussionPost));
-
-                IList posts = query.List();
-
-                List<TransitDiscussionPost> result = new List<TransitDiscussionPost>(posts.Count);
-                foreach (DiscussionPost post in posts)
-                {
-                    result.Add(new ManagedDiscussionPost(session, post).GetTransitDiscussionPost());
-                }
-
-                return result;
-            }
+                    "Post");
         }
 
         /// <summary>
@@ -609,33 +440,12 @@ namespace SnCore.WebServices
         /// <param name="id">discussion id</param>
         /// <returns></returns>
         [WebMethod(Description = "Get recent discussion posts.", CacheDuration = 60)]
-        public List<TransitDiscussionPost> GetLatestDiscussionPostsById(int id, ServiceQueryOptions options)
+        public List<TransitDiscussionPost> GetLatestDiscussionPostsById(string ticket, int id, ServiceQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                IQuery query = session.CreateQuery(string.Format(
-                    "from DiscussionPost post" +
-                    " where post.DiscussionThread.Discussion.Id = {0}" +
-                    " order by post.Created desc", id));
-
-                if (options != null)
-                {
-                    if (options.FirstResult > 0) query.SetFirstResult(options.FirstResult);
-                    if (options.PageSize > 0) query.SetMaxResults(options.PageSize);
-                }
-
-                IList posts = query.List();
-
-                List<TransitDiscussionPost> result = new List<TransitDiscussionPost>(posts.Count);
-                foreach (DiscussionPost post in posts)
-                {
-                    result.Add(new ManagedDiscussionPost(session, post).GetTransitDiscussionPost());
-                }
-
-                return result;
-            }
+            return WebServiceImpl<TransitDiscussionPost, ManagedDiscussionPost, DiscussionPost>.GetList(
+                ticket, options, string.Format(
+                    "SELECT DiscussionPost FROM DiscussionPost DiscussionPost WHERE DiscussionPost.DiscussionThread.Discussion.Id = {0}" +
+                    " ORDER BY DiscussionPost.Created DESC", id));
         }
 
         /// <summary>
@@ -646,31 +456,13 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete a discussion post.")]
         public void DeleteDiscussionPost(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
-
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount user = new ManagedAccount(session, userid);
-                ManagedDiscussionPost m = new ManagedDiscussionPost(session, id);
-                Discussion d = (Discussion)session.Load(typeof(Discussion), m.DiscussionId);
-
-                TransitDiscussionPost t_m = m.GetTransitDiscussionPost();
-                t_m.SetPermissions(d, user);
-
-                if (!t_m.CanDelete)
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                m.Delete();
-                session.Flush();
-            }
+            WebServiceImpl<TransitDiscussionPost, ManagedDiscussionPost, DiscussionPost>.Delete(
+                ticket, id);
         }
 
         #endregion
 
-        #region DiscussionThreads
+        #region DiscussionThread
 
         /// <summary>
         /// Get discussion threads count.
@@ -678,34 +470,11 @@ namespace SnCore.WebServices
         /// <param name="id">discussion id</param>
         /// <returns></returns>
         [WebMethod(Description = "Get discussion threads count.")]
-        public int GetDiscussionThreadsCountById(int id)
+        public int GetDiscussionThreadsCount(string ticket)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int) session.CreateQuery(
-                    "SELECT COUNT(*) from DiscussionPost post" +
-                    " where post.DiscussionThread.Discussion.Id = " + id.ToString() +
-                    " and post.DiscussionPostParent is null").UniqueResult();
-            }
-        }
-
-        /// <summary>
-        /// Get discussion threads count.
-        /// </summary>
-        /// <param name="id">discussion id</param>
-        /// <returns></returns>
-        [WebMethod(Description = "Get discussion threads count.")]
-        public int GetDiscussionThreadsCount()
-        {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int) session.CreateQuery(
-                    "SELECT COUNT(*) from DiscussionThread t, Discussion d" +
-                        " WHERE t.Discussion.Id = d.Id " +
-                        " AND d.Personal = 0").UniqueResult();
-            }
+            return WebServiceImpl<TransitDiscussionThread, ManagedDiscussionThread, DiscussionThread>.GetCount(
+                ticket, ", Discussion Discussion WHERE DiscussionThread.Discussion.Id = Discussion.Id " +
+                        " AND Discussion.Personal = 0");
         }
 
         /// <summary>
@@ -715,57 +484,31 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get discussion threads, newest first.")]
         public List<TransitDiscussionPost> GetDiscussionThreads(string ticket, ServiceQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                IQuery query = session.CreateSQLQuery(
+            return WebServiceImpl<TransitDiscussionPost, ManagedDiscussionPost, DiscussionPost>.GetList(
+                ticket, options,
                     "SELECT {Post.*} FROM DiscussionPost {Post}" +
-                    " WHERE Post.DiscussionPost_Id IN ( " +
-                    " SELECT MAX(DiscussionPost_Id) FROM DiscussionPost dp, DiscussionThread dt, Discussion d" + 
-                    "  WHERE dp.DiscussionThread_Id = dt.DiscussionThread_Id" + 
-                    "  AND d.Discussion_Id = dt.Discussion_Id" + 
-                    "  AND d.Personal = 0" +
-                    "  GROUP BY dt.DiscussionThread_Id" + 
-                    " ) ORDER BY Post.Modified DESC",
-                    "Post",
-                    typeof(DiscussionPost));
-
-                if (options != null)
-                {
-                    query.SetMaxResults(options.PageSize);
-                    query.SetFirstResult(options.FirstResult);
-                }
-
-                IList posts = query.List();
-
-                List<TransitDiscussionPost> result = new List<TransitDiscussionPost>(posts.Count);
-                foreach (DiscussionPost p in posts)
-                {
-                    TransitDiscussionPost post = new ManagedDiscussionPost(session, p).GetTransitDiscussionPost();
-                    result.Add(post);
-                }
-
-                return result;
-            }
+                        " WHERE Post.DiscussionPost_Id IN ( " +
+                        " SELECT MAX(DiscussionPost_Id) FROM DiscussionPost dp, DiscussionThread dt, Discussion d" +
+                        "  WHERE dp.DiscussionThread_Id = dt.DiscussionThread_Id" +
+                        "  AND d.Discussion_Id = dt.Discussion_Id" +
+                        "  AND d.Personal = 0" +
+                        "  GROUP BY dt.DiscussionThread_Id" +
+                        " ) ORDER BY Post.Modified DESC",
+                    "Post");
         }
 
         /// <summary>
         /// Get top of discussion threads count.
         /// </summary>
         [WebMethod(Description = "Get top of discussion threads count.")]
-        public int GetDiscussionTopOfThreadsCount()
+        public int GetDiscussionTopOfThreadsCount(string ticket)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                return (int) session.CreateQuery(
-                    "SELECT COUNT(*) FROM DiscussionPost Post, DiscussionThread Thread, Discussion Discussion" +
-                    " WHERE Post.DiscussionThread.Id = Thread.Id" +
-                    " AND Thread.Discussion.Id = Discussion.Id" +
-                    " AND Post.DiscussionPostParent IS NULL" +
-                    " AND Discussion.Personal = 0").UniqueResult();
-            }
+            return WebServiceImpl<TransitDiscussionPost, ManagedDiscussionPost, DiscussionPost>.GetCount(
+                ticket, ", DiscussionThread DiscussionThread, Discussion Discussion" +
+                    " WHERE DiscussionPost.DiscussionThread.Id = DiscussionThread.Id" +
+                    " AND DiscussionThread.Discussion.Id = Discussion.Id" +
+                    " AND DiscussionPost.DiscussionPostParent IS NULL" +
+                    " AND Discussion.Personal = 0");
         }
 
         /// <summary>
@@ -774,39 +517,28 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get top of discussion threads.")]
         public List<TransitDiscussionPost> GetDiscussionTopOfThreads(string ticket, ServiceQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-
-                IQuery query = session.CreateSQLQuery(
+            return WebServiceImpl<TransitDiscussionPost, ManagedDiscussionPost, DiscussionPost>.GetList(
+                ticket, options,
                     "SELECT {Post.*} FROM DiscussionPost {Post}, DiscussionThread Thread, Discussion Discussion" +
-                    " WHERE Post.DiscussionThread_Id = Thread.DiscussionThread_Id" +
-                    " AND Thread.Discussion_Id = Discussion.Discussion_Id" +
-                    " AND Post.DiscussionPostParent_Id IS NULL" +
-                    " AND Discussion.Personal = 0" +
-                    " ORDER BY Thread.Modified DESC",
-                    "Post",
-                    typeof(DiscussionPost));
+                        " WHERE Post.DiscussionThread_Id = Thread.DiscussionThread_Id" +
+                        " AND Thread.Discussion_Id = Discussion.Discussion_Id" +
+                        " AND Post.DiscussionPostParent_Id IS NULL" +
+                        " AND Discussion.Personal = 0" +
+                        " ORDER BY Thread.Modified DESC",
+                    "Post");
+        }
 
-                if (options != null)
-                {
-                    query.SetMaxResults(options.PageSize);
-                    query.SetFirstResult(options.FirstResult);
-                }
-
-                IList posts = query.List();
-
-                List<TransitDiscussionPost> result = new List<TransitDiscussionPost>();
-                if (posts != null)
-                {
-                    foreach (DiscussionPost p in posts)
-                    {
-                        TransitDiscussionPost post = new ManagedDiscussionPost(session, p).GetTransitDiscussionPost();
-                        result.Add(post);
-                    }
-                }
-                return result;
-            }
+        /// <summary>
+        /// Get discussion threads count.
+        /// </summary>
+        /// <param name="id">discussion id</param>
+        /// <returns></returns>
+        [WebMethod(Description = "Get discussion threads count.")]
+        public int GetDiscussionThreadsCountByDiscussionId(string ticket, int id)
+        {
+            return WebServiceImpl<TransitDiscussionThread, ManagedDiscussionThread, DiscussionThread>.GetCount(
+                ticket, string.Format("WHERE DiscussionPost.DiscussionThread.Discussion.Id = {0}" +
+                    " AND DiscussionPost.DiscussionPostParent IS NULL", id));
         }
 
         /// <summary>
@@ -815,51 +547,17 @@ namespace SnCore.WebServices
         /// <param name="id">discussion id</param>
         /// <returns></returns>
         [WebMethod(Description = "Get discussion threads.")]
-        public List<TransitDiscussionPost> GetDiscussionThreadsById(string ticket, int id, ServiceQueryOptions options)
+        public List<TransitDiscussionPost> GetDiscussionThreadsByDiscussionId(string ticket, int id, ServiceQueryOptions options)
         {
-            int userid = ManagedAccount.GetAccountId(ticket, 0);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount acct = (userid > 0) ? new ManagedAccount(session, userid) : null;
-
-                Discussion d = (Discussion)session.Load(typeof(Discussion), id);
-
-                IQuery query = session.CreateSQLQuery(
+            return WebServiceImpl<TransitDiscussionPost, ManagedDiscussionPost, DiscussionPost>.GetList(
+                ticket, options,
                     "SELECT {Post.*} FROM DiscussionPost {Post}, DiscussionThread Thread, Discussion Discussion" +
-                    " WHERE Post.DiscussionThread_Id = Thread.DiscussionThread_Id" +
-                    " AND Thread.Discussion_Id = Discussion.Discussion_Id" +
-                    " AND Discussion.Discussion_Id = " + id.ToString() +
-                    " AND Post.DiscussionPostParent_Id IS NULL" +
-                    " ORDER BY Thread.Modified DESC",
-                    "Post",
-                    typeof(DiscussionPost));
-
-                if (options != null)
-                {
-                    query.SetMaxResults(options.PageSize);
-                    query.SetFirstResult(options.FirstResult);
-                }
-
-                IList posts = query.List();
-
-                List<TransitDiscussionPost> result = new List<TransitDiscussionPost>();
-                if (posts != null)
-                {
-                    foreach (DiscussionPost p in posts)
-                    {
-                        TransitDiscussionPost post = new ManagedDiscussionPost(session, p).GetTransitDiscussionPost();
-
-                        if (acct != null)
-                        {
-                            post.SetPermissions(d, acct);
-                        }
-
-                        result.Add(post);
-                    }
-                }
-                return result;
-            }
+                        " WHERE Post.DiscussionThread_Id = Thread.DiscussionThread_Id" +
+                        " AND Thread.Discussion_Id = Discussion.Discussion_Id" +
+                        " AND Discussion.Discussion_Id = " + id.ToString() +
+                        " AND Post.DiscussionPostParent_Id IS NULL" +
+                        " ORDER BY Thread.Modified DESC",
+                        "Post");
         }
 
         /// <summary>
@@ -870,31 +568,10 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get discussion thread parent post.")]
         public TransitDiscussionPost GetDiscussionThreadPost(string ticket, int id)
         {
-            int userid = ManagedAccount.GetAccountId(ticket, 0);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount acct = (userid > 0) ? new ManagedAccount(session, userid) : null;
-
-                DiscussionPost post = (DiscussionPost) session.CreateQuery(
-                    "from DiscussionPost post" +
-                    " where post.DiscussionThread.Id = " + id.ToString() +
-                    " and post.DiscussionPostParent is null").UniqueResult();
-
-                if (post == null)
-                    return null;
-
-                TransitDiscussionPost result = new ManagedDiscussionPost(session, post).GetTransitDiscussionPost();
-
-                if (acct != null)
-                {
-                    result.SetPermissions(
-                        post.DiscussionThread.Discussion, 
-                        acct);
-                }
-
-                return result;
-            }
+            return WebServiceImpl<TransitDiscussionPost, ManagedDiscussionPost, DiscussionPost>.GetByQuery(
+                ticket, "FROM DiscussionPost DiscussionPost" +
+                    " WHERE DiscussionPost.DiscussionThread.Id = " + id.ToString() +
+                    " AND DiscussionPost.DiscussionPostParent IS NULL");
         }
 
         /// <summary>
@@ -902,14 +579,22 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns></returns>
         [WebMethod(Description = "Get discussion threads count.", CacheDuration = 60)]
-        public int GetUserDiscussionThreadsCount(DiscussionQueryOptions queryoptions)
+        public int GetUserDiscussionThreadsCount(string ticket, DiscussionQueryOptions qopt)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                IQuery query = session.CreateQuery(queryoptions.CountQuery);
-                return (int) query.UniqueResult();
-            }
+            return WebServiceImpl<TransitDiscussionPost, ManagedDiscussionPost, DiscussionPost>.GetCount(
+                ticket, qopt.CountQuery);
+        }
+
+        /// <summary>
+        /// Get discussion threads that a user participates in.
+        /// </summary>
+        /// <returns></returns>
+        [WebMethod(Description = "Get discussion threads that a user participates in.", CacheDuration = 60)]
+        public List<TransitDiscussionPost> GetUserDiscussionThreads(
+            string ticket, DiscussionQueryOptions qopt, ServiceQueryOptions options)
+        {
+            return WebServiceImpl<TransitDiscussionPost, ManagedDiscussionPost, DiscussionPost>.GetList(
+                ticket, options, qopt.SelectQuery);
         }
 
         /// <summary>
@@ -922,64 +607,13 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Move a discussion thread.", CacheDuration = 60)]
         public void MoveDiscussionThread(string ticket, int threadid, int targetid)
         {
-            int userid = ManagedAccount.GetAccountId(ticket, 0);
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount acct = new ManagedAccount(session, userid);
-
-                if (!acct.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                DiscussionThread thread = (DiscussionThread) session.Load(
-                    typeof(DiscussionThread), threadid);
-
-                if (thread.Discussion.DiscussionThreads != null)
-                    thread.Discussion.DiscussionThreads.Remove(thread);
-
-                thread.Discussion = (Discussion) session.Load(
-                    typeof(Discussion), targetid);
-
-                if (thread.Discussion.DiscussionThreads != null)
-                    thread.Discussion.DiscussionThreads.Add(thread);
-
-                session.Save(thread);
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                ManagedDiscussionThread thread = new ManagedDiscussionThread(session, threadid);
+                thread.Move(sec, targetid);
                 SnCore.Data.Hibernate.Session.Flush();
-            }
-        }
-
-
-        /// <summary>
-        /// Get discussion threads that a user participates in.
-        /// </summary>
-        /// <returns></returns>
-        [WebMethod(Description = "Get discussion threads that a user participates in.", CacheDuration = 60)]
-        public List<TransitDiscussionPost> GetUserDiscussionThreads(
-            DiscussionQueryOptions queryoptions, ServiceQueryOptions options)
-        {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                IQuery query = session.CreateQuery(queryoptions.SelectQuery);
-
-                if (options != null)
-                {
-                    query.SetMaxResults(options.PageSize);
-                    query.SetFirstResult(options.FirstResult);
-                }
-
-                IList posts = query.List();
-
-                List<TransitDiscussionPost> result = new List<TransitDiscussionPost>(posts.Count);
-                foreach (DiscussionPost post in posts)
-                {
-                    TransitDiscussionPost p = new ManagedDiscussionPost(session, post).GetTransitDiscussionPost();
-                    result.Add(p);
-                }
-
-                return result;
             }
         }
 
@@ -992,13 +626,8 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get discussion thread by id.")]
         public TransitDiscussionThread GetDiscussionThreadById(string ticket, int id)
         {
-            // int userid = ManagedAccount.GetAccountId(ticket, 0);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                DiscussionThread t = (DiscussionThread)session.Load(typeof(DiscussionThread), id);
-                return new TransitDiscussionThread(t);
-            }
+            return WebServiceImpl<TransitDiscussionThread, ManagedDiscussionThread, DiscussionThread>.GetById(
+                ticket, id);
         }
 
         #endregion
@@ -1063,7 +692,7 @@ namespace SnCore.WebServices
         /// Get the built-in name for a testimonials discussion.
         /// </summary>
         [WebMethod(Description = "Get the built-in name for a testimonials discussion.")]
-        public string GetAccountTestimonialsDiscussionName()
+        public string GetAccountTagsDiscussionName()
         {
             return ManagedDiscussion.AccountTagsDiscussion;
         }
@@ -1081,7 +710,7 @@ namespace SnCore.WebServices
         /// Get the built-in name for a feed item discussion.
         /// </summary>
         [WebMethod(Description = "Get the built-in name for a feed item discussion.")]
-        public string GetAcountFeedItemDiscussionName()
+        public string GetAccountFeedItemDiscussionName()
         {
             return ManagedDiscussion.AccountFeedItemDiscussion;
         }
@@ -1090,7 +719,7 @@ namespace SnCore.WebServices
         /// Get the built-in name for a blog post discussion.
         /// </summary>
         [WebMethod(Description = "Get the built-in name for a blog post discussion.")]
-        public string GetAcountBlogPostDiscussionName()
+        public string GetAccountBlogPostDiscussionName()
         {
             return ManagedDiscussion.AccountBlogPostDiscussion;
         }
@@ -1099,50 +728,30 @@ namespace SnCore.WebServices
 
         #region Search
 
-        protected IList InternalSearchDiscussionPosts(ISession session, string s, ServiceQueryOptions options)
-        {
-            int maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
-            IQuery query = session.CreateSQLQuery(
-                    "SELECT {DiscussionPost.*} FROM DiscussionPost {DiscussionPost}" +
-                    " INNER JOIN FREETEXTTABLE(DiscussionPost, ([Subject], [Body]), '" + Renderer.SqlEncode(s) + "', " +
-                        maxsearchresults.ToString() + ") AS ft " +
-                    " ON DiscussionPost.DiscussionPost_Id = ft.[KEY] " +
-                    " ORDER BY ft.[RANK] DESC",
-                    "DiscussionPost",
-                    typeof(DiscussionPost));
-
-            if (options != null)
-            {
-                query.SetFirstResult(options.FirstResult);
-                query.SetMaxResults(options.PageSize);
-            }
-
-            return query.List();
-        }
-
         /// <summary>
         /// Search all discussion posts.
         /// </summary>
         /// <returns>discussion posts that match free text</returns>
         [WebMethod(Description = "Search discussion posts.", CacheDuration = 60)]
-        public List<TransitDiscussionPost> SearchDiscussionPosts(string s, ServiceQueryOptions options)
+        public List<TransitDiscussionPost> SearchDiscussionPosts(string ticket, string s, ServiceQueryOptions options)
         {
             if (string.IsNullOrEmpty(s))
                 return new List<TransitDiscussionPost>();
 
+            int maxsearchresults = 128;
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                IList posts = InternalSearchDiscussionPosts(session, s, options);
-
-                List<TransitDiscussionPost> result = new List<TransitDiscussionPost>(posts.Count);
-                foreach (DiscussionPost post in posts)
-                {
-                    result.Add(new ManagedDiscussionPost(session, post).GetTransitDiscussionPost());
-                }
-
-                return result;
+                maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
             }
+
+            return WebServiceImpl<TransitDiscussionPost, ManagedDiscussionPost, DiscussionPost>.GetList(
+                ticket, options, "SELECT {DiscussionPost.*} FROM DiscussionPost {DiscussionPost}" +
+                    " INNER JOIN FREETEXTTABLE(DiscussionPost, ([Subject], [Body]), '" + Renderer.SqlEncode(s) + "', " +
+                        maxsearchresults.ToString() + ") AS ft " +
+                    " ON DiscussionPost.DiscussionPost_Id = ft.[KEY] " +
+                    " ORDER BY ft.[RANK] DESC",
+                    "DiscussionPost");
         }
 
         /// <summary>
@@ -1150,40 +759,12 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>number of discussion posts</returns>
         [WebMethod(Description = "Return the number of discussion posts matching a query.", CacheDuration = 60)]
-        public int SearchDiscussionPostsCount(string s)
+        public int SearchDiscussionPostsCount(string ticket, string s)
         {
             if (string.IsNullOrEmpty(s))
                 return 0;
 
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                return InternalSearchDiscussionPosts(session, s, null).Count;
-            }
-        }
-
-        protected IList InternalSearchDiscussionPostsById(ISession session, int id, string s, ServiceQueryOptions options)
-        {
-            int maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
-            IQuery query = session.CreateSQLQuery(
-                    "SELECT {DiscussionPost.*} FROM DiscussionThread t, Discussion d, DiscussionPost {DiscussionPost}" +
-                    " INNER JOIN FREETEXTTABLE(DiscussionPost, ([Subject], [Body]), '" + Renderer.SqlEncode(s) + "', " +
-                        maxsearchresults.ToString() + ") AS ft " +
-                    " ON DiscussionPost.DiscussionPost_Id = ft.[KEY] " +
-                    " WHERE t.Discussion_Id = d.Discussion_Id" +
-                    " AND t.DiscussionThread_Id = DiscussionPost.DiscussionThread_Id" +
-                    " AND d.Discussion_Id = " + id.ToString() +
-                    " ORDER BY ft.[RANK] DESC",
-                    "DiscussionPost",
-                    typeof(DiscussionPost));
-
-            if (options != null)
-            {
-                query.SetFirstResult(options.FirstResult);
-                query.SetMaxResults(options.PageSize);
-            }
-
-            return query.List();
+            return SearchDiscussionPosts(ticket, s, null).Count;
         }
 
         /// <summary>
@@ -1191,24 +772,28 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>discussion posts that match free text</returns>
         [WebMethod(Description = "Search discussion posts in a discussion.", CacheDuration = 60)]
-        public List<TransitDiscussionPost> SearchDiscussionPostsById(int id, string s, ServiceQueryOptions options)
+        public List<TransitDiscussionPost> SearchDiscussionPostsById(string ticket, int id, string s, ServiceQueryOptions options)
         {
             if (string.IsNullOrEmpty(s))
                 return new List<TransitDiscussionPost>();
 
+            int maxsearchresults = 128;
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                IList posts = InternalSearchDiscussionPostsById(session, id, s, options);
-
-                List<TransitDiscussionPost> result = new List<TransitDiscussionPost>(posts.Count);
-                foreach (DiscussionPost post in posts)
-                {
-                    result.Add(new ManagedDiscussionPost(session, post).GetTransitDiscussionPost());
-                }
-
-                return result;
+                maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
             }
+
+            return WebServiceImpl<TransitDiscussionPost, ManagedDiscussionPost, DiscussionPost>.GetList(
+                ticket, options, "SELECT {DiscussionPost.*} FROM DiscussionThread t, Discussion d, DiscussionPost {DiscussionPost}" +
+                    " INNER JOIN FREETEXTTABLE(DiscussionPost, ([Subject], [Body]), '" + Renderer.SqlEncode(s) + "', " +
+                        maxsearchresults.ToString() + ") AS ft " +
+                    " ON DiscussionPost.DiscussionPost_Id = ft.[KEY] " +
+                    " WHERE t.Discussion_Id = d.Discussion_Id" +
+                    " AND t.DiscussionThread_Id = DiscussionPost.DiscussionThread_Id" +
+                    " AND d.Discussion_Id = " + id.ToString() +
+                    " ORDER BY ft.[RANK] DESC",
+                    "DiscussionPost");
         }
 
         /// <summary>
@@ -1216,16 +801,12 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>number of discussion posts</returns>
         [WebMethod(Description = "Return the number of discussion posts matching a query in a discussion.", CacheDuration = 60)]
-        public int SearchDiscussionPostsByIdCount(int id, string s)
+        public int SearchDiscussionPostsByIdCount(string ticket, int id, string s)
         {
             if (string.IsNullOrEmpty(s))
                 return 0;
 
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                return InternalSearchDiscussionPostsById(session, id, s, null).Count;
-            }
+            return SearchDiscussionPostsById(ticket, id, s, null).Count;
         }
 
         #endregion

@@ -15,7 +15,7 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
         private int _place_id = 0;
 
         [SetUp]
-        public void SetUp()
+        public override void SetUp()
         {
             _place.SetUp();
             _place_id = _place.Create(GetAdminTicket());
@@ -23,7 +23,7 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
         }
 
         [TearDown]
-        public void TearDown()
+        public override void TearDown()
         {
             _place.Delete(GetAdminTicket(), _place_id);
             _queue.Delete(GetAdminTicket(), _queue_id);
