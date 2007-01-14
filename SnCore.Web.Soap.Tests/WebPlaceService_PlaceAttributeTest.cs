@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
 using System.Web.Services.Protocols;
-using SnCore.Web.Soap.Tests.WebSystemServiceTests;
+using SnCore.Web.Soap.Tests.WebObjectServiceTests;
 
 namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
 {

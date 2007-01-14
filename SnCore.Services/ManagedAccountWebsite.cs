@@ -113,6 +113,11 @@ namespace SnCore.Services
             }
         }
 
+        public ManagedAccountWebsite()
+        {
+
+        }
+
         public ManagedAccountWebsite(ISession session)
             : base(session)
         {

@@ -4,10 +4,10 @@ using System.Text;
 using NUnit.Framework;
 using System.Web.Services.Protocols;
 
-namespace SnCore.Web.Soap.Tests.WebSystemServiceTests
+namespace SnCore.Web.Soap.Tests.WebObjectServiceTests
 {
     [TestFixture]
-    public class AttributeTest : WebServiceTest<WebSystemService.TransitAttribute, WebSystemServiceNoCache>
+    public class AttributeTest : WebServiceTest<WebObjectService.TransitAttribute, WebObjectServiceNoCache>
     {
         public AttributeTest()
             : base("Attribute")
@@ -15,9 +15,9 @@ namespace SnCore.Web.Soap.Tests.WebSystemServiceTests
         }
 
 
-        public override WebSystemService.TransitAttribute GetTransitInstance()
+        public override WebObjectService.TransitAttribute GetTransitInstance()
         {
-            WebSystemService.TransitAttribute t_instance = new WebSystemService.TransitAttribute();
+            WebObjectService.TransitAttribute t_instance = new WebObjectService.TransitAttribute();
             t_instance.Name = Guid.NewGuid().ToString();
             t_instance.DefaultUrl = string.Format("http://uri/{0}", Guid.NewGuid());
             t_instance.DefaultValue = Guid.NewGuid().ToString();

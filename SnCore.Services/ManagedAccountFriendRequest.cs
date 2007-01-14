@@ -207,7 +207,7 @@ namespace SnCore.Services
             if (message != null && message.Length > 0)
             {
                 ManagedAccount recepient = new ManagedAccount(Session, requester);
-                string sentto = recepient.ActiveEmailAddress;
+                string sentto = recepient.GetActiveEmailAddress(sec);
                 if (sentto != null)
                 {
                     ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
@@ -240,7 +240,7 @@ namespace SnCore.Services
             Session.Save(friend);
 
             ManagedAccount recepient = new ManagedAccount(Session, friend.Account);
-            string sentto = recepient.ActiveEmailAddress;
+            string sentto = recepient.GetActiveEmailAddress(sec);
             if (sentto != null)
             {
                 ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(

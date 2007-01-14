@@ -10,12 +10,13 @@ using NHibernate.Cfg;
 using System.Collections.Generic;
 using System.Web.Hosting;
 using SnCore.Tools.Web;
+using SnCore.Services;
 
 namespace SnCore.BackEndServices
 {
     public abstract class SystemService
     {
-        public delegate void SessionJobDelegate(ISession session);
+        public delegate void SessionJobDelegate(ISession session, ManagedSecurityContext sec);
         private int mInterruptInterval = 1;
         private int mSleepInterval = 60;
         private Thread mThread = null;
@@ -162,7 +163,7 @@ namespace SnCore.BackEndServices
 
             try
             {
-                job(session);
+                job(session, ManagedAccount.GetAdminSecurityContext(session));
                 session.Flush();
             }
             finally

@@ -59,5 +59,8 @@
     <Setting Name="SnCore_Web_Soap_Tests_WebDiscussionService_WebDiscussionService" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://dblock-black.orangebitch.com/SnCoreWeb/WebDiscussionService.asmx</Value>
     </Setting>
+    <Setting Name="SnCore_Web_Soap_Tests_WebObjectService_WebObjectService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://dblock-black.orangebitch.com/SnCoreWeb/WebObjectService.asmx</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

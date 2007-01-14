@@ -93,6 +93,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\WebObjectService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\WebPlaceService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -129,9 +134,16 @@
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
     <Compile Include="WebAccountServiceTest.cs" />
+    <Compile Include="WebAccountService_AccountAddressTest.cs" />
     <Compile Include="WebAccountService_AccountEmailConfirmationTest.cs" />
     <Compile Include="WebAccountService_AccountEmailTest.cs" />
     <Compile Include="WebAccountService_AccountInvitationTest.cs" />
+    <Compile Include="WebAccountService_AccountMessageFolderTest.cs" />
+    <Compile Include="WebAccountService_AccountMessageTest.cs" />
+    <Compile Include="WebAccountService_AccountOpenIdTest.cs" />
+    <Compile Include="WebAccountService_AccountPictureTest.cs" />
+    <Compile Include="WebAccountService_AccountSurveyAnswerTest.cs" />
+    <Compile Include="WebAccountService_AccountWebsiteTest.cs" />
     <Compile Include="WebAccountService_AdminTest.cs" />
     <Compile Include="WebAccountService_BetaTest.cs" />
     <Compile Include="WebAccountService_AccountTest.cs" />
@@ -155,6 +167,22 @@
     <Compile Include="WebMarketingService_CampaignTest.cs" />
     <Compile Include="WebMarketingServiceTest.cs" />
     <Compile Include="WebMarketingService_CampaignAccountRecepientTest.cs" />
+    <Compile Include="WebObjectServiceTest.cs" />
+    <Compile Include="WebAccountService_AccountAttributeTest.cs" />
+    <Compile Include="WebAccountService_AccountPropertyGroupTest.cs" />
+    <Compile Include="WebAccountService_AccountPropertyTest.cs" />
+    <Compile Include="WebAccountService_AccountPropertyValueTest.cs" />
+    <Compile Include="WebAccountService_AccountRedirectTest.cs" />
+    <Compile Include="WebObjectService_BookmarkTest.cs" />
+    <Compile Include="WebObjectService_DataObjectTest.cs" />
+    <Compile Include="WebObjectService_FeatureTest.cs" />
+    <Compile Include="WebObjectService_PictureTest.cs" />
+    <Compile Include="WebObjectService_PictureTypeTest.cs" />
+    <Compile Include="WebObjectService_ReminderAccountPropertyTest.cs" />
+    <Compile Include="WebObjectService_ReminderEventTest.cs" />
+    <Compile Include="WebObjectService_ReminderTest.cs" />
+    <Compile Include="WebObjectService_SurveyTest.cs" />
+    <Compile Include="WebObjectService_SurveyQuestionTest.cs" />
     <Compile Include="WebPlaceServiceTest.cs" />
     <Compile Include="WebPlaceService_AccountPlaceFavoriteTest.cs" />
     <Compile Include="WebPlaceService_AccountPlaceRequestTest.cs" />
@@ -217,9 +245,9 @@
     <Compile Include="WebSyndicationService_AccountFeedTest.cs" />
     <Compile Include="WebSyndicationService_FeedTypeTest.cs" />
     <Compile Include="WebSystemServiceTest.cs" />
-    <Compile Include="WebSystemService_AttributeTest.cs" />
+    <Compile Include="WebObjectService_AttributeTest.cs" />
     <Compile Include="WebSystemService_ConfigurationTest.cs" />
-    <Compile Include="WebSystemService_ScheduleTest.cs" />
+    <Compile Include="WebObjectService_ScheduleTest.cs" />
     <Compile Include="WebTagWordServiceTest.cs" />
     <Compile Include="WebTagWordService_TagWordTest.cs" />
   </ItemGroup>
@@ -336,6 +364,17 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebMarketingService_WebMarketingService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebObjectService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WebObjectService\</RelPath>
+      <UpdateFromURL>http://dblock-black.orangebitch.com/SnCoreWeb/WebObjectService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebObjectService_WebObjectService</CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebPlaceService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
@@ -689,9 +728,6 @@
     </None>
     <None Include="Web References\WebEventService\WebEventService.disco" />
     <None Include="Web References\WebPlaceService\WebPlaceService.wsdl" />
-    <None Include="Web References\WebSystemService\TransitSchedule.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="Web References\WebDiscussionService\WebDiscussionService.wsdl" />
@@ -751,11 +787,11 @@
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\WebPlaceService\WebPlaceService.disco" />
-    <None Include="Web References\WebSystemService\TransitAttribute.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Web References\WebAccountService\TransitAccountActivity.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
     <None Include="Web References\WebAccountService\TransitAccountEmail.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
@@ -763,6 +799,9 @@
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\WebAccountService\TransitAccountInvitation.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebAccountService\TransitAccountOpenId.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\WebAccountService\TransitOpenIdRedirect.datasource">
@@ -782,6 +821,83 @@
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\WebDiscussionService\WebDiscussionService.disco" />
+    <None Include="Web References\WebObjectService\WebObjectService.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\WebAccountService\TransitAccountAddress.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebAccountService\TransitAccountAttribute.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebAccountService\TransitAccountMessage.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebAccountService\TransitAccountMessageFolder.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebAccountService\TransitAccountPicture.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebAccountService\TransitAccountProperty.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebAccountService\TransitAccountPropertyGroup.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebAccountService\TransitAccountPropertyValue.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebAccountService\TransitAccountRedirect.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebAccountService\TransitAccountSurveyAnswer.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebAccountService\TransitAccountWebsite.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebObjectService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\WebObjectService\TransitAttribute.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebObjectService\TransitBookmark.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebObjectService\TransitDataObject.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebObjectService\TransitFeature.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebObjectService\TransitPicture.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebObjectService\TransitPictureType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebObjectService\TransitReminder.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebObjectService\TransitReminderAccountProperty.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebObjectService\TransitReminderEvent.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebObjectService\TransitSchedule.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebObjectService\TransitSurvey.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebObjectService\TransitSurveyQuestion.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebObjectService\WebObjectService.disco" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

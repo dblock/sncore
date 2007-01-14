@@ -197,7 +197,7 @@ namespace SnCore.Services
             GetACL().Check(sec, DataOperation.Delete);
 
             ManagedAccount recepient = new ManagedAccount(Session, mInstance.Account);
-            string sentto = recepient.ActiveEmailAddress;
+            string sentto = recepient.GetActiveEmailAddress(sec);
             if (sentto != null)
             {
                 ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
@@ -231,7 +231,7 @@ namespace SnCore.Services
             mInstance.Place.AccountPlaces.Add(place);
 
             ManagedAccount recepient = new ManagedAccount(Session, mInstance.Account);
-            string sentto = recepient.ActiveEmailAddress;
+            string sentto = recepient.GetActiveEmailAddress(sec);
             if (sentto != null)
             {
                 ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
@@ -297,12 +297,12 @@ namespace SnCore.Services
                 {
                     ManagedAccount acct = new ManagedAccount(Session, place.Account);
 
-                    if (!acct.HasVerifiedEmail)
+                    if (!acct.HasVerifiedEmail(sec))
                         continue;
 
                     ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
                         Session,
-                        new MailAddress(acct.ActiveEmailAddress, acct.Name).ToString(),
+                        new MailAddress(acct.GetActiveEmailAddress(sec), acct.Name).ToString(),
                         string.Format("EmailAccountPlaceRequest.aspx?id={0}", id));
                 }
             }

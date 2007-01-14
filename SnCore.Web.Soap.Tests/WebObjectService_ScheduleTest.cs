@@ -4,22 +4,22 @@ using System.Text;
 using NUnit.Framework;
 using System.Web.Services.Protocols;
 
-namespace SnCore.Web.Soap.Tests.WebSystemServiceTests
+namespace SnCore.Web.Soap.Tests.WebObjectServiceTests
 {
     [TestFixture]
-    public class ScheduleTest : WebServiceTest<WebSystemService.TransitSchedule, WebSystemServiceNoCache>
+    public class ScheduleTest : WebServiceTest<WebObjectService.TransitSchedule, WebObjectServiceNoCache>
     {
         public ScheduleTest()
             : base("Schedule")
         {
         }
 
-        public override WebSystemService.TransitSchedule GetTransitInstance()
+        public override WebObjectService.TransitSchedule GetTransitInstance()
         {
-            WebSystemService.TransitSchedule t_instance = new WebSystemService.TransitSchedule();
+            WebObjectService.TransitSchedule t_instance = new WebObjectService.TransitSchedule();
             t_instance.StartDateTime = DateTime.UtcNow;
             t_instance.EndDateTime = DateTime.UtcNow.AddDays(1);
-            t_instance.RecurrencePattern = WebSystemService.RecurrencePattern.Daily_EveryNDays;
+            t_instance.RecurrencePattern = WebObjectService.RecurrencePattern.Daily_EveryNDays;
             return t_instance;
         }
     }

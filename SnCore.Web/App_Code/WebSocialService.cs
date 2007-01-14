@@ -186,7 +186,8 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedAccount acct = new ManagedAccount(session, userid);
-                int result = acct.CreateAccountFriendRequest(friendid, message);
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                int result = acct.CreateAccountFriendRequest(sec, friendid, message);
                 SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }

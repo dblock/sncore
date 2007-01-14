@@ -66,5 +66,15 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             DeleteUser(user_id);
         }
 
+        [Test]
+        protected void HasVerifiedEmailTest()
+        {
+
+        }
+
+        [Test]
+        protected void GetActiveEmailAddressTest()
+        {
+        }
     }
 }

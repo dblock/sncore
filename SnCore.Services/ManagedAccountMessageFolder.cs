@@ -180,9 +180,11 @@ namespace SnCore.Services
             {
                 instance.Account = GetOwner(session, AccountId, sec);
                 instance.System = this.System;
+            } 
+            else if (! instance.System) // system folders cannot be renamed
+            {
+                instance.Name = this.Name;
             }
-
-            instance.Name = this.Name;
 
             instance.AccountMessageFolderParent =
                 (this.AccountMessageFolderParentId != 0) ?
@@ -278,13 +280,15 @@ namespace SnCore.Services
                 new ManagedAccountMessageFolder(Session, accountmessagefolder).Delete(sec);
             }
 
-            DeleteAccountMessages();
+            DeleteAccountMessages(sec);
             Collection<AccountMessageFolder>.GetSafeCollection(mInstance.Account.AccountMessageFolders).Remove(mInstance);
             base.Delete(sec);
         }
 
-        public void DeleteAccountMessages()
+        public void DeleteAccountMessages(ManagedSecurityContext sec)
         {
+            GetACL().Check(sec, DataOperation.Delete);
+
             foreach (AccountMessage accountmessage in Collection<AccountMessage>.GetSafeCollection(mInstance.AccountMessages))
             {
                 Session.Delete(accountmessage);

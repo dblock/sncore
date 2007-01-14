@@ -31,6 +31,7 @@ namespace SnCore.Services.Tests
                 b.VerifyAllEmails();
 
                 a.CreateAccountFriendRequest(
+                    AdminSecurityContext,
                     b.Id,
                     "Please be my friend!");
             }
@@ -56,6 +57,7 @@ namespace SnCore.Services.Tests
                 b.VerifyAllEmails();
 
                 ManagedAccountFriendRequest r = new ManagedAccountFriendRequest(Session, a.CreateAccountFriendRequest(
+                    AdminSecurityContext,
                     b.Id,
                     "Please be my friend!"));
 
@@ -83,6 +85,7 @@ namespace SnCore.Services.Tests
                 b.VerifyAllEmails();
 
                 ManagedAccountFriendRequest r = new ManagedAccountFriendRequest(Session, a.CreateAccountFriendRequest(
+                    AdminSecurityContext,
                     b.Id,
                     "Please be my friend!"));
 

@@ -47,7 +47,7 @@ namespace SnCore.BackEndServices
             AddJob(new SessionJobDelegate(RunSystemReminders));
         }
 
-        public void RunCleanupStaleAccounts(ISession session)
+        public void RunCleanupStaleAccounts(ISession session, ManagedSecurityContext sec)
         {
             // fetch accounts that have not been logged in for two months and that don't have a verified e-mail
             IList accounts = session.CreateQuery(
@@ -125,7 +125,7 @@ namespace SnCore.BackEndServices
             session.Flush();
         }
 
-        public void RunInvitationReminders(ISession session)
+        public void RunInvitationReminders(ISession session, ManagedSecurityContext sec)
         {
             // fetch invitations that are older than a month
             IList invitations = session.CreateCriteria(typeof(AccountInvitation))
@@ -162,7 +162,7 @@ namespace SnCore.BackEndServices
             }
         }
 
-        public void RunSystemReminders(ISession session)
+        public void RunSystemReminders(ISession session, ManagedSecurityContext sec)
         {
             // get reminders
             IList reminders = session.CreateCriteria(typeof(Reminder))
@@ -243,14 +243,14 @@ namespace SnCore.BackEndServices
                                 reminderevent.Modified = DateTime.UtcNow;
                             }
 
-                            if (!string.IsNullOrEmpty(ma.ActiveEmailAddress))
+                            if (!string.IsNullOrEmpty(ma.GetActiveEmailAddress(sec)))
                             {
                                 if (! mr.CanSend(acct))
                                     continue;
 
                                 ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
                                     session,
-                                    new MailAddress(ma.ActiveEmailAddress, ma.Name).ToString(),
+                                    new MailAddress(ma.GetActiveEmailAddress(sec), ma.Name).ToString(),
                                     string.Format("{0}?id={1}", reminder.Url, ma.Id));
                             }
 
@@ -259,7 +259,7 @@ namespace SnCore.BackEndServices
                         catch (Exception ex)
                         {
                             EventLog.WriteEntry(string.Format("Error sending a reminder at {0} to {1} <{2}>: {3}",
-                                reminder.Url, accountid, ma.ActiveEmailAddress, ex.Message), EventLogEntryType.Warning);
+                                reminder.Url, accountid, ma.GetActiveEmailAddress(sec), ex.Message), EventLogEntryType.Warning);
                         }
                     }
                 }

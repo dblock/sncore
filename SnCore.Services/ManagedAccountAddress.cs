@@ -201,6 +201,11 @@ namespace SnCore.Services
 
     public class ManagedAccountAddress : ManagedService<AccountAddress, TransitAccountAddress>
     {
+        public ManagedAccountAddress()
+        {
+
+        }
+
         public ManagedAccountAddress(ISession session)
             : base(session)
         {

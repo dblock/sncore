@@ -325,8 +325,8 @@ namespace SnCore.WebServices
                         throw new ManagedAccount.AccessDeniedException();
                     }
                 }
-                
-                if (! sec.IsAdministrator() && ! user.IsPasswordValid(password))
+
+                if (!sec.IsAdministrator() && !user.IsPasswordValid(password))
                 {
                     // the requester is the same as the account being deleted, password didn't match
                     throw new ManagedAccount.AccessDeniedException();
@@ -447,9 +447,9 @@ namespace SnCore.WebServices
                 Expression.Eq("Email", email),
                 Expression.Eq("Account.Id", id)
             };
-            
+
             return WebServiceImpl<TransitAccountInvitation, ManagedAccountInvitation, AccountInvitation>.GetByCriterion(
-                ticket, expressions); 
+                ticket, expressions);
         }
 
         /// <summary>
@@ -712,7 +712,7 @@ namespace SnCore.WebServices
                 // EmailAccountMessage
                 ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
                     session,
-                    new MailAddress(a.ActiveEmailAddress, a.Name).ToString(),
+                    new MailAddress(a.GetActiveEmailAddress(ManagedAccount.GetAdminSecurityContext(session)), a.Name).ToString(),
                     string.Format("EmailAccountPasswordReset.aspx?id={0}&Password={1}", a.Id, Renderer.UrlEncode(newpassword)));
 
                 SnCore.Data.Hibernate.Session.Flush();
@@ -820,6 +820,36 @@ namespace SnCore.WebServices
             }
         }
 
+        /// <summary>
+        /// Check whether a user has a verified e-mail address.
+        /// </summary>
+        [WebMethod(Description = "Check whether the user has a verified e-mail address.")]
+        public bool HasVerifiedEmail(string ticket, int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                ManagedAccount a = new ManagedAccount(session, id);
+                return a.HasVerifiedEmail(sec);
+            }
+        }
+
+        /// <summary>
+        /// Return an active e-mail address.
+        /// </summary>
+        [WebMethod(Description = "Check whether the user has a verified e-mail address.")]
+        public string GetActiveEmailAddress(string ticket, int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                ManagedAccount a = new ManagedAccount(session, id);
+                return a.GetActiveEmailAddress(sec);
+            }
+        }
+
         #endregion
 
         #region AccountEmailConfirmation
@@ -872,6 +902,1280 @@ namespace SnCore.WebServices
         {
             WebServiceImpl<TransitAccountEmailConfirmation, ManagedAccountEmailConfirmation, AccountEmailConfirmation>.Delete(
                 ticket, id);
+        }
+
+        #endregion
+
+        #region OpenId
+
+        /// <summary>
+        /// Get account openids.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <returns>transit account openids</returns>
+        [WebMethod(Description = "Get openids.")]
+        public List<TransitAccountOpenId> GetAccountOpenIds(string ticket, int id, ServiceQueryOptions options)
+        {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
+            return WebServiceImpl<TransitAccountOpenId, ManagedAccountOpenId, AccountOpenId>.GetList(
+                ticket, options, expressions, null);
+        }
+
+        [WebMethod(Description = "Get openids count.")]
+        public int GetAccountOpenIdsCount(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountOpenId, ManagedAccountOpenId, AccountOpenId>.GetCount(
+                ticket, string.Format("WHERE Account.Id = {0}", id));
+        }
+
+        /// <summary>
+        /// Delete an openid.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">openid id</param>
+        [WebMethod(Description = "Delete an openid.")]
+        public void DeleteAccountOpenId(string ticket, int id)
+        {
+            WebServiceImpl<TransitAccountOpenId, ManagedAccountOpenId, AccountOpenId>.Delete(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Add an openid.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="openid">transit openid</param>
+        [WebMethod(Description = "Add an openid.")]
+        public int CreateOrUpdateAccountOpenId(string ticket, TransitAccountOpenId openid)
+        {
+            return WebServiceImpl<TransitAccountOpenId, ManagedAccountOpenId, AccountOpenId>.CreateOrUpdate(
+                ticket, openid);
+        }
+
+        #endregion
+
+        #region Search
+
+        protected IList<Account> InternalSearchAccounts(ISession session, string s, ServiceQueryOptions options)
+        {
+            int maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
+            IQuery query = session.CreateSQLQuery(
+
+                    "CREATE TABLE #Results ( Account_Id int, RANK int )\n" +
+                    "CREATE TABLE #Unique_Results ( Account_Id int, RANK int )\n" +
+
+                    "INSERT #Results\n" +
+                    "SELECT account.Account_Id, ft.[RANK] FROM Account account\n" +
+                    "INNER JOIN FREETEXTTABLE (Account, [Name], '" + Renderer.SqlEncode(s) + "', " +
+                        maxsearchresults.ToString() + ") AS ft ON account.Account_Id = ft.[KEY]\n" +
+
+                    "INSERT #Results\n" +
+                    "SELECT account.Account_Id, ft.[RANK] FROM Account account, AccountSurveyAnswer accountsurveyanswer\n" +
+                    "INNER JOIN FREETEXTTABLE (AccountSurveyAnswer, ([Answer]), '" + Renderer.SqlEncode(s) + "', " +
+                        maxsearchresults.ToString() + ") AS ft ON accountsurveyanswer.AccountSurveyAnswer_Id = ft.[KEY] \n" +
+                    "WHERE accountsurveyanswer.Account_Id = account.Account_Id\n" +
+
+                    "INSERT #Results\n" +
+                    "SELECT account.Account_Id, ft.[RANK] FROM Account account, AccountPropertyValue accountpropertyvalue\n" +
+                    "INNER JOIN FREETEXTTABLE (AccountPropertyValue, ([Value]), '" + Renderer.SqlEncode(s) + "', " +
+                        maxsearchresults.ToString() + ") AS ft ON accountpropertyvalue.AccountPropertyValue_Id = ft.[KEY] \n" +
+                    "WHERE accountpropertyvalue.Account_Id = account.Account_Id\n" +
+
+                    "INSERT #Unique_Results\n" +
+                    "SELECT DISTINCT Account_Id, SUM(RANK)\n" +
+                    "FROM #Results GROUP BY Account_Id\n" +
+                    "ORDER BY SUM(RANK) DESC\n" +
+
+                    "SELECT " + (options != null ? options.GetSqlQueryTop() : string.Empty) +
+                    "{Account.*} FROM {Account}, #Unique_Results\n" +
+                    "WHERE Account.Account_Id = #Unique_Results.Account_Id\n" +
+                    "ORDER BY #Unique_Results.RANK DESC\n" +
+
+                    "DROP TABLE #Results\n" +
+                    "DROP TABLE #Unique_Results\n",
+
+                    "Account",
+                    typeof(Account));
+
+            return WebServiceQueryOptions<Account>.Apply(options, query.List<Account>());
+        }
+
+        /// <summary>
+        /// Search accounts.
+        /// </summary>
+        /// <returns></returns>
+        [WebMethod(Description = "Search accounts.", CacheDuration = 60)]
+        public List<TransitAccountActivity> SearchAccounts(string ticket, string s, ServiceQueryOptions options)
+        {
+            if (string.IsNullOrEmpty(s))
+                return new List<TransitAccountActivity>();
+
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                IList<Account> accounts = InternalSearchAccounts(session, s, options);
+                List<TransitAccountActivity> result = new List<TransitAccountActivity>(accounts.Count);
+                foreach (Account account in accounts)
+                {
+                    result.Add(new ManagedAccountActivity(session, account).GetTransitInstance(sec));
+                }
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Return the number of accounts matching a query.
+        /// </summary>
+        /// <returns>number of accounts</returns>
+        [WebMethod(Description = "Return the number of accounts matching a query.", CacheDuration = 60)]
+        public int SearchAccountsCount(string s)
+        {
+            if (string.IsNullOrEmpty(s))
+                return 0;
+
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return InternalSearchAccounts(session, s, null).Count;
+            }
+        }
+
+        #endregion
+
+        #region AccountPropertyGroup
+
+        /// <summary>
+        /// Create or update a property group.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="PropertyGroup">transit property group</param>
+        [WebMethod(Description = "Create or update a property group.")]
+        public int CreateOrUpdateAccountPropertyGroup(string ticket, TransitAccountPropertyGroup pg)
+        {
+            return WebServiceImpl<TransitAccountPropertyGroup, ManagedAccountPropertyGroup, AccountPropertyGroup>.CreateOrUpdate(
+                ticket, pg);
+        }
+
+        /// <summary>
+        /// Get a property group.
+        /// </summary>
+        /// <returns>transit property group</returns>
+        [WebMethod(Description = "Get a property group.")]
+        public TransitAccountPropertyGroup GetAccountPropertyGroupById(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountPropertyGroup, ManagedAccountPropertyGroup, AccountPropertyGroup>.GetById(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Get all property groups count.
+        /// </summary>
+        /// <returns>number of transit property groups</returns>
+        [WebMethod(Description = "Get all property groups.")]
+        public int GetAccountPropertyGroupsCount(string ticket)
+        {
+            return WebServiceImpl<TransitAccountPropertyGroup, ManagedAccountPropertyGroup, AccountPropertyGroup>.GetCount(
+                ticket);
+        }
+
+        /// <summary>
+        /// Get all property groups.
+        /// </summary>
+        /// <returns>list of transit property groups</returns>
+        [WebMethod(Description = "Get all property groups.")]
+        public List<TransitAccountPropertyGroup> GetAccountPropertyGroups(string ticket, ServiceQueryOptions options)
+        {
+            return WebServiceImpl<TransitAccountPropertyGroup, ManagedAccountPropertyGroup, AccountPropertyGroup>.GetList(
+                ticket, options);
+        }
+
+        /// <summary>
+        /// Delete a property group
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete a property group.")]
+        public void DeleteAccountPropertyGroup(string ticket, int id)
+        {
+            WebServiceImpl<TransitAccountPropertyGroup, ManagedAccountPropertyGroup, AccountPropertyGroup>.Delete(
+                ticket, id);
+        }
+
+        #endregion
+
+        #region AccountProperty
+
+        /// <summary>
+        /// Create or update an account property.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="property">transit account property</param>
+        [WebMethod(Description = "Create or update a property.")]
+        public int CreateOrUpdateAccountProperty(string ticket, TransitAccountProperty t_instance)
+        {
+            return WebServiceImpl<TransitAccountProperty, ManagedAccountProperty, AccountProperty>.CreateOrUpdate(
+                ticket, t_instance);
+        }
+
+        /// <summary>
+        /// Get an account property.
+        /// </summary>
+        /// <returns>transit account property</returns>
+        [WebMethod(Description = "Get a property.")]
+        public TransitAccountProperty GetAccountPropertyById(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountProperty, ManagedAccountProperty, AccountProperty>.GetById(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Get all account properties count.
+        /// </summary>
+        /// <returns>number of account properties</returns>
+        [WebMethod(Description = "Get all account properties count.")]
+        public int GetAccountPropertiesCount(string ticket, int gid)
+        {
+            return WebServiceImpl<TransitAccountProperty, ManagedAccountProperty, AccountProperty>.GetCount(
+                ticket, string.Format("WHERE AccountProperty.AccountPropertyGroup.Id = {0}", gid));
+        }
+
+        /// <summary>
+        /// Get all account properties.
+        /// </summary>
+        /// <returns>list of transit properties</returns>
+        [WebMethod(Description = "Get all account properties.")]
+        public List<TransitAccountProperty> GetAccountProperties(string ticket, int gid, ServiceQueryOptions options)
+        {
+            ICriterion[] expressions = { Expression.Eq("AccountPropertyGroup.Id", gid) };
+            return WebServiceImpl<TransitAccountProperty, ManagedAccountProperty, AccountProperty>.GetList(
+                ticket, options, expressions, null);
+        }
+
+        /// <summary>
+        /// Delete an account property.
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete an account property.")]
+        public void DeleteAccountProperty(string ticket, int id)
+        {
+            WebServiceImpl<TransitAccountProperty, ManagedAccountProperty, AccountProperty>.Delete(
+                ticket, id);
+        }
+
+        #endregion
+
+        #region AccountPropertyValue
+
+        /// <summary>
+        /// Get accounts that match a property value by name.
+        /// </summary>
+        /// <returns>transit accounts</returns>
+        [WebMethod(Description = "Get accounts that match a property value by name.")]
+        public List<TransitAccount> GetAccountsByPropertyValue(string ticket, string groupname, string propertyname, string propertyvalue, ServiceQueryOptions options)
+        {
+            return WebServiceImpl<TransitAccount, ManagedAccount, Account>.GetList(
+                ticket, options,
+                   "SELECT {account.*} FROM AccountProperty p, AccountPropertyGroup g, AccountPropertyValue v, Account {account}" +
+                   " WHERE {account}.Account_Id = v.Account_Id" +
+                   " AND v.Account_Id = {account}.Account_Id" +
+                   " AND v.AccountProperty_Id = p.AccountProperty_Id" +
+                   " AND p.AccountPropertyGroup_Id = g.AccountPropertyGroup_Id" +
+                   " AND p.Name = '" + Renderer.SqlEncode(propertyname) + "'" +
+                   " AND (" +
+                   "  v.Value LIKE '" + Renderer.SqlEncode(propertyvalue) + "'" +
+                   "  OR v.Value LIKE '%" + Renderer.SqlEncode(propertyvalue) + "%'" +
+                   " ) AND g.Name = '" + Renderer.SqlEncode(groupname) + "'",
+                   "account");
+        }
+
+        /// <summary>
+        /// Get the number of accounts that match a property value by name.
+        /// </summary>
+        /// <returns>transit accounts</returns>
+        [WebMethod(Description = "Get the number of accounts that match a property value by name.")]
+        public int GetAccountsByPropertyValueCount(string ticket, string groupname, string propertyname, string propertyvalue)
+        {
+            return WebServiceImpl<TransitAccount, ManagedAccount, Account>.GetCount(
+                ticket,
+                   ", AccountProperty p, AccountPropertyGroup g, AccountPropertyValue v" +
+                   " WHERE Account.Id = v.Account.Id" +
+                   " AND v.Account.Id = Account.Id" +
+                   " AND v.AccountProperty.Id = p.Id" +
+                   " AND p.AccountPropertyGroup.Id = g.Id" +
+                   " AND p.Name = '" + Renderer.SqlEncode(propertyname) + "'" +
+                   " AND (" +
+                   "  v.Value LIKE '" + Renderer.SqlEncode(propertyvalue) + "'" +
+                   "  OR v.Value LIKE '%{" + Renderer.SqlEncode(propertyvalue) + "}%'" +
+                   " ) AND g.Name = '" + Renderer.SqlEncode(groupname) + "'");
+        }
+
+        /// <summary>
+        /// Get a account property value by name.
+        /// </summary>
+        /// <returns>transit account property value</returns>
+        [WebMethod(Description = "Get a account property value by group and name.")]
+        public TransitAccountPropertyValue GetAccountPropertyValueByName(
+            string ticket, int accountid, string groupname, string propertyname)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+
+                AccountPropertyGroup ppg = (AccountPropertyGroup)session.CreateCriteria(typeof(AccountPropertyGroup))
+                    .Add(Expression.Eq("Name", groupname))
+                    .UniqueResult();
+
+                if (ppg == null)
+                {
+                    throw new Exception(string.Format(
+                        "No property group with the name \"{0}\" found.", groupname));
+                }
+
+                AccountProperty pp = (AccountProperty)session.CreateCriteria(typeof(AccountProperty))
+                    .Add(Expression.Eq("Name", propertyname))
+                    .Add(Expression.Eq("AccountPropertyGroup.Id", ppg.Id))
+                    .UniqueResult();
+
+                if (pp == null)
+                {
+                    throw new Exception(string.Format(
+                        "No property with the name \"{0}\" found.", propertyname));
+                }
+
+                AccountPropertyValue ppv = (AccountPropertyValue)session.CreateCriteria(typeof(AccountPropertyValue))
+                    .Add(Expression.Eq("Account.Id", accountid))
+                    .Add(Expression.Eq("AccountProperty.Id", pp.Id))
+                    .UniqueResult();
+
+                if (ppv == null)
+                {
+                    throw new Exception(string.Format(
+                        "No property value for \"{0}\" of account \"{0}\" of group \"{0}\" found.",
+                        propertyname, accountid, groupname));
+                }
+
+                ManagedAccountPropertyValue result = new ManagedAccountPropertyValue(session, ppv);
+                return result.GetTransitInstance(sec);
+            }
+        }
+
+        /// <summary>
+        /// Create or update an account property value.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="type">transit account property value</param>
+        [WebMethod(Description = "Create or update an account property value.")]
+        public int CreateOrUpdateAccountPropertyValue(string ticket, TransitAccountPropertyValue propertyvalue)
+        {
+            return WebServiceImpl<TransitAccountPropertyValue, ManagedAccountPropertyValue, AccountPropertyValue>.CreateOrUpdate(
+                ticket, propertyvalue);
+        }
+
+        /// <summary>
+        /// Get an account property value.
+        /// </summary>
+        /// <returns>transit account property value</returns>
+        [WebMethod(Description = "Get an account property value.")]
+        public TransitAccountPropertyValue GetAccountPropertyValueById(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountPropertyValue, ManagedAccountPropertyValue, AccountPropertyValue>.GetById(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Get account property values.
+        /// </summary>
+        /// <returns>list of account property values</returns>
+        [WebMethod(Description = "Get account property values.", CacheDuration = 60)]
+        public List<TransitAccountPropertyValue> GetAccountPropertyValues(string ticket, int id, int groupid, ServiceQueryOptions options)
+        {
+            return WebServiceImpl<TransitAccountPropertyValue, ManagedAccountPropertyValue, AccountPropertyValue>.GetList(
+                ticket, options, string.Format("SELECT AccountPropertyValue FROM AccountPropertyValue AccountPropertyValue" +
+                    " WHERE AccountPropertyValue.Account.Id = {0} " +
+                    " AND AccountPropertyValue.AccountProperty.AccountPropertyGroup.Id = {1}" +
+                    " AND AccountPropertyValue.AccountProperty.Publish = 1", id, groupid));
+        }
+
+        /// <summary>
+        /// Get account property values count.
+        /// </summary>
+        /// <returns>number of account property values</returns>
+        [WebMethod(Description = "Get account property values count.", CacheDuration = 60)]
+        public int GetAccountPropertyValuesCount(string ticket, int id, int groupid)
+        {
+            return WebServiceImpl<TransitAccountPropertyValue, ManagedAccountPropertyValue, AccountPropertyValue>.GetCount(
+                ticket, string.Format(" WHERE AccountPropertyValue.Account.Id = {0} " +
+                    " AND AccountPropertyValue.AccountProperty.AccountPropertyGroup.Id = {1}" +
+                    " AND AccountPropertyValue.AccountProperty.Publish = 1", id, groupid));
+        }
+
+        /// <summary>
+        /// Get all account property values, including unfilled ones.
+        /// </summary>
+        /// <returns>list of account property values</returns>
+        [WebMethod(Description = "Get all account property values, including unfilled ones.", CacheDuration = 60)]
+        public List<TransitAccountPropertyValue> GetAllAccountPropertyValuesById(string ticket, int accountid, int groupid)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+
+                ICriteria c = session.CreateCriteria(typeof(AccountProperty));
+                if (groupid > 0) c.Add(Expression.Eq("AccountPropertyGroup.Id", groupid));
+                IList properties = c.List();
+
+                List<TransitAccountPropertyValue> result = new List<TransitAccountPropertyValue>(properties.Count);
+
+                foreach (AccountProperty property in properties)
+                {
+                    AccountPropertyValue value = (AccountPropertyValue)session.CreateCriteria(typeof(AccountPropertyValue))
+                        .Add(Expression.Eq("Account.Id", accountid))
+                        .Add(Expression.Eq("AccountProperty.Id", property.Id))
+                        .UniqueResult();
+
+                    if (value == null)
+                    {
+                        value = new AccountPropertyValue();
+                        value.AccountProperty = property;
+                        value.Value = property.DefaultValue;
+                        value.Account = (Account)session.Load(typeof(Account), accountid);
+                    }
+
+                    ManagedAccountPropertyValue m_instance = new ManagedAccountPropertyValue(session, value);
+                    result.Add(m_instance.GetTransitInstance(sec));
+                }
+
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Delete an account property value.
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete an account property value.")]
+        public void DeleteAccountPropertyValue(string ticket, int id)
+        {
+            WebServiceImpl<TransitAccountPropertyValue, ManagedAccountPropertyValue, AccountPropertyValue>.Delete(
+                ticket, id);
+        }
+
+        #endregion
+
+        #region AccountAttribute
+
+        /// <summary>
+        /// Create or update an account attribute.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="type">transit account attribute</param>
+        [WebMethod(Description = "Create or update an account attribute.")]
+        public int CreateOrUpdateAccountAttribute(string ticket, TransitAccountAttribute attribute)
+        {
+            return WebServiceImpl<TransitAccountAttribute, ManagedAccountAttribute, AccountAttribute>.CreateOrUpdate(
+                ticket, attribute);
+        }
+
+        /// <summary>
+        /// Get account attributes.
+        /// </summary>
+        /// <returns>transit account attribute</returns>
+        [WebMethod(Description = "Get account attributes.")]
+        public TransitAccountAttribute GetAccountAttributeById(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountAttribute, ManagedAccountAttribute, AccountAttribute>.GetById(
+                ticket, id);
+        }
+
+
+        /// <summary>
+        /// Get account attributes count.
+        /// </summary>
+        /// <returns>number of account attributes</returns>
+        [WebMethod(Description = "Get account attributes count.", CacheDuration = 60)]
+        public int GetAccountAttributesCount(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountAttribute, ManagedAccountAttribute, AccountAttribute>.GetCount(
+                ticket, string.Format("WHERE AccountAttribute.Account.Id = {0}", id));
+        }
+
+        /// <summary>
+        /// Get account attributes.
+        /// </summary>
+        /// <returns>list of account attributes</returns>
+        [WebMethod(Description = "Get account attributes.", CacheDuration = 60)]
+        public List<TransitAccountAttribute> GetAccountAttributesById(string ticket, int id, ServiceQueryOptions options)
+        {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
+            return WebServiceImpl<TransitAccountAttribute, ManagedAccountAttribute, AccountAttribute>.GetList(
+                ticket, options, expressions, null);
+        }
+
+        /// <summary>
+        /// Delete an account attribute.
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete an account attribute.")]
+        public void DeleteAccountAttribute(string ticket, int id)
+        {
+            WebServiceImpl<TransitAccountAttribute, ManagedAccountAttribute, AccountAttribute>.Delete(
+                ticket, id);
+        }
+
+        #endregion
+
+        #region AccountRedirect
+
+        /// <summary>
+        /// Get account redirects count by account id.
+        /// </summary>
+        [WebMethod(Description = "Get account redirects count by account id.")]
+        public int GetAccountRedirectsCount(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountRedirect, ManagedAccountRedirect, AccountRedirect>.GetCount(
+                ticket, string.Format("WHERE AccountRedirect.Account.Id = {0}", id));
+        }
+
+        /// <summary>
+        /// Get all account redirects count.
+        /// </summary>
+        [WebMethod(Description = "Get all account redirects count.")]
+        public int GetAllAccountRedirectsCount(string ticket)
+        {
+            return WebServiceImpl<TransitAccountRedirect, ManagedAccountRedirect, AccountRedirect>.GetCount(
+                ticket);
+        }
+
+        /// <summary>
+        /// Get account redirects.
+        /// </summary>
+        /// <param name="id">account id</param>
+        /// <returns>transit account redirects</returns>
+        [WebMethod(Description = "Get account redirects.", CacheDuration = 60)]
+        public List<TransitAccountRedirect> GetAccountRedirects(string ticket, int id, ServiceQueryOptions options)
+        {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
+            return WebServiceImpl<TransitAccountRedirect, ManagedAccountRedirect, AccountRedirect>.GetList(
+                ticket, options, expressions, null);
+        }
+
+        /// <summary>
+        /// Get all account redirects.
+        /// </summary>
+        /// <returns>transit account redirects</returns>
+        [WebMethod(Description = "Get all account redirects.", CacheDuration = 60)]
+        public List<TransitAccountRedirect> GetAllAccountRedirects(string ticket, ServiceQueryOptions options)
+        {
+            return WebServiceImpl<TransitAccountRedirect, ManagedAccountRedirect, AccountRedirect>.GetList(
+                ticket, options);
+        }
+
+        /// <summary>
+        /// Get account redirect by id.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">redirect id</param>
+        /// <returns>transit account redirect</returns>
+        [WebMethod(Description = "Get account redirect by id.")]
+        public TransitAccountRedirect GetAccountRedirectById(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountRedirect, ManagedAccountRedirect, AccountRedirect>.GetById(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Get account redirect by source uri.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <returns>transit account redirect</returns>
+        [WebMethod(Description = "Get account redirect by source uri.")]
+        public TransitAccountRedirect GetAccountRedirectBySourceUri(string ticket, int id, string uri)
+        {
+            ICriterion[] expressions = 
+            {
+                Expression.Eq("Account.Id", id),
+                Expression.Eq("SourceUri", uri)
+            };
+
+            try
+            {
+                return WebServiceImpl<TransitAccountRedirect, ManagedAccountRedirect, AccountRedirect>.GetByCriterion(
+                    ticket, expressions);
+            }
+            catch (ObjectNotFoundException)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get account redirect by target uri.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <returns>transit account redirect</returns>
+        [WebMethod(Description = "Get account redirect by target uri.")]
+        public TransitAccountRedirect GetAccountRedirectByTargetUri(string ticket, int id, string uri)
+        {
+            ICriterion[] expressions = 
+            {
+                Expression.Eq("Account.Id", id),
+                Expression.Eq("TargetUri", uri)
+            };
+
+            try
+            {
+                return WebServiceImpl<TransitAccountRedirect, ManagedAccountRedirect, AccountRedirect>.GetByCriterion(
+                    ticket, expressions, 1);
+            }
+            catch (ObjectNotFoundException)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Create or update a redirect.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="redirect">new redirect</param>
+        [WebMethod(Description = "Create or update a redirect.")]
+        public int AddAccountRedirect(string ticket, TransitAccountRedirect redirect)
+        {
+            int id = WebServiceImpl<TransitAccountRedirect, ManagedAccountRedirect, AccountRedirect>.CreateOrUpdate(
+                ticket, redirect);
+
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccountRedirect.UpdateMap(session);
+            }
+
+            return id;
+        }
+
+        /// <summary>
+        /// Delete a redirect.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="redirectid">redirect id</param>
+        [WebMethod(Description = "Delete a redirect.")]
+        public void DeleteAccountRedirect(string ticket, int id)
+        {
+            WebServiceImpl<TransitAccountRedirect, ManagedAccountRedirect, AccountRedirect>.Delete(
+                ticket, id);
+
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccountRedirect.UpdateMap(session);
+            }
+        }
+
+        #endregion
+
+        #region AccountAddress
+
+        /// <summary>
+        /// Create or update an account address.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="property">transit account address</param>
+        [WebMethod(Description = "Create or update an account address.")]
+        public int CreateOrUpdateAccountAddress(string ticket, TransitAccountAddress t_instance)
+        {
+            return WebServiceImpl<TransitAccountAddress, ManagedAccountAddress, AccountAddress>.CreateOrUpdate(
+                ticket, t_instance);
+        }
+
+        /// <summary>
+        /// Get an account address.
+        /// </summary>
+        /// <returns>transit account address</returns>
+        [WebMethod(Description = "Get an account address.")]
+        public TransitAccountAddress GetAccountAddressById(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountAddress, ManagedAccountAddress, AccountAddress>.GetById(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Get all account addresses count.
+        /// </summary>
+        /// <returns>number of account addresses</returns>
+        [WebMethod(Description = "Get all account addresses count.")]
+        public int GetAccountAddressesCount(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountAddress, ManagedAccountAddress, AccountAddress>.GetCount(
+                ticket, string.Format("WHERE AccountAddress.Account.Id = {0}", id));
+        }
+
+        /// <summary>
+        /// Get all account addresses.
+        /// </summary>
+        /// <returns>list of transit addresses</returns>
+        [WebMethod(Description = "Get all account addresses.")]
+        public List<TransitAccountAddress> GetAccountAddresses(string ticket, int id, ServiceQueryOptions options)
+        {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
+            return WebServiceImpl<TransitAccountAddress, ManagedAccountAddress, AccountAddress>.GetList(
+                ticket, options, expressions, null);
+        }
+
+        /// <summary>
+        /// Delete an account address.
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete an account address.")]
+        public void DeleteAccountAddress(string ticket, int id)
+        {
+            WebServiceImpl<TransitAccountAddress, ManagedAccountAddress, AccountAddress>.Delete(
+                ticket, id);
+        }
+
+        #endregion
+
+        #region AccountWebsite
+
+        /// <summary>
+        /// Create or update an account website.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="property">transit account website</param>
+        [WebMethod(Description = "Create or update an account website.")]
+        public int CreateOrUpdateAccountWebsite(string ticket, TransitAccountWebsite t_instance)
+        {
+            return WebServiceImpl<TransitAccountWebsite, ManagedAccountWebsite, AccountWebsite>.CreateOrUpdate(
+                ticket, t_instance);
+        }
+
+        /// <summary>
+        /// Get an account website.
+        /// </summary>
+        /// <returns>transit account website</returns>
+        [WebMethod(Description = "Get an account website.")]
+        public TransitAccountWebsite GetAccountWebsiteById(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountWebsite, ManagedAccountWebsite, AccountWebsite>.GetById(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Get all account websites count.
+        /// </summary>
+        /// <returns>number of account websites</returns>
+        [WebMethod(Description = "Get all account websites count.")]
+        public int GetAccountWebsitesCount(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountWebsite, ManagedAccountWebsite, AccountWebsite>.GetCount(
+                ticket, string.Format("WHERE AccountWebsite.Account.Id = {0}", id));
+        }
+
+        /// <summary>
+        /// Get all account websites.
+        /// </summary>
+        /// <returns>list of transit websites</returns>
+        [WebMethod(Description = "Get all account websites.")]
+        public List<TransitAccountWebsite> GetAccountWebsitees(string ticket, int id, ServiceQueryOptions options)
+        {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
+            return WebServiceImpl<TransitAccountWebsite, ManagedAccountWebsite, AccountWebsite>.GetList(
+                ticket, options, expressions, null);
+        }
+
+        /// <summary>
+        /// Delete an account website.
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete an account website.")]
+        public void DeleteAccountWebsite(string ticket, int id)
+        {
+            WebServiceImpl<TransitAccountWebsite, ManagedAccountWebsite, AccountWebsite>.Delete(
+                ticket, id);
+        }
+
+        #endregion
+
+        #region AccountPicture
+
+        /// <summary>
+        /// Create or update a account picture.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="accountpicture">transit account picture</param>
+        [WebMethod(Description = "Create or update a account picture.")]
+        public int CreateOrUpdateAccountPicture(string ticket, TransitAccountPicture accountpicture)
+        {
+            return WebServiceImpl<TransitAccountPicture, ManagedAccountPicture, AccountPicture>.CreateOrUpdate(
+                ticket, accountpicture);
+        }
+
+        /// <summary>
+        /// Get a account picture.
+        /// </summary>
+        /// <returns>transit account picture</returns>
+        [WebMethod(Description = "Get a account picture.")]
+        public TransitAccountPicture GetAccountPictureById(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountPicture, ManagedAccountPicture, AccountPicture>.GetById(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Get account picture picture if modified since.
+        /// </summary>
+        /// <param name="id">account picture id</param>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="ifModifiedSince">last update date/time</param>
+        /// <returns>transit picture</returns>
+        [WebMethod(Description = "Get account picture picture data if modified since.", BufferResponse = true)]
+        public TransitAccountPicture GetAccountPictureIfModifiedSinceById(string ticket, int id, DateTime ifModifiedSince)
+        {
+            TransitAccountPicture t_instance = WebServiceImpl<TransitAccountPicture, ManagedAccountPicture, AccountPicture>.GetById(
+                ticket, id);
+
+            if (t_instance.Modified <= ifModifiedSince)
+                return null;
+
+            return t_instance;
+        }
+
+        /// <summary>
+        /// Get account pictures count.
+        /// </summary>
+        [WebMethod(Description = "Get account pictures count.")]
+        public int GetAccountPicturesCount(string ticket, AccountPicturesQueryOptions qopt, int id)
+        {
+            StringBuilder query = new StringBuilder();
+            query.AppendFormat("WHERE AccountPicture.Account.Id = {0}", id);
+            if (!qopt.Hidden) query.Append(" AND AccountPicture.Hidden = 0");
+            return WebServiceImpl<TransitAccountPicture, ManagedAccountPicture, AccountPicture>.GetCount(
+                ticket, query.ToString());
+        }
+
+        /// <summary>
+        /// Get all account pictures.
+        /// </summary>
+        /// <param name="placeid">place id</param>
+        /// <returns>list of transit account pictures</returns>
+        [WebMethod(Description = "Get all account pictures.")]
+        public List<TransitAccountPicture> GetAccountPictures(string ticket, int id, AccountPicturesQueryOptions qopt, ServiceQueryOptions options)
+        {
+            List<ICriterion> expressions = new List<ICriterion>();
+            expressions.Add(Expression.Eq("Account.Id", id));
+            if (!qopt.Hidden) expressions.Add(Expression.Eq("Hidden", false));
+            Order[] orders = { Order.Desc("Created") };
+            return WebServiceImpl<TransitAccountPicture, ManagedAccountPicture, AccountPicture>.GetList(
+                ticket, options, expressions.ToArray(), orders);
+        }
+
+        /// <summary>
+        /// Delete a account picture
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete a account picture.")]
+        public void DeleteAccountPicture(string ticket, int id)
+        {
+            WebServiceImpl<TransitAccountPicture, ManagedAccountPicture, AccountPicture>.Delete(
+                ticket, id);
+        }
+
+        #endregion
+
+        #region AccountSurveyAnswer
+
+        /// <summary>
+        /// Get account survey answers count.
+        /// </summary>
+        /// <param name="id">account id</param>
+        /// <param name="surveyid">survey id</param>
+        /// <returns>number of answers filled</returns>
+        [WebMethod(Description = "Get account survey answers.", CacheDuration = 60)]
+        public int GetAccountSurveyAnswersCount(string ticket, int id, int surveyid)
+        {
+            return WebServiceImpl<TransitAccountSurveyAnswer, ManagedAccountSurveyAnswer, AccountSurveyAnswer>.GetCount(
+                ticket, string.Format(", SurveyQuestion q WHERE AccountSurveyAnswer.Account.Id = {0} " +
+                    "AND AccountSurveyAnswer.SurveyQuestion.Id = q.Id and q.Survey.Id = {1}",
+                    id, surveyid));
+        }
+
+        /// <summary>
+        /// Get account survey answers.
+        /// </summary>
+        /// <param name="id">account id</param>
+        /// <param name="surveyid">survey id</param>
+        /// <returns>transit account survey answers</returns>
+        [WebMethod(Description = "Get account survey answers.", CacheDuration = 60)]
+        public List<TransitAccountSurveyAnswer> GetAccountSurveyAnswers(string ticket, int id, int surveyid)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+
+                IList questions = session.CreateCriteria(typeof(SurveyQuestion))
+                    .Add(Expression.Eq("Survey.Id", surveyid))
+                    .List();
+
+                List<TransitAccountSurveyAnswer> result = new List<TransitAccountSurveyAnswer>(questions.Count);
+                foreach (SurveyQuestion q in questions)
+                {
+                    AccountSurveyAnswer a = (AccountSurveyAnswer)session.CreateCriteria(typeof(AccountSurveyAnswer))
+                        .Add(Expression.Eq("SurveyQuestion.Id", q.Id))
+                        .Add(Expression.Eq("Account.Id", id))
+                        .UniqueResult();
+
+                    if (a == null)
+                    {
+                        TransitAccountSurveyAnswer f = new TransitAccountSurveyAnswer();
+                        f.SurveyQuestion = q.Question;
+                        f.SurveyQuestionId = q.Id;
+                        result.Add(f);
+                    }
+                    else
+                    {
+                        result.Add(new ManagedAccountSurveyAnswer(session, a).GetTransitInstance(sec));
+                    }
+                }
+
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Get survey answers count for a single question.
+        /// </summary>
+        /// <param name="id">question id</param>
+        /// <returns>answers count</returns>
+        [WebMethod(Description = "Get survey answers count for a single question.", CacheDuration = 60)]
+        public int GetAccountSurveyAnswersCountByQuestionId(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountSurveyAnswer, ManagedAccountSurveyAnswer, AccountSurveyAnswer>.GetCount(
+                ticket, string.Format("WHERE AccountSurveyAnswer.SurveyQuestion.Id = {0}", id));
+        }
+
+        /// <summary>
+        /// Get survey answers for a single question.
+        /// </summary>
+        /// <param name="id">question id</param>
+        /// <returns>transit account survey answers</returns>
+        [WebMethod(Description = "Get survey answers for a single question.", CacheDuration = 60)]
+        public List<TransitAccountSurveyAnswer> GetAccountSurveyAnswersByQuestionId(string ticket, int id, ServiceQueryOptions options)
+        {
+            ICriterion[] expressions = { Expression.Eq("SurveyQuestion.Id", id) };
+            Order[] orders = { Order.Desc("Modified") };
+            return WebServiceImpl<TransitAccountSurveyAnswer, ManagedAccountSurveyAnswer, AccountSurveyAnswer>.GetList(
+                ticket, options, expressions, orders);
+        }
+
+        /// <summary>
+        /// Get account survey answer by id.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">survey answer id</param>
+        /// <returns>transit account survey answers</returns>
+        [WebMethod(Description = "Get account survey answer by id.")]
+        public TransitAccountSurveyAnswer GetAccountSurveyAnswerById(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountSurveyAnswer, ManagedAccountSurveyAnswer, AccountSurveyAnswer>.GetById(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Create or update a survey answer.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="answer">survey answer</param>
+        [WebMethod(Description = "Add a survey answer.")]
+        public int CreateOrUpdateAccountSurveyAnswer(string ticket, TransitAccountSurveyAnswer answer)
+        {
+            return WebServiceImpl<TransitAccountSurveyAnswer, ManagedAccountSurveyAnswer, AccountSurveyAnswer>.CreateOrUpdate(
+                ticket, answer);
+        }
+
+        /// <summary>
+        /// Delete a survey answer.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="surveyanswerid">survey answer id</param>
+        [WebMethod(Description = "Delete a survey answer.")]
+        public void DeleteAccountSurveyAnswer(string ticket, int id)
+        {
+            WebServiceImpl<TransitAccountSurveyAnswer, ManagedAccountSurveyAnswer, AccountSurveyAnswer>.Delete(
+                ticket, id);
+        }
+
+        #endregion
+
+        #region AccountMessageFolder
+
+        /// <summary>
+        /// Create account system folders.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <returns>transit account message folders</returns>
+        [WebMethod(Description = "Create account system folders.")]
+        public void CreateAccountSystemMessageFolders(string ticket, int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                ManagedAccount acct = new ManagedAccount(session, id);
+                acct.CreateAccountSystemMessageFolders(sec);
+                SnCore.Data.Hibernate.Session.Flush();
+            }
+        }
+
+        /// <summary>
+        /// Get account message folders.
+        /// </summary>
+        /// <param name="id">account id</param>
+        /// <returns>transit account message folders</returns>
+        [WebMethod(Description = "Get account message folders.")]
+        public List<TransitAccountMessageFolder> GetAccountMessageFolders(string ticket, int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                // sort the tree
+                IList folders = session.CreateCriteria(typeof(AccountMessageFolder))
+                    .Add(Expression.Eq("Account.Id", id))
+                    .AddOrder(Order.Asc("Name"))
+                    .List();
+                AccountMessageFolderTree tree = new AccountMessageFolderTree(folders);
+                IEnumerator<AccountMessageFolder> enumerator = tree.GetDepthFirstEnumerator();
+                List<TransitAccountMessageFolder> result = new List<TransitAccountMessageFolder>();
+                while (enumerator.MoveNext())
+                {
+                    ManagedAccountMessageFolder m_folder = new ManagedAccountMessageFolder(session, enumerator.Current);
+                    result.Add(m_folder.GetTransitInstance(sec));
+                }
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Get account message folders count.
+        /// </summary>
+        /// <param name="id">account id</param>
+        /// <returns>transit account message folders</returns>
+        [WebMethod(Description = "Get account message folders count.")]
+        public int GetAccountMessageFoldersCount(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountMessageFolder, ManagedAccountMessageFolder, AccountMessageFolder>.GetCount(
+                ticket, string.Format("WHERE AccountMessageFolder.Account.Id = {0}", id));
+        }
+
+        /// <summary>
+        /// Get account message folder by id.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">message folder id</param>
+        /// <returns>transit account message folders</returns>
+        [WebMethod(Description = "Get account message folder by id.")]
+        public TransitAccountMessageFolder GetAccountMessageFolderById(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountMessageFolder, ManagedAccountMessageFolder, AccountMessageFolder>.GetById(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Add a message folder.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="message folder">new message folder</param>
+        [WebMethod(Description = "Add a message folder.")]
+        public int CreateOrUpdateAccountMessageFolder(string ticket, TransitAccountMessageFolder messagefolder)
+        {
+            return WebServiceImpl<TransitAccountMessageFolder, ManagedAccountMessageFolder, AccountMessageFolder>.CreateOrUpdate(
+                ticket, messagefolder);
+        }
+
+        /// <summary>
+        /// Delete a message folder.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="messagefolderid">message folder id</param>
+        [WebMethod(Description = "Delete a message folder.")]
+        public void DeleteAccountMessageFolder(string ticket, int id)
+        {
+            WebServiceImpl<TransitAccountMessageFolder, ManagedAccountMessageFolder, AccountMessageFolder>.Delete(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Get account message folder by id.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="folder">message folder name</param>
+        /// <returns>transit account message folder</returns>
+        [WebMethod(Description = "Get account message folder by id.", CacheDuration = 60)]
+        public TransitAccountMessageFolder GetAccountMessageSystemFolder(string ticket, int id, string folder)
+        {
+            ICriterion[] expression = 
+            {
+                Expression.Eq("Account.Id", id),
+                Expression.Eq("Name", folder),
+                Expression.IsNull("AccountMessageFolderParent")                        
+            };
+
+            return WebServiceImpl<TransitAccountMessageFolder, ManagedAccountMessageFolder, AccountMessageFolder>.GetByCriterion(
+                ticket, expression);
+        }
+
+        #endregion
+
+        #region AccountEmailMessage
+
+        [WebMethod(Description = "Send an account e-mail message.")]
+        public int SendAccountEmailMessage(string ticket, int id, TransitAccountEmailMessage message)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+
+                AccountEmailMessage m = message.GetInstance(session, sec);
+                ManagedAccount user = new ManagedAccount(session, id);
+                m.Account = user.Instance;
+
+                if (! user.HasVerifiedEmail(sec))
+                    throw new ManagedAccount.NoVerifiedEmailException();
+
+                m.MailFrom = new MailAddress(user.GetActiveEmailAddress(sec), user.Name).ToString();
+                m.Sent = false;
+                m.Created = m.Modified = DateTime.UtcNow;
+                session.Save(m);
+
+                SnCore.Data.Hibernate.Session.Flush();
+                return m.Id;
+            }
+        }
+
+        #endregion
+
+        #region AccountMessage
+
+        /// <summary>
+        /// Get account messages count.
+        /// </summary>
+        /// <returns>transit account messages count</returns>
+        [WebMethod(Description = "Get account messages count.")]
+        public int GetAccountMessagesCount(string ticket, int folderid)
+        {
+            return WebServiceImpl<TransitAccountMessage, ManagedAccountMessage, AccountMessage>.GetCount(
+                ticket, string.Format("WHERE AccountMessageFolder.Id = {0}", folderid));
+        }
+
+        /// <summary>
+        /// Get account messages.
+        /// </summary>
+        /// <returns>transit account messages</returns>
+        [WebMethod(Description = "Get account messages.")]
+        public List<TransitAccountMessage> GetAccountMessages(string ticket, int folderid, ServiceQueryOptions options)
+        {
+            ICriterion[] expressions = { Expression.Eq("AccountMessageFolder.Id", folderid) };
+            Order[] orders = { Order.Desc("Sent") };
+            return WebServiceImpl<TransitAccountMessage, ManagedAccountMessage, AccountMessage>.GetList(
+                ticket, options, expressions, orders);
+        }
+
+        /// <summary>
+        /// Get account message by id.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">message id</param>
+        /// <returns>transit account messages</returns>
+        [WebMethod(Description = "Get account message by id.")]
+        public TransitAccountMessage GetAccountMessageById(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountMessage, ManagedAccountMessage, AccountMessage>.GetById(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Create or update a message.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="message">new message</param>
+        [WebMethod(Description = "Add a message.")]
+        public void CreateOrUpdateAccountMessage(string ticket, TransitAccountMessage message)
+        {
+            WebServiceImpl<TransitAccountMessage, ManagedAccountMessage, AccountMessage>.CreateOrUpdate(
+                ticket, message);
+        }
+
+        /// <summary>
+        /// Delete a message.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="messageid">message id</param>
+        [WebMethod(Description = "Delete a message.")]
+        public void DeleteAccountMessage(string ticket, int id)
+        {
+            WebServiceImpl<TransitAccountMessage, ManagedAccountMessage, AccountMessage>.Delete(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Delete messages in a folder.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="folderid">folder id</param>
+        [WebMethod(Description = "Delete messages in a folder.")]
+        public void DeleteAccountMessagesByFolder(string ticket, int folderid)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccountMessageFolder f = new ManagedAccountMessageFolder(session, folderid);
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                f.DeleteAccountMessages(sec);
+                SnCore.Data.Hibernate.Session.Flush();
+            }
+        }
+
+        /// <summary>
+        /// Move a message.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="messageid">message id</param>
+        /// <param name="folderid">target folder</param>
+        [WebMethod(Description = "Move a message.")]
+        public void MoveAccountMessageToFolderById(string ticket, int messageid, int folderid)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                ManagedAccountMessage m_instance = new ManagedAccountMessage(session, messageid);
+                m_instance.MoveTo(sec, folderid);
+                SnCore.Data.Hibernate.Session.Flush();
+            }
+        }
+
+
+        /// <summary>
+        /// Move a message.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="messageid">message id</param>
+        /// <param name="folder">target folder name</param>
+        [WebMethod(Description = "Move a message.")]
+        public void MoveAccountMessageToFolder(string ticket, int id, int messageid, string folder)
+        {
+            int folderid = GetAccountMessageSystemFolder(ticket, id, folder).Id;
+            MoveAccountMessageToFolderById(ticket, messageid, folderid);
         }
 
         #endregion

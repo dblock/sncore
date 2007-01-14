@@ -31,10 +31,8 @@ namespace SnCore.BackEndServices
             AddJob(new SessionJobDelegate(RunSyndication));
         }
 
-        public void RunSyndication(ISession session)
+        public void RunSyndication(ISession session, ManagedSecurityContext sec)
         {
-            ManagedSecurityContext sec = ManagedAccount.GetAdminSecurityContext(session);
-
             IQuery query = session.CreateSQLQuery(
                 "SELECT {AccountFeed.*} FROM AccountFeed" +
                 " WHERE (NOT EXISTS ( SELECT AccountFeedItem_Id FROM AccountFeedItem item WHERE item.AccountFeed_Id = AccountFeed.AccountFeed_Id ))" +

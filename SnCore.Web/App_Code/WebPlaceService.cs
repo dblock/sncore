@@ -235,11 +235,11 @@ namespace SnCore.WebServices
                 if (sec.Account != null && sec.Account.Id != m_place.Instance.Account.Id)
                 {
                     ManagedAccount acct = new ManagedAccount(session, m_place.Instance.Account);
-                    if (acct.HasVerifiedEmail)
+                    if (acct.HasVerifiedEmail(sec))
                     {
                         ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
                             session,
-                            new MailAddress(acct.ActiveEmailAddress, acct.Name).ToString(),
+                            new MailAddress(acct.GetActiveEmailAddress(sec), acct.Name).ToString(),
                             string.Format("EmailPlacePicture.aspx?id={0}", result));
                     }
                 }
@@ -293,6 +293,25 @@ namespace SnCore.WebServices
         {
             WebServiceImpl<TransitPlacePicture, ManagedPlacePicture, PlacePicture>.Delete(
                 ticket, id);
+        }
+
+        /// <summary>
+        /// Get a place picture picture if modified since.
+        /// </summary>
+        /// <param name="id">place picture id</param>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="ifModifiedSince">last update date/time</param>
+        /// <returns>transit picture</returns>
+        [WebMethod(Description = "Get place picture picture data if modified since.", BufferResponse = true)]
+        public TransitPlacePicture GetPlacePictureIfModifiedSinceById(string ticket, int id, DateTime ifModifiedSince)
+        {
+            TransitPlacePicture t_instance = WebServiceImpl<TransitPlacePicture, ManagedPlacePicture, PlacePicture>.GetById(
+                ticket, id);
+
+            if (t_instance.Modified <= ifModifiedSince)
+                return null;
+
+            return t_instance;
         }
 
         #endregion

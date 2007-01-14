@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
 using System.Web.Services.Protocols;
-using SnCore.Web.Soap.Tests.WebSystemService;
+using SnCore.Web.Soap.Tests.WebObjectServiceTests;
 using SnCore.Web.Soap.Tests.WebPlaceServiceTests;
 
 namespace SnCore.Web.Soap.Tests.WebEventServiceTests
@@ -13,7 +13,7 @@ namespace SnCore.Web.Soap.Tests.WebEventServiceTests
     {
         private AccountEventTypeTest _type = new AccountEventTypeTest();
         private int _type_id = 0;
-        private WebSystemServiceTests.ScheduleTest _schedule = new WebSystemServiceTests.ScheduleTest();
+        private ScheduleTest _schedule = new ScheduleTest();
         private int _schedule_id = 0;
         private PlaceTest _place = new PlaceTest();
         private int _place_id = 0;

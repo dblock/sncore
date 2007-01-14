@@ -231,7 +231,7 @@ namespace SnCore.WebServices
                     {
                         ManagedAccount ma = new ManagedAccount(session, account);
 
-                        if (ma.HasVerifiedEmail)
+                        if (ma.HasVerifiedEmail(sec))
                         {
                             if (! verified_emails)
                                 continue;
@@ -318,7 +318,7 @@ namespace SnCore.WebServices
                     {
                         ManagedAccount ma = new ManagedAccount(session, account);
 
-                        if (! ma.HasVerifiedEmail)
+                        if (! ma.HasVerifiedEmail(sec))
                             continue;
 
                         CampaignAccountRecepient existing = (CampaignAccountRecepient)session.CreateCriteria(typeof(CampaignAccountRecepient))

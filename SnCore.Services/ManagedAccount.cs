@@ -631,7 +631,7 @@ namespace SnCore.Services
             m_instance.Confirm();
 
             CreateAccountSystemMessageFolders(sec);
-            
+
             return mInstance.Id;
         }
 
@@ -689,41 +689,38 @@ namespace SnCore.Services
             }
         }
 
-        public bool HasVerifiedEmail
+        public bool HasVerifiedEmail(ManagedSecurityContext sec)
         {
-            get
-            {
-                foreach (AccountEmail e in Collection<AccountEmail>.GetSafeCollection(mInstance.AccountEmails))
-                {
-                    if (e.Verified)
-                    {
-                        return true;
-                    }
-                }
+            GetACL().Check(sec, DataOperation.Retreive);
 
-                return false;
+            foreach (AccountEmail e in Collection<AccountEmail>.GetSafeCollection(mInstance.AccountEmails))
+            {
+                if (e.Verified)
+                {
+                    return true;
+                }
             }
+
+            return false;
         }
 
-        public string ActiveEmailAddress
+        public string GetActiveEmailAddress(ManagedSecurityContext sec)
         {
-            get
+            GetACL().Check(sec, DataOperation.All);
+            string result = null;
+
+            foreach (AccountEmail e in Collection<AccountEmail>.GetSafeCollection(mInstance.AccountEmails))
             {
-                string result = null;
+                result = e.Address;
 
-                foreach (AccountEmail e in Collection<AccountEmail>.GetSafeCollection(mInstance.AccountEmails))
+                if (e.Verified && e.Principal)
                 {
-                    result = e.Address;
-
-                    if (e.Verified && e.Principal)
-                    {
-                        // pickup the principal address first
-                        break;
-                    }
+                    // pickup the principal address first
+                    break;
                 }
-
-                return result;
             }
+
+            return result;
         }
 
         public static ManagedAccount FindByEmailAndBirthday(ISession session, string emailaddress, DateTime dateofbirth)
@@ -965,7 +962,7 @@ namespace SnCore.Services
             Session.Save(message);
 
             ManagedAccount recepient = new ManagedAccount(Session, message.Account);
-            string sentto = recepient.ActiveEmailAddress;
+            string sentto = recepient.GetActiveEmailAddress(sec);
             if (sentto != null)
             {
                 // EmailAccountMessage
@@ -1095,9 +1092,9 @@ namespace SnCore.Services
                     Id, friendid)).UniqueResult() > 0);
         }
 
-        public int CreateAccountFriendRequest(int friendid, string message)
+        public int CreateAccountFriendRequest(ManagedSecurityContext sec, int friendid, string message)
         {
-            if (!HasVerifiedEmail)
+            if (!HasVerifiedEmail(sec))
             {
                 throw new ManagedAccount.NoVerifiedEmailException();
             }
@@ -1134,7 +1131,7 @@ namespace SnCore.Services
             Session.Save(request);
 
             ManagedAccount recepient = new ManagedAccount(Session, request.Keen);
-            string sentto = recepient.ActiveEmailAddress;
+            string sentto = recepient.GetActiveEmailAddress(sec);
             if (sentto != null)
             {
                 ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
@@ -1299,7 +1296,7 @@ namespace SnCore.Services
         public TransitAccountFriend GetTransformedInstanceFromAccountFriend(ISession session, ManagedSecurityContext sec, AccountFriend friend)
         {
             ManagedAccountFriend m_instance = new ManagedAccountFriend();
-            if (friend.Account.Id != mInstance.Id) 
+            if (friend.Account.Id != mInstance.Id)
             {
                 Account temp = friend.Account;
                 friend.Account = friend.Keen;

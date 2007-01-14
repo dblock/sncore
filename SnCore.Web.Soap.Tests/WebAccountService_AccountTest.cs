@@ -48,5 +48,17 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             WebAccountService.TransitAccount t_instance = EndPoint.FindByEmail(GetUserTicket(), "admin@localhost.com");
             Assert.AreEqual(t_instance.Id, GetAdminAccount().Id);
         }
+
+        [Test]
+        protected void SearchAccountsTest()
+        {
+
+        }
+
+        [Test]
+        protected void SendAccountEmailMessageTest()
+        {
+
+        }
     }
 }

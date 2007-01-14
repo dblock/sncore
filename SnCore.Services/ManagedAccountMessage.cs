@@ -315,6 +315,23 @@ namespace SnCore.Services
             Session.SaveOrUpdate(mInstance);
         }
 
+        public void MoveTo(ManagedSecurityContext sec, int folderid)
+        {
+            GetACL().Check(sec, DataOperation.Update);
+
+            if (mInstance.AccountMessageFolder.Id == folderid)
+                return;
+
+            AccountMessageFolder folder = (AccountMessageFolder) Session.Load(typeof(AccountMessageFolder), folderid);
+            if (folder.Account.Id != mInstance.Account.Id)
+            {
+                throw new ManagedAccount.AccessDeniedException();
+            }
+
+            mInstance.AccountMessageFolder = folder;
+            Save(sec);
+        }
+
         public override ACL GetACL()
         {
             ACL acl = base.GetACL();

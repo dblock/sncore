@@ -47,12 +47,18 @@ namespace SnCore.WebServices
 
         public static TransitType GetByCriterion(string ticket, ICriterion[] criterions)
         {
+            return GetByCriterion(ticket, criterions, -1);
+        }
+
+        public static TransitType GetByCriterion(string ticket, ICriterion[] criterions, int max)
+        {
             using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
                 ManagedType m_type = new ManagedType();
                 ICriteria criteria = session.CreateCriteria(typeof(DataType));
+                if (max > 0) criteria.SetMaxResults(max);
                 if (criterions != null)
                     foreach (ICriterion criterion in criterions)
                         criteria.Add(criterion);

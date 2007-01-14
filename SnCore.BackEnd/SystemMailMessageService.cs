@@ -47,7 +47,7 @@ namespace SnCore.BackEndServices
             AddJob(new SessionJobDelegate(RunMarketingCampaign));
         }
 
-        public void RunEmailQueue(ISession session)
+        public void RunEmailQueue(ISession session, ManagedSecurityContext sec)
         {
             IList emailmessages = session.CreateCriteria(typeof(AccountEmailMessage))
                 .Add(Expression.Eq("Sent", false))
@@ -125,7 +125,7 @@ namespace SnCore.BackEndServices
             }
         }
 
-        public void RunMarketingCampaign(ISession session)
+        public void RunMarketingCampaign(ISession session, ManagedSecurityContext sec)
         {
             IList campaigns = session.CreateCriteria(typeof(Campaign))
                 .Add(Expression.Eq("Active", true))
@@ -154,11 +154,11 @@ namespace SnCore.BackEndServices
                     try
                     {
                         ManagedAccount m_recepient = new ManagedAccount(session, recepient.Account);
-                        if (!m_recepient.HasVerifiedEmail)
+                        if (!m_recepient.HasVerifiedEmail(sec))
                             throw new Exception("No verified e-mail address.");
 
                         m_recepient.SendAccountEmailMessage(
-                            campaign.SenderEmailAddress, m_recepient.ActiveEmailAddress,
+                            campaign.SenderEmailAddress, m_recepient.GetActiveEmailAddress(sec),
                             campaign.Name, content, true);
 
                         recepient.LastError = string.Empty;

@@ -450,7 +450,7 @@ namespace SnCore.Services
                 ManagedAccount acct = new ManagedAccount(Session, mInstance.AccountId);
                 ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
                     Session,
-                    new MailAddress(acct.ActiveEmailAddress, acct.Name).ToString(),
+                    new MailAddress(acct.GetActiveEmailAddress(sec), acct.Name).ToString(),
                     string.Format("EmailBugClosed.aspx?id={0}", mInstance.Id));
             }
             catch

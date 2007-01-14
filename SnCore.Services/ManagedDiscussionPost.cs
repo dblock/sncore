@@ -452,7 +452,7 @@ namespace SnCore.Services
 
                 if (ra.Id != ma.Id)
                 {
-                    string replyTo = ma.ActiveEmailAddress;
+                    string replyTo = ma.GetActiveEmailAddress(sec);
                     if (!string.IsNullOrEmpty(replyTo))
                     {
                         ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(

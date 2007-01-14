@@ -31,7 +31,7 @@ namespace SnCore.BackEndServices
 
         private Nullable<DateTime> mLastRun = null;
 
-        public void RunTagWords(ISession session)
+        public void RunTagWords(ISession session, ManagedSecurityContext sec)
         {
             DateTime newRun = DateTime.UtcNow;
 
