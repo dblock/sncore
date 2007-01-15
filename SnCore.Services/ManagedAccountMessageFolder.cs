@@ -181,7 +181,8 @@ namespace SnCore.Services
                 instance.Account = GetOwner(session, AccountId, sec);
                 instance.System = this.System;
             } 
-            else if (! instance.System) // system folders cannot be renamed
+            
+            if (Id == 0 || ! instance.System) // system folders cannot be renamed
             {
                 instance.Name = this.Name;
             }

@@ -36,7 +36,7 @@ namespace SnCore.Services.Tests
             t_instance.DefaultValue = Guid.NewGuid().ToString();
             t_instance.Description = Guid.NewGuid().ToString();
             t_instance.Name = Guid.NewGuid().ToString();
-            t_instance.Type = typeof(System.String);
+            t_instance.Type = "System.String";
             return t_instance;
         }
     }

@@ -31,7 +31,7 @@ namespace SnCore.Services.Tests
 
         public override TransitAccountPicture GetTransitInstance()
         {
-            TransitAccountPictureWithBitmap t_instance = new TransitAccountPictureWithBitmap();
+            TransitAccountPicture t_instance = new TransitAccountPicture();
             t_instance.Name = Guid.NewGuid().ToString();
             t_instance.AccountId = _account.Instance.Id;
             t_instance.Description = Guid.NewGuid().ToString();

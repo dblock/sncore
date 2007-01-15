@@ -248,6 +248,12 @@ namespace SnCore.Services
             return true;
         }
 
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            if (Id == 0) mInstance.LastRun = DateTime.UtcNow;
+            base.Save(sec);
+        }
+
         public override ACL GetACL()
         {
             ACL acl = base.GetACL();

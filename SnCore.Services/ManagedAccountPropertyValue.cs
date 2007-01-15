@@ -28,19 +28,62 @@ namespace SnCore.Services
             }
         }
 
-        private TransitAccountProperty mAccountProperty;
+        private int mAccountPropertyId;
 
-        public TransitAccountProperty AccountProperty
+        public int AccountPropertyId
         {
             get
             {
-                return mAccountProperty;
+                return mAccountPropertyId;
             }
             set
             {
-                mAccountProperty = value;
+                mAccountPropertyId = value;
             }
         }
+
+        private string mAccountPropertyName;
+
+        public string AccountPropertyName
+        {
+            get
+            {
+                return mAccountPropertyName;
+            }
+            set
+            {
+                mAccountPropertyName = value;
+            }
+        }
+
+        private int mAccountPropertyGroupId;
+
+        public int AccountPropertyGroupId
+        {
+            get
+            {
+                return mAccountPropertyGroupId;
+            }
+            set
+            {
+                mAccountPropertyGroupId = value;
+            }
+        }
+
+        private string mAccountPropertyGroupName;
+
+        public string AccountPropertyGroupName
+        {
+            get
+            {
+                return mAccountPropertyGroupName;
+            }
+            set
+            {
+                mAccountPropertyGroupName = value;
+            }
+        }
+
 
         private string mValue;
 
@@ -98,7 +141,9 @@ namespace SnCore.Services
         public override void SetInstance(AccountPropertyValue instance)
         {
             AccountId = instance.Account.Id;
-            AccountProperty = new TransitAccountProperty(instance.AccountProperty);
+            AccountPropertyId = instance.AccountProperty.Id;
+            AccountPropertyGroupName = instance.AccountProperty.AccountPropertyGroup.Name;
+            AccountPropertyGroupId = instance.AccountProperty.AccountPropertyGroup.Id;
             Created = instance.Created;
             Modified = instance.Modified;
             Value = instance.Value;
@@ -108,8 +153,8 @@ namespace SnCore.Services
         public override AccountPropertyValue GetInstance(ISession session, ManagedSecurityContext sec)
         {
             AccountPropertyValue instance = base.GetInstance(session, sec);
-            instance.Account = (this.AccountId > 0) ? (Account)session.Load(typeof(Account), AccountId) : null;
-            instance.AccountProperty = (this.AccountProperty != null && this.AccountProperty.Id > 0) ? (AccountProperty)session.Load(typeof(AccountProperty), this.AccountProperty.Id) : null;
+            instance.Account = GetOwner(session, AccountId, sec);
+            if (AccountPropertyId > 0) instance.AccountProperty = (AccountProperty)session.Load(typeof(AccountProperty), AccountPropertyId);
             instance.Value = this.Value;
             return instance;
         }

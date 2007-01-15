@@ -6,48 +6,36 @@ using SnCore.Tools.Drawing;
 
 namespace SnCore.Services
 {
-    public class TransitPictureWithBitmap : TransitPicture
-    {
-        public byte[] Bitmap;
-
-        public TransitPictureWithBitmap()
-        {
-
-        }
-
-        public TransitPictureWithBitmap(Picture value)
-            : base(value)
-        {
-            Bitmap = value.Bitmap;
-        }
-
-        public override Picture GetInstance(ISession session, ManagedSecurityContext sec)
-        {
-            Picture instance = base.GetInstance(session, sec);
-            if (this.Bitmap != null) instance.Bitmap = this.Bitmap;
-            return instance;
-        }
-    }
-
-    public class TransitPictureWithThumbnail : TransitPicture
-    {
-        public byte[] Thumbnail;
-
-        public TransitPictureWithThumbnail()
-        {
-
-        }
-
-        public TransitPictureWithThumbnail(Picture value)
-            : base(value)
-        {
-            Thumbnail = new ThumbnailBitmap(value.Bitmap).Thumbnail;
-        }
-    }
-
-
     public class TransitPicture : TransitService<Picture>
     {
+        private byte[] mBitmap;
+
+        public byte[] Bitmap
+        {
+            get
+            {
+                return mBitmap;
+            }
+            set
+            {
+                mBitmap = value;
+            }
+        }
+
+        private byte[] mThumbnail;
+
+        public byte[] Thumbnail
+        {
+            get
+            {
+                return mThumbnail;
+            }
+            set
+            {
+                mThumbnail = value;
+            }
+        }
+
         private string mName;
 
         public string Name
@@ -141,6 +129,8 @@ namespace SnCore.Services
             Created = value.Created;
             Modified = value.Modified;
             Type = value.Type.Name;
+            Bitmap = value.Bitmap;
+            Thumbnail = new ThumbnailBitmap(value.Bitmap).Thumbnail;
             base.SetInstance(value);
         }
 
@@ -150,6 +140,7 @@ namespace SnCore.Services
             instance.Name = this.Name;
             instance.Description = this.Description;
             if (!string.IsNullOrEmpty(this.Type)) instance.Type = ManagedPictureType.Find(session, this.Type);
+            if (Bitmap != null) instance.Bitmap = Bitmap;
             return instance;
         }
     }
@@ -219,18 +210,6 @@ namespace SnCore.Services
             }
         }
 
-        public TransitPictureWithBitmap GetTransitPictureWithBitmap()
-        {
-            TransitPictureWithBitmap pic = new TransitPictureWithBitmap(mInstance);
-            return pic;
-        }
-
-        public TransitPictureWithThumbnail GetTransitPictureWithThumbnail()
-        {
-            TransitPictureWithThumbnail pic = new TransitPictureWithThumbnail(mInstance);
-            return pic;
-        }
-
         protected override void Save(ManagedSecurityContext sec)
         {
             mInstance.Modified = DateTime.UtcNow;
@@ -243,6 +222,6 @@ namespace SnCore.Services
             ACL acl = base.GetACL();
             acl.Add(new ACLEveryoneAllowRetrieve());
             return acl;
-        }    
+        }
     }
 }

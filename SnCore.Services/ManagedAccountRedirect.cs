@@ -228,7 +228,17 @@ namespace SnCore.Services
                 string inipath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "IsapiRewrite\\IsapiRewrite4.ini");
                 Console.WriteLine(inipath);
 
-                FileStream f = new FileStream(inipath, FileMode.OpenOrCreate | FileMode.Truncate, FileAccess.Write);
+                FileStream f = null;
+                
+                if (File.Exists(inipath))
+                {
+                    f = new FileStream(inipath, FileMode.Truncate, FileAccess.Write);
+                }
+                else
+                {
+                    f = new FileStream(inipath, FileMode.Create, FileAccess.Write);
+                }
+
                 StreamWriter sw = new StreamWriter(f);
                 sw.Write(sb);
                 sw.Close();

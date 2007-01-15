@@ -17,48 +17,37 @@ namespace SnCore.Services
         }
     };
 
-    public class TransitAccountPictureWithBitmap : TransitAccountPicture
-    {
-        public byte[] Bitmap;
-
-        public TransitAccountPictureWithBitmap()
-        {
-
-        }
-
-        public TransitAccountPictureWithBitmap(AccountPicture p)
-            : base(p)
-        {
-            Bitmap = p.Bitmap;
-        }
-
-        public override AccountPicture GetInstance(ISession session, ManagedSecurityContext sec)
-        {
-            AccountPicture instance = base.GetInstance(session, sec);
-            if (this.Bitmap != null) instance.Bitmap = this.Bitmap;
-            return instance;
-        }
-    }
-
-    public class TransitAccountPictureWithThumbnail : TransitAccountPicture
-    {
-        public byte[] Thumbnail;
-
-        public TransitAccountPictureWithThumbnail()
-        {
-
-        }
-
-        public TransitAccountPictureWithThumbnail(AccountPicture p)
-            : base(p)
-        {
-            Thumbnail = new ThumbnailBitmap(p.Bitmap).Thumbnail;
-        }
-    }
-
-
     public class TransitAccountPicture : TransitArrayElementService<AccountPicture>
     {
+        private byte[] mBitmap;
+
+        public byte[] Bitmap
+        {
+            get
+            {
+                return mBitmap;
+            }
+            set
+            {
+                mBitmap = value;
+            }
+        }
+
+        private byte[] mThumbnail;
+
+        public byte[] Thumbnail
+        {
+            get
+            {
+                return mThumbnail;
+            }
+            set
+            {
+                mThumbnail = value;
+            }
+        }
+
+
         private string mName;
 
         public string Name
@@ -197,6 +186,8 @@ namespace SnCore.Services
             Modified = instance.Modified;
             AccountId = instance.Account.Id;
             Hidden = instance.Hidden;
+            Bitmap = instance.Bitmap;
+            Thumbnail = new ThumbnailBitmap(Bitmap).Thumbnail;
         }
 
         public TransitAccountPicture(AccountPicture p)
@@ -217,6 +208,7 @@ namespace SnCore.Services
                 instance.Account = GetOwner(session, AccountId, sec);
                 instance.Created = instance.Modified;
             }
+            if (Bitmap != null) instance.Bitmap = Bitmap;
             return instance;
         }
     }
@@ -284,12 +276,6 @@ namespace SnCore.Services
             {
                 return mInstance.Modified;
             }
-        }
-
-        public TransitAccountPictureWithBitmap GetTransitAccountPictureWithBitmap()
-        {
-            TransitAccountPictureWithBitmap pic = new TransitAccountPictureWithBitmap(mInstance);
-            return pic;
         }
 
         public int AccountId

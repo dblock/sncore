@@ -257,7 +257,9 @@ namespace SnCore.Services
             {
                 instance.AccountMessageFolder = (AccountMessageFolder)session.CreateCriteria(typeof(AccountMessageFolder))
                     .Add(Expression.Eq("Name", "inbox"))
-                    .Add(Expression.Eq("Account.Id", this.AccountId))
+                    .Add(Expression.IsNull("AccountMessageFolderParent"))
+                    .Add(Expression.Eq("System", true))
+                    .Add(Expression.Eq("Account.Id", instance.Account.Id))
                     .UniqueResult();
             }
             else
@@ -313,6 +315,12 @@ namespace SnCore.Services
         {
             mInstance.Unread = value;
             Session.SaveOrUpdate(mInstance);
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            if (mInstance.Id == 0) mInstance.Sent = DateTime.UtcNow;
+            base.Save(sec);
         }
 
         public void MoveTo(ManagedSecurityContext sec, int folderid)

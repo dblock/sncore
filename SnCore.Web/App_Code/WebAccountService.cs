@@ -925,7 +925,7 @@ namespace SnCore.WebServices
         public int GetAccountOpenIdsCount(string ticket, int id)
         {
             return WebServiceImpl<TransitAccountOpenId, ManagedAccountOpenId, AccountOpenId>.GetCount(
-                ticket, string.Format("WHERE Account.Id = {0}", id));
+                ticket, string.Format("WHERE AccountOpenId.Account.Id = {0}", id));
         }
 
         /// <summary>
@@ -950,6 +950,19 @@ namespace SnCore.WebServices
         {
             return WebServiceImpl<TransitAccountOpenId, ManagedAccountOpenId, AccountOpenId>.CreateOrUpdate(
                 ticket, openid);
+        }
+
+        /// <summary>
+        /// Get an account openid.
+        /// </summary>
+        /// <param name="ticket"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [WebMethod(Description = "Get an account openid.")]
+        public TransitAccountOpenId GetAccountOpenIdById(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountOpenId, ManagedAccountOpenId, AccountOpenId>.GetById(
+                ticket, id);
         }
 
         #endregion
@@ -1216,8 +1229,7 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>transit account property value</returns>
         [WebMethod(Description = "Get a account property value by group and name.")]
-        public TransitAccountPropertyValue GetAccountPropertyValueByName(
-            string ticket, int accountid, string groupname, string propertyname)
+        public TransitAccountPropertyValue GetAccountPropertyValueByName(string ticket, int accountid, string groupname, string propertyname)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
@@ -1317,7 +1329,7 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>list of account property values</returns>
         [WebMethod(Description = "Get all account property values, including unfilled ones.", CacheDuration = 60)]
-        public List<TransitAccountPropertyValue> GetAllAccountPropertyValuesById(string ticket, int accountid, int groupid)
+        public List<TransitAccountPropertyValue> GetAllAccountPropertyValues(string ticket, int accountid, int groupid)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
@@ -1409,7 +1421,7 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>list of account attributes</returns>
         [WebMethod(Description = "Get account attributes.", CacheDuration = 60)]
-        public List<TransitAccountAttribute> GetAccountAttributesById(string ticket, int id, ServiceQueryOptions options)
+        public List<TransitAccountAttribute> GetAccountAttributes(string ticket, int id, ServiceQueryOptions options)
         {
             ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
             return WebServiceImpl<TransitAccountAttribute, ManagedAccountAttribute, AccountAttribute>.GetList(
@@ -1545,7 +1557,7 @@ namespace SnCore.WebServices
         /// <param name="ticket">authentication ticket</param>
         /// <param name="redirect">new redirect</param>
         [WebMethod(Description = "Create or update a redirect.")]
-        public int AddAccountRedirect(string ticket, TransitAccountRedirect redirect)
+        public int CreateOrUpdateAccountRedirect(string ticket, TransitAccountRedirect redirect)
         {
             int id = WebServiceImpl<TransitAccountRedirect, ManagedAccountRedirect, AccountRedirect>.CreateOrUpdate(
                 ticket, redirect);
@@ -1682,7 +1694,7 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>list of transit websites</returns>
         [WebMethod(Description = "Get all account websites.")]
-        public List<TransitAccountWebsite> GetAccountWebsitees(string ticket, int id, ServiceQueryOptions options)
+        public List<TransitAccountWebsite> GetAccountWebsites(string ticket, int id, ServiceQueryOptions options)
         {
             ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
             return WebServiceImpl<TransitAccountWebsite, ManagedAccountWebsite, AccountWebsite>.GetList(
@@ -1710,7 +1722,7 @@ namespace SnCore.WebServices
         /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="accountpicture">transit account picture</param>
-        [WebMethod(Description = "Create or update a account picture.")]
+        [WebMethod(Description = "Create or update a account picture.", BufferResponse = true)]
         public int CreateOrUpdateAccountPicture(string ticket, TransitAccountPicture accountpicture)
         {
             return WebServiceImpl<TransitAccountPicture, ManagedAccountPicture, AccountPicture>.CreateOrUpdate(
@@ -1751,7 +1763,7 @@ namespace SnCore.WebServices
         /// Get account pictures count.
         /// </summary>
         [WebMethod(Description = "Get account pictures count.")]
-        public int GetAccountPicturesCount(string ticket, AccountPicturesQueryOptions qopt, int id)
+        public int GetAccountPicturesCount(string ticket, int id, AccountPicturesQueryOptions qopt)
         {
             StringBuilder query = new StringBuilder();
             query.AppendFormat("WHERE AccountPicture.Account.Id = {0}", id);
@@ -1814,7 +1826,7 @@ namespace SnCore.WebServices
         /// <param name="surveyid">survey id</param>
         /// <returns>transit account survey answers</returns>
         [WebMethod(Description = "Get account survey answers.", CacheDuration = 60)]
-        public List<TransitAccountSurveyAnswer> GetAccountSurveyAnswers(string ticket, int id, int surveyid)
+        public List<TransitAccountSurveyAnswer> GetAccountSurveyAnswers(string ticket, int id, int surveyid, ServiceQueryOptions options)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
@@ -1846,6 +1858,7 @@ namespace SnCore.WebServices
                     }
                 }
 
+                WebServiceQueryOptions<TransitAccountSurveyAnswer>.Apply(options, result);
                 return result;
             }
         }
@@ -1941,7 +1954,7 @@ namespace SnCore.WebServices
         /// <param name="id">account id</param>
         /// <returns>transit account message folders</returns>
         [WebMethod(Description = "Get account message folders.")]
-        public List<TransitAccountMessageFolder> GetAccountMessageFolders(string ticket, int id)
+        public List<TransitAccountMessageFolder> GetAccountMessageFolders(string ticket, int id, ServiceQueryOptions options)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
@@ -1960,6 +1973,7 @@ namespace SnCore.WebServices
                     ManagedAccountMessageFolder m_folder = new ManagedAccountMessageFolder(session, enumerator.Current);
                     result.Add(m_folder.GetTransitInstance(sec));
                 }
+                WebServiceQueryOptions<TransitAccountMessageFolder>.Apply(options, result);
                 return result;
             }
         }
@@ -2045,6 +2059,11 @@ namespace SnCore.WebServices
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
 
+                if (!sec.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
                 AccountEmailMessage m = message.GetInstance(session, sec);
                 ManagedAccount user = new ManagedAccount(session, id);
                 m.Account = user.Instance;
@@ -2074,7 +2093,7 @@ namespace SnCore.WebServices
         public int GetAccountMessagesCount(string ticket, int folderid)
         {
             return WebServiceImpl<TransitAccountMessage, ManagedAccountMessage, AccountMessage>.GetCount(
-                ticket, string.Format("WHERE AccountMessageFolder.Id = {0}", folderid));
+                ticket, string.Format("WHERE AccountMessage.AccountMessageFolder.Id = {0}", folderid));
         }
 
         /// <summary>
@@ -2109,9 +2128,9 @@ namespace SnCore.WebServices
         /// <param name="ticket">authentication ticket</param>
         /// <param name="message">new message</param>
         [WebMethod(Description = "Add a message.")]
-        public void CreateOrUpdateAccountMessage(string ticket, TransitAccountMessage message)
+        public int CreateOrUpdateAccountMessage(string ticket, TransitAccountMessage message)
         {
-            WebServiceImpl<TransitAccountMessage, ManagedAccountMessage, AccountMessage>.CreateOrUpdate(
+            return WebServiceImpl<TransitAccountMessage, ManagedAccountMessage, AccountMessage>.CreateOrUpdate(
                 ticket, message);
         }
 

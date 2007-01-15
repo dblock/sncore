@@ -35,8 +35,7 @@ namespace SnCore.Services.Tests
         public override TransitAccountPropertyValue GetTransitInstance()
         {
             TransitAccountPropertyValue t_instance = new TransitAccountPropertyValue();
-            t_instance.AccountProperty = new TransitAccountProperty();
-            t_instance.AccountProperty.Id = _property.Instance.Id;
+            t_instance.AccountPropertyId = _property.Instance.Id;
             t_instance.Value = Guid.NewGuid().ToString();
             t_instance.AccountId = _account.Instance.Id;
             return t_instance;

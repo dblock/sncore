@@ -57,9 +57,9 @@ namespace SnCore.Services
             }
         }
 
-        private Type mType;
+        private string mType;
 
-        public Type Type
+        public string Type
         {
             get
             {
@@ -114,7 +114,7 @@ namespace SnCore.Services
         {
             Name = value.Name;
             Description = value.Description;
-            Type = Type.GetType(value.TypeName);
+            Type = value.TypeName;
             DefaultValue = value.DefaultValue;
             Publish = value.Publish;
             AccountPropertyGroupId = value.AccountPropertyGroup.Id;
@@ -128,7 +128,7 @@ namespace SnCore.Services
             instance.Name = this.Name;
             instance.Description = this.Description;
             instance.DefaultValue = this.DefaultValue;
-            instance.TypeName = this.Type.ToString();
+            instance.TypeName = this.Type;
             instance.Publish = this.Publish;
             return instance;
         }

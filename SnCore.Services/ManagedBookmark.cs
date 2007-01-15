@@ -22,34 +22,36 @@ namespace SnCore.Services
         }
     }
 
-    public class TransitBookmarkWithBitmaps : TransitBookmark
-    {
-        public byte[] FullBitmap;
-        public byte[] LinkBitmap;
-
-        public TransitBookmarkWithBitmaps()
-        {
-
-        }
-
-        public TransitBookmarkWithBitmaps(Bookmark b)
-            : base(b)
-        {
-            FullBitmap = b.FullBitmap;
-            LinkBitmap = b.LinkBitmap;
-        }
-
-        public override Bookmark GetInstance(ISession session, ManagedSecurityContext sec)
-        {
-            Bookmark instance = base.GetInstance(session, sec);
-            if (this.LinkBitmap != null) instance.LinkBitmap = this.LinkBitmap;
-            if (this.FullBitmap != null) instance.FullBitmap = this.FullBitmap;
-            return instance;
-        }
-    }
-
     public class TransitBookmark : TransitService<Bookmark>
     {
+        private byte[] mFullBitmap;
+
+        public byte[] FullBitmap
+        {
+            get
+            {
+                return mFullBitmap;
+            }
+            set
+            {
+                mFullBitmap = value;
+            }
+        }
+
+        private byte[] mLinkBitmap;
+
+        public byte[] LinkBitmap
+        {
+            get
+            {
+                return mLinkBitmap;
+            }
+            set
+            {
+                mLinkBitmap = value;
+            }
+        }
+
         private bool mHasFullBitmap;
 
         public bool HasFullBitmap
@@ -162,6 +164,8 @@ namespace SnCore.Services
             Modified = instance.Modified;
             mHasFullBitmap = (instance.FullBitmap != null);
             mHasLinkBitmap = (instance.LinkBitmap != null);
+            FullBitmap = instance.FullBitmap;
+            LinkBitmap = instance.LinkBitmap;
             base.SetInstance(instance);
         }
 

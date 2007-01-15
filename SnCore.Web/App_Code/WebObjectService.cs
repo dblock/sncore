@@ -216,7 +216,7 @@ namespace SnCore.WebServices
         public int GetSurveyQuestionsCount(string ticket, int id)
         {
             return WebServiceImpl<TransitSurveyQuestion, ManagedSurveyQuestion, SurveyQuestion>.GetCount(
-                ticket, string.Format("WHERE SurveyQuestion.Survey.Id", id));
+                ticket, string.Format("WHERE SurveyQuestion.Survey.Id = {0}", id));
         }
 
         /// <summary>
@@ -367,7 +367,7 @@ namespace SnCore.WebServices
         /// Get a picture.
         /// </summary>
         /// <returns>transit picture</returns>
-        [WebMethod(Description = "Get a picture.")]
+        [WebMethod(Description = "Get a picture.", BufferResponse = true)]
         public TransitPicture GetPictureById(string ticket, int id)
         {
             return WebServiceImpl<TransitPicture, ManagedPicture, Picture>.GetById(
@@ -379,7 +379,7 @@ namespace SnCore.WebServices
         /// Get all pictures.
         /// </summary>
         /// <returns>list of transit pictures</returns>
-        [WebMethod(Description = "Get all pictures.")]
+        [WebMethod(Description = "Get all pictures.", BufferResponse = true)]
         public List<TransitPicture> GetPictures(string ticket, ServiceQueryOptions options)
         {
             return WebServiceImpl<TransitPicture, ManagedPicture, Picture>.GetList(
@@ -407,6 +407,25 @@ namespace SnCore.WebServices
         {
             WebServiceImpl<TransitPicture, ManagedPicture, Picture>.Delete(
                 ticket, id);
+        }
+
+        /// <summary>
+        /// Get picture data if modified since.
+        /// </summary>
+        /// <param name="ticket"></param>
+        /// <param name="id"></param>
+        /// <param name="ifModifiedSince"></param>
+        /// <returns></returns>
+        [WebMethod(Description = "Get picture data if modified since.", BufferResponse = true)]
+        public TransitPicture GetPictureIfModifiedSince(string ticket, int id, DateTime ifModifiedSince)
+        {
+            TransitPicture t_instance = WebServiceImpl<TransitPicture, ManagedPicture, Picture>.GetById(
+                ticket, id);
+
+            if (t_instance.Modified <= ifModifiedSince)
+                return null;
+
+            return t_instance;
         }
 
         #endregion
@@ -577,7 +596,7 @@ namespace SnCore.WebServices
         /// Get all reminder account properties count.
         /// </summary>
         [WebMethod(Description = "Get all reminder account properties count.")]
-        public int GetReminderAccountPropertiesCountById(string ticket, int id)
+        public int GetReminderAccountPropertiesCount(string ticket, int id)
         {
             return WebServiceImpl<TransitReminderAccountProperty, ManagedReminderAccountProperty, ReminderAccountProperty>.GetCount(
                 ticket, string.Format("WHERE ReminderAccountProperty.Reminder.Id = {0}", id));
@@ -588,7 +607,7 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>list of transit reminder account properties</returns>
         [WebMethod(Description = "Get all reminder account properties.")]
-        public List<TransitReminderAccountProperty> GetReminderAccountPropertiesById(string ticket, int id, ServiceQueryOptions options)
+        public List<TransitReminderAccountProperty> GetReminderAccountProperties(string ticket, int id, ServiceQueryOptions options)
         {
             ICriterion[] expressions = { Expression.Eq("Reminder.Id", id) };
             return WebServiceImpl<TransitReminderAccountProperty, ManagedReminderAccountProperty, ReminderAccountProperty>.GetList(

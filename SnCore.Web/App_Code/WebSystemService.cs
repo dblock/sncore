@@ -145,7 +145,7 @@ namespace SnCore.WebServices
         public TransitConfiguration GetConfigurationByName(string ticket, string name)
         {
             return WebServiceImpl<TransitConfiguration, ManagedConfiguration, Configuration>.GetByCriterion(
-                ticket, Expression.Eq("Name", name));
+                ticket, Expression.Eq("OptionName", name));
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace SnCore.WebServices
         public string GetConfigurationValue(string ticket, string name)
         {
             return WebServiceImpl<TransitConfiguration, ManagedConfiguration, Configuration>.GetByCriterion(
-                ticket, Expression.Eq("Name", name)).Value;
+                ticket, Expression.Eq("OptionName", name)).Value;
         }
 
         /// <summary>
@@ -174,7 +174,7 @@ namespace SnCore.WebServices
             try
             {
                 return WebServiceImpl<TransitConfiguration, ManagedConfiguration, Configuration>.GetByCriterion(
-                    ticket, Expression.Eq("Name", name)).Value;
+                    ticket, Expression.Eq("OptionName", name)).Value;
             }
             catch (ObjectNotFoundException)
             {
