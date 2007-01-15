@@ -241,7 +241,7 @@ namespace SnCore.Services.Tests
 
                 {
                     TransitBugQueryOptions qo = new TransitBugQueryOptions();
-                    IQuery query = qo.GetQuery(Session);
+                    IQuery query = Session.CreateQuery(qo.GetQuery(Session));
                     IList list = query.List();
                     Assert.AreEqual(0, list.Count, "Wrong count on query w/o a project.");
                 }

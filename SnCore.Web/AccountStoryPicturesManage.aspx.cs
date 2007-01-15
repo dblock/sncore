@@ -41,7 +41,7 @@ public partial class AccountStoryPicturesManage : AuthenticatedPage
             StackSiteMap(sitemapdata);
         }
 
-        if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket))
+        if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket, SessionManager.AccountId))
         {
             ReportWarning("You don't have any verified e-mail addresses.\n" +
                 "You must add/confirm a valid e-mail address before posting stories.");
@@ -88,23 +88,17 @@ public partial class AccountStoryPicturesManage : AuthenticatedPage
             if (e.PostedFiles.Count == 0)
                 return;
 
-            TransitAccountStory s = SessionManager.StoryService.GetAccountStoryById(SessionManager.Ticket, RequestId);
-
-            List<TransitAccountStoryPictureWithPicture> ps =
-                new List<TransitAccountStoryPictureWithPicture>(e.PostedFiles.Count);
-
             ExceptionCollection exceptions = new ExceptionCollection();
             foreach (HttpPostedFile file in e.PostedFiles)
             {
                 try
                 {
-                    TransitAccountStoryPictureWithPicture p =
-                        new TransitAccountStoryPictureWithPicture();
-
+                    TransitAccountStoryPicture p = new TransitAccountStoryPicture();
                     ThumbnailBitmap t = new ThumbnailBitmap(file.InputStream);
                     p.Picture = t.Bitmap;
                     p.Name = Path.GetFileName(file.FileName);
-                    ps.Add(p);
+                    p.AccountStoryId = RequestId;
+                    SessionManager.StoryService.CreateOrUpdateAccountStoryPicture(SessionManager.Ticket, p);
                 }
                 catch (Exception ex)
                 {
@@ -113,7 +107,7 @@ public partial class AccountStoryPicturesManage : AuthenticatedPage
                 }
             }
 
-            SessionManager.StoryService.AddAccountStoryWithPictures(SessionManager.Ticket, s, ps.ToArray());
+
             GetImagesData(sender, e);
             exceptions.Throw();
         }

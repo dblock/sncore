@@ -17,39 +17,40 @@ public partial class RefererAccountsView : AccountPersonPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
-            if (!IsPostBack)
-            {
-                //labelName.Text = Renderer.Render(SessionManager.GetCachedConfiguration(
-                //            "SnCore.Name", "SnCore"));
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+        if (!IsPostBack)
+        {
+            //labelName.Text = Renderer.Render(SessionManager.GetCachedConfiguration(
+            //            "SnCore.Name", "SnCore"));
 
-                //linkAdministrator.OnClientClick =
-                //    string.Format("location.href='mailto:{0}';",
-                //       SessionManager.GetCachedConfiguration(
-                //            "SnCore.Admin.EmailAddress", "admin@localhost.com"));
-                GetData();
+            //linkAdministrator.OnClientClick =
+            //    string.Format("location.href='mailto:{0}';",
+            //       SessionManager.GetCachedConfiguration(
+            //            "SnCore.Admin.EmailAddress", "admin@localhost.com"));
+            GetData();
 
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Top Traffickers", Request.Url));
-                StackSiteMap(sitemapdata);
-            }
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Top Traffickers", Request.Url));
+            StackSiteMap(sitemapdata);
+        }
     }
     private void GetData()
     {
+        object[] args = { SessionManager.Ticket };
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            SessionManager.StatsService, "GetRefererAccountsCount", null);
+        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitRefererAccount>(
+            SessionManager.StatsService, "GetRefererAccountsCount", args);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-            ServiceQueryOptions serviceoptions = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
-            object[] args = { serviceoptions };
-            gridManage.DataSource = SessionManager.GetCachedCollection<TransitRefererAccount>(
-                SessionManager.StatsService, "GetRefererAccounts", args);
+        ServiceQueryOptions serviceoptions = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
+        object[] args = { SessionManager.Ticket, serviceoptions };
+        gridManage.DataSource = SessionManager.GetCachedCollection<TransitRefererAccount>(
+            SessionManager.StatsService, "GetRefererAccounts", args);
     }
 
     public void gridManage_DataBinding(object sender, EventArgs e)

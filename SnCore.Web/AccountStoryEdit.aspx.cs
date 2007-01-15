@@ -54,7 +54,7 @@ public partial class AccountStoryEdit : AuthenticatedPage
             GetImagesData(sender, e);
         }
 
-        if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket))
+        if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket, SessionManager.AccountId))
         {
             ReportWarning("You don't have any verified e-mail addresses.\n" +
                 "You must add/confirm a valid e-mail address before posting stories.");
@@ -104,7 +104,7 @@ public partial class AccountStoryEdit : AuthenticatedPage
         s.Summary = inputSummary.Text;
         s.Publish = inputPublish.Checked;
         s.Id = RequestId;
-        s.Id = SessionManager.StoryService.AddAccountStory(SessionManager.Ticket, s);
+        s.Id = SessionManager.StoryService.CreateOrUpdateAccountStory(SessionManager.Ticket, s);
         Redirect(string.Format("AccountStoryView.aspx?id={0}", s.Id));
     }
 }

@@ -19,37 +19,38 @@ public partial class SystemRefererHostDupEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-            if (!IsPostBack)
+        if (!IsPostBack)
+        {
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Referer Host Dups", Request, "SystemRefererHostDupsManage.aspx"));
+
+            if (RequestId > 0)
             {
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Referer Host Dups", Request, "SystemRefererHostDupsManage.aspx"));
-
-                if (RequestId > 0)
-                {
-                    TransitRefererHostDup t = SessionManager.StatsService.GetRefererHostDupById(RequestId);
-                    inputHost.Text = t.Host;
-                    inputRefererHost.Text = t.RefererHost;
-                    sitemapdata.Add(new SiteMapDataAttributeNode(t.Host, Request.Url));
-                }
-                else
-                {
-                    sitemapdata.Add(new SiteMapDataAttributeNode("New Referer Host", Request.Url));
-                }
-
-                StackSiteMap(sitemapdata);
+                TransitRefererHostDup t = SessionManager.StatsService.GetRefererHostDupById(
+                    SessionManager.Ticket, RequestId);
+                inputHost.Text = t.Host;
+                inputRefererHost.Text = t.RefererHost;
+                sitemapdata.Add(new SiteMapDataAttributeNode(t.Host, Request.Url));
+            }
+            else
+            {
+                sitemapdata.Add(new SiteMapDataAttributeNode("New Referer Host", Request.Url));
             }
 
-            SetDefaultButton(manageAdd);
+            StackSiteMap(sitemapdata);
+        }
+
+        SetDefaultButton(manageAdd);
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-            TransitRefererHostDup t = new TransitRefererHostDup();
-            t.Host = inputHost.Text;
-            t.RefererHost = inputRefererHost.Text;
-            t.Id = RequestId;
-            SessionManager.StatsService.CreateOrUpdateRefererHostDup(SessionManager.Ticket, t);
-            Redirect("SystemRefererHostDupsManage.aspx");
+        TransitRefererHostDup t = new TransitRefererHostDup();
+        t.Host = inputHost.Text;
+        t.RefererHost = inputRefererHost.Text;
+        t.Id = RequestId;
+        SessionManager.StatsService.CreateOrUpdateRefererHostDup(SessionManager.Ticket, t);
+        Redirect("SystemRefererHostDupsManage.aspx");
     }
 }

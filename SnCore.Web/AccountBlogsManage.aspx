@@ -74,19 +74,19 @@
    </asp:TemplateColumn>
    <asp:TemplateColumn HeaderText="Blog" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left">
     <itemtemplate>
-     <a href="AccountBlogView.aspx?id=<%# Eval("AccountBlogId") %>">
-      <%# base.Render(Eval("AccountBlogName")) %>
+     <a href="AccountBlogView.aspx?id=<%# Eval("Id") %>">
+      <%# base.Render(Eval("Name")) %>
      </a>
     </itemtemplate>
    </asp:TemplateColumn>
    <asp:TemplateColumn>
     <itemtemplate>
-     <a href="AccountBlogPost.aspx?bid=<%# Eval("AccountBlogId") %>">Post</a>
+     <a href="AccountBlogPost.aspx?bid=<%# Eval("Id") %>">Post</a>
     </itemtemplate>
    </asp:TemplateColumn>
    <asp:TemplateColumn>
     <itemtemplate>
-     <a href="AccountBlogEdit.aspx?id=<%# Eval("AccountBlogId") %>">Edit</a>
+     <a href="AccountBlogEdit.aspx?id=<%# Eval("Id") %>">Edit</a>
     </itemtemplate>
    </asp:TemplateColumn>
   </Columns>

@@ -33,7 +33,8 @@ public partial class FeedTypeEdit : AuthenticatedPage
 
             if (RequestId > 0)
             {
-                TransitFeedType t = SessionManager.SyndicationService.GetFeedTypeById(RequestId);
+                TransitFeedType t = SessionManager.SyndicationService.GetFeedTypeById(
+                    SessionManager.Ticket, RequestId);
                 inputName.Text = t.Name;
                 inputSpanColumns.Items.FindByValue(t.SpanColumns.ToString()).Selected = true;
                 inputSpanRows.Items.FindByValue(t.SpanRows.ToString()).Selected = true;

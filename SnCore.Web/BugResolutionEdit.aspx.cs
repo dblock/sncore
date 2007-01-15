@@ -24,7 +24,8 @@ public partial class BugResolutionEdit : AuthenticatedPage
 
             if (RequestId > 0)
             {
-                TransitBugResolution t = SessionManager.BugService.GetBugResolutionById(RequestId);
+                TransitBugResolution t = SessionManager.BugService.GetBugResolutionById(
+                    SessionManager.Ticket, RequestId);
                 inputName.Text = t.Name;
                 sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
             }

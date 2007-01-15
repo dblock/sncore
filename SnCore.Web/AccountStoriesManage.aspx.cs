@@ -19,7 +19,8 @@ public partial class AccountStoriesManage : AuthenticatedPage
 
         if (!IsPostBack)
         {
-            gridManage.VirtualItemCount = SessionManager.StoryService.GetAccountStoriesCount(SessionManager.Ticket, null);
+            gridManage.VirtualItemCount = SessionManager.StoryService.GetAccountStoriesCount(
+                SessionManager.Ticket, SessionManager.AccountId, null);
             gridManage_OnGetDataSource(this, null);
             gridManage.DataBind();
 
@@ -40,7 +41,8 @@ public partial class AccountStoriesManage : AuthenticatedPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = gridManage.CurrentPageIndex;
         options.PageSize = gridManage.PageSize;
-        gridManage.DataSource = SessionManager.StoryService.GetAccountStories(SessionManager.Ticket, null, options);
+        gridManage.DataSource = SessionManager.StoryService.GetAccountStories(
+            SessionManager.Ticket, SessionManager.AccountId, null, options);
     }
 
     public void gridManage_ItemCommand(object sender, DataGridCommandEventArgs e)

@@ -43,7 +43,7 @@ public partial class PlacePropertyValuesViewControl : Control
     {
         if (!IsPostBack)
         {
-            object[] args = { GroupName, PropertyName };
+            object[] args = { SessionManager.Ticket, GroupName, PropertyName };
             values.DataSource = SessionManager.GetCachedCollection<TransitDistinctPlacePropertyValue>(
                 SessionManager.PlaceService, "GetDistinctPropertyValues", args);
             values.DataBind();

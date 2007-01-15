@@ -48,7 +48,8 @@ public partial class AccountStoriesRss : Page
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = 0;
             options.PageSize = 25;
-            rssRepeater.DataSource = SessionManager.StoryService.GetLatestAccountStories(options);
+            rssRepeater.DataSource = SessionManager.StoryService.GetAllAccountStories(
+                SessionManager.Ticket, options);
             rssRepeater.DataBind();
         }
     }

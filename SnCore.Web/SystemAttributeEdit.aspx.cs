@@ -20,45 +20,46 @@ public partial class SystemAttributeEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-            if (!IsPostBack)
+        if (!IsPostBack)
+        {
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Attributes", Request, "SystemAttributesManage.aspx"));
+
+            if (RequestId > 0)
             {
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Attributes", Request, "SystemAttributesManage.aspx"));
-
-                if (RequestId > 0)
-                {
-                    TransitAttribute t = SessionManager.SystemService.GetAttributeById(RequestId);
-                    inputName.Text = t.Name;
-                    inputDescription.Text = t.Description;
-                    inputDefaultUrl.Text = t.DefaultUrl;
-                    inputDefaultValue.Text = t.DefaultValue;
-                    imageBitmap.ImageUrl = string.Format("SystemAttribute.aspx?id={0}&CacheDuration=0", t.Id);
-                    imageBitmap.Visible = t.HasBitmap;
-                    sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
-                }
-                else
-                {
-                    imageBitmap.Visible = false;
-                    sitemapdata.Add(new SiteMapDataAttributeNode("New Attribute", Request.Url));
-                }
-
-                StackSiteMap(sitemapdata);
+                TransitAttribute t = SessionManager.ObjectService.GetAttributeById(
+                    SessionManager.Ticket, RequestId);
+                inputName.Text = t.Name;
+                inputDescription.Text = t.Description;
+                inputDefaultUrl.Text = t.DefaultUrl;
+                inputDefaultValue.Text = t.DefaultValue;
+                imageBitmap.ImageUrl = string.Format("SystemAttribute.aspx?id={0}&CacheDuration=0", t.Id);
+                imageBitmap.Visible = t.HasBitmap;
+                sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
+            }
+            else
+            {
+                imageBitmap.Visible = false;
+                sitemapdata.Add(new SiteMapDataAttributeNode("New Attribute", Request.Url));
             }
 
-            SetDefaultButton(manageAdd);
+            StackSiteMap(sitemapdata);
+        }
+
+        SetDefaultButton(manageAdd);
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-            TransitAttributeWithBitmap t = new TransitAttributeWithBitmap();
-            t.Name = inputName.Text;
-            t.Description = inputDescription.Text;
-            t.DefaultUrl = inputDefaultUrl.Text;
-            t.DefaultValue = inputDefaultValue.Text;
-            t.Id = RequestId;
-            if (inputBitmap.HasFile) t.Bitmap = new ThumbnailBitmap(inputBitmap.FileContent, new Size(16, 16)).Bitmap;
-            SessionManager.SystemService.CreateOrUpdateAttribute(SessionManager.Ticket, t);
-            Redirect("SystemAttributesManage.aspx");
+        TransitAttribute t = new TransitAttribute();
+        t.Name = inputName.Text;
+        t.Description = inputDescription.Text;
+        t.DefaultUrl = inputDefaultUrl.Text;
+        t.DefaultValue = inputDefaultValue.Text;
+        t.Id = RequestId;
+        if (inputBitmap.HasFile) t.Bitmap = new ThumbnailBitmap(inputBitmap.FileContent, new Size(16, 16)).Bitmap;
+        SessionManager.ObjectService.CreateOrUpdateAttribute(SessionManager.Ticket, t);
+        Redirect("SystemAttributesManage.aspx");
     }
 }

@@ -27,7 +27,7 @@ public partial class AccountOpenIdsManage : AuthenticatedPage
                 string consumerid = SessionManager.AccountService.VerifyOpenId(SessionManager.OpenIdToken, serializer.Names, serializer.Values);
                 TransitAccountOpenId to = new TransitAccountOpenId();
                 to.IdentityUrl = consumerid;
-                SessionManager.AccountService.AddAccountOpenId(SessionManager.Ticket, to);
+                SessionManager.AccountService.CreateOrUpdateAccountOpenId(SessionManager.Ticket, to);
                 Redirect(Request.Path);
                 return;
             }
@@ -46,7 +46,8 @@ public partial class AccountOpenIdsManage : AuthenticatedPage
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        gridManage.DataSource = SessionManager.AccountService.GetAccountOpenIds(SessionManager.Ticket);
+        gridManage.DataSource = SessionManager.AccountService.GetAccountOpenIds(
+            SessionManager.Ticket, SessionManager.AccountId, null);
     }
 
 

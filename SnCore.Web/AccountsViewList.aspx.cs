@@ -26,7 +26,8 @@ public partial class AccountsViewList : Page
                 ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
                 serviceoptions.PageSize = pagesize;
                 serviceoptions.PageNumber = pagenumber;
-                gridManage.DataSource = SessionManager.SocialService.GetAccountActivity(options, serviceoptions);
+                gridManage.DataSource = SessionManager.SocialService.GetAccountActivity(
+                    SessionManager.Ticket, options, serviceoptions);
                 gridManage.DataBind();
 
                 if (pagenumber > 0)

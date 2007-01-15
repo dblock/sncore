@@ -19,8 +19,9 @@ public partial class DiscussionPostsNewViewControl : Control
     {
         if (!IsPostBack)
         {
+            object[] args = { SessionManager.Ticket, null };
             List<TransitDiscussionPost> items = SessionManager.GetCachedCollection<TransitDiscussionPost>(
-                SessionManager.DiscussionService, "GetLatestDiscussionPosts", null);
+                SessionManager.DiscussionService, "GetLatestDiscussionPosts", args);
             discussionView.DataSource = items;
             discussionView.DataBind();
         }

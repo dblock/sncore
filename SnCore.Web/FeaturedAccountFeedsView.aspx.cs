@@ -35,7 +35,8 @@ public partial class FeaturedAccountFeedsView : Page
     private void GetData()
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.SystemService.GetFeaturesCount("AccountFeed");
+        gridManage.VirtualItemCount = SessionManager.ObjectService.GetFeaturesCount(
+            SessionManager.Ticket, "AccountFeed");
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
 
@@ -59,9 +60,9 @@ public partial class FeaturedAccountFeedsView : Page
         serviceoptions.PageSize = gridManage.PageSize;
         serviceoptions.PageNumber = gridManage.CurrentPageIndex;
 
-        object[] args = { "AccountFeed", serviceoptions };
+        object[] args = { SessionManager.Ticket, "AccountFeed", serviceoptions };
         gridManage.DataSource = SessionManager.GetCachedCollection<TransitFeature>(
-            SessionManager.SystemService, "GetFeatures", args);
+            SessionManager.ObjectService, "GetFeatures", args);
     }
 
     public TransitAccountFeed GetAccountFeed(int id)

@@ -41,9 +41,10 @@ public partial class DiscussionTopOfThreadsView : Page
 
     public void GetData(object sender, EventArgs e)
     {
+        object[] args = { SessionManager.Ticket };
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            SessionManager.DiscussionService, "GetDiscussionTopOfThreadsCount", null);
+        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitDiscussionPost>(
+            SessionManager.DiscussionService, "GetDiscussionTopOfThreadsCount", args);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }

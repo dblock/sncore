@@ -18,12 +18,13 @@ public partial class AccountMenuControl : Control
             if (SessionManager.IsLoggedIn)
             {
                 linkInbox.InnerText = string.Format("Inbox ({0})",
-                    SessionManager.AccountService.GetAccountMessageSystemFolder(SessionManager.Ticket, "inbox").MessageCount);
+                    SessionManager.AccountService.GetAccountMessageSystemFolder(
+                        SessionManager.Ticket, SessionManager.AccountId, "inbox").MessageCount);
 
                 linkRequests.InnerText = string.Format("Requests ({0})",
-                    SessionManager.SocialService.GetAccountFriendRequestsCountById(SessionManager.Account.Id));
+                    SessionManager.SocialService.GetAccountFriendRequestsCount(
+                        SessionManager.Ticket, SessionManager.AccountId));
             }
-
         }
     }
 }

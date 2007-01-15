@@ -65,9 +65,9 @@ public partial class AccountBlogPreviewControl : Control
                 linkRelRss.NavigateUrl = string.Format("AccountBlogRss.aspx?id={0}", BlogId);
                 linkRelRss.Title = Renderer.Render(tb.Name);
 
-                object[] args = { BlogId };
-                gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-                    SessionManager.BlogService, "GetAccountBlogPostsCountById", args);
+                object[] args = { SessionManager.Ticket, BlogId };
+                gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccountBlogPost>(
+                    SessionManager.BlogService, "GetAccountBlogPostsCount", args);
                 gridManage_OnGetDataSource(this, null);
                 gridManage.DataBind();
             }
@@ -79,7 +79,7 @@ public partial class AccountBlogPreviewControl : Control
         ServiceQueryOptions options = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
         object[] args = { SessionManager.Ticket, BlogId, options };
         gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountBlogPost>(
-            SessionManager.BlogService, "GetAccountBlogPostsById", args);
+            SessionManager.BlogService, "GetAccountBlogPosts", args);
     }
 
     public string GetTitle(object title)

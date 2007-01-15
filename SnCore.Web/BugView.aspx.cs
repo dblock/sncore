@@ -27,8 +27,10 @@ public partial class BugView : Page
 
     void GetBug()
     {
-        TransitBug bug = SessionManager.BugService.GetBugById(RequestId);
-        TransitBugProject project = SessionManager.BugService.GetBugProjectById(bug.ProjectId);
+        TransitBug bug = SessionManager.BugService.GetBugById(
+            SessionManager.Ticket, RequestId);
+        TransitBugProject project = SessionManager.BugService.GetBugProjectById(
+            SessionManager.Ticket, bug.ProjectId);
 
         this.Title = string.Format("{0} #{1}: {2}", Renderer.Render(project.Name), bug.Id, Renderer.Render(bug.Subject));
 
@@ -81,7 +83,8 @@ public partial class BugView : Page
 
     void gridNotes_OnGetDataSource(object sender, EventArgs e)
     {
-        gridNotes.DataSource = SessionManager.BugService.GetBugNotes(RequestId);
+        gridNotes.DataSource = SessionManager.BugService.GetBugNotes(
+            SessionManager.Ticket, RequestId, null);
     }
 
     private enum Cells
@@ -132,7 +135,8 @@ public partial class BugView : Page
 
     public void linkSwitchMode_Click(object sender, EventArgs e)
     {
-        TransitBug bug = SessionManager.BugService.GetBugById(RequestId);
+        TransitBug bug = SessionManager.BugService.GetBugById(
+            SessionManager.Ticket, RequestId);
         switch (linkSwitchMode.CommandArgument)
         {
             case "Text":

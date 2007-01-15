@@ -16,24 +16,24 @@ public partial class PlacesManage : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
-            if (!IsPostBack)
-            {
-                gridManage_OnGetDataSource(this, null);
-                gridManage.DataBind();
+        if (!IsPostBack)
+        {
+            gridManage_OnGetDataSource(this, null);
+            gridManage.DataBind();
 
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request.Url));
-                StackSiteMap(sitemapdata);
-            }
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request.Url));
+            StackSiteMap(sitemapdata);
+        }
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-            TransitPlaceQueryOptions options = new TransitPlaceQueryOptions();
-            gridManage.DataSource = SessionManager.PlaceService.GetPlaces(options, null);
+        TransitPlaceQueryOptions options = new TransitPlaceQueryOptions();
+        gridManage.DataSource = SessionManager.PlaceService.GetPlaces(SessionManager.Ticket, options, null);
     }
 
     private enum Cells
@@ -43,25 +43,25 @@ public partial class PlacesManage : AuthenticatedPage
 
     public void gridManage_ItemCommand(object source, DataGridCommandEventArgs e)
     {
-            switch (e.Item.ItemType)
-            {
-                case ListItemType.AlternatingItem:
-                case ListItemType.Item:
-                case ListItemType.SelectedItem:
-                case ListItemType.EditItem:
+        switch (e.Item.ItemType)
+        {
+            case ListItemType.AlternatingItem:
+            case ListItemType.Item:
+            case ListItemType.SelectedItem:
+            case ListItemType.EditItem:
 
-                    int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                    switch (e.CommandName)
-                    {
-                        case "Delete":
-                            SessionManager.PlaceService.DeletePlace(SessionManager.Ticket, id);
-                            ReportInfo("Place deleted.");
-                            gridManage.CurrentPageIndex = 0;
-                            gridManage_OnGetDataSource(source, e);
-                            gridManage.DataBind();
-                            break;
-                    }
-                    break;
-            }
+                int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
+                switch (e.CommandName)
+                {
+                    case "Delete":
+                        SessionManager.PlaceService.DeletePlace(SessionManager.Ticket, id);
+                        ReportInfo("Place deleted.");
+                        gridManage.CurrentPageIndex = 0;
+                        gridManage_OnGetDataSource(source, e);
+                        gridManage.DataBind();
+                        break;
+                }
+                break;
+        }
     }
 }

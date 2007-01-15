@@ -25,7 +25,8 @@ public partial class SystemSurveyEdit : AuthenticatedPage
 
             if (RequestId > 0)
             {
-                TransitSurvey tw = SessionManager.SystemService.GetSurveyById(RequestId);
+                TransitSurvey tw = SessionManager.ObjectService.GetSurveyById(
+                    SessionManager.Ticket, RequestId);
                 inputName.Text = Renderer.Render(tw.Name);
                 sitemapdata.Add(new SiteMapDataAttributeNode(tw.Name, Request.Url));
             }
@@ -42,8 +43,9 @@ public partial class SystemSurveyEdit : AuthenticatedPage
 
         if (RequestId > 0)
         {
-            linkNewQuestion.NavigateUrl = "SystemSurveyQuestionEdit.aspx?sid=" + RequestId.ToString();
-            gridManage.DataSource = SessionManager.SystemService.GetSurveyQuestions(RequestId);
+            linkNewQuestion.NavigateUrl = string.Format("SystemSurveyQuestionEdit.aspx?sid={0}", RequestId);
+            gridManage.DataSource = SessionManager.ObjectService.GetSurveyQuestions(
+                SessionManager.Ticket, RequestId, null);
             gridManage.DataBind();
         }
         else
@@ -57,7 +59,7 @@ public partial class SystemSurveyEdit : AuthenticatedPage
         TransitSurvey tw = new TransitSurvey();
         tw.Name = inputName.Text;
         tw.Id = RequestId;
-        SessionManager.SystemService.AddSurvey(SessionManager.Ticket, tw);
+        SessionManager.ObjectService.CreateOrUpdateSurvey(SessionManager.Ticket, tw);
         Redirect("SystemSurveysManage.aspx");
     }
 
@@ -79,10 +81,11 @@ public partial class SystemSurveyEdit : AuthenticatedPage
                 Redirect(string.Format("SystemSurveyQuestionEdit.aspx?sid={0}&id={1}", RequestId, id));
                 break;
             case "Delete":
-                SessionManager.SystemService.DeleteSurveyQuestion(SessionManager.Ticket, id);
+                SessionManager.ObjectService.DeleteSurveyQuestion(SessionManager.Ticket, id);
                 ReportInfo("Survey question deleted.");
                 gridManage.CurrentPageIndex = 0;
-                gridManage.DataSource = SessionManager.SystemService.GetSurveyQuestions(RequestId);
+                gridManage.DataSource = SessionManager.ObjectService.GetSurveyQuestions(
+                    SessionManager.Ticket, RequestId, null);
                 gridManage.DataBind();
                 break;
         }

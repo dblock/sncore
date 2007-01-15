@@ -50,7 +50,7 @@ public partial class AccountMessageFolderEdit : AuthenticatedPage
 
         tw.Name = inputName.Text;
         if (RequestId == 0) tw.AccountMessageFolderParentId = GetId("pid");
-        SessionManager.AccountService.AddAccountMessageFolder(SessionManager.Ticket, tw);
+        SessionManager.AccountService.CreateOrUpdateAccountMessageFolder(SessionManager.Ticket, tw);
         Redirect("AccountMessageFoldersManage.aspx");
 
     }

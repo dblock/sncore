@@ -29,7 +29,8 @@ public partial class AccountAddressesManage : AuthenticatedPage
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        gridManage.DataSource = SessionManager.AccountService.GetAccountAddresses(SessionManager.Ticket);
+        gridManage.DataSource = SessionManager.AccountService.GetAccountAddresses(
+            SessionManager.Ticket, SessionManager.AccountId, null);
     }
 
     private enum Cells

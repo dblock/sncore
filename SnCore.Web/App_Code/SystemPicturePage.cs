@@ -20,8 +20,8 @@ public abstract class SystemPicturePage : PicturePage
 
     public override TransitPicture GetPictureWithBitmap(int id, string ticket, DateTime ifModifiedSince)
     {
-        TransitPictureWithBitmap p =
-            SessionManager.SystemService.GetPictureWithBitmapByIdIfModifiedSince(
+        SnCore.Services.TransitPicture p =
+            SessionManager.ObjectService.GetPictureIfModifiedSinceById(
                 ticket,
                 id,
                 ifModifiedSince);
@@ -40,8 +40,8 @@ public abstract class SystemPicturePage : PicturePage
 
     public override TransitPicture GetPictureWithThumbnail(int id, string ticket, DateTime ifModifiedSince)
     {
-        TransitPictureWithThumbnail p =
-            SessionManager.SystemService.GetPictureWithThumbnailByIdIfModifiedSince(
+        SnCore.Services.TransitPicture p =
+            SessionManager.ObjectService.GetPictureIfModifiedSinceById(
                 ticket,
                 id,
                 ifModifiedSince);
@@ -60,8 +60,8 @@ public abstract class SystemPicturePage : PicturePage
 
     public override TransitPicture GetPictureWithBitmap(int id, string ticket)
     {
-        TransitPictureWithBitmap p =
-            SessionManager.SystemService.GetPictureWithBitmapById(
+        SnCore.Services.TransitPicture p =
+            SessionManager.ObjectService.GetPictureById(
                 ticket,
                 id);
 
@@ -79,8 +79,8 @@ public abstract class SystemPicturePage : PicturePage
 
     public override TransitPicture GetPictureWithThumbnail(int id, string ticket)
     {
-        TransitPictureWithThumbnail p =
-            SessionManager.SystemService.GetPictureWithThumbnailById(
+        SnCore.Services.TransitPicture p =
+            SessionManager.ObjectService.GetPictureById(
                 ticket,
                 id);
 

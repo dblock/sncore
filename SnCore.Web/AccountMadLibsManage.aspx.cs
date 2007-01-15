@@ -31,7 +31,8 @@ public partial class AccountMadLibsManage : AuthenticatedPage
     void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.MadLibService.GetMadLibsCount(SessionManager.Ticket);
+        gridManage.VirtualItemCount = SessionManager.MadLibService.GetMadLibsCount(
+            SessionManager.Ticket, SessionManager.AccountId);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -41,7 +42,8 @@ public partial class AccountMadLibsManage : AuthenticatedPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = gridManage.CurrentPageIndex;
         options.PageSize = gridManage.PageSize;
-        gridManage.DataSource = SessionManager.MadLibService.GetMadLibs(SessionManager.Ticket, options);
+        gridManage.DataSource = SessionManager.MadLibService.GetMadLibs(
+            SessionManager.Ticket, SessionManager.AccountId, options);
     }
 
     private enum Cells

@@ -28,7 +28,8 @@ public partial class AccountAttributeEdit : AuthenticatedPage
     {
         if (!IsPostBack)
         {
-            TransitAccount ta = SessionManager.AccountService.GetAccountById(AccountId);
+            TransitAccount ta = SessionManager.AccountService.GetAccountById(
+                SessionManager.Ticket, AccountId);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
@@ -37,7 +38,8 @@ public partial class AccountAttributeEdit : AuthenticatedPage
 
             linkBack.NavigateUrl = string.Format("AccountAttributesManage.aspx?id={0}", AccountId);
 
-            List<TransitAttribute> attributes = SessionManager.SystemService.GetAttributes();
+            List<TransitAttribute> attributes = SessionManager.ObjectService.GetAttributes(
+                SessionManager.Ticket, null);
 
             if (RequestId == 0)
             {
@@ -49,7 +51,8 @@ public partial class AccountAttributeEdit : AuthenticatedPage
 
             if (RequestId > 0)
             {
-                TransitAccountAttribute attribute = SessionManager.AccountService.GetAccountAttributeById(RequestId);
+                TransitAccountAttribute attribute = SessionManager.AccountService.GetAccountAttributeById(
+                    SessionManager.Ticket, RequestId);
                 inputValue.Text = Renderer.Render(attribute.Value);
                 inputUrl.Text = Renderer.Render(attribute.Url);
                 inputDefaultUrl.Text = Renderer.Render(attribute.Attribute.DefaultUrl);
@@ -90,7 +93,8 @@ public partial class AccountAttributeEdit : AuthenticatedPage
         int id = 0;
         if (int.TryParse(listAttributes.SelectedValue, out id))
         {
-            TransitAttribute attribute = SessionManager.SystemService.GetAttributeById(id);
+            TransitAttribute attribute = SessionManager.ObjectService.GetAttributeById(
+                SessionManager.Ticket, id);
             inputDefaultUrl.Text = Renderer.Render(attribute.DefaultUrl);
             inputDefaultValue.Text = Renderer.Render(attribute.DefaultValue);
             previewImage.ImageUrl = string.Format("SystemAttribute.aspx?id={0}", attribute.Id);

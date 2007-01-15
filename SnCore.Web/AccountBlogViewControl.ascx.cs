@@ -99,9 +99,9 @@ public partial class AccountBlogViewControl : Control
                     SessionManager.BlogService, "GetAccountBlogById", b_args);
 
                 // limit number of items
-                object[] args2 = { BlogId };
-                gridManage.VirtualItemCount = Math.Min(gridManage.PageSize, SessionManager.GetCachedCollectionCount(
-                    SessionManager.BlogService, "GetAccountBlogPostsCountById", args2));
+                object[] args2 = { SessionManager.Ticket, BlogId };
+                gridManage.VirtualItemCount = Math.Min(gridManage.PageSize, SessionManager.GetCachedCollectionCount<TransitAccountBlogPost>(
+                    SessionManager.BlogService, "GetAccountBlogPostsCount", args2));
                 gridManage_OnGetDataSource(this, null);
                 gridManage.DataBind();
 
@@ -116,7 +116,7 @@ public partial class AccountBlogViewControl : Control
         ServiceQueryOptions options = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
         object[] args = { SessionManager.Ticket, BlogId, options };
         gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountBlogPost>(
-            SessionManager.BlogService, "GetAccountBlogPostsById", args);
+            SessionManager.BlogService, "GetAccountBlogPosts", args);
     }
 
     public string GetTitle(string title)

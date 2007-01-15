@@ -67,7 +67,7 @@ public partial class PlaceNeighborhoodsViewControl : Control
 
     public override void DataBind()
     {
-        object[] args = { Country, State, City, null };
+        object[] args = { SessionManager.Ticket, Country, State, City, null };
         values.DataSource = SessionManager.GetCachedCollection<TransitDistinctPlaceNeighborhood>(
             SessionManager.PlaceService, "GetPlaceNeighborhoods", args);
         values.DataBind();

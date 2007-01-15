@@ -26,7 +26,8 @@ public partial class PlacesViewList : Page
                 ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
                 serviceoptions.PageSize = pagesize;
                 serviceoptions.PageNumber = pagenumber;
-                gridManage.DataSource = SessionManager.PlaceService.GetPlaces(options, serviceoptions);
+                gridManage.DataSource = SessionManager.PlaceService.GetPlaces(
+                    SessionManager.Ticket, options, serviceoptions);
                 gridManage.DataBind();
 
                 if (pagenumber > 0)

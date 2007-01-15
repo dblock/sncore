@@ -26,14 +26,18 @@ public partial class BugEdit : AuthenticatedPage
     {
         if (!IsPostBack)
         {
-            selectPriority.DataSource = SessionManager.BugService.GetBugPriorities();
+            selectPriority.DataSource = SessionManager.BugService.GetBugPriorities(
+                SessionManager.Ticket, null);
             selectPriority.DataBind();
-            selectSeverity.DataSource = SessionManager.BugService.GetBugSeverities();
+            selectSeverity.DataSource = SessionManager.BugService.GetBugSeverities(
+                SessionManager.Ticket, null);
             selectSeverity.DataBind();
-            selectType.DataSource = SessionManager.BugService.GetBugTypes();
+            selectType.DataSource = SessionManager.BugService.GetBugTypes(
+                SessionManager.Ticket, null);
             selectType.DataBind();
 
-            TransitBugProject project = SessionManager.BugService.GetBugProjectById(ProjectId);
+            TransitBugProject project = SessionManager.BugService.GetBugProjectById(
+                SessionManager.Ticket, ProjectId);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Bugs", Request, "BugProjectsManage.aspx"));
@@ -41,7 +45,8 @@ public partial class BugEdit : AuthenticatedPage
 
             if (RequestId > 0)
             {
-                TransitBug bug = SessionManager.BugService.GetBugById(RequestId);
+                TransitBug bug = SessionManager.BugService.GetBugById(
+                    SessionManager.Ticket, RequestId);
                 inputSubject.Text = bug.Subject;
                 inputDetails.Text = bug.Details;
                 selectPriority.Items.FindByValue(bug.Priority).Selected = true;

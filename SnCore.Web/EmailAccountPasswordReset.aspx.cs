@@ -20,7 +20,8 @@ public partial class EmailAccountPasswordReset : AuthenticatedPage
         {
             if (mAccount == null)
             {
-                mAccount = SessionManager.AccountService.GetAccountById(RequestId);
+                mAccount = SessionManager.AccountService.GetAccountById(
+                    SessionManager.Ticket, RequestId);
             }
             return mAccount;
         }

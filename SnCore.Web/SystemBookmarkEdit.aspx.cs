@@ -20,46 +20,47 @@ public partial class SystemBookmarkEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-            if (!IsPostBack)
+        if (!IsPostBack)
+        {
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Bookmarks", Request, "SystemBookmarksManage.aspx"));
+
+            if (RequestId > 0)
             {
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Bookmarks", Request, "SystemBookmarksManage.aspx"));
-
-                if (RequestId > 0)
-                {
-                    TransitBookmark t = SessionManager.SystemService.GetBookmarkById(RequestId);
-                    inputName.Text = t.Name;
-                    inputDescription.Text = t.Description;
-                    inputUrl.Text = t.Url;
-                    imageFullBitmap.ImageUrl = string.Format("SystemBookmark.aspx?id={0}&CacheDuration=0", t.Id);
-                    imageFullBitmap.Visible = t.HasFullBitmap;
-                    imageLinkBitmap.ImageUrl = string.Format("SystemBookmark.aspx?id={0}&CacheDuration=0&ShowThumbnail=true", t.Id);
-                    imageLinkBitmap.Visible = t.HasLinkBitmap;
-                    sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
-                }
-                else
-                {
-                    imageFullBitmap.Visible = false;
-                    imageLinkBitmap.Visible = false;
-                    sitemapdata.Add(new SiteMapDataAttributeNode("New Bookmark", Request.Url));
-                }
-                StackSiteMap(sitemapdata);
+                TransitBookmark t = SessionManager.ObjectService.GetBookmarkById(
+                    SessionManager.Ticket, RequestId);
+                inputName.Text = t.Name;
+                inputDescription.Text = t.Description;
+                inputUrl.Text = t.Url;
+                imageFullBitmap.ImageUrl = string.Format("SystemBookmark.aspx?id={0}&CacheDuration=0", t.Id);
+                imageFullBitmap.Visible = t.HasFullBitmap;
+                imageLinkBitmap.ImageUrl = string.Format("SystemBookmark.aspx?id={0}&CacheDuration=0&ShowThumbnail=true", t.Id);
+                imageLinkBitmap.Visible = t.HasLinkBitmap;
+                sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
             }
+            else
+            {
+                imageFullBitmap.Visible = false;
+                imageLinkBitmap.Visible = false;
+                sitemapdata.Add(new SiteMapDataAttributeNode("New Bookmark", Request.Url));
+            }
+            StackSiteMap(sitemapdata);
+        }
 
-            SetDefaultButton(manageAdd);
+        SetDefaultButton(manageAdd);
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-            TransitBookmarkWithBitmaps t = new TransitBookmarkWithBitmaps();
-            t.Name = inputName.Text;
-            t.Description = inputDescription.Text;
-            t.Url = inputUrl.Text;
-            t.Id = RequestId;
-            if (inputFullBitmap.HasFile) t.FullBitmap = new ThumbnailBitmap(inputFullBitmap.FileContent, new Size(16, 16)).Bitmap;
-            if (inputLinkBitmap.HasFile) t.LinkBitmap = new ThumbnailBitmap(inputLinkBitmap.FileContent, new Size(16, 16)).Bitmap;
-            SessionManager.SystemService.CreateOrUpdateBookmark(SessionManager.Ticket, t);
-            Redirect("SystemBookmarksManage.aspx");
+        TransitBookmark t = new TransitBookmark();
+        t.Name = inputName.Text;
+        t.Description = inputDescription.Text;
+        t.Url = inputUrl.Text;
+        t.Id = RequestId;
+        if (inputFullBitmap.HasFile) t.FullBitmap = new ThumbnailBitmap(inputFullBitmap.FileContent, new Size(16, 16)).Bitmap;
+        if (inputLinkBitmap.HasFile) t.LinkBitmap = new ThumbnailBitmap(inputLinkBitmap.FileContent, new Size(16, 16)).Bitmap;
+        SessionManager.ObjectService.CreateOrUpdateBookmark(SessionManager.Ticket, t);
+        Redirect("SystemBookmarksManage.aspx");
     }
 }

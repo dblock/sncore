@@ -38,9 +38,9 @@ public partial class AccountFeedFeaturedViewControl : Control
         {
             if (mFeature == null)
             {
-                object[] args = { "AccountFeed" };
+                object[] args = { SessionManager.Ticket, "AccountFeed" };
                 mFeature = SessionManager.GetCachedItem<TransitFeature>(
-                    SessionManager.SystemService, "GetLatestFeature", args);
+                    SessionManager.ObjectService, "GetLatestFeature", args);
             }
 
             return mFeature;

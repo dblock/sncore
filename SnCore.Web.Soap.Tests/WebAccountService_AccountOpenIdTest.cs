@@ -7,8 +7,20 @@ using System.Web.Services.Protocols;
 namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
 {
     [TestFixture]
-    public class AccountOpenIdTest : WebServiceTest<WebAccountService.TransitAccountOpenId, WebAccountServiceNoCache>
+    public class AccountOpenIdTest : AccountBaseTest<WebAccountService.TransitAccountOpenId>
     {
+        [SetUp]
+        public override void SetUp()
+        {
+            base.SetUp();
+        }
+
+        [TearDown]
+        public override void TearDown()
+        {
+            base.TearDown();
+        }
+
         public AccountOpenIdTest()
             : base("AccountOpenId")
         {
@@ -18,19 +30,9 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         public override WebAccountService.TransitAccountOpenId GetTransitInstance()
         {
             WebAccountService.TransitAccountOpenId t_instance = new WebAccountService.TransitAccountOpenId();
+            t_instance.AccountId = _account_id;
+            t_instance.IdentityUrl = string.Format("http://uri/{0}", Guid.NewGuid());
             return t_instance;
-        }
-
-        public override object[] GetArgs(string ticket, object options)
-        {
-            object[] args = { ticket, GetAdminAccount().Id, options };
-            return args;
-        }
-
-        public override object[] GetCountArgs(string ticket)
-        {
-            object[] args = { ticket, GetAdminAccount().Id };
-            return args;
         }
     }
 }

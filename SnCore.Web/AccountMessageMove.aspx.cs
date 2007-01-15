@@ -32,7 +32,8 @@ public partial class AccountMessageMove : AuthenticatedPage
             messageSenderImage.ImageUrl = string.Format("AccountPictureThumbnail.aspx?id={0}", message.SenderAccountPictureId);
             messageSubject.Text = Renderer.Render(message.Subject);
 
-            List<TransitAccountMessageFolder> folders = SessionManager.AccountService.GetAccountMessageFolders(SessionManager.Ticket);
+            List<TransitAccountMessageFolder> folders = SessionManager.AccountService.GetAccountMessageFolders(
+                SessionManager.Ticket, SessionManager.AccountId, null);
             TransitAccountMessageFolder none = new TransitAccountMessageFolder();
             none.FullPath = none.Name = "Please choose ...";
             folders.Insert(0, none);

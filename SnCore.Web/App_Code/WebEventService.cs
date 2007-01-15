@@ -293,13 +293,13 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
-        /// Get event picture picture if modified since.
+        /// Get event picture if modified since.
         /// </summary>
         /// <param name="id">event picture id</param>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="ifModifiedSince">last update date/time</param>
         /// <returns>transit picture</returns>
-        [WebMethod(Description = "Get event picture picture data if modified since.", BufferResponse = true)]
+        [WebMethod(Description = "Get event picture data if modified since.", BufferResponse = true)]
         public TransitAccountEventPicture GetAccountEventPictureIfModifiedSinceById(string ticket, int id, DateTime ifModifiedSince)
         {
             TransitAccountEventPicture t_instance = WebServiceImpl<TransitAccountEventPicture, ManagedAccountEventPicture, AccountEventPicture>.GetById(
@@ -326,9 +326,12 @@ namespace SnCore.WebServices
                 ticket, options, qopt.CreateQuery());
 
             List<TransitAccountEventInstance> result = new List<TransitAccountEventInstance>(instances.Count);
-            foreach (ScheduleInstance t_instance in instances)
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
-                result.Add(new TransitAccountEventInstance(t_instance));
+                foreach (ScheduleInstance t_instance in instances)
+                {
+                    result.Add(new TransitAccountEventInstance(t_instance));
+                }
             }
 
             return result;
@@ -342,7 +345,7 @@ namespace SnCore.WebServices
         public int GetAccountEventInstancesCount(string ticket, TransitAccountEventInstanceQueryOptions qopt)
         {
             return WebServiceImpl<TransitScheduleInstance, ManagedScheduleInstance, ScheduleInstance>.GetCount(
-                ticket, qopt.CreateQuery());
+                ticket, qopt.CreateCountQuery());
         }
 
         #endregion

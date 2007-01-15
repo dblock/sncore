@@ -19,19 +19,19 @@ public partial class PlacesByPropertyValueView : Page
 {
     public void Page_Load(object sender, EventArgs e)
     {
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
-            if (!IsPostBack)
-            {
-                GetData(sender, e);
+        if (!IsPostBack)
+        {
+            GetData(sender, e);
 
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode(GroupName, Request, string.Format("PlacesByPropertyValueView.aspx?GroupName={0}", Renderer.UrlEncode(GroupName))));
-                sitemapdata.Add(new SiteMapDataAttributeNode(PropertyName, Request, string.Format("PlacesByPropertyValueView.aspx?GroupName={0}&PropertyName={1}", Renderer.UrlEncode(GroupName), Renderer.UrlEncode(PropertyName))));
-                sitemapdata.Add(new SiteMapDataAttributeNode(PropertyValue, Request, string.Format("PlacesByPropertyValueView.aspx?GroupName={0}&PropertyName={1}&PropertyValue={2}", Renderer.UrlEncode(GroupName), Renderer.UrlEncode(PropertyName), Renderer.UrlEncode(PropertyValue))));
-                StackSiteMap(sitemapdata);
-            }
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode(GroupName, Request, string.Format("PlacesByPropertyValueView.aspx?GroupName={0}", Renderer.UrlEncode(GroupName))));
+            sitemapdata.Add(new SiteMapDataAttributeNode(PropertyName, Request, string.Format("PlacesByPropertyValueView.aspx?GroupName={0}&PropertyName={1}", Renderer.UrlEncode(GroupName), Renderer.UrlEncode(PropertyName))));
+            sitemapdata.Add(new SiteMapDataAttributeNode(PropertyValue, Request, string.Format("PlacesByPropertyValueView.aspx?GroupName={0}&PropertyName={1}&PropertyValue={2}", Renderer.UrlEncode(GroupName), Renderer.UrlEncode(PropertyName), Renderer.UrlEncode(PropertyValue))));
+            StackSiteMap(sitemapdata);
+        }
     }
 
     public void gridManage_DataBinding(object sender, EventArgs e)
@@ -73,8 +73,8 @@ public partial class PlacesByPropertyValueView : Page
     {
         titlePlacesByProperty.Text = string.Format("{0}: {1}", Renderer.Render(PropertyName), Renderer.Render(PropertyValue));
         gridManage.CurrentPageIndex = 0;
-        object[] args = { GroupName, PropertyName, PropertyValue };
-        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+        object[] args = { SessionManager.Ticket, GroupName, PropertyName, PropertyValue };
+        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitPlace>(
             SessionManager.PlaceService, "GetPlacesByPropertyValueCount", args);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
@@ -89,9 +89,9 @@ public partial class PlacesByPropertyValueView : Page
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-            ServiceQueryOptions serviceoptions = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
-            object[] args = { GroupName, PropertyName, PropertyValue, serviceoptions };
-            gridManage.DataSource = SessionManager.GetCachedCollection<TransitPlace>(
-                SessionManager.PlaceService, "GetPlacesByPropertyValue", args);
+        ServiceQueryOptions serviceoptions = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
+        object[] args = { SessionManager.Ticket, GroupName, PropertyName, PropertyValue, serviceoptions };
+        gridManage.DataSource = SessionManager.GetCachedCollection<TransitPlace>(
+            SessionManager.PlaceService, "GetPlacesByPropertyValue", args);
     }
 }

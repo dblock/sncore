@@ -63,7 +63,8 @@ public partial class AccountFeedWizard : AuthenticatedPage
 
     public TransitFeedType GetDefaultFeedType()
     {
-        List<TransitFeedType> feedtypes = SessionManager.SyndicationService.GetFeedTypes();
+        List<TransitFeedType> feedtypes = SessionManager.SyndicationService.GetFeedTypes(
+            SessionManager.Ticket, null);
 
         if (feedtypes == null || feedtypes.Count == 0)
         {

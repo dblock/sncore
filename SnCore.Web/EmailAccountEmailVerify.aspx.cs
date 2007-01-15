@@ -36,7 +36,7 @@ public partial class EmailAccountEmailVerify : AuthenticatedPage
                 if (mAccount == null)
                 {
                     mAccount = SessionManager.AccountService.GetAccountById(
-                        AccountEmailConfirmation.AccountEmail.AccountId);
+                        SessionManager.Ticket, AccountEmailConfirmation.AccountEmail.AccountId);
                 }
             return mAccount;
         }

@@ -72,11 +72,12 @@ public partial class AccountFeedItemImgsView : AccountPersonPage
     private void GetData()
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.SyndicationService.GetAccountFeedItemImgsCount(QueryOptions);
+        gridManage.VirtualItemCount = SessionManager.SyndicationService.GetAccountFeedItemImgsCount(
+            SessionManager.Ticket, QueryOptions);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
 
-        int feedsCount = SessionManager.SyndicationService.GetUpdatedAccountFeedsCount();
+        int feedsCount = SessionManager.SyndicationService.GetAllAccountFeedsCount(SessionManager.Ticket);
 
         labelCount.Text = string.Format("{0} picture{1} from <a href='AccountFeedsView.aspx'>{2} blog{3}</a>",
             gridManage.VirtualItemCount, gridManage.VirtualItemCount == 1 ? string.Empty : "s",
@@ -88,7 +89,8 @@ public partial class AccountFeedItemImgsView : AccountPersonPage
         ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
         serviceoptions.PageSize = gridManage.PageSize;
         serviceoptions.PageNumber = gridManage.CurrentPageIndex;
-        gridManage.DataSource = SessionManager.SyndicationService.GetAccountFeedItemImgs(QueryOptions, serviceoptions);
+        gridManage.DataSource = SessionManager.SyndicationService.GetAccountFeedItemImgs(
+            SessionManager.Ticket, QueryOptions, serviceoptions);
     }
 
     public void gridManage_ItemCommand(object sender, DataListCommandEventArgs e)

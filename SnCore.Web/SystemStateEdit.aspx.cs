@@ -16,45 +16,46 @@ public partial class SystemStateEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-            if (!IsPostBack)
+        if (!IsPostBack)
+        {
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("States", Request, "SystemStatesManage.aspx"));
+
+            int id = RequestId;
+
+            object[] c_args = { SessionManager.Ticket, null };
+            inputCountry.DataSource = SessionManager.GetCachedCollection<TransitCountry>(
+                SessionManager.LocationService, "GetCountries", c_args);
+            inputCountry.DataBind();
+
+            if (id > 0)
             {
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("States", Request, "SystemStatesManage.aspx"));
-
-                int id = RequestId;
-
-                object[] c_args = { null };
-                inputCountry.DataSource = SessionManager.GetCachedCollection<TransitCountry>(
-                    SessionManager.LocationService, "GetCountries", c_args);
-                inputCountry.DataBind();
-
-                if (id > 0)
-                {
-                    TransitState tw = SessionManager.LocationService.GetStateById(id);
-                    inputName.Text = Renderer.Render(tw.Name);
-                    inputCountry.Items.FindByValue(tw.Country).Selected = true;
-                    sitemapdata.Add(new SiteMapDataAttributeNode(tw.Name, Request.Url));
-                }
-                else
-                {
-                    sitemapdata.Add(new SiteMapDataAttributeNode("New State", Request.Url));
-                }
-
-                StackSiteMap(sitemapdata);
+                TransitState tw = SessionManager.LocationService.GetStateById(
+                    SessionManager.Ticket, id);
+                inputName.Text = Renderer.Render(tw.Name);
+                inputCountry.Items.FindByValue(tw.Country).Selected = true;
+                sitemapdata.Add(new SiteMapDataAttributeNode(tw.Name, Request.Url));
+            }
+            else
+            {
+                sitemapdata.Add(new SiteMapDataAttributeNode("New State", Request.Url));
             }
 
-            SetDefaultButton(manageAdd);
+            StackSiteMap(sitemapdata);
+        }
+
+        SetDefaultButton(manageAdd);
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-            TransitState tw = new TransitState();
-            tw.Name = inputName.Text;
-            tw.Id = RequestId;
-            tw.Country = inputCountry.SelectedItem.Value;
-            SessionManager.LocationService.AddState(SessionManager.Ticket, tw);
-            Redirect("SystemStatesManage.aspx");
+        TransitState tw = new TransitState();
+        tw.Name = inputName.Text;
+        tw.Id = RequestId;
+        tw.Country = inputCountry.SelectedItem.Value;
+        SessionManager.LocationService.CreateOrUpdateState(SessionManager.Ticket, tw);
+        Redirect("SystemStatesManage.aspx");
 
     }
 }

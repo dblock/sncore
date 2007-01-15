@@ -17,43 +17,44 @@ public partial class SystemConfigurationEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-            if (!IsPostBack)
+        if (!IsPostBack)
+        {
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Settings", Request, "SystemConfigurationsManage.aspx"));
+
+            int id = RequestId;
+
+            if (id > 0)
             {
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Settings", Request, "SystemConfigurationsManage.aspx"));
-
-                int id = RequestId;
-
-                if (id > 0)
-                {
-                    TransitConfiguration tw = SessionManager.SystemService.GetConfigurationById(id);
-                    inputName.Text = Renderer.Render(tw.Name);
-                    inputValue.Text = Renderer.Render(tw.Value);
-                    inputPassword.Checked = tw.Password;
-                    sitemapdata.Add(new SiteMapDataAttributeNode(tw.Name, Request.Url));
-                }
-                else
-                {
-                    sitemapdata.Add(new SiteMapDataAttributeNode("New Setting", Request.Url));
-                }
-
-                StackSiteMap(sitemapdata);
+                TransitConfiguration tw = SessionManager.SystemService.GetConfigurationById(
+                    SessionManager.Ticket, id);
+                inputName.Text = Renderer.Render(tw.Name);
+                inputValue.Text = Renderer.Render(tw.Value);
+                inputPassword.Checked = tw.Password;
+                sitemapdata.Add(new SiteMapDataAttributeNode(tw.Name, Request.Url));
+            }
+            else
+            {
+                sitemapdata.Add(new SiteMapDataAttributeNode("New Setting", Request.Url));
             }
 
-            SetDefaultButton(manageAdd);
+            StackSiteMap(sitemapdata);
+        }
+
+        SetDefaultButton(manageAdd);
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-            TransitConfiguration tw = new TransitConfiguration();
-            tw.Name = inputName.Text;
-            tw.Id = RequestId;
-            tw.Value = inputValue.Text;
-            tw.Password = inputPassword.Checked;
-            SessionManager.SystemService.AddConfiguration(SessionManager.Ticket, tw);
-            Page.Cache.Remove(string.Format("settings:{0}", tw.Name));
-            Redirect("SystemConfigurationsManage.aspx");
+        TransitConfiguration tw = new TransitConfiguration();
+        tw.Name = inputName.Text;
+        tw.Id = RequestId;
+        tw.Value = inputValue.Text;
+        tw.Password = inputPassword.Checked;
+        SessionManager.SystemService.CreateOrUpdateConfiguration(SessionManager.Ticket, tw);
+        Page.Cache.Remove(string.Format("settings:{0}", tw.Name));
+        Redirect("SystemConfigurationsManage.aspx");
 
     }
 }

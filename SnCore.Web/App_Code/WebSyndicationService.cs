@@ -256,12 +256,10 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account feed items.", CacheDuration = 60)]
         public List<TransitAccountFeedItem> GetAllAccountFeedItems(string ticket, ServiceQueryOptions options)
         {
-            ICriterion[] expressions = { Expression.Eq("AccountFeed.Publish", 1) };
-            Order[] orders = { Order.Desc("Created") };
             return WebServiceImpl<TransitAccountFeedItem, ManagedAccountFeedItem, AccountFeedItem>.GetList(
-                ticket, options, expressions, orders);
+                ticket, options, "SELECT AccountFeedItem FROM AccountFeedItem AccountFeedItem" +
+                 " WHERE AccountFeedItem.AccountFeed.Publish = 1 ORDER BY AccountFeedItem.Created");
         }
-
 
         /// <summary>
         /// Delete an account feed item.

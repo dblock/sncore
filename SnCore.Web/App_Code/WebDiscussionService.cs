@@ -329,7 +329,7 @@ namespace SnCore.WebServices
         public int GetDiscussionThreadPostsCount(string ticket, int id)
         {
             return WebServiceImpl<TransitDiscussionPost, ManagedDiscussionPost, DiscussionPost>.GetCount(
-                ticket, string.Format("WHERE DiscussionThread.Id = {0}", id));
+                ticket, string.Format("WHERE DiscussionPost.DiscussionThread.Id = {0}", id));
         }
 
         /// <summary>
@@ -473,8 +473,10 @@ namespace SnCore.WebServices
         public int GetDiscussionThreadsCount(string ticket)
         {
             return WebServiceImpl<TransitDiscussionThread, ManagedDiscussionThread, DiscussionThread>.GetCount(
-                ticket, ", Discussion Discussion WHERE DiscussionThread.Discussion.Id = Discussion.Id " +
-                        " AND Discussion.Personal = 0");
+                ticket, ", Discussion Discussion " +
+                    " WHERE DiscussionThread.Discussion.Id = Discussion.Id " +
+                    " AND Discussion.Personal = 0" +
+                    " AND EXISTS ELEMENTS ( DiscussionThread.DiscussionPosts )");
         }
 
         /// <summary>
@@ -488,7 +490,7 @@ namespace SnCore.WebServices
                 ticket, options,
                     "SELECT {Post.*} FROM DiscussionPost {Post}" +
                         " WHERE Post.DiscussionPost_Id IN ( " +
-                        " SELECT MAX(DiscussionPost_Id) FROM DiscussionPost dp, DiscussionThread dt, Discussion d" +
+                        " SELECT MAX(dp.DiscussionPost_Id) FROM DiscussionPost dp, DiscussionThread dt, Discussion d" +
                         "  WHERE dp.DiscussionThread_Id = dt.DiscussionThread_Id" +
                         "  AND d.Discussion_Id = dt.Discussion_Id" +
                         "  AND d.Personal = 0" +
@@ -537,8 +539,7 @@ namespace SnCore.WebServices
         public int GetDiscussionThreadsCountByDiscussionId(string ticket, int id)
         {
             return WebServiceImpl<TransitDiscussionThread, ManagedDiscussionThread, DiscussionThread>.GetCount(
-                ticket, string.Format("WHERE DiscussionPost.DiscussionThread.Discussion.Id = {0}" +
-                    " AND DiscussionPost.DiscussionPostParent IS NULL", id));
+                ticket, string.Format("WHERE DiscussionThread.Discussion.Id = {0}", id));
         }
 
         /// <summary>

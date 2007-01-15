@@ -50,5 +50,18 @@ namespace SnCore.Web.Soap.Tests.WebLocationServiceTests
             Assert.IsTrue(bFound, "State was not returned from GetStatesByCountryId");
             EndPoint.DeleteState(GetAdminTicket(), id);
         }
+
+        [Test]
+        public void GetStatesByCountryNameTest()
+        {
+            WebLocationService.TransitState t_instance = GetTransitInstance();
+            int id = EndPoint.CreateOrUpdateState(GetAdminTicket(), t_instance);
+            int count = EndPoint.GetStatesByCountryNameCount(GetAdminTicket(), t_instance.Country);
+            Assert.IsTrue(count > 0);
+            WebLocationService.TransitState[] states = EndPoint.GetStatesByCountryName(GetAdminTicket(), t_instance.Country, null);
+            bool bFound = new TransitServiceCollection<WebLocationService.TransitState>(states).ContainsId(id);
+            Assert.IsTrue(bFound, "State was not returned from GetStatesByCountryId");
+            EndPoint.DeleteState(GetAdminTicket(), id);
+        }
     }
 }

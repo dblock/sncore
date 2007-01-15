@@ -175,7 +175,7 @@ namespace SnCore.Services
         }
 
         public TransitPlacePicture(PlacePicture p)
-            : base(p, p.Place.PlacePictures)
+            : base(p)
         {
 
         }
@@ -307,6 +307,7 @@ namespace SnCore.Services
         public override TransitPlacePicture GetTransitInstance(ManagedSecurityContext sec)
         {
             TransitPlacePicture t_instance = base.GetTransitInstance(sec);
+            t_instance.SetWithinCollection(mInstance, mInstance.Place.PlacePictures);
             t_instance.CommentCount = ManagedDiscussion.GetDiscussionPostCount(
                 Session, mInstance.Place.Account.Id,
                 ManagedDiscussion.PlacePictureDiscussion, mInstance.Id);

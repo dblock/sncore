@@ -30,7 +30,7 @@ public partial class PlaceTypesManage : AuthenticatedPage
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        gridManage.DataSource = SessionManager.PlaceService.GetPlaceTypes();
+        gridManage.DataSource = SessionManager.PlaceService.GetPlaceTypes(SessionManager.Ticket, null);
     }
 
     private enum Cells

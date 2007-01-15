@@ -81,25 +81,25 @@ public partial class TagWordsViewControl : Control
         if (Math.Max(left.Frequency, right.Frequency) > mMaxFrequency || mMaxFrequency == -1)
             mMaxFrequency = Math.Max(left.Frequency, right.Frequency);
 
-        return mRandomSort.Next(- Count, Count);
+        return mRandomSort.Next(-Count, Count);
     }
 
     public void Page_Load()
     {
-            if (!IsPostBack)
-            {
-                ServiceQueryOptions options = new ServiceQueryOptions();
-                options.PageNumber = 0;
-                options.PageSize = Count;
-                object[] args = { TransitTagWordQueryOptions.Promoted, options };
-                List<TransitTagWord> words = SessionManager.GetCachedCollection<TransitTagWord>(
-                    SessionManager.TagWordService, "GetTagWords", args);
-                words.Sort(CompareByFrequency);
-                MaxFrequency = mMaxFrequency;
-                MinFrequency = mMinFrequency;
-                tagwords.DataSource = words;
-                tagwords.DataBind();
-            }
+        if (!IsPostBack)
+        {
+            ServiceQueryOptions options = new ServiceQueryOptions();
+            options.PageNumber = 0;
+            options.PageSize = Count;
+            object[] args = { SessionManager.Ticket, TransitTagWordQueryOptions.Promoted, options };
+            List<TransitTagWord> words = SessionManager.GetCachedCollection<TransitTagWord>(
+                SessionManager.TagWordService, "GetTagWords", args);
+            words.Sort(CompareByFrequency);
+            MaxFrequency = mMaxFrequency;
+            MinFrequency = mMinFrequency;
+            tagwords.DataSource = words;
+            tagwords.DataBind();
+        }
     }
 
     public long GetFontSize(int frequency)
@@ -109,6 +109,6 @@ public partial class TagWordsViewControl : Control
             return minFontSize;
 
         int fontDelta = maxFontSize - minFontSize;
-        return (int) (minFontSize + (frequency * fontDelta) / frequencyDelta);
+        return (int)(minFontSize + (frequency * fontDelta) / frequencyDelta);
     }
 }

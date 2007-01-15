@@ -34,13 +34,15 @@ public partial class AccountFriendRequestsManage : AuthenticatedPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = listPending.CurrentPageIndex;
         options.PageSize = listPending.PageSize;
-        listPending.DataSource = SessionManager.SocialService.GetAccountFriendRequests(SessionManager.Ticket, options);
+        listPending.DataSource = SessionManager.SocialService.GetAccountFriendRequests(
+            SessionManager.Ticket, SessionManager.AccountId, options);
     }
 
     public void GetData(object sender, EventArgs e)
     {
         listPending.CurrentPageIndex = 0;
-        listPending.VirtualItemCount = SessionManager.SocialService.GetAccountFriendRequestsCount(SessionManager.Ticket);
+        listPending.VirtualItemCount = SessionManager.SocialService.GetAccountFriendRequestsCount(
+            SessionManager.Ticket, SessionManager.AccountId);
         listPending_OnGetDataSource(sender, e);
         listPending.DataBind();
         reasonTable.Visible = (listPending.Items.Count != 0);

@@ -22,7 +22,8 @@ public partial class DiscussionThreadMove : Page
             TransitDiscussionThread tt = SessionManager.DiscussionService.GetDiscussionThreadById(
                 SessionManager.Ticket, RequestId);
 
-            TransitDiscussion td = SessionManager.DiscussionService.GetDiscussionById(tt.DiscussionId);
+            TransitDiscussion td = SessionManager.DiscussionService.GetDiscussionById(
+                SessionManager.Ticket, tt.DiscussionId);
 
             if (td.Personal)
             {
@@ -34,7 +35,8 @@ public partial class DiscussionThreadMove : Page
 
             this.Title = Renderer.Render(td.Name);
 
-            listDiscussions.DataSource = SessionManager.DiscussionService.GetDiscussions(null);
+            listDiscussions.DataSource = SessionManager.DiscussionService.GetDiscussions(
+                SessionManager.Ticket, null);
             listDiscussions.DataBind();
 
             listDiscussions.Items.FindByValue(tt.DiscussionId.ToString()).Selected = true;

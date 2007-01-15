@@ -25,7 +25,8 @@ public partial class PlaceTypeEdit : AuthenticatedPage
 
                 if (RequestId > 0)
                 {
-                    TransitPlaceType t = SessionManager.PlaceService.GetPlaceTypeById(RequestId);
+                    TransitPlaceType t = SessionManager.PlaceService.GetPlaceTypeById(
+                        SessionManager.Ticket, RequestId);
                     inputName.Text = t.Name;
                     sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
                 }

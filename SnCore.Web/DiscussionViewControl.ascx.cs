@@ -32,7 +32,8 @@ public partial class DiscussionViewControl : Control
     void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.DiscussionService.GetDiscussionThreadsCountById(DiscussionId);
+        gridManage.VirtualItemCount = SessionManager.DiscussionService.GetDiscussionThreadsCountByDiscussionId(
+            SessionManager.Ticket, DiscussionId);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -41,13 +42,15 @@ public partial class DiscussionViewControl : Control
     {
         if (DiscussionId > 0)
         {
-            TransitDiscussion d = SessionManager.DiscussionService.GetDiscussionById(DiscussionId);
+            TransitDiscussion d = SessionManager.DiscussionService.GetDiscussionById(
+                SessionManager.Ticket, DiscussionId);
             discussionLabel.Text = Renderer.Render(d.Name);
             discussionDescription.Text = Renderer.Render(d.Description);
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = gridManage.CurrentPageIndex;
             options.PageSize = gridManage.PageSize;
-            gridManage.DataSource = SessionManager.DiscussionService.GetDiscussionThreadsById(SessionManager.Ticket, DiscussionId, options);
+            gridManage.DataSource = SessionManager.DiscussionService.GetDiscussionThreadsByDiscussionId(
+                SessionManager.Ticket, DiscussionId, options);
         }
     }
 

@@ -68,7 +68,7 @@ public partial class AccountContentGroupEdit : AuthenticatedPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageSize = gridManageContent.PageSize;
         options.PageNumber = gridManageContent.CurrentPageIndex;
-        gridManageContent.DataSource = SessionManager.ContentService.GetAccountContentsById(
+        gridManageContent.DataSource = SessionManager.ContentService.GetAccountContents(
             SessionManager.Ticket, RequestId, options);
         panelContentUpdate.Update();
     }
@@ -76,7 +76,7 @@ public partial class AccountContentGroupEdit : AuthenticatedPage
     public void GetData(object sender, EventArgs e)
     {
         gridManageContent.CurrentPageIndex = 0;
-        gridManageContent.VirtualItemCount = SessionManager.ContentService.GetAccountContentsCountById(
+        gridManageContent.VirtualItemCount = SessionManager.ContentService.GetAccountContentsCount(
             SessionManager.Ticket, RequestId);
         gridManageContent_OnGetDataSource(this, null);
         gridManageContent.DataBind();

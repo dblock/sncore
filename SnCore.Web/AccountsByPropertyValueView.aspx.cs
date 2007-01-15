@@ -42,8 +42,8 @@ public partial class AccountsByPropertyValueView : Page
     private void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        object[] args = { GroupName, PropertyName, PropertyValue };
-        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+        object[] args = { SessionManager.Ticket, GroupName, PropertyName, PropertyValue };
+        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccount>(
             SessionManager.AccountService, "GetAccountsByPropertyValueCount", args);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
@@ -82,7 +82,7 @@ public partial class AccountsByPropertyValueView : Page
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
         ServiceQueryOptions serviceoptions = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
-        object[] args = { Request["GroupName"], Request["PropertyName"], Request["PropertyValue"], serviceoptions };
+        object[] args = { SessionManager.Ticket, Request["GroupName"], Request["PropertyName"], Request["PropertyValue"], serviceoptions };
         gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccount>(
             SessionManager.AccountService, "GetAccountsByPropertyValue", args);
     }

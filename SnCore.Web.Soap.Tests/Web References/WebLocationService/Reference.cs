@@ -55,6 +55,10 @@ namespace SnCore.Web.Soap.Tests.WebLocationService {
         
         private System.Threading.SendOrPostCallback GetStatesByCountryIdCountOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetStatesByCountryNameOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetStatesByCountryNameCountOperationCompleted;
+        
         private System.Threading.SendOrPostCallback DeleteStateOperationCompleted;
         
         private System.Threading.SendOrPostCallback CreateOrUpdateCityOperationCompleted;
@@ -169,6 +173,12 @@ namespace SnCore.Web.Soap.Tests.WebLocationService {
         
         /// <remarks/>
         public event GetStatesByCountryIdCountCompletedEventHandler GetStatesByCountryIdCountCompleted;
+        
+        /// <remarks/>
+        public event GetStatesByCountryNameCompletedEventHandler GetStatesByCountryNameCompleted;
+        
+        /// <remarks/>
+        public event GetStatesByCountryNameCountCompletedEventHandler GetStatesByCountryNameCountCompleted;
         
         /// <remarks/>
         public event DeleteStateCompletedEventHandler DeleteStateCompleted;
@@ -571,6 +581,70 @@ namespace SnCore.Web.Soap.Tests.WebLocationService {
             if ((this.GetStatesByCountryIdCountCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetStatesByCountryIdCountCompleted(this, new GetStatesByCountryIdCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetStatesByCountryName", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitState[] GetStatesByCountryName(string ticket, string name, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetStatesByCountryName", new object[] {
+                        ticket,
+                        name,
+                        options});
+            return ((TransitState[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetStatesByCountryNameAsync(string ticket, string name, ServiceQueryOptions options) {
+            this.GetStatesByCountryNameAsync(ticket, name, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetStatesByCountryNameAsync(string ticket, string name, ServiceQueryOptions options, object userState) {
+            if ((this.GetStatesByCountryNameOperationCompleted == null)) {
+                this.GetStatesByCountryNameOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetStatesByCountryNameOperationCompleted);
+            }
+            this.InvokeAsync("GetStatesByCountryName", new object[] {
+                        ticket,
+                        name,
+                        options}, this.GetStatesByCountryNameOperationCompleted, userState);
+        }
+        
+        private void OnGetStatesByCountryNameOperationCompleted(object arg) {
+            if ((this.GetStatesByCountryNameCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetStatesByCountryNameCompleted(this, new GetStatesByCountryNameCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetStatesByCountryNameCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetStatesByCountryNameCount(string ticket, string name) {
+            object[] results = this.Invoke("GetStatesByCountryNameCount", new object[] {
+                        ticket,
+                        name});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetStatesByCountryNameCountAsync(string ticket, string name) {
+            this.GetStatesByCountryNameCountAsync(ticket, name, null);
+        }
+        
+        /// <remarks/>
+        public void GetStatesByCountryNameCountAsync(string ticket, string name, object userState) {
+            if ((this.GetStatesByCountryNameCountOperationCompleted == null)) {
+                this.GetStatesByCountryNameCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetStatesByCountryNameCountOperationCompleted);
+            }
+            this.InvokeAsync("GetStatesByCountryNameCount", new object[] {
+                        ticket,
+                        name}, this.GetStatesByCountryNameCountOperationCompleted, userState);
+        }
+        
+        private void OnGetStatesByCountryNameCountOperationCompleted(object arg) {
+            if ((this.GetStatesByCountryNameCountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetStatesByCountryNameCountCompleted(this, new GetStatesByCountryNameCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1822,6 +1896,58 @@ namespace SnCore.Web.Soap.Tests.WebLocationService {
         private object[] results;
         
         internal GetStatesByCountryIdCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetStatesByCountryNameCompletedEventHandler(object sender, GetStatesByCountryNameCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetStatesByCountryNameCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetStatesByCountryNameCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitState[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitState[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetStatesByCountryNameCountCompletedEventHandler(object sender, GetStatesByCountryNameCountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetStatesByCountryNameCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetStatesByCountryNameCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

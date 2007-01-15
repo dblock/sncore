@@ -25,7 +25,8 @@ public partial class BugPriorityEdit : AuthenticatedPage
 
             if (RequestId > 0)
             {
-                TransitBugPriority t = SessionManager.BugService.GetBugPriorityById(RequestId);
+                TransitBugPriority t = SessionManager.BugService.GetBugPriorityById(
+                    SessionManager.Ticket, RequestId);
                 inputName.Text = t.Name;
                 sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
             }

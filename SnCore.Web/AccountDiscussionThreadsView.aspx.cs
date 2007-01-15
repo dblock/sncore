@@ -61,8 +61,8 @@ public partial class AcountDiscussionThreadsView : Page
     void GetData(object sender, EventArgs e)
     {
         discussionThreadView.CurrentPageIndex = 0;
-        object[] args = { QueryOptions };
-        discussionThreadView.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+        object[] args = { SessionManager.Ticket, QueryOptions };
+        discussionThreadView.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitDiscussionPost>(
             SessionManager.DiscussionService, "GetUserDiscussionThreadsCount", args);
         gridManage_OnGetDataSource(sender, e);
         discussionThreadView.DataBind();
@@ -73,7 +73,7 @@ public partial class AcountDiscussionThreadsView : Page
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = discussionThreadView.CurrentPageIndex;
         options.PageSize = discussionThreadView.PageSize;
-        object[] args = { QueryOptions, options };
+        object[] args = { SessionManager.Ticket, QueryOptions, options };
         discussionThreadView.DataSource = SessionManager.GetCachedCollection<TransitDiscussionPost>(
             SessionManager.DiscussionService, "GetUserDiscussionThreads", args);
     }
@@ -86,7 +86,7 @@ public partial class AcountDiscussionThreadsView : Page
         {
             TopOfThreads = false;
 
-            object[] args = { AccountId };
+            object[] args = { SessionManager.Ticket, AccountId };
             TransitAccount ta = SessionManager.GetCachedItem<TransitAccount>(
                 SessionManager.AccountService, "GetAccountById", args);
 

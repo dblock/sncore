@@ -34,7 +34,7 @@ public class AccountPersonPage : Page
             if (mAccount == null)
             {
                 mAccount = (RequestId != 0)
-                    ? SessionManager.AccountService.GetAccountById(RequestId) 
+                    ? SessionManager.AccountService.GetAccountById(SessionManager.Ticket, RequestId) 
                     : SessionManager.Account;
             }
 

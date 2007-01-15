@@ -23,7 +23,7 @@ public partial class AccountPlaceQueueManage : AuthenticatedPage
             if (RequestId == 0)
             {
                 TransitPlaceQueue q = SessionManager.PlaceService.GetOrCreatePlaceQueueByName(
-                    SessionManager.Ticket, "My Queue");
+                    SessionManager.Ticket, SessionManager.AccountId, "My Queue");
 
                 Response.Redirect(string.Format("AccountPlaceQueueManage.aspx?id={0}", q.Id));
                 return;

@@ -18,8 +18,8 @@ public partial class SearchPlacesControl : SearchControl
 {
     protected override int GetResultsCount()
     {
-        object[] args = { SearchQuery };
-        return SessionManager.GetCachedCollectionCount(
+        object[] args = { SessionManager.Ticket, SearchQuery };
+        return SessionManager.GetCachedCollectionCount<TransitPlace>(
             SessionManager.PlaceService, "SearchPlacesCount", args);
     }
 

@@ -21,7 +21,8 @@ public partial class EmailPlacePicture : AuthenticatedPage
         {
             if (mPlacePicture == null)
             {
-                mPlacePicture = SessionManager.PlaceService.GetPlacePictureById(RequestId);
+                mPlacePicture = SessionManager.PlaceService.GetPlacePictureById(
+                    SessionManager.Ticket, RequestId);
             }
             return mPlacePicture;
         }

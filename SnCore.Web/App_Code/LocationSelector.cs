@@ -126,11 +126,11 @@ public class LocationSelectorCountryState : LocationSelector
             mState.SelectedIndexChanged += new EventHandler(State_SelectedIndexChanged);
         }
 
-        if (! mPage.IsPostBack)
+        if (!mPage.IsPostBack)
         {
             List<TransitCountry> countries = new List<TransitCountry>();
             if (InsertEmptySelection) countries.Add(new TransitCountry());
-            object[] c_args = { null };
+            object[] c_args = { page.SessionManager.Ticket, null };
             countries.AddRange(mPage.SessionManager.GetCachedCollection<TransitCountry>(
                 mPage.SessionManager.LocationService, "GetCountries", c_args));
             mCountry.DataSource = countries;
@@ -174,11 +174,11 @@ public class LocationSelectorCountryState : LocationSelector
         {
             if (mState != null)
             {
-                object[] args = { mCountry.SelectedValue };
+                object[] args = { mPage.SessionManager.Ticket, mCountry.SelectedValue, null };
                 List<TransitState> states = new List<TransitState>();
                 if (InsertEmptySelection) states.Add(new TransitState());
                 states.AddRange(mPage.SessionManager.GetCachedCollection<TransitState>(
-                    mPage.SessionManager.LocationService, "GetStatesByCountry", args));
+                    mPage.SessionManager.LocationService, "GetStatesByCountryName", args));
                 mState.DataSource = states;
                 mState.DataBind();
 
@@ -216,7 +216,7 @@ public class LocationSelectorCountryStateCityText : LocationSelectorCountryState
     protected TextBox mCity;
 
     public LocationSelectorCountryStateCityText(Page page, bool empty, DropDownList country, DropDownList state, TextBox city)
-        : base(page, empty, country, state)
+        : base( page, empty, country, state)
     {
         mCity = city;
     }
@@ -228,14 +228,15 @@ public class LocationSelectorCountryStateCityText : LocationSelectorCountryState
         if (mCity != null)
         {
             mCity.Text = e.City;
-       }
+        }
     }
 
     public void ChangeCityWithAccountDefault(object sender, CityLocationEventArgs e)
     {
         if (!string.IsNullOrEmpty(e.City))
         {
-            TransitCity t_city = mPage.SessionManager.LocationService.GetCityByTag(e.City);
+            TransitCity t_city = mPage.SessionManager.LocationService.GetCityByTag(
+                mPage.SessionManager.Ticket, e.City);
             if (t_city != null)
             {
                 SelectLocation(sender, new LocationEventArgs(t_city));
@@ -264,7 +265,7 @@ public class LocationSelectorCountryStateCity : LocationSelectorCountryState
     public event EventHandler CityChanged;
 
     public LocationSelectorCountryStateCity(Page page, bool empty, DropDownList country, DropDownList state, DropDownList city)
-        : base(page, empty, country, state)
+        : base( page, empty, country, state)
     {
         mCity = city;
         mCity.SelectedIndexChanged += new EventHandler(City_SelectedIndexChanged);
@@ -300,7 +301,7 @@ public class LocationSelectorCountryStateCity : LocationSelectorCountryState
         {
             if (mCity != null)
             {
-                object[] args = { mCountry.SelectedValue, mState.SelectedValue };
+                object[] args = { mPage.SessionManager.Ticket, mCountry.SelectedValue, mState.SelectedValue };
                 List<TransitCity> cities = new List<TransitCity>();
                 if (InsertEmptySelection) cities.Add(new TransitCity());
                 cities.AddRange(mPage.SessionManager.GetCachedCollection<TransitCity>(
@@ -332,7 +333,7 @@ public class LocationSelectorCountryStateCityNeighborhood : LocationSelectorCoun
     public event EventHandler NeighborhoodChanged;
 
     public LocationSelectorCountryStateCityNeighborhood(Page page, bool empty, DropDownList country, DropDownList state, DropDownList city, DropDownList neighborhood)
-        : base(page, empty, country, state, city)
+        : base( page, empty, country, state, city)
     {
         mNeighborhood = neighborhood;
         mNeighborhood.SelectedIndexChanged += new EventHandler(Neighborhood_SelectedIndexChanged);
@@ -367,7 +368,7 @@ public class LocationSelectorCountryStateCityNeighborhood : LocationSelectorCoun
         {
             if (mNeighborhood != null)
             {
-                object[] args = { mCountry.SelectedValue, mState.SelectedValue, mCity.SelectedValue };
+                object[] args = { mPage.SessionManager.Ticket, mCountry.SelectedValue, mState.SelectedValue, mCity.SelectedValue };
                 List<TransitNeighborhood> neighborhoods = new List<TransitNeighborhood>();
                 if (InsertEmptySelection) neighborhoods.Add(new TransitNeighborhood());
                 neighborhoods.AddRange(mPage.SessionManager.GetCachedCollection<TransitNeighborhood>(
@@ -396,7 +397,7 @@ public class LocationSelectorCountryStateCityNeighborhoodText : LocationSelector
     protected TextBox mNeighborhood;
 
     public LocationSelectorCountryStateCityNeighborhoodText(Page page, bool empty, DropDownList country, DropDownList state, TextBox city, TextBox neighborhood)
-        : base(page, empty, country, state, city)
+        : base( page, empty, country, state, city)
     {
         mNeighborhood = neighborhood;
     }

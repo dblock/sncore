@@ -15,23 +15,24 @@ public partial class AccountContentGroupsManage : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
-            if (!IsPostBack)
-            {
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Content", Request.Url));
-                StackSiteMap(sitemapdata);
+        if (!IsPostBack)
+        {
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Content", Request.Url));
+            StackSiteMap(sitemapdata);
 
-                GetData(sender, e);
-            }
+            GetData(sender, e);
+        }
     }
 
     public void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.ContentService.GetAccountContentGroupsCount(SessionManager.Ticket);
+        gridManage.VirtualItemCount = SessionManager.ContentService.GetAccountContentGroupsCount(
+            SessionManager.Ticket, SessionManager.AccountId);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
@@ -43,24 +44,25 @@ public partial class AccountContentGroupsManage : AuthenticatedPage
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-            ServiceQueryOptions options = new ServiceQueryOptions();
-            options.PageNumber = gridManage.CurrentPageIndex;
-            options.PageSize = gridManage.PageSize;
-            gridManage.DataSource = SessionManager.ContentService.GetAccountContentGroups(SessionManager.Ticket, options);
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageNumber = gridManage.CurrentPageIndex;
+        options.PageSize = gridManage.PageSize;
+        gridManage.DataSource = SessionManager.ContentService.GetAccountContentGroups(
+            SessionManager.Ticket, SessionManager.AccountId, options);
     }
 
     public void gridManage_ItemCommand(object sender, DataGridCommandEventArgs e)
     {
-            int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-            switch (e.CommandName)
-            {
-                case "Delete":
-                    SessionManager.ContentService.DeleteAccountContent(SessionManager.Ticket, id);
-                    ReportInfo("Content group deleted.");
-                    gridManage.CurrentPageIndex = 0;
-                    gridManage_OnGetDataSource(sender, e);
-                    gridManage.DataBind();
-                    break;
-            }
+        int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
+        switch (e.CommandName)
+        {
+            case "Delete":
+                SessionManager.ContentService.DeleteAccountContent(SessionManager.Ticket, id);
+                ReportInfo("Content group deleted.");
+                gridManage.CurrentPageIndex = 0;
+                gridManage_OnGetDataSource(sender, e);
+                gridManage.DataBind();
+                break;
+        }
     }
 }

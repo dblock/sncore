@@ -26,7 +26,7 @@ public partial class AccountEventsViewList : Page
             ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
             serviceoptions.PageSize = pagesize;
             serviceoptions.PageNumber = pagenumber;
-            gridManage.DataSource = SessionManager.EventService.GetAllAccountEvents(
+            gridManage.DataSource = SessionManager.EventService.GetAccountEvents(
                 SessionManager.Ticket, SessionManager.UtcOffset, options, serviceoptions);
             gridManage.DataBind();
 

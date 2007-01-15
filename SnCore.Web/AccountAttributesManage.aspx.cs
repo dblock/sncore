@@ -21,7 +21,8 @@ public partial class AccountAttributesManage : AuthenticatedPage
         {
             if (mAccount == null)
             {
-                mAccount = SessionManager.AccountService.GetAccountById(RequestId);
+                mAccount = SessionManager.AccountService.GetAccountById(
+                    SessionManager.Ticket, RequestId);
             }
 
             return mAccount;
@@ -53,7 +54,8 @@ public partial class AccountAttributesManage : AuthenticatedPage
     public void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.AccountService.GetAccountAttributesCountById(RequestId);
+        gridManage.VirtualItemCount = SessionManager.AccountService.GetAccountAttributesCount(
+            SessionManager.Ticket, RequestId);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
@@ -68,8 +70,8 @@ public partial class AccountAttributesManage : AuthenticatedPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageSize = gridManage.PageSize;
         options.PageNumber = gridManage.CurrentPageIndex;
-        gridManage.DataSource = SessionManager.AccountService.GetAccountAttributesById(
-            RequestId, options);
+        gridManage.DataSource = SessionManager.AccountService.GetAccountAttributes(
+            SessionManager.Ticket, RequestId, options);
     }
 
     public void gridManage_ItemCommand(object sender, DataGridCommandEventArgs e)

@@ -20,7 +20,7 @@
       <asp:TemplateColumn>
        <ItemTemplate>
         <div class="sncore_h3">
-         <%# Render(Eval("AccountProperty.Name")) %>
+         <%# Render(Eval("AccountPropertyName")) %>
         </div>
         <div class="sncore_h2sub">
          <%# RenderEx(Eval("Value")) %>

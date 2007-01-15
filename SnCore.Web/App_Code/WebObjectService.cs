@@ -144,7 +144,7 @@ namespace SnCore.WebServices
         /// <param name="ifModifiedSince">last update date/time</param>
         /// <returns>transit attribute with bitmap</returns>
         [WebMethod(Description = "Get attribute data if modified since.", BufferResponse = true)]
-        public TransitAttribute GetAttributeIfModifiedSince(string ticket, int id, DateTime ifModifiedSince)
+        public TransitAttribute GetAttributeIfModifiedSinceById(string ticket, int id, DateTime ifModifiedSince)
         {
             TransitAttribute t_instance = WebServiceImpl<TransitAttribute, ManagedAttribute, Attribute>.GetById(
                 ticket, id);
@@ -374,6 +374,51 @@ namespace SnCore.WebServices
                 ticket, id);
         }
 
+        [WebMethod(Description = "Get picture data if modified since.", BufferResponse = true)]
+        public TransitPicture GetPictureIfModifiedSinceById(string ticket, int id, DateTime ifModifiedSince)
+        {
+            TransitPicture t_instance = WebServiceImpl<TransitPicture, ManagedPicture, Picture>.GetById(
+                ticket, id);
+
+            if (t_instance.Modified <= ifModifiedSince)
+                return null;
+
+            return t_instance;
+        }
+
+        /// <summary>
+        /// Get random picture.
+        /// </summary>
+        /// <param name="type">picture type</param>
+        /// <returns>transit random picture, thumbnail only</returns>
+        [WebMethod(Description = "Get random picture by type.", BufferResponse = true)]
+        public TransitPicture GetRandomPictureByType(string ticket, string type)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                PictureType picturetype = ManagedPictureType.Find(session, type);
+
+                if (picturetype == null)
+                {
+                    return null;
+                }
+
+                IList<Picture> list = session.CreateCriteria(typeof(Picture))
+                    .Add(Expression.Eq("Type.Id", picturetype.Id))
+                    .List<Picture>();
+
+                if (list.Count == 0)
+                {
+                    return null;
+                }
+
+                ManagedPicture m_instance = new ManagedPicture();
+                m_instance.SetInstance(session, list[new Random().Next() % list.Count]);
+                return m_instance.GetTransitInstance(sec);
+            }
+        }
 
         /// <summary>
         /// Get all pictures.
@@ -793,11 +838,30 @@ namespace SnCore.WebServices
         /// Get a bookmark.
         /// </summary>
         /// <returns>transit bookmark</returns>
-        [WebMethod(Description = "Get a bookmark.")]
+        [WebMethod(Description = "Get a bookmark.", BufferResponse = true)]
         public TransitBookmark GetBookmarkById(string ticket, int id)
         {
             return WebServiceImpl<TransitBookmark, ManagedBookmark, Bookmark>.GetById(
                 ticket, id);
+        }
+
+        /// <summary>
+        /// Get a bookmark if modified since.
+        /// </summary>
+        /// <param name="ticket"></param>
+        /// <param name="id"></param>
+        /// <param name="ifModifiedSince"></param>
+        /// <returns></returns>
+        [WebMethod(Description = "Get a bookmark if modified since.", BufferResponse = true)]
+        public TransitBookmark GetBookmarkIfModifiedSinceById(string ticket, int id, DateTime ifModifiedSince)
+        {
+            TransitBookmark t_instance = WebServiceImpl<TransitBookmark, ManagedBookmark, Bookmark>.GetById(
+                ticket, id);
+
+            if (t_instance.Modified <= ifModifiedSince)
+                return null;
+
+            return t_instance;
         }
 
         /// <summary>

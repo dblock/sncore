@@ -29,7 +29,8 @@ public partial class AccountDelete : AuthenticatedPage
                 }
                 else
                 {
-                    mAccount = SessionManager.AccountService.GetAccountById(RequestId);
+                    mAccount = SessionManager.AccountService.GetAccountById(
+                        SessionManager.Ticket, RequestId);
                 }
             }
             return mAccount;

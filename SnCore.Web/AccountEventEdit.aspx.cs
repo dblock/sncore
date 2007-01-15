@@ -27,7 +27,7 @@ public partial class AccountEventEdit : AuthenticatedPage
 
             ArrayList types = new ArrayList();
             types.Add(new TransitAccountPlaceType());
-            types.AddRange(SessionManager.EventService.GetAccountEventTypes());
+            types.AddRange(SessionManager.EventService.GetAccountEventTypes(SessionManager.Ticket, null));
             selectType.DataSource = types;
             selectType.DataBind();
 
@@ -44,7 +44,7 @@ public partial class AccountEventEdit : AuthenticatedPage
                 inputCost.Text = tav.Cost;
                 inputPublish.Checked = tav.Publish;
                 selectType.Items.FindByValue(tav.AccountEventType).Selected = true;
-                schedule.Schedule = SessionManager.SystemService.GetScheduleById(tav.ScheduleId);
+                schedule.Schedule = SessionManager.ObjectService.GetScheduleById(SessionManager.Ticket, tav.ScheduleId);
                 place.Place = SessionManager.PlaceService.GetPlaceById(SessionManager.Ticket, tav.PlaceId);
                 titleEvent.Text = Renderer.Render(tav.Name);
                 sitemapdata.Add(new SiteMapDataAttributeNode(tav.Name, Request.Url));
@@ -59,7 +59,7 @@ public partial class AccountEventEdit : AuthenticatedPage
 
         SetDefaultButton(manageAdd);
 
-        if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket))
+        if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket, SessionManager.AccountId))
         {
             ReportWarning("You don't have any verified e-mail addresses.\n" +
                 "You must add/confirm a valid e-mail address before posting.");
@@ -115,7 +115,7 @@ public partial class AccountEventEdit : AuthenticatedPage
         }
 
         // create or update schedule
-        tav.ScheduleId = schedule.Schedule.Id = SessionManager.SystemService.CreateOrUpdateSchedule(
+        tav.ScheduleId = schedule.Schedule.Id = SessionManager.ObjectService.CreateOrUpdateSchedule(
             SessionManager.Ticket, schedule.Schedule);
 
         tav.AccountId = SessionManager.Account.Id;

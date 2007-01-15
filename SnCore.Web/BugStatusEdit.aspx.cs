@@ -25,7 +25,8 @@ public partial class BugStatusEdit : AuthenticatedPage
 
             if (RequestId > 0)
             {
-                TransitBugStatus t = SessionManager.BugService.GetBugStatusById(RequestId);
+                TransitBugStatus t = SessionManager.BugService.GetBugStatusById(
+                    SessionManager.Ticket, RequestId);
                 inputName.Text = t.Name;
                 sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
             }

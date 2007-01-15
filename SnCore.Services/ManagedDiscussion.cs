@@ -17,7 +17,7 @@ namespace SnCore.Services
     public class DiscussionQueryOptions
     {
         public int AccountId;
-        public bool TopOfThRetreiveOnly = true;
+        public bool TopOfThreadOnly = true;
 
         public override int GetHashCode()
         {
@@ -30,10 +30,10 @@ namespace SnCore.Services
             {
                 return ", DiscussionThread t, Discussion d" +
                        " WHERE DiscussionPost.AccountId = " + AccountId.ToString() +
-                       " AND t.Discussion.Id = instance.Id" +
-                       " AND instance.Personal = 0" +
+                       " AND t.Discussion.Id = d.Id" +
+                       " AND d.Personal = 0" +
                        " AND t.Id = DiscussionPost.DiscussionThread.Id" +
-                       (TopOfThRetreiveOnly ? " AND DiscussionPost.DiscussionPostParent IS NULL" : string.Empty);
+                       (TopOfThreadOnly ? " AND DiscussionPost.DiscussionPostParent IS NULL" : string.Empty);
             }
         }
 
@@ -43,10 +43,10 @@ namespace SnCore.Services
             {
                 return "SELECT tp FROM DiscussionPost tp, DiscussionThread t, Discussion d" +
                        " WHERE tp.AccountId = " + AccountId.ToString() +
-                       " AND t.Discussion.Id = instance.Id" +
-                       " AND instance.Personal = 0" +
+                       " AND t.Discussion.Id = d.Id" +
+                       " AND d.Personal = 0" +
                        " AND t.Id = tp.DiscussionThread.Id" +
-                       (TopOfThRetreiveOnly ? " AND tp.DiscussionPostParent IS NULL" : string.Empty) +
+                       (TopOfThreadOnly ? " AND tp.DiscussionPostParent IS NULL" : string.Empty) +
                        " ORDER BY t.Created DESC";
             }
         }

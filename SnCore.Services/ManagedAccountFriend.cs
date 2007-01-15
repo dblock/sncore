@@ -74,20 +74,9 @@ namespace SnCore.Services
         }
 
         public TransitAccountFriend(AccountFriend instance)
-            : this(instance, false)
-        {
-
-        }
-
-        public TransitAccountFriend(AccountFriend instance, bool invert)
             : base(instance)
         {
-            if (invert)
-            {
-                FriendId = instance.Account.Id;
-                FriendPictureId = ManagedAccount.GetRandomAccountPictureId(instance.Account);
-                FriendName = instance.Account.Name;
-            }
+
         }
 
         public override void  SetInstance(AccountFriend instance)

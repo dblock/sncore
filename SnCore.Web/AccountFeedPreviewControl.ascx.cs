@@ -78,12 +78,12 @@ public partial class AccountFeedPreviewControl : Control
             {
                 TransitAccountFeed f = Feed;
 
-                TransitFeedType t = SessionManager.SyndicationService.GetFeedTypeByName(f.FeedType);
+                TransitFeedType t = SessionManager.SyndicationService.GetFeedTypeByName(SessionManager.Ticket, f.FeedType);
                 gridManage.RepeatColumns = t.SpanColumnsPreview;
                 gridManage.RepeatRows = t.SpanRowsPreview;
-                object[] args = { FeedId };
-                gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-                    SessionManager.SyndicationService, "GetAccountFeedItemsCountById", args);
+                object[] args = { SessionManager.Ticket, FeedId };
+                gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccountFeedItem>(
+                    SessionManager.SyndicationService, "GetAccountFeedItemsCount", args);
                 gridManage_OnGetDataSource(this, null);
                 gridManage.DataBind();
             }
@@ -95,9 +95,9 @@ public partial class AccountFeedPreviewControl : Control
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = gridManage.CurrentPageIndex;
         options.PageSize = gridManage.PageSize;
-        object[] args = { FeedId, options };
+        object[] args = { SessionManager.Ticket, FeedId, options };
         gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountFeedItem>(
-            SessionManager.SyndicationService, "GetAccountFeedItemsById", args);
+            SessionManager.SyndicationService, "GetAccountFeedItems", args);
     }
 
     public string GetTitle(object title)

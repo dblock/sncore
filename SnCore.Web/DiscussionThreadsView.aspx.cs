@@ -41,9 +41,10 @@ public partial class DiscussionThreadsView : Page
 
     public void GetData(object sender, EventArgs e)
     {
+        object[] args = { SessionManager.Ticket };
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            SessionManager.DiscussionService, "GetDiscussionThreadsCount", null);
+        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitDiscussionThread>(
+            SessionManager.DiscussionService, "GetDiscussionThreadsCount", args);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }

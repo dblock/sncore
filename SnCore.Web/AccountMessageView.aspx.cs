@@ -33,56 +33,57 @@ public partial class AccountMessageView : AuthenticatedPage
 
     public void Page_Load(object sender, EventArgs e)
     {
-            if (!IsPostBack)
-            {
-                linkCancel.NavigateUrl = ReturnUrl;
+        if (!IsPostBack)
+        {
+            linkCancel.NavigateUrl = ReturnUrl;
 
-                TransitAccountMessage message = Message;
+            TransitAccountMessage message = Message;
 
-                if (message.Unread)
-                {
-                    SessionManager.AccountService.MarkMessageAsReadUnread(SessionManager.Ticket, message.Id, false);
-                }
+            //if (message.Unread)
+            //{
+            //    SessionManager.AccountService.MarkMessageAsReadUnread(SessionManager.Ticket, message.Id, false);
+            //}
 
-                messageSenderLink.HRef = messageFrom.NavigateUrl = string.Format("AccountView.aspx?id={0}", message.SenderAccountId);
-                messageFrom.Text = messageSenderName.Text = Renderer.Render(message.SenderAccountName);
-                messageTo.NavigateUrl = string.Format("AccountView.aspx?id={0}", message.RecepientAccountId);
-                messageTo.Text = Renderer.Render(message.RecepientAccountName);
-                messageSent.Text = message.Sent.ToString();
-                messageSenderImage.ImageUrl = string.Format("AccountPictureThumbnail.aspx?id={0}", message.SenderAccountPictureId);
-                messageSubject.Text = Renderer.Render(message.Subject);
-                messageBody.Text = base.RenderEx(message.Body);
+            messageSenderLink.HRef = messageFrom.NavigateUrl = string.Format("AccountView.aspx?id={0}", message.SenderAccountId);
+            messageFrom.Text = messageSenderName.Text = Renderer.Render(message.SenderAccountName);
+            messageTo.NavigateUrl = string.Format("AccountView.aspx?id={0}", message.RecepientAccountId);
+            messageTo.Text = Renderer.Render(message.RecepientAccountName);
+            messageSent.Text = message.Sent.ToString();
+            messageSenderImage.ImageUrl = string.Format("AccountPictureThumbnail.aspx?id={0}", message.SenderAccountPictureId);
+            messageSubject.Text = Renderer.Render(message.Subject);
+            messageBody.Text = base.RenderEx(message.Body);
 
-                messageFrom.Visible = labelMessageFrom.Visible = (message.SenderAccountId != SessionManager.Account.Id);
-                messageTo.Visible = labelMessageTo.Visible = (message.RecepientAccountId != SessionManager.Account.Id);
+            messageFrom.Visible = labelMessageFrom.Visible = (message.SenderAccountId != SessionManager.Account.Id);
+            messageTo.Visible = labelMessageTo.Visible = (message.RecepientAccountId != SessionManager.Account.Id);
 
-                linkReply.NavigateUrl = string.Format("AccountMessageEdit.aspx?id={0}&pid={1}&ReturnUrl={2}#edit",
-                    message.SenderAccountId, message.Id, UrlEncode(Request.Url.PathAndQuery));
+            linkReply.NavigateUrl = string.Format("AccountMessageEdit.aspx?id={0}&pid={1}&ReturnUrl={2}#edit",
+                message.SenderAccountId, message.Id, UrlEncode(Request.Url.PathAndQuery));
 
-                linkMove.NavigateUrl = string.Format("AccountMessageMove.aspx?id={0}&ReturnUrl={1}",
-                    message.Id, UrlEncode(ReturnUrl));
+            linkMove.NavigateUrl = string.Format("AccountMessageMove.aspx?id={0}&ReturnUrl={1}",
+                message.Id, UrlEncode(ReturnUrl));
 
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Messages", Request, "AccountMessageFoldersManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode(message.Subject, Request.Url));
-                StackSiteMap(sitemapdata);
-            }
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Messages", Request, "AccountMessageFoldersManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode(message.Subject, Request.Url));
+            StackSiteMap(sitemapdata);
+        }
     }
 
     public void linkDelete_Click(object sender, EventArgs e)
     {
-            int trashid = SessionManager.AccountService.GetAccountMessageSystemFolder(SessionManager.Ticket, "trash").Id;
-            if (trashid == Message.AccountMessageFolderId)
-            {
-                SessionManager.AccountService.DeleteAccountMessage(SessionManager.Ticket, RequestId);
-            }
-            else
-            {
-                SessionManager.AccountService.MoveAccountMessageToFolderById(SessionManager.Ticket, RequestId, trashid);
-            }
+        int trashid = SessionManager.AccountService.GetAccountMessageSystemFolder(
+            SessionManager.Ticket, SessionManager.AccountId, "trash").Id;
+        if (trashid == Message.AccountMessageFolderId)
+        {
+            SessionManager.AccountService.DeleteAccountMessage(SessionManager.Ticket, RequestId);
+        }
+        else
+        {
+            SessionManager.AccountService.MoveAccountMessageToFolderById(SessionManager.Ticket, RequestId, trashid);
+        }
 
-            Redirect(ReturnUrl);
+        Redirect(ReturnUrl);
     }
 
     public string ReturnUrl

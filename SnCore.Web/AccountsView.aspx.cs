@@ -49,7 +49,7 @@ public partial class AccountsView : AccountPersonPage
         {
             ArrayList countries = new ArrayList();
             countries.Add(new TransitCountry());
-            object[] c_args = { null };
+            object[] c_args = { SessionManager.Ticket, null };
             countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(
                 SessionManager.LocationService, "GetCountries", c_args));
 
@@ -92,16 +92,17 @@ public partial class AccountsView : AccountPersonPage
     {
         get
         {
-            return SessionManager.GetCachedCollectionCount(
-                SessionManager.SocialService, "GetAccountsCount", null);
+            object[] args = { SessionManager.Ticket };
+            return SessionManager.GetCachedCollectionCount<TransitAccount>(
+                SessionManager.SocialService, "GetAccountsCount", args);
         }
     }
 
     private void GetData()
     {
         gridManage.CurrentPageIndex = 0;
-        object[] args = { GetQueryOptions() };
-        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+        object[] args = { SessionManager.Ticket, GetQueryOptions() };
+        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccountActivity>(
             SessionManager.SocialService, "GetAccountActivityCount", args);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
@@ -114,9 +115,9 @@ public partial class AccountsView : AccountPersonPage
     {
         ArrayList states = new ArrayList();
         states.Add(new TransitState());
-        object[] args = { inputCountry.SelectedValue };
+        object[] args = { SessionManager.Ticket, inputCountry.SelectedValue, null };
         states.AddRange(SessionManager.GetCachedCollection<TransitState>(
-            SessionManager.LocationService, "GetStatesByCountry", args));
+            SessionManager.LocationService, "GetStatesByCountryName", args));
         inputState.DataSource = states;
         inputState.DataBind();
         panelCountryState.Update();
@@ -156,7 +157,7 @@ public partial class AccountsView : AccountPersonPage
         ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
         serviceoptions.PageSize = gridManage.PageSize;
         serviceoptions.PageNumber = gridManage.CurrentPageIndex;
-        object[] args = { options, serviceoptions };
+        object[] args = { SessionManager.Ticket, options, serviceoptions };
         gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountActivity>(
             SessionManager.SocialService, "GetAccountActivity", args);
     }

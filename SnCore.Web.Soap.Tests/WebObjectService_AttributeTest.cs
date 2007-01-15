@@ -24,5 +24,11 @@ namespace SnCore.Web.Soap.Tests.WebObjectServiceTests
             t_instance.Description = Guid.NewGuid().ToString();
             return t_instance;
         }
+
+        [Test]
+        protected void GetAttributeIfModifiedSinceTest()
+        {
+
+        }
     }
 }

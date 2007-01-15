@@ -38,12 +38,12 @@ public partial class AccountCreateInvitation : Page
         TransitAccount ta = new TransitAccount();
         ta.Name = inputName.Text;
         ta.Birthday = inputBirthday.SelectedDate;
+        ta.Password = inputPassword.Text;
 
-        SessionManager.AccountService.CreateAccountInvitation(
+
+        SessionManager.AccountService.CreateAccountWithInvitation(
             RequestId,
             Request.QueryString["code"],
-            inputPassword.Text,
-            inputEmailAddress.Text,
             ta);
 
         panelCreate.Visible = false;

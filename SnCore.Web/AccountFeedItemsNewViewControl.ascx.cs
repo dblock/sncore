@@ -36,7 +36,7 @@ public partial class AccountFeedItemsNewViewControl : Control
     {
         if (!IsPostBack)
         {
-            object[] args = { new ServiceQueryOptions(Count, 0) };
+            object[] args = { SessionManager.Ticket, new ServiceQueryOptions(Count, 0) };
             FeedsView.DataSource = SessionManager.GetCachedCollection<TransitAccountFeedItem>(
                 SessionManager.SyndicationService, "GetAccountFeedItems", args);
             FeedsView.DataBind();

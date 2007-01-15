@@ -37,7 +37,8 @@ public partial class AccountEventsManage : AuthenticatedPage
     public void GetData()
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.EventService.GetAccountEventsCount(SessionManager.Ticket);
+        gridManage.VirtualItemCount = SessionManager.EventService.GetAccountEventsCountByAccountId(
+            SessionManager.Ticket, SessionManager.AccountId);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
@@ -47,7 +48,8 @@ public partial class AccountEventsManage : AuthenticatedPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageSize = gridManage.PageSize;
         options.PageNumber = gridManage.CurrentPageIndex;
-        gridManage.DataSource = SessionManager.EventService.GetAccountEvents(SessionManager.Ticket, options, SessionManager.UtcOffset);
+        gridManage.DataSource = SessionManager.EventService.GetAccountEventsByAccountId(
+            SessionManager.Ticket, SessionManager.AccountId, SessionManager.UtcOffset, options);
     }
 
     public void gridManage_ItemCommand(object sender, DataGridCommandEventArgs e)

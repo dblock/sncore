@@ -99,8 +99,13 @@ namespace SnCore.Services
 
         }
 
-        public TransitArrayElementService(T element, IList<T> collection)
-            : base(element)
+        public TransitArrayElementService(T instance)
+            : base(instance)
+        {
+
+        }
+
+        public void SetWithinCollection(T element, IList<T> collection)
         {
             mIndex = collection.IndexOf(element);
             mCount = collection.Count;

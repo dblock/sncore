@@ -17,25 +17,27 @@ public partial class TagWordAccountsView : Page
 {
     public void Page_Load()
     {
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
-            if (!IsPostBack)
-            {
-                TransitTagWord word = SessionManager.TagWordService.GetTagWordById(RequestId);
-                tagSubtitle.Text = string.Format("Who is talking about <b>\"{0}\"</b>?", Renderer.Render(word.Word));
-                this.Title = string.Format("Who is talking about \"{0}\"?", Renderer.Render(word.Word));
-                gridManage_OnGetDataSource(this, null);
-                gridManage.DataBind();
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+        if (!IsPostBack)
+        {
+            TransitTagWord word = SessionManager.TagWordService.GetTagWordById(
+                SessionManager.Ticket, RequestId);
+            tagSubtitle.Text = string.Format("Who is talking about <b>\"{0}\"</b>?", Renderer.Render(word.Word));
+            this.Title = string.Format("Who is talking about \"{0}\"?", Renderer.Render(word.Word));
+            gridManage_OnGetDataSource(this, null);
+            gridManage.DataBind();
 
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Tags", Request, "TagWordsView.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode(word.Word, Request.Url));
-                StackSiteMap(sitemapdata);
-            }
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Tags", Request, "TagWordsView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode(word.Word, Request.Url));
+            StackSiteMap(sitemapdata);
+        }
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-            gridManage.DataSource = SessionManager.TagWordService.GetTagWordAccountsById(RequestId);
+        gridManage.DataSource = SessionManager.TagWordService.GetTagWordAccountsById(
+            SessionManager.Ticket, RequestId, null);
     }
 }

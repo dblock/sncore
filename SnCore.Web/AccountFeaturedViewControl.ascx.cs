@@ -39,9 +39,9 @@ public partial class AccountFeaturedViewControl : Control
         {
             if (mFeature == null)
             {
-                object[] args = { "Account" };
+                object[] args = { SessionManager.Ticket, "Account" };
                 mFeature = SessionManager.GetCachedItem<TransitFeature>(
-                    SessionManager.SystemService, "GetLatestFeature", args);
+                    SessionManager.ObjectService, "GetLatestFeature", args);
             }
 
             return mFeature;
@@ -54,7 +54,7 @@ public partial class AccountFeaturedViewControl : Control
         {
             if (mAccount == null)
             {
-                object[] args = { Feature.DataRowId };
+                object[] args = { SessionManager.Ticket, Feature.DataRowId };
                 mAccount = SessionManager.GetCachedItem<TransitAccount>(
                     SessionManager.AccountService, "GetAccountById", args);
             }

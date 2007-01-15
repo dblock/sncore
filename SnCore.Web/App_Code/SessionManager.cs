@@ -40,25 +40,6 @@ public class SessionManager
     private string mTicket = string.Empty;
     private TransitAccount mAccount = null;
 
-    //private WebLicenseService mLicenseService = null;
-    //private WebContentService mContentService = null;
-    private WebAccountService mAccountService = null;
-    //private WebLocationService mWebLocationService = null;
-    private WebSystemService mWebSystemService = null;
-    //private WebDiscussionService mWebDiscussionService = null;
-    //private WebSocialService mWebSocialService = null;
-    //private WebStoryService mWebStoryService = null;
-    private WebBugService mWebBugService = null;
-    //private WebTagWordService mWebTagWordService = null;
-    //private WebSyndicationService mWebSyndicationService = null;
-    //private WebBackEndService mWebBackEndService = null;
-    //private WebPlaceService mWebPlaceService = null;
-    //private WebBlogService mWebBlogService = null;
-    //private WebEventService mWebEventService = null;
-    //private WebStatsService mWebStatsService = null;
-    //private WebMarketingService mWebMarketingService = null;
-    //private WebMadLibService mWebMadLibService = null;
-
     public Cache Cache
     {
         get
@@ -93,8 +74,9 @@ public class SessionManager
 
     public string GetCachedConfiguration(string name, string defaultvalue)
     {
-        object[] args = { name, defaultvalue };
-        return GetCachedItem<TransitConfiguration>(SystemService, "GetConfigurationByNameWithDefault", args).Value.ToString();
+        object[] args = { Ticket, name, defaultvalue };
+        return GetCachedItem<TransitConfiguration>(
+            SystemService, "GetConfigurationByNameWithDefault", args).Value.ToString();
     }
 
     public SessionManager(System.Web.UI.Page page)
@@ -110,7 +92,7 @@ public class SessionManager
     public SessionManager(PicturePage page)
         : this(page.Cache, page.Request, page.Response, page.PageType == PicturePage.PicturePageType.Bitmap)
     {
-        
+
     }
 
     public SessionManager(Cache cache, HttpRequest request, HttpResponse response, bool track)
@@ -157,6 +139,426 @@ public class SessionManager
             }
         }
     }
+
+    #region Login and Impersonate
+
+    public bool IsLoggedIn
+    {
+        get
+        {
+            return Account != null;
+        }
+    }
+
+    public int AccountId
+    {
+        get
+        {
+            if (!IsLoggedIn)
+            {
+                throw new Exception("User is not Logged In");
+            }
+
+            return Account.Id;
+        }
+    }
+
+    public TransitAccount Account
+    {
+        get
+        {
+            if (mAccount == null)
+            {
+                if (!string.IsNullOrEmpty(Ticket))
+                {
+                    try
+                    {
+                        mAccount = (TransitAccount)Cache[string.Format("account:{0}", Ticket)];
+                        if (mAccount == null)
+                        {
+                            mAccount = AccountService.GetAccount(Ticket);
+                            Cache.Insert(string.Format("account:{0}", Ticket),
+                                mAccount, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
+                        }
+                    }
+                    catch
+                    {
+
+                    }
+                }
+            }
+            return mAccount;
+        }
+    }
+
+    public bool IsAdministrator
+    {
+        get
+        {
+            return Account != null ? Account.IsAdministrator : false;
+        }
+    }
+
+    public string Ticket
+    {
+        get
+        {
+            return mTicket;
+        }
+    }
+
+    public void Logout()
+    {
+        HttpCookie impersonateCookie = Request.Cookies[sSnCoreImpersonateCookieName];
+        if (impersonateCookie != null)
+        {
+            Login(impersonateCookie.Value, false);
+            Response.Cookies[sSnCoreImpersonateCookieName].Value = string.Empty;
+            Response.Cookies[sSnCoreImpersonateCookieName].Expires = new DateTime(1970, 1, 1);
+            return;
+        }
+
+        if (IsLoggedIn)
+        {
+            Cache.Remove(string.Format("ticket:{0}", Ticket));
+            Cache.Remove(string.Format("account:{0}", Ticket));
+            Cache.Remove(string.Format("accountpermissions:{0}", Ticket));
+            Response.Cookies[sSnCoreAuthCookieName].Value = string.Empty;
+            Response.Cookies[sSnCoreAuthCookieName].Expires = new DateTime(1970, 1, 1);
+            mTicket = string.Empty;
+            mAccount = null;
+        }
+    }
+
+    public bool IsImpersonating
+    {
+        get
+        {
+            return Request.Cookies[sSnCoreImpersonateCookieName] != null;
+        }
+    }
+
+    public void Impersonate(string newticket)
+    {
+        HttpCookie impersonateCookie = Request.Cookies[sSnCoreImpersonateCookieName];
+        if (impersonateCookie != null)
+        {
+            throw new Exception("You are already impersonating a user. Logout first.");
+        }
+
+        Response.Cookies[sSnCoreImpersonateCookieName].Value = Ticket;
+
+        Login(newticket, false);
+    }
+
+    public void Login(string ticket, bool rememberme)
+    {
+        HttpCookie c = new HttpCookie(sSnCoreAuthCookieName);
+        c.Value = ticket;
+        if (rememberme)
+        {
+            c.Expires = DateTime.Today.AddYears(1);
+        }
+        Response.Cookies.Add(c);
+    }
+
+    public string OpenIdToken
+    {
+        get
+        {
+            HttpCookie c = Request.Cookies[sSnCoreOpenIdTokenCookieName];
+            if (c == null) return null;
+            return c.Value;
+        }
+        set
+        {
+            HttpCookie c = new HttpCookie(sSnCoreOpenIdTokenCookieName);
+            c.Value = value;
+            Response.Cookies.Add(c);
+        }
+    }
+
+    public bool RememberLogin
+    {
+        get
+        {
+            HttpCookie c = Request.Cookies[sSnCoreRememberLogin];
+            if (c == null) return false;
+            return bool.Parse(c.Value);
+        }
+        set
+        {
+            HttpCookie c = new HttpCookie(sSnCoreRememberLogin);
+            c.Value = value.ToString();
+            Response.Cookies.Add(c);
+        }
+    }
+
+    #endregion
+
+    #region Web Services
+
+    public WebContentService ContentService
+    {
+        get
+        {
+            return CachedWebService<WebContentService>.GetEndPoint(Cache);
+        }
+    }
+
+    public WebLicenseService LicenseService
+    {
+        get
+        {
+            return CachedWebService<WebLicenseService>.GetEndPoint(Cache);
+        }
+    }
+
+    public WebAccountService AccountService
+    {
+        get
+        {
+            return CachedWebService<WebAccountService>.GetEndPoint(Cache);
+        }
+    }
+
+    public WebBugService BugService
+    {
+        get
+        {
+            return CachedWebService<WebBugService>.GetEndPoint(Cache);
+        }
+    }
+
+    public WebStatsService StatsService
+    {
+        get
+        {
+            return CachedWebService<WebStatsService>.GetEndPoint(Cache);
+        }
+    }
+
+    public WebTagWordService TagWordService
+    {
+        get
+        {
+            return CachedWebService<WebTagWordService>.GetEndPoint(Cache);
+        }
+    }
+
+    public WebSocialService SocialService
+    {
+        get
+        {
+            return CachedWebService<WebSocialService>.GetEndPoint(Cache);
+        }
+    }
+
+    public WebStoryService StoryService
+    {
+        get
+        {
+            return CachedWebService<WebStoryService>.GetEndPoint(Cache);
+        }
+    }
+
+    public WebLocationService LocationService
+    {
+        get
+        {
+            return CachedWebService<WebLocationService>.GetEndPoint(Cache);
+        }
+    }
+
+    public WebSystemService SystemService
+    {
+        get
+        {
+            return CachedWebService<WebSystemService>.GetEndPoint(Cache);
+        }
+    }
+
+    public WebMarketingService MarketingService
+    {
+        get
+        {
+            return CachedWebService<WebMarketingService>.GetEndPoint(Cache);
+        }
+    }
+
+
+    public WebMadLibService MadLibService
+    {
+        get
+        {
+            return CachedWebService<WebMadLibService>.GetEndPoint(Cache);
+        }
+    }
+
+
+    public WebEventService EventService
+    {
+        get
+        {
+            return CachedWebService<WebEventService>.GetEndPoint(Cache);
+        }
+    }
+
+    public WebDiscussionService DiscussionService
+    {
+        get
+        {
+            return CachedWebService<WebDiscussionService>.GetEndPoint(Cache);
+        }
+    }
+
+    public WebSyndicationService SyndicationService
+    {
+        get
+        {
+            return CachedWebService<WebSyndicationService>.GetEndPoint(Cache);
+        }
+    }
+
+    public WebPlaceService PlaceService
+    {
+        get
+        {
+            return CachedWebService<WebPlaceService>.GetEndPoint(Cache);
+        }
+    }
+
+    public WebBlogService BlogService
+    {
+        get
+        {
+            return CachedWebService<WebBlogService>.GetEndPoint(Cache);
+        }
+    }
+
+    public WebObjectService ObjectService
+    {
+        get
+        {
+            return CachedWebService<WebObjectService>.GetEndPoint(Cache);
+        }
+    }
+
+    #endregion
+
+    #region Kitchen Sink (TODO)
+
+    public EventLog EventLog
+    {
+        get
+        {
+            if (mEventLog == null)
+            {
+                mEventLog = HostedApplication.CreateEventLog();
+            }
+            return mEventLog;
+        }
+    }
+
+    static Regex MarkupExpression = new Regex(@"(?<tag>[\[]+)(?<name>[\w\s]*):(?<value>[\w\s\'\-!]*)[\]]+",
+        RegexOptions.IgnoreCase);
+
+    private string ReferenceHandler(Match ParameterMatch)
+    {
+        string tag = ParameterMatch.Groups["tag"].Value;
+        string tagname = ParameterMatch.Groups["name"].Value.Trim();
+        string tagvalue = ParameterMatch.Groups["value"].Value.Trim();
+
+        if (tag == "[[")
+        {
+            return string.Format("[{0}:{1}]", tagname, tagvalue);
+        }
+        else if ((tagname == "user") || (tagname == "account"))
+        {
+            int userid = 0;
+            if (int.TryParse(tagvalue, out userid))
+            {
+                object[] args = { Ticket, userid };
+                TransitAccount a = GetCachedItem<TransitAccount>(AccountService, "GetAccountById", args);
+
+                if (a != null)
+                {
+                    return string.Format("<a href=\"{0}/AccountView.aspx?id={1}\">{2}</a>",
+                        WebsiteUrl, a.Id, Renderer.Render(a.Name));
+                }
+            }
+
+            return string.Format("[invalid user: {0}]", tagvalue);
+        }
+        else
+        {
+            return string.Empty;
+
+            // TODO
+            //object[] args = { tagname, tagvalue };
+            //TransitPlace p = GetCachedItem<TransitPlace>(PlaceService, "FindPlace", args);
+
+            //if (p == null)
+            //{
+            //    return string.Format("<a href=\"{3}/PlaceView.aspx?city={0}&name={1}\">{2}</a>",
+            //        Renderer.UrlEncode(tagname), Renderer.UrlEncode(tagvalue), Renderer.Render(tagvalue), WebsiteUrl);
+            //}
+            //else
+            //{
+            //    return string.Format("<a href=\"{2}/PlaceView.aspx?id={0}\">{1}</a>",
+            //        p.Id, Renderer.Render(p.Name), WebsiteUrl);
+            //}
+        }
+    }
+
+    public string RenderMarkups(string s)
+    {
+        if (string.IsNullOrEmpty(s)) return string.Empty;
+        MatchEvaluator mhd = new MatchEvaluator(ReferenceHandler);
+        return MarkupExpression.Replace(s, mhd);
+    }
+
+    public string MarkupClearHandler(Match ParameterMatch)
+    {
+        string tag = ParameterMatch.Groups["tag"].Value;
+        string city = ParameterMatch.Groups["name"].Value;
+        string name = ParameterMatch.Groups["value"].Value;
+
+        if (tag == "[[")
+        {
+            return string.Format("[{0}:{1}]", city, name);
+        }
+        else
+        {
+            return name;
+        }
+    }
+
+    public string RemoveMarkups(string s)
+    {
+        if (string.IsNullOrEmpty(s)) return string.Empty;
+        MatchEvaluator mhd = new MatchEvaluator(MarkupClearHandler);
+        return Renderer.RemoveMarkups(MarkupExpression.Replace(s, mhd));
+    }
+
+    public static bool ShowAds
+    {
+        get
+        {
+            object ads = ConfigurationManager.AppSettings["Ads.Visible"];
+            return (ads == null) || bool.Parse(ads.ToString());
+        }
+    }
+
+    public static bool ShowCounter
+    {
+        get
+        {
+            object counter = ConfigurationManager.AppSettings["Counter.Visible"];
+            return (counter == null) || bool.Parse(counter.ToString());
+        }
+    }
+
 
     private void Track(HttpRequest request, HttpResponse response)
     {
@@ -295,551 +697,9 @@ public class SessionManager
         }
     }
 
-    public bool IsLoggedIn
-    {
-        get
-        {
-            return Account != null;
-        }
-    }
+    #endregion
 
-    public TransitAccount Account
-    {
-        get
-        {
-            if (mAccount == null)
-            {
-                if (!string.IsNullOrEmpty(Ticket))
-                {
-                    try
-                    {
-                        mAccount = (TransitAccount)Cache[string.Format("account:{0}", Ticket)];
-                        if (mAccount == null)
-                        {
-                            mAccount = AccountService.GetAccount(Ticket);
-                            Cache.Insert(string.Format("account:{0}", Ticket),
-                                mAccount, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
-                        }
-                    }
-                    catch
-                    {
-
-                    }
-                }
-            }
-            return mAccount;
-        }
-    }
-
-    public bool IsAdministrator
-    {
-        get
-        {
-            return Account != null ? Account.IsAdministrator : false;
-        }
-    }
-
-    public string Ticket
-    {
-        get
-        {
-            return mTicket;
-        }
-    }
-
-    public void Logout()
-    {
-        HttpCookie impersonateCookie = Request.Cookies[sSnCoreImpersonateCookieName];
-        if (impersonateCookie != null)
-        {
-            Login(impersonateCookie.Value, false);
-            Response.Cookies[sSnCoreImpersonateCookieName].Value = string.Empty;
-            Response.Cookies[sSnCoreImpersonateCookieName].Expires = new DateTime(1970, 1, 1);
-            return;
-        }
-
-        if (IsLoggedIn)
-        {
-            Cache.Remove(string.Format("ticket:{0}", Ticket));
-            Cache.Remove(string.Format("account:{0}", Ticket));
-            Cache.Remove(string.Format("accountpermissions:{0}", Ticket));
-            Response.Cookies[sSnCoreAuthCookieName].Value = string.Empty;
-            Response.Cookies[sSnCoreAuthCookieName].Expires = new DateTime(1970, 1, 1);
-            mTicket = string.Empty;
-            mAccount = null;
-        }
-    }
-
-    public bool IsImpersonating
-    {
-        get
-        {
-            return Request.Cookies[sSnCoreImpersonateCookieName] != null;
-        }
-    }
-
-    public void Impersonate(string newticket)
-    {
-        HttpCookie impersonateCookie = Request.Cookies[sSnCoreImpersonateCookieName];
-        if (impersonateCookie != null)
-        {
-            throw new Exception("You are already impersonating a user. Logout first.");
-        }
-
-        Response.Cookies[sSnCoreImpersonateCookieName].Value = Ticket;
-
-        Login(newticket, false);
-    }
-
-    public void Login(string ticket, bool rememberme)
-    {
-        HttpCookie c = new HttpCookie(sSnCoreAuthCookieName);
-        c.Value = ticket;
-        if (rememberme)
-        {
-            c.Expires = DateTime.Today.AddYears(1);
-        }
-        Response.Cookies.Add(c);
-    }
-
-    public string OpenIdToken
-    {
-        get
-        {
-            HttpCookie c = Request.Cookies[sSnCoreOpenIdTokenCookieName];
-            if (c == null) return null;
-            return c.Value;
-        }
-        set
-        {
-            HttpCookie c = new HttpCookie(sSnCoreOpenIdTokenCookieName);
-            c.Value = value;
-            Response.Cookies.Add(c);
-        }
-    }
-
-    public bool RememberLogin
-    {
-        get
-        {
-            HttpCookie c = Request.Cookies[sSnCoreRememberLogin];
-            if (c == null) return false;
-            return bool.Parse(c.Value);
-        }
-        set
-        {
-            HttpCookie c = new HttpCookie(sSnCoreRememberLogin);
-            c.Value = value.ToString();
-            Response.Cookies.Add(c);
-        }
-    }
-
-    //public WebContentService ContentService
-    //{
-    //    get
-    //    {
-    //        if (mContentService == null)
-    //        {
-    //            mContentService = (WebContentService) Cache["SnCore.SessionManager.ContentService"];
-    //            if (mContentService == null)
-    //            {
-    //                mContentService = new WebContentService();
-    //                Cache["SnCore.SessionManager.ContentService"] = mContentService;
-    //            }
-    //        }
-    //        return mContentService;
-    //    }
-    //}
-
-    //public WebLicenseService LicenseService
-    //{
-    //    get
-    //    {
-    //        if (mLicenseService == null)
-    //        {
-    //            mLicenseService = (WebLicenseService)Cache["SnCore.SessionManager.LicenseService"];
-    //            if (mLicenseService == null)
-    //            {
-    //                mLicenseService = new WebLicenseService();
-    //                Cache["SnCore.SessionManager.LicenseService"] = mLicenseService;
-    //            }
-    //        }
-    //        return mLicenseService;
-    //    }
-    //}
-
-    public WebAccountService AccountService
-    {
-        get
-        {
-            if (mAccountService == null)
-            {
-                mAccountService = (WebAccountService) Cache["SnCore.SessionManager.AccountService"];
-                if (mAccountService == null)
-                {
-                    mAccountService = new WebAccountService();
-                    Cache["SnCore.SessionManager.AccountService"] = mAccountService;
-                }
-            }
-            return mAccountService;
-        }
-    }
-
-    public WebBugService BugService
-    {
-        get
-        {
-            if (mWebBugService == null)
-            {
-                mWebBugService = (WebBugService)Cache["SnCore.SessionManager.BugService"];
-                if (mWebBugService == null)
-                {
-                    mWebBugService = new WebBugService();
-                    Cache["SnCore.SessionManager.BugService"] = mWebBugService;
-                }
-            }
-            return mWebBugService;
-        }
-    }
-
-    //public WebStatsService StatsService
-    //{
-    //    get
-    //    {
-    //        if (mWebStatsService == null)
-    //        {
-    //            mWebStatsService = (WebStatsService)Cache["SnCore.SessionManager.StatsService"];
-    //            if (mWebStatsService == null)
-    //            {
-    //                mWebStatsService = new WebStatsService();
-    //                Cache["SnCore.SessionManager.StatsService"] = mWebStatsService;
-    //            }
-    //        }
-    //        return mWebStatsService;
-    //    }
-    //}
-
-    //public WebTagWordService TagWordService
-    //{
-    //    get
-    //    {
-    //        if (mWebTagWordService == null)
-    //        {
-    //            mWebTagWordService = (WebTagWordService)Cache["SnCore.SessionManager.TagWordService"];
-    //            if (mWebTagWordService == null)
-    //            {
-    //                mWebTagWordService = new WebTagWordService();
-    //                Cache["SnCore.SessionManager.TagWordService"] = mWebTagWordService;
-    //            }
-    //        }
-
-    //        return mWebTagWordService;
-    //    }
-    //}
-
-    //public WebSocialService SocialService
-    //{
-    //    get
-    //    {
-    //        if (mWebSocialService == null)
-    //        {
-    //            mWebSocialService = (WebSocialService)Cache["SnCore.SessionManager.SocialService"];
-    //            if (mWebSocialService == null)
-    //            {
-    //                mWebSocialService = new WebSocialService();
-    //                Cache["SnCore.SessionManager.SocialService"] = mWebSocialService;
-    //            }
-    //        }
-    //        return mWebSocialService;
-    //    }
-    //}
-
-    //public WebStoryService StoryService
-    //{
-    //    get
-    //    {
-    //        if (mWebStoryService == null)
-    //        {
-    //            mWebStoryService = (WebStoryService)Cache["SnCore.SessionManager.StoryService"];
-    //            if (mWebStoryService == null)
-    //            {
-    //                mWebStoryService = new WebStoryService();
-    //                Cache["SnCore.SessionManager.StoryService"] = mWebStoryService;
-    //            }
-    //        }
-
-    //        return mWebStoryService;
-    //    }
-    //}
-
-    //public WebLocationService LocationService
-    //{
-    //    get
-    //    {
-    //        if (mWebLocationService == null)
-    //        {
-    //            mWebLocationService = (WebLocationService)Cache["SnCore.SessionManager.LocationService"];
-    //            if (mWebLocationService == null)
-    //            {
-    //                mWebLocationService = new WebLocationService();
-    //                Cache["SnCore.SessionManager.LocationService"] = mWebLocationService;
-    //            }
-    //        }
-    //        return mWebLocationService;
-    //    }
-    //}
-
-    public WebSystemService SystemService
-    {
-        get
-        {
-            if (mWebSystemService == null)
-            {
-                mWebSystemService = (WebSystemService)Cache["SnCore.SessionManager.SystemService"];
-                if (mWebSystemService == null)
-                {
-                    mWebSystemService = new WebSystemService();
-                    Cache["SnCore.SessionManager.SystemService"] = mWebSystemService;
-                }
-            }
-            return mWebSystemService;
-        }
-    }
-
-    //public WebMarketingService MarketingService
-    //{
-    //    get
-    //    {
-    //        if (mWebMarketingService == null)
-    //        {
-    //            mWebMarketingService = (WebMarketingService) Cache["SnCore.SessionManager.MarketingService"];
-    //            if (mWebMarketingService == null)
-    //            {
-    //                mWebMarketingService = new WebMarketingService();
-    //                Cache["SnCore.SessionManager.MarketingService"] = mWebMarketingService;
-    //            }
-    //        }
-    //        return mWebMarketingService;
-    //    }
-    //}
-
-    //public WebMadLibService MadLibService
-    //{
-    //    get
-    //    {
-    //        if (mWebMadLibService == null)
-    //        {
-    //            mWebMadLibService = (WebMadLibService)Cache["SnCore.SessionManager.MadLibService"];
-    //            if (mWebMadLibService == null)
-    //            {
-    //                mWebMadLibService = new WebMadLibService();
-    //                Cache["SnCore.SessionManager.MadLibService"] = mWebMadLibService;
-    //            }
-    //        }
-    //        return mWebMadLibService;
-    //    }
-    //}
-
-    //public WebEventService EventService
-    //{
-    //    get
-    //    {
-    //        if (mWebEventService == null)
-    //        {
-    //            mWebEventService = (WebEventService)Cache["SnCore.SessionManager.EventService"];
-    //            if (mWebEventService == null)
-    //            {
-    //                mWebEventService = new WebEventService();
-    //                Cache["SnCore.SessionManager.EventService"] = mWebEventService;
-    //            }
-    //        }
-    //        return mWebEventService;
-    //    }
-    //}
-
-    //public WebDiscussionService DiscussionService
-    //{
-    //    get
-    //    {
-    //        if (mWebDiscussionService == null)
-    //        {
-    //            mWebDiscussionService = (WebDiscussionService)Cache["SnCore.SessionManager.DiscussionService"];
-    //            if (mWebDiscussionService == null)
-    //            {
-    //                mWebDiscussionService = new WebDiscussionService();
-    //                Cache["SnCore.SessionManager.DiscussionService"] = mWebDiscussionService;
-    //            }
-    //        }
-    //        return mWebDiscussionService;
-    //    }
-    //}
-
-    //public WebSyndicationService SyndicationService
-    //{
-    //    get
-    //    {
-    //        if (mWebSyndicationService == null)
-    //        {
-    //            mWebSyndicationService = (WebSyndicationService)Cache["SnCore.SessionManager.SyndicationService"];
-    //            if (mWebSyndicationService == null)
-    //            {
-    //                mWebSyndicationService = new WebSyndicationService();
-    //                Cache["SnCore.SessionManager.SyndicationService"] = mWebSyndicationService;
-    //            }
-    //        }
-    //        return mWebSyndicationService;
-    //    }
-    //}
-
-    //public WebBackEndService BackEndService
-    //{
-    //    get
-    //    {
-    //        if (mWebBackEndService == null)
-    //        {
-    //            mWebBackEndService = (WebBackEndService)Cache["SnCore.SessionManager.BackEndService"];
-    //            if (mWebBackEndService == null)
-    //            {
-    //                mWebBackEndService = new WebBackEndService();
-    //                Cache["SnCore.SessionManager.BackEndService"] = mWebBackEndService;
-    //            }
-    //        }
-    //        return mWebBackEndService;
-    //    }
-    //}
-
-    //public WebPlaceService PlaceService
-    //{
-    //    get
-    //    {
-    //        if (mWebPlaceService == null)
-    //        {
-    //            mWebPlaceService = (WebPlaceService)Cache["SnCore.SessionManager.PlaceService"];
-    //            if (mWebPlaceService == null)
-    //            {
-    //                mWebPlaceService = new WebPlaceService();
-    //                Cache["SnCore.SessionManager.PlaceService"] = mWebPlaceService;
-    //            }
-    //        }
-    //        return mWebPlaceService;
-    //    }
-    //}
-
-    //public WebBlogService BlogService
-    //{
-    //    get
-    //    {
-    //        if (mWebBlogService == null)
-    //        {
-    //            mWebBlogService = (WebBlogService) Cache["SnCore.SessionManager.BlogService"];
-    //            if (mWebBlogService == null)
-    //            {
-    //                mWebBlogService = new WebBlogService();
-    //                Cache["SnCore.SessionManager.BlogService"] = mWebBlogService;
-    //            }
-    //        }
-    //        return mWebBlogService;
-    //    }
-    //}
-
-    static Regex MarkupExpression = new Regex(@"(?<tag>[\[]+)(?<name>[\w\s]*):(?<value>[\w\s\'\-!]*)[\]]+",
-        RegexOptions.IgnoreCase);
-
-    private string ReferenceHandler(Match ParameterMatch)
-    {
-        string tag = ParameterMatch.Groups["tag"].Value;
-        string tagname = ParameterMatch.Groups["name"].Value.Trim();
-        string tagvalue = ParameterMatch.Groups["value"].Value.Trim();
-
-        if (tag == "[[")
-        {
-            return string.Format("[{0}:{1}]", tagname, tagvalue);
-        }
-        else if ((tagname == "user") || (tagname == "account"))
-        {
-            int userid = 0;
-            if (int.TryParse(tagvalue, out userid))
-            {
-                object[] args = { userid };
-                TransitAccount a = GetCachedItem<TransitAccount>(AccountService, "GetAccountById", args);
-
-                if (a != null)
-                {
-                    return string.Format("<a href=\"{0}/AccountView.aspx?id={1}\">{2}</a>",
-                        WebsiteUrl, a.Id, Renderer.Render(a.Name));
-                }
-            }
-
-            return string.Format("[invalid user: {0}]", tagvalue);
-        }
-        else
-        {
-            return string.Empty;
-
-            // TODO
-            //object[] args = { tagname, tagvalue };
-            //TransitPlace p = GetCachedItem<TransitPlace>(PlaceService, "FindPlace", args);
-
-            //if (p == null)
-            //{
-            //    return string.Format("<a href=\"{3}/PlaceView.aspx?city={0}&name={1}\">{2}</a>",
-            //        Renderer.UrlEncode(tagname), Renderer.UrlEncode(tagvalue), Renderer.Render(tagvalue), WebsiteUrl);
-            //}
-            //else
-            //{
-            //    return string.Format("<a href=\"{2}/PlaceView.aspx?id={0}\">{1}</a>",
-            //        p.Id, Renderer.Render(p.Name), WebsiteUrl);
-            //}
-        }
-    }
-
-    public string RenderMarkups(string s)
-    {
-        if (string.IsNullOrEmpty(s)) return string.Empty;
-        MatchEvaluator mhd = new MatchEvaluator(ReferenceHandler);
-        return MarkupExpression.Replace(s, mhd);
-    }
-
-    public string MarkupClearHandler(Match ParameterMatch)
-    {
-        string tag = ParameterMatch.Groups["tag"].Value;
-        string city = ParameterMatch.Groups["name"].Value;
-        string name = ParameterMatch.Groups["value"].Value;
-
-        if (tag == "[[")
-        {
-            return string.Format("[{0}:{1}]", city, name);
-        }
-        else
-        {
-            return name;
-        }
-    }
-
-    public string RemoveMarkups(string s)
-    {
-        if (string.IsNullOrEmpty(s)) return string.Empty;
-        MatchEvaluator mhd = new MatchEvaluator(MarkupClearHandler);
-        return Renderer.RemoveMarkups(MarkupExpression.Replace(s, mhd));
-    }
-
-    public static bool ShowAds
-    {
-        get
-        {
-            object ads = ConfigurationManager.AppSettings["Ads.Visible"];
-            return (ads == null) || bool.Parse(ads.ToString());
-        }
-    }
-
-    public static bool ShowCounter
-    {
-        get
-        {
-            object counter = ConfigurationManager.AppSettings["Counter.Visible"];
-            return (counter == null) || bool.Parse(counter.ToString());
-        }
-    }
+    #region Cached Collections
 
     private static string GetCacheKey(string invoke, object[] args)
     {
@@ -860,7 +720,8 @@ public class SessionManager
     public List<TransitType> GetCachedCollection<TransitType>(
         WebService service, string invoke, object[] args)
     {
-        return GetCachedCollection<TransitType>(service, invoke, args, DefaultCacheTimeSpan);
+        return GetCachedCollection<TransitType>(
+            service, invoke, args, DefaultCacheTimeSpan);
     }
 
     public List<TransitType> GetCachedCollection<TransitType>(
@@ -875,10 +736,18 @@ public class SessionManager
 #if DEBUGTS
             DateTime s = DateTime.UtcNow;
 #endif
-            result = (List<TransitType>)mi.Invoke(service, args);
-            if (result != null)
+            try
             {
-                Cache.Insert(key, result, null, Cache.NoAbsoluteExpiration, cacheduration);
+                result = (List<TransitType>)mi.Invoke(service, args);
+                if (result != null)
+                {
+                    Cache.Insert(key, result, null, Cache.NoAbsoluteExpiration, cacheduration);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(string.Format("{0}.{1}: {2}",
+                    service.GetType().Name, invoke, ex.Message), ex);
             }
 #if DEBUGTS
             Debug.WriteLine(string.Format("{0}: {1}", invoke, DateTime.UtcNow.Subtract(s).TotalSeconds));
@@ -888,13 +757,14 @@ public class SessionManager
         return result;
     }
 
-    public int GetCachedCollectionCount(
+    public int GetCachedCollectionCount<TransitType>(
         WebService service, string invoke, object[] args)
     {
-        return GetCachedCollectionCount(service, invoke, args, DefaultCacheTimeSpan);
+        return GetCachedCollectionCount<TransitType>(
+            service, invoke, args, DefaultCacheTimeSpan);
     }
 
-    public int GetCachedCollectionCount(
+    public int GetCachedCollectionCount<TransitType>(
         WebService service, string invoke, object[] args, TimeSpan cacheduration)
     {
         string key = GetCacheKey(invoke, args);
@@ -920,7 +790,7 @@ public class SessionManager
             Debug.WriteLine(string.Format("{0}: {1}", invoke, DateTime.UtcNow.Subtract(s).TotalSeconds));
 #endif
         }
-        return (int) count;
+        return (int)count;
     }
 
     public TransitType GetCachedItem<TransitType>(
@@ -933,7 +803,7 @@ public class SessionManager
         WebService service, string invoke, object[] args, TimeSpan cacheduration)
     {
         string key = GetCacheKey(invoke, args);
-        TransitType result = (TransitType) Cache[key];
+        TransitType result = (TransitType)Cache[key];
         if (result == null || IsAdministrator)
         {
             MethodInfo mi = service.GetType().GetMethod(invoke);
@@ -951,7 +821,7 @@ public class SessionManager
             }
             catch (Exception ex)
             {
-                throw new Exception(string.Format("{0}.{1}: {2}", 
+                throw new Exception(string.Format("{0}.{1}: {2}",
                     service.GetType().Name, invoke, ex.Message), ex);
             }
 #if DEBUGTS
@@ -962,15 +832,5 @@ public class SessionManager
         return result;
     }
 
-    public EventLog EventLog
-    {
-        get
-        {
-            if (mEventLog == null)
-            {
-                mEventLog = HostedApplication.CreateEventLog();
-            }
-            return mEventLog;
-        }
-    }
+    #endregion
 }

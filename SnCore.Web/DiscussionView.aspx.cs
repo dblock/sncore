@@ -23,7 +23,8 @@ public partial class DiscussionView : Page
             discussionMain.DiscussionId = RequestId;
             discussionMain.DataBind();
 
-            TransitDiscussion td = SessionManager.DiscussionService.GetDiscussionById(RequestId);
+            TransitDiscussion td = SessionManager.DiscussionService.GetDiscussionById(
+                SessionManager.Ticket, RequestId);
             this.Title = Renderer.Render(td.Name);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();

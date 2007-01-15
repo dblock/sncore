@@ -32,7 +32,7 @@ public partial class AccountMessageFoldersManage : AuthenticatedPage
             if (result == 0)
             {
                 ViewState["FolderId"] = result = SessionManager.AccountService.GetAccountMessageSystemFolder(
-                    SessionManager.Ticket, FolderName).Id;
+                    SessionManager.Ticket, SessionManager.AccountId, FolderName).Id;
             }
 
             return result;
@@ -73,12 +73,13 @@ public partial class AccountMessageFoldersManage : AuthenticatedPage
 
     public void GetData()
     {
-        SessionManager.AccountService.CreateAccountSystemMessageFolders(SessionManager.Ticket);
+        SessionManager.AccountService.CreateAccountSystemMessageFolders(SessionManager.Ticket, SessionManager.AccountId);
 
-        messagefoldersView.DataSource = SessionManager.AccountService.GetAccountMessageFolders(SessionManager.Ticket);
+        messagefoldersView.DataSource = SessionManager.AccountService.GetAccountMessageFolders(
+            SessionManager.Ticket, SessionManager.AccountId, null);
         messagefoldersView.DataBind();
 
-        messagesView.DataSource = SessionManager.AccountService.GetAccountMessages(SessionManager.Ticket, FolderId);
+        messagesView.DataSource = SessionManager.AccountService.GetAccountMessages(SessionManager.Ticket, FolderId, null);
         messagesView.DataBind();
 
         TransitAccountMessageFolder folder = SessionManager.AccountService.GetAccountMessageFolderById(SessionManager.Ticket, FolderId);
@@ -150,7 +151,8 @@ public partial class AccountMessageFoldersManage : AuthenticatedPage
                         break;
                     }
 
-                    messagefoldersView.DataSource = SessionManager.AccountService.GetAccountMessageFolders(SessionManager.Ticket);
+                    messagefoldersView.DataSource = SessionManager.AccountService.GetAccountMessageFolders(
+                        SessionManager.Ticket, SessionManager.AccountId, null);
                     messagefoldersView.DataBind();
                     break;
                 }
@@ -186,7 +188,8 @@ public partial class AccountMessageFoldersManage : AuthenticatedPage
             case "Delete":
                 {
                     int id = int.Parse(e.Item.Cells[(int)messageCells.id].Text);
-                    int trashid = SessionManager.AccountService.GetAccountMessageSystemFolder(SessionManager.Ticket, "trash").Id;
+                    int trashid = SessionManager.AccountService.GetAccountMessageSystemFolder(
+                        SessionManager.Ticket, SessionManager.AccountId, "trash").Id;
                     if (trashid == FolderId)
                     {
                         SessionManager.AccountService.DeleteAccountMessage(SessionManager.Ticket, id);
@@ -195,7 +198,8 @@ public partial class AccountMessageFoldersManage : AuthenticatedPage
                     {
                         SessionManager.AccountService.MoveAccountMessageToFolderById(SessionManager.Ticket, id, trashid);
                     }
-                    messagesView.DataSource = SessionManager.AccountService.GetAccountMessages(SessionManager.Ticket, FolderId);
+                    messagesView.DataSource = SessionManager.AccountService.GetAccountMessages(
+                        SessionManager.Ticket, FolderId, null);
                     messagesView.DataBind();
                     break;
                 }
@@ -205,7 +209,8 @@ public partial class AccountMessageFoldersManage : AuthenticatedPage
     public void linkEmpty_Click(object s, EventArgs e)
     {
         SessionManager.AccountService.DeleteAccountMessagesByFolder(SessionManager.Ticket, FolderId);
-        messagesView.DataSource = SessionManager.AccountService.GetAccountMessages(SessionManager.Ticket, FolderId);
+        messagesView.DataSource = SessionManager.AccountService.GetAccountMessages(
+            SessionManager.Ticket, FolderId, null);
         messagesView.DataBind();
     }
 

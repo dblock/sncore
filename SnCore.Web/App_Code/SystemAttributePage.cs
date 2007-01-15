@@ -21,8 +21,8 @@ public abstract class SystemAttributePage : PicturePage
     public override TransitPicture GetPictureWithBitmap(int id, string ticket, DateTime ifModifiedSince)
     {
         object[] args = { ticket, id, ifModifiedSince };
-        TransitAttributeWithBitmap p = SessionManager.GetCachedItem<TransitAttributeWithBitmap>(
-            SessionManager.SystemService, "GetAttributeWithBitmapByIdIfModifiedSince", args);
+        TransitAttribute p = SessionManager.GetCachedItem<TransitAttribute>(
+            SessionManager.ObjectService, "GetAttributeIfModifiedSinceById", args);
 
         if (p == null)
             return null;
@@ -39,8 +39,8 @@ public abstract class SystemAttributePage : PicturePage
     public override TransitPicture GetPictureWithThumbnail(int id, string ticket, DateTime ifModifiedSince)
     {
         object[] args = { ticket, id, ifModifiedSince };
-        TransitAttributeWithBitmap p = SessionManager.GetCachedItem<TransitAttributeWithBitmap>(
-            SessionManager.SystemService, "GetAttributeWithBitmapByIdIfModifiedSince", args);
+        TransitAttribute p = SessionManager.GetCachedItem<TransitAttribute>(
+            SessionManager.SystemService, "GetAttributeIfModifiedSinceById", args);
 
         if (p == null)
             return null;
@@ -57,8 +57,8 @@ public abstract class SystemAttributePage : PicturePage
     public override TransitPicture GetPictureWithBitmap(int id, string ticket)
     {
         object[] args = { ticket, id };
-        TransitAttributeWithBitmap p = SessionManager.GetCachedItem<TransitAttributeWithBitmap>(
-            SessionManager.SystemService, "GetAttributeWithBitmapById", args);
+        TransitAttribute p = SessionManager.GetCachedItem<TransitAttribute>(
+            SessionManager.ObjectService, "GetAttributeById", args);
 
         if (p == null)
             return null;
@@ -75,8 +75,8 @@ public abstract class SystemAttributePage : PicturePage
     public override TransitPicture GetPictureWithThumbnail(int id, string ticket)
     {
         object[] args = { ticket, id };
-        TransitAttributeWithBitmap p = SessionManager.GetCachedItem<TransitAttributeWithBitmap>(
-            SessionManager.SystemService, "GetAttributeWithBitmapById", args);
+        TransitAttribute p = SessionManager.GetCachedItem<TransitAttribute>(
+            SessionManager.ObjectService, "GetAttributeById", args);
 
         if (p == null)
             return null;

@@ -32,7 +32,7 @@ public partial class FeaturedPlacesRss : Page
             queryoptions.PageNumber = 0;
             queryoptions.PageSize = 25;
 
-            object[] args = { "Place", queryoptions };
+            object[] args = { SessionManager.Ticket, "Place", queryoptions };
             rssRepeater.DataSource = SessionManager.GetCachedCollection<TransitFeature>(
                 SessionManager.SystemService, "GetFeatures", args);
 

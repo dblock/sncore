@@ -28,7 +28,7 @@ public partial class AccountFriendsView : AccountPersonPage
         gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
         if (!IsPostBack)
         {
-            object[] args = { RequestAccountId };
+            object[] args = { SessionManager.Ticket, RequestAccountId };
             TransitAccount ta = SessionManager.GetCachedItem<TransitAccount>(
                 SessionManager.AccountService, "GetAccountById", args);
 
@@ -50,9 +50,9 @@ public partial class AccountFriendsView : AccountPersonPage
     void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        object[] args = { RequestAccountId };
-        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            SessionManager.SocialService, "GetFriendsActivityCountById", args);
+        object[] args = { SessionManager.Ticket, RequestAccountId };
+        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccountFriend>(
+            SessionManager.SocialService, "GetAccountFriendsCount", args);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
@@ -62,8 +62,8 @@ public partial class AccountFriendsView : AccountPersonPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = gridManage.CurrentPageIndex;
         options.PageSize = gridManage.PageSize;
-        object[] args = { RequestAccountId, options };
-        gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountActivity>(
-            SessionManager.SocialService, "GetFriendsActivityById", args);
+        object[] args = { SessionManager.Ticket, RequestAccountId, options };
+        gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountFriend>(
+            SessionManager.SocialService, "GetAccountFriends", args);
     }
 }

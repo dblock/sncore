@@ -17,19 +17,20 @@ public partial class DiscussionsView : Page
 {
     public void Page_Load(object sender, EventArgs e)
     {
-            SetDefaultButton(search);
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+        SetDefaultButton(search);
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
-            if (!IsPostBack)
-            {
-                GetData(sender, e);
-            }
+        if (!IsPostBack)
+        {
+            GetData(sender, e);
+        }
     }
 
     private void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.DiscussionService.GetDiscussionsCount();
+        gridManage.VirtualItemCount = SessionManager.DiscussionService.GetDiscussionsCount(
+            SessionManager.Ticket);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -37,11 +38,12 @@ public partial class DiscussionsView : Page
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
         ServiceQueryOptions options = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
-        gridManage.DataSource = SessionManager.DiscussionService.GetDiscussions(options);
+        gridManage.DataSource = SessionManager.DiscussionService.GetDiscussions(
+            SessionManager.Ticket, options);
     }
 
     protected void search_Click(object sender, EventArgs e)
     {
-            Redirect("SearchDiscussionPosts.aspx?q=" + Renderer.UrlEncode(inputSearch.Text));
+        Redirect("SearchDiscussionPosts.aspx?q=" + Renderer.UrlEncode(inputSearch.Text));
     }
 }

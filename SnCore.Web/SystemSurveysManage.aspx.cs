@@ -14,22 +14,23 @@ public partial class SystemSurveysManage : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
-            if (!IsPostBack)
-            {
-                gridManage_OnGetDataSource(sender, e);
-                gridManage.DataBind();
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+        if (!IsPostBack)
+        {
+            gridManage_OnGetDataSource(sender, e);
+            gridManage.DataBind();
 
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Surveys", Request.Url));
-                StackSiteMap(sitemapdata);
-            }
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Surveys", Request.Url));
+            StackSiteMap(sitemapdata);
+        }
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        gridManage.DataSource = SessionManager.SystemService.GetSurveys();
+        gridManage.DataSource = SessionManager.ObjectService.GetSurveys(
+            SessionManager.Ticket, null);
     }
 
     private enum Cells
@@ -39,16 +40,16 @@ public partial class SystemSurveysManage : AuthenticatedPage
 
     public void gridManage_ItemCommand(object sender, DataGridCommandEventArgs e)
     {
-            int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-            switch (e.CommandName)
-            {
-                case "Delete":
-                    SessionManager.SystemService.DeleteSurvey(SessionManager.Ticket, id);
-                    ReportInfo("Survey deleted.");
-                    gridManage.CurrentPageIndex = 0;
-                    gridManage_OnGetDataSource(sender, e);
-                    gridManage.DataBind();
-                    break;
-            }
+        int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
+        switch (e.CommandName)
+        {
+            case "Delete":
+                SessionManager.ObjectService.DeleteSurvey(SessionManager.Ticket, id);
+                ReportInfo("Survey deleted.");
+                gridManage.CurrentPageIndex = 0;
+                gridManage_OnGetDataSource(sender, e);
+                gridManage.DataBind();
+                break;
+        }
     }
 }

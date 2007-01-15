@@ -31,7 +31,7 @@ public partial class AccountsActiveViewControl : Control
     {
         if (!IsPostBack)
         {
-            object[] args = { Count };
+            object[] args = { SessionManager.Ticket, Count };
             accounts.DataSource = SessionManager.GetCachedCollection<TransitAccount>(
                 SessionManager.SocialService, "GetActiveAccounts", args);
             accounts.RepeatColumns = Count;

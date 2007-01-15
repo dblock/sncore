@@ -207,6 +207,37 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetStatesByCountryName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStatesByCountryNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetStatesByCountryNameResult" type="tns:ArrayOfTransitState" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStatesByCountryNameCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStatesByCountryNameCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetStatesByCountryNameCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="DeleteState">
         <s:complexType>
           <s:sequence>
@@ -642,6 +673,18 @@
   <wsdl:message name="GetStatesByCountryIdCountSoapOut">
     <wsdl:part name="parameters" element="tns:GetStatesByCountryIdCountResponse" />
   </wsdl:message>
+  <wsdl:message name="GetStatesByCountryNameSoapIn">
+    <wsdl:part name="parameters" element="tns:GetStatesByCountryName" />
+  </wsdl:message>
+  <wsdl:message name="GetStatesByCountryNameSoapOut">
+    <wsdl:part name="parameters" element="tns:GetStatesByCountryNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetStatesByCountryNameCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetStatesByCountryNameCount" />
+  </wsdl:message>
+  <wsdl:message name="GetStatesByCountryNameCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetStatesByCountryNameCountResponse" />
+  </wsdl:message>
   <wsdl:message name="DeleteStateSoapIn">
     <wsdl:part name="parameters" element="tns:DeleteState" />
   </wsdl:message>
@@ -829,6 +872,16 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all states within a country count.</wsdl:documentation>
       <wsdl:input message="tns:GetStatesByCountryIdCountSoapIn" />
       <wsdl:output message="tns:GetStatesByCountryIdCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStatesByCountryName">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all states.</wsdl:documentation>
+      <wsdl:input message="tns:GetStatesByCountryNameSoapIn" />
+      <wsdl:output message="tns:GetStatesByCountryNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStatesByCountryNameCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all states within a country count.</wsdl:documentation>
+      <wsdl:input message="tns:GetStatesByCountryNameCountSoapIn" />
+      <wsdl:output message="tns:GetStatesByCountryNameCountSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="DeleteState">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a state.</wsdl:documentation>
@@ -1035,6 +1088,24 @@
     </wsdl:operation>
     <wsdl:operation name="GetStatesByCountryIdCount">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetStatesByCountryIdCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStatesByCountryName">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetStatesByCountryName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStatesByCountryNameCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetStatesByCountryNameCount" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1335,6 +1406,24 @@
     </wsdl:operation>
     <wsdl:operation name="GetStatesByCountryIdCount">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetStatesByCountryIdCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStatesByCountryName">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetStatesByCountryName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStatesByCountryNameCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetStatesByCountryNameCount" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

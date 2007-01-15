@@ -36,7 +36,8 @@ public partial class PlacePictureEdit : AuthenticatedPage
 
             if (RequestId > 0)
             {
-                TransitPlacePicture t = SessionManager.PlaceService.GetPlacePictureById(RequestId);
+                TransitPlacePicture t = SessionManager.PlaceService.GetPlacePictureById(
+                    SessionManager.Ticket, RequestId);
                 inputName.Text = t.Name;
                 inputDescription.Text = t.Description;
                 imageFull.ImageUrl = string.Format("PlacePicture.aspx?id={0}&CacheDuration=0", t.Id);

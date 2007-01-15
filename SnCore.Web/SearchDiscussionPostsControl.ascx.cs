@@ -21,14 +21,14 @@ public partial class SearchDiscussionPostsControl : SearchControl
     {
         if (RequestId > 0)
         {
-            object[] args = { RequestId, SearchQuery };
-            return SessionManager.GetCachedCollectionCount(
+            object[] args = { SessionManager.Ticket, RequestId, SearchQuery };
+            return SessionManager.GetCachedCollectionCount<TransitDiscussionPost>(
                 SessionManager.DiscussionService, "SearchDiscussionPostsByIdCount", args);
         }
         else
         {
-            object[] args = { SearchQuery };
-            return SessionManager.GetCachedCollectionCount(
+            object[] args = { SessionManager.Ticket, SearchQuery };
+            return SessionManager.GetCachedCollectionCount<TransitDiscussionPost>(
                 SessionManager.DiscussionService, "SearchDiscussionPostsCount", args);
         }
     }

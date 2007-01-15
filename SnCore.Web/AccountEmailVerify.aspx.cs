@@ -30,7 +30,7 @@ public partial class AccountEmailVerify : Page
 
     public void EmailVerify_Click(object sender, EventArgs e)
     {
-        string emailaddress = SessionManager.AccountService.VerifyEmail(
+        string emailaddress = SessionManager.AccountService.VerifyAccountEmail(
             inputPassword.Text,
             RequestId,
             inputCode.Text);

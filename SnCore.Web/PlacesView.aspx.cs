@@ -56,14 +56,14 @@ public partial class PlacesView : Page
         private DropDownList mType;
 
         public LocationSelectorWithType(
-            Page page, 
-            bool empty, 
-            DropDownList country, 
-            DropDownList state, 
+            Page page,
+            bool empty,
+            DropDownList country,
+            DropDownList state,
             DropDownList city,
             DropDownList neighborhood,
             DropDownList type)
-            : 
+            :
             base(page, empty, country, state, city, neighborhood)
         {
             mType = type;
@@ -72,8 +72,9 @@ public partial class PlacesView : Page
             {
                 List<TransitPlaceType> types = new List<TransitPlaceType>();
                 if (InsertEmptySelection) types.Add(new TransitPlaceType());
+                object[] args = { page.SessionManager.Ticket, null };
                 types.AddRange(mPage.SessionManager.GetCachedCollection<TransitPlaceType>(
-                    mPage.SessionManager.PlaceService, "GetPlaceTypes", null));
+                    mPage.SessionManager.PlaceService, "GetPlaceTypes", args));
                 mType.DataSource = types;
                 mType.DataBind();
             }
@@ -119,54 +120,54 @@ public partial class PlacesView : Page
 
     public void Page_Load(object sender, EventArgs e)
     {
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
-            LocationSelector.CountryChanged += new EventHandler(LocationSelector_CountryChanged);
-            LocationSelector.StateChanged += new EventHandler(LocationSelector_StateChanged);
-            LocationSelector.CityChanged += new EventHandler(LocationSelector_CityChanged);
+        LocationSelector.CountryChanged += new EventHandler(LocationSelector_CountryChanged);
+        LocationSelector.StateChanged += new EventHandler(LocationSelector_StateChanged);
+        LocationSelector.CityChanged += new EventHandler(LocationSelector_CityChanged);
 
-            neighborhoods.OnChange += new EventHandler(neighborhoods_OnChange);
-            
-            if (!IsPostBack)
+        neighborhoods.OnChange += new EventHandler(neighborhoods_OnChange);
+
+        if (!IsPostBack)
+        {
+            linkLocal.Visible = SessionManager.IsLoggedIn && !string.IsNullOrEmpty(SessionManager.Account.City);
+
+            if (SessionManager.IsLoggedIn)
             {
-                linkLocal.Visible = SessionManager.IsLoggedIn && ! string.IsNullOrEmpty(SessionManager.Account.City);
-
-                if (SessionManager.IsLoggedIn)
-                {
-                    linkLocal.Text = string.Format("&#187; All {0} Places", Renderer.Render(SessionManager.Account.City));
-                }
-
-                if (SessionManager.IsLoggedIn && (Request.QueryString.Count == 0))
-                {
-                    LocationSelector.SelectLocation(sender, new LocationEventArgs(SessionManager.Account));
-                }
-                else
-                {
-                    LocationSelector.SelectLocation(sender, new LocationEventArgs(Request));
-                    bool picturesOnly = true;
-                    if (bool.TryParse(Request["PicturesOnly"], out picturesOnly))
-                    {
-                        checkboxPicturesOnly.Checked = picturesOnly;
-                    }
-                }
-
-                GetNeighborhoodsData(sender, e);
-
-                GetData(sender, e);
-                
-                if (gridManage.VirtualItemCount == 0)
-                {
-                    LocationSelector.ClearSelection();
-                    GetData(sender, e);
-                }
-
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));
-                sitemapdata.AddRange(SiteMapDataAttribute.GetLocationAttributeNodes(Request, "PlacesView.aspx", inputCountry.SelectedValue, inputState.SelectedValue, inputCity.SelectedValue, inputNeighborhood.SelectedValue, inputType.SelectedValue));
-                StackSiteMap(sitemapdata);
+                linkLocal.Text = string.Format("&#187; All {0} Places", Renderer.Render(SessionManager.Account.City));
             }
 
-            SetDefaultButton(search);
+            if (SessionManager.IsLoggedIn && (Request.QueryString.Count == 0))
+            {
+                LocationSelector.SelectLocation(sender, new LocationEventArgs(SessionManager.Account));
+            }
+            else
+            {
+                LocationSelector.SelectLocation(sender, new LocationEventArgs(Request));
+                bool picturesOnly = true;
+                if (bool.TryParse(Request["PicturesOnly"], out picturesOnly))
+                {
+                    checkboxPicturesOnly.Checked = picturesOnly;
+                }
+            }
+
+            GetNeighborhoodsData(sender, e);
+
+            GetData(sender, e);
+
+            if (gridManage.VirtualItemCount == 0)
+            {
+                LocationSelector.ClearSelection();
+                GetData(sender, e);
+            }
+
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));
+            sitemapdata.AddRange(SiteMapDataAttribute.GetLocationAttributeNodes(Request, "PlacesView.aspx", inputCountry.SelectedValue, inputState.SelectedValue, inputCity.SelectedValue, inputNeighborhood.SelectedValue, inputType.SelectedValue));
+            StackSiteMap(sitemapdata);
+        }
+
+        SetDefaultButton(search);
     }
 
     void GetNeighborhoodsData(object sender, EventArgs e)
@@ -196,7 +197,7 @@ public partial class PlacesView : Page
     void LocationSelector_CountryChanged(object sender, EventArgs e)
     {
         GetNeighborhoodsData(sender, e);
-        panelCountryState.Update();        
+        panelCountryState.Update();
     }
 
     public void gridManage_DataBinding(object sender, EventArgs e)
@@ -207,8 +208,8 @@ public partial class PlacesView : Page
     private void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        object[] args = { GetQueryOptions() };
-        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+        object[] args = { SessionManager.Ticket, GetQueryOptions() };
+        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitPlace>(
             SessionManager.PlaceService, "GetPlacesCount", args);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
@@ -216,23 +217,23 @@ public partial class PlacesView : Page
 
     public void linkLocal_Click(object sender, EventArgs e)
     {
-            if (!SessionManager.IsLoggedIn)
-                return;
+        if (!SessionManager.IsLoggedIn)
+            return;
 
-            checkboxPicturesOnly.Checked = false;
-            inputName.Text = string.Empty;
-            LocationSelector.SelectLocation(sender, new LocationEventArgs(SessionManager.Account));
-            GetData(sender, e);
-            panelSearch.Update();
+        checkboxPicturesOnly.Checked = false;
+        inputName.Text = string.Empty;
+        LocationSelector.SelectLocation(sender, new LocationEventArgs(SessionManager.Account));
+        GetData(sender, e);
+        panelSearch.Update();
     }
 
     public void linkAll_Click(object sender, EventArgs e)
     {
-            checkboxPicturesOnly.Checked = false;
-            LocationSelector.ClearSelection();
-            inputName.Text = string.Empty;
-            GetData(sender, e);
-            panelSearch.Update();
+        checkboxPicturesOnly.Checked = false;
+        LocationSelector.ClearSelection();
+        inputName.Text = string.Empty;
+        GetData(sender, e);
+        panelSearch.Update();
     }
 
     private TransitPlaceQueryOptions GetQueryOptions()
@@ -252,44 +253,44 @@ public partial class PlacesView : Page
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-            TransitPlaceQueryOptions options = GetQueryOptions();
+        TransitPlaceQueryOptions options = GetQueryOptions();
 
-            linkRelRss.NavigateUrl =
-                string.Format("PlacesRss.aspx?order={0}&asc={1}&city={2}&country={3}&state={4}&name={5}&type={6}&pictures={7}&neighborhood={8}",
-                    Renderer.UrlEncode(options.SortOrder),
-                    Renderer.UrlEncode(options.SortAscending),
-                    Renderer.UrlEncode(options.City),
-                    Renderer.UrlEncode(options.Country),
-                    Renderer.UrlEncode(options.State),
-                    Renderer.UrlEncode(options.Name),
-                    Renderer.UrlEncode(options.Type),
-                    Renderer.UrlEncode(options.PicturesOnly),
-                    Renderer.UrlEncode(options.Neighborhood));
+        linkRelRss.NavigateUrl =
+            string.Format("PlacesRss.aspx?order={0}&asc={1}&city={2}&country={3}&state={4}&name={5}&type={6}&pictures={7}&neighborhood={8}",
+                Renderer.UrlEncode(options.SortOrder),
+                Renderer.UrlEncode(options.SortAscending),
+                Renderer.UrlEncode(options.City),
+                Renderer.UrlEncode(options.Country),
+                Renderer.UrlEncode(options.State),
+                Renderer.UrlEncode(options.Name),
+                Renderer.UrlEncode(options.Type),
+                Renderer.UrlEncode(options.PicturesOnly),
+                Renderer.UrlEncode(options.Neighborhood));
 
-            ServiceQueryOptions serviceoptions = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
-            object[] args = { options, serviceoptions };
-            gridManage.DataSource = SessionManager.GetCachedCollection<TransitPlace>(
-                SessionManager.PlaceService, "GetPlaces", args);
+        ServiceQueryOptions serviceoptions = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
+        object[] args = { SessionManager.Ticket, options, serviceoptions };
+        gridManage.DataSource = SessionManager.GetCachedCollection<TransitPlace>(
+            SessionManager.PlaceService, "GetPlaces", args);
     }
 
     public void search_Click(object sender, EventArgs e)
     {
-            GetData(sender, e);
+        GetData(sender, e);
     }
 
     public void linkSearch_Click(object sender, EventArgs e)
     {
-            panelSearchInternal.PersistentVisible = !panelSearchInternal.PersistentVisible;
-            panelSearch.Update();
+        panelSearchInternal.PersistentVisible = !panelSearchInternal.PersistentVisible;
+        panelSearch.Update();
     }
 
     public void neighborhoods_OnChange(object sender, EventArgs e)
     {
-            LocationSelector.SelectLocation(sender, new LocationEventArgs(
-                neighborhoods.Country, neighborhoods.State, neighborhoods.City, neighborhoods.Neighborhood));
-            checkboxPicturesOnly.Checked = false;
-            inputName.Text = string.Empty;
-            GetData(sender, e);
-            panelSearch.Update();
+        LocationSelector.SelectLocation(sender, new LocationEventArgs(
+            neighborhoods.Country, neighborhoods.State, neighborhoods.City, neighborhoods.Neighborhood));
+        checkboxPicturesOnly.Checked = false;
+        inputName.Text = string.Empty;
+        GetData(sender, e);
+        panelSearch.Update();
     }
 }

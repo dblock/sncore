@@ -19,11 +19,14 @@ public partial class BugResolve : Page
 
         if (!IsPostBack)
         {
-            selectResolution.DataSource = SessionManager.BugService.GetBugResolutions();
+            selectResolution.DataSource = SessionManager.BugService.GetBugResolutions(
+                SessionManager.Ticket, null);
             selectResolution.DataBind();
 
-            TransitBug bug = SessionManager.BugService.GetBugById(RequestId);
-            TransitBugProject project = SessionManager.BugService.GetBugProjectById(bug.ProjectId);
+            TransitBug bug = SessionManager.BugService.GetBugById(
+                SessionManager.Ticket, RequestId);
+            TransitBugProject project = SessionManager.BugService.GetBugProjectById(
+                SessionManager.Ticket, bug.ProjectId);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Bugs", Request, "BugProjectsManage.aspx"));

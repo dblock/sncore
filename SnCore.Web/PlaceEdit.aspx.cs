@@ -51,7 +51,7 @@ public partial class PlaceEdit : AuthenticatedPage
 
             ArrayList types = new ArrayList();
             types.Add(new TransitAccountPlaceType());
-            types.AddRange(SessionManager.PlaceService.GetPlaceTypes());
+            types.AddRange(SessionManager.PlaceService.GetPlaceTypes(SessionManager.Ticket, null));
             selectType.DataSource = types;
             selectType.DataBind();
 
@@ -103,7 +103,7 @@ public partial class PlaceEdit : AuthenticatedPage
             StackSiteMap(sitemapdata);
         }
 
-        if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket))
+        if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket, SessionManager.AccountId))
         {
             ReportWarning("You don't have any verified e-mail addresses.\n" +
                 "You must add/confirm a valid e-mail address before submitting places.");
@@ -146,7 +146,8 @@ public partial class PlaceEdit : AuthenticatedPage
 
     void gridPlaceNamesManage_OnGetDataSource(object sender, EventArgs e)
     {
-        gridPlaceNamesManage.DataSource = SessionManager.PlaceService.GetPlaceNames(RequestId);
+        gridPlaceNamesManage.DataSource = SessionManager.PlaceService.GetPlaceNames(
+            SessionManager.Ticket, RequestId, null);
     }
 
     public void altname_save_Click(object sender, EventArgs e)
@@ -210,7 +211,7 @@ public partial class PlaceEdit : AuthenticatedPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = 0;
         options.PageSize = 10;
-        object[] args = { inputName.Text, options };
+        object[] args = { SessionManager.Ticket, inputName.Text, options };
         gridLookupPlaces.DataSource = SessionManager.GetCachedCollection<TransitPlace>(
             SessionManager.PlaceService, "SearchPlaces", args);
         gridLookupPlaces.DataBind();

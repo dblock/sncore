@@ -38,10 +38,10 @@ public partial class AccountFeedItemsView : Page
         gridManage.CurrentPageIndex = 0;
 
         gridManage.VirtualItemCount = string.IsNullOrEmpty(inputSearch.Text)
-            ? SessionManager.SyndicationService.GetAccountFeedItemsCount()
-            : SessionManager.SyndicationService.SearchAccountFeedItemsCount(inputSearch.Text);
+            ? SessionManager.SyndicationService.GetAllAccountFeedItemsCount(SessionManager.Ticket)
+            : SessionManager.SyndicationService.SearchAccountFeedItemsCount(SessionManager.Ticket, inputSearch.Text);
 
-        int feedsCount = SessionManager.SyndicationService.GetUpdatedAccountFeedsCount();
+        int feedsCount = SessionManager.SyndicationService.GetAllAccountFeedsCount(SessionManager.Ticket);
 
         labelCount.Text = string.Format("{0} post{1} from <a href='AccountFeedsView.aspx'>{2} blog{3}</a>",
             gridManage.VirtualItemCount, gridManage.VirtualItemCount == 1 ? string.Empty : "s",
@@ -57,8 +57,8 @@ public partial class AccountFeedItemsView : Page
         serviceoptions.PageSize = gridManage.PageSize;
         serviceoptions.PageNumber = gridManage.CurrentPageIndex;
         gridManage.DataSource = string.IsNullOrEmpty(inputSearch.Text)
-            ? SessionManager.SyndicationService.GetAccountFeedItems(serviceoptions)
-            : SessionManager.SyndicationService.SearchAccountFeedItems(inputSearch.Text, serviceoptions);
+            ? SessionManager.SyndicationService.GetAllAccountFeedItems(SessionManager.Ticket, serviceoptions)
+            : SessionManager.SyndicationService.SearchAccountFeedItems(SessionManager.Ticket, inputSearch.Text, serviceoptions);
     }
 
     protected void search_Click(object sender, EventArgs e)

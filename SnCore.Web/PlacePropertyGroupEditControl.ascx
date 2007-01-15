@@ -11,24 +11,24 @@
   <asp:TemplateColumn ItemStyle-CssClass="sncore_form_label">
    <ItemTemplate>
     <asp:HiddenField ID="Id" runat="server" Value='<%# Eval("Id") %>' />
-    <asp:HiddenField ID="propertyId" runat="server" Value='<%# Eval("PlaceProperty.Id") %>' />
-    <%# Render(Eval("PlaceProperty.Name")) %> :
+    <asp:HiddenField ID="propertyId" runat="server" Value='<%# Eval("PlacePropertyId") %>' />
+    <%# Render(Eval("PlacePropertyName")) %> :
    </ItemTemplate>
   </asp:TemplateColumn>
   <asp:TemplateColumn ItemStyle-CssClass="sncore_form_value">
    <ItemTemplate>
     <asp:TextBox CssClass="sncore_form_textbox" runat="server" ID="array_value" 
-     Visible='<%# ((Type) Eval("PlaceProperty.Type")).ToString() == "System.Array" %>' Text='<%# Eval("Value").ToString().Trim("\"".ToCharArray()).Replace("\"\"", ", ") %>' />
+     Visible='<%# ((string) Eval("PlacePropertyTypeName")) == "System.Array" %>' Text='<%# Eval("Value").ToString().Trim("\"".ToCharArray()).Replace("\"\"", ", ") %>' />
     <asp:TextBox TextMode="MultiLine" Rows="5" CssClass="sncore_form_textbox" runat="server" ID="text_value" 
-     Visible='<%# ((Type) Eval("PlaceProperty.Type")).ToString() == "System.Text.StringBuilder" %>' Text='<%# Eval("Value").ToString() %>' />
+     Visible='<%# ((string) Eval("PlacePropertyTypeName")) == "System.Text.StringBuilder" %>' Text='<%# Eval("Value").ToString() %>' />
     <asp:TextBox CssClass="sncore_form_textbox" runat="server" ID="string_value" 
-     Visible='<%# ((Type) Eval("PlaceProperty.Type")).ToString() == "System.String" %>' Text='<%# Eval("Value").ToString() %>' />
+     Visible='<%# ((string) Eval("PlacePropertyTypeName")) == "System.String" %>' Text='<%# Eval("Value").ToString() %>' />
     <asp:TextBox CssClass="sncore_form_textbox" runat="server" ID="int_value" 
-     Visible='<%# ((Type) Eval("PlaceProperty.Type")).ToString() == "System.Int32" %>' Text='<%# Eval("Value").ToString() %>' />
+     Visible='<%# ((string) Eval("PlacePropertyTypeName")) == "System.Int32" %>' Text='<%# Eval("Value").ToString() %>' />
     <asp:CheckBox CssClass="sncore_form_checkbox" runat="server" ID="bool_value" 
-     Visible='<%# ((Type) Eval("PlaceProperty.Type")).ToString() == "System.Boolean" %>' Checked='<%# ((string) Eval("Value")) == "True" %>' />
+     Visible='<%# ((string) Eval("PlacePropertyTypeName")) == "System.Boolean" %>' Checked='<%# ((string) Eval("Value")) == "True" %>' />
     <div class="sncore_description">
-     <%# Render(Eval("PlaceProperty.Description")) %>
+     <%# Render(Eval("PlacePropertyDescription")) %>
     </div>
    </ItemTemplate>
   </asp:TemplateColumn>

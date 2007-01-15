@@ -154,16 +154,15 @@ namespace SnCore.Web.Soap.Tests
             Assert.IsTrue(count1 == count6);
         }
 
+        public virtual string GetTestTicket()
+        {
+            return GetAdminTicket();
+        }
+
         [Test]
         public virtual void TestEndToEnd()
         {
-            TestEndToEnd(GetAdminTicket());
-        }
-
-        [Test, ExpectedException(typeof(SoapException))]
-        public virtual void TestWithoutLogin()
-        {
-            Create(string.Empty);
+            TestEndToEnd(GetTestTicket());
         }
 
         [SetUp]

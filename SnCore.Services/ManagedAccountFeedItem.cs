@@ -194,6 +194,20 @@ namespace SnCore.Services
             }
         }
 
+        private bool mAccountFeedPublish;
+
+        public bool AccountFeedPublish
+        {
+            get
+            {
+                return mAccountFeedPublish;
+            }
+            set
+            {
+                mAccountFeedPublish = value;
+            }
+        }
+
         private int mCommentCount = 0;
 
         public int CommentCount
@@ -239,6 +253,7 @@ namespace SnCore.Services
             AccountName = value.AccountFeed.Account.Name;
             AccountFeedName = value.AccountFeed.Name;
             AccountFeedLinkUrl = value.AccountFeed.LinkUrl;
+            AccountFeedPublish = value.AccountFeed.Publish;
             base.SetInstance(value);
         }
 

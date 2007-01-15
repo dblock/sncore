@@ -28,7 +28,8 @@ public partial class DiscussionThreadView : Page
             TransitDiscussionThread t = SessionManager.DiscussionService.GetDiscussionThreadById(
                 SessionManager.Ticket, RequestId);
 
-            TransitDiscussion td = SessionManager.DiscussionService.GetDiscussionById(t.DiscussionId);
+            TransitDiscussion td = SessionManager.DiscussionService.GetDiscussionById(
+                SessionManager.Ticket, t.DiscussionId);
 
             if (td.Personal)
             {
@@ -42,7 +43,7 @@ public partial class DiscussionThreadView : Page
                     Redirect(string.Format("AccountStoryView.aspx?id={0}&#comments", td.ObjectId));
                     return;
                 }
-                else if (td.Name == SessionManager.DiscussionService.GetAccountTestimonialsDiscussionName())
+                else if (td.Name == SessionManager.DiscussionService.GetAccountTagsDiscussionName())
                 {
                     Redirect(string.Format("AccountView.aspx?id={0}&#testimonials", td.AccountId));
                     return;
@@ -57,12 +58,12 @@ public partial class DiscussionThreadView : Page
                     Redirect(string.Format("PlacePictureView.aspx?id={0}&#comments", td.ObjectId));
                     return;
                 }
-                else if (td.Name == SessionManager.DiscussionService.GetAcountFeedItemDiscussionName())
+                else if (td.Name == SessionManager.DiscussionService.GetAccountFeedItemDiscussionName())
                 {
                     Redirect(string.Format("AccountFeedItemView.aspx?id={0}&#comments", td.ObjectId));
                     return;
                 }
-                else if (td.Name == SessionManager.DiscussionService.GetAcountBlogPostDiscussionName())
+                else if (td.Name == SessionManager.DiscussionService.GetAccountBlogPostDiscussionName())
                 {
                     Redirect(string.Format("AccountBlogPostView.aspx?id={0}&#comments", td.ObjectId));
                     return;

@@ -47,9 +47,9 @@ public partial class AccountBlogPostView : Page
             BlogPostTitle.Text = Renderer.Render(string.IsNullOrEmpty(tfi.Title) ? "Untitled" : tfi.Title);
             BlogPostBody.Text = RenderEx(tfi.Body);
 
-            object[] d_args = { RequestId };
-            BlogPostComments.DiscussionId = SessionManager.GetCachedCollectionCount(
-                SessionManager.DiscussionService, "GetAccountBlogPostDiscussionId", d_args);
+            object[] d_args = { SessionManager.Ticket, RequestId };
+            BlogPostComments.DiscussionId = SessionManager.GetCachedCollectionCount<TransitDiscussion>(
+                SessionManager.DiscussionService, "GetOrCreateAccountBlogPostDiscussionId", d_args);
             BlogPostComments.DataBind();
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();

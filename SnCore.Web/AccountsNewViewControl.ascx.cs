@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Services;
 using System.Collections.Generic;
+using SnCore.WebServices;
 
 public partial class AccountsNewViewControl : Control
 {
@@ -31,7 +32,10 @@ public partial class AccountsNewViewControl : Control
     {
         if (!IsPostBack)
         {
-            object[] args = { Count };
+            ServiceQueryOptions options = new ServiceQueryOptions();
+            options.PageNumber = 0;
+            options.PageSize = Count;
+            object[] args = { SessionManager.Ticket, options };
             accounts.DataSource = SessionManager.GetCachedCollection<TransitAccount>(
                 SessionManager.SocialService, "GetNewAccounts", args);
             accounts.RepeatColumns = Count;

@@ -25,7 +25,8 @@ public partial class AccountMadLibEdit : AuthenticatedPage
 
             if (RequestId > 0)
             {
-                TransitMadLib t = SessionManager.MadLibService.GetMadLibById(RequestId);
+                TransitMadLib t = SessionManager.MadLibService.GetMadLibById(
+                    SessionManager.Ticket, RequestId);
                 inputTemplate.Text = t.Template;
                 inputName.Text = t.Name;
                 sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));

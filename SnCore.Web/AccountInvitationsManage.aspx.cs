@@ -24,7 +24,7 @@ public partial class AccountInvitationsManage : AuthenticatedPage
         gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
         if (!IsPostBack)
         {
-            if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket))
+            if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket, SessionManager.AccountId))
             {
                 ReportWarning("You don't have any verified e-mail addresses.\n" +
                     "You must add/confirm a valid e-mail address before inviting people.");
@@ -46,7 +46,8 @@ public partial class AccountInvitationsManage : AuthenticatedPage
     void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.AccountService.GetAccountInvitationsCount(SessionManager.Ticket);
+        gridManage.VirtualItemCount = SessionManager.AccountService.GetAccountInvitationsCount(
+            SessionManager.Ticket, SessionManager.AccountId);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -56,7 +57,8 @@ public partial class AccountInvitationsManage : AuthenticatedPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = gridManage.CurrentPageIndex;
         options.PageSize = gridManage.PageSize;
-        gridManage.DataSource = SessionManager.AccountService.GetAccountInvitations(SessionManager.Ticket, options);
+        gridManage.DataSource = SessionManager.AccountService.GetAccountInvitations(
+            SessionManager.Ticket, SessionManager.AccountId, options);
     }
 
     public static Regex emailregex = new Regex(@".*@.*\..*", RegexOptions.Compiled);
@@ -74,7 +76,8 @@ public partial class AccountInvitationsManage : AuthenticatedPage
 
             try
             {
-                TransitAccount existing = SessionManager.AccountService.FindByEmail(email);
+                TransitAccount existing = SessionManager.AccountService.FindByEmail(
+                    SessionManager.Ticket, email);
 
                 exceptions.Add(new Exception(string.Format(
                         "<a href='AccountView.aspx?id={0}'>{2} &lt;{3}&gt;</a> is a member! " +
@@ -95,7 +98,7 @@ public partial class AccountInvitationsManage : AuthenticatedPage
                 invitation.Code = Guid.NewGuid().ToString();
                 invitation.Email = email;
                 invitation.Message = inputMessage.Text;
-                SessionManager.AccountService.AddAccountInvitation(SessionManager.Ticket, invitation);
+                SessionManager.AccountService.CreateOrUpdateAccountInvitation(SessionManager.Ticket, invitation);
                 invitations.Add(email);
             }
             catch (Exception ex)

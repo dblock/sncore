@@ -30,7 +30,7 @@ public partial class AccountDiscussionThreadsRss : Page
         {
             if (mAccount == null)
             {
-                object[] args = { RequestId };
+                object[] args = { SessionManager.Ticket, RequestId };
                 mAccount = SessionManager.GetCachedItem<TransitAccount>(
                     SessionManager.AccountService, "GetAccountById", args);
             }
@@ -76,7 +76,8 @@ public partial class AccountDiscussionThreadsRss : Page
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageSize = 50;
             options.PageNumber = 0;
-            rssRepeater.DataSource = SessionManager.DiscussionService.GetUserDiscussionThreads(queryoptions, options);
+            rssRepeater.DataSource = SessionManager.DiscussionService.GetUserDiscussionThreads(
+                SessionManager.Ticket, queryoptions, options);
             rssRepeater.DataBind();
         }
     }

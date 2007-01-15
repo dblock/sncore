@@ -45,7 +45,7 @@ public partial class AccountContentGroupView : Page
     public void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.ContentService.GetAccountContentsCountById(
+        gridManage.VirtualItemCount = SessionManager.ContentService.GetAccountContentsCount(
             SessionManager.Ticket, RequestId);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
@@ -56,7 +56,7 @@ public partial class AccountContentGroupView : Page
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = gridManage.CurrentPageIndex;
         options.PageSize = gridManage.PageSize;
-        gridManage.DataSource = SessionManager.ContentService.GetAccountContentsById(
+        gridManage.DataSource = SessionManager.ContentService.GetAccountContents(
             SessionManager.Ticket, RequestId, options);
     }
 }

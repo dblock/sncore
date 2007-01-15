@@ -30,7 +30,8 @@ public partial class SystemPictureTypesManage : AuthenticatedPage
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-            gridManage.DataSource = SessionManager.SystemService.GetPictureTypes();
+            gridManage.DataSource = SessionManager.ObjectService.GetPictureTypes(
+                SessionManager.Ticket, null);
     }
 
     private enum Cells
@@ -54,7 +55,7 @@ public partial class SystemPictureTypesManage : AuthenticatedPage
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            SessionManager.SystemService.DeletePictureType(SessionManager.Ticket, id);
+                            SessionManager.ObjectService.DeletePictureType(SessionManager.Ticket, id);
                             ReportInfo("Picture type deleted.");
                             gridManage.CurrentPageIndex = 0;
                             gridManage_OnGetDataSource(source, e);

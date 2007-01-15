@@ -18,7 +18,8 @@ public partial class AccountPlaceRequestEdit : AuthenticatedPage
     {
         if (!IsPostBack)
         {
-            inputType.DataSource = SessionManager.PlaceService.GetAccountPlaceTypes();
+            inputType.DataSource = SessionManager.PlaceService.GetAccountPlaceTypes(
+                SessionManager.Ticket, null);
             inputType.DataBind();
 
             if (ParentId != 0)

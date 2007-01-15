@@ -30,7 +30,8 @@ public partial class BugStatusesManage : AuthenticatedPage
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        gridManage.DataSource = SessionManager.BugService.GetBugStatuses();
+        gridManage.DataSource = SessionManager.BugService.GetBugStatuses(
+            SessionManager.Ticket, null);
     }
 
     private enum Cells

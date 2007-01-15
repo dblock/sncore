@@ -114,7 +114,8 @@ public partial class PlacesRss : Page
                 queryoptions.PageNumber = 0;
                 queryoptions.PageSize = 25;
 
-                rssRepeater.DataSource = SessionManager.PlaceService.GetPlaces(options, queryoptions);
+                rssRepeater.DataSource = SessionManager.PlaceService.GetPlaces(
+                    SessionManager.Ticket, options, queryoptions);
                 rssRepeater.DataBind();
             }
     }

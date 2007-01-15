@@ -66,5 +66,15 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationServiceTests
             Assert.IsNotNull(items);
             Console.WriteLine("Feed items: {0}", items.Length);
         }
+
+        [Test]
+        public void GetAllAccountFeedItemsTest()
+        {
+            int count = EndPoint.GetAllAccountFeedItemsCount(GetAdminTicket());
+            Console.WriteLine("Count: {0}", count);
+            WebSyndicationService.TransitAccountFeedItem[] items = EndPoint.GetAllAccountFeedItems(GetAdminTicket(), null);
+            Console.WriteLine("Length: {0}", items.Length);
+            Assert.AreEqual(count, items.Length);
+        }
     }
 }

@@ -40,8 +40,8 @@ public partial class PlaceAccountsViewControl : Control
     void GetData(object sender, EventArgs e)
     {
         accountsList.CurrentPageIndex = 0;
-        object[] args = { PlaceId };
-        accountsList.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+        object[] args = { SessionManager.Ticket, PlaceId };
+        accountsList.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccountPlace>(
             SessionManager.PlaceService, "GetAccountPlacesCountByPlaceId", args);
         accountsList_OnGetDataSource(sender, e);
         accountsList.DataBind();
@@ -53,7 +53,7 @@ public partial class PlaceAccountsViewControl : Control
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = accountsList.CurrentPageIndex;
         options.PageSize = accountsList.PageSize;
-        object[] args = { PlaceId, options };
+        object[] args = { SessionManager.Ticket, PlaceId, options };
         accountsList.DataSource = SessionManager.GetCachedCollection<TransitAccountPlace>(
             SessionManager.PlaceService, "GetAccountPlacesByPlaceId", args);
         panelGrid.Update();

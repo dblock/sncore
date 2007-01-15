@@ -41,7 +41,8 @@ public partial class PlacePropertyGroupEditControl : Control
 
     public override void DataBind()
     {
-        gridManage.DataSource = SessionManager.PlaceService.GetAllPlacePropertyValuesById(PlaceId, PlacePropertyGroupId);
+        gridManage.DataSource = SessionManager.PlaceService.GetAllPlacePropertyValuesById(
+            SessionManager.Ticket, PlaceId, PlacePropertyGroupId);
         gridManage.DataBind();
         base.DataBind();
     }
@@ -58,13 +59,14 @@ public partial class PlacePropertyGroupEditControl : Control
                     int id = int.Parse(((HiddenField)item.FindControl("Id")).Value);
                     int property_id = int.Parse(((HiddenField)item.FindControl("propertyId")).Value);
 
-                    TransitPlaceProperty prop = SessionManager.PlaceService.GetPlacePropertyById(property_id);
+                    TransitPlaceProperty prop = SessionManager.PlaceService.GetPlacePropertyById(
+                        SessionManager.Ticket, property_id);
 
                     TransitPlacePropertyValue value = new TransitPlacePropertyValue();
                     value.Id = id;
                     value.PlaceId = PlaceId;
-                    value.PlaceProperty = prop;
-                    switch (prop.Type.ToString())
+                    value.PlacePropertyId = prop.Id;
+                    switch (prop.TypeName)
                     {
                         case "System.Array":
                             value.Value = StringToArray(((TextBox)item.FindControl("array_value")).Text);

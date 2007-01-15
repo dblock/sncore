@@ -22,5 +22,11 @@ namespace SnCore.Web.Soap.Tests.WebObjectServiceTests
             t_instance.RecurrencePattern = WebObjectService.RecurrencePattern.Daily_EveryNDays;
             return t_instance;
         }
+
+        [Test]
+        protected void GetScheduleStringTest()
+        {
+
+        }
     }
 }

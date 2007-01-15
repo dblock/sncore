@@ -17,81 +17,84 @@ public partial class SystemCityEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-            if (!IsPostBack)
+        if (!IsPostBack)
+        {
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Cities", Request, "SystemCitiesManage.aspx"));
+
+            object[] c_args = { SessionManager.Ticket, null };
+            inputCountry.DataSource = SessionManager.GetCachedCollection<TransitCountry>(
+                SessionManager.LocationService, "GetCountries", c_args);
+            inputCountry.DataBind();
+
+            if (RequestId > 0)
             {
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Cities", Request, "SystemCitiesManage.aspx"));
-
-                object[] c_args = { null };
-                inputCountry.DataSource = SessionManager.GetCachedCollection<TransitCountry>(
-                    SessionManager.LocationService, "GetCountries", c_args);
-                inputCountry.DataBind();
-
-                if (RequestId > 0)
-                {
-                    TransitCity tc = SessionManager.LocationService.GetCityById(RequestId);
-                    inputName.Text = tc.Name;
-                    inputTag.Text = tc.Tag;
-                    inputCountry.Items.FindByValue(tc.Country).Selected = true;
-                    inputCountry_SelectedIndexChanged(sender, e);
-                    if (! string.IsNullOrEmpty(tc.State)) inputState.Items.FindByValue(tc.State).Selected = true;
-                    sitemapdata.Add(new SiteMapDataAttributeNode(tc.Name, Request.Url));
-                }
-                else
-                {
-                    inputCountry_SelectedIndexChanged(sender, e);
-                    panelMerge.Visible = false;
-                    sitemapdata.Add(new SiteMapDataAttributeNode("New City", Request.Url));
-                }
-
-                StackSiteMap(sitemapdata);
+                TransitCity tc = SessionManager.LocationService.GetCityById(
+                    SessionManager.Ticket, RequestId);
+                inputName.Text = tc.Name;
+                inputTag.Text = tc.Tag;
+                inputCountry.Items.FindByValue(tc.Country).Selected = true;
+                inputCountry_SelectedIndexChanged(sender, e);
+                if (!string.IsNullOrEmpty(tc.State)) inputState.Items.FindByValue(tc.State).Selected = true;
+                sitemapdata.Add(new SiteMapDataAttributeNode(tc.Name, Request.Url));
+            }
+            else
+            {
+                inputCountry_SelectedIndexChanged(sender, e);
+                panelMerge.Visible = false;
+                sitemapdata.Add(new SiteMapDataAttributeNode("New City", Request.Url));
             }
 
-            SetDefaultButton(manageAdd);
-            PageManager.SetDefaultButton(mergeLookup, panelMerge.Controls);
+            StackSiteMap(sitemapdata);
+        }
+
+        SetDefaultButton(manageAdd);
+        PageManager.SetDefaultButton(mergeLookup, panelMerge.Controls);
     }
 
     public void inputCountry_SelectedIndexChanged(object sender, EventArgs e)
     {
-            object[] args = { inputCountry.SelectedValue };
-            inputState.DataSource = SessionManager.GetCachedCollection<TransitState>(SessionManager.LocationService, "GetStatesByCountry", args);
-            inputState.DataBind();
+        object[] args = { SessionManager.Ticket, inputCountry.SelectedValue, null };
+        inputState.DataSource = SessionManager.GetCachedCollection<TransitState>(
+            SessionManager.LocationService, "GetStatesByCountryName", args);
+        inputState.DataBind();
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-            TransitCity tc = new TransitCity();
-            tc.Name = inputName.Text;
-            tc.Id = RequestId;
-            tc.Tag = inputTag.Text;
-            tc.Country = inputCountry.SelectedValue;
-            tc.State = inputState.SelectedValue;
-            if (string.IsNullOrEmpty(tc.State) && inputState.Items.Count > 0)
-            {
-                throw new Exception("State is required.");
-            }
-            SessionManager.LocationService.AddCity(SessionManager.Ticket, tc);
-            Redirect("SystemCitiesManage.aspx");
+        TransitCity tc = new TransitCity();
+        tc.Name = inputName.Text;
+        tc.Id = RequestId;
+        tc.Tag = inputTag.Text;
+        tc.Country = inputCountry.SelectedValue;
+        tc.State = inputState.SelectedValue;
+        if (string.IsNullOrEmpty(tc.State) && inputState.Items.Count > 0)
+        {
+            throw new Exception("State is required.");
+        }
+        SessionManager.LocationService.CreateOrUpdateCity(SessionManager.Ticket, tc);
+        Redirect("SystemCitiesManage.aspx");
     }
 
     public void mergeLookup_Click(object sender, EventArgs e)
     {
-            gridMergeLookup.CurrentPageIndex = 0;
-            gridMergeLookup.DataSource = SessionManager.LocationService.SearchCitiesByName(inputMergeWhat.Text);
-            gridMergeLookup.DataBind();
+        gridMergeLookup.CurrentPageIndex = 0;
+        gridMergeLookup.DataSource = SessionManager.LocationService.SearchCitiesByName(
+            SessionManager.Ticket, inputMergeWhat.Text, null);
+        gridMergeLookup.DataBind();
     }
 
     public void gridMergeLookup_ItemCommand(object source, DataGridCommandEventArgs e)
     {
-            switch (e.CommandName)
-            {
-                case "Merge":
-                    int count = SessionManager.LocationService.MergeCities(SessionManager.Ticket, 
-                        RequestId, int.Parse(e.CommandArgument.ToString()));
-                    ReportInfo(string.Format("Merged {0} records.", count));
-                    mergeLookup_Click(source, e);
-                    break;
-            }
+        switch (e.CommandName)
+        {
+            case "Merge":
+                int count = SessionManager.LocationService.MergeCities(SessionManager.Ticket,
+                    RequestId, int.Parse(e.CommandArgument.ToString()));
+                ReportInfo(string.Format("Merged {0} records.", count));
+                mergeLookup_Click(source, e);
+                break;
+        }
     }
 }

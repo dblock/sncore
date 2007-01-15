@@ -54,7 +54,9 @@ namespace SnCore.Web.Soap.Tests.WebSystemService {
         
         private System.Threading.SendOrPostCallback GetConfigurationValueOperationCompleted;
         
-        private System.Threading.SendOrPostCallback GetConfigurationValueWithDefaultOperationCompleted;
+        private System.Threading.SendOrPostCallback GetConfigurationByNameValueWithDefaultOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetConfigurationByNameWithDefaultOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -131,7 +133,10 @@ namespace SnCore.Web.Soap.Tests.WebSystemService {
         public event GetConfigurationValueCompletedEventHandler GetConfigurationValueCompleted;
         
         /// <remarks/>
-        public event GetConfigurationValueWithDefaultCompletedEventHandler GetConfigurationValueWithDefaultCompleted;
+        public event GetConfigurationByNameValueWithDefaultCompletedEventHandler GetConfigurationByNameValueWithDefaultCompleted;
+        
+        /// <remarks/>
+        public event GetConfigurationByNameWithDefaultCompletedEventHandler GetConfigurationByNameWithDefaultCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetVersion", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -483,9 +488,9 @@ namespace SnCore.Web.Soap.Tests.WebSystemService {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetConfigurationValueWithDefault", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public string GetConfigurationValueWithDefault(string ticket, string name, string defaultvalue) {
-            object[] results = this.Invoke("GetConfigurationValueWithDefault", new object[] {
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetConfigurationByNameValueWithDefault", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string GetConfigurationByNameValueWithDefault(string ticket, string name, string defaultvalue) {
+            object[] results = this.Invoke("GetConfigurationByNameValueWithDefault", new object[] {
                         ticket,
                         name,
                         defaultvalue});
@@ -493,25 +498,58 @@ namespace SnCore.Web.Soap.Tests.WebSystemService {
         }
         
         /// <remarks/>
-        public void GetConfigurationValueWithDefaultAsync(string ticket, string name, string defaultvalue) {
-            this.GetConfigurationValueWithDefaultAsync(ticket, name, defaultvalue, null);
+        public void GetConfigurationByNameValueWithDefaultAsync(string ticket, string name, string defaultvalue) {
+            this.GetConfigurationByNameValueWithDefaultAsync(ticket, name, defaultvalue, null);
         }
         
         /// <remarks/>
-        public void GetConfigurationValueWithDefaultAsync(string ticket, string name, string defaultvalue, object userState) {
-            if ((this.GetConfigurationValueWithDefaultOperationCompleted == null)) {
-                this.GetConfigurationValueWithDefaultOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetConfigurationValueWithDefaultOperationCompleted);
+        public void GetConfigurationByNameValueWithDefaultAsync(string ticket, string name, string defaultvalue, object userState) {
+            if ((this.GetConfigurationByNameValueWithDefaultOperationCompleted == null)) {
+                this.GetConfigurationByNameValueWithDefaultOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetConfigurationByNameValueWithDefaultOperationCompleted);
             }
-            this.InvokeAsync("GetConfigurationValueWithDefault", new object[] {
+            this.InvokeAsync("GetConfigurationByNameValueWithDefault", new object[] {
                         ticket,
                         name,
-                        defaultvalue}, this.GetConfigurationValueWithDefaultOperationCompleted, userState);
+                        defaultvalue}, this.GetConfigurationByNameValueWithDefaultOperationCompleted, userState);
         }
         
-        private void OnGetConfigurationValueWithDefaultOperationCompleted(object arg) {
-            if ((this.GetConfigurationValueWithDefaultCompleted != null)) {
+        private void OnGetConfigurationByNameValueWithDefaultOperationCompleted(object arg) {
+            if ((this.GetConfigurationByNameValueWithDefaultCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetConfigurationValueWithDefaultCompleted(this, new GetConfigurationValueWithDefaultCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+                this.GetConfigurationByNameValueWithDefaultCompleted(this, new GetConfigurationByNameValueWithDefaultCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetConfigurationByNameWithDefault", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitConfiguration GetConfigurationByNameWithDefault(string ticket, string name, string defaultvalue) {
+            object[] results = this.Invoke("GetConfigurationByNameWithDefault", new object[] {
+                        ticket,
+                        name,
+                        defaultvalue});
+            return ((TransitConfiguration)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetConfigurationByNameWithDefaultAsync(string ticket, string name, string defaultvalue) {
+            this.GetConfigurationByNameWithDefaultAsync(ticket, name, defaultvalue, null);
+        }
+        
+        /// <remarks/>
+        public void GetConfigurationByNameWithDefaultAsync(string ticket, string name, string defaultvalue, object userState) {
+            if ((this.GetConfigurationByNameWithDefaultOperationCompleted == null)) {
+                this.GetConfigurationByNameWithDefaultOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetConfigurationByNameWithDefaultOperationCompleted);
+            }
+            this.InvokeAsync("GetConfigurationByNameWithDefault", new object[] {
+                        ticket,
+                        name,
+                        defaultvalue}, this.GetConfigurationByNameWithDefaultOperationCompleted, userState);
+        }
+        
+        private void OnGetConfigurationByNameWithDefaultOperationCompleted(object arg) {
+            if ((this.GetConfigurationByNameWithDefaultCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetConfigurationByNameWithDefaultCompleted(this, new GetConfigurationByNameWithDefaultCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -926,17 +964,17 @@ namespace SnCore.Web.Soap.Tests.WebSystemService {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    public delegate void GetConfigurationValueWithDefaultCompletedEventHandler(object sender, GetConfigurationValueWithDefaultCompletedEventArgs e);
+    public delegate void GetConfigurationByNameValueWithDefaultCompletedEventHandler(object sender, GetConfigurationByNameValueWithDefaultCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetConfigurationValueWithDefaultCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    public partial class GetConfigurationByNameValueWithDefaultCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
         
-        internal GetConfigurationValueWithDefaultCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+        internal GetConfigurationByNameValueWithDefaultCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
@@ -946,6 +984,32 @@ namespace SnCore.Web.Soap.Tests.WebSystemService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetConfigurationByNameWithDefaultCompletedEventHandler(object sender, GetConfigurationByNameWithDefaultCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetConfigurationByNameWithDefaultCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetConfigurationByNameWithDefaultCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitConfiguration Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitConfiguration)(this.results[0]));
             }
         }
     }

@@ -78,7 +78,8 @@ public partial class DiscussionPostNew : AuthenticatedPage
 
             if (DiscussionId > 0)
             {
-                TransitDiscussion td = SessionManager.DiscussionService.GetDiscussionById(DiscussionId);
+                TransitDiscussion td = SessionManager.DiscussionService.GetDiscussionById(
+                    SessionManager.Ticket, DiscussionId);
                 discussionLabelLink.Text = Renderer.Render(td.Name);
                 discussionLabelLink.NavigateUrl = string.Format("DiscussionView.aspx?id={0}", td.Id);
                 sitemapdata.Add(new SiteMapDataAttributeNode(td.Name, Request, string.Format("DiscussionView.aspx?id={0}", td.Id)));
@@ -131,7 +132,7 @@ public partial class DiscussionPostNew : AuthenticatedPage
             StackSiteMap(sitemapdata);
         }
 
-        if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket))
+        if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket, SessionManager.AccountId))
         {
             ReportWarning("You don't have any verified e-mail addresses.\n" +
                 "You must add/confirm a valid e-mail address before posting messages.");
@@ -152,7 +153,7 @@ public partial class DiscussionPostNew : AuthenticatedPage
         tw.Id = PostId;
         tw.DiscussionPostParentId = ParentId;
         tw.DiscussionId = DiscussionId;
-        SessionManager.DiscussionService.AddDiscussionPost(SessionManager.Ticket, tw);
+        SessionManager.DiscussionService.CreateOrUpdateDiscussionPost(SessionManager.Ticket, tw);
         Redirect(linkCancel.NavigateUrl);
     }
 
@@ -168,7 +169,7 @@ public partial class DiscussionPostNew : AuthenticatedPage
             {
                 try
                 {
-                    TransitAccountPictureWithBitmap p = new TransitAccountPictureWithBitmap();
+                    TransitAccountPicture p = new TransitAccountPicture();
 
                     ThumbnailBitmap t = new ThumbnailBitmap(file.InputStream);
                     p.Bitmap = t.Bitmap;
@@ -176,7 +177,7 @@ public partial class DiscussionPostNew : AuthenticatedPage
                     p.Description = string.Empty;
                     p.Hidden = true;
 
-                    int id = SessionManager.AccountService.AddAccountPicture(SessionManager.Ticket, p);
+                    int id = SessionManager.AccountService.CreateOrUpdateAccountPicture(SessionManager.Ticket, p);
 
                     Size size = t.GetNewSize(new Size(200, 200));
 

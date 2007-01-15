@@ -4,7 +4,6 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountLogin" Src="AccountLoginControl.ascx" %>
-<%@ Register TagPrefix="SnCore" TagName="TagWordsView" Src="TagWordsViewControl.ascx" %>
 
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <SnCore:AccountLogin runat="server" ID="loginMain" />

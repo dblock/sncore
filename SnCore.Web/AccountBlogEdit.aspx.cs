@@ -67,7 +67,8 @@ public partial class AccountBlogEdit : AuthenticatedPage
     private void GetBlogPostsData(object sender, EventArgs e)
     {
         gridManagePosts.CurrentPageIndex = 0;
-        gridManagePosts.VirtualItemCount = SessionManager.BlogService.GetAccountBlogPostsCountById(RequestId);
+        gridManagePosts.VirtualItemCount = SessionManager.BlogService.GetAccountBlogPostsCount(
+            SessionManager.Ticket, RequestId);
         gridManagePosts_OnGetDataSource(this, null);
         gridManagePosts.DataBind();
     }
@@ -75,7 +76,8 @@ public partial class AccountBlogEdit : AuthenticatedPage
     private void GetBlogAuthorsData(object sender, EventArgs e)
     {
         gridManageAuthors.CurrentPageIndex = 0;
-        gridManageAuthors.VirtualItemCount = SessionManager.BlogService.GetAccountBlogAuthorsCountById(RequestId);
+        gridManageAuthors.VirtualItemCount = SessionManager.BlogService.GetAccountBlogAuthorsCount(
+            SessionManager.Ticket, RequestId);
         gridManageAuthors_OnGetDataSource(this, null);
         gridManageAuthors.DataBind();
     }
@@ -103,7 +105,8 @@ public partial class AccountBlogEdit : AuthenticatedPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = gridManagePosts.CurrentPageIndex;
         options.PageSize = gridManagePosts.PageSize;
-        gridManagePosts.DataSource = SessionManager.BlogService.GetAccountBlogPostsById(SessionManager.Ticket, RequestId, options);
+        gridManagePosts.DataSource = SessionManager.BlogService.GetAccountBlogPosts(
+            SessionManager.Ticket, RequestId, options);
     }
 
     void gridManageAuthors_OnGetDataSource(object sender, EventArgs e)
@@ -111,7 +114,8 @@ public partial class AccountBlogEdit : AuthenticatedPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = gridManageAuthors.CurrentPageIndex;
         options.PageSize = gridManageAuthors.PageSize;
-        gridManageAuthors.DataSource = SessionManager.BlogService.GetAccountBlogAuthorsById(RequestId, options);
+        gridManageAuthors.DataSource = SessionManager.BlogService.GetAccountBlogAuthors(
+            SessionManager.Ticket, RequestId, options);
     }
 
     public void gridManagePosts_ItemCommand(object sender, DataGridCommandEventArgs e)

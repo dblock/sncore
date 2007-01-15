@@ -63,7 +63,7 @@ public partial class AccountContentGroupRss : Page
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = 0;
             options.PageSize = 25;
-            rssRepeater.DataSource = SessionManager.ContentService.GetAccountContentsById(
+            rssRepeater.DataSource = SessionManager.ContentService.GetAccountContents(
                 SessionManager.Ticket, RequestId, options);
             rssRepeater.DataBind();
         }

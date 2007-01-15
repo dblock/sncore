@@ -29,7 +29,7 @@ public partial class AccountEventView : Page
             {
                 if (mAccountEventAccount == null && RequestId > 0 && AccountEvent != null)
                 {
-                    object[] args = { AccountEvent.AccountId };
+                    object[] args = { SessionManager.Ticket, AccountEvent.AccountId };
                     mAccountEventAccount = SessionManager.GetCachedItem<TransitAccount>(
                         SessionManager.AccountService, "GetAccountById", args);
                 }
@@ -94,10 +94,10 @@ public partial class AccountEventView : Page
 
     void GetPicturesData(object sender, EventArgs e)
     {
-        object[] p_args = { RequestId };
+        object[] p_args = { SessionManager.Ticket, RequestId };
         picturesView.CurrentPageIndex = 0;
-        picturesView.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            SessionManager.EventService, "GetAccountEventPicturesCountById", p_args);
+        picturesView.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccountEventPicture>(
+            SessionManager.EventService, "GetAccountEventPicturesCount", p_args);
         picturesView_OnGetDataSource(sender, e);
         picturesView.DataBind();
         panelNoPicture.Visible = (picturesView.Items.Count == 0);
@@ -106,9 +106,9 @@ public partial class AccountEventView : Page
     void picturesView_OnGetDataSource(object sender, EventArgs e)
     {
         ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
-        object[] args = { RequestId, options };
+        object[] args = { SessionManager.Ticket, RequestId, options };
         picturesView.DataSource = SessionManager.GetCachedCollection<TransitAccountEventPicture>(
-            SessionManager.EventService, "GetAccountEventPicturesById", args);
+            SessionManager.EventService, "GetAccountEventPictures", args);
     }
 
     public void Page_Load(object sender, EventArgs e)
@@ -152,7 +152,8 @@ public partial class AccountEventView : Page
 
                 GetPicturesData(sender, e);
 
-                discussionAccountEvents.DiscussionId = SessionManager.DiscussionService.GetAccountEventDiscussionId(RequestId);
+                discussionAccountEvents.DiscussionId = SessionManager.DiscussionService.GetOrCreateAccountEventDiscussionId(
+                    SessionManager.Ticket, RequestId);
                 discussionAccountEvents.DataBind();
 
                 if (SessionManager.IsAdministrator)
@@ -197,7 +198,7 @@ public partial class AccountEventView : Page
         TransitFeature t_feature = new TransitFeature();
         t_feature.DataObjectName = "AccountEvent";
         t_feature.DataRowId = RequestId;
-        SessionManager.SystemService.CreateOrUpdateFeature(SessionManager.Ticket, t_feature);
+        SessionManager.ObjectService.CreateOrUpdateFeature(SessionManager.Ticket, t_feature);
         Redirect(Request.Url.PathAndQuery);
     }
 
@@ -212,7 +213,7 @@ public partial class AccountEventView : Page
         TransitFeature t_feature = new TransitFeature();
         t_feature.DataObjectName = "AccountEvent";
         t_feature.DataRowId = RequestId;
-        SessionManager.SystemService.DeleteAllFeatures(SessionManager.Ticket, t_feature);
+        SessionManager.ObjectService.DeleteAllFeatures(SessionManager.Ticket, t_feature);
         Redirect(Request.Url.PathAndQuery);
     }
 
@@ -222,8 +223,8 @@ public partial class AccountEventView : Page
         {
             if (mAccountEventFeature == null)
             {
-                mAccountEventFeature = SessionManager.SystemService.FindLatestFeature(
-                    "AccountEvent", RequestId);
+                mAccountEventFeature = SessionManager.ObjectService.FindLatestFeature(
+                    SessionManager.Ticket, "AccountEvent", RequestId);
             }
             return mAccountEventFeature;
         }

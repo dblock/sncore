@@ -20,7 +20,8 @@ public partial class EmailBugClosed : AuthenticatedPage
         {
             if (mBug == null)
             {
-                mBug = SessionManager.BugService.GetBugById(RequestId);
+                mBug = SessionManager.BugService.GetBugById(
+                    SessionManager.Ticket, RequestId);
             }
             return mBug;
         }

@@ -31,7 +31,8 @@ public partial class AccountRedirectsManage : AuthenticatedPage
     public void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.AccountService.GetAccountRedirectsCount(SessionManager.Ticket);
+        gridManage.VirtualItemCount = SessionManager.AccountService.GetAccountRedirectsCount(
+            SessionManager.Ticket, SessionManager.AccountId);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
@@ -46,7 +47,8 @@ public partial class AccountRedirectsManage : AuthenticatedPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageSize = gridManage.PageSize;
         options.PageNumber = gridManage.CurrentPageIndex;
-        gridManage.DataSource = SessionManager.AccountService.GetAccountRedirects(SessionManager.Ticket, options);
+        gridManage.DataSource = SessionManager.AccountService.GetAccountRedirects(
+            SessionManager.Ticket, SessionManager.AccountId, options);
     }
 
     public void gridManage_ItemCommand(object sender, DataGridCommandEventArgs e)

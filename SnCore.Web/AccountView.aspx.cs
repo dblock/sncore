@@ -17,7 +17,6 @@ public partial class AccountView : Page
 {
     private int mAccountId = -1;
     private TransitAccount mAccount = null;
-    private TransitAccountPermissions mAccountPermissions = null;
     private TransitFeature mAccountFeature = null;
 
     public int AccountId
@@ -43,36 +42,21 @@ public partial class AccountView : Page
         {
             if (mAccount == null)
             {
-                object[] args = { AccountId };
+                object[] args = { SessionManager.Ticket, AccountId };
                 mAccount = SessionManager.GetCachedItem<TransitAccount>(
                     SessionManager.AccountService, "GetAccountById", args);
             }
             return mAccount;
         }
     }
-
-    public TransitAccountPermissions AccountPermissions
-    {
-        get
-        {
-            if (mAccountPermissions == null)
-            {
-                object[] args = { AccountId };
-                mAccountPermissions = SessionManager.GetCachedItem<TransitAccountPermissions>(
-                    SessionManager.AccountService, "GetAccountPermissionsById", args);
-            }
-            return mAccountPermissions;
-        }
-    }
-
     public TransitFeature LatestAccountFeature
     {
         get
         {
             if (mAccountFeature == null)
             {
-                mAccountFeature = SessionManager.SystemService.FindLatestFeature(
-                    "Account", Account.Id);
+                mAccountFeature = SessionManager.ObjectService.FindLatestFeature(
+                    SessionManager.Ticket, "Account", Account.Id);
             }
             return mAccountFeature;
         }
@@ -144,9 +128,9 @@ public partial class AccountView : Page
             linkAddToFriends.NavigateUrl = string.Format("AccountFriendRequestEdit.aspx?pid={0}&ReturnUrl={1}",
                 Account.Id.ToString(), returnurl);
 
-            object[] args_aid = { Account.Id };
-            discussionTags.DiscussionId = SessionManager.GetCachedCollectionCount(
-                SessionManager.DiscussionService, "GetTagDiscussionId", args_aid);
+            object[] args_aid = { SessionManager.Ticket, Account.Id };
+            discussionTags.DiscussionId = SessionManager.GetCachedCollectionCount<TransitDiscussion>(
+                SessionManager.DiscussionService, "GetOrCreateAccountTagsDiscussionId", args_aid);
 
             linkLeaveTestimonial.NavigateUrl = string.Format("DiscussionPost.aspx?did={0}&ReturnUrl={1}&#edit",
                 discussionTags.DiscussionId, returnurl);
@@ -166,8 +150,8 @@ public partial class AccountView : Page
             panelAdmin.Visible = SessionManager.IsAdministrator && (AccountId != SessionManager.Account.Id);
             if (panelAdmin.Visible)
             {
-                linkPromoteAdmin.Visible = !AccountPermissions.IsAdministrator;
-                linkDemoteAdmin.Visible = AccountPermissions.IsAdministrator;
+                linkPromoteAdmin.Visible = ! SessionManager.IsAdministrator;
+                linkDemoteAdmin.Visible = SessionManager.IsAdministrator;
                 linkDeleteFeatures.Visible = (LatestAccountFeature != null);
             }
         }
@@ -201,7 +185,7 @@ public partial class AccountView : Page
         TransitFeature t_feature = new TransitFeature();
         t_feature.DataObjectName = "Account";
         t_feature.DataRowId = AccountId;
-        SessionManager.SystemService.CreateOrUpdateFeature(SessionManager.Ticket, t_feature);
+        SessionManager.ObjectService.CreateOrUpdateFeature(SessionManager.Ticket, t_feature);
         Redirect(Request.Url.PathAndQuery);
     }
 
@@ -256,7 +240,7 @@ public partial class AccountView : Page
         TransitFeature t_feature = new TransitFeature();
         t_feature.DataObjectName = "Account";
         t_feature.DataRowId = RequestId;
-        SessionManager.SystemService.DeleteAllFeatures(SessionManager.Ticket, t_feature);
+        SessionManager.ObjectService.DeleteAllFeatures(SessionManager.Ticket, t_feature);
         Redirect(Request.Url.PathAndQuery);
     }
 
@@ -264,10 +248,10 @@ public partial class AccountView : Page
     {
         AccountPicturesQueryOptions po = new AccountPicturesQueryOptions();
         po.Hidden = false;
-        object[] p_args = { AccountId, po };
+        object[] p_args = { SessionManager.Ticket, AccountId, po };
         picturesView.CurrentPageIndex = 0;
-        picturesView.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            SessionManager.AccountService, "GetAccountPicturesCountById", p_args);
+        picturesView.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccountPicture>(
+            SessionManager.AccountService, "GetAccountPicturesCount", p_args);
         picturesView_OnGetDataSource(sender, e);
         picturesView.DataBind();
         accountNoPicture.Visible = (picturesView.Items.Count == 0);
@@ -278,8 +262,8 @@ public partial class AccountView : Page
         AccountPicturesQueryOptions po = new AccountPicturesQueryOptions();
         po.Hidden = false;
         ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
-        object[] args = { AccountId, po, options };
+        object[] args = { SessionManager.Ticket, AccountId, po, options };
         picturesView.DataSource = SessionManager.GetCachedCollection<TransitAccountPicture>(
-            SessionManager.AccountService, "GetAccountPicturesById", args);
+            SessionManager.AccountService, "GetAccountPictures", args);
     }
 }

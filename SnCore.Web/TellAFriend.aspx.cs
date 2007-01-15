@@ -47,7 +47,7 @@ public partial class TellAFriend : AuthenticatedPage
                 linkPage.NavigateUrl = linkCancel.NavigateUrl = Url;
                 Title = inputSubject.Text = string.Format("Check out {0}", subject);
 
-                if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket))
+                if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket, SessionManager.AccountId))
                 {
                     ReportWarning("You don't have any verified e-mail addresses.\n" +
                         "You must add/confirm a valid e-mail address before using this feature.");
@@ -83,7 +83,8 @@ public partial class TellAFriend : AuthenticatedPage
                 try
                 {
                     message.MailTo = new MailAddress(address.Trim()).ToString();
-                    SessionManager.AccountService.SendAccountEmailMessage(SessionManager.Ticket, message);
+                    SessionManager.AccountService.SendAccountEmailMessage(
+                        SessionManager.Ticket, SessionManager.AccountId, message);
                 }
                 catch (Exception ex)
                 {

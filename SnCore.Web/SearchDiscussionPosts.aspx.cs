@@ -24,7 +24,7 @@ public partial class SearchDiscussionPosts : Page
 
             if (RequestId > 0)
             {
-                object[] args = { RequestId };
+                object[] args = { SessionManager.Ticket, RequestId };
                 TransitDiscussion discussion = SessionManager.GetCachedItem<TransitDiscussion>(
                     SessionManager.DiscussionService, "GetDiscussionById", args);
                 sitemapdata.Add(new SiteMapDataAttributeNode(discussion.Name, Request, string.Format("DiscussionView.aspx?id={0}", discussion.Id)));

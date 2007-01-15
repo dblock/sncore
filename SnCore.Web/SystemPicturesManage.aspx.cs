@@ -31,7 +31,8 @@ public partial class SystemPicturesManage : AuthenticatedPage
             gridManage_OnGetDataSource(this, null);
             gridManage.DataBind();
 
-            selectPictureType.DataSource = SessionManager.SystemService.GetPictureTypes();
+            selectPictureType.DataSource = SessionManager.ObjectService.GetPictureTypes(
+                SessionManager.Ticket, null);
             selectPictureType.DataBind();
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
@@ -43,7 +44,8 @@ public partial class SystemPicturesManage : AuthenticatedPage
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        gridManage.DataSource = SessionManager.SystemService.GetPictures();
+        gridManage.DataSource = SessionManager.ObjectService.GetPictures(
+            SessionManager.Ticket, null);
     }
 
     private enum Cells
@@ -67,7 +69,7 @@ public partial class SystemPicturesManage : AuthenticatedPage
                 switch (e.CommandName)
                 {
                     case "Delete":
-                        SessionManager.SystemService.DeletePicture(SessionManager.Ticket, id);
+                        SessionManager.ObjectService.DeletePicture(SessionManager.Ticket, id);
                         ReportInfo("Picture deleted.");
                         gridManage.CurrentPageIndex = 0;
                         gridManage_OnGetDataSource(source, e);
@@ -90,14 +92,14 @@ public partial class SystemPicturesManage : AuthenticatedPage
             {
                 try
                 {
-                    TransitPictureWithBitmap p = new TransitPictureWithBitmap();
+                    TransitPicture p = new TransitPicture();
                     ThumbnailBitmap t = new ThumbnailBitmap(file.InputStream);
                     p.Bitmap = t.Bitmap;
                     p.Name = Path.GetFileName(file.FileName);
                     p.Type = selectPictureType.SelectedValue;
                     p.Description = string.Empty;
 
-                    SessionManager.SystemService.CreateOrUpdatePicture(SessionManager.Ticket, p);
+                    SessionManager.ObjectService.CreateOrUpdatePicture(SessionManager.Ticket, p);
                 }
                 catch (Exception ex)
                 {

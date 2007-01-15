@@ -123,9 +123,9 @@ namespace SnCore.Web.Soap.Tests.WebObjectService {
         
         private System.Threading.SendOrPostCallback GetReminderAccountPropertyByIdOperationCompleted;
         
-        private System.Threading.SendOrPostCallback GetReminderAccountPropertiesCountByIdOperationCompleted;
+        private System.Threading.SendOrPostCallback GetReminderAccountPropertiesCountOperationCompleted;
         
-        private System.Threading.SendOrPostCallback GetReminderAccountPropertiesByIdOperationCompleted;
+        private System.Threading.SendOrPostCallback GetReminderAccountPropertiesOperationCompleted;
         
         private System.Threading.SendOrPostCallback DeleteReminderAccountPropertyOperationCompleted;
         
@@ -341,10 +341,10 @@ namespace SnCore.Web.Soap.Tests.WebObjectService {
         public event GetReminderAccountPropertyByIdCompletedEventHandler GetReminderAccountPropertyByIdCompleted;
         
         /// <remarks/>
-        public event GetReminderAccountPropertiesCountByIdCompletedEventHandler GetReminderAccountPropertiesCountByIdCompleted;
+        public event GetReminderAccountPropertiesCountCompletedEventHandler GetReminderAccountPropertiesCountCompleted;
         
         /// <remarks/>
-        public event GetReminderAccountPropertiesByIdCompletedEventHandler GetReminderAccountPropertiesByIdCompleted;
+        public event GetReminderAccountPropertiesCompletedEventHandler GetReminderAccountPropertiesCompleted;
         
         /// <remarks/>
         public event DeleteReminderAccountPropertyCompletedEventHandler DeleteReminderAccountPropertyCompleted;
@@ -1683,40 +1683,40 @@ namespace SnCore.Web.Soap.Tests.WebObjectService {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetReminderAccountPropertiesCountById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int GetReminderAccountPropertiesCountById(string ticket, int id) {
-            object[] results = this.Invoke("GetReminderAccountPropertiesCountById", new object[] {
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetReminderAccountPropertiesCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetReminderAccountPropertiesCount(string ticket, int id) {
+            object[] results = this.Invoke("GetReminderAccountPropertiesCount", new object[] {
                         ticket,
                         id});
             return ((int)(results[0]));
         }
         
         /// <remarks/>
-        public void GetReminderAccountPropertiesCountByIdAsync(string ticket, int id) {
-            this.GetReminderAccountPropertiesCountByIdAsync(ticket, id, null);
+        public void GetReminderAccountPropertiesCountAsync(string ticket, int id) {
+            this.GetReminderAccountPropertiesCountAsync(ticket, id, null);
         }
         
         /// <remarks/>
-        public void GetReminderAccountPropertiesCountByIdAsync(string ticket, int id, object userState) {
-            if ((this.GetReminderAccountPropertiesCountByIdOperationCompleted == null)) {
-                this.GetReminderAccountPropertiesCountByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetReminderAccountPropertiesCountByIdOperationCompleted);
+        public void GetReminderAccountPropertiesCountAsync(string ticket, int id, object userState) {
+            if ((this.GetReminderAccountPropertiesCountOperationCompleted == null)) {
+                this.GetReminderAccountPropertiesCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetReminderAccountPropertiesCountOperationCompleted);
             }
-            this.InvokeAsync("GetReminderAccountPropertiesCountById", new object[] {
+            this.InvokeAsync("GetReminderAccountPropertiesCount", new object[] {
                         ticket,
-                        id}, this.GetReminderAccountPropertiesCountByIdOperationCompleted, userState);
+                        id}, this.GetReminderAccountPropertiesCountOperationCompleted, userState);
         }
         
-        private void OnGetReminderAccountPropertiesCountByIdOperationCompleted(object arg) {
-            if ((this.GetReminderAccountPropertiesCountByIdCompleted != null)) {
+        private void OnGetReminderAccountPropertiesCountOperationCompleted(object arg) {
+            if ((this.GetReminderAccountPropertiesCountCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetReminderAccountPropertiesCountByIdCompleted(this, new GetReminderAccountPropertiesCountByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+                this.GetReminderAccountPropertiesCountCompleted(this, new GetReminderAccountPropertiesCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetReminderAccountPropertiesById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public TransitReminderAccountProperty[] GetReminderAccountPropertiesById(string ticket, int id, ServiceQueryOptions options) {
-            object[] results = this.Invoke("GetReminderAccountPropertiesById", new object[] {
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetReminderAccountProperties", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitReminderAccountProperty[] GetReminderAccountProperties(string ticket, int id, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetReminderAccountProperties", new object[] {
                         ticket,
                         id,
                         options});
@@ -1724,25 +1724,25 @@ namespace SnCore.Web.Soap.Tests.WebObjectService {
         }
         
         /// <remarks/>
-        public void GetReminderAccountPropertiesByIdAsync(string ticket, int id, ServiceQueryOptions options) {
-            this.GetReminderAccountPropertiesByIdAsync(ticket, id, options, null);
+        public void GetReminderAccountPropertiesAsync(string ticket, int id, ServiceQueryOptions options) {
+            this.GetReminderAccountPropertiesAsync(ticket, id, options, null);
         }
         
         /// <remarks/>
-        public void GetReminderAccountPropertiesByIdAsync(string ticket, int id, ServiceQueryOptions options, object userState) {
-            if ((this.GetReminderAccountPropertiesByIdOperationCompleted == null)) {
-                this.GetReminderAccountPropertiesByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetReminderAccountPropertiesByIdOperationCompleted);
+        public void GetReminderAccountPropertiesAsync(string ticket, int id, ServiceQueryOptions options, object userState) {
+            if ((this.GetReminderAccountPropertiesOperationCompleted == null)) {
+                this.GetReminderAccountPropertiesOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetReminderAccountPropertiesOperationCompleted);
             }
-            this.InvokeAsync("GetReminderAccountPropertiesById", new object[] {
+            this.InvokeAsync("GetReminderAccountProperties", new object[] {
                         ticket,
                         id,
-                        options}, this.GetReminderAccountPropertiesByIdOperationCompleted, userState);
+                        options}, this.GetReminderAccountPropertiesOperationCompleted, userState);
         }
         
-        private void OnGetReminderAccountPropertiesByIdOperationCompleted(object arg) {
-            if ((this.GetReminderAccountPropertiesByIdCompleted != null)) {
+        private void OnGetReminderAccountPropertiesOperationCompleted(object arg) {
+            if ((this.GetReminderAccountPropertiesCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetReminderAccountPropertiesByIdCompleted(this, new GetReminderAccountPropertiesByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+                this.GetReminderAccountPropertiesCompleted(this, new GetReminderAccountPropertiesCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -3019,6 +3019,10 @@ namespace SnCore.Web.Soap.Tests.WebObjectService {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
     public partial class TransitBookmark : TransitServiceOfBookmark {
         
+        private byte[] fullBitmapField;
+        
+        private byte[] linkBitmapField;
+        
         private string nameField;
         
         private string descriptionField;
@@ -3028,6 +3032,28 @@ namespace SnCore.Web.Soap.Tests.WebObjectService {
         private System.DateTime createdField;
         
         private System.DateTime modifiedField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
+        public byte[] FullBitmap {
+            get {
+                return this.fullBitmapField;
+            }
+            set {
+                this.fullBitmapField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
+        public byte[] LinkBitmap {
+            get {
+                return this.linkBitmapField;
+            }
+            set {
+                this.linkBitmapField = value;
+            }
+        }
         
         /// <remarks/>
         public string Name {
@@ -3505,6 +3531,10 @@ namespace SnCore.Web.Soap.Tests.WebObjectService {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
     public partial class TransitPicture : TransitServiceOfPicture {
         
+        private byte[] bitmapField;
+        
+        private byte[] thumbnailField;
+        
         private string nameField;
         
         private string descriptionField;
@@ -3514,6 +3544,28 @@ namespace SnCore.Web.Soap.Tests.WebObjectService {
         private System.DateTime modifiedField;
         
         private string typeField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
+        public byte[] Bitmap {
+            get {
+                return this.bitmapField;
+            }
+            set {
+                this.bitmapField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
+        public byte[] Thumbnail {
+            get {
+                return this.thumbnailField;
+            }
+            set {
+                this.thumbnailField = value;
+            }
+        }
         
         /// <remarks/>
         public string Name {
@@ -4726,17 +4778,17 @@ namespace SnCore.Web.Soap.Tests.WebObjectService {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    public delegate void GetReminderAccountPropertiesCountByIdCompletedEventHandler(object sender, GetReminderAccountPropertiesCountByIdCompletedEventArgs e);
+    public delegate void GetReminderAccountPropertiesCountCompletedEventHandler(object sender, GetReminderAccountPropertiesCountCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetReminderAccountPropertiesCountByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    public partial class GetReminderAccountPropertiesCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
         
-        internal GetReminderAccountPropertiesCountByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+        internal GetReminderAccountPropertiesCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
@@ -4752,17 +4804,17 @@ namespace SnCore.Web.Soap.Tests.WebObjectService {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    public delegate void GetReminderAccountPropertiesByIdCompletedEventHandler(object sender, GetReminderAccountPropertiesByIdCompletedEventArgs e);
+    public delegate void GetReminderAccountPropertiesCompletedEventHandler(object sender, GetReminderAccountPropertiesCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetReminderAccountPropertiesByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    public partial class GetReminderAccountPropertiesCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
         
-        internal GetReminderAccountPropertiesByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+        internal GetReminderAccountPropertiesCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

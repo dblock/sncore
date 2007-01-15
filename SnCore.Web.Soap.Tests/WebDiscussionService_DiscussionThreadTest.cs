@@ -16,15 +16,35 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
     public class DiscusisonThreadTest : WebServiceBaseTest<WebDiscussionServiceNoCache>
     {
         [Test]
-        protected void GetDiscussionThreadsTest()
+        public void GetDiscussionThreadsTest()
         {
-
+            int count = EndPoint.GetDiscussionThreadsCount(GetAdminTicket());
+            Console.WriteLine("Count: {0}", count);
+            WebDiscussionService.TransitDiscussionPost[] posts = EndPoint.GetDiscussionThreads(GetAdminTicket(), null);
+            Console.WriteLine("Length: {0}", posts.Length);
+            Assert.AreEqual(posts.Length, count);
+            for (int i = 0; i < posts.Length - 1; i++)
+            {
+                for (int j = i + 1; j < posts.Length; j++)
+                {
+                    Assert.AreNotEqual(posts[i].DiscussionThreadId, posts[j].DiscussionThreadId);
+                    Assert.AreNotEqual(posts[i].Id, posts[j].Id);
+                }
+            }
         }
 
         [Test]
-        protected void GetDiscussionTopOfThreadsTest()
+        public void GetDiscussionTopOfThreadsTest()
         {
-
+            int count = EndPoint.GetDiscussionTopOfThreadsCount(GetAdminTicket());
+            Console.WriteLine("Count: {0}", count);
+            WebDiscussionService.TransitDiscussionPost[] posts = EndPoint.GetDiscussionTopOfThreads(GetAdminTicket(), null);
+            Console.WriteLine("Length: {0}", posts.Length);
+            Assert.AreEqual(posts.Length, count);
+            foreach (WebDiscussionService.TransitDiscussionPost post in posts)
+            {
+                Assert.AreEqual(post.DiscussionPostParentId, 0);
+            }
         }
 
         [Test]
@@ -40,9 +60,15 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
         }
 
         [Test]
-        protected void GetUserDiscussionThreadsTest()
+        public void GetUserDiscussionThreadsTest()
         {
-
+            WebDiscussionService.DiscussionQueryOptions qopt = new WebDiscussionService.DiscussionQueryOptions();
+            qopt.AccountId = GetAdminAccount().Id;
+            int count = EndPoint.GetUserDiscussionThreadsCount(GetAdminTicket(), qopt);
+            Console.WriteLine("Count: {0}", count);
+            WebDiscussionService.TransitDiscussionPost[] posts = EndPoint.GetUserDiscussionThreads(GetAdminTicket(), qopt, null);
+            Console.WriteLine("Length: {0}", posts.Length);
+            Assert.AreEqual(posts.Length, count);
         }
 
         [Test]

@@ -16,15 +16,16 @@ public partial class SystemPictureView : AuthenticatedPage
 {
     public void Page_Load()
     {
-            if (!IsPostBack)
-            {
-                TransitPicture p = SessionManager.SystemService.GetPictureById(RequestId);
-                inputPicture.Src = string.Format("SystemPicture.aspx?id={0}", RequestId);
-                inputName.Text = Renderer.Render(p.Name);
-                inputDescription.Text = Renderer.Render(p.Description);
-                inputCreated.Text = Adjust(p.Created).ToString();
-                inputType.Text = Renderer.Render(p.Type);
-            }
+        if (!IsPostBack)
+        {
+            TransitPicture p = SessionManager.ObjectService.GetPictureById(
+                SessionManager.Ticket, RequestId);
+            inputPicture.Src = string.Format("SystemPicture.aspx?id={0}", RequestId);
+            inputName.Text = Renderer.Render(p.Name);
+            inputDescription.Text = Renderer.Render(p.Description);
+            inputCreated.Text = Adjust(p.Created).ToString();
+            inputType.Text = Renderer.Render(p.Type);
+        }
 
     }
 }

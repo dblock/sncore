@@ -30,7 +30,8 @@ public partial class AccountLicenseEdit : AuthenticatedPage
             string license_name = Request.QueryString["license_name"];
             string license_button = Request.QueryString["license_button"];
 
-            TransitAccountLicense tal = SessionManager.LicenseService.GetAccountLicense(SessionManager.Ticket);
+            TransitAccountLicense tal = SessionManager.LicenseService.GetAccountLicenseByAccountId(
+                SessionManager.Ticket, SessionManager.AccountId);
 
             linkChooseLicense.Text = (tal == null) ? "&#187; Choose a License" : "&#187; Choose a New License";
 
@@ -84,7 +85,8 @@ public partial class AccountLicenseEdit : AuthenticatedPage
 
     public void linkDeleteLicense_Click(object sender, EventArgs e)
     {
-        TransitAccountLicense tal = SessionManager.LicenseService.GetAccountLicense(SessionManager.Ticket);
+        TransitAccountLicense tal = SessionManager.LicenseService.GetAccountLicenseByAccountId(
+            SessionManager.Ticket, SessionManager.AccountId);
         if (tal != null) SessionManager.LicenseService.DeleteAccountLicense(SessionManager.Ticket, tal.Id);
         Redirect("AccountLicenseEdit.aspx");
     }

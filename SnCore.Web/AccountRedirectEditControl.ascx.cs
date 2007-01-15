@@ -43,7 +43,7 @@ public partial class AccountRedirectEditControl : Control
         if (!IsPostBack)
         {
             TransitAccountRedirect redirect = SessionManager.AccountService.GetAccountRedirectByTargetUri(
-                SessionManager.Ticket, TargetUri);
+                SessionManager.Ticket, SessionManager.AccountId, TargetUri);
 
             if (redirect != null)
             {
@@ -72,7 +72,8 @@ public partial class AccountRedirectEditControl : Control
         }
         else
         {
-            RedirectId = redirect.Id = SessionManager.AccountService.AddAccountRedirect(SessionManager.Ticket, redirect);
+            RedirectId = redirect.Id = SessionManager.AccountService.CreateOrUpdateAccountRedirect(
+                SessionManager.Ticket, redirect);
             ReportInfo("Redirect updated, it may take a few seconds to activate.");
         }
 

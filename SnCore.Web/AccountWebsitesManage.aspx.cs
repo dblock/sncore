@@ -32,7 +32,8 @@ public partial class AccountWebsitesManage : AuthenticatedPage
     public void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.AccountService.GetAccountWebsitesCount(SessionManager.Ticket);
+        gridManage.VirtualItemCount = SessionManager.AccountService.GetAccountWebsitesCount(
+            SessionManager.Ticket, SessionManager.AccountId);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
@@ -47,7 +48,8 @@ public partial class AccountWebsitesManage : AuthenticatedPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageSize = gridManage.PageSize;
         options.PageNumber = gridManage.CurrentPageIndex;
-        gridManage.DataSource = SessionManager.AccountService.GetAccountWebsites(SessionManager.Ticket, options);
+        gridManage.DataSource = SessionManager.AccountService.GetAccountWebsites(
+            SessionManager.Ticket, SessionManager.AccountId, options);
     }
 
     public void gridManage_ItemCommand(object sender, DataGridCommandEventArgs e)

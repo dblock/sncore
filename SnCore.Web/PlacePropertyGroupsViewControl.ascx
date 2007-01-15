@@ -20,11 +20,14 @@
       <asp:TemplateColumn>
        <ItemTemplate>
         <div class="sncore_h3">
-         <%# Render(Eval("PlaceProperty.Name")) %>
+         <%# Render(Eval("PlacePropertyName")) %>
         </div>
         <div class="sncore_h2sub">
-         <%# base.RenderValue((Type)Eval("PlaceProperty.Type"), (string) Eval("PlaceProperty.PlacePropertyGroupName"), 
-          (string) Eval("PlaceProperty.Name"), (string) Eval("Value")) %>
+         <%# base.RenderValue(
+          (string) Eval("PlacePropertyTypeName"), 
+          (string) Eval("PlacePropertyGroupName"), 
+          (string) Eval("PlacePropertyName"), 
+          (string) Eval("Value")) %>
         </div>
        </ItemTemplate>
       </asp:TemplateColumn>

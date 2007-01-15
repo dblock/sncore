@@ -82,7 +82,7 @@ public abstract class SearchControl : Control
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = Grid.CurrentPageIndex;
         options.PageSize = Grid.PageSize;
-        object[] args = { SearchQuery, options };
+        object[] args = { SessionManager.Ticket, SearchQuery, options };
         return args;
     }
 

@@ -60,54 +60,55 @@ public partial class SelectPlaceControl : Control
 
     protected void Page_Load(object sender, EventArgs e)
     {
-            PageManager.SetDefaultButton(buttonLookup, panelLookup.Controls);
+        PageManager.SetDefaultButton(buttonLookup, panelLookup.Controls);
 
-            if (!IsPostBack)
+        if (!IsPostBack)
+        {
+            ArrayList types = new ArrayList();
+            types.Add(new TransitAccountPlaceType());
+            object[] args = { SessionManager.Ticket, null };
+            types.AddRange(SessionManager.GetCachedCollection<TransitPlaceType>(
+                SessionManager.PlaceService, "GetPlaceTypes", args));
+            selectType.DataSource = types;
+            selectType.DataBind();
+
+            ArrayList countries = new ArrayList();
+            countries.Add(new TransitCountry());
+            object[] c_args = { SessionManager.Ticket, null };
+            countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(
+                SessionManager.LocationService, "GetCountries", c_args));
+
+            ArrayList states = new ArrayList();
+            states.Add(new TransitState());
+
+            inputCountry.DataSource = countries;
+            inputCountry.DataBind();
+
+            inputState.DataSource = states;
+            inputState.DataBind();
+
+            SelectLocation(sender, new SelectLocationEventArgs(SessionManager.Account));
+
+            if (Place.Id != 0)
             {
-                ArrayList types = new ArrayList();
-                types.Add(new TransitAccountPlaceType());
-                types.AddRange(SessionManager.GetCachedCollection<TransitPlaceType>(
-                    SessionManager.PlaceService, "GetPlaceTypes", null));
-                selectType.DataSource = types;
-                selectType.DataBind();
-
-                ArrayList countries = new ArrayList();
-                countries.Add(new TransitCountry());
-                object[] c_args = { null };
-                countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(
-                    SessionManager.LocationService, "GetCountries", c_args));
-
-                ArrayList states = new ArrayList();
-                states.Add(new TransitState());
-
-                inputCountry.DataSource = countries;
-                inputCountry.DataBind();
-
-                inputState.DataSource = states;
-                inputState.DataBind();
-
-                SelectLocation(sender, new SelectLocationEventArgs(SessionManager.Account));
-
-                if (Place.Id != 0)
-                {
-                    ArrayList a = new ArrayList();
-                    a.Add(Place);
-                    chosenPlace.DataSource = a;
-                    chosenPlace.DataBind();
-                    panelAdd.Visible = false;
-                    panelLookup.Visible = false;
-                    lookupPlace.Enabled = true;
-                    addPlace.Enabled = true;
-                    IsChosen = true;
-                }
+                ArrayList a = new ArrayList();
+                a.Add(Place);
+                chosenPlace.DataSource = a;
+                chosenPlace.DataBind();
+                panelAdd.Visible = false;
+                panelLookup.Visible = false;
+                lookupPlace.Enabled = true;
+                addPlace.Enabled = true;
+                IsChosen = true;
             }
+        }
 
-            UpdateEvents();
+        UpdateEvents();
     }
 
     public void SavePlace(object sender, EventArgs e)
     {
-        if (! IsEditing)
+        if (!IsEditing)
             return;
 
         Place = new TransitPlace();
@@ -199,57 +200,57 @@ public partial class SelectPlaceControl : Control
 
     public void lookupChoose_Command(object sender, CommandEventArgs e)
     {
-            object[] args = { SessionManager.Ticket, int.Parse(e.CommandArgument.ToString()) };
-            Place = SessionManager.GetCachedItem<TransitPlace>(
-                SessionManager.PlaceService, "GetPlaceById", args);
-            ArrayList list = new ArrayList();
-            list.Add(Place);
-            chosenPlace.DataSource = list;
-            chosenPlace.DataBind();
-            panelLookup.Visible = false;
-            lookupPlace.Enabled = true;
-            addPlace.Enabled = true;
-            IsChosen = true;
-            panelSelectPlace.Update();
+        object[] args = { SessionManager.Ticket, int.Parse(e.CommandArgument.ToString()) };
+        Place = SessionManager.GetCachedItem<TransitPlace>(
+            SessionManager.PlaceService, "GetPlaceById", args);
+        ArrayList list = new ArrayList();
+        list.Add(Place);
+        chosenPlace.DataSource = list;
+        chosenPlace.DataBind();
+        panelLookup.Visible = false;
+        lookupPlace.Enabled = true;
+        addPlace.Enabled = true;
+        IsChosen = true;
+        panelSelectPlace.Update();
     }
 
     public void buttonLookup_Click(object sender, EventArgs e)
     {
-            if (string.IsNullOrEmpty(inputLookupName.Text))
-            {
-                labelLookup.Text = "Please enter a name.";
-                return;
-            }
+        if (string.IsNullOrEmpty(inputLookupName.Text))
+        {
+            labelLookup.Text = "Please enter a name.";
+            return;
+        }
 
-            object[] args = { inputLookupName.Text, null };
-            List<TransitPlace> list = SessionManager.GetCachedCollection<TransitPlace>(
-                SessionManager.PlaceService, "SearchPlaces", args);
+        object[] args = { SessionManager.Ticket, inputLookupName.Text, null };
+        List<TransitPlace> list = SessionManager.GetCachedCollection<TransitPlace>(
+            SessionManager.PlaceService, "SearchPlaces", args);
 
-            gridLookupPlaces.DataSource = list;
-            gridLookupPlaces.DataBind();
+        gridLookupPlaces.DataSource = list;
+        gridLookupPlaces.DataBind();
 
-            if (list.Count == 0)
-            {
-                labelLookup.Text = string.Format("Cannot find any place matching '{0}'.",
-                    base.Render(inputLookupName.Text));
-            }
-            else if (list.Count == 1)
-            {
-                CommandEventArgs ca = new CommandEventArgs("Choose", list[0].Id);
-                lookupChoose_Command(sender, ca);
-            }
+        if (list.Count == 0)
+        {
+            labelLookup.Text = string.Format("Cannot find any place matching '{0}'.",
+                base.Render(inputLookupName.Text));
+        }
+        else if (list.Count == 1)
+        {
+            CommandEventArgs ca = new CommandEventArgs("Choose", list[0].Id);
+            lookupChoose_Command(sender, ca);
+        }
 
-            panelSelectPlace.Update();
+        panelSelectPlace.Update();
     }
 
     public void inputCountry_SelectedIndexChanged(object sender, EventArgs e)
     {
-            object[] args = { inputCountry.SelectedValue };
-            inputState.DataSource = SessionManager.GetCachedCollection<TransitState>(
-                SessionManager.LocationService, "GetStatesByCountry", args);
-            inputState.DataBind();
+        object[] args = { SessionManager.Ticket, inputCountry.SelectedValue, null };
+        inputState.DataSource = SessionManager.GetCachedCollection<TransitState>(
+            SessionManager.LocationService, "GetStatesByCountryName", args);
+        inputState.DataBind();
 
-            panelSelectCountryState.Update();
+        panelSelectCountryState.Update();
     }
 
     public void SelectLocation(object sender, SelectLocationEventArgs e)

@@ -628,7 +628,7 @@ namespace SnCore.Services
 
             ManagedAccountEmail m_instance = new ManagedAccountEmail(Session);
             m_instance.CreateOrUpdate(t_email, sec);
-            m_instance.Confirm();
+            m_instance.Confirm(sec);
 
             CreateAccountSystemMessageFolders(sec);
 
@@ -994,6 +994,24 @@ namespace SnCore.Services
 
         #region MessageFolder
 
+        public AccountMessageFolder FindSystemFolder(string name)
+        {
+            try
+            {
+                ICriteria c = Session.CreateCriteria(typeof(AccountMessageFolder))
+                    .Add(Expression.Eq("Account.Id", Id))
+                    .Add(Expression.Eq("Name", name))
+                    .Add(Expression.Eq("System", true))
+                    .Add(Expression.IsNull("AccountMessageFolderParent"));
+
+                return c.UniqueResult<AccountMessageFolder>();
+            }
+            catch (ObjectNotFoundException)
+            {
+                return null;
+            }
+        }
+
         public void CreateAccountSystemMessageFolders(ManagedSecurityContext sec)
         {
             string[] SystemFolders = 
@@ -1005,20 +1023,18 @@ namespace SnCore.Services
 
             foreach (string folder in SystemFolders)
             {
-                try
-                {
-                    TransitAccountMessageFolder tf = new TransitAccountMessageFolder();
-                    tf.Name = folder;
-                    tf.System = true;
-                    tf.AccountId = Id;
+                AccountMessageFolder instance = FindSystemFolder(folder);
 
-                    ManagedAccountMessageFolder m_folder = new ManagedAccountMessageFolder(Session);
-                    m_folder.CreateOrUpdate(tf, sec);
-                }
-                catch
-                {
-                    // ignore unique key constraint
-                }
+                if (instance != null)
+                    continue;
+
+                TransitAccountMessageFolder tf = new TransitAccountMessageFolder();
+                tf.Name = folder;
+                tf.System = true;
+                tf.AccountId = Id;
+
+                ManagedAccountMessageFolder m_folder = new ManagedAccountMessageFolder(Session);
+                m_folder.CreateOrUpdate(tf, sec);
             }
         }
 

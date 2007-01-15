@@ -28,7 +28,7 @@ public partial class PlaceView : Page
             {
                 if (mPlaceAccount == null && RequestId > 0 && Place != null)
                 {
-                    object[] args = { Place.AccountId };
+                    object[] args = { SessionManager.Ticket, Place.AccountId };
                     mPlaceAccount = SessionManager.GetCachedItem<TransitAccount>(
                         SessionManager.AccountService, "GetAccountById", args);
                 }
@@ -247,9 +247,9 @@ public partial class PlaceView : Page
 
                 GetPicturesData(sender, e);
 
-                object[] args = { RequestId };
-                discussionPlaces.DiscussionId = SessionManager.GetCachedCollectionCount(
-                    SessionManager.DiscussionService, "GetPlaceDiscussionId", args);
+                object[] args = { SessionManager.Ticket, RequestId };
+                discussionPlaces.DiscussionId = SessionManager.GetCachedCollectionCount<TransitDiscussion>(
+                    SessionManager.DiscussionService, "GetOrCreatePlaceDiscussionId", args);
                 discussionPlaces.DataBind();
 
                 madlibs.ObjectId = RequestId;
@@ -269,7 +269,8 @@ public partial class PlaceView : Page
             else
             {
                 placeName.Text = Renderer.Render(Request.QueryString["name"]);
-                TransitCity city = SessionManager.LocationService.GetCityByTag(Request.QueryString["city"]);
+                TransitCity city = SessionManager.LocationService.GetCityByTag(
+                    SessionManager.Ticket, Request.QueryString["city"]);
                 if (city != null)
                 {
                     placeCity.Text = Renderer.Render(city.Name);
@@ -291,10 +292,10 @@ public partial class PlaceView : Page
 
     void GetPicturesData(object sender, EventArgs e)
     {
-        object[] p_args = { RequestId };
+        object[] p_args = { SessionManager.Ticket, RequestId };
         picturesView.CurrentPageIndex = 0;
-        picturesView.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            SessionManager.PlaceService, "GetPlacePicturesCountById", p_args);
+        picturesView.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitPlacePicture>(
+            SessionManager.PlaceService, "GetPlacePicturesCount", p_args);
         picturesView_OnGetDataSource(sender, e);
         picturesView.DataBind();
         placeNoPicture.Visible = (picturesView.Items.Count == 0);
@@ -303,17 +304,9 @@ public partial class PlaceView : Page
     void picturesView_OnGetDataSource(object sender, EventArgs e)
     {
         ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
-        object[] args = { RequestId, options };
+        object[] args = { SessionManager.Ticket, RequestId, options };
         picturesView.DataSource = SessionManager.GetCachedCollection<TransitPlacePicture>(
-            SessionManager.PlaceService, "GetPlacePicturesById", args);
-    }
-
-    public string GoogleMapsKey
-    {
-        get
-        {
-            return SessionManager.SystemService.GetConfigurationByName("Google.Maps.Key").Value;
-        }
+            SessionManager.PlaceService, "GetPlacePictures", args);
     }
 
     public void linkAddToQueue_Click(object sender, EventArgs e)
@@ -323,7 +316,8 @@ public partial class PlaceView : Page
             RedirectToLogin();
         }
 
-        TransitPlaceQueue tpq = SessionManager.PlaceService.GetOrCreatePlaceQueueByName(SessionManager.Ticket, "My Queue");
+        TransitPlaceQueue tpq = SessionManager.PlaceService.GetOrCreatePlaceQueueByName(
+            SessionManager.Ticket, SessionManager.AccountId, "My Queue");
         TransitPlaceQueueItem tpqi = new TransitPlaceQueueItem();
         tpqi.PlaceQueueId = tpq.Id;
         tpqi.PlaceId = RequestId;
@@ -339,7 +333,8 @@ public partial class PlaceView : Page
             RedirectToLogin();
         }
 
-        if (SessionManager.PlaceService.IsAccountPlaceFavorite(SessionManager.Ticket, RequestId))
+        if (SessionManager.PlaceService.IsAccountPlaceFavorite(
+            SessionManager.Ticket, SessionManager.AccountId, RequestId))
         {
             throw new Exception("This place is already your favorite.");
         }
@@ -372,7 +367,7 @@ public partial class PlaceView : Page
         TransitFeature t_feature = new TransitFeature();
         t_feature.DataObjectName = "Place";
         t_feature.DataRowId = RequestId;
-        SessionManager.SystemService.CreateOrUpdateFeature(SessionManager.Ticket, t_feature);
+        SessionManager.ObjectService.CreateOrUpdateFeature(SessionManager.Ticket, t_feature);
         Redirect(Request.Url.PathAndQuery);
     }
 
@@ -387,7 +382,7 @@ public partial class PlaceView : Page
         TransitFeature t_feature = new TransitFeature();
         t_feature.DataObjectName = "Place";
         t_feature.DataRowId = RequestId;
-        SessionManager.SystemService.DeleteAllFeatures(SessionManager.Ticket, t_feature);
+        SessionManager.ObjectService.DeleteAllFeatures(SessionManager.Ticket, t_feature);
         Redirect(Request.Url.PathAndQuery);
     }
 
@@ -397,8 +392,8 @@ public partial class PlaceView : Page
         {
             if (mPlaceFeature == null)
             {
-                mPlaceFeature = SessionManager.SystemService.FindLatestFeature(
-                    "Place", RequestId);
+                mPlaceFeature = SessionManager.ObjectService.FindLatestFeature(
+                    SessionManager.Ticket, "Place", RequestId);
             }
             return mPlaceFeature;
         }

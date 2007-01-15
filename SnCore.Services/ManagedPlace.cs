@@ -92,13 +92,13 @@ namespace SnCore.Services
             if (!string.IsNullOrEmpty(Country))
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.AppendFormat("Place.City.Country.Id = '{0}'", Renderer.SqlEncode(Country));
+                b.AppendFormat("Place.City.Country.Name = '{0}'", Renderer.SqlEncode(Country));
             }
 
             if (!string.IsNullOrEmpty(State))
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.AppendFormat("Place.City.State.Id = '{0}'", Renderer.SqlEncode(State));
+                b.AppendFormat("Place.City.State.Name = '{0}'", Renderer.SqlEncode(State));
             }
 
             if (!string.IsNullOrEmpty(Name))

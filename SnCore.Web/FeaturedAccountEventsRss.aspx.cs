@@ -33,7 +33,7 @@ public partial class FeaturedAccountEventsRss : Page
             queryoptions.PageNumber = 0;
             queryoptions.PageSize = 25;
 
-            object[] args = { "AccountEvent", queryoptions };
+            object[] args = { SessionManager.Ticket, "AccountEvent", queryoptions };
             rssRepeater.DataSource = SessionManager.GetCachedCollection<TransitFeature>(
                 SessionManager.SystemService, "GetFeatures", args);
 

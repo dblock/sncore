@@ -38,8 +38,8 @@ public partial class AccountBlogsViewControl : Control
 
     void accountBlogs_OnGetDataSource(object sender, EventArgs e)
     {
-        object[] args = { AccountId };
+        object[] args = { SessionManager.Ticket, AccountId, null };
         accountBlogs.DataSource = SessionManager.GetCachedCollection<TransitAccountBlog>(
-            SessionManager.BlogService, "GetAccountBlogsById", args);
+            SessionManager.BlogService, "GetAccountBlogs", args);
     }
 }

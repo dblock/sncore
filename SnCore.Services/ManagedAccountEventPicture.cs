@@ -163,12 +163,6 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountEventPicture(AccountEventPicture p)
-            : base(p, p.AccountEvent.AccountEventPictures)
-        {
-
-        }
-
         public override void SetInstance(AccountEventPicture instance)
         {
             base.SetInstance(instance);
@@ -226,6 +220,7 @@ namespace SnCore.Services
         public override TransitAccountEventPicture GetTransitInstance(ManagedSecurityContext sec)
         {
             TransitAccountEventPicture t_instance = base.GetTransitInstance(sec);
+            t_instance.SetWithinCollection(mInstance, mInstance.AccountEvent.AccountEventPictures);
             t_instance.CommentCount = ManagedDiscussion.GetDiscussionPostCount(
                 Session, mInstance.AccountEvent.Account.Id,
                 ManagedDiscussion.AccountEventPictureDiscussion, mInstance.Id);

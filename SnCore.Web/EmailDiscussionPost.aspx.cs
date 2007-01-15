@@ -51,7 +51,7 @@ public partial class EmailDiscussionPost : AuthenticatedPage
             if (mDiscussion == null)
             {
                 mDiscussion = SessionManager.DiscussionService.GetDiscussionById(
-                    DiscussionPost.DiscussionId);
+                    SessionManager.Ticket, DiscussionPost.DiscussionId);
             }
 
             return mDiscussion;
@@ -66,8 +66,8 @@ public partial class EmailDiscussionPost : AuthenticatedPage
         {
             if (mRecepient == null)
             {
-                mRecepient = SessionManager.AccountService.GetAccountById((DiscussionPostParent != null) ?
-                    DiscussionPostParent.AccountId : Discussion.AccountId);
+                mRecepient = SessionManager.AccountService.GetAccountById(SessionManager.Ticket, 
+                    (DiscussionPostParent != null) ? DiscussionPostParent.AccountId : Discussion.AccountId);
             }
 
             return mRecepient;

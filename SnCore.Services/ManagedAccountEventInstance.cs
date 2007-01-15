@@ -10,7 +10,7 @@ namespace SnCore.Services
 {
     public class TransitAccountEventInstanceQueryOptions
     {
-        public string SortOrder = "StartDateTime";
+        public string SortOrder = "ScheduleInstance.StartDateTime";
         public bool SortAscending = true;
         public string Country;
         public string State;
@@ -68,13 +68,13 @@ namespace SnCore.Services
             if (StartDateTime != DateTime.MinValue)
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.AppendFormat("si.StartDateTime < '{0}'", EndDateTime);
+                b.AppendFormat("ScheduleInstance.StartDateTime < '{0}'", EndDateTime);
             }
 
             if (EndDateTime != DateTime.MaxValue)
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.AppendFormat("si.EndDateTime > '{0}'", StartDateTime);
+                b.AppendFormat("ScheduleInstance.EndDateTime > '{0}'", StartDateTime);
             }
 
             // exclude non-published events
@@ -86,7 +86,7 @@ namespace SnCore.Services
             // join on Schedule and ScheduleInstance
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.AppendFormat("AccountEvent.Schedule.Id = si.Schedule.Id");
+                b.AppendFormat("AccountEvent.Schedule.Id = ScheduleInstance.Schedule.Id");
             }
 
             return b.ToString();
@@ -94,13 +94,13 @@ namespace SnCore.Services
 
         public string CreateCountQuery()
         {
-            return ", ScheduleInstance si " + CreateSubQuery();
+            return ", AccountEvent AccountEvent" + CreateSubQuery();
         }
 
         public string CreateQuery()
         {
             StringBuilder b = new StringBuilder();
-            b.Append("SELECT si FROM AccountEvent AccountEvent, ScheduleInstance si ");
+            b.Append("SELECT ScheduleInstance FROM AccountEvent AccountEvent, ScheduleInstance ScheduleInstance ");
             b.Append(CreateSubQuery());
             if (!string.IsNullOrEmpty(SortOrder))
             {

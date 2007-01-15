@@ -39,12 +39,14 @@ public partial class AccountBlogsManage : AuthenticatedPage
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        gridManage.DataSource = SessionManager.BlogService.GetAccountBlogs(SessionManager.Ticket);
+        gridManage.DataSource = SessionManager.BlogService.GetAccountBlogs(
+            SessionManager.Ticket, SessionManager.AccountId, null);
     }
 
     void gridManageAuthor_OnGetDataSource(object sender, EventArgs e)
     {
-        gridManageAuthor.DataSource = SessionManager.BlogService.GetAccountBlogAuthored(SessionManager.Ticket);
+        gridManageAuthor.DataSource = SessionManager.BlogService.GetAuthoredAccountBlogs(
+            SessionManager.Ticket, SessionManager.AccountId, null);
     }
 
     public void gridManage_ItemCommand(object sender, DataGridCommandEventArgs e)

@@ -20,27 +20,29 @@ public partial class SystemRefererAccountsManage : AuthenticatedPage
 {
     public void Page_Load()
     {
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
-            if (!IsPostBack)
-            {
-                gridManage.VirtualItemCount = SessionManager.StatsService.GetRefererAccountsCount();
-                gridManage_OnGetDataSource(this, null);
-                gridManage.DataBind();
+        if (!IsPostBack)
+        {
+            gridManage.VirtualItemCount = SessionManager.StatsService.GetRefererAccountsCount(
+                SessionManager.Ticket);
+            gridManage_OnGetDataSource(this, null);
+            gridManage.DataBind();
 
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Referer Accounts", Request.Url));
-                StackSiteMap(sitemapdata);
-            }
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Referer Accounts", Request.Url));
+            StackSiteMap(sitemapdata);
+        }
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-            ServiceQueryOptions options = new ServiceQueryOptions();
-            options.PageNumber = gridManage.CurrentPageIndex;
-            options.PageSize = gridManage.PageSize;
-            gridManage.DataSource = SessionManager.StatsService.GetRefererAccounts(options);
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageNumber = gridManage.CurrentPageIndex;
+        options.PageSize = gridManage.PageSize;
+        gridManage.DataSource = SessionManager.StatsService.GetRefererAccounts(
+            SessionManager.Ticket, options);
     }
 
     private enum Cells
@@ -50,24 +52,24 @@ public partial class SystemRefererAccountsManage : AuthenticatedPage
 
     public void gridManage_ItemCommand(object source, DataGridCommandEventArgs e)
     {
-            switch (e.Item.ItemType)
-            {
-                case ListItemType.AlternatingItem:
-                case ListItemType.Item:
-                case ListItemType.SelectedItem:
-                case ListItemType.EditItem:
-                    int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                    switch (e.CommandName)
-                    {
-                        case "Delete":
-                            SessionManager.StatsService.DeleteRefererAccount(SessionManager.Ticket, id);
-                            ReportInfo("Referer account deleted.");
-                            gridManage.CurrentPageIndex = 0;
-                            gridManage_OnGetDataSource(source, e);
-                            gridManage.DataBind();
-                            break;
-                    }
-                    break;
-            }
+        switch (e.Item.ItemType)
+        {
+            case ListItemType.AlternatingItem:
+            case ListItemType.Item:
+            case ListItemType.SelectedItem:
+            case ListItemType.EditItem:
+                int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
+                switch (e.CommandName)
+                {
+                    case "Delete":
+                        SessionManager.StatsService.DeleteRefererAccount(SessionManager.Ticket, id);
+                        ReportInfo("Referer account deleted.");
+                        gridManage.CurrentPageIndex = 0;
+                        gridManage_OnGetDataSource(source, e);
+                        gridManage.DataBind();
+                        break;
+                }
+                break;
+        }
     }
 }

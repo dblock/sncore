@@ -24,7 +24,8 @@ public partial class AccountPropertyGroupEdit : AuthenticatedPage
 
             if (RequestId > 0)
             {
-                TransitAccountPropertyGroup tag = SessionManager.AccountService.GetAccountPropertyGroupById(RequestId);
+                TransitAccountPropertyGroup tag = SessionManager.AccountService.GetAccountPropertyGroupById(
+                    SessionManager.Ticket, RequestId);
                 labelName.Text = Render(tag.Name);
                 labelDescription.Text = Render(tag.Description);
                 sitemapdata.Add(new SiteMapDataAttributeNode(tag.Name, Request.Url));
@@ -37,7 +38,8 @@ public partial class AccountPropertyGroupEdit : AuthenticatedPage
 
             StackSiteMap(sitemapdata);
 
-            gridManage.DataSource = SessionManager.AccountService.GetAllAccountPropertyValues(SessionManager.Ticket, RequestId);
+            gridManage.DataSource = SessionManager.AccountService.GetAllAccountPropertyValues(
+                SessionManager.Ticket, SessionManager.AccountId, RequestId);
             gridManage.DataBind();
         }
 
@@ -56,13 +58,11 @@ public partial class AccountPropertyGroupEdit : AuthenticatedPage
                     int id = int.Parse(((HiddenField)item.FindControl("Id")).Value);
                     int property_id = int.Parse(((HiddenField)item.FindControl("propertyId")).Value);
 
-                    TransitAccountProperty prop = SessionManager.AccountService.GetAccountPropertyById(property_id);
-
                     TransitAccountPropertyValue value = new TransitAccountPropertyValue();
                     value.Id = id;
                     value.AccountId = SessionManager.Account.Id;
-                    value.AccountProperty = prop;
-                    switch (prop.Type.ToString())
+                    value.AccountPropertyId = property_id;
+                    switch (value.AccountPropertyTypeName)
                     {
                         case "System.Array":
                             value.Value = StringToArray(((TextBox)item.FindControl("array_value")).Text);

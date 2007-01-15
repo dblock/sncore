@@ -59,16 +59,17 @@ public partial class AccountEventsToday : Page
 
         if (!IsPostBack)
         {
+            object[] args = { SessionManager.Ticket, null };
             ArrayList types = new ArrayList();
             types.Add(new TransitAccountEventType());
             types.AddRange(SessionManager.GetCachedCollection<TransitAccountEventType>(
-                SessionManager.EventService, "GetAccountEventTypes", null));
+                SessionManager.EventService, "GetAccountEventTypes", args));
             inputType.DataSource = types;
             inputType.DataBind();
 
             ArrayList countries = new ArrayList();
             countries.Add(new TransitCountry());
-            object[] c_args = { null };
+            object[] c_args = { SessionManager.Ticket, null };
             countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(
                 SessionManager.LocationService, "GetCountries", c_args));
             inputCountry.DataSource = countries;
@@ -122,7 +123,7 @@ public partial class AccountEventsToday : Page
         mOptions = null;
         gridManage.CurrentPageIndex = 0;
         object[] args = { SessionManager.Ticket, QueryOptions };
-        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccountEventInstance>(
             SessionManager.EventService, "GetAccountEventInstancesCount", args);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
@@ -142,9 +143,9 @@ public partial class AccountEventsToday : Page
     {
         ArrayList states = new ArrayList();
         states.Add(new TransitState());
-        object[] args = { inputCountry.SelectedValue };
+        object[] args = { SessionManager.Ticket, inputCountry.SelectedValue, null };
         states.AddRange(SessionManager.GetCachedCollection<TransitState>(
-            SessionManager.LocationService, "GetStatesByCountry", args));
+            SessionManager.LocationService, "GetStatesByCountryName", args));
         inputState.DataSource = states;
         inputState.DataBind();
         inputState_SelectedIndexChanged(sender, e);
@@ -156,7 +157,7 @@ public partial class AccountEventsToday : Page
     {
         ArrayList cities = new ArrayList();
         cities.Add(new TransitCity());
-        object[] args = { inputCountry.SelectedValue, inputState.SelectedValue };
+        object[] args = { SessionManager.Ticket, inputCountry.SelectedValue, inputState.SelectedValue };
         cities.AddRange(SessionManager.GetCachedCollection<TransitCity>(
             SessionManager.LocationService, "GetCitiesByLocation", args));
         inputCity.DataSource = cities;
@@ -168,7 +169,7 @@ public partial class AccountEventsToday : Page
     {
         ArrayList neighborhoods = new ArrayList();
         neighborhoods.Add(new TransitNeighborhood());
-        object[] args = { inputCountry.SelectedValue, inputState.SelectedValue, inputCity.SelectedValue };
+        object[] args = { SessionManager.Ticket, inputCountry.SelectedValue, inputState.SelectedValue, inputCity.SelectedValue };
         neighborhoods.AddRange(SessionManager.GetCachedCollection<TransitNeighborhood>(
             SessionManager.LocationService, "GetNeighborhoodsByLocation", args));
         inputNeighborhood.DataSource = neighborhoods;

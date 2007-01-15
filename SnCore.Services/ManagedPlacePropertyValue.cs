@@ -73,6 +73,76 @@ namespace SnCore.Services
             }
         }
 
+        private string mPlacePropertyDescription;
+
+        public string PlacePropertyDescription
+        {
+            get
+            {
+                return mPlacePropertyDescription;
+            }
+            set
+            {
+                mPlacePropertyDescription = value;
+            }
+        }
+
+        private string mPlacePropertyName;
+
+        public string PlacePropertyName
+        {
+            get
+            {
+                return mPlacePropertyName;
+            }
+            set
+            {
+                mPlacePropertyName = value;
+            }
+        }
+
+        private string mPlacePropertyTypeName;
+
+        public string PlacePropertyTypeName
+        {
+            get
+            {
+                return mPlacePropertyTypeName;
+            }
+            set
+            {
+                mPlacePropertyTypeName = value;
+            }
+        }
+
+        private int mPlacePropertyGroupId;
+
+        public int PlacePropertyGroupId
+        {
+            get
+            {
+                return mPlacePropertyGroupId;
+            }
+            set
+            {
+                mPlacePropertyGroupId = value;
+            }
+        }
+
+        private string mPlacePropertyGroupName;
+
+        public string PlacePropertyGroupName
+        {
+            get
+            {
+                return mPlacePropertyGroupName;
+            }
+            set
+            {
+                mPlacePropertyGroupName = value;
+            }
+        }
+
         private string mValue;
 
         public string Value
@@ -129,7 +199,12 @@ namespace SnCore.Services
         public override void SetInstance(PlacePropertyValue instance)
         {
             if (instance.Place != null) PlaceId = instance.Place.Id;
-            if (instance.PlaceProperty != null) PlacePropertyId = instance.PlaceProperty.Id;
+            PlacePropertyId = instance.PlaceProperty.Id;
+            PlacePropertyGroupId = instance.PlaceProperty.PlacePropertyGroup.Id;
+            PlacePropertyGroupName = instance.PlaceProperty.PlacePropertyGroup.Name;
+            PlacePropertyTypeName = instance.PlaceProperty.TypeName;
+            PlacePropertyName = instance.PlaceProperty.Name;
+            PlacePropertyDescription = instance.PlaceProperty.Description;
             Created = instance.Created;
             Modified = instance.Modified;
             Value = instance.Value;
@@ -140,7 +215,7 @@ namespace SnCore.Services
         {
             PlacePropertyValue instance = base.GetInstance(session, sec);
             instance.Place = (this.PlaceId > 0) ? (Place)session.Load(typeof(Place), PlaceId) : null;
-            instance.PlaceProperty = (PlacePropertyId > 0) ? (PlaceProperty) session.Load(typeof(PlaceProperty), PlacePropertyId) : null;
+            instance.PlaceProperty = (PlacePropertyId > 0) ? (PlaceProperty)session.Load(typeof(PlaceProperty), PlacePropertyId) : null;
             instance.Value = this.Value;
             return instance;
         }

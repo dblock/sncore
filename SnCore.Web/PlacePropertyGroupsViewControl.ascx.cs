@@ -32,8 +32,9 @@ public partial class PlacePropertyGroupsViewControl : Control
     {
         if (!IsPostBack)
         {
+            object[] args = { SessionManager.Ticket, null };
             groups.DataSource = SessionManager.GetCachedCollection<TransitPlacePropertyGroup>(
-                SessionManager.PlaceService, "GetPlacePropertyGroups", null);
+                SessionManager.PlaceService, "GetPlacePropertyGroups", args);
             groups.DataBind();
         }
     }
@@ -49,9 +50,9 @@ public partial class PlacePropertyGroupsViewControl : Control
                 TransitPlacePropertyGroup group = (TransitPlacePropertyGroup)e.Item.DataItem;
                 if (group != null)
                 {
-                    object[] args = { PlaceId, group.Id };
+                    object[] args = { SessionManager.Ticket, PlaceId, group.Id, null };
                     List<TransitPlacePropertyValue> propertyvalues = SessionManager.GetCachedCollection<TransitPlacePropertyValue>(
-                        SessionManager.PlaceService, "GetPlacePropertyValuesById", args);
+                        SessionManager.PlaceService, "GetPlacePropertyValues", args);
                     values.DataSource = propertyvalues;
                     HtmlControl title = (HtmlControl)e.Item.FindControl("title");
                     title.Visible = (propertyvalues.Count > 0);
@@ -76,9 +77,9 @@ public partial class PlacePropertyGroupsViewControl : Control
         return sb.ToString();
     }
 
-    public string RenderValue(Type type, string groupname, string propname, string value)
+    public string RenderValue(string type, string groupname, string propname, string value)
     {
-        switch (type.ToString())
+        switch (type)
         {
             case "System.Array":
                 return RenderSystemArray(groupname, propname, value);

@@ -19,7 +19,8 @@ public partial class AccountPlaceFavoritesManage : AuthenticatedPage
 
         if (!IsPostBack)
         {
-            favoritesList.VirtualItemCount = SessionManager.PlaceService.GetAccountPlaceFavoritesCount(SessionManager.Ticket);
+            favoritesList.VirtualItemCount = SessionManager.PlaceService.GetAccountPlaceFavoritesCount(
+                SessionManager.Ticket, SessionManager.AccountId);
             favoritesList_OnGetDataSource(this, null);
             favoritesList.DataBind();
 
@@ -36,7 +37,8 @@ public partial class AccountPlaceFavoritesManage : AuthenticatedPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = favoritesList.CurrentPageIndex;
         options.PageSize = favoritesList.PageSize;
-        favoritesList.DataSource = SessionManager.PlaceService.GetAccountPlaceFavorites(SessionManager.Ticket, options);
+        favoritesList.DataSource = SessionManager.PlaceService.GetAccountPlaceFavorites(
+            SessionManager.Ticket, SessionManager.AccountId, options);
     }
 
     private enum Cells

@@ -30,7 +30,8 @@ public partial class SystemAccountPropertyEdit : AuthenticatedPage
         {
             if (mPropertyGroup == null)
             {
-                mPropertyGroup = SessionManager.AccountService.GetAccountPropertyGroupById(PropertyGroupId);
+                mPropertyGroup = SessionManager.AccountService.GetAccountPropertyGroupById(
+                    SessionManager.Ticket, PropertyGroupId);
             }
 
             return mPropertyGroup;
@@ -39,64 +40,65 @@ public partial class SystemAccountPropertyEdit : AuthenticatedPage
 
     public void Page_Load(object sender, EventArgs e)
     {
-            if (!IsPostBack)
+        if (!IsPostBack)
+        {
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Account Property Groups", Request, "SystemAccountPropertyGroupsManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode(PropertyGroup.Name, Request, string.Format("SystemAccountPropertyGroupEdit.aspx?id={0}", PropertyGroupId)));
+
+            linkBack.NavigateUrl = string.Format("SystemAccountPropertyGroupEdit.aspx?id={0}", PropertyGroupId);
+
+            inputTypeName.Items.Add(new ListItem("String", Type.GetType("System.String").ToString()));
+            inputTypeName.Items.Add(new ListItem("Array", Type.GetType("System.Array").ToString()));
+            inputTypeName.Items.Add(new ListItem("Text", Type.GetType("System.Text.StringBuilder").ToString()));
+            inputTypeName.Items.Add(new ListItem("Integer", Type.GetType("System.Int32").ToString()));
+            inputTypeName.Items.Add(new ListItem("Boolean", Type.GetType("System.Boolean").ToString()));
+            // inputTypeName.Items.Add(new ListItem(Type.GetType("System.DateTime").ToString()));
+
+            if (RequestId > 0)
             {
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Account Property Groups", Request, "SystemAccountPropertyGroupsManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode(PropertyGroup.Name, Request, string.Format("SystemAccountPropertyGroupEdit.aspx?id={0}", PropertyGroupId)));
+                TransitAccountProperty t = SessionManager.AccountService.GetAccountPropertyById(
+                    SessionManager.Ticket, RequestId);
+                inputName.Text = t.Name;
+                inputDescription.Text = t.Description;
+                inputDefaultValue.Text = t.DefaultValue;
+                inputPublish.Checked = t.Publish;
 
-                linkBack.NavigateUrl = string.Format("SystemAccountPropertyGroupEdit.aspx?id={0}", PropertyGroupId);
+                sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
 
-                inputTypeName.Items.Add(new ListItem("String", Type.GetType("System.String").ToString()));
-                inputTypeName.Items.Add(new ListItem("Array", Type.GetType("System.Array").ToString()));
-                inputTypeName.Items.Add(new ListItem("Text", Type.GetType("System.Text.StringBuilder").ToString()));
-                inputTypeName.Items.Add(new ListItem("Integer", Type.GetType("System.Int32").ToString()));
-                inputTypeName.Items.Add(new ListItem("Boolean", Type.GetType("System.Boolean").ToString()));
-                // inputTypeName.Items.Add(new ListItem(Type.GetType("System.DateTime").ToString()));
+                ListItem typeitem = inputTypeName.Items.FindByValue(t.Type.ToString());
 
-                if (RequestId > 0)
+                if (typeitem == null)
                 {
-                    TransitAccountProperty t = SessionManager.AccountService.GetAccountPropertyById(RequestId);
-                    inputName.Text = t.Name;
-                    inputDescription.Text = t.Description;
-                    inputDefaultValue.Text = t.DefaultValue;
-                    inputPublish.Checked = t.Publish;
-
-                    sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
-
-                    ListItem typeitem = inputTypeName.Items.FindByValue(t.Type.ToString());
-
-                    if (typeitem == null)
-                    {
-                        typeitem = new ListItem(t.Type.ToString());
-                        inputTypeName.Items.Add(typeitem);
-                    }
-
-                    typeitem.Selected = true;
-                }
-                else
-                {
-                    sitemapdata.Add(new SiteMapDataAttributeNode("New Property", Request.Url));
+                    typeitem = new ListItem(t.Type.ToString());
+                    inputTypeName.Items.Add(typeitem);
                 }
 
-                StackSiteMap(sitemapdata);
+                typeitem.Selected = true;
+            }
+            else
+            {
+                sitemapdata.Add(new SiteMapDataAttributeNode("New Property", Request.Url));
             }
 
-            SetDefaultButton(manageAdd);
+            StackSiteMap(sitemapdata);
+        }
+
+        SetDefaultButton(manageAdd);
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-            TransitAccountProperty t = new TransitAccountProperty();
-            t.Name = inputName.Text;
-            t.Type = Type.GetType(inputTypeName.SelectedValue);
-            t.Description = inputDescription.Text;
-            t.DefaultValue = inputDefaultValue.Text;
-            t.AccountPropertyGroupId = PropertyGroupId;
-            t.Publish = inputPublish.Checked;
-            t.Id = RequestId;
-            SessionManager.AccountService.CreateOrUpdateAccountProperty(SessionManager.Ticket, t);
-            Redirect(linkBack.NavigateUrl);
+        TransitAccountProperty t = new TransitAccountProperty();
+        t.Name = inputName.Text;
+        t.Type = inputTypeName.SelectedValue;
+        t.Description = inputDescription.Text;
+        t.DefaultValue = inputDefaultValue.Text;
+        t.AccountPropertyGroupId = PropertyGroupId;
+        t.Publish = inputPublish.Checked;
+        t.Id = RequestId;
+        SessionManager.AccountService.CreateOrUpdateAccountProperty(SessionManager.Ticket, t);
+        Redirect(linkBack.NavigateUrl);
     }
 }

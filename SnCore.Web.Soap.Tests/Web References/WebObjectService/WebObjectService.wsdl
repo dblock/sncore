@@ -465,6 +465,8 @@
         <s:complexContent mixed="false">
           <s:extension base="tns:TransitServiceOfPicture">
             <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Bitmap" type="s:base64Binary" />
+              <s:element minOccurs="0" maxOccurs="1" name="Thumbnail" type="s:base64Binary" />
               <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
               <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
@@ -795,7 +797,7 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetReminderAccountPropertiesCountById">
+      <s:element name="GetReminderAccountPropertiesCount">
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
@@ -803,14 +805,14 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetReminderAccountPropertiesCountByIdResponse">
+      <s:element name="GetReminderAccountPropertiesCountResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="GetReminderAccountPropertiesCountByIdResult" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="GetReminderAccountPropertiesCountResult" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetReminderAccountPropertiesById">
+      <s:element name="GetReminderAccountProperties">
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
@@ -819,10 +821,10 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetReminderAccountPropertiesByIdResponse">
+      <s:element name="GetReminderAccountPropertiesResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetReminderAccountPropertiesByIdResult" type="tns:ArrayOfTransitReminderAccountProperty" />
+            <s:element minOccurs="0" maxOccurs="1" name="GetReminderAccountPropertiesResult" type="tns:ArrayOfTransitReminderAccountProperty" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -1055,6 +1057,8 @@
         <s:complexContent mixed="false">
           <s:extension base="tns:TransitServiceOfBookmark">
             <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="FullBitmap" type="s:base64Binary" />
+              <s:element minOccurs="0" maxOccurs="1" name="LinkBitmap" type="s:base64Binary" />
               <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="Url" type="s:string" />
@@ -1540,17 +1544,17 @@
   <wsdl:message name="GetReminderAccountPropertyByIdSoapOut">
     <wsdl:part name="parameters" element="tns:GetReminderAccountPropertyByIdResponse" />
   </wsdl:message>
-  <wsdl:message name="GetReminderAccountPropertiesCountByIdSoapIn">
-    <wsdl:part name="parameters" element="tns:GetReminderAccountPropertiesCountById" />
+  <wsdl:message name="GetReminderAccountPropertiesCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetReminderAccountPropertiesCount" />
   </wsdl:message>
-  <wsdl:message name="GetReminderAccountPropertiesCountByIdSoapOut">
-    <wsdl:part name="parameters" element="tns:GetReminderAccountPropertiesCountByIdResponse" />
+  <wsdl:message name="GetReminderAccountPropertiesCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetReminderAccountPropertiesCountResponse" />
   </wsdl:message>
-  <wsdl:message name="GetReminderAccountPropertiesByIdSoapIn">
-    <wsdl:part name="parameters" element="tns:GetReminderAccountPropertiesById" />
+  <wsdl:message name="GetReminderAccountPropertiesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetReminderAccountProperties" />
   </wsdl:message>
-  <wsdl:message name="GetReminderAccountPropertiesByIdSoapOut">
-    <wsdl:part name="parameters" element="tns:GetReminderAccountPropertiesByIdResponse" />
+  <wsdl:message name="GetReminderAccountPropertiesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetReminderAccountPropertiesResponse" />
   </wsdl:message>
   <wsdl:message name="DeleteReminderAccountPropertySoapIn">
     <wsdl:part name="parameters" element="tns:DeleteReminderAccountProperty" />
@@ -1914,15 +1918,15 @@
       <wsdl:input message="tns:GetReminderAccountPropertyByIdSoapIn" />
       <wsdl:output message="tns:GetReminderAccountPropertyByIdSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetReminderAccountPropertiesCountById">
+    <wsdl:operation name="GetReminderAccountPropertiesCount">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all reminder account properties count.</wsdl:documentation>
-      <wsdl:input message="tns:GetReminderAccountPropertiesCountByIdSoapIn" />
-      <wsdl:output message="tns:GetReminderAccountPropertiesCountByIdSoapOut" />
+      <wsdl:input message="tns:GetReminderAccountPropertiesCountSoapIn" />
+      <wsdl:output message="tns:GetReminderAccountPropertiesCountSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetReminderAccountPropertiesById">
+    <wsdl:operation name="GetReminderAccountProperties">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all reminder account properties.</wsdl:documentation>
-      <wsdl:input message="tns:GetReminderAccountPropertiesByIdSoapIn" />
-      <wsdl:output message="tns:GetReminderAccountPropertiesByIdSoapOut" />
+      <wsdl:input message="tns:GetReminderAccountPropertiesSoapIn" />
+      <wsdl:output message="tns:GetReminderAccountPropertiesSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="DeleteReminderAccountProperty">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a reminder account property.</wsdl:documentation>
@@ -2426,8 +2430,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetReminderAccountPropertiesCountById">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetReminderAccountPropertiesCountById" style="document" />
+    <wsdl:operation name="GetReminderAccountPropertiesCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetReminderAccountPropertiesCount" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -2435,8 +2439,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetReminderAccountPropertiesById">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetReminderAccountPropertiesById" style="document" />
+    <wsdl:operation name="GetReminderAccountProperties">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetReminderAccountProperties" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -3050,8 +3054,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetReminderAccountPropertiesCountById">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetReminderAccountPropertiesCountById" style="document" />
+    <wsdl:operation name="GetReminderAccountPropertiesCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetReminderAccountPropertiesCount" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -3059,8 +3063,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetReminderAccountPropertiesById">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetReminderAccountPropertiesById" style="document" />
+    <wsdl:operation name="GetReminderAccountProperties">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetReminderAccountProperties" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

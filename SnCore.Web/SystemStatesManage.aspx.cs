@@ -15,23 +15,24 @@ public partial class SystemStatesManage : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
-            if (!IsPostBack)
-            {
-                GetData(sender, e);
+        if (!IsPostBack)
+        {
+            GetData(sender, e);
 
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("States", Request.Url));
-                StackSiteMap(sitemapdata);
-            }
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("States", Request.Url));
+            StackSiteMap(sitemapdata);
+        }
     }
 
     public void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.LocationService.GetStatesCount();
+        gridManage.VirtualItemCount = SessionManager.LocationService.GetStatesCount(
+            SessionManager.Ticket);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -41,7 +42,8 @@ public partial class SystemStatesManage : AuthenticatedPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = gridManage.CurrentPageIndex;
         options.PageSize = gridManage.PageSize;
-        gridManage.DataSource = SessionManager.LocationService.GetStates(options);
+        gridManage.DataSource = SessionManager.LocationService.GetStates(
+            SessionManager.Ticket, options);
     }
 
     private enum Cells
@@ -51,25 +53,25 @@ public partial class SystemStatesManage : AuthenticatedPage
 
     public void gridManage_ItemCommand(object source, DataGridCommandEventArgs e)
     {
-            switch (e.Item.ItemType)
-            {
-                case ListItemType.AlternatingItem:
-                case ListItemType.Item:
-                case ListItemType.SelectedItem:
-                case ListItemType.EditItem:
+        switch (e.Item.ItemType)
+        {
+            case ListItemType.AlternatingItem:
+            case ListItemType.Item:
+            case ListItemType.SelectedItem:
+            case ListItemType.EditItem:
 
-                    int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                    switch (e.CommandName)
-                    {
-                        case "Delete":
-                            SessionManager.LocationService.DeleteState(SessionManager.Ticket, id);
-                            ReportInfo("State deleted.");
-                            gridManage.CurrentPageIndex = 0;
-                            gridManage_OnGetDataSource(source, e);
-                            gridManage.DataBind();
-                            break;
-                    }
-                    break;
-            }
+                int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
+                switch (e.CommandName)
+                {
+                    case "Delete":
+                        SessionManager.LocationService.DeleteState(SessionManager.Ticket, id);
+                        ReportInfo("State deleted.");
+                        gridManage.CurrentPageIndex = 0;
+                        gridManage_OnGetDataSource(source, e);
+                        gridManage.DataBind();
+                        break;
+                }
+                break;
+        }
     }
 }

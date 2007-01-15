@@ -17,40 +17,41 @@ public partial class SystemAccountPlaceTypeEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-            if (!IsPostBack)
+        if (!IsPostBack)
+        {
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Account Place Types", Request, "SystemAccountPlaceTypesManage.aspx"));
+
+            if (RequestId > 0)
             {
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Account Place Types", Request, "SystemAccountPlaceTypesManage.aspx"));
+                TransitAccountPlaceType t = SessionManager.PlaceService.GetAccountPlaceTypeById(
+                    SessionManager.Ticket, RequestId);
+                inputName.Text = t.Name;
+                inputDescription.Text = t.Description;
+                inputCanWrite.Checked = t.CanWrite;
 
-                if (RequestId > 0)
-                {
-                    TransitAccountPlaceType t = SessionManager.PlaceService.GetAccountPlaceTypeById(RequestId);
-                    inputName.Text = t.Name;
-                    inputDescription.Text = t.Description;
-                    inputCanWrite.Checked = t.CanWrite;
-
-                    sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
-                }
-                else
-                {
-                    sitemapdata.Add(new SiteMapDataAttributeNode("New Type", Request.Url));
-                }
-
-                StackSiteMap(sitemapdata);
+                sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
+            }
+            else
+            {
+                sitemapdata.Add(new SiteMapDataAttributeNode("New Type", Request.Url));
             }
 
-            SetDefaultButton(manageAdd);
+            StackSiteMap(sitemapdata);
+        }
+
+        SetDefaultButton(manageAdd);
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-            TransitAccountPlaceType t = new TransitAccountPlaceType();
-            t.Name = inputName.Text;
-            t.Description = inputDescription.Text;
-            t.CanWrite = inputCanWrite.Checked;
-            t.Id = RequestId;
-            SessionManager.PlaceService.CreateOrUpdateAccountPlaceType(SessionManager.Ticket, t);
-            Redirect("SystemAccountPlaceTypesManage.aspx");
+        TransitAccountPlaceType t = new TransitAccountPlaceType();
+        t.Name = inputName.Text;
+        t.Description = inputDescription.Text;
+        t.CanWrite = inputCanWrite.Checked;
+        t.Id = RequestId;
+        SessionManager.PlaceService.CreateOrUpdateAccountPlaceType(SessionManager.Ticket, t);
+        Redirect("SystemAccountPlaceTypesManage.aspx");
     }
 }

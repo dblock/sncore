@@ -31,7 +31,8 @@ public partial class DiscussionRss : Page
         {
             if (mDiscussion == null)
             {
-                mDiscussion = SessionManager.DiscussionService.GetDiscussionById(RequestId);
+                mDiscussion = SessionManager.DiscussionService.GetDiscussionById(
+                    SessionManager.Ticket, RequestId);
             }
             return mDiscussion;
         }
@@ -93,7 +94,8 @@ public partial class DiscussionRss : Page
                 ServiceQueryOptions options = new ServiceQueryOptions();
                 options.PageSize = 50;
                 options.PageNumber = 0;
-                rssRepeater.DataSource = SessionManager.DiscussionService.GetLatestDiscussionPostsById(Discussion.Id, options);
+                rssRepeater.DataSource = SessionManager.DiscussionService.GetLatestDiscussionPostsById(
+                    SessionManager.Ticket, Discussion.Id, options);
                 rssRepeater.DataBind();
             }
         }

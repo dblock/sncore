@@ -24,7 +24,7 @@ public partial class AccountStoryView : Page
             TransitAccountStory ts = SessionManager.GetCachedItem<TransitAccountStory>(
                 SessionManager.StoryService, "GetAccountStoryById", s_args);
 
-            object[] a_args = { ts.AccountId };
+            object[] a_args = { SessionManager.Ticket, ts.AccountId };
             TransitAccount acct = SessionManager.GetCachedItem<TransitAccount>(
                 SessionManager.AccountService, "GetAccountById", a_args);
 
@@ -35,13 +35,13 @@ public partial class AccountStoryView : Page
             storyName.Text = Renderer.Render(ts.Name);
             storySummary.Text = RenderEx(ts.Summary);
 
-            object[] p_args = { RequestId };
-            listPictures.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-                SessionManager.StoryService, "GetAccountStoryPicturesCountById", p_args);
+            object[] p_args = { SessionManager.Ticket, RequestId };
+            listPictures.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccountStoryPicture>(
+                SessionManager.StoryService, "GetAccountStoryPicturesCount", p_args);
             listPictures_OnGetDataSource(sender, e);
 
-            object[] d_args = { RequestId };
-            storyComments.DiscussionId = SessionManager.GetCachedCollectionCount(
+            object[] d_args = { SessionManager.Ticket, RequestId };
+            storyComments.DiscussionId = SessionManager.GetCachedCollectionCount<TransitDiscussion>(
                 SessionManager.DiscussionService, "GetAccountStoryDiscussionId", d_args);
 
             storyComments.DataBind();
@@ -64,7 +64,7 @@ public partial class AccountStoryView : Page
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = listPictures.CurrentPageIndex;
         options.PageSize = listPictures.PageSize;
-        object[] p_args = { RequestId, options };
+        object[] p_args = { SessionManager.Ticket, RequestId, options };
         listPictures.DataSource = SessionManager.GetCachedCollection<TransitAccountStoryPicture>(
             SessionManager.StoryService, "GetAccountStoryPicturesById", p_args);
         listPictures.DataBind();

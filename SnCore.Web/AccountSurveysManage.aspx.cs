@@ -29,6 +29,7 @@ public partial class AccountSurveysManage : AuthenticatedPage
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        gridManage.DataSource = SessionManager.SystemService.GetSurveys();
+        gridManage.DataSource = SessionManager.ObjectService.GetSurveys(
+            SessionManager.Ticket, null);
     }
 }

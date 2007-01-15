@@ -85,10 +85,10 @@ public partial class AccountEventPictureView : Page
 
     void GetPicturesData(object sender, EventArgs e)
     {
-        object[] p_args = { AccountEvent.Id };
+        object[] p_args = { SessionManager.Ticket, AccountEvent.Id };
         picturesView.CurrentPageIndex = 0;
-        picturesView.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            SessionManager.EventService, "GetAccountEventPicturesCountById", p_args);
+        picturesView.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccountEventPicture>(
+            SessionManager.EventService, "GetAccountEventPicturesCount", p_args);
         picturesView_OnGetDataSource(sender, e);
         picturesView.DataBind();
     }
@@ -122,7 +122,8 @@ public partial class AccountEventPictureView : Page
         labelIndex.Text = string.Format("{0} / {1}", p.Index + 1, p.Count);
 
         discussionComments.ReturnUrl = string.Format("AccountEventPictureView.aspx?id={0}", PictureId);
-        discussionComments.DiscussionId = SessionManager.DiscussionService.GetAccountEventPictureDiscussionId(PictureId);
+        discussionComments.DiscussionId = SessionManager.DiscussionService.GetOrCreateAccountEventPictureDiscussionId(
+            SessionManager.Ticket, PictureId);
         discussionComments.DataBind();
     }
 
@@ -140,9 +141,9 @@ public partial class AccountEventPictureView : Page
     void picturesView_OnGetDataSource(object sender, EventArgs e)
     {
         ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
-        object[] args = { AccountEvent.Id, options };
+        object[] args = { SessionManager.Ticket, AccountEvent.Id, options };
         picturesView.DataSource = SessionManager.GetCachedCollection<TransitAccountEventPicture>(
-            SessionManager.EventService, "GetAccountEventPicturesById", args);
+            SessionManager.EventService, "GetAccountEventPictures", args);
     }
 
 }

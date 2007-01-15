@@ -32,7 +32,8 @@ public partial class AccountFeedsRss : Page
             queryoptions.PageNumber = 0;
             queryoptions.PageSize = 25;
 
-            rssRepeater.DataSource = SessionManager.SyndicationService.GetUpdatedAccountFeeds(queryoptions);
+            rssRepeater.DataSource = SessionManager.SyndicationService.GetAllAccountFeeds(
+                SessionManager.Ticket, queryoptions);
             rssRepeater.DataBind();
         }
     }

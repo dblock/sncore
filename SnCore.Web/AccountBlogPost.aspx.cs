@@ -98,7 +98,7 @@ public partial class AccountBlogPostNew : AuthenticatedPage
             {
                 try
                 {
-                    TransitAccountPictureWithBitmap p = new TransitAccountPictureWithBitmap();
+                    TransitAccountPicture p = new TransitAccountPicture();
 
                     ThumbnailBitmap t = new ThumbnailBitmap(file.InputStream);
                     p.Bitmap = t.Bitmap;
@@ -106,7 +106,7 @@ public partial class AccountBlogPostNew : AuthenticatedPage
                     p.Description = string.Empty;
                     p.Hidden = true;
 
-                    int id = SessionManager.AccountService.AddAccountPicture(SessionManager.Ticket, p);
+                    int id = SessionManager.AccountService.CreateOrUpdateAccountPicture(SessionManager.Ticket, p);
 
                     Size size = t.GetNewSize(new Size(200, 200));
 

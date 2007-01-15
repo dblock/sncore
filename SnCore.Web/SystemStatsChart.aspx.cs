@@ -83,7 +83,7 @@ public partial class SystemStatsChart2 : PicturePage
         ChartCollection charts = new ChartCollection(engine);
         engine.Charts = charts;
 
-        List<List<TransitCounter>> counters = new List<List<TransitCounter>>();
+        List<List<TransitSummarizedCounter>> counters = new List<List<TransitSummarizedCounter>>();
         string format;
 
         switch (RequestType)
@@ -118,7 +118,7 @@ public partial class SystemStatsChart2 : PicturePage
         }
 
         Color fill = Color.FromArgb(0x9F, 0x6, 0x15);
-        foreach (List<TransitCounter> clist in counters)
+        foreach (List<TransitSummarizedCounter> clist in counters)
         {
             ColumnChart chart = new ColumnChart();
             chart.ShowLineMarkers = false;
@@ -129,7 +129,7 @@ public partial class SystemStatsChart2 : PicturePage
             chart.Fill.LinearGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             chart.MaxColumnWidth = 100;
 
-            foreach (TransitCounter counter in clist)
+            foreach (TransitSummarizedCounter counter in clist)
             {
                 chart.Data.Add(new ChartPoint(counter.Timestamp.ToString(format), counter.Total));
             }

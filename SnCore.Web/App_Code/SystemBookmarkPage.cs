@@ -21,8 +21,8 @@ public abstract class SystemBookmarkPage : PicturePage
     public override TransitPicture GetPictureWithBitmap(int id, string ticket, DateTime ifModifiedSince)
     {
         object[] args = { ticket, id, ifModifiedSince };
-        TransitBookmarkWithBitmaps p = SessionManager.GetCachedItem<TransitBookmarkWithBitmaps>(
-            SessionManager.SystemService, "GetBookmarkWithBitmapsByIdIfModifiedSince", args);
+        TransitBookmark p = SessionManager.GetCachedItem<TransitBookmark>(
+            SessionManager.ObjectService, "GetBookmarkIfModifiedSinceById", args);
 
         if (p == null)
             return null;
@@ -39,8 +39,8 @@ public abstract class SystemBookmarkPage : PicturePage
     public override TransitPicture GetPictureWithThumbnail(int id, string ticket, DateTime ifModifiedSince)
     {
         object[] args = { ticket, id, ifModifiedSince };
-        TransitBookmarkWithBitmaps p = SessionManager.GetCachedItem<TransitBookmarkWithBitmaps>(
-            SessionManager.SystemService, "GetBookmarkWithBitmapsByIdIfModifiedSince", args);
+        TransitBookmark p = SessionManager.GetCachedItem<TransitBookmark>(
+            SessionManager.ObjectService, "GetBookmarkIfModifiedSinceById", args);
 
         if (p == null)
             return null;
@@ -57,8 +57,8 @@ public abstract class SystemBookmarkPage : PicturePage
     public override TransitPicture GetPictureWithBitmap(int id, string ticket)
     {
         object[] args = { ticket, id };
-        TransitBookmarkWithBitmaps p = SessionManager.GetCachedItem<TransitBookmarkWithBitmaps>(
-            SessionManager.SystemService, "GetBookmarkWithBitmapsById", args);
+        TransitBookmark p = SessionManager.GetCachedItem<TransitBookmark>(
+            SessionManager.ObjectService, "GetBookmarkById", args);
 
         if (p == null)
             return null;
@@ -75,8 +75,8 @@ public abstract class SystemBookmarkPage : PicturePage
     public override TransitPicture GetPictureWithThumbnail(int id, string ticket)
     {
         object[] args = { ticket, id };
-        TransitBookmarkWithBitmaps p = SessionManager.GetCachedItem<TransitBookmarkWithBitmaps>(
-            SessionManager.SystemService, "GetBookmarkWithBitmapsById", args);
+        TransitBookmark p = SessionManager.GetCachedItem<TransitBookmark>(
+            SessionManager.ObjectService, "GetBookmarkById", args);
 
         if (p == null)
             return null;

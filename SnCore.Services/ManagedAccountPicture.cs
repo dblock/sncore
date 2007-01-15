@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using SnCore.Tools.Drawing;
 using NHibernate.Expression;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
@@ -171,12 +172,6 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountPicture(AccountPicture p, IList<AccountPicture> collection)
-            : base(p, collection)
-        {
-
-        }
-
         public override void SetInstance(AccountPicture instance)
         {
             base.SetInstance(instance);
@@ -188,12 +183,6 @@ namespace SnCore.Services
             Hidden = instance.Hidden;
             Bitmap = instance.Bitmap;
             Thumbnail = new ThumbnailBitmap(Bitmap).Thumbnail;
-        }
-
-        public TransitAccountPicture(AccountPicture p)
-            : this(p, p.Account.AccountPictures)
-        {
-
         }
 
         public override AccountPicture GetInstance(ISession session, ManagedSecurityContext sec)
@@ -297,6 +286,11 @@ namespace SnCore.Services
         public override TransitAccountPicture GetTransitInstance(ManagedSecurityContext sec)
         {
             TransitAccountPicture t_instance = base.GetTransitInstance(sec);
+            List<AccountPicture> collection = new List<AccountPicture>();
+            foreach (AccountPicture pic in Collection<AccountPicture>.GetSafeCollection(mInstance.Account.AccountPictures))
+                if (!pic.Hidden)
+                    collection.Add(pic);
+            t_instance.SetWithinCollection(mInstance, collection);
             t_instance.CommentCount = ManagedDiscussion.GetDiscussionPostCount(
                 Session, mInstance.Account.Id,
                 ManagedDiscussion.AccountPictureDiscussion, mInstance.Id);

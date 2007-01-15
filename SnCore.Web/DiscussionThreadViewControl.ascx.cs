@@ -35,7 +35,8 @@ public partial class DiscussionThreadViewControl : Control
 
             if (DiscussionId > 0)
             {
-                TransitDiscussion d = SessionManager.DiscussionService.GetDiscussionById(DiscussionId);
+                TransitDiscussion d = SessionManager.DiscussionService.GetDiscussionById(
+                    SessionManager.Ticket, DiscussionId);
                 discussionLabel.Text = Renderer.Render(d.Name);
                 discussionDescription.Text = Renderer.Render(d.Description);
                 linkNew.NavigateUrl = string.Format("DiscussionPost.aspx?did={0}&ReturnUrl={1}",

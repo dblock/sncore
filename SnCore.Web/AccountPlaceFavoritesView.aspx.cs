@@ -28,7 +28,7 @@ public partial class AccountPlaceFavoritesView : AccountPersonPage
         gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
         if (!IsPostBack)
         {
-            object[] args = { RequestAccountId };
+            object[] args = { SessionManager.Ticket, RequestAccountId };
             TransitAccount ta = SessionManager.GetCachedItem<TransitAccount>(
                 SessionManager.AccountService, "GetAccountById", args);
 
@@ -49,9 +49,9 @@ public partial class AccountPlaceFavoritesView : AccountPersonPage
     void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        object[] args = { RequestAccountId };
-        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            SessionManager.PlaceService, "GetAccountPlaceFavoritesCountById", args);
+        object[] args = { SessionManager.Ticket, RequestAccountId };
+        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccountPlaceFavorite>(
+            SessionManager.PlaceService, "GetAccountPlaceFavoritesCountByAccountId", args);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
@@ -61,7 +61,7 @@ public partial class AccountPlaceFavoritesView : AccountPersonPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = gridManage.CurrentPageIndex;
         options.PageSize = gridManage.PageSize;
-        object[] args = { RequestAccountId, options };
+        object[] args = { SessionManager.Ticket, RequestAccountId, options };
         gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountPlaceFavorite>(
             SessionManager.PlaceService, "GetAccountPlaceFavoritesByAccountId", args);
     }

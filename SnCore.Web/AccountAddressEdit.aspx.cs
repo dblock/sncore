@@ -46,7 +46,7 @@ public partial class AccountAddressEdit : AuthenticatedPage
 
             ArrayList countries = new ArrayList();
             if (tw == null || tw.Country.Length == 0) countries.Add(new TransitCountry());
-            object[] c_args = { null };
+            object[] c_args = { SessionManager.Ticket, null };
             countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(SessionManager.LocationService, "GetCountries", c_args));
 
             ArrayList states = new ArrayList();
@@ -80,7 +80,7 @@ public partial class AccountAddressEdit : AuthenticatedPage
         tw.State = inputState.SelectedValue;
         tw.Zip = inputZip.Text;
         tw.Id = RequestId;
-        SessionManager.AccountService.AddAccountAddress(SessionManager.Ticket, tw);
+        SessionManager.AccountService.CreateOrUpdateAccountAddress(SessionManager.Ticket, tw);
         Redirect("AccountAddressesManage.aspx");
     }
 }

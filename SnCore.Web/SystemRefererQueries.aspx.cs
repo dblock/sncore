@@ -20,32 +20,34 @@ public partial class SystemRefererQueries : AuthenticatedPage
 {
     public void Page_Load()
     {
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
-            if (!IsPostBack)
-            {
-                GetData();
+        if (!IsPostBack)
+        {
+            GetData();
 
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Statistics", Request, "SystemStatsHits.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Referer Queries", Request.Url));
-                StackSiteMap(sitemapdata);
-            }
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Statistics", Request, "SystemStatsHits.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Referer Queries", Request.Url));
+            StackSiteMap(sitemapdata);
+        }
     }
 
     private void GetData()
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.StatsService.GetRefererQueriesCount();
+        gridManage.VirtualItemCount = SessionManager.StatsService.GetRefererQueriesCount(
+            SessionManager.Ticket);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-            ServiceQueryOptions options = new ServiceQueryOptions();
-            options.PageNumber = gridManage.CurrentPageIndex;
-            options.PageSize = gridManage.PageSize;
-            gridManage.DataSource = SessionManager.StatsService.GetRefererQueries(options);
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageNumber = gridManage.CurrentPageIndex;
+        options.PageSize = gridManage.PageSize;
+        gridManage.DataSource = SessionManager.StatsService.GetRefererQueries(
+            SessionManager.Ticket, options);
     }
 }

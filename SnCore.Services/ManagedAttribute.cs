@@ -7,45 +7,22 @@ using SnCore.Tools;
 
 namespace SnCore.Services
 {
-    public class AttributeQueryOptions
-    {
-        public bool WithBitmap = false;
-
-        public AttributeQueryOptions()
-        {
-        }
-
-        public override int GetHashCode()
-        {
-            return PersistentlyHashable.GetHashCode(this);
-        }
-    }
-
-    public class TransitAttributeWithBitmap : TransitAttribute
-    {
-        public byte[] Bitmap;
-
-        public TransitAttributeWithBitmap()
-        {
-
-        }
-
-        public TransitAttributeWithBitmap(Attribute b)
-            : base(b)
-        {
-            Bitmap = b.Bitmap;
-        }
-
-        public override Attribute GetInstance(ISession session, ManagedSecurityContext sec)
-        {
-            Attribute instance = base.GetInstance(session, sec);
-            if (this.Bitmap != null) instance.Bitmap = this.Bitmap;
-            return instance;
-        }
-    }
-
     public class TransitAttribute : TransitService<Attribute>
     {
+        private byte[] mBitmap;
+
+        public byte[] Bitmap
+        {
+            get
+            {
+                return mBitmap;
+            }
+            set
+            {
+                mBitmap = value;
+            }
+        }
+
         private bool mHasBitmap;
 
         public bool HasBitmap
@@ -161,6 +138,7 @@ namespace SnCore.Services
             Created = instance.Created;
             Modified = instance.Modified;
             mHasBitmap = (instance.Bitmap != null);
+            Bitmap = instance.Bitmap;
             base.SetInstance(instance);
         }
 
@@ -171,6 +149,7 @@ namespace SnCore.Services
             instance.Description = this.Description;
             instance.DefaultUrl = this.DefaultUrl;
             instance.DefaultValue = this.DefaultValue;
+            if (Bitmap != null) instance.Bitmap = this.Bitmap;
             return instance;
         }
     }

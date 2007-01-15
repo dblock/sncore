@@ -41,23 +41,5 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             EndPoint.DeleteAccount(ticket, t_instance.Password);
             Console.WriteLine("Deleted account: {0}", id);
         }
-
-        [Test]
-        protected void CreateAccountWithOpenIdTest()
-        {
-
-        }
-
-        [Test]
-        protected void GetOpenIdRedirectTest()
-        {
-
-        }
-
-        [Test]
-        protected void VerifyOpenIdTest()
-        {
-
-        }
     }    
 }

@@ -21,8 +21,8 @@ public partial class AccountSurveyQuestionView : Page
     private void GetData()
     {
         accountSurveyAnswers.CurrentPageIndex = 0;
-        object[] args = { SurveyQuestionId };
-        accountSurveyAnswers.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+        object[] args = { SessionManager.Ticket, SurveyQuestionId };
+        accountSurveyAnswers.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccountSurveyAnswer>(
             SessionManager.AccountService, "GetAccountSurveyAnswersCountByQuestionId", args);
         accountSurveyAnswers_OnGetDataSource(this, null);
         accountSurveyAnswers.DataBind();
@@ -53,7 +53,8 @@ public partial class AccountSurveyQuestionView : Page
         {
             if (mSurveyQuestion == null)
             {
-                mSurveyQuestion = SessionManager.SystemService.GetSurveyQuestionById(SurveyQuestionId);
+                mSurveyQuestion = SessionManager.ObjectService.GetSurveyQuestionById(
+                    SessionManager.Ticket, SurveyQuestionId);
             }
             return mSurveyQuestion;
         }
@@ -65,7 +66,8 @@ public partial class AccountSurveyQuestionView : Page
         {
             if (mSurvey == null)
             {
-                mSurvey = SessionManager.SystemService.GetSurveyById(SurveyId);
+                mSurvey = SessionManager.ObjectService.GetSurveyById(
+                    SessionManager.Ticket, SurveyId);
             }
 
             return mSurvey;
@@ -78,7 +80,7 @@ public partial class AccountSurveyQuestionView : Page
         serviceoptions.PageSize = accountSurveyAnswers.PageSize;
         serviceoptions.PageNumber = accountSurveyAnswers.CurrentPageIndex;
 
-        object[] args = { SurveyQuestionId, serviceoptions };
+        object[] args = { SessionManager.Ticket, SurveyQuestionId, serviceoptions };
         accountSurveyAnswers.DataSource = SessionManager.GetCachedCollection<TransitAccountSurveyAnswer>(
             SessionManager.AccountService, "GetAccountSurveyAnswersByQuestionId", args);
     }

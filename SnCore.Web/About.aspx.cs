@@ -62,7 +62,7 @@ public partial class About : Page
     {
         get
         {
-            return new TimeSpan(SessionManager.BackEndService.GetUptime());
+            return new TimeSpan(SessionManager.SystemService.GetUptime());
         }
     }
 

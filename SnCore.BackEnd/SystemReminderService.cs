@@ -105,7 +105,7 @@ namespace SnCore.BackEndServices
                             ManagedAccountEmail mae = new ManagedAccountEmail(session, email);
                             email.Modified = DateTime.UtcNow;
                             session.Save(email);
-                            mae.Confirm();
+                            mae.Confirm(sec);
                         }
                         else if (email.Modified < DateTime.UtcNow.AddDays(-14))
                         {

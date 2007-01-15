@@ -67,6 +67,7 @@ public partial class AccountCreate : Page
         TransitAccount ta = new TransitAccount();
         ta.Name = inputName.Text;
         ta.Birthday = inputBirthday.SelectedDate;
+        ta.Password = inputPassword.Text;
 
         try
         {
@@ -83,7 +84,6 @@ public partial class AccountCreate : Page
         {
             SessionManager.AccountService.CreateAccount(
                 inputBetaPassword.Text,
-                inputPassword.Text,
                 inputEmailAddress.Text,
                 ta);
 

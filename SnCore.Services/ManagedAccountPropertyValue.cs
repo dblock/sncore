@@ -56,6 +56,20 @@ namespace SnCore.Services
             }
         }
 
+        private string mAccountPropertyTypeName;
+
+        public string AccountPropertyTypeName
+        {
+            get
+            {
+                return mAccountPropertyTypeName;
+            }
+            set
+            {
+                mAccountPropertyTypeName = value;
+            }
+        }
+
         private int mAccountPropertyGroupId;
 
         public int AccountPropertyGroupId
@@ -142,6 +156,8 @@ namespace SnCore.Services
         {
             AccountId = instance.Account.Id;
             AccountPropertyId = instance.AccountProperty.Id;
+            AccountPropertyName = instance.AccountProperty.Name;
+            AccountPropertyTypeName = instance.AccountProperty.TypeName;
             AccountPropertyGroupName = instance.AccountProperty.AccountPropertyGroup.Name;
             AccountPropertyGroupId = instance.AccountProperty.AccountPropertyGroup.Id;
             Created = instance.Created;

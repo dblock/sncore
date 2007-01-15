@@ -248,8 +248,10 @@ namespace SnCore.Services
             }
         }
 
-        public ManagedAccountEmailConfirmation Confirm()
+        public ManagedAccountEmailConfirmation Confirm(ManagedSecurityContext sec)
         {
+            GetACL().Check(sec, DataOperation.All);
+
             if (this.Verified)
                 return null;
 

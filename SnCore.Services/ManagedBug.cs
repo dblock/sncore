@@ -94,7 +94,7 @@ namespace SnCore.Services
 
         }
 
-        public IQuery GetQuery(ISession session)
+        public string GetQuery(ISession session)
         {
             StringBuilder s_query = new StringBuilder();
             s_query.AppendLine("SELECT {Bug.*} FROM Bug {Bug}");
@@ -132,10 +132,7 @@ namespace SnCore.Services
                     (SortDirection == TransitSortDirection.Ascending) ? "ASC" : "DESC");
             }
 
-            IQuery query = session.CreateSQLQuery(
-                s_query.ToString(), "Bug", typeof(Bug));
-
-            return query;
+            return s_query.ToString();
         }
 
         public override int GetHashCode()

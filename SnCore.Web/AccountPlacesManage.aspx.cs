@@ -47,7 +47,8 @@ public partial class AccountPlacesManage : AuthenticatedPage
     public void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.PlaceService.GetPlacesCount(QueryOptions);
+        gridManage.VirtualItemCount = SessionManager.PlaceService.GetPlacesCount(
+            SessionManager.Ticket, QueryOptions);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
@@ -57,7 +58,8 @@ public partial class AccountPlacesManage : AuthenticatedPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = gridManage.CurrentPageIndex;
         options.PageSize = gridManage.PageSize;
-        gridManage.DataSource = SessionManager.PlaceService.GetPlaces(QueryOptions, options);
+        gridManage.DataSource = SessionManager.PlaceService.GetPlaces(
+            SessionManager.Ticket, QueryOptions, options);
     }
 
     private enum Cells

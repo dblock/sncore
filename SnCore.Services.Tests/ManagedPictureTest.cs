@@ -31,7 +31,7 @@ namespace SnCore.Services.Tests
 
         public override TransitPicture GetTransitInstance()
         {
-            TransitPictureWithBitmap t_instance = new TransitPictureWithBitmap();
+            TransitPicture t_instance = new TransitPicture();
             t_instance.Bitmap = new byte[128];
             t_instance.Name = Guid.NewGuid().ToString();
             t_instance.Type = _type.Instance.Instance.Name;

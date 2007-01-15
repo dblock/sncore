@@ -20,24 +20,24 @@ public partial class SystemRefererHostDupsManage : AuthenticatedPage
 {
     public void Page_Load()
     {
-            gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
-            if (!IsPostBack)
-            {
+        if (!IsPostBack)
+        {
+            gridManage_OnGetDataSource(this, null);
+            gridManage.DataBind();
 
-                gridManage_OnGetDataSource(this, null);
-                gridManage.DataBind();
-
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Referer Host Dups", Request.Url));
-                StackSiteMap(sitemapdata);
-            }
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Referer Host Dups", Request.Url));
+            StackSiteMap(sitemapdata);
+        }
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-            gridManage.DataSource = SessionManager.StatsService.GetRefererHostDups();
+        gridManage.DataSource = SessionManager.StatsService.GetRefererHostDups(
+            SessionManager.Ticket, null);
     }
 
     private enum Cells
@@ -47,24 +47,24 @@ public partial class SystemRefererHostDupsManage : AuthenticatedPage
 
     public void gridManage_ItemCommand(object source, DataGridCommandEventArgs e)
     {
-            switch (e.Item.ItemType)
-            {
-                case ListItemType.AlternatingItem:
-                case ListItemType.Item:
-                case ListItemType.SelectedItem:
-                case ListItemType.EditItem:
-                    int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                    switch (e.CommandName)
-                    {
-                        case "Delete":
-                            SessionManager.StatsService.DeleteRefererHostDup(SessionManager.Ticket, id);
-                            ReportInfo("RefererHostDup deleted.");
-                            gridManage.CurrentPageIndex = 0;
-                            gridManage_OnGetDataSource(source, e);
-                            gridManage.DataBind();
-                            break;
-                    }
-                    break;
-            }
+        switch (e.Item.ItemType)
+        {
+            case ListItemType.AlternatingItem:
+            case ListItemType.Item:
+            case ListItemType.SelectedItem:
+            case ListItemType.EditItem:
+                int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
+                switch (e.CommandName)
+                {
+                    case "Delete":
+                        SessionManager.StatsService.DeleteRefererHostDup(SessionManager.Ticket, id);
+                        ReportInfo("RefererHostDup deleted.");
+                        gridManage.CurrentPageIndex = 0;
+                        gridManage_OnGetDataSource(source, e);
+                        gridManage.DataBind();
+                        break;
+                }
+                break;
+        }
     }
 }

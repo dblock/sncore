@@ -739,8 +739,9 @@ namespace SnCore.WebServices
                 using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
                 {
                     ISession session = SnCore.Data.Hibernate.Session.Current;
+                    ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
                     ManagedAccountEmail m_instance = new ManagedAccountEmail(session, id);
-                    m_instance.Confirm();
+                    m_instance.Confirm(sec);
                     SnCore.Data.Hibernate.Session.Flush();
                 }
             }
@@ -817,6 +818,24 @@ namespace SnCore.WebServices
                 string emailaddress = c.Verify(password, code);
                 SnCore.Data.Hibernate.Session.Flush();
                 return emailaddress;
+            }
+        }
+
+        /// <summary>
+        /// Re-send a confirmation for an e-mail address.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="email">transit e-mail</param>
+        [WebMethod(Description = "Re-send a confirmation for an e-mail address.")]
+        public void ConfirmAccountEmail(string ticket, int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                ManagedAccountEmail e = new ManagedAccountEmail(session, id);
+                e.Confirm(sec);
+                SnCore.Data.Hibernate.Session.Flush();
             }
         }
 
@@ -1042,7 +1061,7 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>number of accounts</returns>
         [WebMethod(Description = "Return the number of accounts matching a query.", CacheDuration = 60)]
-        public int SearchAccountsCount(string s)
+        public int SearchAccountsCount(string ticket, string s)
         {
             if (string.IsNullOrEmpty(s))
                 return 0;
@@ -1767,7 +1786,7 @@ namespace SnCore.WebServices
         {
             StringBuilder query = new StringBuilder();
             query.AppendFormat("WHERE AccountPicture.Account.Id = {0}", id);
-            if (!qopt.Hidden) query.Append(" AND AccountPicture.Hidden = 0");
+            if (qopt != null && !qopt.Hidden) query.Append(" AND AccountPicture.Hidden = 0");
             return WebServiceImpl<TransitAccountPicture, ManagedAccountPicture, AccountPicture>.GetCount(
                 ticket, query.ToString());
         }
@@ -1782,7 +1801,7 @@ namespace SnCore.WebServices
         {
             List<ICriterion> expressions = new List<ICriterion>();
             expressions.Add(Expression.Eq("Account.Id", id));
-            if (!qopt.Hidden) expressions.Add(Expression.Eq("Hidden", false));
+            if (qopt != null && !qopt.Hidden) expressions.Add(Expression.Eq("Hidden", false));
             Order[] orders = { Order.Desc("Created") };
             return WebServiceImpl<TransitAccountPicture, ManagedAccountPicture, AccountPicture>.GetList(
                 ticket, options, expressions.ToArray(), orders);
@@ -2040,6 +2059,7 @@ namespace SnCore.WebServices
             {
                 Expression.Eq("Account.Id", id),
                 Expression.Eq("Name", folder),
+                Expression.Eq("System", true),
                 Expression.IsNull("AccountMessageFolderParent")                        
             };
 

@@ -21,8 +21,8 @@ public abstract class PlacePicturePage : PicturePage
     public override TransitPicture GetPictureWithBitmap(int id, string ticket, DateTime ifModifiedSince)
     {
         object[] args = { ticket, id, ifModifiedSince };
-        TransitPlacePictureWithBitmap p = SessionManager.GetCachedItem<TransitPlacePictureWithBitmap>(
-            SessionManager.PlaceService, "GetPlacePictureWithBitmapByIdIfModifiedSince", args);
+        TransitPlacePicture p = SessionManager.GetCachedItem<TransitPlacePicture>(
+            SessionManager.PlaceService, "GetPlacePictureIfModifiedSinceById", args);
 
         if (p == null)
             return null;
@@ -39,8 +39,8 @@ public abstract class PlacePicturePage : PicturePage
     public override TransitPicture GetPictureWithThumbnail(int id, string ticket, DateTime ifModifiedSince)
     {
         object[] args = { ticket, id, ifModifiedSince };
-        TransitPlacePictureWithThumbnail p = SessionManager.GetCachedItem<TransitPlacePictureWithThumbnail>(
-            SessionManager.PlaceService, "GetPlacePictureWithThumbnailByIdIfModifiedSince", args);
+        TransitPlacePicture p = SessionManager.GetCachedItem<TransitPlacePicture>(
+            SessionManager.PlaceService, "GetPlacePictureIfModifiedSinceById", args);
 
         if (p == null)
             return null;
@@ -57,8 +57,8 @@ public abstract class PlacePicturePage : PicturePage
     public override TransitPicture GetPictureWithBitmap(int id, string ticket)
     {
         object[] args = { ticket, id };
-        TransitPlacePictureWithBitmap p = SessionManager.GetCachedItem<TransitPlacePictureWithBitmap>(
-            SessionManager.PlaceService, "GetPlacePictureWithBitmapById", args);
+        TransitPlacePicture p = SessionManager.GetCachedItem<TransitPlacePicture>(
+            SessionManager.PlaceService, "GetPlacePictureById", args);
 
         if (p == null)
             return null;
@@ -75,8 +75,8 @@ public abstract class PlacePicturePage : PicturePage
     public override TransitPicture GetPictureWithThumbnail(int id, string ticket)
     {
         object[] args = { ticket, id };
-        TransitPlacePictureWithThumbnail p = SessionManager.GetCachedItem<TransitPlacePictureWithThumbnail>(
-            SessionManager.PlaceService, "GetPlacePictureWithThumbnailById", args);
+        TransitPlacePicture p = SessionManager.GetCachedItem<TransitPlacePicture>(
+            SessionManager.PlaceService, "GetPlacePictureById", args);
 
         if (p == null)
             return null;
@@ -90,8 +90,21 @@ public abstract class PlacePicturePage : PicturePage
         return result;
     }
 
-    public override TransitPicture GetRandomPictureWithThumbnail()
+    public override PicturePage.TransitPicture GetRandomPictureWithThumbnail()
     {
-        return null;
+        object[] args = { SessionManager.Ticket, "Place" };
+        SnCore.Services.TransitPicture tp = SessionManager.GetCachedItem<SnCore.Services.TransitPicture>(
+            SessionManager.ObjectService, "GetRandomPictureByType", args);
+
+        if (tp == null)
+            return null;
+
+        TransitPicture result = new TransitPicture();
+        result.Id = tp.Id;
+        result.Bitmap = tp.Thumbnail;
+        result.Created = tp.Created;
+        result.Modified = tp.Modified;
+        result.Name = tp.Name;
+        return result;
     }
 }

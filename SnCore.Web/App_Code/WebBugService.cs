@@ -397,6 +397,32 @@ namespace SnCore.WebServices
         #region Bug
 
         /// <summary>
+        /// Get all bugs count.
+        /// </summary>
+        [WebMethod(Description = "Get all bugs.")]
+        public int GetBugsWithOptionsCount(string ticket, TransitBugQueryOptions qopt)
+        {
+            return GetBugsWithOptions(ticket, qopt, null).Count;
+        }
+
+        /// <summary>
+        /// Get all bugs.
+        /// </summary>
+        [WebMethod(Description = "Get all bugs.")]
+        public List<TransitBug> GetBugsWithOptions(string ticket, TransitBugQueryOptions qopt, ServiceQueryOptions options)
+        {
+            string query = null;
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                query = qopt.GetQuery(session);
+            }
+
+            return WebServiceImpl<TransitBug, ManagedBug, Bug>.GetList(
+                ticket, options, query, "Bug");
+        }
+
+        /// <summary>
         /// Create or update a bug.
         /// </summary>
         /// <param name="ticket">authentication ticket</param>

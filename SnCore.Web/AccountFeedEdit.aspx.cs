@@ -40,7 +40,7 @@ public partial class AccountFeedEdit : AuthenticatedPage
 
             ArrayList types = new ArrayList();
             types.Add(new TransitFeedType());
-            types.AddRange(SessionManager.SyndicationService.GetFeedTypes());
+            types.AddRange(SessionManager.SyndicationService.GetFeedTypes(SessionManager.Ticket, null));
             inputFeedType.DataSource = types;
             inputFeedType.DataBind();
 

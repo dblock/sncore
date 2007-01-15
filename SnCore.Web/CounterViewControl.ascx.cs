@@ -21,7 +21,7 @@ public partial class CounterViewControl : Control
         {
             if (mCounter == null)
             {
-                object[] args = { Uri };
+                object[] args = { SessionManager.Ticket, Uri };
                 mCounter = SessionManager.GetCachedItem<TransitCounter>(
                     SessionManager.StatsService, "GetCounterByUri", args);
             }
@@ -55,7 +55,7 @@ public partial class CounterViewControl : Control
         if (!IsPostBack)
         {
             TransitCounter tc = Counter;
-            labelCounter.Text = string.Format("{0} since {1}", tc.Total, base.Adjust(tc.Timestamp).ToString("d"));
+            labelCounter.Text = string.Format("{0} since {1}", tc.Total, base.Adjust(tc.Modified).ToString("d"));
         }
     }
 }

@@ -40,9 +40,9 @@ public partial class PlaceFavoriteAccountsViewControl : Control
     public void GetData(object sender, EventArgs e)
     {
         accountsList.CurrentPageIndex = 0;
-        object[] args = { PlaceId };
-        accountsList.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            SessionManager.PlaceService, "GetAccountPlaceFavoritesCountByPlaceId", args);
+        object[] args = { SessionManager.Ticket, PlaceId };
+        accountsList.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccountPlaceFavorite>(
+            SessionManager.PlaceService, "GetAccountPlaceFavoritesCount", args);
         accountsList_OnGetDataSource(sender, e);
         accountsList.DataBind();
         this.Visible = (accountsList.VirtualItemCount > 0);
@@ -53,8 +53,8 @@ public partial class PlaceFavoriteAccountsViewControl : Control
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = accountsList.CurrentPageIndex;
         options.PageSize = accountsList.PageSize;
-        object[] args = { PlaceId, options };
+        object[] args = { SessionManager.Ticket, PlaceId, options };
         accountsList.DataSource = SessionManager.GetCachedCollection<TransitAccountPlaceFavorite>(
-            SessionManager.PlaceService, "GetAccountPlaceFavoritesByPlaceId", args);
+            SessionManager.PlaceService, "GetAccountPlaceFavorites", args);
     }
 }

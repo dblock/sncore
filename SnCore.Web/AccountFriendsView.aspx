@@ -36,37 +36,11 @@
     <ItemStyle CssClass="sncore_description" HorizontalAlign="Center" Width="25%" />
     <ItemTemplate>
      <a href="AccountView.aspx?id=<%# Eval("Id") %>">
-      <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("PictureId") %>" />
+      <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("FriendPictureId") %>" />
      </a>
      <div>
       <a href="AccountView.aspx?id=<%# Eval("Id") %>">
-       <%# base.Render(Eval("Name")) %>
-      </a>
-     </div>
-     <div>
-      last activity:
-      <%# base.Adjust(Eval("LastLogin")).ToString("d") %>
-     </div>
-     <div>
-      <%# base.Render(Eval("City")) %>
-      <%# base.Render(Eval("State")) %>
-     </div>
-     <div>
-      <%# base.Render(Eval("Country")) %>
-     </div>
-     <div>
-      <a href='AccountPicturesView.aspx?id=<%# Eval("Id") %>'>
-       <%# GetNewPictures((int) Eval("NewPictures")) %>
-      </a>
-     </div>
-     <div>
-      <a href='AccountDiscussionThreadsView.aspx?id=<%# Eval("Id") %>'>
-       <%# GetNewDiscussionPosts((int) Eval("NewDiscussionPosts")) %>
-      </a>
-     </div>
-     <div>
-      <a href='AccountView.aspx?id=<%# Eval("Id") %>'>
-       <%# GetNewSyndicatedContent((int) Eval("NewSyndicatedContent")) %>
+       <%# base.Render(Eval("FriendName")) %>
       </a>
      </div>
     </ItemTemplate>

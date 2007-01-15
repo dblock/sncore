@@ -135,6 +135,7 @@
     </Compile>
     <Compile Include="WebAccountServiceTest.cs" />
     <Compile Include="WebAccountService_AccountAddressTest.cs" />
+    <Compile Include="WebAccountService_AccountBaseTest.cs" />
     <Compile Include="WebAccountService_AccountEmailConfirmationTest.cs" />
     <Compile Include="WebAccountService_AccountEmailTest.cs" />
     <Compile Include="WebAccountService_AccountInvitationTest.cs" />

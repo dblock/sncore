@@ -23,13 +23,14 @@ public partial class AccountPictureEdit : AuthenticatedPage
 
             if (id > 0)
             {
-                TransitAccountPicture tw = SessionManager.AccountService.GetAccountPictureById(SessionManager.Ticket, id, null);
+                TransitAccountPicture tw = SessionManager.AccountService.GetAccountPictureById(SessionManager.Ticket, id);
                 this.Title = inputName.Text = Renderer.Render(tw.Name);
                 inputDescription.Text = tw.Description;
                 inputPictureThumbnail.Src = string.Format("AccountPictureThumbnail.aspx?id={0}&CacheDuration=0", tw.Id);
                 inputHidden.Checked = tw.Hidden;
 
-                discussionComments.DiscussionId = SessionManager.DiscussionService.GetAccountPictureDiscussionId(id);
+                discussionComments.DiscussionId = SessionManager.DiscussionService.GetOrCreateAccountPictureDiscussionId(
+                    SessionManager.Ticket, id);
                 discussionComments.DataBind();
 
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
@@ -45,13 +46,12 @@ public partial class AccountPictureEdit : AuthenticatedPage
 
     public void save_Click(object sender, EventArgs e)
     {
-        TransitAccountPictureWithBitmap tw = new TransitAccountPictureWithBitmap();
+        TransitAccountPicture tw = new TransitAccountPicture();
         tw.Name = inputName.Text;
         tw.Description = inputDescription.Text;
         tw.Id = RequestId;
         tw.Hidden = inputHidden.Checked;
-        SessionManager.AccountService.AddAccountPicture(SessionManager.Ticket, tw);
+        SessionManager.AccountService.CreateOrUpdateAccountPicture(SessionManager.Ticket, tw);
         Redirect("AccountPicturesManage.aspx");
-
     }
 }

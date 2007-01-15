@@ -26,7 +26,8 @@ public partial class BugProjectsManage : AuthenticatedPage
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        gridManage.DataSource = SessionManager.BugService.GetBugProjects();
+        gridManage.DataSource = SessionManager.BugService.GetBugProjects(
+            SessionManager.Ticket, null);
     }
 
     private enum Cells

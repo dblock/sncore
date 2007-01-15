@@ -30,7 +30,8 @@ public partial class FeedTypesManage : AuthenticatedPage
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        gridManage.DataSource = SessionManager.SyndicationService.GetFeedTypes();
+        gridManage.DataSource = SessionManager.SyndicationService.GetFeedTypes(
+            SessionManager.Ticket, null);
     }
 
     private enum Cells

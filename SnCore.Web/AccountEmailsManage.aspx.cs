@@ -34,7 +34,8 @@ public partial class AccountEmailsManage : AuthenticatedPage
     public void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.AccountService.GetAccountEmailsCount(SessionManager.Ticket);
+        gridManage.VirtualItemCount = SessionManager.AccountService.GetAccountEmailsCount(
+            SessionManager.Ticket, SessionManager.AccountId);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -44,7 +45,8 @@ public partial class AccountEmailsManage : AuthenticatedPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageSize = gridManage.PageSize;
         options.PageNumber = gridManage.CurrentPageIndex;
-        gridManage.DataSource = SessionManager.AccountService.GetAccountEmails(SessionManager.Ticket, options);
+        gridManage.DataSource = SessionManager.AccountService.GetAccountEmails(
+            SessionManager.Ticket, SessionManager.AccountId, options);
     }
 
 
@@ -116,7 +118,7 @@ public partial class AccountEmailsManage : AuthenticatedPage
                     tae.Id = id;
                     tae.Address = address;
                     tae.Principal = true;
-                    SessionManager.AccountService.UpdateAccountEmail(SessionManager.Ticket, tae);
+                    SessionManager.AccountService.CreateOrUpdateAccountEmail(SessionManager.Ticket, tae);
                     gridManage_OnGetDataSource(sender, e);
                     gridManage.DataBind();
                 }
@@ -128,7 +130,7 @@ public partial class AccountEmailsManage : AuthenticatedPage
     {
         TransitAccountEmail te = new TransitAccountEmail();
         te.Address = inputEmailAddress.Text;
-        SessionManager.AccountService.AddAccountEmail(SessionManager.Ticket, te);
+        SessionManager.AccountService.CreateOrUpdateAccountEmail(SessionManager.Ticket, te);
         ReportInfo("A confirmation has ben sent to '" + te.Address + "'.");
         GetData(sender, e);
         inputEmailAddress.Text = string.Empty;

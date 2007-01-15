@@ -18,7 +18,14 @@ namespace SnCore.Web.Soap.Tests.WebObjectServiceTests
         public override WebObjectService.TransitSurvey GetTransitInstance()
         {
             WebObjectService.TransitSurvey t_instance = new WebObjectService.TransitSurvey();
+            t_instance.Name = Guid.NewGuid().ToString();
             return t_instance;
+        }
+
+        [Test]
+        protected void GetAccountSurveysByIdTest()
+        {
+
         }
     }
 }

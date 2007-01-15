@@ -10,6 +10,7 @@ using NHibernate;
 using NHibernate.Expression;
 using Microsoft.Web.Services3;
 using Microsoft.Web.Services3.Design;
+using SnCore.Tools.Web;
 
 namespace SnCore.WebServices
 {
@@ -176,6 +177,30 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
+        /// Get all states within a country.
+        /// </summary>
+        /// <returns>list of transit states</returns>
+        [WebMethod(Description = "Get all states.")]
+        public List<TransitState> GetStatesByCountryName(string ticket, string name, ServiceQueryOptions options)
+        {
+            return WebServiceImpl<TransitState, ManagedState, State>.GetList(
+                ticket, options, string.Format("SELECT State FROM State State WHERE State.Country.Name = '{0}' ORDER BY State.Name ASC",
+                    Renderer.SqlEncode(name)));
+        }
+
+        /// <summary>
+        /// Get all states within a country count.
+        /// </summary>
+        /// <returns>number of states</returns>
+        [WebMethod(Description = "Get all states within a country count.")]
+        public int GetStatesByCountryNameCount(string ticket, string name)
+        {
+            return WebServiceImpl<TransitState, ManagedState, State>.GetCount(
+                ticket, string.Format("WHERE State.Country.Name = '{0}'", 
+                Renderer.SqlEncode(name)));
+        }
+
+        /// <summary>
         /// Delete a state.
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
@@ -263,6 +288,94 @@ namespace SnCore.WebServices
                 ticket, options, expressions, orders);
         }
 
+        /// <summary>
+        /// Get cities within a country and state.
+        /// </summary>
+        /// <param name="state">state name</param>
+        /// <param name="country">country name</param>
+        /// <returns>list of cities</returns>
+        [WebMethod(Description = "Get cities within a country and state.", CacheDuration = 60)]
+        public List<TransitCity> GetCitiesByLocation(string ticket, string country, string state)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                List<TransitCity> result = new List<TransitCity>();
+
+                if (string.IsNullOrEmpty(country))
+                {
+                    return result;
+                }
+
+                Country t_country = ManagedCountry.Find(session, country);
+
+                ICriteria cr = session.CreateCriteria(typeof(City))
+                    .Add(Expression.Eq("Country.Id", t_country.Id));
+
+                IList<City> cities = null;
+
+                if (t_country.States != null && t_country.States.Count > 0 && string.IsNullOrEmpty(state))
+                {
+                    // no state specified but country has states
+                    return result;
+                }
+
+                if (!string.IsNullOrEmpty(state))
+                {
+                    // state specified
+                    State t_state = ManagedState.Find(session, state, country);
+                    cr.Add(Expression.Eq("State.Id", t_state.Id));
+                }
+
+                cities = cr.List<City>();
+
+                foreach (City c in cities)
+                {
+                    ManagedCity m_instance = new ManagedCity(session, c);
+                    result.Add(m_instance.GetTransitInstance(sec));
+                }
+
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Get neighborhoods within a country, state and city.
+        /// </summary>
+        /// <param name="city">city name</param>
+        /// <param name="state">state name</param>
+        /// <param name="country">country name</param>
+        /// <returns>list of neighborhoods</returns>
+        [WebMethod(Description = "Get neighborhoods within a country, state and city.", CacheDuration = 60)]
+        public List<TransitNeighborhood> GetNeighborhoodsByLocation(string ticket, string country, string state, string city)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                List<TransitNeighborhood> result = new List<TransitNeighborhood>();
+
+                if (string.IsNullOrEmpty(city) || string.IsNullOrEmpty(country))
+                {
+                    return result;
+                }
+
+                City t_city = ManagedCity.Find(session, city, state, country);
+
+                IList<Neighborhood> neighborhoods = session.CreateCriteria(typeof(Neighborhood))
+                    .Add(Expression.Eq("City.Id", t_city.Id))
+                    .List<Neighborhood>();
+
+                foreach (Neighborhood nh in neighborhoods)
+                {
+                    ManagedNeighborhood m_instance = new ManagedNeighborhood(session, nh);
+                    result.Add(m_instance.GetTransitInstance(sec));
+                }
+
+                return result;
+            }
+        }
 
         /// <summary>
         /// Get all cities within a country count.

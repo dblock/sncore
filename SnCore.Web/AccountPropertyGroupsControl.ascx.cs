@@ -29,8 +29,9 @@ public partial class AccountPropertyGroupsControl : Control
     {
         if (!IsPostBack)
         {
+            object[] args = { SessionManager.Ticket, null };
             groups.DataSource = SessionManager.GetCachedCollection<TransitAccountPropertyGroup>(
-                SessionManager.AccountService, "GetAccountPropertyGroups", null);
+                SessionManager.AccountService, "GetAccountPropertyGroups", args);
             groups.DataBind();
         }
     }

@@ -53,7 +53,8 @@ public partial class DiscussionFullViewControl : Control
 
     public void GetData(object sender, EventArgs e)
     {
-        TransitDiscussion d = SessionManager.DiscussionService.GetDiscussionById(DiscussionId);
+        TransitDiscussion d = SessionManager.DiscussionService.GetDiscussionById(
+            SessionManager.Ticket, DiscussionId);
         if (string.IsNullOrEmpty(discussionLabel.Text)) discussionLabel.Text = Renderer.Render(d.Name);
         discussionDescription.Text = Renderer.Render(d.Description);
         divDescription.Visible = ! string.IsNullOrEmpty(discussionDescription.Text);

@@ -25,7 +25,8 @@ public partial class BugSeverityEdit : AuthenticatedPage
 
             if (RequestId > 0)
             {
-                TransitBugSeverity t = SessionManager.BugService.GetBugSeverityById(RequestId);
+                TransitBugSeverity t = SessionManager.BugService.GetBugSeverityById(
+                    SessionManager.Ticket, RequestId);
                 inputName.Text = t.Name;
                 sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
             }

@@ -34,9 +34,10 @@ public partial class PlacesFavoritesView : Page
 
     private void GetDataFavorites(object sender, EventArgs e)
     {
+        object[] args = { SessionManager.Ticket };
         gridManageFavorites.CurrentPageIndex = 0;
-        gridManageFavorites.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            SessionManager.PlaceService, "GetFavoritePlacesCount", null);
+        gridManageFavorites.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitPlace>(
+            SessionManager.PlaceService, "GetFavoritePlacesCount", args);
         gridManageFavorites_OnGetDataSource(sender, e);
         gridManageFavorites.DataBind();
     }
@@ -45,7 +46,7 @@ public partial class PlacesFavoritesView : Page
     {
             ServiceQueryOptions serviceoptions = new ServiceQueryOptions(
                 gridManageFavorites.PageSize, gridManageFavorites.CurrentPageIndex);
-            object[] args = { serviceoptions };
+            object[] args = { SessionManager.Ticket, serviceoptions };
             gridManageFavorites.DataSource = SessionManager.GetCachedCollection<TransitPlace>(
                 SessionManager.PlaceService, "GetFavoritePlaces", args);
     }

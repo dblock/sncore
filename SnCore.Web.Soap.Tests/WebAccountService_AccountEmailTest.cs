@@ -7,8 +7,20 @@ using System.Web.Services.Protocols;
 namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
 {
     [TestFixture]
-    public class AccountEmailTest : WebServiceTest<WebAccountService.TransitAccountEmail, WebAccountServiceNoCache>
+    public class AccountEmailTest : AccountBaseTest<WebAccountService.TransitAccountEmail>
     {
+        [SetUp]
+        public override void SetUp()
+        {
+            base.SetUp();
+        }
+
+        [TearDown]
+        public override void TearDown()
+        {
+            base.TearDown();
+        }
+
         public AccountEmailTest()
             : base("AccountEmail")
         {
@@ -20,18 +32,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             WebAccountService.TransitAccountEmail t_instance = new WebAccountService.TransitAccountEmail();
             t_instance.Address = string.Format("{0}@localhost.com", Guid.NewGuid().ToString());
             return t_instance;
-        }
-
-        public override object[] GetArgs(string ticket, object options)
-        {
-            object[] args = { ticket, GetAdminAccount().Id, options };
-            return args;
-        }
-
-        public override object[] GetCountArgs(string ticket)
-        {
-            object[] args = { ticket, GetAdminAccount().Id };
-            return args;
         }
 
         [Test]

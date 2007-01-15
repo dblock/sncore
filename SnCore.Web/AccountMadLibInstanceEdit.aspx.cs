@@ -92,7 +92,7 @@ public partial class AccountMadLibInstanceEdit : AuthenticatedPage
         {
             linkCancel.NavigateUrl = ReturnUrl;
 
-            if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket))
+            if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket, SessionManager.AccountId))
             {
                 ReportWarning("You don't have any verified e-mail addresses.\n" +
                     "You must add/confirm a valid e-mail address before posting mad libs.");
@@ -110,7 +110,7 @@ public partial class AccountMadLibInstanceEdit : AuthenticatedPage
 
             if (MadLibInstanceId > 0)
             {
-                TransitMadLibInstance tmi = SessionManager.MadLibService.GetMadLibInstanceById(MadLibInstanceId);
+                TransitMadLibInstance tmi = SessionManager.MadLibService.GetMadLibInstanceById(SessionManager.Ticket, MadLibInstanceId);
                 madLibInstance.TextBind(tmi.Text);
             }
 

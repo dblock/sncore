@@ -38,9 +38,9 @@ public partial class PlaceAttributesViewControl : Control
     public void GetData(object sender, EventArgs e)
     {
         attributes.CurrentPageIndex = 0;
-        object[] args = { PlaceId };
-        attributes.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            SessionManager.PlaceService, "GetPlaceAttributesCountById", args);
+        object[] args = { SessionManager.Ticket, PlaceId };
+        attributes.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitPlaceAttribute>(
+            SessionManager.PlaceService, "GetPlaceAttributesCount", args);
         attributes_OnGetDataSource(sender, e);
         attributes.DataBind();
     }
@@ -56,8 +56,8 @@ public partial class PlaceAttributesViewControl : Control
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = attributes.CurrentPageIndex;
         options.PageSize = attributes.PageSize;
-        object[] args = { PlaceId, options };
+        object[] args = { SessionManager.Ticket, PlaceId, options };
         attributes.DataSource = SessionManager.GetCachedCollection<TransitPlaceAttribute>(
-            SessionManager.PlaceService, "GetPlaceAttributesById", args);
+            SessionManager.PlaceService, "GetPlaceAttributes", args);
     }
 }

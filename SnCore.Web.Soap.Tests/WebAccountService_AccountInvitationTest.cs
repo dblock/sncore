@@ -7,8 +7,20 @@ using System.Web.Services.Protocols;
 namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
 {
     [TestFixture]
-    public class AccountInvitationTest : WebServiceTest<WebAccountService.TransitAccountInvitation, WebAccountServiceNoCache>
+    public class AccountInvitationTest : AccountBaseTest<WebAccountService.TransitAccountInvitation>
     {
+        [SetUp]
+        public override void SetUp()
+        {
+            base.SetUp();
+        }
+
+        [TearDown]
+        public override void TearDown()
+        {
+            base.TearDown();
+        }
+
         public AccountInvitationTest()
             : base("AccountInvitation")
         {
@@ -18,22 +30,11 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         public override WebAccountService.TransitAccountInvitation GetTransitInstance()
         {
             WebAccountService.TransitAccountInvitation t_instance = new WebAccountService.TransitAccountInvitation();
+            t_instance.AccountId = _account_id;
             t_instance.Email = string.Format("{0}@localhost.com", Guid.NewGuid().ToString());
             t_instance.Message = Guid.NewGuid().ToString();
             t_instance.Code = Guid.NewGuid().ToString(); // only useful when admin
             return t_instance;
-        }
-
-        public override object[] GetArgs(string ticket, object options)
-        {
-            object[] args = { ticket, GetAdminAccount().Id, options };
-            return args;
-        }
-
-        public override object[] GetCountArgs(string ticket)
-        {
-            object[] args = { ticket, GetAdminAccount().Id };
-            return args;
         }
 
         [Test]

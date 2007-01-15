@@ -64,13 +64,13 @@ public partial class AccountStoriesView : Page
         options.PageSize = gridManage.PageSize;
         if (string.IsNullOrEmpty(inputSearch.Text))
         {
-            object[] args = { options };
+            object[] args = { SessionManager.Ticket, options };
             gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountStory>(
                 SessionManager.StoryService, "GetLatestAccountStories", args);
         }
         else
         {
-            object[] args = { inputSearch.Text, options };
+            object[] args = { SessionManager.Ticket, inputSearch.Text, options };
             gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountStory>(
                 SessionManager.StoryService, "SearchAccountStories", args);
         }
@@ -82,13 +82,14 @@ public partial class AccountStoriesView : Page
 
         if (string.IsNullOrEmpty(inputSearch.Text))
         {
-            gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-                SessionManager.StoryService, "GetLatestAccountStoriesCount", null);
+            object[] args = { SessionManager.Ticket };
+            gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccountStory>(
+                SessionManager.StoryService, "GetAllAccountStoriesCount", args);
         }
         else
         {
-            object[] args = { inputSearch.Text };
-            gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount(
+            object[] args = { SessionManager.Ticket, inputSearch.Text };
+            gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccountStory>(
                 SessionManager.StoryService, "SearchAccountStoriesCount", args);
         }
 

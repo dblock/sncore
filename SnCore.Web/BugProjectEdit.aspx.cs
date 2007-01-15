@@ -23,7 +23,8 @@ public partial class BugProjectEdit : AuthenticatedPage
 
             if (RequestId > 0)
             {
-                TransitBugProject t = SessionManager.BugService.GetBugProjectById(RequestId);
+                TransitBugProject t = SessionManager.BugService.GetBugProjectById(
+                    SessionManager.Ticket, RequestId);
                 inputName.Text = t.Name;
                 inputDescription.Text = t.Description;
                 sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));

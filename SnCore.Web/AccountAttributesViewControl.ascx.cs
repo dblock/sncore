@@ -38,9 +38,9 @@ public partial class AccountAttributesViewControl : Control
     public void GetData(object sender, EventArgs e)
     {
         attributes.CurrentPageIndex = 0;
-        object[] args = { AccountId };
-        attributes.VirtualItemCount = SessionManager.GetCachedCollectionCount(
-            SessionManager.AccountService, "GetAccountAttributesCountById", args);
+        object[] args = { SessionManager.Ticket, AccountId };
+        attributes.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccountAttribute>(
+            SessionManager.AccountService, "GetAccountAttributesCount", args);
         attributes_OnGetDataSource(sender, e);
         attributes.DataBind();
     }
@@ -56,8 +56,8 @@ public partial class AccountAttributesViewControl : Control
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = attributes.CurrentPageIndex;
         options.PageSize = attributes.PageSize;
-        object[] args = { AccountId, options };
+        object[] args = { SessionManager.Ticket, AccountId, options };
         attributes.DataSource = SessionManager.GetCachedCollection<TransitAccountAttribute>(
-            SessionManager.AccountService, "GetAccountAttributesById", args);
+            SessionManager.AccountService, "GetAccountAttributes", args);
     }
 }

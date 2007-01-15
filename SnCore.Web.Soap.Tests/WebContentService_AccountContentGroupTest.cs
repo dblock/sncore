@@ -37,5 +37,11 @@ namespace SnCore.Web.Soap.Tests.WebContentServiceTests
             object[] args = { ticket, GetAdminAccount().Id, options };
             return args;
         }
+
+        [Test]
+        protected void GetAllAccountContentGroupsTest()
+        {
+
+        }
     }
 }

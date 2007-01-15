@@ -31,7 +31,8 @@ public partial class AccountFeedsManage : AuthenticatedPage
     public void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.SyndicationService.GetAccountFeedsCount(SessionManager.Ticket);
+        gridManage.VirtualItemCount = SessionManager.SyndicationService.GetAccountFeedsCount(
+            SessionManager.Ticket, SessionManager.AccountId);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
@@ -46,7 +47,8 @@ public partial class AccountFeedsManage : AuthenticatedPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = gridManage.CurrentPageIndex;
         options.PageSize = gridManage.PageSize;
-        gridManage.DataSource = SessionManager.SyndicationService.GetAccountFeeds(SessionManager.Ticket, options);
+        gridManage.DataSource = SessionManager.SyndicationService.GetAccountFeeds(
+            SessionManager.Ticket, SessionManager.AccountId, options);
     }
 
     public void gridManage_ItemCommand(object sender, DataGridCommandEventArgs e)

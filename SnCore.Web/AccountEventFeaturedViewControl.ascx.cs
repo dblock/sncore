@@ -39,9 +39,9 @@ public partial class AccountEventFeaturedViewControl : Control
         {
             if (mFeature == null)
             {
-                object[] args = { "AccountEvent" };
+                object[] args = { SessionManager.Ticket, "AccountEvent" };
                 mFeature = SessionManager.GetCachedItem<TransitFeature>(
-                    SessionManager.SystemService, "GetLatestFeature", args);
+                    SessionManager.ObjectService, "GetLatestFeature", args);
             }
 
             return mFeature;

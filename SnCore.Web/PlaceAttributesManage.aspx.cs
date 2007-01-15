@@ -54,7 +54,8 @@ public partial class PlaceAttributesManage : AuthenticatedPage
     public void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.PlaceService.GetPlaceAttributesCountById(RequestId);
+        gridManage.VirtualItemCount = SessionManager.PlaceService.GetPlaceAttributesCount(
+            SessionManager.Ticket, RequestId);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
@@ -69,8 +70,8 @@ public partial class PlaceAttributesManage : AuthenticatedPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageSize = gridManage.PageSize;
         options.PageNumber = gridManage.CurrentPageIndex;
-        gridManage.DataSource = SessionManager.PlaceService.GetPlaceAttributesById(
-            RequestId, options);
+        gridManage.DataSource = SessionManager.PlaceService.GetPlaceAttributes(
+            SessionManager.Ticket, RequestId, options);
     }
 
     public void gridManage_ItemCommand(object sender, DataGridCommandEventArgs e)

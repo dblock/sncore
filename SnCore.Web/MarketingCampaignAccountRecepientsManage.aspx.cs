@@ -25,7 +25,8 @@ public partial class MarketingCampaignAccountRecepientsManage : AuthenticatedPag
             campaignName.Text = string.Format("{0}: {1}", Render(tc.Name), campaignName.Text);
             GetData(sender, e);
 
-            inputAccountPropertyGroup.DataSource = SessionManager.AccountService.GetAccountPropertyGroups();
+            inputAccountPropertyGroup.DataSource = SessionManager.AccountService.GetAccountPropertyGroups(
+                SessionManager.Ticket, null);
             inputAccountPropertyGroup.DataBind();
             inputAccountPropertyGroup_SelectedIndexChanged(sender, e);
 
@@ -41,7 +42,8 @@ public partial class MarketingCampaignAccountRecepientsManage : AuthenticatedPag
     void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.MarketingService.GetCampaignAccountRecepientsByIdCount(SessionManager.Ticket, RequestId);
+        gridManage.VirtualItemCount = SessionManager.MarketingService.GetCampaignAccountRecepientsCount(
+            SessionManager.Ticket, RequestId);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -51,7 +53,8 @@ public partial class MarketingCampaignAccountRecepientsManage : AuthenticatedPag
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = gridManage.CurrentPageIndex;
         options.PageSize = gridManage.PageSize;
-        gridManage.DataSource = SessionManager.MarketingService.GetCampaignAccountRecepientsById(SessionManager.Ticket, RequestId, options);
+        gridManage.DataSource = SessionManager.MarketingService.GetCampaignAccountRecepients(
+            SessionManager.Ticket, RequestId, options);
     }
 
     public void importSingleUser_Click(object sender, EventArgs e)
@@ -114,7 +117,7 @@ public partial class MarketingCampaignAccountRecepientsManage : AuthenticatedPag
     public void inputAccountPropertyGroup_SelectedIndexChanged(object sender, EventArgs e)
     {
         inputAccountProperty.DataSource = SessionManager.AccountService.GetAccountProperties(
-            int.Parse(inputAccountPropertyGroup.SelectedValue));
+            SessionManager.Ticket, int.Parse(inputAccountPropertyGroup.SelectedValue), null);
         inputAccountProperty.DataBind();
     }
 

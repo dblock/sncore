@@ -18,8 +18,8 @@ public partial class SearchAccountStoriesControl : SearchControl
 {
     protected override int GetResultsCount()
     {
-        object[] args = { SearchQuery };
-        return SessionManager.GetCachedCollectionCount(
+        object[] args = { SessionManager.Ticket, SearchQuery };
+        return SessionManager.GetCachedCollectionCount<TransitAccountStory>(
             SessionManager.StoryService, "SearchAccountStoriesCount", args);
     }
 

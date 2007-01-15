@@ -48,13 +48,14 @@ public partial class AccountPreferencesManage : AuthenticatedPage
             if (numbers == null)
             {
                 numbers = new AccountNumbers();
-                numbers.FirstDegreeCount = SessionManager.SocialService.GetFirstDegreeCountById(SessionManager.Account.Id);
-                numbers.SecondDegreeCount = SessionManager.SocialService.GetNDegreeCountById(SessionManager.Account.Id, 2);
-                numbers.AllCount = SessionManager.SocialService.GetAccountsCount();
+                numbers.FirstDegreeCount = SessionManager.SocialService.GetFirstDegreeCountById(SessionManager.Ticket, SessionManager.AccountId);
+                numbers.SecondDegreeCount = SessionManager.SocialService.GetNDegreeCountById(SessionManager.Ticket, SessionManager.AccountId, 2);
+                numbers.AllCount = SessionManager.SocialService.GetAccountsCount(SessionManager.Ticket);
 
                 DiscussionQueryOptions options = new DiscussionQueryOptions();
                 options.AccountId = SessionManager.Account.Id;
-                numbers.PostsCount = SessionManager.DiscussionService.GetUserDiscussionThreadsCount(options);
+                numbers.PostsCount = SessionManager.DiscussionService.GetUserDiscussionThreadsCount(
+                    SessionManager.Ticket, options);
 
                 Cache.Insert(string.Format("accountnumbers:{0}", SessionManager.Ticket),
                     numbers, null, Cache.NoAbsoluteExpiration, SessionManager.DefaultCacheTimeSpan);
@@ -82,12 +83,14 @@ public partial class AccountPreferencesManage : AuthenticatedPage
 
             ArrayList countries = new ArrayList();
             if (SessionManager.Account.Country.Length == 0) countries.Add(new TransitCountry());
-            object[] c_args = { null };
+            object[] c_args = { SessionManager.Ticket, null };
             countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(SessionManager.LocationService, "GetCountries", c_args));
 
             ArrayList states = new ArrayList();
             if (SessionManager.Account.State.Length == 0) states.Add(new TransitState());
-            states.AddRange(SessionManager.LocationService.GetStatesByCountry(SessionManager.Account.Country));
+            object[] s_args = { SessionManager.Ticket, SessionManager.Account.Country, null };
+            states.AddRange(SessionManager.GetCachedCollection<TransitState>(
+                SessionManager.LocationService, "GetStatesByCountryName", s_args));
 
             inputCountry.DataSource = countries;
             inputCountry.DataBind();
@@ -108,7 +111,7 @@ public partial class AccountPreferencesManage : AuthenticatedPage
 
     public void save_Click(object sender, EventArgs e)
     {
-        TransitAccount ta = new TransitAccount();
+        TransitAccount ta = SessionManager.Account;
         ta.Birthday = inputBirthday.SelectedDate;
         ta.Name = inputName.Text;
         ta.City = inputCity.Text;
@@ -120,17 +123,18 @@ public partial class AccountPreferencesManage : AuthenticatedPage
         if (ta.Signature.Length > inputSignature.MaxLength)
             throw new Exception(string.Format("Signature may not exceed {0} characters.", inputSignature.MaxLength));
 
-        SessionManager.AccountService.UpdateAccount(SessionManager.Ticket, ta);
+        SessionManager.AccountService.CreateOrUpdateAccount(SessionManager.Ticket, ta);
         Cache.Remove(string.Format("account:{0}", SessionManager.Ticket));
-        ReportInfo("Account updated.");
+        ReportInfo("Profile saved.");
     }
 
     public void inputCountry_SelectedIndexChanged(object sender, EventArgs e)
     {
         ArrayList states = new ArrayList();
         states.Add(new TransitState());
-        object[] args = { inputCountry.SelectedValue };
-        states.AddRange(SessionManager.GetCachedCollection<TransitState>(SessionManager.LocationService, "GetStatesByCountry", args));
+        object[] args = { SessionManager.Ticket, inputCountry.SelectedValue, null };
+        states.AddRange(SessionManager.GetCachedCollection<TransitState>(
+            SessionManager.LocationService, "GetStatesByCountryName", args));
 
         inputState.DataSource = states;
         inputState.DataBind();

@@ -21,7 +21,8 @@ public partial class EmailAccountMadLibInstance : AuthenticatedPage
         {
             if (mMadLibInstance == null)
             {
-                mMadLibInstance = SessionManager.MadLibService.GetMadLibInstanceById(RequestId);
+                mMadLibInstance = SessionManager.MadLibService.GetMadLibInstanceById(
+                    SessionManager.Ticket, RequestId);
             }
             return mMadLibInstance;
         }
@@ -35,7 +36,8 @@ public partial class EmailAccountMadLibInstance : AuthenticatedPage
         {
             if (mRecepient == null)
             {
-                mRecepient = SessionManager.AccountService.GetAccountById(GetId("aid"));
+                mRecepient = SessionManager.AccountService.GetAccountById(
+                    SessionManager.Ticket, GetId("aid"));
             }
 
             return mRecepient;

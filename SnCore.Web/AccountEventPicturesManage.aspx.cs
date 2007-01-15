@@ -40,7 +40,7 @@ public partial class AccountEventPicturesManage : AuthenticatedPage
             StackSiteMap(sitemapdata);
         }
 
-        if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket))
+        if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket, SessionManager.AccountId))
         {
             ReportWarning("You don't have any verified e-mail addresses.\n" +
                 "You must add/confirm a valid e-mail address before uploading pictures.");
@@ -51,7 +51,8 @@ public partial class AccountEventPicturesManage : AuthenticatedPage
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        gridManage.DataSource = SessionManager.EventService.GetAccountEventPicturesById(RequestId, null);
+        gridManage.DataSource = SessionManager.EventService.GetAccountEventPictures(
+            SessionManager.Ticket, RequestId, null);
     }
 
     private enum Cells
@@ -94,7 +95,7 @@ public partial class AccountEventPicturesManage : AuthenticatedPage
             {
                 try
                 {
-                    TransitAccountEventPictureWithPicture p = new TransitAccountEventPictureWithPicture();
+                    TransitAccountEventPicture p = new TransitAccountEventPicture();
                     ThumbnailBitmap t = new ThumbnailBitmap(file.InputStream);
                     p.Picture = t.Bitmap;
                     p.Name = Path.GetFileName(file.FileName);

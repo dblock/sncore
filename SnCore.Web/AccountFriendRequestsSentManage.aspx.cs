@@ -19,7 +19,9 @@ public partial class AccountFriendRequestsSentManage : AuthenticatedPage
         listSent.OnGetDataSource += new EventHandler(listSent_OnGetDataSource);
         if (!IsPostBack)
         {
-            listSent.VirtualItemCount = SessionManager.SocialService.GetAccountFriendRequestsSentCount(SessionManager.Ticket);
+            listSent.VirtualItemCount = SessionManager.SocialService.GetSentAccountFriendRequestsCount(
+                SessionManager.Ticket, SessionManager.AccountId);
+
             GetData(sender, e);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
@@ -35,7 +37,8 @@ public partial class AccountFriendRequestsSentManage : AuthenticatedPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = listSent.CurrentPageIndex;
         options.PageSize = listSent.PageSize;
-        listSent.DataSource = SessionManager.SocialService.GetAccountFriendRequestsSent(SessionManager.Ticket, options);
+        listSent.DataSource = SessionManager.SocialService.GetSentAccountFriendRequests(
+            SessionManager.Ticket, SessionManager.AccountId, options);
     }
 
     public void GetData(object sender, EventArgs e)

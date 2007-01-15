@@ -35,11 +35,12 @@ public partial class AccountSurvey : AuthenticatedPage
 
     protected override void OnInit(EventArgs e)
     {
-        TransitSurvey ts = SessionManager.SystemService.GetSurveyById(RequestId);
+        TransitSurvey ts = SessionManager.ObjectService.GetSurveyById(
+            SessionManager.Ticket, RequestId);
         this.Title = surveyName.Text = Render(ts.Name);
 
         List<TransitAccountSurveyAnswer> answers = SessionManager.AccountService.GetAccountSurveyAnswers(
-            SessionManager.Ticket, RequestId);
+            SessionManager.Ticket, SessionManager.AccountId, RequestId, null);
 
         SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
         sitemapdata.Add(new SiteMapDataAttributeNode(ts.Name, Request, string.Format("AccountSurveyView.aspx?id={0}", ts.Id)));
@@ -91,7 +92,7 @@ public partial class AccountSurvey : AuthenticatedPage
             p.SurveyQuestionId = entry.SurveyAnswer.SurveyQuestionId;
             p.Id = entry.SurveyAnswer.Id;
             p.Answer = entry.AnswerTextBox.Text;
-            SessionManager.AccountService.AddAccountSurveyAnswer(SessionManager.Ticket, p);
+            SessionManager.AccountService.CreateOrUpdateAccountSurveyAnswer(SessionManager.Ticket, p);
         }
     }
 }

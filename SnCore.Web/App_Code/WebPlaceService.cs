@@ -674,7 +674,7 @@ namespace SnCore.WebServices
         {
             ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
             return WebServiceImpl<TransitAccountPlaceFavorite, ManagedAccountPlaceFavorite, AccountPlaceFavorite>.GetList(
-                ticket, options);
+                ticket, options, expressions, null);
         }
 
         /// <summary>
@@ -767,7 +767,7 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>number of places</returns>
         [WebMethod(Description = "Return the number of places matching a query.", CacheDuration = 60)]
-        public int SearchPlacesCount(string s)
+        public int SearchPlacesCount(string ticket, string s)
         {
             if (string.IsNullOrEmpty(s))
                 return 0;

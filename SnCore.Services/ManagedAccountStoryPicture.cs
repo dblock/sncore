@@ -146,7 +146,7 @@ namespace SnCore.Services
         }
 
         public TransitAccountStoryPicture(AccountStoryPicture p)
-            : base(p, p.AccountStory.AccountStoryPictures)
+            : base(p)
         {
 
         }
@@ -285,6 +285,13 @@ namespace SnCore.Services
             acl.Add(new ACLAuthenticatedAllowCreate());
             acl.Add(new ACLAccount(mInstance.AccountStory.Account, DataOperation.All));
             return acl;
+        }
+
+        public override TransitAccountStoryPicture GetTransitInstance(ManagedSecurityContext sec)
+        {
+            TransitAccountStoryPicture t_instance = base.GetTransitInstance(sec);
+            t_instance.SetWithinCollection(mInstance, mInstance.AccountStory.AccountStoryPictures);
+            return t_instance;
         }
     }
 }

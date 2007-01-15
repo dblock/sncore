@@ -169,17 +169,35 @@ namespace SnCore.WebServices
         /// <param name="defaultvalue"></param>
         /// <returns></returns>
         [WebMethod(Description = "Get a configuration value by name with default.")]
-        public string GetConfigurationValueWithDefault(string ticket, string name, string defaultvalue)
+        public string GetConfigurationByNameValueWithDefault(string ticket, string name, string defaultvalue)
         {
+            return GetConfigurationByNameWithDefault(ticket, name, defaultvalue).Value;
+        }
+
+        /// <summary>
+        /// Get a configuration by name with default.
+        /// </summary>
+        /// <param name="ticket"></param>
+        /// <param name="name"></param>
+        /// <param name="defaultvalue"></param>
+        /// <returns></returns>
+        [WebMethod(Description = "Get a configuration value by name with default.")]
+        public TransitConfiguration GetConfigurationByNameWithDefault(string ticket, string name, string defaultvalue)
+        {
+            TransitConfiguration result = null;
             try
             {
-                return WebServiceImpl<TransitConfiguration, ManagedConfiguration, Configuration>.GetByCriterion(
-                    ticket, Expression.Eq("OptionName", name)).Value;
+                result = WebServiceImpl<TransitConfiguration, ManagedConfiguration, Configuration>.GetByCriterion(
+                    ticket, Expression.Eq("OptionName", name));
             }
             catch (ObjectNotFoundException)
             {
-                return defaultvalue;
+                result = new TransitConfiguration();
+                result.Name = name;
+                result.Value = defaultvalue;
             }
+
+            return result;
         }
 
         #endregion

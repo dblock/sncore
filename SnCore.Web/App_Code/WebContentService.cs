@@ -56,6 +56,29 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
+        /// Get account content groups count.
+        /// </summary>
+        [WebMethod(Description = "Get account content groups count.", CacheDuration = 60)]
+        public int GetAllAccountContentGroupsCount(string ticket)
+        {
+            return WebServiceImpl<TransitAccountContentGroup, ManagedAccountContentGroup, AccountContentGroup>.GetCount(
+                ticket);
+        }
+
+        /// <summary>
+        /// Get account content groups.
+        /// </summary>
+        /// <param name="id">account id</param>
+        /// <returns>transit account content groups</returns>
+        [WebMethod(Description = "Get account content groups.", CacheDuration = 60)]
+        public List<TransitAccountContentGroup> GetAllAccountContentGroups(string ticket, ServiceQueryOptions options)
+        {
+            Order[] orders = { Order.Desc("Created") };
+            return WebServiceImpl<TransitAccountContentGroup, ManagedAccountContentGroup, AccountContentGroup>.GetList(
+                ticket, options, null, orders);
+        }
+
+        /// <summary>
         /// Create or update a content group.
         /// </summary>
         /// <param name="ticket">authentication ticket</param>

@@ -29,7 +29,8 @@ public partial class EmailAccountLoginReminder : AuthenticatedPage
         {
             if (mAccount == null && RequestId > 0)
             {
-                mAccount = SessionManager.AccountService.GetAccountById(RequestId);
+                mAccount = SessionManager.AccountService.GetAccountById(
+                    SessionManager.Ticket, RequestId);
             }
             return mAccount;
         }

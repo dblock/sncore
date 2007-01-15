@@ -143,5 +143,11 @@ namespace SnCore.Web.Soap.Tests.WebBugServiceTests
 
             Delete(GetAdminTicket(), id);
         }
+
+        [Test]
+        protected void GetBugsWithOptionsTest()
+        {
+
+        }
     }
 }

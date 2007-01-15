@@ -29,7 +29,8 @@ public partial class AccountPlaceFavoritesRss : AccountPersonPage
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = 0;
             options.PageSize = 25;
-            rssRepeater.DataSource = SessionManager.PlaceService.GetAccountPlaceFavoritesByAccountId(RequestId, options);
+            rssRepeater.DataSource = SessionManager.PlaceService.GetAccountPlaceFavoritesByAccountId(
+                SessionManager.Ticket, RequestId, options);
             rssRepeater.DataBind();
         }
     }
