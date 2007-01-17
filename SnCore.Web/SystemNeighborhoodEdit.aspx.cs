@@ -23,8 +23,9 @@ public partial class SystemNeighborhoodEdit : AuthenticatedPage
             sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Neighborhoods", Request, "SystemNeighborhoodsManage.aspx"));
 
-            inputCountry.DataSource = SessionManager.GetCollection<TransitCountry>(
-                (ServiceQueryOptions) null, SessionManager.LocationService.GetCountries);
+            string defaultcountry = SessionManager.GetCachedConfiguration("SnCore.Country.Default", "United States");
+            inputCountry.DataSource = SessionManager.GetCollection<TransitCountry, string>(
+                defaultcountry, (ServiceQueryOptions)null, SessionManager.LocationService.GetCountriesWithDefault);
             inputCountry.DataBind();
 
             if (RequestId > 0)

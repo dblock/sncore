@@ -63,20 +63,31 @@ namespace SnCore.WebServices
             Order[] orders = { Order.Asc("Name") }; 
             return WebServiceImpl<TransitCountry, ManagedCountry, Country>.GetList(
                 ticket, options, null, orders);
+        }
 
-            //TODO: reimplement in UI
-            //if (options == null)
-            //{
-            //    foreach (TransitCountry country in result)
-            //    {
-            //        if (country.Name == "United States")
-            //        {
-            //            result.Insert(0, new TransitCountry());
-            //            result.Insert(0, country);
-            //            break;
-            //        }
-            //    }
-            //}
+        /// <summary>
+        /// Get all countries.
+        /// </summary>
+        /// <returns>list of transit countries</returns>
+        [WebMethod(Description = "Get all countries.")]
+        public List<TransitCountry> GetCountriesWithDefault(string ticket, string defaultname, ServiceQueryOptions options)
+        {
+            List<TransitCountry> result = GetCountries(ticket, options);
+
+            if (options == null)
+            {
+                foreach (TransitCountry country in result)
+                {
+                    if (country.Name == defaultname)
+                    {
+                        result.Insert(0, new TransitCountry());
+                        result.Insert(0, country);
+                        break;
+                    }
+                }
+            }
+
+            return result;
         }
 
         /// <summary>

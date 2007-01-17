@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.WebServices;
 using SnCore.Services;
+using System.Web.Caching;
 
 public partial class AccountContentGroupLinkControl : Control
 {
@@ -53,30 +54,46 @@ public partial class AccountContentGroupLinkControl : Control
         }
     }
 
+    protected TransitAccountContentGroup GetTransitAccountContentGroup()
+    {
+        if (string.IsNullOrEmpty(ConfigurationName))
+            return null;
+
+        string key = string.Format("cg:{0}", ConfigurationName.GetHashCode());
+
+        TransitAccountContentGroup instance = (TransitAccountContentGroup) Cache[key];
+
+        if (instance != null)
+            return instance;
+
+        int id = int.Parse(SessionManager.GetCachedConfiguration(ConfigurationName, "0"));
+
+        if (id > 0)
+        {
+            instance = SessionManager.GetInstance<TransitAccountContentGroup, int>(
+                id, SessionManager.ContentService.GetAccountContentGroupById);
+        }
+
+        Cache.Insert(key, instance, null, Cache.NoAbsoluteExpiration, SessionManager.DefaultCacheTimeSpan);
+        return instance;
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
             try
             {
-                if (!string.IsNullOrEmpty(ConfigurationName))
+                TransitAccountContentGroup group = GetTransitAccountContentGroup();
+
+                if (group != null)
                 {
-                    int id = int.Parse(SessionManager.GetCachedConfiguration(ConfigurationName, "0"));
-
-                    if (id <= 0)
-                    {
-                        throw new Exception(string.Format("Invalid id {0} for configuration {1}", id, ConfigurationName)); 
-                    }
-
-                    TransitAccountContentGroup group = SessionManager.GetInstance<TransitAccountContentGroup, int>(
-                        id, SessionManager.ContentService.GetAccountContentGroupById);
-
-                    linkContentGroup.Text = string.Format("{0}{1}", 
+                    linkContentGroup.Text = string.Format("{0}{1}",
                         ShowLinkPrefix ? "&#187; " : string.Empty,
                         Render(LowerCase ? group.Name.ToLower() : group.Name));
 
                     linkContentGroup.ToolTip = Render(group.Description);
-                    linkContentGroup.NavigateUrl = string.Format("AccountContentGroupView.aspx?id={0}", id);
+                    linkContentGroup.NavigateUrl = string.Format("AccountContentGroupView.aspx?id={0}", group.Id);
                 }
                 else
                 {

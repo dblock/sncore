@@ -25,8 +25,9 @@ public partial class SystemStateEdit : AuthenticatedPage
 
             int id = RequestId;
 
-            inputCountry.DataSource = SessionManager.GetCollection<TransitCountry>(
-                (ServiceQueryOptions) null, SessionManager.LocationService.GetCountries);
+            string defaultcountry = SessionManager.GetCachedConfiguration("SnCore.Country.Default", "United States");
+            inputCountry.DataSource = SessionManager.GetCollection<TransitCountry, string>(
+                defaultcountry, (ServiceQueryOptions)null, SessionManager.LocationService.GetCountriesWithDefault);
             inputCountry.DataBind();
 
             if (id > 0)

@@ -22,7 +22,7 @@ using System.Web.Hosting;
 
 public class SessionManager
 {
-    static TimeSpan s_RequestCommitInterval = new TimeSpan(0, 3, 0); // commit every three minutes
+    static TimeSpan s_RequestCommitInterval = new TimeSpan(0, 1, 0); // commit every three minutes
     private static DateTime s_RequestsLastCommit = DateTime.UtcNow;
     private static List<TransitStatsRequest> s_Requests = new List<TransitStatsRequest>(1024);
     public static TimeSpan DefaultCacheTimeSpan = new TimeSpan(0, 5, 0);
@@ -445,7 +445,7 @@ public class SessionManager
 
     #endregion
 
-    #region Kitchen Sink (TODO)
+    #region Kitchen Sink (TODO: move)
 
     public EventLog EventLog
     {
@@ -491,22 +491,19 @@ public class SessionManager
         }
         else
         {
-            return string.Empty;
+            TransitPlace p = GetInstance<TransitPlace, string, string>(
+                tagname, tagvalue, PlaceService.FindPlace);
 
-            // TODO
-            //object[] args = { tagname, tagvalue };
-            //TransitPlace p = GetCachedItem<TransitPlace>(PlaceService, "FindPlace", args);
-
-            //if (p == null)
-            //{
-            //    return string.Format("<a href=\"{3}/PlaceView.aspx?city={0}&name={1}\">{2}</a>",
-            //        Renderer.UrlEncode(tagname), Renderer.UrlEncode(tagvalue), Renderer.Render(tagvalue), WebsiteUrl);
-            //}
-            //else
-            //{
-            //    return string.Format("<a href=\"{2}/PlaceView.aspx?id={0}\">{1}</a>",
-            //        p.Id, Renderer.Render(p.Name), WebsiteUrl);
-            //}
+            if (p == null)
+            {
+                return string.Format("<a href=\"{3}/PlaceView.aspx?city={0}&name={1}\">{2}</a>",
+                    Renderer.UrlEncode(tagname), Renderer.UrlEncode(tagvalue), Renderer.Render(tagvalue), WebsiteUrl);
+            }
+            else
+            {
+                return string.Format("<a href=\"{2}/PlaceView.aspx?id={0}\">{1}</a>",
+                    p.Id, Renderer.Render(p.Name), WebsiteUrl);
+            }
         }
     }
 
@@ -582,28 +579,27 @@ public class SessionManager
         if (s_RequestsLastCommit.Add(s_RequestCommitInterval) >= tsr.Timestamp)
             return;
 
-        // TODO
-        //// commit tracked requests
-        //lock (s_Requests)
-        //{
-        //    if (s_RequestsLastCommit.Add(s_RequestCommitInterval) < tsr.Timestamp)
-        //    {
-        //        try
-        //        {
-        //            StatsService.TrackMultipleRequests(s_Requests.ToArray());
-        //        }
-        //        catch(Exception ex)
-        //        {
-        //            EventLog.WriteEntry(string.Format("Error tracking multiple requests.\n{0}", ex.Message),
-        //                EventLogEntryType.Warning);
-        //        }
-        //        finally
-        //        {
-        //            s_Requests.Clear();
-        //            s_RequestsLastCommit = tsr.Timestamp;
-        //        }
-        //    }
-        //}
+        // commit tracked requests
+        lock (s_Requests)
+        {
+            if (s_RequestsLastCommit.Add(s_RequestCommitInterval) < tsr.Timestamp)
+            {
+                try
+                {
+                    StatsService.TrackMultipleRequests(s_Requests.ToArray());
+                }
+                catch(Exception ex)
+                {
+                    EventLog.WriteEntry(string.Format("Error tracking multiple requests.\n{0}", ex.Message),
+                        EventLogEntryType.Warning);
+                }
+                finally
+                {
+                    s_Requests.Clear();
+                    s_RequestsLastCommit = tsr.Timestamp;
+                }
+            }
+        }
     }
 
     protected Nullable<DateTime> GetLastVisit(HttpRequest request)

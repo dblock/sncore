@@ -74,8 +74,9 @@ public partial class SelectPlaceControl : Control
 
             List<TransitCountry> countries = new List<TransitCountry>();
             countries.Add(new TransitCountry());
-            countries.AddRange(SessionManager.GetCollection<TransitCountry>(
-                (ServiceQueryOptions) null, SessionManager.LocationService.GetCountries));
+            string defaultcountry = SessionManager.GetCachedConfiguration("SnCore.Country.Default", "United States");
+            countries.AddRange(SessionManager.GetCollection<TransitCountry, string>(
+                defaultcountry, (ServiceQueryOptions)null, SessionManager.LocationService.GetCountriesWithDefault));
 
             ArrayList states = new ArrayList();
             states.Add(new TransitState());

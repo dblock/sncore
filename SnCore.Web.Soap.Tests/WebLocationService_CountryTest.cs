@@ -21,5 +21,11 @@ namespace SnCore.Web.Soap.Tests.WebLocationServiceTests
             t_instance.Name = Guid.NewGuid().ToString();
             return t_instance;
         }
+
+        [Test]
+        protected void GetCountriesWithDefaultTest()
+        {
+
+        }
     }
 }

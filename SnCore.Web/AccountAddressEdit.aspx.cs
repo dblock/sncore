@@ -47,8 +47,9 @@ public partial class AccountAddressEdit : AuthenticatedPage
 
             List<TransitCountry> countries = new List<TransitCountry>();
             if (tw == null || tw.Country.Length == 0) countries.Add(new TransitCountry());
-            countries.AddRange(SessionManager.GetCollection<TransitCountry>(
-                (ServiceQueryOptions) null, SessionManager.LocationService.GetCountries));
+            string defaultcountry = SessionManager.GetCachedConfiguration("SnCore.Country.Default", "United States");
+            countries.AddRange(SessionManager.GetCollection<TransitCountry, string>(
+                defaultcountry, (ServiceQueryOptions)null, SessionManager.LocationService.GetCountriesWithDefault));
 
             List<TransitState> states = new List<TransitState>();
             if (tw == null || tw.State.Length == 0) states.Add(new TransitState());

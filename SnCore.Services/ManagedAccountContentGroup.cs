@@ -218,14 +218,8 @@ namespace SnCore.Services
         {
             ACL acl = base.GetACL();
             acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
-            if (mInstance.Login)
-            {
-                acl.Add(new ACLAuthenticatedAllowRetrieve());
-            }
-            else
-            {
-                acl.Add(new ACLEveryoneAllowRetrieve());
-            }
+            // the content group with a Login flag set can be retreived itself, but not items in it
+            acl.Add(new ACLEveryoneAllowRetrieve()); 
             return acl;
         }
     }

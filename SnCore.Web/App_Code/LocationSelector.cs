@@ -131,8 +131,9 @@ public class LocationSelectorCountryState : LocationSelector
         {
             List<TransitCountry> countries = new List<TransitCountry>();
             if (InsertEmptySelection) countries.Add(new TransitCountry());
-            countries.AddRange(mPage.SessionManager.GetCollection<TransitCountry>(
-                null, mPage.SessionManager.LocationService.GetCountries));
+            string defaultcountry = mPage.SessionManager.GetCachedConfiguration("SnCore.Country.Default", "United States");
+            countries.AddRange(mPage.SessionManager.GetCollection<TransitCountry, string>(
+                defaultcountry, (ServiceQueryOptions)null, mPage.SessionManager.LocationService.GetCountriesWithDefault));
             mCountry.DataSource = countries;
             mCountry.DataBind();
         }

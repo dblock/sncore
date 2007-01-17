@@ -83,8 +83,9 @@ public partial class AccountPreferencesManage : AuthenticatedPage
 
             List<TransitCountry> countries = new List<TransitCountry>();
             if (SessionManager.Account.Country.Length == 0) countries.Add(new TransitCountry());
-            countries.AddRange(SessionManager.GetCollection<TransitCountry>(
-                (ServiceQueryOptions) null, SessionManager.LocationService.GetCountries));
+            string defaultcountry = SessionManager.GetCachedConfiguration("SnCore.Country.Default", "United States");
+            countries.AddRange(SessionManager.GetCollection<TransitCountry, string>(
+                defaultcountry, (ServiceQueryOptions)null, SessionManager.LocationService.GetCountriesWithDefault));
 
             List<TransitState> states = new List<TransitState>();
             if (SessionManager.Account.State.Length == 0) states.Add(new TransitState());
