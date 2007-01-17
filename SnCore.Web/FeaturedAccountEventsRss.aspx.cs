@@ -29,14 +29,11 @@ public partial class FeaturedAccountEventsRss : Page
     {
         if (!IsPostBack)
         {
-            ServiceQueryOptions queryoptions = new ServiceQueryOptions();
-            queryoptions.PageNumber = 0;
-            queryoptions.PageSize = 25;
-
-            object[] args = { SessionManager.Ticket, "AccountEvent", queryoptions };
-            rssRepeater.DataSource = SessionManager.GetCachedCollection<TransitFeature>(
-                SessionManager.SystemService, "GetFeatures", args);
-
+            ServiceQueryOptions options = new ServiceQueryOptions();
+            options.PageNumber = 0;
+            options.PageSize = 25;
+            rssRepeater.DataSource = SessionManager.GetCollection<TransitFeature, string>(
+                "AccountEvent", options, SessionManager.ObjectService.GetFeatures);
             rssRepeater.DataBind();
         }
     }
@@ -65,8 +62,7 @@ public partial class FeaturedAccountEventsRss : Page
 
     public TransitAccountEvent GetAccountEvent(int id)
     {
-        object[] args = { SessionManager.Ticket, id, SessionManager.UtcOffset };
-        return SessionManager.GetCachedItem<TransitAccountEvent>(
-            SessionManager.EventService, "GetAccountEventById", args);
+        return SessionManager.GetInstance<TransitAccountEvent, int, int>(
+            id, SessionManager.UtcOffset, SessionManager.EventService.GetAccountEventById);
     }
 }

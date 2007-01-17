@@ -31,9 +31,8 @@ public partial class AccountLicenseViewControl : Control
     {
         if (!IsPostBack)
         {
-            object[] args = { SessionManager.Ticket, AccountId };
-            TransitAccountLicense tal = SessionManager.GetCachedItem<TransitAccountLicense>(
-                SessionManager.LicenseService, "GetAccountLicenseByAccountId", args);
+            TransitAccountLicense tal = SessionManager.GetInstance<TransitAccountLicense, int>(
+                AccountId, SessionManager.LicenseService.GetAccountLicenseByAccountId);
 
             panelLicense.Visible = (tal != null);
 

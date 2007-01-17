@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Services;
 using System.Collections.Generic;
 using SnCore.Tools.Web;
+using SnCore.WebServices;
 
 public partial class PlaceFeaturedViewControl : Control
 {
@@ -39,9 +40,8 @@ public partial class PlaceFeaturedViewControl : Control
         {
             if (mFeature == null)
             {
-                object[] args = { SessionManager.Ticket, "Place" };
-                mFeature = SessionManager.GetCachedItem<TransitFeature>(
-                    SessionManager.ObjectService, "GetLatestFeature", args);
+                mFeature = SessionManager.GetInstance<TransitFeature, string>(
+                    "Place", SessionManager.ObjectService.GetLatestFeature);
             }
 
             return mFeature;
@@ -54,9 +54,8 @@ public partial class PlaceFeaturedViewControl : Control
         {
             if (mPlace == null)
             {
-                object[] args = { SessionManager.Ticket, Feature.DataRowId };
-                mPlace = SessionManager.GetCachedItem<TransitPlace>(
-                    SessionManager.PlaceService, "GetPlaceById", args);
+                mPlace = SessionManager.GetInstance<TransitPlace, int>(
+                    Feature.DataRowId, SessionManager.PlaceService.GetPlaceById);
             }
 
             return mPlace;

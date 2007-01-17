@@ -29,9 +29,8 @@ public partial class AccountEventView : Page
             {
                 if (mAccountEventAccount == null && RequestId > 0 && AccountEvent != null)
                 {
-                    object[] args = { SessionManager.Ticket, AccountEvent.AccountId };
-                    mAccountEventAccount = SessionManager.GetCachedItem<TransitAccount>(
-                        SessionManager.AccountService, "GetAccountById", args);
+                    mAccountEventAccount = SessionManager.GetInstance<TransitAccount, int>(
+                        AccountEvent.AccountId, SessionManager.AccountService.GetAccountById);
                 }
             }
             catch
@@ -78,9 +77,8 @@ public partial class AccountEventView : Page
             {
                 if (mAccountEvent == null && RequestId > 0)
                 {
-                    object[] args = { SessionManager.Ticket, RequestId, SessionManager.UtcOffset };
-                    mAccountEvent = SessionManager.GetCachedItem<TransitAccountEvent>(
-                        SessionManager.EventService, "GetAccountEventById", args);
+                    mAccountEvent = SessionManager.GetInstance<TransitAccountEvent, int, int>(
+                        RequestId, SessionManager.UtcOffset, SessionManager.EventService.GetAccountEventById);
                 }
             }
             catch
@@ -94,10 +92,9 @@ public partial class AccountEventView : Page
 
     void GetPicturesData(object sender, EventArgs e)
     {
-        object[] p_args = { SessionManager.Ticket, RequestId };
         picturesView.CurrentPageIndex = 0;
-        picturesView.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccountEventPicture>(
-            SessionManager.EventService, "GetAccountEventPicturesCount", p_args);
+        picturesView.VirtualItemCount = SessionManager.GetCount<TransitAccountEventPicture, int>(
+            RequestId, SessionManager.EventService.GetAccountEventPicturesCount);
         picturesView_OnGetDataSource(sender, e);
         picturesView.DataBind();
         panelNoPicture.Visible = (picturesView.Items.Count == 0);
@@ -106,9 +103,8 @@ public partial class AccountEventView : Page
     void picturesView_OnGetDataSource(object sender, EventArgs e)
     {
         ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
-        object[] args = { SessionManager.Ticket, RequestId, options };
-        picturesView.DataSource = SessionManager.GetCachedCollection<TransitAccountEventPicture>(
-            SessionManager.EventService, "GetAccountEventPictures", args);
+        picturesView.DataSource = SessionManager.GetCollection<TransitAccountEventPicture, int>(
+            RequestId, options, SessionManager.EventService.GetAccountEventPictures);
     }
 
     public void Page_Load(object sender, EventArgs e)

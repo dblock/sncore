@@ -18,11 +18,10 @@ public abstract class AccountPicturePage : PicturePage
 
     }
 
-    public override TransitPicture GetPictureWithBitmap(int id, string ticket, DateTime ifModifiedSince)
+    public override TransitPicture GetPictureWithBitmap(int id, DateTime ifModifiedSince)
     {
-        object[] args = { ticket, id, ifModifiedSince };
-        TransitAccountPicture p = SessionManager.GetCachedItem<TransitAccountPicture>(
-            SessionManager.AccountService, "GetAccountPictureIfModifiedSinceById", args);
+        TransitAccountPicture p = SessionManager.GetInstance<TransitAccountPicture, int, DateTime>(
+            id, ifModifiedSince, SessionManager.AccountService.GetAccountPictureIfModifiedSinceById);
 
         if (p == null)
             return null;
@@ -36,11 +35,10 @@ public abstract class AccountPicturePage : PicturePage
         return result;
     }
 
-    public override TransitPicture GetPictureWithThumbnail(int id, string ticket, DateTime ifModifiedSince)
+    public override TransitPicture GetPictureWithThumbnail(int id, DateTime ifModifiedSince)
     {
-        object[] args = { ticket, id, ifModifiedSince };
-        TransitAccountPicture p = SessionManager.GetCachedItem<TransitAccountPicture>(
-            SessionManager.AccountService, "GetAccountPictureIfModifiedSinceById", args);
+        TransitAccountPicture p = SessionManager.GetInstance<TransitAccountPicture, int, DateTime>(
+            id, ifModifiedSince, SessionManager.AccountService.GetAccountPictureIfModifiedSinceById);
 
         if (p == null)
             return null;
@@ -54,11 +52,10 @@ public abstract class AccountPicturePage : PicturePage
         return result;
     }
 
-    public override TransitPicture GetPictureWithBitmap(int id, string ticket)
+    public override TransitPicture GetPictureWithBitmap(int id)
     {
-        object[] args = { ticket, id };
-        TransitAccountPicture p = SessionManager.GetCachedItem<TransitAccountPicture>(
-            SessionManager.AccountService, "GetAccountPictureById", args);
+        TransitAccountPicture p = SessionManager.GetInstance<TransitAccountPicture, int>(
+            id, SessionManager.AccountService.GetAccountPictureById);
 
         if (p == null)
             return null;
@@ -72,11 +69,10 @@ public abstract class AccountPicturePage : PicturePage
         return result;
     }
 
-    public override TransitPicture GetPictureWithThumbnail(int id, string ticket)
+    public override TransitPicture GetPictureWithThumbnail(int id)
     {
-        object[] args = { ticket, id };
-        TransitAccountPicture p = SessionManager.GetCachedItem<TransitAccountPicture>(
-            SessionManager.AccountService, "GetAccountPictureById", args);
+        TransitAccountPicture p = SessionManager.GetInstance<TransitAccountPicture, int>(
+            id, SessionManager.AccountService.GetAccountPictureById);
 
         if (p == null)
             return null;
@@ -92,19 +88,18 @@ public abstract class AccountPicturePage : PicturePage
 
     public override PicturePage.TransitPicture GetRandomPictureWithThumbnail()
     {
-        object[] args = { SessionManager.Ticket, "Account" };
-        SnCore.Services.TransitPicture tp = SessionManager.GetCachedItem<SnCore.Services.TransitPicture>(
-            SessionManager.ObjectService, "GetRandomPictureByType", args);
+        SnCore.Services.TransitPicture p = SessionManager.GetInstance<SnCore.Services.TransitPicture, string>(
+            "Account", SessionManager.ObjectService.GetRandomPictureByType);
 
-        if (tp == null)
+        if (p == null)
             return null;
 
         TransitPicture result = new TransitPicture();
-        result.Id = tp.Id;
-        result.Bitmap = tp.Thumbnail;
-        result.Created = tp.Created;
-        result.Modified = tp.Modified;
-        result.Name = tp.Name;
+        result.Id = p.Id;
+        result.Bitmap = p.Thumbnail;
+        result.Created = p.Created;
+        result.Modified = p.Modified;
+        result.Name = p.Name;
         return result;
     }
 }

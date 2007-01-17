@@ -27,8 +27,8 @@ public partial class About : Page
         {
             if (mSummary == null)
             {
-                mSummary = SessionManager.GetCachedItem<TransitStatsSummary>(
-                    SessionManager.StatsService, "GetSummary", null);
+                mSummary = SessionManager.GetInstance<TransitStatsSummary>(
+                    SessionManager.StatsService.GetSummary);
             }
             return mSummary;
         }

@@ -35,9 +35,8 @@ public partial class AccountsNewViewControl : Control
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = 0;
             options.PageSize = Count;
-            object[] args = { SessionManager.Ticket, options };
-            accounts.DataSource = SessionManager.GetCachedCollection<TransitAccount>(
-                SessionManager.SocialService, "GetNewAccounts", args);
+            accounts.DataSource = SessionManager.GetCollection<TransitAccount>(
+                options, SessionManager.SocialService.GetNewAccounts);
             accounts.RepeatColumns = Count;
             accounts.DataBind();
         }

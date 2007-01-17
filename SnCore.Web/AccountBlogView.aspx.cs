@@ -24,9 +24,8 @@ public partial class AccountBlogView : Page
         {
             if (mAccountBlog == null)
             {
-                object[] args = { SessionManager.Ticket, RequestId };
-                mAccountBlog = SessionManager.GetCachedItem<TransitAccountBlog>(
-                    SessionManager.BlogService, "GetAccountBlogById", args);
+                mAccountBlog = SessionManager.GetInstance<TransitAccountBlog, int>(
+                    RequestId, SessionManager.BlogService.GetAccountBlogById);
             }
             return mAccountBlog;
         }
@@ -38,9 +37,8 @@ public partial class AccountBlogView : Page
         {
             if (mAccountBlogFeature == null)
             {
-                object[] args = { SessionManager.Ticket, "AccountBlog", RequestId };
-                mAccountBlogFeature = SessionManager.GetCachedItem<TransitFeature>(
-                    SessionManager.ObjectService, "FindLatestFeature", args);
+                mAccountBlogFeature = SessionManager.GetInstance<TransitFeature, string, int>(
+                    "AccountBlog", RequestId, SessionManager.ObjectService.FindLatestFeature);
             }
             return mAccountBlogFeature;
         }
@@ -55,9 +53,8 @@ public partial class AccountBlogView : Page
             labelBlog.Text = Renderer.Render(f.Name);
             labelBlogDescription.Text = Renderer.Render(f.Description);
 
-            object[] args = { SessionManager.Ticket, f.AccountId };
-            TransitAccount a = SessionManager.GetCachedItem<TransitAccount>(
-                SessionManager.AccountService, "GetAccountById", args);
+            TransitAccount a = SessionManager.GetInstance<TransitAccount, int>(
+                f.AccountId, SessionManager.AccountService.GetAccountById);
 
             labelAccountName.Text = Renderer.Render(a.Name);
             linkAccount.HRef = string.Format("AccountView.aspx?id={0}", a.Id);
@@ -90,9 +87,8 @@ public partial class AccountBlogView : Page
     void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        object[] args = { SessionManager.Ticket, RequestId };
-        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccountBlogPost>(
-            SessionManager.BlogService, "GetAccountBlogPostsCount", args);
+        gridManage.VirtualItemCount = SessionManager.GetCount<TransitAccountBlogPost, int>(
+            RequestId, SessionManager.BlogService.GetAccountBlogPostsCount);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -102,9 +98,8 @@ public partial class AccountBlogView : Page
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = gridManage.CurrentPageIndex;
         options.PageSize = gridManage.PageSize;
-        object[] args = { SessionManager.Ticket, RequestId, options };
-        gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountBlogPost>(
-            SessionManager.BlogService, "GetAccountBlogPosts", args);
+        gridManage.DataSource = SessionManager.GetCollection<TransitAccountBlogPost, int>(
+            RequestId, options, SessionManager.BlogService.GetAccountBlogPosts);
     }
 
     public string GetComments(int count)

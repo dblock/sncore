@@ -59,16 +59,13 @@ public partial class FeaturedAccountEventsView : Page
         ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
         serviceoptions.PageSize = gridManage.PageSize;
         serviceoptions.PageNumber = gridManage.CurrentPageIndex;
-
-        object[] args = { SessionManager.Ticket, "AccountEvent", serviceoptions };
-        gridManage.DataSource = SessionManager.GetCachedCollection<TransitFeature>(
-            SessionManager.SystemService, "GetFeatures", args);
+        gridManage.DataSource = SessionManager.GetCollection<TransitFeature, string>(
+            "AccountEvent", serviceoptions, SessionManager.ObjectService.GetFeatures);
     }
 
     public TransitAccountEvent GetAccountEvent(int id)
     {
-        object[] args = { SessionManager.Ticket, id, SessionManager.UtcOffset };
-        return SessionManager.GetCachedItem<TransitAccountEvent>(
-            SessionManager.EventService, "GetAccountEventById", args);
+        return SessionManager.GetInstance<TransitAccountEvent, int, int>(
+            id, SessionManager.UtcOffset, SessionManager.EventService.GetAccountEventById);
     }
 }

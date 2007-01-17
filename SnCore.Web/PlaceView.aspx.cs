@@ -28,9 +28,8 @@ public partial class PlaceView : Page
             {
                 if (mPlaceAccount == null && RequestId > 0 && Place != null)
                 {
-                    object[] args = { SessionManager.Ticket, Place.AccountId };
-                    mPlaceAccount = SessionManager.GetCachedItem<TransitAccount>(
-                        SessionManager.AccountService, "GetAccountById", args);
+                    mPlaceAccount = SessionManager.GetInstance<TransitAccount, int>(
+                        Place.AccountId, SessionManager.AccountService.GetAccountById);
                 }
             }
             catch
@@ -49,9 +48,8 @@ public partial class PlaceView : Page
             {
                 try
                 {
-                    object[] args = { SessionManager.Ticket, RequestId };
-                    mPlace = SessionManager.GetCachedItem<TransitPlace>(
-                        SessionManager.PlaceService, "GetPlaceById", args);
+                    mPlace = SessionManager.GetInstance<TransitPlace, int>(
+                        RequestId, SessionManager.PlaceService.GetPlaceById);
                 }
                 catch
                 {
@@ -247,9 +245,8 @@ public partial class PlaceView : Page
 
                 GetPicturesData(sender, e);
 
-                object[] args = { SessionManager.Ticket, RequestId };
-                discussionPlaces.DiscussionId = SessionManager.GetCachedCollectionCount<TransitDiscussion>(
-                    SessionManager.DiscussionService, "GetOrCreatePlaceDiscussionId", args);
+                discussionPlaces.DiscussionId = SessionManager.GetCount<TransitDiscussion, int>(
+                    RequestId, SessionManager.DiscussionService.GetOrCreatePlaceDiscussionId);
                 discussionPlaces.DataBind();
 
                 madlibs.ObjectId = RequestId;
@@ -292,10 +289,9 @@ public partial class PlaceView : Page
 
     void GetPicturesData(object sender, EventArgs e)
     {
-        object[] p_args = { SessionManager.Ticket, RequestId };
         picturesView.CurrentPageIndex = 0;
-        picturesView.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitPlacePicture>(
-            SessionManager.PlaceService, "GetPlacePicturesCount", p_args);
+        picturesView.VirtualItemCount = SessionManager.GetCount<TransitPlacePicture, int>(
+            RequestId, SessionManager.PlaceService.GetPlacePicturesCount);
         picturesView_OnGetDataSource(sender, e);
         picturesView.DataBind();
         placeNoPicture.Visible = (picturesView.Items.Count == 0);
@@ -304,9 +300,8 @@ public partial class PlaceView : Page
     void picturesView_OnGetDataSource(object sender, EventArgs e)
     {
         ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
-        object[] args = { SessionManager.Ticket, RequestId, options };
-        picturesView.DataSource = SessionManager.GetCachedCollection<TransitPlacePicture>(
-            SessionManager.PlaceService, "GetPlacePictures", args);
+        picturesView.DataSource = SessionManager.GetCollection<TransitPlacePicture, int>(
+            RequestId, options, SessionManager.PlaceService.GetPlacePictures);
     }
 
     public void linkAddToQueue_Click(object sender, EventArgs e)

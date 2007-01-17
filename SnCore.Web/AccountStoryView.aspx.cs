@@ -20,13 +20,11 @@ public partial class AccountStoryView : Page
         listPictures.OnGetDataSource += new EventHandler(listPictures_OnGetDataSource);
         if (!IsPostBack)
         {
-            object[] s_args = { SessionManager.Ticket, RequestId };
-            TransitAccountStory ts = SessionManager.GetCachedItem<TransitAccountStory>(
-                SessionManager.StoryService, "GetAccountStoryById", s_args);
+            TransitAccountStory ts = SessionManager.GetInstance<TransitAccountStory, int>(
+                RequestId, SessionManager.StoryService.GetAccountStoryById);
 
-            object[] a_args = { SessionManager.Ticket, ts.AccountId };
-            TransitAccount acct = SessionManager.GetCachedItem<TransitAccount>(
-                SessionManager.AccountService, "GetAccountById", a_args);
+            TransitAccount acct = SessionManager.GetInstance<TransitAccount, int>(
+                ts.AccountId, SessionManager.AccountService.GetAccountById);
 
             licenseView.AccountId = acct.Id;
 
@@ -35,14 +33,12 @@ public partial class AccountStoryView : Page
             storyName.Text = Renderer.Render(ts.Name);
             storySummary.Text = RenderEx(ts.Summary);
 
-            object[] p_args = { SessionManager.Ticket, RequestId };
-            listPictures.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccountStoryPicture>(
-                SessionManager.StoryService, "GetAccountStoryPicturesCount", p_args);
+            listPictures.VirtualItemCount = SessionManager.GetCount<TransitAccountStoryPicture, int>(
+                RequestId, SessionManager.StoryService.GetAccountStoryPicturesCount);
             listPictures_OnGetDataSource(sender, e);
 
-            object[] d_args = { SessionManager.Ticket, RequestId };
-            storyComments.DiscussionId = SessionManager.GetCachedCollectionCount<TransitDiscussion>(
-                SessionManager.DiscussionService, "GetAccountStoryDiscussionId", d_args);
+            storyComments.DiscussionId = SessionManager.GetCount<TransitDiscussion, int>(
+                RequestId, SessionManager.DiscussionService.GetOrCreateAccountStoryDiscussionId);
 
             storyComments.DataBind();
 
@@ -64,9 +60,8 @@ public partial class AccountStoryView : Page
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = listPictures.CurrentPageIndex;
         options.PageSize = listPictures.PageSize;
-        object[] p_args = { SessionManager.Ticket, RequestId, options };
-        listPictures.DataSource = SessionManager.GetCachedCollection<TransitAccountStoryPicture>(
-            SessionManager.StoryService, "GetAccountStoryPicturesById", p_args);
+        listPictures.DataSource = SessionManager.GetCollection<TransitAccountStoryPicture, int>(
+            RequestId, options, SessionManager.StoryService.GetAccountStoryPictures);
         listPictures.DataBind();
     }
 }

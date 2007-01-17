@@ -12,6 +12,7 @@ using Wilco.Web.UI;
 using SnCore.Services;
 using System.Collections.Generic;
 using System.Text;
+using SnCore.WebServices;
 
 public partial class AccountPropertyGroupsViewControl : Control
 {
@@ -31,9 +32,8 @@ public partial class AccountPropertyGroupsViewControl : Control
     {
         if (!IsPostBack)
         {
-            object[] args = { SessionManager.Ticket, null };
-            groups.DataSource = SessionManager.GetCachedCollection<TransitAccountPropertyGroup>(
-                SessionManager.AccountService, "GetAccountPropertyGroups", args);
+            groups.DataSource = SessionManager.GetCollection<TransitAccountPropertyGroup>(
+                (ServiceQueryOptions)null, SessionManager.AccountService.GetAccountPropertyGroups);
             groups.DataBind();
         }
     }
@@ -49,9 +49,8 @@ public partial class AccountPropertyGroupsViewControl : Control
                 TransitAccountPropertyGroup group = (TransitAccountPropertyGroup)e.Item.DataItem;
                 if (group != null)
                 {
-                    object[] args = { SessionManager.Ticket, AccountId, group.Id, null };
-                    List<TransitAccountPropertyValue> propertyvalues = SessionManager.GetCachedCollection<TransitAccountPropertyValue>(
-                        SessionManager.AccountService, "GetAccountPropertyValues", args);
+                    IList<TransitAccountPropertyValue> propertyvalues = SessionManager.GetCollection<TransitAccountPropertyValue, int, int>(
+                        AccountId, group.Id, (ServiceQueryOptions) null, SessionManager.AccountService.GetAccountPropertyValues);
                     values.DataSource = propertyvalues;
                     HtmlControl title = (HtmlControl)e.Item.FindControl("title");
                     title.Visible = (propertyvalues.Count > 0);

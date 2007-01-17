@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using Wilco.Web.UI;
 using SnCore.Services;
+using SnCore.WebServices;
 
 public partial class AccountBlogsViewControl : Control
 {
@@ -38,8 +39,7 @@ public partial class AccountBlogsViewControl : Control
 
     void accountBlogs_OnGetDataSource(object sender, EventArgs e)
     {
-        object[] args = { SessionManager.Ticket, AccountId, null };
-        accountBlogs.DataSource = SessionManager.GetCachedCollection<TransitAccountBlog>(
-            SessionManager.BlogService, "GetAccountBlogs", args);
+        accountBlogs.DataSource = SessionManager.GetCollection<TransitAccountBlog, int>(
+            AccountId, (ServiceQueryOptions) null, SessionManager.BlogService.GetAccountBlogs);
     }
 }

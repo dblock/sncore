@@ -46,9 +46,8 @@ public partial class DiscussionThreadsRss : Page
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageSize = 50;
             options.PageNumber = 0;
-            object[] args = { SessionManager.Ticket, options };
-            rssRepeater.DataSource = SessionManager.GetCachedCollection<TransitDiscussionPost>(
-                SessionManager.DiscussionService, "GetDiscussionThreads", args);
+            rssRepeater.DataSource = SessionManager.GetCollection<TransitDiscussionPost>(
+                options, SessionManager.DiscussionService.GetDiscussionThreads);
             rssRepeater.DataBind();
         }
     }

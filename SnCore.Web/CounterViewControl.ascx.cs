@@ -21,9 +21,8 @@ public partial class CounterViewControl : Control
         {
             if (mCounter == null)
             {
-                object[] args = { SessionManager.Ticket, Uri };
-                mCounter = SessionManager.GetCachedItem<TransitCounter>(
-                    SessionManager.StatsService, "GetCounterByUri", args);
+                mCounter = SessionManager.GetInstance<TransitCounter, string>(
+                    Uri, SessionManager.StatsService.GetCounterByUri);
             }
 
             return mCounter;

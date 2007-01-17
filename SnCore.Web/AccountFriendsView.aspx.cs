@@ -28,9 +28,8 @@ public partial class AccountFriendsView : AccountPersonPage
         gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
         if (!IsPostBack)
         {
-            object[] args = { SessionManager.Ticket, RequestAccountId };
-            TransitAccount ta = SessionManager.GetCachedItem<TransitAccount>(
-                SessionManager.AccountService, "GetAccountById", args);
+            TransitAccount ta = SessionManager.GetInstance<TransitAccount, int>(
+                RequestAccountId, SessionManager.AccountService.GetAccountById);
 
             labelName.Text = string.Format("{0}'s Friends", Render(ta.Name));
             linkAccount.Text = string.Format("&#187; Back to {0}", Render(ta.Name));
@@ -50,9 +49,8 @@ public partial class AccountFriendsView : AccountPersonPage
     void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        object[] args = { SessionManager.Ticket, RequestAccountId };
-        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccountFriend>(
-            SessionManager.SocialService, "GetAccountFriendsCount", args);
+        gridManage.VirtualItemCount = SessionManager.GetCount<TransitAccountFriend, int>(
+            RequestAccountId, SessionManager.SocialService.GetAccountFriendsCount);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
@@ -62,8 +60,7 @@ public partial class AccountFriendsView : AccountPersonPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = gridManage.CurrentPageIndex;
         options.PageSize = gridManage.PageSize;
-        object[] args = { SessionManager.Ticket, RequestAccountId, options };
-        gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountFriend>(
-            SessionManager.SocialService, "GetAccountFriends", args);
+        gridManage.DataSource = SessionManager.GetCollection<TransitAccountFriend, int>(
+            RequestAccountId, options, SessionManager.SocialService.GetAccountFriends);
     }
 }

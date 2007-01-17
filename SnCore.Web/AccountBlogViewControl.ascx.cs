@@ -29,9 +29,8 @@ public partial class AccountBlogViewControl : Control
         {
             if (mAccountBlog == null && BlogId > 0)
             {
-                object[] args = { SessionManager.Ticket, BlogId };
-                mAccountBlog = SessionManager.GetCachedItem<TransitAccountBlog>(
-                    SessionManager.BlogService, "GetAccountBlogById", args);
+                mAccountBlog = SessionManager.GetInstance<TransitAccountBlog, int>(
+                    BlogId, SessionManager.BlogService.GetAccountBlogById);
             }
 
             return mAccountBlog;
@@ -94,14 +93,11 @@ public partial class AccountBlogViewControl : Control
         {
             if (BlogId > 0)
             {
-                object[] b_args = { SessionManager.IsLoggedIn ? SessionManager.Ticket : string.Empty, BlogId };
-                TransitAccountBlog blog = SessionManager.GetCachedItem<TransitAccountBlog>(
-                    SessionManager.BlogService, "GetAccountBlogById", b_args);
+                TransitAccountBlog blog = SessionManager.GetInstance<TransitAccountBlog, int>(
+                    BlogId, SessionManager.BlogService.GetAccountBlogById);
 
-                // limit number of items
-                object[] args2 = { SessionManager.Ticket, BlogId };
-                gridManage.VirtualItemCount = Math.Min(gridManage.PageSize, SessionManager.GetCachedCollectionCount<TransitAccountBlogPost>(
-                    SessionManager.BlogService, "GetAccountBlogPostsCount", args2));
+                gridManage.VirtualItemCount = Math.Min(gridManage.PageSize, SessionManager.GetCount<TransitAccountBlogPost, int>(
+                    BlogId, SessionManager.BlogService.GetAccountBlogPostsCount));
                 gridManage_OnGetDataSource(this, null);
                 gridManage.DataBind();
 
@@ -114,9 +110,8 @@ public partial class AccountBlogViewControl : Control
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
         ServiceQueryOptions options = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
-        object[] args = { SessionManager.Ticket, BlogId, options };
-        gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountBlogPost>(
-            SessionManager.BlogService, "GetAccountBlogPosts", args);
+        gridManage.DataSource = SessionManager.GetCollection<TransitAccountBlogPost, int>(
+            BlogId, options, SessionManager.BlogService.GetAccountBlogPosts);
     }
 
     public string GetTitle(string title)

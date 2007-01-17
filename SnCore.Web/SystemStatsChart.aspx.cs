@@ -24,9 +24,10 @@ public partial class SystemStatsChart2 : PicturePage
         {
             if (mSummary == null)
             {
-                mSummary = SessionManager.GetCachedItem<TransitStatsSummary>(
-                    SessionManager.StatsService, "GetSummary", null);
+                mSummary = SessionManager.GetInstance<TransitStatsSummary>(
+                    SessionManager.StatsService.GetSummary);
             }
+
             return mSummary;
         }
     }
@@ -57,17 +58,20 @@ public partial class SystemStatsChart2 : PicturePage
         }
     }
 
-    public override TransitPicture GetPictureWithBitmap(int id, string ticket, DateTime ifModifiedSince)
+    public override TransitPicture GetPictureWithBitmap(int id, DateTime ifModifiedSince)
     {
-        return GetPictureWithBitmap(id, ticket);
+        return GetPictureWithBitmap(id);
     }
 
-    public override TransitPicture GetPictureWithThumbnail(int id, string ticket, DateTime ifModifiedSince)
+    public override TransitPicture GetPictureWithThumbnail(int id, DateTime ifModifiedSince)
     {
+        if (ifModifiedSince.AddMinutes(1) >= DateTime.UtcNow)
+            return null;
+
         throw new NotImplementedException();
     }
 
-    public override TransitPicture GetPictureWithBitmap(int id, string ticket)
+    public override TransitPicture GetPictureWithBitmap(int id)
     {
         ChartEngine engine = new ChartEngine();
         engine.Size = new Size(570, 300);
@@ -75,7 +79,7 @@ public partial class SystemStatsChart2 : PicturePage
         engine.ShowXValues = true;
         engine.ShowYValues = true;
         engine.LeftChartPadding = 50;
-        engine.BottomChartPadding = 50;       
+        engine.BottomChartPadding = 50;
         engine.XAxisFont.StringFormat.LineAlignment = StringAlignment.Center;
         engine.XAxisFont.StringFormat.FormatFlags = StringFormatFlags.DirectionVertical;
         engine.XAxisFont.ForeColor = engine.YAxisFont.ForeColor = Color.Black;
@@ -135,7 +139,7 @@ public partial class SystemStatsChart2 : PicturePage
             }
 
             charts.Add(chart);
-            fill = Color.FromArgb(fill.R + 0x30, fill.G + 0x30, fill.B + 0x30);           
+            fill = Color.FromArgb(fill.R + 0x30, fill.G + 0x30, fill.B + 0x30);
         }
 
         TransitPicture picture = new TransitPicture();
@@ -152,7 +156,7 @@ public partial class SystemStatsChart2 : PicturePage
         return picture;
     }
 
-    public override TransitPicture GetPictureWithThumbnail(int id, string ticket)
+    public override TransitPicture GetPictureWithThumbnail(int id)
     {
         throw new NotImplementedException();
     }

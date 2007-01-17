@@ -24,9 +24,8 @@ public partial class AccountFeedView : Page
         {
             if (mAccountFeedFeature == null)
             {
-                object[] args = { SessionManager.Ticket, "AccountFeed", RequestId };
-                mAccountFeedFeature = SessionManager.GetCachedItem<TransitFeature>(
-                    SessionManager.ObjectService, "FindLatestFeature", args);
+                mAccountFeedFeature = SessionManager.GetInstance<TransitFeature, string, int>(
+                    "AccountFeed", RequestId, SessionManager.ObjectService.FindLatestFeature);
             }
             return mAccountFeedFeature;
         }
@@ -38,9 +37,8 @@ public partial class AccountFeedView : Page
         {
             if (mAccountFeed == null)
             {
-                object[] args = { SessionManager.Ticket, RequestId };
-                mAccountFeed = SessionManager.GetCachedItem<TransitAccountFeed>(
-                    SessionManager.SyndicationService, "GetAccountFeedById", args);
+                mAccountFeed = SessionManager.GetInstance<TransitAccountFeed, int>(
+                    RequestId, SessionManager.SyndicationService.GetAccountFeedById);
             }
             return mAccountFeed;
         }
@@ -60,15 +58,14 @@ public partial class AccountFeedView : Page
 
             GetDataPublish(sender, e);
 
-            object[] f_args = { SessionManager.Ticket, f.FeedType };
-            TransitFeedType t = SessionManager.GetCachedItem<TransitFeedType>(
-                SessionManager.SyndicationService, "GetFeedTypeByName", f_args);
+            TransitFeedType t = SessionManager.GetInstance<TransitFeedType, string>(
+                f.FeedType, SessionManager.SyndicationService.GetFeedTypeByName);
+
             gridManage.RepeatColumns = t.SpanColumns;
             gridManage.RepeatRows = t.SpanRows;
 
-            object[] a_args = { SessionManager.Ticket, f.AccountId };
-            TransitAccount a = SessionManager.GetCachedItem<TransitAccount>(
-                SessionManager.AccountService, "GetAccountById", a_args);
+            TransitAccount a = SessionManager.GetInstance<TransitAccount, int>(
+                f.AccountId, SessionManager.AccountService.GetAccountById);
 
             labelAccountName.Text = Renderer.Render(a.Name);
             linkAccount.HRef = string.Format("AccountView.aspx?id={0}", a.Id);
@@ -76,9 +73,8 @@ public partial class AccountFeedView : Page
 
             this.Title = string.Format("{0}'s {1}", Renderer.Render(a.Name), Renderer.Render(f.Name));
 
-            object[] args = { SessionManager.Ticket, RequestId };
-            gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccountFeedItem>(
-                SessionManager.SyndicationService, "GetAccountFeedItemsCount", args);
+            gridManage.VirtualItemCount = SessionManager.GetCount<TransitAccountFeedItem, int>(
+                RequestId, SessionManager.SyndicationService.GetAccountFeedItemsCount);
             gridManage_OnGetDataSource(sender, e);
             gridManage.DataBind();
 
@@ -112,9 +108,8 @@ public partial class AccountFeedView : Page
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = gridManage.CurrentPageIndex;
         options.PageSize = gridManage.PageSize;
-        object[] args = { SessionManager.Ticket, RequestId, options };
-        gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountFeedItem>(
-            SessionManager.SyndicationService, "GetAccountFeedItems", args);
+        gridManage.DataSource = SessionManager.GetCollection<TransitAccountFeedItem, int>(
+            RequestId, options, SessionManager.SyndicationService.GetAccountFeedItems);
     }
 
     public string GetComments(int count)

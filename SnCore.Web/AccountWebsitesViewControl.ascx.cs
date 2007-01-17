@@ -39,9 +39,8 @@ public partial class AccountWebsitesViewControl : Control
     void GetData(object sender, EventArgs e)
     {
         accountWebsites.CurrentPageIndex = 0;
-        object[] args = { SessionManager.Ticket, AccountId };
-        accountWebsites.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccountWebsite>(
-            SessionManager.AccountService, "GetAccountWebsitesCount", args);
+        accountWebsites.VirtualItemCount = SessionManager.GetCount<TransitAccountWebsite, int>(
+            AccountId, SessionManager.AccountService.GetAccountWebsitesCount);
         accountWebsites_OnGetDataSource(sender, e);
         accountWebsites.DataBind();
         this.Visible = (accountWebsites.VirtualItemCount > 0);
@@ -50,9 +49,8 @@ public partial class AccountWebsitesViewControl : Control
     void accountWebsites_OnGetDataSource(object sender, EventArgs e)
     {
         ServiceQueryOptions options = new ServiceQueryOptions(accountWebsites.PageSize, accountWebsites.CurrentPageIndex);
-        object[] args = { SessionManager.Ticket, AccountId, options };
-        accountWebsites.DataSource = SessionManager.GetCachedCollection<TransitAccountWebsite>(
-            SessionManager.AccountService, "GetAccountWebsites", args);
+        accountWebsites.DataSource = SessionManager.GetCollection<TransitAccountWebsite, int>(
+            AccountId, options, SessionManager.AccountService.GetAccountWebsites);
         panelGrid.Update();
     }
 }

@@ -9,6 +9,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Services;
 using System.Collections.Generic;
+using SnCore.WebServices;
 
 public class CityLocationEventArgs : EventArgs
 {
@@ -130,9 +131,8 @@ public class LocationSelectorCountryState : LocationSelector
         {
             List<TransitCountry> countries = new List<TransitCountry>();
             if (InsertEmptySelection) countries.Add(new TransitCountry());
-            object[] c_args = { page.SessionManager.Ticket, null };
-            countries.AddRange(mPage.SessionManager.GetCachedCollection<TransitCountry>(
-                mPage.SessionManager.LocationService, "GetCountries", c_args));
+            countries.AddRange(mPage.SessionManager.GetCollection<TransitCountry>(
+                null, mPage.SessionManager.LocationService.GetCountries));
             mCountry.DataSource = countries;
             mCountry.DataBind();
         }
@@ -174,11 +174,10 @@ public class LocationSelectorCountryState : LocationSelector
         {
             if (mState != null)
             {
-                object[] args = { mPage.SessionManager.Ticket, mCountry.SelectedValue, null };
                 List<TransitState> states = new List<TransitState>();
                 if (InsertEmptySelection) states.Add(new TransitState());
-                states.AddRange(mPage.SessionManager.GetCachedCollection<TransitState>(
-                    mPage.SessionManager.LocationService, "GetStatesByCountryName", args));
+                states.AddRange(mPage.SessionManager.GetCollection<TransitState, string>(
+                    mCountry.SelectedValue, (ServiceQueryOptions) null, mPage.SessionManager.LocationService.GetStatesByCountryName));
                 mState.DataSource = states;
                 mState.DataBind();
 
@@ -301,11 +300,11 @@ public class LocationSelectorCountryStateCity : LocationSelectorCountryState
         {
             if (mCity != null)
             {
-                object[] args = { mPage.SessionManager.Ticket, mCountry.SelectedValue, mState.SelectedValue };
                 List<TransitCity> cities = new List<TransitCity>();
                 if (InsertEmptySelection) cities.Add(new TransitCity());
-                cities.AddRange(mPage.SessionManager.GetCachedCollection<TransitCity>(
-                    mPage.SessionManager.LocationService, "GetCitiesByLocation", args));
+                cities.AddRange(mPage.SessionManager.GetCollection<TransitCity, string, string>(
+                    mCountry.SelectedValue, mState.SelectedValue, (ServiceQueryOptions) null, 
+                    mPage.SessionManager.LocationService.GetCitiesByLocation));
                 mCity.DataSource = cities;
                 mCity.DataBind();
 
@@ -368,11 +367,11 @@ public class LocationSelectorCountryStateCityNeighborhood : LocationSelectorCoun
         {
             if (mNeighborhood != null)
             {
-                object[] args = { mPage.SessionManager.Ticket, mCountry.SelectedValue, mState.SelectedValue, mCity.SelectedValue };
                 List<TransitNeighborhood> neighborhoods = new List<TransitNeighborhood>();
                 if (InsertEmptySelection) neighborhoods.Add(new TransitNeighborhood());
-                neighborhoods.AddRange(mPage.SessionManager.GetCachedCollection<TransitNeighborhood>(
-                    mPage.SessionManager.LocationService, "GetNeighborhoodsByLocation", args));
+                neighborhoods.AddRange(mPage.SessionManager.GetCollection<TransitNeighborhood, string, string, string>(
+                    mCountry.SelectedValue, mState.SelectedValue, mCity.SelectedValue, (ServiceQueryOptions) null, 
+                    mPage.SessionManager.LocationService.GetNeighborhoodsByLocation)); 
                 mNeighborhood.DataSource = neighborhoods;
                 mNeighborhood.DataBind();
             }

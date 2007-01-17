@@ -295,7 +295,7 @@ namespace SnCore.WebServices
         /// <param name="country">country name</param>
         /// <returns>list of cities</returns>
         [WebMethod(Description = "Get cities within a country and state.", CacheDuration = 60)]
-        public List<TransitCity> GetCitiesByLocation(string ticket, string country, string state)
+        public List<TransitCity> GetCitiesByLocation(string ticket, string country, string state, ServiceQueryOptions options)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
@@ -313,8 +313,6 @@ namespace SnCore.WebServices
                 ICriteria cr = session.CreateCriteria(typeof(City))
                     .Add(Expression.Eq("Country.Id", t_country.Id));
 
-                IList<City> cities = null;
-
                 if (t_country.States != null && t_country.States.Count > 0 && string.IsNullOrEmpty(state))
                 {
                     // no state specified but country has states
@@ -328,15 +326,14 @@ namespace SnCore.WebServices
                     cr.Add(Expression.Eq("State.Id", t_state.Id));
                 }
 
-                cities = cr.List<City>();
-
-                foreach (City c in cities)
+                if (options != null)
                 {
-                    ManagedCity m_instance = new ManagedCity(session, c);
-                    result.Add(m_instance.GetTransitInstance(sec));
+                    cr.SetFirstResult(options.FirstResult);
+                    cr.SetMaxResults(options.PageSize);
                 }
 
-                return result;
+                return WebServiceImpl<TransitCity, ManagedCity, City>.GetTransformedList(
+                    session, sec, cr.List<City>());
             }
         }
 
@@ -348,7 +345,7 @@ namespace SnCore.WebServices
         /// <param name="country">country name</param>
         /// <returns>list of neighborhoods</returns>
         [WebMethod(Description = "Get neighborhoods within a country, state and city.", CacheDuration = 60)]
-        public List<TransitNeighborhood> GetNeighborhoodsByLocation(string ticket, string country, string state, string city)
+        public List<TransitNeighborhood> GetNeighborhoodsByLocation(string ticket, string country, string state, string city, ServiceQueryOptions options)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
@@ -363,17 +360,17 @@ namespace SnCore.WebServices
 
                 City t_city = ManagedCity.Find(session, city, state, country);
 
-                IList<Neighborhood> neighborhoods = session.CreateCriteria(typeof(Neighborhood))
-                    .Add(Expression.Eq("City.Id", t_city.Id))
-                    .List<Neighborhood>();
+                ICriteria cr = session.CreateCriteria(typeof(Neighborhood))
+                    .Add(Expression.Eq("City.Id", t_city.Id));
 
-                foreach (Neighborhood nh in neighborhoods)
+                if (options != null)
                 {
-                    ManagedNeighborhood m_instance = new ManagedNeighborhood(session, nh);
-                    result.Add(m_instance.GetTransitInstance(sec));
+                    cr.SetFirstResult(options.FirstResult);
+                    cr.SetMaxResults(options.PageSize);
                 }
 
-                return result;
+                return WebServiceImpl<TransitNeighborhood, ManagedNeighborhood, Neighborhood>.GetTransformedList(
+                    session, sec, cr.List<Neighborhood>());
             }
         }
 

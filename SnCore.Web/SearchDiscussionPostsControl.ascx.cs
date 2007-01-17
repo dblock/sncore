@@ -21,15 +21,13 @@ public partial class SearchDiscussionPostsControl : SearchControl
     {
         if (RequestId > 0)
         {
-            object[] args = { SessionManager.Ticket, RequestId, SearchQuery };
-            return SessionManager.GetCachedCollectionCount<TransitDiscussionPost>(
-                SessionManager.DiscussionService, "SearchDiscussionPostsByIdCount", args);
+            return SessionManager.GetCount<TransitDiscussionPost, int, string>(
+                RequestId, SearchQuery, SessionManager.DiscussionService.SearchDiscussionPostsByIdCount);
         }
         else
         {
-            object[] args = { SessionManager.Ticket, SearchQuery };
-            return SessionManager.GetCachedCollectionCount<TransitDiscussionPost>(
-                SessionManager.DiscussionService, "SearchDiscussionPostsCount", args);
+            return SessionManager.GetCount<TransitDiscussionPost, string>(
+                SearchQuery, SessionManager.DiscussionService.SearchDiscussionPostsCount);
         }
     }
 
@@ -37,16 +35,13 @@ public partial class SearchDiscussionPostsControl : SearchControl
     {
         if (RequestId > 0)
         {
-            List<object> args = new List<object>();
-            args.Add(RequestId);
-            args.AddRange(GetSearchQueryArgs());
-            return SessionManager.GetCachedCollection<TransitDiscussionPost>(
-                SessionManager.DiscussionService, "SearchDiscussionPostsById", args.ToArray());
+            return SessionManager.GetCollection<TransitDiscussionPost, int, string>(
+                RequestId, SearchQuery, GetServiceQueryOptions(), SessionManager.DiscussionService.SearchDiscussionPostsById);
         }
         else
         {
-            return SessionManager.GetCachedCollection<TransitDiscussionPost>(
-                SessionManager.DiscussionService, "SearchDiscussionPosts", GetSearchQueryArgs());
+            return SessionManager.GetCollection<TransitDiscussionPost, string>(
+                SearchQuery, GetServiceQueryOptions(), SessionManager.DiscussionService.SearchDiscussionPosts);
         }
     }
 

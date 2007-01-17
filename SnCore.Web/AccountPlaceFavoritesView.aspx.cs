@@ -28,9 +28,8 @@ public partial class AccountPlaceFavoritesView : AccountPersonPage
         gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
         if (!IsPostBack)
         {
-            object[] args = { SessionManager.Ticket, RequestAccountId };
-            TransitAccount ta = SessionManager.GetCachedItem<TransitAccount>(
-                SessionManager.AccountService, "GetAccountById", args);
+            TransitAccount ta = SessionManager.GetInstance<TransitAccount, int>(
+                RequestAccountId, SessionManager.AccountService.GetAccountById);
 
             labelName.Text = string.Format("{0}'s Favorite Places", Render(ta.Name));
             linkAccount.Text = string.Format("&#187; Back to {0}", Render(ta.Name));
@@ -49,9 +48,8 @@ public partial class AccountPlaceFavoritesView : AccountPersonPage
     void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        object[] args = { SessionManager.Ticket, RequestAccountId };
-        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccountPlaceFavorite>(
-            SessionManager.PlaceService, "GetAccountPlaceFavoritesCountByAccountId", args);
+        gridManage.VirtualItemCount = SessionManager.GetCount<TransitAccountPlaceFavorite, int>(
+            RequestAccountId, SessionManager.PlaceService.GetAccountPlaceFavoritesCountByAccountId);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
@@ -61,8 +59,7 @@ public partial class AccountPlaceFavoritesView : AccountPersonPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = gridManage.CurrentPageIndex;
         options.PageSize = gridManage.PageSize;
-        object[] args = { SessionManager.Ticket, RequestAccountId, options };
-        gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountPlaceFavorite>(
-            SessionManager.PlaceService, "GetAccountPlaceFavoritesByAccountId", args);
+        gridManage.DataSource = SessionManager.GetCollection<TransitAccountPlaceFavorite, int>(
+            RequestAccountId, options, SessionManager.PlaceService.GetAccountPlaceFavoritesByAccountId);
     }
 }

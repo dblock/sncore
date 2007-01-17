@@ -12,6 +12,7 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using System.Collections.Generic;
 
 [SiteMapDataAttribute("People")]
 public partial class AccountsView : AccountPersonPage
@@ -47,11 +48,10 @@ public partial class AccountsView : AccountPersonPage
 
         if (!IsPostBack)
         {
-            ArrayList countries = new ArrayList();
+            List<TransitCountry> countries = new List<TransitCountry>();
             countries.Add(new TransitCountry());
-            object[] c_args = { SessionManager.Ticket, null };
-            countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(
-                SessionManager.LocationService, "GetCountries", c_args));
+            countries.AddRange(SessionManager.GetCollection<TransitCountry>(
+                (ServiceQueryOptions) null, SessionManager.LocationService.GetCountries));
 
             ArrayList states = new ArrayList();
             states.Add(new TransitState());
@@ -92,18 +92,16 @@ public partial class AccountsView : AccountPersonPage
     {
         get
         {
-            object[] args = { SessionManager.Ticket };
-            return SessionManager.GetCachedCollectionCount<TransitAccount>(
-                SessionManager.SocialService, "GetAccountsCount", args);
+            return SessionManager.GetCount<TransitAccount>(
+                SessionManager.SocialService.GetAccountsCount);
         }
     }
 
     private void GetData()
     {
         gridManage.CurrentPageIndex = 0;
-        object[] args = { SessionManager.Ticket, GetQueryOptions() };
-        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccountActivity>(
-            SessionManager.SocialService, "GetAccountActivityCount", args);
+        gridManage.VirtualItemCount = SessionManager.GetCount<TransitAccountActivity, AccountActivityQueryOptions>(
+            GetQueryOptions(), SessionManager.SocialService.GetAccountActivityCount);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
         labelCount.Text = string.Format("{0}/{1} people",
@@ -113,11 +111,10 @@ public partial class AccountsView : AccountPersonPage
 
     public void inputCountry_SelectedIndexChanged(object sender, EventArgs e)
     {
-        ArrayList states = new ArrayList();
+        List<TransitState> states = new List<TransitState>();
         states.Add(new TransitState());
-        object[] args = { SessionManager.Ticket, inputCountry.SelectedValue, null };
-        states.AddRange(SessionManager.GetCachedCollection<TransitState>(
-            SessionManager.LocationService, "GetStatesByCountryName", args));
+        states.AddRange(SessionManager.GetCollection<TransitState, string>(
+            inputCountry.SelectedValue, (ServiceQueryOptions) null, SessionManager.LocationService.GetStatesByCountryName));
         inputState.DataSource = states;
         inputState.DataBind();
         panelCountryState.Update();
@@ -157,9 +154,8 @@ public partial class AccountsView : AccountPersonPage
         ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
         serviceoptions.PageSize = gridManage.PageSize;
         serviceoptions.PageNumber = gridManage.CurrentPageIndex;
-        object[] args = { SessionManager.Ticket, options, serviceoptions };
-        gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountActivity>(
-            SessionManager.SocialService, "GetAccountActivity", args);
+        gridManage.DataSource = SessionManager.GetCollection<TransitAccountActivity, AccountActivityQueryOptions>(
+            options, serviceoptions, SessionManager.SocialService.GetAccountActivity);
     }
 
     public void SelectLocation(object sender, SelectLocationEventArgs e)

@@ -23,9 +23,8 @@ public partial class AccountBlogRss : Page
         {
             if (mBlog == null)
             {
-                object[] args = { SessionManager.Ticket, RequestId };
-                mBlog = SessionManager.GetCachedItem<TransitAccountBlog>(
-                    SessionManager.BlogService, "GetAccountBlogById", args);
+                mBlog = SessionManager.GetInstance<TransitAccountBlog, int>(
+                    RequestId, SessionManager.BlogService.GetAccountBlogById);
             }
             return mBlog;
         }
@@ -72,9 +71,8 @@ public partial class AccountBlogRss : Page
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = 0;
             options.PageSize = 25;
-            object[] args = { SessionManager.Ticket, RequestId, options };
-            rssRepeater.DataSource = SessionManager.GetCachedCollection<TransitAccountBlogPost>(
-                SessionManager.BlogService, "GetAccountBlogPostsById", args);
+            rssRepeater.DataSource = SessionManager.GetCollection<TransitAccountBlogPost, int>(
+                RequestId, options, SessionManager.BlogService.GetAccountBlogPosts);
             rssRepeater.DataBind();
         }
     }

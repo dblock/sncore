@@ -42,9 +42,8 @@ public partial class AccountView : Page
         {
             if (mAccount == null)
             {
-                object[] args = { SessionManager.Ticket, AccountId };
-                mAccount = SessionManager.GetCachedItem<TransitAccount>(
-                    SessionManager.AccountService, "GetAccountById", args);
+                mAccount = SessionManager.GetInstance<TransitAccount, int>(
+                    AccountId, SessionManager.AccountService.GetAccountById);
             }
             return mAccount;
         }
@@ -128,9 +127,8 @@ public partial class AccountView : Page
             linkAddToFriends.NavigateUrl = string.Format("AccountFriendRequestEdit.aspx?pid={0}&ReturnUrl={1}",
                 Account.Id.ToString(), returnurl);
 
-            object[] args_aid = { SessionManager.Ticket, Account.Id };
-            discussionTags.DiscussionId = SessionManager.GetCachedCollectionCount<TransitDiscussion>(
-                SessionManager.DiscussionService, "GetOrCreateAccountTagsDiscussionId", args_aid);
+            discussionTags.DiscussionId = SessionManager.GetCount<TransitDiscussion, int>(
+                Account.Id, SessionManager.DiscussionService.GetOrCreateAccountTagsDiscussionId);
 
             linkLeaveTestimonial.NavigateUrl = string.Format("DiscussionPost.aspx?did={0}&ReturnUrl={1}&#edit",
                 discussionTags.DiscussionId, returnurl);
@@ -248,10 +246,9 @@ public partial class AccountView : Page
     {
         AccountPicturesQueryOptions po = new AccountPicturesQueryOptions();
         po.Hidden = false;
-        object[] p_args = { SessionManager.Ticket, AccountId, po };
         picturesView.CurrentPageIndex = 0;
-        picturesView.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccountPicture>(
-            SessionManager.AccountService, "GetAccountPicturesCount", p_args);
+        picturesView.VirtualItemCount = SessionManager.GetCount<TransitAccountPicture, int, AccountPicturesQueryOptions>(
+            AccountId, po, SessionManager.AccountService.GetAccountPicturesCount);
         picturesView_OnGetDataSource(sender, e);
         picturesView.DataBind();
         accountNoPicture.Visible = (picturesView.Items.Count == 0);
@@ -262,8 +259,7 @@ public partial class AccountView : Page
         AccountPicturesQueryOptions po = new AccountPicturesQueryOptions();
         po.Hidden = false;
         ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
-        object[] args = { SessionManager.Ticket, AccountId, po, options };
-        picturesView.DataSource = SessionManager.GetCachedCollection<TransitAccountPicture>(
-            SessionManager.AccountService, "GetAccountPictures", args);
+        picturesView.DataSource = SessionManager.GetCollection<TransitAccountPicture, int, AccountPicturesQueryOptions>(
+            AccountId, po, options, SessionManager.AccountService.GetAccountPictures);
     }
 }

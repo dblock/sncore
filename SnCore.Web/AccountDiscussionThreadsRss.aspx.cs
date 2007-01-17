@@ -30,9 +30,8 @@ public partial class AccountDiscussionThreadsRss : Page
         {
             if (mAccount == null)
             {
-                object[] args = { SessionManager.Ticket, RequestId };
-                mAccount = SessionManager.GetCachedItem<TransitAccount>(
-                    SessionManager.AccountService, "GetAccountById", args);
+                mAccount = SessionManager.GetInstance<TransitAccount, int>(
+                    RequestId, SessionManager.AccountService.GetAccountById);
             }
             return mAccount;
         }

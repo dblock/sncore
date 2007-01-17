@@ -125,9 +125,8 @@ public partial class AccountsRss : AccountPersonPage
             queryoptions.PageNumber = 0;
             queryoptions.PageSize = 25;
 
-            object[] args = { SessionManager.Ticket, options, queryoptions };
-            rssRepeater.DataSource = SessionManager.GetCachedCollection<TransitAccountActivity>(
-                SessionManager.SocialService, "GetAccountActivity", args);
+            rssRepeater.DataSource = SessionManager.GetCollection<TransitAccountActivity, AccountActivityQueryOptions>(
+                options, queryoptions, SessionManager.SocialService.GetAccountActivity);
             rssRepeater.DataBind();
         }
     }

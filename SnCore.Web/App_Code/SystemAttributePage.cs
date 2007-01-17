@@ -18,11 +18,10 @@ public abstract class SystemAttributePage : PicturePage
 
     }
 
-    public override TransitPicture GetPictureWithBitmap(int id, string ticket, DateTime ifModifiedSince)
+    public override TransitPicture GetPictureWithBitmap(int id, DateTime ifModifiedSince)
     {
-        object[] args = { ticket, id, ifModifiedSince };
-        TransitAttribute p = SessionManager.GetCachedItem<TransitAttribute>(
-            SessionManager.ObjectService, "GetAttributeIfModifiedSinceById", args);
+        TransitAttribute p = SessionManager.GetInstance<TransitAttribute, int, DateTime>(
+            id, ifModifiedSince, SessionManager.ObjectService.GetAttributeIfModifiedSinceById);
 
         if (p == null)
             return null;
@@ -36,11 +35,10 @@ public abstract class SystemAttributePage : PicturePage
         return result;
     }
 
-    public override TransitPicture GetPictureWithThumbnail(int id, string ticket, DateTime ifModifiedSince)
+    public override TransitPicture GetPictureWithThumbnail(int id, DateTime ifModifiedSince)
     {
-        object[] args = { ticket, id, ifModifiedSince };
-        TransitAttribute p = SessionManager.GetCachedItem<TransitAttribute>(
-            SessionManager.SystemService, "GetAttributeIfModifiedSinceById", args);
+        TransitAttribute p = SessionManager.GetInstance<TransitAttribute, int, DateTime>(
+            id, ifModifiedSince, SessionManager.ObjectService.GetAttributeIfModifiedSinceById);
 
         if (p == null)
             return null;
@@ -54,11 +52,10 @@ public abstract class SystemAttributePage : PicturePage
         return result;
     }
 
-    public override TransitPicture GetPictureWithBitmap(int id, string ticket)
+    public override TransitPicture GetPictureWithBitmap(int id)
     {
-        object[] args = { ticket, id };
-        TransitAttribute p = SessionManager.GetCachedItem<TransitAttribute>(
-            SessionManager.ObjectService, "GetAttributeById", args);
+        TransitAttribute p = SessionManager.GetInstance<TransitAttribute, int>(
+            id, SessionManager.ObjectService.GetAttributeById);
 
         if (p == null)
             return null;
@@ -72,11 +69,10 @@ public abstract class SystemAttributePage : PicturePage
         return result;
     }
 
-    public override TransitPicture GetPictureWithThumbnail(int id, string ticket)
+    public override TransitPicture GetPictureWithThumbnail(int id)
     {
-        object[] args = { ticket, id };
-        TransitAttribute p = SessionManager.GetCachedItem<TransitAttribute>(
-            SessionManager.ObjectService, "GetAttributeById", args);
+        TransitAttribute p = SessionManager.GetInstance<TransitAttribute, int>(
+            id, SessionManager.ObjectService.GetAttributeById);
 
         if (p == null)
             return null;

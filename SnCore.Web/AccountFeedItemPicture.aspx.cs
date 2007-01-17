@@ -27,18 +27,18 @@ public partial class AccountFeedItemPicture : PicturePage
 
     }
 
-    public override TransitPicture GetPictureWithThumbnail(int id, string ticket, DateTime ifModifiedSince)
+    public override TransitPicture GetPictureWithThumbnail(int id, DateTime ifModifiedSince)
     {
         throw new NotImplementedException();
     }
 
-    public override TransitPicture GetPictureWithBitmap(int id, string ticket, DateTime ifModifiedSince)
+    public override TransitPicture GetPictureWithBitmap(int id, DateTime ifModifiedSince)
     {
         // these pictures are never modified (external source)
         return null;
     }
 
-    public override TransitPicture GetPictureWithBitmap(int id, string ticket)
+    public override TransitPicture GetPictureWithBitmap(int id)
     {
         string url = Request["Src"];
 
@@ -66,7 +66,7 @@ public partial class AccountFeedItemPicture : PicturePage
         return result;
     }
 
-    public override TransitPicture GetPictureWithThumbnail(int id, string ticket)
+    public override TransitPicture GetPictureWithThumbnail(int id)
     {
         throw new NotImplementedException();
     }

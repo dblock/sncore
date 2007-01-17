@@ -94,9 +94,8 @@ public partial class TagWordsView : AccountPersonPage
                 ServiceQueryOptions options = new ServiceQueryOptions();
                 options.PageNumber = 0;
                 options.PageSize = Count;
-                object[] args = { SessionManager.Ticket, TransitTagWordQueryOptions.Promoted, options };
-                List<TransitTagWord> words = SessionManager.GetCachedCollection<TransitTagWord>(
-                    SessionManager.TagWordService, "GetTagWords", args);
+                List<TransitTagWord> words = (List<TransitTagWord>) SessionManager.GetCollection<TransitTagWord, TransitTagWordQueryOptions>(
+                    TransitTagWordQueryOptions.Promoted, options, SessionManager.TagWordService.GetTagWords);
                 words.Sort(CompareByFrequency);
                 MaxFrequency = mMaxFrequency;
                 MinFrequency = mMinFrequency;

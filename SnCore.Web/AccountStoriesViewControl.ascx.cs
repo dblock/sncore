@@ -45,9 +45,8 @@ public partial class AccountStoriesViewControl : Control
         options.PageSize = accountStories.PageSize;
         AccountStoryQueryOptions queryoptions = new AccountStoryQueryOptions();
         queryoptions.PublishedOnly = true;
-        object[] args = { SessionManager.Ticket, AccountId, queryoptions, options };
-        accountStories.DataSource = SessionManager.GetCachedCollection<TransitAccountStory>(
-            SessionManager.StoryService, "GetAccountStories", args);
+        accountStories.DataSource = SessionManager.GetCollection<TransitAccountStory,int, AccountStoryQueryOptions>(
+            AccountId, queryoptions, options, SessionManager.StoryService.GetAccountStories);
     }
 
     public string GetDescription(object description)

@@ -13,6 +13,7 @@ using SnCore.Tools.Web;
 using SnCore.WebControls;
 using Wilco.Web.UI;
 using SnCore.Services;
+using SnCore.WebServices;
 
 public partial class AccountPropertyValueViewControl : Control
 {
@@ -54,9 +55,9 @@ public partial class AccountPropertyValueViewControl : Control
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        object[] args = { SessionManager.Ticket, AccountId, GroupName, PropertyName };
-        TransitAccountPropertyValue tppv = SessionManager.GetCachedItem<TransitAccountPropertyValue>(
-            SessionManager.AccountService, "GetAccountPropertyValueByName", args);
+        TransitAccountPropertyValue tppv = SessionManager.GetInstance<TransitAccountPropertyValue, int, string, string>(
+            AccountId, GroupName, PropertyName, SessionManager.AccountService.GetAccountPropertyValueByName);
+
         labelValue.Text = RenderEx(tppv.Value);
     }
 }

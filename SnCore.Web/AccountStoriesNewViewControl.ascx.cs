@@ -36,9 +36,8 @@ public partial class AccountStoriesNewViewControl : Control
         if (!IsPostBack)
         {
             ServiceQueryOptions options = new ServiceQueryOptions(Count, 0);
-            object[] args = { SessionManager.Ticket, options };
-            storiesView.DataSource = SessionManager.GetCachedCollection<TransitAccountStory>(
-                SessionManager.StoryService, "GetLatestAccountStories", args);
+            storiesView.DataSource = SessionManager.GetCollection<TransitAccountStory>(
+                options, SessionManager.StoryService.GetAllAccountStories);
             storiesView.DataBind();
         }
     }

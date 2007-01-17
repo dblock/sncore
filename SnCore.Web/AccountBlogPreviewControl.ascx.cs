@@ -59,15 +59,13 @@ public partial class AccountBlogPreviewControl : Control
         {
             if (BlogId > 0)
             {
-                object[] b_args = { SessionManager.Ticket, BlogId };
-                TransitAccountBlog tb = SessionManager.GetCachedItem<TransitAccountBlog>(
-                    SessionManager.BlogService, "GetAccountBlogById", b_args);
+                TransitAccountBlog tb = SessionManager.GetInstance<TransitAccountBlog, int>(
+                    BlogId, SessionManager.BlogService.GetAccountBlogById);
                 linkRelRss.NavigateUrl = string.Format("AccountBlogRss.aspx?id={0}", BlogId);
                 linkRelRss.Title = Renderer.Render(tb.Name);
 
-                object[] args = { SessionManager.Ticket, BlogId };
-                gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccountBlogPost>(
-                    SessionManager.BlogService, "GetAccountBlogPostsCount", args);
+                gridManage.VirtualItemCount = SessionManager.GetCount<TransitAccountBlogPost, int>(
+                    BlogId, SessionManager.BlogService.GetAccountBlogPostsCount);
                 gridManage_OnGetDataSource(this, null);
                 gridManage.DataBind();
             }
@@ -77,9 +75,8 @@ public partial class AccountBlogPreviewControl : Control
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
         ServiceQueryOptions options = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
-        object[] args = { SessionManager.Ticket, BlogId, options };
-        gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountBlogPost>(
-            SessionManager.BlogService, "GetAccountBlogPosts", args);
+        gridManage.DataSource = SessionManager.GetCollection<TransitAccountBlogPost, int>(
+            BlogId, options, SessionManager.BlogService.GetAccountBlogPosts);
     }
 
     public string GetTitle(object title)

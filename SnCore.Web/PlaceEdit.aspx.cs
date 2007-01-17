@@ -211,9 +211,8 @@ public partial class PlaceEdit : AuthenticatedPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = 0;
         options.PageSize = 10;
-        object[] args = { SessionManager.Ticket, inputName.Text, options };
-        gridLookupPlaces.DataSource = SessionManager.GetCachedCollection<TransitPlace>(
-            SessionManager.PlaceService, "SearchPlaces", args);
+        gridLookupPlaces.DataSource = SessionManager.GetCollection<TransitPlace, string>(
+            inputName.Text, options, SessionManager.PlaceService.SearchPlaces);
         gridLookupPlaces.DataBind();
 
         if (gridLookupPlaces.Items.Count == 0)

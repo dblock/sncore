@@ -21,9 +21,8 @@ public partial class AccountSurveyQuestionView : Page
     private void GetData()
     {
         accountSurveyAnswers.CurrentPageIndex = 0;
-        object[] args = { SessionManager.Ticket, SurveyQuestionId };
-        accountSurveyAnswers.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccountSurveyAnswer>(
-            SessionManager.AccountService, "GetAccountSurveyAnswersCountByQuestionId", args);
+        accountSurveyAnswers.VirtualItemCount = SessionManager.GetCount<TransitAccountSurveyAnswer, int>(
+            SurveyQuestionId, SessionManager.AccountService.GetAccountSurveyAnswersCountByQuestionId);
         accountSurveyAnswers_OnGetDataSource(this, null);
         accountSurveyAnswers.DataBind();
     }
@@ -76,13 +75,11 @@ public partial class AccountSurveyQuestionView : Page
 
     void accountSurveyAnswers_OnGetDataSource(object sender, EventArgs e)
     {
-        ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
-        serviceoptions.PageSize = accountSurveyAnswers.PageSize;
-        serviceoptions.PageNumber = accountSurveyAnswers.CurrentPageIndex;
-
-        object[] args = { SessionManager.Ticket, SurveyQuestionId, serviceoptions };
-        accountSurveyAnswers.DataSource = SessionManager.GetCachedCollection<TransitAccountSurveyAnswer>(
-            SessionManager.AccountService, "GetAccountSurveyAnswersByQuestionId", args);
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageSize = accountSurveyAnswers.PageSize;
+        options.PageNumber = accountSurveyAnswers.CurrentPageIndex;
+        accountSurveyAnswers.DataSource = SessionManager.GetCollection<TransitAccountSurveyAnswer, int>(
+            SurveyQuestionId, options, SessionManager.AccountService.GetAccountSurveyAnswersByQuestionId);
     }
 
     public int SurveyQuestionId

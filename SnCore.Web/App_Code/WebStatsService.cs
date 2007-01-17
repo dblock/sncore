@@ -97,7 +97,7 @@ namespace SnCore.WebServices
         /// Get stats summary.
         /// </summary>
         [WebMethod(Description = "Get stats summary.")]
-        public TransitStatsSummary GetSummary()
+        public TransitStatsSummary GetSummary(string ticket)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {

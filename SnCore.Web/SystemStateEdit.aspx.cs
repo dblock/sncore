@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.SiteMap;
+using SnCore.WebServices;
 
 public partial class SystemStateEdit : AuthenticatedPage
 {
@@ -24,9 +25,8 @@ public partial class SystemStateEdit : AuthenticatedPage
 
             int id = RequestId;
 
-            object[] c_args = { SessionManager.Ticket, null };
-            inputCountry.DataSource = SessionManager.GetCachedCollection<TransitCountry>(
-                SessionManager.LocationService, "GetCountries", c_args);
+            inputCountry.DataSource = SessionManager.GetCollection<TransitCountry>(
+                (ServiceQueryOptions) null, SessionManager.LocationService.GetCountries);
             inputCountry.DataBind();
 
             if (id > 0)

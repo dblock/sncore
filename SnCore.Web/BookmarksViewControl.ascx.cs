@@ -56,9 +56,8 @@ public partial class BookmarksViewControl : Control
             BookmarkQueryOptions options = new BookmarkQueryOptions();
             options.WithFullBitmaps = !ShowThumbnail;
             options.WithLinkedBitmaps = ShowThumbnail;
-            object[] args = { SessionManager.Ticket, options };
-            bookmarksView.DataSource = SessionManager.GetCachedCollection<TransitBookmark>(
-                SessionManager.ObjectService, "GetBookmarksWithOptions", args);
+            bookmarksView.DataSource = SessionManager.GetCollection<TransitBookmark, BookmarkQueryOptions>(
+                options, (ServiceQueryOptions) null, SessionManager.ObjectService.GetBookmarksWithOptions);
             bookmarksView.DataBind();
             bookmarksView.RepeatColumns = (RepeatColumns <= 0) ? bookmarksView.Items.Count : RepeatColumns;
         }

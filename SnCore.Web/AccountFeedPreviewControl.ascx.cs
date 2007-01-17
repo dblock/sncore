@@ -60,9 +60,8 @@ public partial class AccountFeedPreviewControl : Control
         {
             if (mAccountFeed == null)
             {
-                object[] args = { SessionManager.IsLoggedIn ? SessionManager.Ticket : string.Empty, FeedId };
-                mAccountFeed = SessionManager.GetCachedItem<TransitAccountFeed>(
-                    SessionManager.SyndicationService, "GetAccountFeedById", args);
+                mAccountFeed = SessionManager.GetInstance<TransitAccountFeed, int>(
+                    FeedId, SessionManager.SyndicationService.GetAccountFeedById);
             }
 
             return mAccountFeed;
@@ -81,9 +80,8 @@ public partial class AccountFeedPreviewControl : Control
                 TransitFeedType t = SessionManager.SyndicationService.GetFeedTypeByName(SessionManager.Ticket, f.FeedType);
                 gridManage.RepeatColumns = t.SpanColumnsPreview;
                 gridManage.RepeatRows = t.SpanRowsPreview;
-                object[] args = { SessionManager.Ticket, FeedId };
-                gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccountFeedItem>(
-                    SessionManager.SyndicationService, "GetAccountFeedItemsCount", args);
+                gridManage.VirtualItemCount = SessionManager.GetCount<TransitAccountFeedItem, int>(
+                    FeedId, SessionManager.SyndicationService.GetAccountFeedItemsCount);
                 gridManage_OnGetDataSource(this, null);
                 gridManage.DataBind();
             }
@@ -95,9 +93,8 @@ public partial class AccountFeedPreviewControl : Control
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = gridManage.CurrentPageIndex;
         options.PageSize = gridManage.PageSize;
-        object[] args = { SessionManager.Ticket, FeedId, options };
-        gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountFeedItem>(
-            SessionManager.SyndicationService, "GetAccountFeedItems", args);
+        gridManage.DataSource = SessionManager.GetCollection<TransitAccountFeedItem, int>(
+            FeedId, options, SessionManager.SyndicationService.GetAccountFeedItems);
     }
 
     public string GetTitle(object title)

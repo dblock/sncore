@@ -60,15 +60,13 @@ public partial class FeaturedAccountFeedsView : Page
         serviceoptions.PageSize = gridManage.PageSize;
         serviceoptions.PageNumber = gridManage.CurrentPageIndex;
 
-        object[] args = { SessionManager.Ticket, "AccountFeed", serviceoptions };
-        gridManage.DataSource = SessionManager.GetCachedCollection<TransitFeature>(
-            SessionManager.ObjectService, "GetFeatures", args);
+        gridManage.DataSource = SessionManager.GetCollection<TransitFeature, string>(
+            "AccountFeed", serviceoptions, SessionManager.ObjectService.GetFeatures);
     }
 
     public TransitAccountFeed GetAccountFeed(int id)
     {
-        object[] args = { SessionManager.Ticket, id };
-        return SessionManager.GetCachedItem<TransitAccountFeed>(
-            SessionManager.SyndicationService, "GetAccountFeedById", args);
+        return SessionManager.GetInstance<TransitAccountFeed, int>(
+            id, SessionManager.SyndicationService.GetAccountFeedById);
     }
 }

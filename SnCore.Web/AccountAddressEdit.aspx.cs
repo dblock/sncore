@@ -12,6 +12,7 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using System.Collections.Generic;
 
 public partial class AccountAddressEdit : AuthenticatedPage
 {
@@ -44,14 +45,15 @@ public partial class AccountAddressEdit : AuthenticatedPage
 
             StackSiteMap(sitemapdata);
 
-            ArrayList countries = new ArrayList();
+            List<TransitCountry> countries = new List<TransitCountry>();
             if (tw == null || tw.Country.Length == 0) countries.Add(new TransitCountry());
-            object[] c_args = { SessionManager.Ticket, null };
-            countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(SessionManager.LocationService, "GetCountries", c_args));
+            countries.AddRange(SessionManager.GetCollection<TransitCountry>(
+                (ServiceQueryOptions) null, SessionManager.LocationService.GetCountries));
 
-            ArrayList states = new ArrayList();
+            List<TransitState> states = new List<TransitState>();
             if (tw == null || tw.State.Length == 0) states.Add(new TransitState());
-            states.AddRange(SessionManager.GetCachedCollection<TransitState>(SessionManager.LocationService, "GetStates", c_args));
+            states.AddRange(SessionManager.GetCollection<TransitState>(
+                (ServiceQueryOptions) null, SessionManager.LocationService.GetStates));
 
             inputCountry.DataSource = countries;
             inputCountry.DataBind();

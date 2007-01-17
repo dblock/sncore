@@ -34,17 +34,15 @@ public partial class DiscussionTopOfThreadsView : Page
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = gridManage.CurrentPageIndex;
         options.PageSize = gridManage.PageSize;
-        object[] args = { SessionManager.Ticket, options };
-        gridManage.DataSource = SessionManager.GetCachedCollection<TransitDiscussionPost>(
-            SessionManager.DiscussionService, "GetDiscussionTopOfThreads", args);
+        gridManage.DataSource = SessionManager.GetCollection<TransitDiscussionPost>(
+            options, SessionManager.DiscussionService.GetDiscussionTopOfThreads);
     }
 
     public void GetData(object sender, EventArgs e)
     {
-        object[] args = { SessionManager.Ticket };
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitDiscussionPost>(
-            SessionManager.DiscussionService, "GetDiscussionTopOfThreadsCount", args);
+        gridManage.VirtualItemCount = SessionManager.GetCount<TransitDiscussionPost>(
+            SessionManager.DiscussionService.GetDiscussionTopOfThreadsCount);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }

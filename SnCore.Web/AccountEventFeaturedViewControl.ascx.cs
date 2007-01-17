@@ -39,9 +39,8 @@ public partial class AccountEventFeaturedViewControl : Control
         {
             if (mFeature == null)
             {
-                object[] args = { SessionManager.Ticket, "AccountEvent" };
-                mFeature = SessionManager.GetCachedItem<TransitFeature>(
-                    SessionManager.ObjectService, "GetLatestFeature", args);
+                mFeature = SessionManager.GetInstance<TransitFeature, string>(
+                    "AccountEvent", SessionManager.ObjectService.GetLatestFeature);
             }
 
             return mFeature;
@@ -54,9 +53,8 @@ public partial class AccountEventFeaturedViewControl : Control
         {
             if (mAccountEvent == null)
             {
-                object[] args = { SessionManager.Ticket, Feature.DataRowId, SessionManager.UtcOffset };
-                mAccountEvent = SessionManager.GetCachedItem<TransitAccountEvent>(
-                    SessionManager.EventService, "GetAccountEventById", args);
+                mAccountEvent = SessionManager.GetInstance<TransitAccountEvent, int, int>(
+                    Feature.DataRowId, SessionManager.UtcOffset, SessionManager.EventService.GetAccountEventById);
             }
 
             return mAccountEvent;

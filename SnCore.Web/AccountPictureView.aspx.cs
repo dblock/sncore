@@ -58,9 +58,8 @@ public partial class AccountPictureView : Page
         {
             if (mAccountPicture == null)
             {
-                object[] sp_args = { SessionManager.Ticket, PictureId };
-                mAccountPicture = SessionManager.GetCachedItem<TransitAccountPicture>(
-                    SessionManager.AccountService, "GetAccountPictureById", sp_args);
+                mAccountPicture = SessionManager.GetInstance<TransitAccountPicture, int>(
+                    PictureId, SessionManager.AccountService.GetAccountPictureById);
             }
             return mAccountPicture;
         }
@@ -74,9 +73,8 @@ public partial class AccountPictureView : Page
         {
             if (mAccount == null)
             {
-                object[] as_args = { SessionManager.Ticket, AccountPicture.AccountId };
-                mAccount = SessionManager.GetCachedItem<TransitAccount>(
-                    SessionManager.AccountService, "GetAccountById", as_args);
+                mAccount = SessionManager.GetInstance<TransitAccount, int>(
+                    AccountPicture.AccountId, SessionManager.AccountService.GetAccountById);
             }
             return mAccount;
         }
@@ -86,10 +84,9 @@ public partial class AccountPictureView : Page
     {
         AccountPicturesQueryOptions ap = new AccountPicturesQueryOptions();
         ap.Hidden = false;
-        object[] p_args = { SessionManager.Ticket, Account.Id, ap };
         picturesView.CurrentPageIndex = 0;
-        picturesView.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccountPicture>(
-            SessionManager.AccountService, "GetAccountPicturesCount", p_args);
+        picturesView.VirtualItemCount = SessionManager.GetCount<TransitAccountPicture, int, AccountPicturesQueryOptions>(
+            AccountPicture.AccountId, ap, SessionManager.AccountService.GetAccountPicturesCount);
         picturesView_OnGetDataSource(sender, e);
         picturesView.DataBind();
     }
@@ -149,9 +146,8 @@ public partial class AccountPictureView : Page
         AccountPicturesQueryOptions ap = new AccountPicturesQueryOptions();
         ap.Hidden = false;
         ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
-        object[] args = { SessionManager.Ticket, Account.Id, ap, options };
-        picturesView.DataSource = SessionManager.GetCachedCollection<TransitAccountPicture>(
-            SessionManager.AccountService, "GetAccountPictures", args);
+        picturesView.DataSource = SessionManager.GetCollection<TransitAccountPicture, int, AccountPicturesQueryOptions>(
+            Account.Id, ap, options, SessionManager.AccountService.GetAccountPictures);
     }
 
 }

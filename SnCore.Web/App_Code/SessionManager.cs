@@ -74,9 +74,8 @@ public class SessionManager
 
     public string GetCachedConfiguration(string name, string defaultvalue)
     {
-        object[] args = { Ticket, name, defaultvalue };
-        return GetCachedItem<TransitConfiguration>(
-            SystemService, "GetConfigurationByNameWithDefault", args).Value.ToString();
+        return GetInstance<TransitConfiguration, string, string>(
+            name, defaultvalue, SystemService.GetConfigurationByNameWithDefault).Value;
     }
 
     public SessionManager(System.Web.UI.Page page)
@@ -478,13 +477,13 @@ public class SessionManager
             int userid = 0;
             if (int.TryParse(tagvalue, out userid))
             {
-                object[] args = { Ticket, userid };
-                TransitAccount a = GetCachedItem<TransitAccount>(AccountService, "GetAccountById", args);
+                TransitAccount t_account = GetInstance<TransitAccount, int>(
+                    userid, AccountService.GetAccountById);
 
-                if (a != null)
+                if (t_account != null)
                 {
                     return string.Format("<a href=\"{0}/AccountView.aspx?id={1}\">{2}</a>",
-                        WebsiteUrl, a.Id, Renderer.Render(a.Name));
+                        WebsiteUrl, t_account.Id, Renderer.Render(t_account.Name));
                 }
             }
 
@@ -699,138 +698,123 @@ public class SessionManager
 
     #endregion
 
-    #region Cached Collections
+    #region Strongly Typed
 
-    private static string GetCacheKey(string invoke, object[] args)
+    #region Collection
+
+    /// ticket + ServiceQueryOptions
+    public IList<TransitType> GetCollection<TransitType>(
+        ServiceQueryOptions options, WebClientImpl<TransitType>.GetCollectionDelegate functor)
     {
-        StringBuilder key = new StringBuilder(invoke);
-
-        if (args != null)
-        {
-            foreach (object arg in args)
-            {
-                key.Append(":");
-                key.Append(arg == null ? string.Empty : arg.GetHashCode().ToString());
-            }
-        }
-
-        return key.ToString();
+        return WebClientImpl<TransitType>.GetCollection(
+            Ticket, options, functor, Cache, DefaultCacheTimeSpan);
     }
 
-    public List<TransitType> GetCachedCollection<TransitType>(
-        WebService service, string invoke, object[] args)
+    /// ticket + arg1 + ServiceQueryOptions
+    public IList<TransitType> GetCollection<TransitType, ArgType1>(
+        ArgType1 arg1, ServiceQueryOptions options, 
+        WebClientImpl<TransitType>.GetCollectionDelegate<ArgType1> functor)
     {
-        return GetCachedCollection<TransitType>(
-            service, invoke, args, DefaultCacheTimeSpan);
+        return WebClientImpl<TransitType>.GetCollection<ArgType1>(
+            Ticket, arg1, options, functor, Cache, DefaultCacheTimeSpan);
     }
 
-    public List<TransitType> GetCachedCollection<TransitType>(
-        WebService service, string invoke, object[] args, TimeSpan cacheduration)
+    /// ticket + arg1 + arg2 + ServiceQueryOptions
+    public IList<TransitType> GetCollection<TransitType, ArgType1, ArgType2>(
+        ArgType1 arg1, ArgType2 arg2, ServiceQueryOptions options, 
+        WebClientImpl<TransitType>.GetCollectionDelegate<ArgType1, ArgType2> functor)
     {
-        string key = GetCacheKey(invoke, args);
-        List<TransitType> result = (List<TransitType>)Cache[key];
-        if (result == null || IsAdministrator)
-        {
-            MethodInfo mi = service.GetType().GetMethod(invoke);
-            if (mi == null) throw new ArgumentException(string.Format("Invalid method \"{0}:{1}\"", service.GetType().Name, invoke));
-#if DEBUGTS
-            DateTime s = DateTime.UtcNow;
-#endif
-            try
-            {
-                result = (List<TransitType>)mi.Invoke(service, args);
-                if (result != null)
-                {
-                    Cache.Insert(key, result, null, Cache.NoAbsoluteExpiration, cacheduration);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(string.Format("{0}.{1}: {2}",
-                    service.GetType().Name, invoke, ex.Message), ex);
-            }
-#if DEBUGTS
-            Debug.WriteLine(string.Format("{0}: {1}", invoke, DateTime.UtcNow.Subtract(s).TotalSeconds));
-#endif
-        }
-
-        return result;
+        return WebClientImpl<TransitType>.GetCollection<ArgType1, ArgType2>(
+            Ticket, arg1, arg2, options, functor, Cache, DefaultCacheTimeSpan);
     }
 
-    public int GetCachedCollectionCount<TransitType>(
-        WebService service, string invoke, object[] args)
+    /// ticket + arg1 + arg2 + arg3 + ServiceQueryOptions
+    public IList<TransitType> GetCollection<TransitType, ArgType1, ArgType2, ArgType3>(
+        ArgType1 arg1, ArgType2 arg2, ArgType3 arg3, ServiceQueryOptions options,
+        WebClientImpl<TransitType>.GetCollectionDelegate<ArgType1, ArgType2, ArgType3> functor)
     {
-        return GetCachedCollectionCount<TransitType>(
-            service, invoke, args, DefaultCacheTimeSpan);
+        return WebClientImpl<TransitType>.GetCollection<ArgType1, ArgType2, ArgType3>(
+            Ticket, arg1, arg2, arg3, options, functor, Cache, DefaultCacheTimeSpan);
     }
 
-    public int GetCachedCollectionCount<TransitType>(
-        WebService service, string invoke, object[] args, TimeSpan cacheduration)
+    #endregion
+
+    #region Instance
+
+    /// ticket
+    public TransitType GetInstance<TransitType>(
+        WebClientImpl<TransitType>.GetItemDelegate functor)
     {
-        string key = GetCacheKey(invoke, args);
-        object count = Cache[key];
-        if (count == null || IsAdministrator)
-        {
-            MethodInfo mi = service.GetType().GetMethod(invoke);
-            if (mi == null) throw new ArgumentException(string.Format("Invalid method \"{0}.{1}\"", service.GetType().Name, invoke));
-#if DEBUGTS
-            DateTime s = DateTime.UtcNow;
-#endif
-            try
-            {
-                count = (int)mi.Invoke(service, args);
-                Cache.Insert(key, count, null, Cache.NoAbsoluteExpiration, cacheduration);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(string.Format("{0}.{1}: {2}",
-                    service.GetType().Name, invoke, ex.Message), ex);
-            }
-#if DEBUGTS
-            Debug.WriteLine(string.Format("{0}: {1}", invoke, DateTime.UtcNow.Subtract(s).TotalSeconds));
-#endif
-        }
-        return (int)count;
+        return WebClientImpl<TransitType>.GetInstance(
+            Ticket, functor, Cache, DefaultCacheTimeSpan);
     }
 
-    public TransitType GetCachedItem<TransitType>(
-        WebService service, string invoke, object[] args)
+    /// ticket + arg1
+    public TransitType GetInstance<TransitType, ArgType1>(
+        ArgType1 arg1,
+        WebClientImpl<TransitType>.GetItemDelegate<ArgType1> functor)
     {
-        return GetCachedItem<TransitType>(service, invoke, args, DefaultCacheTimeSpan);
+        return WebClientImpl<TransitType>.GetInstance<ArgType1>(
+            Ticket, arg1, functor, Cache, DefaultCacheTimeSpan);
     }
 
-    public TransitType GetCachedItem<TransitType>(
-        WebService service, string invoke, object[] args, TimeSpan cacheduration)
+    /// ticket + arg1 + arg2
+    public TransitType GetInstance<TransitType, ArgType1, ArgType2>(
+        ArgType1 arg1, ArgType2 arg2,
+        WebClientImpl<TransitType>.GetItemDelegate<ArgType1, ArgType2> functor)
     {
-        string key = GetCacheKey(invoke, args);
-        TransitType result = (TransitType)Cache[key];
-        if (result == null || IsAdministrator)
-        {
-            MethodInfo mi = service.GetType().GetMethod(invoke);
-            if (mi == null) throw new ArgumentException(string.Format("Invalid method \"{0}.{1}\"", service.GetType().Name, invoke));
-#if DEBUGTS
-            DateTime s = DateTime.UtcNow;
-#endif
-            try
-            {
-                result = (TransitType)mi.Invoke(service, args);
-                if (result != null)
-                {
-                    Cache.Insert(key, result, null, Cache.NoAbsoluteExpiration, cacheduration);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(string.Format("{0}.{1}: {2}",
-                    service.GetType().Name, invoke, ex.Message), ex);
-            }
-#if DEBUGTS
-            Debug.WriteLine(string.Format("{0}: {1}", invoke, DateTime.UtcNow.Subtract(s).TotalSeconds));
-#endif
-        }
-
-        return result;
+        return WebClientImpl<TransitType>.GetInstance<ArgType1, ArgType2>(
+            Ticket, arg1, arg2, functor, Cache, DefaultCacheTimeSpan);
     }
+
+    /// ticket + arg1 + arg2 + arg3
+    public TransitType GetInstance<TransitType, ArgType1, ArgType2, ArgType3>(
+        ArgType1 arg1, ArgType2 arg2, ArgType3 arg3,
+        WebClientImpl<TransitType>.GetItemDelegate<ArgType1, ArgType2, ArgType3> functor)
+    {
+        return WebClientImpl<TransitType>.GetInstance<ArgType1, ArgType2, ArgType3>(
+            Ticket, arg1, arg2, arg3, functor, Cache, DefaultCacheTimeSpan);
+    }
+
+    #endregion
+
+    #region Count
+
+    /// ticket
+    public int GetCount<TransitType>(
+        WebClientImpl<TransitType>.GetItemDelegateCount functor)
+    {
+        return WebClientImpl<TransitType>.GetCount(
+            Ticket, functor, Cache, DefaultCacheTimeSpan);
+    }
+
+    /// ticket + arg1
+    public int GetCount<TransitType, ArgType1>(
+        ArgType1 arg1, WebClientImpl<TransitType>.GetItemDelegateCount<ArgType1> functor)
+    {
+        return WebClientImpl<TransitType>.GetCount(
+            Ticket, arg1, functor, Cache, DefaultCacheTimeSpan);
+    }
+
+    /// ticket + arg1 + arg2
+    public int GetCount<TransitType, ArgType1, ArgType2>(
+        ArgType1 arg1, ArgType2 arg2, 
+        WebClientImpl<TransitType>.GetItemDelegateCount<ArgType1, ArgType2> functor)
+    {
+        return WebClientImpl<TransitType>.GetCount(
+            Ticket, arg1, arg2, functor, Cache, DefaultCacheTimeSpan);
+    }
+
+    /// ticket + arg1 + arg2 + arg3
+    public int GetCount<TransitType, ArgType1, ArgType2, ArgType3>(
+        ArgType1 arg1, ArgType2 arg2, ArgType3 arg3,
+        WebClientImpl<TransitType>.GetItemDelegateCount<ArgType1, ArgType2, ArgType3> functor)
+    {
+        return WebClientImpl<TransitType>.GetCount(
+            Ticket, arg1, arg2, arg3, functor, Cache, DefaultCacheTimeSpan);
+    }
+
+    #endregion
 
     #endregion
 }

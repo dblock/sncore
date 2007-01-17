@@ -26,9 +26,8 @@ public partial class AccountPicturesView : Page
 
         if (!IsPostBack)
         {
-            object[] args = { SessionManager.Ticket, RequestId };
-            TransitAccount a = SessionManager.GetCachedItem<TransitAccount>(
-                SessionManager.AccountService, "GetAccountById", args);
+            TransitAccount a = SessionManager.GetInstance<TransitAccount, int>(
+                RequestId, SessionManager.AccountService.GetAccountById);
 
             this.Title = string.Format("{0}'s Pictures", Renderer.Render(a.Name));
 
@@ -46,10 +45,9 @@ public partial class AccountPicturesView : Page
     {
         AccountPicturesQueryOptions ap = new AccountPicturesQueryOptions();
         ap.Hidden = false;
-        object[] p_args = { SessionManager.Ticket, RequestId, ap };
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccountPicture>(
-            SessionManager.AccountService, "GetAccountPicturesCount", p_args);
+        gridManage.VirtualItemCount = SessionManager.GetCount<TransitAccountPicture, int, AccountPicturesQueryOptions>(
+            RequestId, ap, SessionManager.AccountService.GetAccountPicturesCount);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -61,9 +59,8 @@ public partial class AccountPicturesView : Page
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageSize = gridManage.PageSize;
         options.PageNumber = gridManage.CurrentPageIndex;
-        object[] args = { SessionManager.Ticket, RequestId, ap, options };
-        gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountPicture>(
-            SessionManager.AccountService, "GetAccountPictures", args);
+        gridManage.DataSource = SessionManager.GetCollection<TransitAccountPicture, int, AccountPicturesQueryOptions>(
+            RequestId, ap, options, SessionManager.AccountService.GetAccountPictures);
     }
 
 }

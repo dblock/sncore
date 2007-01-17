@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using Wilco.Web.UI;
 using SnCore.Services;
+using SnCore.WebServices;
 
 public partial class AccountPropertyGroupsControl : Control
 {
@@ -29,9 +30,8 @@ public partial class AccountPropertyGroupsControl : Control
     {
         if (!IsPostBack)
         {
-            object[] args = { SessionManager.Ticket, null };
-            groups.DataSource = SessionManager.GetCachedCollection<TransitAccountPropertyGroup>(
-                SessionManager.AccountService, "GetAccountPropertyGroups", args);
+            groups.DataSource = SessionManager.GetCollection<TransitAccountPropertyGroup>(
+                (ServiceQueryOptions) null, SessionManager.AccountService.GetAccountPropertyGroups);
             groups.DataBind();
         }
     }

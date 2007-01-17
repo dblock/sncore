@@ -34,17 +34,15 @@ public partial class DiscussionThreadsView : Page
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = gridManage.CurrentPageIndex;
         options.PageSize = gridManage.PageSize;
-        object[] args = { SessionManager.Ticket, options };
-        gridManage.DataSource = SessionManager.GetCachedCollection<TransitDiscussionPost>(
-            SessionManager.DiscussionService, "GetDiscussionThreads", args);
+        gridManage.DataSource = SessionManager.GetCollection<TransitDiscussionPost>(
+            options, SessionManager.DiscussionService.GetDiscussionThreads);
     }
 
     public void GetData(object sender, EventArgs e)
     {
-        object[] args = { SessionManager.Ticket };
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitDiscussionThread>(
-            SessionManager.DiscussionService, "GetDiscussionThreadsCount", args);
+        gridManage.VirtualItemCount = SessionManager.GetCount<TransitDiscussionThread>(
+            SessionManager.DiscussionService.GetDiscussionThreadsCount);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }

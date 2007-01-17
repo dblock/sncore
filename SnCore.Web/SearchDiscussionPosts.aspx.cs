@@ -24,10 +24,11 @@ public partial class SearchDiscussionPosts : Page
 
             if (RequestId > 0)
             {
-                object[] args = { SessionManager.Ticket, RequestId };
-                TransitDiscussion discussion = SessionManager.GetCachedItem<TransitDiscussion>(
-                    SessionManager.DiscussionService, "GetDiscussionById", args);
-                sitemapdata.Add(new SiteMapDataAttributeNode(discussion.Name, Request, string.Format("DiscussionView.aspx?id={0}", discussion.Id)));
+                TransitDiscussion discussion = SessionManager.GetInstance<TransitDiscussion, int>(
+                    RequestId, SessionManager.DiscussionService.GetDiscussionById);
+
+                sitemapdata.Add(new SiteMapDataAttributeNode(discussion.Name, Request, 
+                    string.Format("DiscussionView.aspx?id={0}", discussion.Id)));
             }
 
             sitemapdata.Add(new SiteMapDataAttributeNode("Search", Request.Url));

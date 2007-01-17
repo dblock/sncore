@@ -12,6 +12,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Services;
 using Wilco.Web.UI;
 using System.Text;
+using SnCore.WebServices;
 
 public partial class SelectPlaceControl : Control
 {
@@ -64,19 +65,17 @@ public partial class SelectPlaceControl : Control
 
         if (!IsPostBack)
         {
-            ArrayList types = new ArrayList();
-            types.Add(new TransitAccountPlaceType());
-            object[] args = { SessionManager.Ticket, null };
-            types.AddRange(SessionManager.GetCachedCollection<TransitPlaceType>(
-                SessionManager.PlaceService, "GetPlaceTypes", args));
+            List<TransitPlaceType> types = new List<TransitPlaceType>();
+            types.Add(new TransitPlaceType());
+            types.AddRange(SessionManager.GetCollection<TransitPlaceType>(
+                (ServiceQueryOptions) null, SessionManager.PlaceService.GetPlaceTypes));
             selectType.DataSource = types;
             selectType.DataBind();
 
-            ArrayList countries = new ArrayList();
+            List<TransitCountry> countries = new List<TransitCountry>();
             countries.Add(new TransitCountry());
-            object[] c_args = { SessionManager.Ticket, null };
-            countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(
-                SessionManager.LocationService, "GetCountries", c_args));
+            countries.AddRange(SessionManager.GetCollection<TransitCountry>(
+                (ServiceQueryOptions) null, SessionManager.LocationService.GetCountries));
 
             ArrayList states = new ArrayList();
             states.Add(new TransitState());
@@ -200,9 +199,9 @@ public partial class SelectPlaceControl : Control
 
     public void lookupChoose_Command(object sender, CommandEventArgs e)
     {
-        object[] args = { SessionManager.Ticket, int.Parse(e.CommandArgument.ToString()) };
-        Place = SessionManager.GetCachedItem<TransitPlace>(
-            SessionManager.PlaceService, "GetPlaceById", args);
+        int id = int.Parse(e.CommandArgument.ToString());
+        Place = SessionManager.GetInstance<TransitPlace, int>(
+            id, SessionManager.PlaceService.GetPlaceById);
         ArrayList list = new ArrayList();
         list.Add(Place);
         chosenPlace.DataSource = list;
@@ -222,9 +221,8 @@ public partial class SelectPlaceControl : Control
             return;
         }
 
-        object[] args = { SessionManager.Ticket, inputLookupName.Text, null };
-        List<TransitPlace> list = SessionManager.GetCachedCollection<TransitPlace>(
-            SessionManager.PlaceService, "SearchPlaces", args);
+        IList<TransitPlace> list = SessionManager.GetCollection<TransitPlace, string>(
+            inputLookupName.Text, (ServiceQueryOptions) null, SessionManager.PlaceService.SearchPlaces);
 
         gridLookupPlaces.DataSource = list;
         gridLookupPlaces.DataBind();
@@ -245,9 +243,8 @@ public partial class SelectPlaceControl : Control
 
     public void inputCountry_SelectedIndexChanged(object sender, EventArgs e)
     {
-        object[] args = { SessionManager.Ticket, inputCountry.SelectedValue, null };
-        inputState.DataSource = SessionManager.GetCachedCollection<TransitState>(
-            SessionManager.LocationService, "GetStatesByCountryName", args);
+        inputState.DataSource = SessionManager.GetCollection<TransitState, string>(
+            inputCountry.SelectedValue, (ServiceQueryOptions) null, SessionManager.LocationService.GetStatesByCountryName);
         inputState.DataBind();
 
         panelSelectCountryState.Update();

@@ -975,7 +975,8 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>list of possible values</returns>
         [WebMethod(Description = "Get distinct place property values.")]
-        public List<TransitDistinctPlacePropertyValue> GetDistinctPropertyValues(string ticket, string groupname, string propertyname)
+        public List<TransitDistinctPlacePropertyValue> GetDistinctPropertyValues(
+            string ticket, string groupname, string propertyname, ServiceQueryOptions options)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
@@ -987,6 +988,12 @@ namespace SnCore.WebServices
                    " AND ppv.PlaceProperty.Id = pp.Id" +
                    " AND ppg.Name = '" + Renderer.SqlEncode(groupname) + "'" +
                    " AND pp.Name = '" + Renderer.SqlEncode(propertyname) + "'");
+
+                if (options != null)
+                {
+                    query.SetFirstResult(options.FirstResult);
+                    query.SetMaxResults(options.PageSize);
+                }
 
                 IList list = query.List();
 

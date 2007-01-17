@@ -61,9 +61,8 @@ public partial class AcountDiscussionThreadsView : Page
     void GetData(object sender, EventArgs e)
     {
         discussionThreadView.CurrentPageIndex = 0;
-        object[] args = { SessionManager.Ticket, QueryOptions };
-        discussionThreadView.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitDiscussionPost>(
-            SessionManager.DiscussionService, "GetUserDiscussionThreadsCount", args);
+        discussionThreadView.VirtualItemCount = SessionManager.GetCount<TransitDiscussionPost, DiscussionQueryOptions>(
+            QueryOptions, SessionManager.DiscussionService.GetUserDiscussionThreadsCount);
         gridManage_OnGetDataSource(sender, e);
         discussionThreadView.DataBind();
     }
@@ -73,9 +72,8 @@ public partial class AcountDiscussionThreadsView : Page
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = discussionThreadView.CurrentPageIndex;
         options.PageSize = discussionThreadView.PageSize;
-        object[] args = { SessionManager.Ticket, QueryOptions, options };
-        discussionThreadView.DataSource = SessionManager.GetCachedCollection<TransitDiscussionPost>(
-            SessionManager.DiscussionService, "GetUserDiscussionThreads", args);
+        discussionThreadView.DataSource = SessionManager.GetCollection<TransitDiscussionPost, DiscussionQueryOptions>(
+            QueryOptions, options, SessionManager.DiscussionService.GetUserDiscussionThreads);
     }
 
     public void Page_Load(object sender, EventArgs e)
@@ -86,9 +84,8 @@ public partial class AcountDiscussionThreadsView : Page
         {
             TopOfThreads = false;
 
-            object[] args = { SessionManager.Ticket, AccountId };
-            TransitAccount ta = SessionManager.GetCachedItem<TransitAccount>(
-                SessionManager.AccountService, "GetAccountById", args);
+            TransitAccount ta = SessionManager.GetInstance<TransitAccount, int>(
+                AccountId, SessionManager.AccountService.GetAccountById);
 
             linkRelRss.Title = this.Title = labelHeader.Text = string.Format("{0}'s Discussion Posts", Renderer.Render(ta.Name));
             linkRelRss.NavigateUrl = string.Format("AccountDiscussionThreadsRss.aspx?id={0}&toplevel={1}", ta.Id, TopOfThreads);

@@ -77,13 +77,12 @@ public abstract class SearchControl : Control
         base.DataBind();
     }
 
-    public object[] GetSearchQueryArgs()
+    public ServiceQueryOptions GetServiceQueryOptions()
     {
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = Grid.CurrentPageIndex;
         options.PageSize = Grid.PageSize;
-        object[] args = { SessionManager.Ticket, SearchQuery, options };
-        return args;
+        return options;
     }
 
     protected abstract int GetResultsCount();    

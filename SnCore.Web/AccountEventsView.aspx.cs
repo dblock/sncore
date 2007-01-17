@@ -13,6 +13,7 @@ using System.Text;
 using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using System.Collections.Generic;
 
 [SiteMapDataAttribute("Events")]
 public partial class AccountEventsView : Page
@@ -60,19 +61,17 @@ public partial class AccountEventsView : Page
 
         if (!IsPostBack)
         {
-            object[] args = { SessionManager.Ticket, null };
-            ArrayList types = new ArrayList();
+            List<TransitAccountEventType> types = new List<TransitAccountEventType>();
             types.Add(new TransitAccountEventType());
-            types.AddRange(SessionManager.GetCachedCollection<TransitAccountEventType>(
-                SessionManager.EventService, "GetAccountEventTypes", args));
+            types.AddRange(SessionManager.GetCollection<TransitAccountEventType>(
+                (ServiceQueryOptions) null, SessionManager.EventService.GetAccountEventTypes));
             inputType.DataSource = types;
             inputType.DataBind();
 
-            ArrayList countries = new ArrayList();
+            List<TransitCountry> countries = new List<TransitCountry>();
             countries.Add(new TransitCountry());
-            object[] c_args = { SessionManager.Ticket, null };
-            countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(
-                SessionManager.LocationService, "GetCountries", c_args));
+            countries.AddRange(SessionManager.GetCollection<TransitCountry>(
+                (ServiceQueryOptions) null, SessionManager.LocationService.GetCountries));
             inputCountry.DataSource = countries;
             inputCountry.DataBind();
 
@@ -96,20 +95,18 @@ public partial class AccountEventsView : Page
         mOptions = null;
 
         gridManage.CurrentPageIndex = 0;
-        object[] args = { SessionManager.Ticket, QueryOptions };
-        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccountEvent>(
-            SessionManager.EventService, "GetAccountEventsCount", args);
+        gridManage.VirtualItemCount = SessionManager.GetCount<TransitAccountEvent, TransitAccountEventQueryOptions>(
+            QueryOptions, SessionManager.EventService.GetAccountEventsCount);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
 
     public void inputCountry_SelectedIndexChanged(object sender, EventArgs e)
     {
-        ArrayList states = new ArrayList();
+        List<TransitState> states = new List<TransitState>();
         states.Add(new TransitState());
-        object[] args = { SessionManager.Ticket, inputCountry.SelectedValue, null };
-        states.AddRange(SessionManager.GetCachedCollection<TransitState>(
-            SessionManager.LocationService, "GetStatesByCountryName", args));
+        states.AddRange(SessionManager.GetCollection<TransitState, string>(
+            inputCountry.SelectedValue, (ServiceQueryOptions) null, SessionManager.LocationService.GetStatesByCountryName));
         inputState.DataSource = states;
         inputState.DataBind();
         inputState_SelectedIndexChanged(sender, e);
@@ -118,22 +115,22 @@ public partial class AccountEventsView : Page
 
     public void inputState_SelectedIndexChanged(object sender, EventArgs e)
     {
-        ArrayList cities = new ArrayList();
+        List<TransitCity> cities = new List<TransitCity>();
         cities.Add(new TransitCity());
-        object[] args = { SessionManager.Ticket, inputCountry.SelectedValue, inputState.SelectedValue };
-        cities.AddRange(SessionManager.GetCachedCollection<TransitCity>(
-            SessionManager.LocationService, "GetCitiesByLocation", args));
+        cities.AddRange(SessionManager.GetCollection<TransitCity, string, string>(
+            inputCountry.SelectedValue, inputState.SelectedValue, (ServiceQueryOptions) null, 
+            SessionManager.LocationService.GetCitiesByLocation));
         inputCity.DataSource = cities;
         inputCity.DataBind();
     }
 
     public void inputCity_SelectedIndexChanged(object sender, EventArgs e)
     {
-        ArrayList neighborhoods = new ArrayList();
+        List<TransitNeighborhood> neighborhoods = new List<TransitNeighborhood>();
         neighborhoods.Add(new TransitNeighborhood());
-        object[] args = { SessionManager.Ticket, inputCountry.SelectedValue, inputState.SelectedValue, inputCity.SelectedValue };
-        neighborhoods.AddRange(SessionManager.GetCachedCollection<TransitNeighborhood>(
-            SessionManager.LocationService, "GetNeighborhoodsByLocation", args));
+        neighborhoods.AddRange(SessionManager.GetCollection<TransitNeighborhood, string, string, string>(
+            inputCountry.SelectedValue, inputState.SelectedValue, inputCity.SelectedValue, (ServiceQueryOptions) null, 
+            SessionManager.LocationService.GetNeighborhoodsByLocation));
         inputNeighborhood.DataSource = neighborhoods;
         inputNeighborhood.DataBind();
     }
@@ -176,9 +173,8 @@ public partial class AccountEventsView : Page
         ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
         serviceoptions.PageSize = gridManage.PageSize;
         serviceoptions.PageNumber = gridManage.CurrentPageIndex;
-        object[] args = { SessionManager.Ticket, SessionManager.UtcOffset, options, serviceoptions };
-        gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountEvent>(
-            SessionManager.EventService, "GetAccountEvents", args);
+        gridManage.DataSource = SessionManager.GetCollection<TransitAccountEvent, int, TransitAccountEventQueryOptions>(
+            SessionManager.UtcOffset, options, serviceoptions, SessionManager.EventService.GetAccountEvents);
     }
 
     public void SelectLocation(object sender, SelectLocationEventArgs e)

@@ -68,9 +68,8 @@ public partial class AccountContentGroupLinkControl : Control
                         throw new Exception(string.Format("Invalid id {0} for configuration {1}", id, ConfigurationName)); 
                     }
 
-                    object[] args = { SessionManager.Ticket, id };
-                    TransitAccountContentGroup group = SessionManager.GetCachedItem<TransitAccountContentGroup>(
-                        SessionManager.ContentService, "GetAccountContentGroupById", args);
+                    TransitAccountContentGroup group = SessionManager.GetInstance<TransitAccountContentGroup, int>(
+                        id, SessionManager.ContentService.GetAccountContentGroupById);
 
                     linkContentGroup.Text = string.Format("{0}{1}", 
                         ShowLinkPrefix ? "&#187; " : string.Empty,

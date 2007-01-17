@@ -58,9 +58,8 @@ public partial class PlacePictureView : Page
         {
             if (mPlacePicture == null)
             {
-                object[] sp_args = { SessionManager.Ticket, PictureId };
-                mPlacePicture = SessionManager.GetCachedItem<TransitPlacePicture>(
-                    SessionManager.PlaceService, "GetPlacePictureById", sp_args);
+                mPlacePicture = SessionManager.GetInstance<TransitPlacePicture, int>(
+                    PictureId, SessionManager.PlaceService.GetPlacePictureById);
             }
             return mPlacePicture;
         }
@@ -74,9 +73,8 @@ public partial class PlacePictureView : Page
         {
             if (mPlace == null)
             {
-                object[] as_args = { SessionManager.Ticket, PlacePicture.PlaceId };
-                mPlace = SessionManager.GetCachedItem<TransitPlace>(
-                    SessionManager.PlaceService, "GetPlaceById", as_args);
+                mPlace = SessionManager.GetInstance<TransitPlace, int>(
+                    PlacePicture.PlaceId, SessionManager.PlaceService.GetPlaceById);
             }
             return mPlace;
         }
@@ -84,10 +82,9 @@ public partial class PlacePictureView : Page
 
     void GetPicturesData(object sender, EventArgs e)
     {
-        object[] p_args = { SessionManager.Ticket, Place.Id };
         picturesView.CurrentPageIndex = 0;
-        picturesView.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitPlacePicture>(
-            SessionManager.PlaceService, "GetPlacePicturesCount", p_args);
+        picturesView.VirtualItemCount = SessionManager.GetCount<TransitPlacePicture, int>(
+            Place.Id, SessionManager.PlaceService.GetPlacePicturesCount);
         picturesView_OnGetDataSource(sender, e);
         picturesView.DataBind();
     }
@@ -144,9 +141,8 @@ public partial class PlacePictureView : Page
     void picturesView_OnGetDataSource(object sender, EventArgs e)
     {
         ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
-        object[] args = { SessionManager.Ticket, Place.Id, options };
-        picturesView.DataSource = SessionManager.GetCachedCollection<TransitPlacePicture>(
-            SessionManager.PlaceService, "GetPlacePictures", args);
+        picturesView.DataSource = SessionManager.GetCollection<TransitPlacePicture, int>(
+            Place.Id, options, SessionManager.PlaceService.GetPlacePictures);
     }
 
 }

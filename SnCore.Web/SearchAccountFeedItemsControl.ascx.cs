@@ -18,15 +18,14 @@ public partial class SearchAccountFeedItemsControl : SearchControl
 {
     protected override int GetResultsCount()
     {
-        object[] args = { SessionManager.Ticket, SearchQuery };
-        return SessionManager.GetCachedCollectionCount<TransitAccountFeedItem>(
-            SessionManager.SyndicationService, "SearchAccountFeedItemsCount", args);
+        return SessionManager.GetCount<TransitAccountFeedItem, string>(
+            SearchQuery, SessionManager.SyndicationService.SearchAccountFeedItemsCount);
     }
 
     protected override IEnumerable GetResults()
     {
-        return SessionManager.GetCachedCollection<TransitAccountFeedItem>(
-            SessionManager.SyndicationService, "SearchAccountFeedItems", GetSearchQueryArgs());
+        return SessionManager.GetCollection<TransitAccountFeedItem, string>(
+            SearchQuery, GetServiceQueryOptions(), SessionManager.SyndicationService.SearchAccountFeedItems);
     }
 
     protected override IPagedControl Grid

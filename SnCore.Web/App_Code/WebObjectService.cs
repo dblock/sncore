@@ -20,6 +20,7 @@ using SnCore.Tools;
 using System.Net.Mail;
 using System.Text;
 using System.Reflection;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.WebServices
 {
@@ -324,27 +325,13 @@ namespace SnCore.WebServices
         /// <param name="id">account id</param>
         /// <returns>transit surveys</returns>
         [WebMethod(Description = "Get surveys answered by account.", CacheDuration = 60)]
-        public List<TransitSurvey> GetAccountSurveysById(string ticket, int id)
+        public List<TransitSurvey> GetAccountSurveysById(string ticket, int id, ServiceQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-
-                IList<Survey> list = session.CreateQuery(string.Format(
+            return WebServiceImpl<TransitSurvey, ManagedSurvey, Survey>.GetList(
+                ticket, options, string.Format(
                     "SELECT DISTINCT s FROM Survey s, Account a, SurveyQuestion q, AccountSurveyAnswer sa " +
                     "WHERE s.Id = q.Survey.Id AND sa.SurveyQuestion.Id = q.Id AND a.Id = sa.Account.Id " +
-                    "AND a.Id = {0} ORDER BY s.Id DESC", id)).List<Survey>();
-
-                List<TransitSurvey> result = new List<TransitSurvey>(list.Count);
-                foreach (Survey s in list)
-                {
-                    ManagedSurvey m_survey = new ManagedSurvey(session, s);
-                    result.Add(m_survey.GetTransitInstance(sec));
-                }
-
-                return result;
-            }
+                    "AND a.Id = {0} ORDER BY s.Id DESC", id));
         }
 
         #endregion
@@ -452,25 +439,6 @@ namespace SnCore.WebServices
         {
             WebServiceImpl<TransitPicture, ManagedPicture, Picture>.Delete(
                 ticket, id);
-        }
-
-        /// <summary>
-        /// Get picture data if modified since.
-        /// </summary>
-        /// <param name="ticket"></param>
-        /// <param name="id"></param>
-        /// <param name="ifModifiedSince"></param>
-        /// <returns></returns>
-        [WebMethod(Description = "Get picture data if modified since.", BufferResponse = true)]
-        public TransitPicture GetPictureIfModifiedSince(string ticket, int id, DateTime ifModifiedSince)
-        {
-            TransitPicture t_instance = WebServiceImpl<TransitPicture, ManagedPicture, Picture>.GetById(
-                ticket, id);
-
-            if (t_instance.Modified <= ifModifiedSince)
-                return null;
-
-            return t_instance;
         }
 
         #endregion
@@ -903,27 +871,32 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>list of transit bookmarks</returns>
         [WebMethod(Description = "Get all bookmarks that have bitmaps associated.", CacheDuration = 60)]
-        public List<TransitBookmark> GetBookmarksWithOptions(string ticket, BookmarkQueryOptions options)
+        public List<TransitBookmark> GetBookmarksWithOptions(string ticket, BookmarkQueryOptions qopt, ServiceQueryOptions options)
         {
             List<TransitBookmark> bookmarks = WebServiceImpl<TransitBookmark, ManagedBookmark, Bookmark>.GetList(
                 ticket, null);
 
-            if (options == null)
-                return bookmarks;
-
-            for (int i = bookmarks.Count - 1; i >= 0; i--)
+            if (qopt != null)
             {
-                if (options.WithFullBitmaps && !bookmarks[i].HasFullBitmap)
+                for (int i = bookmarks.Count - 1; i >= 0; i--)
                 {
-                    bookmarks.RemoveAt(i);
-                    continue;
-                }
+                    if (qopt.WithFullBitmaps && !bookmarks[i].HasFullBitmap)
+                    {
+                        bookmarks.RemoveAt(i);
+                        continue;
+                    }
 
-                if (options.WithLinkedBitmaps && !bookmarks[i].HasLinkBitmap)
-                {
-                    bookmarks.RemoveAt(i);
-                    continue;
+                    if (qopt.WithLinkedBitmaps && !bookmarks[i].HasLinkBitmap)
+                    {
+                        bookmarks.RemoveAt(i);
+                        continue;
+                    }
                 }
+            }
+
+            if (options != null)
+            {
+                Collection<TransitBookmark>.ApplyServiceOptions(options.FirstResult, options.PageSize, bookmarks);
             }
 
             return bookmarks;
@@ -1044,7 +1017,7 @@ namespace SnCore.WebServices
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
 
-                if (! sec.IsAdministrator())
+                if (!sec.IsAdministrator())
                 {
                     throw new ManagedAccount.AccessDeniedException();
                 }

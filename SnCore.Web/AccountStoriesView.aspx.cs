@@ -64,15 +64,13 @@ public partial class AccountStoriesView : Page
         options.PageSize = gridManage.PageSize;
         if (string.IsNullOrEmpty(inputSearch.Text))
         {
-            object[] args = { SessionManager.Ticket, options };
-            gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountStory>(
-                SessionManager.StoryService, "GetLatestAccountStories", args);
+            gridManage.DataSource = SessionManager.GetCollection<TransitAccountStory>(
+                options, SessionManager.StoryService.GetAllAccountStories);
         }
         else
         {
-            object[] args = { SessionManager.Ticket, inputSearch.Text, options };
-            gridManage.DataSource = SessionManager.GetCachedCollection<TransitAccountStory>(
-                SessionManager.StoryService, "SearchAccountStories", args);
+            gridManage.DataSource = SessionManager.GetCollection<TransitAccountStory, string>(
+                inputSearch.Text, options, SessionManager.StoryService.SearchAccountStories);
         }
     }
 
@@ -82,15 +80,13 @@ public partial class AccountStoriesView : Page
 
         if (string.IsNullOrEmpty(inputSearch.Text))
         {
-            object[] args = { SessionManager.Ticket };
-            gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccountStory>(
-                SessionManager.StoryService, "GetAllAccountStoriesCount", args);
+            gridManage.VirtualItemCount = SessionManager.GetCount<TransitAccountStory>(
+                SessionManager.StoryService.GetAllAccountStoriesCount);
         }
         else
         {
-            object[] args = { SessionManager.Ticket, inputSearch.Text };
-            gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccountStory>(
-                SessionManager.StoryService, "SearchAccountStoriesCount", args);
+            gridManage.VirtualItemCount = SessionManager.GetCount<TransitAccountStory, string>(
+                inputSearch.Text, SessionManager.StoryService.SearchAccountStoriesCount);
         }
 
         gridManage_OnGetDataSource(sender, e);

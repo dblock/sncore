@@ -29,14 +29,11 @@ public partial class FeaturedAccountFeedsRss : Page
     {
         if (!IsPostBack)
         {
-            ServiceQueryOptions queryoptions = new ServiceQueryOptions();
-            queryoptions.PageNumber = 0;
-            queryoptions.PageSize = 25;
-
-            object[] args = { SessionManager.Ticket, "AccountFeed", queryoptions };
-            rssRepeater.DataSource = SessionManager.GetCachedCollection<TransitFeature>(
-                SessionManager.SystemService, "GetFeatures", args);
-
+            ServiceQueryOptions options = new ServiceQueryOptions();
+            options.PageNumber = 0;
+            options.PageSize = 25;
+            rssRepeater.DataSource = SessionManager.GetCollection<TransitFeature, string>(
+                "AccountFeed", options, SessionManager.ObjectService.GetFeatures);
             rssRepeater.DataBind();
         }
     }
@@ -65,8 +62,7 @@ public partial class FeaturedAccountFeedsRss : Page
 
     public TransitAccountFeed GetAccountFeed(int id)
     {
-        object[] args = { SessionManager.Ticket, id };
-        return SessionManager.GetCachedItem<TransitAccountFeed>(
-            SessionManager.SyndicationService, "GetAccountFeedById", args);
+        return SessionManager.GetInstance<TransitAccountFeed, int>(
+            id, SessionManager.SyndicationService.GetAccountFeedById);
     }
 }

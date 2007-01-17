@@ -23,9 +23,8 @@ public partial class SystemCityEdit : AuthenticatedPage
             sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Cities", Request, "SystemCitiesManage.aspx"));
 
-            object[] c_args = { SessionManager.Ticket, null };
-            inputCountry.DataSource = SessionManager.GetCachedCollection<TransitCountry>(
-                SessionManager.LocationService, "GetCountries", c_args);
+            inputCountry.DataSource = SessionManager.GetCollection<TransitCountry>(
+                (ServiceQueryOptions) null, SessionManager.LocationService.GetCountries);
             inputCountry.DataBind();
 
             if (RequestId > 0)
@@ -55,9 +54,9 @@ public partial class SystemCityEdit : AuthenticatedPage
 
     public void inputCountry_SelectedIndexChanged(object sender, EventArgs e)
     {
-        object[] args = { SessionManager.Ticket, inputCountry.SelectedValue, null };
-        inputState.DataSource = SessionManager.GetCachedCollection<TransitState>(
-            SessionManager.LocationService, "GetStatesByCountryName", args);
+        inputState.DataSource = SessionManager.GetCollection<TransitState, string>(
+            inputCountry.SelectedValue, (ServiceQueryOptions) null,
+            SessionManager.LocationService.GetStatesByCountryName);
         inputState.DataBind();
     }
 

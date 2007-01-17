@@ -81,16 +81,15 @@ public partial class AccountPreferencesManage : AuthenticatedPage
             inputCity.Text = SessionManager.Account.City;
             inputTimeZone.SelectedTzIndex = SessionManager.Account.TimeZone;
 
-            ArrayList countries = new ArrayList();
+            List<TransitCountry> countries = new List<TransitCountry>();
             if (SessionManager.Account.Country.Length == 0) countries.Add(new TransitCountry());
-            object[] c_args = { SessionManager.Ticket, null };
-            countries.AddRange(SessionManager.GetCachedCollection<TransitCountry>(SessionManager.LocationService, "GetCountries", c_args));
+            countries.AddRange(SessionManager.GetCollection<TransitCountry>(
+                (ServiceQueryOptions) null, SessionManager.LocationService.GetCountries));
 
-            ArrayList states = new ArrayList();
+            List<TransitState> states = new List<TransitState>();
             if (SessionManager.Account.State.Length == 0) states.Add(new TransitState());
-            object[] s_args = { SessionManager.Ticket, SessionManager.Account.Country, null };
-            states.AddRange(SessionManager.GetCachedCollection<TransitState>(
-                SessionManager.LocationService, "GetStatesByCountryName", s_args));
+            states.AddRange(SessionManager.GetCollection<TransitState, string>(
+                SessionManager.Account.Country, (ServiceQueryOptions)null, SessionManager.LocationService.GetStatesByCountryName));
 
             inputCountry.DataSource = countries;
             inputCountry.DataBind();
@@ -130,11 +129,11 @@ public partial class AccountPreferencesManage : AuthenticatedPage
 
     public void inputCountry_SelectedIndexChanged(object sender, EventArgs e)
     {
-        ArrayList states = new ArrayList();
+        List<TransitState> states = new List<TransitState>();
         states.Add(new TransitState());
-        object[] args = { SessionManager.Ticket, inputCountry.SelectedValue, null };
-        states.AddRange(SessionManager.GetCachedCollection<TransitState>(
-            SessionManager.LocationService, "GetStatesByCountryName", args));
+        states.AddRange(SessionManager.GetCollection<TransitState, string>(
+            inputCountry.SelectedValue, (ServiceQueryOptions) null, 
+            SessionManager.LocationService.GetStatesByCountryName));
 
         inputState.DataSource = states;
         inputState.DataBind();

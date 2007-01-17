@@ -12,6 +12,7 @@ using Wilco.Web.UI;
 using SnCore.Services;
 using System.Collections.Generic;
 using System.Text;
+using SnCore.WebServices;
 
 public partial class PlacePropertyValuesViewControl : Control
 {
@@ -43,9 +44,8 @@ public partial class PlacePropertyValuesViewControl : Control
     {
         if (!IsPostBack)
         {
-            object[] args = { SessionManager.Ticket, GroupName, PropertyName };
-            values.DataSource = SessionManager.GetCachedCollection<TransitDistinctPlacePropertyValue>(
-                SessionManager.PlaceService, "GetDistinctPropertyValues", args);
+            values.DataSource = SessionManager.GetCollection<TransitDistinctPlacePropertyValue, string, string>(
+                GroupName, PropertyName, (ServiceQueryOptions) null, SessionManager.PlaceService.GetDistinctPropertyValues);
             values.DataBind();
         }
     }

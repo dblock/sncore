@@ -60,15 +60,13 @@ public partial class FeaturedPlacesView : Page
         serviceoptions.PageSize = gridManage.PageSize;
         serviceoptions.PageNumber = gridManage.CurrentPageIndex;
 
-        object[] args = { SessionManager.Ticket, "Place", serviceoptions };
-        gridManage.DataSource = SessionManager.GetCachedCollection<TransitFeature>(
-            SessionManager.ObjectService, "GetFeatures", args);
+        gridManage.DataSource = SessionManager.GetCollection<TransitFeature, string>(
+            "Place", serviceoptions, SessionManager.ObjectService.GetFeatures);
     }
 
     public TransitPlace GetPlace(int id)
     {
-        object[] args = { SessionManager.Ticket, id };
-        return SessionManager.GetCachedItem<TransitPlace>(
-            SessionManager.PlaceService, "GetPlaceById", args);
+        return SessionManager.GetInstance<TransitPlace, int>(
+            id, SessionManager.PlaceService.GetPlaceById);
     }
 }

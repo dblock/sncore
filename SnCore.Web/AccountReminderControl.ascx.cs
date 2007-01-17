@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using System.Collections.Generic;
+using SnCore.WebServices;
 
 public partial class AccountReminder : Control
 {
@@ -41,9 +42,8 @@ public partial class AccountReminder : Control
                 return;
             }
 
-            object[] i_args = { SessionManager.Ticket, SessionManager.AccountId };
-            int invitationscount = SessionManager.GetCachedCollectionCount<TransitAccountInvitation>(
-                SessionManager.AccountService, "GetAccountInvitationsCount", i_args);
+            int invitationscount = SessionManager.GetCount<TransitAccountInvitation, int>(
+                SessionManager.AccountId, SessionManager.AccountService.GetAccountInvitationsCount);
 
             if (invitationscount == 0)
             {
@@ -55,18 +55,15 @@ public partial class AccountReminder : Control
                 return;
             }
 
-            object[] s_args = { SessionManager.Ticket, null };
-            List<TransitSurvey> surveys = SessionManager.GetCachedCollection<TransitSurvey>(
-                SessionManager.ObjectService, "GetSurveys", s_args);
+            IList<TransitSurvey> surveys = SessionManager.GetCollection<TransitSurvey>(
+                (ServiceQueryOptions) null, SessionManager.ObjectService.GetSurveys);
 
             if (surveys != null)
             {
                 foreach (TransitSurvey survey in surveys)
                 {
-                    object[] a_args = { SessionManager.Ticket, SessionManager.AccountId, survey.Id };
-
-                    int answers = SessionManager.GetCachedCollectionCount<TransitAccountSurveyAnswer>(
-                        SessionManager.AccountService, "GetAccountSurveyAnswersCount", a_args);
+                    int answers = SessionManager.GetCount<TransitAccountSurveyAnswer, int, int>(
+                        SessionManager.AccountId, survey.Id, SessionManager.AccountService.GetAccountSurveyAnswersCount);
 
                     if (answers == 0)
                     {

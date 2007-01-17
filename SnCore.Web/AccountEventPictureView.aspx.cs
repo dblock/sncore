@@ -59,9 +59,8 @@ public partial class AccountEventPictureView : Page
         {
             if (mAccountEventPicture == null)
             {
-                object[] sp_args = { SessionManager.Ticket, PictureId };
-                mAccountEventPicture = SessionManager.GetCachedItem<TransitAccountEventPicture>(
-                    SessionManager.EventService, "GetAccountEventPictureById", sp_args);
+                mAccountEventPicture = SessionManager.GetInstance<TransitAccountEventPicture, int>(
+                    PictureId, SessionManager.EventService.GetAccountEventPictureById);
             }
             return mAccountEventPicture;
         }
@@ -75,9 +74,8 @@ public partial class AccountEventPictureView : Page
         {
             if (mAccountEvent == null)
             {
-                object[] as_args = { SessionManager.Ticket, AccountEventPicture.AccountEventId, SessionManager.UtcOffset };
-                mAccountEvent = SessionManager.GetCachedItem<TransitAccountEvent>(
-                    SessionManager.EventService, "GetAccountEventById", as_args);
+                mAccountEvent = SessionManager.GetInstance<TransitAccountEvent, int, int>(
+                    AccountEventPicture.AccountEventId, SessionManager.UtcOffset, SessionManager.EventService.GetAccountEventById);
             }
             return mAccountEvent;
         }
@@ -85,10 +83,9 @@ public partial class AccountEventPictureView : Page
 
     void GetPicturesData(object sender, EventArgs e)
     {
-        object[] p_args = { SessionManager.Ticket, AccountEvent.Id };
         picturesView.CurrentPageIndex = 0;
-        picturesView.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitAccountEventPicture>(
-            SessionManager.EventService, "GetAccountEventPicturesCount", p_args);
+        picturesView.VirtualItemCount = SessionManager.GetCount<TransitAccountEventPicture, int>(
+            AccountEvent.Id, SessionManager.EventService.GetAccountEventPicturesCount);
         picturesView_OnGetDataSource(sender, e);
         picturesView.DataBind();
     }
@@ -141,9 +138,8 @@ public partial class AccountEventPictureView : Page
     void picturesView_OnGetDataSource(object sender, EventArgs e)
     {
         ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
-        object[] args = { SessionManager.Ticket, AccountEvent.Id, options };
-        picturesView.DataSource = SessionManager.GetCachedCollection<TransitAccountEventPicture>(
-            SessionManager.EventService, "GetAccountEventPictures", args);
+        picturesView.DataSource = SessionManager.GetCollection<TransitAccountEventPicture, int>(
+            AccountEvent.Id, options, SessionManager.EventService.GetAccountEventPictures);
     }
 
 }

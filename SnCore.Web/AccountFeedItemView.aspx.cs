@@ -19,9 +19,8 @@ public partial class AccountFeedItemView : Page
     {
         if (!IsPostBack)
         {
-            object[] args = { SessionManager.Ticket, RequestId };
-            TransitAccountFeedItem tfi = SessionManager.GetCachedItem<TransitAccountFeedItem>(
-                SessionManager.SyndicationService, "GetAccountFeedItemById", args);
+            TransitAccountFeedItem tfi = SessionManager.GetInstance<TransitAccountFeedItem, int>(
+                RequestId, SessionManager.SyndicationService.GetAccountFeedItemById);
 
             if (tfi == null)
             {
@@ -54,9 +53,8 @@ public partial class AccountFeedItemView : Page
                 Uri.IsWellFormedUriString(tfi.Link, UriKind.Absolute) ? new Uri(tfi.Link) : null,
                 imgrewriteuri);
 
-            object[] d_args = { SessionManager.Ticket, RequestId };
-            FeedItemComments.DiscussionId = SessionManager.GetCachedCollectionCount<TransitDiscussion>(
-                SessionManager.DiscussionService, "GetOrCreateAccountFeedItemDiscussionId", d_args);
+            FeedItemComments.DiscussionId = SessionManager.GetCount<TransitDiscussion, int>(
+                RequestId, SessionManager.DiscussionService.GetOrCreateAccountFeedItemDiscussionId);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Blogs", Request, "AccountFeedItemsView.aspx"));

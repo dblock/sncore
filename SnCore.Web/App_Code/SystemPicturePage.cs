@@ -18,13 +18,10 @@ public abstract class SystemPicturePage : PicturePage
 
     }
 
-    public override TransitPicture GetPictureWithBitmap(int id, string ticket, DateTime ifModifiedSince)
+    public override TransitPicture GetPictureWithBitmap(int id, DateTime ifModifiedSince)
     {
-        SnCore.Services.TransitPicture p =
-            SessionManager.ObjectService.GetPictureIfModifiedSinceById(
-                ticket,
-                id,
-                ifModifiedSince);
+        SnCore.Services.TransitPicture p = SessionManager.GetInstance<SnCore.Services.TransitPicture, int, DateTime>(
+            id, ifModifiedSince, SessionManager.ObjectService.GetPictureIfModifiedSinceById);
 
         if (p == null)
             return null;
@@ -38,13 +35,10 @@ public abstract class SystemPicturePage : PicturePage
         return result;
     }
 
-    public override TransitPicture GetPictureWithThumbnail(int id, string ticket, DateTime ifModifiedSince)
+    public override TransitPicture GetPictureWithThumbnail(int id, DateTime ifModifiedSince)
     {
-        SnCore.Services.TransitPicture p =
-            SessionManager.ObjectService.GetPictureIfModifiedSinceById(
-                ticket,
-                id,
-                ifModifiedSince);
+        SnCore.Services.TransitPicture p = SessionManager.GetInstance<SnCore.Services.TransitPicture, int, DateTime>(
+            id, ifModifiedSince, SessionManager.ObjectService.GetPictureIfModifiedSinceById);
 
         if (p == null)
             return null;
@@ -58,12 +52,10 @@ public abstract class SystemPicturePage : PicturePage
         return result;
     }
 
-    public override TransitPicture GetPictureWithBitmap(int id, string ticket)
+    public override TransitPicture GetPictureWithBitmap(int id)
     {
-        SnCore.Services.TransitPicture p =
-            SessionManager.ObjectService.GetPictureById(
-                ticket,
-                id);
+        SnCore.Services.TransitPicture p = SessionManager.GetInstance<SnCore.Services.TransitPicture, int>(
+            id, SessionManager.ObjectService.GetPictureById);
 
         if (p == null)
             return null;
@@ -77,12 +69,10 @@ public abstract class SystemPicturePage : PicturePage
         return result;
     }
 
-    public override TransitPicture GetPictureWithThumbnail(int id, string ticket)
+    public override TransitPicture GetPictureWithThumbnail(int id)
     {
-        SnCore.Services.TransitPicture p =
-            SessionManager.ObjectService.GetPictureById(
-                ticket,
-                id);
+        SnCore.Services.TransitPicture p = SessionManager.GetInstance<SnCore.Services.TransitPicture, int>(
+            id, SessionManager.ObjectService.GetPictureById);
 
         if (p == null)
             return null;
@@ -98,6 +88,18 @@ public abstract class SystemPicturePage : PicturePage
 
     public override TransitPicture GetRandomPictureWithThumbnail()
     {
-        return null;
+        SnCore.Services.TransitPicture p = SessionManager.GetInstance<SnCore.Services.TransitPicture, string>(
+            "System", SessionManager.ObjectService.GetRandomPictureByType);
+
+        if (p == null)
+            return null;
+
+        TransitPicture result = new TransitPicture();
+        result.Id = p.Id;
+        result.Bitmap = p.Thumbnail;
+        result.Created = p.Created;
+        result.Modified = p.Modified;
+        result.Name = p.Name;
+        return result;
     }
 }

@@ -72,9 +72,8 @@ public partial class PlacesView : Page
             {
                 List<TransitPlaceType> types = new List<TransitPlaceType>();
                 if (InsertEmptySelection) types.Add(new TransitPlaceType());
-                object[] args = { page.SessionManager.Ticket, null };
-                types.AddRange(mPage.SessionManager.GetCachedCollection<TransitPlaceType>(
-                    mPage.SessionManager.PlaceService, "GetPlaceTypes", args));
+                types.AddRange(page.SessionManager.GetCollection<TransitPlaceType>(
+                    (ServiceQueryOptions) null, page.SessionManager.PlaceService.GetPlaceTypes));
                 mType.DataSource = types;
                 mType.DataBind();
             }
@@ -208,9 +207,8 @@ public partial class PlacesView : Page
     private void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        object[] args = { SessionManager.Ticket, GetQueryOptions() };
-        gridManage.VirtualItemCount = SessionManager.GetCachedCollectionCount<TransitPlace>(
-            SessionManager.PlaceService, "GetPlacesCount", args);
+        gridManage.VirtualItemCount = SessionManager.GetCount<TransitPlace, TransitPlaceQueryOptions>(
+            GetQueryOptions(), SessionManager.PlaceService.GetPlacesCount);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -268,9 +266,8 @@ public partial class PlacesView : Page
                 Renderer.UrlEncode(options.Neighborhood));
 
         ServiceQueryOptions serviceoptions = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
-        object[] args = { SessionManager.Ticket, options, serviceoptions };
-        gridManage.DataSource = SessionManager.GetCachedCollection<TransitPlace>(
-            SessionManager.PlaceService, "GetPlaces", args);
+        gridManage.DataSource = SessionManager.GetCollection<TransitPlace, TransitPlaceQueryOptions>(
+            options, serviceoptions, SessionManager.PlaceService.GetPlaces);
     }
 
     public void search_Click(object sender, EventArgs e)

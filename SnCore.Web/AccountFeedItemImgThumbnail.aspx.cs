@@ -26,28 +26,26 @@ public partial class AccountFeedItemImgThumbnail : PicturePage
 
     }
 
-    public override TransitPicture GetPictureWithThumbnail(int id, string ticket, DateTime ifModifiedSince)
+    public override TransitPicture GetPictureWithThumbnail(int id, DateTime ifModifiedSince)
     {
         // these pictures are never modified and ids never reused
         return null;
     }
 
-    public override TransitPicture GetPictureWithBitmap(int id, string ticket, DateTime ifModifiedSince)
+    public override TransitPicture GetPictureWithBitmap(int id, DateTime ifModifiedSince)
     {
         throw new NotImplementedException();
     }
 
-    public override TransitPicture GetPictureWithBitmap(int id, string ticket)
+    public override TransitPicture GetPictureWithBitmap(int id)
     {
         throw new NotImplementedException();
     }
 
-    public override TransitPicture GetPictureWithThumbnail(int id, string ticket)
+    public override TransitPicture GetPictureWithThumbnail(int id)
     {
-        TransitAccountFeedItemImg p =
-            SessionManager.SyndicationService.GetAccountFeedItemImgById(
-                ticket,
-                id);
+        TransitAccountFeedItemImg p = SessionManager.GetInstance<TransitAccountFeedItemImg, int>(
+            id, SessionManager.SyndicationService.GetAccountFeedItemImgById);
 
         if (p == null)
             return null;

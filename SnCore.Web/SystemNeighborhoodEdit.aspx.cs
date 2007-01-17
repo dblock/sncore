@@ -23,9 +23,8 @@ public partial class SystemNeighborhoodEdit : AuthenticatedPage
             sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Neighborhoods", Request, "SystemNeighborhoodsManage.aspx"));
 
-            object[] c_args = { SessionManager.Ticket, null };
-            inputCountry.DataSource = SessionManager.GetCachedCollection<TransitCountry>(
-                SessionManager.LocationService, "GetCountries", c_args);
+            inputCountry.DataSource = SessionManager.GetCollection<TransitCountry>(
+                (ServiceQueryOptions) null, SessionManager.LocationService.GetCountries);
             inputCountry.DataBind();
 
             if (RequestId > 0)
@@ -56,17 +55,17 @@ public partial class SystemNeighborhoodEdit : AuthenticatedPage
 
     public void inputState_SelectedIndexChanged(object sender, EventArgs e)
     {
-        object[] args = { SessionManager.Ticket, inputCountry.SelectedValue, inputState.SelectedValue };
-        inputCity.DataSource = SessionManager.GetCachedCollection<TransitCity>(
-            SessionManager.LocationService, "GetCitiesByLocation", args);
+        inputCity.DataSource = SessionManager.GetCollection<TransitCity, string, string>(
+            inputCountry.SelectedValue, inputState.SelectedValue, (ServiceQueryOptions) null, 
+            SessionManager.LocationService.GetCitiesByLocation);
         inputCity.DataBind();
     }
 
     public void inputCountry_SelectedIndexChanged(object sender, EventArgs e)
     {
-        object[] args = { SessionManager.Ticket, inputCountry.SelectedValue, null };
-        inputState.DataSource = SessionManager.GetCachedCollection<TransitState>(
-            SessionManager.LocationService, "GetStatesByCountryName", args);
+        inputState.DataSource = SessionManager.GetCollection<TransitState, string>(
+            inputCountry.SelectedValue, (ServiceQueryOptions) null, 
+            SessionManager.LocationService.GetStatesByCountryName);
         inputState.DataBind();
     }
 

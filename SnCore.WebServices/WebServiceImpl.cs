@@ -138,7 +138,7 @@ namespace SnCore.WebServices
             return (TransitType) m_instance.GetTransitServiceInstance(sec);
         }
 
-        private static List<TransitType> GetTransformedList(ISession session, ManagedSecurityContext sec, IList<DataType> list)
+        public static List<TransitType> GetTransformedList(ISession session, ManagedSecurityContext sec, IList<DataType> list)
         {
             return GetTransformedList(session, sec, list, GetTransformedInstanceFromDataType);
         }

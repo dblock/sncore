@@ -13,6 +13,7 @@ using SnCore.Services;
 using System.Collections.Generic;
 using System.Text;
 using SnCore.Tools.Web;
+using SnCore.WebServices;
 
 public partial class PlacePropertyGroupsViewControl : Control
 {
@@ -32,9 +33,8 @@ public partial class PlacePropertyGroupsViewControl : Control
     {
         if (!IsPostBack)
         {
-            object[] args = { SessionManager.Ticket, null };
-            groups.DataSource = SessionManager.GetCachedCollection<TransitPlacePropertyGroup>(
-                SessionManager.PlaceService, "GetPlacePropertyGroups", args);
+            groups.DataSource = SessionManager.GetCollection<TransitPlacePropertyGroup>(
+                null, SessionManager.PlaceService.GetPlacePropertyGroups);
             groups.DataBind();
         }
     }
@@ -50,9 +50,8 @@ public partial class PlacePropertyGroupsViewControl : Control
                 TransitPlacePropertyGroup group = (TransitPlacePropertyGroup)e.Item.DataItem;
                 if (group != null)
                 {
-                    object[] args = { SessionManager.Ticket, PlaceId, group.Id, null };
-                    List<TransitPlacePropertyValue> propertyvalues = SessionManager.GetCachedCollection<TransitPlacePropertyValue>(
-                        SessionManager.PlaceService, "GetPlacePropertyValues", args);
+                    IList<TransitPlacePropertyValue> propertyvalues = SessionManager.GetCollection<TransitPlacePropertyValue, int, int>(
+                        PlaceId, group.Id, null, SessionManager.PlaceService.GetPlacePropertyValues);
                     values.DataSource = propertyvalues;
                     HtmlControl title = (HtmlControl)e.Item.FindControl("title");
                     title.Visible = (propertyvalues.Count > 0);

@@ -18,11 +18,10 @@ public abstract class SystemBookmarkPage : PicturePage
 
     }
 
-    public override TransitPicture GetPictureWithBitmap(int id, string ticket, DateTime ifModifiedSince)
+    public override TransitPicture GetPictureWithBitmap(int id, DateTime ifModifiedSince)
     {
-        object[] args = { ticket, id, ifModifiedSince };
-        TransitBookmark p = SessionManager.GetCachedItem<TransitBookmark>(
-            SessionManager.ObjectService, "GetBookmarkIfModifiedSinceById", args);
+        TransitBookmark p = SessionManager.GetInstance<TransitBookmark, int, DateTime>(
+            id, ifModifiedSince, SessionManager.ObjectService.GetBookmarkIfModifiedSinceById);
 
         if (p == null)
             return null;
@@ -36,11 +35,10 @@ public abstract class SystemBookmarkPage : PicturePage
         return result;
     }
 
-    public override TransitPicture GetPictureWithThumbnail(int id, string ticket, DateTime ifModifiedSince)
+    public override TransitPicture GetPictureWithThumbnail(int id, DateTime ifModifiedSince)
     {
-        object[] args = { ticket, id, ifModifiedSince };
-        TransitBookmark p = SessionManager.GetCachedItem<TransitBookmark>(
-            SessionManager.ObjectService, "GetBookmarkIfModifiedSinceById", args);
+        TransitBookmark p = SessionManager.GetInstance<TransitBookmark, int, DateTime>(
+            id, ifModifiedSince, SessionManager.ObjectService.GetBookmarkIfModifiedSinceById);
 
         if (p == null)
             return null;
@@ -54,11 +52,10 @@ public abstract class SystemBookmarkPage : PicturePage
         return result;
     }
 
-    public override TransitPicture GetPictureWithBitmap(int id, string ticket)
+    public override TransitPicture GetPictureWithBitmap(int id)
     {
-        object[] args = { ticket, id };
-        TransitBookmark p = SessionManager.GetCachedItem<TransitBookmark>(
-            SessionManager.ObjectService, "GetBookmarkById", args);
+        TransitBookmark p = SessionManager.GetInstance<TransitBookmark, int>(
+            id, SessionManager.ObjectService.GetBookmarkById);
 
         if (p == null)
             return null;
@@ -72,11 +69,10 @@ public abstract class SystemBookmarkPage : PicturePage
         return result;
     }
 
-    public override TransitPicture GetPictureWithThumbnail(int id, string ticket)
+    public override TransitPicture GetPictureWithThumbnail(int id)
     {
-        object[] args = { ticket, id };
-        TransitBookmark p = SessionManager.GetCachedItem<TransitBookmark>(
-            SessionManager.ObjectService, "GetBookmarkById", args);
+        TransitBookmark p = SessionManager.GetInstance<TransitBookmark, int>(
+            id, SessionManager.ObjectService.GetBookmarkById);
 
         if (p == null)
             return null;

@@ -35,9 +35,8 @@ public partial class PlacesNewViewControl : Control
                 ServiceQueryOptions options = new ServiceQueryOptions();
                 options.PageNumber = 0;
                 options.PageSize = Count;
-                object[] args = { SessionManager.Ticket, options };
-                Places.DataSource = SessionManager.GetCachedCollection<TransitPlace>(
-                    SessionManager.PlaceService, "GetNewPlaces", args);
+                Places.DataSource = SessionManager.GetCollection<TransitPlace>(
+                    options, SessionManager.PlaceService.GetNewPlaces);
                 Places.RepeatColumns = Count;
                 Places.DataBind();
             }

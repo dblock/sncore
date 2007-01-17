@@ -12,6 +12,7 @@ using Wilco.Web.UI;
 using SnCore.Services;
 using System.Collections.Generic;
 using System.Text;
+using SnCore.WebServices;
 
 public partial class PlaceNeighborhoodsViewControl : Control
 {
@@ -67,9 +68,8 @@ public partial class PlaceNeighborhoodsViewControl : Control
 
     public override void DataBind()
     {
-        object[] args = { SessionManager.Ticket, Country, State, City, null };
-        values.DataSource = SessionManager.GetCachedCollection<TransitDistinctPlaceNeighborhood>(
-            SessionManager.PlaceService, "GetPlaceNeighborhoods", args);
+        values.DataSource = SessionManager.GetCollection<TransitDistinctPlaceNeighborhood, string, string, string>(
+            Country, State, City, (ServiceQueryOptions) null, SessionManager.PlaceService.GetPlaceNeighborhoods);
         values.DataBind();
         base.DataBind();
     }

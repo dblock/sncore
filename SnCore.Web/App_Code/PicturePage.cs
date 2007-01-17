@@ -32,10 +32,10 @@ public abstract class PicturePage : Page
         }
     }
 
-    public abstract TransitPicture GetPictureWithBitmap(int id, string ticket, DateTime ifModifiedSince);
-    public abstract TransitPicture GetPictureWithThumbnail(int id, string ticket, DateTime ifModifiedSince);
-    public abstract TransitPicture GetPictureWithBitmap(int id, string ticket);
-    public abstract TransitPicture GetPictureWithThumbnail(int id, string ticket);
+    public abstract TransitPicture GetPictureWithBitmap(int id, DateTime ifModifiedSince);
+    public abstract TransitPicture GetPictureWithThumbnail(int id, DateTime ifModifiedSince);
+    public abstract TransitPicture GetPictureWithBitmap(int id);
+    public abstract TransitPicture GetPictureWithThumbnail(int id);
     public abstract TransitPicture GetRandomPictureWithThumbnail();
 
     public abstract PicturePageType PageType { get; }
@@ -58,8 +58,6 @@ public abstract class PicturePage : Page
     {
         try
         {
-            HttpCookie ticketCookie = Request.Cookies["SnCoreAuth"];
-
             Nullable<DateTime> ims = IfModifiedSince;
 
             if (ims.HasValue)
@@ -70,8 +68,6 @@ public abstract class PicturePage : Page
                     return;
                 }
             }
-
-            string ticket = (ticketCookie != null) ? ticketCookie.Value : null;
 
             TransitPicture p = null;
 
@@ -95,16 +91,16 @@ public abstract class PicturePage : Page
                     else
                     {
                         p = ims.HasValue ?
-                                GetPictureWithThumbnail(RequestId, ticket, ims.Value) :
-                                GetPictureWithThumbnail(RequestId, ticket);
+                                GetPictureWithThumbnail(RequestId, ims.Value) :
+                                GetPictureWithThumbnail(RequestId);
                     }
 
                     break;
                 case PicturePageType.Bitmap:
                     
                     p = ims.HasValue ?
-                            GetPictureWithBitmap(RequestId, ticket, ims.Value) :
-                            GetPictureWithBitmap(RequestId, ticket);
+                            GetPictureWithBitmap(RequestId, ims.Value) :
+                            GetPictureWithBitmap(RequestId);
 
                     break;
             }
