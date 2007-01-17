@@ -339,5 +339,10 @@ namespace SnCore.Services
             acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
             return acl;
         }
+
+        protected override IList<AccountMessageFolder> GetQuotaCollection()
+        {
+            return mInstance.Account.AccountMessageFolders;
+        }
     }
 }

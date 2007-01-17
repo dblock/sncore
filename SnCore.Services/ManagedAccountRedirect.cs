@@ -1,6 +1,6 @@
 using System;
 using NHibernate;
-using System.Collections;
+using System.Collections.Generic;
 using NHibernate.Expression;
 using System.Web.Services;
 using System.Web.Services.Protocols;
@@ -212,8 +212,8 @@ namespace SnCore.Services
             {
                 StringBuilder sb = new StringBuilder();
 
-                IList redirects = session.CreateCriteria(typeof(AccountRedirect))
-                    .List();
+                IList<AccountRedirect> redirects = session.CreateCriteria(typeof(AccountRedirect))
+                    .List<AccountRedirect>();
 
                 //sb.AppendLine("RewriteLog  c:\\temp\\iirfLog.out");
                 //sb.AppendLine("RewriteLogLevel 3");
@@ -262,6 +262,11 @@ namespace SnCore.Services
             acl.Add(new ACLAuthenticatedAllowCreate());
             acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
             return acl;
+        }
+
+        protected override IList<AccountRedirect> GetQuotaCollection()
+        {
+            return mInstance.Account.AccountRedirects;
         }
     }
 }

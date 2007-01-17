@@ -162,6 +162,7 @@
     <Compile Include="ManagedPlaceQueue.cs" />
     <Compile Include="ManagedPlaceQueueItem.cs" />
     <Compile Include="ManagedPlaceType.cs" />
+    <Compile Include="ManagedQuota.cs" />
     <Compile Include="ManagedRefererAccount.cs" />
     <Compile Include="ManagedRefererHost.cs" />
     <Compile Include="ManagedRefererHostDup.cs" />

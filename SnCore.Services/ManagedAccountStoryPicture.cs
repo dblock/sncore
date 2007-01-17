@@ -1,6 +1,6 @@
 using System;
 using NHibernate;
-using System.Collections;
+using System.Collections.Generic;
 using NHibernate.Expression;
 using System.Web.Services;
 using System.Web.Services.Protocols;
@@ -292,6 +292,11 @@ namespace SnCore.Services
             TransitAccountStoryPicture t_instance = base.GetTransitInstance(sec);
             t_instance.SetWithinCollection(mInstance, mInstance.AccountStory.AccountStoryPictures);
             return t_instance;
+        }
+
+        protected override IList<AccountStoryPicture> GetQuotaCollection()
+        {
+            return mInstance.AccountStory.AccountStoryPictures;
         }
     }
 }

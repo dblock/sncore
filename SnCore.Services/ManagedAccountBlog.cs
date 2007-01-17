@@ -321,5 +321,10 @@ namespace SnCore.Services
             acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
             return acl;
         }
+
+        protected override IList<AccountBlog> GetQuotaCollection()
+        {
+            return mInstance.Account.AccountBlogs;
+        }
     }
 }

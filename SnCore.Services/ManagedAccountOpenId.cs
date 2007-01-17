@@ -1,6 +1,6 @@
 using System;
 using NHibernate;
-using System.Collections;
+using System.Collections.Generic;
 using NHibernate.Expression;
 using System.Web.Services.Protocols;
 using SnCore.Data.Hibernate;
@@ -196,6 +196,11 @@ namespace SnCore.Services
             acl.Add(new ACLAuthenticatedAllowCreate());
             acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
             return acl;
+        }
+
+        protected override IList<AccountOpenId> GetQuotaCollection()
+        {
+            return mInstance.Account.AccountOpenIds;
         }
     }
 }

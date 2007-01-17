@@ -219,5 +219,10 @@ namespace SnCore.Services
             acl.Add(new ACLAccount(mInstance.AccountBlog.Account, DataOperation.All));
             return acl;
         }
+
+        protected override IList<AccountBlogAuthor> GetQuotaCollection()
+        {
+            return mInstance.AccountBlog.AccountBlogAuthors;
+        }
     }
 }

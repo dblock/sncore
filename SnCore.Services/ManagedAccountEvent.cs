@@ -2,7 +2,7 @@ using System;
 using NHibernate;
 using System.Text;
 using System.Security.Cryptography;
-using System.Collections;
+using System.Collections.Generic;
 using NHibernate.Expression;
 using System.Web.Services.Protocols;
 using System.Xml;
@@ -1000,6 +1000,11 @@ namespace SnCore.Services
             acl.Add(new ACLAuthenticatedAllowCreate());
             acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
             return acl;
+        }
+
+        protected override IList<AccountEvent> GetQuotaCollection()
+        {
+            return mInstance.Account.AccountEvents;
         }
     }
 }

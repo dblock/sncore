@@ -2,6 +2,7 @@ using System;
 using NHibernate;
 using System.Text;
 using System.Security.Cryptography;
+using System.Collections;
 using System.Collections.Generic;
 using NHibernate.Expression;
 using System.Web.Services.Protocols;
@@ -308,6 +309,11 @@ namespace SnCore.Services
             }
 
             return id;
+        }
+
+        protected override IList<AccountPlaceRequest> GetQuotaCollection()
+        {
+            return mInstance.Account.AccountPlaceRequests;
         }
     }
 }

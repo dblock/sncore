@@ -1,5 +1,6 @@
 using System;
 using NHibernate;
+using System.Collections;
 using System.Collections.Generic;
 using NHibernate.Expression;
 using SnCore.Tools.Web;
@@ -297,6 +298,11 @@ namespace SnCore.Services
             acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
             acl.Add(new ACLAccount(mInstance.Keen, DataOperation.Update | DataOperation.Retreive | DataOperation.Delete));
             return acl;
+        }
+
+        protected override IList<AccountFriendRequest> GetQuotaCollection()
+        {
+            return mInstance.Account.AccountFriendRequests;
         }
     }
 }

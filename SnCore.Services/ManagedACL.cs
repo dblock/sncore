@@ -40,9 +40,9 @@ namespace SnCore.Services
         protected DataOperationPermission mPermission = DataOperationPermission.Deny;
 
         public ACLBaseEntry(DataOperation op)
-            : this((int) op, DataOperationPermission.Allow)
+            : this((int)op, DataOperationPermission.Allow)
         {
-            
+
         }
 
         public ACLBaseEntry(DataOperation op, DataOperationPermission perm)
@@ -107,7 +107,7 @@ namespace SnCore.Services
             {
                 return ACLVerdict.Allowed;
             }
-            
+
             return ACLVerdict.None;
         }
     }
@@ -142,7 +142,7 @@ namespace SnCore.Services
         }
 
         public ACLAccount(Account value, DataOperation op)
-            : this(value, (int) op, DataOperationPermission.Allow)
+            : this(value, (int)op, DataOperationPermission.Allow)
         {
 
         }
@@ -158,11 +158,11 @@ namespace SnCore.Services
             if (sec.Account != mAccount)
                 return ACLVerdict.None;
 
-            if ((mOperation & (int) op) == 0)
+            if ((mOperation & (int)op) == 0)
                 return ACLVerdict.None;
 
-            return mPermission == DataOperationPermission.Allow 
-                ? ACLVerdict.Allowed 
+            return mPermission == DataOperationPermission.Allow
+                ? ACLVerdict.Allowed
                 : ACLVerdict.Denied;
         }
 
@@ -179,6 +179,8 @@ namespace SnCore.Services
 
     public class ACL
     {
+        private static ACL s_AdminACL = new ACL();
+
         private List<IACLEntry> mAccessControlList = new List<IACLEntry>();
 
         public ACL()
@@ -227,18 +229,31 @@ namespace SnCore.Services
             mAccessControlList.AddRange(collection);
         }
 
+        public int Count
+        {
+            get
+            {
+                return mAccessControlList.Count;
+            }
+        }
+
         /// <summary>
         /// all-admin ACL
         /// </summary>
         /// <param name="sec"></param>
         /// <returns></returns>
         public static ACL GetAdministrativeACL(ISession session)
-        {            
-            // TODO: cache the all-admin ACL
-            ACL m_acl = new ACL();
-            IList<Account> admins = session.CreateCriteria(typeof(Account)).Add(Expression.Eq("IsAdministrator", true)).List<Account>();
-            m_acl.AddRange(ACLAccount.GetACLEntries(admins, (int) DataOperation.All, DataOperationPermission.Allow));
-            return m_acl;
+        {
+            lock (s_AdminACL)
+            {
+                if (s_AdminACL.Count == 0)
+                {
+                    IList<Account> admins = session.CreateCriteria(typeof(Account)).Add(Expression.Eq("IsAdministrator", true)).List<Account>();
+                    s_AdminACL.AddRange(ACLAccount.GetACLEntries(admins, (int)DataOperation.All, DataOperationPermission.Allow));
+                }
+
+                return s_AdminACL;
+            }
         }
     }
 }

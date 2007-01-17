@@ -1,5 +1,6 @@
 using System;
 using NHibernate;
+using System.Collections;
 using System.Collections.Generic;
 using System.Web.Hosting;
 
@@ -131,9 +132,27 @@ namespace SnCore.Services
         public virtual int CreateOrUpdate(TransitType t_instance, ManagedSecurityContext sec)
         {
             mInstance = (DatabaseType)t_instance.GetDbObjectInstance(Session, sec);
+            // check permissions
             GetACL().Check(sec, t_instance.Id > 0 ? DataOperation.Update : DataOperation.Create);
+            // check quota
+            if (t_instance.Id == 0) CheckQuota(t_instance, sec);
             Save(sec);
             return mInstance.Id;
+        }
+
+        protected virtual void CheckQuota(TransitType t_instance, ManagedSecurityContext sec)
+        {
+            GetQuota().Check((IList) GetQuotaCollection());
+        }
+
+        protected virtual ManagedQuota GetQuota()
+        {
+            return ManagedQuota.GetDefaultEnabledQuota();
+        }
+
+        protected virtual IList<DatabaseType> GetQuotaCollection()
+        {
+            return null;
         }
 
         protected virtual void Save(ManagedSecurityContext sec)
