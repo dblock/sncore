@@ -155,7 +155,10 @@ namespace SnCore.Services
 
         public override ACLVerdict Apply(ManagedSecurityContext sec, DataOperation op)
         {
-            if (sec.Account != mAccount)
+            if (sec.Account == null || mAccount == null)
+                return ACLVerdict.None;
+
+            if (sec.Account.Id != mAccount.Id)
                 return ACLVerdict.None;
 
             if ((mOperation & (int)op) == 0)
