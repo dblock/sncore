@@ -158,7 +158,7 @@ namespace SnCore.BackEndServices
                             throw new Exception("No verified e-mail address.");
 
                         m_recepient.SendAccountEmailMessage(
-                            campaign.SenderEmailAddress, m_recepient.GetActiveEmailAddress(sec),
+                            campaign.SenderEmailAddress, m_recepient.GetActiveEmailAddress(),
                             campaign.Name, content, true);
 
                         recepient.LastError = string.Empty;

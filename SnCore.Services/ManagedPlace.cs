@@ -609,5 +609,11 @@ namespace SnCore.Services
             }
             return acl;
         }
+
+        protected override void Check(TransitPlace t_instance, ManagedSecurityContext sec)
+        {
+            base.Check(t_instance, sec);
+            if (t_instance.Id == 0) sec.CheckVerifiedEmail();
+        }
     }
 }

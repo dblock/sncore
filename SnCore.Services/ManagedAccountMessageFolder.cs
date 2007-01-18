@@ -340,9 +340,10 @@ namespace SnCore.Services
             return acl;
         }
 
-        protected override IList<AccountMessageFolder> GetQuotaCollection()
+        protected override void Check(TransitAccountMessageFolder t_instance, ManagedSecurityContext sec)
         {
-            return mInstance.Account.AccountMessageFolders;
+            base.Check(t_instance, sec);
+            if (t_instance.Id == 0) GetQuota().Check(mInstance.Account.AccountMessageFolders);
         }
     }
 }

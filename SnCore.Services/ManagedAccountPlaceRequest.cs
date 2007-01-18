@@ -198,7 +198,7 @@ namespace SnCore.Services
             GetACL().Check(sec, DataOperation.Delete);
 
             ManagedAccount recepient = new ManagedAccount(Session, mInstance.Account);
-            string sentto = recepient.GetActiveEmailAddress(sec);
+            string sentto = recepient.GetActiveEmailAddress();
             if (sentto != null)
             {
                 ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
@@ -232,7 +232,7 @@ namespace SnCore.Services
             mInstance.Place.AccountPlaces.Add(place);
 
             ManagedAccount recepient = new ManagedAccount(Session, mInstance.Account);
-            string sentto = recepient.GetActiveEmailAddress(sec);
+            string sentto = recepient.GetActiveEmailAddress();
             if (sentto != null)
             {
                 ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
@@ -303,7 +303,7 @@ namespace SnCore.Services
 
                     ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
                         Session,
-                        new MailAddress(acct.GetActiveEmailAddress(sec), acct.Name).ToString(),
+                        new MailAddress(acct.GetActiveEmailAddress(), acct.Name).ToString(),
                         string.Format("EmailAccountPlaceRequest.aspx?id={0}", id));
                 }
             }
@@ -311,9 +311,14 @@ namespace SnCore.Services
             return id;
         }
 
-        protected override IList<AccountPlaceRequest> GetQuotaCollection()
+        protected override void Check(TransitAccountPlaceRequest t_instance, ManagedSecurityContext sec)
         {
-            return mInstance.Account.AccountPlaceRequests;
+            base.Check(t_instance, sec);
+            if (t_instance.Id == 0)
+            {
+                sec.CheckVerifiedEmail();
+                GetQuota().Check(mInstance.Account.AccountPlaceRequests);
+            }
         }
     }
 }

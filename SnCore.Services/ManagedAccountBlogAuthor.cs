@@ -220,9 +220,10 @@ namespace SnCore.Services
             return acl;
         }
 
-        protected override IList<AccountBlogAuthor> GetQuotaCollection()
+        protected override void Check(TransitAccountBlogAuthor t_instance, ManagedSecurityContext sec)
         {
-            return mInstance.AccountBlog.AccountBlogAuthors;
+            base.Check(t_instance, sec);
+            if (t_instance.Id == 0) GetQuota().Check(mInstance.AccountBlog.AccountBlogAuthors);
         }
     }
 }

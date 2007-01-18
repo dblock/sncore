@@ -180,6 +180,55 @@ namespace SnCore.Services
         }
     }
 
+    public class ACLAccountId : ACLBaseEntry
+    {
+        private int mAccountId = 0;
+
+        public ACLAccountId(int value, int op)
+            : this(value, op, DataOperationPermission.Allow)
+        {
+
+        }
+
+        public ACLAccountId(int value, DataOperation op)
+            : this(value, (int)op, DataOperationPermission.Allow)
+        {
+
+        }
+
+        public ACLAccountId(int value, int op, DataOperationPermission perm)
+            : base(op, perm)
+        {
+            mAccountId = value;
+        }
+
+        public override ACLVerdict Apply(ManagedSecurityContext sec, DataOperation op)
+        {
+            if (sec.Account == null)
+                return ACLVerdict.None;
+
+            if (sec.Account.Id != mAccountId)
+                return ACLVerdict.None;
+
+            if ((mOperation & (int)op) == 0)
+                return ACLVerdict.None;
+
+            return mPermission == DataOperationPermission.Allow
+                ? ACLVerdict.Allowed
+                : ACLVerdict.Denied;
+        }
+
+        public static IList<IACLEntry> GetACLEntries(IList<Account> accounts, int op, DataOperationPermission perm)
+        {
+            List<IACLEntry> result = new List<IACLEntry>();
+            foreach (Account account in accounts)
+            {
+                result.Add(new ACLAccountId(account.Id, op, perm));
+            }
+            return result;
+        }
+    }
+
     public class ACL
     {
         private static ACL s_AdminACL = new ACL();
@@ -189,6 +238,11 @@ namespace SnCore.Services
         public ACL()
         {
 
+        }
+
+        public ACL(ACL value)
+        {
+            mAccessControlList.AddRange(value.mAccessControlList);
         }
 
         public ACLVerdict Apply(ManagedSecurityContext sec, DataOperation op)
@@ -252,11 +306,12 @@ namespace SnCore.Services
                 if (s_AdminACL.Count == 0)
                 {
                     IList<Account> admins = session.CreateCriteria(typeof(Account)).Add(Expression.Eq("IsAdministrator", true)).List<Account>();
-                    s_AdminACL.AddRange(ACLAccount.GetACLEntries(admins, (int)DataOperation.All, DataOperationPermission.Allow));
+                    s_AdminACL.AddRange(ACLAccountId.GetACLEntries(admins, (int)DataOperation.All, DataOperationPermission.Allow));
                 }
-
-                return s_AdminACL;
             }
+
+            ACL acl = new ACL(s_AdminACL);
+            return acl;
         }
     }
 }

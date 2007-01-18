@@ -288,7 +288,7 @@ namespace SnCore.Services
         {
             mInstance.Modified = DateTime.UtcNow;
             if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
-            
+
             if (mInstance.Principal && !mInstance.Verified)
             {
                 // an unverified e-mail cannot be set to principal
@@ -319,9 +319,10 @@ namespace SnCore.Services
             return acl;
         }
 
-        protected override IList<AccountEmail> GetQuotaCollection()
+        protected override void Check(TransitAccountEmail t_instance, ManagedSecurityContext sec)
         {
-            return mInstance.Account.AccountEmails;
+            base.Check(t_instance, sec);
+            if (t_instance.Id == 0) GetQuota().Check(mInstance.Account.AccountEmails);
         }
     }
 }

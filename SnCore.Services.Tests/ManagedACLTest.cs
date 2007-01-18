@@ -62,5 +62,18 @@ namespace SnCore.Services.Tests
             acl.Add(new ACLEveryoneAllowRetrieve());
             acl.Check(new ManagedSecurityContext(new Account()), DataOperation.Retreive);
         }
+
+        [Test]
+        public void TestAdminACL()
+        {
+            // make sure that the administrative ACL is a cloned fresh copy 
+            // (so that more ACLs can be added)
+            ACL acl = ACL.GetAdministrativeACL(Session);
+            int count1 = acl.Count;
+            acl.Add(new ACLAuthenticatedAllowCreate());
+            ACL acl2 = ACL.GetAdministrativeACL(Session);
+            Assert.AreNotEqual(acl, acl2);
+            Assert.AreEqual(count1, acl2.Count);
+        }
     }
 }

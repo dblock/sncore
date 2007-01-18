@@ -323,9 +323,10 @@ namespace SnCore.Services
             return acl;
         }
 
-        protected override IList<AccountPicture> GetQuotaCollection()
+        protected override void Check(TransitAccountPicture t_instance, ManagedSecurityContext sec)
         {
-            return mInstance.Account.AccountPictures;
+            base.Check(t_instance, sec);
+            if (t_instance.Id == 0) GetQuota().Check(mInstance.Account.AccountPictures);
         }
     }
 }

@@ -54,6 +54,7 @@ namespace SnCore.Services.Tests
             try
             {
                 a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
+                a.VerifyAllEmails();
 
                 TransitDiscussion t = new TransitDiscussion();
                 t.Name = Guid.NewGuid().ToString();
@@ -81,6 +82,7 @@ namespace SnCore.Services.Tests
             try
             {
                 a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
+                a.VerifyAllEmails();
 
                 TransitDiscussion t_d = new TransitDiscussion();
                 t_d.Description = Guid.NewGuid().ToString();
@@ -113,6 +115,7 @@ namespace SnCore.Services.Tests
             try
             {
                 a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
+                a.VerifyAllEmails();
 
                 TransitDiscussion t_d = new TransitDiscussion();
                 t_d.Description = Guid.NewGuid().ToString();
@@ -154,6 +157,7 @@ namespace SnCore.Services.Tests
             try
             {
                 a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
+                a.VerifyAllEmails();
 
                 TransitDiscussion t_d = new TransitDiscussion();
                 t_d.Description = Guid.NewGuid().ToString();

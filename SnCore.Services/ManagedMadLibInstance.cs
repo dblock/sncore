@@ -210,7 +210,7 @@ namespace SnCore.Services
     {
         public ManagedMadLibInstance()
         {
-        
+
         }
 
         public ManagedMadLibInstance(ISession session)
@@ -262,7 +262,7 @@ namespace SnCore.Services
 
                     if (ra.Id != ma.Id)
                     {
-                        string replyTo = ma.GetActiveEmailAddress(sec);
+                        string replyTo = ma.GetActiveEmailAddress();
                         if (!string.IsNullOrEmpty(replyTo))
                         {
                             ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
@@ -295,15 +295,14 @@ namespace SnCore.Services
             ACL acl = base.GetACL();
             acl.Add(new ACLEveryoneAllowRetrieve());
             acl.Add(new ACLAuthenticatedAllowCreate());
-            try
-            {
-                acl.Add(new ACLAccount((Account)Session.Load(typeof(Account), mInstance.AccountId), DataOperation.All));
-            }
-            catch (ObjectNotFoundException)
-            {
-
-            }
+            acl.Add(new ACLAccountId(mInstance.AccountId, DataOperation.All));
             return acl;
+        }
+
+        protected override void Check(TransitMadLibInstance t_instance, ManagedSecurityContext sec)
+        {
+            base.Check(t_instance, sec);
+            if (t_instance.Id == 0) sec.CheckVerifiedEmail();
         }
     }
 }

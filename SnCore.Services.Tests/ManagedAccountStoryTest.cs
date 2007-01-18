@@ -49,6 +49,7 @@ namespace SnCore.Services.Tests
             try
             {
                 a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
+                a.VerifyAllEmails();
 
                 TransitAccountStory s = new TransitAccountStory();
                 s.Name = Guid.NewGuid().ToString();
@@ -71,6 +72,7 @@ namespace SnCore.Services.Tests
             try
             {
                 a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
+                a.VerifyAllEmails();
 
                 TransitAccountStory s = new TransitAccountStory();
                 s.Name = Guid.NewGuid().ToString();

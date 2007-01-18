@@ -626,9 +626,12 @@ namespace SnCore.Services
             t_email.Principal = false;
             t_email.Verified = emailverified;
 
-            ManagedAccountEmail m_instance = new ManagedAccountEmail(Session);
-            m_instance.CreateOrUpdate(t_email, sec);
-            m_instance.Confirm(sec);
+            ManagedAccountEmail m_email = new ManagedAccountEmail(Session);
+            m_email.CreateOrUpdate(t_email, sec);
+            m_email.Confirm(sec);
+
+            mInstance.AccountEmails = new List<AccountEmail>();
+            mInstance.AccountEmails.Add(m_email.Instance);
 
             CreateAccountSystemMessageFolders(sec);
 
@@ -704,9 +707,8 @@ namespace SnCore.Services
             return false;
         }
 
-        public string GetActiveEmailAddress(ManagedSecurityContext sec)
+        public string GetActiveEmailAddress()
         {
-            GetACL().Check(sec, DataOperation.All);
             string result = null;
 
             foreach (AccountEmail e in Collection<AccountEmail>.GetSafeCollection(mInstance.AccountEmails))
@@ -962,7 +964,7 @@ namespace SnCore.Services
             Session.Save(message);
 
             ManagedAccount recepient = new ManagedAccount(Session, message.Account);
-            string sentto = recepient.GetActiveEmailAddress(sec);
+            string sentto = recepient.GetActiveEmailAddress();
             if (sentto != null)
             {
                 // EmailAccountMessage
@@ -1110,10 +1112,7 @@ namespace SnCore.Services
 
         public int CreateAccountFriendRequest(ManagedSecurityContext sec, int friendid, string message)
         {
-            if (!HasVerifiedEmail(sec))
-            {
-                throw new ManagedAccount.NoVerifiedEmailException();
-            }
+            sec.CheckVerifiedEmail();
 
             if (friendid == Id)
             {
@@ -1147,7 +1146,7 @@ namespace SnCore.Services
             Session.Save(request);
 
             ManagedAccount recepient = new ManagedAccount(Session, request.Keen);
-            string sentto = recepient.GetActiveEmailAddress(sec);
+            string sentto = recepient.GetActiveEmailAddress();
             if (sentto != null)
             {
                 ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(

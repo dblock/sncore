@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using NHibernate;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
@@ -23,7 +24,7 @@ namespace SnCore.Services
 
         public ManagedSecurityContext(ISession session, int id)
         {
-            mAccount = (Account) session.Load(typeof(Account), id);
+            mAccount = (Account)session.Load(typeof(Account), id);
         }
 
         public ManagedSecurityContext(Account value)
@@ -34,12 +35,25 @@ namespace SnCore.Services
         public ManagedSecurityContext(ISession session, string ticket)
         {
             int id = ManagedAccount.GetAccountId(ticket, 0);
-            mAccount = (id > 0 ? (Account) session.Load(typeof(Account), id) : null);
+            mAccount = (id > 0 ? (Account)session.Load(typeof(Account), id) : null);
         }
 
         public bool IsAdministrator()
         {
             return mAccount != null && mAccount.IsAdministrator;
+        }
+
+        public void CheckVerifiedEmail()
+        {
+            foreach (AccountEmail email in Collection<AccountEmail>.GetSafeCollection(mAccount.AccountEmails))
+            {
+                if (email.Verified)
+                {
+                    return;
+                }
+            }
+
+            throw new ManagedAccount.NoVerifiedEmailException();
         }
     }
 }

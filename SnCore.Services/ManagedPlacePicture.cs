@@ -341,5 +341,11 @@ namespace SnCore.Services
             ManagedDiscussion.FindAndDelete(Session, mInstance.Place.Account.Id, ManagedDiscussion.PlacePictureDiscussion, mInstance.Id, sec);
             base.Delete(sec);
         }
+
+        protected override void Check(TransitPlacePicture t_instance, ManagedSecurityContext sec)
+        {
+            base.Check(t_instance, sec);
+            if (t_instance.Id == 0) sec.CheckVerifiedEmail();
+        }
     }
 }

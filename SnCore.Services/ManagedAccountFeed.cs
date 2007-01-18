@@ -742,9 +742,14 @@ namespace SnCore.Services
             return acl;
         }
 
-        protected override IList<AccountFeed> GetQuotaCollection()
+        protected override void Check(TransitAccountFeed t_instance, ManagedSecurityContext sec)
         {
-            return mInstance.Account.AccountFeeds;
+            base.Check(t_instance, sec);
+            if (t_instance.Id == 0)
+            {
+                sec.CheckVerifiedEmail();
+                GetQuota().Check(mInstance.Account.AccountFeeds);
+            }
         }
     }
 }

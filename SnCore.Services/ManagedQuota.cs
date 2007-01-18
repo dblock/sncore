@@ -31,7 +31,7 @@ namespace SnCore.Services
             return new ManagedQuota();
         }
 
-        public void Check(IList collection)
+        public void Check<TransitType>(IList<TransitType> collection)
         {
             if (collection == null || collection.Count == 0)
                 return;

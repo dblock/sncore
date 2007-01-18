@@ -239,7 +239,7 @@ namespace SnCore.WebServices
                     {
                         ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
                             session,
-                            new MailAddress(acct.GetActiveEmailAddress(sec), acct.Name).ToString(),
+                            new MailAddress(acct.GetActiveEmailAddress(), acct.Name).ToString(),
                             string.Format("EmailPlacePicture.aspx?id={0}", result));
                     }
                 }

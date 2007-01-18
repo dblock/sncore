@@ -19,7 +19,7 @@ namespace SnCore.Web.Soap.Tests.WebStoryServiceTests
         public override WebStoryService.TransitAccountStory GetTransitInstance()
         {
             WebStoryService.TransitAccountStory t_instance = new WebStoryService.TransitAccountStory();
-            t_instance.AccountId = GetUserAccount().Id;
+            t_instance.AccountId = GetAdminAccount().Id;
             t_instance.Name = Guid.NewGuid().ToString();
             t_instance.Publish = true;
             t_instance.Summary = Guid.NewGuid().ToString();
@@ -30,7 +30,7 @@ namespace SnCore.Web.Soap.Tests.WebStoryServiceTests
         {
             WebStoryService.AccountStoryQueryOptions query_options = new WebStoryService.AccountStoryQueryOptions();
             query_options.PublishedOnly = false;
-            object[] args = { ticket, GetUserAccount().Id, query_options };
+            object[] args = { GetAdminTicket(), GetAdminAccount().Id, query_options };
             return args;
         }
 
@@ -38,7 +38,7 @@ namespace SnCore.Web.Soap.Tests.WebStoryServiceTests
         {
             WebStoryService.AccountStoryQueryOptions query_options = new WebStoryService.AccountStoryQueryOptions();
             query_options.PublishedOnly = false;
-            object[] args = { ticket, GetUserAccount().Id, query_options, options };
+            object[] args = { GetAdminTicket(), GetAdminAccount().Id, query_options, options };
             return args;
         }
 

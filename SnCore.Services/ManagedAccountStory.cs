@@ -302,5 +302,11 @@ namespace SnCore.Services
             acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
             return acl;
         }
+
+        protected override void Check(TransitAccountStory t_instance, ManagedSecurityContext sec)
+        {
+            base.Check(t_instance, sec);
+            if (t_instance.Id == 0) sec.CheckVerifiedEmail();
+        }
     }
 }

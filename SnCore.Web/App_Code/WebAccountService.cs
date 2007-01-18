@@ -400,7 +400,7 @@ namespace SnCore.WebServices
                 }
 
                 ManagedAccount acct = new ManagedAccount(session);
-                int id = acct.Create(invitation.Instance.Email, ta, ManagedAccount.GetAdminSecurityContext(session));
+                int id = acct.Create(invitation.Instance.Email, ta, true, ManagedAccount.GetAdminSecurityContext(session));
 
                 TransitAccountFriend t_friend = new TransitAccountFriend();
                 AccountFriend friend = new AccountFriend();
@@ -712,7 +712,7 @@ namespace SnCore.WebServices
                 // EmailAccountMessage
                 ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
                     session,
-                    new MailAddress(a.GetActiveEmailAddress(ManagedAccount.GetAdminSecurityContext(session)), a.Name).ToString(),
+                    new MailAddress(a.GetActiveEmailAddress(), a.Name).ToString(),
                     string.Format("EmailAccountPasswordReset.aspx?id={0}&Password={1}", a.Id, Renderer.UrlEncode(newpassword)));
 
                 SnCore.Data.Hibernate.Session.Flush();
@@ -865,7 +865,8 @@ namespace SnCore.WebServices
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
                 ManagedAccount a = new ManagedAccount(session, id);
-                return a.GetActiveEmailAddress(sec);
+                a.GetACL().Check(sec, DataOperation.All);
+                return a.GetActiveEmailAddress();
             }
         }
 
@@ -2091,7 +2092,7 @@ namespace SnCore.WebServices
                 if (! user.HasVerifiedEmail(sec))
                     throw new ManagedAccount.NoVerifiedEmailException();
 
-                m.MailFrom = new MailAddress(user.GetActiveEmailAddress(sec), user.Name).ToString();
+                m.MailFrom = new MailAddress(user.GetActiveEmailAddress(), user.Name).ToString();
                 m.Sent = false;
                 m.Created = m.Modified = DateTime.UtcNow;
                 session.Save(m);

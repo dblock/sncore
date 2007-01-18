@@ -198,9 +198,10 @@ namespace SnCore.Services
             return acl;
         }
 
-        protected override IList<AccountOpenId> GetQuotaCollection()
+        protected override void Check(TransitAccountOpenId t_instance, ManagedSecurityContext sec)
         {
-            return mInstance.Account.AccountOpenIds;
+            base.Check(t_instance, sec);
+            if (t_instance.Id == 0) GetQuota().Check(mInstance.Account.AccountOpenIds);
         }
     }
 }

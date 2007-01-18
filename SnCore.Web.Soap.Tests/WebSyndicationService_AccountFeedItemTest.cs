@@ -16,13 +16,13 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationServiceTests
         public override void SetUp()
         {
             _accountfeed.SetUp();
-            _accountfeed_id = _accountfeed.Create(GetUserTicket());
+            _accountfeed_id = _accountfeed.Create(GetAdminTicket());
         }
 
         [TearDown]
         public override void TearDown()
         {
-            _accountfeed.Delete(GetUserTicket(), _accountfeed_id);
+            _accountfeed.Delete(GetAdminTicket(), _accountfeed_id);
             _accountfeed.TearDown();
         }
 

@@ -64,6 +64,7 @@ namespace SnCore.Services.Tests
             try
             {
                 a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
+                a.VerifyAllEmails();
 
                 TransitCountry tc = new TransitCountry();
                 tc.Name = Guid.NewGuid().ToString();

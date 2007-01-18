@@ -243,14 +243,14 @@ namespace SnCore.BackEndServices
                                 reminderevent.Modified = DateTime.UtcNow;
                             }
 
-                            if (!string.IsNullOrEmpty(ma.GetActiveEmailAddress(sec)))
+                            if (!string.IsNullOrEmpty(ma.GetActiveEmailAddress()))
                             {
                                 if (! mr.CanSend(acct))
                                     continue;
 
                                 ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
                                     session,
-                                    new MailAddress(ma.GetActiveEmailAddress(sec), ma.Name).ToString(),
+                                    new MailAddress(ma.GetActiveEmailAddress(), ma.Name).ToString(),
                                     string.Format("{0}?id={1}", reminder.Url, ma.Id));
                             }
 
@@ -259,7 +259,7 @@ namespace SnCore.BackEndServices
                         catch (Exception ex)
                         {
                             EventLog.WriteEntry(string.Format("Error sending a reminder at {0} to {1} <{2}>: {3}",
-                                reminder.Url, accountid, ma.GetActiveEmailAddress(sec), ex.Message), EventLogEntryType.Warning);
+                                reminder.Url, accountid, ma.GetActiveEmailAddress(), ex.Message), EventLogEntryType.Warning);
                         }
                     }
                 }

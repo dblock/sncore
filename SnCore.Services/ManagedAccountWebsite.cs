@@ -183,9 +183,10 @@ namespace SnCore.Services
             return acl;
         }
 
-        protected override IList<AccountWebsite> GetQuotaCollection()
+        protected override void Check(TransitAccountWebsite t_instance, ManagedSecurityContext sec)
         {
-            return mInstance.Account.AccountWebsites;
+            base.Check(t_instance, sec);
+            if (t_instance.Id == 0) GetQuota().Check(mInstance.Account.AccountWebsites);
         }
     }
 }

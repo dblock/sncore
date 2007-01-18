@@ -107,27 +107,27 @@ namespace SnCore.Services
                     Renderer.SqlEncode(SearchQuery), maxsearchresults);
             }
 
-            s_query.AppendFormat("WHERE Bug.Project_Id = {0}", ProjectId);
+            s_query.AppendFormat(" WHERE Bug.Project_Id = {0}", ProjectId);
 
             if (!Resolved)
             {
-                s_query.AppendFormat("\nAND NOT Bug.Status_Id = {0}", ManagedBugStatus.FindId(session, "Resolved"));
+                s_query.AppendFormat(" AND NOT Bug.Status_Id = {0}", ManagedBugStatus.FindId(session, "Resolved"));
             }
 
             if (!Closed)
             {
-                s_query.AppendFormat("\nAND NOT Bug.Status_Id = {0}", ManagedBugStatus.FindId(session, "Closed"));
+                s_query.AppendFormat(" AND NOT Bug.Status_Id = {0}", ManagedBugStatus.FindId(session, "Closed"));
             }
 
             if (!Open)
             {
-                s_query.AppendFormat("\nAND NOT Bug.Status_Id = {0}", ManagedBugStatus.FindId(session, "Open"));
-                s_query.AppendFormat("\nAND NOT Bug.Status_Id = {0}", ManagedBugStatus.FindId(session, "Reopened"));
+                s_query.AppendFormat(" AND NOT Bug.Status_Id = {0}", ManagedBugStatus.FindId(session, "Open"));
+                s_query.AppendFormat(" AND NOT Bug.Status_Id = {0}", ManagedBugStatus.FindId(session, "Reopened"));
             }
 
             if (string.IsNullOrEmpty(SearchQuery) && !string.IsNullOrEmpty(SortExpression))
             {
-                s_query.AppendFormat("\nORDER BY Bug.{0} {1}",
+                s_query.AppendFormat(" ORDER BY Bug.{0} {1}",
                     Renderer.SqlEncode(SortExpression),
                     (SortDirection == TransitSortDirection.Ascending) ? "ASC" : "DESC");
             }
@@ -447,7 +447,7 @@ namespace SnCore.Services
                 ManagedAccount acct = new ManagedAccount(Session, mInstance.AccountId);
                 ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
                     Session,
-                    new MailAddress(acct.GetActiveEmailAddress(sec), acct.Name).ToString(),
+                    new MailAddress(acct.GetActiveEmailAddress(), acct.Name).ToString(),
                     string.Format("EmailBugClosed.aspx?id={0}", mInstance.Id));
             }
             catch

@@ -160,8 +160,8 @@ namespace SnCore.Services
         public override AccountFriendRequest GetInstance(ISession session, ManagedSecurityContext sec)
         {
             AccountFriendRequest instance = base.GetInstance(session, sec);
-            if (KeenId > 0) instance.Keen = (Account) session.Load(typeof(Account), KeenId);
-            if (AccountId > 0) instance.Account = (Account) session.Load(typeof(Account), AccountId);
+            if (KeenId > 0) instance.Keen = (Account)session.Load(typeof(Account), KeenId);
+            if (AccountId > 0) instance.Account = (Account)session.Load(typeof(Account), AccountId);
             instance.Message = Message;
             return instance;
         }
@@ -208,7 +208,7 @@ namespace SnCore.Services
             if (message != null && message.Length > 0)
             {
                 ManagedAccount recepient = new ManagedAccount(Session, requester);
-                string sentto = recepient.GetActiveEmailAddress(sec);
+                string sentto = recepient.GetActiveEmailAddress();
                 if (sentto != null)
                 {
                     ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
@@ -241,7 +241,7 @@ namespace SnCore.Services
             Session.Save(friend);
 
             ManagedAccount recepient = new ManagedAccount(Session, friend.Account);
-            string sentto = recepient.GetActiveEmailAddress(sec);
+            string sentto = recepient.GetActiveEmailAddress();
             if (sentto != null)
             {
                 ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
@@ -300,9 +300,14 @@ namespace SnCore.Services
             return acl;
         }
 
-        protected override IList<AccountFriendRequest> GetQuotaCollection()
+        protected override void Check(TransitAccountFriendRequest t_instance, ManagedSecurityContext sec)
         {
-            return mInstance.Account.AccountFriendRequests;
+            base.Check(t_instance, sec);
+            if (t_instance.Id == 0)
+            {
+                sec.CheckVerifiedEmail();
+                GetQuota().Check(mInstance.Account.AccountFriendRequests);
+            }
         }
     }
 }

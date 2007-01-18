@@ -230,7 +230,7 @@ namespace SnCore.Services.Tests
 
                 TransitBug t_bug = new TransitBug();
                 t_bug.Priority = t_priority.Name;
-                t_bug.ProjectId = project.Id; ;
+                t_bug.ProjectId = project.Id;
                 t_bug.Resolution = t_resolution.Name;
                 t_bug.Severity = t_severity.Name;
                 t_bug.Status = t_status.Name;
@@ -241,7 +241,7 @@ namespace SnCore.Services.Tests
 
                 {
                     TransitBugQueryOptions qo = new TransitBugQueryOptions();
-                    IQuery query = Session.CreateQuery(qo.GetQuery(Session));
+                    IQuery query = Session.CreateSQLQuery(qo.GetQuery(Session), "Bug", typeof(Bug));
                     IList list = query.List();
                     Assert.AreEqual(0, list.Count, "Wrong count on query w/o a project.");
                 }
