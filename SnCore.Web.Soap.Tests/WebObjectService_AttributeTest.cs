@@ -26,9 +26,13 @@ namespace SnCore.Web.Soap.Tests.WebObjectServiceTests
         }
 
         [Test]
-        protected void GetAttributeIfModifiedSinceTest()
+        public void GetAttributeIfModifiedSinceTest()
         {
-
+            WebObjectService.TransitAttribute t_attribute = GetTransitInstance();
+            t_attribute.Id = Create(GetAdminTicket(), t_attribute);
+            Assert.IsNotNull(EndPoint.GetAttributeIfModifiedSinceById(GetAdminTicket(), t_attribute.Id, DateTime.UtcNow.AddHours(-1)));
+            Assert.IsNull(EndPoint.GetAttributeIfModifiedSinceById(GetAdminTicket(), t_attribute.Id, DateTime.UtcNow));
+            Delete(GetAdminTicket(), t_attribute.Id);
         }
     }
 }

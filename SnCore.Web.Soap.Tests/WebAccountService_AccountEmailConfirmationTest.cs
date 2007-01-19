@@ -163,9 +163,48 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         }
 
         [Test]
-        protected void ConfirmAccountEmailTest()
+        public void ConfirmAccountEmailTest()
         {
-
+            // create a user
+            string email = string.Format("{0}@localhost.com", Guid.NewGuid());
+            string password = Guid.NewGuid().ToString();
+            int user_id = CreateUser(email, password);
+            Assert.IsTrue(user_id > 0);
+            string ticket = Login(email, password);
+            Assert.IsNotEmpty(ticket);
+            // get the e-mail that needs to be re-confirmed
+            WebAccountService.TransitAccountEmail[] emails = EndPoint.GetAccountEmails(ticket, user_id, null);
+            Console.WriteLine("Emails: {0}", emails.Length);
+            Assert.AreEqual(1, emails.Length);
+            Assert.AreEqual(emails[0].Address, email);
+            // verify that there's one confirmation pending
+            WebAccountService.TransitAccountEmailConfirmation[] confirmations1 = EndPoint.GetAccountEmailConfirmations(GetAdminTicket(), user_id, null);
+            Console.WriteLine("Confirmations: {0}", confirmations1.Length);
+            Assert.AreEqual(1, confirmations1.Length);
+            Assert.AreEqual(confirmations1[0].AccountEmail.Address, email);
+            // resend a confirmation
+            EndPoint.ConfirmAccountEmail(ticket, emails[0].Id);
+            // verify that there's still one confirmation pending
+            WebAccountService.TransitAccountEmailConfirmation[] confirmations2 = EndPoint.GetAccountEmailConfirmations(GetAdminTicket(), user_id, null);
+            Console.WriteLine("Confirmations: {0}", confirmations2.Length);
+            Assert.AreEqual(1, confirmations2.Length);
+            Assert.AreEqual(confirmations2[0].AccountEmail.Address, email);
+            // add an e-mail
+            WebAccountService.TransitAccountEmail t_email = new WebAccountService.TransitAccountEmail();
+            t_email.AccountId = user_id;
+            t_email.Address = string.Format("{0}@localhost.com", Guid.NewGuid());
+            t_email.Id = EndPoint.CreateOrUpdateAccountEmail(ticket, t_email);
+            // verify that there're two confirmations pending
+            WebAccountService.TransitAccountEmailConfirmation[] confirmations3 = EndPoint.GetAccountEmailConfirmations(GetAdminTicket(), user_id, null);
+            Console.WriteLine("Confirmations: {0}", confirmations3.Length);
+            Assert.AreEqual(2, confirmations3.Length);
+            // resend a confirmation
+            EndPoint.ConfirmAccountEmail(ticket, emails[0].Id);
+            // verify that there's still two confirmation pending
+            WebAccountService.TransitAccountEmailConfirmation[] confirmations4 = EndPoint.GetAccountEmailConfirmations(GetAdminTicket(), user_id, null);
+            Console.WriteLine("Confirmations: {0}", confirmations4.Length);
+            Assert.AreEqual(2, confirmations4.Length);
+            DeleteUser(user_id);
         }
     }
 }

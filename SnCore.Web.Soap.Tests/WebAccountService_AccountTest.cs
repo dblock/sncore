@@ -50,9 +50,11 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         }
 
         [Test]
-        protected void SearchAccountsTest()
+        public void SearchAccountsTest()
         {
-
+            WebAccountService.TransitAccount[] accounts = EndPoint.SearchAccounts(GetUserTicket(), GetAdminAccount().Name, null);
+            Console.WriteLine("Accounts: {0}", accounts.Length);
+            Assert.IsTrue(new TransitServiceCollection<WebAccountService.TransitAccount>(accounts).ContainsId(GetAdminAccount().Id));
         }
 
         [Test]

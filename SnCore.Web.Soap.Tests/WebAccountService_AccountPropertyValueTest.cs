@@ -56,21 +56,65 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         }
 
         [Test]
-        protected void GetAllAccountPropertyValuesTest()
+        public void GetAllAccountPropertyValuesTest()
         {
-
+            int property1_id = _property.Create(GetAdminTicket());
+            WebAccountService.TransitAccountPropertyValue t_value1 = GetTransitInstance();
+            t_value1.AccountPropertyId = property1_id;
+            t_value1.AccountId = GetUserAccount().Id;
+            t_value1.Value = Guid.NewGuid().ToString();
+            t_value1.Id = Create(GetUserTicket(), t_value1);
+            int property2_id = _property.Create(GetAdminTicket());
+            WebAccountService.TransitAccountPropertyValue t_value2 = GetTransitInstance();
+            t_value2.AccountPropertyId = property2_id;
+            t_value2.AccountId = GetUserAccount().Id;
+            t_value2.Value = Guid.NewGuid().ToString();
+            t_value2.Id = Create(GetUserTicket(), t_value2);
+            WebAccountService.TransitAccountPropertyValue[] values = EndPoint.GetAllAccountPropertyValues(
+                GetUserTicket(), GetUserAccount().Id, _property._group_id);
+            Console.WriteLine("Properties: {0}", values.Length);
+            Delete(GetUserTicket(), t_value1.Id);
+            Delete(GetUserTicket(), t_value2.Id);
+            _property.Delete(GetAdminTicket(), property1_id);
+            _property.Delete(GetAdminTicket(), property2_id);
         }
 
         [Test]
-        protected void GetAccountPropertyValueByNameTest()
+        public void GetAccountPropertyValueByNameTest()
         {
-
+            string groupname = (string) _property._group.GetInstancePropertyById(GetUserTicket(), _property._group_id, "Name");
+            string propertyname = (string) _property.GetInstancePropertyById(GetUserTicket(), _property_id, "Name");
+            Console.WriteLine("Property: {0}/{1}", groupname, propertyname);
+            WebAccountService.TransitAccountPropertyValue t_value = GetTransitInstance();
+            t_value.AccountPropertyId = _property_id;
+            t_value.AccountId = GetUserAccount().Id;
+            t_value.Value = Guid.NewGuid().ToString();
+            t_value.Id = Create(GetUserTicket(), t_value);
+            WebAccountService.TransitAccountPropertyValue t_instance = EndPoint.GetAccountPropertyValueByName(
+                GetUserTicket(), GetUserAccount().Id, groupname, propertyname);
+            Console.WriteLine("Value: {0}:{1}", t_instance.Id, t_instance.Value);
+            Delete(GetUserTicket(), t_value.Id);
         }
 
         [Test]
-        protected void GetAccountsByPropertyValueTest()
+        public void GetAccountsByPropertyValueTest()
         {
-
+            string groupname = (string)_property._group.GetInstancePropertyById(GetUserTicket(), _property._group_id, "Name");
+            string propertyname = (string)_property.GetInstancePropertyById(GetUserTicket(), _property_id, "Name");
+            Console.WriteLine("Property: {0}/{1}", groupname, propertyname);
+            WebAccountService.TransitAccountPropertyValue t_value = GetTransitInstance();
+            t_value.AccountPropertyId = _property_id;
+            t_value.AccountId = GetUserAccount().Id;
+            t_value.Value = Guid.NewGuid().ToString();
+            t_value.Id = Create(GetUserTicket(), t_value);
+            int count = EndPoint.GetAccountsByPropertyValueCount(
+                GetUserTicket(), groupname, propertyname, t_value.Value);
+            Assert.AreEqual(count, 1);
+            WebAccountService.TransitAccount[] t_accounts = EndPoint.GetAccountsByPropertyValue(
+                GetUserTicket(), groupname, propertyname, t_value.Value, null);
+            Assert.AreEqual(t_accounts.Length, 1);
+            Assert.AreEqual(t_accounts[0].Id, GetUserAccount().Id);
+            Delete(GetUserTicket(), t_value.Id);
         }
     }
 }

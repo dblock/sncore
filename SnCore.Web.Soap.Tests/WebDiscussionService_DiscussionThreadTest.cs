@@ -48,15 +48,34 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
         }
 
         [Test]
-        protected void GetDiscussionThreadsByDiscussionIdTest()
+        public void GetDiscussionThreadsByDiscussionIdTest()
         {
-
+            DiscussionPostTest post = new DiscussionPostTest();
+            post.SetUp();
+            int post_id = post.Create(GetAdminTicket());
+            int count = EndPoint.GetDiscussionThreadsCountByDiscussionId(GetUserTicket(), post._discussion_id);
+            Console.WriteLine("Count: {0}", count);
+            Assert.AreEqual(count, 1);
+            WebDiscussionService.TransitDiscussionPost[] posts = EndPoint.GetDiscussionThreadsByDiscussionId(GetUserTicket(), post._discussion_id, null);
+            Console.WriteLine("Length: {0}", posts.Length);
+            Assert.AreEqual(count, posts.Length);
+            Assert.IsTrue(new TransitServiceCollection<WebDiscussionService.TransitDiscussionPost>(posts).ContainsId(post_id));
+            post.Delete(GetAdminTicket(), post_id);
+            post.TearDown();
         }
 
         [Test]
-        protected void GetDiscussionThreadPostTest()
+        public void GetDiscussionThreadPostTest()
         {
-
+            DiscussionPostTest post = new DiscussionPostTest();
+            post.SetUp();
+            int post_id = post.Create(GetAdminTicket());
+            WebDiscussionService.TransitDiscussionPost t_post = EndPoint.GetDiscussionPostById(GetAdminTicket(), post_id);
+            Console.WriteLine("Thread Id: {0}", t_post.DiscussionThreadId);
+            WebDiscussionService.TransitDiscussionPost t_threadpost = EndPoint.GetDiscussionThreadPost(GetAdminTicket(), t_post.DiscussionThreadId);
+            Assert.AreEqual(t_post.Id, t_threadpost.Id);
+            post.Delete(GetAdminTicket(), post_id);
+            post.TearDown();
         }
 
         [Test]
@@ -72,15 +91,37 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
         }
 
         [Test]
-        protected void MoveDiscussionThreadTest()
+        public void MoveDiscussionThreadTest()
         {
-
+            DiscussionTest discussion = new DiscussionTest();
+            int discussion_id = discussion.Create(GetAdminTicket());
+            discussion.SetUp();
+            DiscussionPostTest post = new DiscussionPostTest();
+            post.SetUp();
+            int post_id = post.Create(GetAdminTicket());
+            WebDiscussionService.TransitDiscussionPost t_post = EndPoint.GetDiscussionPostById(GetAdminTicket(), post_id);
+            Console.WriteLine("Thread Id: {0}", t_post.DiscussionThreadId);
+            EndPoint.MoveDiscussionThread(GetAdminTicket(), t_post.DiscussionThreadId, discussion_id);
+            WebDiscussionService.TransitDiscussionThread t_thread = EndPoint.GetDiscussionThreadById(GetAdminTicket(), t_post.DiscussionThreadId);
+            Assert.AreEqual(t_thread.DiscussionId, discussion_id);
+            post.Delete(GetAdminTicket(), post_id);
+            post.TearDown();
+            discussion.Delete(GetAdminTicket(), discussion_id);
+            discussion.TearDown();
         }
 
         [Test]
-        protected void GetDiscussionThreadByIdTest()
+        public void GetDiscussionThreadByIdTest()
         {
-
+            DiscussionPostTest post = new DiscussionPostTest();
+            post.SetUp();
+            int post_id = post.Create(GetAdminTicket());
+            WebDiscussionService.TransitDiscussionPost t_post = EndPoint.GetDiscussionPostById(GetAdminTicket(), post_id);
+            Console.WriteLine("Thread Id: {0}", t_post.DiscussionThreadId);
+            WebDiscussionService.TransitDiscussionThread t_thread = EndPoint.GetDiscussionThreadById(GetAdminTicket(), t_post.DiscussionThreadId);
+            Assert.AreEqual(t_post.DiscussionThreadId, t_thread.Id);
+            post.Delete(GetAdminTicket(), post_id);
+            post.TearDown();
         }
     }
 }

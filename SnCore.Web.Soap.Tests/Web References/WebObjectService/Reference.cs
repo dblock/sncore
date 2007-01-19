@@ -57,7 +57,7 @@ namespace SnCore.Web.Soap.Tests.WebObjectService {
         
         private System.Threading.SendOrPostCallback GetAttributeByIdOperationCompleted;
         
-        private System.Threading.SendOrPostCallback GetAttributeIfModifiedSinceOperationCompleted;
+        private System.Threading.SendOrPostCallback GetAttributeIfModifiedSinceByIdOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAttributesCountOperationCompleted;
         
@@ -90,6 +90,10 @@ namespace SnCore.Web.Soap.Tests.WebObjectService {
         private System.Threading.SendOrPostCallback CreateOrUpdatePictureOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetPictureByIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetPictureIfModifiedSinceByIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetRandomPictureByTypeOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetPicturesOperationCompleted;
         
@@ -154,6 +158,8 @@ namespace SnCore.Web.Soap.Tests.WebObjectService {
         private System.Threading.SendOrPostCallback CreateOrUpdateBookmarkOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetBookmarkByIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetBookmarkIfModifiedSinceByIdOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetBookmarksOperationCompleted;
         
@@ -242,7 +248,7 @@ namespace SnCore.Web.Soap.Tests.WebObjectService {
         public event GetAttributeByIdCompletedEventHandler GetAttributeByIdCompleted;
         
         /// <remarks/>
-        public event GetAttributeIfModifiedSinceCompletedEventHandler GetAttributeIfModifiedSinceCompleted;
+        public event GetAttributeIfModifiedSinceByIdCompletedEventHandler GetAttributeIfModifiedSinceByIdCompleted;
         
         /// <remarks/>
         public event GetAttributesCountCompletedEventHandler GetAttributesCountCompleted;
@@ -291,6 +297,12 @@ namespace SnCore.Web.Soap.Tests.WebObjectService {
         
         /// <remarks/>
         public event GetPictureByIdCompletedEventHandler GetPictureByIdCompleted;
+        
+        /// <remarks/>
+        public event GetPictureIfModifiedSinceByIdCompletedEventHandler GetPictureIfModifiedSinceByIdCompleted;
+        
+        /// <remarks/>
+        public event GetRandomPictureByTypeCompletedEventHandler GetRandomPictureByTypeCompleted;
         
         /// <remarks/>
         public event GetPicturesCompletedEventHandler GetPicturesCompleted;
@@ -387,6 +399,9 @@ namespace SnCore.Web.Soap.Tests.WebObjectService {
         
         /// <remarks/>
         public event GetBookmarkByIdCompletedEventHandler GetBookmarkByIdCompleted;
+        
+        /// <remarks/>
+        public event GetBookmarkIfModifiedSinceByIdCompletedEventHandler GetBookmarkIfModifiedSinceByIdCompleted;
         
         /// <remarks/>
         public event GetBookmarksCompletedEventHandler GetBookmarksCompleted;
@@ -672,9 +687,9 @@ namespace SnCore.Web.Soap.Tests.WebObjectService {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAttributeIfModifiedSince", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public TransitAttribute GetAttributeIfModifiedSince(string ticket, int id, System.DateTime ifModifiedSince) {
-            object[] results = this.Invoke("GetAttributeIfModifiedSince", new object[] {
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAttributeIfModifiedSinceById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAttribute GetAttributeIfModifiedSinceById(string ticket, int id, System.DateTime ifModifiedSince) {
+            object[] results = this.Invoke("GetAttributeIfModifiedSinceById", new object[] {
                         ticket,
                         id,
                         ifModifiedSince});
@@ -682,25 +697,25 @@ namespace SnCore.Web.Soap.Tests.WebObjectService {
         }
         
         /// <remarks/>
-        public void GetAttributeIfModifiedSinceAsync(string ticket, int id, System.DateTime ifModifiedSince) {
-            this.GetAttributeIfModifiedSinceAsync(ticket, id, ifModifiedSince, null);
+        public void GetAttributeIfModifiedSinceByIdAsync(string ticket, int id, System.DateTime ifModifiedSince) {
+            this.GetAttributeIfModifiedSinceByIdAsync(ticket, id, ifModifiedSince, null);
         }
         
         /// <remarks/>
-        public void GetAttributeIfModifiedSinceAsync(string ticket, int id, System.DateTime ifModifiedSince, object userState) {
-            if ((this.GetAttributeIfModifiedSinceOperationCompleted == null)) {
-                this.GetAttributeIfModifiedSinceOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAttributeIfModifiedSinceOperationCompleted);
+        public void GetAttributeIfModifiedSinceByIdAsync(string ticket, int id, System.DateTime ifModifiedSince, object userState) {
+            if ((this.GetAttributeIfModifiedSinceByIdOperationCompleted == null)) {
+                this.GetAttributeIfModifiedSinceByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAttributeIfModifiedSinceByIdOperationCompleted);
             }
-            this.InvokeAsync("GetAttributeIfModifiedSince", new object[] {
+            this.InvokeAsync("GetAttributeIfModifiedSinceById", new object[] {
                         ticket,
                         id,
-                        ifModifiedSince}, this.GetAttributeIfModifiedSinceOperationCompleted, userState);
+                        ifModifiedSince}, this.GetAttributeIfModifiedSinceByIdOperationCompleted, userState);
         }
         
-        private void OnGetAttributeIfModifiedSinceOperationCompleted(object arg) {
-            if ((this.GetAttributeIfModifiedSinceCompleted != null)) {
+        private void OnGetAttributeIfModifiedSinceByIdOperationCompleted(object arg) {
+            if ((this.GetAttributeIfModifiedSinceByIdCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetAttributeIfModifiedSinceCompleted(this, new GetAttributeIfModifiedSinceCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+                this.GetAttributeIfModifiedSinceByIdCompleted(this, new GetAttributeIfModifiedSinceByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1104,26 +1119,28 @@ namespace SnCore.Web.Soap.Tests.WebObjectService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountSurveysById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public TransitSurvey[] GetAccountSurveysById(string ticket, int id) {
+        public TransitSurvey[] GetAccountSurveysById(string ticket, int id, ServiceQueryOptions options) {
             object[] results = this.Invoke("GetAccountSurveysById", new object[] {
                         ticket,
-                        id});
+                        id,
+                        options});
             return ((TransitSurvey[])(results[0]));
         }
         
         /// <remarks/>
-        public void GetAccountSurveysByIdAsync(string ticket, int id) {
-            this.GetAccountSurveysByIdAsync(ticket, id, null);
+        public void GetAccountSurveysByIdAsync(string ticket, int id, ServiceQueryOptions options) {
+            this.GetAccountSurveysByIdAsync(ticket, id, options, null);
         }
         
         /// <remarks/>
-        public void GetAccountSurveysByIdAsync(string ticket, int id, object userState) {
+        public void GetAccountSurveysByIdAsync(string ticket, int id, ServiceQueryOptions options, object userState) {
             if ((this.GetAccountSurveysByIdOperationCompleted == null)) {
                 this.GetAccountSurveysByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountSurveysByIdOperationCompleted);
             }
             this.InvokeAsync("GetAccountSurveysById", new object[] {
                         ticket,
-                        id}, this.GetAccountSurveysByIdOperationCompleted, userState);
+                        id,
+                        options}, this.GetAccountSurveysByIdOperationCompleted, userState);
         }
         
         private void OnGetAccountSurveysByIdOperationCompleted(object arg) {
@@ -1192,6 +1209,70 @@ namespace SnCore.Web.Soap.Tests.WebObjectService {
             if ((this.GetPictureByIdCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetPictureByIdCompleted(this, new GetPictureByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetPictureIfModifiedSinceById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitPicture GetPictureIfModifiedSinceById(string ticket, int id, System.DateTime ifModifiedSince) {
+            object[] results = this.Invoke("GetPictureIfModifiedSinceById", new object[] {
+                        ticket,
+                        id,
+                        ifModifiedSince});
+            return ((TransitPicture)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetPictureIfModifiedSinceByIdAsync(string ticket, int id, System.DateTime ifModifiedSince) {
+            this.GetPictureIfModifiedSinceByIdAsync(ticket, id, ifModifiedSince, null);
+        }
+        
+        /// <remarks/>
+        public void GetPictureIfModifiedSinceByIdAsync(string ticket, int id, System.DateTime ifModifiedSince, object userState) {
+            if ((this.GetPictureIfModifiedSinceByIdOperationCompleted == null)) {
+                this.GetPictureIfModifiedSinceByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetPictureIfModifiedSinceByIdOperationCompleted);
+            }
+            this.InvokeAsync("GetPictureIfModifiedSinceById", new object[] {
+                        ticket,
+                        id,
+                        ifModifiedSince}, this.GetPictureIfModifiedSinceByIdOperationCompleted, userState);
+        }
+        
+        private void OnGetPictureIfModifiedSinceByIdOperationCompleted(object arg) {
+            if ((this.GetPictureIfModifiedSinceByIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetPictureIfModifiedSinceByIdCompleted(this, new GetPictureIfModifiedSinceByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetRandomPictureByType", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitPicture GetRandomPictureByType(string ticket, string type) {
+            object[] results = this.Invoke("GetRandomPictureByType", new object[] {
+                        ticket,
+                        type});
+            return ((TransitPicture)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetRandomPictureByTypeAsync(string ticket, string type) {
+            this.GetRandomPictureByTypeAsync(ticket, type, null);
+        }
+        
+        /// <remarks/>
+        public void GetRandomPictureByTypeAsync(string ticket, string type, object userState) {
+            if ((this.GetRandomPictureByTypeOperationCompleted == null)) {
+                this.GetRandomPictureByTypeOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetRandomPictureByTypeOperationCompleted);
+            }
+            this.InvokeAsync("GetRandomPictureByType", new object[] {
+                        ticket,
+                        type}, this.GetRandomPictureByTypeOperationCompleted, userState);
+        }
+        
+        private void OnGetRandomPictureByTypeOperationCompleted(object arg) {
+            if ((this.GetRandomPictureByTypeCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetRandomPictureByTypeCompleted(this, new GetRandomPictureByTypeCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -2174,6 +2255,39 @@ namespace SnCore.Web.Soap.Tests.WebObjectService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetBookmarkIfModifiedSinceById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitBookmark GetBookmarkIfModifiedSinceById(string ticket, int id, System.DateTime ifModifiedSince) {
+            object[] results = this.Invoke("GetBookmarkIfModifiedSinceById", new object[] {
+                        ticket,
+                        id,
+                        ifModifiedSince});
+            return ((TransitBookmark)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetBookmarkIfModifiedSinceByIdAsync(string ticket, int id, System.DateTime ifModifiedSince) {
+            this.GetBookmarkIfModifiedSinceByIdAsync(ticket, id, ifModifiedSince, null);
+        }
+        
+        /// <remarks/>
+        public void GetBookmarkIfModifiedSinceByIdAsync(string ticket, int id, System.DateTime ifModifiedSince, object userState) {
+            if ((this.GetBookmarkIfModifiedSinceByIdOperationCompleted == null)) {
+                this.GetBookmarkIfModifiedSinceByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetBookmarkIfModifiedSinceByIdOperationCompleted);
+            }
+            this.InvokeAsync("GetBookmarkIfModifiedSinceById", new object[] {
+                        ticket,
+                        id,
+                        ifModifiedSince}, this.GetBookmarkIfModifiedSinceByIdOperationCompleted, userState);
+        }
+        
+        private void OnGetBookmarkIfModifiedSinceByIdOperationCompleted(object arg) {
+            if ((this.GetBookmarkIfModifiedSinceByIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetBookmarkIfModifiedSinceByIdCompleted(this, new GetBookmarkIfModifiedSinceByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetBookmarks", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public TransitBookmark[] GetBookmarks(string ticket, ServiceQueryOptions options) {
             object[] results = this.Invoke("GetBookmarks", new object[] {
@@ -2265,25 +2379,27 @@ namespace SnCore.Web.Soap.Tests.WebObjectService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetBookmarksWithOptions", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public TransitBookmark[] GetBookmarksWithOptions(string ticket, BookmarkQueryOptions options) {
+        public TransitBookmark[] GetBookmarksWithOptions(string ticket, BookmarkQueryOptions qopt, ServiceQueryOptions options) {
             object[] results = this.Invoke("GetBookmarksWithOptions", new object[] {
                         ticket,
+                        qopt,
                         options});
             return ((TransitBookmark[])(results[0]));
         }
         
         /// <remarks/>
-        public void GetBookmarksWithOptionsAsync(string ticket, BookmarkQueryOptions options) {
-            this.GetBookmarksWithOptionsAsync(ticket, options, null);
+        public void GetBookmarksWithOptionsAsync(string ticket, BookmarkQueryOptions qopt, ServiceQueryOptions options) {
+            this.GetBookmarksWithOptionsAsync(ticket, qopt, options, null);
         }
         
         /// <remarks/>
-        public void GetBookmarksWithOptionsAsync(string ticket, BookmarkQueryOptions options, object userState) {
+        public void GetBookmarksWithOptionsAsync(string ticket, BookmarkQueryOptions qopt, ServiceQueryOptions options, object userState) {
             if ((this.GetBookmarksWithOptionsOperationCompleted == null)) {
                 this.GetBookmarksWithOptionsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetBookmarksWithOptionsOperationCompleted);
             }
             this.InvokeAsync("GetBookmarksWithOptions", new object[] {
                         ticket,
+                        qopt,
                         options}, this.GetBookmarksWithOptionsOperationCompleted, userState);
         }
         
@@ -3758,6 +3874,8 @@ namespace SnCore.Web.Soap.Tests.WebObjectService {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
     public partial class TransitAttribute : TransitServiceOfAttribute {
         
+        private byte[] bitmapField;
+        
         private string nameField;
         
         private string descriptionField;
@@ -3769,6 +3887,17 @@ namespace SnCore.Web.Soap.Tests.WebObjectService {
         private System.DateTime createdField;
         
         private System.DateTime modifiedField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
+        public byte[] Bitmap {
+            get {
+                return this.bitmapField;
+            }
+            set {
+                this.bitmapField = value;
+            }
+        }
         
         /// <remarks/>
         public string Name {
@@ -4052,17 +4181,17 @@ namespace SnCore.Web.Soap.Tests.WebObjectService {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    public delegate void GetAttributeIfModifiedSinceCompletedEventHandler(object sender, GetAttributeIfModifiedSinceCompletedEventArgs e);
+    public delegate void GetAttributeIfModifiedSinceByIdCompletedEventHandler(object sender, GetAttributeIfModifiedSinceByIdCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetAttributeIfModifiedSinceCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    public partial class GetAttributeIfModifiedSinceByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
         
-        internal GetAttributeIfModifiedSinceCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+        internal GetAttributeIfModifiedSinceByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
@@ -4413,6 +4542,58 @@ namespace SnCore.Web.Soap.Tests.WebObjectService {
         private object[] results;
         
         internal GetPictureByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitPicture Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitPicture)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetPictureIfModifiedSinceByIdCompletedEventHandler(object sender, GetPictureIfModifiedSinceByIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetPictureIfModifiedSinceByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetPictureIfModifiedSinceByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitPicture Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitPicture)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetRandomPictureByTypeCompletedEventHandler(object sender, GetRandomPictureByTypeCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetRandomPictureByTypeCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetRandomPictureByTypeCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
@@ -5113,6 +5294,32 @@ namespace SnCore.Web.Soap.Tests.WebObjectService {
         private object[] results;
         
         internal GetBookmarkByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitBookmark Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitBookmark)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetBookmarkIfModifiedSinceByIdCompletedEventHandler(object sender, GetBookmarkIfModifiedSinceByIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetBookmarkIfModifiedSinceByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetBookmarkIfModifiedSinceByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

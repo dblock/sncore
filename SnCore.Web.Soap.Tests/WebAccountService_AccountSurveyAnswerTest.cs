@@ -57,9 +57,18 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         }
 
         [Test]
-        protected void GetAccountSurveyAnswersCountByQuestionIdTest()
+        public void GetAccountSurveyAnswersByQuestionIdTest()
         {
-
+            WebAccountService.TransitAccountSurveyAnswer t_instance = GetTransitInstance();
+            t_instance.AccountId = GetAdminAccount().Id;
+            t_instance.Id = Create(GetAdminTicket(), t_instance);
+            int count = EndPoint.GetAccountSurveyAnswersCountByQuestionId(GetAdminTicket(), _question_id);
+            Assert.AreEqual(count, 1);
+            Console.WriteLine("Count: {0}", count);
+            WebAccountService.TransitAccountSurveyAnswer[] answers = EndPoint.GetAccountSurveyAnswersByQuestionId(GetAdminTicket(), _question_id, null);
+            Console.WriteLine("Length: {0}", answers.Length);
+            Assert.AreEqual(count, answers.Length);
+            Delete(GetAdminTicket(), t_instance.Id);
         }
     }
 }

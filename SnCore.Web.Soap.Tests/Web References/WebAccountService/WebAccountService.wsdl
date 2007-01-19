@@ -612,6 +612,17 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="ConfirmAccountEmail">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConfirmAccountEmailResponse">
+        <s:complexType />
+      </s:element>
       <s:element name="HasVerifiedEmail">
         <s:complexType>
           <s:sequence>
@@ -848,6 +859,7 @@
       <s:element name="SearchAccountsCount">
         <s:complexType>
           <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="s" type="s:string" />
           </s:sequence>
         </s:complexType>
@@ -1109,6 +1121,7 @@
               <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
               <s:element minOccurs="1" maxOccurs="1" name="AccountPropertyId" type="s:int" />
               <s:element minOccurs="0" maxOccurs="1" name="AccountPropertyName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountPropertyTypeName" type="s:string" />
               <s:element minOccurs="1" maxOccurs="1" name="AccountPropertyGroupId" type="s:int" />
               <s:element minOccurs="0" maxOccurs="1" name="AccountPropertyGroupName" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="Value" type="s:string" />
@@ -1249,6 +1262,7 @@
         <s:complexContent mixed="false">
           <s:extension base="tns:TransitServiceOfAttribute">
             <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Bitmap" type="s:base64Binary" />
               <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="DefaultUrl" type="s:string" />
@@ -2495,6 +2509,12 @@
   <wsdl:message name="VerifyAccountEmailSoapOut">
     <wsdl:part name="parameters" element="tns:VerifyAccountEmailResponse" />
   </wsdl:message>
+  <wsdl:message name="ConfirmAccountEmailSoapIn">
+    <wsdl:part name="parameters" element="tns:ConfirmAccountEmail" />
+  </wsdl:message>
+  <wsdl:message name="ConfirmAccountEmailSoapOut">
+    <wsdl:part name="parameters" element="tns:ConfirmAccountEmailResponse" />
+  </wsdl:message>
   <wsdl:message name="HasVerifiedEmailSoapIn">
     <wsdl:part name="parameters" element="tns:HasVerifiedEmail" />
   </wsdl:message>
@@ -3190,6 +3210,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Verify an e-mail.</wsdl:documentation>
       <wsdl:input message="tns:VerifyAccountEmailSoapIn" />
       <wsdl:output message="tns:VerifyAccountEmailSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConfirmAccountEmail">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Re-send a confirmation for an e-mail address.</wsdl:documentation>
+      <wsdl:input message="tns:ConfirmAccountEmailSoapIn" />
+      <wsdl:output message="tns:ConfirmAccountEmailSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="HasVerifiedEmail">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Check whether the user has a verified e-mail address.</wsdl:documentation>
@@ -3945,6 +3970,15 @@
     </wsdl:operation>
     <wsdl:operation name="VerifyAccountEmail">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/VerifyAccountEmail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConfirmAccountEmail">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/ConfirmAccountEmail" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -5046,6 +5080,15 @@
     </wsdl:operation>
     <wsdl:operation name="VerifyAccountEmail">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/VerifyAccountEmail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConfirmAccountEmail">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/ConfirmAccountEmail" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

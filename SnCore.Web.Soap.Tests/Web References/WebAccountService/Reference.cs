@@ -122,6 +122,8 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         private System.Threading.SendOrPostCallback VerifyAccountEmailOperationCompleted;
         
+        private System.Threading.SendOrPostCallback ConfirmAccountEmailOperationCompleted;
+        
         private System.Threading.SendOrPostCallback HasVerifiedEmailOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetActiveEmailAddressOperationCompleted;
@@ -440,6 +442,9 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         /// <remarks/>
         public event VerifyAccountEmailCompletedEventHandler VerifyAccountEmailCompleted;
+        
+        /// <remarks/>
+        public event ConfirmAccountEmailCompletedEventHandler ConfirmAccountEmailCompleted;
         
         /// <remarks/>
         public event HasVerifiedEmailCompletedEventHandler HasVerifiedEmailCompleted;
@@ -1853,6 +1858,36 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/ConfirmAccountEmail", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void ConfirmAccountEmail(string ticket, int id) {
+            this.Invoke("ConfirmAccountEmail", new object[] {
+                        ticket,
+                        id});
+        }
+        
+        /// <remarks/>
+        public void ConfirmAccountEmailAsync(string ticket, int id) {
+            this.ConfirmAccountEmailAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void ConfirmAccountEmailAsync(string ticket, int id, object userState) {
+            if ((this.ConfirmAccountEmailOperationCompleted == null)) {
+                this.ConfirmAccountEmailOperationCompleted = new System.Threading.SendOrPostCallback(this.OnConfirmAccountEmailOperationCompleted);
+            }
+            this.InvokeAsync("ConfirmAccountEmail", new object[] {
+                        ticket,
+                        id}, this.ConfirmAccountEmailOperationCompleted, userState);
+        }
+        
+        private void OnConfirmAccountEmailOperationCompleted(object arg) {
+            if ((this.ConfirmAccountEmailCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ConfirmAccountEmailCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/HasVerifiedEmail", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool HasVerifiedEmail(string ticket, int id) {
             object[] results = this.Invoke("HasVerifiedEmail", new object[] {
@@ -2230,23 +2265,25 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/SearchAccountsCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int SearchAccountsCount(string s) {
+        public int SearchAccountsCount(string ticket, string s) {
             object[] results = this.Invoke("SearchAccountsCount", new object[] {
+                        ticket,
                         s});
             return ((int)(results[0]));
         }
         
         /// <remarks/>
-        public void SearchAccountsCountAsync(string s) {
-            this.SearchAccountsCountAsync(s, null);
+        public void SearchAccountsCountAsync(string ticket, string s) {
+            this.SearchAccountsCountAsync(ticket, s, null);
         }
         
         /// <remarks/>
-        public void SearchAccountsCountAsync(string s, object userState) {
+        public void SearchAccountsCountAsync(string ticket, string s, object userState) {
             if ((this.SearchAccountsCountOperationCompleted == null)) {
                 this.SearchAccountsCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSearchAccountsCountOperationCompleted);
             }
             this.InvokeAsync("SearchAccountsCount", new object[] {
+                        ticket,
                         s}, this.SearchAccountsCountOperationCompleted, userState);
         }
         
@@ -6023,6 +6060,8 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
     public partial class TransitAttribute : TransitServiceOfAttribute {
         
+        private byte[] bitmapField;
+        
         private string nameField;
         
         private string descriptionField;
@@ -6034,6 +6073,17 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         private System.DateTime createdField;
         
         private System.DateTime modifiedField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
+        public byte[] Bitmap {
+            get {
+                return this.bitmapField;
+            }
+            set {
+                this.bitmapField = value;
+            }
+        }
         
         /// <remarks/>
         public string Name {
@@ -6235,6 +6285,8 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         private string accountPropertyNameField;
         
+        private string accountPropertyTypeNameField;
+        
         private int accountPropertyGroupIdField;
         
         private string accountPropertyGroupNameField;
@@ -6272,6 +6324,16 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
             }
             set {
                 this.accountPropertyNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string AccountPropertyTypeName {
+            get {
+                return this.accountPropertyTypeNameField;
+            }
+            set {
+                this.accountPropertyTypeNameField = value;
             }
         }
         
@@ -7666,6 +7728,10 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
             }
         }
     }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void ConfirmAccountEmailCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]

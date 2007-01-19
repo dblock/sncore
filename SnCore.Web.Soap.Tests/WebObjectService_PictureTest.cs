@@ -46,9 +46,13 @@ namespace SnCore.Web.Soap.Tests.WebObjectServiceTests
         }
 
         [Test]
-        protected void GetPictureIfModifiedSinceTest()
+        public void GetPictureIfModifiedSinceTest()
         {
-
+            WebObjectService.TransitPicture t_picture = GetTransitInstance();
+            t_picture.Id = Create(GetAdminTicket(), t_picture);
+            Assert.IsNotNull(EndPoint.GetPictureIfModifiedSinceById(GetAdminTicket(), t_picture.Id, DateTime.UtcNow.AddHours(-1)));
+            Assert.IsNull(EndPoint.GetPictureIfModifiedSinceById(GetAdminTicket(), t_picture.Id, DateTime.UtcNow));
+            Delete(GetAdminTicket(), t_picture.Id);
         }
 
         [Test]

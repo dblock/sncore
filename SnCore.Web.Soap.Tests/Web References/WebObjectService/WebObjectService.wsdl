@@ -158,6 +158,7 @@
         <s:complexContent mixed="false">
           <s:extension base="tns:TransitServiceOfAttribute">
             <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Bitmap" type="s:base64Binary" />
               <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="DefaultUrl" type="s:string" />
@@ -195,7 +196,7 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetAttributeIfModifiedSince">
+      <s:element name="GetAttributeIfModifiedSinceById">
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
@@ -204,10 +205,10 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetAttributeIfModifiedSinceResponse">
+      <s:element name="GetAttributeIfModifiedSinceByIdResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetAttributeIfModifiedSinceResult" type="tns:TransitAttribute" />
+            <s:element minOccurs="0" maxOccurs="1" name="GetAttributeIfModifiedSinceByIdResult" type="tns:TransitAttribute" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -443,6 +444,7 @@
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
             <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -500,6 +502,37 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="GetPictureByIdResult" type="tns:TransitPicture" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPictureIfModifiedSinceById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="ifModifiedSince" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPictureIfModifiedSinceByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPictureIfModifiedSinceByIdResult" type="tns:TransitPicture" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRandomPictureByType">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="type" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRandomPictureByTypeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetRandomPictureByTypeResult" type="tns:TransitPicture" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -1095,6 +1128,22 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetBookmarkIfModifiedSinceById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="ifModifiedSince" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBookmarkIfModifiedSinceByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetBookmarkIfModifiedSinceByIdResult" type="tns:TransitBookmark" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetBookmarks">
         <s:complexType>
           <s:sequence>
@@ -1144,7 +1193,8 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:BookmarkQueryOptions" />
+            <s:element minOccurs="0" maxOccurs="1" name="qopt" type="tns:BookmarkQueryOptions" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -1346,11 +1396,11 @@
   <wsdl:message name="GetAttributeByIdSoapOut">
     <wsdl:part name="parameters" element="tns:GetAttributeByIdResponse" />
   </wsdl:message>
-  <wsdl:message name="GetAttributeIfModifiedSinceSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAttributeIfModifiedSince" />
+  <wsdl:message name="GetAttributeIfModifiedSinceByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAttributeIfModifiedSinceById" />
   </wsdl:message>
-  <wsdl:message name="GetAttributeIfModifiedSinceSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAttributeIfModifiedSinceResponse" />
+  <wsdl:message name="GetAttributeIfModifiedSinceByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAttributeIfModifiedSinceByIdResponse" />
   </wsdl:message>
   <wsdl:message name="GetAttributesCountSoapIn">
     <wsdl:part name="parameters" element="tns:GetAttributesCount" />
@@ -1447,6 +1497,18 @@
   </wsdl:message>
   <wsdl:message name="GetPictureByIdSoapOut">
     <wsdl:part name="parameters" element="tns:GetPictureByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPictureIfModifiedSinceByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPictureIfModifiedSinceById" />
+  </wsdl:message>
+  <wsdl:message name="GetPictureIfModifiedSinceByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPictureIfModifiedSinceByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRandomPictureByTypeSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRandomPictureByType" />
+  </wsdl:message>
+  <wsdl:message name="GetRandomPictureByTypeSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRandomPictureByTypeResponse" />
   </wsdl:message>
   <wsdl:message name="GetPicturesSoapIn">
     <wsdl:part name="parameters" element="tns:GetPictures" />
@@ -1640,6 +1702,12 @@
   <wsdl:message name="GetBookmarkByIdSoapOut">
     <wsdl:part name="parameters" element="tns:GetBookmarkByIdResponse" />
   </wsdl:message>
+  <wsdl:message name="GetBookmarkIfModifiedSinceByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBookmarkIfModifiedSinceById" />
+  </wsdl:message>
+  <wsdl:message name="GetBookmarkIfModifiedSinceByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBookmarkIfModifiedSinceByIdResponse" />
+  </wsdl:message>
   <wsdl:message name="GetBookmarksSoapIn">
     <wsdl:part name="parameters" element="tns:GetBookmarks" />
   </wsdl:message>
@@ -1753,10 +1821,10 @@
       <wsdl:input message="tns:GetAttributeByIdSoapIn" />
       <wsdl:output message="tns:GetAttributeByIdSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetAttributeIfModifiedSince">
+    <wsdl:operation name="GetAttributeIfModifiedSinceById">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get attribute data if modified since.</wsdl:documentation>
-      <wsdl:input message="tns:GetAttributeIfModifiedSinceSoapIn" />
-      <wsdl:output message="tns:GetAttributeIfModifiedSinceSoapOut" />
+      <wsdl:input message="tns:GetAttributeIfModifiedSinceByIdSoapIn" />
+      <wsdl:output message="tns:GetAttributeIfModifiedSinceByIdSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetAttributesCount">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all attributes count.</wsdl:documentation>
@@ -1837,6 +1905,16 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a picture.</wsdl:documentation>
       <wsdl:input message="tns:GetPictureByIdSoapIn" />
       <wsdl:output message="tns:GetPictureByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPictureIfModifiedSinceById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get picture data if modified since.</wsdl:documentation>
+      <wsdl:input message="tns:GetPictureIfModifiedSinceByIdSoapIn" />
+      <wsdl:output message="tns:GetPictureIfModifiedSinceByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRandomPictureByType">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get random picture by type.</wsdl:documentation>
+      <wsdl:input message="tns:GetRandomPictureByTypeSoapIn" />
+      <wsdl:output message="tns:GetRandomPictureByTypeSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetPictures">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all pictures.</wsdl:documentation>
@@ -1998,6 +2076,11 @@
       <wsdl:input message="tns:GetBookmarkByIdSoapIn" />
       <wsdl:output message="tns:GetBookmarkByIdSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="GetBookmarkIfModifiedSinceById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a bookmark if modified since.</wsdl:documentation>
+      <wsdl:input message="tns:GetBookmarkIfModifiedSinceByIdSoapIn" />
+      <wsdl:output message="tns:GetBookmarkIfModifiedSinceByIdSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetBookmarks">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all  bookmarks.</wsdl:documentation>
       <wsdl:input message="tns:GetBookmarksSoapIn" />
@@ -2133,8 +2216,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetAttributeIfModifiedSince">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAttributeIfModifiedSince" style="document" />
+    <wsdl:operation name="GetAttributeIfModifiedSinceById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAttributeIfModifiedSinceById" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -2279,6 +2362,24 @@
     </wsdl:operation>
     <wsdl:operation name="GetPictureById">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetPictureById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPictureIfModifiedSinceById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetPictureIfModifiedSinceById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRandomPictureByType">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetRandomPictureByType" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -2574,6 +2675,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetBookmarkIfModifiedSinceById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetBookmarkIfModifiedSinceById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetBookmarks">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetBookmarks" style="document" />
       <wsdl:input>
@@ -2757,8 +2867,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetAttributeIfModifiedSince">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAttributeIfModifiedSince" style="document" />
+    <wsdl:operation name="GetAttributeIfModifiedSinceById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAttributeIfModifiedSinceById" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -2903,6 +3013,24 @@
     </wsdl:operation>
     <wsdl:operation name="GetPictureById">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetPictureById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPictureIfModifiedSinceById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetPictureIfModifiedSinceById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRandomPictureByType">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetRandomPictureByType" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -3191,6 +3319,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetBookmarkById">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetBookmarkById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBookmarkIfModifiedSinceById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetBookmarkIfModifiedSinceById" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

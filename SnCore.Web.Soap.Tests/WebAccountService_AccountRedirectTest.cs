@@ -36,15 +36,27 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         }
 
         [Test]
-        protected void GetAccountRedirectByTargetUriTest()
+        public void GetAccountRedirectByTargetUriTest()
         {
-
+            WebAccountService.TransitAccountRedirect t_instance = GetTransitInstance();
+            t_instance.AccountId = GetAdminAccount().Id;
+            t_instance.Id = Create(GetAdminTicket(), t_instance);
+            WebAccountService.TransitAccountRedirect t_redirect = EndPoint.GetAccountRedirectByTargetUri(
+                GetAdminTicket(), GetAdminAccount().Id, t_instance.TargetUri);
+            Assert.AreEqual(t_redirect.Id, t_redirect.Id);
+            Delete(GetAdminTicket(), t_instance.Id);
         }
 
         [Test]
-        protected void GetAccountRedirectBySourceUriTest()
+        public void GetAccountRedirectBySourceUriTest()
         {
-
+            WebAccountService.TransitAccountRedirect t_instance = GetTransitInstance();
+            t_instance.AccountId = GetAdminAccount().Id;
+            t_instance.Id = Create(GetAdminTicket(), t_instance);
+            WebAccountService.TransitAccountRedirect t_redirect = EndPoint.GetAccountRedirectBySourceUri(
+                GetAdminTicket(), GetAdminAccount().Id, t_instance.SourceUri);
+            Assert.AreEqual(t_redirect.Id, t_redirect.Id);
+            Delete(GetAdminTicket(), t_instance.Id);
         }
     }
 }

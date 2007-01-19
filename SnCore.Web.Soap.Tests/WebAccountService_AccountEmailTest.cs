@@ -67,14 +67,35 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         }
 
         [Test]
-        protected void HasVerifiedEmailTest()
+        public void HasVerifiedEmailTest()
         {
-
+            string email = string.Format("{0}@localhost.com", Guid.NewGuid());
+            string password = Guid.NewGuid().ToString();
+            int user_id = CreateUser(email, password);
+            Assert.IsTrue(user_id > 0);
+            string ticket = Login(email, password);
+            Assert.IsNotEmpty(ticket);
+            Assert.IsFalse(EndPoint.HasVerifiedEmail(ticket, user_id));
+            WebAccountService.TransitAccountEmailConfirmation[] confirmations = EndPoint.GetAccountEmailConfirmations(GetAdminTicket(), user_id, null);
+            string verifiedemail = EndPoint.VerifyAccountEmail(password, confirmations[0].Id, confirmations[0].Code);
+            Console.WriteLine("Verified: {0}", verifiedemail);
+            Assert.AreEqual(verifiedemail, email);
+            Assert.IsTrue(EndPoint.HasVerifiedEmail(ticket, user_id));
+            DeleteUser(user_id);
         }
 
         [Test]
-        protected void GetActiveEmailAddressTest()
+        public void GetActiveEmailAddressTest()
         {
+            string email = string.Format("{0}@localhost.com", Guid.NewGuid());
+            string password = Guid.NewGuid().ToString();
+            int user_id = CreateUser(email, password);
+            Assert.IsTrue(user_id > 0);
+            string ticket = Login(email, password);
+            Assert.IsNotEmpty(ticket);
+            string activeemail = EndPoint.GetActiveEmailAddress(GetAdminTicket(), user_id);
+            Assert.AreEqual(email, activeemail);
+            DeleteUser(user_id);
         }
     }
 }

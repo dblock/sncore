@@ -60,20 +60,89 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         }
 
         [Test]
-        protected void MoveAccountMessageToFolderTest()
+        public void MoveAccountMessageToFolderByIdTest()
         {
-
+            int folder1_id = _folder.Create(GetAdminTicket());
+            int folder1_count0 = EndPoint.GetAccountMessagesCount(GetAdminTicket(), folder1_id);
+            int folder2_id = _folder.Create(GetAdminTicket());
+            Console.WriteLine("Folder: {0} [{1}]", folder1_id, folder1_count0);
+            Console.WriteLine("Folder: {0}", folder2_id);
+            WebAccountService.TransitAccountMessage t_message = GetTransitInstance();
+            t_message.AccountMessageFolderId = folder1_id;
+            t_message.Id = EndPoint.CreateOrUpdateAccountMessage(GetAdminTicket(), t_message);
+            Console.WriteLine("Message: {0}", t_message.Id);
+            // get number of messages in folder1 and folder2
+            int folder1_count1 = EndPoint.GetAccountMessagesCount(GetAdminTicket(), folder1_id);
+            Console.WriteLine("Folder count: {0}", folder1_count1);
+            Assert.IsTrue(folder1_count1 > 0);
+            Assert.AreEqual(folder1_count1, folder1_count0 + 1);
+            int folder2_count1 = EndPoint.GetAccountMessagesCount(GetAdminTicket(), folder2_id);
+            Console.WriteLine("Folder count: {0}", folder2_count1);
+            // move message
+            EndPoint.MoveAccountMessageToFolderById(GetAdminTicket(), t_message.Id, folder2_id);
+            int folder1_count2 = EndPoint.GetAccountMessagesCount(GetAdminTicket(), folder1_id);
+            Console.WriteLine("Folder count: {0}", folder1_count2);
+            Assert.AreEqual(folder1_count0, folder1_count2);
+            int folder2_count2 = EndPoint.GetAccountMessagesCount(GetAdminTicket(), folder2_id);
+            Console.WriteLine("Folder count: {0}", folder2_count2);
+            Assert.AreEqual(folder2_count1 + 1, folder2_count2);
+            _folder.Delete(GetAdminTicket(), folder1_id);
+            _folder.Delete(GetAdminTicket(), folder2_id);
         }
 
         [Test]
-        protected void MoveAccountMessageToFolderByIdTest()
+        public void MoveAccountMessageToFolderTest()
         {
-
+            int inbox_id = EndPoint.GetAccountMessageSystemFolder(GetAdminTicket(), GetAdminAccount().Id, "inbox").Id;
+            int trash_id = EndPoint.GetAccountMessageSystemFolder(GetAdminTicket(), GetAdminAccount().Id, "trash").Id;
+            int folder1_id = inbox_id;
+            int folder1_count0 = EndPoint.GetAccountMessagesCount(GetAdminTicket(), folder1_id);
+            int folder2_id = trash_id;
+            Console.WriteLine("Folder: {0} [{1}]", folder1_id, folder1_count0);
+            Console.WriteLine("Folder: {0}", folder2_id);
+            WebAccountService.TransitAccountMessage t_message = GetTransitInstance();
+            t_message.AccountMessageFolderId = folder1_id;
+            t_message.AccountId = GetAdminAccount().Id;
+            t_message.Id = EndPoint.CreateOrUpdateAccountMessage(GetAdminTicket(), t_message);
+            Console.WriteLine("Message: {0}", t_message.Id);
+            // get number of messages in folder1 and folder2
+            int folder1_count1 = EndPoint.GetAccountMessagesCount(GetAdminTicket(), folder1_id);
+            Console.WriteLine("Folder count: {0}", folder1_count1);
+            Assert.IsTrue(folder1_count1 > 0);
+            Assert.AreEqual(folder1_count1, folder1_count0 + 1);
+            int folder2_count1 = EndPoint.GetAccountMessagesCount(GetAdminTicket(), folder2_id);
+            Console.WriteLine("Folder count: {0}", folder2_count1);
+            // move message
+            EndPoint.MoveAccountMessageToFolderById(GetAdminTicket(), t_message.Id, folder2_id);
+            int folder1_count2 = EndPoint.GetAccountMessagesCount(GetAdminTicket(), folder1_id);
+            Console.WriteLine("Folder count: {0}", folder1_count2);
+            Assert.AreEqual(folder1_count0, folder1_count2);
+            int folder2_count2 = EndPoint.GetAccountMessagesCount(GetAdminTicket(), folder2_id);
+            Console.WriteLine("Folder count: {0}", folder2_count2);
+            Assert.AreEqual(folder2_count1 + 1, folder2_count2);
         }
 
         [Test]
-        protected void DeleteAccountMessagesByFolderTest()
+        public void DeleteAccountMessagesByFolderTest()
         {
+            int folder_id = _folder.Create(GetAdminTicket());
+            int folder_count0 = EndPoint.GetAccountMessagesCount(GetAdminTicket(), folder_id);
+            Console.WriteLine("Folder: {0} [{1}]", folder_id, folder_count0);
+            WebAccountService.TransitAccountMessage t_message = GetTransitInstance();
+            t_message.AccountMessageFolderId = folder_id;
+            t_message.Id = EndPoint.CreateOrUpdateAccountMessage(GetAdminTicket(), t_message);
+            Console.WriteLine("Message: {0}", t_message.Id);
+            // get number of messages in folder
+            int folder_count1 = EndPoint.GetAccountMessagesCount(GetAdminTicket(), folder_id);
+            Console.WriteLine("Folder count: {0}", folder_count1);
+            Assert.IsTrue(folder_count1 > 0);
+            Assert.AreEqual(folder_count1, folder_count0 + 1);
+            // delete messages
+            EndPoint.DeleteAccountMessagesByFolder(GetAdminTicket(), folder_id);
+            int folder_count2 = EndPoint.GetAccountMessagesCount(GetAdminTicket(), folder_id);
+            Console.WriteLine("Folder count: {0}", folder_count2);
+            Assert.AreEqual(0, folder_count2);
+            _folder.Delete(GetAdminTicket(), folder_id);
 
         }
     }

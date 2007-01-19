@@ -30,13 +30,16 @@ namespace SnCore.Web.Soap.Tests.WebObjectServiceTests
         [Test]
         protected void GetBookmarksWithOptionsTest()
         {
-
         }
 
         [Test]
-        protected void GetBookmarksIfModifiedSinceByIdTest()
+        public void GetBookmarksIfModifiedSinceByIdTest()
         {
-
+            WebObjectService.TransitBookmark t_bookmark = GetTransitInstance();
+            t_bookmark.Id = Create(GetAdminTicket(), t_bookmark);
+            Assert.IsNotNull(EndPoint.GetBookmarkIfModifiedSinceById(GetAdminTicket(), t_bookmark.Id, DateTime.UtcNow.AddHours(-1)));
+            Assert.IsNull(EndPoint.GetBookmarkIfModifiedSinceById(GetAdminTicket(), t_bookmark.Id, DateTime.UtcNow));
+            Delete(GetAdminTicket(), t_bookmark.Id);
         }
 
     }

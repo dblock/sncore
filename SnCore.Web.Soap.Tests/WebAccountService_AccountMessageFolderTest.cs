@@ -37,15 +37,30 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         }
 
         [Test]
-        protected void GetAccountMessageSystemFolderTest()
+        public void GetAccountMessageSystemFolderTest()
         {
-
+            WebAccountService.TransitAccountMessageFolder inbox = EndPoint.GetAccountMessageSystemFolder(GetAdminTicket(), GetAdminAccount().Id, "inbox");
+            WebAccountService.TransitAccountMessageFolder sent = EndPoint.GetAccountMessageSystemFolder(GetAdminTicket(), GetAdminAccount().Id, "sent");
+            WebAccountService.TransitAccountMessageFolder trash = EndPoint.GetAccountMessageSystemFolder(GetAdminTicket(), GetAdminAccount().Id, "trash");
+            Assert.AreNotEqual(inbox.Id, 0);
+            Assert.AreEqual(inbox.AccountMessageFolderParentId, 0);
+            Assert.AreNotEqual(sent.Id, 0);
+            Assert.AreEqual(sent.AccountMessageFolderParentId, 0);
+            Assert.AreNotEqual(trash.Id, 0);
+            Assert.AreEqual(trash.AccountMessageFolderParentId, 0);
         }
 
         [Test]
-        protected void CreateAccountSystemMessageFoldersTest()
+        public void CreateAccountSystemMessageFoldersTest()
         {
-
+            // admin user's folders are already created
+            WebAccountService.TransitAccountMessageFolder[] folders = EndPoint.GetAccountMessageFolders(
+                GetAdminTicket(), GetAdminAccount().Id, null);
+            Console.WriteLine("Folders: {0}", folders.Length);
+            EndPoint.CreateAccountSystemMessageFolders(GetAdminTicket(), GetAdminAccount().Id);
+            WebAccountService.TransitAccountMessageFolder[] folders2 = EndPoint.GetAccountMessageFolders(
+                GetAdminTicket(), GetAdminAccount().Id, null);
+            Assert.AreEqual(folders.Length, folders2.Length);
         }
     }
 }
