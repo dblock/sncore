@@ -56,23 +56,23 @@
     <asp:BoundColumn DataField="Id" Visible="false" />
     <asp:TemplateColumn>
      <itemtemplate>
-  <img src="images/Item.gif" />
- </itemtemplate>
+      <img src="images/Item.gif" />
+     </itemtemplate>
     </asp:TemplateColumn>
     <asp:TemplateColumn HeaderText="Name" ItemStyle-HorizontalAlign="Left">
      <itemtemplate>
-   <%# base.Render(Eval("Name")) %>
-   <div class="sncore_description">
-    <%# base.Render(Eval("Description")) %> (<%# base.Render(Eval("Type").ToString()) %>)
-   </div>
-  </itemtemplate>
+      <%# base.Render(Eval("Name")) %>
+      <div class="sncore_description">
+       <%# base.Render(Eval("Description")) %> (<%# base.Render(Eval("TypeName")) %>)
+      </div>
+     </itemtemplate>
     </asp:TemplateColumn>
     <asp:TemplateColumn>
      <itemtemplate>
-   <a href='SystemPlacePropertyEdit.aspx?id=<%# Eval("Id") %>&pid=<%# Eval("PlacePropertyGroupId") %>'>
-    Edit
-   </a>
-  </itemtemplate>
+      <a href='SystemPlacePropertyEdit.aspx?id=<%# Eval("Id") %>&pid=<%# Eval("PlacePropertyGroupId") %>'>
+       Edit
+      </a>
+     </itemtemplate>
     </asp:TemplateColumn>
     <asp:ButtonColumn ButtonType="LinkButton" CommandName="Delete" Text="Delete" />
    </Columns>

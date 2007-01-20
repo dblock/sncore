@@ -52,7 +52,7 @@ namespace SnCore.BackEnd.Tests
                 Session.Flush();
 
                 // this should delete the stale account, since there's another one verified
-                service.RunCleanupStaleAccounts(Session);
+                service.RunCleanupStaleAccounts(Session, ManagedAccount.GetAdminSecurityContext(Session));
 
                 a = (Account)Session.CreateCriteria(typeof(Account))
                     .Add(Expression.Eq("Id", id))
@@ -103,7 +103,7 @@ namespace SnCore.BackEnd.Tests
                 // check that the account has a single confirmation e-mail pending
                 Console.WriteLine("Email dates: {0}/{1}", e.Created, e.Modified);
 
-                service.RunCleanupStaleAccounts(Session);
+                service.RunCleanupStaleAccounts(Session, ManagedAccount.GetAdminSecurityContext(Session));
 
                 Session.Refresh(e);
                 Console.WriteLine("Email dates: {0}/{1}", e.Created, e.Modified);
@@ -114,7 +114,7 @@ namespace SnCore.BackEnd.Tests
                 Session.Save(e);
                 Session.Flush();
 
-                service.RunCleanupStaleAccounts(Session);
+                service.RunCleanupStaleAccounts(Session, ManagedAccount.GetAdminSecurityContext(Session));
 
                 a = (Account)Session.CreateCriteria(typeof(Account))
                     .Add(Expression.Eq("Id", id))
@@ -135,13 +135,13 @@ namespace SnCore.BackEnd.Tests
         [Test]
         public void TestInvitationReminders()
         {
-            service.RunInvitationReminders(Session);
+            service.RunInvitationReminders(Session, ManagedAccount.GetAdminSecurityContext(Session));
         }
 
         [Test]
         public void TestSystemReminders()
         {
-            service.RunSystemReminders(Session);
+            service.RunSystemReminders(Session, ManagedAccount.GetAdminSecurityContext(Session));
         }
     }
 }

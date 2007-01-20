@@ -62,10 +62,21 @@ namespace SnCore.Web.Tests
         }
 
         [Test]
-        public void TestDeep()
+        public void TestDeepAdmin()
+        {
+            TestDeep("admin@localhost.com", "password");
+        }
+
+        [Test]
+        public void TestDeepUser()
+        {
+            TestDeep("user@localhost.com", "password");
+        }
+
+        public void TestDeep(string username, string password)
         {
             WebAccountService service = new WebAccountService();
-            string ticket = service.Login("admin@localhost.com", "password");
+            string ticket = service.Login(username, password);
             Cookie cookie = new Cookie(WebAccountTests.sSnCoreAuthCookieName, ticket, "/", "localhost");
 
             Uri root = new Uri("http://localhost/SnCoreWeb/Default.aspx");

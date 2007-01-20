@@ -415,6 +415,22 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetAccountInvitationByIdAndCode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="code" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountInvitationByIdAndCodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountInvitationByIdAndCodeResult" type="tns:TransitAccountInvitation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="DeleteAccountInvitation">
         <s:complexType>
           <s:sequence>
@@ -2482,6 +2498,12 @@
   <wsdl:message name="GetAccountInvitationByIdSoapOut">
     <wsdl:part name="parameters" element="tns:GetAccountInvitationByIdResponse" />
   </wsdl:message>
+  <wsdl:message name="GetAccountInvitationByIdAndCodeSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountInvitationByIdAndCode" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountInvitationByIdAndCodeSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountInvitationByIdAndCodeResponse" />
+  </wsdl:message>
   <wsdl:message name="DeleteAccountInvitationSoapIn">
     <wsdl:part name="parameters" element="tns:DeleteAccountInvitation" />
   </wsdl:message>
@@ -3209,6 +3231,11 @@
       <wsdl:input message="tns:GetAccountInvitationByIdSoapIn" />
       <wsdl:output message="tns:GetAccountInvitationByIdSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="GetAccountInvitationByIdAndCode">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account invitation by id and code.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountInvitationByIdAndCodeSoapIn" />
+      <wsdl:output message="tns:GetAccountInvitationByIdAndCodeSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="DeleteAccountInvitation">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a invitation.</wsdl:documentation>
       <wsdl:input message="tns:DeleteAccountInvitationSoapIn" />
@@ -3926,6 +3953,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetAccountInvitationById">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountInvitationById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountInvitationByIdAndCode">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountInvitationByIdAndCode" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -5054,6 +5090,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetAccountInvitationById">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountInvitationById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountInvitationByIdAndCode">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountInvitationByIdAndCode" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

@@ -1,7 +1,6 @@
 ﻿<NUnitProject>
   <Settings activeconfig="Debug" />
   <Config name="Debug" binpathtype="Auto">
-    <assembly path="SnCore.Data.Tests\bin\Debug\SnCore.Data.Tests.dll" test="false" />
     <assembly path="SnCore.BackEnd.Tests\bin\Debug\SnCore.BackEnd.Tests.dll" />
     <assembly path="SnCore.Data.Tests\bin\Debug\SnCore.Data.Tests.dll" />
     <assembly path="SnCore.Services.Tests\bin\Debug\SnCore.Services.Tests.dll" />

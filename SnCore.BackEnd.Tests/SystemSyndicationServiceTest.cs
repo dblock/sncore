@@ -4,6 +4,7 @@ using System.Text;
 using NUnit.Framework;
 using SnCore.BackEndServices;
 using SnCore.Data.Tests;
+using SnCore.Services;
 
 namespace SnCore.BackEnd.Tests
 {
@@ -22,7 +23,7 @@ namespace SnCore.BackEnd.Tests
         [Test]
         public void TestSyndication()
         {
-            service.RunSyndication(Session);
+            service.RunSyndication(Session, ManagedAccount.GetAdminSecurityContext(Session));
         }
     }
 }
