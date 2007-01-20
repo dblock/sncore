@@ -56,9 +56,14 @@ namespace SnCore.Web.Soap.Tests.WebObjectServiceTests
         }
 
         [Test]
-        protected void GetRandomPictureByTypeTest()
+        public void GetRandomPictureByTypeTest()
         {
-
+            WebObjectService.TransitPicture t_picture = GetTransitInstance();
+            t_picture.Id = Create(GetAdminTicket(), t_picture);
+            WebObjectService.TransitPicture t_instance = EndPoint.GetRandomPictureByType(GetAdminTicket(), t_picture.Type);
+            Console.WriteLine("Random picture: {0}", t_instance.Id);
+            Assert.IsNotNull(t_instance);
+            Delete(GetAdminTicket(), t_picture.Id);
         }
     }
 }

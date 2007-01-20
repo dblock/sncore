@@ -199,30 +199,6 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountMessage(ISession session, AccountMessage instance)
-            : base(instance)
-        {
-            Account sender = (Account) session.CreateCriteria(typeof(Account))
-                    .Add(Expression.Eq("Id", instance.SenderAccountId))
-                    .UniqueResult();
-
-            if (sender != null)
-            {
-                SenderAccountPictureId = ManagedAccount.GetRandomAccountPictureId(sender);
-                SenderAccountName = sender.Name;
-            }
-
-            Account recepient = (Account) session.CreateCriteria(typeof(Account))
-                    .Add(Expression.Eq("Id", instance.RecepientAccountId))
-                    .UniqueResult();
-
-            if (recepient != null)
-            {
-                RecepientAccountPictureId = ManagedAccount.GetRandomAccountPictureId(recepient);
-                RecepientAccountName = recepient.Name;
-            }
-        }
-
         public override void SetInstance(AccountMessage instance)
         {
             Subject = instance.Subject;
@@ -233,7 +209,6 @@ namespace SnCore.Services
             AccountId = instance.Account.Id;
             RecepientAccountId = instance.RecepientAccountId;
             SenderAccountId = instance.SenderAccountId;
-
             base.SetInstance(instance);
         }
 
@@ -248,19 +223,16 @@ namespace SnCore.Services
                 instance.Body = this.Body;
                 instance.Sent = this.Sent;
                 instance.Unread = this.UnRead;
-                instance.SenderAccountId = this.SenderAccountId;
+                instance.SenderAccountId = GetOwner(session, SenderAccountId, sec).Id;
                 instance.RecepientAccountId = this.RecepientAccountId;
-                instance.Account = GetOwner(session, AccountId, sec);
+                // the oner is the recepient
+                instance.Account = (Account) session.Load(typeof(Account), RecepientAccountId);
             }
 
             if (AccountMessageFolderId == 0)
             {
-                instance.AccountMessageFolder = (AccountMessageFolder)session.CreateCriteria(typeof(AccountMessageFolder))
-                    .Add(Expression.Eq("Name", "inbox"))
-                    .Add(Expression.IsNull("AccountMessageFolderParent"))
-                    .Add(Expression.Eq("System", true))
-                    .Add(Expression.Eq("Account.Id", instance.Account.Id))
-                    .UniqueResult();
+                instance.AccountMessageFolder = ManagedAccountMessageFolder.FindRootFolder(
+                    session, instance.Account.Id, "inbox");
             }
             else
             {
@@ -303,6 +275,49 @@ namespace SnCore.Services
             {
                 return mInstance.Account.Id;
             }
+        }
+
+        public override TransitAccountMessage GetTransitInstance(ManagedSecurityContext sec)
+        {
+            TransitAccountMessage message = base.GetTransitInstance(sec);
+            message.SenderAccountName = "Unknown User";
+            message.RecepientAccountName = "Unknown User";
+
+            try
+            {
+                Account sender = (Account) Session.CreateCriteria(typeof(Account))
+                        .Add(Expression.Eq("Id", mInstance.SenderAccountId))
+                        .UniqueResult();
+
+                if (sender != null)
+                {
+                    message.SenderAccountPictureId = ManagedAccount.GetRandomAccountPictureId(sender);
+                    message.SenderAccountName = sender.Name;
+                }
+            }
+            catch (ObjectNotFoundException)
+            {
+
+            }
+
+            try
+            {
+                Account recepient = (Account) Session.CreateCriteria(typeof(Account))
+                        .Add(Expression.Eq("Id", mInstance.RecepientAccountId))
+                        .UniqueResult();
+
+                if (recepient != null)
+                {
+                    message.RecepientAccountPictureId = ManagedAccount.GetRandomAccountPictureId(recepient);
+                    message.RecepientAccountName = recepient.Name;
+                }
+            }
+            catch (ObjectNotFoundException)
+            {
+
+            }
+
+            return message;
         }
 
         public override void Delete(ManagedSecurityContext sec)

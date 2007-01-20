@@ -28,8 +28,13 @@ namespace SnCore.Web.Soap.Tests.WebObjectServiceTests
         }
 
         [Test]
-        protected void GetBookmarksWithOptionsTest()
+        public void GetBookmarksWithOptionsTest()
         {
+            WebObjectService.BookmarkQueryOptions options = new WebObjectService.BookmarkQueryOptions();
+            options.WithFullBitmaps = true;
+            options.WithLinkedBitmaps = false;
+            WebObjectService.TransitBookmark[] bookmarks = EndPoint.GetBookmarksWithOptions(GetAdminTicket(), options, null);
+            Console.WriteLine("Length: {0}", bookmarks.Length);
         }
 
         [Test]

@@ -212,7 +212,6 @@ namespace SnCore.Services
             Session.Delete(mInstance);
         }
 
-        // TODO: introduce security context
         public void Accept(ManagedSecurityContext sec, string message)
         {
             GetACL().Check(sec, DataOperation.Delete);

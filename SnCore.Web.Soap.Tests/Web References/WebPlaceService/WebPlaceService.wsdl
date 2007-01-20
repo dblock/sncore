@@ -383,6 +383,22 @@
       <s:element name="DeletePlacePictureResponse">
         <s:complexType />
       </s:element>
+      <s:element name="GetPlacePictureIfModifiedSinceById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="ifModifiedSince" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPlacePictureIfModifiedSinceByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPlacePictureIfModifiedSinceByIdResult" type="tns:TransitPlacePicture" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="CreateOrUpdateAccountPlaceType">
         <s:complexType>
           <s:sequence>
@@ -922,6 +938,7 @@
       <s:element name="SearchPlacesCount">
         <s:complexType>
           <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="s" type="s:string" />
           </s:sequence>
         </s:complexType>
@@ -1220,6 +1237,7 @@
             <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="groupname" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="propertyname" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -1299,6 +1317,11 @@
             <s:sequence>
               <s:element minOccurs="1" maxOccurs="1" name="PlaceId" type="s:int" />
               <s:element minOccurs="1" maxOccurs="1" name="PlacePropertyId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="PlacePropertyDescription" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PlacePropertyName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PlacePropertyTypeName" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="PlacePropertyGroupId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="PlacePropertyGroupName" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="Value" type="s:string" />
               <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
               <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
@@ -1437,6 +1460,7 @@
         <s:complexContent mixed="false">
           <s:extension base="tns:TransitServiceOfAttribute">
             <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Bitmap" type="s:base64Binary" />
               <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="DefaultUrl" type="s:string" />
@@ -1811,7 +1835,43 @@
           <s:element minOccurs="0" maxOccurs="unbounded" name="TransitFriendsPlaceQueueItem" nillable="true" type="tns:TransitFriendsPlaceQueueItem" />
         </s:sequence>
       </s:complexType>
-      <s:complexType name="TransitFriendsPlaceQueueItem" />
+      <s:complexType name="TransitFriendsPlaceQueueItem">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Place" type="tns:TransitPlace" />
+          <s:element minOccurs="0" maxOccurs="1" name="Accounts" type="tns:ArrayOfTransitAccount" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfTransitAccount">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccount" nillable="true" type="tns:TransitAccount" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitAccount">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfAccount">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="IsPasswordExpired" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="IsAdministrator" type="s:boolean" />
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Birthday" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="LastLogin" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="PictureId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="TimeZone" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="Signature" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfAccount" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
       <s:element name="GetPlaceNeighborhoods">
         <s:complexType>
           <s:sequence>
@@ -1944,6 +2004,12 @@
   </wsdl:message>
   <wsdl:message name="DeletePlacePictureSoapOut">
     <wsdl:part name="parameters" element="tns:DeletePlacePictureResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPlacePictureIfModifiedSinceByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPlacePictureIfModifiedSinceById" />
+  </wsdl:message>
+  <wsdl:message name="GetPlacePictureIfModifiedSinceByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPlacePictureIfModifiedSinceByIdResponse" />
   </wsdl:message>
   <wsdl:message name="CreateOrUpdateAccountPlaceTypeSoapIn">
     <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountPlaceType" />
@@ -2499,6 +2565,11 @@
       <wsdl:input message="tns:DeletePlacePictureSoapIn" />
       <wsdl:output message="tns:DeletePlacePictureSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="GetPlacePictureIfModifiedSinceById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get place picture picture data if modified since.</wsdl:documentation>
+      <wsdl:input message="tns:GetPlacePictureIfModifiedSinceByIdSoapIn" />
+      <wsdl:output message="tns:GetPlacePictureIfModifiedSinceByIdSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="CreateOrUpdateAccountPlaceType">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a account place type.</wsdl:documentation>
       <wsdl:input message="tns:CreateOrUpdateAccountPlaceTypeSoapIn" />
@@ -3038,6 +3109,15 @@
     </wsdl:operation>
     <wsdl:operation name="DeletePlacePicture">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeletePlacePicture" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPlacePictureIfModifiedSinceById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetPlacePictureIfModifiedSinceById" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -3896,6 +3976,15 @@
     </wsdl:operation>
     <wsdl:operation name="DeletePlacePicture">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeletePlacePicture" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPlacePictureIfModifiedSinceById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetPlacePictureIfModifiedSinceById" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

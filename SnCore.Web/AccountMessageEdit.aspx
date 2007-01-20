@@ -33,41 +33,43 @@
    </tr>
   </table>
  </asp:Panel>
- <div class="sncore_h2">
-  <a name="edit">Send Message</a>
- </div>
- <asp:HyperLink ID="linkBack" Text="&#187; Cancel" CssClass="sncore_cancel" runat="server" />
- <asp:ValidationSummary runat="server" ID="manageValidationSummary" CssClass="sncore_form_validator"
-  ShowSummary="true" />
- <table class="sncore_table">
-  <tr>
-   <td class="sncore_table_tr_td" style="text-align: center;">
-    <a runat="server" ID="linkAccountTo2">
-     <asp:Image BorderStyle="None" ID="imageAccountTo" ImageUrl="images/AccountThumbnail.gif" runat="server" /><br />
-    </a>
-    <asp:HyperLink ID="linkAccountTo" runat="server" />
-   </td>
-   <td>
-    <table>
-     <tr>
-      <td class="sncore_form_value">
-       <b>subject:</b>
-       <asp:TextBox CssClass="sncore_form_textbox" ID="inputSubject" runat="server" />
-      </td>
-     </tr>
-     <tr>
-      <td class="sncore_form_value">
-       <FTB:FreeTextBox id="inputBody" runat="Server" />
-      </td>
-     </tr>
-     <tr>
-      <td class="sncore_form_value">
-       <SnCoreWebControls:Button ID="manageAdd" runat="server" Text="Send" CausesValidation="true" CssClass="sncore_form_button"
-        OnClick="save_Click" OnClientClick="WebForm_OnSubmit();" />
-      </td>
-     </tr>
-    </table>
-   </td>
-  </tr>
- </table>
+ <asp:Panel ID="panelMessage" runat="server">
+  <div class="sncore_h2">
+   <a name="edit">Send Message</a>
+  </div>
+  <asp:HyperLink ID="linkBack" Text="&#187; Cancel" CssClass="sncore_cancel" runat="server" />
+  <asp:ValidationSummary runat="server" ID="manageValidationSummary" CssClass="sncore_form_validator"
+   ShowSummary="true" />
+  <table class="sncore_table">
+   <tr>
+    <td class="sncore_table_tr_td" style="text-align: center;">
+     <a runat="server" ID="linkAccountTo2">
+      <asp:Image BorderStyle="None" ID="imageAccountTo" ImageUrl="images/AccountThumbnail.gif" runat="server" /><br />
+     </a>
+     <asp:HyperLink ID="linkAccountTo" runat="server" />
+    </td>
+    <td>
+     <table>
+      <tr>
+       <td class="sncore_form_value">
+        <b>subject:</b>
+        <asp:TextBox CssClass="sncore_form_textbox" ID="inputSubject" runat="server" />
+       </td>
+      </tr>
+      <tr>
+       <td class="sncore_form_value">
+        <FTB:FreeTextBox id="inputBody" runat="Server" />
+       </td>
+      </tr>
+      <tr>
+       <td class="sncore_form_value">
+        <SnCoreWebControls:Button ID="manageAdd" runat="server" Text="Send" CausesValidation="true" CssClass="sncore_form_button"
+         OnClick="save_Click" OnClientClick="WebForm_OnSubmit();" />
+       </td>
+      </tr>
+     </table>
+    </td>
+   </tr>
+  </table>
+ </asp:Panel>
 </asp:Content>

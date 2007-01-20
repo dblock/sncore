@@ -1983,6 +1983,41 @@
       <s:element name="DeleteAccountSurveyAnswerResponse">
         <s:complexType />
       </s:element>
+      <s:element name="GetAccountSurveysById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountSurveysByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountSurveysByIdResult" type="tns:ArrayOfTransitSurvey" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitSurvey">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitSurvey" nillable="true" type="tns:TransitSurvey" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitSurvey">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfSurvey">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfSurvey" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
       <s:element name="CreateAccountSystemMessageFolders">
         <s:complexType>
           <s:sequence>
@@ -2929,6 +2964,12 @@
   <wsdl:message name="DeleteAccountSurveyAnswerSoapOut">
     <wsdl:part name="parameters" element="tns:DeleteAccountSurveyAnswerResponse" />
   </wsdl:message>
+  <wsdl:message name="GetAccountSurveysByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountSurveysById" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountSurveysByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountSurveysByIdResponse" />
+  </wsdl:message>
   <wsdl:message name="CreateAccountSystemMessageFoldersSoapIn">
     <wsdl:part name="parameters" element="tns:CreateAccountSystemMessageFolders" />
   </wsdl:message>
@@ -3560,6 +3601,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a survey answer.</wsdl:documentation>
       <wsdl:input message="tns:DeleteAccountSurveyAnswerSoapIn" />
       <wsdl:output message="tns:DeleteAccountSurveyAnswerSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountSurveysById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get surveys answered by account.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountSurveysByIdSoapIn" />
+      <wsdl:output message="tns:GetAccountSurveysByIdSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="CreateAccountSystemMessageFolders">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create account system folders.</wsdl:documentation>
@@ -4600,6 +4646,15 @@
     </wsdl:operation>
     <wsdl:operation name="DeleteAccountSurveyAnswer">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountSurveyAnswer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountSurveysById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountSurveysById" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -5710,6 +5765,15 @@
     </wsdl:operation>
     <wsdl:operation name="DeleteAccountSurveyAnswer">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountSurveyAnswer" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountSurveysById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountSurveysById" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

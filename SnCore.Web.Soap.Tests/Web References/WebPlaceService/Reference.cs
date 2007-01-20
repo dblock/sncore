@@ -27,6 +27,7 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="WebPlaceServiceSoap", Namespace="http://www.vestris.com/sncore/ns/")]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccount))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfPlaceQueueItem))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfPlaceQueue))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAttribute))]
@@ -78,6 +79,8 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
         private System.Threading.SendOrPostCallback GetPlacePicturesOperationCompleted;
         
         private System.Threading.SendOrPostCallback DeletePlacePictureOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetPlacePictureIfModifiedSinceByIdOperationCompleted;
         
         private System.Threading.SendOrPostCallback CreateOrUpdateAccountPlaceTypeOperationCompleted;
         
@@ -323,6 +326,9 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
         
         /// <remarks/>
         public event DeletePlacePictureCompletedEventHandler DeletePlacePictureCompleted;
+        
+        /// <remarks/>
+        public event GetPlacePictureIfModifiedSinceByIdCompletedEventHandler GetPlacePictureIfModifiedSinceByIdCompleted;
         
         /// <remarks/>
         public event CreateOrUpdateAccountPlaceTypeCompletedEventHandler CreateOrUpdateAccountPlaceTypeCompleted;
@@ -1083,6 +1089,39 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
             if ((this.DeletePlacePictureCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.DeletePlacePictureCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetPlacePictureIfModifiedSinceById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitPlacePicture GetPlacePictureIfModifiedSinceById(string ticket, int id, System.DateTime ifModifiedSince) {
+            object[] results = this.Invoke("GetPlacePictureIfModifiedSinceById", new object[] {
+                        ticket,
+                        id,
+                        ifModifiedSince});
+            return ((TransitPlacePicture)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetPlacePictureIfModifiedSinceByIdAsync(string ticket, int id, System.DateTime ifModifiedSince) {
+            this.GetPlacePictureIfModifiedSinceByIdAsync(ticket, id, ifModifiedSince, null);
+        }
+        
+        /// <remarks/>
+        public void GetPlacePictureIfModifiedSinceByIdAsync(string ticket, int id, System.DateTime ifModifiedSince, object userState) {
+            if ((this.GetPlacePictureIfModifiedSinceByIdOperationCompleted == null)) {
+                this.GetPlacePictureIfModifiedSinceByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetPlacePictureIfModifiedSinceByIdOperationCompleted);
+            }
+            this.InvokeAsync("GetPlacePictureIfModifiedSinceById", new object[] {
+                        ticket,
+                        id,
+                        ifModifiedSince}, this.GetPlacePictureIfModifiedSinceByIdOperationCompleted, userState);
+        }
+        
+        private void OnGetPlacePictureIfModifiedSinceByIdOperationCompleted(object arg) {
+            if ((this.GetPlacePictureIfModifiedSinceByIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetPlacePictureIfModifiedSinceByIdCompleted(this, new GetPlacePictureIfModifiedSinceByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -2026,23 +2065,25 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/SearchPlacesCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int SearchPlacesCount(string s) {
+        public int SearchPlacesCount(string ticket, string s) {
             object[] results = this.Invoke("SearchPlacesCount", new object[] {
+                        ticket,
                         s});
             return ((int)(results[0]));
         }
         
         /// <remarks/>
-        public void SearchPlacesCountAsync(string s) {
-            this.SearchPlacesCountAsync(s, null);
+        public void SearchPlacesCountAsync(string ticket, string s) {
+            this.SearchPlacesCountAsync(ticket, s, null);
         }
         
         /// <remarks/>
-        public void SearchPlacesCountAsync(string s, object userState) {
+        public void SearchPlacesCountAsync(string ticket, string s, object userState) {
             if ((this.SearchPlacesCountOperationCompleted == null)) {
                 this.SearchPlacesCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSearchPlacesCountOperationCompleted);
             }
             this.InvokeAsync("SearchPlacesCount", new object[] {
+                        ticket,
                         s}, this.SearchPlacesCountOperationCompleted, userState);
         }
         
@@ -2519,28 +2560,30 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetDistinctPropertyValues", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public TransitDistinctPlacePropertyValue[] GetDistinctPropertyValues(string ticket, string groupname, string propertyname) {
+        public TransitDistinctPlacePropertyValue[] GetDistinctPropertyValues(string ticket, string groupname, string propertyname, ServiceQueryOptions options) {
             object[] results = this.Invoke("GetDistinctPropertyValues", new object[] {
                         ticket,
                         groupname,
-                        propertyname});
+                        propertyname,
+                        options});
             return ((TransitDistinctPlacePropertyValue[])(results[0]));
         }
         
         /// <remarks/>
-        public void GetDistinctPropertyValuesAsync(string ticket, string groupname, string propertyname) {
-            this.GetDistinctPropertyValuesAsync(ticket, groupname, propertyname, null);
+        public void GetDistinctPropertyValuesAsync(string ticket, string groupname, string propertyname, ServiceQueryOptions options) {
+            this.GetDistinctPropertyValuesAsync(ticket, groupname, propertyname, options, null);
         }
         
         /// <remarks/>
-        public void GetDistinctPropertyValuesAsync(string ticket, string groupname, string propertyname, object userState) {
+        public void GetDistinctPropertyValuesAsync(string ticket, string groupname, string propertyname, ServiceQueryOptions options, object userState) {
             if ((this.GetDistinctPropertyValuesOperationCompleted == null)) {
                 this.GetDistinctPropertyValuesOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetDistinctPropertyValuesOperationCompleted);
             }
             this.InvokeAsync("GetDistinctPropertyValues", new object[] {
                         ticket,
                         groupname,
-                        propertyname}, this.GetDistinctPropertyValuesOperationCompleted, userState);
+                        propertyname,
+                        options}, this.GetDistinctPropertyValuesOperationCompleted, userState);
         }
         
         private void OnGetDistinctPropertyValuesOperationCompleted(object arg) {
@@ -3641,12 +3684,482 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
     }
     
     /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccount))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public abstract partial class TransitServiceOfAccount {
+        
+        private int idField;
+        
+        /// <remarks/>
+        public int Id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitAccount : TransitServiceOfAccount {
+        
+        private bool isPasswordExpiredField;
+        
+        private System.DateTime createdField;
+        
+        private bool isAdministratorField;
+        
+        private string nameField;
+        
+        private System.DateTime birthdayField;
+        
+        private System.DateTime lastLoginField;
+        
+        private int pictureIdField;
+        
+        private string stateField;
+        
+        private string countryField;
+        
+        private string cityField;
+        
+        private int timeZoneField;
+        
+        private string signatureField;
+        
+        private string passwordField;
+        
+        /// <remarks/>
+        public bool IsPasswordExpired {
+            get {
+                return this.isPasswordExpiredField;
+            }
+            set {
+                this.isPasswordExpiredField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Created {
+            get {
+                return this.createdField;
+            }
+            set {
+                this.createdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool IsAdministrator {
+            get {
+                return this.isAdministratorField;
+            }
+            set {
+                this.isAdministratorField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Birthday {
+            get {
+                return this.birthdayField;
+            }
+            set {
+                this.birthdayField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime LastLogin {
+            get {
+                return this.lastLoginField;
+            }
+            set {
+                this.lastLoginField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int PictureId {
+            get {
+                return this.pictureIdField;
+            }
+            set {
+                this.pictureIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string State {
+            get {
+                return this.stateField;
+            }
+            set {
+                this.stateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Country {
+            get {
+                return this.countryField;
+            }
+            set {
+                this.countryField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string City {
+            get {
+                return this.cityField;
+            }
+            set {
+                this.cityField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int TimeZone {
+            get {
+                return this.timeZoneField;
+            }
+            set {
+                this.timeZoneField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Signature {
+            get {
+                return this.signatureField;
+            }
+            set {
+                this.signatureField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Password {
+            get {
+                return this.passwordField;
+            }
+            set {
+                this.passwordField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
     public partial class TransitFriendsPlaceQueueItem {
+        
+        private TransitPlace placeField;
+        
+        private TransitAccount[] accountsField;
+        
+        /// <remarks/>
+        public TransitPlace Place {
+            get {
+                return this.placeField;
+            }
+            set {
+                this.placeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public TransitAccount[] Accounts {
+            get {
+                return this.accountsField;
+            }
+            set {
+                this.accountsField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitPlace : TransitServiceOfPlace {
+        
+        private string nameField;
+        
+        private string typeField;
+        
+        private string descriptionField;
+        
+        private System.DateTime createdField;
+        
+        private System.DateTime modifiedField;
+        
+        private string streetField;
+        
+        private string zipField;
+        
+        private string crossStreetField;
+        
+        private string phoneField;
+        
+        private string faxField;
+        
+        private string emailField;
+        
+        private string websiteField;
+        
+        private string neighborhoodField;
+        
+        private string cityField;
+        
+        private string stateField;
+        
+        private string countryField;
+        
+        private int pictureIdField;
+        
+        private int accountIdField;
+        
+        private bool canWriteField;
+        
+        /// <remarks/>
+        public string Name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Type {
+            get {
+                return this.typeField;
+            }
+            set {
+                this.typeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Created {
+            get {
+                return this.createdField;
+            }
+            set {
+                this.createdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Modified {
+            get {
+                return this.modifiedField;
+            }
+            set {
+                this.modifiedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Street {
+            get {
+                return this.streetField;
+            }
+            set {
+                this.streetField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Zip {
+            get {
+                return this.zipField;
+            }
+            set {
+                this.zipField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string CrossStreet {
+            get {
+                return this.crossStreetField;
+            }
+            set {
+                this.crossStreetField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Phone {
+            get {
+                return this.phoneField;
+            }
+            set {
+                this.phoneField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Fax {
+            get {
+                return this.faxField;
+            }
+            set {
+                this.faxField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Email {
+            get {
+                return this.emailField;
+            }
+            set {
+                this.emailField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Website {
+            get {
+                return this.websiteField;
+            }
+            set {
+                this.websiteField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Neighborhood {
+            get {
+                return this.neighborhoodField;
+            }
+            set {
+                this.neighborhoodField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string City {
+            get {
+                return this.cityField;
+            }
+            set {
+                this.cityField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string State {
+            get {
+                return this.stateField;
+            }
+            set {
+                this.stateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Country {
+            get {
+                return this.countryField;
+            }
+            set {
+                this.countryField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int PictureId {
+            get {
+                return this.pictureIdField;
+            }
+            set {
+                this.pictureIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int AccountId {
+            get {
+                return this.accountIdField;
+            }
+            set {
+                this.accountIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool CanWrite {
+            get {
+                return this.canWriteField;
+            }
+            set {
+                this.canWriteField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitPlace))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public abstract partial class TransitServiceOfPlace {
+        
+        private int idField;
+        
+        /// <remarks/>
+        public int Id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -3897,6 +4410,8 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
     public partial class TransitAttribute : TransitServiceOfAttribute {
         
+        private byte[] bitmapField;
+        
         private string nameField;
         
         private string descriptionField;
@@ -3908,6 +4423,17 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
         private System.DateTime createdField;
         
         private System.DateTime modifiedField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
+        public byte[] Bitmap {
+            get {
+                return this.bitmapField;
+            }
+            set {
+                this.bitmapField = value;
+            }
+        }
         
         /// <remarks/>
         public string Name {
@@ -4107,6 +4633,16 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
         
         private int placePropertyIdField;
         
+        private string placePropertyDescriptionField;
+        
+        private string placePropertyNameField;
+        
+        private string placePropertyTypeNameField;
+        
+        private int placePropertyGroupIdField;
+        
+        private string placePropertyGroupNameField;
+        
         private string valueField;
         
         private System.DateTime createdField;
@@ -4130,6 +4666,56 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
             }
             set {
                 this.placePropertyIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string PlacePropertyDescription {
+            get {
+                return this.placePropertyDescriptionField;
+            }
+            set {
+                this.placePropertyDescriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string PlacePropertyName {
+            get {
+                return this.placePropertyNameField;
+            }
+            set {
+                this.placePropertyNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string PlacePropertyTypeName {
+            get {
+                return this.placePropertyTypeNameField;
+            }
+            set {
+                this.placePropertyTypeNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int PlacePropertyGroupId {
+            get {
+                return this.placePropertyGroupIdField;
+            }
+            set {
+                this.placePropertyGroupIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string PlacePropertyGroupName {
+            get {
+                return this.placePropertyGroupNameField;
+            }
+            set {
+                this.placePropertyGroupNameField = value;
             }
         }
         
@@ -5399,265 +5985,6 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
     }
     
     /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitPlace))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
-    public abstract partial class TransitServiceOfPlace {
-        
-        private int idField;
-        
-        /// <remarks/>
-        public int Id {
-            get {
-                return this.idField;
-            }
-            set {
-                this.idField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
-    public partial class TransitPlace : TransitServiceOfPlace {
-        
-        private string nameField;
-        
-        private string typeField;
-        
-        private string descriptionField;
-        
-        private System.DateTime createdField;
-        
-        private System.DateTime modifiedField;
-        
-        private string streetField;
-        
-        private string zipField;
-        
-        private string crossStreetField;
-        
-        private string phoneField;
-        
-        private string faxField;
-        
-        private string emailField;
-        
-        private string websiteField;
-        
-        private string neighborhoodField;
-        
-        private string cityField;
-        
-        private string stateField;
-        
-        private string countryField;
-        
-        private int pictureIdField;
-        
-        private int accountIdField;
-        
-        private bool canWriteField;
-        
-        /// <remarks/>
-        public string Name {
-            get {
-                return this.nameField;
-            }
-            set {
-                this.nameField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string Type {
-            get {
-                return this.typeField;
-            }
-            set {
-                this.typeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string Description {
-            get {
-                return this.descriptionField;
-            }
-            set {
-                this.descriptionField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public System.DateTime Created {
-            get {
-                return this.createdField;
-            }
-            set {
-                this.createdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public System.DateTime Modified {
-            get {
-                return this.modifiedField;
-            }
-            set {
-                this.modifiedField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string Street {
-            get {
-                return this.streetField;
-            }
-            set {
-                this.streetField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string Zip {
-            get {
-                return this.zipField;
-            }
-            set {
-                this.zipField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string CrossStreet {
-            get {
-                return this.crossStreetField;
-            }
-            set {
-                this.crossStreetField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string Phone {
-            get {
-                return this.phoneField;
-            }
-            set {
-                this.phoneField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string Fax {
-            get {
-                return this.faxField;
-            }
-            set {
-                this.faxField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string Email {
-            get {
-                return this.emailField;
-            }
-            set {
-                this.emailField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string Website {
-            get {
-                return this.websiteField;
-            }
-            set {
-                this.websiteField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string Neighborhood {
-            get {
-                return this.neighborhoodField;
-            }
-            set {
-                this.neighborhoodField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string City {
-            get {
-                return this.cityField;
-            }
-            set {
-                this.cityField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string State {
-            get {
-                return this.stateField;
-            }
-            set {
-                this.stateField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string Country {
-            get {
-                return this.countryField;
-            }
-            set {
-                this.countryField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public int PictureId {
-            get {
-                return this.pictureIdField;
-            }
-            set {
-                this.pictureIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public int AccountId {
-            get {
-                return this.accountIdField;
-            }
-            set {
-                this.accountIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public bool CanWrite {
-            get {
-                return this.canWriteField;
-            }
-            set {
-                this.canWriteField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -6065,6 +6392,32 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
     public delegate void DeletePlacePictureCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetPlacePictureIfModifiedSinceByIdCompletedEventHandler(object sender, GetPlacePictureIfModifiedSinceByIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetPlacePictureIfModifiedSinceByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetPlacePictureIfModifiedSinceByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitPlacePicture Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitPlacePicture)(this.results[0]));
+            }
+        }
+    }
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]

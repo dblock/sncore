@@ -148,8 +148,8 @@ public partial class AccountView : Page
             panelAdmin.Visible = SessionManager.IsAdministrator && (AccountId != SessionManager.Account.Id);
             if (panelAdmin.Visible)
             {
-                linkPromoteAdmin.Visible = ! SessionManager.IsAdministrator;
-                linkDemoteAdmin.Visible = SessionManager.IsAdministrator;
+                linkPromoteAdmin.Visible = (! Account.IsAdministrator) && SessionManager.IsAdministrator;
+                linkDemoteAdmin.Visible = Account.IsAdministrator && SessionManager.IsAdministrator;
                 linkDeleteFeatures.Visible = (LatestAccountFeature != null);
             }
         }

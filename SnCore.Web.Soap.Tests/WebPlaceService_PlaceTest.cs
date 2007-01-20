@@ -4,6 +4,7 @@ using System.Text;
 using NUnit.Framework;
 using System.Web.Services.Protocols;
 using SnCore.Web.Soap.Tests.WebLocationServiceTests;
+using System.Threading;
 
 namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
 {
@@ -75,20 +76,41 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
         [Test]
         public void GetNewPlacesTest()
         {
+            WebPlaceService.TransitPlace t_instance = GetTransitInstance();
+            t_instance.Id = Create(GetAdminTicket(), t_instance);
             WebPlaceService.TransitPlace[] places = EndPoint.GetNewPlaces(GetAdminTicket(), null);
+            Assert.IsNotNull(places);
             Console.WriteLine("Places: {0}", places.Length);
+            Assert.IsTrue(places.Length > 0);
+            Delete(GetAdminTicket(), t_instance.Id);
         }
 
         [Test]
-        protected void FindPlaceTest()
+        public void FindPlaceTest()
         {
-
+            WebPlaceService.TransitPlace t_instance = GetTransitInstance();
+            t_instance.Id = Create(GetAdminTicket(), t_instance);
+            string tag = (string) _neighborhood._city.GetInstancePropertyById(GetUserTicket(), _neighborhood._city_id, "Tag");
+            Console.WriteLine("City tag: {0}", tag);
+            WebPlaceService.TransitPlace t_found = EndPoint.FindPlace(GetUserTicket(), tag, t_instance.Name);
+            Assert.IsNotNull(t_found);
+            Assert.AreEqual(t_found.Id, t_instance.Id);
+            Delete(GetAdminTicket(), t_instance.Id);
         }
 
         [Test]
-        protected void SearchPlacesTest()
+        public void SearchPlacesTest()
         {
-
+            WebPlaceService.TransitPlace t_instance = GetTransitInstance();
+            t_instance.Id = Create(GetAdminTicket(), t_instance);
+            // give time to reindex
+            Thread.Sleep(2000);
+            WebPlaceService.TransitPlace[] t_found = EndPoint.SearchPlaces(GetUserTicket(), t_instance.Name, null);
+            Assert.IsNotNull(t_found);
+            Console.WriteLine("Found: {0}", t_found.Length);
+            Assert.IsTrue(t_found.Length > 0);
+            Assert.IsTrue(new TransitServiceCollection<WebPlaceService.TransitPlace>(t_found).ContainsId(t_instance.Id));
+            Delete(GetAdminTicket(), t_instance.Id);
         }
     }
 }

@@ -545,14 +545,59 @@
       <s:element name="DeleteBugProjectResponse">
         <s:complexType />
       </s:element>
-      <s:element name="CreateOrUpdateBug">
+      <s:element name="GetBugsWithOptionsCount">
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="bug" type="tns:TransitBug" />
+            <s:element minOccurs="0" maxOccurs="1" name="qopt" type="tns:TransitBugQueryOptions" />
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:complexType name="TransitBugQueryOptions">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="SortExpression" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SortDirection" type="tns:TransitSortDirection" />
+          <s:element minOccurs="1" maxOccurs="1" name="ProjectId" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Resolved" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="Closed" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="Open" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="SearchQuery" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="TransitSortDirection">
+        <s:restriction base="s:string">
+          <s:enumeration value="Ascending" />
+          <s:enumeration value="Descending" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="GetBugsWithOptionsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetBugsWithOptionsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugsWithOptions">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="qopt" type="tns:TransitBugQueryOptions" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBugsWithOptionsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetBugsWithOptionsResult" type="tns:ArrayOfTransitBug" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitBug">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitBug" nillable="true" type="tns:TransitBug" />
+        </s:sequence>
+      </s:complexType>
       <s:complexType name="TransitBug">
         <s:complexContent mixed="false">
           <s:extension base="tns:TransitServiceOfBug">
@@ -578,6 +623,14 @@
           <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
         </s:sequence>
       </s:complexType>
+      <s:element name="CreateOrUpdateBug">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="bug" type="tns:TransitBug" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="CreateOrUpdateBugResponse">
         <s:complexType>
           <s:sequence>
@@ -631,11 +684,6 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:complexType name="ArrayOfTransitBug">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitBug" nillable="true" type="tns:TransitBug" />
-        </s:sequence>
-      </s:complexType>
       <s:element name="DeleteBug">
         <s:complexType>
           <s:sequence>
@@ -1052,6 +1100,18 @@
   <wsdl:message name="DeleteBugProjectSoapOut">
     <wsdl:part name="parameters" element="tns:DeleteBugProjectResponse" />
   </wsdl:message>
+  <wsdl:message name="GetBugsWithOptionsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBugsWithOptionsCount" />
+  </wsdl:message>
+  <wsdl:message name="GetBugsWithOptionsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBugsWithOptionsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBugsWithOptionsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBugsWithOptions" />
+  </wsdl:message>
+  <wsdl:message name="GetBugsWithOptionsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBugsWithOptionsResponse" />
+  </wsdl:message>
   <wsdl:message name="CreateOrUpdateBugSoapIn">
     <wsdl:part name="parameters" element="tns:CreateOrUpdateBug" />
   </wsdl:message>
@@ -1310,6 +1370,16 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a bug project.</wsdl:documentation>
       <wsdl:input message="tns:DeleteBugProjectSoapIn" />
       <wsdl:output message="tns:DeleteBugProjectSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBugsWithOptionsCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all bugs.</wsdl:documentation>
+      <wsdl:input message="tns:GetBugsWithOptionsCountSoapIn" />
+      <wsdl:output message="tns:GetBugsWithOptionsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBugsWithOptions">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all bugs.</wsdl:documentation>
+      <wsdl:input message="tns:GetBugsWithOptionsSoapIn" />
+      <wsdl:output message="tns:GetBugsWithOptionsSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="CreateOrUpdateBug">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a bug.</wsdl:documentation>
@@ -1667,6 +1737,24 @@
     </wsdl:operation>
     <wsdl:operation name="DeleteBugProject">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteBugProject" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugsWithOptionsCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetBugsWithOptionsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugsWithOptions">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetBugsWithOptions" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -2102,6 +2190,24 @@
     </wsdl:operation>
     <wsdl:operation name="DeleteBugProject">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteBugProject" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugsWithOptionsCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetBugsWithOptionsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBugsWithOptions">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetBugsWithOptions" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

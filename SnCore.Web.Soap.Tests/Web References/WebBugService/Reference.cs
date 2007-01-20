@@ -98,6 +98,10 @@ namespace SnCore.Web.Soap.Tests.WebBugService {
         
         private System.Threading.SendOrPostCallback DeleteBugProjectOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetBugsWithOptionsCountOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetBugsWithOptionsOperationCompleted;
+        
         private System.Threading.SendOrPostCallback CreateOrUpdateBugOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetBugByIdOperationCompleted;
@@ -261,6 +265,12 @@ namespace SnCore.Web.Soap.Tests.WebBugService {
         
         /// <remarks/>
         public event DeleteBugProjectCompletedEventHandler DeleteBugProjectCompleted;
+        
+        /// <remarks/>
+        public event GetBugsWithOptionsCountCompletedEventHandler GetBugsWithOptionsCountCompleted;
+        
+        /// <remarks/>
+        public event GetBugsWithOptionsCompletedEventHandler GetBugsWithOptionsCompleted;
         
         /// <remarks/>
         public event CreateOrUpdateBugCompletedEventHandler CreateOrUpdateBugCompleted;
@@ -1229,6 +1239,70 @@ namespace SnCore.Web.Soap.Tests.WebBugService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetBugsWithOptionsCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetBugsWithOptionsCount(string ticket, TransitBugQueryOptions qopt) {
+            object[] results = this.Invoke("GetBugsWithOptionsCount", new object[] {
+                        ticket,
+                        qopt});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetBugsWithOptionsCountAsync(string ticket, TransitBugQueryOptions qopt) {
+            this.GetBugsWithOptionsCountAsync(ticket, qopt, null);
+        }
+        
+        /// <remarks/>
+        public void GetBugsWithOptionsCountAsync(string ticket, TransitBugQueryOptions qopt, object userState) {
+            if ((this.GetBugsWithOptionsCountOperationCompleted == null)) {
+                this.GetBugsWithOptionsCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetBugsWithOptionsCountOperationCompleted);
+            }
+            this.InvokeAsync("GetBugsWithOptionsCount", new object[] {
+                        ticket,
+                        qopt}, this.GetBugsWithOptionsCountOperationCompleted, userState);
+        }
+        
+        private void OnGetBugsWithOptionsCountOperationCompleted(object arg) {
+            if ((this.GetBugsWithOptionsCountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetBugsWithOptionsCountCompleted(this, new GetBugsWithOptionsCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetBugsWithOptions", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitBug[] GetBugsWithOptions(string ticket, TransitBugQueryOptions qopt, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetBugsWithOptions", new object[] {
+                        ticket,
+                        qopt,
+                        options});
+            return ((TransitBug[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetBugsWithOptionsAsync(string ticket, TransitBugQueryOptions qopt, ServiceQueryOptions options) {
+            this.GetBugsWithOptionsAsync(ticket, qopt, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetBugsWithOptionsAsync(string ticket, TransitBugQueryOptions qopt, ServiceQueryOptions options, object userState) {
+            if ((this.GetBugsWithOptionsOperationCompleted == null)) {
+                this.GetBugsWithOptionsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetBugsWithOptionsOperationCompleted);
+            }
+            this.InvokeAsync("GetBugsWithOptions", new object[] {
+                        ticket,
+                        qopt,
+                        options}, this.GetBugsWithOptionsOperationCompleted, userState);
+        }
+        
+        private void OnGetBugsWithOptionsOperationCompleted(object arg) {
+            if ((this.GetBugsWithOptionsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetBugsWithOptionsCompleted(this, new GetBugsWithOptionsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/CreateOrUpdateBug", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public int CreateOrUpdateBug(string ticket, TransitBug bug) {
             object[] results = this.Invoke("CreateOrUpdateBug", new object[] {
@@ -2186,6 +2260,112 @@ namespace SnCore.Web.Soap.Tests.WebBugService {
     }
     
     /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitBugQueryOptions {
+        
+        private string sortExpressionField;
+        
+        private TransitSortDirection sortDirectionField;
+        
+        private int projectIdField;
+        
+        private bool resolvedField;
+        
+        private bool closedField;
+        
+        private bool openField;
+        
+        private string searchQueryField;
+        
+        /// <remarks/>
+        public string SortExpression {
+            get {
+                return this.sortExpressionField;
+            }
+            set {
+                this.sortExpressionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public TransitSortDirection SortDirection {
+            get {
+                return this.sortDirectionField;
+            }
+            set {
+                this.sortDirectionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int ProjectId {
+            get {
+                return this.projectIdField;
+            }
+            set {
+                this.projectIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool Resolved {
+            get {
+                return this.resolvedField;
+            }
+            set {
+                this.resolvedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool Closed {
+            get {
+                return this.closedField;
+            }
+            set {
+                this.closedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool Open {
+            get {
+                return this.openField;
+            }
+            set {
+                this.openField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string SearchQuery {
+            get {
+                return this.searchQueryField;
+            }
+            set {
+                this.searchQueryField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public enum TransitSortDirection {
+        
+        /// <remarks/>
+        Ascending,
+        
+        /// <remarks/>
+        Descending,
+    }
+    
+    /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitBugProject))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
     [System.SerializableAttribute()]
@@ -3116,6 +3296,58 @@ namespace SnCore.Web.Soap.Tests.WebBugService {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
     public delegate void DeleteBugProjectCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetBugsWithOptionsCountCompletedEventHandler(object sender, GetBugsWithOptionsCountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetBugsWithOptionsCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetBugsWithOptionsCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetBugsWithOptionsCompletedEventHandler(object sender, GetBugsWithOptionsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetBugsWithOptionsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetBugsWithOptionsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitBug[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitBug[])(this.results[0]));
+            }
+        }
+    }
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]

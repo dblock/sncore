@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<discovery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/disco/">
-  <contractRef ref="http://localhost/SnCoreWeb/WebStatsService.asmx?wsdl" docRef="http://localhost/SnCoreWeb/WebStatsService.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
-  <soap address="http://localhost/SnCoreWeb/WebStatsService.asmx" xmlns:q1="http://www.vestris.com/sncore/ns/" binding="q1:WebStatsServiceSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
-  <soap address="http://localhost/SnCoreWeb/WebStatsService.asmx" xmlns:q2="http://www.vestris.com/sncore/ns/" binding="q2:WebStatsServiceSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
-</discovery>

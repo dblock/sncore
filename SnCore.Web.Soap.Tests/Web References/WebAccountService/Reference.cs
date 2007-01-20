@@ -30,6 +30,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountMessage))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountEmailMessage))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountMessageFolder))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfSurvey))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountSurveyAnswer))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfCounter))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountPicture))]
@@ -261,6 +262,8 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         private System.Threading.SendOrPostCallback CreateOrUpdateAccountSurveyAnswerOperationCompleted;
         
         private System.Threading.SendOrPostCallback DeleteAccountSurveyAnswerOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountSurveysByIdOperationCompleted;
         
         private System.Threading.SendOrPostCallback CreateAccountSystemMessageFoldersOperationCompleted;
         
@@ -652,6 +655,9 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         /// <remarks/>
         public event DeleteAccountSurveyAnswerCompletedEventHandler DeleteAccountSurveyAnswerCompleted;
+        
+        /// <remarks/>
+        public event GetAccountSurveysByIdCompletedEventHandler GetAccountSurveysByIdCompleted;
         
         /// <remarks/>
         public event CreateAccountSystemMessageFoldersCompletedEventHandler CreateAccountSystemMessageFoldersCompleted;
@@ -4070,6 +4076,39 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountSurveysById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitSurvey[] GetAccountSurveysById(string ticket, int id, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetAccountSurveysById", new object[] {
+                        ticket,
+                        id,
+                        options});
+            return ((TransitSurvey[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountSurveysByIdAsync(string ticket, int id, ServiceQueryOptions options) {
+            this.GetAccountSurveysByIdAsync(ticket, id, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountSurveysByIdAsync(string ticket, int id, ServiceQueryOptions options, object userState) {
+            if ((this.GetAccountSurveysByIdOperationCompleted == null)) {
+                this.GetAccountSurveysByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountSurveysByIdOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountSurveysById", new object[] {
+                        ticket,
+                        id,
+                        options}, this.GetAccountSurveysByIdOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountSurveysByIdOperationCompleted(object arg) {
+            if ((this.GetAccountSurveysByIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountSurveysByIdCompleted(this, new GetAccountSurveysByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/CreateAccountSystemMessageFolders", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void CreateAccountSystemMessageFolders(string ticket, int id) {
             this.Invoke("CreateAccountSystemMessageFolders", new object[] {
@@ -5230,6 +5269,49 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
             }
             set {
                 this.messageCountField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitSurvey))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public abstract partial class TransitServiceOfSurvey {
+        
+        private int idField;
+        
+        /// <remarks/>
+        public int Id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitSurvey : TransitServiceOfSurvey {
+        
+        private string nameField;
+        
+        /// <remarks/>
+        public string Name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
             }
         }
     }
@@ -9284,6 +9366,32 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
     public delegate void DeleteAccountSurveyAnswerCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetAccountSurveysByIdCompletedEventHandler(object sender, GetAccountSurveysByIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountSurveysByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountSurveysByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitSurvey[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitSurvey[])(this.results[0]));
+            }
+        }
+    }
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]

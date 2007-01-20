@@ -139,7 +139,6 @@ namespace SnCore.Services
             }
         }
 
-
         public TransitAccountStoryPicture()
         {
 
@@ -290,6 +289,7 @@ namespace SnCore.Services
         public override TransitAccountStoryPicture GetTransitInstance(ManagedSecurityContext sec)
         {
             TransitAccountStoryPicture t_instance = base.GetTransitInstance(sec);
+            t_instance.Counter = ManagedStats.FindByUri(Session, "AccountStoryPictureView.aspx", mInstance.Id, sec); 
             t_instance.SetWithinCollection(mInstance, mInstance.AccountStory.AccountStoryPictures);
             return t_instance;
         }

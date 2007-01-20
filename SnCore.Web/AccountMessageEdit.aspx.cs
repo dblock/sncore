@@ -40,6 +40,14 @@ public partial class AccountMessageEdit : AuthenticatedPage
         if (!IsPostBack)
         {
             TransitAccount ta = SessionManager.AccountService.GetAccountById(SessionManager.Ticket, RequestId);
+
+            if (ta == null)
+            {
+                ReportWarning("Account does not exist.");
+                panelMessage.Visible = false;
+                return;
+            }
+
             imageAccountTo.ImageUrl = "AccountPictureThumbnail.aspx?id=" + ta.PictureId.ToString();
             linkAccountTo.Text = Renderer.Render(ta.Name);
             linkAccountTo.NavigateUrl = linkAccountTo2.HRef = "AccountView.aspx?id=" + ta.Id.ToString();
@@ -104,10 +112,9 @@ public partial class AccountMessageEdit : AuthenticatedPage
         tw.Subject = inputSubject.Text;
         if (string.IsNullOrEmpty(tw.Subject)) tw.Subject = "Untitled";
         tw.Body = inputBody.Text;
-        tw.AccountId = RequestId;
+        tw.RecepientAccountId = tw.AccountId = RequestId;
         tw.AccountMessageFolderId = 0;
-
-        SessionManager.AccountService.CreateOrUpdateAccountMessage(SessionManager.Ticket, tw);
+        SessionManager.AccountService.SendAccountMessage(SessionManager.Ticket, tw);
         Redirect(ReturnUrl);
 
     }

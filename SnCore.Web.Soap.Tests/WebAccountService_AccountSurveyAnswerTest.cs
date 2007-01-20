@@ -70,5 +70,18 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             Assert.AreEqual(count, answers.Length);
             Delete(GetAdminTicket(), t_instance.Id);
         }
+
+
+        [Test]
+        public void GetAccountSurveysByIdTest()
+        {
+            WebAccountService.TransitAccountSurveyAnswer t_instance = GetTransitInstance();
+            t_instance.AccountId = GetAdminAccount().Id;
+            t_instance.Id = Create(GetAdminTicket(), t_instance);
+            WebAccountService.TransitSurvey[] surveys = EndPoint.GetAccountSurveysById(GetAdminTicket(), t_instance.AccountId, null);
+            Console.WriteLine("Length: {0}", surveys.Length);
+            Assert.IsTrue(surveys.Length > 0);
+            Delete(GetAdminTicket(), t_instance.Id);
+        }
     }
 }

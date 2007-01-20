@@ -40,7 +40,7 @@ public partial class AccountSurveysViewControl : Control
     void accountSurveys_OnGetDataSource(object sender, EventArgs e)
     {
         accountSurveys.DataSource = SessionManager.GetCollection<TransitSurvey, int>(
-            AccountId, (ServiceQueryOptions) null, SessionManager.ObjectService.GetAccountSurveysById);
+            AccountId, (ServiceQueryOptions) null, SessionManager.AccountService.GetAccountSurveysById);
     }
 
 }

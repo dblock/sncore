@@ -65,22 +65,43 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
             string groupname = (string) _property._group.GetInstancePropertyById(GetUserTicket(), _property._group_id, "Name");
             string propertyname = (string) _property.GetInstancePropertyById(GetUserTicket(), _property_id, "Name");
             WebPlaceService.TransitDistinctPlacePropertyValue[] values = EndPoint.GetDistinctPropertyValues(
-                GetUserTicket(), groupname, propertyname);
+                GetUserTicket(), groupname, propertyname, null);
             Console.WriteLine("Property values for [{0}/{1}]: {2}", groupname, propertyname, values.Length);
             Assert.IsTrue(values.Length >= 1);
             Delete(GetAdminTicket(), id);
         }
 
         [Test]
-        protected void GetAllPlacePropertyValuesByIdTest()
+        public void GetAllPlacePropertyValuesByIdTest()
         {
-
+            WebPlaceService.TransitPlacePropertyValue t_instance = GetTransitInstance();
+            t_instance.Id = Create(GetAdminTicket(), t_instance);
+            string groupname = (string)_property._group.GetInstancePropertyById(GetUserTicket(), _property._group_id, "Name");
+            string propertyname = (string)_property.GetInstancePropertyById(GetUserTicket(), _property_id, "Name");
+            WebPlaceService.TransitPlacePropertyValue[] values = EndPoint.GetAllPlacePropertyValuesById(GetAdminTicket(), _place_id, _property._group_id);
+            Console.WriteLine("Property values for [{0}/{1}]: {2}", groupname, propertyname, values.Length);
+            Assert.IsTrue(values.Length >= 1);
+            Assert.IsTrue(new TransitServiceCollection<WebPlaceService.TransitPlacePropertyValue>(values).ContainsId(t_instance.Id));
+            Delete(GetAdminTicket(), t_instance.Id);
         }
 
         [Test]
-        protected void GetPlacesByPropertyValueTest()
+        public void GetPlacesByPropertyValueTest()
         {
-
+            WebPlaceService.TransitPlacePropertyValue t_instance = GetTransitInstance();
+            int id = Create(GetAdminTicket(), t_instance);
+            string groupname = (string)_property._group.GetInstancePropertyById(GetUserTicket(), _property._group_id, "Name");
+            string propertyname = (string)_property.GetInstancePropertyById(GetUserTicket(), _property_id, "Name");
+            int count = EndPoint.GetPlacesByPropertyValueCount(
+                GetUserTicket(), groupname, propertyname, t_instance.Value);
+            Console.WriteLine("Count: {0}", count);
+            Assert.IsTrue(count > 0);
+            WebPlaceService.TransitPlace[] places = EndPoint.GetPlacesByPropertyValue(
+                GetUserTicket(), groupname, propertyname, t_instance.Value, null);
+            Console.WriteLine("Properties for [{0}/{1}/{2}]: {3}", groupname, propertyname, t_instance.Value, places.Length);
+            Assert.IsTrue(places.Length >= 1);
+            Assert.IsTrue(new TransitServiceCollection<WebPlaceService.TransitPlace>(places).ContainsId(_place_id));
+            Delete(GetAdminTicket(), id);
         }
     }
 }

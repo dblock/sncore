@@ -225,6 +225,15 @@ namespace SnCore.Services
             mInstance.Modified = DateTime.UtcNow;
             if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
             base.Save(sec);
+            Session.Flush();
+            Send();
+        }
+
+        public override TransitAccountInvitation GetTransitInstance(ManagedSecurityContext sec)
+        {
+            TransitAccountInvitation t_instance = base.GetTransitInstance(sec);
+            if (sec.IsAdministrator()) t_instance.Code = mInstance.Code;
+            return t_instance;
         }
 
         public override ACL GetACL()

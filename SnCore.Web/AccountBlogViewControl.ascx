@@ -1,8 +1,8 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="AccountBlogViewControl.ascx.cs"
  Inherits="AccountBlogViewControl" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
-<%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLinkControl" Src="AccountContentGroupLinkControl.ascx" %>
 <div class="sncore_h2" runat="server">
  <a href='AccountBlogView.aspx?id=<% Response.Write(BlogId); %>'>
   <% Response.Write(BlogName); %>

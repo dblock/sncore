@@ -24,6 +24,12 @@ public partial class SystemRefererHosts : AuthenticatedPage
 
         if (!IsPostBack)
         {
+            if (!SessionManager.IsAdministrator)
+            {
+                ReportWarning("This page is only available to the system administrator.");
+                return;
+            }
+
             GetData();
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();

@@ -514,7 +514,7 @@ namespace SnCore.Services
         public override TransitPlace GetTransitInstance(ManagedSecurityContext sec)
         {
             TransitPlace instance = base.GetTransitInstance(sec);
-            // TODO if (user_id > 0) instance.CanWrite = CanWrite(user_id);
+            if (sec.Account != null) instance.CanWrite = CanWrite(sec.Account.Id);
             return instance;
         }
 

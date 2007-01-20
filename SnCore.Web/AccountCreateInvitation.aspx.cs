@@ -15,14 +15,22 @@ using SnCore.SiteMap;
 [SiteMapDataAttribute("Join")]
 public partial class AccountCreateInvitation : Page
 {
+    private string Code
+    {
+        get
+        {
+            return Request.QueryString["code"];
+        }
+    }
+
     public void Page_Load(object sender, EventArgs e)
     {
         SetDefaultButton(inputLogin);
 
         if (!IsPostBack)
         {
-            TransitAccountInvitation invitation = SessionManager.AccountService.GetAccountInvitationById(
-                SessionManager.Ticket, RequestId);
+            TransitAccountInvitation invitation = SessionManager.AccountService.GetAccountInvitationByIdAndCode(
+                SessionManager.Ticket, RequestId, Code);
 
             inputEmailAddress.Text = invitation.Email;
         }
@@ -43,7 +51,7 @@ public partial class AccountCreateInvitation : Page
 
         SessionManager.AccountService.CreateAccountWithInvitation(
             RequestId,
-            Request.QueryString["code"],
+            Code,
             ta);
 
         panelCreate.Visible = false;

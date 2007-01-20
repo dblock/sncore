@@ -77,11 +77,5 @@ namespace SnCore.Web.Soap.Tests.WebLocationServiceTests
             EndPoint.DeleteNeighborhood(GetAdminTicket(), id1);
             // TODO: implement a GetCityById that doesn't throw, check that id2 doesn't exist any more
         }
-
-        [Test]
-        protected void GetNeighborhoodsByLocationTest()
-        {
-
-        }
     }
 }

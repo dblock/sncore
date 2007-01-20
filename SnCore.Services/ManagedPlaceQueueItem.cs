@@ -28,6 +28,10 @@ namespace SnCore.Services
             {
                 return mPlace;
             }
+            set
+            {
+                mPlace = value;
+            }
         }
 
         private TransitAccount[] mAccounts;
@@ -37,6 +41,10 @@ namespace SnCore.Services
             get
             {
                 return mAccounts;
+            }
+            set
+            {
+                mAccounts = value;
             }
         }
 

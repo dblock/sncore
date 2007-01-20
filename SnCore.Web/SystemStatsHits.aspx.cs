@@ -26,6 +26,13 @@ public partial class SystemStatsHits : AuthenticatedPage
 
     public void Page_Load()
     {
+        if (!SessionManager.IsAdministrator)
+        {
+            ReportWarning("This page is only available to the system administrator.");
+            imageStats.Visible = false;
+            return;
+        }
+
         if (!IsPostBack)
         {
             SetChartType(ChartType.Daily);

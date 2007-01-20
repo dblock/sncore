@@ -980,11 +980,7 @@ namespace SnCore.Services
             s.Sent = message.Sent;
             s.SenderAccountId = Id;
             s.RecepientAccountId = message.Account.Id;
-            s.AccountMessageFolder = (AccountMessageFolder)Session.CreateCriteria(typeof(AccountMessageFolder))
-                        .Add(Expression.Eq("Account.Id", Id))
-                        .Add(Expression.Eq("Name", "sent"))
-                        .Add(Expression.IsNull("AccountMessageFolderParent"))
-                        .UniqueResult();
+            s.AccountMessageFolder = ManagedAccountMessageFolder.FindRootFolder(Session, Id, "sent");
             if (mInstance.AccountMessages == null) mInstance.AccountMessages = new List<AccountMessage>();
             mInstance.AccountMessages.Add(s);
             Session.Save(s);
@@ -996,17 +992,12 @@ namespace SnCore.Services
 
         #region MessageFolder
 
-        public AccountMessageFolder FindSystemFolder(string name)
+        public AccountMessageFolder FindRootFolder(string name)
         {
             try
             {
-                ICriteria c = Session.CreateCriteria(typeof(AccountMessageFolder))
-                    .Add(Expression.Eq("Account.Id", Id))
-                    .Add(Expression.Eq("Name", name))
-                    .Add(Expression.Eq("System", true))
-                    .Add(Expression.IsNull("AccountMessageFolderParent"));
-
-                return c.UniqueResult<AccountMessageFolder>();
+                return ManagedAccountMessageFolder.FindRootFolder(
+                    Session, Id, name);
             }
             catch (ObjectNotFoundException)
             {
@@ -1025,7 +1016,7 @@ namespace SnCore.Services
 
             foreach (string folder in SystemFolders)
             {
-                AccountMessageFolder instance = FindSystemFolder(folder);
+                AccountMessageFolder instance = FindRootFolder(folder);
 
                 if (instance != null)
                     continue;

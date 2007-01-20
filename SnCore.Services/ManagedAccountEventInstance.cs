@@ -44,13 +44,13 @@ namespace SnCore.Services
             if (!string.IsNullOrEmpty(Country))
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.AppendFormat("AccountEvent.Place.City.Country.Name = {0}", Renderer.SqlEncode(Country));
+                b.AppendFormat("AccountEvent.Place.City.Country.Name = '{0}'", Renderer.SqlEncode(Country));
             }
 
             if (!string.IsNullOrEmpty(State))
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.AppendFormat("AccountEvent.Place.City.State.Name = {0}", Renderer.SqlEncode(State));
+                b.AppendFormat("AccountEvent.Place.City.State.Name = '{0}'", Renderer.SqlEncode(State));
             }
 
             if (!string.IsNullOrEmpty(Name))

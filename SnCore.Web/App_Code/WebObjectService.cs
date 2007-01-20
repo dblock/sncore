@@ -319,21 +319,6 @@ namespace SnCore.WebServices
                 ticket, id);
         }
 
-        /// <summary>
-        /// Get surveys answered by an account.
-        /// </summary>
-        /// <param name="id">account id</param>
-        /// <returns>transit surveys</returns>
-        [WebMethod(Description = "Get surveys answered by account.", CacheDuration = 60)]
-        public List<TransitSurvey> GetAccountSurveysById(string ticket, int id, ServiceQueryOptions options)
-        {
-            return WebServiceImpl<TransitSurvey, ManagedSurvey, Survey>.GetList(
-                ticket, options, string.Format(
-                    "SELECT DISTINCT s FROM Survey s, Account a, SurveyQuestion q, AccountSurveyAnswer sa " +
-                    "WHERE s.Id = q.Survey.Id AND sa.SurveyQuestion.Id = q.Id AND a.Id = sa.Account.Id " +
-                    "AND a.Id = {0} ORDER BY s.Id DESC", id));
-        }
-
         #endregion
 
         #region Picture

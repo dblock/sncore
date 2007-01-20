@@ -42,6 +42,20 @@ namespace SnCore.Services
             }
         }
 
+        private string mAccountPropertyDescription;
+
+        public string AccountPropertyDescription
+        {
+            get
+            {
+                return mAccountPropertyDescription;
+            }
+            set
+            {
+                mAccountPropertyDescription = value;
+            }
+        }
+
         private string mAccountPropertyName;
 
         public string AccountPropertyName
@@ -157,12 +171,13 @@ namespace SnCore.Services
             AccountId = instance.Account.Id;
             AccountPropertyId = instance.AccountProperty.Id;
             AccountPropertyName = instance.AccountProperty.Name;
+            AccountPropertyDescription = instance.AccountProperty.Description;
             AccountPropertyTypeName = instance.AccountProperty.TypeName;
             AccountPropertyGroupName = instance.AccountProperty.AccountPropertyGroup.Name;
             AccountPropertyGroupId = instance.AccountProperty.AccountPropertyGroup.Id;
             Created = instance.Created;
             Modified = instance.Modified;
-            Value = instance.Value;
+            Value = string.IsNullOrEmpty(instance.Value) ? string.Empty : instance.Value;
             base.SetInstance(instance);
         }
 

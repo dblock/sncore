@@ -57,12 +57,13 @@ public partial class AccountPropertyGroupEdit : AuthenticatedPage
                 case ListItemType.SelectedItem:
                     int id = int.Parse(((HiddenField)item.FindControl("Id")).Value);
                     int property_id = int.Parse(((HiddenField)item.FindControl("propertyId")).Value);
+                    string propertytypename = ((HiddenField)item.FindControl("propertyTypeName")).Value;
 
                     TransitAccountPropertyValue value = new TransitAccountPropertyValue();
                     value.Id = id;
                     value.AccountId = SessionManager.Account.Id;
                     value.AccountPropertyId = property_id;
-                    switch (value.AccountPropertyTypeName)
+                    switch (propertytypename)
                     {
                         case "System.Array":
                             value.Value = StringToArray(((TextBox)item.FindControl("array_value")).Text);

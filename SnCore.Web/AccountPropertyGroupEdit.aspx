@@ -34,24 +34,25 @@
      <asp:TemplateColumn ItemStyle-CssClass="sncore_form_label">
       <ItemTemplate>
        <asp:HiddenField ID="Id" runat="server" Value='<%# Eval("Id") %>' />
-       <asp:HiddenField ID="propertyId" runat="server" Value='<%# Eval("AccountProperty.Id") %>' />
-       <%# Render(Eval("AccountProperty.Name")) %> :
+       <asp:HiddenField ID="propertyId" runat="server" Value='<%# Eval("AccountPropertyId") %>' />
+       <asp:HiddenField ID="propertyTypeName" runat="server" Value='<%# Eval("AccountPropertyTypeName") %>' />
+       <%# Render(Eval("AccountPropertyName")) %> :
       </ItemTemplate>
      </asp:TemplateColumn>
      <asp:TemplateColumn ItemStyle-CssClass="sncore_form_value">
       <ItemTemplate>
        <asp:TextBox CssClass="sncore_form_textbox" runat="server" ID="array_value" 
-        Visible='<%# ((Type) Eval("AccountProperty.Type")).ToString() == "System.Array" %>' Text='<%# Eval("Value").ToString().Trim("\"".ToCharArray()).Replace("\"\"", ", ") %>' />
+        Visible='<%# ((string) Eval("AccountPropertyTypeName") == "System.Array") %>' Text='<%# Eval("Value").ToString().Trim("\"".ToCharArray()).Replace("\"\"", ", ") %>' />
        <asp:TextBox TextMode="MultiLine" Rows="5" CssClass="sncore_form_textbox" runat="server" ID="text_value" 
-        Visible='<%# ((Type) Eval("AccountProperty.Type")).ToString() == "System.Text.StringBuilder" %>' Text='<%# Eval("Value").ToString() %>' />
+        Visible='<%# ((string) Eval("AccountPropertyTypeName") == "System.Text.StringBuilder") %>' Text='<%# Eval("Value").ToString() %>' />
        <asp:TextBox CssClass="sncore_form_textbox" runat="server" ID="string_value" 
-        Visible='<%# ((Type) Eval("AccountProperty.Type")).ToString() == "System.String" %>' Text='<%# Eval("Value").ToString() %>' />
+        Visible='<%# ((string) Eval("AccountPropertyTypeName") == "System.String") %>' Text='<%# Eval("Value").ToString() %>' />
        <asp:TextBox CssClass="sncore_form_textbox" runat="server" ID="int_value" 
-        Visible='<%# ((Type) Eval("AccountProperty.Type")).ToString() == "System.Int32" %>' Text='<%# Eval("Value").ToString() %>' />
+        Visible='<%# ((string) Eval("AccountPropertyTypeName") == "System.Int32") %>' Text='<%# Eval("Value").ToString() %>' />
        <asp:CheckBox CssClass="sncore_form_checkbox" runat="server" ID="bool_value" 
-        Visible='<%# ((Type) Eval("AccountProperty.Type")).ToString() == "System.Boolean" %>' Checked='<%# ((string) Eval("Value")) == "True" %>' />
+        Visible='<%# ((string) Eval("AccountPropertyTypeName") == "System.Boolean") %>' Checked='<%# ((string) Eval("Value")) == "True" %>' />
        <div class="sncore_description">
-        <%# Render(Eval("AccountProperty.Description")) %>
+        <%# Render(Eval("AccountPropertyDescription")) %>
        </div>
       </ItemTemplate>
      </asp:TemplateColumn>

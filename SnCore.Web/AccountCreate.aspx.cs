@@ -97,7 +97,7 @@ public partial class AccountCreate : Page
 
             ReportInfo(
                 string.Format(
-                    "Account created. An e-mail has been sent to '{0}' for confirmation. " +
+                    "Account created. An e-mail was sent to '{0}' for confirmation. " +
                     "You must confirm this e-mail address before you log-in.",
                     inputEmailAddress.Text));
 

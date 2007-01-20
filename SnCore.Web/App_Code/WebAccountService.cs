@@ -268,8 +268,15 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account information.", CacheDuration = 60)]
         public TransitAccount GetAccountById(string ticket, int id)
         {
-            return WebServiceImpl<TransitAccount, ManagedAccount, Account>.GetById(
-                ticket, id);
+            try
+            {
+                return WebServiceImpl<TransitAccount, ManagedAccount, Account>.GetById(
+                    ticket, id);
+            }
+            catch (ObjectNotFoundException)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -513,6 +520,33 @@ namespace SnCore.WebServices
         {
             return WebServiceImpl<TransitAccountInvitation, ManagedAccountInvitation, AccountInvitation>.GetById(
                 ticket, id);
+        }
+
+        /// <summary>
+        /// Get account invitation by id and code.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">invitation id</param>
+        /// <returns>transit account invitation</returns>
+        [WebMethod(Description = "Get account invitation by id and code.", CacheDuration = 60)]
+        public TransitAccountInvitation GetAccountInvitationByIdAndCode(string ticket, int id, string code)
+        {
+            string admin_ticket = ticket;
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                admin_ticket = ManagedAccount.GetAdminTicket(session);
+            }
+
+            TransitAccountInvitation t_instance = WebServiceImpl<TransitAccountInvitation, ManagedAccountInvitation, AccountInvitation>.GetById(
+                admin_ticket, id);
+
+            if (t_instance.Code != code)
+            {
+                throw new ManagedAccount.AccessDeniedException();
+            }
+
+            return t_instance;
         }
 
         /// <summary>
@@ -1946,6 +1980,21 @@ namespace SnCore.WebServices
                 ticket, id);
         }
 
+        /// <summary>
+        /// Get surveys answered by an account.
+        /// </summary>
+        /// <param name="id">account id</param>
+        /// <returns>transit surveys</returns>
+        [WebMethod(Description = "Get surveys answered by account.", CacheDuration = 60)]
+        public List<TransitSurvey> GetAccountSurveysById(string ticket, int id, ServiceQueryOptions options)
+        {
+            return WebServiceImpl<TransitSurvey, ManagedSurvey, Survey>.GetList(
+                ticket, options, string.Format(
+                    "SELECT DISTINCT s FROM Survey s, Account a, SurveyQuestion q, AccountSurveyAnswer sa " +
+                    "WHERE s.Id = q.Survey.Id AND sa.SurveyQuestion.Id = q.Id AND a.Id = sa.Account.Id " +
+                    "AND a.Id = {0} ORDER BY s.Id DESC", id));
+        }
+
         #endregion
 
         #region AccountMessageFolder
@@ -2056,16 +2105,23 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account message folder by id.", CacheDuration = 60)]
         public TransitAccountMessageFolder GetAccountMessageSystemFolder(string ticket, int id, string folder)
         {
-            ICriterion[] expression = 
+            try
             {
-                Expression.Eq("Account.Id", id),
-                Expression.Eq("Name", folder),
-                Expression.Eq("System", true),
-                Expression.IsNull("AccountMessageFolderParent")                        
-            };
+                ICriterion[] expression = 
+                {
+                    Expression.Eq("Account.Id", id),
+                    Expression.Eq("Name", folder),
+                    // Expression.Eq("System", true),
+                    Expression.IsNull("AccountMessageFolderParent")                        
+                }; 
 
-            return WebServiceImpl<TransitAccountMessageFolder, ManagedAccountMessageFolder, AccountMessageFolder>.GetByCriterion(
-                ticket, expression);
+                return WebServiceImpl<TransitAccountMessageFolder, ManagedAccountMessageFolder, AccountMessageFolder>.GetByCriterion(
+                    ticket, expression);
+            }
+            catch (ObjectNotFoundException)
+            {
+                return null;
+            }
         }
 
         #endregion
@@ -2089,7 +2145,7 @@ namespace SnCore.WebServices
                 ManagedAccount user = new ManagedAccount(session, id);
                 m.Account = user.Instance;
 
-                if (! user.HasVerifiedEmail(sec))
+                if (!user.HasVerifiedEmail(sec))
                     throw new ManagedAccount.NoVerifiedEmailException();
 
                 m.MailFrom = new MailAddress(user.GetActiveEmailAddress(), user.Name).ToString();
@@ -2153,6 +2209,25 @@ namespace SnCore.WebServices
         {
             return WebServiceImpl<TransitAccountMessage, ManagedAccountMessage, AccountMessage>.CreateOrUpdate(
                 ticket, message);
+        }
+
+        /// <summary>
+        /// Send someone a message.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="message">new message</param>
+        [WebMethod(Description = "Send someone a message.")]
+        public int SendAccountMessage(string ticket, TransitAccountMessage message)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                ManagedAccount m_account = new ManagedAccount(session, sec.Account);
+                int id = m_account.SendAccountMessage(message, sec);
+                SnCore.Data.Hibernate.Session.Flush();
+                return id;
+            }
         }
 
         /// <summary>

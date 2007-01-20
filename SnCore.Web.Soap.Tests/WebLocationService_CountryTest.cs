@@ -23,9 +23,14 @@ namespace SnCore.Web.Soap.Tests.WebLocationServiceTests
         }
 
         [Test]
-        protected void GetCountriesWithDefaultTest()
+        public void GetCountriesWithDefaultTest()
         {
-
+            string name = "United States";
+            WebLocationService.TransitCountry[] countries1 = EndPoint.GetCountries(GetAdminTicket(), null);
+            WebLocationService.TransitCountry[] countries2 = EndPoint.GetCountriesWithDefault(GetAdminTicket(), name, null);
+            Assert.AreEqual(countries1.Length + 2, countries2.Length);
+            Assert.AreEqual(countries2[0].Name, name);
+            Assert.AreEqual(countries2[1].Id, 0);
         }
     }
 }

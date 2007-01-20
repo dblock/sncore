@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
 using System.Web.Services.Protocols;
+using System.Threading;
 
 namespace SnCore.Web.Soap.Tests.WebBugServiceTests
 {
@@ -145,9 +146,22 @@ namespace SnCore.Web.Soap.Tests.WebBugServiceTests
         }
 
         [Test]
-        protected void GetBugsWithOptionsTest()
+        public void GetBugsWithOptionsTest()
         {
-
+            WebBugService.TransitBug t_instance = GetTransitInstance();
+            t_instance.Id = Create(GetAdminTicket(), t_instance);
+            Thread.Sleep(2000); // give time to reindex
+            WebBugService.TransitBugQueryOptions options = new WebBugService.TransitBugQueryOptions();
+            options.Closed = options.Open = options.Resolved = true;
+            options.ProjectId = _project_id;
+            options.SearchQuery = t_instance.Subject;
+            int count = EndPoint.GetBugsWithOptionsCount(GetAdminTicket(), options);
+            Console.WriteLine("Count: {0}", count);
+            WebBugService.TransitBug[] bugs = EndPoint.GetBugsWithOptions(GetAdminTicket(), options, null);
+            Console.WriteLine("Length: {0}", bugs.Length);
+            Assert.AreEqual(count, bugs.Length);
+            Assert.IsTrue(new TransitServiceCollection<WebBugService.TransitBug>(bugs).ContainsId(t_instance.Id));
+            Delete(GetAdminTicket(), t_instance.Id);
         }
     }
 }

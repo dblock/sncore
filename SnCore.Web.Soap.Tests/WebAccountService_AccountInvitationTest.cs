@@ -38,6 +38,22 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         }
 
         [Test]
+        protected void CreateAccountInvitationVerifyEmailTest()
+        {
+            // create an invitation from admin to a new user
+            WebAccountService.TransitAccountInvitation t_instance = GetTransitInstance();
+            t_instance.Id = Create(GetAdminTicket(), t_instance);
+            // check that there's an email sent to the recepient
+            // TODO: verify that there's an e-mail in AccountEmailMessage and that it contains the code
+        }
+
+        [Test]
+        protected void GetAccountInvitationByIdAndCodeTest()
+        {
+
+        }
+
+        [Test]
         public void CreateAccountInvitationTest()
         {
             // create an invitation from admin to a new user

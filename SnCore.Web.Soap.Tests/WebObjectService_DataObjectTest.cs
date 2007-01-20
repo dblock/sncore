@@ -23,15 +23,27 @@ namespace SnCore.Web.Soap.Tests.WebObjectServiceTests
         }
 
         [Test]
-        protected void GetDataObjectFieldsByIdTest()
+        public void GetDataObjectFieldsByIdTest()
         {
-
-        }
-
-        [Test]
-        protected void DeleteAllFeaturesTest()
-        {
-
+            bool bFound = false;
+            // find the Account data object
+            WebObjectService.TransitDataObject[] objects = EndPoint.GetDataObjects(GetAdminTicket(), null);
+            foreach(WebObjectService.TransitDataObject instance in objects)
+            {
+                if (instance.Name == "Account")
+                {
+                    bFound = true;
+                    Console.WriteLine("Account Data Object: {0}", instance.Id);
+                    string[] fields = EndPoint.GetDataObjectFieldsById(GetAdminTicket(), instance.Id);
+                    Console.WriteLine("Fields: {0}", fields.Length);
+                    Assert.IsTrue(fields.Length > 0);
+                    foreach (string field in fields)
+                    {
+                        Console.WriteLine("Field: {0}", field);
+                    }
+                }
+            }
+            Assert.IsTrue(bFound);
         }
     }
 }

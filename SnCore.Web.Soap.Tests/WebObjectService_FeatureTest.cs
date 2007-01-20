@@ -55,9 +55,29 @@ namespace SnCore.Web.Soap.Tests.WebObjectServiceTests
         }
 
         [Test]
-        protected void GetLatestFeatureTest()
+        public void GetLatestFeatureTest()
         {
+            WebObjectService.TransitFeature t_instance = GetTransitInstance();
+            t_instance.Id = Create(GetAdminTicket(), t_instance);
+            WebObjectService.TransitFeature t_feature = EndPoint.GetLatestFeature(GetAdminTicket(), t_instance.DataObjectName);
+            Console.WriteLine("Feature: {0}", t_feature.Id);
+            Delete(GetAdminTicket(), t_instance.Id);
+        }
 
+        [Test]
+        public void DeleteAllFeaturesTest()
+        {
+            WebObjectService.TransitFeature t_instance = GetTransitInstance();
+            t_instance.Id = Create(GetAdminTicket(), t_instance);
+            WebObjectService.TransitFeature t_feature = EndPoint.GetLatestFeature(GetAdminTicket(), t_instance.DataObjectName);
+            Console.WriteLine("Feature: {0}", t_feature.Id);
+            EndPoint.DeleteAllFeatures(GetAdminTicket(), t_instance);
+            WebObjectService.TransitFeature t_feature_deleted = EndPoint.GetLatestFeature(GetAdminTicket(), t_instance.DataObjectName);
+            if (t_feature_deleted != null)
+            {
+                Assert.AreNotEqual(t_feature.Id, t_feature_deleted.Id);
+                Console.WriteLine("Feature: {0}", t_feature_deleted.Id);
+            }
         }
     }
 }

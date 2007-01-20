@@ -38,13 +38,13 @@ namespace SnCore.Services
             if (!string.IsNullOrEmpty(Country))
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.AppendFormat("Account.Country.Name = {0}", Country);
+                b.AppendFormat("Account.Country.Name = '{0}'", Country);
             }
 
             if (!string.IsNullOrEmpty(State))
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.AppendFormat("Account.State.Name = {0}", State);
+                b.AppendFormat("Account.State.Name = '{0}'", State);
             }
 
             if (PicturesOnly)

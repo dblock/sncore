@@ -37,9 +37,13 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
         }
 
         [Test]
-        protected void GetOrCreatePlaceQueueByNameTest()
+        public void GetOrCreatePlaceQueueByNameTest()
         {
-
+            string name = Guid.NewGuid().ToString();
+            WebPlaceService.TransitPlaceQueue t_instance = EndPoint.GetOrCreatePlaceQueueByName(GetAdminTicket(), GetUserAccount().Id, name);
+            Assert.IsNotNull(t_instance);
+            Assert.IsTrue(t_instance.Id > 0);
+            EndPoint.DeletePlaceQueue(GetAdminTicket(), t_instance.Id);
         }
     }
 }

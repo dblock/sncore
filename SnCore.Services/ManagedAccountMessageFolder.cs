@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using SnCore.Tools.Collections;
 using SnCore.Data.Hibernate;
+using NHibernate.Expression;
 
 namespace SnCore.Services
 {
@@ -180,9 +181,9 @@ namespace SnCore.Services
             {
                 instance.Account = GetOwner(session, AccountId, sec);
                 instance.System = this.System;
-            } 
-            
-            if (Id == 0 || ! instance.System) // system folders cannot be renamed
+            }
+
+            if (Id == 0 || !instance.System) // system folders cannot be renamed
             {
                 instance.Name = this.Name;
             }
@@ -344,6 +345,16 @@ namespace SnCore.Services
         {
             base.Check(t_instance, sec);
             if (t_instance.Id == 0) GetQuota().Check(mInstance.Account.AccountMessageFolders);
+        }
+
+        public static AccountMessageFolder FindRootFolder(ISession session, int account_id, string name)
+        {
+            return (AccountMessageFolder) session.CreateCriteria(typeof(AccountMessageFolder))
+                .Add(Expression.Eq("Name", name))
+                .Add(Expression.IsNull("AccountMessageFolderParent"))
+                // .Add(Expression.Eq("System", true))
+                .Add(Expression.Eq("Account.Id", account_id))
+                .UniqueResult();
         }
     }
 }

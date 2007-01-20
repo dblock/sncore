@@ -39,6 +39,8 @@ namespace SnCore.Web.Soap.Tests.WebLocationService {
         
         private System.Threading.SendOrPostCallback GetCountriesOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetCountriesWithDefaultOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetCountriesCountOperationCompleted;
         
         private System.Threading.SendOrPostCallback DeleteCountryOperationCompleted;
@@ -72,6 +74,10 @@ namespace SnCore.Web.Soap.Tests.WebLocationService {
         private System.Threading.SendOrPostCallback GetCitiesByCountryIdOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetCitiesByStateIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetCitiesByLocationOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetNeighborhoodsByLocationOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetCitiesByCountryIdCountOperationCompleted;
         
@@ -151,6 +157,9 @@ namespace SnCore.Web.Soap.Tests.WebLocationService {
         public event GetCountriesCompletedEventHandler GetCountriesCompleted;
         
         /// <remarks/>
+        public event GetCountriesWithDefaultCompletedEventHandler GetCountriesWithDefaultCompleted;
+        
+        /// <remarks/>
         public event GetCountriesCountCompletedEventHandler GetCountriesCountCompleted;
         
         /// <remarks/>
@@ -200,6 +209,12 @@ namespace SnCore.Web.Soap.Tests.WebLocationService {
         
         /// <remarks/>
         public event GetCitiesByStateIdCompletedEventHandler GetCitiesByStateIdCompleted;
+        
+        /// <remarks/>
+        public event GetCitiesByLocationCompletedEventHandler GetCitiesByLocationCompleted;
+        
+        /// <remarks/>
+        public event GetNeighborhoodsByLocationCompletedEventHandler GetNeighborhoodsByLocationCompleted;
         
         /// <remarks/>
         public event GetCitiesByCountryIdCountCompletedEventHandler GetCitiesByCountryIdCountCompleted;
@@ -336,6 +351,39 @@ namespace SnCore.Web.Soap.Tests.WebLocationService {
             if ((this.GetCountriesCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetCountriesCompleted(this, new GetCountriesCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetCountriesWithDefault", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitCountry[] GetCountriesWithDefault(string ticket, string defaultname, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetCountriesWithDefault", new object[] {
+                        ticket,
+                        defaultname,
+                        options});
+            return ((TransitCountry[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetCountriesWithDefaultAsync(string ticket, string defaultname, ServiceQueryOptions options) {
+            this.GetCountriesWithDefaultAsync(ticket, defaultname, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetCountriesWithDefaultAsync(string ticket, string defaultname, ServiceQueryOptions options, object userState) {
+            if ((this.GetCountriesWithDefaultOperationCompleted == null)) {
+                this.GetCountriesWithDefaultOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetCountriesWithDefaultOperationCompleted);
+            }
+            this.InvokeAsync("GetCountriesWithDefault", new object[] {
+                        ticket,
+                        defaultname,
+                        options}, this.GetCountriesWithDefaultOperationCompleted, userState);
+        }
+        
+        private void OnGetCountriesWithDefaultOperationCompleted(object arg) {
+            if ((this.GetCountriesWithDefaultCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetCountriesWithDefaultCompleted(this, new GetCountriesWithDefaultCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -863,6 +911,78 @@ namespace SnCore.Web.Soap.Tests.WebLocationService {
             if ((this.GetCitiesByStateIdCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetCitiesByStateIdCompleted(this, new GetCitiesByStateIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetCitiesByLocation", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitCity[] GetCitiesByLocation(string ticket, string country, string state, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetCitiesByLocation", new object[] {
+                        ticket,
+                        country,
+                        state,
+                        options});
+            return ((TransitCity[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetCitiesByLocationAsync(string ticket, string country, string state, ServiceQueryOptions options) {
+            this.GetCitiesByLocationAsync(ticket, country, state, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetCitiesByLocationAsync(string ticket, string country, string state, ServiceQueryOptions options, object userState) {
+            if ((this.GetCitiesByLocationOperationCompleted == null)) {
+                this.GetCitiesByLocationOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetCitiesByLocationOperationCompleted);
+            }
+            this.InvokeAsync("GetCitiesByLocation", new object[] {
+                        ticket,
+                        country,
+                        state,
+                        options}, this.GetCitiesByLocationOperationCompleted, userState);
+        }
+        
+        private void OnGetCitiesByLocationOperationCompleted(object arg) {
+            if ((this.GetCitiesByLocationCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetCitiesByLocationCompleted(this, new GetCitiesByLocationCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetNeighborhoodsByLocation", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitNeighborhood[] GetNeighborhoodsByLocation(string ticket, string country, string state, string city, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetNeighborhoodsByLocation", new object[] {
+                        ticket,
+                        country,
+                        state,
+                        city,
+                        options});
+            return ((TransitNeighborhood[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetNeighborhoodsByLocationAsync(string ticket, string country, string state, string city, ServiceQueryOptions options) {
+            this.GetNeighborhoodsByLocationAsync(ticket, country, state, city, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetNeighborhoodsByLocationAsync(string ticket, string country, string state, string city, ServiceQueryOptions options, object userState) {
+            if ((this.GetNeighborhoodsByLocationOperationCompleted == null)) {
+                this.GetNeighborhoodsByLocationOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetNeighborhoodsByLocationOperationCompleted);
+            }
+            this.InvokeAsync("GetNeighborhoodsByLocation", new object[] {
+                        ticket,
+                        country,
+                        state,
+                        city,
+                        options}, this.GetNeighborhoodsByLocationOperationCompleted, userState);
+        }
+        
+        private void OnGetNeighborhoodsByLocationOperationCompleted(object arg) {
+            if ((this.GetNeighborhoodsByLocationCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetNeighborhoodsByLocationCompleted(this, new GetNeighborhoodsByLocationCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1725,6 +1845,32 @@ namespace SnCore.Web.Soap.Tests.WebLocationService {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetCountriesWithDefaultCompletedEventHandler(object sender, GetCountriesWithDefaultCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetCountriesWithDefaultCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetCountriesWithDefaultCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitCountry[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitCountry[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
     public delegate void GetCountriesCountCompletedEventHandler(object sender, GetCountriesCountCompletedEventArgs e);
     
     /// <remarks/>
@@ -2117,6 +2263,58 @@ namespace SnCore.Web.Soap.Tests.WebLocationService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((TransitCity[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetCitiesByLocationCompletedEventHandler(object sender, GetCitiesByLocationCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetCitiesByLocationCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetCitiesByLocationCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitCity[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitCity[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetNeighborhoodsByLocationCompletedEventHandler(object sender, GetNeighborhoodsByLocationCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetNeighborhoodsByLocationCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetNeighborhoodsByLocationCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitNeighborhood[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitNeighborhood[])(this.results[0]));
             }
         }
     }

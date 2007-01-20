@@ -52,21 +52,41 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
         }
 
         [Test]
-        protected void IsAccountPlaceFavoriteTest()
+        public void IsAccountPlaceFavoriteTest()
         {
-
+            WebPlaceService.TransitAccountPlaceFavorite t_instance = GetTransitInstance();
+            Assert.IsFalse(EndPoint.IsAccountPlaceFavorite(GetAdminTicket(), t_instance.AccountId, _place_id));
+            t_instance.Id = Create(GetAdminTicket(), t_instance);
+            Assert.IsTrue(EndPoint.IsAccountPlaceFavorite(GetAdminTicket(), t_instance.AccountId, _place_id));
+            Delete(GetAdminTicket(), t_instance.Id);
         }
 
         [Test]
-        protected void GetAccountPlaceFavoritesByAccountIdTest()
+        public void GetAccountPlaceFavoritesByAccountIdTest()
         {
-
+            WebPlaceService.TransitAccountPlaceFavorite t_instance = GetTransitInstance();
+            t_instance.Id = Create(GetAdminTicket(), t_instance);
+            int count = EndPoint.GetAccountPlaceFavoritesCountByAccountId(GetAdminTicket(), t_instance.AccountId);
+            Console.WriteLine("Count: {0}", count);
+            WebPlaceService.TransitAccountPlaceFavorite[] favorites = EndPoint.GetAccountPlaceFavoritesByAccountId(GetAdminTicket(), t_instance.AccountId, null);
+            Console.WriteLine("Length: {0}", favorites.Length);
+            Assert.AreEqual(count, favorites.Length);
+            Assert.IsTrue(new TransitServiceCollection<WebPlaceService.TransitAccountPlaceFavorite>(favorites).ContainsId(t_instance.Id));
+            Delete(GetAdminTicket(), t_instance.Id);
         }
 
         [Test]
-        protected void GetFavoritePlacesTest()
+        public void GetFavoritePlacesTest()
         {
-
+            WebPlaceService.TransitAccountPlaceFavorite t_instance = GetTransitInstance();
+            t_instance.Id = Create(GetAdminTicket(), t_instance);
+            int count = EndPoint.GetFavoritePlacesCount(GetAdminTicket());
+            Console.WriteLine("Count: {0}", count);
+            WebPlaceService.TransitPlace[] places = EndPoint.GetFavoritePlaces(GetAdminTicket(), null);
+            Console.WriteLine("Length: {0}", places.Length);
+            Assert.AreEqual(count, places.Length);
+            Assert.IsTrue(new TransitServiceCollection<WebPlaceService.TransitPlace>(places).ContainsId(t_instance.PlaceId));
+            Delete(GetAdminTicket(), t_instance.Id);
         }
     }
 }

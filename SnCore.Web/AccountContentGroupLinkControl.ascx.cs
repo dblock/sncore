@@ -74,7 +74,11 @@ public partial class AccountContentGroupLinkControl : Control
                 id, SessionManager.ContentService.GetAccountContentGroupById);
         }
 
-        Cache.Insert(key, instance, null, Cache.NoAbsoluteExpiration, SessionManager.DefaultCacheTimeSpan);
+        if (instance != null)
+        {
+            Cache.Insert(key, instance, null, Cache.NoAbsoluteExpiration, SessionManager.DefaultCacheTimeSpan);
+        }
+
         return instance;
     }
 

@@ -58,7 +58,7 @@ public partial class AccountFriendRequestsManage : AuthenticatedPage
                     SessionManager.SocialService.AcceptAccountFriendRequest(SessionManager.Ticket, id, inputReason.Text);
                     GetData(sender, e);
                     ReportInfo("Friend request accepted." +
-                        (string.IsNullOrEmpty(inputReason.Text) ? string.Empty : " An e-mail has been sent."));
+                        (string.IsNullOrEmpty(inputReason.Text) ? string.Empty : " An e-mail was sent."));
                     break;
                 }
             case "Reject":
@@ -67,7 +67,7 @@ public partial class AccountFriendRequestsManage : AuthenticatedPage
                     SessionManager.SocialService.RejectAccountFriendRequest(SessionManager.Ticket, id, inputReason.Text);
                     GetData(sender, e);
                     ReportInfo("Friend request rejected." +
-                        (string.IsNullOrEmpty(inputReason.Text) ? string.Empty : " An e-mail has been sent."));
+                        (string.IsNullOrEmpty(inputReason.Text) ? string.Empty : " An e-mail was sent."));
                     break;
                 }
         }

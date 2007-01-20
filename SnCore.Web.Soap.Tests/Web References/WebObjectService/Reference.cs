@@ -85,8 +85,6 @@ namespace SnCore.Web.Soap.Tests.WebObjectService {
         
         private System.Threading.SendOrPostCallback GetSurveyByIdOperationCompleted;
         
-        private System.Threading.SendOrPostCallback GetAccountSurveysByIdOperationCompleted;
-        
         private System.Threading.SendOrPostCallback CreateOrUpdatePictureOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetPictureByIdOperationCompleted;
@@ -288,9 +286,6 @@ namespace SnCore.Web.Soap.Tests.WebObjectService {
         
         /// <remarks/>
         public event GetSurveyByIdCompletedEventHandler GetSurveyByIdCompleted;
-        
-        /// <remarks/>
-        public event GetAccountSurveysByIdCompletedEventHandler GetAccountSurveysByIdCompleted;
         
         /// <remarks/>
         public event CreateOrUpdatePictureCompletedEventHandler CreateOrUpdatePictureCompleted;
@@ -1114,39 +1109,6 @@ namespace SnCore.Web.Soap.Tests.WebObjectService {
             if ((this.GetSurveyByIdCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetSurveyByIdCompleted(this, new GetSurveyByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountSurveysById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public TransitSurvey[] GetAccountSurveysById(string ticket, int id, ServiceQueryOptions options) {
-            object[] results = this.Invoke("GetAccountSurveysById", new object[] {
-                        ticket,
-                        id,
-                        options});
-            return ((TransitSurvey[])(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetAccountSurveysByIdAsync(string ticket, int id, ServiceQueryOptions options) {
-            this.GetAccountSurveysByIdAsync(ticket, id, options, null);
-        }
-        
-        /// <remarks/>
-        public void GetAccountSurveysByIdAsync(string ticket, int id, ServiceQueryOptions options, object userState) {
-            if ((this.GetAccountSurveysByIdOperationCompleted == null)) {
-                this.GetAccountSurveysByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountSurveysByIdOperationCompleted);
-            }
-            this.InvokeAsync("GetAccountSurveysById", new object[] {
-                        ticket,
-                        id,
-                        options}, this.GetAccountSurveysByIdOperationCompleted, userState);
-        }
-        
-        private void OnGetAccountSurveysByIdOperationCompleted(object arg) {
-            if ((this.GetAccountSurveysByIdCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetAccountSurveysByIdCompleted(this, new GetAccountSurveysByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -4473,32 +4435,6 @@ namespace SnCore.Web.Soap.Tests.WebObjectService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((TransitSurvey)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    public delegate void GetAccountSurveysByIdCompletedEventHandler(object sender, GetAccountSurveysByIdCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetAccountSurveysByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetAccountSurveysByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public TransitSurvey[] Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((TransitSurvey[])(this.results[0]));
             }
         }
     }

@@ -32,8 +32,9 @@ public partial class AccountPropertyGroupsViewControl : Control
     {
         if (!IsPostBack)
         {
-            groups.DataSource = SessionManager.GetCollection<TransitAccountPropertyGroup>(
+            IList<TransitAccountPropertyGroup> instances = SessionManager.GetCollection<TransitAccountPropertyGroup>(
                 (ServiceQueryOptions)null, SessionManager.AccountService.GetAccountPropertyGroups);
+            groups.DataSource = instances;
             groups.DataBind();
         }
     }
@@ -51,6 +52,16 @@ public partial class AccountPropertyGroupsViewControl : Control
                 {
                     IList<TransitAccountPropertyValue> propertyvalues = SessionManager.GetCollection<TransitAccountPropertyValue, int, int>(
                         AccountId, group.Id, (ServiceQueryOptions) null, SessionManager.AccountService.GetAccountPropertyValues);
+                    
+                    for (int i = propertyvalues.Count - 1; i >= 0; i--)
+                    {
+                        if (string.IsNullOrEmpty(propertyvalues[i].Value))
+                        {
+                            propertyvalues.RemoveAt(i);
+                        }
+                    }
+
+                    if (propertyvalues.Count == 0) values.Visible = false;
                     values.DataSource = propertyvalues;
                     HtmlControl title = (HtmlControl)e.Item.FindControl("title");
                     title.Visible = (propertyvalues.Count > 0);
