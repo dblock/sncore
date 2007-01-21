@@ -195,5 +195,48 @@ namespace SnCore.Services.Tests
             }
         }
 
+        [Test] // foodcandy bug #413
+        public void GetDiscussionPostAndThreadCountTest()
+        {
+            ManagedAccount a = new ManagedAccount(Session);
+            ManagedDiscussion d = new ManagedDiscussion(Session);
+            ManagedDiscussionPost p = new ManagedDiscussionPost(Session);
+            try
+            {
+                a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
+                a.VerifyAllEmails();
+
+                TransitDiscussion t_d = new TransitDiscussion();
+                t_d.Description = Guid.NewGuid().ToString();
+                t_d.Name = Guid.NewGuid().ToString();
+                t_d.Personal = false;
+                d.CreateOrUpdate(t_d, a.GetSecurityContext());
+
+                Session.Flush();
+
+                TransitDiscussion t_instance1 = d.GetTransitInstance(AdminSecurityContext);
+                Assert.AreEqual(0, t_instance1.PostCount);
+                Assert.AreEqual(0, t_instance1.ThreadCount);
+
+                TransitDiscussionPost t_p = new TransitDiscussionPost();
+                t_p.Subject = Guid.NewGuid().ToString();
+                t_p.Body = Guid.NewGuid().ToString();
+                t_p.DiscussionId = d.Id;
+                p.CreateOrUpdate(t_p, a.GetSecurityContext());
+
+                Session.Flush();
+
+                TransitDiscussion t_instance2 = d.GetTransitInstance(AdminSecurityContext);
+                Assert.AreEqual(1, t_instance2.PostCount);
+                Assert.AreEqual(1, t_instance2.ThreadCount);
+            }
+            finally
+            {
+                p.Delete(a.GetSecurityContext());
+                d.Delete(a.GetSecurityContext());
+                a.Delete(a.GetSecurityContext());
+            }
+        }
+
     }
 }

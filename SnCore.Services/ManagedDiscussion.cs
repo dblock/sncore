@@ -481,5 +481,13 @@ namespace SnCore.Services
             }
             return result;
         }
+
+        public override TransitDiscussion GetTransitInstance(ManagedSecurityContext sec)
+        {
+            TransitDiscussion t_instance = base.GetTransitInstance(sec);
+            t_instance.PostCount = GetDiscussionPostCount(Session, Id);
+            t_instance.ThreadCount = GetDiscussionThreadCount(Session, Id);
+            return t_instance;
+        }
     }
 }
