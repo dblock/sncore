@@ -16,6 +16,11 @@ using System.Web.Hosting;
 
 public class Global : SnCore.Tools.Web.HostedApplication
 {
+    private SystemMailMessageService mMailMessageService = new SystemMailMessageService();
+    private SystemTagWordService mTagWordService = new SystemTagWordService();
+    private SystemReminderService mSystemReminderService = new SystemReminderService();
+    private SystemSyndicationService mSystemSyndicationService = new SystemSyndicationService();
+
     public Global()
     {
 
@@ -42,6 +47,14 @@ public class Global : SnCore.Tools.Web.HostedApplication
 
             return;
         }
+
+        mMailMessageService.Start();
+        mTagWordService.Start();
+        mSystemReminderService.Start();
+        mSystemSyndicationService.Start();
+
+        WebSystemService system = new WebSystemService();
+        EventLog.WriteEntry(string.Format("Running with web services {0}.", system.GetVersion()), EventLogEntryType.Information);
     }
 
     protected void Session_Start(Object sender, EventArgs e)

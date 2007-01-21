@@ -8,6 +8,7 @@
     <assembly path="SnCore.Tools.Tests\bin\Debug\SnCore.Tools.Tests.dll" />
     <assembly path="SnCore.Web.Tests\bin\Debug\SnCore.Web.Tests.dll" />
     <assembly path="SnCore.WebServices.Tests\bin\Debug\SnCore.WebServices.Tests.dll" />
+    <assembly path="SnCore.Web.Soap.Tests\bin\Debug\SnCore.Web.Soap.Tests.dll" />
   </Config>
   <Config name="Release" binpathtype="Auto">
     <assembly path="SnCore.WebServices.Tests\bin\Release\SnCore.WebServices.Tests.dll" />
