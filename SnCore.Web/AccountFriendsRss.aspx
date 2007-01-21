@@ -4,8 +4,8 @@
 
 <rss version="2.0">
   <channel>
-    <title><% Response.Write(Name); %></title>
-    <description><% Response.Write(Account.Name); %>'s friends</description>
+    <title><% Response.Write(PageTitle); %></title>
+    <description><% Response.Write(PageDescription); %></description>
     <link><% Response.Write(Link); %></link>
     <generator>sncore/sncore.vestris.com</generator>
     <image>

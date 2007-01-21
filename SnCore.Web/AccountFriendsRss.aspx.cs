@@ -13,12 +13,30 @@ using SnCore.WebServices;
 
 public partial class AccountFriendsRss : AccountPersonPage
 {
-    public string Name
+    public string PageTitle
     {
         get
         {
+            if (Account == null)
+            {
+                return string.Empty;
+            }
+
             return Renderer.Render(string.Format("{0} {1}'s Friends",
                 SessionManager.GetCachedConfiguration("SnCore.Title", "SnCore"), Account.Name));
+        }
+    }
+
+    public string PageDescription
+    {
+        get
+        {
+            if (Account == null)
+            {
+                return string.Empty;
+            }
+
+            return Renderer.Render(string.Format("{0}'s Friends", Account.Name));
         }
     }
 
@@ -26,6 +44,13 @@ public partial class AccountFriendsRss : AccountPersonPage
     {
         if (!IsPostBack)
         {
+            if (Account == null)
+            {
+                Response.StatusCode = 404;
+                Response.End();
+                return;
+            }
+
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = 0;
             options.PageSize = 25;
