@@ -19,32 +19,39 @@ public partial class AccountBlogPostView : Page
     {
         if (!IsPostBack)
         {
-            TransitAccountBlogPost tfi = SessionManager.GetInstance<TransitAccountBlogPost, int>(
+            TransitAccountBlogPost post = SessionManager.GetInstance<TransitAccountBlogPost, int>(
                 RequestId, SessionManager.BlogService.GetAccountBlogPostById);
 
-            labelAccountName.Text = Renderer.Render(tfi.AccountName);
-            imageAccount.Src = string.Format("AccountPictureThumbnail.aspx?id={0}", tfi.AccountPictureId);
+            if (post == null)
+            {
+                Response.StatusCode = 404;
+                Response.End();
+                return;
+            }
+
+            labelAccountName.Text = Renderer.Render(post.AccountName);
+            imageAccount.Src = string.Format("AccountPictureThumbnail.aspx?id={0}", post.AccountPictureId);
 
             this.Title = string.Format("{0}'s {1} in {2}",
-                Renderer.Render(tfi.AccountName),
-                Renderer.Render(tfi.Title),
-                Renderer.Render(tfi.AccountBlogName));
+                Renderer.Render(post.AccountName),
+                Renderer.Render(post.Title),
+                Renderer.Render(post.AccountBlogName));
 
-            licenseView.AccountId = tfi.AccountId;
+            licenseView.AccountId = post.AccountId;
 
-            BlogTitle.Text = Renderer.Render(tfi.AccountBlogName);
-            BlogPostCreated.Text = base.Adjust(tfi.Created).ToString();
+            BlogTitle.Text = Renderer.Render(post.AccountBlogName);
+            BlogPostCreated.Text = base.Adjust(post.Created).ToString();
 
-            linkEdit.Visible = tfi.CanEdit;
+            linkEdit.Visible = post.CanEdit;
             linkEdit.NavigateUrl = string.Format("AccountBlogPost.aspx?bid={0}&id={1}&ReturnUrl={2}",
-                tfi.AccountBlogId, tfi.Id, Renderer.UrlEncode(Request.Url.PathAndQuery));
-            linkDelete.Visible = tfi.CanDelete;
+                post.AccountBlogId, post.Id, Renderer.UrlEncode(Request.Url.PathAndQuery));
+            linkDelete.Visible = post.CanDelete;
 
-            linkAccountView.HRef = string.Format("AccountView.aspx?id={0}", tfi.AccountId);
-            BlogTitle.NavigateUrl = string.Format("AccountBlogView.aspx?id={0}", tfi.AccountBlogId);
+            linkAccountView.HRef = string.Format("AccountView.aspx?id={0}", post.AccountId);
+            BlogTitle.NavigateUrl = string.Format("AccountBlogView.aspx?id={0}", post.AccountBlogId);
 
-            BlogPostTitle.Text = Renderer.Render(string.IsNullOrEmpty(tfi.Title) ? "Untitled" : tfi.Title);
-            BlogPostBody.Text = RenderEx(tfi.Body);
+            BlogPostTitle.Text = Renderer.Render(string.IsNullOrEmpty(post.Title) ? "Untitled" : post.Title);
+            BlogPostBody.Text = RenderEx(post.Body);
 
             BlogPostComments.DiscussionId = SessionManager.GetCount<TransitDiscussion, int>(
                 RequestId, SessionManager.DiscussionService.GetOrCreateAccountBlogPostDiscussionId);
@@ -52,8 +59,8 @@ public partial class AccountBlogPostView : Page
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Blogs", Request, "AccountFeedItemsView.aspx"));
-            sitemapdata.Add(new SiteMapDataAttributeNode(tfi.AccountBlogName, Request, string.Format("AccountBlogView.aspx?id={0}", tfi.AccountBlogId)));
-            sitemapdata.Add(new SiteMapDataAttributeNode(tfi.Title, Request.Url));
+            sitemapdata.Add(new SiteMapDataAttributeNode(post.AccountBlogName, Request, string.Format("AccountBlogView.aspx?id={0}", post.AccountBlogId)));
+            sitemapdata.Add(new SiteMapDataAttributeNode(post.Title, Request.Url));
             StackSiteMap(sitemapdata);
         }
     }
@@ -62,7 +69,7 @@ public partial class AccountBlogPostView : Page
     {
         TransitAccountBlogPost tfi = SessionManager.GetInstance<TransitAccountBlogPost, int>(
             RequestId, SessionManager.BlogService.GetAccountBlogPostById);
-        SessionManager.BlogService.DeleteAccountBlogPost(SessionManager.Ticket, tfi.Id);
-        Redirect(string.Format("AccountBlogView.aspx?id={0}", tfi.AccountBlogId));
+        SessionManager.BlogService.DeleteAccountBlogPost(SessionManager.Ticket, post.Id);
+        Redirect(string.Format("AccountBlogView.aspx?id={0}", post.AccountBlogId));
     }
 }

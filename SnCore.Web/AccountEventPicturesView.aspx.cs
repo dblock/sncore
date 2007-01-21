@@ -24,16 +24,16 @@ public partial class AccountEventPicturesView : Page
 
             if (RequestId > 0)
             {
-                TransitAccountEvent a = SessionManager.EventService.GetAccountEventById(
+                TransitAccountEvent evt = SessionManager.EventService.GetAccountEventById(
                     SessionManager.Ticket, RequestId, SessionManager.UtcOffset);
 
-                this.Title = string.Format("{0} Pictures", Renderer.Render(a.Name));
+                this.Title = string.Format("{0} Pictures", Renderer.Render(evt.Name));
                 listView.DataSource = SessionManager.EventService.GetAccountEventPictures(
                     SessionManager.Ticket, RequestId, null);
                 listView.DataBind();
 
-                sitemapdata.AddRange(SiteMapDataAttribute.GetLocationAttributeNodes(Request, "AccountEventsToday.aspx", a.PlaceCountry, a.PlaceState, a.PlaceCity, a.PlaceNeighborhood, a.AccountEventType));
-                sitemapdata.Add(new SiteMapDataAttributeNode(a.Name, Request, string.Format("AccountEventView.aspx?id={0}", a.Id)));
+                sitemapdata.AddRange(SiteMapDataAttribute.GetLocationAttributeNodes(Request, "AccountEventsToday.aspx", evt.PlaceCountry, evt.PlaceState, evt.PlaceCity, evt.PlaceNeighborhood, evt.AccountEventType));
+                sitemapdata.Add(new SiteMapDataAttributeNode(evt.Name, Request, string.Format("AccountEventView.aspx?id={0}", evt.Id)));
                 sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request.Url));
             }
 

@@ -184,13 +184,10 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get a configuration value by name with default.")]
         public TransitConfiguration GetConfigurationByNameWithDefault(string ticket, string name, string defaultvalue)
         {
-            TransitConfiguration result = null;
-            try
-            {
-                result = WebServiceImpl<TransitConfiguration, ManagedConfiguration, Configuration>.GetByCriterion(
+            TransitConfiguration result = WebServiceImpl<TransitConfiguration, ManagedConfiguration, Configuration>.GetByCriterion(
                     ticket, Expression.Eq("OptionName", name));
-            }
-            catch (ObjectNotFoundException)
+
+            if (result == null)
             {
                 result = new TransitConfiguration();
                 result.Name = name;

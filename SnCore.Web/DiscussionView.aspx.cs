@@ -25,6 +25,14 @@ public partial class DiscussionView : Page
 
             TransitDiscussion td = SessionManager.DiscussionService.GetDiscussionById(
                 SessionManager.Ticket, RequestId);
+
+            if (td == null)
+            {
+                Response.StatusCode = 404;
+                Response.End();
+                return;
+            }
+
             this.Title = Renderer.Render(td.Name);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();

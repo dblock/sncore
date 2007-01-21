@@ -24,6 +24,13 @@ public partial class AccountContentGroupView : Page
             TransitAccountContentGroup group = SessionManager.ContentService.GetAccountContentGroupById(
                 SessionManager.Ticket, RequestId);
 
+            if (group == null)
+            {
+                Response.StatusCode = 404;
+                Response.End();
+                return;
+            }
+
             if (group.Login && !SessionManager.IsLoggedIn)
             {
                 RedirectToLogin();

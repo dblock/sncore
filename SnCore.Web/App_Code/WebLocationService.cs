@@ -60,7 +60,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all countries.")]
         public List<TransitCountry> GetCountries(string ticket, ServiceQueryOptions options)
         {
-            Order[] orders = { Order.Asc("Name") }; 
+            Order[] orders = { Order.Asc("Name") };
             return WebServiceImpl<TransitCountry, ManagedCountry, Country>.GetList(
                 ticket, options, null, orders);
         }
@@ -207,7 +207,7 @@ namespace SnCore.WebServices
         public int GetStatesByCountryNameCount(string ticket, string name)
         {
             return WebServiceImpl<TransitState, ManagedState, State>.GetCount(
-                ticket, string.Format("WHERE State.Country.Name = '{0}'", 
+                ticket, string.Format("WHERE State.Country.Name = '{0}'",
                 Renderer.SqlEncode(name)));
         }
 
@@ -439,15 +439,8 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get city by tag.")]
         public TransitCity GetCityByTag(string ticket, string tag)
         {
-            try
-            {
-                return WebServiceImpl<TransitCity, ManagedCity, City>.GetByCriterion(
-                    ticket, Expression.Eq("Tag", tag));
-            }
-            catch (ObjectNotFoundException)
-            {
-                return null;
-            }
+            return WebServiceImpl<TransitCity, ManagedCity, City>.GetByCriterion(
+                ticket, Expression.Eq("Tag", tag));
         }
 
         /// <summary>

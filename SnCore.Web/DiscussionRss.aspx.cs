@@ -11,7 +11,6 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
-using NHibernate.Exceptions;
 
 public partial class DiscussionRss : Page
 {
@@ -87,22 +86,14 @@ public partial class DiscussionRss : Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            if (!IsPostBack)
-            {
-                ServiceQueryOptions options = new ServiceQueryOptions();
-                options.PageSize = 50;
-                options.PageNumber = 0;
-                rssRepeater.DataSource = SessionManager.DiscussionService.GetLatestDiscussionPostsById(
-                    SessionManager.Ticket, Discussion.Id, options);
-                rssRepeater.DataBind();
-            }
-        }
-        catch (NHibernate.ObjectNotFoundException ex)
-        {
-            Response.StatusCode = 404;
-            Response.StatusDescription = Renderer.Render(ex.Message);
+            ServiceQueryOptions options = new ServiceQueryOptions();
+            options.PageSize = 50;
+            options.PageNumber = 0;
+            rssRepeater.DataSource = SessionManager.DiscussionService.GetLatestDiscussionPostsById(
+                SessionManager.Ticket, Discussion.Id, options);
+            rssRepeater.DataBind();
         }
     }
 

@@ -52,20 +52,27 @@ namespace SnCore.WebServices
 
         public static TransitType GetByCriterion(string ticket, ICriterion[] criterions, int max)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
+            try
             {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-                ManagedType m_type = new ManagedType();
-                ICriteria criteria = session.CreateCriteria(typeof(DataType));
-                if (max > 0) criteria.SetMaxResults(max);
-                if (criterions != null)
-                    foreach (ICriterion criterion in criterions)
-                        criteria.Add(criterion);
-                DataType instance = criteria.UniqueResult<DataType>();
-                if (instance == null) throw new ObjectNotFoundException(criteria.ToString(), typeof(DataType));
-                m_type.SetDbObjectInstance(session, instance);
-                return (TransitType)m_type.GetTransitServiceInstance(sec);
+                using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
+                {
+                    ISession session = SnCore.Data.Hibernate.Session.Current;
+                    ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                    ManagedType m_type = new ManagedType();
+                    ICriteria criteria = session.CreateCriteria(typeof(DataType));
+                    if (max > 0) criteria.SetMaxResults(max);
+                    if (criterions != null)
+                        foreach (ICriterion criterion in criterions)
+                            criteria.Add(criterion);
+                    DataType instance = criteria.UniqueResult<DataType>();
+                    if (instance == null) throw new ObjectNotFoundException(criteria.ToString(), typeof(DataType));
+                    m_type.SetDbObjectInstance(session, instance);
+                    return (TransitType)m_type.GetTransitServiceInstance(sec);
+                }
+            }
+            catch (ObjectNotFoundException)
+            {
+                return default(TransitType);
             }
         }
 
@@ -86,13 +93,20 @@ namespace SnCore.WebServices
 
         public static TransitType GetById(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
+            try
             {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-                ManagedType m_type = new ManagedType();
-                m_type.LoadInstance(session, id);
-                return (TransitType)m_type.GetTransitServiceInstance(sec);
+                using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
+                {
+                    ISession session = SnCore.Data.Hibernate.Session.Current;
+                    ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                    ManagedType m_type = new ManagedType();
+                    m_type.LoadInstance(session, id);
+                    return (TransitType)m_type.GetTransitServiceInstance(sec);
+                }
+            }
+            catch (ObjectNotFoundException)
+            {
+                return default(TransitType);
             }
         }
 

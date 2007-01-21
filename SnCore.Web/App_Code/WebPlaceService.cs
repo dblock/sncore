@@ -1409,21 +1409,14 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get a place queue by name.")]
         public TransitPlaceQueue GetPlaceQueueByName(string ticket, int user_id, string name)
         {
-            try
-            {
-                ICriterion[] expressions = 
-                { 
-                    Expression.Eq("Name", name),
-                    Expression.Eq("Account.Id", user_id)
-                };
+            ICriterion[] expressions = 
+            { 
+                Expression.Eq("Name", name),
+                Expression.Eq("Account.Id", user_id)
+            };
 
-                return WebServiceImpl<TransitPlaceQueue, ManagedPlaceQueue, PlaceQueue>.GetByCriterion(
-                    ticket, expressions);
-            }
-            catch (ObjectNotFoundException)
-            {
-                return null;
-            }
+            return WebServiceImpl<TransitPlaceQueue, ManagedPlaceQueue, PlaceQueue>.GetByCriterion(
+                ticket, expressions);
         }
 
         /// <summary>

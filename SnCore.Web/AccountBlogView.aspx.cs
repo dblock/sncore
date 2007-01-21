@@ -49,12 +49,20 @@ public partial class AccountBlogView : Page
         gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
         if (!IsPostBack)
         {
-            TransitAccountBlog f = AccountBlog;
-            labelBlog.Text = Renderer.Render(f.Name);
-            labelBlogDescription.Text = Renderer.Render(f.Description);
+            TransitAccountBlog blog = AccountBlog;
+
+            if (blog == null)
+            {
+                Response.StatusCode = 404;
+                Response.End();
+                return;
+            }
+
+            labelBlog.Text = Renderer.Render(blog.Name);
+            labelBlogDescription.Text = Renderer.Render(blog.Description);
 
             TransitAccount a = SessionManager.GetInstance<TransitAccount, int>(
-                f.AccountId, SessionManager.AccountService.GetAccountById);
+                blog.AccountId, SessionManager.AccountService.GetAccountById);
 
             labelAccountName.Text = Renderer.Render(a.Name);
             linkAccount.HRef = string.Format("AccountView.aspx?id={0}", a.Id);
@@ -62,7 +70,7 @@ public partial class AccountBlogView : Page
 
             licenseView.AccountId = a.Id;
 
-            linkRelRss.Title = this.Title = string.Format("{0}'s {1}", Renderer.Render(a.Name), Renderer.Render(f.Name));
+            linkRelRss.Title = this.Title = string.Format("{0}'s {1}", Renderer.Render(a.Name), Renderer.Render(blog.Name));
 
             GetData(sender, e);
 
@@ -79,7 +87,7 @@ public partial class AccountBlogView : Page
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Blogs", Request, "AccountFeedItemsView.aspx"));
-            sitemapdata.Add(new SiteMapDataAttributeNode(f.Name, Request.Url));
+            sitemapdata.Add(new SiteMapDataAttributeNode(blog.Name, Request.Url));
             StackSiteMap(sitemapdata);
         }
     }

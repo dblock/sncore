@@ -27,7 +27,7 @@ namespace SnCore.WebServices.Tests
         {
             List<TransitType> result = WebServiceImpl<TransitType, ManagedType, DataType>.GetList(
                 GetTicket(), null);
-            Console.WriteLine("{0}: retreived {1} items of type {2}.", 
+            Console.WriteLine("{0}: retreived {1} items of type {2}.",
                 typeof(DataType).Name, result.Count, typeof(TransitType).Name);
             Assert.IsTrue(result.Count >= 0);
         }
@@ -57,16 +57,9 @@ namespace SnCore.WebServices.Tests
             WebServiceImpl<TransitType, ManagedType, DataType>.Delete(
                 GetTicket(), id);
 
-            try
-            {
-                TransitType deleted_instance = WebServiceImpl<TransitType, ManagedType, DataType>.GetById(
-                    GetTicket(), id);
-                Assert.IsNull(t_instance, string.Format("{0} object created hasn't been deleted from store.", typeof(DataType).Name));
-            }
-            catch (NHibernate.ObjectNotFoundException)
-            {
-                // as expected
-            }
+            TransitType deleted_instance = WebServiceImpl<TransitType, ManagedType, DataType>.GetById(
+                GetTicket(), id);
+            Assert.IsNull(deleted_instance, string.Format("{0} object created hasn't been deleted from store.", typeof(DataType).Name));
         }
 
         public override void SetUp()

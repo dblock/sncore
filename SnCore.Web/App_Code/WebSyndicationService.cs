@@ -216,7 +216,7 @@ namespace SnCore.WebServices
             // TODO: transform query into returning AccountFeed items
             return WebServiceImpl<TransitAccountFeed, ManagedAccountFeed, AccountFeed>.GetListFromIds(
                 ticket, options,
-                    "SELECT AccountFeed.Id FROM AccountFeed AccountFeed " + 
+                    "SELECT AccountFeed.Id FROM AccountFeed AccountFeed " +
                     "JOIN AccountFeed.AccountFeedItems AccountFeedItem " +
                     "GROUP BY AccountFeed " +
                     "ORDER BY MAX(AccountFeedItem.Created) DESC");
@@ -283,15 +283,8 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account feed item by id.")]
         public TransitAccountFeedItem GetAccountFeedItemById(string ticket, int id)
         {
-            try
-            {
-                return WebServiceImpl<TransitAccountFeedItem, ManagedAccountFeedItem, AccountFeedItem>.GetById(
-                    ticket, id);
-            }
-            catch (ObjectNotFoundException)
-            {
-                return null;
-            }
+            return WebServiceImpl<TransitAccountFeedItem, ManagedAccountFeedItem, AccountFeedItem>.GetById(
+                ticket, id);
         }
 
         /// <summary>

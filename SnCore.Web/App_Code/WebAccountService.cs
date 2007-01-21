@@ -268,15 +268,8 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account information.", CacheDuration = 60)]
         public TransitAccount GetAccountById(string ticket, int id)
         {
-            try
-            {
-                return WebServiceImpl<TransitAccount, ManagedAccount, Account>.GetById(
-                    ticket, id);
-            }
-            catch (ObjectNotFoundException)
-            {
-                return null;
-            }
+            return WebServiceImpl<TransitAccount, ManagedAccount, Account>.GetById(
+                ticket, id);
         }
 
         /// <summary>
@@ -1569,15 +1562,8 @@ namespace SnCore.WebServices
                 Expression.Eq("SourceUri", uri)
             };
 
-            try
-            {
-                return WebServiceImpl<TransitAccountRedirect, ManagedAccountRedirect, AccountRedirect>.GetByCriterion(
-                    ticket, expressions);
-            }
-            catch (ObjectNotFoundException)
-            {
-                return null;
-            }
+            return WebServiceImpl<TransitAccountRedirect, ManagedAccountRedirect, AccountRedirect>.GetByCriterion(
+                ticket, expressions);
         }
 
         /// <summary>
@@ -1594,15 +1580,8 @@ namespace SnCore.WebServices
                 Expression.Eq("TargetUri", uri)
             };
 
-            try
-            {
-                return WebServiceImpl<TransitAccountRedirect, ManagedAccountRedirect, AccountRedirect>.GetByCriterion(
-                    ticket, expressions, 1);
-            }
-            catch (ObjectNotFoundException)
-            {
-                return null;
-            }
+            return WebServiceImpl<TransitAccountRedirect, ManagedAccountRedirect, AccountRedirect>.GetByCriterion(
+                ticket, expressions, 1);
         }
 
         /// <summary>
@@ -2105,23 +2084,16 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account message folder by id.", CacheDuration = 60)]
         public TransitAccountMessageFolder GetAccountMessageSystemFolder(string ticket, int id, string folder)
         {
-            try
+            ICriterion[] expression = 
             {
-                ICriterion[] expression = 
-                {
-                    Expression.Eq("Account.Id", id),
-                    Expression.Eq("Name", folder),
-                    // Expression.Eq("System", true),
-                    Expression.IsNull("AccountMessageFolderParent")                        
-                }; 
+                Expression.Eq("Account.Id", id),
+                Expression.Eq("Name", folder),
+                // Expression.Eq("System", true),
+                Expression.IsNull("AccountMessageFolderParent")                        
+            };
 
-                return WebServiceImpl<TransitAccountMessageFolder, ManagedAccountMessageFolder, AccountMessageFolder>.GetByCriterion(
-                    ticket, expression);
-            }
-            catch (ObjectNotFoundException)
-            {
-                return null;
-            }
+            return WebServiceImpl<TransitAccountMessageFolder, ManagedAccountMessageFolder, AccountMessageFolder>.GetByCriterion(
+                ticket, expression);
         }
 
         #endregion

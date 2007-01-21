@@ -80,15 +80,8 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account license by account id.")]
         public TransitAccountLicense GetAccountLicenseByAccountId(string ticket, int id)
         {
-            try
-            {
-                return WebServiceImpl<TransitAccountLicense, ManagedAccountLicense, AccountLicense>.GetByCriterion(
-                    ticket, Expression.Eq("Account.Id", id));
-            }
-            catch (ObjectNotFoundException)
-            {
-                return null;
-            }
+            return WebServiceImpl<TransitAccountLicense, ManagedAccountLicense, AccountLicense>.GetByCriterion(
+                ticket, Expression.Eq("Account.Id", id));
         }
 
         /// <summary>
@@ -115,6 +108,6 @@ namespace SnCore.WebServices
                 ticket, id);
         }
 
-        #endregion    
+        #endregion
     }
 }
