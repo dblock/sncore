@@ -258,7 +258,7 @@ namespace SnCore.WebServices
         {
             return WebServiceImpl<TransitAccountFeedItem, ManagedAccountFeedItem, AccountFeedItem>.GetList(
                 ticket, options, "SELECT AccountFeedItem FROM AccountFeedItem AccountFeedItem" +
-                 " WHERE AccountFeedItem.AccountFeed.Publish = 1 ORDER BY AccountFeedItem.Created");
+                 " WHERE AccountFeedItem.AccountFeed.Publish = 1 ORDER BY AccountFeedItem.Created DESC");
         }
 
         /// <summary>
