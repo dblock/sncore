@@ -284,12 +284,8 @@ namespace SnCore.Services
         {
             ManagedAccountBlog m_blog = new ManagedAccountBlog(Session, mInstance.AccountBlog);
             TransitAccountBlogPost t_post = base.GetTransitInstance(sec);
-            if (sec.Account != null)
-            {
-                int accountid = sec.Account.Id;
-                t_post.CanEdit = ((mInstance.AccountId == accountid) || m_blog.CanEdit(accountid));
-                t_post.CanDelete = ((mInstance.AccountId == accountid) || m_blog.CanDelete(accountid));
-            }
+            t_post.CanEdit = (GetACL().Apply(sec, DataOperation.Update) == ACLVerdict.Allowed);
+            t_post.CanDelete = (GetACL().Apply(sec, DataOperation.Delete) == ACLVerdict.Allowed);
             return t_post;
         }
 
@@ -315,10 +311,10 @@ namespace SnCore.Services
             acl.Add(new ACLAccount(mInstance.AccountBlog.Account, DataOperation.All));
             foreach (AccountBlogAuthor author in Collection<AccountBlogAuthor>.GetSafeCollection(mInstance.AccountBlog.AccountBlogAuthors))
             {
-                int op = (int) DataOperation.None;
-                if (author.AllowDelete) op |= (int) DataOperation.Delete;
-                if (author.AllowEdit) op |= (int) DataOperation.Update;
-                if (author.AllowPost) op |= (int) DataOperation.Create;
+                int op = (int)DataOperation.None;
+                if (author.AllowDelete) op |= (int)DataOperation.Delete;
+                if (author.AllowEdit) op |= (int)DataOperation.Update;
+                if (author.AllowPost) op |= (int)DataOperation.Create;
                 acl.Add(new ACLAccount(author.Account, op));
             }
             return acl;
