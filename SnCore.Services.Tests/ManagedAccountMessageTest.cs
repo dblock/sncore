@@ -44,5 +44,11 @@ namespace SnCore.Services.Tests
             t_instance.Sent = DateTime.UtcNow;
             return t_instance;
         }
+
+        [Test]
+        protected void ReadUnReadMessageTest()
+        {
+
+        }
     }
 }

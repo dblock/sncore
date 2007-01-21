@@ -1891,8 +1891,7 @@ namespace SnCore.WebServices
                     }
                 }
 
-                WebServiceQueryOptions<TransitAccountSurveyAnswer>.Apply(options, result);
-                return result;
+                return WebServiceQueryOptions<TransitAccountSurveyAnswer>.Apply(options, result);
             }
         }
 
@@ -2021,8 +2020,8 @@ namespace SnCore.WebServices
                     ManagedAccountMessageFolder m_folder = new ManagedAccountMessageFolder(session, enumerator.Current);
                     result.Add(m_folder.GetTransitInstance(sec));
                 }
-                WebServiceQueryOptions<TransitAccountMessageFolder>.Apply(options, result);
-                return result;
+
+                return WebServiceQueryOptions<TransitAccountMessageFolder>.Apply(options, result);
             }
         }
 

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using SnCore.Tools.Collections;
 using SnCore.Data.Hibernate;
 using NHibernate.Expression;
+using System.Text;
 
 namespace SnCore.Services
 {
@@ -136,6 +137,20 @@ namespace SnCore.Services
             set
             {
                 mMessageCount = value;
+            }
+        }
+
+        private int mUnReadMessageCount = 0;
+
+        public int UnReadMessageCount
+        {
+            get
+            {
+                return mUnReadMessageCount;
+            }
+            set
+            {
+                mUnReadMessageCount = value;
             }
         }
 
@@ -272,6 +287,7 @@ namespace SnCore.Services
         {
             TransitAccountMessageFolder t_instance = base.GetTransitInstance(sec);
             t_instance.MessageCount = MessageCount;
+            t_instance.UnReadMessageCount = UnReadMessageCount;
             return t_instance;
         }
 
@@ -303,19 +319,26 @@ namespace SnCore.Services
         {
             get
             {
-                return GetMessageFolderMessageCount(Session, Id);
+                return GetMessageFolderMessageCount(Session, Id, false);
             }
         }
 
-        public static int GetMessageFolderMessageCount(ISession session, int folderid)
+        public static int GetMessageFolderMessageCount(ISession session, int folderid, bool unreadonly)
         {
-            return (int)session.CreateQuery(
-                string.Format(
-                    "select count(*)" +
-                    " from AccountMessage m, AccountMessageFolder f" +
-                    " where m.AccountMessageFolder.Id = f.Id" +
-                    " and f.Id = {0}",
-                    folderid.ToString())).UniqueResult();
+            StringBuilder query = new StringBuilder();
+            query.Append("SELECT COUNT(*) FROM AccountMessage m, AccountMessageFolder f ");
+            query.Append("WHERE m.AccountMessageFolder.Id = f.Id");
+            query.AppendFormat(" AND f.Id = {0}", folderid);
+            if (unreadonly) query.Append(" AND m.Unread = 1");
+            return session.CreateQuery(query.ToString()).UniqueResult<int>();
+        }
+
+        public int UnReadMessageCount
+        {
+            get
+            {
+                return GetMessageFolderMessageCount(Session, Id, true);
+            }
         }
 
         public Account Account

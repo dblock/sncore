@@ -39,10 +39,12 @@ public partial class AccountMessageView : AuthenticatedPage
 
             TransitAccountMessage message = Message;
 
-            //if (message.Unread)
-            //{
-            //    SessionManager.AccountService.MarkMessageAsReadUnread(SessionManager.Ticket, message.Id, false);
-            //}
+            if (message.UnRead)
+            {
+                message.UnRead = false;
+                SessionManager.AccountService.CreateOrUpdateAccountMessage(
+                    SessionManager.Ticket, message);
+            }
 
             messageSenderLink.HRef = messageFrom.NavigateUrl = string.Format("AccountView.aspx?id={0}", message.SenderAccountId);
             messageFrom.Text = messageSenderName.Text = Renderer.Render(message.SenderAccountName);

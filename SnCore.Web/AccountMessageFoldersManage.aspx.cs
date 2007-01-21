@@ -14,13 +14,14 @@ using Wilco.Web.UI.WebControls;
 using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using System.Text;
 
 public partial class AccountMessageFoldersManage : AuthenticatedPage
 {
     public void linkFolder_Click(object sender, CommandEventArgs e)
     {
         FolderId = int.Parse(e.CommandArgument.ToString());
-        GetData();
+        GetMessagesData(sender, e);
     }
 
     public int FolderId
@@ -45,15 +46,59 @@ public partial class AccountMessageFoldersManage : AuthenticatedPage
 
     public void Page_Load(object sender, EventArgs e)
     {
+        messagefoldersView.OnGetDataSource += new EventHandler(messagefoldersView_OnGetDataSource);
+        messagesView.OnGetDataSource += new EventHandler(messagesView_OnGetDataSource);
+
         if (!IsPostBack)
         {
-            GetData();
+            GetData(sender, e);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Messages", Request.Url));
             StackSiteMap(sitemapdata);
         }
+    }
+
+    void GetMessagesData(object sender, EventArgs e)
+    {
+        messagesView.CurrentPageIndex = 0;
+        messagesView.VirtualItemCount = SessionManager.AccountService.GetAccountMessagesCount(
+            SessionManager.Ticket, FolderId);
+        messagesView_OnGetDataSource(sender, e);
+        messagesView.DataBind();
+
+        GetFolderInformationData(sender, e);
+    }
+
+    void GetFolderInformationData(object sender, EventArgs e)
+    {
+        TransitAccountMessageFolder folder = SessionManager.AccountService.GetAccountMessageFolderById(
+            SessionManager.Ticket, FolderId);
+
+        labelFolderName.Text = Renderer.Render(folder.Name);
+        emptyPanel.Visible = ((folder.Name == "trash") || (folder.Name == "sent")) && folder.System;
+
+        if (messagesView.Items.Count == 0)
+        {
+            noticeFolder.Text = "no messages";
+        }
+        else
+        {
+            StringBuilder noticefoldertext = new StringBuilder();
+            noticefoldertext.AppendFormat("{0} message{1}", folder.MessageCount, folder.MessageCount == 1 ? string.Empty : "s");
+            if (folder.UnReadMessageCount > 0) noticefoldertext.AppendFormat(", {0} unread", folder.UnReadMessageCount);
+            noticeFolder.Text = noticefoldertext.ToString();
+        }
+    }
+
+    void messagesView_OnGetDataSource(object sender, EventArgs e)
+    {
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageNumber = messagesView.CurrentPageIndex;
+        options.PageSize = messagesView.PageSize;
+        messagesView.DataSource = SessionManager.AccountService.GetAccountMessages(
+            SessionManager.Ticket, FolderId, options);
     }
 
     protected override void OnInit(EventArgs e)
@@ -71,32 +116,31 @@ public partial class AccountMessageFoldersManage : AuthenticatedPage
         }
     }
 
-    public void GetData()
+    void GetFoldersData(object sender, EventArgs e)
     {
-        SessionManager.AccountService.CreateAccountSystemMessageFolders(SessionManager.Ticket, SessionManager.AccountId);
-
-        messagefoldersView.DataSource = SessionManager.AccountService.GetAccountMessageFolders(
-            SessionManager.Ticket, SessionManager.AccountId, null);
+        messagefoldersView.CurrentPageIndex = 0;
+        messagefoldersView.VirtualItemCount = SessionManager.AccountService.GetAccountMessageFoldersCount(
+            SessionManager.Ticket, SessionManager.AccountId);
+        messagefoldersView_OnGetDataSource(sender, e);
         messagefoldersView.DataBind();
+    }
 
-        messagesView.DataSource = SessionManager.AccountService.GetAccountMessages(SessionManager.Ticket, FolderId, null);
-        messagesView.DataBind();
+    void messagefoldersView_OnGetDataSource(object sender, EventArgs e)
+    {
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageNumber = messagefoldersView.CurrentPageIndex;
+        options.PageSize = messagefoldersView.PageSize;
+        messagefoldersView.DataSource = SessionManager.AccountService.GetAccountMessageFolders(
+            SessionManager.Ticket, SessionManager.AccountId, options);
+    }
 
-        TransitAccountMessageFolder folder = SessionManager.AccountService.GetAccountMessageFolderById(SessionManager.Ticket, FolderId);
-        labelFolderName.Text = "Folder \"" + Renderer.Render(folder.Name) + "\".";
+    public void GetData(object sender, EventArgs e)
+    {
+        SessionManager.AccountService.CreateAccountSystemMessageFolders(
+            SessionManager.Ticket, SessionManager.AccountId);
 
-        emptyPanel.Visible = ((folder.Name == "trash") || (folder.Name == "sent")) && folder.System;
-
-        if (messagesView.Items.Count == 0)
-        {
-            messagesPanel.Visible = false;
-            noticeFolder.Info = string.Format("There're no messages in the '{0}' folder.", folder.Name);
-        }
-        else
-        {
-            messagesPanel.Visible = true;
-            noticeFolder.Info = string.Empty;
-        }
+        GetFoldersData(sender, e);
+        GetMessagesData(sender, e);
     }
 
     private enum Cells
@@ -206,12 +250,10 @@ public partial class AccountMessageFoldersManage : AuthenticatedPage
         }
     }
 
-    public void linkEmpty_Click(object s, EventArgs e)
+    public void linkEmpty_Click(object sender, EventArgs e)
     {
         SessionManager.AccountService.DeleteAccountMessagesByFolder(SessionManager.Ticket, FolderId);
-        messagesView.DataSource = SessionManager.AccountService.GetAccountMessages(
-            SessionManager.Ticket, FolderId, null);
-        messagesView.DataBind();
+        GetMessagesData(sender, e);
     }
 
     public string GetFolderPicture(string name, bool system)
@@ -228,6 +270,16 @@ public partial class AccountMessageFoldersManage : AuthenticatedPage
         }
 
         return "images/Folder.gif";
+    }
+
+    public string GetMessageCssClass(bool unread)
+    {
+        return (unread ? "sncore_message_unread" : "sncore_message_read");
+    }
+
+    public string GetPictureDisplayStyle(bool unread)
+    {
+        return (unread ? string.Empty : "display: none;");
     }
 }
 

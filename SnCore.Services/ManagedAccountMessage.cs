@@ -222,12 +222,13 @@ namespace SnCore.Services
                 instance.Subject = this.Subject;
                 instance.Body = this.Body;
                 instance.Sent = this.Sent;
-                instance.Unread = this.UnRead;
                 instance.SenderAccountId = GetOwner(session, SenderAccountId, sec).Id;
                 instance.RecepientAccountId = this.RecepientAccountId;
                 // the oner is the recepient
                 instance.Account = (Account) session.Load(typeof(Account), RecepientAccountId);
             }
+
+            instance.Unread = this.UnRead;
 
             if (AccountMessageFolderId == 0)
             {

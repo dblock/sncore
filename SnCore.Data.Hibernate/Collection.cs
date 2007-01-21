@@ -6,7 +6,7 @@ namespace SnCore.Data.Hibernate
 {
     public abstract class Collection<T>
     {
-        public static IList<T> ApplyServiceOptions(int first, int count, IList<T> collection)
+        public static List<T> ApplyServiceOptions(int first, int count, IList<T> collection)
         {
             if (count == 0) count = collection.Count;
             List<T> result = new List<T>(count);

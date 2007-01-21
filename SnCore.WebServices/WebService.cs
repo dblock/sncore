@@ -44,10 +44,14 @@ namespace SnCore.WebServices
 
     public abstract class WebServiceQueryOptions<T>
     {
-        public static IList<T> Apply(ServiceQueryOptions options, IList<T> collection)
+        public static List<T> Apply(ServiceQueryOptions options, IList<T> collection)
         {
             if (options == null)
-                return collection;
+            {
+                List<T> result = new List<T>();
+                result.AddRange(collection);
+                return result;
+            }
 
             return SnCore.Data.Hibernate.Collection<T>.ApplyServiceOptions(
                 options.FirstResult, options.PageSize, collection);
