@@ -499,7 +499,7 @@ namespace SnCore.Services
         public override ScheduleInstance GetInstance(ISession session, ManagedSecurityContext sec)
         {
             ScheduleInstance instance = base.GetInstance(session, sec);
-            if (ScheduleId > 0) instance.Schedule = (Schedule) session.Load(typeof(Schedule), ScheduleId);
+            if (ScheduleId > 0) instance.Schedule = session.Load<Schedule>(ScheduleId);
             instance.EndDateTime = EndDateTime;
             instance.StartDateTime = StartDateTime;
             return instance;

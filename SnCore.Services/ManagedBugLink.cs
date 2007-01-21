@@ -67,8 +67,8 @@ namespace SnCore.Services
             BugLink instance = base.GetInstance(session, sec);
             if (Id == 0)
             {
-                instance.Bug = (Bug)session.Load(typeof(Bug), this.BugId);
-                instance.RelatedBug = (Bug)session.Load(typeof(Bug), this.RelatedBugId);
+                instance.Bug = session.Load<Bug>(this.BugId);
+                instance.RelatedBug = session.Load<Bug>(this.RelatedBugId);
             }
             return instance;
         }

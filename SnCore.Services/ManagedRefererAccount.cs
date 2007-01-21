@@ -159,7 +159,7 @@ namespace SnCore.Services
         {
             RefererAccount instance = base.GetInstance(session, sec);
             instance.RefererHost = string.IsNullOrEmpty(this.RefererHostName) ? null : ManagedRefererHost.Find(session, this.RefererHostName);
-            instance.Account = (AccountId != 0) ? (Account) session.Load(typeof(Account), AccountId) : null;
+            instance.Account = (AccountId != 0) ? session.Load<Account>(AccountId) : null;
             return instance;
         }
     }

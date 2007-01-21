@@ -127,8 +127,8 @@ namespace SnCore.Services
 
             if (Id == 0)
             {
-                if (PlaceId > 0) instance.Place = (Place)session.Load(typeof(Place), PlaceId);
-                if (AttributeId > 0) instance.Attribute = (Attribute)session.Load(typeof(Attribute), AttributeId);
+                if (PlaceId > 0) instance.Place = session.Load<Place>(PlaceId);
+                if (AttributeId > 0) instance.Attribute = session.Load<Attribute>(AttributeId);
             }
             else
             {

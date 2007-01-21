@@ -111,8 +111,8 @@ namespace SnCore.Services
         public override ReminderAccountProperty GetInstance(ISession session, ManagedSecurityContext sec)
         {
             ReminderAccountProperty instance = base.GetInstance(session, sec);
-            if (this.ReminderId > 0) instance.Reminder = (Reminder)session.Load(typeof(Reminder), this.ReminderId);
-            if (this.AccountPropertyId > 0) instance.AccountProperty = (AccountProperty)session.Load(typeof(AccountProperty), this.AccountPropertyId);
+            if (this.ReminderId > 0) instance.Reminder = session.Load<Reminder>(this.ReminderId);
+            if (this.AccountPropertyId > 0) instance.AccountProperty = session.Load<AccountProperty>(this.AccountPropertyId);
             instance.Value = this.Value;
             instance.Unset = this.Unset;
             return instance;

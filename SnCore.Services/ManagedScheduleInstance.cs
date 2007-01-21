@@ -111,7 +111,7 @@ namespace SnCore.Services
             ScheduleInstance instance = base.GetInstance(session, sec);
             instance.StartDateTime = StartDateTime;
             instance.EndDateTime = EndDateTime;
-            if (Id == 0) instance.Schedule = (Schedule)session.Load(typeof(Schedule), ScheduleId);
+            if (Id == 0) instance.Schedule = session.Load<Schedule>(ScheduleId);
             return instance;
         }
     }

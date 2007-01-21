@@ -185,7 +185,7 @@ namespace SnCore.Services
         {
             AccountPropertyValue instance = base.GetInstance(session, sec);
             instance.Account = GetOwner(session, AccountId, sec);
-            if (AccountPropertyId > 0) instance.AccountProperty = (AccountProperty)session.Load(typeof(AccountProperty), AccountPropertyId);
+            if (AccountPropertyId > 0) instance.AccountProperty = session.Load<AccountProperty>(AccountPropertyId);
             instance.Value = this.Value;
             return instance;
         }

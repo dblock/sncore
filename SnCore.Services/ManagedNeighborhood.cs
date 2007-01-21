@@ -206,7 +206,7 @@ namespace SnCore.Services
 
             int count = 0;
 
-            Neighborhood merge = (Neighborhood)Session.Load(typeof(Neighborhood), id);
+            Neighborhood merge = Session.Load<Neighborhood>(id);
 
             // update places
             if (merge.Places != null)

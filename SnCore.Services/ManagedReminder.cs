@@ -181,7 +181,7 @@ namespace SnCore.Services
             instance.Url = this.Url;
             instance.DeltaHours = this.DeltaHours;
             instance.DataObjectField = this.DataObjectField;
-            if (this.DataObject_Id > 0) instance.DataObject = (DataObject)session.Load(typeof(DataObject), this.DataObject_Id);
+            if (this.DataObject_Id > 0) instance.DataObject = session.Load<DataObject>(this.DataObject_Id);
             instance.Recurrent = this.Recurrent;
             instance.Enabled = this.Enabled;
             instance.LastRun = this.LastRun;

@@ -1225,7 +1225,7 @@ namespace SnCore.WebServices
                         value = new PlacePropertyValue();
                         value.PlaceProperty = property;
                         value.Value = property.DefaultValue;
-                        if (placeid > 0) value.Place = (Place)session.Load(typeof(Place), placeid);
+                        if (placeid > 0) value.Place = session.Load<Place>(placeid);
                     }
 
                     ManagedPlacePropertyValue m_ppv = new ManagedPlacePropertyValue(session, value);

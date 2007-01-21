@@ -309,7 +309,7 @@ namespace SnCore.Services
             instance.Visible = this.Visible;
             instance.LastError = this.LastError;
             if (this.Thumbnail != null) instance.Thumbnail = this.Thumbnail;
-            if (this.AccountFeedItemId != 0) instance.AccountFeedItem = (AccountFeedItem)session.Load(typeof(AccountFeedItem), AccountFeedItemId);
+            if (this.AccountFeedItemId != 0) instance.AccountFeedItem = session.Load<AccountFeedItem>(AccountFeedItemId);
             return instance;
         }
     }

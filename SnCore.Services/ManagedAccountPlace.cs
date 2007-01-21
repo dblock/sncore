@@ -218,7 +218,7 @@ namespace SnCore.Services
             {
                 // the account and the place cannot be switched after the relationship is created
                 instance.Account = GetOwner(session, AccountId, sec);
-                instance.Place = (Place)session.Load(typeof(Place), PlaceId);
+                instance.Place = session.Load<Place>(PlaceId);
             }
 
             return instance;

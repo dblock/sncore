@@ -100,8 +100,8 @@ namespace SnCore.Services
 
             if (Id == 0)
             {
-                instance.Reminder = (Reminder)session.Load(typeof(Reminder), ReminderId);
-                instance.Account = (Account)session.Load(typeof(Account), AccountId);
+                instance.Reminder = session.Load<Reminder>(ReminderId);
+                instance.Account = session.Load<Account>(AccountId);
             }
 
             return instance;

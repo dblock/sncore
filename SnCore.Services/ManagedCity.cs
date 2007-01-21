@@ -238,7 +238,7 @@ namespace SnCore.Services
 
             int count = 0;
 
-            City merge = (City)Session.Load(typeof(City), id);
+            City merge = Session.Load<City>(id);
 
             // update places
             if (merge.Places != null)

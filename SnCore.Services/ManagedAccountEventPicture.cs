@@ -182,7 +182,7 @@ namespace SnCore.Services
 
             if (Id == 0)
             {
-                if (AccountEventId > 0) t_instance.AccountEvent = (AccountEvent)session.Load(typeof(AccountEvent), this.AccountEventId);
+                if (AccountEventId > 0) t_instance.AccountEvent = session.Load<AccountEvent>(this.AccountEventId);
             }
 
             t_instance.Name = this.Name;

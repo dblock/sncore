@@ -189,9 +189,9 @@ namespace SnCore.Services
             if (Id == 0) instance.Account = base.GetOwner(session, AccountId, sec);
             instance.Apt = this.Apt;
             instance.City = this.City;
-            instance.Country = (Country) session.Load(typeof(Country), ManagedCountry.GetCountryId(session, this.Country));
+            instance.Country = session.Load<Country>(ManagedCountry.GetCountryId(session, this.Country));
             instance.Name = this.Name;
-            instance.State = (State) session.Load(typeof(State), ManagedState.GetStateId(session, this.State, this.Country));
+            instance.State = session.Load<State>(ManagedState.GetStateId(session, this.State, this.Country));
             if (instance.State.Country.Id != instance.Country.Id) throw new ManagedCountry.InvalidCountryException();
             instance.Street = this.Street;
             instance.Zip = this.Zip;

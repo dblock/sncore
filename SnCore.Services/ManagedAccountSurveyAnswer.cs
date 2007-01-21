@@ -159,7 +159,7 @@ namespace SnCore.Services
             if (Id == 0) 
             {
                 instance.Account = GetOwner(session, AccountId, sec);
-                instance.SurveyQuestion = (SurveyQuestion)session.Load(typeof(SurveyQuestion), this.SurveyQuestionId);
+                instance.SurveyQuestion = session.Load<SurveyQuestion>(this.SurveyQuestionId);
             }
 
             instance.Answer = this.Answer;

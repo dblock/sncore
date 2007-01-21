@@ -168,7 +168,7 @@ namespace SnCore.Services
             if (Id == 0)
             {
                 instance.Account = GetOwner(session, AccountId, sec);
-                instance.AccountBlog = (AccountBlog)session.Load(typeof(AccountBlog), AccountBlogId);
+                instance.AccountBlog = session.Load<AccountBlog>(AccountBlogId);
             }
 
             instance.AllowPost = AllowPost;

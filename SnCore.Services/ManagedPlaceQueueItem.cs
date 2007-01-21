@@ -158,7 +158,7 @@ namespace SnCore.Services
 
             if (Id != 0)
             {
-                instance = (PlaceQueueItem)session.Load(typeof(PlaceQueueItem), Id);
+                instance = session.Load<PlaceQueueItem>(Id);
             }
             else
             {
@@ -172,8 +172,8 @@ namespace SnCore.Services
 
             if (Id == 0)
             {
-                if (PlaceQueueId > 0) instance.PlaceQueue = (PlaceQueue)session.Load(typeof(PlaceQueue), PlaceQueueId);
-                if (PlaceId > 0) instance.Place = (Place)session.Load(typeof(Place), PlaceId);
+                if (PlaceQueueId > 0) instance.PlaceQueue = session.Load<PlaceQueue>(PlaceQueueId);
+                if (PlaceId > 0) instance.Place = session.Load<Place>(PlaceId);
             }
 
             return instance;

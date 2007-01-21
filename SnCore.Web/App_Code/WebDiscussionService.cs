@@ -42,7 +42,7 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-                Account instance = (Account)session.Load(typeof(Account), id);
+                Account instance = session.Load<Account>(id);
                 return ManagedDiscussion.GetOrCreateDiscussionId(
                     session, instance.Id, ManagedDiscussion.AccountTagsDiscussion, id, sec);
             }
@@ -59,7 +59,7 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-                AccountPicture instance = (AccountPicture)session.Load(typeof(AccountPicture), id);
+                AccountPicture instance = session.Load<AccountPicture>(id);
                 return ManagedDiscussion.GetOrCreateDiscussionId(
                     session, instance.Account.Id, ManagedDiscussion.AccountPictureDiscussion, id, sec);
             }
@@ -76,7 +76,7 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-                AccountEventPicture instance = (AccountEventPicture)session.Load(typeof(AccountEventPicture), id);
+                AccountEventPicture instance = session.Load<AccountEventPicture>(id);
                 return ManagedDiscussion.GetOrCreateDiscussionId(
                     session, instance.AccountEvent.Account.Id, ManagedDiscussion.AccountEventPictureDiscussion, id, sec);
             }
@@ -93,7 +93,7 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-                PlacePicture instance = (PlacePicture)session.Load(typeof(PlacePicture), id);
+                PlacePicture instance = session.Load<PlacePicture>(id);
                 return ManagedDiscussion.GetOrCreateDiscussionId(
                     session, instance.Place.Account.Id, ManagedDiscussion.PlacePictureDiscussion, id, sec);
             }
@@ -110,7 +110,7 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-                AccountStoryPicture instance = (AccountStoryPicture)session.Load(typeof(AccountStoryPicture), id);
+                AccountStoryPicture instance = session.Load<AccountStoryPicture>(id);
                 return ManagedDiscussion.GetOrCreateDiscussionId(
                     session, instance.AccountStory.Account.Id, ManagedDiscussion.AccountStoryPictureDiscussion, id, sec);
             }
@@ -127,7 +127,7 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-                AccountStory instance = (AccountStory)session.Load(typeof(AccountStory), id);
+                AccountStory instance = session.Load<AccountStory>(id);
                 return ManagedDiscussion.GetOrCreateDiscussionId(
                     session, instance.Account.Id, ManagedDiscussion.AccountStoryDiscussion, id, sec);
             }
@@ -144,7 +144,7 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-                Place instance = (Place)session.Load(typeof(Place), id);
+                Place instance = session.Load<Place>(id);
                 return ManagedDiscussion.GetOrCreateDiscussionId(
                     session, instance.Account.Id, ManagedDiscussion.PlaceDiscussion, id, sec);
             }
@@ -161,7 +161,7 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-                AccountEvent instance = (AccountEvent)session.Load(typeof(AccountEvent), id);
+                AccountEvent instance = session.Load<AccountEvent>(id);
                 return ManagedDiscussion.GetOrCreateDiscussionId(
                     session, instance.Account.Id, ManagedDiscussion.AccountEventDiscussion, id, sec);
             }
@@ -178,7 +178,7 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-                AccountFeedItem instance = (AccountFeedItem)session.Load(typeof(AccountFeedItem), id);
+                AccountFeedItem instance = session.Load<AccountFeedItem>(id);
                 return ManagedDiscussion.GetOrCreateDiscussionId(
                     session, instance.AccountFeed.Account.Id, ManagedDiscussion.AccountFeedItemDiscussion, id, sec);
             }
@@ -195,7 +195,7 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-                AccountBlogPost instance = (AccountBlogPost)session.Load(typeof(AccountBlogPost), id);
+                AccountBlogPost instance = session.Load<AccountBlogPost>(id);
                 return ManagedDiscussion.GetOrCreateDiscussionId(
                     session, instance.AccountBlog.Account.Id, ManagedDiscussion.AccountBlogPostDiscussion, id, sec);
             }

@@ -284,17 +284,17 @@ namespace SnCore.Services
             {
                 if (DiscussionPostParentId > 0)
                 {
-                    instance.DiscussionPostParent = (DiscussionPost)session.Load(typeof(DiscussionPost), this.DiscussionPostParentId);
+                    instance.DiscussionPostParent = session.Load<DiscussionPost>(this.DiscussionPostParentId);
                     instance.DiscussionThread = instance.DiscussionPostParent.DiscussionThread;
                 }
                 else if (DiscussionThreadId > 0)
                 {
-                    instance.DiscussionThread = (DiscussionThread)session.Load(typeof(DiscussionThread), this.DiscussionThreadId);
+                    instance.DiscussionThread = session.Load<DiscussionThread>(this.DiscussionThreadId);
                 }
                 else
                 {
                     instance.DiscussionThread = new DiscussionThread();
-                    instance.DiscussionThread.Discussion = (Discussion)session.Load(typeof(Discussion), this.DiscussionId);
+                    instance.DiscussionThread.Discussion = session.Load<Discussion>(this.DiscussionId);
                     instance.DiscussionThread.Created = instance.DiscussionThread.Modified = DateTime.UtcNow;
                 }
 

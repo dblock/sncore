@@ -357,18 +357,18 @@ namespace SnCore.Services
             if (Id == 0)
             {
                 instance.AccountId = GetOwner(session, AccountId, sec).Id;
-                instance.Project = (BugProject)session.Load(typeof(BugProject), this.ProjectId);
+                instance.Project = session.Load<BugProject>(this.ProjectId);
             }
 
             instance.Subject = this.Subject;
             instance.Details = this.Details;
             if (!string.IsNullOrEmpty(this.Status)) instance.Status = ManagedBugStatus.Find(session, this.Status);
-            if (instance.Status == null) instance.Status = (BugStatu)session.Load(typeof(BugStatu), ManagedBugStatus.FindId(session, "Open"));
+            if (instance.Status == null) instance.Status = session.Load<BugStatu>(ManagedBugStatus.FindId(session, "Open"));
             if (!string.IsNullOrEmpty(this.Type)) instance.Type = ManagedBugType.Find(session, this.Type);
             if (!string.IsNullOrEmpty(this.Priority)) instance.Priority = ManagedBugPriority.Find(session, this.Priority);
             if (!string.IsNullOrEmpty(this.Severity)) instance.Severity = ManagedBugSeverity.Find(session, this.Severity);
             if (!string.IsNullOrEmpty(this.Resolution)) instance.Resolution = ManagedBugResolution.Find(session, this.Resolution);
-            if (instance.Resolution == null) instance.Resolution = (BugResolution)session.Load(typeof(BugResolution), ManagedBugResolution.FindId(session, "None"));
+            if (instance.Resolution == null) instance.Resolution = session.Load<BugResolution>(ManagedBugResolution.FindId(session, "None"));
             return instance;
         }
     }

@@ -209,7 +209,7 @@ namespace SnCore.Services
         {
             try
             {
-                Account acct = (Account)session.Load(typeof(Account), instance.AccountId);
+                Account acct = session.Load<Account>(instance.AccountId);
                 AccountPictureId = ManagedAccount.GetRandomAccountPictureId(acct);
             }
             catch (NHibernate.ObjectNotFoundException)
@@ -248,7 +248,7 @@ namespace SnCore.Services
                 Account owner = GetOwner(session, AccountId, sec);
                 instance.AccountName = owner.Name;
                 instance.AccountId = owner.Id;
-                instance.AccountBlog = (AccountBlog)session.Load(typeof(AccountBlog), AccountBlogId);
+                instance.AccountBlog = session.Load<AccountBlog>(AccountBlogId);
             }
 
             return instance;

@@ -85,7 +85,7 @@ namespace SnCore.Services
             DiscussionThread instance = base.GetInstance(session, sec);
             if (Id == 0)
             {
-                instance.Discussion = (Discussion)session.Load(typeof(Discussion), this.DiscussionId);
+                instance.Discussion = session.Load<Discussion>(this.DiscussionId);
             }
             return instance;
         }

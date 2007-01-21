@@ -160,8 +160,8 @@ namespace SnCore.Services
         public override AccountFriendRequest GetInstance(ISession session, ManagedSecurityContext sec)
         {
             AccountFriendRequest instance = base.GetInstance(session, sec);
-            if (KeenId > 0) instance.Keen = (Account)session.Load(typeof(Account), KeenId);
-            if (AccountId > 0) instance.Account = (Account)session.Load(typeof(Account), AccountId);
+            if (KeenId > 0) instance.Keen = session.Load<Account>(KeenId);
+            if (AccountId > 0) instance.Account = session.Load<Account>(AccountId);
             instance.Message = Message;
             return instance;
         }

@@ -124,7 +124,7 @@ namespace SnCore.Services
         public override AccountProperty GetInstance(ISession session, ManagedSecurityContext sec)
         {
             AccountProperty instance = base.GetInstance(session, sec);
-            instance.AccountPropertyGroup = (AccountPropertyGroupId > 0) ? (AccountPropertyGroup)session.Load(typeof(AccountPropertyGroup), AccountPropertyGroupId) : null;
+            instance.AccountPropertyGroup = (AccountPropertyGroupId > 0) ? session.Load<AccountPropertyGroup>(AccountPropertyGroupId) : null;
             instance.Name = this.Name;
             instance.Description = this.Description;
             instance.DefaultValue = this.DefaultValue;

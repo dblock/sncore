@@ -139,7 +139,7 @@ namespace SnCore.Services
             CampaignAccountRecepient instance = base.GetInstance(session, sec);
             if (Id == 0)
             {
-                instance.Campaign = (Campaign)session.Load(typeof(Campaign), CampaignId);
+                instance.Campaign = session.Load<Campaign>(CampaignId);
                 instance.Account = GetOwner(session, AccountId, sec);
             }
             instance.Sent = this.Sent;

@@ -197,7 +197,7 @@ namespace SnCore.Services
         public override MadLibInstance GetInstance(ISession session, ManagedSecurityContext sec)
         {
             MadLibInstance instance = base.GetInstance(session, sec);
-            if (Id == 0) instance.MadLib = (MadLib)session.Load(typeof(MadLib), this.MadLibId);
+            if (Id == 0) instance.MadLib = session.Load<MadLib>(this.MadLibId);
             instance.Text = this.Text;
             instance.ObjectId = this.ObjectId;
             instance.DataObject = ManagedDataObject.FindObject(session, this.ObjectName);

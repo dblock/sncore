@@ -150,7 +150,7 @@ namespace SnCore.Services
         public override AccountContent GetInstance(ISession session, ManagedSecurityContext sec)
         {
             AccountContent instance = base.GetInstance(session, sec);
-            instance.AccountContentGroup = (AccountContentGroup)session.Load(typeof(AccountContentGroup), AccountContentGroupId);
+            instance.AccountContentGroup = session.Load<AccountContentGroup>(AccountContentGroupId);
             instance.Tag = this.Tag;
             instance.Text = this.Text;
             instance.Timestamp = this.Timestamp;

@@ -70,7 +70,7 @@ namespace SnCore.Services
 
         public virtual DatabaseType GetInstance(ISession session, ManagedSecurityContext sec)
         {
-            DatabaseType o = (Id != 0) ? (DatabaseType)session.Load(typeof(DatabaseType), Id) : new DatabaseType();
+            DatabaseType o = (Id != 0) ? session.Load<DatabaseType>(Id) : new DatabaseType();
             return o;
         }
 
@@ -78,7 +78,7 @@ namespace SnCore.Services
         {
             if (id == 0 || sec.Account == null) return sec.Account; // current security context id
             if (id != 0 && id == sec.Account.Id) return sec.Account; // the id requested matches the security context id
-            if (id != 0 && sec.IsAdministrator()) return (Account) session.Load(typeof(Account), id); // the administrator can get any id
+            if (id != 0 && sec.IsAdministrator()) return session.Load<Account>(id); // the administrator can get any id
             if (id != 0 && !sec.IsAdministrator()) throw new ManagedAccount.AccessDeniedException(); // attempt to change ownership
             return sec.Account; // whatever is in the security context
         }

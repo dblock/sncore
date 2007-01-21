@@ -93,7 +93,7 @@ namespace SnCore.Services
         {
             PlaceName instance = base.GetInstance(session, sec);
             instance.Name = this.Name;
-            instance.Place = (Place)session.Load(typeof(Place), PlaceId);
+            instance.Place = session.Load<Place>(PlaceId);
             return instance;
         }
     }

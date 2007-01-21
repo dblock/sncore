@@ -214,7 +214,7 @@ namespace SnCore.BackEndServices
                             .Add(Expression.Eq("Account.Id", accountid))
                             .UniqueResult();
 
-                        Account acct = (Account)session.Load(typeof(Account), accountid);
+                        Account acct = session.Load<Account>(accountid);
                         ManagedAccount ma = new ManagedAccount(session, acct);
 
                         try

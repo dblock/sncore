@@ -64,12 +64,12 @@ namespace SnCore.Services.Tests
                 ManagedSchedule m_s = new ManagedSchedule(Session);
                 int schedule_id = m_s.CreateOrUpdate(ts, AdminSecurityContext);
 
-                Schedule s = (Schedule)Session.Load(typeof(Schedule), schedule_id);
+                Schedule s = Session.Load<Schedule>(schedule_id);
 
                 Assert.AreEqual(s.ScheduleInstances.Count, 1, "There's more than one instance on a non-recurrent schedule.");
 
                 {
-                    ScheduleInstance ts_instance = (ScheduleInstance)s.ScheduleInstances[0];
+                    ScheduleInstance ts_instance = s.ScheduleInstances[0];
 
                     Assert.AreEqual(ts_instance.StartDateTime, s.StartDateTime, "Schedule instance start date/time doesn't match.");
                     Assert.AreEqual(ts_instance.EndDateTime, s.EndDateTime, "Schedule instance end date/time doesn't match.");
@@ -120,7 +120,7 @@ namespace SnCore.Services.Tests
                 ManagedSchedule m_s = new ManagedSchedule(Session);
                 int schedule_id = m_s.CreateOrUpdate(ts, AdminSecurityContext);
 
-                Schedule s = (Schedule)Session.Load(typeof(Schedule), schedule_id);
+                Schedule s = Session.Load<Schedule>(schedule_id);
 
                 m_s.UpdateInstances();
 
@@ -164,7 +164,7 @@ namespace SnCore.Services.Tests
                 ManagedSchedule m_s = new ManagedSchedule(Session);
                 int schedule_id = m_s.CreateOrUpdate(ts, AdminSecurityContext);
 
-                Schedule s = (Schedule)Session.Load(typeof(Schedule), schedule_id);
+                Schedule s = Session.Load<Schedule>(schedule_id);
 
                 Assert.AreEqual(ts.EndOccurrences, s.ScheduleInstances.Count, "There's more than ten instance on this schedule.");
 
@@ -213,7 +213,7 @@ namespace SnCore.Services.Tests
                 ManagedSchedule m_s = new ManagedSchedule(Session);
                 int schedule_id = m_s.CreateOrUpdate(ts, AdminSecurityContext);
 
-                Schedule s = (Schedule)Session.Load(typeof(Schedule), schedule_id);
+                Schedule s = Session.Load<Schedule>(schedule_id);
 
                 Assert.IsNotNull(s.ScheduleInstances, "Schedule instances cannot be null.");
 
@@ -256,7 +256,7 @@ namespace SnCore.Services.Tests
                 ManagedSchedule m_s = new ManagedSchedule(Session);
                 int schedule_id = m_s.CreateOrUpdate(ts, AdminSecurityContext);
 
-                Schedule s = (Schedule)Session.Load(typeof(Schedule), schedule_id);
+                Schedule s = Session.Load<Schedule>(schedule_id);
 
                 Assert.IsNotNull(s.ScheduleInstances, "Schedule instances cannot be null.");
 
@@ -300,7 +300,7 @@ namespace SnCore.Services.Tests
                 ManagedSchedule m_s = new ManagedSchedule(Session);
                 int schedule_id = m_s.CreateOrUpdate(ts, AdminSecurityContext);
 
-                Schedule s = (Schedule)Session.Load(typeof(Schedule), schedule_id);
+                Schedule s = Session.Load<Schedule>(schedule_id);
 
                 Assert.IsNotNull(s.ScheduleInstances, "Schedule instances cannot be null.");
 
@@ -350,7 +350,7 @@ namespace SnCore.Services.Tests
                 ManagedSchedule m_s = new ManagedSchedule(Session);
                 int schedule_id = m_s.CreateOrUpdate(ts, AdminSecurityContext);
 
-                Schedule s = (Schedule)Session.Load(typeof(Schedule), schedule_id);
+                Schedule s = Session.Load<Schedule>(schedule_id);
 
                 Assert.IsNotNull(s.ScheduleInstances, "Schedule instances cannot be null.");
 
@@ -393,7 +393,7 @@ namespace SnCore.Services.Tests
                 ManagedSchedule m_s = new ManagedSchedule(Session);
                 int schedule_id = m_s.CreateOrUpdate(ts, AdminSecurityContext);
 
-                Schedule s = (Schedule)Session.Load(typeof(Schedule), schedule_id);
+                Schedule s = Session.Load<Schedule>(schedule_id);
 
                 Assert.IsNotNull(s.ScheduleInstances, "Schedule instances cannot be null.");
 
@@ -436,7 +436,7 @@ namespace SnCore.Services.Tests
                 ManagedSchedule m_s = new ManagedSchedule(Session);
                 int schedule_id = m_s.CreateOrUpdate(ts, AdminSecurityContext);
 
-                Schedule s = (Schedule)Session.Load(typeof(Schedule), schedule_id);
+                Schedule s = Session.Load<Schedule>(schedule_id);
 
                 Assert.IsNotNull(s.ScheduleInstances, "Schedule instances cannot be null.");
 
@@ -480,7 +480,7 @@ namespace SnCore.Services.Tests
                 ManagedSchedule m_s = new ManagedSchedule(Session);
                 int schedule_id = m_s.CreateOrUpdate(ts, AdminSecurityContext);
 
-                Schedule s = (Schedule)Session.Load(typeof(Schedule), schedule_id);
+                Schedule s = Session.Load<Schedule>(schedule_id);
 
                 Assert.IsNotNull(s.ScheduleInstances, "Schedule instances cannot be null.");
 

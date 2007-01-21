@@ -120,7 +120,7 @@ namespace SnCore.Services
         {
             try
             {
-                Account account = (Account)session.Load(typeof(Account), instance.AccountId);
+                Account account = session.Load<Account>(instance.AccountId);
                 AccountName = (account != null) ? account.Name : string.Empty;
             }
             catch (NHibernate.ObjectNotFoundException)
@@ -146,7 +146,7 @@ namespace SnCore.Services
 
             if (Id == 0)
             {
-                instance.Bug = (Id == 0 && BugId != 0) ? (Bug)session.Load(typeof(Bug), this.BugId) : null;
+                instance.Bug = (Id == 0 && BugId != 0) ? session.Load<Bug>(this.BugId) : null;
                 instance.AccountId = this.AccountId;
             }
 

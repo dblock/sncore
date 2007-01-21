@@ -205,7 +205,7 @@ namespace SnCore.Services
 
             instance.AccountMessageFolderParent =
                 (this.AccountMessageFolderParentId != 0) ?
-                (AccountMessageFolder)session.Load(typeof(AccountMessageFolder), this.AccountMessageFolderParentId) :
+                session.Load<AccountMessageFolder>(this.AccountMessageFolderParentId) :
                 null;
 
             return instance;

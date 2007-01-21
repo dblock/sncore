@@ -128,7 +128,7 @@ namespace SnCore.Services
             MadLib instance = base.GetInstance(session, sec);
             instance.Name = this.Name;
             instance.Template = this.Template;
-            if (Id == 0 && AccountId > 0) instance.Account = (Account)session.Load(typeof(Account), AccountId);
+            if (Id == 0 && AccountId > 0) instance.Account = session.Load<Account>(AccountId);
             return instance;
         }
     }

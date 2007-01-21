@@ -741,10 +741,10 @@ namespace SnCore.Services
             {
                 // the account and the Event cannot be switched after the relationship is created
                 instance.Account = GetOwner(session, AccountId, sec);
-                instance.Schedule = (Schedule)session.Load(typeof(Schedule), ScheduleId);
+                instance.Schedule = session.Load<Schedule>(ScheduleId);
             }
 
-            if (PlaceId > 0) instance.Place = (Place)session.Load(typeof(Place), PlaceId);
+            if (PlaceId > 0) instance.Place = session.Load<Place>(PlaceId);
             return instance;
         }
 

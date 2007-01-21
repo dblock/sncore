@@ -264,7 +264,7 @@ namespace SnCore.Services
             instance.Description = this.Description;
             instance.Link = this.Link;
             instance.Guid = this.Guid;
-            if (this.AccountFeedId != 0) instance.AccountFeed = (AccountFeed)session.Load(typeof(AccountFeed), AccountFeedId);
+            if (this.AccountFeedId != 0) instance.AccountFeed = session.Load<AccountFeed>(AccountFeedId);
             return instance;
         }
     }

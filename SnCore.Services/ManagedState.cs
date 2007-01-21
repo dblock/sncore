@@ -66,7 +66,7 @@ namespace SnCore.Services
         {
             State instance = base.GetInstance(session, sec);
             instance.Name = this.Name;
-            instance.Country = (Country)session.Load(typeof(Country), ManagedCountry.GetCountryId(session, Country));
+            instance.Country = session.Load<Country>(ManagedCountry.GetCountryId(session, Country));
             return instance;
         }
     }

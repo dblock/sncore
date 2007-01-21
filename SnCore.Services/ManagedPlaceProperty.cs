@@ -138,8 +138,8 @@ namespace SnCore.Services
 
         public override PlaceProperty GetInstance(ISession session, ManagedSecurityContext sec)
         {
-            PlaceProperty instance = (Id != 0) ? (PlaceProperty)session.Load(typeof(PlaceProperty), Id) : new PlaceProperty();
-            if (PlacePropertyGroupId > 0) instance.PlacePropertyGroup = (PlacePropertyGroup)session.Load(typeof(PlacePropertyGroup), PlacePropertyGroupId);
+            PlaceProperty instance = (Id != 0) ? session.Load<PlaceProperty>(Id) : new PlaceProperty();
+            if (PlacePropertyGroupId > 0) instance.PlacePropertyGroup = session.Load<PlacePropertyGroup>(PlacePropertyGroupId);
             else if (!string.IsNullOrEmpty(PlacePropertyGroupName)) instance.PlacePropertyGroup = ManagedPlacePropertyGroup.Find(session, PlacePropertyGroupName);
             instance.Name = this.Name;
             instance.Description = this.Description;

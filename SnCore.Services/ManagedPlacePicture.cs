@@ -201,7 +201,7 @@ namespace SnCore.Services
             p.Description = this.Description;
             if (Id == 0)
             {
-                if (PlaceId > 0) p.Place = (Place)session.Load(typeof(Place), PlaceId);
+                if (PlaceId > 0) p.Place = session.Load<Place>(PlaceId);
                 p.Account = GetOwner(session, AccountId, sec);
             }
             if (Bitmap != null) p.Bitmap = Bitmap;

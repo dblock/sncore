@@ -95,7 +95,7 @@ namespace SnCore.Services
         public virtual void LoadInstance(ISession session, int id)
         {
             Session = session;
-            Instance = (DatabaseType) Session.Load(typeof(DatabaseType), id);
+            Instance = Session.Load<DatabaseType>(id);
         }
 
         public ITransitService GetTransitServiceInstance(ManagedSecurityContext sec)

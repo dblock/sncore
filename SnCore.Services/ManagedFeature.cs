@@ -63,7 +63,7 @@ namespace SnCore.Services
         public TransitFeature(ISession session, Feature instance)
             : base(instance)
         {
-            DataObjectName = ((DataObject) session.Load(typeof(DataObject), instance.DataObject.Id)).Name;
+            DataObjectName = (session.Load<DataObject>(instance.DataObject.Id)).Name;
         }
 
         public TransitFeature(Feature instance)

@@ -24,7 +24,7 @@ namespace SnCore.Services
 
         public ManagedSecurityContext(ISession session, int id)
         {
-            mAccount = (Account)session.Load(typeof(Account), id);
+            mAccount = session.Load<Account>(id);
         }
 
         public ManagedSecurityContext(Account value)
@@ -35,7 +35,7 @@ namespace SnCore.Services
         public ManagedSecurityContext(ISession session, string ticket)
         {
             int id = ManagedAccount.GetAccountId(ticket, 0);
-            mAccount = (id > 0 ? (Account)session.Load(typeof(Account), id) : null);
+            mAccount = (id > 0 ? session.Load<Account>(id) : null);
         }
 
         public bool IsAdministrator()

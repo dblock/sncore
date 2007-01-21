@@ -214,8 +214,8 @@ namespace SnCore.Services
         public override PlacePropertyValue GetInstance(ISession session, ManagedSecurityContext sec)
         {
             PlacePropertyValue instance = base.GetInstance(session, sec);
-            instance.Place = (this.PlaceId > 0) ? (Place)session.Load(typeof(Place), PlaceId) : null;
-            instance.PlaceProperty = (PlacePropertyId > 0) ? (PlaceProperty)session.Load(typeof(PlaceProperty), PlacePropertyId) : null;
+            instance.Place = (this.PlaceId > 0) ? session.Load<Place>(PlaceId) : null;
+            instance.PlaceProperty = (PlacePropertyId > 0) ? session.Load<PlaceProperty>(PlacePropertyId) : null;
             instance.Value = this.Value;
             return instance;
         }

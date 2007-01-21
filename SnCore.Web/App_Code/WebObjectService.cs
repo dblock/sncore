@@ -756,7 +756,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                DataObject dataobject = (DataObject)session.Load(typeof(DataObject), id);
+                DataObject dataobject = session.Load<DataObject>(id);
                 Type t = Assembly.GetAssembly(typeof(DataObject)).GetType(dataobject.Name, true);
 
                 PropertyInfo[] pinfo = t.GetProperties();

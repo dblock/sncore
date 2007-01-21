@@ -91,7 +91,7 @@ namespace SnCore.Services
         public override AccountFriend GetInstance(ISession session, ManagedSecurityContext sec)
         {
             AccountFriend instance = base.GetInstance(session, sec);
-            if (FriendId > 0) instance.Keen = (Account) session.Load(typeof(Account), FriendId);
+            if (FriendId > 0) instance.Keen = session.Load<Account>(FriendId);
             return instance;
         }
     }

@@ -219,7 +219,7 @@ namespace SnCore.Services.Tests
                 a.PromoteAdministrator();
                 Session.Flush();
 
-                Account ar = (Account)Session.Load(typeof(Account), a.Id);
+                Account ar = Session.Load<Account>(a.Id);
                 Session.Refresh(ar);
 
                 ManagedAccount mar = new ManagedAccount(Session, ar);

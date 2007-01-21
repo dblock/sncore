@@ -225,7 +225,7 @@ namespace SnCore.Services
                 instance.SenderAccountId = GetOwner(session, SenderAccountId, sec).Id;
                 instance.RecepientAccountId = this.RecepientAccountId;
                 // the oner is the recepient
-                instance.Account = (Account) session.Load(typeof(Account), RecepientAccountId);
+                instance.Account = session.Load<Account>(RecepientAccountId);
             }
 
             instance.Unread = this.UnRead;
@@ -313,7 +313,7 @@ namespace SnCore.Services
             if (mInstance.AccountMessageFolder.Id == folderid)
                 return;
 
-            AccountMessageFolder folder = (AccountMessageFolder) Session.Load(typeof(AccountMessageFolder), folderid);
+            AccountMessageFolder folder = Session.Load<AccountMessageFolder>(folderid);
             if (folder.Account.Id != mInstance.Account.Id)
             {
                 throw new ManagedAccount.AccessDeniedException();

@@ -153,7 +153,7 @@ namespace SnCore.Services
             if (Id == 0)
             {
                 instance.Type = ManagedAccountPlaceType.Find(session, this.Type);
-                instance.Place = (Place)session.Load(typeof(Place), PlaceId);
+                instance.Place = session.Load<Place>(PlaceId);
                 instance.Account = GetOwner(session, AccountId, sec);
             }
             return instance;

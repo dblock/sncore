@@ -165,7 +165,7 @@ namespace SnCore.Services
         public override AccountStoryPicture GetInstance(ISession session, ManagedSecurityContext sec)
         {
             AccountStoryPicture instance = base.GetInstance(session, sec);
-            if (Id == 0) instance.AccountStory = (AccountStory)session.Load(typeof(AccountStory), AccountStoryId);
+            if (Id == 0) instance.AccountStory = session.Load<AccountStory>(AccountStoryId);
             if (Id == 0) instance.Location = Location;
             instance.Name = Name;
             if (Picture != null) instance.Picture = Picture;

@@ -46,7 +46,7 @@ namespace SnCore.BackEnd.Tests
                 Session.Flush();
 
                 // get the account as is, update the login date/time to four months behind
-                Account a = (Account)Session.Load(typeof(Account), id);
+                Account a = Session.Load<Account>(id);
                 a.LastLogin = DateTime.UtcNow.AddMonths(-4);
                 Session.Save(a);
                 Session.Flush();
@@ -89,7 +89,7 @@ namespace SnCore.BackEnd.Tests
                 Session.Flush();
 
                 // get the account as is, update the login date/time to four months behind
-                Account a = (Account)Session.Load(typeof(Account), id);
+                Account a = Session.Load<Account>(id);
                 a.LastLogin = DateTime.UtcNow.AddMonths(-4);
                 Session.Save(a);
                 Session.Flush();

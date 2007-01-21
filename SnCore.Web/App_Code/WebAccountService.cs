@@ -404,8 +404,8 @@ namespace SnCore.WebServices
 
                 TransitAccountFriend t_friend = new TransitAccountFriend();
                 AccountFriend friend = new AccountFriend();
-                friend.Account = (Account)session.Load(typeof(Account), invitation.AccountId);
-                friend.Keen = (Account)session.Load(typeof(Account), id);
+                friend.Account = session.Load<Account>(invitation.AccountId);
+                friend.Keen = session.Load<Account>(id);
                 friend.Created = DateTime.UtcNow;
                 session.Save(friend);
 
@@ -1401,7 +1401,7 @@ namespace SnCore.WebServices
                         value = new AccountPropertyValue();
                         value.AccountProperty = property;
                         value.Value = property.DefaultValue;
-                        value.Account = (Account)session.Load(typeof(Account), accountid);
+                        value.Account = session.Load<Account>(accountid);
                     }
 
                     ManagedAccountPropertyValue m_instance = new ManagedAccountPropertyValue(session, value);

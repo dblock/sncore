@@ -1115,7 +1115,7 @@ namespace SnCore.Services
             AccountFriendRequest request = new AccountFriendRequest();
             // the request belongs to the requester
             request.Account = mInstance;
-            request.Keen = (Account)Session.Load(typeof(Account), friendid);
+            request.Keen = Session.Load<Account>(friendid);
             request.Message = message;
             request.Created = DateTime.UtcNow;
 

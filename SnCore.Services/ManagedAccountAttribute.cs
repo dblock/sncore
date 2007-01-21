@@ -129,7 +129,7 @@ namespace SnCore.Services
             if (Id == 0)
             {
                 instance.Account = GetOwner(session, AccountId, sec);
-                instance.Attribute = (Attribute)session.Load(typeof(Attribute), AttributeId);
+                instance.Attribute = session.Load<Attribute>(AttributeId);
             }
             else
             {
