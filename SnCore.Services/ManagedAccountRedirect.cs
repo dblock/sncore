@@ -220,6 +220,12 @@ namespace SnCore.Services
 
                 foreach (AccountRedirect redirect in redirects)
                 {
+                    if (redirect.SourceUri == null || string.IsNullOrEmpty(redirect.SourceUri.Trim()))
+                        continue;
+
+                    if (redirect.TargetUri == null || string.IsNullOrEmpty(redirect.TargetUri.Trim()))
+                        continue;
+
                     sb.AppendFormat("RewriteRule    ^/{0}([\\/]*)$    /{1}",
                         redirect.SourceUri, redirect.TargetUri);
                     sb.AppendLine();
