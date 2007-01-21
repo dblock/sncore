@@ -67,7 +67,7 @@ public partial class AccountBlogPostView : Page
 
     public void linkDelete_Click(object sender, EventArgs e)
     {
-        TransitAccountBlogPost tfi = SessionManager.GetInstance<TransitAccountBlogPost, int>(
+        TransitAccountBlogPost post = SessionManager.GetInstance<TransitAccountBlogPost, int>(
             RequestId, SessionManager.BlogService.GetAccountBlogPostById);
         SessionManager.BlogService.DeleteAccountBlogPost(SessionManager.Ticket, post.Id);
         Redirect(string.Format("AccountBlogView.aspx?id={0}", post.AccountBlogId));

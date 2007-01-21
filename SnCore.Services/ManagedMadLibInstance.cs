@@ -234,18 +234,8 @@ namespace SnCore.Services
         public override TransitMadLibInstance GetTransitInstance(ManagedSecurityContext sec)
         {
             TransitMadLibInstance instance = base.GetTransitInstance(sec);
-
-            try
-            {
-                Account acct = (Account)Session.Load(typeof(Account), mInstance.AccountId);
-                instance.AccountName = (acct != null) ? acct.Name : "Unknown User";
-                instance.AccountPictureId = ManagedAccount.GetRandomAccountPictureId(acct);
-            }
-            catch (ObjectNotFoundException)
-            {
-
-            }
-
+            instance.AccountName = ManagedAccount.GetAccountNameWithDefault(Session, mInstance.AccountId);
+            instance.AccountPictureId = ManagedAccount.GetRandomAccountPictureId(Session, mInstance.AccountId);
             return instance;
         }
 

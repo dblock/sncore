@@ -280,43 +280,10 @@ namespace SnCore.Services
         public override TransitAccountMessage GetTransitInstance(ManagedSecurityContext sec)
         {
             TransitAccountMessage message = base.GetTransitInstance(sec);
-            message.SenderAccountName = "Unknown User";
-            message.RecepientAccountName = "Unknown User";
-
-            try
-            {
-                Account sender = (Account) Session.CreateCriteria(typeof(Account))
-                        .Add(Expression.Eq("Id", mInstance.SenderAccountId))
-                        .UniqueResult();
-
-                if (sender != null)
-                {
-                    message.SenderAccountPictureId = ManagedAccount.GetRandomAccountPictureId(sender);
-                    message.SenderAccountName = sender.Name;
-                }
-            }
-            catch (ObjectNotFoundException)
-            {
-
-            }
-
-            try
-            {
-                Account recepient = (Account) Session.CreateCriteria(typeof(Account))
-                        .Add(Expression.Eq("Id", mInstance.RecepientAccountId))
-                        .UniqueResult();
-
-                if (recepient != null)
-                {
-                    message.RecepientAccountPictureId = ManagedAccount.GetRandomAccountPictureId(recepient);
-                    message.RecepientAccountName = recepient.Name;
-                }
-            }
-            catch (ObjectNotFoundException)
-            {
-
-            }
-
+            message.SenderAccountName = ManagedAccount.GetAccountNameWithDefault(Session, mInstance.SenderAccountId);
+            message.SenderAccountPictureId = ManagedAccount.GetRandomAccountPictureId(Session, mInstance.SenderAccountId);
+            message.RecepientAccountName = ManagedAccount.GetAccountNameWithDefault(Session, mInstance.RecepientAccountId);
+            message.RecepientAccountPictureId = ManagedAccount.GetRandomAccountPictureId(Session, mInstance.RecepientAccountId);
             return message;
         }
 

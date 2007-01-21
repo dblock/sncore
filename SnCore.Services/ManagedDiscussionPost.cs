@@ -393,17 +393,8 @@ namespace SnCore.Services
         public override TransitDiscussionPost GetTransitInstance(ManagedSecurityContext sec)
         {
             TransitDiscussionPost post = base.GetTransitInstance(sec);
-            try
-            {
-                Account acct = (Account)Session.Load(typeof(Account), post.AccountId);
-                post.AccountName = (acct != null) ? acct.Name : "Unknown User";
-                post.AccountPictureId = ManagedAccount.GetRandomAccountPictureId(acct);
-            }
-            catch (ObjectNotFoundException)
-            {
-                post.AccountName = "Unknown User";
-                post.AccountPictureId = 0;
-            }
+            post.AccountName = ManagedAccount.GetAccountNameWithDefault(Session, post.AccountId);
+            post.AccountPictureId = ManagedAccount.GetRandomAccountPictureId(Session, post.AccountId);
             return post;
         }
 

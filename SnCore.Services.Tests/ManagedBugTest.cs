@@ -112,7 +112,15 @@ namespace SnCore.Services.Tests
                 t_bug.Subject = Guid.NewGuid().ToString();
                 t_bug.Type = t_type.Name;
                 t_bug.Details = Guid.NewGuid().ToString();
-                bug.CreateOrUpdate(t_bug, AdminSecurityContext);
+                t_bug.Id = bug.CreateOrUpdate(t_bug, AdminSecurityContext);
+
+                Session.Flush();
+
+                // foodcandy bug #416 - Bugs: reported by blank in BugProjectBugsManage.aspx
+                ManagedBug m_bug1 = new ManagedBug(Session, t_bug.Id);
+                TransitBug t_instance1 = m_bug1.GetTransitInstance(AdminSecurityContext);
+                Assert.AreEqual(t_instance1.AccountName, AdminSecurityContext.Account.Name);
+                Assert.AreEqual(t_instance1.AccountId, AdminSecurityContext.Account.Id);
             }
             finally
             {

@@ -334,21 +334,6 @@ namespace SnCore.Services
 
         }
 
-        public TransitBug(ISession session, Bug instance)
-            : base(instance)
-        {
-            try
-            {
-                Account account = (Account) session.Load(typeof(Account), instance.AccountId);
-                AccountName = (account != null) ? account.Name : string.Empty;
-            }
-            catch (NHibernate.ObjectNotFoundException)
-            {
-                AccountName = "Unknown";
-                AccountId = -1;
-            }
-        }
-
         public override void SetInstance(Bug instance)
         {
             Subject = instance.Subject;
@@ -371,7 +356,7 @@ namespace SnCore.Services
 
             if (Id == 0)
             {
-                instance.AccountId = this.AccountId;
+                instance.AccountId = GetOwner(session, AccountId, sec).Id;
                 instance.Project = (BugProject)session.Load(typeof(BugProject), this.ProjectId);
             }
 
@@ -501,6 +486,13 @@ namespace SnCore.Services
             acl.Add(new ACLEveryoneAllowRetrieve());
             acl.Add(new ACLAuthenticatedAllowCreate());
             return acl;
+        }
+
+        public override TransitBug GetTransitInstance(ManagedSecurityContext sec)
+        {
+            TransitBug t_instance = base.GetTransitInstance(sec);
+            t_instance.AccountName = ManagedAccount.GetAccountNameWithDefault(Session, t_instance.AccountId);
+            return t_instance;
         }
     }
 }

@@ -1229,9 +1229,22 @@ namespace SnCore.Services
 
         #endregion
 
+        public static int GetRandomAccountPictureId(ISession session, int id)
+        {
+            try
+            {
+                Account account = session.Load<Account>(id);
+                return GetRandomAccountPictureId(account);
+            }
+            catch (ObjectNotFoundException)
+            {
+                return 0;
+            }
+        }
+
         public static int GetRandomAccountPictureId(Account acct)
         {
-            if (acct.AccountPictures == null || acct.AccountPictures.Count == 0)
+            if (acct == null || acct.AccountPictures == null || acct.AccountPictures.Count == 0)
                 return 0;
 
             List<AccountPicture> copyofcollection = new List<AccountPicture>(acct.AccountPictures.Count);
@@ -1310,6 +1323,19 @@ namespace SnCore.Services
             }
             m_instance.SetInstance(session, friend);
             return m_instance.GetTransitInstance(sec);
+        }
+
+        public static string GetAccountNameWithDefault(ISession session, int id)
+        {
+            try
+            {
+                Account account = session.Load<Account>(id);
+                return account.Name;
+            }
+            catch (ObjectNotFoundException)
+            {
+                return "Unknown User";
+            }
         }
     }
 }

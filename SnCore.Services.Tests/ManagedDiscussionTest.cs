@@ -195,7 +195,7 @@ namespace SnCore.Services.Tests
             }
         }
 
-        [Test] // foodcandy bug #413
+        [Test] // foodcandy bug #413 - Discuss: Threads and posts count missing.
         public void GetDiscussionPostAndThreadCountTest()
         {
             ManagedAccount a = new ManagedAccount(Session);
