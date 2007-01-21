@@ -171,6 +171,7 @@
        <li><a href="SystemStatsHits.aspx">Page Hits</a></li>
        <li><a href="SystemRefererHosts.aspx">Referer Hosts</a></li>
        <li><a href="SystemRefererQueries.aspx">Referer Queries</a></li>
+       <li><a href="SystemStatsCache.aspx">Front-End Cache</a></li>
       </ul>
       <li>Special Content</li>
       <ul>
