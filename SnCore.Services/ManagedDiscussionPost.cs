@@ -395,6 +395,8 @@ namespace SnCore.Services
             TransitDiscussionPost post = base.GetTransitInstance(sec);
             post.AccountName = ManagedAccount.GetAccountNameWithDefault(Session, post.AccountId);
             post.AccountPictureId = ManagedAccount.GetRandomAccountPictureId(Session, post.AccountId);
+            post.CanEdit = (GetACL().Apply(sec, DataOperation.Update) == ACLVerdict.Allowed);
+            post.CanDelete = (GetACL().Apply(sec, DataOperation.Delete) == ACLVerdict.Allowed); 
             return post;
         }
 
