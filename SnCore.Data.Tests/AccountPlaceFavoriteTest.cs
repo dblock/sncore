@@ -126,7 +126,7 @@ namespace SnCore.Data.Tests
             IQuery q = Session.CreateQuery("SELECT COUNT(DISTINCT apf.Place) FROM AccountPlaceFavorite apf");
             Assert.AreEqual(1, q.List().Count, "Expected an integer as a result of a COUNT(DISTINCT).");
 
-            long result = (long) q.UniqueResult();
+            int result = q.UniqueResult<int>();
             Assert.IsTrue(result >= 2, "Expected at least two results.");
 
             Session.Delete(acct);

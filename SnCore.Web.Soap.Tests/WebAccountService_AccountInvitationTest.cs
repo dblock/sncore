@@ -91,14 +91,8 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             Assert.IsTrue(id > 0);
             Console.WriteLine("New account: {0}", id);
 
-            try
-            {
-                EndPoint.GetAccountInvitationById(GetAdminTicket(), t_instance.Id);
-                Assert.IsTrue(false, "Invitation hasn't been deleted after the account was created.");
-            }
-            catch (SoapException)
-            {
-            }
+            WebAccountService.TransitAccountInvitation t_instance_deleted = EndPoint.GetAccountInvitationById(GetAdminTicket(), t_instance.Id);
+            Assert.IsNull(t_instance_deleted, "Invitation hasn't been deleted after the account was created.");
 
             EndPoint.DeleteAccountById(ticket, id, t_account.Password);
         }
@@ -133,14 +127,8 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
 
             EndPoint.DeclineInvitation(t_instance.Id, t_instance.Code);
 
-            try
-            {
-                EndPoint.GetAccountInvitationById(GetAdminTicket(), t_instance.Id);
-                Assert.IsTrue(false, "Invitation hasn't been deleted after it was declined.");
-            }
-            catch (SoapException)
-            {
-            }
+            WebAccountService.TransitAccountInvitation t_instance_deleted = EndPoint.GetAccountInvitationById(GetAdminTicket(), t_instance.Id);
+            Assert.IsNull(t_instance_deleted, "Invitation hasn't been deleted after it was declined.");
         }
     }
 }

@@ -3,6 +3,7 @@ using NUnit.Framework;
 using SnCore.Data;
 using NHibernate;
 using NHibernate.Cfg;
+using NHibernate.Dialect.Function;
 
 namespace SnCore.Data.Tests
 {
@@ -48,6 +49,9 @@ namespace SnCore.Data.Tests
                 if (mFactory == null)
                 {
                     mFactory = Configuration.BuildSessionFactory();
+                    mFactory.Dialect.Functions["count"] = new ClassicCountFunction();
+                    mFactory.Dialect.Functions["sum"] = new ClassicSumFunction();
+                    mFactory.Dialect.Functions["avg"] = new ClassicAvgFunction();
                 }
                 return mFactory;
             }

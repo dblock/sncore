@@ -865,9 +865,9 @@
         <s:complexContent mixed="false">
           <s:extension base="tns:TransitAccount">
             <s:sequence>
-              <s:element minOccurs="1" maxOccurs="1" name="NewPictures" type="s:int" />
-              <s:element minOccurs="1" maxOccurs="1" name="NewDiscussionPosts" type="s:int" />
-              <s:element minOccurs="1" maxOccurs="1" name="NewSyndicatedContent" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="NewPictures" type="s:long" />
+              <s:element minOccurs="1" maxOccurs="1" name="NewDiscussionPosts" type="s:long" />
+              <s:element minOccurs="1" maxOccurs="1" name="NewSyndicatedContent" type="s:long" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
@@ -1734,7 +1734,7 @@
               <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
               <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
               <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
-              <s:element minOccurs="1" maxOccurs="1" name="CommentCount" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="CommentCount" type="s:long" />
               <s:element minOccurs="0" maxOccurs="1" name="Counter" type="tns:TransitCounter" />
               <s:element minOccurs="1" maxOccurs="1" name="Hidden" type="s:boolean" />
             </s:sequence>
@@ -2080,6 +2080,7 @@
               <s:element minOccurs="1" maxOccurs="1" name="AccountMessageFolderParentId" type="s:int" />
               <s:element minOccurs="1" maxOccurs="1" name="Level" type="s:int" />
               <s:element minOccurs="1" maxOccurs="1" name="MessageCount" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="UnReadMessageCount" type="s:int" />
             </s:sequence>
           </s:extension>
         </s:complexContent>

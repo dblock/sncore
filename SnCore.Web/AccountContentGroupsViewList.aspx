@@ -29,7 +29,7 @@
    </a>
    <div class="sncore_li_description">
     created by 
-    <a href='AccountContentGroupView.aspx?id=<%# Eval("AccountId") %>'>
+    <a href='AccountView.aspx?id=<%# Eval("AccountId") %>'>
      <%# base.Render(Eval("AccountName")) %> 
     </a>
     on 

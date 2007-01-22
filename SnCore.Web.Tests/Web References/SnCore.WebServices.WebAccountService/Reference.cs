@@ -5256,6 +5256,8 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
         
         private int messageCountField;
         
+        private int unReadMessageCountField;
+        
         /// <remarks/>
         public string FullPath {
             get {
@@ -5343,6 +5345,16 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
             }
             set {
                 this.messageCountField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int UnReadMessageCount {
+            get {
+                return this.unReadMessageCountField;
+            }
+            set {
+                this.unReadMessageCountField = value;
             }
         }
     }
@@ -5744,7 +5756,7 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
         
         private int accountIdField;
         
-        private int commentCountField;
+        private long commentCountField;
         
         private TransitCounter counterField;
         
@@ -5823,7 +5835,7 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
         }
         
         /// <remarks/>
-        public int CommentCount {
+        public long CommentCount {
             get {
                 return this.commentCountField;
             }
@@ -7140,14 +7152,14 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
     public partial class TransitAccountActivity : TransitAccount {
         
-        private int newPicturesField;
+        private long newPicturesField;
         
-        private int newDiscussionPostsField;
+        private long newDiscussionPostsField;
         
-        private int newSyndicatedContentField;
+        private long newSyndicatedContentField;
         
         /// <remarks/>
-        public int NewPictures {
+        public long NewPictures {
             get {
                 return this.newPicturesField;
             }
@@ -7157,7 +7169,7 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
         }
         
         /// <remarks/>
-        public int NewDiscussionPosts {
+        public long NewDiscussionPosts {
             get {
                 return this.newDiscussionPostsField;
             }
@@ -7167,7 +7179,7 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
         }
         
         /// <remarks/>
-        public int NewSyndicatedContent {
+        public long NewSyndicatedContent {
             get {
                 return this.newSyndicatedContentField;
             }

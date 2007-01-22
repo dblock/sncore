@@ -1086,19 +1086,19 @@ namespace SnCore.Services
 
         public bool HasFriend(int friendid)
         {
-            return ((int)Session.CreateQuery(
+            return (Session.CreateQuery(
                 string.Format("SELECT COUNT(*) FROM AccountFriend f where " +
                     "(f.Account.Id = {0} and f.Keen.Id = {1}) or " +
                     "(f.Keen.Id = {0} and f.Account.Id = {1})",
-                    Id, friendid)).UniqueResult() > 0);
+                    Id, friendid)).UniqueResult<int>() > 0);
         }
 
         public bool HasFriendRequest(int friendid)
         {
-            return ((int)Session.CreateQuery(
+            return (Session.CreateQuery(
                 string.Format("SELECT COUNT(*) FROM AccountFriendRequest f where " +
                     "(f.Account.Id = {0} and f.Keen.Id = {1})",
-                    Id, friendid)).UniqueResult() > 0);
+                    Id, friendid)).UniqueResult<int>() > 0);
         }
 
         public int CreateAccountFriendRequest(ManagedSecurityContext sec, int friendid, string message)

@@ -42,5 +42,20 @@ namespace SnCore.Services.Tests
             t_instance.AccountName = _account.Instance.Name;
             return t_instance;
         }
+
+        [Test] // foodcandy bug #424 : Blogs: posts missing poster's picture
+        public void AccountBlogPostAccountIdAndNameTest()
+        {
+            TransitAccountBlogPost t_instance = GetTransitInstance();
+            ManagedAccountBlogPost m_instance = new ManagedAccountBlogPost(Session);
+            m_instance.CreateOrUpdate(t_instance, GetSecurityContext());
+            Session.Flush();
+            ManagedAccountBlogPost m_instance1 = new ManagedAccountBlogPost(Session, m_instance.Id);
+            TransitAccountBlogPost t_instance1 = m_instance1.GetTransitInstance(GetSecurityContext());
+            Assert.AreNotEqual(0, t_instance.AccountId);
+            Assert.IsNotEmpty(t_instance.AccountName);
+            Assert.IsNotEmpty(t_instance.AccountBlogName);
+            m_instance.Delete(GetSecurityContext());
+        }
     }
 }

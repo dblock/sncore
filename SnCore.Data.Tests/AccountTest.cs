@@ -7,34 +7,21 @@ using NHibernate.Cfg;
 namespace SnCore.Data.Tests
 {
     [TestFixture]
-    public class AccountTest : NHibernateCrudTest
+    public class AccountTest : NHibernateCrudTest<Account>
     {
-        public Account mAccount = null;
-
         public AccountTest()
         {
-            mAccount = new Account();
-            mAccount.Name = Guid.NewGuid().ToString();
-            mAccount.Password = "password";
-            mAccount.Enabled = false;
-            mAccount.Birthday = new DateTime(1976, 9, 7);
-            mAccount.Created = mAccount.Modified = mAccount.LastLogin = DateTime.UtcNow;
         }
 
-        public override object Object
+        public override Account GetNewObject()
         {
-            get
-            {
-                return mAccount;
-            }
-        }
-
-        public override int ObjectId
-        {
-            get
-            {
-                return mAccount.Id;
-            }
+            Account obj = new Account();
+            obj.Name = Guid.NewGuid().ToString();
+            obj.Password = "password";
+            obj.Enabled = false;
+            obj.Birthday = new DateTime(1976, 9, 7);
+            obj.Created = obj.Modified = obj.LastLogin = DateTime.UtcNow;
+            return obj;
         }
     }
 }

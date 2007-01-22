@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Web.Hosting;
 using SnCore.Tools.Web;
 using SnCore.Services;
+using NHibernate.Dialect.Function;
 
 namespace SnCore.BackEndServices
 {
@@ -147,6 +148,9 @@ namespace SnCore.BackEndServices
                         if (mFactory == null)
                         {
                             mFactory = config.BuildSessionFactory();
+                            mFactory.Dialect.Functions["count"] = new ClassicCountFunction();
+                            mFactory.Dialect.Functions["sum"] = new ClassicSumFunction();
+                            mFactory.Dialect.Functions["avg"] = new ClassicAvgFunction();
                         }
                     }
                 }

@@ -18,11 +18,15 @@ namespace SnCore.Web.Tests
             DateTime start = DateTime.UtcNow;
             Console.Write("{0} (from {1}) ...", uri.PathAndQuery, root.PathAndQuery);
 
-            CookieContainer cookies = new CookieContainer();
-            cookies.Add(cookie);
+            CookieContainer cookies = null;
+            if (cookie != null)
+            {
+                cookies = new CookieContainer();
+                cookies.Add(cookie);
+            }
 
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(uri);
-            request.CookieContainer = cookies;
+            if (cookies != null) request.CookieContainer = cookies;
             request.Method = "GET";
             request.AllowAutoRedirect = true;
 
@@ -62,6 +66,12 @@ namespace SnCore.Web.Tests
         }
 
         [Test]
+        public void TestDeepGuest()
+        {
+            TestDeep(null);
+        }
+
+        [Test]
         public void TestDeepAdmin()
         {
             TestDeep("admin@localhost.com", "password");
@@ -78,7 +88,11 @@ namespace SnCore.Web.Tests
             WebAccountService service = new WebAccountService();
             string ticket = service.Login(username, password);
             Cookie cookie = new Cookie(WebAccountTests.sSnCoreAuthCookieName, ticket, "/", "localhost");
+            TestDeep(cookie);
+        }
 
+        public void TestDeep(Cookie cookie)
+        {
             Uri root = new Uri("http://localhost/SnCoreWeb/Default.aspx");
 
             List<Uri> queue = new List<Uri>();

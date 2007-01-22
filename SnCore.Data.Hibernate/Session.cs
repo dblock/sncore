@@ -7,6 +7,7 @@ using NHibernate;
 using NHibernate.Cfg;
 using System.Web;
 using System.Diagnostics;
+using NHibernate.Dialect.Function;
 
 namespace SnCore.Data.Hibernate
 {
@@ -84,7 +85,12 @@ namespace SnCore.Data.Hibernate
                     lock (_locker)
                     {
                         if (_factory == null)
+                        {
                             _factory = config.BuildSessionFactory();
+                            _factory.Dialect.Functions["count"] = new ClassicCountFunction();
+                            _factory.Dialect.Functions["sum"] = new ClassicSumFunction();
+                            _factory.Dialect.Functions["avg"] = new ClassicAvgFunction();
+                        }
                     }
                 }
                 return _factory;

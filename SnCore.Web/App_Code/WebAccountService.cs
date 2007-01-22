@@ -462,13 +462,10 @@ namespace SnCore.WebServices
         {
             if (invitation.Id == 0)
             {
-                try
+                TransitAccountInvitation t_instance = GetAccountInvitationByEmail(ticket, invitation.AccountId, invitation.Email);
+                if (t_instance != null)
                 {
-                    TransitAccountInvitation t_instance = GetAccountInvitationByEmail(ticket, invitation.AccountId, invitation.Email);
                     throw new Exception("Existing Invitation Pending");
-                }
-                catch (ObjectNotFoundException)
-                {
                 }
             }
 

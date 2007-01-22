@@ -45,20 +45,12 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
             objecttest.Delete(GetAdminTicket(), objecttest_id);
             objecttest.TearDown();
 
-            try
-            {
-                t_discussion = EndPoint.GetDiscussionById(
-                    GetAdminTicket(), discussion_id);
+            t_discussion = EndPoint.GetDiscussionById(
+                GetAdminTicket(), discussion_id);
 
-                Assert.AreEqual(0, t_discussion.Id, "Discussion has not been deleted with object.");
-            }
-            catch (SoapException)
-            {
-
-            }
-
+            Assert.IsNull(t_discussion, "Discussion has not been deleted with object.");
         }
-        
+
         [Test]
         public void GetOrCreateAccountBlogPostDiscussionIdTest()
         {

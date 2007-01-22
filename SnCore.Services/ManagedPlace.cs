@@ -31,9 +31,9 @@ namespace SnCore.Services
             }
         }
 
-        private long mCount;
+        private int mCount;
 
-        public long Count
+        public int Count
         {
             get
             {

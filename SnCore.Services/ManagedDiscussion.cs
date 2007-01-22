@@ -174,9 +174,9 @@ namespace SnCore.Services
             }
         }
 
-        private long mThreadCount;
+        private int mThreadCount;
 
-        public long ThreadCount
+        public int ThreadCount
         {
             get
             {
@@ -198,13 +198,6 @@ namespace SnCore.Services
             : base(instance)
         {
 
-        }
-
-        public TransitDiscussion(ISession session, Discussion instance)
-            : base(instance)
-        {
-            PostCount = ManagedDiscussion.GetDiscussionPostCount(session, instance.Id);
-            ThreadCount = ManagedDiscussion.GetDiscussionThreadCount(session, instance.Id);
         }
 
         public override void SetInstance(Discussion instance)
@@ -345,23 +338,23 @@ namespace SnCore.Services
 
         public static int GetDiscussionPostCount(ISession session, int discussionid)
         {
-            return (int)session.CreateQuery(
+            return session.CreateQuery(
                 string.Format(
                     "SELECT COUNT(*)" +
                     " FROM DiscussionPost p, DiscussionThread t" +
                     " WHERE p.DiscussionThread.Id = t.Id" +
                     " AND t.Discussion.Id = {0}",
-                    discussionid)).UniqueResult();
+                    discussionid)).UniqueResult<int>();
         }
 
         public static int GetDiscussionThreadCount(ISession session, int discussionid)
         {
-            return (int)session.CreateQuery(
+            return session.CreateQuery(
                 string.Format(
                     "SELECT COUNT(*)" +
                     " FROM DiscussionThread t " +
                     "WHERE t.Discussion.Id = {0}",
-                    discussionid)).UniqueResult();
+                    discussionid)).UniqueResult<int>();
         }
 
         public static bool FindAndDelete(

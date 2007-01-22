@@ -221,14 +221,14 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create or update a place picture.")]
         public int CreateOrUpdatePlacePicture(string ticket, TransitPlacePicture placepicture)
         {
-            int result = WebServiceImpl<TransitPlacePicture, ManagedPlacePicture, PlacePicture>.CreateOrUpdate(
+            int id = WebServiceImpl<TransitPlacePicture, ManagedPlacePicture, PlacePicture>.CreateOrUpdate(
                 ticket, placepicture);
 
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-                ManagedPlace m_place = new ManagedPlace(session, result);
+                ManagedPlace m_place = new ManagedPlace(session, placepicture.PlaceId);
 
                 // send a message to place owner
 
@@ -240,12 +240,12 @@ namespace SnCore.WebServices
                         ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
                             session,
                             new MailAddress(acct.GetActiveEmailAddress(), acct.Name).ToString(),
-                            string.Format("EmailPlacePicture.aspx?id={0}", result));
+                            string.Format("EmailPlacePicture.aspx?id={0}", id));
                     }
                 }
             }
 
-            return result;
+            return id;
         }
 
         /// <summary>
@@ -1323,8 +1323,8 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                IQuery q = session.CreateQuery("SELECT COUNT(DISTINCT apf.Place) FROM AccountPlaceFavorite apf");
-                return (int)(long)q.UniqueResult();
+                return session.CreateQuery("SELECT COUNT(DISTINCT apf.Place) " +
+                    "FROM AccountPlaceFavorite apf").UniqueResult<int>();
             }
         }
 
@@ -1624,8 +1624,8 @@ namespace SnCore.WebServices
                 foreach (object[] nh in neighborhoods)
                 {
                     TransitDistinctPlaceNeighborhood tnh = new TransitDistinctPlaceNeighborhood();
-                    tnh.Name = (string)nh[1];
-                    tnh.Count = (long)nh[2];
+                    tnh.Name = (string) nh[1];
+                    tnh.Count = (int) nh[2];
                     result.Add(tnh);
                 }
 

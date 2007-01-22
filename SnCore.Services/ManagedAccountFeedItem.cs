@@ -232,13 +232,6 @@ namespace SnCore.Services
         {
         }
 
-        public TransitAccountFeedItem(ISession session, AccountFeedItem value)
-            : base(value)
-        {
-            CommentCount = ManagedDiscussion.GetDiscussionPostCount(
-                session, value.AccountFeed.Account.Id, ManagedDiscussion.AccountFeedItemDiscussion, value.Id);
-        }
-
         public override void SetInstance(AccountFeedItem value)
         {
             AccountFeedId = value.AccountFeed.Id;
@@ -315,6 +308,14 @@ namespace SnCore.Services
             acl.Add(new ACLEveryoneAllowRetrieve());
             acl.Add(new ACLAccount(mInstance.AccountFeed.Account, DataOperation.All));
             return acl;
+        }
+
+        public override TransitAccountFeedItem GetTransitInstance(ManagedSecurityContext sec)
+        {
+            TransitAccountFeedItem t_instance = base.GetTransitInstance(sec);
+            t_instance.CommentCount = ManagedDiscussion.GetDiscussionPostCount(
+                Session, mInstance.AccountFeed.Account.Id, ManagedDiscussion.AccountFeedItemDiscussion, mInstance.Id);
+            return t_instance;
         }
     }
 }

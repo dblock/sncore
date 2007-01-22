@@ -13,14 +13,11 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         [Test]
         public void DeleteBetaPasswordTest()
         {
-            try
+            WebSystemServiceNoCache system = new WebSystemServiceNoCache();
+            WebSystemService.TransitConfiguration t_betapassword = system.GetConfigurationByName(GetAdminTicket(), "SnCore.Beta.Password");
+            if (t_betapassword != null)
             {
-                WebSystemServiceNoCache system = new WebSystemServiceNoCache();
-                WebSystemService.TransitConfiguration t_betapassword = system.GetConfigurationByName(GetAdminTicket(), "SnCore.Beta.Password");
                 system.DeleteConfiguration(GetAdminTicket(), t_betapassword.Id);
-            }
-            catch (SoapException)
-            {
             }
 
             Assert.IsFalse(EndPoint.IsBetaPasswordSet());

@@ -204,24 +204,6 @@ namespace SnCore.Services
 
         }
 
-        public TransitAccountBlogPost(ISession session, AccountBlogPost instance)
-            : base(instance)
-        {
-            try
-            {
-                Account acct = session.Load<Account>(instance.AccountId);
-                AccountPictureId = ManagedAccount.GetRandomAccountPictureId(acct);
-            }
-            catch (NHibernate.ObjectNotFoundException)
-            {
-                AccountId = 0;
-                AccountPictureId = 0;
-            }
-
-            CommentCount = ManagedDiscussion.GetDiscussionPostCount(
-                session, instance.AccountBlog.Account.Id, ManagedDiscussion.AccountBlogPostDiscussion, instance.Id);
-        }
-
         public override void SetInstance(AccountBlogPost instance)
         {
             AccountBlogId = instance.AccountBlog.Id;
@@ -286,6 +268,10 @@ namespace SnCore.Services
             TransitAccountBlogPost t_post = base.GetTransitInstance(sec);
             t_post.CanEdit = (GetACL().Apply(sec, DataOperation.Update) == ACLVerdict.Allowed);
             t_post.CanDelete = (GetACL().Apply(sec, DataOperation.Delete) == ACLVerdict.Allowed);
+            t_post.AccountName = ManagedAccount.GetAccountNameWithDefault(Session, mInstance.AccountId);
+            t_post.AccountPictureId = ManagedAccount.GetRandomAccountPictureId(Session, mInstance.AccountId);
+            t_post.CommentCount = ManagedDiscussion.GetDiscussionPostCount(
+                Session, mInstance.AccountBlog.Account.Id, ManagedDiscussion.AccountBlogPostDiscussion, mInstance.Id);
             return t_post;
         }
 
