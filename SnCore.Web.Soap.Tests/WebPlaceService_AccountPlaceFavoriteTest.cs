@@ -88,5 +88,24 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
             Assert.IsTrue(new TransitServiceCollection<WebPlaceService.TransitPlace>(places).ContainsId(t_instance.PlaceId));
             Delete(GetAdminTicket(), t_instance.Id);
         }
+
+        [Test]
+        public void CreateAndDeleteAccountPlaceFavoriteTest()
+        {
+            int count1 = EndPoint.GetAccountPlaceFavoritesCount(GetUserTicket(), GetUserAccount().Id);
+            Console.WriteLine("Count: {0}", count1);
+            WebPlaceService.TransitAccountPlaceFavorite t_instance = GetTransitInstance();
+            t_instance.AccountId = GetUserAccount().Id;
+            t_instance.Id = Create(GetUserTicket(), t_instance);
+            int count2 = EndPoint.GetAccountPlaceFavoritesCountByAccountId(GetUserTicket(), GetUserAccount().Id);
+            Console.WriteLine("Count: {0}", count2);
+            Assert.AreEqual(count1 + 1, count2, "AccountPlaceFavorite count isn't correct after adding a place favorite.");
+            WebPlaceService.TransitAccountPlaceFavorite[] favorites = EndPoint.GetAccountPlaceFavoritesByAccountId(
+                GetUserTicket(), GetUserAccount().Id, null);
+            Console.WriteLine("Length: {0}", favorites.Length);
+            Assert.AreEqual(count2, favorites.Length);
+            Assert.IsTrue(new TransitServiceCollection<WebPlaceService.TransitAccountPlaceFavorite>(favorites).ContainsId(t_instance.Id));
+            Delete(GetUserTicket(), t_instance.Id);
+        }
     }
 }

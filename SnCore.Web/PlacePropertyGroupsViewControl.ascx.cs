@@ -52,6 +52,16 @@ public partial class PlacePropertyGroupsViewControl : Control
                 {
                     IList<TransitPlacePropertyValue> propertyvalues = SessionManager.GetCollection<TransitPlacePropertyValue, int, int>(
                         PlaceId, group.Id, null, SessionManager.PlaceService.GetPlacePropertyValues);
+
+                    for (int i = propertyvalues.Count - 1; i >= 0; i--)
+                    {
+                        if (string.IsNullOrEmpty(propertyvalues[i].Value))
+                        {
+                            propertyvalues.RemoveAt(i);
+                        }
+                    }
+
+                    if (propertyvalues.Count == 0) values.Visible = false;
                     values.DataSource = propertyvalues;
                     HtmlControl title = (HtmlControl)e.Item.FindControl("title");
                     title.Visible = (propertyvalues.Count > 0);

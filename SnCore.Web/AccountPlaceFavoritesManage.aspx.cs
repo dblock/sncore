@@ -19,7 +19,7 @@ public partial class AccountPlaceFavoritesManage : AuthenticatedPage
 
         if (!IsPostBack)
         {
-            favoritesList.VirtualItemCount = SessionManager.PlaceService.GetAccountPlaceFavoritesCount(
+            favoritesList.VirtualItemCount = SessionManager.PlaceService.GetAccountPlaceFavoritesCountByAccountId(
                 SessionManager.Ticket, SessionManager.AccountId);
             favoritesList_OnGetDataSource(this, null);
             favoritesList.DataBind();
@@ -37,7 +37,7 @@ public partial class AccountPlaceFavoritesManage : AuthenticatedPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = favoritesList.CurrentPageIndex;
         options.PageSize = favoritesList.PageSize;
-        favoritesList.DataSource = SessionManager.PlaceService.GetAccountPlaceFavorites(
+        favoritesList.DataSource = SessionManager.PlaceService.GetAccountPlaceFavoritesByAccountId(
             SessionManager.Ticket, SessionManager.AccountId, options);
     }
 
