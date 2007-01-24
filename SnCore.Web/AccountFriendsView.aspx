@@ -35,11 +35,11 @@
      prevpagetext="Prev" horizontalalign="Center" />
     <ItemStyle CssClass="sncore_description" HorizontalAlign="Center" Width="25%" />
     <ItemTemplate>
-     <a href="AccountView.aspx?id=<%# Eval("Id") %>">
+     <a href="AccountView.aspx?id=<%# Eval("FriendId") %>">
       <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("FriendPictureId") %>" />
      </a>
      <div>
-      <a href="AccountView.aspx?id=<%# Eval("Id") %>">
+      <a href="AccountView.aspx?id=<%# Eval("FriendId") %>">
        <%# base.Render(Eval("FriendName")) %>
       </a>
      </div>
