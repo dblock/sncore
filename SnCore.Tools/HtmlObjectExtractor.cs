@@ -21,6 +21,7 @@ namespace SnCore.Tools.Web.Html
         private Uri mBaseHref = null;
         private List<HtmlGenericControl> mEmbeds = new List<HtmlGenericControl>();
         private bool mInsideObject = false;
+        private string mInsideObjectName = null;
 
         public Uri BaseHref
         {
@@ -84,7 +85,7 @@ namespace SnCore.Tools.Web.Html
                         if (mObjectControls.Count < 1)
                             break;
 
-                        if (base.Name.ToLower() == "object")
+                        if (mInsideObject && base.Name.ToLower() == mInsideObjectName)
                         {
                             mInsideObject = false;
                             break;
@@ -99,7 +100,14 @@ namespace SnCore.Tools.Web.Html
 
                         if (!mInsideObject)
                         {
-                            mInsideObject = fObject = (base.Name.ToLower() == "object");
+                            switch (base.Name.ToLower())
+                            {
+                                case "object":
+                                case "embed":
+                                    mInsideObjectName = base.Name;
+                                    mInsideObject = fObject = true;
+                                    break;
+                            }
                         }
 
                         if (!mInsideObject)
@@ -123,16 +131,20 @@ namespace SnCore.Tools.Web.Html
                         }
 
                         // width and height
+                        Size size = new Size(242, 200);
                         try
                         {
-                            Size size = new Size(int.Parse(GetAttribute("width")), int.Parse(GetAttribute("height")));
-                            size = ThumbnailBitmap.GetNewSize(size, new Size(200, 300));
-                            embed.Attributes["width"] = size.Width.ToString();
-                            embed.Attributes["height"] = size.Height.ToString();
+                            Size current = new Size(int.Parse(GetAttribute("width")), int.Parse(GetAttribute("height")));
+                            int min = Math.Min(size.Height, size.Width);
+                            size = ThumbnailBitmap.GetNewSize(current, new Size(min, min));
                         }
                         catch
                         {
                         }
+
+                        embed.Attributes["width"] = size.Width.ToString();
+                        embed.Attributes["height"] = size.Height.ToString();
+                        embed.Attributes.Remove("style");
 
                         if (fObject)
                         {

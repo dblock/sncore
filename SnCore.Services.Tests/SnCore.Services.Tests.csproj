@@ -230,6 +230,12 @@
     <Compile Include="ManagedTagWordAccountTest.cs" />
     <Compile Include="ManagedTagWordTest.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="xsl\Identity.xsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="xsl\BrightcoveVideoFeed.xsl" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

@@ -15,6 +15,7 @@ using Sgml;
 using System.Xml;
 using System.Text;
 using SnCore.Tools.Web;
+using System.Reflection;
 
 namespace SnCore.Services.Tests
 {
@@ -144,5 +145,89 @@ namespace SnCore.Services.Tests
 
             Console.WriteLine(rebased);
         }
+
+        [Test]
+        public void TestBasicXslTransform()
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml("<?xml version=\"1.0\"?><xml><node>value</node></xml>");
+
+            Stream s = Assembly.GetExecutingAssembly().GetManifestResourceStream("SnCore.Services.Tests.xsl.Identity.xsl");
+            Assert.IsNotNull(s, "Missing identity xsl resource.");
+            XmlDocument xsl = new XmlDocument();
+            xsl.Load(new StreamReader(s));
+
+            Console.WriteLine("xml: {0}", doc.OuterXml);
+            Console.WriteLine("xsl: {0}", xsl.OuterXml);
+
+            Stream ts = ManagedAccountFeed.Transform(doc, xsl.OuterXml);
+            XmlDocument transformed = new XmlDocument();
+            transformed.Load(ts);
+            Console.WriteLine("transformed: {0}", transformed.OuterXml);
+        }
+
+        [Test]
+        public void TestRSSXslTransform()
+        {
+            Stream s = Assembly.GetExecutingAssembly().GetManifestResourceStream("SnCore.Services.Tests.xsl.Identity.xsl");
+            Assert.IsNotNull(s, "Missing identity xsl resource.");
+            string xsl = new StreamReader(s).ReadToEnd();
+
+            FeedType feedtype = new FeedType();
+            feedtype.Name = Guid.NewGuid().ToString();
+            feedtype.Xsl = xsl;
+
+            AccountFeed feed = new AccountFeed();
+            feed.FeedType = feedtype;
+            feed.FeedUrl = "http://link.brightcove.com/services/link/bcpid315932789/bclid78326389?action=rss";
+
+            IList<AccountFeedItem> deleted = new List<AccountFeedItem>();
+            List<AccountFeedItem> updated = new List<AccountFeedItem>();
+
+            ManagedAccountFeed m_feed = new ManagedAccountFeed(Session, feed);
+            m_feed.Update(RssFeed.Read(m_feed.GetFeedStream()), deleted, updated);
+            foreach (AccountFeedItem item in updated)
+            {
+                Console.WriteLine(item.Title);
+                Console.WriteLine(item.Description);
+                Console.WriteLine(item.Link);
+                Console.WriteLine("=====");
+            }
+        }
+
+        [Test]
+        public void TestRSSXslTransformBrightcoveVideoFeed()
+        {
+            Console.WriteLine("Loading xsl ...");
+            Stream s = Assembly.GetExecutingAssembly().GetManifestResourceStream("SnCore.Services.Tests.xsl.BrightcoveVideoFeed.xsl");
+            Assert.IsNotNull(s, "Missing identity xsl resource.");
+            string xsl = new StreamReader(s).ReadToEnd();
+
+            FeedType feedtype = new FeedType();
+            feedtype.Name = Guid.NewGuid().ToString();
+            feedtype.Xsl = xsl;
+
+            AccountFeed feed = new AccountFeed();
+            feed.FeedType = feedtype;
+            feed.FeedUrl = "http://link.brightcove.com/services/link/bcpid315932789/bclid78326389?action=rss";
+
+            IList<AccountFeedItem> deleted = new List<AccountFeedItem>();
+            List<AccountFeedItem> updated = new List<AccountFeedItem>();
+
+            ManagedAccountFeed m_feed = new ManagedAccountFeed(Session, feed);
+            Console.WriteLine("Fetching ...");
+            Console.WriteLine(new StreamReader(m_feed.GetFeedStream()).ReadToEnd());
+
+            Console.WriteLine("Reading ...");
+            m_feed.Update(RssFeed.Read(m_feed.GetFeedStream()), deleted, updated);
+            foreach (AccountFeedItem item in updated)
+            {
+                Console.WriteLine(item.Title);
+                Console.WriteLine(item.Description);
+                Console.WriteLine(item.Link);
+                Console.WriteLine("=====");
+            }
+        }
+
     }
 }

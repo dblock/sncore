@@ -121,6 +121,12 @@ namespace Rss
 		{
 			return read(Request.RequestUri.ToString(), Request, null);
 		}
+  /// <summary>Reads the specified RSS feed</summary>
+  /// <returns>The contents of the feed</returns>
+  public static RssFeed Read(Stream stream)
+  {
+   return read(stream);
+  }
 		/// <summary>Reads the specified RSS feed</summary>
 		/// <param name="oldFeed">The cached version of the feed</param>
 		/// <returns>The current contents of the feed</returns>
@@ -141,8 +147,7 @@ namespace Rss
 		private static RssFeed read(string url, HttpWebRequest request, RssFeed oldFeed)
 		{
 			// ***** Marked for substantial improvement
-			RssFeed feed = new RssFeed();
-			RssElement element = null;
+   RssFeed feed = new RssFeed();
 			Stream stream = null;
 			Uri uri = new Uri(url);
 			feed.url = url;
@@ -193,7 +198,14 @@ namespace Rss
 					break;
 			}
 
-			if (stream != null)
+   return read(stream);
+  }
+ 
+  private static RssFeed read(Stream stream)
+  {
+   RssFeed feed = new RssFeed();
+   RssElement element = null;
+   if (stream != null)
 			{
 				RssReader reader = null;
 				try

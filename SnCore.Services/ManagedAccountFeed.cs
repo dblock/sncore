@@ -392,35 +392,45 @@ namespace SnCore.Services
 
         public Stream GetFeedStream()
         {
-            return GetFeedHttpRequest().GetResponse().GetResponseStream();
+            Stream stream = GetFeedHttpRequest().GetResponse().GetResponseStream();
+
+            if (mInstance.FeedType == null || string.IsNullOrEmpty(mInstance.FeedType.Xsl))
+                return stream;
+
+            return Transform(stream, mInstance.FeedType.Xsl);
         }
 
-        protected XmlDocument GetFeed()
+        public static Stream Transform(Stream input, string xsl)
         {
-            XmlDocument xml = new XmlDocument();
-            xml.Load(new StreamReader(GetFeedStream()));
-            return xml;
+            XslCompiledTransform fxsl = new XslCompiledTransform();
+            fxsl.Load(new XmlTextReader(new StringReader(xsl)), null, null);
+            return Transform(input, fxsl);
         }
 
-        protected XmlDocument Transform(XmlDocument feed)
+        public static Stream Transform(Stream input, XslCompiledTransform transform)
         {
-            if (!string.IsNullOrEmpty(mInstance.FeedType.Xsl))
-            {
-                StringBuilder ts = new StringBuilder();
-                XslCompiledTransform fxsl = new XslCompiledTransform();
-                fxsl.Load(new XmlTextReader(new StringReader(mInstance.FeedType.Xsl)), null, null);
-                XPathDocument nav = new XPathDocument(new StringReader(feed.OuterXml));
-                StringWriter sw = new StringWriter(ts);
-                XmlTextWriter tw = new XmlTextWriter(sw);
-                fxsl.Transform(nav, tw);
-                XmlDocument result = new XmlDocument();
-                result.LoadXml(ts.ToString());
-                return result;
-            }
-            else
-            {
-                return feed;
-            }
+            XPathDocument nav = new XPathDocument(input);
+            Stream stream = new MemoryStream();
+            transform.Transform(nav, null, stream);
+            stream.Flush();
+            stream.Seek(0, SeekOrigin.Begin);
+            return stream;
+        }
+
+        public static Stream Transform(XmlDocument document, string xsl)
+        {
+            XslCompiledTransform fxsl = new XslCompiledTransform();
+            fxsl.Load(new XmlTextReader(new StringReader(xsl)), null, null);
+            return Transform(document, fxsl);
+        }
+
+        public static Stream Transform(XmlDocument document, XslCompiledTransform transform)
+        {
+            Stream stream = new MemoryStream();
+            transform.Transform(document, null, stream);
+            stream.Flush();
+            stream.Seek(0, SeekOrigin.Begin);
+            return stream;
         }
 
         public bool Update(AtomFeed feed, IList<AccountFeedItem> deleted, List<AccountFeedItem> updated)
@@ -615,7 +625,7 @@ namespace SnCore.Services
             IList<AccountFeedItem> deleted = mInstance.AccountFeedItems;
             List<AccountFeedItem> updated = new List<AccountFeedItem>();
 
-            bool fUpdated = Update(RssFeed.Read(GetFeedHttpRequest()), deleted, updated);
+            bool fUpdated = Update(RssFeed.Read(GetFeedStream()), deleted, updated);
 
             if (!fUpdated) fUpdated = Update(AtomFeed.Load(GetFeedStream(),
               new Uri("http://www.w3.org/2005/Atom")), deleted, updated);
@@ -748,6 +758,8 @@ namespace SnCore.Services
                 .Add(Expression.Eq("AccountFeed.Id", mInstance.Id))
                 .List();
 
+            TimeSpan tsDistribution = new TimeSpan(0, 30, 0);
+
             foreach (AccountFeedItem item in items)
             {
                 List<HtmlGenericControl> embed = HtmlObjectExtractor.Extract(item.Description, basehref);
@@ -759,7 +771,7 @@ namespace SnCore.Services
 
                     // media may appear only once, repeating media don't get updated
                     // TODO: expensive LIKE query
-                    
+
                     x_media = Session.CreateCriteria(typeof(AccountFeedItemMedia))
                             .Add(Expression.Like("EmbeddedHtml", content))
                             .UniqueResult<AccountFeedItemMedia>();
@@ -771,7 +783,9 @@ namespace SnCore.Services
                     {
                         x_media = new AccountFeedItemMedia();
                         x_media.AccountFeedItem = item;
-                        x_media.Created = x_media.Modified = DateTime.UtcNow;
+                        x_media.Created = item.Created.Subtract(tsDistribution); // shuffle images
+                        tsDistribution = tsDistribution.Add(new TimeSpan(0, 30, 0));
+                        x_media.Modified = DateTime.UtcNow;
                         x_media.EmbeddedHtml = content;
                         x_media.Type = HtmlObjectExtractor.GetType(control);
                         x_media.Visible = mInstance.PublishMedia;
