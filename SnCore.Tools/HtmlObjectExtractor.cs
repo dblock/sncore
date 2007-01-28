@@ -97,20 +97,22 @@ namespace SnCore.Tools.Web.Html
                     case XmlNodeType.Element:
 
                         bool fObject = false;
+                        bool fSize = false;
 
-                        if (!mInsideObject)
+                        switch (base.Name.ToLower())
                         {
-                            switch (base.Name.ToLower())
-                            {
-                                case "object":
-                                case "embed":
+                            case "object":
+                            case "embed":
+                                fSize = true;
+                                if (!mInsideObject)
+                                {
                                     mInsideObjectName = base.Name;
                                     mInsideObject = fObject = true;
-                                    break;
-                            }
+                                }
+                                break;
                         }
 
-                        if (!mInsideObject)
+                        if (! mInsideObject)
                             break;
 
                         HtmlGenericControl embed = new HtmlGenericControl(base.Name);
@@ -120,31 +122,39 @@ namespace SnCore.Tools.Web.Html
                             string name = GetAttributeName(i);
                             string value = GetAttribute(i);
 
-                            switch (name)
+                            switch (name.ToLower())
                             {
                                 case "src":
                                     if (BaseHref != null) value = new Uri(BaseHref, value).ToString();
                                     break;
+                                case "height":
+                                case "width":
+                                    if (! fSize) continue;
+                                    break;
+                                case "style":
+                                    continue;
                             }
 
                             embed.Attributes.Add(name, value);
                         }
 
-                        // width and height
-                        Size size = new Size(242, 200);
-                        try
+                        if (fSize)
                         {
-                            Size current = new Size(int.Parse(GetAttribute("width")), int.Parse(GetAttribute("height")));
-                            int min = Math.Min(size.Height, size.Width);
-                            size = ThumbnailBitmap.GetNewSize(current, new Size(min, min));
-                        }
-                        catch
-                        {
-                        }
+                            // width and height
+                            Size size = new Size(242, 200);
+                            
+                            //try
+                            //{
+                            //    Size current = new Size(int.Parse(GetAttribute("width")), int.Parse(GetAttribute("height")));
+                            //    size = ThumbnailBitmap.GetNewSize(current, size);
+                            //}
+                            //catch
+                            //{
+                            //}
 
-                        embed.Attributes["width"] = size.Width.ToString();
-                        embed.Attributes["height"] = size.Height.ToString();
-                        embed.Attributes.Remove("style");
+                            embed.Attributes["height"] = size.Height.ToString();
+                            embed.Attributes["width"] = size.Width.ToString();
+                        }
 
                         if (fObject)
                         {

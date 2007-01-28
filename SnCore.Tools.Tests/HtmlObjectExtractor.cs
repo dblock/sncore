@@ -44,6 +44,9 @@ namespace SnCore.Tools.Tests
                 " <embed width=\"500\" height=\"580\" align=\"middle\" name=\"PictoBrowser\" bgcolor=\"#ffffff\" scale=\"noscale\" quality=\"best\" loop=\"false\" " +
                 " flashvars=\"ids=72157594501048788&amp;names=la mar cebicheria&amp;userName=foodite&amp;userId=69594707@N00&amp;titles=on&amp;source=sets\" " +
                 " src=\"http://www.db798.com/pictobrowser.swf\">" +
+                "</embed></object>",
+                "<object height=\"200\" width=\"242\"><param name=\"movie\" value=\"http://www.youtube.com/v/M8BJTRUcStM\" />" +
+                "<embed src=\"http://www.youtube.com/v/M8BJTRUcStM\" type=\"application/x-shockwave-flash\" height=\"200\" width=\"342\">" +
                 "</embed></object>"
             };
 
