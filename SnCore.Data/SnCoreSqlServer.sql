@@ -1552,6 +1552,7 @@ CREATE TABLE [dbo].[AccountFeed](
 	[LinkUrl] [varchar](256) NULL,
 	[Publish] [bit] NOT NULL CONSTRAINT [DF_AccountFeed_Publish]  DEFAULT ((1)),
 	[PublishImgs] [bit] NOT NULL,
+	[PublishMedia] [bit] NOT NULL,
  CONSTRAINT [PK_AccountFeed] PRIMARY KEY CLUSTERED 
 (
 	[AccountFeed_Id] ASC
@@ -2670,6 +2671,49 @@ CREATE TABLE [dbo].[AccountFeedItemImg](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
 GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountFeedItemMedia]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[AccountFeedItemMedia](
+	[AccountFeedItemMedia_Id] [int] IDENTITY(1,1) NOT NULL,
+	[AccountFeedItem_Id] [int] NOT NULL,
+	[EmbeddedHtml] [ntext] NOT NULL,
+	[Created] [datetime] NOT NULL,
+	[Modified] [datetime] NOT NULL,
+	[Visible] [bit] NOT NULL,
+	[Interesting] [bit] NOT NULL,
+	[LastError] [ntext] NULL,
+	[Type] [nvarchar](128) NOT NULL,
+ CONSTRAINT [PK_AccountFeedItemMedia] PRIMARY KEY CLUSTERED 
+(
+	[AccountFeedItemMedia_Id] ASC
+)WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY],
+ CONSTRAINT [IX_AccountFeedItemMedia] UNIQUE NONCLUSTERED 
+(
+	[AccountFeedItem_Id] ASC,
+	[AccountFeedItemMedia_Id] ASC
+)WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountFeedItemMedia]') AND name = N'IX_AccountFeedItemMedia_Created')
+CREATE NONCLUSTERED INDEX [IX_AccountFeedItemMedia_Created] ON [dbo].[AccountFeedItemMedia] 
+(
+	[Created] DESC
+)WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountFeedItemMedia]') AND name = N'IX_AccountFeedItemMedia_Type')
+CREATE NONCLUSTERED INDEX [IX_AccountFeedItemMedia_Type] ON [dbo].[AccountFeedItemMedia] 
+(
+	[Type] ASC,
+	[Created] DESC
+)WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountMessage_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountMessage]'))
 ALTER TABLE [dbo].[AccountMessage]  WITH CHECK ADD  CONSTRAINT [FK_AccountMessage_Account] FOREIGN KEY([Account_Id])
 REFERENCES [dbo].[Account] ([Account_Id])
@@ -3364,3 +3408,10 @@ REFERENCES [dbo].[AccountFeedItem] ([AccountFeedItem_Id])
 ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[AccountFeedItemImg] CHECK CONSTRAINT [FK_AccountFeedItemImg_AccountFeedItem]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountFeedItemVideo_AccountFeedItem]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountFeedItemMedia]'))
+ALTER TABLE [dbo].[AccountFeedItemMedia]  WITH CHECK ADD  CONSTRAINT [FK_AccountFeedItemVideo_AccountFeedItem] FOREIGN KEY([AccountFeedItem_Id])
+REFERENCES [dbo].[AccountFeedItem] ([AccountFeedItem_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountFeedItemMedia] CHECK CONSTRAINT [FK_AccountFeedItemVideo_AccountFeedItem]

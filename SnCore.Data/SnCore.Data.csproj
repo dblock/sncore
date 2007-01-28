@@ -137,6 +137,9 @@
     <Compile Include="AccountFeedItemImg.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AccountFeedItemMedia.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="AccountFriend.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -333,6 +336,9 @@
     <Compile Include="PlaceType.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Redirect.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="RefererAccount.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -392,6 +398,7 @@
     <EmbeddedResource Include="AccountFeed.hbm.xml" />
     <EmbeddedResource Include="AccountFeedItem.hbm.xml" />
     <EmbeddedResource Include="AccountFeedItemImg.hbm.xml" />
+    <EmbeddedResource Include="AccountFeedItemMedia.hbm.xml" />
     <EmbeddedResource Include="AccountFriend.hbm.xml" />
     <EmbeddedResource Include="AccountFriendRequest.hbm.xml" />
     <EmbeddedResource Include="AccountInvitation.hbm.xml" />
@@ -456,6 +463,7 @@
     <EmbeddedResource Include="PlaceQueue.hbm.xml" />
     <EmbeddedResource Include="PlaceQueueItem.hbm.xml" />
     <EmbeddedResource Include="PlaceType.hbm.xml" />
+    <EmbeddedResource Include="Redirect.hbm.xml" />
     <EmbeddedResource Include="RefererAccount.hbm.xml" />
     <EmbeddedResource Include="RefererHost.hbm.xml" />
     <EmbeddedResource Include="RefererHostDup.hbm.xml" />

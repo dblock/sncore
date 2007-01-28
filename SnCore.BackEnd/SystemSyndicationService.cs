@@ -50,6 +50,7 @@ namespace SnCore.BackEndServices
                     ManagedAccountFeed m_feed = new ManagedAccountFeed(session, feed);
                     m_feed.Update(sec);
                     m_feed.UpdateImages(sec);
+                    m_feed.UpdateMedias(sec);
                 }
                 catch (Exception ex)
                 {

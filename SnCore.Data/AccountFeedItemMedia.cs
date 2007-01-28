@@ -1,28 +1,27 @@
 ﻿using System;
     ///--------------------------------------------------------------------------------
     ///<summary>
-    ///Persistent domain entity class representing 'AccountFeedItem' entities.
+    ///Persistent domain entity class representing 'AccountFeedItemMedia' entities.
     ///</summary>
     ///<remarks>
     ///
     ///Mapping information:
-    ///This class maps to the 'AccountFeedItem' table in the data source.
+    ///This class maps to the 'AccountFeedItemMedia' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountFeedItem : IDbObject
+    public class AccountFeedItemMedia : IDbObject
     {
 #region " Generated Code Region "
 
         private System.Int32 m_Id;
-        private AccountFeed m_AccountFeed;
+        private AccountFeedItem m_AccountFeedItem;
         private System.DateTime m_Created;
-        private System.String m_Description;
-        private System.String m_Guid;
-        private System.String m_Link;
-        private System.String m_Title;
-        private System.DateTime m_Updated;
-        private System.Collections.Generic.IList<AccountFeedItemImg> m_AccountFeedItemImgs;
-        private System.Collections.Generic.IList<AccountFeedItemMedia> m_AccountFeedItemMedias;
+        private System.String m_EmbeddedHtml;
+        private System.Boolean m_Interesting;
+        private System.String m_LastError;
+        private System.DateTime m_Modified;
+        private System.String m_Type;
+        private System.Boolean m_Visible;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
@@ -36,7 +35,7 @@
         ///The accessibility level for the field 'm_Id' that holds the value for this property is 'PrivateAccess'.
         ///
         ///Mapping information:
-        ///The property maps to the column 'AccountFeedItem_Id' in the data source.
+        ///The property maps to the column 'AccountFeedItemMedia_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
         virtual public System.Int32 Id
@@ -52,25 +51,25 @@
         ///Persistent one-many reference property.
         ///</summary>
         ///<remarks>
-        ///This property accepts references to objects of the type 'AccountFeed'.
+        ///This property accepts references to objects of the type 'AccountFeedItem'.
         ///This property is part of a 'OneToMany' relationship.
-        ///The inverse property for this property is 'AccountFeed.AccountFeedItems'.
+        ///The inverse property for this property is 'AccountFeedItem.AccountFeedItemMedias'.
         ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_AccountFeed' that holds the value for this property is 'PrivateAccess'.
+        ///The accessibility level for the field 'm_AccountFeedItem' that holds the value for this property is 'PrivateAccess'.
         ///
         ///Mapping information:
-        ///The property maps to the column 'AccountFeed_Id' in the data source.
+        ///The property maps to the column 'AccountFeedItem_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public AccountFeed AccountFeed
+        virtual public AccountFeedItem AccountFeedItem
         {
             get
             {
-                return m_AccountFeed;
+                return m_AccountFeedItem;
             }
             set
             {
-                m_AccountFeed = value;
+                m_AccountFeedItem = value;
             }
         }
 
@@ -106,21 +105,46 @@
         ///<remarks>
         ///This property accepts values of the type 'System.String'.
         ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Description' that holds the value for this property is 'PrivateAccess'.
+        ///The accessibility level for the field 'm_EmbeddedHtml' that holds the value for this property is 'PrivateAccess'.
         ///
         ///Mapping information:
-        ///The property maps to the column 'Description' in the data source.
+        ///The property maps to the column 'EmbeddedHtml' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Description
+        virtual public System.String EmbeddedHtml
         {
             get
             {
-                return m_Description;
+                return m_EmbeddedHtml;
             }
             set
             {
-                m_Description = value;
+                m_EmbeddedHtml = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.Boolean'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Interesting' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Interesting' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.Boolean Interesting
+        {
+            get
+            {
+                return m_Interesting;
+            }
+            set
+            {
+                m_Interesting = value;
             }
         }
 
@@ -131,71 +155,21 @@
         ///<remarks>
         ///This property accepts values of the type 'System.String'.
         ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Guid' that holds the value for this property is 'PrivateAccess'.
+        ///The accessibility level for the field 'm_LastError' that holds the value for this property is 'PrivateAccess'.
         ///
         ///Mapping information:
-        ///The property maps to the column 'Guid' in the data source.
+        ///The property maps to the column 'LastError' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Guid
+        virtual public System.String LastError
         {
             get
             {
-                return m_Guid;
+                return m_LastError;
             }
             set
             {
-                m_Guid = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent primitive property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts values of the type 'System.String'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Link' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'Link' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        virtual public System.String Link
-        {
-            get
-            {
-                return m_Link;
-            }
-            set
-            {
-                m_Link = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent primitive property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts values of the type 'System.String'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Title' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'Title' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        virtual public System.String Title
-        {
-            get
-            {
-                return m_Title;
-            }
-            set
-            {
-                m_Title = value;
+                m_LastError = value;
             }
         }
 
@@ -206,83 +180,71 @@
         ///<remarks>
         ///This property accepts values of the type 'System.DateTime'.
         ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Updated' that holds the value for this property is 'PrivateAccess'.
+        ///The accessibility level for the field 'm_Modified' that holds the value for this property is 'PrivateAccess'.
         ///
         ///Mapping information:
-        ///The property maps to the column 'Updated' in the data source.
+        ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Updated
+        virtual public System.DateTime Modified
         {
             get
             {
-                return m_Updated;
+                return m_Modified;
             }
             set
             {
-                m_Updated = value;
+                m_Modified = value;
             }
         }
 
         ///--------------------------------------------------------------------------------
         ///<summary>
-        ///Persistent many-one reference property.
+        ///Persistent primitive property.
         ///</summary>
         ///<remarks>
-        ///This property accepts multiple references to objects of the type 'AccountFeedItemImg'.
-        ///This property is part of a 'ManyToOne' relationship.
-        ///The data type for this property is 'System.Collections.IList'.
-        ///The inverse property for this property is 'AccountFeedItemImg.AccountFeedItem'.
-        ///This property inherits its mapping information from its inverse property.
+        ///This property accepts values of the type 'System.String'.
         ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_AccountFeedItemImgs' that holds the value for this property is 'PrivateAccess'.
-        ///This property is marked as slave.
+        ///The accessibility level for the field 'm_Type' that holds the value for this property is 'PrivateAccess'.
         ///
         ///Mapping information:
-        ///This class maps to the 'AccountFeedItemImg' table in the data source.
-        ///The property maps to the identity column 'AccountFeedItem_Id' in the data source.
+        ///The property maps to the column 'Type' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<AccountFeedItemImg> AccountFeedItemImgs
+        virtual public System.String Type
         {
             get
             {
-                return m_AccountFeedItemImgs;
+                return m_Type;
             }
             set
             {
-                m_AccountFeedItemImgs = value;
+                m_Type = value;
             }
         }
 
         ///--------------------------------------------------------------------------------
         ///<summary>
-        ///Persistent many-one reference property.
+        ///Persistent primitive property.
         ///</summary>
         ///<remarks>
-        ///This property accepts multiple references to objects of the type 'AccountFeedItemMedia'.
-        ///This property is part of a 'ManyToOne' relationship.
-        ///The data type for this property is 'System.Collections.IList'.
-        ///The inverse property for this property is 'AccountFeedItemMedia.AccountFeedItem'.
-        ///This property inherits its mapping information from its inverse property.
+        ///This property accepts values of the type 'System.Boolean'.
         ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_AccountFeedItemMedias' that holds the value for this property is 'PrivateAccess'.
-        ///This property is marked as slave.
+        ///The accessibility level for the field 'm_Visible' that holds the value for this property is 'PrivateAccess'.
         ///
         ///Mapping information:
-        ///This class maps to the 'AccountFeedItemMedia' table in the data source.
-        ///The property maps to the identity column 'AccountFeedItem_Id' in the data source.
+        ///The property maps to the column 'Visible' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<AccountFeedItemMedia> AccountFeedItemMedias
+        virtual public System.Boolean Visible
         {
             get
             {
-                return m_AccountFeedItemMedias;
+                return m_Visible;
             }
             set
             {
-                m_AccountFeedItemMedias = value;
+                m_Visible = value;
             }
         }
 

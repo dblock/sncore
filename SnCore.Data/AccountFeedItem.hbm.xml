@@ -15,5 +15,9 @@
       <key column="AccountFeedItem_Id" />
       <one-to-many class="AccountFeedItemImg, SnCore.Data" />
     </bag>
+    <bag lazy="true" name="AccountFeedItemMedias" inverse="true">
+      <key column="AccountFeedItem_Id" />
+      <one-to-many class="AccountFeedItemMedia, SnCore.Data" />
+    </bag>
   </class>
 </hibernate-mapping>

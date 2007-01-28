@@ -40,6 +40,9 @@
        <div>
         <asp:LinkButton OnClick="publishImgs_Click" runat="server" ID="linkPublishImgs" Text="Publish Pictures" />
        </div>
+       <div>
+        <asp:LinkButton OnClick="publishMedia_Click" runat="server" ID="linkPublishMedia" Text="Publish Media" />
+       </div>
       </asp:Panel>
      </ContentTemplate>
     </asp:UpdatePanel>

@@ -1,5 +1,5 @@
-<%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="AccountFeedItemImgsView.aspx.cs"
- Inherits="AccountFeedItemImgsView" Title="Pictures" %>
+<%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="AccountFeedItemMediasView.aspx.cs"
+ Inherits="AccountFeedItemMediasView" Title="Podcasts & Videos" %>
 
 <%@ Import Namespace="SnCore.Services" %>
 <%@ Import Namespace="SnCore.Tools.Web" %>
@@ -14,22 +14,21 @@
    <table cellpadding="0" cellspacing="0" width="784">
     <tr>
      <td>
-      <SnCore:Title ID="titlePictures" Text="Pictures" runat="server">  
+      <SnCore:Title ID="titleMedia" Text="Podcasts & Videos" runat="server">  
        <Template>
         <div class="sncore_title_paragraph">
-         A picture is worth a thousand words. These pictures are extracted from 
-         <a href="AccountFeedsView.aspx">syndicated blogs</a> and are updated several times a day.
-         Click on a picture to see the full blog post.
+         A podcast is worth a thousand words. A video is worth a million pictures. Rich media is extracted from 
+         <a href="AccountFeedsView.aspx">syndicated blogs</a> and updated several times a day.
         </div>
         <div class="sncore_title_paragraph">
-         Do you have a blog or a FlickR account? You can <a href="AccountFeedWizard.aspx">syndicate yours here</a>. It's free!
+         Do you have a blog? You can <a href="AccountFeedWizard.aspx">syndicate yours here</a>. It's free!
         </div>
        </Template>
       </SnCore:Title>
       <div class="sncore_h2sub">
        <a href="AccountFeedsView.aspx">&#187; Blogs</a>
        <a href="AccountFeedItemsView.aspx">&#187; Content</a>
-       <a href="AccountFeedItemMediasView.aspx">&#187; Podcasts &amp; Videos</a>
+       <a href="AccountFeedItemImgsView.aspx">&#187; Pictures</a>
        <SnCore:TellAFriend ID="linkTellAFriend" runat="server" />
        <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
        <asp:LinkButton ID="linkEdit" runat="server" OnClick="linkEdit_Click" Text="&#187; Edit" />
@@ -39,7 +38,7 @@
       <asp:Label ID="labelCount" runat="server" CssClass="sncore_h2sub" />
      </td>
      <td align="right" valign="middle">
-      <SnCore:RssLink ID="linkRelRss" runat="server" NavigateUrl="AccountFeedItemImgsRss.aspx" />
+      <SnCore:RssLink ID="linkRelRss" runat="server" NavigateUrl="AccountFeedItemMediasRss.aspx" />
      </td>
     </tr>
    </table>
@@ -48,7 +47,7 @@
  <asp:UpdatePanel runat="server" ID="panelGrid" UpdateMode="Conditional" RenderMode="Inline">
   <ContentTemplate>
    <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage"
-    AllowCustomPaging="true" RepeatColumns="4" RepeatRows="3" RepeatDirection="Horizontal"
+    AllowCustomPaging="true" RepeatColumns="3" RepeatRows="2" RepeatDirection="Horizontal"
     CssClass="sncore_table" ShowHeader="false" OnItemCommand="gridManage_ItemCommand"
     OnDataBinding="gridManage_DataBinding">
     <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
@@ -56,7 +55,7 @@
     <ItemStyle CssClass="sncore_description" HorizontalAlign="Center" Width="25%" />
     <ItemTemplate>
      <a href="AccountFeedItemView.aspx?id=<%# Eval("AccountFeedItemId") %>">
-      <img border="0" src="AccountFeedItemImgThumbnail.aspx?id=<%# Eval("Id") %>" alt='<%# base.Render(Eval("Description")) %>' />
+      <%# Renderer.CleanHtml(Eval("EmbeddedHtml")) %>
      </a>
      <div>
       x-posted in 

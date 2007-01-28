@@ -29,6 +29,7 @@
         private System.Int32 m_UpdateFrequency;
         private System.String m_Username;
         private System.Boolean m_PublishImgs;
+        private System.Boolean m_PublishMedia;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
@@ -436,6 +437,31 @@
             set
             {
                 m_PublishImgs = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.Boolean'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_PublishMedia' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'PublishMedia' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.Boolean PublishMedia
+        {
+            get
+            {
+                return m_PublishMedia;
+            }
+            set
+            {
+                m_PublishMedia = value;
             }
         }
 

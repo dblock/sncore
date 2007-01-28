@@ -235,6 +235,20 @@ namespace SnCore.Services
             }
         }
 
+        private bool mPublishMedia;
+
+        public bool PublishMedia
+        {
+            get
+            {
+                return mPublishMedia;
+            }
+            set
+            {
+                mPublishMedia = value;
+            }
+        }
+
         private int mAccountPictureId;
 
         public int AccountPictureId
@@ -293,6 +307,7 @@ namespace SnCore.Services
             FeedType = value.FeedType.Name;
             Publish = value.Publish;
             PublishImgs = value.PublishImgs;
+            PublishMedia = value.PublishMedia;
             base.SetInstance(value);
         }
 
@@ -310,6 +325,7 @@ namespace SnCore.Services
             instance.LinkUrl = this.LinkUrl;
             instance.Publish = this.Publish;
             instance.PublishImgs = this.PublishImgs;
+            instance.PublishMedia = this.PublishMedia;
             if (!string.IsNullOrEmpty(this.FeedType)) instance.FeedType = ManagedFeedType.Find(session, this.FeedType);
             return instance;
         }
@@ -713,6 +729,61 @@ namespace SnCore.Services
                     }
 
                     Session.Save(x_img);
+                    result++;
+                }
+            }
+
+            return result;
+        }
+
+        public int UpdateMedias(ManagedSecurityContext sec)
+        {
+            GetACL().Check(sec, DataOperation.Update);
+
+            int result = 0;
+            Uri basehref = null;
+            Uri.TryCreate(mInstance.LinkUrl, UriKind.Absolute, out basehref);
+
+            IList items = Session.CreateCriteria(typeof(AccountFeedItem))
+                .Add(Expression.Eq("AccountFeed.Id", mInstance.Id))
+                .List();
+
+            foreach (AccountFeedItem item in items)
+            {
+                List<HtmlGenericControl> embed = HtmlObjectExtractor.Extract(item.Description, basehref);
+                foreach (HtmlGenericControl control in embed)
+                {
+                    string content = HtmlObjectExtractor.GetHtml(control);
+
+                    AccountFeedItemMedia x_media = null;
+
+                    // media may appear only once, repeating media don't get updated
+
+                    x_media = Session.CreateCriteria(typeof(AccountFeedItemMedia))
+                            .Add(Expression.Like("EmbeddedHtml", content))
+                            .UniqueResult<AccountFeedItemMedia>();
+
+                    if (x_media != null)
+                        continue;
+
+                    try
+                    {
+                        x_media = new AccountFeedItemMedia();
+                        x_media.AccountFeedItem = item;
+                        x_media.Created = x_media.Modified = DateTime.UtcNow;
+                        x_media.EmbeddedHtml = content;
+                        x_media.Type = HtmlObjectExtractor.GetType(control);
+                        if (string.IsNullOrEmpty(x_media.Type)) x_media.Type = "unknown";
+                        x_media.Visible = mInstance.PublishMedia;
+                        x_media.Interesting = false;
+                    }
+                    catch (Exception ex)
+                    {
+                        x_media.LastError = ex.Message;
+                        x_media.Visible = false;
+                    }
+
+                    Session.Save(x_media);
                     result++;
                 }
             }

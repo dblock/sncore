@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using System.Text;
 
 public partial class AccountFeedsManage : AuthenticatedPage
 {
@@ -68,9 +69,12 @@ public partial class AccountFeedsManage : AuthenticatedPage
                     int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
                     int item_count = SessionManager.SyndicationService.UpdateAccountFeedItems(SessionManager.Ticket, id);
                     int image_count = SessionManager.SyndicationService.UpdateAccountFeedItemImgs(SessionManager.Ticket, id);
-                    ReportInfo(string.Format("Feed updated with {0} new item{1} and {2} new image{3}.",
-                        item_count, item_count == 1 ? string.Empty : "s",
-                        image_count, image_count == 1 ? string.Empty : "s"));
+                    int media_count = SessionManager.SyndicationService.UpdateAccountFeedItemMedias(SessionManager.Ticket, id);
+                    StringBuilder s = new StringBuilder("Feed updated with ");
+                    s.AppendFormat("{0} new item{1}", item_count, item_count == 1 ? string.Empty : "s");
+                    s.AppendFormat(", {0} new image{1}", image_count, image_count == 1 ? string.Empty : "s");
+                    s.AppendFormat(" and {0} new media item{1}.", media_count, media_count == 1 ? string.Empty : "s");
+                    ReportInfo(s.ToString());
                     gridManage_OnGetDataSource(sender, e);
                     gridManage.DataBind();
                 }

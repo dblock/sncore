@@ -18,7 +18,8 @@
          Do you have time to read two hundred blogs? These are <a href="AccountFeedsView.aspx">syndicated blogs</a>.
          You can read the combined blog posts <a href="AccountFeedItemsView.aspx">here</a>. It's a convenient way to 
          keep up with all this information. Blogs are updated several times a day. We also 
-         <a href="AccountFeedItemImgsView.aspx">extract and publish pictures</a> from all posts.
+         extract and publish <a href="AccountFeedItemImgsView.aspx">pictures</a>,
+         <a href="AccountFeedItemMediasView.aspx">podcasts and videos</a> from all posts.
         </div>
         <div class="sncore_title_paragraph">
          Do you have a blog? You can <a href="AccountFeedWizard.aspx">syndicate yours here</a>. It's free!
@@ -28,6 +29,7 @@
       <div class="sncore_h2sub">
        <a href="AccountFeedItemsView.aspx">&#187; Blog Posts</a>
        <a href="AccountFeedItemImgsView.aspx">&#187; Pictures</a>
+       <a href="AccountFeedItemMediasView.aspx">&#187; Podcasts &amp; Videos</a>
        <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
       </div>
      </td>

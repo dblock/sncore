@@ -162,6 +162,23 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
+        /// Update account feed item medias.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="feedid">feed id</param>
+        [WebMethod(Description = "Create or update account feed item medias.")]
+        public int UpdateAccountFeedItemMedias(string ticket, int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                ManagedAccountFeed feed = new ManagedAccountFeed(session, id);
+                return feed.UpdateMedias(sec);
+            }
+        }
+
+        /// <summary>
         /// Get an account feed.
         /// </summary>
         /// <returns>transit account feed</returns>
@@ -433,5 +450,69 @@ namespace SnCore.WebServices
         }
 
         #endregion
+
+        #region AccountFeedItemMedia
+
+        /// <summary>
+        /// Get account feed item medias count.
+        /// </summary>
+        /// <returns>transit account feed item medias count</returns>
+        [WebMethod(Description = "Get account feed item medias count.", CacheDuration = 60)]
+        public int GetAccountFeedItemMediasCount(string ticket, TransitAccountFeedItemMediaQueryOptions options)
+        {
+            return WebServiceImpl<TransitAccountFeedItemMedia, ManagedAccountFeedItemMedia, AccountFeedItemMedia>.GetCount(
+                ticket, options.CreateCountQuery());
+        }
+
+        /// <summary>
+        /// Get account feed item medias.
+        /// </summary>
+        /// <returns>transit account feed item medias</returns>
+        [WebMethod(Description = "Get account feed item medias.", CacheDuration = 60)]
+        public List<TransitAccountFeedItemMedia> GetAccountFeedItemMedias(string ticket, TransitAccountFeedItemMediaQueryOptions qopt, ServiceQueryOptions options)
+        {
+            return WebServiceImpl<TransitAccountFeedItemMedia, ManagedAccountFeedItemMedia, AccountFeedItemMedia>.GetList(
+                ticket, options, qopt.CreateQuery());
+        }
+
+        /// <summary>
+        /// Get account feed item media by id.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">feed item media id</param>
+        /// <returns>transit account feed item media</returns>
+        [WebMethod(Description = "Get account feed item media by id.")]
+        public TransitAccountFeedItemMedia GetAccountFeedItemMediaById(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountFeedItemMedia, ManagedAccountFeedItemMedia, AccountFeedItemMedia>.GetById(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Create or update an account feed item media.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="type">transit account feed item media</param>
+        [WebMethod(Description = "Create or update an account feed item media.")]
+        public int CreateOrUpdateAccountFeedItemMedia(string ticket, TransitAccountFeedItemMedia img)
+        {
+            return WebServiceImpl<TransitAccountFeedItemMedia, ManagedAccountFeedItemMedia, AccountFeedItemMedia>.CreateOrUpdate(
+                ticket, img);
+        }
+
+        /// <summary>
+        /// Delete an account feed item media.
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete an account feed item.")]
+        public void DeleteAccountFeedItemMedia(string ticket, int id)
+        {
+            WebServiceImpl<TransitAccountFeedItemMedia, ManagedAccountFeedItemMedia, AccountFeedItemMedia>.Delete(
+                ticket, id);
+        }
+
+        #endregion
+
     }
 }

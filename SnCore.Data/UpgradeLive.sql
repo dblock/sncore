@@ -54,3 +54,10 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[Place]') AND name = N'Neighborhood_Id') 
 ALTER TABLE dbo.Place ADD [Neighborhood_Id] int NULL
 GO
+-- publish media content from the account feed (2007-01-27)
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountFeed]') AND name = N'PublishMedia') 
+ALTER TABLE dbo.AccountFeed ADD [PublishMedia] bit NULL
+GO
+UPDATE dbo.AccountFeed SET PublishMedia = Publish WHERE PublishMedia IS NULL
+ALTER TABLE dbo.AccountFeed ALTER COLUMN [PublishMedia] bit NOT NULL
+GO

@@ -199,6 +199,7 @@
     <property name="UpdateFrequency" columns="UpdateFrequency" type="System.Int32" />
     <property name="Username" columns="Username" type="System.String" />
     <property name="PublishImgs" columns="PublishImgs" type="System.Boolean" />
+    <property name="PublishMedia" columns="PublishMedia" type="System.Boolean" />
   </class>
   <class name="AccountFeedItem" table="AccountFeedItem">
     <property name="Id" id="true" columns="AccountFeedItem_Id" type="System.Int32" />
@@ -210,6 +211,7 @@
     <property name="Title" columns="Title" type="System.String" />
     <property name="Updated" columns="Updated" type="System.DateTime" />
     <property name="AccountFeedItemImgs" table="AccountFeedItemImg" id-columns="AccountFeedItem_Id" list="true" item-type="AccountFeedItemImg" slave="true" ref="ManyToOne" inverse="AccountFeedItem" inherits-inverse="true" />
+    <property name="AccountFeedItemMedias" table="AccountFeedItemMedia" id-columns="AccountFeedItem_Id" list="true" item-type="AccountFeedItemMedia" slave="true" ref="ManyToOne" inverse="AccountFeedItem" inherits-inverse="true" />
   </class>
   <class name="AccountFeedItemImg" table="AccountFeedItemImg">
     <property name="Id" id="true" columns="AccountFeedItemImg_Id" type="System.Int32" />
@@ -222,6 +224,17 @@
     <property name="Visible" columns="Visible" type="System.Boolean" />
     <property name="LastError" columns="LastError" type="System.String" />
     <property name="Thumbnail" columns="Thumbnail" type="System.Byte()" />
+  </class>
+  <class name="AccountFeedItemMedia" table="AccountFeedItemMedia">
+    <property name="Id" id="true" columns="AccountFeedItemMedia_Id" type="System.Int32" />
+    <property name="AccountFeedItem" columns="AccountFeedItem_Id" ref="OneToMany" inverse="AccountFeedItemMedias" type="AccountFeedItem" />
+    <property name="Created" columns="Created" type="System.DateTime" />
+    <property name="EmbeddedHtml" columns="EmbeddedHtml" type="System.String" />
+    <property name="Interesting" columns="Interesting" type="System.Boolean" />
+    <property name="LastError" columns="LastError" type="System.String" />
+    <property name="Modified" columns="Modified" type="System.DateTime" />
+    <property name="Type" columns="Type" type="System.String" />
+    <property name="Visible" columns="Visible" type="System.Boolean" />
   </class>
   <class name="AccountFriend" table="AccountFriend">
     <property name="Id" id="true" columns="AccountFriend_Id" type="System.Int32" />
@@ -349,6 +362,14 @@
     <property name="Created" columns="Created" type="System.DateTime" />
     <property name="Value" columns="Value" type="System.String" />
     <property name="Modified" columns="Modified" type="System.DateTime" />
+  </class>
+  <class name="AccountRedirect" table="AccountRedirect">
+    <property name="Id" id="true" columns="AccountRedirect_Id" type="System.Int32" />
+    <property name="Account" columns="Account_Id" ref="OneToMany" inverse="AccountRedirects" type="Account" />
+    <property name="Created" columns="Created" type="System.DateTime" />
+    <property name="Modified" columns="Modified" type="System.DateTime" />
+    <property name="SourceUri" columns="SourceUri" type="System.String" />
+    <property name="TargetUri" columns="TargetUri" type="System.String" />
   </class>
   <class name="AccountStory" table="AccountStory">
     <property name="Id" id="true" columns="AccountStory_Id" type="System.Int32" />
@@ -623,6 +644,12 @@
     <property name="ObjectId" columns="Object_Id" type="System.Int32" />
     <property name="Text" columns="Text" type="System.String" />
   </class>
+  <class name="Neighborhood" table="Neighborhood">
+    <property name="Id" id="true" columns="Neighborhood_Id" type="System.Int32" />
+    <property name="City" columns="City_Id" ref="OneToMany" inverse="Neighborhoods" type="City" />
+    <property name="Name" columns="Name" type="System.String" />
+    <property name="Places" table="Place" id-columns="Neighborhood_Id" list="true" item-type="Place" slave="true" ref="ManyToOne" inverse="Neighborhood" inherits-inverse="true" />
+  </class>
   <class name="Picture" table="Picture">
     <property name="Id" id="true" columns="Picture_Id" type="System.Int32" />
     <property name="Bitmap" columns="Bitmap" type="System.Byte()" />
@@ -735,6 +762,14 @@
     <property name="Id" id="true" columns="PlaceType_Id" type="System.Int32" />
     <property name="Name" columns="Name" type="System.String" />
     <property name="Places" table="Place" id-columns="Type" list="true" item-type="Place" read-only="true" slave="true" ref="ManyToOne" inverse="Type" inherits-inverse="true" />
+  </class>
+  <class name="Redirect" table="Redirect">
+    <property name="Id" id="true" columns="Redirect_Id" type="System.Int32" />
+    <property name="AccountId" columns="Account_Id" type="System.Int32" />
+    <property name="Created" columns="Created" type="System.DateTime" />
+    <property name="Modified" columns="Modified" type="System.DateTime" />
+    <property name="SourceUri" columns="SourceUri" type="System.String" />
+    <property name="TargetUri" columns="TargetUri" type="System.String" />
   </class>
   <class name="RefererAccount" table="RefererAccount">
     <property name="Id" id="true" columns="RefererAccount_Id" type="System.Int32" />
@@ -864,20 +899,6 @@
     <property name="Modified" columns="Modified" type="System.DateTime" />
     <property name="TagWord" columns="TagWord_Id" ref="OneToMany" inverse="TagWordAccounts" type="TagWord" />
   </class>
-  <class name="Neighborhood" table="Neighborhood">
-    <property name="Id" id="true" columns="Neighborhood_Id" type="System.Int32" />
-    <property name="City" columns="City_Id" ref="OneToMany" inverse="Neighborhoods" type="City" />
-    <property name="Name" columns="Name" type="System.String" />
-    <property name="Places" table="Place" id-columns="Neighborhood_Id" list="true" item-type="Place" slave="true" ref="ManyToOne" inverse="Neighborhood" inherits-inverse="true" />
-  </class>
-  <class name="AccountRedirect" table="AccountRedirect">
-    <property name="Id" id="true" columns="AccountRedirect_Id" type="System.Int32" />
-    <property name="Account" columns="Account_Id" ref="OneToMany" inverse="AccountRedirects" type="Account" />
-    <property name="Created" columns="Created" type="System.DateTime" />
-    <property name="Modified" columns="Modified" type="System.DateTime" />
-    <property name="SourceUri" columns="SourceUri" type="System.String" />
-    <property name="TargetUri" columns="TargetUri" type="System.String" />
-  </class>
   <source name="SnCore" type="MSSqlServer" provider="SqlClient" schema="dbo" catalog="SnCore">
     <connection-string>Data Source=localhost;Initial Catalog=SnCore;Integrated Security=SSPI</connection-string>
     <table name="Account">
@@ -920,8 +941,8 @@
       <column name="Value" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
     </table>
     <table name="AccountBlog">
-      <column name="AccountBlog_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
       <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountBlog_AccountBlog" />
+      <column name="AccountBlog_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
       <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Description" type="String" prec="0" length="16" scale="0" specific-type="NTEXT" />
       <column name="Name" type="String" prec="128" length="256" scale="0" />
@@ -1032,10 +1053,11 @@
       <column name="Name" type="String" prec="256" length="512" scale="0" />
       <column name="Password" type="AnsiString" prec="64" allow-null="true" length="64" scale="0" />
       <column name="Publish" type="Boolean" prec="1" length="1" scale="0" default="((1))" />
+      <column name="PublishImgs" type="Boolean" prec="1" length="1" scale="0" />
+      <column name="PublishMedia" type="Boolean" prec="1" length="1" scale="0" />
       <column name="Updated" type="DateTime" prec="23" length="8" scale="3" />
       <column name="UpdateFrequency" type="Int32" prec="10" length="4" scale="0" />
       <column name="Username" type="AnsiString" prec="64" allow-null="true" length="64" scale="0" />
-      <column name="PublishImgs" type="Boolean" prec="1" length="1" scale="0" />
     </table>
     <table name="AccountFeedItem">
       <column name="AccountFeed_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="AccountFeed" primary-column="AccountFeed_Id" foreign-key="FK_AccountFeedItem_AccountFeed" />
@@ -1058,6 +1080,17 @@
       <column name="Thumbnail" type="Object" prec="0" allow-null="true" length="16" scale="0" />
       <column name="Url" type="AnsiString" prec="256" length="256" scale="0" />
       <column name="Visible" type="Boolean" prec="1" length="1" scale="0" default="((1))" />
+    </table>
+    <table name="AccountFeedItemMedia">
+      <column name="AccountFeedItemMedia_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="AccountFeedItem_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="AccountFeedItem" primary-column="AccountFeedItem_Id" foreign-key="FK_AccountFeedItemVideo_AccountFeedItem" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="EmbeddedHtml" type="String" prec="0" length="16" scale="0" specific-type="NTEXT" />
+      <column name="Interesting" type="Boolean" prec="1" length="1" scale="0" />
+      <column name="LastError" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
+      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Type" type="String" prec="128" length="256" scale="0" />
+      <column name="Visible" type="Boolean" prec="1" length="1" scale="0" />
     </table>
     <table name="AccountFriend">
       <column name="AccountFriend_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
@@ -1178,6 +1211,14 @@
       <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Value" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
+    </table>
+    <table name="AccountRedirect">
+      <column name="AccountRedirect_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountRedirect_Account" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="SourceUri" type="String" prec="128" length="256" scale="0" />
+      <column name="TargetUri" type="String" prec="128" length="256" scale="0" />
     </table>
     <table name="AccountStory">
       <column name="AccountStory_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
@@ -1407,6 +1448,29 @@
       <column name="SpanColumnsPreview" type="Int32" prec="10" length="4" scale="0" default="(1)" />
       <column name="SpanRowsPreview" type="Int32" prec="10" length="4" scale="0" default="(3)" />
     </table>
+    <table name="MadLib">
+      <column name="MadLib_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_MadLib_Account" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Name" type="String" prec="64" length="128" scale="0" />
+      <column name="Template" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
+    </table>
+    <table name="MadLibInstance">
+      <column name="MadLibInstance_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="DataObject_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="DataObject" primary-column="DataObject_Id" foreign-key="FK_MadLibInstance_DataObject" />
+      <column name="MadLib_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="MadLib" primary-column="MadLib_Id" foreign-key="FK_MadLibInstance_MadLib" />
+      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Object_Id" type="Int32" prec="10" length="4" scale="0" />
+      <column name="Text" type="String" prec="0" length="16" scale="0" specific-type="NTEXT" />
+    </table>
+    <table name="Neighborhood">
+      <column name="Neighborhood_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="City_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="City" primary-column="City_Id" foreign-key="FK_Neighborhood_City" />
+      <column name="Name" type="String" prec="128" length="256" scale="0" />
+    </table>
     <table name="Picture">
       <column name="Picture_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
       <column name="Bitmap" type="Object" prec="0" length="16" scale="0" />
@@ -1485,9 +1549,34 @@
       <column name="PlaceProperty_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="PlaceProperty" primary-column="PlaceProperty_Id" foreign-key="FK_PlacePropertyValue_PlaceProperty" />
       <column name="Value" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
     </table>
+    <table name="PlaceQueue">
+      <column name="PlaceQueue_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_PlaceQueue_Account" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Description" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
+      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Name" type="String" prec="128" length="256" scale="0" />
+      <column name="PublishAll" type="Boolean" prec="1" length="1" scale="0" />
+      <column name="PublishFriends" type="Boolean" prec="1" length="1" scale="0" />
+    </table>
+    <table name="PlaceQueueItem">
+      <column name="PlaceQueueItem_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Place_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Place" primary-column="Place_Id" foreign-key="FK_PlaceQueueItem_Place" />
+      <column name="PlaceQueue_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="PlaceQueue" primary-column="PlaceQueue_Id" foreign-key="FK_PlaceQueueItem_PlaceQueue" />
+      <column name="Updated" type="DateTime" prec="23" length="8" scale="3" />
+    </table>
     <table name="PlaceType">
       <column name="PlaceType_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
       <column name="Name" type="String" prec="128" length="256" scale="0" />
+    </table>
+    <table name="Redirect">
+      <column name="Redirect_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="SourceUri" type="String" prec="128" length="256" scale="0" />
+      <column name="TargetUri" type="String" prec="128" length="256" scale="0" />
     </table>
     <table name="RefererAccount">
       <column name="RefererAccount_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
@@ -1529,6 +1618,13 @@
       <column name="Recurrent" type="Boolean" prec="1" length="1" scale="0" default="(1)" />
       <column name="Reminder_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
       <column name="Url" type="String" prec="128" length="256" scale="0" />
+    </table>
+    <table name="ReminderAccountProperty">
+      <column name="ReminderAccountProperty_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="AccountProperty_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="AccountProperty" primary-column="AccountProperty_Id" foreign-key="FK_ReminderAccountProperty_AccountProperty" />
+      <column name="Reminder_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Reminder" primary-column="Reminder_Id" foreign-key="FK_ReminderAccountProperty_Reminder" />
+      <column name="Unset" type="Boolean" prec="1" length="1" scale="0" />
+      <column name="Value" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
     </table>
     <table name="ReminderEvent">
       <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_ReminderEvent_Account" />
@@ -1597,61 +1693,6 @@
       <column name="TagWord_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="TagWord" primary-column="TagWord_Id" foreign-key="FK_TagWordAccount_TagWord" />
       <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
-    </table>
-    <table name="MadLib">
-      <column name="MadLib_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
-      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_MadLib_Account" />
-      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="Name" type="String" prec="64" length="128" scale="0" />
-      <column name="Template" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
-    </table>
-    <table name="MadLibInstance">
-      <column name="MadLibInstance_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
-      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" />
-      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="DataObject_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="DataObject" primary-column="DataObject_Id" foreign-key="FK_MadLibInstance_DataObject" />
-      <column name="MadLib_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="MadLib" primary-column="MadLib_Id" foreign-key="FK_MadLibInstance_MadLib" />
-      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="Object_Id" type="Int32" prec="10" length="4" scale="0" />
-      <column name="Text" type="String" prec="0" length="16" scale="0" specific-type="NTEXT" />
-    </table>
-    <table name="ReminderAccountProperty">
-      <column name="ReminderAccountProperty_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
-      <column name="AccountProperty_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="AccountProperty" primary-column="AccountProperty_Id" foreign-key="FK_ReminderAccountProperty_AccountProperty" />
-      <column name="Reminder_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Reminder" primary-column="Reminder_Id" foreign-key="FK_ReminderAccountProperty_Reminder" />
-      <column name="Unset" type="Boolean" prec="1" length="1" scale="0" />
-      <column name="Value" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
-    </table>
-    <table name="PlaceQueue">
-      <column name="PlaceQueue_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
-      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_PlaceQueue_Account" />
-      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="Description" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
-      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="Name" type="String" prec="128" length="256" scale="0" />
-      <column name="PublishAll" type="Boolean" prec="1" length="1" scale="0" />
-      <column name="PublishFriends" type="Boolean" prec="1" length="1" scale="0" />
-    </table>
-    <table name="PlaceQueueItem">
-      <column name="PlaceQueueItem_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
-      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="Place_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Place" primary-column="Place_Id" foreign-key="FK_PlaceQueueItem_Place" />
-      <column name="PlaceQueue_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="PlaceQueue" primary-column="PlaceQueue_Id" foreign-key="FK_PlaceQueueItem_PlaceQueue" />
-      <column name="Updated" type="DateTime" prec="23" length="8" scale="3" />
-    </table>
-    <table name="Neighborhood">
-      <column name="Neighborhood_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
-      <column name="City_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="City" primary-column="City_Id" foreign-key="FK_Neighborhood_City" />
-      <column name="Name" type="String" prec="128" length="256" scale="0" />
-    </table>
-    <table name="AccountRedirect">
-      <column name="AccountRedirect_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
-      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountRedirect_Account" />
-      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="SourceUri" type="String" prec="128" length="256" scale="0" />
-      <column name="TargetUri" type="String" prec="128" length="256" scale="0" />
     </table>
   </source>
 </domain>

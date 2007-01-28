@@ -110,6 +110,7 @@
     <Compile Include="ManagedAccountFeed.cs" />
     <Compile Include="ManagedAccountFeedItem.cs" />
     <Compile Include="ManagedAccountFeedItemImg.cs" />
+    <Compile Include="ManagedAccountFeedItemMedia.cs" />
     <Compile Include="ManagedAccountFriend.cs" />
     <Compile Include="ManagedAccountFriendRequest.cs" />
     <Compile Include="ManagedAccountInvitation.cs" />

@@ -91,6 +91,7 @@ public partial class AccountFeedView : Page
     {
         linkPublish.Text = AccountFeed.Publish ? "&#187; Do Not Publish" : "&#187; Publish";
         linkPublishImgs.Text = AccountFeed.PublishImgs ? "&#187; Do Not Publish Pictures" : "&#187; Publish Pictures";
+        linkPublishMedia.Text = AccountFeed.PublishMedia ? "&#187; Do Not Publish Media" : "&#187; Publish Media";
     }
 
     void GetDataFeature(object sender, EventArgs e)
@@ -163,12 +164,6 @@ public partial class AccountFeedView : Page
 
     public void publish_Click(object sender, EventArgs e)
     {
-        if (!SessionManager.IsAdministrator)
-        {
-            // avoid round-trip
-            throw new Exception("You must be an administrator to toggle feed publishing.");
-        }
-
         AccountFeed.Publish = !AccountFeed.Publish;
         SessionManager.SyndicationService.CreateOrUpdateAccountFeed(SessionManager.Ticket, AccountFeed);
         GetDataPublish(sender, e);
@@ -177,13 +172,15 @@ public partial class AccountFeedView : Page
 
     public void publishImgs_Click(object sender, EventArgs e)
     {
-        if (!SessionManager.IsAdministrator)
-        {
-            // avoid round-trip
-            throw new Exception("You must be an administrator to toggle feed picture publishing.");
-        }
-
         AccountFeed.PublishImgs = !AccountFeed.PublishImgs;
+        SessionManager.SyndicationService.CreateOrUpdateAccountFeed(SessionManager.Ticket, AccountFeed);
+        GetDataPublish(sender, e);
+        panelAdminUpdate.Update();
+    }
+
+    public void publishMedia_Click(object sender, EventArgs e)
+    {
+        AccountFeed.PublishMedia = !AccountFeed.PublishMedia;
         SessionManager.SyndicationService.CreateOrUpdateAccountFeed(SessionManager.Ticket, AccountFeed);
         GetDataPublish(sender, e);
         panelAdminUpdate.Update();

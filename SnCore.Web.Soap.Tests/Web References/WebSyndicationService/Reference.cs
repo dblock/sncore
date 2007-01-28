@@ -27,6 +27,7 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="WebSyndicationServiceSoap", Namespace="http://www.vestris.com/sncore/ns/")]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountFeedItemMedia))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountFeedItemImg))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountFeedItem))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountFeed))]
@@ -50,6 +51,8 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
         private System.Threading.SendOrPostCallback UpdateAccountFeedItemsOperationCompleted;
         
         private System.Threading.SendOrPostCallback UpdateAccountFeedItemImgsOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback UpdateAccountFeedItemMediasOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAccountFeedByIdOperationCompleted;
         
@@ -90,6 +93,16 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
         private System.Threading.SendOrPostCallback CreateOrUpdateAccountFeedItemImgOperationCompleted;
         
         private System.Threading.SendOrPostCallback DeleteAccountFeedItemImgOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountFeedItemMediasCountOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountFeedItemMediasOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountFeedItemMediaByIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback CreateOrUpdateAccountFeedItemMediaOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback DeleteAccountFeedItemMediaOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -157,6 +170,9 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
         public event UpdateAccountFeedItemImgsCompletedEventHandler UpdateAccountFeedItemImgsCompleted;
         
         /// <remarks/>
+        public event UpdateAccountFeedItemMediasCompletedEventHandler UpdateAccountFeedItemMediasCompleted;
+        
+        /// <remarks/>
         public event GetAccountFeedByIdCompletedEventHandler GetAccountFeedByIdCompleted;
         
         /// <remarks/>
@@ -215,6 +231,21 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
         
         /// <remarks/>
         public event DeleteAccountFeedItemImgCompletedEventHandler DeleteAccountFeedItemImgCompleted;
+        
+        /// <remarks/>
+        public event GetAccountFeedItemMediasCountCompletedEventHandler GetAccountFeedItemMediasCountCompleted;
+        
+        /// <remarks/>
+        public event GetAccountFeedItemMediasCompletedEventHandler GetAccountFeedItemMediasCompleted;
+        
+        /// <remarks/>
+        public event GetAccountFeedItemMediaByIdCompletedEventHandler GetAccountFeedItemMediaByIdCompleted;
+        
+        /// <remarks/>
+        public event CreateOrUpdateAccountFeedItemMediaCompletedEventHandler CreateOrUpdateAccountFeedItemMediaCompleted;
+        
+        /// <remarks/>
+        public event DeleteAccountFeedItemMediaCompletedEventHandler DeleteAccountFeedItemMediaCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/CreateOrUpdateFeedType", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -489,6 +520,37 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
             if ((this.UpdateAccountFeedItemImgsCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.UpdateAccountFeedItemImgsCompleted(this, new UpdateAccountFeedItemImgsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/UpdateAccountFeedItemMedias", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int UpdateAccountFeedItemMedias(string ticket, int id) {
+            object[] results = this.Invoke("UpdateAccountFeedItemMedias", new object[] {
+                        ticket,
+                        id});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void UpdateAccountFeedItemMediasAsync(string ticket, int id) {
+            this.UpdateAccountFeedItemMediasAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void UpdateAccountFeedItemMediasAsync(string ticket, int id, object userState) {
+            if ((this.UpdateAccountFeedItemMediasOperationCompleted == null)) {
+                this.UpdateAccountFeedItemMediasOperationCompleted = new System.Threading.SendOrPostCallback(this.OnUpdateAccountFeedItemMediasOperationCompleted);
+            }
+            this.InvokeAsync("UpdateAccountFeedItemMedias", new object[] {
+                        ticket,
+                        id}, this.UpdateAccountFeedItemMediasOperationCompleted, userState);
+        }
+        
+        private void OnUpdateAccountFeedItemMediasOperationCompleted(object arg) {
+            if ((this.UpdateAccountFeedItemMediasCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.UpdateAccountFeedItemMediasCompleted(this, new UpdateAccountFeedItemMediasCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1114,6 +1176,162 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountFeedItemMediasCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetAccountFeedItemMediasCount(string ticket, TransitAccountFeedItemMediaQueryOptions options) {
+            object[] results = this.Invoke("GetAccountFeedItemMediasCount", new object[] {
+                        ticket,
+                        options});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountFeedItemMediasCountAsync(string ticket, TransitAccountFeedItemMediaQueryOptions options) {
+            this.GetAccountFeedItemMediasCountAsync(ticket, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountFeedItemMediasCountAsync(string ticket, TransitAccountFeedItemMediaQueryOptions options, object userState) {
+            if ((this.GetAccountFeedItemMediasCountOperationCompleted == null)) {
+                this.GetAccountFeedItemMediasCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountFeedItemMediasCountOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountFeedItemMediasCount", new object[] {
+                        ticket,
+                        options}, this.GetAccountFeedItemMediasCountOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountFeedItemMediasCountOperationCompleted(object arg) {
+            if ((this.GetAccountFeedItemMediasCountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountFeedItemMediasCountCompleted(this, new GetAccountFeedItemMediasCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountFeedItemMedias", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountFeedItemMedia[] GetAccountFeedItemMedias(string ticket, TransitAccountFeedItemMediaQueryOptions qopt, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetAccountFeedItemMedias", new object[] {
+                        ticket,
+                        qopt,
+                        options});
+            return ((TransitAccountFeedItemMedia[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountFeedItemMediasAsync(string ticket, TransitAccountFeedItemMediaQueryOptions qopt, ServiceQueryOptions options) {
+            this.GetAccountFeedItemMediasAsync(ticket, qopt, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountFeedItemMediasAsync(string ticket, TransitAccountFeedItemMediaQueryOptions qopt, ServiceQueryOptions options, object userState) {
+            if ((this.GetAccountFeedItemMediasOperationCompleted == null)) {
+                this.GetAccountFeedItemMediasOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountFeedItemMediasOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountFeedItemMedias", new object[] {
+                        ticket,
+                        qopt,
+                        options}, this.GetAccountFeedItemMediasOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountFeedItemMediasOperationCompleted(object arg) {
+            if ((this.GetAccountFeedItemMediasCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountFeedItemMediasCompleted(this, new GetAccountFeedItemMediasCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountFeedItemMediaById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountFeedItemMedia GetAccountFeedItemMediaById(string ticket, int id) {
+            object[] results = this.Invoke("GetAccountFeedItemMediaById", new object[] {
+                        ticket,
+                        id});
+            return ((TransitAccountFeedItemMedia)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountFeedItemMediaByIdAsync(string ticket, int id) {
+            this.GetAccountFeedItemMediaByIdAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountFeedItemMediaByIdAsync(string ticket, int id, object userState) {
+            if ((this.GetAccountFeedItemMediaByIdOperationCompleted == null)) {
+                this.GetAccountFeedItemMediaByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountFeedItemMediaByIdOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountFeedItemMediaById", new object[] {
+                        ticket,
+                        id}, this.GetAccountFeedItemMediaByIdOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountFeedItemMediaByIdOperationCompleted(object arg) {
+            if ((this.GetAccountFeedItemMediaByIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountFeedItemMediaByIdCompleted(this, new GetAccountFeedItemMediaByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/CreateOrUpdateAccountFeedItemMedia", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int CreateOrUpdateAccountFeedItemMedia(string ticket, TransitAccountFeedItemMedia img) {
+            object[] results = this.Invoke("CreateOrUpdateAccountFeedItemMedia", new object[] {
+                        ticket,
+                        img});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void CreateOrUpdateAccountFeedItemMediaAsync(string ticket, TransitAccountFeedItemMedia img) {
+            this.CreateOrUpdateAccountFeedItemMediaAsync(ticket, img, null);
+        }
+        
+        /// <remarks/>
+        public void CreateOrUpdateAccountFeedItemMediaAsync(string ticket, TransitAccountFeedItemMedia img, object userState) {
+            if ((this.CreateOrUpdateAccountFeedItemMediaOperationCompleted == null)) {
+                this.CreateOrUpdateAccountFeedItemMediaOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCreateOrUpdateAccountFeedItemMediaOperationCompleted);
+            }
+            this.InvokeAsync("CreateOrUpdateAccountFeedItemMedia", new object[] {
+                        ticket,
+                        img}, this.CreateOrUpdateAccountFeedItemMediaOperationCompleted, userState);
+        }
+        
+        private void OnCreateOrUpdateAccountFeedItemMediaOperationCompleted(object arg) {
+            if ((this.CreateOrUpdateAccountFeedItemMediaCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.CreateOrUpdateAccountFeedItemMediaCompleted(this, new CreateOrUpdateAccountFeedItemMediaCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/DeleteAccountFeedItemMedia", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void DeleteAccountFeedItemMedia(string ticket, int id) {
+            this.Invoke("DeleteAccountFeedItemMedia", new object[] {
+                        ticket,
+                        id});
+        }
+        
+        /// <remarks/>
+        public void DeleteAccountFeedItemMediaAsync(string ticket, int id) {
+            this.DeleteAccountFeedItemMediaAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void DeleteAccountFeedItemMediaAsync(string ticket, int id, object userState) {
+            if ((this.DeleteAccountFeedItemMediaOperationCompleted == null)) {
+                this.DeleteAccountFeedItemMediaOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDeleteAccountFeedItemMediaOperationCompleted);
+            }
+            this.InvokeAsync("DeleteAccountFeedItemMedia", new object[] {
+                        ticket,
+                        id}, this.DeleteAccountFeedItemMediaOperationCompleted, userState);
+        }
+        
+        private void OnDeleteAccountFeedItemMediaOperationCompleted(object arg) {
+            if ((this.DeleteAccountFeedItemMediaCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.DeleteAccountFeedItemMediaCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -1231,6 +1449,251 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
             }
             set {
                 this.idField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccountFeedItemMedia))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public abstract partial class TransitServiceOfAccountFeedItemMedia {
+        
+        private int idField;
+        
+        /// <remarks/>
+        public int Id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitAccountFeedItemMedia : TransitServiceOfAccountFeedItemMedia {
+        
+        private int accountIdField;
+        
+        private int accountFeedIdField;
+        
+        private string accountNameField;
+        
+        private string accountFeedItemTitleField;
+        
+        private string accountFeedNameField;
+        
+        private byte[] thumbnailField;
+        
+        private string lastErrorField;
+        
+        private int accountFeedItemIdField;
+        
+        private string embeddedHtmlField;
+        
+        private System.DateTime createdField;
+        
+        private System.DateTime modifiedField;
+        
+        private bool interestingField;
+        
+        private bool visibleField;
+        
+        /// <remarks/>
+        public int AccountId {
+            get {
+                return this.accountIdField;
+            }
+            set {
+                this.accountIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int AccountFeedId {
+            get {
+                return this.accountFeedIdField;
+            }
+            set {
+                this.accountFeedIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string AccountName {
+            get {
+                return this.accountNameField;
+            }
+            set {
+                this.accountNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string AccountFeedItemTitle {
+            get {
+                return this.accountFeedItemTitleField;
+            }
+            set {
+                this.accountFeedItemTitleField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string AccountFeedName {
+            get {
+                return this.accountFeedNameField;
+            }
+            set {
+                this.accountFeedNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
+        public byte[] Thumbnail {
+            get {
+                return this.thumbnailField;
+            }
+            set {
+                this.thumbnailField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string LastError {
+            get {
+                return this.lastErrorField;
+            }
+            set {
+                this.lastErrorField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int AccountFeedItemId {
+            get {
+                return this.accountFeedItemIdField;
+            }
+            set {
+                this.accountFeedItemIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string EmbeddedHtml {
+            get {
+                return this.embeddedHtmlField;
+            }
+            set {
+                this.embeddedHtmlField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Created {
+            get {
+                return this.createdField;
+            }
+            set {
+                this.createdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Modified {
+            get {
+                return this.modifiedField;
+            }
+            set {
+                this.modifiedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool Interesting {
+            get {
+                return this.interestingField;
+            }
+            set {
+                this.interestingField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool Visible {
+            get {
+                return this.visibleField;
+            }
+            set {
+                this.visibleField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitAccountFeedItemMediaQueryOptions {
+        
+        private string sortOrderField;
+        
+        private bool sortAscendingField;
+        
+        private bool visibleOnlyField;
+        
+        private bool interestingOnlyField;
+        
+        /// <remarks/>
+        public string SortOrder {
+            get {
+                return this.sortOrderField;
+            }
+            set {
+                this.sortOrderField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool SortAscending {
+            get {
+                return this.sortAscendingField;
+            }
+            set {
+                this.sortAscendingField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool VisibleOnly {
+            get {
+                return this.visibleOnlyField;
+            }
+            set {
+                this.visibleOnlyField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool InterestingOnly {
+            get {
+                return this.interestingOnlyField;
+            }
+            set {
+                this.interestingOnlyField = value;
             }
         }
     }
@@ -1546,6 +2009,8 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
         
         private string accountFeedNameField;
         
+        private bool accountFeedPublishField;
+        
         private int commentCountField;
         
         /// <remarks/>
@@ -1669,6 +2134,16 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
         }
         
         /// <remarks/>
+        public bool AccountFeedPublish {
+            get {
+                return this.accountFeedPublishField;
+            }
+            set {
+                this.accountFeedPublishField = value;
+            }
+        }
+        
+        /// <remarks/>
         public int CommentCount {
             get {
                 return this.commentCountField;
@@ -1736,6 +2211,8 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
         private bool publishField;
         
         private bool publishImgsField;
+        
+        private bool publishMediaField;
         
         private int accountPictureIdField;
         
@@ -1878,6 +2355,16 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
             }
             set {
                 this.publishImgsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool PublishMedia {
+            get {
+                return this.publishMediaField;
+            }
+            set {
+                this.publishMediaField = value;
             }
         }
         
@@ -2134,6 +2621,32 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
         private object[] results;
         
         internal UpdateAccountFeedItemImgsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void UpdateAccountFeedItemMediasCompletedEventHandler(object sender, UpdateAccountFeedItemMediasCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class UpdateAccountFeedItemMediasCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal UpdateAccountFeedItemMediasCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
@@ -2600,6 +3113,114 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
     public delegate void DeleteAccountFeedItemImgCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetAccountFeedItemMediasCountCompletedEventHandler(object sender, GetAccountFeedItemMediasCountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountFeedItemMediasCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountFeedItemMediasCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetAccountFeedItemMediasCompletedEventHandler(object sender, GetAccountFeedItemMediasCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountFeedItemMediasCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountFeedItemMediasCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccountFeedItemMedia[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountFeedItemMedia[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetAccountFeedItemMediaByIdCompletedEventHandler(object sender, GetAccountFeedItemMediaByIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountFeedItemMediaByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountFeedItemMediaByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccountFeedItemMedia Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountFeedItemMedia)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void CreateOrUpdateAccountFeedItemMediaCompletedEventHandler(object sender, CreateOrUpdateAccountFeedItemMediaCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class CreateOrUpdateAccountFeedItemMediaCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal CreateOrUpdateAccountFeedItemMediaCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void DeleteAccountFeedItemMediaCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
 }
 
 #pragma warning restore 1591

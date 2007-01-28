@@ -694,6 +694,17 @@ namespace Sgml {
             }
         }
 
+        public string GetAttributeName(int i)
+        {
+            if (this.state != State.Attr && this.state != State.AttrValue)
+            {
+                Attribute a = this.node.GetAttribute(i);
+                if (a != null)
+                    return a.Name;
+            }
+            throw new IndexOutOfRangeException();
+        }
+
         public override string GetAttribute(string name) {
             if (this.state != State.Attr && this.state != State.AttrValue) {
                 int i = this.node.GetAttribute(name);

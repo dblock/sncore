@@ -137,6 +137,7 @@
     <Compile Include="ManagedAccountEventTypeTest.cs" />
     <Compile Include="ManagedAccountFeedItemImgTest.cs" />
     <Compile Include="ManagedAccountFeedItemTest.cs" />
+    <Compile Include="ManagedAccountFeedItemMediaTest.cs" />
     <Compile Include="ManagedAccountFriendRequestTest.cs" />
     <Compile Include="ManagedAccountInvitationTest.cs" />
     <Compile Include="ManagedAccountLicenseTest.cs" />

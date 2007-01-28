@@ -63,6 +63,7 @@ public partial class AccountFeedEdit : AuthenticatedPage
                 inputUsername.Text = tf.Username;
                 inputPublish.Checked = tf.Publish;
                 inputPublishImgs.Checked = tf.PublishImgs;
+                inputPublishMedia.Checked = tf.PublishMedia;
                 inputPassword.Attributes["value"] = tf.Password;
 
                 if (tf.UpdateFrequency > 0)
@@ -157,6 +158,7 @@ public partial class AccountFeedEdit : AuthenticatedPage
         s.LinkUrl = inputLinkUrl.Text;
         s.Publish = inputPublish.Checked;
         s.PublishImgs = inputPublishImgs.Checked;
+        s.PublishMedia = inputPublishMedia.Checked;
         SessionManager.SyndicationService.CreateOrUpdateAccountFeed(SessionManager.Ticket, s);
         Redirect("AccountFeedsManage.aspx");
     }
