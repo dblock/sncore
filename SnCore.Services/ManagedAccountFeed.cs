@@ -758,7 +758,8 @@ namespace SnCore.Services
                     AccountFeedItemMedia x_media = null;
 
                     // media may appear only once, repeating media don't get updated
-
+                    // TODO: expensive LIKE query
+                    
                     x_media = Session.CreateCriteria(typeof(AccountFeedItemMedia))
                             .Add(Expression.Like("EmbeddedHtml", content))
                             .UniqueResult<AccountFeedItemMedia>();
@@ -773,7 +774,6 @@ namespace SnCore.Services
                         x_media.Created = x_media.Modified = DateTime.UtcNow;
                         x_media.EmbeddedHtml = content;
                         x_media.Type = HtmlObjectExtractor.GetType(control);
-                        if (string.IsNullOrEmpty(x_media.Type)) x_media.Type = "unknown";
                         x_media.Visible = mInstance.PublishMedia;
                         x_media.Interesting = false;
                     }
@@ -782,6 +782,9 @@ namespace SnCore.Services
                         x_media.LastError = ex.Message;
                         x_media.Visible = false;
                     }
+
+                    if (string.IsNullOrEmpty(x_media.Type))
+                        continue;
 
                     Session.Save(x_media);
                     result++;

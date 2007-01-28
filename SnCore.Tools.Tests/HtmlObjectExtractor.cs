@@ -35,7 +35,16 @@ namespace SnCore.Tools.Tests
                 " <param name='movie' value='http://www.youtube.com/v/ZfbTO0GlONU'></param>" +
                 " <param name='wmode' value='transparent'></param>" +
                 " <embed src='http://www.youtube.com/v/ZfbTO0GlONU' type='application/x-shockwave-flash' wmode='transparent' width='425' height='350'></embed>" +
-                "</object>"
+                "</object>",
+                "<object width=\"500\" height=\"580\" align=\"middle\">" +
+                " <param value=\"ids=72157594501048788&amp;names=la mar cebicheria&amp;userName=foodite&amp;userId=69594707@N00&amp;titles=on&amp;source=sets\" name=\"FlashVars\" />" +
+                " <param value=\"http://www.db798.com/pictobrowser.swf\" name=\"PictoBrowser\" />" +
+                " <param value=\"noscale\" name=\"scale\" />" +
+                " <param value=\"#ffffff\" name=\"bgcolor\" />" +
+                " <embed width=\"500\" height=\"580\" align=\"middle\" name=\"PictoBrowser\" bgcolor=\"#ffffff\" scale=\"noscale\" quality=\"best\" loop=\"false\" " +
+                " flashvars=\"ids=72157594501048788&amp;names=la mar cebicheria&amp;userName=foodite&amp;userId=69594707@N00&amp;titles=on&amp;source=sets\" " +
+                " src=\"http://www.db798.com/pictobrowser.swf\">" +
+                "</embed></object>"
             };
 
             foreach (string test in tests)

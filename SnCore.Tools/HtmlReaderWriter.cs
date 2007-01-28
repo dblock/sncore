@@ -204,7 +204,17 @@ namespace SnCore.Tools.Web.Html
                             string attributename = reader.LocalName.ToLower();
 
                             // Check if the attribute is allowed 
-                            bool canWrite = (Array.IndexOf(AllowedAttributes, attributename) >= 0);
+                            bool canWrite = false;
+
+                            switch (LastStartElement)
+                            {
+                                case "embed":
+                                    canWrite = true;
+                                    break;
+                                default:
+                                    canWrite = (Array.IndexOf(AllowedAttributes, attributename) >= 0);
+                                    break;
+                            }
 
                             // If allowed, write the attribute
                             if (canWrite)
