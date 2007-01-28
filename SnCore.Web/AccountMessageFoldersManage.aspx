@@ -13,7 +13,7 @@
     <asp:LinkButton Text="&#187; show folders" runat="server" id="linkFolders" />
    </div>
    <ajaxtoolkit:CollapsiblePanelExtender ID="panelFoldersListExtender" runat="server"
-    TargetControlID="panelFoldersList" Collapsed="true" CollapsedSize="0" ExpandedSize="350"
+    TargetControlID="panelFoldersList" Collapsed="true" CollapsedSize="0" ExpandedSize="250"
     ExpandControlID="linkFolders" CollapseControlID="linkFolders" SuppressPostBack="true">
    </ajaxtoolkit:CollapsiblePanelExtender>
    <asp:Panel id="panelFoldersList" runat="server" style="height: 0px; overflow: hidden">
@@ -24,8 +24,8 @@
      CssClass="sncore_createnew" runat="server" />
     <SnCoreWebControls:PagedGrid CellPadding="4" ShowHeader="false" runat="server" ID="messagefoldersView"
      AutoGenerateColumns="false" CssClass="sncore_account_table" OnItemDataBound="messagefoldersView_ItemDataBound"
-     OnItemCommand="messagefoldersView_ItemCommand" AllowPaging="true" AllowCustomPaging="true" PageSize="7">
-     <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
+     OnItemCommand="messagefoldersView_ItemCommand" AllowPaging="true" AllowCustomPaging="true" PageSize="5">
+     <PagerStyle CssClass="sncore_table_pager" Position="Bottom" NextPageText="Next"
       PrevPageText="Prev" HorizontalAlign="Center" />
      <Columns>
       <asp:BoundColumn DataField="Id" Visible="false" />

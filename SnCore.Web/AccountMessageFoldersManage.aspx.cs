@@ -195,8 +195,7 @@ public partial class AccountMessageFoldersManage : AuthenticatedPage
                         break;
                     }
 
-                    messagefoldersView.DataSource = SessionManager.AccountService.GetAccountMessageFolders(
-                        SessionManager.Ticket, SessionManager.AccountId, null);
+                    messagefoldersView_OnGetDataSource(source, e);
                     messagefoldersView.DataBind();
                     break;
                 }
@@ -242,8 +241,8 @@ public partial class AccountMessageFoldersManage : AuthenticatedPage
                     {
                         SessionManager.AccountService.MoveAccountMessageToFolderById(SessionManager.Ticket, id, trashid);
                     }
-                    messagesView.DataSource = SessionManager.AccountService.GetAccountMessages(
-                        SessionManager.Ticket, FolderId, null);
+                    GetFolderInformationData(source, e);
+                    messagesView_OnGetDataSource(source, e);
                     messagesView.DataBind();
                     break;
                 }

@@ -2007,6 +2007,7 @@ namespace SnCore.WebServices
                 // sort the tree
                 IList folders = session.CreateCriteria(typeof(AccountMessageFolder))
                     .Add(Expression.Eq("Account.Id", id))
+                    .AddOrder(Order.Desc("System"))
                     .AddOrder(Order.Asc("Name"))
                     .List();
                 AccountMessageFolderTree tree = new AccountMessageFolderTree(folders);
