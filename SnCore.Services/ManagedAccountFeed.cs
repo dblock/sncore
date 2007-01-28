@@ -641,7 +641,7 @@ namespace SnCore.Services
 
                 mInstance.AccountFeedItems = updated;
                 mInstance.LastError = string.Empty;
-                Session.SaveOrUpdate(mInstance);
+                Session.Save(mInstance);
             }
             catch (Exception ex)
             {

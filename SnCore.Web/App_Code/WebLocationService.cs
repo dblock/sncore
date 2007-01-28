@@ -572,7 +572,7 @@ namespace SnCore.WebServices
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
                 ManagedNeighborhood m = new ManagedNeighborhood(session, target_id);
                 int result = m.Merge(sec, merge_id);
-                session.Flush();
+                SnCore.Data.Hibernate.Session.Flush();
                 return result;
             }
         }

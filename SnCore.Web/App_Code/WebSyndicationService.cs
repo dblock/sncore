@@ -140,7 +140,9 @@ namespace SnCore.WebServices
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
                 ManagedAccountFeed feed = new ManagedAccountFeed(session, id);
-                return feed.Update(sec);
+                int count = feed.Update(sec);
+                SnCore.Data.Hibernate.Session.Flush();
+                return count;
             }
         }
 
@@ -157,7 +159,9 @@ namespace SnCore.WebServices
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
                 ManagedAccountFeed feed = new ManagedAccountFeed(session, id);
-                return feed.UpdateImages(sec);
+                int count = feed.UpdateImages(sec);
+                SnCore.Data.Hibernate.Session.Flush();
+                return count;
             }
         }
 
@@ -174,7 +178,9 @@ namespace SnCore.WebServices
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
                 ManagedAccountFeed feed = new ManagedAccountFeed(session, id);
-                return feed.UpdateMedias(sec);
+                int count = feed.UpdateMedias(sec);
+                SnCore.Data.Hibernate.Session.Flush();
+                return count;
             }
         }
 
