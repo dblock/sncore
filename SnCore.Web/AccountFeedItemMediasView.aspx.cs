@@ -72,12 +72,13 @@ public partial class AccountFeedItemMediasView : AccountPersonPage
     private void GetData()
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.SyndicationService.GetAccountFeedItemMediasCount(
-            SessionManager.Ticket, QueryOptions);
+        gridManage.VirtualItemCount = SessionManager.GetCount<TransitAccountFeedItemMedia, TransitAccountFeedItemMediaQueryOptions>(
+            QueryOptions, SessionManager.SyndicationService.GetAccountFeedItemMediasCount);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
 
-        int feedsCount = SessionManager.SyndicationService.GetAllAccountFeedsCount(SessionManager.Ticket);
+        int feedsCount = SessionManager.GetCount<TransitAccountFeed>(
+            SessionManager.SyndicationService.GetAllAccountFeedsCount);
 
         labelCount.Text = string.Format("{0} media item{1} from <a href='AccountFeedsView.aspx'>{2} blog{3}</a>",
             gridManage.VirtualItemCount, gridManage.VirtualItemCount == 1 ? string.Empty : "s",
@@ -89,8 +90,8 @@ public partial class AccountFeedItemMediasView : AccountPersonPage
         ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
         serviceoptions.PageSize = gridManage.PageSize;
         serviceoptions.PageNumber = gridManage.CurrentPageIndex;
-        gridManage.DataSource = SessionManager.SyndicationService.GetAccountFeedItemMedias(
-            SessionManager.Ticket, QueryOptions, serviceoptions);
+        gridManage.DataSource = SessionManager.GetCollection<TransitAccountFeedItemMedia, TransitAccountFeedItemMediaQueryOptions>(
+            QueryOptions, serviceoptions, SessionManager.SyndicationService.GetAccountFeedItemMedias);
     }
 
     public void gridManage_ItemCommand(object sender, DataListCommandEventArgs e)

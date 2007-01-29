@@ -226,7 +226,7 @@ namespace SnCore.WebServices
         public int GetAllAccountFeedsCount(string ticket)
         {
             return WebServiceImpl<TransitAccountFeed, ManagedAccountFeed, AccountFeed>.GetCount(
-                ticket);
+                ticket, " WHERE EXISTS ELEMENTS(AccountFeed.AccountFeedItems)");
         }
 
         /// <summary>

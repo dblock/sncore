@@ -38,8 +38,10 @@ public partial class AccountFeedItemsView : Page
         gridManage.CurrentPageIndex = 0;
 
         gridManage.VirtualItemCount = string.IsNullOrEmpty(inputSearch.Text)
-            ? SessionManager.SyndicationService.GetAllAccountFeedItemsCount(SessionManager.Ticket)
-            : SessionManager.SyndicationService.SearchAccountFeedItemsCount(SessionManager.Ticket, inputSearch.Text);
+            ? SessionManager.GetCount<TransitAccountFeedItem>(
+                SessionManager.SyndicationService.GetAllAccountFeedItemsCount)
+            : SessionManager.GetCount<TransitAccountFeedItem, string>(
+                inputSearch.Text, SessionManager.SyndicationService.SearchAccountFeedItemsCount);
 
         int feedsCount = SessionManager.SyndicationService.GetAllAccountFeedsCount(SessionManager.Ticket);
 
@@ -57,8 +59,10 @@ public partial class AccountFeedItemsView : Page
         serviceoptions.PageSize = gridManage.PageSize;
         serviceoptions.PageNumber = gridManage.CurrentPageIndex;
         gridManage.DataSource = string.IsNullOrEmpty(inputSearch.Text)
-            ? SessionManager.SyndicationService.GetAllAccountFeedItems(SessionManager.Ticket, serviceoptions)
-            : SessionManager.SyndicationService.SearchAccountFeedItems(SessionManager.Ticket, inputSearch.Text, serviceoptions);
+            ? SessionManager.GetCollection<TransitAccountFeedItem>(
+                serviceoptions, SessionManager.SyndicationService.GetAllAccountFeedItems)
+            : SessionManager.GetCollection<TransitAccountFeedItem, string>(
+                inputSearch.Text, serviceoptions, SessionManager.SyndicationService.SearchAccountFeedItems);
     }
 
     protected void search_Click(object sender, EventArgs e)

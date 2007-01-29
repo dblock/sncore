@@ -36,8 +36,8 @@ public partial class AccountFeedItemMediasRss : AccountPersonPage
             serviceoptions.PageNumber = 0;
             serviceoptions.PageSize = 25;
 
-            rssRepeater.DataSource = SessionManager.SyndicationService.GetAccountFeedItemMedias(
-                SessionManager.Ticket, QueryOptions, serviceoptions);
+            rssRepeater.DataSource = SessionManager.GetCollection<TransitAccountFeedItemMedia, TransitAccountFeedItemMediaQueryOptions>(
+                QueryOptions, serviceoptions, SessionManager.SyndicationService.GetAccountFeedItemMedias);
             rssRepeater.DataBind();
         }
     }
