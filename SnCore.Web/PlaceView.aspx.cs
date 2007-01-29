@@ -262,6 +262,9 @@ public partial class PlaceView : Page
                         ? string.Format("Feature &#187; Last on {0}", Adjust(LatestPlaceFeature.Created).ToString("d"))
                         : "Feature &#187; Never Featured";
                 }
+
+                redirect.TargetUri = string.Format("PlaceView.aspx?id={0}", place.Id);
+                redirect.AccountId = place.AccountId;
             }
             else
             {

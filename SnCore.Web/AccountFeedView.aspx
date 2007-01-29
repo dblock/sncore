@@ -6,6 +6,7 @@
 <%@ Register TagPrefix="SnCore" TagName="BookmarksView" Src="BookmarksViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="LicenseView" Src="AccountLicenseViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AutoScroll" Src="AutoScrollControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="RedirectView" Src="AccountRedirectViewControl.ascx" %>
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <table cellspacing="0" cellpadding="4" class="sncore_table">
@@ -24,6 +25,9 @@
     </div>
     <div class="sncore_h2sub">
      <asp:Label ID="labelFeedDescription" runat="server" />
+     <div>
+      <SnCore:RedirectView id="redirect" runat="server" />
+     </div>
     </div>
     <asp:UpdatePanel runat="server" ID="panelAdminUpdate" UpdateMode="Conditional">
      <ContentTemplate>

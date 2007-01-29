@@ -133,6 +133,9 @@ public partial class AccountView : Page
             linkLeaveTestimonial.NavigateUrl = string.Format("DiscussionPost.aspx?did={0}&ReturnUrl={1}&#edit",
                 discussionTags.DiscussionId, returnurl);
 
+            redirect.AccountId = AccountId;
+            redirect.TargetUri = string.Format("AccountView.aspx?id={0}", AccountId);
+
             websitesView.DataBind();
             surveysView.DataBind();
             storiesView.DataBind();

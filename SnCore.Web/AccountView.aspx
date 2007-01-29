@@ -20,6 +20,7 @@
 <%@ Register TagPrefix="SnCore" TagName="LicenseView" Src="AccountLicenseViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="CounterView" Src="CounterViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="TellAFriend" Src="TellAFriendControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="RedirectView" Src="AccountRedirectViewControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <asp:Panel CssClass="panel" ID="pnlAccount" runat="server">
   <table cellspacing="0" cellpadding="4" class="sncore_table">
@@ -51,6 +52,9 @@
       <tr>
        <td class="sncore_table_tr_td">
         <asp:Label CssClass="sncore_account_name" ID="accountName" runat="server" />
+        <div>
+         <SnCore:RedirectView id="redirect" runat="server" />
+        </div>
         <!-- NOEMAIL-START -->
          <div class="sncore_description">
           last activity: <asp:Label ID="accountLastLogin" runat="server" />

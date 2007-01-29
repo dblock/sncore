@@ -12,6 +12,7 @@
 <%@ Register TagPrefix="SnCore" TagName="CounterView" Src="CounterViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="MadLibInstancesView" Src="MadLibInstancesViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="TellAFriend" Src="TellAFriendControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="RedirectView" Src="AccountRedirectViewControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <asp:UpdatePanel runat="server" ID="panelPlace" UpdateMode="Conditional">
   <ContentTemplate>
@@ -44,6 +45,9 @@
         <tr>
          <td class="sncore_table_tr_td">
           <asp:Label CssClass="sncore_place_name" ID="placeName" runat="server" />
+          <div>
+           <SnCore:RedirectView id="redirect" runat="server" />
+          </div>
           <div class="sncore_description">
            <asp:HyperLink ID="placeType" runat="server" />
           </div>
