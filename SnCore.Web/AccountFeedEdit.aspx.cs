@@ -38,10 +38,8 @@ public partial class AccountFeedEdit : AuthenticatedPage
             sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Syndication", Request, "AccountFeedsManage.aspx"));
 
-            ArrayList types = new ArrayList();
-            types.Add(new TransitFeedType());
-            types.AddRange(SessionManager.SyndicationService.GetFeedTypes(SessionManager.Ticket, null));
-            inputFeedType.DataSource = types;
+            inputFeedType.DataSource = SessionManager.GetCollection<TransitFeedType>(
+                null, SessionManager.SyndicationService.GetFeedTypes);
             inputFeedType.DataBind();
 
             string feedtype = Request.Params["type"];
