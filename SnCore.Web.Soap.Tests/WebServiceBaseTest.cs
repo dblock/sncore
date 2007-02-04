@@ -49,7 +49,7 @@ namespace SnCore.Web.Soap.Tests
         protected void DeleteUser(int id)
         {
             WebAccountService.WebAccountService account_endpoint = new WebAccountService.WebAccountService();
-            account_endpoint.DeleteAccountById(GetAdminTicket(), id, null); 
+            account_endpoint.DeleteAccount(GetAdminTicket(), id, null); 
         }
 
         private void CreateUserAccount()

@@ -6,15 +6,27 @@ using NUnit.Framework;
 namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
 {
     [TestFixture]
-    public class AccountTest : WebServiceBaseTest<WebAccountServiceNoCache>
+    public class AccountTest : WebServiceTest<WebAccountService.TransitAccount, WebAccountServiceNoCache>
     {
-        [Test]
-        public void TestGetAccount()
+        public AccountTest()
+            : base("Account")
+        {
+
+        }
+
+        public override WebAccountService.TransitAccount GetTransitInstance()
         {
             WebAccountService.TransitAccount t_instance = new WebAccountService.TransitAccount();
             t_instance.Name = GetNewString();
             t_instance.Password = GetNewString();
             t_instance.Birthday = DateTime.UtcNow.AddYears(-10);
+            return t_instance;
+        }
+
+        [Test]
+        public void TestGetAccount()
+        {
+            WebAccountService.TransitAccount t_instance = GetTransitInstance();
             string email = GetNewEmailAddress();
             int id = EndPoint.CreateAccount(string.Empty, email, t_instance);
             Assert.IsTrue(id > 0);
@@ -55,6 +67,12 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             WebAccountService.TransitAccount[] accounts = EndPoint.SearchAccounts(GetUserTicket(), GetAdminAccount().Name, null);
             Console.WriteLine("Accounts: {0}", accounts.Length);
             Assert.IsTrue(new TransitServiceCollection<WebAccountService.TransitAccount>(accounts).ContainsId(GetAdminAccount().Id));
+        }
+
+        public override object[] GetDeleteArgs(string ticket, int id)
+        {
+            object[] args = { ticket, id, string.Empty };
+            return args;
         }
 
         [Test]

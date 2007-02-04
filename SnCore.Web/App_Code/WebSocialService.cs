@@ -62,17 +62,6 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
-        /// Get accounts count.
-        /// </summary>
-        /// <returns>accounts count</returns>
-        [WebMethod(Description = "Get accounts count.", CacheDuration = 60)]
-        public int GetAccountsCount(string ticket)
-        {
-            return WebServiceImpl<TransitAccount, ManagedAccount, Account>.GetCount(
-                ticket);
-        }
-
-        /// <summary>
         /// Get account activity count.
         /// </summary>
         /// <returns>transit account activity count</returns>

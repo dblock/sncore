@@ -50,7 +50,7 @@ public partial class AccountPreferencesManage : AuthenticatedPage
                 numbers = new AccountNumbers();
                 numbers.FirstDegreeCount = SessionManager.SocialService.GetFirstDegreeCountById(SessionManager.Ticket, SessionManager.AccountId);
                 numbers.SecondDegreeCount = SessionManager.SocialService.GetNDegreeCountById(SessionManager.Ticket, SessionManager.AccountId, 2);
-                numbers.AllCount = SessionManager.SocialService.GetAccountsCount(SessionManager.Ticket);
+                numbers.AllCount = SessionManager.AccountService.GetAccountsCount(SessionManager.Ticket);
 
                 DiscussionQueryOptions options = new DiscussionQueryOptions();
                 options.AccountId = SessionManager.Account.Id;

@@ -224,6 +224,29 @@ namespace SnCore.WebServices
         #region Account
 
         /// <summary>
+        /// Get accounts count.
+        /// </summary>
+        /// <returns>accounts count</returns>
+        [WebMethod(Description = "Get accounts count.", CacheDuration = 60)]
+        public int GetAccountsCount(string ticket)
+        {
+            return WebServiceImpl<TransitAccount, ManagedAccount, Account>.GetCount(
+                ticket);
+        }
+
+        /// <summary>
+        /// Get accounts.
+        /// </summary>
+        /// <returns>accounts count</returns>
+        [WebMethod(Description = "Get accounts.", CacheDuration = 60)]
+        public List<TransitAccount> GetAccounts(string ticket, ServiceQueryOptions options)
+        {
+            return WebServiceImpl<TransitAccount, ManagedAccount, Account>.GetList(
+                ticket, options);
+        }
+
+
+        /// <summary>
         /// Get account id.
         /// </summary>
         /// <param name="ticket">authentication ticket previously obtained from SnCore::WebAccountService::Login or SnCore::WebAccountService::LoginMd5</param>
@@ -285,24 +308,13 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
-        /// Delete your account.
-        /// </summary>
-        /// <param name="ticket">authentication ticket</param>
-        /// <param name="password">account password</param>
-        [WebMethod(Description = "Delete your account.")]
-        public void DeleteAccount(string ticket, string password)
-        {
-            DeleteAccountById(ticket, ManagedAccount.GetAccountId(ticket), password);
-        }
-
-        /// <summary>
         /// Delete an account.
         /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">account to delete</param>
         /// <param name="password">current account password</param>
-        [WebMethod(Description = "Delete your account.")]
-        public void DeleteAccountById(string ticket, int id, string password)
+        [WebMethod(Description = "Delete an account.")]
+        public void DeleteAccount(string ticket, int id, string password)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {

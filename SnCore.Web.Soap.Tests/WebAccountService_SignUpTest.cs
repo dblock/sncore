@@ -38,7 +38,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             Assert.AreEqual(id, t_instance3.Id);
             Assert.AreEqual(t_instance2.Name, t_instance3.Name);
             // delete
-            EndPoint.DeleteAccount(ticket, t_instance.Password);
+            EndPoint.DeleteAccount(ticket, t_instance.Id, t_instance.Password);
             Console.WriteLine("Deleted account: {0}", id);
         }
     }    

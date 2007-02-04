@@ -110,6 +110,9 @@
     <None Include="Web References\SnCore.WebServices.WebAccountService\TransitAccountEmailConfirmation.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
+    <None Include="Web References\SnCore.WebServices.WebAccountService\TransitAccountEmailMessage.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
     <None Include="Web References\SnCore.WebServices.WebAccountService\TransitAccountInvitation.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>

@@ -55,7 +55,7 @@ public partial class AccountDelete : AuthenticatedPage
 
     public void delete_Click(object sender, EventArgs e)
     {
-        SessionManager.AccountService.DeleteAccountById(SessionManager.Ticket, Account.Id, inputPassword.Text);
+        SessionManager.AccountService.DeleteAccount(SessionManager.Ticket, Account.Id, inputPassword.Text);
         pnlAccount.Visible = false;
         SessionManager.Logout();
         ReportInfo("Account deleted.");

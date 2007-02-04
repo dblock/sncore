@@ -94,7 +94,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             WebAccountService.TransitAccountInvitation t_instance_deleted = EndPoint.GetAccountInvitationById(GetAdminTicket(), t_instance.Id);
             Assert.IsNull(t_instance_deleted, "Invitation hasn't been deleted after the account was created.");
 
-            EndPoint.DeleteAccountById(ticket, id, t_account.Password);
+            EndPoint.DeleteAccount(ticket, id, t_account.Password);
         }
 
         [Test]

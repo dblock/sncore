@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
+using SnCore.Web.Soap.Tests.WebAccountServiceTests;
 using SnCore.Web.Soap.Tests.WebBlogServiceTests;
 using SnCore.Web.Soap.Tests.WebEventServiceTests;
 using SnCore.Web.Soap.Tests.WebPlaceServiceTests;
@@ -88,9 +89,12 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
         }
 
         [Test]
-        protected void GetOrCreateAccountPictureDiscussionIdTest()
+        public void GetOrCreateAccountPictureDiscussionIdTest()
         {
-            // EndPoint.GetOrCreateAccountPictureDiscussionId();
+            GetOrCreateDiscussionIdTest(
+                EndPoint.GetAccountPictureDiscussionName,
+                EndPoint.GetOrCreateAccountPictureDiscussionId,
+                new AccountPictureTest());
         }
 
         [Test]
@@ -112,9 +116,12 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
         }
 
         [Test]
-        protected void GetOrCreateAccountTagsDiscussionIdTest()
+        public void GetOrCreateAccountTagsDiscussionIdTest()
         {
-            // EndPoint.GetOrCreateAccountTagsDiscussionId();
+            GetOrCreateDiscussionIdTest(
+                 EndPoint.GetAccountTagsDiscussionName,
+                 EndPoint.GetOrCreateAccountTagsDiscussionId,
+                 new AccountTest());
         }
 
         [Test]

@@ -45,6 +45,12 @@ namespace SnCore.Web.Soap.Tests
             return args;
         }
 
+        public virtual object[] GetDeleteArgs(string ticket, int id)
+        {
+            object[] args = { ticket, id };
+            return args;
+        }
+
         public int GetCount(string ticket)
         {
             try
@@ -124,7 +130,7 @@ namespace SnCore.Web.Soap.Tests
             try
             {
                 Console.WriteLine("Deleting {0}:{1}", mOne, id);
-                object[] args = { ticket, id };
+                object[] args = GetDeleteArgs(ticket, id);
                 EndPoint.GetType().InvokeMember(string.Format("Delete{0}", mOne),
                     BindingFlags.InvokeMethod, null, EndPoint, args);
             }

@@ -27,8 +27,8 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="WebAccountServiceSoap", Namespace="http://www.vestris.com/sncore/ns/")]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountMessage))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountEmailMessage))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountMessage))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountMessageFolder))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfSurvey))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountSurveyAnswer))]
@@ -67,6 +67,10 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         private System.Threading.SendOrPostCallback VerifyOpenIdOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetAccountsCountOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountsOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetAccountIdOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAccountOperationCompleted;
@@ -76,8 +80,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         private System.Threading.SendOrPostCallback CreateOrUpdateAccountOperationCompleted;
         
         private System.Threading.SendOrPostCallback DeleteAccountOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback DeleteAccountByIdOperationCompleted;
         
         private System.Threading.SendOrPostCallback FindByEmailOperationCompleted;
         
@@ -281,8 +283,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         private System.Threading.SendOrPostCallback GetAccountMessageSystemFolderOperationCompleted;
         
-        private System.Threading.SendOrPostCallback SendAccountEmailMessageOperationCompleted;
-        
         private System.Threading.SendOrPostCallback GetAccountMessagesCountOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAccountMessagesOperationCompleted;
@@ -300,6 +300,8 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         private System.Threading.SendOrPostCallback MoveAccountMessageToFolderByIdOperationCompleted;
         
         private System.Threading.SendOrPostCallback MoveAccountMessageToFolderOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback SendAccountEmailMessageOperationCompleted;
         
         private System.Threading.SendOrPostCallback CreateOrUpdateAccountEmailMessageOperationCompleted;
         
@@ -377,6 +379,12 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         public event VerifyOpenIdCompletedEventHandler VerifyOpenIdCompleted;
         
         /// <remarks/>
+        public event GetAccountsCountCompletedEventHandler GetAccountsCountCompleted;
+        
+        /// <remarks/>
+        public event GetAccountsCompletedEventHandler GetAccountsCompleted;
+        
+        /// <remarks/>
         public event GetAccountIdCompletedEventHandler GetAccountIdCompleted;
         
         /// <remarks/>
@@ -390,9 +398,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         /// <remarks/>
         public event DeleteAccountCompletedEventHandler DeleteAccountCompleted;
-        
-        /// <remarks/>
-        public event DeleteAccountByIdCompletedEventHandler DeleteAccountByIdCompleted;
         
         /// <remarks/>
         public event FindByEmailCompletedEventHandler FindByEmailCompleted;
@@ -698,9 +703,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         public event GetAccountMessageSystemFolderCompletedEventHandler GetAccountMessageSystemFolderCompleted;
         
         /// <remarks/>
-        public event SendAccountEmailMessageCompletedEventHandler SendAccountEmailMessageCompleted;
-        
-        /// <remarks/>
         public event GetAccountMessagesCountCompletedEventHandler GetAccountMessagesCountCompleted;
         
         /// <remarks/>
@@ -726,6 +728,9 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         /// <remarks/>
         public event MoveAccountMessageToFolderCompletedEventHandler MoveAccountMessageToFolderCompleted;
+        
+        /// <remarks/>
+        public event SendAccountEmailMessageCompletedEventHandler SendAccountEmailMessageCompleted;
         
         /// <remarks/>
         public event CreateOrUpdateAccountEmailMessageCompletedEventHandler CreateOrUpdateAccountEmailMessageCompleted;
@@ -1023,6 +1028,66 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountsCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetAccountsCount(string ticket) {
+            object[] results = this.Invoke("GetAccountsCount", new object[] {
+                        ticket});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountsCountAsync(string ticket) {
+            this.GetAccountsCountAsync(ticket, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountsCountAsync(string ticket, object userState) {
+            if ((this.GetAccountsCountOperationCompleted == null)) {
+                this.GetAccountsCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountsCountOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountsCount", new object[] {
+                        ticket}, this.GetAccountsCountOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountsCountOperationCompleted(object arg) {
+            if ((this.GetAccountsCountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountsCountCompleted(this, new GetAccountsCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccounts", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccount[] GetAccounts(string ticket, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetAccounts", new object[] {
+                        ticket,
+                        options});
+            return ((TransitAccount[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountsAsync(string ticket, ServiceQueryOptions options) {
+            this.GetAccountsAsync(ticket, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountsAsync(string ticket, ServiceQueryOptions options, object userState) {
+            if ((this.GetAccountsOperationCompleted == null)) {
+                this.GetAccountsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountsOperationCompleted);
+            }
+            this.InvokeAsync("GetAccounts", new object[] {
+                        ticket,
+                        options}, this.GetAccountsOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountsOperationCompleted(object arg) {
+            if ((this.GetAccountsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountsCompleted(this, new GetAccountsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountId", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public int GetAccountId(string ticket) {
             object[] results = this.Invoke("GetAccountId", new object[] {
@@ -1144,24 +1209,26 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/DeleteAccount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void DeleteAccount(string ticket, string password) {
+        public void DeleteAccount(string ticket, int id, string password) {
             this.Invoke("DeleteAccount", new object[] {
                         ticket,
+                        id,
                         password});
         }
         
         /// <remarks/>
-        public void DeleteAccountAsync(string ticket, string password) {
-            this.DeleteAccountAsync(ticket, password, null);
+        public void DeleteAccountAsync(string ticket, int id, string password) {
+            this.DeleteAccountAsync(ticket, id, password, null);
         }
         
         /// <remarks/>
-        public void DeleteAccountAsync(string ticket, string password, object userState) {
+        public void DeleteAccountAsync(string ticket, int id, string password, object userState) {
             if ((this.DeleteAccountOperationCompleted == null)) {
                 this.DeleteAccountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDeleteAccountOperationCompleted);
             }
             this.InvokeAsync("DeleteAccount", new object[] {
                         ticket,
+                        id,
                         password}, this.DeleteAccountOperationCompleted, userState);
         }
         
@@ -1169,38 +1236,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
             if ((this.DeleteAccountCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.DeleteAccountCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/DeleteAccountById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void DeleteAccountById(string ticket, int id, string password) {
-            this.Invoke("DeleteAccountById", new object[] {
-                        ticket,
-                        id,
-                        password});
-        }
-        
-        /// <remarks/>
-        public void DeleteAccountByIdAsync(string ticket, int id, string password) {
-            this.DeleteAccountByIdAsync(ticket, id, password, null);
-        }
-        
-        /// <remarks/>
-        public void DeleteAccountByIdAsync(string ticket, int id, string password, object userState) {
-            if ((this.DeleteAccountByIdOperationCompleted == null)) {
-                this.DeleteAccountByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDeleteAccountByIdOperationCompleted);
-            }
-            this.InvokeAsync("DeleteAccountById", new object[] {
-                        ticket,
-                        id,
-                        password}, this.DeleteAccountByIdOperationCompleted, userState);
-        }
-        
-        private void OnDeleteAccountByIdOperationCompleted(object arg) {
-            if ((this.DeleteAccountByIdCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.DeleteAccountByIdCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -4396,39 +4431,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/SendAccountEmailMessage", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int SendAccountEmailMessage(string ticket, int id, TransitAccountEmailMessage message) {
-            object[] results = this.Invoke("SendAccountEmailMessage", new object[] {
-                        ticket,
-                        id,
-                        message});
-            return ((int)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void SendAccountEmailMessageAsync(string ticket, int id, TransitAccountEmailMessage message) {
-            this.SendAccountEmailMessageAsync(ticket, id, message, null);
-        }
-        
-        /// <remarks/>
-        public void SendAccountEmailMessageAsync(string ticket, int id, TransitAccountEmailMessage message, object userState) {
-            if ((this.SendAccountEmailMessageOperationCompleted == null)) {
-                this.SendAccountEmailMessageOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSendAccountEmailMessageOperationCompleted);
-            }
-            this.InvokeAsync("SendAccountEmailMessage", new object[] {
-                        ticket,
-                        id,
-                        message}, this.SendAccountEmailMessageOperationCompleted, userState);
-        }
-        
-        private void OnSendAccountEmailMessageOperationCompleted(object arg) {
-            if ((this.SendAccountEmailMessageCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.SendAccountEmailMessageCompleted(this, new SendAccountEmailMessageCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountMessagesCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public int GetAccountMessagesCount(string ticket, int folderid) {
             object[] results = this.Invoke("GetAccountMessagesCount", new object[] {
@@ -4708,6 +4710,39 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
             if ((this.MoveAccountMessageToFolderCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.MoveAccountMessageToFolderCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/SendAccountEmailMessage", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int SendAccountEmailMessage(string ticket, int id, TransitAccountEmailMessage message) {
+            object[] results = this.Invoke("SendAccountEmailMessage", new object[] {
+                        ticket,
+                        id,
+                        message});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void SendAccountEmailMessageAsync(string ticket, int id, TransitAccountEmailMessage message) {
+            this.SendAccountEmailMessageAsync(ticket, id, message, null);
+        }
+        
+        /// <remarks/>
+        public void SendAccountEmailMessageAsync(string ticket, int id, TransitAccountEmailMessage message, object userState) {
+            if ((this.SendAccountEmailMessageOperationCompleted == null)) {
+                this.SendAccountEmailMessageOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSendAccountEmailMessageOperationCompleted);
+            }
+            this.InvokeAsync("SendAccountEmailMessage", new object[] {
+                        ticket,
+                        id,
+                        message}, this.SendAccountEmailMessageOperationCompleted, userState);
+        }
+        
+        private void OnSendAccountEmailMessageOperationCompleted(object arg) {
+            if ((this.SendAccountEmailMessageCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.SendAccountEmailMessageCompleted(this, new SendAccountEmailMessageCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -5072,6 +5107,157 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     }
     
     /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccountEmailMessage))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public abstract partial class TransitServiceOfAccountEmailMessage {
+        
+        private int idField;
+        
+        /// <remarks/>
+        public int Id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitAccountEmailMessage : TransitServiceOfAccountEmailMessage {
+        
+        private int accountIdField;
+        
+        private string subjectField;
+        
+        private string bodyField;
+        
+        private bool deleteSentField;
+        
+        private bool sentField;
+        
+        private string sendErrorField;
+        
+        private string mailToField;
+        
+        private string mailFromField;
+        
+        private System.DateTime createdField;
+        
+        private System.DateTime modifiedField;
+        
+        /// <remarks/>
+        public int AccountId {
+            get {
+                return this.accountIdField;
+            }
+            set {
+                this.accountIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Subject {
+            get {
+                return this.subjectField;
+            }
+            set {
+                this.subjectField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Body {
+            get {
+                return this.bodyField;
+            }
+            set {
+                this.bodyField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool DeleteSent {
+            get {
+                return this.deleteSentField;
+            }
+            set {
+                this.deleteSentField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool Sent {
+            get {
+                return this.sentField;
+            }
+            set {
+                this.sentField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string SendError {
+            get {
+                return this.sendErrorField;
+            }
+            set {
+                this.sendErrorField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string MailTo {
+            get {
+                return this.mailToField;
+            }
+            set {
+                this.mailToField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string MailFrom {
+            get {
+                return this.mailFromField;
+            }
+            set {
+                this.mailFromField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Created {
+            get {
+                return this.createdField;
+            }
+            set {
+                this.createdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Modified {
+            get {
+                return this.modifiedField;
+            }
+            set {
+                this.modifiedField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccountMessage))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
     [System.SerializableAttribute()]
@@ -5242,157 +5428,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
             }
             set {
                 this.recepientAccountNameField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccountEmailMessage))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
-    public abstract partial class TransitServiceOfAccountEmailMessage {
-        
-        private int idField;
-        
-        /// <remarks/>
-        public int Id {
-            get {
-                return this.idField;
-            }
-            set {
-                this.idField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
-    public partial class TransitAccountEmailMessage : TransitServiceOfAccountEmailMessage {
-        
-        private int accountIdField;
-        
-        private string subjectField;
-        
-        private string bodyField;
-        
-        private bool deleteSentField;
-        
-        private bool sentField;
-        
-        private string sendErrorField;
-        
-        private string mailToField;
-        
-        private string mailFromField;
-        
-        private System.DateTime createdField;
-        
-        private System.DateTime modifiedField;
-        
-        /// <remarks/>
-        public int AccountId {
-            get {
-                return this.accountIdField;
-            }
-            set {
-                this.accountIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string Subject {
-            get {
-                return this.subjectField;
-            }
-            set {
-                this.subjectField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string Body {
-            get {
-                return this.bodyField;
-            }
-            set {
-                this.bodyField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public bool DeleteSent {
-            get {
-                return this.deleteSentField;
-            }
-            set {
-                this.deleteSentField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public bool Sent {
-            get {
-                return this.sentField;
-            }
-            set {
-                this.sentField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string SendError {
-            get {
-                return this.sendErrorField;
-            }
-            set {
-                this.sendErrorField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string MailTo {
-            get {
-                return this.mailToField;
-            }
-            set {
-                this.mailToField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string MailFrom {
-            get {
-                return this.mailFromField;
-            }
-            set {
-                this.mailFromField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public System.DateTime Created {
-            get {
-                return this.createdField;
-            }
-            set {
-                this.createdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public System.DateTime Modified {
-            get {
-                return this.modifiedField;
-            }
-            set {
-                this.modifiedField = value;
             }
         }
     }
@@ -7153,39 +7188,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
-    public partial class ServiceQueryOptions {
-        
-        private int pageSizeField;
-        
-        private int pageNumberField;
-        
-        /// <remarks/>
-        public int PageSize {
-            get {
-                return this.pageSizeField;
-            }
-            set {
-                this.pageSizeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public int PageNumber {
-            get {
-                return this.pageNumberField;
-            }
-            set {
-                this.pageNumberField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccountInvitation))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
     [System.SerializableAttribute()]
@@ -7296,6 +7298,39 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
             }
             set {
                 this.accountNameField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class ServiceQueryOptions {
+        
+        private int pageSizeField;
+        
+        private int pageNumberField;
+        
+        /// <remarks/>
+        public int PageSize {
+            get {
+                return this.pageSizeField;
+            }
+            set {
+                this.pageSizeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int PageNumber {
+            get {
+                return this.pageNumberField;
+            }
+            set {
+                this.pageNumberField = value;
             }
         }
     }
@@ -7592,6 +7627,58 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetAccountsCountCompletedEventHandler(object sender, GetAccountsCountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountsCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountsCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetAccountsCompletedEventHandler(object sender, GetAccountsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccount[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccount[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
     public delegate void GetAccountIdCompletedEventHandler(object sender, GetAccountIdCompletedEventArgs e);
     
     /// <remarks/>
@@ -7697,10 +7784,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
     public delegate void DeleteAccountCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    public delegate void DeleteAccountByIdCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
@@ -9846,32 +9929,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    public delegate void SendAccountEmailMessageCompletedEventHandler(object sender, SendAccountEmailMessageCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class SendAccountEmailMessageCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal SendAccountEmailMessageCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public int Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((int)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
     public delegate void GetAccountMessagesCountCompletedEventHandler(object sender, GetAccountMessagesCountCompletedEventArgs e);
     
     /// <remarks/>
@@ -10015,6 +10072,32 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
     public delegate void MoveAccountMessageToFolderCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void SendAccountEmailMessageCompletedEventHandler(object sender, SendAccountEmailMessageCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class SendAccountEmailMessageCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal SendAccountEmailMessageCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]

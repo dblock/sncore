@@ -36,8 +36,6 @@ namespace SnCore.Web.Soap.Tests.WebSocialService {
         
         private System.Threading.SendOrPostCallback GetActiveAccountsOperationCompleted;
         
-        private System.Threading.SendOrPostCallback GetAccountsCountOperationCompleted;
-        
         private System.Threading.SendOrPostCallback GetAccountActivityCountOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAccountActivityOperationCompleted;
@@ -117,9 +115,6 @@ namespace SnCore.Web.Soap.Tests.WebSocialService {
         
         /// <remarks/>
         public event GetActiveAccountsCompletedEventHandler GetActiveAccountsCompleted;
-        
-        /// <remarks/>
-        public event GetAccountsCountCompletedEventHandler GetAccountsCountCompleted;
         
         /// <remarks/>
         public event GetAccountActivityCountCompletedEventHandler GetAccountActivityCountCompleted;
@@ -234,35 +229,6 @@ namespace SnCore.Web.Soap.Tests.WebSocialService {
             if ((this.GetActiveAccountsCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetActiveAccountsCompleted(this, new GetActiveAccountsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountsCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int GetAccountsCount(string ticket) {
-            object[] results = this.Invoke("GetAccountsCount", new object[] {
-                        ticket});
-            return ((int)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetAccountsCountAsync(string ticket) {
-            this.GetAccountsCountAsync(ticket, null);
-        }
-        
-        /// <remarks/>
-        public void GetAccountsCountAsync(string ticket, object userState) {
-            if ((this.GetAccountsCountOperationCompleted == null)) {
-                this.GetAccountsCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountsCountOperationCompleted);
-            }
-            this.InvokeAsync("GetAccountsCount", new object[] {
-                        ticket}, this.GetAccountsCountOperationCompleted, userState);
-        }
-        
-        private void OnGetAccountsCountOperationCompleted(object arg) {
-            if ((this.GetAccountsCountCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetAccountsCountCompleted(this, new GetAccountsCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1249,6 +1215,8 @@ namespace SnCore.Web.Soap.Tests.WebSocialService {
         
         private System.DateTime createdField;
         
+        private bool isAdministratorField;
+        
         private string nameField;
         
         private System.DateTime birthdayField;
@@ -1286,6 +1254,16 @@ namespace SnCore.Web.Soap.Tests.WebSocialService {
             }
             set {
                 this.createdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool IsAdministrator {
+            get {
+                return this.isAdministratorField;
+            }
+            set {
+                this.isAdministratorField = value;
             }
         }
         
@@ -1483,32 +1461,6 @@ namespace SnCore.Web.Soap.Tests.WebSocialService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((TransitAccount[])(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    public delegate void GetAccountsCountCompletedEventHandler(object sender, GetAccountsCountCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetAccountsCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetAccountsCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public int Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((int)(this.results[0]));
             }
         }
     }

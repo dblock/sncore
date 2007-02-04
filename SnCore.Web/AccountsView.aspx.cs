@@ -94,7 +94,7 @@ public partial class AccountsView : AccountPersonPage
         get
         {
             return SessionManager.GetCount<TransitAccount>(
-                SessionManager.SocialService.GetAccountsCount);
+                SessionManager.AccountService.GetAccountsCount);
         }
     }
 
