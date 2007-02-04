@@ -284,6 +284,18 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
+        /// Get an administrative account.
+        /// </summary>
+        /// <returns>transit account</returns>
+        [WebMethod(Description = "Get an administrative account.", CacheDuration = 60)]
+        public TransitAccount GetAdminAccount(string ticket)
+        {
+            ICriterion[] expressions =  { Expression.Eq("IsAdministrator", true) };            
+            return WebServiceImpl<TransitAccount, ManagedAccount, Account>.GetByCriterion(
+                ticket, expressions, 1);
+        }
+
+        /// <summary>
         /// Get account information.
         /// </summary>
         /// <param name="id">account id</param>

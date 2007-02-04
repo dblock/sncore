@@ -80,5 +80,13 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         {
 
         }
+
+        [Test]
+        public void GetAdminAccountTest()
+        {
+            WebAccountService.TransitAccount t_instance = EndPoint.GetAdminAccount(GetUserTicket());
+            Assert.IsNotNull(t_instance);
+            Assert.IsTrue(t_instance.IsAdministrator);
+        }
     }
 }

@@ -236,6 +236,20 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetAdminAccount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAdminAccountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAdminAccountResult" type="tns:TransitAccount" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetAccountById">
         <s:complexType>
           <s:sequence>
@@ -2527,6 +2541,12 @@
   <wsdl:message name="GetAccountSoapOut">
     <wsdl:part name="parameters" element="tns:GetAccountResponse" />
   </wsdl:message>
+  <wsdl:message name="GetAdminAccountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAdminAccount" />
+  </wsdl:message>
+  <wsdl:message name="GetAdminAccountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAdminAccountResponse" />
+  </wsdl:message>
   <wsdl:message name="GetAccountByIdSoapIn">
     <wsdl:part name="parameters" element="tns:GetAccountById" />
   </wsdl:message>
@@ -3307,6 +3327,11 @@
       <wsdl:input message="tns:GetAccountSoapIn" />
       <wsdl:output message="tns:GetAccountSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="GetAdminAccount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get an administrative account.</wsdl:documentation>
+      <wsdl:input message="tns:GetAdminAccountSoapIn" />
+      <wsdl:output message="tns:GetAdminAccountSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetAccountById">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account information.</wsdl:documentation>
       <wsdl:input message="tns:GetAccountByIdSoapIn" />
@@ -4015,6 +4040,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetAccount">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAdminAccount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAdminAccount" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -5206,6 +5240,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetAccount">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAdminAccount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAdminAccount" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

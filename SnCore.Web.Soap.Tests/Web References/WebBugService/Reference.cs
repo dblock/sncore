@@ -2138,6 +2138,8 @@ namespace SnCore.Web.Soap.Tests.WebBugService {
         
         private int projectIdField;
         
+        private string projectNameField;
+        
         /// <remarks/>
         public string Subject {
             get {
@@ -2255,6 +2257,16 @@ namespace SnCore.Web.Soap.Tests.WebBugService {
             }
             set {
                 this.projectIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string ProjectName {
+            get {
+                return this.projectNameField;
+            }
+            set {
+                this.projectNameField = value;
             }
         }
     }

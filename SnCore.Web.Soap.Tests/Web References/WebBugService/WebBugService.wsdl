@@ -614,6 +614,7 @@
               <s:element minOccurs="0" maxOccurs="1" name="Severity" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="Resolution" type="s:string" />
               <s:element minOccurs="1" maxOccurs="1" name="ProjectId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="ProjectName" type="s:string" />
             </s:sequence>
           </s:extension>
         </s:complexContent>

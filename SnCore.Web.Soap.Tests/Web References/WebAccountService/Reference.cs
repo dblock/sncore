@@ -75,6 +75,8 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         private System.Threading.SendOrPostCallback GetAccountOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetAdminAccountOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetAccountByIdOperationCompleted;
         
         private System.Threading.SendOrPostCallback CreateOrUpdateAccountOperationCompleted;
@@ -389,6 +391,9 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         /// <remarks/>
         public event GetAccountCompletedEventHandler GetAccountCompleted;
+        
+        /// <remarks/>
+        public event GetAdminAccountCompletedEventHandler GetAdminAccountCompleted;
         
         /// <remarks/>
         public event GetAccountByIdCompletedEventHandler GetAccountByIdCompleted;
@@ -1142,6 +1147,35 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
             if ((this.GetAccountCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetAccountCompleted(this, new GetAccountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAdminAccount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccount GetAdminAccount(string ticket) {
+            object[] results = this.Invoke("GetAdminAccount", new object[] {
+                        ticket});
+            return ((TransitAccount)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAdminAccountAsync(string ticket) {
+            this.GetAdminAccountAsync(ticket, null);
+        }
+        
+        /// <remarks/>
+        public void GetAdminAccountAsync(string ticket, object userState) {
+            if ((this.GetAdminAccountOperationCompleted == null)) {
+                this.GetAdminAccountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAdminAccountOperationCompleted);
+            }
+            this.InvokeAsync("GetAdminAccount", new object[] {
+                        ticket}, this.GetAdminAccountOperationCompleted, userState);
+        }
+        
+        private void OnGetAdminAccountOperationCompleted(object arg) {
+            if ((this.GetAdminAccountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAdminAccountCompleted(this, new GetAdminAccountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -7716,6 +7750,32 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         private object[] results;
         
         internal GetAccountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccount Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccount)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetAdminAccountCompletedEventHandler(object sender, GetAdminAccountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAdminAccountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAdminAccountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

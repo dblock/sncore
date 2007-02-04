@@ -323,6 +323,21 @@ namespace SnCore.Services
             }
         }
 
+        private string mProjectName;
+
+        public string ProjectName
+        {
+            get
+            {
+
+                return mProjectName;
+            }
+            set
+            {
+                mProjectName = value;
+            }
+        }
+
         public TransitBug()
         {
 
@@ -347,6 +362,7 @@ namespace SnCore.Services
             Severity = instance.Severity.Name;
             Resolution = instance.Resolution.Name;
             ProjectId = instance.Project.Id;
+            ProjectName = instance.Project.Name;
             base.SetInstance(instance);
         }
 
@@ -471,6 +487,30 @@ namespace SnCore.Services
 
             ManagedBugLink link = new ManagedBugLink(Session);
             link.CreateOrUpdate(t_link, sec);
+        }
+
+        public override int CreateOrUpdate(TransitBug t_instance, ManagedSecurityContext sec)
+        {
+            base.CreateOrUpdate(t_instance, sec);
+
+            if (t_instance.Id == 0)
+            {
+                ManagedAccount admin = new ManagedAccount(Session, ManagedAccount.GetAdminAccount(Session));
+
+                if (admin.Id != mInstance.AccountId)
+                {
+                    string email = admin.GetActiveEmailAddress();
+                    if (!string.IsNullOrEmpty(email))
+                    {
+                        ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
+                            Session,
+                            new MailAddress(email, admin.Name).ToString(),
+                            string.Format("EmailBugCreated.aspx?id={0}", mInstance.Id));
+                    }
+                }
+            }
+
+            return mInstance.Id;
         }
 
         protected override void Save(ManagedSecurityContext sec)

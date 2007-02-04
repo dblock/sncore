@@ -47,6 +47,13 @@ namespace SnCore.Services
             return ContentPage.GetContent(pageuri, baseuri, string.Empty, false, null);
         }
 
+        public static string GetAdminEmailAddress(ISession session)
+        {
+            return new MailAddress(ManagedConfiguration.GetValue(
+                session, "SnCore.Admin.EmailAddress", "admin@localhost.com"), ManagedConfiguration.GetValue(
+                session, "SnCore.Admin.Name", "Admin")).ToString();
+        }
+
         public static void SendAccountEmailMessageUriAsAdmin(
             ISession session, 
             string mailto,
@@ -57,10 +64,8 @@ namespace SnCore.Services
             message.Body = GetContentAsAdmin(session, relativeuri);
             message.Subject = ContentPage.GetContentSubject(message.Body);
             message.MailTo = mailto;
-            // hide admin's e-mail
-            message.MailFrom = new MailAddress(ManagedConfiguration.GetValue(
-                session, "SnCore.Admin.EmailAddress", "admin@localhost.com"), ManagedConfiguration.GetValue(
-                session, "SnCore.Admin.Name", "Admin")).ToString();
+            // hide e-mail
+            message.MailFrom = GetAdminEmailAddress(session);
             message.Sent = false;
             message.DeleteSent = true;
             message.Created = message.Modified = DateTime.UtcNow;
