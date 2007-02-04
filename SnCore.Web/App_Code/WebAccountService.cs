@@ -732,7 +732,7 @@ namespace SnCore.WebServices
                     }
 
                     ManagedAccount account = new ManagedAccount(session, accountid);
-                    account.ResetPassword(newpassword, false);
+                    account.ResetPassword(newpassword, true);
                 }
                 else
                 {
