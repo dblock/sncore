@@ -54,7 +54,7 @@
     <ItemTemplate>
      <table width="100%">
       <tr>
-       <td width="150px">
+       <td width="150px" align="center">
         <a href="AccountFeedView.aspx?id=<%# Eval("Id") %>">
          <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" />
         </a>

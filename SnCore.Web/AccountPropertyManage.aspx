@@ -26,7 +26,7 @@
     <ItemTemplate>
      <table width="100%">
       <tr>
-       <td>
+       <td align="center">
         <div>
          <a href="PlaceView.aspx?id=<%# Eval("PlaceId") %>">
           <img border="0" src="PlacePictureThumbnail.aspx?id=<%# Eval("PlacePictureId") %>" />

@@ -30,8 +30,10 @@
   </td>
  </tr>
  <tr>
-  <td colspan="2" class="sncore_form_label">
+  <td class="sncore_form_label">
    -- or --
+  </td>
+  <td class="sncore_form_value">
   </td>
  </tr>
  <tr>
