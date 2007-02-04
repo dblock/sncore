@@ -2261,12 +2261,6 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-
-                if (!sec.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
                 AccountEmailMessage m = message.GetInstance(session, sec);
                 ManagedAccount user = new ManagedAccount(session, id);
                 m.Account = user.Instance;

@@ -88,14 +88,15 @@ namespace SnCore.BackEndServices
                     message.Headers.Add("Content-Type", "text/html; charset=\"ISO-8859-1\"");
                     message.IsBodyHtml = true;
                     Encoding iso8859 = Encoding.GetEncoding(28591);
-                    message.Body = iso8859.GetString(Encoding.Default.GetBytes(m.Body));
+                    message.BodyEncoding = iso8859;
+                    message.Body = m.Body;
                     message.ReplyTo = new MailAddress(m.MailFrom);
                     message.From = new MailAddress(
                         ManagedConfiguration.GetValue(session, "SnCore.Admin.EmailAddress", "admin@localhost.com"),
                         ManagedConfiguration.GetValue(session, "SnCore.Admin.Name", "Admin")
                         );
                     message.To.Add(new MailAddress(m.MailTo));
-                    message.Subject = iso8859.GetString(Encoding.Default.GetBytes(m.Subject));
+                    message.Subject = m.Subject;
                     smtp.Send(message);
                     m.Sent = true;
                     if (m.DeleteSent)
