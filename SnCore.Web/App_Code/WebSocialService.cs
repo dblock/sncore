@@ -195,21 +195,19 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
 
-                ManagedAccountFriendRequest req;
                 try
                 {
-                    req = new ManagedAccountFriendRequest(session, id);
+                    ManagedAccountFriendRequest req = new ManagedAccountFriendRequest(session, id);
+                    req.Accept(sec, message);
+                    SnCore.Data.Hibernate.Session.Flush();
                 }
                 catch (NHibernate.ObjectNotFoundException)
                 {
                     throw new SoapException("This friend request cannot be found. You may have already accepted it.",
                         SoapException.ClientFaultCode);
                 }
-
-                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-                req.Accept(sec, message);
-                SnCore.Data.Hibernate.Session.Flush();
             }
         }
 
@@ -225,20 +223,19 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccountFriendRequest req;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+
                 try
                 {
-                    req = new ManagedAccountFriendRequest(session, id);
+                    ManagedAccountFriendRequest req = new ManagedAccountFriendRequest(session, id);
+                    req.Reject(sec, message);
+                    SnCore.Data.Hibernate.Session.Flush();
                 }
                 catch (NHibernate.ObjectNotFoundException)
                 {
                     throw new SoapException("This friend request cannot be found. You may have already rejected it.",
                         SoapException.ClientFaultCode);
                 }
-
-                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-                req.Reject(sec, message);
-                SnCore.Data.Hibernate.Session.Flush();
             }
         }
 
