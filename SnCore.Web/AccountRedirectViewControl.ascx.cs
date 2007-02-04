@@ -17,7 +17,8 @@ public partial class AccountRedirectViewControl : Control
     {
         get
         {
-            return ViewStateUtility.GetViewStateValue<int>(ViewState, "AccountId", SessionManager.AccountId);
+            return ViewStateUtility.GetViewStateValue<int>(ViewState, "AccountId", 
+                SessionManager.IsLoggedIn ? SessionManager.AccountId : 0);
         }
         set
         {
