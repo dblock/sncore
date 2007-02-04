@@ -44,7 +44,7 @@ public partial class EmailBugCreated : AuthenticatedPage
 
     public void Page_Load(object sender, EventArgs e)
     {
-        Title = string.Format("{0} #{1} was submitted.", Bug.Type, Bug.Id);
+        Title = string.Format("{0} #{1} has been submitted.", Bug.Type, Bug.Id);
     }
 }
 
