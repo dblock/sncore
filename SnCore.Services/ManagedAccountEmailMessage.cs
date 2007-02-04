@@ -7,6 +7,20 @@ namespace SnCore.Services
 {
     public class TransitAccountEmailMessage : TransitService<AccountEmailMessage>
     {
+        private int mAccountId;
+
+        public int AccountId
+        {
+            get
+            {
+                return mAccountId;
+            }
+            set
+            {
+                mAccountId = value;
+            }
+        }
+
         private string mSubject;
 
         public string Subject
@@ -164,12 +178,14 @@ namespace SnCore.Services
             MailFrom = value.MailFrom;
             Created = value.Created;
             Modified = value.Modified;
+            AccountId = value.Account.Id;
             base.SetInstance(value);
         }
 
         public override AccountEmailMessage GetInstance(ISession session, ManagedSecurityContext sec)
         {
             AccountEmailMessage instance = base.GetInstance(session, sec);
+            instance.Account = GetOwner(session, AccountId, sec);
             instance.Subject = this.Subject;
             instance.Body = this.Body;
             instance.DeleteSent = this.DeleteSent;
@@ -183,6 +199,11 @@ namespace SnCore.Services
 
     public class ManagedAccountEmailMessage : ManagedService<AccountEmailMessage, TransitAccountEmailMessage>
     {
+        public ManagedAccountEmailMessage()
+        {
+
+        }
+
         public ManagedAccountEmailMessage(ISession session)
             : base(session)
         {
@@ -289,7 +310,7 @@ namespace SnCore.Services
         public override ACL GetACL()
         {
             ACL acl = base.GetACL();
-            acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
+            // administrators can only send e-mail messages
             return acl;
         }
     }

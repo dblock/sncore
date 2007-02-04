@@ -13,10 +13,10 @@ namespace SnCore.Data.Tests
         public void TestCrud()
         {
             Country country = new Country();
-            country.Name = Guid.NewGuid().ToString();
+            country.Name = GetNewString();
 
             City city = new City();
-            city.Name = Guid.NewGuid().ToString();
+            city.Name = GetNewString();
             city.Country = country;
 
             Account acct = new Account();
@@ -26,11 +26,11 @@ namespace SnCore.Data.Tests
             acct.Birthday = new DateTime(1976, 9, 7);
 
             PlaceType placetype = new PlaceType();
-            placetype.Name = Guid.NewGuid().ToString();
+            placetype.Name = GetNewString();
 
             Place place = new Place();
             place.Account = acct;
-            place.Name = Guid.NewGuid().ToString();
+            place.Name = GetNewString();
             place.Created = place.Modified = DateTime.UtcNow;
             place.City = city;
             place.Type = placetype;

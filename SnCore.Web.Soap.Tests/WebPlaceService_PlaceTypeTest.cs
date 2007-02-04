@@ -17,7 +17,7 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
         public override WebPlaceService.TransitPlaceType GetTransitInstance()
         {
             WebPlaceService.TransitPlaceType t_instance = new WebPlaceService.TransitPlaceType();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             return t_instance;
         }
     }

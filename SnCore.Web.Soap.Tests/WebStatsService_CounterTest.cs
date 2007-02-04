@@ -18,7 +18,7 @@ namespace SnCore.Web.Soap.Tests.WebStatsServiceTests
         public override WebStatsService.TransitCounter GetTransitInstance()
         {
             WebStatsService.TransitCounter t_instance = new WebStatsService.TransitCounter();
-            t_instance.Uri = string.Format("http://uri/{0}", Guid.NewGuid());
+            t_instance.Uri = GetNewUri();
             t_instance.Total = 1;
             return t_instance;
         }

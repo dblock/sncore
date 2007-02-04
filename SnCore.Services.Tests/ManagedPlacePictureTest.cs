@@ -36,11 +36,11 @@ namespace SnCore.Services.Tests
         {
             TransitPlacePicture t_instance = new TransitPlacePicture();
             t_instance.Bitmap = new byte[128];
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             t_instance.PlaceId = _place.Instance.Id;
             t_instance.AccountId = _account.Instance.Id;
-            t_instance.Description = Guid.NewGuid().ToString();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Description = GetNewString();
+            t_instance.Name = GetNewString();
             return t_instance;
         }
     }

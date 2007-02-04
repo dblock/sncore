@@ -33,9 +33,9 @@ namespace SnCore.Services.Tests
         {
             TransitAccountInvitation t_instance = new TransitAccountInvitation();
             t_instance.AccountId = _account.Instance.Id;
-            t_instance.Code = Guid.NewGuid().ToString();
+            t_instance.Code = GetNewString();
             t_instance.Email = string.Format("{0}@{1}.com", Guid.NewGuid(), Guid.NewGuid());
-            t_instance.Message = Guid.NewGuid().ToString();
+            t_instance.Message = GetNewString();
             return t_instance;
         }
     }

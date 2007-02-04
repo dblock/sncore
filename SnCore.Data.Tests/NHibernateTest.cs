@@ -85,5 +85,19 @@ namespace SnCore.Data.Tests
             Session.Close();
         }
 
+        public static string GetNewEmailAddress()
+        {
+            return string.Format("{0}@localhost.com", GetNewString());
+        }
+
+        public static string GetNewUri()
+        {
+            return string.Format("http://uri/{0}", GetNewString());
+        }
+
+        public static string GetNewString()
+        {
+            return Guid.NewGuid().ToString();
+        }
     }
 }

@@ -33,7 +33,7 @@ namespace SnCore.Services.Tests
         {
             TransitState t_instance = new TransitState();
             t_instance.Country = _country.Instance.Name;
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             return t_instance;
         }
 
@@ -52,9 +52,9 @@ namespace SnCore.Services.Tests
             try
             {
                 TransitCountry tc = new TransitCountry();
-                tc.Name = Guid.NewGuid().ToString();
+                tc.Name = GetNewString();
                 TransitState ts = new TransitState();
-                ts.Name = Guid.NewGuid().ToString();
+                ts.Name = GetNewString();
                 ts.Country = tc.Name;
 
                 c.CreateOrUpdate(tc, AdminSecurityContext);
@@ -77,9 +77,9 @@ namespace SnCore.Services.Tests
             try
             {
                 TransitCountry tc = new TransitCountry();
-                tc.Name = Guid.NewGuid().ToString();
+                tc.Name = GetNewString();
                 TransitState ts = new TransitState();
-                ts.Name = Guid.NewGuid().ToString();
+                ts.Name = GetNewString();
                 ts.Country = tc.Name;
 
                 c.CreateOrUpdate(tc, AdminSecurityContext);
@@ -105,12 +105,12 @@ namespace SnCore.Services.Tests
             try
             {
                 TransitCountry tc = new TransitCountry();
-                tc.Name = Guid.NewGuid().ToString();
+                tc.Name = GetNewString();
 
                 c.CreateOrUpdate(tc, AdminSecurityContext);
                 Session.Flush();
 
-                ManagedState.GetStateId(Session, Guid.NewGuid().ToString(), tc.Name);
+                ManagedState.GetStateId(Session, GetNewString(), tc.Name);
             }
             finally
             {

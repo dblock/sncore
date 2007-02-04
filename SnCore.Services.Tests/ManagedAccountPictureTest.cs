@@ -32,9 +32,9 @@ namespace SnCore.Services.Tests
         public override TransitAccountPicture GetTransitInstance()
         {
             TransitAccountPicture t_instance = new TransitAccountPicture();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             t_instance.AccountId = _account.Instance.Id;
-            t_instance.Description = Guid.NewGuid().ToString();
+            t_instance.Description = GetNewString();
             t_instance.Bitmap = new byte[128];
             return t_instance;
         }

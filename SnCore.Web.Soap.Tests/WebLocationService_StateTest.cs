@@ -33,7 +33,7 @@ namespace SnCore.Web.Soap.Tests.WebLocationServiceTests
         public override WebLocationService.TransitState GetTransitInstance()
         {
             WebLocationService.TransitState t_instance = new WebLocationService.TransitState();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             t_instance.Country = (string) _country.GetInstancePropertyById(GetAdminTicket(), _country_id, "Name");
             return t_instance;
         }

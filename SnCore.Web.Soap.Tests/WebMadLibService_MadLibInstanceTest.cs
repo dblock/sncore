@@ -36,7 +36,7 @@ namespace SnCore.Web.Soap.Tests.WebMadLibServiceTests
             t_instance.AccountId = GetUserAccount().Id;
             t_instance.ObjectName = "Place";
             t_instance.ObjectId = 123;
-            t_instance.Text = Guid.NewGuid().ToString();
+            t_instance.Text = GetNewString();
             t_instance.MadLibId = _madlib_id;
             return t_instance;
         }

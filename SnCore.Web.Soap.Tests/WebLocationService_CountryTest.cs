@@ -18,7 +18,7 @@ namespace SnCore.Web.Soap.Tests.WebLocationServiceTests
         public override WebLocationService.TransitCountry GetTransitInstance()
         {
             WebLocationService.TransitCountry t_instance = new WebLocationService.TransitCountry();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             return t_instance;
         }
 

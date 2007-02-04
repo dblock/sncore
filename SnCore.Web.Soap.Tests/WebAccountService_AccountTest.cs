@@ -12,10 +12,10 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         public void TestGetAccount()
         {
             WebAccountService.TransitAccount t_instance = new WebAccountService.TransitAccount();
-            t_instance.Name = Guid.NewGuid().ToString();
-            t_instance.Password = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
+            t_instance.Password = GetNewString();
             t_instance.Birthday = DateTime.UtcNow.AddYears(-10);
-            string email = string.Format("{0}@localhost.com", Guid.NewGuid());
+            string email = GetNewEmailAddress();
             int id = EndPoint.CreateAccount(string.Empty, email, t_instance);
             Assert.IsTrue(id > 0);
             string ticket = EndPoint.Login(email, t_instance.Password);

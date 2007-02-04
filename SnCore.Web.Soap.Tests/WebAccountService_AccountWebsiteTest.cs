@@ -19,17 +19,17 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         {
             WebAccountService.TransitAccountWebsite t_instance = new WebAccountService.TransitAccountWebsite();
             t_instance.AccountId = _account_id;
-            t_instance.Description = Guid.NewGuid().ToString();
-            t_instance.Name = Guid.NewGuid().ToString();
-            t_instance.Url = string.Format("http://www.{0}.com", Guid.NewGuid());
+            t_instance.Description = GetNewString();
+            t_instance.Name = GetNewString();
+            t_instance.Url = GetNewUri();
             return t_instance;
         }
 
         [Test]
         public void TestWithQuota()
         {
-            string email = string.Format("{0}@localhost.com", Guid.NewGuid());
-            string password = Guid.NewGuid().ToString();
+            string email = GetNewEmailAddress();
+            string password = GetNewString();
             int user_id = CreateUser(email, password);
             string ticket = Login(email, password);
 
@@ -37,8 +37,8 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             for (int i = 0; i < max; i++)
             {
                 WebAccountService.TransitAccountWebsite website = new WebAccountService.TransitAccountWebsite();
-                website.Name = Guid.NewGuid().ToString();
-                website.Url = string.Format("http://uri/{0}", Guid.NewGuid());
+                website.Name = GetNewString();
+                website.Url = GetNewUri();
                 int id = EndPoint.CreateOrUpdateAccountWebsite(ticket, website);
                 Console.WriteLine("Created website: {0}:{1}", website.Url, id);
             }
@@ -46,8 +46,8 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             try
             {
                 WebAccountService.TransitAccountWebsite website = new WebAccountService.TransitAccountWebsite();
-                website.Name = Guid.NewGuid().ToString();
-                website.Url = string.Format("http://uri/{0}", Guid.NewGuid());
+                website.Name = GetNewString();
+                website.Url = GetNewUri();
                 EndPoint.CreateOrUpdateAccountWebsite(ticket, website);
                 Assert.IsTrue(false, "Missing exception at quota limit.");
             }

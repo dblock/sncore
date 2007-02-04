@@ -49,17 +49,17 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationServiceTests
             WebSyndicationService.TransitAccountFeedItem t_instance = new WebSyndicationService.TransitAccountFeedItem();
             t_instance.AccountFeedId = _accountfeed_id;
             t_instance.AccountId = GetUserAccount().Id;
-            t_instance.Description = Guid.NewGuid().ToString();
-            t_instance.Guid = Guid.NewGuid().ToString();
-            t_instance.Link = string.Format("http://uri/{0}", Guid.NewGuid());
-            t_instance.Title = Guid.NewGuid().ToString();
+            t_instance.Description = GetNewString();
+            t_instance.Guid = GetNewString();
+            t_instance.Link = GetNewUri();
+            t_instance.Title = GetNewString();
             return t_instance;
         }
 
         [Test]
         public void SearchAccountFeedItemsTest()
         {
-            string s = Guid.NewGuid().ToString();
+            string s = GetNewString();
             int count = EndPoint.SearchAccountFeedItemsCount(GetUserTicket(), s);
             Assert.IsTrue(count >= 0);
             WebSyndicationService.TransitAccountFeedItem[] items = EndPoint.SearchAccountFeedItems(GetUserTicket(), s, null);

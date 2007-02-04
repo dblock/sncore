@@ -18,11 +18,11 @@ namespace SnCore.Web.Soap.Tests.WebMarketingServiceTests
         public override WebMarketingService.TransitCampaign GetTransitInstance()
         {
             WebMarketingService.TransitCampaign t_instance = new WebMarketingService.TransitCampaign();
-            t_instance.Description = Guid.NewGuid().ToString();
-            t_instance.Name = Guid.NewGuid().ToString();
-            t_instance.SenderEmailAddress = string.Format("{0}@localhost.com", Guid.NewGuid());
-            t_instance.SenderName = Guid.NewGuid().ToString();
-            t_instance.Url = string.Format("http://uri/{0}", Guid.NewGuid());
+            t_instance.Description = GetNewString();
+            t_instance.Name = GetNewString();
+            t_instance.SenderEmailAddress = GetNewEmailAddress();
+            t_instance.SenderName = GetNewString();
+            t_instance.Url = GetNewUri();
             return t_instance;
         }
     }

@@ -31,10 +31,10 @@ namespace SnCore.Services.Tests
         {
             TransitAccountFeedItem t_instance = new TransitAccountFeedItem();
             t_instance.AccountFeedId = _accountfeed.Instance.Id;
-            t_instance.AccountFeedLinkUrl = string.Format("http://uri/{0}", Guid.NewGuid());
-            t_instance.AccountFeedName = Guid.NewGuid().ToString();
-            t_instance.Description = Guid.NewGuid().ToString();
-            t_instance.Title = Guid.NewGuid().ToString();
+            t_instance.AccountFeedLinkUrl = GetNewUri();
+            t_instance.AccountFeedName = GetNewString();
+            t_instance.Description = GetNewString();
+            t_instance.Title = GetNewString();
             return t_instance;
         }
     }

@@ -25,7 +25,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         [Test, ExpectedException(typeof(SoapException))]
         public void TestInvalidLogin()
         {
-            EndPoint.Login(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
+            EndPoint.Login(GetNewString(), GetNewString());
         }
 
         [Test]

@@ -37,8 +37,8 @@ namespace SnCore.Services.Tests
             TransitAccountBlogPost t_instance = new TransitAccountBlogPost();
             t_instance.AccountBlogId = _blog.Instance.Id;
             t_instance.AccountId = _account.Instance.Id;
-            t_instance.Body = Guid.NewGuid().ToString();
-            t_instance.Title = Guid.NewGuid().ToString();
+            t_instance.Body = GetNewString();
+            t_instance.Title = GetNewString();
             t_instance.AccountName = _account.Instance.Name;
             return t_instance;
         }

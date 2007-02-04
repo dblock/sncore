@@ -32,9 +32,9 @@ namespace SnCore.Services.Tests
         public override TransitAccountBlog GetTransitInstance()
         {
             TransitAccountBlog t_instance = new TransitAccountBlog();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             t_instance.AccountId = _account.Instance.Id;
-            t_instance.Description = Guid.NewGuid().ToString();
+            t_instance.Description = GetNewString();
             return t_instance;
         }
     }

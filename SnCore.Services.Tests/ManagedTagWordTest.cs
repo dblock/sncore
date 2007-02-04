@@ -19,7 +19,7 @@ namespace SnCore.Services.Tests
             t_instance.Excluded = false;
             t_instance.Frequency = 1;
             t_instance.Promoted = false;
-            t_instance.Word = Guid.NewGuid().ToString();
+            t_instance.Word = GetNewString();
             return t_instance;
         }
     }

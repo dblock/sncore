@@ -4,6 +4,7 @@ using System.Text;
 using System.Web.Services.Protocols;
 using System.Reflection;
 using NUnit.Framework;
+using SnCore.Tools.Drawing;
 
 namespace SnCore.Web.Soap.Tests
 {
@@ -35,7 +36,7 @@ namespace SnCore.Web.Soap.Tests
         protected int CreateUser(string email, string password, DateTime dateofbirth)
         {
             WebAccountService.TransitAccount t_instance = new WebAccountService.TransitAccount();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             t_instance.Password = password;
             t_instance.Birthday = dateofbirth;
             WebAccountService.WebAccountService account_endpoint = new WebAccountService.WebAccountService();
@@ -126,6 +127,26 @@ namespace SnCore.Web.Soap.Tests
             {
                 throw ex.InnerException;
             }
+        }
+
+        public static string GetNewEmailAddress()
+        {
+            return string.Format("{0}@localhost.com", GetNewString());
+        }
+
+        public static string GetNewUri()
+        {
+            return string.Format("http://uri/{0}", GetNewString());
+        }
+
+        public static byte[] GetNewBitmap()
+        {
+            return ThumbnailBitmap.GetBitmapDataFromText(GetNewString(), 12, 240, 100);
+        }
+
+        public static string GetNewString()
+        {
+            return Guid.NewGuid().ToString();
         }
     }
 }

@@ -18,9 +18,9 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
         public override WebDiscussionService.TransitDiscussion GetTransitInstance()
         {
             WebDiscussionService.TransitDiscussion t_instance = new WebDiscussionService.TransitDiscussion();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             t_instance.Personal = false;
-            t_instance.Description = Guid.NewGuid().ToString();
+            t_instance.Description = GetNewString();
             return t_instance;
         }
 

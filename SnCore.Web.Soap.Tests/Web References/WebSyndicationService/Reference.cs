@@ -1493,8 +1493,6 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
         
         private string accountFeedNameField;
         
-        private byte[] thumbnailField;
-        
         private string lastErrorField;
         
         private int accountFeedItemIdField;
@@ -1508,6 +1506,8 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
         private bool interestingField;
         
         private bool visibleField;
+        
+        private string typeField;
         
         /// <remarks/>
         public int AccountId {
@@ -1556,17 +1556,6 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
             }
             set {
                 this.accountFeedNameField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
-        public byte[] Thumbnail {
-            get {
-                return this.thumbnailField;
-            }
-            set {
-                this.thumbnailField = value;
             }
         }
         
@@ -1637,6 +1626,16 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
             }
             set {
                 this.visibleField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Type {
+            get {
+                return this.typeField;
+            }
+            set {
+                this.typeField = value;
             }
         }
     }

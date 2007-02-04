@@ -38,10 +38,10 @@ namespace SnCore.Web.Soap.Tests.WebObjectServiceTests
         public override WebObjectService.TransitPicture GetTransitInstance()
         {
             WebObjectService.TransitPicture t_instance = new WebObjectService.TransitPicture();
-            t_instance.Description = Guid.NewGuid().ToString();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Description = GetNewString();
+            t_instance.Name = GetNewString();
             t_instance.Type = (string) _type.GetInstancePropertyById(GetAdminTicket(), _type_id, "Name");
-            t_instance.Bitmap = ThumbnailBitmap.GetBitmapDataFromText(Guid.NewGuid().ToString(), 12, 240, 100);
+            t_instance.Bitmap = GetNewBitmap();
             return t_instance;
         }
 

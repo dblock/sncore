@@ -16,9 +16,9 @@ namespace SnCore.Services.Tests
         public override TransitRefererHost GetTransitInstance()
         {
             TransitRefererHost t_instance = new TransitRefererHost();
-            t_instance.Host = Guid.NewGuid().ToString();
-            t_instance.LastRefererUri = string.Format("http://uri/{0}", Guid.NewGuid());
-            t_instance.LastRequestUri = string.Format("http://uri/{0}", Guid.NewGuid()); 
+            t_instance.Host = GetNewString();
+            t_instance.LastRefererUri = GetNewUri();
+            t_instance.LastRequestUri = GetNewUri(); 
             return t_instance;
         }
     }

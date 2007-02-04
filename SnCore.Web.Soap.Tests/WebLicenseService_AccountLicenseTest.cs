@@ -19,9 +19,9 @@ namespace SnCore.Web.Soap.Tests.WebLicenseServiceTests
         {
             WebLicenseService.TransitAccountLicense t_instance = new WebLicenseService.TransitAccountLicense();
             t_instance.AccountId = GetUserAccount().Id;
-            t_instance.ImageUrl = string.Format("http://uri/{0}", Guid.NewGuid());
-            t_instance.LicenseUrl = string.Format("http://uri/{0}", Guid.NewGuid());
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.ImageUrl = GetNewUri();
+            t_instance.LicenseUrl = GetNewUri();
+            t_instance.Name = GetNewString();
             return t_instance;
         }
 

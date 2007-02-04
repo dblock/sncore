@@ -44,8 +44,8 @@ namespace SnCore.Services.Tests
             t_instance.MadLibId = _madlib.Instance.Id;
             t_instance.ObjectId = _object.Instance.Id;
             t_instance.ObjectName = _object.Instance.Name;
-            t_instance.ObjectUri = string.Format("http://uri/{0}", Guid.NewGuid());
-            t_instance.Text = Guid.NewGuid().ToString();
+            t_instance.ObjectUri = GetNewUri();
+            t_instance.Text = GetNewString();
             return t_instance;
         }
     }

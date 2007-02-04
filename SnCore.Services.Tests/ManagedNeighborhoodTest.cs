@@ -32,7 +32,7 @@ namespace SnCore.Services.Tests
         public override TransitNeighborhood GetTransitInstance()
         {
             TransitNeighborhood t_instance = new TransitNeighborhood();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             t_instance.City = _city.Instance.Name;
             t_instance.Country = _city.Instance.Instance.Country.Name;
             t_instance.State = _city.Instance.Instance.State.Name;

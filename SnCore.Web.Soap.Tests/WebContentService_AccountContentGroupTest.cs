@@ -19,9 +19,9 @@ namespace SnCore.Web.Soap.Tests.WebContentServiceTests
         {
             WebContentService.TransitAccountContentGroup t_instance = new WebContentService.TransitAccountContentGroup();
             t_instance.AccountId = GetAdminAccount().Id;
-            t_instance.Description = Guid.NewGuid().ToString();
+            t_instance.Description = GetNewString();
             t_instance.Login = true;
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             t_instance.Trusted = false;
             return t_instance;
         }

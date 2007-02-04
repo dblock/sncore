@@ -33,10 +33,10 @@ namespace SnCore.Services.Tests
         {
             TransitAccountContentGroup t_instance = new TransitAccountContentGroup();
             t_instance.AccountId = _account.Instance.Id;
-            t_instance.Description = Guid.NewGuid().ToString();
+            t_instance.Description = GetNewString();
             t_instance.Trusted = true;
             t_instance.Login = false;
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             return t_instance;
         }
     }

@@ -18,8 +18,8 @@ namespace SnCore.Web.Soap.Tests.WebSystemServiceTests
         public override WebSystemService.TransitConfiguration GetTransitInstance()
         {
             WebSystemService.TransitConfiguration t_instance = new WebSystemService.TransitConfiguration();
-            t_instance.Name = Guid.NewGuid().ToString();
-            t_instance.Value = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
+            t_instance.Value = GetNewString();
             t_instance.Password = false;
             return t_instance;
         }
@@ -63,10 +63,10 @@ namespace SnCore.Web.Soap.Tests.WebSystemServiceTests
         {
             WebSystemService.TransitConfiguration t_instance = GetTransitInstance();
             int id = base.Create(GetAdminTicket(), t_instance);
-            string value = EndPoint.GetConfigurationByNameValueWithDefault(GetAdminTicket(), t_instance.Name, Guid.NewGuid().ToString());
+            string value = EndPoint.GetConfigurationByNameValueWithDefault(GetAdminTicket(), t_instance.Name, GetNewString());
             Assert.AreEqual(t_instance.Value, value);
-            string defaultvalue = Guid.NewGuid().ToString();
-            string value2 = EndPoint.GetConfigurationByNameValueWithDefault(GetAdminTicket(), Guid.NewGuid().ToString(), defaultvalue);
+            string defaultvalue = GetNewString();
+            string value2 = EndPoint.GetConfigurationByNameValueWithDefault(GetAdminTicket(), GetNewString(), defaultvalue);
             Assert.AreNotEqual(t_instance.Value, value2);
             Assert.AreEqual(value2, defaultvalue);
             base.Delete(GetAdminTicket(), id);
@@ -77,10 +77,10 @@ namespace SnCore.Web.Soap.Tests.WebSystemServiceTests
         {
             WebSystemService.TransitConfiguration t_instance = GetTransitInstance();
             int id = base.Create(GetAdminTicket(), t_instance);
-            WebSystemService.TransitConfiguration t_instance_2 = EndPoint.GetConfigurationByNameWithDefault(GetAdminTicket(), t_instance.Name, Guid.NewGuid().ToString());
+            WebSystemService.TransitConfiguration t_instance_2 = EndPoint.GetConfigurationByNameWithDefault(GetAdminTicket(), t_instance.Name, GetNewString());
             Assert.AreEqual(t_instance.Value, t_instance_2.Value);
-            string defaultvalue = Guid.NewGuid().ToString();
-            WebSystemService.TransitConfiguration t_instance_3 = EndPoint.GetConfigurationByNameWithDefault(GetAdminTicket(), Guid.NewGuid().ToString(), defaultvalue);
+            string defaultvalue = GetNewString();
+            WebSystemService.TransitConfiguration t_instance_3 = EndPoint.GetConfigurationByNameWithDefault(GetAdminTicket(), GetNewString(), defaultvalue);
             Assert.AreNotEqual(t_instance.Value, t_instance_3.Value);
             Assert.AreEqual(t_instance_3.Value, defaultvalue);
             base.Delete(GetAdminTicket(), id);

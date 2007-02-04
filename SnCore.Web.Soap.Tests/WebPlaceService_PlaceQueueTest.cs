@@ -17,8 +17,8 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
         public override WebPlaceService.TransitPlaceQueue GetTransitInstance()
         {
             WebPlaceService.TransitPlaceQueue t_instance = new WebPlaceService.TransitPlaceQueue();
-            t_instance.Name = Guid.NewGuid().ToString();
-            t_instance.Description = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
+            t_instance.Description = GetNewString();
             t_instance.PublishAll = false;
             t_instance.PublishFriends = true;
             return t_instance;
@@ -39,7 +39,7 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
         [Test]
         public void GetOrCreatePlaceQueueByNameTest()
         {
-            string name = Guid.NewGuid().ToString();
+            string name = GetNewString();
             WebPlaceService.TransitPlaceQueue t_instance = EndPoint.GetOrCreatePlaceQueueByName(GetAdminTicket(), GetUserAccount().Id, name);
             Assert.IsNotNull(t_instance);
             Assert.IsTrue(t_instance.Id > 0);

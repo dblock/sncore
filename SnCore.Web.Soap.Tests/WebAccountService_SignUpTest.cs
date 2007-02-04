@@ -12,11 +12,11 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         public void CreateAccountTest()
         {
             //signup
-            string email = string.Format("{0}@localhost.com", Guid.NewGuid());
+            string email = GetNewEmailAddress();
             WebAccountService.TransitAccount t_instance = new WebAccountService.TransitAccount();
             t_instance.Birthday = DateTime.UtcNow.AddYears(-10);
-            t_instance.Name = Guid.NewGuid().ToString();
-            t_instance.Password = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
+            t_instance.Password = GetNewString();
             int id = EndPoint.CreateAccount(string.Empty, email, t_instance);
             Console.WriteLine("Created account: {0}", id);
             Assert.IsTrue(id > 0);
@@ -28,7 +28,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             Console.WriteLine("Retreived account: {0}", t_instance2.Id);
             Assert.AreEqual(id, t_instance2.Id);
             // update
-            t_instance2.Name = Guid.NewGuid().ToString();
+            t_instance2.Name = GetNewString();
             EndPoint.CreateOrUpdateAccount(ticket, t_instance2);
             // object may be cached, use admin ticket
             string ticket2 = EndPoint.Login("admin@localhost.com", "password");

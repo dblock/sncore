@@ -33,7 +33,7 @@ namespace SnCore.Services.Tests
         {
             TransitAccountOpenId t_instance = new TransitAccountOpenId();
             t_instance.AccountId = _account.Instance.Id;
-            t_instance.IdentityUrl = string.Format("http://uri/{0}", Guid.NewGuid());
+            t_instance.IdentityUrl = GetNewUri();
             return t_instance;
         }
     }

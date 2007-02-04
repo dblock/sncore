@@ -34,8 +34,8 @@ namespace SnCore.Web.Soap.Tests.WebContentServiceTests
         {
             WebContentService.TransitAccountContent t_instance = new WebContentService.TransitAccountContent();
             t_instance.AccountContentGroupId = _group_id;
-            t_instance.Tag = Guid.NewGuid().ToString();
-            t_instance.Text = Guid.NewGuid().ToString();
+            t_instance.Tag = GetNewString();
+            t_instance.Text = GetNewString();
             t_instance.Timestamp = DateTime.UtcNow;
             return t_instance;
         }

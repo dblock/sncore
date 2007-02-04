@@ -17,7 +17,7 @@ namespace SnCore.Services.Tests
         {
             TransitCounter t_instance = new TransitCounter();
             t_instance.Total = 1;
-            t_instance.Uri = string.Format("http://uri/{0}", Guid.NewGuid());
+            t_instance.Uri = GetNewUri();
             return t_instance;
         }
 
@@ -26,7 +26,7 @@ namespace SnCore.Services.Tests
         {
             TransitCounter t_instance = new TransitCounter();
             t_instance.Total = 123;
-            t_instance.Uri = string.Format("http://uri/{0}", Guid.NewGuid());
+            t_instance.Uri = GetNewUri();
             ManagedCounter m_instance = new ManagedCounter(Session);
             t_instance.Id = m_instance.CreateOrUpdate(t_instance, AdminSecurityContext);
             TransitCounter t_instance_find = ManagedCounter.FindByUri(Session, t_instance.Uri, AdminSecurityContext);

@@ -39,7 +39,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             WebAccountService.TransitAccountPropertyValue t_instance = new WebAccountService.TransitAccountPropertyValue();
             t_instance.AccountId = _account_id;
             t_instance.AccountPropertyId = _property_id;
-            t_instance.Value = Guid.NewGuid().ToString();
+            t_instance.Value = GetNewString();
             return t_instance;
         }
 
@@ -62,13 +62,13 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             WebAccountService.TransitAccountPropertyValue t_value1 = GetTransitInstance();
             t_value1.AccountPropertyId = property1_id;
             t_value1.AccountId = GetUserAccount().Id;
-            t_value1.Value = Guid.NewGuid().ToString();
+            t_value1.Value = GetNewString();
             t_value1.Id = Create(GetUserTicket(), t_value1);
             int property2_id = _property.Create(GetAdminTicket());
             WebAccountService.TransitAccountPropertyValue t_value2 = GetTransitInstance();
             t_value2.AccountPropertyId = property2_id;
             t_value2.AccountId = GetUserAccount().Id;
-            t_value2.Value = Guid.NewGuid().ToString();
+            t_value2.Value = GetNewString();
             t_value2.Id = Create(GetUserTicket(), t_value2);
             WebAccountService.TransitAccountPropertyValue[] values = EndPoint.GetAllAccountPropertyValues(
                 GetUserTicket(), GetUserAccount().Id, _property._group_id);
@@ -88,7 +88,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             WebAccountService.TransitAccountPropertyValue t_value = GetTransitInstance();
             t_value.AccountPropertyId = _property_id;
             t_value.AccountId = GetUserAccount().Id;
-            t_value.Value = Guid.NewGuid().ToString();
+            t_value.Value = GetNewString();
             t_value.Id = Create(GetUserTicket(), t_value);
             WebAccountService.TransitAccountPropertyValue t_instance = EndPoint.GetAccountPropertyValueByName(
                 GetUserTicket(), GetUserAccount().Id, groupname, propertyname);
@@ -105,7 +105,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             WebAccountService.TransitAccountPropertyValue t_value = GetTransitInstance();
             t_value.AccountPropertyId = _property_id;
             t_value.AccountId = GetUserAccount().Id;
-            t_value.Value = Guid.NewGuid().ToString();
+            t_value.Value = GetNewString();
             t_value.Id = Create(GetUserTicket(), t_value);
             int count = EndPoint.GetAccountsByPropertyValueCount(
                 GetUserTicket(), groupname, propertyname, t_value.Value);

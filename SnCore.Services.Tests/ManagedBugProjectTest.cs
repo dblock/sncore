@@ -16,8 +16,8 @@ namespace SnCore.Services.Tests
         public override TransitBugProject GetTransitInstance()
         {
             TransitBugProject t_instance = new TransitBugProject();
-            t_instance.Description = Guid.NewGuid().ToString();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Description = GetNewString();
+            t_instance.Name = GetNewString();
             return t_instance;
         }
     }

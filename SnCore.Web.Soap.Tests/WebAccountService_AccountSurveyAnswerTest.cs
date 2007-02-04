@@ -39,7 +39,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         {
             WebAccountService.TransitAccountSurveyAnswer t_instance = new WebAccountService.TransitAccountSurveyAnswer();
             t_instance.AccountId = _account_id;
-            t_instance.Answer = Guid.NewGuid().ToString();
+            t_instance.Answer = GetNewString();
             t_instance.SurveyQuestionId = _question_id;
             return t_instance;
         }

@@ -18,7 +18,7 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationServiceTests
         public override WebSyndicationService.TransitFeedType GetTransitInstance()
         {
             WebSyndicationService.TransitFeedType t_instance = new WebSyndicationService.TransitFeedType();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             t_instance.SpanColumns = 1;
             t_instance.SpanColumnsPreview = 2;
             t_instance.SpanRows = 1;

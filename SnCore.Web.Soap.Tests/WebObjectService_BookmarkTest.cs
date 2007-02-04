@@ -19,11 +19,11 @@ namespace SnCore.Web.Soap.Tests.WebObjectServiceTests
         public override WebObjectService.TransitBookmark GetTransitInstance()
         {
             WebObjectService.TransitBookmark t_instance = new WebObjectService.TransitBookmark();
-            t_instance.Description = Guid.NewGuid().ToString();
-            t_instance.FullBitmap = ThumbnailBitmap.GetBitmapDataFromText(Guid.NewGuid().ToString(), 12, 240, 100);
-            t_instance.LinkBitmap = ThumbnailBitmap.GetBitmapDataFromText(Guid.NewGuid().ToString(), 12, 240, 100);
-            t_instance.Name = Guid.NewGuid().ToString();
-            t_instance.Url = string.Format("http://uri/{0}", Guid.NewGuid());
+            t_instance.Description = GetNewString();
+            t_instance.FullBitmap = GetNewBitmap();
+            t_instance.LinkBitmap = GetNewBitmap();
+            t_instance.Name = GetNewString();
+            t_instance.Url = GetNewUri();
             return t_instance;
         }
 

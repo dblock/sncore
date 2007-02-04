@@ -33,8 +33,8 @@ namespace SnCore.Services.Tests
         {
             TransitReminder t_instance = new TransitReminder();
             t_instance.DataObject_Id = _dataobject.Instance.Id;
-            t_instance.DataObjectField = Guid.NewGuid().ToString();
-            t_instance.Url = string.Format("http://uri/{0}", Guid.NewGuid());
+            t_instance.DataObjectField = GetNewString();
+            t_instance.Url = GetNewUri();
             t_instance.LastRun = DateTime.UtcNow;
             return t_instance;
         }

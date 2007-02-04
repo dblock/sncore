@@ -16,7 +16,7 @@ namespace SnCore.Services.Tests
         public override TransitBugPriority GetTransitInstance()
         {
             TransitBugPriority t_instance = new TransitBugPriority();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             return t_instance;
         }
     }

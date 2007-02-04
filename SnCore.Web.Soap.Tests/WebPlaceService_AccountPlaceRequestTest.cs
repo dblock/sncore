@@ -39,7 +39,7 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
         {
             WebPlaceService.TransitAccountPlaceRequest t_instance = new WebPlaceService.TransitAccountPlaceRequest();
             t_instance.AccountId = GetUserAccount().Id;
-            t_instance.Message = Guid.NewGuid().ToString();
+            t_instance.Message = GetNewString();
             t_instance.PlaceId = _place_id;
             t_instance.Type = (string) _type.GetInstancePropertyById(GetAdminTicket(), _type_id, "Name");
             return t_instance;
@@ -52,7 +52,7 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
             WebPlaceService.TransitAccountPlaceRequest t_instance = GetTransitInstance();
             t_instance.Id = Create(GetAdminTicket(), t_instance);
             // admin accepts the request
-            EndPoint.AcceptAccountPlaceRequest(GetAdminTicket(), t_instance.Id, Guid.NewGuid().ToString());
+            EndPoint.AcceptAccountPlaceRequest(GetAdminTicket(), t_instance.Id, GetNewString());
             // check that requester is owner
             WebPlaceService.TransitAccountPlace[] places = EndPoint.GetAccountPlaces(GetAdminTicket(), GetUserAccount().Id, null);
             Console.WriteLine("Places: {0}", places.Length);
@@ -76,7 +76,7 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
             WebPlaceService.TransitAccountPlaceRequest t_instance = GetTransitInstance();
             t_instance.Id = Create(GetAdminTicket(), t_instance);
             // admin accepts the request
-            EndPoint.RejectAccountPlaceRequest(GetAdminTicket(), t_instance.Id, Guid.NewGuid().ToString());
+            EndPoint.RejectAccountPlaceRequest(GetAdminTicket(), t_instance.Id, GetNewString());
             // check that requester is owner
             WebPlaceService.TransitAccountPlace[] places = EndPoint.GetAccountPlaces(GetAdminTicket(), GetUserAccount().Id, null);
             Console.WriteLine("Places: {0}", places.Length);

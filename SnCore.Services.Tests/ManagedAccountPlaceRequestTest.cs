@@ -38,7 +38,7 @@ namespace SnCore.Services.Tests
         public override TransitAccountPlaceRequest GetTransitInstance()
         {
             TransitAccountPlaceRequest t_instance = new TransitAccountPlaceRequest();
-            t_instance.Message = Guid.NewGuid().ToString();
+            t_instance.Message = GetNewString();
             t_instance.PlaceId = _place.Instance.Id;
             t_instance.Submitted = DateTime.UtcNow;
             t_instance.Type = _type.Instance.Instance.Name;

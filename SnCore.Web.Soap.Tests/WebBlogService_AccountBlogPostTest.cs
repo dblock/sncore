@@ -36,8 +36,8 @@ namespace SnCore.Web.Soap.Tests.WebBlogServiceTests
             WebBlogService.TransitAccountBlogPost t_instance = new WebBlogService.TransitAccountBlogPost();
             t_instance.AccountBlogId = _blog_id;
             t_instance.AccountId = GetUserAccount().Id;
-            t_instance.Body = Guid.NewGuid().ToString();
-            t_instance.Title = Guid.NewGuid().ToString();
+            t_instance.Body = GetNewString();
+            t_instance.Title = GetNewString();
             return t_instance;
         }
 

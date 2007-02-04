@@ -11,10 +11,10 @@ namespace SnCore.Web.Soap.Tests.WebSocialServiceTests
         [Test]
         public void CreateOrUpdateAccountFriendRequestTest()
         {
-            string email = string.Format("{0}@localhost.com", Guid.NewGuid());
+            string email = GetNewEmailAddress();
             string password = "password";
             int user_id = CreateUser(email, password);
-            int friend_request_id = EndPoint.CreateOrUpdateAccountFriendRequest(GetAdminTicket(), user_id, Guid.NewGuid().ToString());
+            int friend_request_id = EndPoint.CreateOrUpdateAccountFriendRequest(GetAdminTicket(), user_id, GetNewString());
             Console.WriteLine("Created friend request: {0}", friend_request_id);
 
             {
@@ -37,13 +37,13 @@ namespace SnCore.Web.Soap.Tests.WebSocialServiceTests
         [Test]
         public void AcceptAccountFriendRequestTest()
         {
-            string email = string.Format("{0}@localhost.com", Guid.NewGuid());
+            string email = GetNewEmailAddress();
             string password = "password";
             int user_id = CreateUser(email, password);
-            int friend_request_id = EndPoint.CreateOrUpdateAccountFriendRequest(GetAdminTicket(), user_id, Guid.NewGuid().ToString());
+            int friend_request_id = EndPoint.CreateOrUpdateAccountFriendRequest(GetAdminTicket(), user_id, GetNewString());
             Console.WriteLine("Created friend request: {0}", friend_request_id);
             string ticket = Login(email, password);
-            EndPoint.AcceptAccountFriendRequest(ticket, friend_request_id, Guid.NewGuid().ToString());
+            EndPoint.AcceptAccountFriendRequest(ticket, friend_request_id, GetNewString());
             // TODO: check that these two are friends
             // check that the friend request is deleted
             WebSocialService.TransitAccountFriendRequest[] requests = EndPoint.GetSentAccountFriendRequests(GetAdminTicket(), GetAdminAccount().Id, null);
@@ -55,13 +55,13 @@ namespace SnCore.Web.Soap.Tests.WebSocialServiceTests
         [Test]
         public void RejectAccountFriendRequestTest()
         {
-            string email = string.Format("{0}@localhost.com", Guid.NewGuid());
+            string email = GetNewEmailAddress();
             string password = "password";
             int user_id = CreateUser(email, password);
-            int friend_request_id = EndPoint.CreateOrUpdateAccountFriendRequest(GetAdminTicket(), user_id, Guid.NewGuid().ToString());
+            int friend_request_id = EndPoint.CreateOrUpdateAccountFriendRequest(GetAdminTicket(), user_id, GetNewString());
             Console.WriteLine("Created friend request: {0}", friend_request_id);
             string ticket = Login(email, password);
-            EndPoint.RejectAccountFriendRequest(ticket, friend_request_id, Guid.NewGuid().ToString());
+            EndPoint.RejectAccountFriendRequest(ticket, friend_request_id, GetNewString());
             // TODO: check that these two are NOT friends
             // check that the friend request is deleted
             WebSocialService.TransitAccountFriendRequest[] requests = EndPoint.GetSentAccountFriendRequests(GetAdminTicket(), GetAdminAccount().Id, null);
@@ -73,10 +73,10 @@ namespace SnCore.Web.Soap.Tests.WebSocialServiceTests
         [Test]
         public void TestSentAccountFriendRequests()
         {
-            string email = string.Format("{0}@localhost.com", Guid.NewGuid());
+            string email = GetNewEmailAddress();
             string password = "password";
             int user_id = CreateUser(email, password);
-            int friend_request_id = EndPoint.CreateOrUpdateAccountFriendRequest(GetAdminTicket(), user_id, Guid.NewGuid().ToString());
+            int friend_request_id = EndPoint.CreateOrUpdateAccountFriendRequest(GetAdminTicket(), user_id, GetNewString());
             Console.WriteLine("Created friend request: {0}", friend_request_id);
             int count = EndPoint.GetSentAccountFriendRequestsCount(GetAdminTicket(), GetAdminAccount().Id);
             Console.WriteLine("Request count: {0}", count);
@@ -90,7 +90,7 @@ namespace SnCore.Web.Soap.Tests.WebSocialServiceTests
         [Test]
         public void GetAccountFriendsTest()
         {
-            string email = string.Format("{0}@localhost.com", Guid.NewGuid());
+            string email = GetNewEmailAddress();
             string password = "password";
             int user_id = CreateUser(email, password);
             string ticket = Login(email, password);
@@ -100,9 +100,9 @@ namespace SnCore.Web.Soap.Tests.WebSocialServiceTests
             WebSocialService.TransitAccountFriend[] friends = EndPoint.GetAccountFriends(ticket, user_id, null);
             Assert.AreEqual(0, friends.Length, "New user has friends he shouldn't have.");
             // admin makes a friends request
-            int friend_request_id = EndPoint.CreateOrUpdateAccountFriendRequest(GetAdminTicket(), user_id, Guid.NewGuid().ToString());
+            int friend_request_id = EndPoint.CreateOrUpdateAccountFriendRequest(GetAdminTicket(), user_id, GetNewString());
             Console.WriteLine("Created friend request: {0}", friend_request_id);
-            EndPoint.AcceptAccountFriendRequest(ticket, friend_request_id, Guid.NewGuid().ToString());
+            EndPoint.AcceptAccountFriendRequest(ticket, friend_request_id, GetNewString());
             // the admin user is now part of friends
             count = EndPoint.GetAccountFriendsCount(ticket, user_id);
             Assert.AreEqual(1, count, "New user has no friends after accepting a request.");

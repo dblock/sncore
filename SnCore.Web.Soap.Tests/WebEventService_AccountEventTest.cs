@@ -44,14 +44,14 @@ namespace SnCore.Web.Soap.Tests.WebEventServiceTests
         public override WebEventService.TransitAccountEvent GetTransitInstance()
         {
             WebEventService.TransitAccountEvent t_instance = new WebEventService.TransitAccountEvent();
-            t_instance.Name = Guid.NewGuid().ToString();
-            t_instance.Description = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
+            t_instance.Description = GetNewString();
             t_instance.AccountEventType = (string) _type.GetInstancePropertyById(GetAdminTicket(), _type_id, "Name");
             t_instance.Cost = "10$";
-            t_instance.Email = string.Format("{0}@localhost.com", Guid.NewGuid());
+            t_instance.Email = GetNewEmailAddress();
             t_instance.EndDateTime = DateTime.UtcNow.AddDays(1);
             t_instance.StartDateTime = DateTime.UtcNow.AddDays(-1);
-            t_instance.Website = string.Format("http://uri/{0}", Guid.NewGuid());
+            t_instance.Website = GetNewUri();
             t_instance.YearlyMonth = 6;
             t_instance.RecurrencePattern = WebEventService.RecurrencePattern.Yearly_DayNOfMonth;
             t_instance.ScheduleId = _schedule_id;

@@ -16,7 +16,7 @@ namespace SnCore.Data.Tests
         public override Account GetNewObject()
         {
             Account obj = new Account();
-            obj.Name = Guid.NewGuid().ToString();
+            obj.Name = GetNewString();
             obj.Password = "password";
             obj.Enabled = false;
             obj.Birthday = new DateTime(1976, 9, 7);

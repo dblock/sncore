@@ -36,8 +36,8 @@ namespace SnCore.Web.Soap.Tests.WebStoryServiceTests
         {
             WebStoryService.TransitAccountStoryPicture t_instance = new WebStoryService.TransitAccountStoryPicture();
             t_instance.AccountStoryId = _story_id;
-            t_instance.Name = Guid.NewGuid().ToString();
-            t_instance.Picture = ThumbnailBitmap.GetBitmapDataFromText(Guid.NewGuid().ToString(), 10, 320, 240);
+            t_instance.Name = GetNewString();
+            t_instance.Picture = GetNewBitmap();
             return t_instance;
         }
 

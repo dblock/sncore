@@ -35,8 +35,8 @@ namespace SnCore.Services.Tests
             t_instance.AccountFeedId = _accountfeeditem.Instance.Instance.AccountFeed.Id;
             t_instance.AccountFeedItemId = _accountfeeditem.Instance.Id;
             t_instance.AccountId = _accountfeeditem.Instance.Instance.AccountFeed.Account.Id;
-            t_instance.Description = Guid.NewGuid().ToString();
-            t_instance.Url = string.Format("http://uri/{0}", Guid.NewGuid());
+            t_instance.Description = GetNewString();
+            t_instance.Url = GetNewUri();
             return t_instance;
         }
     }

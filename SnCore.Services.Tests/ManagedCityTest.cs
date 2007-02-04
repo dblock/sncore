@@ -36,7 +36,7 @@ namespace SnCore.Services.Tests
         public override TransitCity GetTransitInstance()
         {
             TransitCity t_instance = new TransitCity();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             t_instance.Country = _state.Instance.Instance.Country.Name;
             t_instance.State = _state.Instance.Name;
             return t_instance;
@@ -52,14 +52,14 @@ namespace SnCore.Services.Tests
             try
             {
                 TransitCountry tc = new TransitCountry();
-                tc.Name = Guid.NewGuid().ToString();
+                tc.Name = GetNewString();
 
                 TransitState tt = new TransitState();
-                tt.Name = Guid.NewGuid().ToString();
+                tt.Name = GetNewString();
                 tt.Country = tc.Name;
 
                 TransitCity ts = new TransitCity();
-                ts.Name = Guid.NewGuid().ToString();
+                ts.Name = GetNewString();
                 ts.Country = tc.Name;
                 ts.State = tt.Name;
 
@@ -86,12 +86,12 @@ namespace SnCore.Services.Tests
             try
             {
                 TransitCountry tc = new TransitCountry();
-                tc.Name = Guid.NewGuid().ToString();
+                tc.Name = GetNewString();
                 TransitState tt = new TransitState();
-                tt.Name = Guid.NewGuid().ToString();
+                tt.Name = GetNewString();
                 tt.Country = tc.Name;
                 TransitCity ts = new TransitCity();
-                ts.Name = Guid.NewGuid().ToString();
+                ts.Name = GetNewString();
                 ts.Country = tc.Name;
                 ts.State = tt.Name;
 
@@ -121,16 +121,16 @@ namespace SnCore.Services.Tests
             try
             {
                 TransitCountry tc = new TransitCountry();
-                tc.Name = Guid.NewGuid().ToString();
+                tc.Name = GetNewString();
                 TransitState tt = new TransitState();
-                tt.Name = Guid.NewGuid().ToString();
+                tt.Name = GetNewString();
                 tt.Country = tc.Name;
 
                 c.CreateOrUpdate(tc, AdminSecurityContext);
                 t.CreateOrUpdate(tt, AdminSecurityContext);
                 Session.Flush();
 
-                ManagedCity.GetCityId(Session, Guid.NewGuid().ToString(), tt.Name, tc.Name);
+                ManagedCity.GetCityId(Session, GetNewString(), tt.Name, tc.Name);
             }
             finally
             {

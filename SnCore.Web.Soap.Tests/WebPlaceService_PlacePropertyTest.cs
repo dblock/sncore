@@ -32,10 +32,10 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
         public override WebPlaceService.TransitPlaceProperty GetTransitInstance()
         {
             WebPlaceService.TransitPlaceProperty t_instance = new WebPlaceService.TransitPlaceProperty();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             t_instance.PlacePropertyGroupId = _group_id;
-            t_instance.DefaultValue = Guid.NewGuid().ToString();
-            t_instance.Description = Guid.NewGuid().ToString();
+            t_instance.DefaultValue = GetNewString();
+            t_instance.Description = GetNewString();
             t_instance.TypeName = "System.String";
             t_instance.Publish = true;
             return t_instance;

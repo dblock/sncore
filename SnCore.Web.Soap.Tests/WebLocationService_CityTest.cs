@@ -35,10 +35,10 @@ namespace SnCore.Web.Soap.Tests.WebLocationServiceTests
         public override WebLocationService.TransitCity GetTransitInstance()
         {
             WebLocationService.TransitCity t_instance = new WebLocationService.TransitCity();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             t_instance.State = (string)_state.GetInstancePropertyById(GetAdminTicket(), _state_id, "Name");
             t_instance.Country = (string)_state._country.GetInstancePropertyById(GetAdminTicket(), _state._country_id, "Name");
-            t_instance.Tag = Guid.NewGuid().ToString().Substring(0, 5);
+            t_instance.Tag = GetNewString().Substring(0, 5);
             return t_instance;
         }
 

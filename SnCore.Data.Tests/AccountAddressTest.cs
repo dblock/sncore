@@ -26,10 +26,10 @@ namespace SnCore.Data.Tests
                 
             try
             {
-                c.Name = Guid.NewGuid().ToString();
+                c.Name = GetNewString();
                 Session.Save(c);
 
-                s.Name = Guid.NewGuid().ToString();
+                s.Name = GetNewString();
                 s.Country = c;
                 Session.Save(s);
 

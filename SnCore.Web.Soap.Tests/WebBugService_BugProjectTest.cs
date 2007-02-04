@@ -18,8 +18,8 @@ namespace SnCore.Web.Soap.Tests.WebBugServiceTests
         public override WebBugService.TransitBugProject GetTransitInstance()
         {
             WebBugService.TransitBugProject t_instance = new WebBugService.TransitBugProject();
-            t_instance.Name = Guid.NewGuid().ToString();
-            t_instance.Description = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
+            t_instance.Description = GetNewString();
             return t_instance;
         }
     }

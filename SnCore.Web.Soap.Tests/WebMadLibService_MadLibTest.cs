@@ -19,8 +19,8 @@ namespace SnCore.Web.Soap.Tests.WebMadLibServiceTests
         {
             WebMadLibService.TransitMadLib t_instance = new WebMadLibService.TransitMadLib();
             t_instance.AccountId = GetAdminAccount().Id;
-            t_instance.Template = Guid.NewGuid().ToString();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Template = GetNewString();
+            t_instance.Name = GetNewString();
             return t_instance;
         }
 

@@ -18,7 +18,7 @@ namespace SnCore.Web.Soap.Tests.WebObjectServiceTests
         public override WebObjectService.TransitDataObject GetTransitInstance()
         {
             WebObjectService.TransitDataObject t_instance = new WebObjectService.TransitDataObject();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             return t_instance;
         }
 

@@ -38,8 +38,8 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationServiceTests
             WebSyndicationService.TransitAccountFeedItemMedia t_instance = new WebSyndicationService.TransitAccountFeedItemMedia();
             t_instance.AccountFeedItemId = _accountfeeditem_id;
             t_instance.AccountId = GetUserAccount().Id;
-            t_instance.EmbeddedHtml = Guid.NewGuid().ToString();
-            t_instance.Thumbnail = ThumbnailBitmap.GetBitmapDataFromText(Guid.NewGuid().ToString(), 10, 240, 100);
+            t_instance.EmbeddedHtml = GetNewString();
+            t_instance.Type = GetNewString();
             return t_instance;
         }
 

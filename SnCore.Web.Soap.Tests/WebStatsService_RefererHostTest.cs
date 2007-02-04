@@ -18,9 +18,9 @@ namespace SnCore.Web.Soap.Tests.WebStatsServiceTests
         public override WebStatsService.TransitRefererHost GetTransitInstance()
         {
             WebStatsService.TransitRefererHost t_instance = new WebStatsService.TransitRefererHost();
-            t_instance.Host = Guid.NewGuid().ToString();
-            t_instance.LastRefererUri = string.Format("http://uri/{0}", Guid.NewGuid());
-            t_instance.LastRequestUri = string.Format("http://uri/{0}", Guid.NewGuid());
+            t_instance.Host = GetNewString();
+            t_instance.LastRefererUri = GetNewUri();
+            t_instance.LastRequestUri = GetNewUri();
             t_instance.Total = 1;
             return t_instance;
         }

@@ -38,7 +38,7 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
         public override WebPlaceService.TransitAccountPlace GetTransitInstance()
         {
             WebPlaceService.TransitAccountPlace t_instance = new WebPlaceService.TransitAccountPlace();
-            t_instance.Description = Guid.NewGuid().ToString();
+            t_instance.Description = GetNewString();
             t_instance.PlaceId = _place_id;
             t_instance.Type = (string)_type.GetInstancePropertyById(GetAdminTicket(), _type_id, "Name");
             return t_instance;

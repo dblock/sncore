@@ -37,7 +37,7 @@ namespace SnCore.Services.Tests
             TransitAccountFriendRequest t_instance = new TransitAccountFriendRequest();
             t_instance.AccountId = _account1.Instance.Id;
             t_instance.KeenId = _account2.Instance.Id;
-            t_instance.Message = Guid.NewGuid().ToString();
+            t_instance.Message = GetNewString();
             return t_instance;
         }
     }

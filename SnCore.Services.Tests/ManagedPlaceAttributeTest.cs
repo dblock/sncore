@@ -37,8 +37,8 @@ namespace SnCore.Services.Tests
             TransitPlaceAttribute t_instance = new TransitPlaceAttribute();
             t_instance.PlaceId = _place.Instance.Id;
             t_instance.AttributeId = _attribute.Instance.Id;
-            t_instance.Url = string.Format("http://uri/{0}", Guid.NewGuid());
-            t_instance.Value = Guid.NewGuid().ToString();
+            t_instance.Url = GetNewUri();
+            t_instance.Value = GetNewString();
             return t_instance;
         }
     }

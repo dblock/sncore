@@ -18,7 +18,7 @@ namespace SnCore.Web.Soap.Tests.WebStatsServiceTests
         public override WebStatsService.TransitRefererQuery GetTransitInstance()
         {
             WebStatsService.TransitRefererQuery t_instance = new WebStatsService.TransitRefererQuery();
-            t_instance.Keywords = Guid.NewGuid().ToString();
+            t_instance.Keywords = GetNewString();
             t_instance.Total = 1;
             return t_instance;
         }

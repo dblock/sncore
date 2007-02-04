@@ -46,7 +46,7 @@ namespace SnCore.Web.Soap.Tests.WebObjectServiceTests
             WebObjectService.TransitReminderAccountProperty t_instance = new WebObjectService.TransitReminderAccountProperty();
             t_instance.ReminderId = _reminder_id;
             t_instance.AccountPropertyId = _accountproperty_id;
-            t_instance.Value = Guid.NewGuid().ToString();
+            t_instance.Value = GetNewString();
             return t_instance;
         }
 

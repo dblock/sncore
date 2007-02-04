@@ -50,8 +50,8 @@ namespace SnCore.Web.Soap.Tests.WebBugServiceTests
         public override WebBugService.TransitBug GetTransitInstance()
         {
             WebBugService.TransitBug t_instance = new WebBugService.TransitBug();
-            t_instance.Subject = Guid.NewGuid().ToString();
-            t_instance.Details = Guid.NewGuid().ToString();
+            t_instance.Subject = GetNewString();
+            t_instance.Details = GetNewString();
             t_instance.Priority = (string) new BugPriorityTest().GetInstancePropertyById(GetAdminTicket(), _priority_id, "Name");
             t_instance.Severity = (string) new BugSeverityTest().GetInstancePropertyById(GetAdminTicket(), _severity_id, "Name");
             t_instance.Type = (string) new BugTypeTest().GetInstancePropertyById(GetAdminTicket(), _type_id, "Name");
@@ -80,7 +80,7 @@ namespace SnCore.Web.Soap.Tests.WebBugServiceTests
             string current_resolution = (string) GetInstancePropertyById(GetAdminTicket(), id, "Resolution");
             Console.WriteLine("Current resolution: {0}", current_resolution);
             string target_resolution = (string) new BugResolutionTest().GetInstancePropertyById(GetAdminTicket(), _resolution2_id, "Name");
-            EndPoint.ResolveBug(GetAdminTicket(), id, target_resolution, Guid.NewGuid().ToString());
+            EndPoint.ResolveBug(GetAdminTicket(), id, target_resolution, GetNewString());
             string new_resolution = (string) GetInstancePropertyById(GetAdminTicket(), id, "Resolution");
             Console.WriteLine("New resolution: {0}", new_resolution);
             Assert.AreNotEqual(current_resolution, new_resolution);
@@ -94,7 +94,7 @@ namespace SnCore.Web.Soap.Tests.WebBugServiceTests
             string current_status = (string) GetInstancePropertyById(GetAdminTicket(), id, "Status");
             Console.WriteLine("Current status: {0}", current_status);
             string target_resolution = (string)new BugResolutionTest().GetInstancePropertyById(GetAdminTicket(), _resolution2_id, "Name");
-            EndPoint.ResolveBug(GetAdminTicket(), id, target_resolution, Guid.NewGuid().ToString());
+            EndPoint.ResolveBug(GetAdminTicket(), id, target_resolution, GetNewString());
             EndPoint.CloseBug(GetAdminTicket(), id);
             string new_status = (string) GetInstancePropertyById(GetAdminTicket(), id, "Status");
             Console.WriteLine("New status: {0}", new_status);
@@ -137,7 +137,7 @@ namespace SnCore.Web.Soap.Tests.WebBugServiceTests
 
             WebBugService.TransitBugNote t_instance = new WebBugService.TransitBugNote();
             t_instance.BugId = id;
-            t_instance.Details = Guid.NewGuid().ToString();
+            t_instance.Details = GetNewString();
             int note_id = EndPoint.CreateOrUpdateBugNote(GetUserTicket(), t_instance);
             Console.WriteLine("Created BugNote: {0}", note_id);
             Assert.IsTrue(note_id > 0);

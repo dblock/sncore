@@ -41,8 +41,8 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
             WebPlaceService.TransitPlaceAttribute t_instance = new WebPlaceService.TransitPlaceAttribute();
             t_instance.AttributeId = _attribute_id;
             t_instance.PlaceId = _place_id;
-            t_instance.Url = string.Format("http://uri/{0}", Guid.NewGuid());
-            t_instance.Value = Guid.NewGuid().ToString();
+            t_instance.Url = GetNewUri();
+            t_instance.Value = GetNewString();
             return t_instance;
         }
 

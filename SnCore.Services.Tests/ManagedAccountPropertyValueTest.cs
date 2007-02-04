@@ -36,7 +36,7 @@ namespace SnCore.Services.Tests
         {
             TransitAccountPropertyValue t_instance = new TransitAccountPropertyValue();
             t_instance.AccountPropertyId = _property.Instance.Id;
-            t_instance.Value = Guid.NewGuid().ToString();
+            t_instance.Value = GetNewString();
             t_instance.AccountId = _account.Instance.Id;
             return t_instance;
         }

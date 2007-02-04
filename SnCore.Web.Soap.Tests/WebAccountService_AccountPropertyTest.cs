@@ -37,9 +37,9 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         {
             WebAccountService.TransitAccountProperty t_instance = new WebAccountService.TransitAccountProperty();
             t_instance.AccountPropertyGroupId = _group_id;
-            t_instance.DefaultValue = Guid.NewGuid().ToString();
-            t_instance.Description = Guid.NewGuid().ToString();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.DefaultValue = GetNewString();
+            t_instance.Description = GetNewString();
+            t_instance.Name = GetNewString();
             t_instance.Publish = true;
             t_instance.Type = "System.String";
             return t_instance;

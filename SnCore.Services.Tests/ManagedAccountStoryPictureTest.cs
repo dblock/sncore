@@ -33,7 +33,7 @@ namespace SnCore.Services.Tests
         public override TransitAccountStoryPicture GetTransitInstance()
         {
             TransitAccountStoryPicture t_instance = new TransitAccountStoryPicture();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             t_instance.AccountStoryId = _accountstory.Instance.Id;
             return t_instance;
         }

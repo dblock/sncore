@@ -20,9 +20,9 @@ namespace SnCore.Web.Soap.Tests.WebStoryServiceTests
         {
             WebStoryService.TransitAccountStory t_instance = new WebStoryService.TransitAccountStory();
             t_instance.AccountId = GetAdminAccount().Id;
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             t_instance.Publish = true;
-            t_instance.Summary = Guid.NewGuid().ToString();
+            t_instance.Summary = GetNewString();
             return t_instance;
         }
 

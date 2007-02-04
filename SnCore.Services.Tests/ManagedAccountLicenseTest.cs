@@ -32,9 +32,9 @@ namespace SnCore.Services.Tests
         public override TransitAccountLicense GetTransitInstance()
         {
             TransitAccountLicense t_instance = new TransitAccountLicense();
-            t_instance.ImageUrl = Guid.NewGuid().ToString();
-            t_instance.LicenseUrl = Guid.NewGuid().ToString(); 
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.ImageUrl = GetNewString();
+            t_instance.LicenseUrl = GetNewString(); 
+            t_instance.Name = GetNewString();
             t_instance.AccountId = _account.Instance.Id;
             return t_instance;
         }

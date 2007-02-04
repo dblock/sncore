@@ -43,8 +43,8 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         {
             WebAccountService.TransitAccountAttribute t_instance = new WebAccountService.TransitAccountAttribute();
             t_instance.AccountId = _account_id;
-            t_instance.Url = string.Format("http://uri/{0}", Guid.NewGuid());
-            t_instance.Value = Guid.NewGuid().ToString();
+            t_instance.Url = GetNewUri();
+            t_instance.Value = GetNewString();
             t_instance.AttributeId = _attribute_id;
             return t_instance;
         }

@@ -31,7 +31,7 @@ namespace SnCore.Services.Tests
         {
             TransitAccountMessageFolder t_instance = new TransitAccountMessageFolder();
             t_instance.AccountId = _account.Instance.Id;
-            t_instance.Name = Guid.NewGuid().ToString(); ;
+            t_instance.Name = GetNewString(); ;
             t_instance.System = false;
             return t_instance;
         }
@@ -51,7 +51,7 @@ namespace SnCore.Services.Tests
                 a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
 
                 TransitAccountMessageFolder tf = new TransitAccountMessageFolder();
-                tf.Name = Guid.NewGuid().ToString();
+                tf.Name = GetNewString();
                 tf.System = false;
 
                 ManagedAccountMessageFolder m_f = new ManagedAccountMessageFolder(Session);

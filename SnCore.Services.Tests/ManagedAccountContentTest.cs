@@ -34,8 +34,8 @@ namespace SnCore.Services.Tests
         {
             TransitAccountContent t_instance = new TransitAccountContent();
             t_instance.AccountContentGroupId = _accountcontentgroup.Instance.Id;
-            t_instance.Tag = Guid.NewGuid().ToString();
-            t_instance.Text = Guid.NewGuid().ToString();
+            t_instance.Tag = GetNewString();
+            t_instance.Text = GetNewString();
             t_instance.Timestamp = DateTime.UtcNow;
             return t_instance;
         }

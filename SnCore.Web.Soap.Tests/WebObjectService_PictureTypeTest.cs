@@ -18,7 +18,7 @@ namespace SnCore.Web.Soap.Tests.WebObjectServiceTests
         public override WebObjectService.TransitPictureType GetTransitInstance()
         {
             WebObjectService.TransitPictureType t_instance = new WebObjectService.TransitPictureType();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             return t_instance;
         }
     }

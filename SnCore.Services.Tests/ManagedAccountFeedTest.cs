@@ -50,11 +50,11 @@ namespace SnCore.Services.Tests
         {
             TransitAccountFeed t_instance = new TransitAccountFeed();
             t_instance.AccountId = _account.Instance.Id;
-            t_instance.Description = Guid.NewGuid().ToString();
+            t_instance.Description = GetNewString();
             t_instance.FeedType = _type.Instance.Instance.Name;
-            t_instance.FeedUrl = string.Format("http://uri/{0}", Guid.NewGuid());
-            t_instance.LinkUrl = string.Format("http://uri/{0}", Guid.NewGuid());
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.FeedUrl = GetNewUri();
+            t_instance.LinkUrl = GetNewUri();
+            t_instance.Name = GetNewString();
             return t_instance;
         }
 
@@ -174,7 +174,7 @@ namespace SnCore.Services.Tests
             string xsl = new StreamReader(s).ReadToEnd();
 
             FeedType feedtype = new FeedType();
-            feedtype.Name = Guid.NewGuid().ToString();
+            feedtype.Name = GetNewString();
             feedtype.Xsl = xsl;
 
             AccountFeed feed = new AccountFeed();
@@ -204,7 +204,7 @@ namespace SnCore.Services.Tests
             string xsl = new StreamReader(s).ReadToEnd();
 
             FeedType feedtype = new FeedType();
-            feedtype.Name = Guid.NewGuid().ToString();
+            feedtype.Name = GetNewString();
             feedtype.Xsl = xsl;
 
             AccountFeed feed = new AccountFeed();

@@ -627,7 +627,6 @@
               <s:element minOccurs="0" maxOccurs="1" name="AccountName" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="AccountFeedItemTitle" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="AccountFeedName" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="Thumbnail" type="s:base64Binary" />
               <s:element minOccurs="0" maxOccurs="1" name="LastError" type="s:string" />
               <s:element minOccurs="1" maxOccurs="1" name="AccountFeedItemId" type="s:int" />
               <s:element minOccurs="0" maxOccurs="1" name="EmbeddedHtml" type="s:string" />
@@ -635,6 +634,7 @@
               <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
               <s:element minOccurs="1" maxOccurs="1" name="Interesting" type="s:boolean" />
               <s:element minOccurs="1" maxOccurs="1" name="Visible" type="s:boolean" />
+              <s:element minOccurs="0" maxOccurs="1" name="Type" type="s:string" />
             </s:sequence>
           </s:extension>
         </s:complexContent>

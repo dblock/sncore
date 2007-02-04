@@ -37,7 +37,7 @@ namespace SnCore.Services.Tests
             TransitReminderAccountProperty t_instance = new TransitReminderAccountProperty();
             t_instance.AccountPropertyId = _accountproperty.Instance.Id;
             t_instance.ReminderId = _reminder.Instance.Id;
-            t_instance.Value = Guid.NewGuid().ToString();
+            t_instance.Value = GetNewString();
             return t_instance;
         }
     }

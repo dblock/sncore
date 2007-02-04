@@ -18,7 +18,7 @@ namespace SnCore.Web.Soap.Tests.WebBugServiceTests
         public override WebBugService.TransitBugStatus GetTransitInstance()
         {
             WebBugService.TransitBugStatus t_instance = new WebBugService.TransitBugStatus();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             return t_instance;
         }
     }

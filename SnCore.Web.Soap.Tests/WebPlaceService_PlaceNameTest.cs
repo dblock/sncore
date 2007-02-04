@@ -34,7 +34,7 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
         public override WebPlaceService.TransitPlaceName GetTransitInstance()
         {
             WebPlaceService.TransitPlaceName t_instance = new WebPlaceService.TransitPlaceName();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             t_instance.PlaceId = _place_id;
             return t_instance;
         }

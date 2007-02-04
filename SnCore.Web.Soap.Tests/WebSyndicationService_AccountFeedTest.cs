@@ -46,11 +46,11 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationServiceTests
         {
             WebSyndicationService.TransitAccountFeed t_instance = new WebSyndicationService.TransitAccountFeed();
             t_instance.AccountId = GetUserAccount().Id;
-            t_instance.Description = Guid.NewGuid().ToString();
+            t_instance.Description = GetNewString();
             t_instance.FeedType = (string) _feedtype.GetInstancePropertyById(GetUserTicket(), _feedtype_id, "Name");
-            t_instance.FeedUrl = string.Format("http://locacalhost/SnCoreWeb/{0}", Guid.NewGuid());
-            t_instance.LinkUrl = string.Format("http://locacalhost/SnCoreWeb/{0}", Guid.NewGuid());
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.FeedUrl = GetNewUri();
+            t_instance.LinkUrl = GetNewUri();
+            t_instance.Name = GetNewString();
             return t_instance;
         }
 

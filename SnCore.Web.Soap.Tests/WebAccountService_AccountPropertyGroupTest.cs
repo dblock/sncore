@@ -30,8 +30,8 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         public override WebAccountService.TransitAccountPropertyGroup GetTransitInstance()
         {
             WebAccountService.TransitAccountPropertyGroup t_instance = new WebAccountService.TransitAccountPropertyGroup();
-            t_instance.Description = Guid.NewGuid().ToString();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Description = GetNewString();
+            t_instance.Name = GetNewString();
             return t_instance;
         }
     }

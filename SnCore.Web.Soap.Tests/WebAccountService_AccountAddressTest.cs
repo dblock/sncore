@@ -40,8 +40,8 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             WebAccountService.TransitAccountAddress t_instance = new WebAccountService.TransitAccountAddress();
             t_instance.AccountId = _account_id;
             t_instance.Apt = "#1";
-            t_instance.Name = Guid.NewGuid().ToString();
-            t_instance.Street = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
+            t_instance.Street = GetNewString();
             t_instance.Zip = "10001";
             t_instance.Country = (string)_city._state._country.GetInstancePropertyById(GetAdminTicket(), _city._state._country_id, "Name");
             t_instance.State = (string)_city._state.GetInstancePropertyById(GetAdminTicket(), _city._state_id, "Name");

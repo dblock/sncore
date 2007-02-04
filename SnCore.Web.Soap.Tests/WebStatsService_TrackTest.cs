@@ -14,9 +14,9 @@ namespace SnCore.Web.Soap.Tests.WebStatsServiceTests
             WebStatsService.TransitStatsRequest request = new WebStatsService.TransitStatsRequest();
             request.IncrementNewUser = true;
             request.IncrementReturningUser = true;
-            request.RefererQuery = string.Format("{0}={0}", Guid.NewGuid());
-            request.RefererUri = string.Format("http://uri/{0}", Guid.NewGuid());
-            request.RequestUri = string.Format("http://uri/{0}", Guid.NewGuid());
+            request.RefererQuery = string.Format("{0}={0}", GetNewString());
+            request.RefererUri = GetNewUri();
+            request.RequestUri = GetNewUri();
             request.Timestamp = DateTime.UtcNow;
             EndPoint.TrackSingleRequest(request);            
         }
@@ -32,9 +32,9 @@ namespace SnCore.Web.Soap.Tests.WebStatsServiceTests
                 WebStatsService.TransitStatsRequest request = new WebStatsService.TransitStatsRequest();
                 request.IncrementNewUser = true;
                 request.IncrementReturningUser = true;
-                request.RefererQuery = string.Format("{0}={0}", Guid.NewGuid());
-                request.RefererUri = string.Format("http://uri/{0}", Guid.NewGuid());
-                request.RequestUri = string.Format("http://uri/{0}", Guid.NewGuid());
+                request.RefererQuery = string.Format("{0}={0}", GetNewString());
+                request.RefererUri = GetNewUri();
+                request.RequestUri = GetNewUri();
                 request.Timestamp = DateTime.UtcNow;
                 requests.Add(request);
             }

@@ -19,7 +19,7 @@ namespace SnCore.Services.Tests
         public override TransitCountry GetTransitInstance()
         {
             TransitCountry t_instance = new TransitCountry();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             return t_instance;
         }
 
@@ -27,7 +27,7 @@ namespace SnCore.Services.Tests
         public void CreateCountry()
         {
             TransitCountry t = new TransitCountry();
-            t.Name = Guid.NewGuid().ToString();
+            t.Name = GetNewString();
             ManagedCountry c = new ManagedCountry(Session);
             c.CreateOrUpdate(t, AdminSecurityContext);
             Session.Flush();
@@ -39,7 +39,7 @@ namespace SnCore.Services.Tests
         public void GetCountryId()
         {
             TransitCountry t = new TransitCountry();
-            t.Name = Guid.NewGuid().ToString();
+            t.Name = GetNewString();
             ManagedCountry c = new ManagedCountry(Session);
             c.CreateOrUpdate(t, AdminSecurityContext);
             Session.Flush();
@@ -58,7 +58,7 @@ namespace SnCore.Services.Tests
         [ExpectedException(typeof(ManagedCountry.InvalidCountryException))]
         public void GetCountryIdInvalid()
         {
-            ManagedCountry.GetCountryId(Session, Guid.NewGuid().ToString());
+            ManagedCountry.GetCountryId(Session, GetNewString());
         }
 
     }

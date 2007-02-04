@@ -30,8 +30,8 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         {
             WebAccountService.TransitAccountRedirect t_instance = new WebAccountService.TransitAccountRedirect();
             t_instance.AccountId = _account_id;
-            t_instance.SourceUri = Guid.NewGuid().ToString().Replace('-', 'x');
-            t_instance.TargetUri = Guid.NewGuid().ToString().Replace('-', 'x');
+            t_instance.SourceUri = GetNewString().Replace('-', 'x');
+            t_instance.TargetUri = GetNewString().Replace('-', 'x');
             return t_instance;
         }
 

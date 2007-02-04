@@ -31,8 +31,8 @@ namespace SnCore.Services.Tests
         {
             TransitAccountStory t_instance = new TransitAccountStory();
             t_instance.AccountId = _account.Instance.Id;
-            t_instance.Name = Guid.NewGuid().ToString();
-            t_instance.Summary = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
+            t_instance.Summary = GetNewString();
             return t_instance;
         }
 
@@ -52,8 +52,8 @@ namespace SnCore.Services.Tests
                 a.VerifyAllEmails();
 
                 TransitAccountStory s = new TransitAccountStory();
-                s.Name = Guid.NewGuid().ToString();
-                s.Summary = Guid.NewGuid().ToString();
+                s.Name = GetNewString();
+                s.Summary = GetNewString();
                 ManagedAccountStory m_s = new ManagedAccountStory(Session);
                 m_s.CreateOrUpdate(s, a.GetSecurityContext());
             }
@@ -75,12 +75,12 @@ namespace SnCore.Services.Tests
                 a.VerifyAllEmails();
 
                 TransitAccountStory s = new TransitAccountStory();
-                s.Name = Guid.NewGuid().ToString();
-                s.Summary = Guid.NewGuid().ToString();
+                s.Name = GetNewString();
+                s.Summary = GetNewString();
                 ManagedAccountStory ms = new ManagedAccountStory(Session);
                 int story_id = ms.CreateOrUpdate(s, a.GetSecurityContext());
                 TransitAccountStoryPicture p = new TransitAccountStoryPicture();
-                p.Name = Guid.NewGuid().ToString();
+                p.Name = GetNewString();
                 p.AccountStoryId = story_id;
                 ManagedAccountStoryPicture mp = new ManagedAccountStoryPicture(Session);
                 mp.CreateOrUpdate(p, a.GetSecurityContext());

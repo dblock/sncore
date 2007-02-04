@@ -33,9 +33,9 @@ namespace SnCore.Services.Tests
         public override TransitPlaceProperty GetTransitInstance()
         {
             TransitPlaceProperty t_instance = new TransitPlaceProperty();
-            t_instance.DefaultValue = Guid.NewGuid().ToString();
-            t_instance.Description = Guid.NewGuid().ToString();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.DefaultValue = GetNewString();
+            t_instance.Description = GetNewString();
+            t_instance.Name = GetNewString();
             t_instance.PlacePropertyGroupId = _group.Instance.Id;
             t_instance.TypeName = "System.String";
             t_instance.Publish = true;

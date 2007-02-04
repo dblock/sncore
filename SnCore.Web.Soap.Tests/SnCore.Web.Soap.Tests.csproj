@@ -137,6 +137,7 @@
     <Compile Include="WebAccountService_AccountAddressTest.cs" />
     <Compile Include="WebAccountService_AccountBaseTest.cs" />
     <Compile Include="WebAccountService_AccountEmailConfirmationTest.cs" />
+    <Compile Include="WebAccountService_AccountEmailMessageTest.cs" />
     <Compile Include="WebAccountService_AccountEmailTest.cs" />
     <Compile Include="WebAccountService_AccountInvitationTest.cs" />
     <Compile Include="WebAccountService_AccountMessageFolderTest.cs" />
@@ -830,6 +831,9 @@
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\WebAccountService\TransitAccountAttribute.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebAccountService\TransitAccountEmailMessage.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\WebAccountService\TransitAccountMessage.datasource">

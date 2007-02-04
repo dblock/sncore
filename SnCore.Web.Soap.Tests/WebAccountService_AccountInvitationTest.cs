@@ -31,9 +31,9 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         {
             WebAccountService.TransitAccountInvitation t_instance = new WebAccountService.TransitAccountInvitation();
             t_instance.AccountId = _account_id;
-            t_instance.Email = string.Format("{0}@localhost.com", Guid.NewGuid().ToString());
-            t_instance.Message = Guid.NewGuid().ToString();
-            t_instance.Code = Guid.NewGuid().ToString(); // only useful when admin
+            t_instance.Email = GetNewEmailAddress();
+            t_instance.Message = GetNewString();
+            t_instance.Code = GetNewString(); // only useful when admin
             return t_instance;
         }
 
@@ -61,13 +61,13 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             t_instance.Id = Create(GetAdminTicket(), t_instance);
             // sign-up with this invitation
             WebAccountService.TransitAccount t_account = new WebAccountService.TransitAccount();
-            t_account.Name = Guid.NewGuid().ToString();
-            t_account.Password = Guid.NewGuid().ToString();
+            t_account.Name = GetNewString();
+            t_account.Password = GetNewString();
             t_account.Birthday = DateTime.UtcNow.AddYears(-10);
 
             try
             {
-                int impossible_id = EndPoint.CreateAccountWithInvitation(t_instance.Id, Guid.NewGuid().ToString(), t_account);
+                int impossible_id = EndPoint.CreateAccountWithInvitation(t_instance.Id, GetNewString(), t_account);
                 Assert.IsTrue(false, "Invalid code should have thrown an exception.");
             }
             catch (SoapException)
@@ -107,7 +107,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
 
             try
             {
-                EndPoint.DeclineInvitation(t_instance.Id, Guid.NewGuid().ToString());
+                EndPoint.DeclineInvitation(t_instance.Id, GetNewString());
                 Assert.IsTrue(false, "Invalid code should have thrown an exception.");
             }
             catch (SoapException)

@@ -31,7 +31,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         {
             WebAccountService.TransitAccountOpenId t_instance = new WebAccountService.TransitAccountOpenId();
             t_instance.AccountId = _account_id;
-            t_instance.IdentityUrl = string.Format("http://uri/{0}", Guid.NewGuid());
+            t_instance.IdentityUrl = GetNewUri();
             return t_instance;
         }
     }

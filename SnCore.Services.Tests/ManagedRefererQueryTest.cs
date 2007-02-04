@@ -16,7 +16,7 @@ namespace SnCore.Services.Tests
         public override TransitRefererQuery GetTransitInstance()
         {
             TransitRefererQuery t_instance = new TransitRefererQuery();
-            t_instance.Keywords = Guid.NewGuid().ToString();
+            t_instance.Keywords = GetNewString();
             t_instance.Total = 0;
             return t_instance;
         }

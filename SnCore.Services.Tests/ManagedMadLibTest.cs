@@ -33,8 +33,8 @@ namespace SnCore.Services.Tests
         {
             TransitMadLib t_instance = new TransitMadLib();
             t_instance.AccountId = _account.Instance.Id;
-            t_instance.Name = Guid.NewGuid().ToString();
-            t_instance.Template = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
+            t_instance.Template = GetNewString();
             return t_instance;
         }
     }

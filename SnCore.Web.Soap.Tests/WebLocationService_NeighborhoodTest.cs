@@ -35,7 +35,7 @@ namespace SnCore.Web.Soap.Tests.WebLocationServiceTests
         public override WebLocationService.TransitNeighborhood GetTransitInstance()
         {
             WebLocationService.TransitNeighborhood t_instance = new WebLocationService.TransitNeighborhood();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             t_instance.Country = (string)_city._state._country.GetInstancePropertyById(GetAdminTicket(), _city._state._country_id, "Name");
             t_instance.State = (string)_city._state.GetInstancePropertyById(GetAdminTicket(), _city._state_id, "Name");
             t_instance.City = (string)_city.GetInstancePropertyById(GetAdminTicket(), _city_id, "Name");

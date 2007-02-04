@@ -36,7 +36,7 @@ namespace SnCore.Services.Tests
         {
             TransitRefererAccount t_instance = new TransitRefererAccount();
             t_instance.AccountId = _account.Instance.Id;
-            t_instance.RefererHostLastRefererUri = string.Format("http://uri/{0}", Guid.NewGuid());
+            t_instance.RefererHostLastRefererUri = GetNewUri();
             t_instance.RefererHostName = _host.Instance.Instance.Host;
             t_instance.RefererHostTotal = 1;
             return t_instance;

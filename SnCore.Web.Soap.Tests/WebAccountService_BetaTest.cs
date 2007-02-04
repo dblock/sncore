@@ -33,7 +33,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             WebSystemService.TransitConfiguration t_betapassword = new WebSystemService.TransitConfiguration();
             t_betapassword = new WebSystemService.TransitConfiguration();
             t_betapassword.Name = "SnCore.Beta.Password";
-            t_betapassword.Value = Guid.NewGuid().ToString();
+            t_betapassword.Value = GetNewString();
             t_betapassword.Password = true;
             t_betapassword.Id = system.CreateOrUpdateConfiguration(GetAdminTicket(), t_betapassword);
             Assert.IsTrue(EndPoint.IsBetaPasswordSet());
@@ -42,7 +42,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
 
             try
             {
-                EndPoint.VerifyBetaPassword(Guid.NewGuid().ToString());
+                EndPoint.VerifyBetaPassword(GetNewString());
                 Assert.IsTrue(false, "Beta password verified when invalid.");
             }
             catch (SoapException)

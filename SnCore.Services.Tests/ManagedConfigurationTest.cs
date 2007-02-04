@@ -22,8 +22,8 @@ namespace SnCore.Services.Tests
             ManagedConfiguration c = null;
             try
             {
-                string name = Guid.NewGuid().ToString();
-                string value = Guid.NewGuid().ToString();
+                string name = GetNewString();
+                string value = GetNewString();
                 c = ManagedConfiguration.SetValue(Session, name, value);
                 Assert.AreEqual(value, ManagedConfiguration.GetValue(Session, name));
             }
@@ -36,8 +36,8 @@ namespace SnCore.Services.Tests
         [Test]
         public void TestGetValue()
         {
-            string defaultvalue = Guid.NewGuid().ToString();
-            string v = ManagedConfiguration.GetValue(Session, Guid.NewGuid().ToString(), defaultvalue);
+            string defaultvalue = GetNewString();
+            string v = ManagedConfiguration.GetValue(Session, GetNewString(), defaultvalue);
             Assert.AreEqual(v, defaultvalue);
         }
 
@@ -45,7 +45,7 @@ namespace SnCore.Services.Tests
         [ExpectedException(typeof(ManagedConfiguration.InvalidConfigurationException))]
         public void TestGetValueInvalid()
         {
-            ManagedConfiguration.GetValue(Session, Guid.NewGuid().ToString());
+            ManagedConfiguration.GetValue(Session, GetNewString());
         }
 
     }

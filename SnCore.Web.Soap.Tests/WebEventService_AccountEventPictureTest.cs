@@ -36,9 +36,9 @@ namespace SnCore.Web.Soap.Tests.WebEventServiceTests
         {
             WebEventService.TransitAccountEventPicture t_instance = new WebEventService.TransitAccountEventPicture();
             t_instance.AccountEventId = _event_id;
-            t_instance.Description = Guid.NewGuid().ToString();
-            t_instance.Name = Guid.NewGuid().ToString();
-            t_instance.Picture = ThumbnailBitmap.GetBitmapDataFromText(Guid.NewGuid().ToString(), 12, 240, 100);
+            t_instance.Description = GetNewString();
+            t_instance.Name = GetNewString();
+            t_instance.Picture = GetNewBitmap();
             return t_instance;
         }
 

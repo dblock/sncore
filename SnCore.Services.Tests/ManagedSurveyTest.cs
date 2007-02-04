@@ -16,7 +16,7 @@ namespace SnCore.Services.Tests
         public override TransitSurvey GetTransitInstance()
         {
             TransitSurvey t_instance = new TransitSurvey();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             return t_instance;
         }
     }

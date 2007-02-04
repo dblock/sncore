@@ -16,7 +16,7 @@ namespace SnCore.Services.Tests
         public override TransitBugSeverity GetTransitInstance()
         {
             TransitBugSeverity t_instance = new TransitBugSeverity();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             return t_instance;
         }
     }

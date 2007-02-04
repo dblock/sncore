@@ -16,7 +16,7 @@ namespace SnCore.Services.Tests
         public override TransitPlaceType GetTransitInstance()
         {
             TransitPlaceType t_instance = new TransitPlaceType();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             return t_instance;
         }
     }

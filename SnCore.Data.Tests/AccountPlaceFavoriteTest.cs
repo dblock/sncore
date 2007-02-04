@@ -15,10 +15,10 @@ namespace SnCore.Data.Tests
         public void TestCrud()
         {
             Country country = new Country();
-            country.Name = Guid.NewGuid().ToString();
+            country.Name = GetNewString();
 
             City city = new City();
-            city.Name = Guid.NewGuid().ToString();
+            city.Name = GetNewString();
             city.Country = country;
 
             Account acct = new Account();
@@ -28,11 +28,11 @@ namespace SnCore.Data.Tests
             acct.Birthday = new DateTime(1976, 9, 7);
 
             PlaceType placetype = new PlaceType();
-            placetype.Name = Guid.NewGuid().ToString();
+            placetype.Name = GetNewString();
 
             Place place = new Place();
             place.Account = acct;
-            place.Name = Guid.NewGuid().ToString();
+            place.Name = GetNewString();
             place.Created = place.Modified = DateTime.UtcNow;
             place.City = city;
             place.Type = placetype;
@@ -66,10 +66,10 @@ namespace SnCore.Data.Tests
         public void TestCrudMultipleSelect()
         {
             Country country = new Country();
-            country.Name = Guid.NewGuid().ToString();
+            country.Name = GetNewString();
 
             City city = new City();
-            city.Name = Guid.NewGuid().ToString();
+            city.Name = GetNewString();
             city.Country = country;
 
             Account acct = new Account();
@@ -79,11 +79,11 @@ namespace SnCore.Data.Tests
             acct.Birthday = new DateTime(1976, 9, 7);
 
             PlaceType placetype = new PlaceType();
-            placetype.Name = Guid.NewGuid().ToString();
+            placetype.Name = GetNewString();
 
             Place place = new Place();
             place.Account = acct;
-            place.Name = Guid.NewGuid().ToString();
+            place.Name = GetNewString();
             place.Created = place.Modified = DateTime.UtcNow;
             place.City = city;
             place.Type = placetype;
@@ -91,7 +91,7 @@ namespace SnCore.Data.Tests
 
             Place place2 = new Place();
             place2.Account = acct;
-            place2.Name = Guid.NewGuid().ToString();
+            place2.Name = GetNewString();
             place2.Created = place2.Modified = DateTime.UtcNow;
             place2.City = city;
             place2.Type = placetype;

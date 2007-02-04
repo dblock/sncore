@@ -16,7 +16,7 @@ namespace SnCore.Services.Tests
         public override TransitAccountEventType GetTransitInstance()
         {
             TransitAccountEventType t_instance = new TransitAccountEventType();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             return t_instance;
         }
     }

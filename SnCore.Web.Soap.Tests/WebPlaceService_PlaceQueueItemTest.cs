@@ -61,16 +61,16 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
         {
             AccountFriendTest friend = new AccountFriendTest();
             // make a friend
-            string email = string.Format("{0}@localhost.com", Guid.NewGuid());
+            string email = GetNewEmailAddress();
             string password = "password";
             int user_id = CreateUser(email, password);
-            int friend_request_id = friend.EndPoint.CreateOrUpdateAccountFriendRequest(GetAdminTicket(), user_id, Guid.NewGuid().ToString());
+            int friend_request_id = friend.EndPoint.CreateOrUpdateAccountFriendRequest(GetAdminTicket(), user_id, GetNewString());
             Console.WriteLine("Created friend request: {0}", friend_request_id);
             string ticket = Login(email, password);
-            friend.EndPoint.AcceptAccountFriendRequest(ticket, friend_request_id, Guid.NewGuid().ToString());
+            friend.EndPoint.AcceptAccountFriendRequest(ticket, friend_request_id, GetNewString());
             // create a queue for the friend
             WebPlaceService.TransitPlaceQueue t_queue = new WebPlaceService.TransitPlaceQueue();
-            t_queue.Name = Guid.NewGuid().ToString();
+            t_queue.Name = GetNewString();
             t_queue.AccountId = user_id;
             t_queue.PublishAll = t_queue.PublishFriends = true;
             t_queue.Id = EndPoint.CreateOrUpdatePlaceQueue(ticket, t_queue);

@@ -2095,40 +2095,6 @@ namespace SnCore.WebServices
 
         #endregion
 
-        #region AccountEmailMessage
-
-        [WebMethod(Description = "Send an account e-mail message.")]
-        public int SendAccountEmailMessage(string ticket, int id, TransitAccountEmailMessage message)
-        {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-
-                if (!sec.IsAdministrator())
-                {
-                    throw new ManagedAccount.AccessDeniedException();
-                }
-
-                AccountEmailMessage m = message.GetInstance(session, sec);
-                ManagedAccount user = new ManagedAccount(session, id);
-                m.Account = user.Instance;
-
-                if (!user.HasVerifiedEmail(sec))
-                    throw new ManagedAccount.NoVerifiedEmailException();
-
-                m.MailFrom = new MailAddress(user.GetActiveEmailAddress(), user.Name).ToString();
-                m.Sent = false;
-                m.Created = m.Modified = DateTime.UtcNow;
-                session.Save(m);
-
-                SnCore.Data.Hibernate.Session.Flush();
-                return m.Id;
-            }
-        }
-
-        #endregion
-
         #region AccountMessage
 
         /// <summary>
@@ -2263,5 +2229,97 @@ namespace SnCore.WebServices
         }
 
         #endregion
+
+        [WebMethod(Description = "Send an account e-mail message.")]
+        public int SendAccountEmailMessage(string ticket, int id, TransitAccountEmailMessage message)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+
+                if (!sec.IsAdministrator())
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                AccountEmailMessage m = message.GetInstance(session, sec);
+                ManagedAccount user = new ManagedAccount(session, id);
+                m.Account = user.Instance;
+
+                if (!user.HasVerifiedEmail(sec))
+                    throw new ManagedAccount.NoVerifiedEmailException();
+
+                m.MailFrom = new MailAddress(user.GetActiveEmailAddress(), user.Name).ToString();
+                m.Sent = false;
+                m.Created = m.Modified = DateTime.UtcNow;
+                session.Save(m);
+
+                SnCore.Data.Hibernate.Session.Flush();
+                return m.Id;
+            }
+        }
+
+        #region AccountEmailMessage
+
+        /// <summary>
+        /// Create or update a AccountEmailMessage.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="AccountEmailMessage">transit AccountEmailMessage</param>
+        [WebMethod(Description = "Create or update a AccountEmailMessage.")]
+        public int CreateOrUpdateAccountEmailMessage(string ticket, TransitAccountEmailMessage AccountEmailMessage)
+        {
+            return WebServiceImpl<TransitAccountEmailMessage, ManagedAccountEmailMessage, AccountEmailMessage>.CreateOrUpdate(
+                ticket, AccountEmailMessage);
+        }
+
+        /// <summary>
+        /// Get a AccountEmailMessage.
+        /// </summary>
+        /// <returns>transit AccountEmailMessage</returns>
+        [WebMethod(Description = "Get a AccountEmailMessage.")]
+        public TransitAccountEmailMessage GetAccountEmailMessageById(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountEmailMessage, ManagedAccountEmailMessage, AccountEmailMessage>.GetById(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Get all account e-mail messages.
+        /// </summary>
+        /// <returns>list of transit account e-mail messages</returns>
+        [WebMethod(Description = "Get all account e-mail messages.")]
+        public List<TransitAccountEmailMessage> GetAccountEmailMessages(string ticket, ServiceQueryOptions options)
+        {
+            return WebServiceImpl<TransitAccountEmailMessage, ManagedAccountEmailMessage, AccountEmailMessage>.GetList(
+                ticket, options);
+        }
+
+        /// <summary>
+        /// Get all account e-mail messages count.
+        /// </summary>
+        /// <returns>number of account e-mail messages</returns>
+        [WebMethod(Description = "Get all account e-mail messages count.")]
+        public int GetAccountEmailMessagesCount(string ticket)
+        {
+            return WebServiceImpl<TransitAccountEmailMessage, ManagedAccountEmailMessage, AccountEmailMessage>.GetCount(
+                ticket);
+        }
+
+        /// <summary>
+        /// Delete an account e-mail message.
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete an account e-mail message.")]
+        public void DeleteAccountEmailMessage(string ticket, int id)
+        {
+            WebServiceImpl<TransitAccountEmailMessage, ManagedAccountEmailMessage, AccountEmailMessage>.Delete(
+                ticket, id);
+        }
+
+        #endregion
+
     }
 }

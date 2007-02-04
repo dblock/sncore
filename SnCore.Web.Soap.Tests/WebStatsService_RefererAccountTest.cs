@@ -34,7 +34,7 @@ namespace SnCore.Web.Soap.Tests.WebStatsServiceTests
         {
             WebStatsService.TransitRefererAccount t_instance = new WebStatsService.TransitRefererAccount();
             t_instance.AccountId = base.GetUserAccount().Id;
-            t_instance.RefererHostLastRefererUri = string.Format("http://uri/{0}", Guid.NewGuid());
+            t_instance.RefererHostLastRefererUri = GetNewUri();
             t_instance.RefererHostName = (string)_host.GetInstancePropertyById(GetAdminTicket(), _host_id, "Host");
             t_instance.RefererHostTotal = 1;
             return t_instance;

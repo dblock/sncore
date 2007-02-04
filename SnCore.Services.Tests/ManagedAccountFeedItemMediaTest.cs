@@ -35,7 +35,8 @@ namespace SnCore.Services.Tests
             t_instance.AccountFeedId = _accountfeeditem.Instance.Instance.AccountFeed.Id;
             t_instance.AccountFeedItemId = _accountfeeditem.Instance.Id;
             t_instance.AccountId = _accountfeeditem.Instance.Instance.AccountFeed.Account.Id;
-            t_instance.EmbeddedHtml = Guid.NewGuid().ToString();
+            t_instance.EmbeddedHtml = GetNewString();
+            t_instance.Type = GetNewString();
             return t_instance;
         }
     }

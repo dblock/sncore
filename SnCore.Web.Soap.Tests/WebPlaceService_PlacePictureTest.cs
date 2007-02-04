@@ -35,10 +35,10 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
         public override WebPlaceService.TransitPlacePicture GetTransitInstance()
         {
             WebPlaceService.TransitPlacePicture t_instance = new WebPlaceService.TransitPlacePicture();
-            t_instance.Name = Guid.NewGuid().ToString();
-            t_instance.Description = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
+            t_instance.Description = GetNewString();
             t_instance.PlaceId = _place_id;
-            t_instance.Bitmap = ThumbnailBitmap.GetBitmapDataFromText(Guid.NewGuid().ToString(), 12, 240, 100);
+            t_instance.Bitmap = GetNewBitmap();
             return t_instance;
         }
 

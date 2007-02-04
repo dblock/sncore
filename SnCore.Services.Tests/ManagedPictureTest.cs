@@ -33,9 +33,9 @@ namespace SnCore.Services.Tests
         {
             TransitPicture t_instance = new TransitPicture();
             t_instance.Bitmap = new byte[128];
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             t_instance.Type = _type.Instance.Instance.Name;
-            t_instance.Description = Guid.NewGuid().ToString();
+            t_instance.Description = GetNewString();
             return t_instance;
         }
     }

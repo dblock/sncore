@@ -39,8 +39,8 @@ namespace SnCore.Services.Tests
         {
             TransitDiscussion t_instance = new TransitDiscussion();
             t_instance.AccountId = _account.Instance.Id;
-            t_instance.Description = Guid.NewGuid().ToString();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Description = GetNewString();
+            t_instance.Name = GetNewString();
             t_instance.ObjectId = _object.Instance.Id;
             return t_instance;
         }
@@ -57,8 +57,8 @@ namespace SnCore.Services.Tests
                 a.VerifyAllEmails();
 
                 TransitDiscussion t = new TransitDiscussion();
-                t.Name = Guid.NewGuid().ToString();
-                t.Description = Guid.NewGuid().ToString();
+                t.Name = GetNewString();
+                t.Description = GetNewString();
                 t.AccountId = a.Id;
                 t.Personal = false;
                 t.Created = t.Modified = DateTime.UtcNow;
@@ -85,14 +85,14 @@ namespace SnCore.Services.Tests
                 a.VerifyAllEmails();
 
                 TransitDiscussion t_d = new TransitDiscussion();
-                t_d.Description = Guid.NewGuid().ToString();
-                t_d.Name = Guid.NewGuid().ToString();
+                t_d.Description = GetNewString();
+                t_d.Name = GetNewString();
                 t_d.Personal = false;
                 d.CreateOrUpdate(t_d, a.GetSecurityContext());
 
                 TransitDiscussionPost t_p = new TransitDiscussionPost();
-                t_p.Subject = Guid.NewGuid().ToString();
-                t_p.Body = Guid.NewGuid().ToString();
+                t_p.Subject = GetNewString();
+                t_p.Body = GetNewString();
                 t_p.DiscussionId = d.Id;
                 p.CreateOrUpdate(t_p, a.GetSecurityContext());
 
@@ -118,14 +118,14 @@ namespace SnCore.Services.Tests
                 a.VerifyAllEmails();
 
                 TransitDiscussion t_d = new TransitDiscussion();
-                t_d.Description = Guid.NewGuid().ToString();
-                t_d.Name = Guid.NewGuid().ToString();
+                t_d.Description = GetNewString();
+                t_d.Name = GetNewString();
                 t_d.Personal = false;
                 d.CreateOrUpdate(t_d, a.GetSecurityContext());
 
                 TransitDiscussionPost t_p = new TransitDiscussionPost();
-                t_p.Subject = Guid.NewGuid().ToString();
-                t_p.Body = Guid.NewGuid().ToString();
+                t_p.Subject = GetNewString();
+                t_p.Body = GetNewString();
                 t_p.DiscussionId = d.Id;
 
                 int id1 = p.CreateOrUpdate(t_p, a.GetSecurityContext());
@@ -160,17 +160,17 @@ namespace SnCore.Services.Tests
                 a.VerifyAllEmails();
 
                 TransitDiscussion t_d = new TransitDiscussion();
-                t_d.Description = Guid.NewGuid().ToString();
-                t_d.Name = Guid.NewGuid().ToString();
+                t_d.Description = GetNewString();
+                t_d.Name = GetNewString();
                 t_d.Personal = false;
                 d1.CreateOrUpdate(t_d, a.GetSecurityContext());
 
-                t_d.Name = Guid.NewGuid().ToString();
+                t_d.Name = GetNewString();
                 d2.CreateOrUpdate(t_d, a.GetSecurityContext());
 
                 TransitDiscussionPost t_p = new TransitDiscussionPost();
-                t_p.Subject = Guid.NewGuid().ToString();
-                t_p.Body = Guid.NewGuid().ToString();
+                t_p.Subject = GetNewString();
+                t_p.Body = GetNewString();
                 t_p.DiscussionId = d1.Id;
 
                 int id1 = p.CreateOrUpdate(t_p, a.GetSecurityContext());
@@ -207,8 +207,8 @@ namespace SnCore.Services.Tests
                 a.VerifyAllEmails();
 
                 TransitDiscussion t_d = new TransitDiscussion();
-                t_d.Description = Guid.NewGuid().ToString();
-                t_d.Name = Guid.NewGuid().ToString();
+                t_d.Description = GetNewString();
+                t_d.Name = GetNewString();
                 t_d.Personal = false;
                 d.CreateOrUpdate(t_d, a.GetSecurityContext());
 
@@ -219,8 +219,8 @@ namespace SnCore.Services.Tests
                 Assert.AreEqual(0, t_instance1.ThreadCount);
 
                 TransitDiscussionPost t_p = new TransitDiscussionPost();
-                t_p.Subject = Guid.NewGuid().ToString();
-                t_p.Body = Guid.NewGuid().ToString();
+                t_p.Subject = GetNewString();
+                t_p.Body = GetNewString();
                 t_p.DiscussionId = d.Id;
                 p.CreateOrUpdate(t_p, a.GetSecurityContext());
 

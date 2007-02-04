@@ -16,7 +16,7 @@ namespace SnCore.Services.Tests
         public override TransitFeedType GetTransitInstance()
         {
             TransitFeedType t_instance = new TransitFeedType();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             return t_instance;
         }
     }

@@ -38,9 +38,9 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationServiceTests
             WebSyndicationService.TransitAccountFeedItemImg t_instance = new WebSyndicationService.TransitAccountFeedItemImg();
             t_instance.AccountFeedItemId = _accountfeeditem_id;
             t_instance.AccountId = GetUserAccount().Id;
-            t_instance.Description = Guid.NewGuid().ToString();
-            t_instance.Thumbnail = ThumbnailBitmap.GetBitmapDataFromText(Guid.NewGuid().ToString(), 10, 240, 100);
-            t_instance.Url = string.Format("http://uri/{0}", Guid.NewGuid());
+            t_instance.Description = GetNewString();
+            t_instance.Thumbnail = GetNewBitmap();
+            t_instance.Url = GetNewUri();
             return t_instance;
         }
 

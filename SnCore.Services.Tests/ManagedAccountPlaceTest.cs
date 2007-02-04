@@ -41,7 +41,7 @@ namespace SnCore.Services.Tests
             t_instance.Type = _type.Instance.Instance.Name;
             t_instance.PlaceId = _place.Instance.Id;
             t_instance.AccountId = _account.Instance.Id;
-            t_instance.Description = Guid.NewGuid().ToString();
+            t_instance.Description = GetNewString();
             return t_instance;
         }
     }

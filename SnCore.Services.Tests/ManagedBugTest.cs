@@ -50,12 +50,12 @@ namespace SnCore.Services.Tests
         {
             TransitBug t_instance = new TransitBug();
             t_instance.AccountId = _account.Instance.Id;
-            t_instance.Details = Guid.NewGuid().ToString();
+            t_instance.Details = GetNewString();
             t_instance.Priority = _priority.Instance.Instance.Name;
             t_instance.Resolution = _resolution.Instance.Instance.Name;
             t_instance.Severity = _severity.Instance.Instance.Name;
             t_instance.Status = _status.Instance.Instance.Name;
-            t_instance.Subject = Guid.NewGuid().ToString();
+            t_instance.Subject = GetNewString();
             t_instance.Type = _type.Instance.Instance.Name;
             t_instance.ProjectId = _project.Instance.Id;
             return t_instance;
@@ -80,27 +80,27 @@ namespace SnCore.Services.Tests
             try
             {
                 TransitBugPriority t_priority = new TransitBugPriority();
-                t_priority.Name = Guid.NewGuid().ToString();
+                t_priority.Name = GetNewString();
                 priority.CreateOrUpdate(t_priority, AdminSecurityContext);
 
                 TransitBugProject t_project = new TransitBugProject();
-                t_project.Name = Guid.NewGuid().ToString();
+                t_project.Name = GetNewString();
                 project.CreateOrUpdate(t_project, AdminSecurityContext);
 
                 TransitBugResolution t_resolution = new TransitBugResolution();
-                t_resolution.Name = Guid.NewGuid().ToString();
+                t_resolution.Name = GetNewString();
                 resolution.CreateOrUpdate(t_resolution, AdminSecurityContext);
 
                 TransitBugSeverity t_severity = new TransitBugSeverity();
-                t_severity.Name = Guid.NewGuid().ToString();
+                t_severity.Name = GetNewString();
                 severity.CreateOrUpdate(t_severity, AdminSecurityContext);
 
                 TransitBugStatus t_status = new TransitBugStatus();
-                t_status.Name = Guid.NewGuid().ToString();
+                t_status.Name = GetNewString();
                 status.CreateOrUpdate(t_status, AdminSecurityContext);
 
                 TransitBugType t_type = new TransitBugType();
-                t_type.Name = Guid.NewGuid().ToString();
+                t_type.Name = GetNewString();
                 type.CreateOrUpdate(t_type, AdminSecurityContext);
 
                 TransitBug t_bug = new TransitBug();
@@ -109,9 +109,9 @@ namespace SnCore.Services.Tests
                 t_bug.Resolution = t_resolution.Name;
                 t_bug.Severity = t_severity.Name;
                 t_bug.Status = t_status.Name;
-                t_bug.Subject = Guid.NewGuid().ToString();
+                t_bug.Subject = GetNewString();
                 t_bug.Type = t_type.Name;
-                t_bug.Details = Guid.NewGuid().ToString();
+                t_bug.Details = GetNewString();
                 t_bug.Id = bug.CreateOrUpdate(t_bug, AdminSecurityContext);
 
                 Session.Flush();
@@ -149,27 +149,27 @@ namespace SnCore.Services.Tests
             try
             {
                 TransitBugPriority t_priority = new TransitBugPriority();
-                t_priority.Name = Guid.NewGuid().ToString();
+                t_priority.Name = GetNewString();
                 priority.CreateOrUpdate(t_priority, AdminSecurityContext);
 
                 TransitBugProject t_project = new TransitBugProject();
-                t_project.Name = Guid.NewGuid().ToString();
+                t_project.Name = GetNewString();
                 project.CreateOrUpdate(t_project, AdminSecurityContext);
 
                 TransitBugResolution t_resolution = new TransitBugResolution();
-                t_resolution.Name = Guid.NewGuid().ToString();
+                t_resolution.Name = GetNewString();
                 resolution.CreateOrUpdate(t_resolution, AdminSecurityContext);
 
                 TransitBugSeverity t_severity = new TransitBugSeverity();
-                t_severity.Name = Guid.NewGuid().ToString();
+                t_severity.Name = GetNewString();
                 severity.CreateOrUpdate(t_severity, AdminSecurityContext);
 
                 TransitBugStatus t_status = new TransitBugStatus();
-                t_status.Name = Guid.NewGuid().ToString();
+                t_status.Name = GetNewString();
                 status.CreateOrUpdate(t_status, AdminSecurityContext);
 
                 TransitBugType t_type = new TransitBugType();
-                t_type.Name = Guid.NewGuid().ToString();
+                t_type.Name = GetNewString();
                 type.CreateOrUpdate(t_type, AdminSecurityContext);
 
                 TransitBug t_bug = new TransitBug();
@@ -178,9 +178,9 @@ namespace SnCore.Services.Tests
                 t_bug.Resolution = t_resolution.Name;
                 t_bug.Severity = t_severity.Name;
                 t_bug.Status = t_status.Name;
-                t_bug.Subject = Guid.NewGuid().ToString();
+                t_bug.Subject = GetNewString();
                 t_bug.Type = t_type.Name;
-                t_bug.Details = Guid.NewGuid().ToString();
+                t_bug.Details = GetNewString();
                 
                 bug.CreateOrUpdate(t_bug, AdminSecurityContext);
                 linkedbug.CreateOrUpdate(t_bug, AdminSecurityContext);
@@ -213,27 +213,27 @@ namespace SnCore.Services.Tests
             try
             {
                 TransitBugPriority t_priority = new TransitBugPriority();
-                t_priority.Name = Guid.NewGuid().ToString();
+                t_priority.Name = GetNewString();
                 priority.CreateOrUpdate(t_priority, AdminSecurityContext);
 
                 TransitBugProject t_project = new TransitBugProject();
-                t_project.Name = Guid.NewGuid().ToString();
+                t_project.Name = GetNewString();
                 project.CreateOrUpdate(t_project, AdminSecurityContext);
 
                 TransitBugResolution t_resolution = new TransitBugResolution();
-                t_resolution.Name = Guid.NewGuid().ToString();
+                t_resolution.Name = GetNewString();
                 resolution.CreateOrUpdate(t_resolution, AdminSecurityContext);
 
                 TransitBugSeverity t_severity = new TransitBugSeverity();
-                t_severity.Name = Guid.NewGuid().ToString();
+                t_severity.Name = GetNewString();
                 severity.CreateOrUpdate(t_severity, AdminSecurityContext);
 
                 TransitBugStatus t_status = new TransitBugStatus();
-                t_status.Name = Guid.NewGuid().ToString();
+                t_status.Name = GetNewString();
                 status.CreateOrUpdate(t_status, AdminSecurityContext);
 
                 TransitBugType t_type = new TransitBugType();
-                t_type.Name = Guid.NewGuid().ToString();
+                t_type.Name = GetNewString();
                 type.CreateOrUpdate(t_type, AdminSecurityContext);
 
                 TransitBug t_bug = new TransitBug();
@@ -265,7 +265,7 @@ namespace SnCore.Services.Tests
                 //{
                 //    TransitBugQueryOptions qo = new TransitBugQueryOptions();
                 //    qo.ProjectId = project.Id;
-                //    qo.SearchQuery = Guid.NewGuid().ToString();
+                //    qo.SearchQuery = GetNewString();
                 //    IQuery query = qo.GetQuery(Session);
                 //    IList list = query.List();
                 //    Assert.AreEqual(0, list.Count, "Wrong count on query with an unmatched query string.");

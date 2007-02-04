@@ -28,9 +28,9 @@ namespace SnCore.Services.Tests
                 a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
 
                 TransitCountry tc = new TransitCountry();
-                tc.Name = Guid.NewGuid().ToString();
+                tc.Name = GetNewString();
                 TransitState ts = new TransitState();
-                ts.Name = Guid.NewGuid().ToString();
+                ts.Name = GetNewString();
                 ts.Country = tc.Name;
 
                 c.CreateOrUpdate(tc, AdminSecurityContext);

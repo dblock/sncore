@@ -18,8 +18,8 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         public void CreateAccountEmailTest()
         {
             // create a user
-            string email = string.Format("{0}@localhost.com", Guid.NewGuid());
-            string password = Guid.NewGuid().ToString();
+            string email = GetNewEmailAddress();
+            string password = GetNewString();
             int user_id = CreateUser(email, password);
             Assert.IsTrue(user_id > 0);
             string ticket = Login(email, password);
@@ -74,8 +74,8 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         public void VerifyEmailTest()
         {
             // create a user
-            string email = string.Format("{0}@localhost.com", Guid.NewGuid());
-            string password = Guid.NewGuid().ToString();
+            string email = GetNewEmailAddress();
+            string password = GetNewString();
             int user_id = CreateUser(email, password);
             Assert.IsTrue(user_id > 0);
             string ticket = Login(email, password);
@@ -87,7 +87,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             Assert.AreEqual(verifiedemail, email);
             // add an e-mail
             WebAccountService.TransitAccountEmail t_instance = new WebAccountService.TransitAccountEmail();
-            t_instance.Address = string.Format("{0}@localhost.com", Guid.NewGuid());
+            t_instance.Address = GetNewEmailAddress();
             t_instance.Id = EndPoint.CreateOrUpdateAccountEmail(ticket, t_instance);
             Assert.IsTrue(t_instance.Id > 0);
             // verify e-mail
@@ -102,8 +102,8 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         public void SetPrincipalTest()
         {
             // create a user
-            string email = string.Format("{0}@localhost.com", Guid.NewGuid());
-            string password = Guid.NewGuid().ToString();
+            string email = GetNewEmailAddress();
+            string password = GetNewString();
             int user_id = CreateUser(email, password);
             Assert.IsTrue(user_id > 0);
             string ticket = Login(email, password);
@@ -115,7 +115,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             Assert.AreEqual(verifiedemail, email);
             // add an e-mail
             WebAccountService.TransitAccountEmail t_instance = new WebAccountService.TransitAccountEmail();
-            t_instance.Address = string.Format("{0}@localhost.com", Guid.NewGuid());
+            t_instance.Address = GetNewEmailAddress();
             t_instance.Id = EndPoint.CreateOrUpdateAccountEmail(ticket, t_instance);
             Assert.IsTrue(t_instance.Id > 0);
             // verify e-mail
@@ -166,8 +166,8 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         public void ConfirmAccountEmailTest()
         {
             // create a user
-            string email = string.Format("{0}@localhost.com", Guid.NewGuid());
-            string password = Guid.NewGuid().ToString();
+            string email = GetNewEmailAddress();
+            string password = GetNewString();
             int user_id = CreateUser(email, password);
             Assert.IsTrue(user_id > 0);
             string ticket = Login(email, password);
@@ -192,7 +192,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             // add an e-mail
             WebAccountService.TransitAccountEmail t_email = new WebAccountService.TransitAccountEmail();
             t_email.AccountId = user_id;
-            t_email.Address = string.Format("{0}@localhost.com", Guid.NewGuid());
+            t_email.Address = GetNewEmailAddress();
             t_email.Id = EndPoint.CreateOrUpdateAccountEmail(ticket, t_email);
             // verify that there're two confirmations pending
             WebAccountService.TransitAccountEmailConfirmation[] confirmations3 = EndPoint.GetAccountEmailConfirmations(GetAdminTicket(), user_id, null);

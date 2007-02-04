@@ -17,7 +17,7 @@ namespace SnCore.Web.Soap.Tests.WebEventServiceTests
         public override WebEventService.TransitAccountEventType GetTransitInstance()
         {
             WebEventService.TransitAccountEventType t_instance = new WebEventService.TransitAccountEventType();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             return t_instance;
         }
     }

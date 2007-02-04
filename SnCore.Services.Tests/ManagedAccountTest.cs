@@ -23,7 +23,7 @@ namespace SnCore.Services.Tests
                 if (_instance == null)
                 {
                     _instance = new ManagedAccount(Session);
-                    _instance.Create(Guid.NewGuid().ToString(), "password", string.Format("{0}@domain.com", Guid.NewGuid()), 
+                    _instance.Create(GetNewString(), "password", string.Format("{0}@domain.com", Guid.NewGuid()), 
                         DateTime.UtcNow, AdminSecurityContext);
                     _instance.VerifyAllEmails();
                 }
@@ -36,7 +36,7 @@ namespace SnCore.Services.Tests
             TransitAccount t_instance = new TransitAccount();
             t_instance.Birthday = DateTime.UtcNow;
             t_instance.LastLogin = DateTime.UtcNow;
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             return t_instance;
         }
 

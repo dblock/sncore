@@ -32,9 +32,9 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         {
             WebAccountService.TransitAccountPicture t_instance = new WebAccountService.TransitAccountPicture();
             t_instance.AccountId = _account_id;
-            t_instance.Description = Guid.NewGuid().ToString();
-            t_instance.Name = Guid.NewGuid().ToString();
-            t_instance.Bitmap = ThumbnailBitmap.GetBitmapDataFromText(Guid.NewGuid().ToString(), 12, 240, 100);
+            t_instance.Description = GetNewString();
+            t_instance.Name = GetNewString();
+            t_instance.Bitmap = GetNewBitmap();
             return t_instance;
         }
 

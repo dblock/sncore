@@ -18,8 +18,8 @@ namespace SnCore.Web.Soap.Tests.WebStatsServiceTests
         public override WebStatsService.TransitRefererHostDup GetTransitInstance()
         {
             WebStatsService.TransitRefererHostDup t_instance = new WebStatsService.TransitRefererHostDup();
-            t_instance.Host = Guid.NewGuid().ToString();
-            t_instance.RefererHost = Guid.NewGuid().ToString();
+            t_instance.Host = GetNewString();
+            t_instance.RefererHost = GetNewString();
             return t_instance;
         }
     }

@@ -35,7 +35,7 @@ namespace SnCore.Services.Tests
         public override TransitAccountSurveyAnswer GetTransitInstance()
         {
             TransitAccountSurveyAnswer t_instance = new TransitAccountSurveyAnswer();
-            t_instance.Answer = Guid.NewGuid().ToString();
+            t_instance.Answer = GetNewString();
             t_instance.SurveyQuestionId = _surveyquestion.Instance.Id;
             t_instance.AccountId = _account.Instance.Id;
             return t_instance;

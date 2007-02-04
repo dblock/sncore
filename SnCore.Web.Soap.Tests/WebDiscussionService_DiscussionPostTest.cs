@@ -38,9 +38,9 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
         public override WebDiscussionService.TransitDiscussionPost GetTransitInstance()
         {
             WebDiscussionService.TransitDiscussionPost t_instance = new WebDiscussionService.TransitDiscussionPost();
-            t_instance.Body = Guid.NewGuid().ToString();
+            t_instance.Body = GetNewString();
             t_instance.DiscussionId = _discussion_id;
-            t_instance.Subject = Guid.NewGuid().ToString();
+            t_instance.Subject = GetNewString();
             return t_instance;
         }
 

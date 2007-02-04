@@ -34,8 +34,8 @@ namespace SnCore.Services.Tests
         {
             TransitAccountEventPicture t_instance = new TransitAccountEventPicture();
             t_instance.AccountEventId = _accountevent.Instance.Id;
-            t_instance.Description = Guid.NewGuid().ToString();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Description = GetNewString();
+            t_instance.Name = GetNewString();
             return t_instance;
         }
     }

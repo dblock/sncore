@@ -36,10 +36,10 @@ namespace SnCore.Services.Tests
         {
             TransitDiscussionPost t_instance = new TransitDiscussionPost();
             t_instance.AccountId = _account.Instance.Id;
-            t_instance.Body = Guid.NewGuid().ToString();
+            t_instance.Body = GetNewString();
             t_instance.DiscussionId = _thread.Instance.Instance.Discussion.Id;
             t_instance.DiscussionThreadId = _thread.Instance.Id;
-            t_instance.Subject = Guid.NewGuid().ToString();
+            t_instance.Subject = GetNewString();
             t_instance.DiscussionPostParentId = 0;
             return t_instance;
         }
@@ -51,10 +51,10 @@ namespace SnCore.Services.Tests
             ManagedDiscussionPost m_post = new ManagedDiscussionPost(Session);
             try
             {
-                string email = string.Format("{0}@localhost.com", Guid.NewGuid());
+                string email = GetNewEmailAddress();
                 TransitAccount t_instance = new TransitAccount();
-                t_instance.Password = Guid.NewGuid().ToString();
-                t_instance.Name = Guid.NewGuid().ToString();
+                t_instance.Password = GetNewString();
+                t_instance.Name = GetNewString();
                 t_instance.Birthday = DateTime.UtcNow;
                 int account_id = account.Create(email, t_instance, GetSecurityContext());
 
@@ -86,10 +86,10 @@ namespace SnCore.Services.Tests
             ManagedAccount account = new ManagedAccount(Session);
             try
             {
-                string email = string.Format("{0}@localhost.com", Guid.NewGuid());
+                string email = GetNewEmailAddress();
                 TransitAccount t_instance = new TransitAccount();
-                t_instance.Password = Guid.NewGuid().ToString();
-                t_instance.Name = Guid.NewGuid().ToString();
+                t_instance.Password = GetNewString();
+                t_instance.Name = GetNewString();
                 t_instance.Birthday = DateTime.UtcNow;
                 int account_id = account.Create(email, t_instance, GetSecurityContext());
 

@@ -17,8 +17,8 @@ namespace SnCore.Web.Soap.Tests.WebBlogServiceTests
         public override WebBlogService.TransitAccountBlog GetTransitInstance()
         {
             WebBlogService.TransitAccountBlog t_instance = new WebBlogService.TransitAccountBlog();
-            t_instance.Name = Guid.NewGuid().ToString();
-            t_instance.Description = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
+            t_instance.Description = GetNewString();
             return t_instance;
         }
 

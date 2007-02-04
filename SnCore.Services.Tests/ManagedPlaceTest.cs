@@ -44,10 +44,10 @@ namespace SnCore.Services.Tests
             t_instance.AccountId = _account.Instance.Id;
             t_instance.City = _city.Instance.Name;
             t_instance.Country = _city.Instance.Instance.Country.Name;
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             t_instance.State = _city.Instance.Instance.State.Name;
             t_instance.Type = _type.Instance.Instance.Name;
-            t_instance.Website = string.Format("http://uri/{0}", Guid.NewGuid());
+            t_instance.Website = GetNewUri();
             return t_instance;
         }
 
@@ -67,14 +67,14 @@ namespace SnCore.Services.Tests
                 a.VerifyAllEmails();
 
                 TransitCountry tc = new TransitCountry();
-                tc.Name = Guid.NewGuid().ToString();
+                tc.Name = GetNewString();
 
                 TransitState tt = new TransitState();
-                tt.Name = Guid.NewGuid().ToString();
+                tt.Name = GetNewString();
                 tt.Country = tc.Name;
 
                 TransitCity ts = new TransitCity();
-                ts.Name = Guid.NewGuid().ToString();
+                ts.Name = GetNewString();
                 ts.Country = tc.Name;
                 ts.State = tt.Name;
 
@@ -83,17 +83,17 @@ namespace SnCore.Services.Tests
                 s.CreateOrUpdate(ts, AdminSecurityContext);
 
                 TransitPlaceType t_type = new TransitPlaceType();
-                t_type.Name = Guid.NewGuid().ToString();
+                t_type.Name = GetNewString();
                 type.CreateOrUpdate(t_type, AdminSecurityContext);
 
                 TransitPlace t_place = new TransitPlace();
-                t_place.Name = Guid.NewGuid().ToString();
+                t_place.Name = GetNewString();
                 t_place.Type = t_type.Name;
                 t_place.City = ts.Name;
                 t_place.Country = tc.Name;
                 t_place.State = tt.Name;
                 t_place.AccountId = a.Id;
-                t_place.Website = string.Format("http://uri/{0}", Guid.NewGuid());
+                t_place.Website = GetNewUri();
 
                 ManagedPlace m_place = new ManagedPlace(Session);
                 m_place.CreateOrUpdate(t_place, a.GetSecurityContext());

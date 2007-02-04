@@ -37,10 +37,10 @@ namespace SnCore.Services.Tests
             TransitAccountMessage t_instance = new TransitAccountMessage();
             t_instance.AccountId = _folder.Instance.Account.Id;
             t_instance.AccountMessageFolderId = _folder.Instance.Id;
-            t_instance.Body = Guid.NewGuid().ToString();
+            t_instance.Body = GetNewString();
             t_instance.RecepientAccountId = _account2.Instance.Id;
             t_instance.SenderAccountId = _folder.Instance.Account.Id;
-            t_instance.Subject = Guid.NewGuid().ToString();
+            t_instance.Subject = GetNewString();
             t_instance.Sent = DateTime.UtcNow;
             return t_instance;
         }

@@ -37,8 +37,8 @@ namespace SnCore.Services.Tests
         {
             TransitPlaceQueue t_instance = new TransitPlaceQueue();
             t_instance.AccountId = _account.Instance.Id;
-            t_instance.Description = Guid.NewGuid().ToString();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Description = GetNewString();
+            t_instance.Name = GetNewString();
             return t_instance;
         }
 
@@ -54,7 +54,7 @@ namespace SnCore.Services.Tests
                 TransitPlaceQueue t_q = new TransitPlaceQueue();
 
                 t_q.AccountId = a.Id;
-                t_q.Name = Guid.NewGuid().ToString();
+                t_q.Name = GetNewString();
                 t_q.PublishAll = false;
                 t_q.PublishFriends = true;
 

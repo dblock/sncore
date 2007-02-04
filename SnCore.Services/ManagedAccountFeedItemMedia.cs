@@ -139,20 +139,6 @@ namespace SnCore.Services
             }
         }
 
-        private byte[] mThumbnail;
-
-        public byte[] Thumbnail
-        {
-            get
-            {
-                return mThumbnail;
-            }
-            set
-            {
-                mThumbnail = value;
-            }
-        }
-
         private string mLastError;
 
         public string LastError
@@ -255,6 +241,21 @@ namespace SnCore.Services
             }
         }
 
+        private string mType;
+
+        public string Type
+        {
+            get
+            {
+
+                return mType;
+            }
+            set
+            {
+                mType = value;
+            }
+        }
+
         public TransitAccountFeedItemMedia()
         {
 
@@ -275,6 +276,7 @@ namespace SnCore.Services
             Interesting = instance.Interesting;
             Visible = instance.Visible;
             LastError = instance.LastError;
+            Type = instance.Type;
             AccountFeedItemTitle = instance.AccountFeedItem.Title;
             AccountFeedName = instance.AccountFeedItem.AccountFeed.Name;
             AccountName = instance.AccountFeedItem.AccountFeed.Account.Name;
@@ -290,6 +292,7 @@ namespace SnCore.Services
             instance.Interesting = this.Interesting;
             instance.Visible = this.Visible;
             instance.LastError = this.LastError;
+            instance.Type = this.Type;
             if (this.AccountFeedItemId != 0) instance.AccountFeedItem = session.Load<AccountFeedItem>(AccountFeedItemId);
             return instance;
         }

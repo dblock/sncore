@@ -35,7 +35,7 @@ namespace SnCore.Web.Soap.Tests.WebBugServiceTests
         {
             WebBugService.TransitBugNote t_instance = new WebBugService.TransitBugNote();
             t_instance.BugId = _bug_id;
-            t_instance.Details = Guid.NewGuid().ToString();
+            t_instance.Details = GetNewString();
             return t_instance;
         }
 

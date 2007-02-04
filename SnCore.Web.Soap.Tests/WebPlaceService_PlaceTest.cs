@@ -42,14 +42,14 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
         public override WebPlaceService.TransitPlace GetTransitInstance()
         {
             WebPlaceService.TransitPlace t_instance = new WebPlaceService.TransitPlace();
-            t_instance.Name = Guid.NewGuid().ToString();
-            t_instance.CrossStreet = Guid.NewGuid().ToString();
-            t_instance.Description = Guid.NewGuid().ToString();
-            t_instance.Email = string.Format("{0}@localhost.com", Guid.NewGuid());
+            t_instance.Name = GetNewString();
+            t_instance.CrossStreet = GetNewString();
+            t_instance.Description = GetNewString();
+            t_instance.Email = GetNewEmailAddress();
             t_instance.Fax = "(123) 123-4567";
             t_instance.Phone = "(123) 123-4567";
-            t_instance.Street = Guid.NewGuid().ToString();
-            t_instance.Website = string.Format("http://uri/{0}", Guid.NewGuid());
+            t_instance.Street = GetNewString();
+            t_instance.Website = GetNewUri();
             t_instance.Zip = "12345";
             t_instance.Neighborhood = (string) _neighborhood.GetInstancePropertyById(GetAdminTicket(), _neighborhood_id, "Name");
             t_instance.City = (string) _neighborhood._city.GetInstancePropertyById(GetAdminTicket(), _neighborhood._city_id, "Name");

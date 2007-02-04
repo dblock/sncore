@@ -32,7 +32,7 @@ namespace SnCore.Services.Tests
         public override TransitPlaceName GetTransitInstance()
         {
             TransitPlaceName t_instance = new TransitPlaceName();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             t_instance.PlaceId = _place.Instance.Id;
             return t_instance;
         }

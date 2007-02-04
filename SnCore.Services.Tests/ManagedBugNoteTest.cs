@@ -37,7 +37,7 @@ namespace SnCore.Services.Tests
             TransitBugNote t_instance = new TransitBugNote();
             t_instance.BugId = _bug.Instance.Id;
             t_instance.AccountId = _account.Instance.Id;
-            t_instance.Details = Guid.NewGuid().ToString();
+            t_instance.Details = GetNewString();
             return t_instance;
         }
     }

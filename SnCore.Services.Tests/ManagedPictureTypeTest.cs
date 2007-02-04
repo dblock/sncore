@@ -16,7 +16,7 @@ namespace SnCore.Services.Tests
         public override TransitPictureType GetTransitInstance()
         {
             TransitPictureType t_instance = new TransitPictureType();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             return t_instance;
         }
     }

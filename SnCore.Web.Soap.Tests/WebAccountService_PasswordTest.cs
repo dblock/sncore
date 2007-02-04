@@ -12,13 +12,13 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         [Test]
         public void ChangePasswordTest()
         {
-            string email = string.Format("{0}@localhost.com", Guid.NewGuid());
-            string password = Guid.NewGuid().ToString();
+            string email = GetNewEmailAddress();
+            string password = GetNewString();
             int user_id = CreateUser(email, password);
             Assert.IsTrue(user_id > 0);
             string ticket = EndPoint.Login(email, password);
             Assert.IsFalse(string.IsNullOrEmpty(ticket));
-            string newpassword = Guid.NewGuid().ToString();
+            string newpassword = GetNewString();
             EndPoint.ChangePassword(ticket, user_id, password, newpassword);
 
             try
@@ -40,14 +40,14 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         [Test]
         public void ResetPasswordTest()
         {
-            string email = string.Format("{0}@localhost.com", Guid.NewGuid());
-            string password = Guid.NewGuid().ToString();
+            string email = GetNewEmailAddress();
+            string password = GetNewString();
             DateTime dateofbirth = DateTime.UtcNow.AddYears(-10);
             int user_id = CreateUser(email, password, dateofbirth);
             Assert.IsTrue(user_id > 0);
             string ticket = EndPoint.Login(email, password);
             Assert.IsFalse(string.IsNullOrEmpty(ticket));
-            string newpassword = Guid.NewGuid().ToString();
+            string newpassword = GetNewString();
 
             try
             {

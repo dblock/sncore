@@ -38,10 +38,10 @@ namespace SnCore.Web.Soap.Tests.WebObjectServiceTests
         {
             WebObjectService.TransitReminder t_instance = new WebObjectService.TransitReminder();
             t_instance.DataObject_Id = _dataobject_id;
-            t_instance.DataObjectField = Guid.NewGuid().ToString();
+            t_instance.DataObjectField = GetNewString();
             t_instance.DeltaHours = 24;
             t_instance.Enabled = false;
-            t_instance.Url = string.Format("http://uri/{0}", Guid.NewGuid());
+            t_instance.Url = GetNewUri();
             return t_instance;
         }
 

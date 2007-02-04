@@ -16,7 +16,7 @@ namespace SnCore.Services.Tests
         public override TransitBugResolution GetTransitInstance()
         {
             TransitBugResolution t_instance = new TransitBugResolution();
-            t_instance.Name = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
             return t_instance;
         }
     }

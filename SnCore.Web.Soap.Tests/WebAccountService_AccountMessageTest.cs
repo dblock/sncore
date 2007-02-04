@@ -41,8 +41,8 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             t_instance.AccountId = _folder._account_id;
             t_instance.RecepientAccountId = GetAdminAccount().Id;
             t_instance.SenderAccountId = _folder._account_id;
-            t_instance.Subject = Guid.NewGuid().ToString();
-            t_instance.Body = Guid.NewGuid().ToString();
+            t_instance.Subject = GetNewString();
+            t_instance.Body = GetNewString();
             t_instance.AccountMessageFolderId = _folder_id;
             return t_instance;
         }

@@ -18,10 +18,10 @@ namespace SnCore.Web.Soap.Tests.WebObjectServiceTests
         public override WebObjectService.TransitAttribute GetTransitInstance()
         {
             WebObjectService.TransitAttribute t_instance = new WebObjectService.TransitAttribute();
-            t_instance.Name = Guid.NewGuid().ToString();
-            t_instance.DefaultUrl = string.Format("http://uri/{0}", Guid.NewGuid());
-            t_instance.DefaultValue = Guid.NewGuid().ToString();
-            t_instance.Description = Guid.NewGuid().ToString();
+            t_instance.Name = GetNewString();
+            t_instance.DefaultUrl = GetNewUri();
+            t_instance.DefaultValue = GetNewString();
+            t_instance.Description = GetNewString();
             return t_instance;
         }
 

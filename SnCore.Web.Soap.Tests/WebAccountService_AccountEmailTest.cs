@@ -30,7 +30,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         public override WebAccountService.TransitAccountEmail GetTransitInstance()
         {
             WebAccountService.TransitAccountEmail t_instance = new WebAccountService.TransitAccountEmail();
-            t_instance.Address = string.Format("{0}@localhost.com", Guid.NewGuid().ToString());
+            t_instance.Address = GetNewEmailAddress();
             return t_instance;
         }
 
@@ -38,8 +38,8 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         public void CreateAccountEmailTest()
         {
             // create a user
-            string email = string.Format("{0}@localhost.com", Guid.NewGuid());
-            string password = Guid.NewGuid().ToString();
+            string email = GetNewEmailAddress();
+            string password = GetNewString();
             int user_id = CreateUser(email, password);
             Assert.IsTrue(user_id > 0);
             string ticket = Login(email, password);
@@ -49,8 +49,8 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             Assert.AreEqual(1, emails.Length);
             Assert.AreEqual(email, emails[0].Address, "E-mail addresses don't match.");
 
-            string email2 = string.Format("{0}@localhost.com", Guid.NewGuid());
-            string password2 = Guid.NewGuid().ToString();
+            string email2 = GetNewEmailAddress();
+            string password2 = GetNewString();
             int user2_id = CreateUser(email2, password2);
             string ticket2 = Login(email2, password2);
 
@@ -69,8 +69,8 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         [Test]
         public void HasVerifiedEmailTest()
         {
-            string email = string.Format("{0}@localhost.com", Guid.NewGuid());
-            string password = Guid.NewGuid().ToString();
+            string email = GetNewEmailAddress();
+            string password = GetNewString();
             int user_id = CreateUser(email, password);
             Assert.IsTrue(user_id > 0);
             string ticket = Login(email, password);
@@ -87,8 +87,8 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         [Test]
         public void GetActiveEmailAddressTest()
         {
-            string email = string.Format("{0}@localhost.com", Guid.NewGuid());
-            string password = Guid.NewGuid().ToString();
+            string email = GetNewEmailAddress();
+            string password = GetNewString();
             int user_id = CreateUser(email, password);
             Assert.IsTrue(user_id > 0);
             string ticket = Login(email, password);

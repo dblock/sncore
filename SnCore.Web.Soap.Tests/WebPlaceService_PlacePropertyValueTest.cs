@@ -42,7 +42,7 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
             WebPlaceService.TransitPlacePropertyValue t_instance = new WebPlaceService.TransitPlacePropertyValue();
             t_instance.PlacePropertyId = _property_id;
             t_instance.PlaceId = _place_id;
-            t_instance.Value = Guid.NewGuid().ToString();
+            t_instance.Value = GetNewString();
             return t_instance;
         }
 
