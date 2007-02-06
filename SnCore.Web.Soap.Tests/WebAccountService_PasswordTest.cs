@@ -38,6 +38,29 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         }
 
         [Test]
+        public void ChangePasswordAdminTest()
+        {
+            string email = GetNewEmailAddress();
+            string password = GetNewString();
+            DateTime dateofbirth = DateTime.UtcNow.AddYears(-10);
+            int user_id = CreateUser(email, password, dateofbirth);
+            Assert.IsTrue(user_id > 0);
+            WebAccountService.TransitAccount ta1 = EndPoint.GetAccountById(GetAdminTicket(), user_id);
+            Assert.IsFalse(ta1.IsPasswordExpired, "Password is not expired after admin password reset.");
+            string newpassword = GetNewString();
+            EndPoint.ChangePassword(GetAdminTicket(), user_id, string.Empty, newpassword);
+            // get the user and check whether password is properly expired
+            WebAccountService.TransitAccount ta2 = EndPoint.GetAccountById(GetAdminTicket(), user_id);
+            Assert.IsTrue(ta2.IsPasswordExpired, "Password is not expired after admin password reset.");
+            // check that it resets back when the user logs in
+            string ticket = EndPoint.Login(email, newpassword);
+            Assert.IsFalse(string.IsNullOrEmpty(ticket));
+            EndPoint.ChangePassword(ticket, user_id, newpassword, GetNewString());
+            WebAccountService.TransitAccount ta3 = EndPoint.GetAccountById(GetAdminTicket(), user_id);
+            Assert.IsFalse(ta3.IsPasswordExpired, "Password is expired after user changes it.");
+        }
+
+        [Test]
         public void ResetPasswordTest()
         {
             string email = GetNewEmailAddress();
