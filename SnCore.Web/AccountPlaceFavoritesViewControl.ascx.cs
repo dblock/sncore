@@ -45,7 +45,7 @@ public partial class AccountPlaceFavoritesViewControl : Control
     {
         placesList.CurrentPageIndex = 0;
         placesList.VirtualItemCount = SessionManager.GetCount<TransitAccountPlaceFavorite, int>(
-            AccountId, SessionManager.PlaceService.GetAccountPlaceFavoritesCount);
+            AccountId, SessionManager.PlaceService.GetAccountPlaceFavoritesCountByAccountId);
         placesList_OnGetDataSource(sender, e);
         placesList.DataBind();
         this.Visible = (placesList.VirtualItemCount > 0);
@@ -57,7 +57,7 @@ public partial class AccountPlaceFavoritesViewControl : Control
         options.PageNumber = placesList.CurrentPageIndex;
         options.PageSize = placesList.PageSize;
         placesList.DataSource = SessionManager.GetCollection<TransitAccountPlaceFavorite, int>(
-            AccountId, options, SessionManager.PlaceService.GetAccountPlaceFavorites);
+            AccountId, options, SessionManager.PlaceService.GetAccountPlaceFavoritesByAccountId);
         panelGrid.Update();
     }
 }
