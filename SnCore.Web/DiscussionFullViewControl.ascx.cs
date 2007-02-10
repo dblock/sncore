@@ -73,7 +73,7 @@ public partial class DiscussionFullViewControl : Control
                 case "Delete":
                     {
                         int id = int.Parse(e.CommandArgument.ToString());
-                        SessionManager.DiscussionService.DeleteDiscussionPost(SessionManager.Ticket, id);
+                        SessionManager.Delete<TransitDiscussionPost>(id, SessionManager.DiscussionService.DeleteDiscussionPost);
                         discussionView.DataSource = SessionManager.DiscussionService.GetDiscussionPosts(
                             SessionManager.Ticket, DiscussionId, null);
                         discussionView.DataBind();

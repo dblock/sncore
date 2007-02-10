@@ -56,7 +56,8 @@ public partial class AccountRedirectEdit : AuthenticatedPage
         tr.SourceUri = inputSourceUri.Text;
         tr.TargetUri = inputTargetUri.Text;
         tr.Id = RequestId;
-        SessionManager.AccountService.CreateOrUpdateAccountRedirect(SessionManager.Ticket, tr);
+        SessionManager.CreateOrUpdate<TransitAccountRedirect>(
+            tr, SessionManager.AccountService.CreateOrUpdateAccountRedirect);
         Redirect("AccountRedirectsManage.aspx");
     }
 }

@@ -62,7 +62,7 @@ public partial class SystemRefererAccountsManage : AuthenticatedPage
                 switch (e.CommandName)
                 {
                     case "Delete":
-                        SessionManager.StatsService.DeleteRefererAccount(SessionManager.Ticket, id);
+                        SessionManager.Delete<TransitRefererAccount>(id, SessionManager.StatsService.DeleteRefererAccount);
                         ReportInfo("Referer account deleted.");
                         gridManage.CurrentPageIndex = 0;
                         gridManage_OnGetDataSource(source, e);

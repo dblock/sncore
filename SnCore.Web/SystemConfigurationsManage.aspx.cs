@@ -50,7 +50,7 @@ public partial class SystemConfigurationsManage : AuthenticatedPage
                 TransitConfiguration tc = SessionManager.SystemService.GetConfigurationById(
                     SessionManager.Ticket, id);
                 Page.Cache.Remove(string.Format("settings:{0}", tc.Name));
-                SessionManager.SystemService.DeleteConfiguration(SessionManager.Ticket, id);
+                SessionManager.Delete<TransitConfiguration>(id, SessionManager.SystemService.DeleteConfiguration);
                 ReportInfo(string.Format("Configuration \"{0}\" deleted.", base.Render(tc.Name)));
                 gridManage.CurrentPageIndex = 0;
                 gridManage_OnGetDataSource(sender, e);

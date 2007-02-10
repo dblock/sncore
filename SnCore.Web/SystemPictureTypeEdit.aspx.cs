@@ -45,7 +45,8 @@ public partial class SystemPictureTypeEdit : AuthenticatedPage
             TransitPictureType t = new TransitPictureType();
             t.Name = inputName.Text;
             t.Id = RequestId;
-            SessionManager.ObjectService.CreateOrUpdatePictureType(SessionManager.Ticket, t);
+            SessionManager.CreateOrUpdate<TransitPictureType>(
+                t, SessionManager.ObjectService.CreateOrUpdatePictureType);
             Redirect("SystemPictureTypesManage.aspx");
     }
 }

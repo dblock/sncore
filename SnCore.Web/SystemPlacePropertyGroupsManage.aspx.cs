@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.SiteMap;
+using SnCore.Services;
 
 public partial class SystemPlacePropertyGroupsManage : AuthenticatedPage
 {
@@ -51,7 +52,7 @@ public partial class SystemPlacePropertyGroupsManage : AuthenticatedPage
                 switch (e.CommandName)
                 {
                     case "Delete":
-                        SessionManager.PlaceService.DeletePlacePropertyGroup(SessionManager.Ticket, id);
+                        SessionManager.Delete<TransitPlacePropertyGroup>(id, SessionManager.PlaceService.DeletePlacePropertyGroup);
                         ReportInfo("Place property group deleted.");
                         gridManage.CurrentPageIndex = 0;
                         gridManage_OnGetDataSource(source, e);

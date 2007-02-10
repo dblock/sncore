@@ -89,7 +89,8 @@ public partial class AccountBlogEdit : AuthenticatedPage
         s.Name = inputName.Text;
         s.Description = inputDescription.Text;
         s.AccountId = SessionManager.Account.Id;
-        s.Id = SessionManager.BlogService.CreateOrUpdateAccountBlog(SessionManager.Ticket, s);
+        s.Id = SessionManager.CreateOrUpdate<TransitAccountBlog>(
+            s, SessionManager.BlogService.CreateOrUpdateAccountBlog);
         // automatically syndicate the blog
         SessionManager.BlogService.SyndicateAccountBlog(SessionManager.Ticket, s.Id);
         Redirect("AccountBlogsManage.aspx");
@@ -124,7 +125,8 @@ public partial class AccountBlogEdit : AuthenticatedPage
         {
             case "Delete":
                 int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                SessionManager.BlogService.DeleteAccountBlogPost(SessionManager.Ticket, id);
+                SessionManager.Delete<TransitAccountBlogPost>(
+                    id, SessionManager.BlogService.DeleteAccountBlogPost);
                 ReportInfo("Blog post deleted.");
                 gridManagePosts.CurrentPageIndex = 0;
                 gridManagePosts_OnGetDataSource(sender, e);
@@ -139,7 +141,8 @@ public partial class AccountBlogEdit : AuthenticatedPage
         switch (e.CommandName)
         {
             case "Delete":
-                SessionManager.BlogService.DeleteAccountBlogAuthor(SessionManager.Ticket, id);
+                SessionManager.Delete<TransitAccountBlogAuthor>(
+                    id, SessionManager.BlogService.DeleteAccountBlogAuthor);
                 ReportInfo("Blog author removed.");
                 gridManageAuthors.CurrentPageIndex = 0;
                 gridManageAuthors_OnGetDataSource(sender, e);

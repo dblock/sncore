@@ -45,7 +45,8 @@ public partial class BugProjectEdit : AuthenticatedPage
         t.Name = inputName.Text;
         t.Description = inputDescription.Text;
         t.Id = RequestId;
-        SessionManager.BugService.CreateOrUpdateBugProject(SessionManager.Ticket, t);
+        SessionManager.CreateOrUpdate<TransitBugProject>(
+            t, SessionManager.BugService.CreateOrUpdateBugProject);
         Redirect("BugProjectsManage.aspx");
     }
 }

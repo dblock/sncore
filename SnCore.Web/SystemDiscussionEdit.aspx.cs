@@ -50,7 +50,8 @@ public partial class SystemDiscussionEdit : AuthenticatedPage
         tw.Name = inputName.Text;
         tw.Description = inputDescription.Text;
         tw.Id = RequestId;
-        SessionManager.DiscussionService.CreateOrUpdateDiscussion(SessionManager.Ticket, tw);
+        SessionManager.CreateOrUpdate<TransitDiscussion>(
+            tw, SessionManager.DiscussionService.CreateOrUpdateDiscussion);
         Redirect("SystemDiscussionsManage.aspx");
 
     }

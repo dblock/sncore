@@ -55,7 +55,7 @@ public partial class AccountView : Page
             if (mAccountFeature == null)
             {
                 mAccountFeature = SessionManager.ObjectService.FindLatestFeature(
-                    SessionManager.Ticket, "Account", Account.Id);
+                    SessionManager.Ticket, "Account", RequestId);
             }
             return mAccountFeature;
         }
@@ -186,7 +186,8 @@ public partial class AccountView : Page
         TransitFeature t_feature = new TransitFeature();
         t_feature.DataObjectName = "Account";
         t_feature.DataRowId = AccountId;
-        SessionManager.ObjectService.CreateOrUpdateFeature(SessionManager.Ticket, t_feature);
+        SessionManager.CreateOrUpdate<TransitFeature>(
+            t_feature, SessionManager.ObjectService.CreateOrUpdateFeature);
         Redirect(Request.Url.PathAndQuery);
     }
 
@@ -242,6 +243,7 @@ public partial class AccountView : Page
         t_feature.DataObjectName = "Account";
         t_feature.DataRowId = RequestId;
         SessionManager.ObjectService.DeleteAllFeatures(SessionManager.Ticket, t_feature);
+        SessionManager.InvalidateCache<TransitFeature>();
         Redirect(Request.Url.PathAndQuery);
     }
 

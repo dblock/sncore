@@ -83,7 +83,8 @@ public partial class AccountAddressEdit : AuthenticatedPage
         tw.State = inputState.SelectedValue;
         tw.Zip = inputZip.Text;
         tw.Id = RequestId;
-        SessionManager.AccountService.CreateOrUpdateAccountAddress(SessionManager.Ticket, tw);
+        SessionManager.CreateOrUpdate<TransitAccountAddress>(
+            tw, SessionManager.AccountService.CreateOrUpdateAccountAddress);
         Redirect("AccountAddressesManage.aspx");
     }
 }

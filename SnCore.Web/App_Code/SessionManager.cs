@@ -812,5 +812,36 @@ public class SessionManager
 
     #endregion
 
+    #region CreateOrUpdate
+    
+    public int CreateOrUpdate<TransitType>(
+        TransitType t_instance, WebClientImpl<TransitType>.CreateOrUpdateItemDelegate functor)
+    {
+        return WebClientImpl<TransitType>.CreateOrUpdate(
+            Ticket, t_instance, functor, Cache);
+    }
+
+    #endregion
+
+    #region Delete
+
+    public void Delete<TransitType>(
+        int id, WebClientImpl<TransitType>.DeleteItemDelegate functor)
+    {
+        WebClientImpl<TransitType>.Delete(
+            Ticket, id, functor, Cache);
+    }
+
+    #endregion
+
+    #region Invalidate Cache
+
+    public void InvalidateCache<TransitType>()
+    {
+        WebClientImpl<TransitType>.Invalidate(Cache);
+    }
+
+    #endregion
+
     #endregion
 }

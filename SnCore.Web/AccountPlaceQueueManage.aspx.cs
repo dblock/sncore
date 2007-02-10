@@ -60,7 +60,8 @@ public partial class AccountPlaceQueueManage : AuthenticatedPage
         switch (e.CommandName)
         {
             case "Delete":
-                SessionManager.PlaceService.DeletePlaceQueueItem(SessionManager.Ticket, int.Parse(e.CommandArgument.ToString()));
+                int id = int.Parse(e.CommandArgument.ToString());
+                SessionManager.Delete<TransitPlaceQueueItem>(id, SessionManager.PlaceService.DeletePlaceQueueItem);
                 ReportInfo("Place removed from queue.");
                 GetData(source, e);
                 break;

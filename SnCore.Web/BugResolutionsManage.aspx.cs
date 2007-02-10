@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.SiteMap;
+using SnCore.Services;
 
 public partial class BugResolutionsManage : AuthenticatedPage
 {
@@ -55,7 +56,7 @@ public partial class BugResolutionsManage : AuthenticatedPage
                 switch (e.CommandName)
                 {
                     case "Delete":
-                        SessionManager.BugService.DeleteBugResolution(SessionManager.Ticket, id);
+                        SessionManager.Delete<TransitBugResolution>(id, SessionManager.BugService.DeleteBugResolution);
                         ReportInfo("Bug resolution deleted.");
                         gridManage.CurrentPageIndex = 0;
                         gridManage_OnGetDataSource(source, e);

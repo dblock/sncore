@@ -57,7 +57,7 @@ public partial class SystemAttributesManage : AuthenticatedPage
                 switch (e.CommandName)
                 {
                     case "Delete":
-                        SessionManager.ObjectService.DeleteAttribute(SessionManager.Ticket, id);
+                        SessionManager.Delete<TransitAttribute>(id, SessionManager.ObjectService.DeleteAttribute);
                         ReportInfo("Attribute deleted.");
                         gridManage.CurrentPageIndex = 0;
                         gridManage_OnGetDataSource(source, e);

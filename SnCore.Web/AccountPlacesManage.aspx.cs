@@ -80,7 +80,7 @@ public partial class AccountPlacesManage : AuthenticatedPage
                 switch (e.CommandName)
                 {
                     case "Delete":
-                        SessionManager.PlaceService.DeletePlace(SessionManager.Ticket, id);
+                        SessionManager.Delete<TransitPlace>(id, SessionManager.PlaceService.DeletePlace);
                         ReportInfo("Place deleted.");
                         GetData(source, e);
                         break;

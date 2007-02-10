@@ -47,7 +47,8 @@ public partial class AccountMadLibEdit : AuthenticatedPage
         t.Id = RequestId;
         t.Template = inputTemplate.Text;
         t.Name = inputName.Text;
-        SessionManager.MadLibService.CreateOrUpdateMadLib(SessionManager.Ticket, t);
+        SessionManager.CreateOrUpdate<TransitMadLib>(
+            t, SessionManager.MadLibService.CreateOrUpdateMadLib);
         Redirect("AccountMadLibsManage.aspx");
     }
 }

@@ -51,7 +51,8 @@ public partial class SystemAccountPlaceTypeEdit : AuthenticatedPage
         t.Description = inputDescription.Text;
         t.CanWrite = inputCanWrite.Checked;
         t.Id = RequestId;
-        SessionManager.PlaceService.CreateOrUpdateAccountPlaceType(SessionManager.Ticket, t);
+        SessionManager.CreateOrUpdate<TransitAccountPlaceType>(
+            t, SessionManager.PlaceService.CreateOrUpdateAccountPlaceType);
         Redirect("SystemAccountPlaceTypesManage.aspx");
     }
 }

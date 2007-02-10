@@ -78,7 +78,8 @@ public partial class TagWordsManage : AuthenticatedPage
 
         foreach (TransitTagWord word in words)
         {
-            SessionManager.TagWordService.CreateOrUpdateTagWord(SessionManager.Ticket, word);
+            SessionManager.CreateOrUpdate<TransitTagWord>(
+                word, SessionManager.TagWordService.CreateOrUpdateTagWord);
         }
 
         StringBuilder sb = new StringBuilder();

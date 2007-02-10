@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using SnCore.Services;
 
 public partial class AccountWebsitesManage : AuthenticatedPage
 {
@@ -58,7 +59,7 @@ public partial class AccountWebsitesManage : AuthenticatedPage
         {
             case "Delete":
                 int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                SessionManager.AccountService.DeleteAccountWebsite(SessionManager.Ticket, id);
+                SessionManager.Delete<TransitAccountWebsite>(id, SessionManager.AccountService.DeleteAccountWebsite);
                 ReportInfo("Website deleted.");
                 gridManage.CurrentPageIndex = 0;
                 gridManage_OnGetDataSource(sender, e);

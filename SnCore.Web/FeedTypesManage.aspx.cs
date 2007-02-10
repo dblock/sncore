@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.SiteMap;
+using SnCore.Services;
 
 public partial class FeedTypesManage : AuthenticatedPage
 {
@@ -55,7 +56,7 @@ public partial class FeedTypesManage : AuthenticatedPage
                 switch (e.CommandName)
                 {
                     case "Delete":
-                        SessionManager.SyndicationService.DeleteFeedType(SessionManager.Ticket, id);
+                        SessionManager.Delete<TransitFeedType>(id, SessionManager.SyndicationService.DeleteFeedType);
                         ReportInfo("Feed type deleted.");
                         gridManage.CurrentPageIndex = 0;
                         gridManage_OnGetDataSource(source, e);

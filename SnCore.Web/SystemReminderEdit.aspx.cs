@@ -126,7 +126,8 @@ public partial class SystemReminderEdit : AuthenticatedPage
         t.DataObject_Id = int.Parse(inputDataObject.SelectedValue);
         t.DataObjectField = inputDataObjectField.SelectedValue;
         t.LastRun = DateTime.UtcNow;
-        SessionManager.ObjectService.CreateOrUpdateReminder(SessionManager.Ticket, t);
+        SessionManager.CreateOrUpdate<TransitReminder>(
+            t, SessionManager.ObjectService.CreateOrUpdateReminder);
         Redirect("SystemRemindersManage.aspx");
     }
 
@@ -142,7 +143,7 @@ public partial class SystemReminderEdit : AuthenticatedPage
                 switch (e.CommandName)
                 {
                     case "Delete":
-                        SessionManager.ObjectService.DeleteReminderAccountProperty(SessionManager.Ticket, id);
+                        SessionManager.Delete<TransitReminderAccountProperty>(id, SessionManager.ObjectService.DeleteReminderAccountProperty);
                         ReportInfo("Reminder Account Property deleted.");
                         GetAccountPropertiesData(source, e);
                         break;
@@ -158,7 +159,8 @@ public partial class SystemReminderEdit : AuthenticatedPage
         trap.ReminderId = RequestId;
         trap.Value = inputAccountPropertyValue.Text;
         trap.Unset = inputAccountPropertyEmpty.Checked;
-        SessionManager.ObjectService.CreateOrUpdateReminderAccountProperty(SessionManager.Ticket, trap);
+        SessionManager.CreateOrUpdate<TransitReminderAccountProperty>(
+            trap, SessionManager.ObjectService.CreateOrUpdateReminderAccountProperty);
         GetAccountPropertiesData(sender, e);
         ReportInfo("Property Added");
     }

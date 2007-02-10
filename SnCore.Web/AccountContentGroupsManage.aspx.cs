@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using SnCore.Services;
 
 public partial class AccountContentGroupsManage : AuthenticatedPage
 {
@@ -57,7 +58,7 @@ public partial class AccountContentGroupsManage : AuthenticatedPage
         switch (e.CommandName)
         {
             case "Delete":
-                SessionManager.ContentService.DeleteAccountContent(SessionManager.Ticket, id);
+                SessionManager.Delete<TransitAccountContent>(id, SessionManager.ContentService.DeleteAccountContent);
                 ReportInfo("Content group deleted.");
                 gridManage.CurrentPageIndex = 0;
                 gridManage_OnGetDataSource(sender, e);

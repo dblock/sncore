@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using SnCore.Services;
 
 public partial class MarketingCampaignsManage : AuthenticatedPage
 {
@@ -61,7 +62,7 @@ public partial class MarketingCampaignsManage : AuthenticatedPage
                 switch (e.CommandName)
                 {
                     case "Delete":
-                        SessionManager.MarketingService.DeleteCampaign(SessionManager.Ticket, id);
+                        SessionManager.Delete<TransitCampaign>(id, SessionManager.MarketingService.DeleteCampaign);
                         ReportInfo("Campaign deleted.");
                         GetData(source, e);
                         break;

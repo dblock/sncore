@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using SnCore.Services;
 
 public partial class AccountPropertyManage : AuthenticatedPage
 {
@@ -64,7 +65,7 @@ public partial class AccountPropertyManage : AuthenticatedPage
                 switch (e.CommandName)
                 {
                     case "Delete":
-                        SessionManager.PlaceService.DeleteAccountPlace(SessionManager.Ticket, id);
+                        SessionManager.Delete<TransitAccountPlace>(id, SessionManager.PlaceService.DeleteAccountPlace);
                         ReportInfo("Property deleted.");
                         GetData(source, e);
                         break;

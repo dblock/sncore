@@ -99,7 +99,7 @@ public partial class MarketingCampaignAccountRecepientsManage : AuthenticatedPag
                 switch (e.CommandName)
                 {
                     case "Delete":
-                        SessionManager.MarketingService.DeleteCampaignAccountRecepient(SessionManager.Ticket, id);
+                        SessionManager.Delete<TransitCampaignAccountRecepient>(id, SessionManager.MarketingService.DeleteCampaignAccountRecepient);
                         ReportInfo("Campaign account recepient deleted.");
                         GetData(source, e);
                         break;
@@ -110,7 +110,7 @@ public partial class MarketingCampaignAccountRecepientsManage : AuthenticatedPag
 
     public void deleteAllRecepients_Click(object sender, EventArgs e)
     {
-        SessionManager.MarketingService.DeleteCampaignAccountRecepients(SessionManager.Ticket, RequestId);
+        SessionManager.Delete<TransitCampaignAccountRecepient>(RequestId, SessionManager.MarketingService.DeleteCampaignAccountRecepients);
         GetData(sender, e);
     }
 

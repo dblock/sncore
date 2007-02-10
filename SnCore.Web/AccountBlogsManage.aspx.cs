@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.SiteMap;
+using SnCore.Services;
 
 public partial class AccountBlogsManage : AuthenticatedPage
 {
@@ -55,7 +56,7 @@ public partial class AccountBlogsManage : AuthenticatedPage
         switch (e.CommandName)
         {
             case "Delete":
-                SessionManager.BlogService.DeleteAccountBlog(SessionManager.Ticket, id);
+                SessionManager.Delete<TransitAccountBlog>(id, SessionManager.BlogService.DeleteAccountBlog);
                 ReportInfo("Blog deleted.");
                 gridManage.CurrentPageIndex = 0;
                 gridManage_OnGetDataSource(sender, e);

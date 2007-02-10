@@ -82,7 +82,8 @@ public partial class AccountBlogPostNew : AuthenticatedPage
         tp.Body = inputBody.Text;
         tp.AccountBlogId = BlogId;
         tp.Id = RequestId;
-        SessionManager.BlogService.CreateOrUpdateAccountBlogPost(SessionManager.Ticket, tp);
+        SessionManager.CreateOrUpdate<TransitAccountBlogPost>(
+            tp, SessionManager.BlogService.CreateOrUpdateAccountBlogPost);
         Redirect(ReturnUrl);
     }
 
@@ -106,7 +107,8 @@ public partial class AccountBlogPostNew : AuthenticatedPage
                     p.Description = string.Empty;
                     p.Hidden = true;
 
-                    int id = SessionManager.AccountService.CreateOrUpdateAccountPicture(SessionManager.Ticket, p);
+                    int id = SessionManager.CreateOrUpdate<TransitAccountPicture>(
+                        p, SessionManager.AccountService.CreateOrUpdateAccountPicture);
 
                     Size size = t.GetNewSize(new Size(200, 200));
 

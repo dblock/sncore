@@ -59,7 +59,8 @@ public partial class SystemSurveyEdit : AuthenticatedPage
         TransitSurvey tw = new TransitSurvey();
         tw.Name = inputName.Text;
         tw.Id = RequestId;
-        SessionManager.ObjectService.CreateOrUpdateSurvey(SessionManager.Ticket, tw);
+        SessionManager.CreateOrUpdate<TransitSurvey>(
+            tw, SessionManager.ObjectService.CreateOrUpdateSurvey);
         Redirect("SystemSurveysManage.aspx");
     }
 
@@ -81,7 +82,7 @@ public partial class SystemSurveyEdit : AuthenticatedPage
                 Redirect(string.Format("SystemSurveyQuestionEdit.aspx?sid={0}&id={1}", RequestId, id));
                 break;
             case "Delete":
-                SessionManager.ObjectService.DeleteSurveyQuestion(SessionManager.Ticket, id);
+                SessionManager.Delete<TransitSurveyQuestion>(id, SessionManager.ObjectService.DeleteSurveyQuestion);
                 ReportInfo("Survey question deleted.");
                 gridManage.CurrentPageIndex = 0;
                 gridManage.DataSource = SessionManager.ObjectService.GetSurveyQuestions(

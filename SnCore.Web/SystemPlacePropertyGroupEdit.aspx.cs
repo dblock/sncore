@@ -52,7 +52,8 @@ public partial class SystemPlacePropertyGroupEdit : AuthenticatedPage
         t.Name = inputName.Text;
         t.Description = inputDescription.Text;
         t.Id = RequestId;
-        SessionManager.PlaceService.CreateOrUpdatePlacePropertyGroup(SessionManager.Ticket, t);
+        SessionManager.CreateOrUpdate<TransitPlacePropertyGroup>(
+            t, SessionManager.PlaceService.CreateOrUpdatePlacePropertyGroup);
         Redirect("SystemPlacePropertyGroupsManage.aspx");
     }
 
@@ -79,7 +80,7 @@ public partial class SystemPlacePropertyGroupEdit : AuthenticatedPage
                 switch (e.CommandName)
                 {
                     case "Delete":
-                        SessionManager.PlaceService.DeletePlaceProperty(SessionManager.Ticket, id);
+                        SessionManager.Delete<TransitPlaceProperty>(id, SessionManager.PlaceService.DeletePlaceProperty);
                         ReportInfo("Place property deleted.");
                         gridProperties.CurrentPageIndex = 0;
                         gridProperties_OnGetDataSource(source, e);

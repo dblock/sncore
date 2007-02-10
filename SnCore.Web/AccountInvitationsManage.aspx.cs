@@ -98,7 +98,8 @@ public partial class AccountInvitationsManage : AuthenticatedPage
                 invitation.Code = Guid.NewGuid().ToString();
                 invitation.Email = email;
                 invitation.Message = inputMessage.Text;
-                SessionManager.AccountService.CreateOrUpdateAccountInvitation(SessionManager.Ticket, invitation);
+                SessionManager.CreateOrUpdate<TransitAccountInvitation>(
+                    invitation, SessionManager.AccountService.CreateOrUpdateAccountInvitation);
                 invitations.Add(email);
             }
             catch (Exception ex)
@@ -136,7 +137,7 @@ public partial class AccountInvitationsManage : AuthenticatedPage
                 {
                     case "Delete":
                         int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                        SessionManager.AccountService.DeleteAccountInvitation(SessionManager.Ticket, id);
+                        SessionManager.Delete<TransitAccountInvitation>(id, SessionManager.AccountService.DeleteAccountInvitation);
                         ReportInfo("Invitation deleted.");
                         gridManage.CurrentPageIndex = 0;
                         gridManage_OnGetDataSource(source, e);

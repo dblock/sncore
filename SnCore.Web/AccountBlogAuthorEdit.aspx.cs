@@ -67,7 +67,8 @@ public partial class AccountBlogAuthorEdit : AuthenticatedPage
         ta.AllowDelete = allowDelete.Checked;
         ta.AllowEdit = allowEdit.Checked;
         ta.AllowPost = allowPost.Checked;
-        SessionManager.BlogService.CreateOrUpdateAccountBlogAuthor(SessionManager.Ticket, ta);
+        SessionManager.CreateOrUpdate<TransitAccountBlogAuthor>(
+            ta, SessionManager.BlogService.CreateOrUpdateAccountBlogAuthor);
         Redirect(string.Format("AccountBlogEdit.aspx?id={0}", BlogId));
     }
 }

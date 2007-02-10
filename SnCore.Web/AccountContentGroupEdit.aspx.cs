@@ -90,7 +90,8 @@ public partial class AccountContentGroupEdit : AuthenticatedPage
         s.Description = inputDescription.Text;
         s.Trusted = inputTrusted.Checked && SessionManager.IsAdministrator;
         s.Login = inputLogin.Checked;
-        SessionManager.ContentService.CreateOrUpdateAccountContentGroup(SessionManager.Ticket, s);
+        SessionManager.CreateOrUpdate<TransitAccountContentGroup>(
+            s, SessionManager.ContentService.CreateOrUpdateAccountContentGroup);
         Redirect("AccountContentGroupsManage.aspx");
     }
 
@@ -100,7 +101,7 @@ public partial class AccountContentGroupEdit : AuthenticatedPage
         {
             case "Delete":
                 int id = int.Parse(e.CommandArgument.ToString());
-                SessionManager.ContentService.DeleteAccountContent(SessionManager.Ticket, id);
+                SessionManager.Delete<TransitAccountContent>(id, SessionManager.ContentService.DeleteAccountContent);
                 ReportInfo("Content deleted.");
                 GetData(sender, e);
                 break;

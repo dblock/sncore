@@ -123,7 +123,8 @@ public partial class AccountPreferencesManage : AuthenticatedPage
         if (ta.Signature.Length > inputSignature.MaxLength)
             throw new Exception(string.Format("Signature may not exceed {0} characters.", inputSignature.MaxLength));
 
-        SessionManager.AccountService.CreateOrUpdateAccount(SessionManager.Ticket, ta);
+        SessionManager.CreateOrUpdate<TransitAccount>(
+            ta, SessionManager.AccountService.CreateOrUpdateAccount);
         Cache.Remove(string.Format("account:{0}", SessionManager.Ticket));
         ReportInfo("Profile saved.");
     }

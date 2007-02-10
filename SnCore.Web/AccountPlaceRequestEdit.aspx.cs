@@ -59,7 +59,8 @@ public partial class AccountPlaceRequestEdit : AuthenticatedPage
         request.Message = inputMessage.Text;
         request.PlaceId = ParentId;
         request.Type = inputType.SelectedValue;
-        SessionManager.PlaceService.CreateOrUpdateAccountPlaceRequest(SessionManager.Ticket, request);
+        SessionManager.CreateOrUpdate<TransitAccountPlaceRequest>(
+            request, SessionManager.PlaceService.CreateOrUpdateAccountPlaceRequest);
         panelRequest.Visible = false;
         ReportInfo("Request sent.");
     }

@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.WebServices;
 using SnCore.SiteMap;
 using System.Text;
+using SnCore.Services;
 
 public partial class AccountFeedsManage : AuthenticatedPage
 {
@@ -59,7 +60,7 @@ public partial class AccountFeedsManage : AuthenticatedPage
             case "Delete":
                 {
                     int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                    SessionManager.SyndicationService.DeleteAccountFeed(SessionManager.Ticket, id);
+                    SessionManager.Delete<TransitAccountFeed>(id, SessionManager.SyndicationService.DeleteAccountFeed);
                     ReportInfo("Feed deleted.");
                     GetData(sender, e);
                 }

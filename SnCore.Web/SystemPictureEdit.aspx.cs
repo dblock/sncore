@@ -56,7 +56,8 @@ public partial class SystemPictureEdit : AuthenticatedPage
         t.Description = inputDescription.Text;
         t.Type = inputType.SelectedValue;
         t.Id = RequestId;
-        SessionManager.ObjectService.CreateOrUpdatePicture(SessionManager.Ticket, t);
+        SessionManager.CreateOrUpdate<TransitPicture>(
+            t, SessionManager.ObjectService.CreateOrUpdatePicture);
         Redirect("SystemPicturesManage.aspx");
     }
 }

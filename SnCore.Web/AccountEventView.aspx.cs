@@ -194,7 +194,8 @@ public partial class AccountEventView : Page
         TransitFeature t_feature = new TransitFeature();
         t_feature.DataObjectName = "AccountEvent";
         t_feature.DataRowId = RequestId;
-        SessionManager.ObjectService.CreateOrUpdateFeature(SessionManager.Ticket, t_feature);
+        SessionManager.CreateOrUpdate<TransitFeature>(
+            t_feature, SessionManager.ObjectService.CreateOrUpdateFeature);
         Redirect(Request.Url.PathAndQuery);
     }
 
@@ -210,6 +211,7 @@ public partial class AccountEventView : Page
         t_feature.DataObjectName = "AccountEvent";
         t_feature.DataRowId = RequestId;
         SessionManager.ObjectService.DeleteAllFeatures(SessionManager.Ticket, t_feature);
+        SessionManager.InvalidateCache<TransitFeature>();
         Redirect(Request.Url.PathAndQuery);
     }
 
@@ -219,8 +221,8 @@ public partial class AccountEventView : Page
         {
             if (mAccountEventFeature == null)
             {
-                mAccountEventFeature = SessionManager.ObjectService.FindLatestFeature(
-                    SessionManager.Ticket, "AccountEvent", RequestId);
+                mAccountEventFeature = SessionManager.GetInstance<TransitFeature, string, int>(
+                    "AccountEvent", RequestId, SessionManager.ObjectService.FindLatestFeature);
             }
             return mAccountEventFeature;
         }

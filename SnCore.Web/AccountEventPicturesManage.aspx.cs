@@ -72,7 +72,7 @@ public partial class AccountEventPicturesManage : AuthenticatedPage
                 switch (e.CommandName)
                 {
                     case "Delete":
-                        SessionManager.EventService.DeleteAccountEventPicture(SessionManager.Ticket, id);
+                        SessionManager.Delete<TransitAccountEventPicture>(id, SessionManager.EventService.DeleteAccountEventPicture);
                         ReportInfo("Picture deleted.");
                         gridManage.CurrentPageIndex = 0;
                         gridManage_OnGetDataSource(source, e);
@@ -101,7 +101,8 @@ public partial class AccountEventPicturesManage : AuthenticatedPage
                     p.Name = Path.GetFileName(file.FileName);
                     p.Description = string.Empty;
                     p.AccountEventId = RequestId;
-                    SessionManager.EventService.CreateOrUpdateAccountEventPicture(SessionManager.Ticket, p);
+                    SessionManager.CreateOrUpdate<TransitAccountEventPicture>(
+                        p, SessionManager.EventService.CreateOrUpdateAccountEventPicture);
                 }
                 catch (Exception ex)
                 {

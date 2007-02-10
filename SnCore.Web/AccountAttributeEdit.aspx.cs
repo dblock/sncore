@@ -83,7 +83,8 @@ public partial class AccountAttributeEdit : AuthenticatedPage
         attribute.Id = RequestId;
         attribute.AttributeId = int.Parse(listAttributes.SelectedValue);
         attribute.AccountId = AccountId;
-        SessionManager.AccountService.CreateOrUpdateAccountAttribute(SessionManager.Ticket, attribute);
+        SessionManager.CreateOrUpdate<TransitAccountAttribute>(
+            attribute, SessionManager.AccountService.CreateOrUpdateAccountAttribute);
         Redirect(linkBack.NavigateUrl);
 
     }

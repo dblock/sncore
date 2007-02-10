@@ -66,14 +66,14 @@ public partial class AccountRedirectEditControl : Control
 
         if (string.IsNullOrEmpty(inputSource.Text) && (RedirectId > 0))
         {
-            SessionManager.AccountService.DeleteAccountRedirect(SessionManager.Ticket, RedirectId);
+            SessionManager.Delete<TransitAccountRedirect>(RedirectId, SessionManager.AccountService.DeleteAccountRedirect);
             RedirectId = 0;
             ReportInfo("Redirect deleted, it may take a few seconds to de-activate.");
         }
         else
         {
-            RedirectId = redirect.Id = SessionManager.AccountService.CreateOrUpdateAccountRedirect(
-                SessionManager.Ticket, redirect);
+            RedirectId = redirect.Id = SessionManager.CreateOrUpdate<TransitAccountRedirect>(
+                redirect, SessionManager.AccountService.CreateOrUpdateAccountRedirect);
             ReportInfo("Redirect updated, it may take a few seconds to activate.");
         }
 

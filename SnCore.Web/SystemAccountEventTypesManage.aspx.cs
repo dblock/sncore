@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.SiteMap;
+using SnCore.Services;
 
 public partial class SystemAccountEventTypesManage : AuthenticatedPage
 {
@@ -55,7 +56,7 @@ public partial class SystemAccountEventTypesManage : AuthenticatedPage
                 switch (e.CommandName)
                 {
                     case "Delete":
-                        SessionManager.EventService.DeleteAccountEventType(SessionManager.Ticket, id);
+                        SessionManager.Delete<TransitAccountEventType>(id, SessionManager.EventService.DeleteAccountEventType);
                         ReportInfo("Account event type deleted.");
                         gridManage.CurrentPageIndex = 0;
                         gridManage_OnGetDataSource(source, e);

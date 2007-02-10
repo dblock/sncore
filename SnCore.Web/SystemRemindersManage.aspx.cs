@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.SiteMap;
+using SnCore.Services;
 
 public partial class SystemRemindersManage : AuthenticatedPage
 {
@@ -57,7 +58,7 @@ public partial class SystemRemindersManage : AuthenticatedPage
                 switch (e.CommandName)
                 {
                     case "Delete":
-                        SessionManager.ObjectService.DeleteReminder(SessionManager.Ticket, id);
+                        SessionManager.Delete<TransitReminder>(id, SessionManager.ObjectService.DeleteReminder);
                         ReportInfo("System reminder deleted.");
                         gridManage.CurrentPageIndex = 0;
                         gridManage_OnGetDataSource(source, e);

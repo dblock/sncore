@@ -47,7 +47,8 @@ public partial class AccountLicenseEdit : AuthenticatedPage
                 tal.ImageUrl = Renderer.UrlDecode(license_button);
                 tal.Name = Renderer.UrlDecode(license_name);
 
-                tal.Id = SessionManager.LicenseService.CreateOrUpdateAccountLicense(SessionManager.Ticket, tal);
+                tal.Id = SessionManager.CreateOrUpdate<TransitAccountLicense>(
+                    tal, SessionManager.LicenseService.CreateOrUpdateAccountLicense);
 
                 Redirect("AccountLicenseEdit.aspx");
             }
@@ -87,7 +88,8 @@ public partial class AccountLicenseEdit : AuthenticatedPage
     {
         TransitAccountLicense tal = SessionManager.LicenseService.GetAccountLicenseByAccountId(
             SessionManager.Ticket, SessionManager.AccountId);
-        if (tal != null) SessionManager.LicenseService.DeleteAccountLicense(SessionManager.Ticket, tal.Id);
+        if (tal != null) SessionManager.Delete<TransitAccountLicense>(
+            tal.Id, SessionManager.LicenseService.DeleteAccountLicense);
         Redirect("AccountLicenseEdit.aspx");
     }
 }

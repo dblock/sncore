@@ -85,8 +85,8 @@ public partial class PlacePropertyGroupEditControl : Control
                             break;
                     }
 
-                    value.Id = SessionManager.PlaceService.CreateOrUpdatePlacePropertyValue(
-                        SessionManager.Ticket, value);
+                    value.Id = SessionManager.CreateOrUpdate<TransitPlacePropertyValue>(
+                        value, SessionManager.PlaceService.CreateOrUpdatePlacePropertyValue);
 
                     break;
             }

@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.SiteMap;
+using SnCore.Services;
 
 public partial class SystemPictureTypesManage : AuthenticatedPage
 {
@@ -55,7 +56,7 @@ public partial class SystemPictureTypesManage : AuthenticatedPage
                     switch (e.CommandName)
                     {
                         case "Delete":
-                            SessionManager.ObjectService.DeletePictureType(SessionManager.Ticket, id);
+                            SessionManager.Delete<TransitPictureType>(id, SessionManager.ObjectService.DeletePictureType);
                             ReportInfo("Picture type deleted.");
                             gridManage.CurrentPageIndex = 0;
                             gridManage_OnGetDataSource(source, e);

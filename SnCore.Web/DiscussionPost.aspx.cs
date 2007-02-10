@@ -153,7 +153,8 @@ public partial class DiscussionPostNew : AuthenticatedPage
         tw.Id = PostId;
         tw.DiscussionPostParentId = ParentId;
         tw.DiscussionId = DiscussionId;
-        SessionManager.DiscussionService.CreateOrUpdateDiscussionPost(SessionManager.Ticket, tw);
+        SessionManager.CreateOrUpdate<TransitDiscussionPost>(
+            tw, SessionManager.DiscussionService.CreateOrUpdateDiscussionPost);
         Redirect(linkCancel.NavigateUrl);
     }
 
@@ -177,7 +178,8 @@ public partial class DiscussionPostNew : AuthenticatedPage
                     p.Description = string.Empty;
                     p.Hidden = true;
 
-                    int id = SessionManager.AccountService.CreateOrUpdateAccountPicture(SessionManager.Ticket, p);
+                    int id = SessionManager.CreateOrUpdate<TransitAccountPicture>(
+                        p, SessionManager.AccountService.CreateOrUpdateAccountPicture);
 
                     Size size = t.GetNewSize(new Size(200, 200));
 

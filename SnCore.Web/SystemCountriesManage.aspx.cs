@@ -65,7 +65,7 @@ public partial class SystemCountriesManage : AuthenticatedPage
                 switch (e.CommandName)
                 {
                     case "Delete":
-                        SessionManager.LocationService.DeleteCountry(SessionManager.Ticket, id);
+                        SessionManager.Delete<TransitCountry>(id, SessionManager.LocationService.DeleteCountry);
                         ReportInfo("Country deleted.");
                         gridManage.CurrentPageIndex = 0;
                         gridManage_OnGetDataSource(source, e);

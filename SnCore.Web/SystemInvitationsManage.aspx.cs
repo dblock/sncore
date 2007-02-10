@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.SiteMap;
+using SnCore.Services;
 
 public partial class SystemInvitationsManage : AuthenticatedPage
 {
@@ -51,7 +52,7 @@ public partial class SystemInvitationsManage : AuthenticatedPage
                 switch (e.CommandName)
                 {
                     case "Delete":
-                        SessionManager.AccountService.DeleteAccountInvitation(SessionManager.Ticket, id);
+                        SessionManager.Delete<TransitAccountInvitation>(id, SessionManager.AccountService.DeleteAccountInvitation);
                         ReportInfo("Invitation deleted.");
                         gridManage.CurrentPageIndex = 0;
                         gridManage_OnGetDataSource(source, e);

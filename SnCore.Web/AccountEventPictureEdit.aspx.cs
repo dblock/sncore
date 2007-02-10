@@ -62,7 +62,8 @@ public partial class AccountEventPictureEdit : AuthenticatedPage
         t.Description = inputDescription.Text;
         t.AccountEventId = AccountEventId;
         t.Id = RequestId;
-        SessionManager.EventService.CreateOrUpdateAccountEventPicture(SessionManager.Ticket, t);
+        SessionManager.CreateOrUpdate<TransitAccountEventPicture>(
+            t, SessionManager.EventService.CreateOrUpdateAccountEventPicture);
         Redirect(string.Format("AccountEventPicturesManage.aspx?id={0}", AccountEventId));
     }
 }

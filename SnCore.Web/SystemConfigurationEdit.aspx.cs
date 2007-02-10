@@ -52,7 +52,8 @@ public partial class SystemConfigurationEdit : AuthenticatedPage
         tw.Id = RequestId;
         tw.Value = inputValue.Text;
         tw.Password = inputPassword.Checked;
-        SessionManager.SystemService.CreateOrUpdateConfiguration(SessionManager.Ticket, tw);
+        SessionManager.CreateOrUpdate<TransitConfiguration>(
+            tw, SessionManager.SystemService.CreateOrUpdateConfiguration);
         Page.Cache.Remove(string.Format("settings:{0}", tw.Name));
         Redirect("SystemConfigurationsManage.aspx");
 

@@ -57,7 +57,7 @@ public partial class SystemBookmarksManage : AuthenticatedPage
                 switch (e.CommandName)
                 {
                     case "Delete":
-                        SessionManager.ObjectService.DeleteBookmark(SessionManager.Ticket, id);
+                        SessionManager.Delete<TransitBookmark>(id, SessionManager.ObjectService.DeleteBookmark);
                         ReportInfo("Bookmark deleted.");
                         gridManage.CurrentPageIndex = 0;
                         gridManage_OnGetDataSource(source, e);

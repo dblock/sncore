@@ -54,7 +54,7 @@ public partial class PlacesManage : AuthenticatedPage
                 switch (e.CommandName)
                 {
                     case "Delete":
-                        SessionManager.PlaceService.DeletePlace(SessionManager.Ticket, id);
+                        SessionManager.Delete<TransitPlace>(id, SessionManager.PlaceService.DeletePlace);
                         ReportInfo("Place deleted.");
                         gridManage.CurrentPageIndex = 0;
                         gridManage_OnGetDataSource(source, e);

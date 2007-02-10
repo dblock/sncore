@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.SiteMap;
+using SnCore.Services;
 
 public partial class AccountAddressesManage : AuthenticatedPage
 {
@@ -44,7 +45,7 @@ public partial class AccountAddressesManage : AuthenticatedPage
         switch (e.CommandName)
         {
             case "Delete":
-                SessionManager.AccountService.DeleteAccountAddress(SessionManager.Ticket, id);
+                SessionManager.Delete<TransitAccountAddress>(id, SessionManager.AccountService.DeleteAccountAddress);
                 ReportInfo("Address deleted.");
                 gridManage.CurrentPageIndex = 0;
                 gridManage_OnGetDataSource(sender, e);

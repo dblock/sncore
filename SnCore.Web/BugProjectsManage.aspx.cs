@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.SiteMap;
+using SnCore.Services;
 
 [SiteMapDataAttribute("Bugs")]
 public partial class BugProjectsManage : AuthenticatedPage
@@ -51,7 +52,7 @@ public partial class BugProjectsManage : AuthenticatedPage
                 switch (e.CommandName)
                 {
                     case "Delete":
-                        SessionManager.BugService.DeleteBugProject(SessionManager.Ticket, id);
+                        SessionManager.Delete<TransitBugProject>(id, SessionManager.BugService.DeleteBugProject);
                         ReportInfo("Bug project deleted.");
                         gridManage.CurrentPageIndex = 0;
                         gridManage_OnGetDataSource(source, e);

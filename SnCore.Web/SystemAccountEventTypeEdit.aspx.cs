@@ -45,7 +45,8 @@ public partial class SystemAccountEventTypeEdit : AuthenticatedPage
         TransitAccountEventType t = new TransitAccountEventType();
         t.Name = inputName.Text;
         t.Id = RequestId;
-        SessionManager.EventService.CreateOrUpdateAccountEventType(SessionManager.Ticket, t);
+        SessionManager.CreateOrUpdate<TransitAccountEventType>(
+            t, SessionManager.EventService.CreateOrUpdateAccountEventType);
         Redirect("SystemAccountEventTypesManage.aspx");
     }
 }

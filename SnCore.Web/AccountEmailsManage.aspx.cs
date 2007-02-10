@@ -97,7 +97,7 @@ public partial class AccountEmailsManage : AuthenticatedPage
             case "Delete":
                 {
                     int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                    SessionManager.AccountService.DeleteAccountEmail(SessionManager.Ticket, id);
+                    SessionManager.Delete<TransitAccountEmail>(id, SessionManager.AccountService.DeleteAccountEmail);
                     ReportInfo("Email deleted.");
                     GetData(sender, e);
                 }
@@ -118,7 +118,8 @@ public partial class AccountEmailsManage : AuthenticatedPage
                     tae.Id = id;
                     tae.Address = address;
                     tae.Principal = true;
-                    SessionManager.AccountService.CreateOrUpdateAccountEmail(SessionManager.Ticket, tae);
+                    SessionManager.CreateOrUpdate<TransitAccountEmail>(
+                        tae, SessionManager.AccountService.CreateOrUpdateAccountEmail);
                     gridManage_OnGetDataSource(sender, e);
                     gridManage.DataBind();
                 }
@@ -130,7 +131,8 @@ public partial class AccountEmailsManage : AuthenticatedPage
     {
         TransitAccountEmail te = new TransitAccountEmail();
         te.Address = inputEmailAddress.Text;
-        SessionManager.AccountService.CreateOrUpdateAccountEmail(SessionManager.Ticket, te);
+        SessionManager.CreateOrUpdate<TransitAccountEmail>(
+            te, SessionManager.AccountService.CreateOrUpdateAccountEmail);
         ReportInfo("A confirmation has ben sent to '" + te.Address + "'.");
         GetData(sender, e);
         inputEmailAddress.Text = string.Empty;

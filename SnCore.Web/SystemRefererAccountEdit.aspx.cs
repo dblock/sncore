@@ -50,7 +50,8 @@ public partial class SystemRefererAccountEdit : AuthenticatedPage
         t.RefererHostName = inputRefererHost.Text;
         t.AccountId = int.Parse(inputAccount.Text);
         t.Id = RequestId;
-        SessionManager.StatsService.CreateOrUpdateRefererAccount(SessionManager.Ticket, t);
+        SessionManager.CreateOrUpdate<TransitRefererAccount>(
+            t, SessionManager.StatsService.CreateOrUpdateRefererAccount);
         Redirect("SystemRefererAccountsManage.aspx");
     }
 }

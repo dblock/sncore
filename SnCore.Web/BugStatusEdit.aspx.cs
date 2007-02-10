@@ -46,7 +46,8 @@ public partial class BugStatusEdit : AuthenticatedPage
         TransitBugStatus t = new TransitBugStatus();
         t.Name = inputName.Text;
         t.Id = RequestId;
-        SessionManager.BugService.CreateOrUpdateBugStatus(SessionManager.Ticket, t);
+        SessionManager.CreateOrUpdate<TransitBugStatus>(
+            t, SessionManager.BugService.CreateOrUpdateBugStatus);
         Redirect("BugStatusesManage.aspx");
     }
 }

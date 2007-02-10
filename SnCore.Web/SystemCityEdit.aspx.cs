@@ -73,7 +73,8 @@ public partial class SystemCityEdit : AuthenticatedPage
         {
             throw new Exception("State is required.");
         }
-        SessionManager.LocationService.CreateOrUpdateCity(SessionManager.Ticket, tc);
+        SessionManager.CreateOrUpdate<TransitCity>(
+            tc, SessionManager.LocationService.CreateOrUpdateCity);
         Redirect("SystemCitiesManage.aspx");
     }
 

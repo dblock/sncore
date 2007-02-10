@@ -45,7 +45,8 @@ public partial class BugResolutionEdit : AuthenticatedPage
         TransitBugResolution t = new TransitBugResolution();
         t.Name = inputName.Text;
         t.Id = RequestId;
-        SessionManager.BugService.CreateOrUpdateBugResolution(SessionManager.Ticket, t);
+        SessionManager.CreateOrUpdate<TransitBugResolution>(
+            t, SessionManager.BugService.CreateOrUpdateBugResolution);
         Redirect("BugResolutionsManage.aspx");
     }
 }

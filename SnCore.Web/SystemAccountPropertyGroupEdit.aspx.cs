@@ -53,7 +53,8 @@ public partial class SystemAccountPropertyGroupEdit : AuthenticatedPage
         t.Name = inputName.Text;
         t.Description = inputDescription.Text;
         t.Id = RequestId;
-        SessionManager.AccountService.CreateOrUpdateAccountPropertyGroup(SessionManager.Ticket, t);
+        SessionManager.CreateOrUpdate<TransitAccountPropertyGroup>(
+            t, SessionManager.AccountService.CreateOrUpdateAccountPropertyGroup);
         Redirect("SystemAccountPropertyGroupsManage.aspx");
     }
 
@@ -80,7 +81,7 @@ public partial class SystemAccountPropertyGroupEdit : AuthenticatedPage
                 switch (e.CommandName)
                 {
                     case "Delete":
-                        SessionManager.AccountService.DeleteAccountProperty(SessionManager.Ticket, id);
+                        SessionManager.Delete<TransitAccountProperty>(id, SessionManager.AccountService.DeleteAccountProperty);
                         ReportInfo("Account property deleted.");
                         gridProperties.CurrentPageIndex = 0;
                         gridProperties_OnGetDataSource(source, e);

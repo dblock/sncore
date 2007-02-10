@@ -104,7 +104,7 @@ public partial class BugView : Page
                 switch (e.CommandName)
                 {
                     case "Delete":
-                        SessionManager.BugService.DeleteBugNote(SessionManager.Ticket, id);
+                        SessionManager.Delete<TransitBugNote>(id, SessionManager.BugService.DeleteBugNote);
                         ReportInfo("Note deleted.");
                         gridNotes.CurrentPageIndex = 0;
                         gridNotes_OnGetDataSource(source, e);

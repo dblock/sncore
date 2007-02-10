@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.SiteMap;
+using SnCore.Services;
 
 public partial class SystemSurveysManage : AuthenticatedPage
 {
@@ -44,7 +45,7 @@ public partial class SystemSurveysManage : AuthenticatedPage
         switch (e.CommandName)
         {
             case "Delete":
-                SessionManager.ObjectService.DeleteSurvey(SessionManager.Ticket, id);
+                SessionManager.Delete<TransitSurvey>(id, SessionManager.ObjectService.DeleteSurvey);
                 ReportInfo("Survey deleted.");
                 gridManage.CurrentPageIndex = 0;
                 gridManage_OnGetDataSource(sender, e);

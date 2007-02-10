@@ -45,7 +45,8 @@ public partial class BugTypeEdit : AuthenticatedPage
         TransitBugType t = new TransitBugType();
         t.Name = inputName.Text;
         t.Id = RequestId;
-        SessionManager.BugService.CreateOrUpdateBugType(SessionManager.Ticket, t);
+        SessionManager.CreateOrUpdate<TransitBugType>(
+            t, SessionManager.BugService.CreateOrUpdateBugType);
         Redirect("BugTypesManage.aspx");
     }
 }

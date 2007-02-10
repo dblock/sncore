@@ -72,7 +72,7 @@ public partial class PlacePicturesManage : AuthenticatedPage
                 switch (e.CommandName)
                 {
                     case "Delete":
-                        SessionManager.PlaceService.DeletePlacePicture(SessionManager.Ticket, id);
+                        SessionManager.Delete<TransitPlacePicture>(id, SessionManager.PlaceService.DeletePlacePicture);
                         ReportInfo("Picture deleted.");
                         gridManage.CurrentPageIndex = 0;
                         gridManage_OnGetDataSource(source, e);
@@ -101,7 +101,8 @@ public partial class PlacePicturesManage : AuthenticatedPage
                     p.Name = Path.GetFileName(file.FileName);
                     p.Description = string.Empty;
                     p.PlaceId = RequestId;
-                    SessionManager.PlaceService.CreateOrUpdatePlacePicture(SessionManager.Ticket, p);
+                    SessionManager.CreateOrUpdate<TransitPlacePicture>(
+                        p, SessionManager.PlaceService.CreateOrUpdatePlacePicture);
                 }
                 catch (Exception ex)
                 {

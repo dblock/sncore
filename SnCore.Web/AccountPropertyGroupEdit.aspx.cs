@@ -82,8 +82,8 @@ public partial class AccountPropertyGroupEdit : AuthenticatedPage
                             break;
                     }
 
-                    value.Id = SessionManager.AccountService.CreateOrUpdateAccountPropertyValue(
-                        SessionManager.Ticket, value);
+                    value.Id = SessionManager.CreateOrUpdate<TransitAccountPropertyValue>(
+                        value, SessionManager.AccountService.CreateOrUpdateAccountPropertyValue);
                     break;
             }
         }

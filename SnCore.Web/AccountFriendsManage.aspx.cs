@@ -47,7 +47,8 @@ public partial class AccountFriendsManage : AuthenticatedPage
         switch (e.CommandName)
         {
             case "Delete":
-                SessionManager.SocialService.DeleteAccountFriend(SessionManager.Ticket, int.Parse(e.CommandArgument.ToString()));
+                int id = int.Parse(e.CommandArgument.ToString());
+                SessionManager.Delete<TransitAccountFriend>(id, SessionManager.SocialService.DeleteAccountFriend);
                 friendsList.CurrentPageIndex = 0;
                 friendsList_OnGetDataSource(sender, e);
                 friendsList.DataBind();

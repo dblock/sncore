@@ -144,7 +144,8 @@ public partial class AccountFeedView : Page
         TransitFeature t_feature = new TransitFeature();
         t_feature.DataObjectName = "AccountFeed";
         t_feature.DataRowId = RequestId;
-        SessionManager.ObjectService.CreateOrUpdateFeature(SessionManager.Ticket, t_feature);
+        SessionManager.CreateOrUpdate<TransitFeature>(
+            t_feature, SessionManager.ObjectService.CreateOrUpdateFeature);
         GetDataFeature(sender, e);
         panelAdminUpdate.Update();
     }
@@ -161,6 +162,7 @@ public partial class AccountFeedView : Page
         t_feature.DataObjectName = "AccountFeed";
         t_feature.DataRowId = RequestId;
         SessionManager.ObjectService.DeleteAllFeatures(SessionManager.Ticket, t_feature);
+        SessionManager.InvalidateCache<TransitFeature>();
         GetDataFeature(sender, e);
         panelAdminUpdate.Update();
     }
@@ -168,7 +170,8 @@ public partial class AccountFeedView : Page
     public void publish_Click(object sender, EventArgs e)
     {
         AccountFeed.Publish = !AccountFeed.Publish;
-        SessionManager.SyndicationService.CreateOrUpdateAccountFeed(SessionManager.Ticket, AccountFeed);
+        SessionManager.CreateOrUpdate<TransitAccountFeed>(
+            AccountFeed, SessionManager.SyndicationService.CreateOrUpdateAccountFeed);
         GetDataPublish(sender, e);
         panelAdminUpdate.Update();
     }
@@ -176,7 +179,8 @@ public partial class AccountFeedView : Page
     public void publishImgs_Click(object sender, EventArgs e)
     {
         AccountFeed.PublishImgs = !AccountFeed.PublishImgs;
-        SessionManager.SyndicationService.CreateOrUpdateAccountFeed(SessionManager.Ticket, AccountFeed);
+        SessionManager.CreateOrUpdate<TransitAccountFeed>(
+            AccountFeed, SessionManager.SyndicationService.CreateOrUpdateAccountFeed);
         GetDataPublish(sender, e);
         panelAdminUpdate.Update();
     }
@@ -184,7 +188,8 @@ public partial class AccountFeedView : Page
     public void publishMedia_Click(object sender, EventArgs e)
     {
         AccountFeed.PublishMedia = !AccountFeed.PublishMedia;
-        SessionManager.SyndicationService.CreateOrUpdateAccountFeed(SessionManager.Ticket, AccountFeed);
+        SessionManager.CreateOrUpdate<TransitAccountFeed>(
+            AccountFeed, SessionManager.SyndicationService.CreateOrUpdateAccountFeed);
         GetDataPublish(sender, e);
         panelAdminUpdate.Update();
     }

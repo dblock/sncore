@@ -136,7 +136,8 @@ public partial class PlaceEdit : AuthenticatedPage
         t.Neighborhood = inputNeighborhood.Text;
         t.State = inputState.SelectedValue;
         t.Country = inputCountry.SelectedValue;
-        int place_id = SessionManager.PlaceService.CreateOrUpdatePlace(SessionManager.Ticket, t);
+        int place_id = SessionManager.CreateOrUpdate<TransitPlace>(
+            t, SessionManager.PlaceService.CreateOrUpdatePlace);
 
         ppg.PlaceId = place_id;
         ppg.save_Click(sender, e);
@@ -155,7 +156,8 @@ public partial class PlaceEdit : AuthenticatedPage
         TransitPlaceName tn = new TransitPlaceName();
         tn.Name = inputAltName.Text;
         tn.PlaceId = RequestId;
-        SessionManager.PlaceService.CreateOrUpdatePlaceName(SessionManager.Ticket, tn);
+        SessionManager.CreateOrUpdate<TransitPlaceName>(
+            tn, SessionManager.PlaceService.CreateOrUpdatePlaceName);
         ReportInfo("Alternate name added.");
         gridPlaceNamesManage_OnGetDataSource(sender, e);
         gridPlaceNamesManage.DataBind();
@@ -173,7 +175,7 @@ public partial class PlaceEdit : AuthenticatedPage
         switch (e.CommandName)
         {
             case "Delete":
-                SessionManager.PlaceService.DeletePlaceName(SessionManager.Ticket, id);
+                SessionManager.Delete<TransitPlaceName>(id, SessionManager.PlaceService.DeletePlaceName);
                 ReportInfo("Alternate place name deleted.");
                 gridPlaceNamesManage.CurrentPageIndex = 0;
                 gridPlaceNamesManage_OnGetDataSource(sender, e);
@@ -184,7 +186,7 @@ public partial class PlaceEdit : AuthenticatedPage
 
     public void linkDelete_Click(object sender, EventArgs e)
     {
-        SessionManager.PlaceService.DeletePlace(SessionManager.Ticket, RequestId);
+        SessionManager.Delete<TransitPlace>(RequestId, SessionManager.PlaceService.DeletePlace);
         Redirect("AccountPlacesManage.aspx");
     }
 

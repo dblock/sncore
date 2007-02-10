@@ -142,7 +142,8 @@ public partial class AccountMadLibInstanceEdit : AuthenticatedPage
             madlib.Text = text;
             madlib.ObjectUri = ReturnUrl;
             madlib.ObjectAccountId = ObjectAccountId;
-            SessionManager.MadLibService.CreateOrUpdateMadLibInstance(SessionManager.Ticket, madlib);
+            SessionManager.CreateOrUpdate<TransitMadLibInstance>(
+                madlib, SessionManager.MadLibService.CreateOrUpdateMadLibInstance);
             Redirect(linkCancel.NavigateUrl);
         }
     }

@@ -80,7 +80,7 @@ public partial class PlaceAttributesManage : AuthenticatedPage
         {
             case "Delete":
                 int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                SessionManager.PlaceService.DeletePlaceAttribute(SessionManager.Ticket, id);
+                SessionManager.Delete<TransitPlaceAttribute>(id, SessionManager.PlaceService.DeletePlaceAttribute);
                 ReportInfo("Place attribute deleted.");
                 gridManage.CurrentPageIndex = 0;
                 gridManage_OnGetDataSource(sender, e);

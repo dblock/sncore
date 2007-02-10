@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using SnCore.Services;
 
 public partial class AccountRedirectsManage : AuthenticatedPage
 {
@@ -57,7 +58,7 @@ public partial class AccountRedirectsManage : AuthenticatedPage
         {
             case "Delete":
                 int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                SessionManager.AccountService.DeleteAccountRedirect(SessionManager.Ticket, id);
+                SessionManager.Delete<TransitAccountRedirect>(id, SessionManager.AccountService.DeleteAccountRedirect);
                 ReportInfo("Redirect deleted.");
                 GetData(sender, e);
                 break;

@@ -55,7 +55,8 @@ public partial class MarketingCampaignEdit : AuthenticatedPage
         t.SenderEmailAddress = inputSenderEmail.Text;
         t.SenderName = inputSenderName.Text;
         t.Url = inputUrl.Text;
-        SessionManager.MarketingService.CreateOrUpdateCampaign(SessionManager.Ticket, t);
+        SessionManager.CreateOrUpdate<TransitCampaign>(
+            t, SessionManager.MarketingService.CreateOrUpdateCampaign);
         Redirect("MarketingCampaignsManage.aspx");
     }
 }

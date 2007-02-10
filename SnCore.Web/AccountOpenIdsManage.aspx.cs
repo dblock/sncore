@@ -27,7 +27,8 @@ public partial class AccountOpenIdsManage : AuthenticatedPage
                 string consumerid = SessionManager.AccountService.VerifyOpenId(SessionManager.OpenIdToken, serializer.Names, serializer.Values);
                 TransitAccountOpenId to = new TransitAccountOpenId();
                 to.IdentityUrl = consumerid;
-                SessionManager.AccountService.CreateOrUpdateAccountOpenId(SessionManager.Ticket, to);
+                SessionManager.CreateOrUpdate<TransitAccountOpenId>(
+                    to, SessionManager.AccountService.CreateOrUpdateAccountOpenId);
                 Redirect(Request.Path);
                 return;
             }
@@ -63,7 +64,7 @@ public partial class AccountOpenIdsManage : AuthenticatedPage
         switch (e.CommandName)
         {
             case "Delete":
-                SessionManager.AccountService.DeleteAccountOpenId(SessionManager.Ticket, id);
+                SessionManager.Delete<TransitAccountOpenId>(id, SessionManager.AccountService.DeleteAccountOpenId);
                 ReportInfo("OpenId deleted.");
                 gridManage.CurrentPageIndex = 0;
                 gridManage_OnGetDataSource(sender, e);

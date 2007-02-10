@@ -83,7 +83,8 @@ public partial class AccountPicturesManage : AuthenticatedPage
                     p.Description = string.Empty;
                     p.Hidden = false;
 
-                    SessionManager.AccountService.CreateOrUpdateAccountPicture(SessionManager.Ticket, p);
+                    SessionManager.CreateOrUpdate<TransitAccountPicture>(
+                        p, SessionManager.AccountService.CreateOrUpdateAccountPicture);
                 }
                 catch (Exception ex)
                 {
@@ -108,7 +109,7 @@ public partial class AccountPicturesManage : AuthenticatedPage
             case "Delete":
                 {
                     int id = int.Parse(e.CommandArgument.ToString());
-                    SessionManager.AccountService.DeleteAccountPicture(SessionManager.Ticket, id);
+                    SessionManager.Delete<TransitAccountPicture>(id, SessionManager.AccountService.DeleteAccountPicture);
                     ReportInfo("Picture deleted.");
                     GetData(sender, e);
                 }
@@ -119,7 +120,8 @@ public partial class AccountPicturesManage : AuthenticatedPage
                     TransitAccountPicture p = SessionManager.AccountService.GetAccountPictureById(
                         SessionManager.Ticket, id);
                     p.Hidden = !p.Hidden;
-                    SessionManager.AccountService.CreateOrUpdateAccountPicture(SessionManager.Ticket, p);
+                    SessionManager.CreateOrUpdate<TransitAccountPicture>(
+                        p, SessionManager.AccountService.CreateOrUpdateAccountPicture);
                     gridManage_OnGetDataSource(sender, e);
                     gridManage.DataBind();
                 }

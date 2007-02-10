@@ -55,7 +55,8 @@ public partial class AccountWebsiteEdit : AuthenticatedPage
         tw.Url = inputUrl.Text;
         tw.Description = inputDescription.Text;
         tw.Id = RequestId;
-        SessionManager.AccountService.CreateOrUpdateAccountWebsite(SessionManager.Ticket, tw);
+        SessionManager.CreateOrUpdate<TransitAccountWebsite>(
+            tw, SessionManager.AccountService.CreateOrUpdateAccountWebsite);
         Redirect("AccountWebsitesManage.aspx");
 
     }

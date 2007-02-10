@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using SnCore.Services;
 
 public partial class SystemDiscussionsManage : AuthenticatedPage
 {
@@ -55,7 +56,7 @@ public partial class SystemDiscussionsManage : AuthenticatedPage
         {
             case "Delete":
                 int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                SessionManager.DiscussionService.DeleteDiscussion(SessionManager.Ticket, id);
+                SessionManager.Delete<TransitDiscussion>(id, SessionManager.DiscussionService.DeleteDiscussion);
                 ReportInfo("Discussion deleted.");
                 GetData(sender, e);
                 break;

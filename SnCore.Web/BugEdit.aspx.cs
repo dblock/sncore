@@ -87,7 +87,8 @@ public partial class BugEdit : AuthenticatedPage
         t.Type = selectType.SelectedValue;
         t.ProjectId = ProjectId;
         t.Id = RequestId;
-        int bugid = SessionManager.BugService.CreateOrUpdateBug(SessionManager.Ticket, t);
+        int bugid = SessionManager.CreateOrUpdate<TransitBug>(
+            t, SessionManager.BugService.CreateOrUpdateBug);
         Redirect(string.Format("BugView.aspx?id={0}", bugid));
     }
 }

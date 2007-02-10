@@ -92,7 +92,8 @@ public partial class AccountSurvey : AuthenticatedPage
             p.SurveyQuestionId = entry.SurveyAnswer.SurveyQuestionId;
             p.Id = entry.SurveyAnswer.Id;
             p.Answer = entry.AnswerTextBox.Text;
-            SessionManager.AccountService.CreateOrUpdateAccountSurveyAnswer(SessionManager.Ticket, p);
+            SessionManager.CreateOrUpdate<TransitAccountSurveyAnswer>(
+                p, SessionManager.AccountService.CreateOrUpdateAccountSurveyAnswer);
         }
     }
 }

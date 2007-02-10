@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using SnCore.Services;
 
 public partial class SystemNeighborhoodsManage : AuthenticatedPage
 {
@@ -64,7 +65,7 @@ public partial class SystemNeighborhoodsManage : AuthenticatedPage
                 switch (e.CommandName)
                 {
                     case "Delete":
-                        SessionManager.LocationService.DeleteNeighborhood(SessionManager.Ticket, id);
+                        SessionManager.Delete<TransitNeighborhood>(id, SessionManager.LocationService.DeleteNeighborhood);
                         ReportInfo("Neighborhood deleted.");
                         GetData(source, e);
                         break;

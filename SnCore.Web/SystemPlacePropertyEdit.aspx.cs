@@ -98,7 +98,8 @@ public partial class SystemPlacePropertyEdit : AuthenticatedPage
         t.PlacePropertyGroupId = PropertyGroupId;
         t.Publish = inputPublish.Checked;
         t.Id = RequestId;
-        SessionManager.PlaceService.CreateOrUpdatePlaceProperty(SessionManager.Ticket, t);
+        SessionManager.CreateOrUpdate<TransitPlaceProperty>(
+            t, SessionManager.PlaceService.CreateOrUpdatePlaceProperty);
         Redirect(linkBack.NavigateUrl);
     }
 }

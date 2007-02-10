@@ -69,7 +69,7 @@ public partial class AccountBlogPostView : Page
     {
         TransitAccountBlogPost post = SessionManager.GetInstance<TransitAccountBlogPost, int>(
             RequestId, SessionManager.BlogService.GetAccountBlogPostById);
-        SessionManager.BlogService.DeleteAccountBlogPost(SessionManager.Ticket, post.Id);
+        SessionManager.Delete<TransitAccountBlogPost>(post.Id, SessionManager.BlogService.DeleteAccountBlogPost);
         Redirect(string.Format("AccountBlogView.aspx?id={0}", post.AccountBlogId));
     }
 }

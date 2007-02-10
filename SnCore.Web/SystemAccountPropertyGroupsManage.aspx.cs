@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.SiteMap;
+using SnCore.Services;
 
 public partial class SystemAccountPropertyGroupsManage : AuthenticatedPage
 {
@@ -51,7 +52,7 @@ public partial class SystemAccountPropertyGroupsManage : AuthenticatedPage
                 switch (e.CommandName)
                 {
                     case "Delete":
-                        SessionManager.AccountService.DeleteAccountPropertyGroup(SessionManager.Ticket, id);
+                        SessionManager.Delete<TransitAccountPropertyGroup>(id, SessionManager.AccountService.DeleteAccountPropertyGroup);
                         ReportInfo("Account property group deleted.");
                         gridManage.CurrentPageIndex = 0;
                         gridManage_OnGetDataSource(source, e);

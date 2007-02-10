@@ -42,8 +42,8 @@ public partial class AccountMessageView : AuthenticatedPage
             if (message.UnRead)
             {
                 message.UnRead = false;
-                SessionManager.AccountService.CreateOrUpdateAccountMessage(
-                    SessionManager.Ticket, message);
+                SessionManager.CreateOrUpdate<TransitAccountMessage>(
+                    message, SessionManager.AccountService.CreateOrUpdateAccountMessage);
             }
 
             messageSenderLink.HRef = messageFrom.NavigateUrl = string.Format("AccountView.aspx?id={0}", message.SenderAccountId);
@@ -78,7 +78,7 @@ public partial class AccountMessageView : AuthenticatedPage
             SessionManager.Ticket, SessionManager.AccountId, "trash").Id;
         if (trashid == Message.AccountMessageFolderId)
         {
-            SessionManager.AccountService.DeleteAccountMessage(SessionManager.Ticket, RequestId);
+            SessionManager.Delete<TransitAccountMessage>(RequestId, SessionManager.AccountService.DeleteAccountMessage);
         }
         else
         {

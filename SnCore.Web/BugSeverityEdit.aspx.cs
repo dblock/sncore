@@ -46,7 +46,8 @@ public partial class BugSeverityEdit : AuthenticatedPage
         TransitBugSeverity t = new TransitBugSeverity();
         t.Name = inputName.Text;
         t.Id = RequestId;
-        SessionManager.BugService.CreateOrUpdateBugSeverity(SessionManager.Ticket, t);
+        SessionManager.CreateOrUpdate<TransitBugSeverity>(
+            t, SessionManager.BugService.CreateOrUpdateBugSeverity);
         Redirect("BugSeveritiesManage.aspx");
     }
 }

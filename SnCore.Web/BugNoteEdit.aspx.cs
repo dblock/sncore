@@ -68,7 +68,8 @@ public partial class BugNoteEdit : AuthenticatedPage
         t.Details = inputNote.Text;
         t.Id = RequestId;
         t.BugId = BugId;
-        SessionManager.BugService.CreateOrUpdateBugNote(SessionManager.Ticket, t);
+        SessionManager.CreateOrUpdate<TransitBugNote>(
+            t, SessionManager.BugService.CreateOrUpdateBugNote);
         Redirect(string.Format("BugView.aspx?id={0}", BugId));
     }
 }

@@ -96,7 +96,8 @@ public partial class PlaceAttributeEdit : AuthenticatedPage
         attribute.Id = RequestId;
         attribute.AttributeId = int.Parse(listAttributes.SelectedValue);
         attribute.PlaceId = PlaceId;
-        SessionManager.PlaceService.CreateOrUpdatePlaceAttribute(SessionManager.Ticket, attribute);
+        SessionManager.CreateOrUpdate<TransitPlaceAttribute>(
+            attribute, SessionManager.PlaceService.CreateOrUpdatePlaceAttribute);
         Redirect(linkBack.NavigateUrl);
 
     }

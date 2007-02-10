@@ -55,7 +55,8 @@ public partial class SystemStateEdit : AuthenticatedPage
         tw.Name = inputName.Text;
         tw.Id = RequestId;
         tw.Country = inputCountry.SelectedItem.Value;
-        SessionManager.LocationService.CreateOrUpdateState(SessionManager.Ticket, tw);
+        SessionManager.CreateOrUpdate<TransitState>(
+            tw, SessionManager.LocationService.CreateOrUpdateState);
         Redirect("SystemStatesManage.aspx");
 
     }

@@ -142,7 +142,8 @@ public partial class AccountBlogView : Page
         TransitFeature t_feature = new TransitFeature();
         t_feature.DataObjectName = "AccountBlog";
         t_feature.DataRowId = RequestId;
-        SessionManager.ObjectService.CreateOrUpdateFeature(SessionManager.Ticket, t_feature);
+        SessionManager.CreateOrUpdate<TransitFeature>(
+            t_feature, SessionManager.ObjectService.CreateOrUpdateFeature);
         Redirect(Request.Url.PathAndQuery);
     }
 
@@ -158,6 +159,7 @@ public partial class AccountBlogView : Page
         t_feature.DataObjectName = "AccountBlog";
         t_feature.DataRowId = RequestId;
         SessionManager.ObjectService.DeleteAllFeatures(SessionManager.Ticket, t_feature);
+        SessionManager.InvalidateCache<TransitFeature>();
         Redirect(Request.Url.PathAndQuery);
     }
 
@@ -166,7 +168,8 @@ public partial class AccountBlogView : Page
         switch (e.CommandName)
         {
             case "Delete":
-                SessionManager.BlogService.DeleteAccountBlogPost(SessionManager.Ticket, int.Parse(e.CommandArgument.ToString()));
+                int id = int.Parse(e.CommandArgument.ToString());
+                SessionManager.Delete<TransitAccountBlogPost>(id, SessionManager.BlogService.DeleteAccountBlogPost);
                 ReportInfo("Post Deleted");
                 GetData(source, e);
                 break;

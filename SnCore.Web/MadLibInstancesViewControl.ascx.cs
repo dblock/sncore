@@ -140,7 +140,7 @@ public partial class MadLibInstancesViewControl : Control
             case "Delete":
                 {
                     int id = int.Parse(e.CommandArgument.ToString());
-                    SessionManager.MadLibService.DeleteMadLibInstance(SessionManager.Ticket, id);
+                    SessionManager.Delete<TransitMadLibInstance>(id, SessionManager.MadLibService.DeleteMadLibInstance);
                     GetData(source, e);
                     break;
                 }

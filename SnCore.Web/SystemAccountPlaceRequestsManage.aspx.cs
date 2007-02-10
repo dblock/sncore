@@ -72,7 +72,8 @@ public partial class SystemAccountPlaceRequestsManage : AuthenticatedPage
                 switch (e.CommandName)
                 {
                     case "Delete":
-                        SessionManager.PlaceService.DeleteAccountPlaceRequest(SessionManager.Ticket, id);
+                        SessionManager.Delete<TransitAccountPlaceRequest>(
+                            id, SessionManager.PlaceService.DeleteAccountPlaceRequest);
                         ReportInfo("Request deleted.");
                         gridManage.CurrentPageIndex = 0;
                         gridManage_OnGetDataSource(source, e);

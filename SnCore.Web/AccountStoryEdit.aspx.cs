@@ -78,7 +78,7 @@ public partial class AccountStoryEdit : AuthenticatedPage
         switch (e.CommandName)
         {
             case "Delete":
-                SessionManager.StoryService.DeleteAccountStoryPicture(SessionManager.Ticket, id);
+                SessionManager.Delete<TransitAccountStoryPicture>(id, SessionManager.StoryService.DeleteAccountStoryPicture);
                 ReportInfo("Image deleted.");
                 GetImagesData(source, e);
                 break;
@@ -104,7 +104,8 @@ public partial class AccountStoryEdit : AuthenticatedPage
         s.Summary = inputSummary.Text;
         s.Publish = inputPublish.Checked;
         s.Id = RequestId;
-        s.Id = SessionManager.StoryService.CreateOrUpdateAccountStory(SessionManager.Ticket, s);
+        s.Id = SessionManager.CreateOrUpdate<TransitAccountStory>(
+            s, SessionManager.StoryService.CreateOrUpdateAccountStory);
         Redirect(string.Format("AccountStoryView.aspx?id={0}", s.Id));
     }
 }

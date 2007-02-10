@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using SnCore.Services;
 
 public partial class AccountPlaceFavoritesManage : AuthenticatedPage
 {
@@ -51,7 +52,8 @@ public partial class AccountPlaceFavoritesManage : AuthenticatedPage
         switch (e.CommandName)
         {
             case "Delete":
-                SessionManager.PlaceService.DeleteAccountPlaceFavorite(SessionManager.Ticket, int.Parse(e.CommandArgument.ToString()));
+                int id = int.Parse(e.CommandArgument.ToString());
+                SessionManager.Delete<TransitAccountPlaceFavorite>(id, SessionManager.PlaceService.DeleteAccountPlaceFavorite);
                 ReportInfo("Favorite place deleted.");
                 favoritesList.CurrentPageIndex = 0;
                 favoritesList_OnGetDataSource(source, e);

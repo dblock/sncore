@@ -187,7 +187,7 @@ public partial class AccountMessageFoldersManage : AuthenticatedPage
             case "Delete":
                 {
                     int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                    SessionManager.AccountService.DeleteAccountMessageFolder(SessionManager.Ticket, id);
+                    SessionManager.Delete<TransitAccountMessageFolder>(id, SessionManager.AccountService.DeleteAccountMessageFolder);
 
                     if (id == FolderId)
                     {
@@ -235,7 +235,7 @@ public partial class AccountMessageFoldersManage : AuthenticatedPage
                         SessionManager.Ticket, SessionManager.AccountId, "trash").Id;
                     if (trashid == FolderId)
                     {
-                        SessionManager.AccountService.DeleteAccountMessage(SessionManager.Ticket, id);
+                        SessionManager.Delete<TransitAccountMessage>(id, SessionManager.AccountService.DeleteAccountMessage);
                     }
                     else
                     {
@@ -251,7 +251,7 @@ public partial class AccountMessageFoldersManage : AuthenticatedPage
 
     public void linkEmpty_Click(object sender, EventArgs e)
     {
-        SessionManager.AccountService.DeleteAccountMessagesByFolder(SessionManager.Ticket, FolderId);
+        SessionManager.Delete<TransitAccountMessageFolder>(FolderId, SessionManager.AccountService.DeleteAccountMessagesByFolder);
         GetMessagesData(sender, e);
     }
 

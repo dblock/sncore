@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using SnCore.Services;
 
 public partial class AccountStoriesManage : AuthenticatedPage
 {
@@ -51,7 +52,7 @@ public partial class AccountStoriesManage : AuthenticatedPage
         {
             case "Delete":
                 int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                SessionManager.StoryService.DeleteAccountStory(SessionManager.Ticket, id);
+                SessionManager.Delete<TransitAccountStory>(id, SessionManager.StoryService.DeleteAccountStory);
                 ReportInfo("Story deleted.");
                 gridManage.CurrentPageIndex = 0;
                 gridManage_OnGetDataSource(sender, e);

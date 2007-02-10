@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using SnCore.Services;
 
 public partial class AccountMadLibsManage : AuthenticatedPage
 {
@@ -63,7 +64,7 @@ public partial class AccountMadLibsManage : AuthenticatedPage
                 switch (e.CommandName)
                 {
                     case "Delete":
-                        SessionManager.MadLibService.DeleteMadLib(SessionManager.Ticket, id);
+                        SessionManager.Delete<TransitMadLib>(id, SessionManager.MadLibService.DeleteMadLib);
                         ReportInfo("Mad Lib deleted.");
                         GetData(source, e);
                         break;

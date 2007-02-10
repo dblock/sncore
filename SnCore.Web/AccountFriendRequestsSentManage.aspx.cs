@@ -54,7 +54,7 @@ public partial class AccountFriendRequestsSentManage : AuthenticatedPage
         {
             case "Cancel":
                 int id = int.Parse(e.CommandArgument.ToString());
-                SessionManager.SocialService.DeleteAccountFriendRequest(SessionManager.Ticket, id);
+                SessionManager.Delete<TransitAccountFriendRequest>(id, SessionManager.SocialService.DeleteAccountFriendRequest);
                 GetData(sender, e);
                 noticeManage.Info = "Request cancelled.";
                 break;

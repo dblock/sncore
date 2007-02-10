@@ -45,7 +45,8 @@ public partial class PlaceTypeEdit : AuthenticatedPage
             TransitPlaceType t = new TransitPlaceType();
             t.Name = inputName.Text;
             t.Id = RequestId;
-            SessionManager.PlaceService.CreateOrUpdatePlaceType(SessionManager.Ticket, t);
+            SessionManager.CreateOrUpdate<TransitPlaceType>(
+                t, SessionManager.PlaceService.CreateOrUpdatePlaceType);
             Redirect("PlaceTypesManage.aspx");
     }
 }

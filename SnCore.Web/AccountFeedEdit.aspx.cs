@@ -157,7 +157,8 @@ public partial class AccountFeedEdit : AuthenticatedPage
         s.Publish = inputPublish.Checked;
         s.PublishImgs = inputPublishImgs.Checked;
         s.PublishMedia = inputPublishMedia.Checked;
-        SessionManager.SyndicationService.CreateOrUpdateAccountFeed(SessionManager.Ticket, s);
+        SessionManager.CreateOrUpdate<TransitAccountFeed>(
+            s, SessionManager.SyndicationService.CreateOrUpdateAccountFeed);
         Redirect("AccountFeedsManage.aspx");
     }
 

@@ -110,19 +110,20 @@ public partial class AccountEventEdit : AuthenticatedPage
         // create place
         if (place.Place.Id == 0)
         {
-            place.Place.Id = SessionManager.PlaceService.CreateOrUpdatePlace(
-                SessionManager.Ticket, place.Place);
+            place.Place.Id = SessionManager.CreateOrUpdate<TransitPlace>(
+                place.Place, SessionManager.PlaceService.CreateOrUpdatePlace);
         }
 
         // create or update schedule
-        tav.ScheduleId = schedule.Schedule.Id = SessionManager.ObjectService.CreateOrUpdateSchedule(
-            SessionManager.Ticket, schedule.Schedule);
+        tav.ScheduleId = schedule.Schedule.Id = SessionManager.CreateOrUpdate<TransitSchedule>(
+            schedule.Schedule, SessionManager.ObjectService.CreateOrUpdateSchedule);
 
         tav.AccountId = SessionManager.Account.Id;
         tav.PlaceId = place.Place.Id;
         tav.Id = RequestId;
         tav.AccountEventType = selectType.SelectedValue;
-        SessionManager.EventService.CreateOrUpdateAccountEvent(SessionManager.Ticket, tav);
+        SessionManager.CreateOrUpdate<TransitAccountEvent>(
+            tav, SessionManager.EventService.CreateOrUpdateAccountEvent);
         Redirect("AccountEventsManage.aspx");
 
     }

@@ -79,7 +79,7 @@ public partial class DiscussionThreadViewControl : Control
             case "Delete":
                 {
                     int id = int.Parse(e.CommandArgument.ToString());
-                    SessionManager.DiscussionService.DeleteDiscussionPost(SessionManager.Ticket, id);
+                    SessionManager.Delete<TransitDiscussionPost>(id, SessionManager.DiscussionService.DeleteDiscussionPost);
                     GetData(sender, e);
                     break;
                 }

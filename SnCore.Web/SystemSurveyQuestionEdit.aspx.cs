@@ -59,7 +59,8 @@ public partial class SystemSurveyQuestionEdit : AuthenticatedPage
         tw.Question = inputQuestion.Text;
         tw.Id = RequestId;
         tw.SurveyId = SurveyId;
-        SessionManager.ObjectService.CreateOrUpdateSurveyQuestion(SessionManager.Ticket, tw);
+        SessionManager.CreateOrUpdate<TransitSurveyQuestion>(
+            tw, SessionManager.ObjectService.CreateOrUpdateSurveyQuestion);
         Redirect("SystemSurveyEdit.aspx?id=" + SurveyId.ToString());
     }
 

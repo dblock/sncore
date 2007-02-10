@@ -50,7 +50,8 @@ public partial class SystemRefererHostDupEdit : AuthenticatedPage
         t.Host = inputHost.Text;
         t.RefererHost = inputRefererHost.Text;
         t.Id = RequestId;
-        SessionManager.StatsService.CreateOrUpdateRefererHostDup(SessionManager.Ticket, t);
+        SessionManager.CreateOrUpdate<TransitRefererHostDup>(
+            t, SessionManager.StatsService.CreateOrUpdateRefererHostDup);
         Redirect("SystemRefererHostDupsManage.aspx");
     }
 }

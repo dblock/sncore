@@ -57,7 +57,7 @@ public partial class SystemRefererHostDupsManage : AuthenticatedPage
                 switch (e.CommandName)
                 {
                     case "Delete":
-                        SessionManager.StatsService.DeleteRefererHostDup(SessionManager.Ticket, id);
+                        SessionManager.Delete<TransitRefererHostDup>(id, SessionManager.StatsService.DeleteRefererHostDup);
                         ReportInfo("RefererHostDup deleted.");
                         gridManage.CurrentPageIndex = 0;
                         gridManage_OnGetDataSource(source, e);

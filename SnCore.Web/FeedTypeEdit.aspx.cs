@@ -72,7 +72,8 @@ public partial class FeedTypeEdit : AuthenticatedPage
         {
             t.Xsl = new StreamReader(inputXsl.FileContent).ReadToEnd();
         }
-        SessionManager.SyndicationService.CreateOrUpdateFeedType(SessionManager.Ticket, t);
+        SessionManager.CreateOrUpdate<TransitFeedType>(
+            t, SessionManager.SyndicationService.CreateOrUpdateFeedType);
         Redirect("FeedTypesManage.aspx");
     }
 }

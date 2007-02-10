@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using SnCore.Services;
 
 public partial class AccountEventsManage : AuthenticatedPage
 {
@@ -58,7 +59,7 @@ public partial class AccountEventsManage : AuthenticatedPage
         {
             case "Delete":
                 int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                SessionManager.EventService.DeleteAccountEvent(SessionManager.Ticket, id);
+                SessionManager.Delete<TransitAccountEvent>(id, SessionManager.EventService.DeleteAccountEvent);
                 ReportInfo("Event deleted.");
                 GetData();
                 break;

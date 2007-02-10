@@ -319,7 +319,8 @@ public partial class PlaceView : Page
         TransitPlaceQueueItem tpqi = new TransitPlaceQueueItem();
         tpqi.PlaceQueueId = tpq.Id;
         tpqi.PlaceId = RequestId;
-        SessionManager.PlaceService.CreateOrUpdatePlaceQueueItem(SessionManager.Ticket, tpqi);
+        SessionManager.CreateOrUpdate<TransitPlaceQueueItem>(
+            tpqi, SessionManager.PlaceService.CreateOrUpdatePlaceQueueItem);
         ReportInfo(string.Format("Added {0} to <a href='AccountPlaceQueueManage.aspx'>your queue</a>.", Renderer.Render(Place.Name)));
 
     }
@@ -339,7 +340,8 @@ public partial class PlaceView : Page
 
         TransitAccountPlaceFavorite apf = new TransitAccountPlaceFavorite();
         apf.PlaceId = RequestId;
-        SessionManager.PlaceService.CreateOrUpdateAccountPlaceFavorite(SessionManager.Ticket, apf);
+        SessionManager.CreateOrUpdate<TransitAccountPlaceFavorite>(
+            apf, SessionManager.PlaceService.CreateOrUpdateAccountPlaceFavorite);
 
         ReportInfo(string.Format("Added {0} to your favorites.", Renderer.Render(Place.Name)));
         placeFriends.GetData(sender, e);
@@ -365,7 +367,8 @@ public partial class PlaceView : Page
         TransitFeature t_feature = new TransitFeature();
         t_feature.DataObjectName = "Place";
         t_feature.DataRowId = RequestId;
-        SessionManager.ObjectService.CreateOrUpdateFeature(SessionManager.Ticket, t_feature);
+        SessionManager.CreateOrUpdate<TransitFeature>(
+            t_feature, SessionManager.ObjectService.CreateOrUpdateFeature);
         Redirect(Request.Url.PathAndQuery);
     }
 
@@ -381,6 +384,7 @@ public partial class PlaceView : Page
         t_feature.DataObjectName = "Place";
         t_feature.DataRowId = RequestId;
         SessionManager.ObjectService.DeleteAllFeatures(SessionManager.Ticket, t_feature);
+        SessionManager.InvalidateCache<TransitFeature>();
         Redirect(Request.Url.PathAndQuery);
     }
 

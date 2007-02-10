@@ -61,7 +61,8 @@ public partial class PlacePictureEdit : AuthenticatedPage
         t.Description = inputDescription.Text;
         t.PlaceId = PlaceId;
         t.Id = RequestId;
-        SessionManager.PlaceService.CreateOrUpdatePlacePicture(SessionManager.Ticket, t);
+        SessionManager.CreateOrUpdate<TransitPlacePicture>(
+            t, SessionManager.PlaceService.CreateOrUpdatePlacePicture);
         Redirect(string.Format("PlacePicturesManage.aspx?id={0}", PlaceId));
     }
 }

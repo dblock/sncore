@@ -69,7 +69,7 @@ public partial class SystemPicturesManage : AuthenticatedPage
                 switch (e.CommandName)
                 {
                     case "Delete":
-                        SessionManager.ObjectService.DeletePicture(SessionManager.Ticket, id);
+                        SessionManager.Delete<TransitPicture>(id, SessionManager.ObjectService.DeletePicture);
                         ReportInfo("Picture deleted.");
                         gridManage.CurrentPageIndex = 0;
                         gridManage_OnGetDataSource(source, e);
@@ -99,7 +99,8 @@ public partial class SystemPicturesManage : AuthenticatedPage
                     p.Type = selectPictureType.SelectedValue;
                     p.Description = string.Empty;
 
-                    SessionManager.ObjectService.CreateOrUpdatePicture(SessionManager.Ticket, p);
+                    SessionManager.CreateOrUpdate<TransitPicture>(
+                        p, SessionManager.ObjectService.CreateOrUpdatePicture);
                 }
                 catch (Exception ex)
                 {

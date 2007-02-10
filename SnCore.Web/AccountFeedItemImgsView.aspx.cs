@@ -103,7 +103,8 @@ public partial class AccountFeedItemImgsView : AccountPersonPage
                     SessionManager.Ticket, int.Parse(e.CommandArgument.ToString()));
                 img.Visible = !img.Visible;
                 if (!img.Visible) img.Interesting = false;
-                SessionManager.SyndicationService.CreateOrUpdateAccountFeedItemImg(SessionManager.Ticket, img);
+                SessionManager.CreateOrUpdate<TransitAccountFeedItemImg>(
+                    img, SessionManager.SyndicationService.CreateOrUpdateAccountFeedItemImg);
                 LinkButton lb = (LinkButton)e.Item.FindControl("linkToggleVisible");
                 lb.Text = img.Visible ? "&#187; Hide" : "&#187; Show";
                 UpdatePanel up = (UpdatePanel)e.Item.FindControl("panelShowHide");

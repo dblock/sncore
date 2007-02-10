@@ -98,7 +98,8 @@ public partial class SystemAccountPropertyEdit : AuthenticatedPage
         t.AccountPropertyGroupId = PropertyGroupId;
         t.Publish = inputPublish.Checked;
         t.Id = RequestId;
-        SessionManager.AccountService.CreateOrUpdateAccountProperty(SessionManager.Ticket, t);
+        SessionManager.CreateOrUpdate<TransitAccountProperty>(
+            t, SessionManager.AccountService.CreateOrUpdateAccountProperty);
         Redirect(linkBack.NavigateUrl);
     }
 }

@@ -80,7 +80,7 @@ public partial class AccountAttributesManage : AuthenticatedPage
         {
             case "Delete":
                 int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                SessionManager.AccountService.DeleteAccountAttribute(SessionManager.Ticket, id);
+                SessionManager.Delete<TransitAccountAttribute>(id, SessionManager.AccountService.DeleteAccountAttribute);
                 ReportInfo("Account attribute deleted.");
                 gridManage.CurrentPageIndex = 0;
                 gridManage_OnGetDataSource(sender, e);

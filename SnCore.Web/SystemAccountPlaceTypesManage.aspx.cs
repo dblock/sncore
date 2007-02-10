@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.SiteMap;
+using SnCore.Services;
 
 public partial class SystemAccountPlaceTypesManage : AuthenticatedPage
 {
@@ -51,7 +52,7 @@ public partial class SystemAccountPlaceTypesManage : AuthenticatedPage
                 switch (e.CommandName)
                 {
                     case "Delete":
-                        SessionManager.PlaceService.DeleteAccountPlaceType(SessionManager.Ticket, id);
+                        SessionManager.Delete<TransitAccountPlaceType>(id, SessionManager.PlaceService.DeleteAccountPlaceType);
                         ReportInfo("Place type deleted.");
                         gridManage.CurrentPageIndex = 0;
                         gridManage_OnGetDataSource(source, e);

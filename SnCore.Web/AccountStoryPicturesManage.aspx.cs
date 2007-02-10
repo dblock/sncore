@@ -66,7 +66,7 @@ public partial class AccountStoryPicturesManage : AuthenticatedPage
         switch (e.CommandName)
         {
             case "Delete":
-                SessionManager.StoryService.DeleteAccountStoryPicture(SessionManager.Ticket, id);
+                SessionManager.Delete<TransitAccountStoryPicture>(id, SessionManager.StoryService.DeleteAccountStoryPicture);
                 ReportInfo("Image deleted.");
                 GetImagesData(source, e);
                 break;
@@ -98,7 +98,8 @@ public partial class AccountStoryPicturesManage : AuthenticatedPage
                     p.Picture = t.Bitmap;
                     p.Name = Path.GetFileName(file.FileName);
                     p.AccountStoryId = RequestId;
-                    SessionManager.StoryService.CreateOrUpdateAccountStoryPicture(SessionManager.Ticket, p);
+                    SessionManager.CreateOrUpdate<TransitAccountStoryPicture>(
+                        p, SessionManager.StoryService.CreateOrUpdateAccountStoryPicture);
                 }
                 catch (Exception ex)
                 {

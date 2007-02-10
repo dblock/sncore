@@ -74,7 +74,8 @@ public partial class AccountContentEdit : AuthenticatedPage
 
         s.Timestamp = base.ToUTC(inputTimestamp.SelectedDate);
 
-        SessionManager.ContentService.CreateOrUpdateAccountContent(SessionManager.Ticket, s);
+        SessionManager.CreateOrUpdate<TransitAccountContent>(
+            s, SessionManager.ContentService.CreateOrUpdateAccountContent);
         Redirect(string.Format("AccountContentGroupEdit.aspx?id={0}", AccountContentGroupId));
     }
 }

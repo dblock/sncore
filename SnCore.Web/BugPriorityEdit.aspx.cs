@@ -46,7 +46,8 @@ public partial class BugPriorityEdit : AuthenticatedPage
         TransitBugPriority t = new TransitBugPriority();
         t.Name = inputName.Text;
         t.Id = RequestId;
-        SessionManager.BugService.CreateOrUpdateBugPriority(SessionManager.Ticket, t);
+        SessionManager.CreateOrUpdate<TransitBugPriority>(
+            t, SessionManager.BugService.CreateOrUpdateBugPriority);
         Redirect("BugPrioritiesManage.aspx");
     }
 }

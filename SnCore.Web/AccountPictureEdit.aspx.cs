@@ -51,7 +51,8 @@ public partial class AccountPictureEdit : AuthenticatedPage
         tw.Description = inputDescription.Text;
         tw.Id = RequestId;
         tw.Hidden = inputHidden.Checked;
-        SessionManager.AccountService.CreateOrUpdateAccountPicture(SessionManager.Ticket, tw);
+        SessionManager.CreateOrUpdate<TransitAccountPicture>(
+            tw, SessionManager.AccountService.CreateOrUpdateAccountPicture);
         Redirect("AccountPicturesManage.aspx");
     }
 }

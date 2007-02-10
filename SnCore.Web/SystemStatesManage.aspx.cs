@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using SnCore.Services;
 
 public partial class SystemStatesManage : AuthenticatedPage
 {
@@ -64,7 +65,7 @@ public partial class SystemStatesManage : AuthenticatedPage
                 switch (e.CommandName)
                 {
                     case "Delete":
-                        SessionManager.LocationService.DeleteState(SessionManager.Ticket, id);
+                        SessionManager.Delete<TransitState>(id, SessionManager.LocationService.DeleteState);
                         ReportInfo("State deleted.");
                         gridManage.CurrentPageIndex = 0;
                         gridManage_OnGetDataSource(source, e);

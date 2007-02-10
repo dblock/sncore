@@ -47,7 +47,8 @@ public partial class SystemCountryEdit : AuthenticatedPage
         TransitCountry tw = new TransitCountry();
         tw.Name = inputName.Text;
         tw.Id = RequestId;
-        SessionManager.LocationService.CreateOrUpdateCountry(SessionManager.Ticket, tw);
+        SessionManager.CreateOrUpdate<TransitCountry>(
+            tw, SessionManager.LocationService.CreateOrUpdateCountry);
         Redirect("SystemCountriesManage.aspx");
 
     }

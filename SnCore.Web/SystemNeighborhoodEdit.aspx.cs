@@ -82,7 +82,8 @@ public partial class SystemNeighborhoodEdit : AuthenticatedPage
         {
             throw new Exception("City is required.");
         }
-        SessionManager.LocationService.CreateOrUpdateNeighborhood(SessionManager.Ticket, tc);
+        SessionManager.CreateOrUpdate<TransitNeighborhood>(
+            tc, SessionManager.LocationService.CreateOrUpdateNeighborhood);
         Redirect("SystemNeighborhoodsManage.aspx");
     }
 
