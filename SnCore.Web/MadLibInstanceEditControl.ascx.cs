@@ -18,6 +18,7 @@ using SnCore.Tools.Web;
 public partial class MadLibInstanceEditControl : Control
 {
     private bool mValid = true;
+    private bool mBlind = true;
     private StringBuilder mText = null;
     private int[] mIndices = null;
     private List<string> mTextTags = new List<string>();
@@ -31,6 +32,18 @@ public partial class MadLibInstanceEditControl : Control
         set
         {
             ViewState["MadLibId"] = value;
+        }
+    }
+
+    public bool IsBlind
+    {
+        get
+        {
+            return ViewStateUtility.GetViewStateValue<bool>(ViewState, "Blind", mBlind);
+        }
+        set
+        {
+            ViewState["Blind"] = value;
         }
     }
 
@@ -89,17 +102,32 @@ public partial class MadLibInstanceEditControl : Control
 
     private void OnTextDataBind(string value, int pos)
     {
-        LiteralControl lc = new LiteralControl(value);
-        lc.ID = string.Format("inputText_{0}", pos);
-        Controls.Add(lc);
+        string id = string.Format("inputText_{0}", pos);
+        LiteralControl lc = (LiteralControl)FindControl(id);
+
+        if (lc == null)
+        {
+            lc = new LiteralControl();
+            lc.ID = id;
+            Controls.Add(lc);
+        }
+
+        lc.Text = GetBlindValue(value);
     }
 
     private void OnTagDataBind(string value, int pos)
     {
         if (string.IsNullOrEmpty(value)) value = "blank";
 
-        TextBox tb = new TextBox();
-        tb.ID = string.Format("inputTag_{0}", pos);
+        string id = string.Format("inputTag_{0}", pos);
+
+        TextBox tb = (TextBox) FindControl(id);
+
+        if (tb != null)
+            return;
+
+        tb = new TextBox();
+        tb.ID = id;
         tb.CssClass = "sncore_madlib_textbox";
 
         string qs = Request[value];
@@ -203,5 +231,24 @@ public partial class MadLibInstanceEditControl : Control
 
         value = mText.ToString();
         return mValid;
+    }
+
+    public string GetBlindValue(string value)
+    {
+        if (!IsBlind || string.IsNullOrEmpty(value))
+        {
+            return value;
+        }
+        else
+        {
+            StringBuilder blindvalue = new StringBuilder(value);
+            for (int i = 0; i < blindvalue.Length; i++)
+            {
+                if (Char.IsLetterOrDigit(blindvalue[i]))
+                    blindvalue[i] = '*';
+            }
+
+            return blindvalue.ToString();
+        }
     }
 }

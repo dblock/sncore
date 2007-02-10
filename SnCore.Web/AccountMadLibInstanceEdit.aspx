@@ -16,9 +16,12 @@
     </div>
    </Template>
   </SnCore:Title>
-  <asp:HyperLink ID="linkCancel" Text="&#187; Cancel" CssClass="sncore_cancel" runat="server" />
   <asp:UpdatePanel ID="panelPost" runat="server">
    <ContentTemplate>
+    <div class="sncore_cancel">
+     <asp:HyperLink ID="linkCancel" Text="&#187; Cancel" runat="server" />
+     <asp:LinkButton ID="linkToggleBlind" Text="&#187; Reveal" runat="server" OnClick="linkToggleBlind_Click" />
+    </div>
     <table class="sncore_table">
      <tr>
       <td class="sncore_table_tr_td_madlib">

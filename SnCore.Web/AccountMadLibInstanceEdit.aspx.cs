@@ -121,6 +121,13 @@ public partial class AccountMadLibInstanceEdit : AuthenticatedPage
         SetDefaultButton(post);
     }
 
+    public void linkToggleBlind_Click(object sender, EventArgs e)
+    {
+        madLibInstance.IsBlind = !madLibInstance.IsBlind;
+        madLibInstance.DataBind();
+        linkToggleBlind.Text = (madLibInstance.IsBlind ? "&#187; Reveal" : "&#187; Conceal");
+    }
+
     public void post_Click(object sender, EventArgs e)
     {
         string text = string.Empty;
