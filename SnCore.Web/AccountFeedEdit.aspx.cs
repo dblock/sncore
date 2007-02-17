@@ -157,6 +157,31 @@ public partial class AccountFeedEdit : AuthenticatedPage
         s.Publish = inputPublish.Checked;
         s.PublishImgs = inputPublishImgs.Checked;
         s.PublishMedia = inputPublishMedia.Checked;
+
+        if (s.Id == 0)
+        {
+            List<TransitAccountFeed> feeds = SessionManager.SyndicationService.GetAccountFeeds(
+                SessionManager.Ticket, SessionManager.AccountId, null);
+
+            foreach (TransitAccountFeed feed in feeds)
+            {
+                if (feed.Name.ToLower() == s.Name.ToLower())
+                {
+                    throw new Exception(string.Format("A syndicated feed with the same name '{0}' already exists. " +
+                        "Click <a href='AccountFeedEdit.aspx?id={1}'>here</a> to modify it.", 
+                        Renderer.Render(feed.Name), feed.Id));
+                }
+
+                if (feed.FeedUrl.ToLower() == s.FeedUrl.ToLower())
+                {
+                    throw new Exception(string.Format("A syndicated feed with the same feed address already exists. " +
+                        "The feed name is '{0}' and the address is '{1}. " +
+                        "Click <a href='AccountFeedEdit.aspx?id={2}'>here</a> to modify it.", 
+                        Renderer.Render(feed.Name), Renderer.Render(feed.FeedUrl), feed.Id));
+                }
+            }
+        }
+
         SessionManager.CreateOrUpdate<TransitAccountFeed>(
             s, SessionManager.SyndicationService.CreateOrUpdateAccountFeed);
         Redirect("AccountFeedsManage.aspx");

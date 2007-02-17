@@ -133,8 +133,8 @@ public partial class NoticeControl : Control
 
             HtmlEncode = false;
 
-            Message = string.Format("{0}<br>This may be a bug. If you believe you should not be getting this error, " +
-                "please <a href={1}>click here</a> to report it.", message, reportbugurl);
+            Message = string.Format("{0}<br><small>This may be a bug. If you believe you should not be getting this error, " +
+                "please <a href={1}>click here</a> to report it.</small>", message, reportbugurl);
 
             StringBuilder s = new StringBuilder();
             s.AppendFormat("User-raised exception from {0}: {1}\n{2}", value.Source, value.Message, value.StackTrace);
