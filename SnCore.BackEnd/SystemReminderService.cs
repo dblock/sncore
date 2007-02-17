@@ -11,6 +11,7 @@ using SnCore.Services;
 using NHibernate;
 using NHibernate.Expression;
 using System.Collections;
+using System.Collections.Generic;
 using System.Threading;
 using System.Net.Mail;
 using System.Diagnostics;
@@ -21,20 +22,6 @@ namespace SnCore.BackEndServices
 {
     public class SystemReminderService : SystemService
     {
-        private int mChunkSize = 50;
-
-        public int ChunkSize
-        {
-            get
-            {
-                return mChunkSize;
-            }
-            set
-            {
-                mChunkSize = value;
-            }
-        }
-
         public SystemReminderService()
         {
 
@@ -45,24 +32,40 @@ namespace SnCore.BackEndServices
             AddJob(new SessionJobDelegate(RunCleanupStaleAccounts));
             AddJob(new SessionJobDelegate(RunInvitationReminders));
             AddJob(new SessionJobDelegate(RunSystemReminders));
+            AddJob(new SessionJobDelegate(RunUpdateAccountCounters));
+        }
+
+        public void RunUpdateAccountCounters(ISession session, ManagedSecurityContext sec)
+        {
+            ManagedAccountCounterCollection counters = new ManagedAccountCounterCollection();
+            IQuery q = session.CreateQuery("FROM Account");
+            IEnumerable<Account> accounts = q.Enumerable<Account>();
+            IEnumerator<Account> enumerator = accounts.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                Account account = enumerator.Current;
+                counters.Add(account.Created);
+            }
+            counters.SaveAccountCounters(session);
         }
 
         public void RunCleanupStaleAccounts(ISession session, ManagedSecurityContext sec)
         {
             // fetch accounts that have not been logged in for two months and that don't have a verified e-mail
-            IList accounts = session.CreateQuery(
+            IEnumerable<Account> accounts = session.CreateQuery(
                 string.Format(
                  "FROM Account account" +
                  " WHERE NOT EXISTS ( " +
                   " FROM AccountEmail AS email" +
-                  " WHERE email.Account = account" + 
-                  " AND email.Verified = 1" + 
+                  " WHERE email.Account = account" +
+                  " AND email.Verified = 1" +
                  ") AND account.LastLogin < '{0}'", DateTime.UtcNow.AddMonths(-2)))
-                .SetMaxResults(ChunkSize) // avoid draining resources
-                .List();
+                 .Enumerable<Account>();
 
-            foreach(Account account in accounts)
+            IEnumerator<Account> enumerator = accounts.GetEnumerator();
+            while (enumerator.MoveNext())
             {
+                Account account = enumerator.Current;
                 ManagedAccount ma = new ManagedAccount(session, account);
 
                 bool bDelete = false;
@@ -128,13 +131,14 @@ namespace SnCore.BackEndServices
         public void RunInvitationReminders(ISession session, ManagedSecurityContext sec)
         {
             // fetch invitations that are older than a month
-            IList invitations = session.CreateCriteria(typeof(AccountInvitation))
-                .Add(Expression.Le("Modified", DateTime.UtcNow.AddMonths(-1)))
-                .SetMaxResults(ChunkSize) // avoid draining resources
-                .List();
+            IEnumerator<AccountInvitation> invitations = session.CreateQuery(
+                string.Format("FROM AccountInvitation WHERE Modified < '{0}'", DateTime.UtcNow.AddMonths(-1)))
+                .Enumerable<AccountInvitation>().GetEnumerator();
 
-            foreach (AccountInvitation invitation in invitations)
+            while (invitations.MoveNext())
             {
+                AccountInvitation invitation = invitations.Current;
+
                 if (invitation.Created == invitation.Modified)
                 {
                     try
@@ -245,7 +249,7 @@ namespace SnCore.BackEndServices
 
                             if (!string.IsNullOrEmpty(ma.GetActiveEmailAddress()))
                             {
-                                if (! mr.CanSend(acct))
+                                if (!mr.CanSend(acct))
                                     continue;
 
                                 ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(

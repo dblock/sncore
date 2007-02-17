@@ -39,7 +39,11 @@ public partial class SystemStatsChart2 : PicturePage
         DailyUnique,
         Weekly,
         Monthly,
-        Yearly
+        Yearly,
+        AccountDaily,
+        AccountWeekly,
+        AccountMonthly,
+        AccountYearly
     }
 
     public ChartType RequestType
@@ -115,6 +119,22 @@ public partial class SystemStatsChart2 : PicturePage
                 break;
             case ChartType.Yearly:
                 counters.Add(Summary.Yearly);
+                format = "yyyy";
+                break;
+            case ChartType.AccountDaily:
+                counters.Add(Summary.AccountDaily);
+                format = "MMM d";
+                break;
+            case ChartType.AccountMonthly:
+                counters.Add(Summary.AccountMonthly);
+                format = "MMM";
+                break;
+            case ChartType.AccountWeekly:
+                counters.Add(Summary.AccountWeekly);
+                format = "MMM dd";
+                break;
+            case ChartType.AccountYearly:
+                counters.Add(Summary.AccountYearly);
                 format = "yyyy";
                 break;
             default:

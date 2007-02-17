@@ -35,6 +35,10 @@ namespace SnCore.Web.Soap.Tests.WebContentService {
         
         private System.Threading.SendOrPostCallback GetAccountContentGroupsOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetAllAccountContentGroupsCountOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAllAccountContentGroupsOperationCompleted;
+        
         private System.Threading.SendOrPostCallback CreateOrUpdateAccountContentGroupOperationCompleted;
         
         private System.Threading.SendOrPostCallback DeleteAccountContentGroupOperationCompleted;
@@ -94,6 +98,12 @@ namespace SnCore.Web.Soap.Tests.WebContentService {
         
         /// <remarks/>
         public event GetAccountContentGroupsCompletedEventHandler GetAccountContentGroupsCompleted;
+        
+        /// <remarks/>
+        public event GetAllAccountContentGroupsCountCompletedEventHandler GetAllAccountContentGroupsCountCompleted;
+        
+        /// <remarks/>
+        public event GetAllAccountContentGroupsCompletedEventHandler GetAllAccountContentGroupsCompleted;
         
         /// <remarks/>
         public event CreateOrUpdateAccountContentGroupCompletedEventHandler CreateOrUpdateAccountContentGroupCompleted;
@@ -180,6 +190,66 @@ namespace SnCore.Web.Soap.Tests.WebContentService {
             if ((this.GetAccountContentGroupsCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetAccountContentGroupsCompleted(this, new GetAccountContentGroupsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAllAccountContentGroupsCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetAllAccountContentGroupsCount(string ticket) {
+            object[] results = this.Invoke("GetAllAccountContentGroupsCount", new object[] {
+                        ticket});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAllAccountContentGroupsCountAsync(string ticket) {
+            this.GetAllAccountContentGroupsCountAsync(ticket, null);
+        }
+        
+        /// <remarks/>
+        public void GetAllAccountContentGroupsCountAsync(string ticket, object userState) {
+            if ((this.GetAllAccountContentGroupsCountOperationCompleted == null)) {
+                this.GetAllAccountContentGroupsCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAllAccountContentGroupsCountOperationCompleted);
+            }
+            this.InvokeAsync("GetAllAccountContentGroupsCount", new object[] {
+                        ticket}, this.GetAllAccountContentGroupsCountOperationCompleted, userState);
+        }
+        
+        private void OnGetAllAccountContentGroupsCountOperationCompleted(object arg) {
+            if ((this.GetAllAccountContentGroupsCountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAllAccountContentGroupsCountCompleted(this, new GetAllAccountContentGroupsCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAllAccountContentGroups", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountContentGroup[] GetAllAccountContentGroups(string ticket, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetAllAccountContentGroups", new object[] {
+                        ticket,
+                        options});
+            return ((TransitAccountContentGroup[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAllAccountContentGroupsAsync(string ticket, ServiceQueryOptions options) {
+            this.GetAllAccountContentGroupsAsync(ticket, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetAllAccountContentGroupsAsync(string ticket, ServiceQueryOptions options, object userState) {
+            if ((this.GetAllAccountContentGroupsOperationCompleted == null)) {
+                this.GetAllAccountContentGroupsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAllAccountContentGroupsOperationCompleted);
+            }
+            this.InvokeAsync("GetAllAccountContentGroups", new object[] {
+                        ticket,
+                        options}, this.GetAllAccountContentGroupsOperationCompleted, userState);
+        }
+        
+        private void OnGetAllAccountContentGroupsOperationCompleted(object arg) {
+            if ((this.GetAllAccountContentGroupsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAllAccountContentGroupsCompleted(this, new GetAllAccountContentGroupsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -764,6 +834,58 @@ namespace SnCore.Web.Soap.Tests.WebContentService {
         private object[] results;
         
         internal GetAccountContentGroupsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccountContentGroup[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountContentGroup[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetAllAccountContentGroupsCountCompletedEventHandler(object sender, GetAllAccountContentGroupsCountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAllAccountContentGroupsCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAllAccountContentGroupsCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetAllAccountContentGroupsCompletedEventHandler(object sender, GetAllAccountContentGroupsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAllAccountContentGroupsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAllAccountContentGroupsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

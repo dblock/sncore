@@ -3660,7 +3660,7 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
         
         private string nameField;
         
-        private long countField;
+        private int countField;
         
         /// <remarks/>
         public string Name {
@@ -3673,7 +3673,7 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
         }
         
         /// <remarks/>
-        public long Count {
+        public int Count {
             get {
                 return this.countField;
             }

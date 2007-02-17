@@ -12,59 +12,27 @@ using System.IO;
 
 namespace SnCore.Services
 {
-    public class TransitSummarizedCounter
+    public class TransitSummarizedCounter : TimestampCounter<long>
     {
         public TransitSummarizedCounter()
+            : base(DateTime.UtcNow, 0)
         {
-            mTimestamp = DateTime.UtcNow;
-            mTotal = 0;
+
         }
 
         public TransitSummarizedCounter(DateTime ts, long total)
+            : base(ts, total)
         {
-            mTimestamp = ts;
-            mTotal = total;
+
         }
 
         public TransitSummarizedCounter(Counter c)
+            : base(DateTime.UtcNow, 0)
         {
             if (c != null)
             {
-                mTimestamp = c.Created;
-                mTotal = c.Total;
-            }
-            else
-            {
-                mTimestamp = DateTime.UtcNow;
-                mTotal = 0;
-            }
-        }
-
-        private DateTime mTimestamp;
-
-        public DateTime Timestamp
-        {
-            get
-            {
-                return mTimestamp;
-            }
-            set
-            {
-                mTimestamp = value;
-            }
-        }
-
-        private long mTotal;
-
-        public long Total
-        {
-            get
-            {
-                return mTotal;
-            }
-            set
-            {
-                mTotal = value;
+                Timestamp = c.Created;
+                Total = c.Total;
             }
         }
     }

@@ -21,7 +21,11 @@ public partial class SystemStatsHits : AuthenticatedPage
         DailyUnique,
         Weekly,
         Monthly,
-        Yearly
+        Yearly,
+        AccountDaily,
+        AccountWeekly,
+        AccountMonthly,
+        AccountYearly
     }
 
     public void Page_Load()
@@ -47,6 +51,12 @@ public partial class SystemStatsHits : AuthenticatedPage
             case ChartType.DailyUnique:
                 labelChartType.Text = "Unique Visitors (Returning/New)";
                 break;
+            case ChartType.AccountDaily:
+            case ChartType.AccountMonthly:
+            case ChartType.AccountWeekly:
+            case ChartType.AccountYearly:
+                labelChartType.Text = type.ToString().Replace("Account", "New Accounts ");
+                break;
             default:
                 labelChartType.Text = type.ToString();
                 break;
@@ -57,6 +67,12 @@ public partial class SystemStatsHits : AuthenticatedPage
         linkMonthly.Enabled = (type != ChartType.Monthly);
         linkYearly.Enabled = (type != ChartType.Yearly);
         linkWeekly.Enabled = (type != ChartType.Weekly);
+
+        linkAccountDaily.Enabled = (type != ChartType.AccountDaily);
+        linkAccountMonthly.Enabled = (type != ChartType.AccountMonthly);
+        linkAccountYearly.Enabled = (type != ChartType.AccountYearly);
+        linkAccountWeekly.Enabled = (type != ChartType.AccountWeekly);
+
         linkDailyUnique.Enabled = (type != ChartType.DailyUnique);
     }
 
@@ -89,4 +105,25 @@ public partial class SystemStatsHits : AuthenticatedPage
     {
         SetChartType(ChartType.Daily);
     }
+
+    public void linkAccountYearly_Click(object sender, EventArgs e)
+    {
+        SetChartType(ChartType.Yearly);
+    }
+
+    public void linkAccountMonthly_Click(object sender, EventArgs e)
+    {
+        SetChartType(ChartType.AccountMonthly);
+    }
+
+    public void linkAccountWeekly_Click(object sender, EventArgs e)
+    {
+        SetChartType(ChartType.AccountWeekly);
+    }
+
+    public void linkAccountDaily_Click(object sender, EventArgs e)
+    {
+        SetChartType(ChartType.AccountDaily);
+    }
+
 }

@@ -755,7 +755,7 @@
       <wsdl:output message="tns:GetAccountEventPicturesSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetAccountEventPictureIfModifiedSinceById">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get event picture picture data if modified since.</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get event picture data if modified since.</wsdl:documentation>
       <wsdl:input message="tns:GetAccountEventPictureIfModifiedSinceByIdSoapIn" />
       <wsdl:output message="tns:GetAccountEventPictureIfModifiedSinceByIdSoapOut" />
     </wsdl:operation>

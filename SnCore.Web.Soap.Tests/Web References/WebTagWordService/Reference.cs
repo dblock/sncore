@@ -456,6 +456,10 @@ namespace SnCore.Web.Soap.Tests.WebTagWordService {
         
         private bool isPasswordExpiredField;
         
+        private System.DateTime createdField;
+        
+        private bool isAdministratorField;
+        
         private string nameField;
         
         private System.DateTime birthdayField;
@@ -483,6 +487,26 @@ namespace SnCore.Web.Soap.Tests.WebTagWordService {
             }
             set {
                 this.isPasswordExpiredField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Created {
+            get {
+                return this.createdField;
+            }
+            set {
+                this.createdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool IsAdministrator {
+            get {
+                return this.isAdministratorField;
+            }
+            set {
+                this.isAdministratorField = value;
             }
         }
         

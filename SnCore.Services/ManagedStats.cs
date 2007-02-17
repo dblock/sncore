@@ -110,6 +110,62 @@ namespace SnCore.Services
             }
         }
 
+        private List<TransitSummarizedCounter> mAccountDaily = new List<TransitSummarizedCounter>(14);
+
+        public List<TransitSummarizedCounter> AccountDaily
+        {
+            get
+            {
+                return mAccountDaily;
+            }
+            set
+            {
+                mAccountDaily = value;
+            }
+        }
+
+        private List<TransitSummarizedCounter> mAccountWeekly = new List<TransitSummarizedCounter>(54);
+
+        public List<TransitSummarizedCounter> AccountWeekly
+        {
+            get
+            {
+                return mAccountWeekly;
+            }
+            set
+            {
+                mAccountWeekly = value;
+            }
+        }
+
+        private List<TransitSummarizedCounter> mAccountMonthly = new List<TransitSummarizedCounter>(12);
+
+        public List<TransitSummarizedCounter> AccountMonthly
+        {
+            get
+            {
+                return mAccountMonthly;
+            }
+            set
+            {
+                mAccountMonthly = value;
+            }
+        }
+
+        private List<TransitSummarizedCounter> mAccountYearly = new List<TransitSummarizedCounter>(6);
+
+        public List<TransitSummarizedCounter> AccountYearly
+        {
+            get
+            {
+                return mAccountYearly;
+            }
+            set
+            {
+                mAccountYearly = value;
+            }
+        }
+
         private long mTotalHits = 0;
 
         public long TotalHits
@@ -538,130 +594,140 @@ namespace SnCore.Services
             return result;
         }
 
-        public List<TransitSummarizedCounter> GetSummaryDaily()
+        private delegate DateTime GetDt(DateTime dt);
+        private delegate TransitSummarizedCounter GetSummarizedCounter<TotalType>(TimestampCounter<TotalType> tc);
+
+        private List<TransitSummarizedCounter> GetSummary<CounterType, TotalType>(
+            GetDt getfirst, GetDt getnext, 
+            GetTimestampCounter<CounterType, TotalType> gettimestampcounter,
+            GetSummarizedCounter<TotalType> getsummarizedcounter)
         {
             List<TransitSummarizedCounter> result = new List<TransitSummarizedCounter>();
             DateTime now = DateTime.UtcNow;
-            DateTime ts = now.AddDays(-14);
+            DateTime ts = getfirst(now);
             while (ts <= now)
             {
                 DateTime ts_current = new DateTime(ts.Year, ts.Month, ts.Day, 0, 0, 0);
-                CounterDaily c = (CounterDaily)Session.CreateCriteria(typeof(CounterDaily))
+                CounterType c = Session.CreateCriteria(typeof(CounterType))
                     .Add(Expression.Eq("Timestamp", ts_current))
-                    .UniqueResult();
+                    .UniqueResult<CounterType>();
 
-                result.Add((c == null) ? new TransitSummarizedCounter(ts_current, 0) : new TransitSummarizedCounter(c.Timestamp, c.Total));
-                ts = ts.AddDays(1);
+                TransitSummarizedCounter tsc = null;
+                if (c == null) 
+                {
+                    tsc = new TransitSummarizedCounter(ts_current, 0);
+                }
+                else
+                {
+                    TimestampCounter<TotalType> tc = gettimestampcounter(c);
+                    tsc = getsummarizedcounter(tc);
+                }
+
+                result.Add(tsc);
+                ts = getnext(ts);
             }
 
             return result;
+        }
+
+        public List<TransitSummarizedCounter> GetSummaryDaily()
+        {
+            return GetSummary<CounterDaily, int>(
+                delegate(DateTime dt) { return dt.AddDays(-14); },
+                delegate(DateTime dt) { return dt.AddDays(1); },
+                delegate(CounterDaily counter) { return new TimestampCounter<int>(counter.Timestamp, counter.Total); },
+                delegate(TimestampCounter<int> tsc) { return new TransitSummarizedCounter(tsc.Timestamp, tsc.Total); }
+                );
+        }
+
+        public List<TransitSummarizedCounter> GetSummaryAccountDaily()
+        {
+            return GetSummary<CounterAccountDaily, int>(
+                delegate(DateTime dt) { return dt.AddDays(-14); },
+                delegate(DateTime dt) { return dt.AddDays(1); },
+                delegate(CounterAccountDaily counter) { return new TimestampCounter<int>(counter.Timestamp, counter.Total); },
+                delegate(TimestampCounter<int> tsc) { return new TransitSummarizedCounter(tsc.Timestamp, tsc.Total); }
+                );
         }
 
         public List<TransitSummarizedCounter> GetSummaryReturningDaily()
         {
-            List<TransitSummarizedCounter> result = new List<TransitSummarizedCounter>();
-            DateTime now = DateTime.UtcNow;
-            DateTime ts = now.AddDays(-14);
-            while (ts <= now)
-            {
-                DateTime ts_current = new DateTime(ts.Year, ts.Month, ts.Day, 0, 0, 0);
-                CounterReturningDaily c = (CounterReturningDaily)Session.CreateCriteria(typeof(CounterReturningDaily))
-                    .Add(Expression.Eq("Timestamp", ts_current))
-                    .UniqueResult();
-
-                result.Add((c == null) ? new TransitSummarizedCounter(ts_current, 0) : new TransitSummarizedCounter(c.Timestamp, c.ReturningTotal));
-                ts = ts.AddDays(1);
-            }
-
-            return result;
+            return GetSummary<CounterReturningDaily, int>(
+                delegate(DateTime dt) { return dt.AddDays(-14); },
+                delegate(DateTime dt) { return dt.AddDays(1); },
+                delegate(CounterReturningDaily counter) { return new TimestampCounter<int>(counter.Timestamp, counter.ReturningTotal); },
+                delegate(TimestampCounter<int> tsc) { return new TransitSummarizedCounter(tsc.Timestamp, tsc.Total); }
+                );
         }
 
         public List<TransitSummarizedCounter> GetSummaryNewDaily()
         {
-            List<TransitSummarizedCounter> result = new List<TransitSummarizedCounter>();
-            DateTime now = DateTime.UtcNow;
-            DateTime ts = now.AddDays(-14);
-            while (ts <= now)
-            {
-                DateTime ts_current = new DateTime(ts.Year, ts.Month, ts.Day, 0, 0, 0);
-                CounterReturningDaily c = (CounterReturningDaily)Session.CreateCriteria(typeof(CounterReturningDaily))
-                    .Add(Expression.Eq("Timestamp", ts_current))
-                    .UniqueResult();
-
-                result.Add((c == null) ? new TransitSummarizedCounter(ts_current, 0) : new TransitSummarizedCounter(c.Timestamp, c.NewTotal));
-                ts = ts.AddDays(1);
-            }
-
-            return result;
+            return GetSummary<CounterReturningDaily, int>(
+                delegate(DateTime dt) { return dt.AddDays(-14); },
+                delegate(DateTime dt) { return dt.AddDays(1); },
+                delegate(CounterReturningDaily counter) { return new TimestampCounter<int>(counter.Timestamp, counter.NewTotal); },
+                delegate(TimestampCounter<int> tsc) { return new TransitSummarizedCounter(tsc.Timestamp, tsc.Total); }
+                );
         }
 
         public List<TransitSummarizedCounter> GetSummaryWeekly()
         {
-            List<TransitSummarizedCounter> result = new List<TransitSummarizedCounter>();
-            DateTime now = DateTime.UtcNow;
-            DateTime ts = now.AddYears(-1);
-
-            while (ts.DayOfWeek != DayOfWeek.Sunday)
-                ts = ts.AddDays(-1);
-
-            while (ts <= now)
-            {
-                DateTime ts_current = new DateTime(ts.Year, ts.Month, ts.Day, 0, 0, 0);
-                CounterWeekly c = (CounterWeekly)Session.CreateCriteria(typeof(CounterWeekly))
-                    .Add(Expression.Eq("Timestamp", ts_current))
-                    .UniqueResult();
-
-                result.Add((c == null) ? new TransitSummarizedCounter(ts_current, 0) : new TransitSummarizedCounter(c.Timestamp, c.Total));
-                ts = ts.AddDays(7);
-            }
-
-            return result;
+            return GetSummary<CounterWeekly, int>(
+                delegate(DateTime dt) { dt = dt.AddYears(-1); while (dt.DayOfWeek != DayOfWeek.Sunday) dt = dt.AddDays(-1); return dt; },
+                delegate(DateTime dt) { return dt.AddDays(7); },
+                delegate(CounterWeekly counter) { return new TimestampCounter<int>(counter.Timestamp, counter.Total); },
+                delegate(TimestampCounter<int> tsc) { return new TransitSummarizedCounter(tsc.Timestamp, tsc.Total); }
+                );
         }
 
-        /// <summary>
-        /// Monthly hits, twelve months.
-        /// </summary>
-        /// <returns></returns>
+        public List<TransitSummarizedCounter> GetSummaryAccountWeekly()
+        {
+            return GetSummary<CounterAccountWeekly, int>(
+                delegate(DateTime dt) { dt = dt.AddYears(-1); while (dt.DayOfWeek != DayOfWeek.Sunday) dt = dt.AddDays(-1); return dt; },
+                delegate(DateTime dt) { return dt.AddDays(7); },
+                delegate(CounterAccountWeekly counter) { return new TimestampCounter<int>(counter.Timestamp, counter.Total); },
+                delegate(TimestampCounter<int> tsc) { return new TransitSummarizedCounter(tsc.Timestamp, tsc.Total); }
+                );
+        }
+
         public List<TransitSummarizedCounter> GetSummaryMonthly()
         {
-            List<TransitSummarizedCounter> result = new List<TransitSummarizedCounter>();
-            DateTime now = DateTime.UtcNow;
-            DateTime ts = now.AddMonths(-12);
-
-            while (ts <= now)
-            {
-                DateTime ts_current = new DateTime(ts.Year, ts.Month, 1, 0, 0, 0);
-                CounterMonthly c = (CounterMonthly) Session.CreateCriteria(typeof(CounterMonthly))
-                    .Add(Expression.Eq("Timestamp", ts_current))
-                    .UniqueResult();
-
-                result.Add((c == null) ? new TransitSummarizedCounter(ts_current, 0) : new TransitSummarizedCounter(c.Timestamp, c.Total));
-                ts = ts.AddMonths(1);
-            }
-
-            return result;
+            return GetSummary<CounterMonthly, int>(
+                delegate(DateTime dt) { dt = dt.AddMonths(-12); return new DateTime(dt.Year, dt.Month, 1); },
+                delegate(DateTime dt) { return dt.AddMonths(1); },
+                delegate(CounterMonthly counter) { return new TimestampCounter<int>(counter.Timestamp, counter.Total); },
+                delegate(TimestampCounter<int> tsc) { return new TransitSummarizedCounter(tsc.Timestamp, tsc.Total); }
+                );
         }
 
-        /// <summary>
-        /// Yearly hits, five years.
-        /// </summary>
-        /// <returns></returns>
+        public List<TransitSummarizedCounter> GetSummaryAccountMonthly()
+        {
+            return GetSummary<CounterAccountMonthly, int>(
+                delegate(DateTime dt) { dt = dt.AddMonths(-12); return new DateTime(dt.Year, dt.Month, 1); },
+                delegate(DateTime dt) { return dt.AddMonths(1); },
+                delegate(CounterAccountMonthly counter) { return new TimestampCounter<int>(counter.Timestamp, counter.Total); },
+                delegate(TimestampCounter<int> tsc) { return new TransitSummarizedCounter(tsc.Timestamp, tsc.Total); }
+                );
+        }
+
         public List<TransitSummarizedCounter> GetSummaryYearly()
         {
-            List<TransitSummarizedCounter> result = new List<TransitSummarizedCounter>();
-            DateTime now = DateTime.UtcNow;
+            return GetSummary<CounterYearly, long>(
+                delegate(DateTime dt) { dt = dt.AddYears(-5); return new DateTime(dt.Year, 1, 1); },
+                delegate(DateTime dt) { return dt.AddYears(1); },
+                delegate(CounterYearly counter) { return new TimestampCounter<long>(counter.Timestamp, counter.Total); },
+                delegate(TimestampCounter<long> tsc) { return new TransitSummarizedCounter(tsc.Timestamp, tsc.Total); }
+                );
+        }
 
-            for (int i = -5; i <= 0; i++)
-            {
-                DateTime ts_current = new DateTime(now.Year + i, 1, 1, 0, 0, 0);
-                CounterYearly c = (CounterYearly)Session.CreateCriteria(typeof(CounterYearly))
-                    .Add(Expression.Eq("Timestamp", ts_current))
-                    .UniqueResult();
-
-                result.Add((c == null) ? new TransitSummarizedCounter(ts_current, 0) : new TransitSummarizedCounter(c.Timestamp, c.Total));
-            }
-
-            return result;
+        public List<TransitSummarizedCounter> GetSummaryAccountYearly()
+        {
+            return GetSummary<CounterAccountYearly, long>(
+                delegate(DateTime dt) { dt = dt.AddYears(-5); return new DateTime(dt.Year, 1, 1); },
+                delegate(DateTime dt) { return dt.AddYears(1); },
+                delegate(CounterAccountYearly counter) { return new TimestampCounter<long>(counter.Timestamp, counter.Total); },
+                delegate(TimestampCounter<long> tsc) { return new TransitSummarizedCounter(tsc.Timestamp, tsc.Total); }
+                );
         }
 
         public TransitStatsSummary GetSummary()
@@ -677,8 +743,14 @@ namespace SnCore.Services
             summary.Weekly.AddRange(GetSummaryWeekly());
             summary.Monthly.AddRange(GetSummaryMonthly());
             summary.Yearly.AddRange(GetSummaryYearly());
+            
             summary.ReturningDaily.AddRange(GetSummaryReturningDaily());
             summary.NewDaily.AddRange(GetSummaryNewDaily());
+
+            summary.AccountDaily.AddRange(GetSummaryAccountDaily());
+            summary.AccountWeekly.AddRange(GetSummaryAccountWeekly());
+            summary.AccountMonthly.AddRange(GetSummaryAccountMonthly());
+            summary.AccountYearly.AddRange(GetSummaryAccountYearly());
 
             return summary;
         }

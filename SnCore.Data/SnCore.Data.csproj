@@ -251,6 +251,18 @@
     <Compile Include="Counter.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CounterAccountDaily.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CounterAccountMonthly.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CounterAccountWeekly.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CounterAccountYearly.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="CounterDaily.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -435,6 +447,10 @@
     <EmbeddedResource Include="City.hbm.xml" />
     <EmbeddedResource Include="Configuration.hbm.xml" />
     <EmbeddedResource Include="Counter.hbm.xml" />
+    <EmbeddedResource Include="CounterAccountDaily.hbm.xml" />
+    <EmbeddedResource Include="CounterAccountMonthly.hbm.xml" />
+    <EmbeddedResource Include="CounterAccountWeekly.hbm.xml" />
+    <EmbeddedResource Include="CounterAccountYearly.hbm.xml" />
     <EmbeddedResource Include="CounterDaily.hbm.xml" />
     <EmbeddedResource Include="CounterHourly.hbm.xml" />
     <EmbeddedResource Include="CounterMonthly.hbm.xml" />

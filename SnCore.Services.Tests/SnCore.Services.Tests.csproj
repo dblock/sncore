@@ -132,6 +132,7 @@
     <Compile Include="ManagedAccountBlogTest.cs" />
     <Compile Include="ManagedAccountContentGroupTest.cs" />
     <Compile Include="ManagedAccountContentTest.cs" />
+    <Compile Include="ManagedAccountCounterCollectionTest.cs" />
     <Compile Include="ManagedAccountEventInstanceTest.cs" />
     <Compile Include="ManagedAccountEventPictureTest.cs" />
     <Compile Include="ManagedAccountEventTypeTest.cs" />

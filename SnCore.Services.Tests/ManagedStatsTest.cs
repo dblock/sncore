@@ -27,6 +27,10 @@ namespace SnCore.Services.Tests
             Assert.IsTrue(summary.Daily.Count >= 2 * 7);
             Assert.IsTrue(summary.NewDaily.Count >= 2 * 7);
             Assert.IsTrue(summary.Hourly.Count >= 24);
+            Assert.IsTrue(summary.AccountYearly.Count >= 5);
+            Assert.IsTrue(summary.AccountMonthly.Count >= 12);
+            Assert.IsTrue(summary.AccountWeekly.Count >= 52);
+            Assert.IsTrue(summary.AccountDaily.Count >= 2 * 7);
         }
 
         [Test]

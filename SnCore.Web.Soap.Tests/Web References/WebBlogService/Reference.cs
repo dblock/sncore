@@ -62,8 +62,6 @@ namespace SnCore.Web.Soap.Tests.WebBlogService {
         
         private System.Threading.SendOrPostCallback GetAccountBlogAuthorByIdOperationCompleted;
         
-        private System.Threading.SendOrPostCallback GetAccountBlogAuthorsByAccountIdOperationCompleted;
-        
         private System.Threading.SendOrPostCallback GetAccountBlogAuthorsOperationCompleted;
         
         private System.Threading.SendOrPostCallback CreateOrUpdateAccountBlogAuthorOperationCompleted;
@@ -156,9 +154,6 @@ namespace SnCore.Web.Soap.Tests.WebBlogService {
         
         /// <remarks/>
         public event GetAccountBlogAuthorByIdCompletedEventHandler GetAccountBlogAuthorByIdCompleted;
-        
-        /// <remarks/>
-        public event GetAccountBlogAuthorsByAccountIdCompletedEventHandler GetAccountBlogAuthorsByAccountIdCompleted;
         
         /// <remarks/>
         public event GetAccountBlogAuthorsCompletedEventHandler GetAccountBlogAuthorsCompleted;
@@ -641,39 +636,6 @@ namespace SnCore.Web.Soap.Tests.WebBlogService {
             if ((this.GetAccountBlogAuthorByIdCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetAccountBlogAuthorByIdCompleted(this, new GetAccountBlogAuthorByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountBlogAuthorsByAccountId", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public TransitAccountBlogAuthor[] GetAccountBlogAuthorsByAccountId(string ticket, int id, ServiceQueryOptions options) {
-            object[] results = this.Invoke("GetAccountBlogAuthorsByAccountId", new object[] {
-                        ticket,
-                        id,
-                        options});
-            return ((TransitAccountBlogAuthor[])(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetAccountBlogAuthorsByAccountIdAsync(string ticket, int id, ServiceQueryOptions options) {
-            this.GetAccountBlogAuthorsByAccountIdAsync(ticket, id, options, null);
-        }
-        
-        /// <remarks/>
-        public void GetAccountBlogAuthorsByAccountIdAsync(string ticket, int id, ServiceQueryOptions options, object userState) {
-            if ((this.GetAccountBlogAuthorsByAccountIdOperationCompleted == null)) {
-                this.GetAccountBlogAuthorsByAccountIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountBlogAuthorsByAccountIdOperationCompleted);
-            }
-            this.InvokeAsync("GetAccountBlogAuthorsByAccountId", new object[] {
-                        ticket,
-                        id,
-                        options}, this.GetAccountBlogAuthorsByAccountIdOperationCompleted, userState);
-        }
-        
-        private void OnGetAccountBlogAuthorsByAccountIdOperationCompleted(object arg) {
-            if ((this.GetAccountBlogAuthorsByAccountIdCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetAccountBlogAuthorsByAccountIdCompleted(this, new GetAccountBlogAuthorsByAccountIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1646,32 +1608,6 @@ namespace SnCore.Web.Soap.Tests.WebBlogService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((TransitAccountBlogAuthor)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    public delegate void GetAccountBlogAuthorsByAccountIdCompletedEventHandler(object sender, GetAccountBlogAuthorsByAccountIdCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetAccountBlogAuthorsByAccountIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetAccountBlogAuthorsByAccountIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public TransitAccountBlogAuthor[] Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((TransitAccountBlogAuthor[])(this.results[0]));
             }
         }
     }

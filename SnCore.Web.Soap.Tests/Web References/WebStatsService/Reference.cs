@@ -32,6 +32,7 @@ namespace SnCore.Web.Soap.Tests.WebStatsService {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfCounter))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfRefererQuery))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfRefererHost))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TimestampCounterOfInt64))]
     public partial class WebStatsService : System.Web.Services.Protocols.SoapHttpClientProtocol {
         
         private System.Threading.SendOrPostCallback TrackSingleRequestOperationCompleted;
@@ -275,22 +276,24 @@ namespace SnCore.Web.Soap.Tests.WebStatsService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetSummary", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public TransitStatsSummary GetSummary() {
-            object[] results = this.Invoke("GetSummary", new object[0]);
+        public TransitStatsSummary GetSummary(string ticket) {
+            object[] results = this.Invoke("GetSummary", new object[] {
+                        ticket});
             return ((TransitStatsSummary)(results[0]));
         }
         
         /// <remarks/>
-        public void GetSummaryAsync() {
-            this.GetSummaryAsync(null);
+        public void GetSummaryAsync(string ticket) {
+            this.GetSummaryAsync(ticket, null);
         }
         
         /// <remarks/>
-        public void GetSummaryAsync(object userState) {
+        public void GetSummaryAsync(string ticket, object userState) {
             if ((this.GetSummaryOperationCompleted == null)) {
                 this.GetSummaryOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetSummaryOperationCompleted);
             }
-            this.InvokeAsync("GetSummary", new object[0], this.GetSummaryOperationCompleted, userState);
+            this.InvokeAsync("GetSummary", new object[] {
+                        ticket}, this.GetSummaryOperationCompleted, userState);
         }
         
         private void OnGetSummaryOperationCompleted(object arg) {
@@ -1692,26 +1695,17 @@ namespace SnCore.Web.Soap.Tests.WebStatsService {
     }
     
     /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitSummarizedCounter))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
-    public partial class TransitSummarizedCounter {
-        
-        private System.DateTime timestampField;
+    public partial class TimestampCounterOfInt64 {
         
         private long totalField;
         
-        /// <remarks/>
-        public System.DateTime Timestamp {
-            get {
-                return this.timestampField;
-            }
-            set {
-                this.timestampField = value;
-            }
-        }
+        private System.DateTime timestampField;
         
         /// <remarks/>
         public long Total {
@@ -1722,6 +1716,25 @@ namespace SnCore.Web.Soap.Tests.WebStatsService {
                 this.totalField = value;
             }
         }
+        
+        /// <remarks/>
+        public System.DateTime Timestamp {
+            get {
+                return this.timestampField;
+            }
+            set {
+                this.timestampField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitSummarizedCounter : TimestampCounterOfInt64 {
     }
     
     /// <remarks/>
@@ -1745,6 +1758,14 @@ namespace SnCore.Web.Soap.Tests.WebStatsService {
         private TransitSummarizedCounter[] monthlyField;
         
         private TransitSummarizedCounter[] yearlyField;
+        
+        private TransitSummarizedCounter[] accountDailyField;
+        
+        private TransitSummarizedCounter[] accountWeeklyField;
+        
+        private TransitSummarizedCounter[] accountMonthlyField;
+        
+        private TransitSummarizedCounter[] accountYearlyField;
         
         private long totalHitsField;
         
@@ -1815,6 +1836,46 @@ namespace SnCore.Web.Soap.Tests.WebStatsService {
             }
             set {
                 this.yearlyField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public TransitSummarizedCounter[] AccountDaily {
+            get {
+                return this.accountDailyField;
+            }
+            set {
+                this.accountDailyField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public TransitSummarizedCounter[] AccountWeekly {
+            get {
+                return this.accountWeeklyField;
+            }
+            set {
+                this.accountWeeklyField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public TransitSummarizedCounter[] AccountMonthly {
+            get {
+                return this.accountMonthlyField;
+            }
+            set {
+                this.accountMonthlyField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public TransitSummarizedCounter[] AccountYearly {
+            get {
+                return this.accountYearlyField;
+            }
+            set {
+                this.accountYearlyField = value;
             }
         }
         

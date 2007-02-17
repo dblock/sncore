@@ -65,6 +65,35 @@
           <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
         </s:sequence>
       </s:complexType>
+      <s:element name="GetAllAccountContentGroupsCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllAccountContentGroupsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAllAccountContentGroupsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllAccountContentGroups">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllAccountContentGroupsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllAccountContentGroupsResult" type="tns:ArrayOfTransitAccountContentGroup" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="CreateOrUpdateAccountContentGroup">
         <s:complexType>
           <s:sequence>
@@ -217,6 +246,18 @@
   <wsdl:message name="GetAccountContentGroupsSoapOut">
     <wsdl:part name="parameters" element="tns:GetAccountContentGroupsResponse" />
   </wsdl:message>
+  <wsdl:message name="GetAllAccountContentGroupsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllAccountContentGroupsCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAllAccountContentGroupsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllAccountContentGroupsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAllAccountContentGroupsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllAccountContentGroups" />
+  </wsdl:message>
+  <wsdl:message name="GetAllAccountContentGroupsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllAccountContentGroupsResponse" />
+  </wsdl:message>
   <wsdl:message name="CreateOrUpdateAccountContentGroupSoapIn">
     <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountContentGroup" />
   </wsdl:message>
@@ -276,6 +317,16 @@
       <wsdl:input message="tns:GetAccountContentGroupsSoapIn" />
       <wsdl:output message="tns:GetAccountContentGroupsSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="GetAllAccountContentGroupsCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account content groups count.</wsdl:documentation>
+      <wsdl:input message="tns:GetAllAccountContentGroupsCountSoapIn" />
+      <wsdl:output message="tns:GetAllAccountContentGroupsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAccountContentGroups">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account content groups.</wsdl:documentation>
+      <wsdl:input message="tns:GetAllAccountContentGroupsSoapIn" />
+      <wsdl:output message="tns:GetAllAccountContentGroupsSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="CreateOrUpdateAccountContentGroup">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create a content group.</wsdl:documentation>
       <wsdl:input message="tns:CreateOrUpdateAccountContentGroupSoapIn" />
@@ -330,6 +381,24 @@
     </wsdl:operation>
     <wsdl:operation name="GetAccountContentGroups">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountContentGroups" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAccountContentGroupsCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAllAccountContentGroupsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAccountContentGroups">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAllAccountContentGroups" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -423,6 +492,24 @@
     </wsdl:operation>
     <wsdl:operation name="GetAccountContentGroups">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountContentGroups" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAccountContentGroupsCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAllAccountContentGroupsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAccountContentGroups">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAllAccountContentGroups" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

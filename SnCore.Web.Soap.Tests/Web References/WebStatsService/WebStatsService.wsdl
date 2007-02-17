@@ -38,7 +38,11 @@
         <s:complexType />
       </s:element>
       <s:element name="GetSummary">
-        <s:complexType />
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+          </s:sequence>
+        </s:complexType>
       </s:element>
       <s:element name="GetSummaryResponse">
         <s:complexType>
@@ -56,6 +60,10 @@
           <s:element minOccurs="0" maxOccurs="1" name="Weekly" type="tns:ArrayOfTransitSummarizedCounter" />
           <s:element minOccurs="0" maxOccurs="1" name="Monthly" type="tns:ArrayOfTransitSummarizedCounter" />
           <s:element minOccurs="0" maxOccurs="1" name="Yearly" type="tns:ArrayOfTransitSummarizedCounter" />
+          <s:element minOccurs="0" maxOccurs="1" name="AccountDaily" type="tns:ArrayOfTransitSummarizedCounter" />
+          <s:element minOccurs="0" maxOccurs="1" name="AccountWeekly" type="tns:ArrayOfTransitSummarizedCounter" />
+          <s:element minOccurs="0" maxOccurs="1" name="AccountMonthly" type="tns:ArrayOfTransitSummarizedCounter" />
+          <s:element minOccurs="0" maxOccurs="1" name="AccountYearly" type="tns:ArrayOfTransitSummarizedCounter" />
           <s:element minOccurs="1" maxOccurs="1" name="TotalHits" type="s:long" />
         </s:sequence>
       </s:complexType>
@@ -65,9 +73,14 @@
         </s:sequence>
       </s:complexType>
       <s:complexType name="TransitSummarizedCounter">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TimestampCounterOfInt64" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TimestampCounterOfInt64">
         <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="Timestamp" type="s:dateTime" />
           <s:element minOccurs="1" maxOccurs="1" name="Total" type="s:long" />
+          <s:element minOccurs="1" maxOccurs="1" name="Timestamp" type="s:dateTime" />
         </s:sequence>
       </s:complexType>
       <s:element name="GetRefererHostsCount">

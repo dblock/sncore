@@ -1958,7 +1958,7 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
         
         private int postCountField;
         
-        private long threadCountField;
+        private int threadCountField;
         
         /// <remarks/>
         public string Name {
@@ -2041,7 +2041,7 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
         }
         
         /// <remarks/>
-        public long ThreadCount {
+        public int ThreadCount {
             get {
                 return this.threadCountField;
             }
@@ -2150,7 +2150,7 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
         
         private int accountIdField;
         
-        private bool topOfThRetreiveOnlyField;
+        private bool topOfThreadOnlyField;
         
         /// <remarks/>
         public int AccountId {
@@ -2163,12 +2163,12 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
         }
         
         /// <remarks/>
-        public bool TopOfThRetreiveOnly {
+        public bool TopOfThreadOnly {
             get {
-                return this.topOfThRetreiveOnlyField;
+                return this.topOfThreadOnlyField;
             }
             set {
-                this.topOfThRetreiveOnlyField = value;
+                this.topOfThreadOnlyField = value;
             }
         }
     }

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" schema="dbo">
+  <class name="CounterAccountYearly, SnCore.Data" table="CounterAccountYearly">
+    <id name="Id" type="Int32" column="CounterAccountYearly_Id" access="field.pascalcase-m-underscore">
+      <generator class="identity" />
+    </id>
+    <property name="Timestamp" column="Timestamp" type="DateTime" />
+    <property name="Total" column="Total" type="Int64" />
+  </class>
+</hibernate-mapping>

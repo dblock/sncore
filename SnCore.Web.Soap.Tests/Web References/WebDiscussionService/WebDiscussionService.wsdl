@@ -188,7 +188,7 @@
               <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
               <s:element minOccurs="1" maxOccurs="1" name="Personal" type="s:boolean" />
               <s:element minOccurs="1" maxOccurs="1" name="PostCount" type="s:int" />
-              <s:element minOccurs="1" maxOccurs="1" name="ThreadCount" type="s:long" />
+              <s:element minOccurs="1" maxOccurs="1" name="ThreadCount" type="s:int" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
@@ -585,7 +585,7 @@
       <s:complexType name="DiscussionQueryOptions">
         <s:sequence>
           <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
-          <s:element minOccurs="1" maxOccurs="1" name="TopOfThRetreiveOnly" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="TopOfThreadOnly" type="s:boolean" />
         </s:sequence>
       </s:complexType>
       <s:element name="GetUserDiscussionThreadsCountResponse">

@@ -143,5 +143,18 @@ namespace SnCore.BackEnd.Tests
         {
             service.RunSystemReminders(Session, ManagedAccount.GetAdminSecurityContext(Session));
         }
+
+        [Test]
+        public void TestUpdateAccountCounters()
+        {
+            service.RunUpdateAccountCounters(Session, ManagedAccount.GetAdminSecurityContext(Session));
+            int daily = Session.CreateQuery("SELECT SUM(CounterAccountDaily.Total) FROM CounterAccountDaily CounterAccountDaily").UniqueResult<int>();
+            int weekly = Session.CreateQuery("SELECT SUM(CounterAccountWeekly.Total) FROM CounterAccountWeekly CounterAccountWeekly").UniqueResult<int>();
+            int monthly = Session.CreateQuery("SELECT SUM(CounterAccountMonthly.Total) FROM CounterAccountMonthly CounterAccountMonthly").UniqueResult<int>();
+            long yearly = Session.CreateQuery("SELECT SUM(CounterAccountYearly.Total) FROM CounterAccountYearly CounterAccountYearly").UniqueResult<long>();
+            Assert.AreEqual(daily, weekly);
+            Assert.AreEqual(weekly, monthly);
+            Assert.AreEqual(monthly, yearly);
+        }
     }
 }

@@ -9,14 +9,20 @@
     <asp:Label ID="labelChartType" runat="server" Text="Daily" />
    </div>
    <div class="sncore_h2sub">
-    <asp:LinkButton OnClick="linkHourly_Click" ID="linkHourly" runat="server" Text="&#187; Hourly" />
+    <asp:LinkButton OnClick="linkHourly_Click" ID="linkHourly" runat="server" Text="&#187; Hits Hourly" />
     <asp:LinkButton OnClick="linkDaily_Click" ID="linkDaily" runat="server" Text="&#187; Daily" />
     <asp:LinkButton OnClick="linkWeekly_Click" ID="linkWeekly" runat="server" Text="&#187; Weekly" />
     <asp:LinkButton OnClick="linkMonthly_Click" ID="linkMonthly" runat="server" Text="&#187; Monthly" />
     <asp:LinkButton OnClick="linkYearly_Click" ID="linkYearly" runat="server" Text="&#187; Yearly" />
     <asp:LinkButton OnClick="linkDailyUnique_Click" ID="linkDailyUnique" runat="server" Text="&#187; Unique" />
-    <asp:HyperLink ID="linkRefererHosts" runat="server" Text="&#187; Ref. Hosts" NavigateUrl="SystemRefererHosts.aspx" />
-    <asp:HyperLink ID="linkRefererQueries" runat="server" Text="&#187; Ref. Queries" NavigateUrl="SystemRefererQueries.aspx" />
+    <br />
+    <asp:LinkButton OnClick="linkAccountDaily_Click" ID="linkAccountDaily" runat="server" Text="&#187; New Accounts Daily" />
+    <asp:LinkButton OnClick="linkAccountWeekly_Click" ID="linkAccountWeekly" runat="server" Text="&#187; Weekly" />
+    <asp:LinkButton OnClick="linkAccountMonthly_Click" ID="linkAccountMonthly" runat="server" Text="&#187; Monthly" />
+    <asp:LinkButton OnClick="linkAccountYearly_Click" ID="linkAccountYearly" runat="server" Text="&#187; Yearly" />
+    <br />
+    <asp:HyperLink ID="linkRefererHosts" runat="server" Text="&#187; Referrer Hosts" NavigateUrl="SystemRefererHosts.aspx" />
+    <asp:HyperLink ID="linkRefererQueries" runat="server" Text="&#187; Referrer Queries" NavigateUrl="SystemRefererQueries.aspx" />
     <asp:HyperLink ID="linkCache" runat="server" Text="&#187; Cache" NavigateUrl="SystemStatsCache.aspx" />
    </div>
    <table class="sncore_account_table">
