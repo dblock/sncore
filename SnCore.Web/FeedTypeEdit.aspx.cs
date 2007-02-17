@@ -12,9 +12,23 @@ using SnCore.Tools.Web;
 using System.IO;
 using SnCore.Services;
 using SnCore.SiteMap;
+using Wilco.Web.UI;
 
 public partial class FeedTypeEdit : AuthenticatedPage
 {
+    public string Xsl
+    {
+        get
+        {
+            return ViewStateUtility.GetViewStateValue<string>(
+                ViewState, "Xsl", string.Empty);
+        }
+        set
+        {
+            ViewState["Xsl"] = value;
+        }
+    }
+
     public void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -42,8 +56,13 @@ public partial class FeedTypeEdit : AuthenticatedPage
                 inputSpanRowsPreview.Items.FindByValue(t.SpanRowsPreview.ToString()).Selected = true;
                 if (!string.IsNullOrEmpty(t.Xsl))
                 {
+                    Xsl = t.Xsl;
                     labelXsl.Text = string.Format("{0} Kb",
                         ((double)t.Xsl.Length / 1024).ToString("0.00"));
+                }
+                else
+                {
+                    linkXslClear.Enabled = false;
                 }
 
                 sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
@@ -70,10 +89,21 @@ public partial class FeedTypeEdit : AuthenticatedPage
         t.SpanRowsPreview = int.Parse(inputSpanRowsPreview.SelectedValue);
         if (inputXsl.HasFile)
         {
-            t.Xsl = new StreamReader(inputXsl.FileContent).ReadToEnd();
+            Xsl = t.Xsl = new StreamReader(inputXsl.FileContent).ReadToEnd();
+        }
+        else
+        {
+            t.Xsl = Xsl;
         }
         SessionManager.CreateOrUpdate<TransitFeedType>(
             t, SessionManager.SyndicationService.CreateOrUpdateFeedType);
         Redirect("FeedTypesManage.aspx");
+    }
+
+    public void linkXslClear_Click(object sender, EventArgs e)
+    {
+        Xsl = string.Empty;
+        labelXsl.Text = string.Empty;
+        linkXslClear.Enabled = false;
     }
 }

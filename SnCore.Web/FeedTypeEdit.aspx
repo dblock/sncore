@@ -28,6 +28,7 @@
    <td class="sncore_form_value">
     <asp:FileUpload CssClass="sncore_form_upload" ID="inputXsl" runat="server" />
     <br /><asp:Label ID="labelXsl" runat="server" />
+    <asp:LinkButton ID="linkXslClear" runat="server" Text="&#187; clear" CssClass="sncore_link" OnClick="linkXslClear_Click" />
    </td>
   </tr>
   <tr>

@@ -134,7 +134,7 @@ namespace SnCore.Services
             instance.SpanRows = this.SpanRows;
             instance.SpanColumnsPreview = this.SpanColumnsPreview;
             instance.SpanRowsPreview = this.SpanRowsPreview;
-            if (!string.IsNullOrEmpty(this.Xsl)) instance.Xsl = this.Xsl;
+            instance.Xsl = this.Xsl;
             return instance;
         }
     }
