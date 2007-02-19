@@ -11,6 +11,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 using System.IO;
+using Gif.Components;
 
 namespace SnCore.Tools.Drawing
 {
@@ -67,42 +68,59 @@ namespace SnCore.Tools.Drawing
         }
 
         public ThumbnailBitmap(byte[] bitmap, Size min)
-        {
-            Bitmap b = new Bitmap(new MemoryStream(bitmap));
-            mSize = new Size(b.Width, b.Height);
-            mBitmap = bitmap;
-            mThumbnail = GetThumbnail(b, min);
-        }
-
-        public ThumbnailBitmap(byte[] bitmap) : this(bitmap, ThumbnailSize)
+            : this(new MemoryStream(bitmap), min)
         {
 
         }
 
-        public ThumbnailBitmap(Stream bitmap) : this(bitmap, ThumbnailSize)
+        public ThumbnailBitmap(byte[] bitmap)
+            : this(bitmap, ThumbnailSize) // TODO: this reprocesses an animated GIF a lot
+        {
+
+        }
+
+        public ThumbnailBitmap(Stream bitmap)
+            : this(bitmap, ThumbnailSize)
         {
 
         }
 
         public ThumbnailBitmap(Stream bitmap, Size min)
         {
-            Bitmap b = null;
 
+            // first, check whether this is an animated gif
+            long offset = bitmap.Position;
+            try
+            {
+                GifDecoder decoder = new GifDecoder();
+                decoder.Read(bitmap);
+                mSize = decoder.GetFrameSize();
+                mThumbnail = GetResizedImageBytes(decoder, ThumbnailSize, ImageQuality);
+                mBitmap = GetResizedImageBytes(decoder, ResizeSize, ImageQuality);
+                return;
+            }
+            catch
+            {
+                bitmap.Seek(offset, SeekOrigin.Begin);
+            }
+
+            Bitmap b = null;
             try
             {
                 b = new Bitmap(bitmap);
+                mSize = new Size(b.Width, b.Height);
+                mBitmap = GetResizedImageBytes(b, ResizeSize, ImageQuality);
+                mThumbnail = GetThumbnail(bitmap, min);
+                return;
             }
             catch (ArgumentException)
             {
                 throw new Exception("I don't understand this picture format.");
             }
-
-            mSize = new Size(b.Width, b.Height);
-            mBitmap = GetResizedImageBytes(b, ResizeSize, ImageQuality);
-            mThumbnail = GetThumbnail(bitmap, min);
         }
 
-        public ThumbnailBitmap(Bitmap bitmap) : this(bitmap, ThumbnailSize)
+        public ThumbnailBitmap(Bitmap bitmap)
+            : this(bitmap, ThumbnailSize)
         {
         }
 
@@ -249,6 +267,19 @@ namespace SnCore.Tools.Drawing
                 }
             }
 
+            return result;
+        }
+
+        public static byte[] GetResizedImageBytes(GifDecoder originalimage, Size ts, int quality)
+        {
+            Size sz = originalimage.GetFrameSize();
+            if ((sz.Width > ts.Width) || (sz.Height > ts.Height)) sz = GetNewSize(sz, ts);
+            MemoryStream ms = new MemoryStream();
+            AnimatedGifEncoder.Resize(originalimage, ms, sz.Width, sz.Height, quality);
+            ms.Flush();
+            byte[] result = new byte[ms.Length];
+            MemoryStream resultstream = new MemoryStream(result);
+            ms.WriteTo(resultstream);
             return result;
         }
 
