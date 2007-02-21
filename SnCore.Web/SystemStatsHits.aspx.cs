@@ -108,7 +108,7 @@ public partial class SystemStatsHits : AuthenticatedPage
 
     public void linkAccountYearly_Click(object sender, EventArgs e)
     {
-        SetChartType(ChartType.Yearly);
+        SetChartType(ChartType.AccountYearly);
     }
 
     public void linkAccountMonthly_Click(object sender, EventArgs e)
