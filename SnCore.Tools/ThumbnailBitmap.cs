@@ -74,7 +74,7 @@ namespace SnCore.Tools.Drawing
         }
 
         public ThumbnailBitmap(byte[] bitmap)
-            : this(bitmap, ThumbnailSize) // TODO: this reprocesses an animated GIF a lot
+            : this(bitmap, ThumbnailSize)
         {
 
         }
@@ -85,11 +85,31 @@ namespace SnCore.Tools.Drawing
 
         }
 
-        public ThumbnailBitmap(Stream bitmap, Size min)
+        private bool TryLoadJPG(Stream bitmap, Size min)
         {
-
-            // first, check whether this is an animated gif
             long offset = bitmap.Position;
+
+            try
+            {
+                Bitmap b = new Bitmap(bitmap);
+                mSize = new Size(b.Width, b.Height);
+                mBitmap = GetResizedImageBytes(b, ResizeSize, ImageQuality);
+                mThumbnail = GetThumbnail(bitmap, min);
+                return true;
+            }
+            catch (ArgumentException)
+            {
+
+            }
+
+            bitmap.Seek(offset, SeekOrigin.Begin);
+            return false;
+        }
+
+        private bool TryLoadGIF89a(Stream bitmap, Size min)
+        {
+            long offset = bitmap.Position;
+
             try
             {
                 GifDecoder decoder = new GifDecoder();
@@ -97,31 +117,32 @@ namespace SnCore.Tools.Drawing
                 mSize = decoder.GetFrameSize();
                 mThumbnail = GetResizedImageBytes(decoder, ThumbnailSize, ImageQuality);
                 mBitmap = GetResizedImageBytes(decoder, ResizeSize, ImageQuality);
-                return;
+                return true;
             }
             catch
             {
-                bitmap.Seek(offset, SeekOrigin.Begin);
+
             }
 
-            Bitmap b = null;
-            try
-            {
-                b = new Bitmap(bitmap);
-                mSize = new Size(b.Width, b.Height);
-                mBitmap = GetResizedImageBytes(b, ResizeSize, ImageQuality);
-                mThumbnail = GetThumbnail(bitmap, min);
+            bitmap.Seek(offset, SeekOrigin.Begin);
+            return false;
+        }
+
+        public ThumbnailBitmap(Stream bitmap, Size min)
+        {
+            if (TryLoadGIF89a(bitmap, min))
                 return;
-            }
-            catch (ArgumentException)
-            {
-                throw new Exception("I don't understand this picture format.");
-            }
+
+            if (TryLoadJPG(bitmap, min))
+                return;
+
+            throw new FormatException("I don't understand this picture format.");
         }
 
         public ThumbnailBitmap(Bitmap bitmap)
             : this(bitmap, ThumbnailSize)
         {
+
         }
 
         public ThumbnailBitmap(Bitmap bitmap, Size min)

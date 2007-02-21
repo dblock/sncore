@@ -355,7 +355,6 @@ namespace Gif.Components
             {
                 throw new Exception("Invalid Format");
             }
-            inStream.Close();
         }
 
         /**
