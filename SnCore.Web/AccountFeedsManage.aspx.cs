@@ -71,6 +71,9 @@ public partial class AccountFeedsManage : AuthenticatedPage
                     int item_count = SessionManager.SyndicationService.UpdateAccountFeedItems(SessionManager.Ticket, id);
                     int image_count = SessionManager.SyndicationService.UpdateAccountFeedItemImgs(SessionManager.Ticket, id);
                     int media_count = SessionManager.SyndicationService.UpdateAccountFeedItemMedias(SessionManager.Ticket, id);
+                    SessionManager.InvalidateCache<TransitAccountFeedItem>();
+                    SessionManager.InvalidateCache<TransitAccountFeedItemImg>();
+                    SessionManager.InvalidateCache<TransitAccountFeedItemMedia>();
                     StringBuilder s = new StringBuilder("Feed updated with ");
                     s.AppendFormat("{0} new item{1}", item_count, item_count == 1 ? string.Empty : "s");
                     s.AppendFormat(", {0} new image{1}", image_count, image_count == 1 ? string.Empty : "s");

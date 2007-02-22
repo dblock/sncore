@@ -460,6 +460,14 @@ namespace SnCore.Services
 
             foreach (AtomEntry atomitem in feed.Entries)
             {
+                // item is too far in the future, clearly bogus or purposeful in the future
+                if (atomitem.Created != null
+                    && atomitem.Created.DateTime.Ticks > 0
+                    && DateTime.UtcNow.AddDays(1) < atomitem.Created.DateTime.ToUniversalTime())
+                {
+                    continue;
+                }
+
                 // fetch an existing item if any
 
                 AccountFeedItem item = null;
@@ -566,6 +574,10 @@ namespace SnCore.Services
 
                 foreach (RssItem rssitem in rsschannel.Items)
                 {
+                    // item is too far in the future, clearly bogus or purposeful in the future
+                    if ((rssitem.PubDate.Ticks > 0) && (DateTime.UtcNow.AddDays(1) < rssitem.PubDate.ToUniversalTime()))
+                        continue;
+
                     // fetch an existing item if any
 
                     AccountFeedItem item = null;
