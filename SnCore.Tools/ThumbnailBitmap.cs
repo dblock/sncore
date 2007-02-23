@@ -88,13 +88,13 @@ namespace SnCore.Tools.Drawing
         private bool TryLoadJPG(Stream bitmap, Size min)
         {
             long offset = bitmap.Position;
+            Bitmap b = new Bitmap(bitmap);
 
             try
             {
-                Bitmap b = new Bitmap(bitmap);
                 mSize = new Size(b.Width, b.Height);
-                mBitmap = GetResizedImageBytes(b, ResizeSize, ImageQuality);
-                mThumbnail = GetThumbnail(bitmap, min);
+                mBitmap = GetResizedImageBytesJPEG(bitmap, ResizeSize, ImageQuality);
+                mThumbnail = GetThumbnailJPEG(bitmap, min);
                 return true;
             }
             catch (ArgumentException)
@@ -112,11 +112,9 @@ namespace SnCore.Tools.Drawing
 
             try
             {
-                GifDecoder decoder = new GifDecoder();
-                decoder.Read(bitmap);
-                mSize = decoder.GetFrameSize();
-                mThumbnail = GetResizedImageBytes(decoder, ThumbnailSize, ImageQuality);
-                mBitmap = GetResizedImageBytes(decoder, ResizeSize, ImageQuality);
+                mBitmap = GetResizedImageBytesGIF89a(bitmap, ResizeSize, ImageQuality, out mSize);
+                bitmap.Seek(0, SeekOrigin.Begin);
+                mThumbnail = GetThumbnailGIF89a(bitmap, min);
                 return true;
             }
             catch
@@ -148,8 +146,8 @@ namespace SnCore.Tools.Drawing
         public ThumbnailBitmap(Bitmap bitmap, Size min)
         {
             mSize = new Size(bitmap.Width, bitmap.Height);
-            mBitmap = GetResizedImageBytes(bitmap, ResizeSize, ImageQuality);
-            mThumbnail = GetThumbnail(bitmap, min);
+            mBitmap = GetResizedImageBytesJPEG(bitmap, ResizeSize, ImageQuality);
+            mThumbnail = GetThumbnailJPEG(bitmap, min);
         }
 
         public static byte[] GetBitmap(Bitmap originalimage)
@@ -162,7 +160,7 @@ namespace SnCore.Tools.Drawing
             return result;
         }
 
-        public static byte[] GetThumbnail(Bitmap originalimage, Size min)
+        public static byte[] GetThumbnailJPEG(Bitmap originalimage, Size min)
         {
             if (min != null && originalimage.Width < min.Width && originalimage.Height < min.Height)
             {
@@ -170,7 +168,24 @@ namespace SnCore.Tools.Drawing
                     string.Empty, originalimage.Size, min);
             }
 
-            return GetResizedImageBytes(originalimage, ThumbnailSize, ImageQuality);
+            return GetResizedImageBytesJPEG(originalimage, ThumbnailSize, ImageQuality);
+        }
+
+        public static byte[] GetThumbnailGIF89a(Stream stream, Size min)
+        {
+            long offset = stream.Position;
+            GifDecoder decoder = new GifDecoder();
+            decoder.Read(stream);
+            Size sz = decoder.GetFrameSize();
+            stream.Seek(offset, SeekOrigin.Begin);
+
+            if (min != null && sz.Width < min.Width && sz.Height < min.Height)
+            {
+                throw new InvalidImageSizeException(
+                    string.Empty, sz, min);
+            }
+
+            return GetResizedImageBytesGIF89a(decoder, stream, ThumbnailSize, ImageQuality);
         }
 
         public Size GetNewSize(Size ts)
@@ -291,20 +306,42 @@ namespace SnCore.Tools.Drawing
             return result;
         }
 
-        public static byte[] GetResizedImageBytes(GifDecoder originalimage, Size ts, int quality)
+        public static byte[] GetResizedImageBytesGIF89a(Stream stream, Size ts, int quality, out Size sz)
         {
-            Size sz = originalimage.GetFrameSize();
-            if ((sz.Width > ts.Width) || (sz.Height > ts.Height)) sz = GetNewSize(sz, ts);
-            MemoryStream ms = new MemoryStream();
-            AnimatedGifEncoder.Resize(originalimage, ms, sz.Width, sz.Height, quality);
-            ms.Flush();
-            byte[] result = new byte[ms.Length];
-            MemoryStream resultstream = new MemoryStream(result);
-            ms.WriteTo(resultstream);
-            return result;
+            GifDecoder originalimage = new GifDecoder();
+            originalimage.Read(stream);
+            sz = originalimage.GetFrameSize();
+            return GetResizedImageBytesGIF89a(originalimage, stream, ts, quality);
         }
 
-        public static byte[] GetResizedImageBytes(Bitmap originalimage, Size ts, int quality)
+        public static byte[] GetResizedImageBytesGIF89a(GifDecoder originalimage, Stream stream, Size ts, int quality)
+        {
+            Size sz = originalimage.GetFrameSize();
+            if (sz.Height > ts.Height || sz.Width > ts.Width)
+            {
+                MemoryStream ms = new MemoryStream();
+                AnimatedGifEncoder.Resize(originalimage, ms, ts.Width, ts.Height, quality);
+                ms.Flush();
+                byte[] result = new byte[ms.Length];
+                MemoryStream resultstream = new MemoryStream(result);
+                ms.WriteTo(resultstream);
+                return result;
+            }
+            else
+            {
+                stream.Seek(0, SeekOrigin.Begin);
+                BinaryReader sr = new BinaryReader(stream);
+                return sr.ReadBytes((int)stream.Length);
+            }
+        }
+
+        public static byte[] GetResizedImageBytesJPEG(Stream stream, Size ts, int quality)
+        {
+            Bitmap originalimage = new Bitmap(stream);
+            return GetResizedImageBytesJPEG(originalimage, ts, quality);
+        }
+
+        public static byte[] GetResizedImageBytesJPEG(Bitmap originalimage, Size ts, int quality)
         {
             Bitmap resizedimage = null;
 
@@ -320,7 +357,7 @@ namespace SnCore.Tools.Drawing
             return GetJpegBits(resizedimage, quality);
         }
 
-        public static byte[] GetThumbnail(Stream stream, Size min)
+        public static byte[] GetThumbnailJPEG(Stream stream, Size min)
         {
             if (stream.Length == 0)
             {
@@ -328,7 +365,7 @@ namespace SnCore.Tools.Drawing
             }
             else
             {
-                return GetThumbnail(new Bitmap(stream), min);
+                return GetThumbnailJPEG(new Bitmap(stream), min);
             }
         }
 

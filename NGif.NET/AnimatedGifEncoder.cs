@@ -74,7 +74,7 @@ namespace Gif.Components
         protected bool closeStream = false; // close stream when finished
         protected bool firstFrame = true;
         protected bool sizeSet = false; // if false, get size from first frame
-        protected int sample = 10; // default sample interval for quantizer
+        protected int sample = 1; //10; // default sample interval for quantizer
 
         /**
          * Sets the delay time between each frame, or changes it
@@ -255,6 +255,11 @@ namespace Gif.Components
             sizeSet = true;
         }
 
+        public void SetSize(Size sz)
+        {
+            SetSize(sz.Width, sz.Height);
+        }
+
         /**
          * Initiates GIF file creation on the given stream.  The stream
          * is not closed automatically.
@@ -382,31 +387,27 @@ namespace Gif.Components
 
             nPercentW = ((float)ts.Width / (float)sourceWidth);
             nPercentH = ((float)ts.Height / (float)sourceHeight);
+
             if (nPercentH < nPercentW)
             {
                 nPercent = nPercentH;
-                destX = System.Convert.ToInt16((ts.Width -
-                              (sourceWidth * nPercent)) / 2);
+                destX = System.Convert.ToInt16((ts.Width - (sourceWidth * nPercent)) / 2);
             }
             else
             {
                 nPercent = nPercentW;
-                destY = System.Convert.ToInt16((ts.Height -
-                              (sourceHeight * nPercent)) / 2);
+                destY = System.Convert.ToInt16((ts.Height - (sourceHeight * nPercent)) / 2);
             }
 
             int destWidth = (int)(sourceWidth * nPercent);
             int destHeight = (int)(sourceHeight * nPercent);
 
-            Bitmap bmPhoto = new Bitmap(ts.Width, ts.Height,
-                              PixelFormat.Format24bppRgb);
-            bmPhoto.SetResolution(imgPhoto.HorizontalResolution,
-                             imgPhoto.VerticalResolution);
+            Bitmap bmPhoto = new Bitmap(ts.Width, ts.Height, PixelFormat.Format24bppRgb);
+            // bmPhoto.SetResolution(imgPhoto.HorizontalResolution, imgPhoto.VerticalResolution);
 
             Graphics grPhoto = Graphics.FromImage(bmPhoto);
             grPhoto.Clear(Color.White);
-            grPhoto.InterpolationMode =
-                    InterpolationMode.HighQualityBicubic;
+            grPhoto.InterpolationMode = InterpolationMode.HighQualityBicubic;
 
             grPhoto.DrawImage(imgPhoto,
                 new Rectangle(destX, destY, destWidth, destHeight),
@@ -610,15 +611,17 @@ namespace Gif.Components
         public static void Resize(GifDecoder decoder, Stream outStream, int width, int height, int quality)
         {
             AnimatedGifEncoder encoder = new AnimatedGifEncoder();
-            encoder.SetSize(width, height);
+            Size sourcesize = decoder.GetFrameSize();
+            encoder.SetSize(sourcesize.Width < sourcesize.Height ? new Size(width, height) : new Size(height, width));
             encoder.SetRepeat(decoder.GetLoopCount());
             // encoder.SetQuality(quality);
-            if (decoder.IsTransparent()) encoder.SetTransparent(decoder.GetTransparency());
             encoder.Start(outStream);
             for (int i = 0; i < decoder.GetFrameCount(); i++)
             {
-                encoder.SetDelay(decoder.GetDelay(i));
-                encoder.AddFrame(decoder.GetFrame(i));
+                GifDecoder.GifFrame frame = decoder.GetFrame(i);
+                encoder.SetDelay(frame.delay);
+                encoder.SetTransparent(Color.FromArgb(frame.bgcolor));
+                encoder.AddFrame(decoder.GetFrameImage(i));
             }
             encoder.Finish();
             outStream.Flush();

@@ -47,6 +47,7 @@ using System.Collections;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Collections.Generic;
 
 namespace Gif.Components
 {
@@ -61,9 +62,11 @@ namespace Gif.Components
         protected int loopCount = -1; // iterations; 0 = repeat forever; -1: don't repeat
 
         protected int[] gct; // global color table
+        protected byte[] gctbytes;
         protected int[] lct; // local color table
+        protected byte[] lctbytes;
         protected int[] act; // active color table
-
+        protected byte[] actbytes;
         protected int bgIndex; // background color index
         protected int bgColor; // background color
         protected int lastBgColor; // previous bg color
@@ -99,18 +102,22 @@ namespace Gif.Components
         protected byte[] pixelStack;
         protected byte[] pixels;
 
-        protected ArrayList frames; // frames read from current file
+        protected List<GifFrame> frames; // frames read from current file
         protected int frameCount;
 
         public class GifFrame
         {
-            public GifFrame(Image im, int del)
+            public GifFrame(Image im, int del, bool trans, int c)
             {
                 image = im;
                 delay = del;
+                transparency = trans;
+                bgcolor = c;
             }
             public Image image;
             public int delay;
+            public bool transparency;
+            public int bgcolor;
         }
 
         /**
@@ -121,11 +128,10 @@ namespace Gif.Components
          */
         public int GetDelay(int n)
         {
-            //
             delay = -1;
             if ((n >= 0) && (n < frameCount))
             {
-                delay = ((GifFrame)frames[n]).delay;
+                delay = frames[n].delay;
             }
             return delay;
         }
@@ -146,7 +152,7 @@ namespace Gif.Components
          */
         public Image GetImage()
         {
-            return GetFrame(0);
+            return GetFrameImage(0);
         }
 
         /**
@@ -213,7 +219,7 @@ namespace Gif.Components
                     int n = frameCount - 2;
                     if (n > 0)
                     {
-                        lastImage = GetFrame(n - 1);
+                        lastImage = GetFrameImage(n - 1);
                     }
                     else
                     {
@@ -313,14 +319,24 @@ namespace Gif.Components
          *
          * @return BufferedImage representation of frame, or null if n is invalid.
          */
-        public Image GetFrame(int n)
+        public Image GetFrameImage(int n)
         {
             Image im = null;
             if ((n >= 0) && (n < frameCount))
             {
-                im = ((GifFrame)frames[n]).image;
+                im = frames[n].image;
             }
             return im;
+        }
+
+        public GifFrame GetFrame(int n)
+        {
+            GifFrame frame = null;
+            if ((n >= 0) && (n < frameCount))
+            {
+                frame = frames[n];
+            }
+            return frame;
         }
 
         /**
@@ -521,9 +537,11 @@ namespace Gif.Components
         protected void Init()
         {
             frameCount = 0;
-            frames = new ArrayList();
+            frames = new List<GifFrame>();
             gct = null;
+            gctbytes = null;
             lct = null;
+            lctbytes = null;
         }
 
         /**
@@ -568,10 +586,9 @@ namespace Gif.Components
          * @param ncolors int number of colors to read
          * @return int array containing 256 colors (packed ARGB with full alpha)
          */
-        protected int[] ReadColorTable(int ncolors)
+        protected byte[] ReadColorTableBytes(int ncolors)
         {
             int nbytes = 3 * ncolors;
-            int[] tab = null;
             byte[] c = new byte[nbytes];
             int n = 0;
             try
@@ -585,19 +602,22 @@ namespace Gif.Components
             {
                 throw new FormatException();
             }
-            else
+            return c;
+        }
+
+        protected int[] ReadColorTable(int ncolors, byte[] c)
+        {
+            int[] tab = new int[256]; // max size to avoid bounds checks
+            int i = 0;
+            int j = 0;
+            while (i < ncolors)
             {
-                tab = new int[256]; // max size to avoid bounds checks
-                int i = 0;
-                int j = 0;
-                while (i < ncolors)
-                {
-                    int r = ((int)c[j++]) & 0xff;
-                    int g = ((int)c[j++]) & 0xff;
-                    int b = ((int)c[j++]) & 0xff;
-                    tab[i++] = (int)(0xff000000 | (r << 16) | (g << 8) | b);
-                }
+                int r = ((int)c[j++]) & 0xff;
+                int g = ((int)c[j++]) & 0xff;
+                int b = ((int)c[j++]) & 0xff;
+                tab[i++] = (int)(0xff000000 | (r << 16) | (g << 8) | b);
             }
+
             return tab;
         }
 
@@ -696,8 +716,26 @@ namespace Gif.Components
             ReadLSD();
             if (gctFlag)
             {
-                gct = ReadColorTable(gctSize);
+                gctbytes = ReadColorTableBytes(gctSize);
+                gct = ReadColorTable(gctSize, gctbytes);
                 bgColor = gct[bgIndex];
+            }
+        }
+
+        public byte[] GetActiveColorTableBytes()
+        {
+            return actbytes;
+        }
+
+        public int[] GetColorTable()
+        {
+            if (gctFlag)
+            {
+                return gct;
+            }
+            else
+            {
+                return null;
             }
         }
 
@@ -720,11 +758,14 @@ namespace Gif.Components
 
             if (lctFlag)
             {
-                lct = ReadColorTable(lctSize); // read table
+                lctbytes = ReadColorTableBytes(lctSize);
+                actbytes = lctbytes;
+                lct = ReadColorTable(lctSize, lctbytes); // read table
                 act = lct; // make local table active
             }
             else
             {
+                actbytes = gctbytes;
                 act = gct; // make global table active
                 if (bgIndex == transIndex)
                     bgColor = 0;
@@ -754,7 +795,7 @@ namespace Gif.Components
             image = bitmap;
             SetPixels(); // transfer pixel data to image
 
-            frames.Add(new GifFrame(bitmap, delay)); // add image to frame list
+            frames.Add(new GifFrame(bitmap, delay, transparency, bgColor)); // add image to frame list
 
             if (transparency)
             {
@@ -837,26 +878,6 @@ namespace Gif.Components
             {
                 ReadBlock();
             } while (blockSize > 0);
-        }
-
-        public bool IsTransparent()
-        {
-            return transparency;
-        }
-
-        public Color GetTransparency()
-        {
-            Color c = Color.Empty;
-            if (transparency)
-            {
-                c = Color.FromArgb(0, 0, 0, 0); 	// assume background is transparent
-            }
-            else
-            {
-                c = Color.FromArgb(lastBgColor);
-                //						c = new Color(lastBgColor); // use given background color
-            }
-            return c;
         }
     }
 }
