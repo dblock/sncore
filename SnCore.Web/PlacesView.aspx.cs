@@ -138,13 +138,13 @@ public partial class PlacesView : Page
 
             if (SessionManager.IsLoggedIn && (Request.QueryString.Count == 0))
             {
-                LocationSelector.SelectLocation(sender, new LocationEventArgs(SessionManager.Account));
+                LocationSelector.SelectLocation(sender, new LocationWithTypeEventArgs(SessionManager.Account));
             }
             else
             {
-                LocationSelector.SelectLocation(sender, new LocationEventArgs(Request));
+                LocationSelector.SelectLocation(sender, new LocationWithTypeEventArgs(Request));
                 bool picturesOnly = true;
-                if (bool.TryParse(Request["PicturesOnly"], out picturesOnly))
+                if (bool.TryParse(Request["pictures"], out picturesOnly))
                 {
                     checkboxPicturesOnly.Checked = picturesOnly;
                 }
@@ -253,8 +253,7 @@ public partial class PlacesView : Page
     {
         TransitPlaceQueryOptions options = GetQueryOptions();
 
-        linkRelRss.NavigateUrl =
-            string.Format("PlacesRss.aspx?order={0}&asc={1}&city={2}&country={3}&state={4}&name={5}&type={6}&pictures={7}&neighborhood={8}",
+        string args = string.Format("order={0}&asc={1}&city={2}&country={3}&state={4}&name={5}&type={6}&pictures={7}&neighborhood={8}",
                 Renderer.UrlEncode(options.SortOrder),
                 Renderer.UrlEncode(options.SortAscending),
                 Renderer.UrlEncode(options.City),
@@ -265,9 +264,14 @@ public partial class PlacesView : Page
                 Renderer.UrlEncode(options.PicturesOnly),
                 Renderer.UrlEncode(options.Neighborhood));
 
+        linkRelRss.NavigateUrl = string.Format("PlacesRss.aspx?{0}", args);
+        linkPermalink.NavigateUrl = string.Format("PlacesView.aspx?{0}", args);
+ 
         ServiceQueryOptions serviceoptions = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
         gridManage.DataSource = SessionManager.GetCollection<TransitPlace, TransitPlaceQueryOptions>(
             options, serviceoptions, SessionManager.PlaceService.GetPlaces);
+
+        panelLinks.Update();
     }
 
     public void search_Click(object sender, EventArgs e)

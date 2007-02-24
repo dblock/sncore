@@ -32,6 +32,7 @@
        <a href="RefererAccountsView.aspx">&#187; Top Traffickers</a>
        <asp:LinkButton ID="linkSearch" OnClick="linkSearch_Click" runat="server" Text="&#187; Search" />
        <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
+       <asp:Hyperlink id="linkPermalink" NavigateUrl="AccountsView.aspx" runat="server" Text="&#187; Permalink" />
       </div>
      </td>
      <td width="200">

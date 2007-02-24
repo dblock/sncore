@@ -19,24 +19,30 @@ public partial class AccountsView : AccountPersonPage
 {
     public class SelectLocationEventArgs : EventArgs
     {
+        public string Name;
+        public string Email;
         public string Country;
         public string State;
         public string City;
+        public bool BloggersOnly = false;
+        public bool PicturesOnly = true;
 
         public SelectLocationEventArgs(TransitAccount account)
-            : this(account.Country, account.State, account.City)
         {
-
+            Country = account.Country;
+            State = account.State;
+            City = account.City;
         }
 
-        public SelectLocationEventArgs(
-            string country,
-            string state,
-            string city)
+        public SelectLocationEventArgs(HttpRequest request)
         {
-            Country = country;
-            State = state;
-            City = city;
+            Country = request["country"];
+            State = request["state"];
+            City = request["city"];
+            Name = request["name"];
+            Email = request["email"];
+            bool.TryParse(request["bloggers"], out BloggersOnly);
+            bool.TryParse(request["pictures"], out PicturesOnly);
         }
     }
 
@@ -68,10 +74,7 @@ public partial class AccountsView : AccountPersonPage
             if (SessionManager.IsLoggedIn)
             {
                 linkLocal.Text = string.Format("&#187; All {0} People", Renderer.Render(SessionManager.Account.City));
-                SelectLocation(sender, new SelectLocationEventArgs(
-                    Request["country"],
-                    Request["state"],
-                    Request["city"]));
+                SelectLocation(sender, new SelectLocationEventArgs(Request));
             }
 
             GetData();
@@ -140,8 +143,7 @@ public partial class AccountsView : AccountPersonPage
     {
         AccountActivityQueryOptions options = GetQueryOptions();
 
-        linkRelRss.NavigateUrl =
-            string.Format("AccountsRss.aspx?order={0}&asc={1}&pictures={2}&city={3}&country={4}&state={5}&name={6}&email={7}&bloggers={8}",
+        string args = string.Format("order={0}&asc={1}&pictures={2}&city={3}&country={4}&state={5}&name={6}&email={7}&bloggers={8}",
                 options.SortOrder,
                 options.SortAscending,
                 options.PicturesOnly,
@@ -152,17 +154,26 @@ public partial class AccountsView : AccountPersonPage
                 Renderer.UrlEncode(options.Email),
                 options.BloggersOnly);
 
+        linkRelRss.NavigateUrl = string.Format("AccountsRss.aspx?{0}", args);
+        linkPermalink.NavigateUrl = string.Format("AccountsView.aspx?{0}", args);
+
         ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
         serviceoptions.PageSize = gridManage.PageSize;
         serviceoptions.PageNumber = gridManage.CurrentPageIndex;
         gridManage.DataSource = SessionManager.GetCollection<TransitAccountActivity, AccountActivityQueryOptions>(
             options, serviceoptions, SessionManager.SocialService.GetAccountActivity);
+
+        panelLinks.Update();
     }
 
     public void SelectLocation(object sender, SelectLocationEventArgs e)
     {
         try
         {
+            inputName.Text = e.Name;
+            inputEmailAddress.Text = e.Email;
+            checkboxBloggersOnly.Checked = e.BloggersOnly;
+            checkboxPicturesOnly.Checked = e.PicturesOnly;
             inputCountry.ClearSelection();
             inputCountry.Items.FindByValue(e.Country).Selected = true;
             inputCountry_SelectedIndexChanged(sender, e);

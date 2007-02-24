@@ -29,6 +29,7 @@
        <a href="PlacesFavoritesView.aspx">&#187; Favorites</a>
        <asp:LinkButton ID="linkSearch" OnClick="linkSearch_Click" runat="server" Text="&#187; Search" />
        <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
+       <asp:Hyperlink id="linkPermalink" NavigateUrl="PlacesView.aspx" runat="server" Text="&#187; Permalink" />
       </div>
      </td>
      <td align="right" valign="middle">

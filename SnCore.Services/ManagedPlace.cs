@@ -110,7 +110,7 @@ namespace SnCore.Services
             if (!string.IsNullOrEmpty(Type))
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.AppendFormat("Place.Type.Name = '{0}'", Renderer.SqlEncode(Name));
+                b.AppendFormat("Place.Type.Name = '{0}'", Renderer.SqlEncode(Type));
             }
 
             if (AccountId != 0)
