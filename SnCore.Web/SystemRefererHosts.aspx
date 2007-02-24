@@ -25,7 +25,7 @@
      <asp:BoundColumn DataField="Id" Visible="false" />
      <asp:TemplateColumn ItemStyle-HorizontalAlign="Center">
       <itemtemplate>
-       <img src='images/item.gif'>
+       <img src='<%# ((DateTime) Eval("Created") > DateTime.UtcNow.AddDays(-7)) ? "images/account/star.gif" : "images/item.gif" %>' />
       </itemtemplate>
      </asp:TemplateColumn>
      <asp:TemplateColumn HeaderText="Total">
