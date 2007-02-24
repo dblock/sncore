@@ -1583,8 +1583,8 @@ namespace SnCore.WebServices
                     result.Add(new TransitFriendsPlaceQueueItem(
                         enumerator.Current.Key, enumerator.Current.Value));
                 }
-
-                return result;
+                
+                return WebServiceQueryOptions<TransitFriendsPlaceQueueItem>.Apply(options, result);
             }
         }
 

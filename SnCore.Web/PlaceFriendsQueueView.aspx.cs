@@ -35,8 +35,8 @@ public partial class PlaceFriendsQueueView : AuthenticatedPage
     void GetData(object sender, EventArgs e)
     {
         queue.CurrentPageIndex = 0;
-        queue.VirtualItemCount = SessionManager.PlaceService.GetFriendsPlaceQueueItemsCount(
-            SessionManager.Ticket, SessionManager.AccountId);
+        queue.VirtualItemCount = SessionManager.GetCount<TransitFriendsPlaceQueueItem, int>(
+            SessionManager.AccountId, SessionManager.PlaceService.GetFriendsPlaceQueueItemsCount);
         queue_OnGetDataSource(this, null);
         queue.DataBind();
     }
@@ -46,8 +46,8 @@ public partial class PlaceFriendsQueueView : AuthenticatedPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = queue.CurrentPageIndex;
         options.PageSize = queue.PageSize;
-        queue.DataSource = SessionManager.PlaceService.GetFriendsPlaceQueueItems(
-            SessionManager.Ticket, SessionManager.AccountId, options);
+        queue.DataSource = SessionManager.GetCollection<TransitFriendsPlaceQueueItem, int>(
+            SessionManager.AccountId, options, SessionManager.PlaceService.GetFriendsPlaceQueueItems);
     }
 
     public string RenderAccounts(TransitAccount[] accounts)

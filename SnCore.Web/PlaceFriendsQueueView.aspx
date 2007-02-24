@@ -22,7 +22,7 @@
    <SnCoreWebControls:PagedGrid CssClass="sncore_account_table" runat="server" RepeatDirection="Horizontal"
     ID="queue" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Top"
     ItemStyle-CssClass="sncore_table_tr_td" PageSize="5" AllowCustomPaging="true" AutoGenerateColumns="false"
-    ShowHeader="false">
+    ShowHeader="false" AllowPaging="true">
     <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
      prevpagetext="Prev" horizontalalign="Center" />
     <Columns>
