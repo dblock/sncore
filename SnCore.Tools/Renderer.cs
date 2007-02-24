@@ -270,9 +270,15 @@ namespace SnCore.Tools.Web
             return result;
         }
 
+        public static string GetLink(string uri, string text, int max)
+        {
+            return string.Format("<a href=\"{0}\" target=\"_blank\">{1}</a>", uri, 
+                (max > 0 && text.Length > max) ? text.Substring(0, max) + " ..." : text);
+        }
+
         public static string GetLink(string uri, string text)
         {
-            return string.Format("<a href=\"{0}\" target=\"_blank\">{1}</a>", uri, text);
+            return GetLink(uri, text, -1);
         }
     }
 }

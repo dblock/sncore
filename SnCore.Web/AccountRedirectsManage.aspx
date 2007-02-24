@@ -33,9 +33,9 @@
      </asp:TemplateColumn>
      <asp:TemplateColumn ItemStyle-HorizontalAlign="Left" HeaderText="Redirect">
       <itemtemplate>
-       <%# Renderer.GetLink(Renderer.Render(Eval("SourceUri")), Renderer.Render(Eval("SourceUri")))%>
+       <%# Renderer.GetLink(Renderer.Render(Eval("SourceUri")), Renderer.Render(Eval("SourceUri")), 32)%>
        <div class="sncore_description">
-        <%# Renderer.GetLink(Renderer.Render(Eval("TargetUri")), Renderer.Render(Eval("TargetUri"))) %>
+        <%# Renderer.GetLink(Renderer.Render(Eval("TargetUri")), Renderer.Render(Eval("TargetUri")), 64) %>
        </div>
       </itemtemplate>
      </asp:TemplateColumn>
