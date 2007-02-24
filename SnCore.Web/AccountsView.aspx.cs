@@ -41,8 +41,10 @@ public partial class AccountsView : AccountPersonPage
             City = request["city"];
             Name = request["name"];
             Email = request["email"];
-            bool.TryParse(request["bloggers"], out BloggersOnly);
-            bool.TryParse(request["pictures"], out PicturesOnly);
+            if (!string.IsNullOrEmpty(request["bloggers"])) 
+                bool.TryParse(request["bloggers"], out BloggersOnly);
+            if (! string.IsNullOrEmpty(request["pictures"])) 
+                bool.TryParse(request["pictures"], out PicturesOnly);
         }
     }
 
