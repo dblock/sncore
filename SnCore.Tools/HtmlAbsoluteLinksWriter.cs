@@ -84,19 +84,16 @@ namespace SnCore.Tools.Web.Html
                                 && LastStartElement == "a"
                                 && attributename == "href")
                             {
-                                // rewrite a href
-                                Uri refuri = null;
-                                if (Uri.TryCreate(BaseHref, reader.Value, out refuri))
-                                    value = refuri.ToString();
+                                value = HtmlUriExtractor.TryCreate(
+                                    BaseHref, reader.Value, value);
                             }
 
                             if (BaseHref != null
                                 && (LastStartElement == "img" || LastStartElement == "embed")
                                 && attributename == "src")
                             {
-                                Uri refuri = null;
-                                if (Uri.TryCreate(BaseHref, reader.Value, out refuri))
-                                    value = refuri.ToString();
+                                value = HtmlUriExtractor.TryCreate(
+                                    BaseHref, reader.Value, value);
                             }
 
                             this.WriteString(value);

@@ -99,5 +99,21 @@ namespace SnCore.Tools.Web.Html
             while (!ex.EOF) ex.Read();
             return ex.Uris;
         }
+
+        public static string TryCreate(Uri baseuri, string relativeuri, string defaultvalue)
+        {
+            try
+            {
+                Uri result = null;
+                if (Uri.TryCreate(baseuri, relativeuri, out result))
+                    return result.ToString();
+            }
+            catch (UriFormatException)
+            {
+                // TryCreate chokes on "mailto:foo (at) bar.com"
+            }
+
+            return defaultvalue;
+        }
     }
 }
