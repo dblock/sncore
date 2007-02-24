@@ -907,6 +907,9 @@
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\WebObjectService\WebObjectService.disco" />
+    <None Include="Web References\WebStatsService\TransitAccount.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
     <None Include="Web References\WebSyndicationService\TransitAccountFeedItemMedia.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>

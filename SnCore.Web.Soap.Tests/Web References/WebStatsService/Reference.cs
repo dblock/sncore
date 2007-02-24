@@ -27,6 +27,7 @@ namespace SnCore.Web.Soap.Tests.WebStatsService {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="WebStatsServiceSoap", Namespace="http://www.vestris.com/sncore/ns/")]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccount))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfRefererAccount))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfRefererHostDup))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfCounter))]
@@ -92,6 +93,8 @@ namespace SnCore.Web.Soap.Tests.WebStatsService {
         private System.Threading.SendOrPostCallback GetRefererAccountsOperationCompleted;
         
         private System.Threading.SendOrPostCallback DeleteRefererAccountOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback FindRefererAccountsOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -217,6 +220,9 @@ namespace SnCore.Web.Soap.Tests.WebStatsService {
         
         /// <remarks/>
         public event DeleteRefererAccountCompletedEventHandler DeleteRefererAccountCompleted;
+        
+        /// <remarks/>
+        public event FindRefererAccountsCompletedEventHandler FindRefererAccountsCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/TrackSingleRequest", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -1095,6 +1101,39 @@ namespace SnCore.Web.Soap.Tests.WebStatsService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/FindRefererAccounts", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccount[] FindRefererAccounts(string ticket, string uri, ServiceQueryOptions options) {
+            object[] results = this.Invoke("FindRefererAccounts", new object[] {
+                        ticket,
+                        uri,
+                        options});
+            return ((TransitAccount[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void FindRefererAccountsAsync(string ticket, string uri, ServiceQueryOptions options) {
+            this.FindRefererAccountsAsync(ticket, uri, options, null);
+        }
+        
+        /// <remarks/>
+        public void FindRefererAccountsAsync(string ticket, string uri, ServiceQueryOptions options, object userState) {
+            if ((this.FindRefererAccountsOperationCompleted == null)) {
+                this.FindRefererAccountsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFindRefererAccountsOperationCompleted);
+            }
+            this.InvokeAsync("FindRefererAccounts", new object[] {
+                        ticket,
+                        uri,
+                        options}, this.FindRefererAccountsOperationCompleted, userState);
+        }
+        
+        private void OnFindRefererAccountsOperationCompleted(object arg) {
+            if ((this.FindRefererAccountsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.FindRefererAccountsCompleted(this, new FindRefererAccountsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -1190,6 +1229,193 @@ namespace SnCore.Web.Soap.Tests.WebStatsService {
             }
             set {
                 this.refererQueryField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccount))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public abstract partial class TransitServiceOfAccount {
+        
+        private int idField;
+        
+        /// <remarks/>
+        public int Id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitAccount : TransitServiceOfAccount {
+        
+        private bool isPasswordExpiredField;
+        
+        private System.DateTime createdField;
+        
+        private bool isAdministratorField;
+        
+        private string nameField;
+        
+        private System.DateTime birthdayField;
+        
+        private System.DateTime lastLoginField;
+        
+        private int pictureIdField;
+        
+        private string stateField;
+        
+        private string countryField;
+        
+        private string cityField;
+        
+        private int timeZoneField;
+        
+        private string signatureField;
+        
+        private string passwordField;
+        
+        /// <remarks/>
+        public bool IsPasswordExpired {
+            get {
+                return this.isPasswordExpiredField;
+            }
+            set {
+                this.isPasswordExpiredField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Created {
+            get {
+                return this.createdField;
+            }
+            set {
+                this.createdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool IsAdministrator {
+            get {
+                return this.isAdministratorField;
+            }
+            set {
+                this.isAdministratorField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Birthday {
+            get {
+                return this.birthdayField;
+            }
+            set {
+                this.birthdayField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime LastLogin {
+            get {
+                return this.lastLoginField;
+            }
+            set {
+                this.lastLoginField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int PictureId {
+            get {
+                return this.pictureIdField;
+            }
+            set {
+                this.pictureIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string State {
+            get {
+                return this.stateField;
+            }
+            set {
+                this.stateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Country {
+            get {
+                return this.countryField;
+            }
+            set {
+                this.countryField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string City {
+            get {
+                return this.cityField;
+            }
+            set {
+                this.cityField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int TimeZone {
+            get {
+                return this.timeZoneField;
+            }
+            set {
+                this.timeZoneField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Signature {
+            get {
+                return this.signatureField;
+            }
+            set {
+                this.signatureField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Password {
+            get {
+                return this.passwordField;
+            }
+            set {
+                this.passwordField = value;
             }
         }
     }
@@ -1588,6 +1814,10 @@ namespace SnCore.Web.Soap.Tests.WebStatsService {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
     public partial class TransitRefererHost : TransitServiceOfRefererHost {
         
+        private string accountNameField;
+        
+        private int accountIdField;
+        
         private string hostField;
         
         private string lastRefererUriField;
@@ -1599,6 +1829,26 @@ namespace SnCore.Web.Soap.Tests.WebStatsService {
         private System.DateTime updatedField;
         
         private long totalField;
+        
+        /// <remarks/>
+        public string AccountName {
+            get {
+                return this.accountNameField;
+            }
+            set {
+                this.accountNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int AccountId {
+            get {
+                return this.accountIdField;
+            }
+            set {
+                this.accountIdField = value;
+            }
+        }
         
         /// <remarks/>
         public string Host {
@@ -2489,6 +2739,32 @@ namespace SnCore.Web.Soap.Tests.WebStatsService {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
     public delegate void DeleteRefererAccountCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void FindRefererAccountsCompletedEventHandler(object sender, FindRefererAccountsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class FindRefererAccountsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal FindRefererAccountsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccount[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccount[])(this.results[0]));
+            }
+        }
+    }
 }
 
 #pragma warning restore 1591

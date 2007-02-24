@@ -127,6 +127,8 @@
         <s:complexContent mixed="false">
           <s:extension base="tns:TransitServiceOfRefererHost">
             <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="AccountName" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
               <s:element minOccurs="0" maxOccurs="1" name="Host" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="LastRefererUri" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="LastRequestUri" type="s:string" />
@@ -570,6 +572,53 @@
       <s:element name="DeleteRefererAccountResponse">
         <s:complexType />
       </s:element>
+      <s:element name="FindRefererAccounts">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="uri" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="FindRefererAccountsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="FindRefererAccountsResult" type="tns:ArrayOfTransitAccount" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitAccount">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccount" nillable="true" type="tns:TransitAccount" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitAccount">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfAccount">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="IsPasswordExpired" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="IsAdministrator" type="s:boolean" />
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Birthday" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="LastLogin" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="PictureId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="TimeZone" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="Signature" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfAccount" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="TrackSingleRequestSoapIn">
@@ -746,6 +795,12 @@
   <wsdl:message name="DeleteRefererAccountSoapOut">
     <wsdl:part name="parameters" element="tns:DeleteRefererAccountResponse" />
   </wsdl:message>
+  <wsdl:message name="FindRefererAccountsSoapIn">
+    <wsdl:part name="parameters" element="tns:FindRefererAccounts" />
+  </wsdl:message>
+  <wsdl:message name="FindRefererAccountsSoapOut">
+    <wsdl:part name="parameters" element="tns:FindRefererAccountsResponse" />
+  </wsdl:message>
   <wsdl:portType name="WebStatsServiceSoap">
     <wsdl:operation name="TrackSingleRequest">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Track a request.</wsdl:documentation>
@@ -891,6 +946,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a referer account.</wsdl:documentation>
       <wsdl:input message="tns:DeleteRefererAccountSoapIn" />
       <wsdl:output message="tns:DeleteRefererAccountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="FindRefererAccounts">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Find potential referer account by uri.</wsdl:documentation>
+      <wsdl:input message="tns:FindRefererAccountsSoapIn" />
+      <wsdl:output message="tns:FindRefererAccountsSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WebStatsServiceSoap" type="tns:WebStatsServiceSoap">
@@ -1156,6 +1216,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="FindRefererAccounts">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/FindRefererAccounts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="WebStatsServiceSoap12" type="tns:WebStatsServiceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -1413,6 +1482,15 @@
     </wsdl:operation>
     <wsdl:operation name="DeleteRefererAccount">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteRefererAccount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FindRefererAccounts">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/FindRefererAccounts" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

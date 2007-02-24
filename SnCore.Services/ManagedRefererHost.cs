@@ -15,6 +15,34 @@ namespace SnCore.Services
 {
     public class TransitRefererHost : TransitService<RefererHost>
     {
+        private string mAccountName;
+
+        public string AccountName
+        {
+            get
+            {
+                return mAccountName;
+            }
+            set
+            {
+                mAccountName = value;
+            }
+        }
+
+        private int mAccountId;
+
+        public int AccountId
+        {
+            get
+            {
+                return mAccountId;
+            }
+            set
+            {
+                mAccountId = value;
+            }
+        }
+
         private string mHost;
 
         public string Host
@@ -218,6 +246,19 @@ namespace SnCore.Services
         {
             ACL acl = base.GetACL();
             return acl;
+        }
+
+        public override TransitRefererHost GetTransitInstance(ManagedSecurityContext sec)
+        {
+            TransitRefererHost t_instance = base.GetTransitInstance(sec);
+
+            if (mInstance.RefererAccounts != null && mInstance.RefererAccounts.Count > 0)
+            {
+                t_instance.AccountId = mInstance.RefererAccounts[0].Account.Id;
+                t_instance.AccountName = mInstance.RefererAccounts[0].Account.Name;
+            }
+
+            return t_instance;
         }
     }
 }

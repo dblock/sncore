@@ -39,5 +39,26 @@ namespace SnCore.Web.Soap.Tests.WebStatsServiceTests
             t_instance.RefererHostTotal = 1;
             return t_instance;
         }
+
+        [Test]
+        public void FindRefererAccountsTest()
+        {
+            WebAccountServiceTests.AccountWebsiteTest websitetest = new WebAccountServiceTests.AccountWebsiteTest();
+            WebAccountService.TransitAccountWebsite t_website = websitetest.GetTransitInstance();
+            t_website.AccountId = GetUserAccount().Id;
+            int website_id = websitetest.Create(GetUserTicket(), t_website);
+            try
+            {
+                WebStatsService.TransitAccount[] t_accounts = EndPoint.FindRefererAccounts(GetUserTicket(), t_website.Url, null);
+                Assert.IsNotNull(t_accounts);
+                Console.WriteLine("Accounts: {0}", t_accounts.Length);
+                Assert.AreEqual(1, t_accounts.Length);
+                Assert.AreEqual(t_accounts[0].Id, GetUserAccount().Id);
+            }
+            finally
+            {
+                websitetest.Delete(GetUserTicket(), website_id);
+            }
+        }
     }
 }

@@ -14,6 +14,7 @@ using System.Web.Security;
 using Microsoft.Web.Services3;
 using Microsoft.Web.Services3.Design;
 using System.Web.Services.Protocols;
+using SnCore.Tools.Web;
 
 namespace SnCore.WebServices
 {
@@ -432,6 +433,29 @@ namespace SnCore.WebServices
         {
             WebServiceImpl<TransitRefererAccount, ManagedRefererAccount, RefererAccount>.Delete(
                 ticket, id);
+        }
+
+        /// <summary>
+        /// Find potential referer account by uri.
+        /// Check websites and syndicated feeds.
+        /// </summary>
+        /// <param name="ticket"></param>
+        /// <param name="uri"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        [WebMethod(Description = "Find potential referer account by uri.")]
+        public List<TransitAccount> FindRefererAccounts(string ticket, string uri, ServiceQueryOptions options)
+        {
+            string like = string.Format("%{0}%", Renderer.SqlEncode(uri));
+            return WebServiceImpl<TransitAccount, ManagedAccount, Account>.GetList(ticket, options,
+                "SELECT {Account.*} FROM {Account} WHERE EXISTS ( " +
+                " SELECT AccountWebsite.AccountWebsite_Id FROM AccountWebsite AccountWebsite " +
+                " WHERE Account.Account_Id = AccountWebsite.Account_Id AND AccountWebsite.Url LIKE '" + like + "'" +
+                " ) OR EXISTS (" +
+                " SELECT AccountFeed.AccountFeed_Id FROM AccountFeed AccountFeed " +
+                " WHERE Account.Account_Id = AccountFeed.Account_Id " +
+                " AND ( AccountFeed.LinkUrl LIKE '" + like + "' OR AccountFeed.FeedUrl LIKE '" + like + "')" +
+                ")", "Account");
         }
 
         #endregion

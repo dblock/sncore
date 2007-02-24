@@ -36,6 +36,7 @@ public partial class SystemRefererAccountEdit : AuthenticatedPage
             else
             {
                 sitemapdata.Add(new SiteMapDataAttributeNode("New Referer Account", Request.Url));
+                inputRefererHost.Text = Request["host"];
             }
 
             StackSiteMap(sitemapdata);
@@ -54,4 +55,34 @@ public partial class SystemRefererAccountEdit : AuthenticatedPage
             t, SessionManager.StatsService.CreateOrUpdateRefererAccount);
         Redirect("SystemRefererAccountsManage.aspx");
     }
+
+    public void linkLookup_Click(object sender, EventArgs e)
+    {
+        if (string.IsNullOrEmpty(inputRefererHost.Text))
+        {
+            throw new Exception("Missing Referrer Host Url");
+        }
+
+        gridLookup.DataSource = SessionManager.StatsService.FindRefererAccounts(
+            SessionManager.Ticket, inputRefererHost.Text, null);
+        gridLookup.DataBind();
+    }
+
+    private enum Cells
+    {
+        id = 0
+    };
+
+    public void gridLookup_ItemCommand(object sender, DataGridCommandEventArgs e)
+    {
+        switch (e.CommandName)
+        {
+            case "Select":
+                int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
+                inputAccount.Text = id.ToString();
+                break;
+        }
+    }
+
+
 }

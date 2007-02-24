@@ -36,11 +36,21 @@
      <asp:TemplateColumn HeaderText="Host">
       <itemtemplate>
        <%# Renderer.GetLink(Renderer.Render(Eval("LastRefererUri")), Renderer.Render(Eval("Host"))) %>
+       <div class="sncore_description">
+        <%# Renderer.GetLink(string.Format("AccountView.aspx?id={0}", Eval("AccountId")), Renderer.Render(Eval("AccountName"))) %>
+       </div>
       </itemtemplate>
      </asp:TemplateColumn>
      <asp:TemplateColumn>
       <itemtemplate>
        <%# Renderer.GetLink(Renderer.Render(Eval("LastRefererUri")), "Link") %>
+      </itemtemplate>
+     </asp:TemplateColumn>
+     <asp:TemplateColumn>
+      <itemtemplate>
+       <a href='SystemRefererAccountEdit.aspx?host=<%# Renderer.UrlEncode(Eval("Host")) %>'>
+        <%# ((int) Eval("AccountId") == 0 ? "Add" : string.Empty) %>
+       </a>
       </itemtemplate>
      </asp:TemplateColumn>
     </Columns>
