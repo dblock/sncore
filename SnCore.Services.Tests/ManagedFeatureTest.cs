@@ -9,17 +9,20 @@ namespace SnCore.Services.Tests
     public class ManagedFeatureTest : ManagedCRUDTest<Feature, TransitFeature, ManagedFeature>
     {
         private ManagedDataObjectTest _dataobject = new ManagedDataObjectTest();
+        private ManagedPlaceTest _place = new ManagedPlaceTest();
 
         [SetUp]
         public override void SetUp()
         {
             base.SetUp();
             _dataobject.SetUp();
+            _place.SetUp();
         }
 
         [TearDown]
         public override void TearDown()
         {
+            _place.TearDown();
             _dataobject.TearDown();
             base.TearDown();
         }
@@ -35,6 +38,24 @@ namespace SnCore.Services.Tests
             t_instance.DataObjectName = _dataobject.Instance.Name;
             t_instance.DataRowId = _dataobject.Instance.Id;
             return t_instance;
+        }
+
+        [Test]
+        public void GetDbInstanceTest()
+        {
+            TransitFeature t_instance = new TransitFeature();
+            t_instance.DataObjectName = "Place";
+            t_instance.DataRowId = _place.Instance.Id;
+            ManagedFeature m_instance = new ManagedFeature(Session);
+            t_instance.Id = m_instance.CreateOrUpdate(t_instance, AdminSecurityContext);
+            Console.WriteLine("Created feature: {0}", t_instance.Id);
+            IDbObject dbobject = m_instance.GetInstance();
+            Console.WriteLine("Instance: {0} -> {1}", dbobject.GetType().FullName, dbobject.Id);
+            Assert.AreEqual(dbobject.Id, _place.Instance.Id);
+            Console.WriteLine("Instance: {0}", m_instance.GetInstance<Place>().Id);
+            Account account = m_instance.GetInstanceAccount();
+            Console.WriteLine("Account: {0}", account.Id);
+            m_instance.Delete(AdminSecurityContext);
         }
     }
 }

@@ -9,6 +9,8 @@ using System.Xml;
 using System.Resources;
 using System.Net.Mail;
 using System.IO;
+using System.Reflection;
+using SnCore.Data;
 
 namespace SnCore.Services
 {
@@ -75,6 +77,7 @@ namespace SnCore.Services
         public override void SetInstance(Feature instance)
         {
             DataRowId = instance.DataRowId;
+            DataObjectName = instance.DataObject.Name;
             Created = instance.Created;
             base.SetInstance(instance);
         }
@@ -172,8 +175,46 @@ namespace SnCore.Services
 
         protected override void Save(ManagedSecurityContext sec)
         {
+            bool fNew = (mInstance.Id == 0);
             if (mInstance.Id == 0) mInstance.Created = DateTime.UtcNow;
             base.Save(sec);
+
+            if (fNew)
+            {
+                Session.Flush();
+
+                ManagedAccount acct = new ManagedAccount(Session, GetInstanceAccount());
+                ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
+                    Session, acct, string.Format("EmailFeature.aspx?id={0}&aid={1}", mInstance.Id, acct.Id));
+            }
+        }
+
+        public Account GetInstanceAccount()
+        {
+            IDbObject instance = GetInstance();
+            if (instance is Account)
+            {
+                return (Account) instance;
+            }
+            else if (instance is IDbObject)
+            {
+                return (Account) instance.GetType().BaseType.GetProperty("Account").GetValue(instance, null);
+            }
+            else
+            {
+                throw new Exception(string.Format("Unsupported type: {0}", instance.GetType().FullName));
+            }
+        }
+
+        public IDbObject GetInstance()
+        {
+            Type objecttype = Assembly.GetAssembly(typeof(Account)).GetType(mInstance.DataObject.Name);
+            return (IDbObject) Session.Load(objecttype, mInstance.DataRowId);
+        }
+
+        public T GetInstance<T>()
+        {
+            return Session.Load<T>(mInstance.DataRowId);
         }
 
         public override ACL GetACL()

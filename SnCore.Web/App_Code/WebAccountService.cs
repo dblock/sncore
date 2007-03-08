@@ -2257,6 +2257,8 @@ namespace SnCore.WebServices
 
         #endregion
 
+        #region AccountEmailMessage
+
         [WebMethod(Description = "Send an account e-mail message.")]
         public int SendAccountEmailMessage(string ticket, int id, TransitAccountEmailMessage message)
         {
@@ -2281,8 +2283,6 @@ namespace SnCore.WebServices
                 return m.Id;
             }
         }
-
-        #region AccountEmailMessage
 
         /// <summary>
         /// Create or update a AccountEmailMessage.

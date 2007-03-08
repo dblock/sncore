@@ -821,6 +821,13 @@ public class SessionManager
             Ticket, t_instance, functor, Cache);
     }
 
+    public int CreateOrUpdate<TransitType, ArgType1>(
+        TransitType t_instance, ArgType1 arg1, WebClientImpl<TransitType>.CreateOrUpdateItemDelegate<ArgType1> functor)
+    {
+        return WebClientImpl<TransitType>.CreateOrUpdate(
+            Ticket, t_instance, arg1, functor, Cache);
+    }
+
     #endregion
 
     #region Delete

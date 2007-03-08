@@ -313,6 +313,16 @@ namespace SnCore.WebServices
             return id;
         }
 
+        public delegate int CreateOrUpdateItemDelegate<ArgType1>(string ticket, TransitType t_instance, ArgType1 arg1);
+
+        public static int CreateOrUpdate<ArgType1>(
+            string ticket, TransitType t_instance, ArgType1 arg1, CreateOrUpdateItemDelegate<ArgType1> functor, Cache cache)
+        {
+            int id = functor(ticket, t_instance, arg1);
+            if (cache != null) Invalidate(cache);
+            return id;
+        }
+
         #endregion
 
         #region Delete
