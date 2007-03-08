@@ -18,11 +18,11 @@ public partial class EmailAccountEmailVerify : AuthenticatedPage
     {
         get
         {
-                if (mAccountEmailConfirmation == null)
-                {
-                    mAccountEmailConfirmation = SessionManager.AccountService.GetAccountEmailConfirmationById(
-                        SessionManager.Ticket, RequestId);
-                }
+            if (mAccountEmailConfirmation == null)
+            {
+                mAccountEmailConfirmation = SessionManager.AccountService.GetAccountEmailConfirmationById(
+                    SessionManager.Ticket, RequestId);
+            }
             return mAccountEmailConfirmation;
         }
     }
@@ -33,11 +33,11 @@ public partial class EmailAccountEmailVerify : AuthenticatedPage
     {
         get
         {
-                if (mAccount == null)
-                {
-                    mAccount = SessionManager.AccountService.GetAccountById(
-                        SessionManager.Ticket, AccountEmailConfirmation.AccountEmail.AccountId);
-                }
+            if (mAccount == null)
+            {
+                mAccount = SessionManager.AccountService.GetAccountById(
+                    SessionManager.Ticket, AccountEmailConfirmation.AccountEmail.AccountId);
+            }
             return mAccount;
         }
     }

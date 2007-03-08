@@ -757,10 +757,11 @@ namespace SnCore.WebServices
                 string newpassword = RandomPassword.Generate();
                 a.ResetPassword(newpassword, true);
 
+                session.Flush();
+
                 // EmailAccountMessage
-                ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
-                    session,
-                    new MailAddress(a.GetActiveEmailAddress(), a.Name).ToString(),
+                ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
+                    session, a,
                     string.Format("EmailAccountPasswordReset.aspx?id={0}&Password={1}", a.Id, Renderer.UrlEncode(newpassword)));
 
                 SnCore.Data.Hibernate.Session.Flush();
@@ -914,7 +915,9 @@ namespace SnCore.WebServices
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
                 ManagedAccount a = new ManagedAccount(session, id);
                 a.GetACL().Check(sec, DataOperation.All);
-                return a.GetActiveEmailAddress();
+                string mailto;
+                a.TryGetActiveEmailAddress(out mailto, sec);
+                return mailto;
             }
         }
 
@@ -2265,10 +2268,11 @@ namespace SnCore.WebServices
                 ManagedAccount user = new ManagedAccount(session, id);
                 m.Account = user.Instance;
 
-                if (!user.HasVerifiedEmail(sec))
+                string mailto = string.Empty;
+                if (! user.TryGetVerifiedEmailAddress(out mailto, sec))
                     throw new ManagedAccount.NoVerifiedEmailException();
 
-                m.MailFrom = new MailAddress(user.GetActiveEmailAddress(), user.Name).ToString();
+                m.MailFrom = new MailAddress(mailto, user.Name).ToString();
                 m.Sent = false;
                 m.Created = m.Modified = DateTime.UtcNow;
                 session.Save(m);

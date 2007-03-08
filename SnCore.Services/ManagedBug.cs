@@ -443,18 +443,11 @@ namespace SnCore.Services
 
             // notify that the bug has been closed, account may not exist any more
 
-            try
-            {
-                ManagedAccount acct = new ManagedAccount(Session, mInstance.AccountId);
-                ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
-                    Session,
-                    new MailAddress(acct.GetActiveEmailAddress(), acct.Name).ToString(),
-                    string.Format("EmailBugClosed.aspx?id={0}", mInstance.Id));
-            }
-            catch
-            {
+            Session.Flush();
 
-            }
+            ManagedAccount acct = new ManagedAccount(Session, mInstance.AccountId);
+            ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(Session, acct,
+                string.Format("EmailBugClosed.aspx?id={0}", mInstance.Id));
         }
 
         public void Reopen(ManagedSecurityContext sec)
@@ -499,14 +492,11 @@ namespace SnCore.Services
 
                 if (admin.Id != mInstance.AccountId)
                 {
-                    string email = admin.GetActiveEmailAddress();
-                    if (!string.IsNullOrEmpty(email))
-                    {
-                        ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
-                            Session,
-                            new MailAddress(email, admin.Name).ToString(),
-                            string.Format("EmailBugCreated.aspx?id={0}", mInstance.Id));
-                    }
+                    Session.Flush();
+
+                    ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
+                        Session, admin,
+                        string.Format("EmailBugCreated.aspx?id={0}", mInstance.Id));
                 }
             }
 

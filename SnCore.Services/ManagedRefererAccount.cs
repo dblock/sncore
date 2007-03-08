@@ -191,9 +191,20 @@ namespace SnCore.Services
 
         protected override void Save(ManagedSecurityContext sec)
         {
+            bool fNew = (mInstance.Id == 0);
             mInstance.Modified = DateTime.UtcNow;
             if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
             base.Save(sec);
+
+            if (fNew)
+            {
+                Session.Flush();
+
+                ManagedAccount acct = new ManagedAccount(Session, mInstance.Account);
+
+                ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
+                    Session, acct, string.Format("EmailRefererAccount.aspx?id={0}", mInstance.Id));
+            }
         }
 
         public override ACL GetACL()

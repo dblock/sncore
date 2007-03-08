@@ -684,7 +684,7 @@ namespace SnCore.Services
         {
             foreach (AccountEmail e in Collection<AccountEmail>.GetSafeCollection(mInstance.AccountEmails))
             {
-                foreach (AccountEmailConfirmation c in e.AccountEmailConfirmations)
+                foreach (AccountEmailConfirmation c in Collection<AccountEmailConfirmation>.GetSafeCollection(e.AccountEmailConfirmations))
                 {
                     ManagedAccountEmailConfirmation mac = new ManagedAccountEmailConfirmation(Session, c);
                     mac.Verify(c.Code);
@@ -707,13 +707,37 @@ namespace SnCore.Services
             return false;
         }
 
-        public string GetActiveEmailAddress()
+        public bool TryGetVerifiedEmailAddress(out string address, ManagedSecurityContext sec)
         {
-            string result = null;
+            GetACL().Check(sec, DataOperation.Retreive);
+
+            address = null;
 
             foreach (AccountEmail e in Collection<AccountEmail>.GetSafeCollection(mInstance.AccountEmails))
             {
-                result = e.Address;
+                if (e.Verified)                    
+                {
+                    address = e.Address;
+                    if (e.Principal)
+                    {
+                        // pickup the principal address first
+                        break;
+                    }
+                }
+            }
+
+            return !string.IsNullOrEmpty(address);
+        }
+
+        public bool TryGetActiveEmailAddress(out string address, ManagedSecurityContext sec)
+        {
+            GetACL().Check(sec, DataOperation.Retreive);
+
+            address = null;
+
+            foreach (AccountEmail e in Collection<AccountEmail>.GetSafeCollection(mInstance.AccountEmails))
+            {
+                address = e.Address;
 
                 if (e.Verified && e.Principal)
                 {
@@ -722,7 +746,7 @@ namespace SnCore.Services
                 }
             }
 
-            return result;
+            return ! string.IsNullOrEmpty(address);
         }
 
         public static ManagedAccount FindByEmailAndBirthday(ISession session, string emailaddress, DateTime dateofbirth)
@@ -963,16 +987,11 @@ namespace SnCore.Services
             message.Account.AccountMessages.Add(message);
             Session.Save(message);
 
+            Session.Flush();
+
             ManagedAccount recepient = new ManagedAccount(Session, message.Account);
-            string sentto = recepient.GetActiveEmailAddress();
-            if (sentto != null)
-            {
-                // EmailAccountMessage
-                ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
-                    Session,
-                    new MailAddress(sentto, recepient.Name).ToString(),
-                    string.Format("EmailAccountMessage.aspx?id={0}", message.Id));
-            }
+            ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
+                Session, recepient, string.Format("EmailAccountMessage.aspx?id={0}", message.Id));
 
             // save a copy in sent items
             AccountMessage s = m.GetInstance(Session, sec);
@@ -1135,16 +1154,11 @@ namespace SnCore.Services
             }
 
             Session.Save(request);
+            Session.Flush();
 
             ManagedAccount recepient = new ManagedAccount(Session, request.Keen);
-            string sentto = recepient.GetActiveEmailAddress();
-            if (sentto != null)
-            {
-                ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
-                    Session,
-                    new MailAddress(sentto, recepient.Name).ToString(),
-                    string.Format("EmailAccountFriendRequest.aspx?id={0}", request.Id));
-            }
+            ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
+                Session, recepient, string.Format("EmailAccountFriendRequest.aspx?id={0}", request.Id));
 
             return request.Id;
         }

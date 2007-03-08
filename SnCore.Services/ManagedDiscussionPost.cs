@@ -396,7 +396,7 @@ namespace SnCore.Services
             post.AccountName = ManagedAccount.GetAccountNameWithDefault(Session, post.AccountId);
             post.AccountPictureId = ManagedAccount.GetRandomAccountPictureId(Session, post.AccountId);
             post.CanEdit = (GetACL().Apply(sec, DataOperation.Update) == ACLVerdict.Allowed);
-            post.CanDelete = (GetACL().Apply(sec, DataOperation.Delete) == ACLVerdict.Allowed); 
+            post.CanDelete = (GetACL().Apply(sec, DataOperation.Delete) == ACLVerdict.Allowed);
             return post;
         }
 
@@ -445,14 +445,10 @@ namespace SnCore.Services
 
                 if (ra.Id != ma.Id)
                 {
-                    string replyTo = ma.GetActiveEmailAddress();
-                    if (!string.IsNullOrEmpty(replyTo))
-                    {
-                        ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
-                            Session,
-                            new MailAddress(replyTo, ma.Name).ToString(),
-                            string.Format("EmailDiscussionPost.aspx?id={0}", mInstance.Id));
-                    }
+                    Session.Flush();
+
+                    ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
+                        Session, ma, string.Format("EmailDiscussionPost.aspx?id={0}", mInstance.Id));
                 }
             }
             catch (ObjectNotFoundException)

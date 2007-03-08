@@ -208,14 +208,8 @@ namespace SnCore.Services
             if (message != null && message.Length > 0)
             {
                 ManagedAccount recepient = new ManagedAccount(Session, requester);
-                string sentto = recepient.GetActiveEmailAddress();
-                if (sentto != null)
-                {
-                    ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
-                        Session,
-                        new MailAddress(sentto, recepient.Name).ToString(),
-                        string.Format("EmailAccountFriendRequestReject.aspx?id={0}&message={1}", this.Id, Renderer.UrlEncode(message)));
-                }
+                ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(Session, recepient,
+                    string.Format("EmailAccountFriendRequestReject.aspx?id={0}&message={1}", this.Id, Renderer.UrlEncode(message)));
 
                 // delete the request when user notified
                 Collection<AccountFriendRequest>.GetSafeCollection(mInstance.Account.AccountFriendRequests).Remove(mInstance);
@@ -241,14 +235,10 @@ namespace SnCore.Services
             Session.Save(friend);
 
             ManagedAccount recepient = new ManagedAccount(Session, friend.Account);
-            string sentto = recepient.GetActiveEmailAddress();
-            if (sentto != null)
-            {
-                ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
-                    Session,
-                    new MailAddress(sentto, recepient.Name).ToString(),
-                    string.Format("EmailAccountFriendRequestAccept.aspx?id={0}&message={1}", this.Id, Renderer.UrlEncode(message)));
-            }
+            ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
+                Session,
+                recepient,
+                string.Format("EmailAccountFriendRequestAccept.aspx?id={0}&message={1}", this.Id, Renderer.UrlEncode(message)));
 
             Session.Delete(mInstance);
 

@@ -198,14 +198,9 @@ namespace SnCore.Services
             GetACL().Check(sec, DataOperation.Delete);
 
             ManagedAccount recepient = new ManagedAccount(Session, mInstance.Account);
-            string sentto = recepient.GetActiveEmailAddress();
-            if (sentto != null)
-            {
-                ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
-                    Session,
-                    new MailAddress(sentto, recepient.Name).ToString(),
-                    string.Format("EmailAccountPlaceRequestReject.aspx?id={0}&message={1}", this.Id, Renderer.UrlEncode(message)));
-            }
+            ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
+                Session, recepient,
+                string.Format("EmailAccountPlaceRequestReject.aspx?id={0}&message={1}", this.Id, Renderer.UrlEncode(message)));
 
             // delete the request when user notified
             Collection<AccountPlaceRequest>.GetSafeCollection(mInstance.Account.AccountPlaceRequests).Remove(mInstance);
@@ -231,14 +226,8 @@ namespace SnCore.Services
             mInstance.Place.AccountPlaces.Add(place);
 
             ManagedAccount recepient = new ManagedAccount(Session, mInstance.Account);
-            string sentto = recepient.GetActiveEmailAddress();
-            if (sentto != null)
-            {
-                ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
-                    Session,
-                    new MailAddress(sentto, recepient.Name).ToString(),
-                    string.Format("EmailAccountPlaceRequestAccept.aspx?id={0}&message={1}", this.Id, Renderer.UrlEncode(message)));
-            }
+            ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(Session, recepient,
+                string.Format("EmailAccountPlaceRequestAccept.aspx?id={0}&message={1}", this.Id, Renderer.UrlEncode(message)));
 
             // delete the request when user notified
             Collection<AccountPlaceRequest>.GetSafeCollection(mInstance.Account.AccountPlaceRequests).Remove(mInstance);
@@ -296,13 +285,8 @@ namespace SnCore.Services
                 if (place.Type.CanWrite)
                 {
                     ManagedAccount acct = new ManagedAccount(Session, place.Account);
-
-                    if (!acct.HasVerifiedEmail(sec))
-                        continue;
-
-                    ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
-                        Session,
-                        new MailAddress(acct.GetActiveEmailAddress(), acct.Name).ToString(),
+                    ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
+                        Session, acct,
                         string.Format("EmailAccountPlaceRequest.aspx?id={0}", id));
                 }
             }

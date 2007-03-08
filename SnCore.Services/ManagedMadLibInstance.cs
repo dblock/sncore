@@ -252,16 +252,12 @@ namespace SnCore.Services
 
                     if (ra.Id != ma.Id)
                     {
-                        string replyTo = ma.GetActiveEmailAddress();
-                        if (!string.IsNullOrEmpty(replyTo))
-                        {
-                            ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
-                                Session,
-                                new MailAddress(replyTo, ma.Name).ToString(),
-                                string.Format("EmailAccountMadLibInstance.aspx?aid={0}&ObjectName={1}&oid={2}&mid={3}&id={4}&ReturnUrl={5}",
-                                    instance.ObjectAccountId, mInstance.DataObject.Name, mInstance.ObjectId,
-                                    mInstance.MadLib.Id, mInstance.Id, Renderer.UrlEncode(instance.ObjectUri)));
-                        }
+                        Session.Flush();
+
+                        ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(Session, ma,
+                            string.Format("EmailAccountMadLibInstance.aspx?aid={0}&ObjectName={1}&oid={2}&mid={3}&id={4}&ReturnUrl={5}",
+                                instance.ObjectAccountId, mInstance.DataObject.Name, mInstance.ObjectId,
+                                mInstance.MadLib.Id, mInstance.Id, Renderer.UrlEncode(instance.ObjectUri)));
                     }
                 }
                 catch (ObjectNotFoundException)

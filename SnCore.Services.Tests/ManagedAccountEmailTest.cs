@@ -113,5 +113,49 @@ namespace SnCore.Services.Tests
             }
         }
 
+        [Test]
+        public void TryGetEmailAddressTest()
+        {
+            ManagedAccount a = new ManagedAccount(Session);
+
+            try
+            {
+                string email = GetNewEmailAddress();
+                a.Create("Test User", "testpassword", email, DateTime.UtcNow, AdminSecurityContext);
+
+                string address;
+                Assert.IsTrue(a.TryGetActiveEmailAddress(out address, AdminSecurityContext));
+                Console.WriteLine("Address: {0}", address);
+                Assert.AreEqual(email, address);
+                Assert.IsFalse(a.TryGetVerifiedEmailAddress(out address, AdminSecurityContext));
+                a.VerifyAllEmails();
+                Assert.IsTrue(a.TryGetVerifiedEmailAddress(out address, AdminSecurityContext));
+                Assert.AreEqual(email, address);
+                // add an address, make it principal
+                TransitAccountEmail t_instance = new TransitAccountEmail();
+                t_instance.Address = GetNewEmailAddress();
+                t_instance.AccountId = a.Id;
+                ManagedAccountEmail m_instance = new ManagedAccountEmail(Session);
+                t_instance.Id = m_instance.CreateOrUpdate(t_instance, a.GetSecurityContext());
+                Session.Flush();
+
+                a.Instance.AccountEmails = Session.CreateCriteria(typeof(AccountEmail))
+                    .Add(Expression.Eq("Account.Id", a.Id))
+                    .List<AccountEmail>();
+
+                m_instance.Confirm(AdminSecurityContext);
+                a.VerifyAllEmails();
+                t_instance.Principal = true;
+                m_instance.CreateOrUpdate(t_instance, a.GetSecurityContext());
+                Assert.IsTrue(a.TryGetActiveEmailAddress(out address, AdminSecurityContext));
+                Console.WriteLine("Address: {0}", address);
+                Assert.AreEqual(address, t_instance.Address);
+            }
+            finally
+            {
+                a.Delete(AdminSecurityContext);
+            }
+        }
+
     }
 }

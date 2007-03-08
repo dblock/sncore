@@ -235,13 +235,9 @@ namespace SnCore.WebServices
                 if (sec.Account != null && sec.Account.Id != m_place.Instance.Account.Id)
                 {
                     ManagedAccount acct = new ManagedAccount(session, m_place.Instance.Account);
-                    if (acct.HasVerifiedEmail(sec))
-                    {
-                        ManagedSiteConnector.SendAccountEmailMessageUriAsAdmin(
-                            session,
-                            new MailAddress(acct.GetActiveEmailAddress(), acct.Name).ToString(),
-                            string.Format("EmailPlacePicture.aspx?id={0}", id));
-                    }
+                    ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
+                        session, acct,
+                        string.Format("EmailPlacePicture.aspx?id={0}", id));
                 }
             }
 
@@ -1015,7 +1011,7 @@ namespace SnCore.WebServices
 
                     foreach (string s in values)
                     {
-                        if (! string.IsNullOrEmpty(s))
+                        if (!string.IsNullOrEmpty(s))
                         {
                             TransitDistinctPlacePropertyValue tdppv = null;
                             if (!dict.TryGetValue(s, out tdppv))
@@ -1427,7 +1423,7 @@ namespace SnCore.WebServices
         public TransitPlaceQueue GetOrCreatePlaceQueueByName(string ticket, int user_id, string name)
         {
             TransitPlaceQueue t_queue = GetPlaceQueueByName(ticket, user_id, name);
-            
+
             if (t_queue == null)
             {
                 t_queue = new TransitPlaceQueue();
@@ -1583,7 +1579,7 @@ namespace SnCore.WebServices
                     result.Add(new TransitFriendsPlaceQueueItem(
                         enumerator.Current.Key, enumerator.Current.Value));
                 }
-                
+
                 return WebServiceQueryOptions<TransitFriendsPlaceQueueItem>.Apply(options, result);
             }
         }
@@ -1624,8 +1620,8 @@ namespace SnCore.WebServices
                 foreach (object[] nh in neighborhoods)
                 {
                     TransitDistinctPlaceNeighborhood tnh = new TransitDistinctPlaceNeighborhood();
-                    tnh.Name = (string) nh[1];
-                    tnh.Count = (int) nh[2];
+                    tnh.Name = (string)nh[1];
+                    tnh.Count = (int)nh[2];
                     result.Add(tnh);
                 }
 

@@ -54,6 +54,38 @@ namespace SnCore.Services
                 session, "SnCore.Admin.Name", "Admin")).ToString();
         }
 
+        public static bool TrySendAccountEmailMessageUriAsAdmin(
+            ISession session,
+            ManagedAccount recepient,
+            string relativeuri)
+        {
+            string sendto = string.Empty;
+            
+            if (! recepient.TryGetActiveEmailAddress(out sendto, ManagedAccount.GetAdminSecurityContext(session)))
+                return false;
+
+            MailAddress address = new MailAddress(sendto, recepient.Name);
+
+            return TrySendAccountEmailMessageUriAsAdmin(
+                session, address.ToString(), relativeuri);
+        }
+
+        public static bool TrySendAccountEmailMessageUriAsAdmin(
+            ISession session,
+            string mailto,
+            string relativeuri)
+        {
+            try
+            {
+                SendAccountEmailMessageUriAsAdmin(session, mailto, relativeuri);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public static void SendAccountEmailMessageUriAsAdmin(
             ISession session, 
             string mailto,

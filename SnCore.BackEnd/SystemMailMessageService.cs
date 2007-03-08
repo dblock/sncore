@@ -155,11 +155,13 @@ namespace SnCore.BackEndServices
                     try
                     {
                         ManagedAccount m_recepient = new ManagedAccount(session, recepient.Account);
-                        if (!m_recepient.HasVerifiedEmail(sec))
+
+                        string mailto;
+                        if (!m_recepient.TryGetVerifiedEmailAddress(out mailto, sec))
                             throw new Exception("No verified e-mail address.");
 
                         m_recepient.SendAccountEmailMessage(
-                            campaign.SenderEmailAddress, m_recepient.GetActiveEmailAddress(),
+                            campaign.SenderEmailAddress, mailto,
                             campaign.Name, content, true);
 
                         recepient.LastError = string.Empty;
