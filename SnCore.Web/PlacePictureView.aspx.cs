@@ -122,8 +122,8 @@ public partial class PlacePictureView : Page
         labelIndex.Text = string.Format("{0} / {1}", p.Index + 1, p.Count);
 
         discussionComments.ReturnUrl = string.Format("PlacePictureView.aspx?id={0}", PictureId);
-        discussionComments.DiscussionId = SessionManager.DiscussionService.GetOrCreatePlacePictureDiscussionId(
-            SessionManager.Ticket, PictureId);
+        discussionComments.DiscussionId = SessionManager.GetCount<TransitDiscussion, string, int>(
+            typeof(PlacePicture).Name, PictureId, SessionManager.DiscussionService.GetOrCreateDiscussionId);
         discussionComments.DataBind();
     }
 

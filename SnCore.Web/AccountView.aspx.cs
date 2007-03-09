@@ -127,8 +127,8 @@ public partial class AccountView : Page
             linkAddToFriends.NavigateUrl = string.Format("AccountFriendRequestEdit.aspx?pid={0}&ReturnUrl={1}",
                 Account.Id.ToString(), returnurl);
 
-            discussionTags.DiscussionId = SessionManager.GetCount<TransitDiscussion, int>(
-                Account.Id, SessionManager.DiscussionService.GetOrCreateAccountTagsDiscussionId);
+            discussionTags.DiscussionId = SessionManager.GetCount<TransitDiscussion, string, int>(
+                typeof(Account).Name, Account.Id, SessionManager.DiscussionService.GetOrCreateDiscussionId);
 
             linkLeaveTestimonial.NavigateUrl = string.Format("DiscussionPost.aspx?did={0}&ReturnUrl={1}&#edit",
                 discussionTags.DiscussionId, returnurl);

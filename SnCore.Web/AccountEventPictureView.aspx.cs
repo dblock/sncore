@@ -119,8 +119,8 @@ public partial class AccountEventPictureView : Page
         labelIndex.Text = string.Format("{0} / {1}", p.Index + 1, p.Count);
 
         discussionComments.ReturnUrl = string.Format("AccountEventPictureView.aspx?id={0}", PictureId);
-        discussionComments.DiscussionId = SessionManager.DiscussionService.GetOrCreateAccountEventPictureDiscussionId(
-            SessionManager.Ticket, PictureId);
+        discussionComments.DiscussionId = SessionManager.GetCount<TransitDiscussion, string, int>(
+            typeof(AccountEventPicture).Name, PictureId, SessionManager.DiscussionService.GetOrCreateDiscussionId);
         discussionComments.DataBind();
     }
 

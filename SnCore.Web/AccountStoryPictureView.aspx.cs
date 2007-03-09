@@ -115,8 +115,8 @@ public partial class AccountStoryPictureView : Page
         linkNext.CommandArgument = p.NextId.ToString();
         labelIndex.Text = string.Format("{0} / {1}", p.Index + 1, p.Count);
 
-        discussionComments.DiscussionId = SessionManager.DiscussionService.GetOrCreateAccountStoryPictureDiscussionId(
-            SessionManager.Ticket, PictureId);
+        discussionComments.DiscussionId = SessionManager.GetCount<TransitDiscussion, string, int>(
+            typeof(AccountStoryPicture).Name, PictureId, SessionManager.DiscussionService.GetOrCreateDiscussionId);
         discussionComments.DataBind();
     }
 

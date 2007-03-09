@@ -78,5 +78,21 @@ public partial class EmailDiscussionPost : AuthenticatedPage
     {
         Title = string.Format("New post in {0}", Renderer.Render(Discussion.Name));
     }
+
+    public string GetNavigateUri()
+    {
+        if (! string.IsNullOrEmpty(Discussion.ParentObjectUri))
+            return Discussion.ParentObjectUri;
+        
+        return string.Format("DiscussionThreadView.aspx?id={0}", DiscussionPost.DiscussionThreadId);
+    }
+
+    public string GetNavigateName()
+    {
+        if (! string.IsNullOrEmpty(Discussion.ParentObjectName))
+            return Discussion.ParentObjectName;
+
+        return Discussion.Name;
+    }
 }
 

@@ -271,14 +271,14 @@ namespace SnCore.Services
             t_post.AccountName = ManagedAccount.GetAccountNameWithDefault(Session, mInstance.AccountId);
             t_post.AccountPictureId = ManagedAccount.GetRandomAccountPictureId(Session, mInstance.AccountId);
             t_post.CommentCount = ManagedDiscussion.GetDiscussionPostCount(
-                Session, mInstance.AccountBlog.Account.Id, ManagedDiscussion.AccountBlogPostDiscussion, mInstance.Id);
+                Session, mInstance.AccountBlog.Account.Id, typeof(AccountBlogPost), mInstance.Id);
             return t_post;
         }
 
         public override void Delete(ManagedSecurityContext sec)
         {
             ManagedDiscussion.FindAndDelete(
-                Session, mInstance.AccountBlog.Account.Id, ManagedDiscussion.AccountBlogPostDiscussion, mInstance.Id, sec);
+                Session, mInstance.AccountBlog.Account.Id, typeof(AccountBlogPost), mInstance.Id, sec);
             ManagedFeature.Delete(Session, "AccountBlogPost", Id);
             base.Delete(sec);
         }

@@ -53,8 +53,8 @@ public partial class AccountFeedItemView : Page
                 Uri.IsWellFormedUriString(tfi.Link, UriKind.Absolute) ? new Uri(tfi.Link) : null,
                 imgrewriteuri);
 
-            FeedItemComments.DiscussionId = SessionManager.GetCount<TransitDiscussion, int>(
-                RequestId, SessionManager.DiscussionService.GetOrCreateAccountFeedItemDiscussionId);
+            FeedItemComments.DiscussionId = SessionManager.GetCount<TransitDiscussion, string, int>(
+                typeof(AccountFeedItem).Name, RequestId, SessionManager.DiscussionService.GetOrCreateDiscussionId);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Blogs", Request, "AccountFeedItemsView.aspx"));

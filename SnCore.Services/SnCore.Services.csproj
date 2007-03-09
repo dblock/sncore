@@ -147,6 +147,7 @@
     <Compile Include="ManagedCampaignAccountRecepient.cs" />
     <Compile Include="ManagedCity.cs" />
     <Compile Include="ManagedCounter.cs" />
+    <Compile Include="ManagedDiscussionMap.cs" />
     <Compile Include="ManagedFeature.cs" />
     <Compile Include="ManagedFeedType.cs" />
     <Compile Include="ManagedMadLib.cs" />

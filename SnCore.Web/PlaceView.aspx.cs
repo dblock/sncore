@@ -245,8 +245,8 @@ public partial class PlaceView : Page
 
                 GetPicturesData(sender, e);
 
-                discussionPlaces.DiscussionId = SessionManager.GetCount<TransitDiscussion, int>(
-                    RequestId, SessionManager.DiscussionService.GetOrCreatePlaceDiscussionId);
+                discussionPlaces.DiscussionId = SessionManager.GetCount<TransitDiscussion, string, int>(
+                    typeof(Place).Name, RequestId, SessionManager.DiscussionService.GetOrCreateDiscussionId);
                 discussionPlaces.DataBind();
 
                 madlibs.ObjectId = RequestId;

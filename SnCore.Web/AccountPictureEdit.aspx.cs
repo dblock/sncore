@@ -29,8 +29,8 @@ public partial class AccountPictureEdit : AuthenticatedPage
                 inputPictureThumbnail.Src = string.Format("AccountPictureThumbnail.aspx?id={0}&CacheDuration=0", tw.Id);
                 inputHidden.Checked = tw.Hidden;
 
-                discussionComments.DiscussionId = SessionManager.DiscussionService.GetOrCreateAccountPictureDiscussionId(
-                    SessionManager.Ticket, id);
+                discussionComments.DiscussionId = SessionManager.GetCount<TransitDiscussion, string, int>(
+                    typeof(AccountPicture).Name, id, SessionManager.DiscussionService.GetOrCreateDiscussionId);
                 discussionComments.DataBind();
 
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();

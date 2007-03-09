@@ -223,14 +223,14 @@ namespace SnCore.Services
             t_instance.SetWithinCollection(mInstance, mInstance.AccountEvent.AccountEventPictures);
             t_instance.CommentCount = ManagedDiscussion.GetDiscussionPostCount(
                 Session, mInstance.AccountEvent.Account.Id,
-                ManagedDiscussion.AccountEventPictureDiscussion, mInstance.Id);
+                typeof(AccountEventPicture), mInstance.Id);
             t_instance.Counter = ManagedStats.FindByUri(Session, "AccountEventPicture.aspx", mInstance.Id, sec);
             return t_instance;
         }
 
         public override void Delete(ManagedSecurityContext sec)
         {
-            ManagedDiscussion.FindAndDelete(Session, mInstance.AccountEvent.Account.Id, ManagedDiscussion.AccountEventPictureDiscussion, mInstance.Id, sec);
+            ManagedDiscussion.FindAndDelete(Session, mInstance.AccountEvent.Account.Id, typeof(AccountEventPicture), mInstance.Id, sec);
             Collection<AccountEventPicture>.GetSafeCollection(mInstance.AccountEvent.AccountEventPictures).Remove(mInstance);
             base.Delete(sec);
         }

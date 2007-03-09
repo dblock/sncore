@@ -148,8 +148,8 @@ public partial class AccountEventView : Page
 
                 GetPicturesData(sender, e);
 
-                discussionAccountEvents.DiscussionId = SessionManager.DiscussionService.GetOrCreateAccountEventDiscussionId(
-                    SessionManager.Ticket, RequestId);
+                discussionAccountEvents.DiscussionId = SessionManager.GetCount<TransitDiscussion, string, int>(
+                    typeof(AccountEvent).Name, RequestId, SessionManager.DiscussionService.GetOrCreateDiscussionId);
                 discussionAccountEvents.DataBind();
 
                 if (SessionManager.IsAdministrator)

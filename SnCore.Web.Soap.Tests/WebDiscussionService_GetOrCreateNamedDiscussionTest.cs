@@ -16,32 +16,34 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
     [TestFixture]
     public class GetOrCreateNamedDiscussionTest : WebServiceBaseTest<WebDiscussionServiceNoCache>
     {
-        public delegate string GetDiscussionNameDelegate();
-        public delegate int GetOrCreateDiscussionIdDelegate(string ticket, int id);
         public delegate int CreateInstanceDelegate(string ticket);
 
         protected void GetOrCreateDiscussionIdTest<TransitType, WebServiceType>(
-            GetDiscussionNameDelegate GetDiscussionName,
-            GetOrCreateDiscussionIdDelegate GetOrCreateDiscussionId,
+            string typename,
             WebServiceTest<TransitType, WebServiceType> objecttest)
             where WebServiceType : new()
         {
-            string name = GetDiscussionName();
-            Assert.IsNotEmpty(name);
-            Console.WriteLine("Name: {0}", name);
+            Console.WriteLine("Type: {0}", typename);
 
             objecttest.SetUp();
             int objecttest_id = objecttest.Create(GetAdminTicket());
             Assert.IsTrue(objecttest_id > 0);
 
-            int discussion_id = GetOrCreateDiscussionId(GetAdminTicket(), objecttest_id);
+            int discussion_id = EndPoint.GetOrCreateDiscussionId(GetAdminTicket(), typename, objecttest_id);
             Assert.IsTrue(discussion_id > 0);
 
             WebDiscussionService.TransitDiscussion t_discussion = EndPoint.GetDiscussionById(
                 GetAdminTicket(), discussion_id);
 
-            Assert.AreEqual(t_discussion.Name, name);
             Console.WriteLine("Discussion: {0}", t_discussion.Name);
+
+            string redirecturi = EndPoint.GetDiscussionRedirectUri(GetAdminTicket(), discussion_id);
+            Console.WriteLine("Uri: {0}", redirecturi);
+
+            Assert.AreEqual(t_discussion.ParentObjectUri, redirecturi);
+            Assert.AreEqual(t_discussion.ParentObjectType, typename);
+
+            Console.WriteLine("Parent name: {0}", t_discussion.ParentObjectName);
 
             objecttest.Delete(GetAdminTicket(), objecttest_id);
             objecttest.TearDown();
@@ -55,91 +57,61 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
         [Test]
         public void GetOrCreateAccountBlogPostDiscussionIdTest()
         {
-            GetOrCreateDiscussionIdTest(
-                 EndPoint.GetAccountBlogPostDiscussionName,
-                 EndPoint.GetOrCreateAccountBlogPostDiscussionId,
-                 new AccountBlogPostTest());
+            GetOrCreateDiscussionIdTest("AccountBlogPost", new AccountBlogPostTest());
         }
 
         [Test]
         public void GetOrCreateAccountEventDiscussionIdTest()
         {
-            GetOrCreateDiscussionIdTest(
-                 EndPoint.GetAccountEventDiscussionName,
-                 EndPoint.GetOrCreateAccountEventDiscussionId,
-                 new AccountEventTest());
+            GetOrCreateDiscussionIdTest("AccountEvent", new AccountEventTest());
         }
 
         [Test]
         public void GetOrCreateAccountEventPictureDiscussionIdTest()
         {
-            GetOrCreateDiscussionIdTest(
-                 EndPoint.GetAccountEventPictureDiscussionName,
-                 EndPoint.GetOrCreateAccountEventPictureDiscussionId,
-                 new AccountEventPictureTest());
+            GetOrCreateDiscussionIdTest("AccountEventPicture", new AccountEventPictureTest());
         }
 
         [Test]
         public void GetOrCreateAccountFeedItemDiscussionIdTest()
         {
-            GetOrCreateDiscussionIdTest(
-                 EndPoint.GetAccountFeedItemDiscussionName,
-                 EndPoint.GetOrCreateAccountFeedItemDiscussionId,
-                 new AccountFeedItemTest());
+            GetOrCreateDiscussionIdTest("AccountFeedItem", new AccountFeedItemTest());
         }
 
         [Test]
         public void GetOrCreateAccountPictureDiscussionIdTest()
         {
-            GetOrCreateDiscussionIdTest(
-                EndPoint.GetAccountPictureDiscussionName,
-                EndPoint.GetOrCreateAccountPictureDiscussionId,
-                new AccountPictureTest());
+            GetOrCreateDiscussionIdTest("AccountPicture", new AccountPictureTest());
         }
 
         [Test]
         public void GetOrCreateAccountStoryDiscussionIdTest()
         {
-            GetOrCreateDiscussionIdTest(
-                 EndPoint.GetAccountStoryDiscussionName,
-                 EndPoint.GetOrCreateAccountStoryDiscussionId,
-                 new AccountStoryTest());
+            GetOrCreateDiscussionIdTest("AccountStory", new AccountStoryTest());
         }
 
         [Test]
         public void GetOrCreateAccountStoryPictureDiscussionIdTest()
         {
-            GetOrCreateDiscussionIdTest(
-                 EndPoint.GetAccountStoryPictureDiscussionName,
-                 EndPoint.GetOrCreateAccountStoryPictureDiscussionId,
-                 new AccountStoryPictureTest());
+            GetOrCreateDiscussionIdTest("AccountStoryPicture", new AccountStoryPictureTest());
         }
 
         [Test]
         public void GetOrCreateAccountTagsDiscussionIdTest()
         {
-            GetOrCreateDiscussionIdTest(
-                 EndPoint.GetAccountTagsDiscussionName,
-                 EndPoint.GetOrCreateAccountTagsDiscussionId,
-                 new AccountTest());
+            GetOrCreateDiscussionIdTest("Account", new AccountTest());
         }
 
         [Test]
         public void GetOrCreatePlaceDiscussionIdTest()
         {
-            GetOrCreateDiscussionIdTest(
-                 EndPoint.GetPlaceDiscussionName,
-                 EndPoint.GetOrCreatePlaceDiscussionId,
-                 new PlaceTest());
+            GetOrCreateDiscussionIdTest("Place", new PlaceTest());
         }
 
         [Test]
         public void GetOrCreatePlacePictureDiscussionIdTest()
         {
-            GetOrCreateDiscussionIdTest(
-                 EndPoint.GetPlacePictureDiscussionName,
-                 EndPoint.GetOrCreatePlacePictureDiscussionId,
-                 new PlacePictureTest());
+            GetOrCreateDiscussionIdTest("PlacePicture", new PlacePictureTest());
         }
     }
 }

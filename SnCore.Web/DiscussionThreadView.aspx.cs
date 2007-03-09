@@ -33,56 +33,10 @@ public partial class DiscussionThreadView : Page
 
             if (td.Personal)
             {
-                if (td.Name == SessionManager.DiscussionService.GetAccountPictureDiscussionName())
-                {
-                    Redirect(string.Format("AccountPictureView.aspx?id={0}&#comments", td.ObjectId));
-                    return;
-                }
-                else if (td.Name == SessionManager.DiscussionService.GetAccountStoryDiscussionName())
-                {
-                    Redirect(string.Format("AccountStoryView.aspx?id={0}&#comments", td.ObjectId));
-                    return;
-                }
-                else if (td.Name == SessionManager.DiscussionService.GetAccountTagsDiscussionName())
-                {
-                    Redirect(string.Format("AccountView.aspx?id={0}&#testimonials", td.AccountId));
-                    return;
-                }
-                else if (td.Name == SessionManager.DiscussionService.GetPlaceDiscussionName())
-                {
-                    Redirect(string.Format("PlaceView.aspx?id={0}&#comments", td.ObjectId));
-                    return;
-                }
-                else if (td.Name == SessionManager.DiscussionService.GetPlacePictureDiscussionName())
-                {
-                    Redirect(string.Format("PlacePictureView.aspx?id={0}&#comments", td.ObjectId));
-                    return;
-                }
-                else if (td.Name == SessionManager.DiscussionService.GetAccountFeedItemDiscussionName())
-                {
-                    Redirect(string.Format("AccountFeedItemView.aspx?id={0}&#comments", td.ObjectId));
-                    return;
-                }
-                else if (td.Name == SessionManager.DiscussionService.GetAccountBlogPostDiscussionName())
-                {
-                    Redirect(string.Format("AccountBlogPostView.aspx?id={0}&#comments", td.ObjectId));
-                    return;
-                }
-                else if (td.Name == SessionManager.DiscussionService.GetAccountStoryPictureDiscussionName())
-                {
-                    Redirect(string.Format("AccountStoryPictureView.aspx?id={0}&#comments", td.ObjectId));
-                    return;
-                }
-                else if (td.Name == SessionManager.DiscussionService.GetAccountEventDiscussionName())
-                {
-                    Redirect(string.Format("AccountEventView.aspx?id={0}&#comments", td.ObjectId));
-                    return;
-                }
-                else if (td.Name == SessionManager.DiscussionService.GetAccountEventPictureDiscussionName())
-                {
-                    Redirect(string.Format("AccountEventPictureView.aspx?id={0}&#comments", td.ObjectId));
-                    return;
-                }
+                Redirect(SessionManager.DiscussionService.GetDiscussionRedirectUri(
+                    SessionManager.Ticket, td.Id));
+
+                return;
             }
 
             this.Title = Renderer.Render(td.Name);

@@ -14,6 +14,7 @@ using System.Web.Security;
 using Microsoft.Web.Services3;
 using Microsoft.Web.Services3.Design;
 using SnCore.Tools.Web;
+using System.Reflection;
 
 namespace SnCore.WebServices
 {
@@ -32,195 +33,34 @@ namespace SnCore.WebServices
         #region Named Discussions
 
         /// <summary>
-        /// Add or get the current user tag discussion.
+        /// Add or get a named discussion.
         /// </summary>
-        /// <param name="accountid">account id</param>
-        [WebMethod(Description = "Add or get the current user tag discussion.")]
-        public int GetOrCreateAccountTagsDiscussionId(string ticket, int id)
+        /// <param name="id">object id</param>
+        /// <param name="typename">object type</param>
+        [WebMethod(Description = "Add or get a named discussion.")]
+        public int GetOrCreateDiscussionId(string ticket, string typename, int id)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-                Account instance = session.Load<Account>(id);
-                return ManagedDiscussion.GetOrCreateDiscussionId(
-                    session, instance.Id, ManagedDiscussion.AccountTagsDiscussion, id, sec);
+                return ManagedDiscussion.GetOrCreateDiscussionId(session, typename, id, sec);
             }
         }
 
         /// <summary>
-        /// Add or get the account picture comment discussion.
+        /// Get a personal discussion redirect url.
         /// </summary>
-        /// <param name="pictureid">picture id</param>
-        [WebMethod(Description = "Add or get the account picture comment discussion.", CacheDuration = 60)]
-        public int GetOrCreateAccountPictureDiscussionId(string ticket, int id)
+        /// <param name="ticket"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [WebMethod(Description = "Get a personal discussion redirect url.")]
+        public string GetDiscussionRedirectUri(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-                AccountPicture instance = session.Load<AccountPicture>(id);
-                return ManagedDiscussion.GetOrCreateDiscussionId(
-                    session, instance.Account.Id, ManagedDiscussion.AccountPictureDiscussion, id, sec);
-            }
-        }
-
-        /// <summary>
-        /// Add or get the account event picture comment discussion.
-        /// </summary>
-        /// <param name="eventpictureid">event picture id</param>
-        [WebMethod(Description = "Add or get the account event picture comment discussion.", CacheDuration = 60)]
-        public int GetOrCreateAccountEventPictureDiscussionId(string ticket, int id)
-        {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-                AccountEventPicture instance = session.Load<AccountEventPicture>(id);
-                return ManagedDiscussion.GetOrCreateDiscussionId(
-                    session, instance.AccountEvent.Account.Id, ManagedDiscussion.AccountEventPictureDiscussion, id, sec);
-            }
-        }
-
-        /// <summary>
-        /// Add or get the place picture comment discussion.
-        /// </summary>
-        /// <param name="pictureid">picture id</param>
-        [WebMethod(Description = "Add or get the place picture comment discussion.", CacheDuration = 60)]
-        public int GetOrCreatePlacePictureDiscussionId(string ticket, int id)
-        {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-                PlacePicture instance = session.Load<PlacePicture>(id);
-                return ManagedDiscussion.GetOrCreateDiscussionId(
-                    session, instance.Place.Account.Id, ManagedDiscussion.PlacePictureDiscussion, id, sec);
-            }
-        }
-
-        /// <summary>
-        /// Add or get the current story picture comment discussion.
-        /// </summary>
-        /// <param name="pictureid">picture id</param>
-        [WebMethod(Description = "Add or get the current story picture comment discussion.", CacheDuration = 60)]
-        public int GetOrCreateAccountStoryPictureDiscussionId(string ticket, int id)
-        {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-                AccountStoryPicture instance = session.Load<AccountStoryPicture>(id);
-                return ManagedDiscussion.GetOrCreateDiscussionId(
-                    session, instance.AccountStory.Account.Id, ManagedDiscussion.AccountStoryPictureDiscussion, id, sec);
-            }
-        }
-
-        /// <summary>
-        /// Add or get the current account story comment discussion.
-        /// </summary>
-        /// <param name="accountid">account id</param>
-        [WebMethod(Description = "Add or get the current account story comment discussion.", CacheDuration = 60)]
-        public int GetOrCreateAccountStoryDiscussionId(string ticket, int id)
-        {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-                AccountStory instance = session.Load<AccountStory>(id);
-                return ManagedDiscussion.GetOrCreateDiscussionId(
-                    session, instance.Account.Id, ManagedDiscussion.AccountStoryDiscussion, id, sec);
-            }
-        }
-
-        /// <summary>
-        /// Add or get the place comments discussion.
-        /// </summary>
-        /// <param name="placeid">place id</param>
-        [WebMethod(Description = "Add or get the place comments discussion.")]
-        public int GetOrCreatePlaceDiscussionId(string ticket, int id)
-        {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-                Place instance = session.Load<Place>(id);
-                return ManagedDiscussion.GetOrCreateDiscussionId(
-                    session, instance.Account.Id, ManagedDiscussion.PlaceDiscussion, id, sec);
-            }
-        }
-
-        /// <summary>
-        /// Add or get the account event comment discussion.
-        /// </summary>
-        /// <param name="eventid">event id</param>
-        [WebMethod(Description = "Add or get the account event comment discussion.", CacheDuration = 60)]
-        public int GetOrCreateAccountEventDiscussionId(string ticket, int id)
-        {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-                AccountEvent instance = session.Load<AccountEvent>(id);
-                return ManagedDiscussion.GetOrCreateDiscussionId(
-                    session, instance.Account.Id, ManagedDiscussion.AccountEventDiscussion, id, sec);
-            }
-        }
-
-        /// <summary>
-        /// Add or get the feed item discussion.
-        /// </summary>
-        /// <param name="accountfeeditemid">feed item id</param>
-        [WebMethod(Description = "Add or get the feed item discussion.")]
-        public int GetOrCreateAccountFeedItemDiscussionId(string ticket, int id)
-        {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-                AccountFeedItem instance = session.Load<AccountFeedItem>(id);
-                return ManagedDiscussion.GetOrCreateDiscussionId(
-                    session, instance.AccountFeed.Account.Id, ManagedDiscussion.AccountFeedItemDiscussion, id, sec);
-            }
-        }
-
-        /// <summary>
-        /// Add or get the blog post discussion.
-        /// </summary>
-        /// <param name="accountblogpostid">blog post id</param>
-        [WebMethod(Description = "Add or get the blog post discussion.")]
-        public int GetOrCreateAccountBlogPostDiscussionId(string ticket, int id)
-        {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-                AccountBlogPost instance = session.Load<AccountBlogPost>(id);
-                return ManagedDiscussion.GetOrCreateDiscussionId(
-                    session, instance.AccountBlog.Account.Id, ManagedDiscussion.AccountBlogPostDiscussion, id, sec);
-            }
-        }
-
-        /// <summary>
-        /// Get a discussion id.
-        /// </summary>
-        /// <param name="accountid">account id</param>
-        /// <param name="name">discussion name</param>
-        [WebMethod(Description = "Get a discussion id.")]
-        public int GetDiscussionId(string ticket, int accountid, string name)
-        {
-            return GetDiscussionId(ticket, accountid, name, 0);
-        }
-
-        protected int GetDiscussionId(string ticket, int accountid, string name, int objectid)
-        {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-                int result = ManagedDiscussion.GetDiscussionId(session, accountid, name, objectid, sec);
-                return result;
-            }
+            TransitDiscussion td = GetDiscussionById(ticket, id);
+            if (!td.Personal) throw new Exception(string.Format("Discussion {0} is not Personal", td.Name));
+            ManagedDiscussionMapEntry mapentry = ManagedDiscussionMap.Find(td.Name);
+            return string.Format(mapentry.PublicUriFormat, td.ObjectId);
         }
 
         #endregion
@@ -629,100 +469,6 @@ namespace SnCore.WebServices
         {
             return WebServiceImpl<TransitDiscussionThread, ManagedDiscussionThread, DiscussionThread>.GetById(
                 ticket, id);
-        }
-
-        #endregion
-
-        #region Specialized Discussions
-
-        /// <summary>
-        /// Get the built-in name for an account event discussion.
-        /// </summary>
-        [WebMethod(Description = "Get the built-in name for an account event discussion.")]
-        public string GetAccountEventDiscussionName()
-        {
-            return ManagedDiscussion.AccountEventDiscussion;
-        }
-
-        /// <summary>
-        /// Get the built-in name for an account event picture discussion.
-        /// </summary>
-        [WebMethod(Description = "Get the built-in name for an account event picture discussion.")]
-        public string GetAccountEventPictureDiscussionName()
-        {
-            return ManagedDiscussion.AccountEventPictureDiscussion;
-        }
-
-        /// <summary>
-        /// Get the built-in name for an account picture discussion.
-        /// </summary>
-        [WebMethod(Description = "Get the built-in name for an account picture discussion.")]
-        public string GetAccountPictureDiscussionName()
-        {
-            return ManagedDiscussion.AccountPictureDiscussion;
-        }
-
-        /// <summary>
-        /// Get the built-in name for a place picture discussion.
-        /// </summary>
-        [WebMethod(Description = "Get the built-in name for a place picture discussion.")]
-        public string GetPlacePictureDiscussionName()
-        {
-            return ManagedDiscussion.PlacePictureDiscussion;
-        }
-
-        /// <summary>
-        /// Get the built-in name for a story discussion.
-        /// </summary>
-        [WebMethod(Description = "Get the built-in name for a story discussion.")]
-        public string GetAccountStoryDiscussionName()
-        {
-            return ManagedDiscussion.AccountStoryDiscussion;
-        }
-
-        /// <summary>
-        /// Get the built-in name for a story picture discussion.
-        /// </summary>
-        [WebMethod(Description = "Get the built-in name for a story picture discussion.")]
-        public string GetAccountStoryPictureDiscussionName()
-        {
-            return ManagedDiscussion.AccountStoryPictureDiscussion;
-        }
-
-        /// <summary>
-        /// Get the built-in name for a testimonials discussion.
-        /// </summary>
-        [WebMethod(Description = "Get the built-in name for a testimonials discussion.")]
-        public string GetAccountTagsDiscussionName()
-        {
-            return ManagedDiscussion.AccountTagsDiscussion;
-        }
-
-        /// <summary>
-        /// Get the built-in name for a place comments discussion.
-        /// </summary>
-        [WebMethod(Description = "Get the built-in name for a place comments discussion.")]
-        public string GetPlaceDiscussionName()
-        {
-            return ManagedDiscussion.PlaceDiscussion;
-        }
-
-        /// <summary>
-        /// Get the built-in name for a feed item discussion.
-        /// </summary>
-        [WebMethod(Description = "Get the built-in name for a feed item discussion.")]
-        public string GetAccountFeedItemDiscussionName()
-        {
-            return ManagedDiscussion.AccountFeedItemDiscussion;
-        }
-
-        /// <summary>
-        /// Get the built-in name for a blog post discussion.
-        /// </summary>
-        [WebMethod(Description = "Get the built-in name for a blog post discussion.")]
-        public string GetAccountBlogPostDiscussionName()
-        {
-            return ManagedDiscussion.AccountBlogPostDiscussion;
         }
 
         #endregion

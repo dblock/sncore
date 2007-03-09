@@ -290,7 +290,7 @@ namespace SnCore.Services
         public override void Delete(ManagedSecurityContext sec)
         {
             ManagedDiscussion.FindAndDelete(
-                Session, mInstance.AccountFeed.Account.Id, ManagedDiscussion.AccountFeedItemDiscussion, mInstance.Id, sec);
+                Session, mInstance.AccountFeed.Account.Id, typeof(AccountFeedItem), mInstance.Id, sec);
             ManagedFeature.Delete(Session, "AccountFeedItem", Id);
             base.Delete(sec);
         }
@@ -314,7 +314,7 @@ namespace SnCore.Services
         {
             TransitAccountFeedItem t_instance = base.GetTransitInstance(sec);
             t_instance.CommentCount = ManagedDiscussion.GetDiscussionPostCount(
-                Session, mInstance.AccountFeed.Account.Id, ManagedDiscussion.AccountFeedItemDiscussion, mInstance.Id);
+                Session, mInstance.AccountFeed.Account.Id, typeof(AccountFeedItem), mInstance.Id);
             return t_instance;
         }
     }

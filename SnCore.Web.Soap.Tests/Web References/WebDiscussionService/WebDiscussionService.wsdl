@@ -2,7 +2,23 @@
 <wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.vestris.com/sncore/ns/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.vestris.com/sncore/ns/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
     <s:schema elementFormDefault="qualified" targetNamespace="http://www.vestris.com/sncore/ns/">
-      <s:element name="GetOrCreateAccountTagsDiscussionId">
+      <s:element name="GetOrCreateDiscussionId">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="typename" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetOrCreateDiscussionIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetOrCreateDiscussionIdResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDiscussionRedirectUri">
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
@@ -10,161 +26,10 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetOrCreateAccountTagsDiscussionIdResponse">
+      <s:element name="GetDiscussionRedirectUriResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="GetOrCreateAccountTagsDiscussionIdResult" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetOrCreateAccountPictureDiscussionId">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetOrCreateAccountPictureDiscussionIdResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="GetOrCreateAccountPictureDiscussionIdResult" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetOrCreateAccountEventPictureDiscussionId">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetOrCreateAccountEventPictureDiscussionIdResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="GetOrCreateAccountEventPictureDiscussionIdResult" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetOrCreatePlacePictureDiscussionId">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetOrCreatePlacePictureDiscussionIdResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="GetOrCreatePlacePictureDiscussionIdResult" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetOrCreateAccountStoryPictureDiscussionId">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetOrCreateAccountStoryPictureDiscussionIdResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="GetOrCreateAccountStoryPictureDiscussionIdResult" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetOrCreateAccountStoryDiscussionId">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetOrCreateAccountStoryDiscussionIdResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="GetOrCreateAccountStoryDiscussionIdResult" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetOrCreatePlaceDiscussionId">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetOrCreatePlaceDiscussionIdResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="GetOrCreatePlaceDiscussionIdResult" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetOrCreateAccountEventDiscussionId">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetOrCreateAccountEventDiscussionIdResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="GetOrCreateAccountEventDiscussionIdResult" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetOrCreateAccountFeedItemDiscussionId">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetOrCreateAccountFeedItemDiscussionIdResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="GetOrCreateAccountFeedItemDiscussionIdResult" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetOrCreateAccountBlogPostDiscussionId">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetOrCreateAccountBlogPostDiscussionIdResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="GetOrCreateAccountBlogPostDiscussionIdResult" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetDiscussionId">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="accountid" type="s:int" />
-            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetDiscussionIdResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="GetDiscussionIdResult" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="GetDiscussionRedirectUriResult" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -189,6 +54,9 @@
               <s:element minOccurs="1" maxOccurs="1" name="Personal" type="s:boolean" />
               <s:element minOccurs="1" maxOccurs="1" name="PostCount" type="s:int" />
               <s:element minOccurs="1" maxOccurs="1" name="ThreadCount" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="ParentObjectName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ParentObjectUri" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ParentObjectType" type="s:string" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
@@ -654,106 +522,6 @@
           <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
         </s:sequence>
       </s:complexType>
-      <s:element name="GetAccountEventDiscussionName">
-        <s:complexType />
-      </s:element>
-      <s:element name="GetAccountEventDiscussionNameResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetAccountEventDiscussionNameResult" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAccountEventPictureDiscussionName">
-        <s:complexType />
-      </s:element>
-      <s:element name="GetAccountEventPictureDiscussionNameResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetAccountEventPictureDiscussionNameResult" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAccountPictureDiscussionName">
-        <s:complexType />
-      </s:element>
-      <s:element name="GetAccountPictureDiscussionNameResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetAccountPictureDiscussionNameResult" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetPlacePictureDiscussionName">
-        <s:complexType />
-      </s:element>
-      <s:element name="GetPlacePictureDiscussionNameResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetPlacePictureDiscussionNameResult" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAccountStoryDiscussionName">
-        <s:complexType />
-      </s:element>
-      <s:element name="GetAccountStoryDiscussionNameResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetAccountStoryDiscussionNameResult" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAccountStoryPictureDiscussionName">
-        <s:complexType />
-      </s:element>
-      <s:element name="GetAccountStoryPictureDiscussionNameResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetAccountStoryPictureDiscussionNameResult" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAccountTagsDiscussionName">
-        <s:complexType />
-      </s:element>
-      <s:element name="GetAccountTagsDiscussionNameResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetAccountTagsDiscussionNameResult" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetPlaceDiscussionName">
-        <s:complexType />
-      </s:element>
-      <s:element name="GetPlaceDiscussionNameResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetPlaceDiscussionNameResult" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAccountFeedItemDiscussionName">
-        <s:complexType />
-      </s:element>
-      <s:element name="GetAccountFeedItemDiscussionNameResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetAccountFeedItemDiscussionNameResult" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAccountBlogPostDiscussionName">
-        <s:complexType />
-      </s:element>
-      <s:element name="GetAccountBlogPostDiscussionNameResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetAccountBlogPostDiscussionNameResult" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
       <s:element name="SearchDiscussionPosts">
         <s:complexType>
           <s:sequence>
@@ -820,71 +588,17 @@
       </s:element>
     </s:schema>
   </wsdl:types>
-  <wsdl:message name="GetOrCreateAccountTagsDiscussionIdSoapIn">
-    <wsdl:part name="parameters" element="tns:GetOrCreateAccountTagsDiscussionId" />
+  <wsdl:message name="GetOrCreateDiscussionIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetOrCreateDiscussionId" />
   </wsdl:message>
-  <wsdl:message name="GetOrCreateAccountTagsDiscussionIdSoapOut">
-    <wsdl:part name="parameters" element="tns:GetOrCreateAccountTagsDiscussionIdResponse" />
+  <wsdl:message name="GetOrCreateDiscussionIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetOrCreateDiscussionIdResponse" />
   </wsdl:message>
-  <wsdl:message name="GetOrCreateAccountPictureDiscussionIdSoapIn">
-    <wsdl:part name="parameters" element="tns:GetOrCreateAccountPictureDiscussionId" />
+  <wsdl:message name="GetDiscussionRedirectUriSoapIn">
+    <wsdl:part name="parameters" element="tns:GetDiscussionRedirectUri" />
   </wsdl:message>
-  <wsdl:message name="GetOrCreateAccountPictureDiscussionIdSoapOut">
-    <wsdl:part name="parameters" element="tns:GetOrCreateAccountPictureDiscussionIdResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetOrCreateAccountEventPictureDiscussionIdSoapIn">
-    <wsdl:part name="parameters" element="tns:GetOrCreateAccountEventPictureDiscussionId" />
-  </wsdl:message>
-  <wsdl:message name="GetOrCreateAccountEventPictureDiscussionIdSoapOut">
-    <wsdl:part name="parameters" element="tns:GetOrCreateAccountEventPictureDiscussionIdResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetOrCreatePlacePictureDiscussionIdSoapIn">
-    <wsdl:part name="parameters" element="tns:GetOrCreatePlacePictureDiscussionId" />
-  </wsdl:message>
-  <wsdl:message name="GetOrCreatePlacePictureDiscussionIdSoapOut">
-    <wsdl:part name="parameters" element="tns:GetOrCreatePlacePictureDiscussionIdResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetOrCreateAccountStoryPictureDiscussionIdSoapIn">
-    <wsdl:part name="parameters" element="tns:GetOrCreateAccountStoryPictureDiscussionId" />
-  </wsdl:message>
-  <wsdl:message name="GetOrCreateAccountStoryPictureDiscussionIdSoapOut">
-    <wsdl:part name="parameters" element="tns:GetOrCreateAccountStoryPictureDiscussionIdResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetOrCreateAccountStoryDiscussionIdSoapIn">
-    <wsdl:part name="parameters" element="tns:GetOrCreateAccountStoryDiscussionId" />
-  </wsdl:message>
-  <wsdl:message name="GetOrCreateAccountStoryDiscussionIdSoapOut">
-    <wsdl:part name="parameters" element="tns:GetOrCreateAccountStoryDiscussionIdResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetOrCreatePlaceDiscussionIdSoapIn">
-    <wsdl:part name="parameters" element="tns:GetOrCreatePlaceDiscussionId" />
-  </wsdl:message>
-  <wsdl:message name="GetOrCreatePlaceDiscussionIdSoapOut">
-    <wsdl:part name="parameters" element="tns:GetOrCreatePlaceDiscussionIdResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetOrCreateAccountEventDiscussionIdSoapIn">
-    <wsdl:part name="parameters" element="tns:GetOrCreateAccountEventDiscussionId" />
-  </wsdl:message>
-  <wsdl:message name="GetOrCreateAccountEventDiscussionIdSoapOut">
-    <wsdl:part name="parameters" element="tns:GetOrCreateAccountEventDiscussionIdResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetOrCreateAccountFeedItemDiscussionIdSoapIn">
-    <wsdl:part name="parameters" element="tns:GetOrCreateAccountFeedItemDiscussionId" />
-  </wsdl:message>
-  <wsdl:message name="GetOrCreateAccountFeedItemDiscussionIdSoapOut">
-    <wsdl:part name="parameters" element="tns:GetOrCreateAccountFeedItemDiscussionIdResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetOrCreateAccountBlogPostDiscussionIdSoapIn">
-    <wsdl:part name="parameters" element="tns:GetOrCreateAccountBlogPostDiscussionId" />
-  </wsdl:message>
-  <wsdl:message name="GetOrCreateAccountBlogPostDiscussionIdSoapOut">
-    <wsdl:part name="parameters" element="tns:GetOrCreateAccountBlogPostDiscussionIdResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetDiscussionIdSoapIn">
-    <wsdl:part name="parameters" element="tns:GetDiscussionId" />
-  </wsdl:message>
-  <wsdl:message name="GetDiscussionIdSoapOut">
-    <wsdl:part name="parameters" element="tns:GetDiscussionIdResponse" />
+  <wsdl:message name="GetDiscussionRedirectUriSoapOut">
+    <wsdl:part name="parameters" element="tns:GetDiscussionRedirectUriResponse" />
   </wsdl:message>
   <wsdl:message name="CreateOrUpdateDiscussionSoapIn">
     <wsdl:part name="parameters" element="tns:CreateOrUpdateDiscussion" />
@@ -1048,66 +762,6 @@
   <wsdl:message name="GetDiscussionThreadByIdSoapOut">
     <wsdl:part name="parameters" element="tns:GetDiscussionThreadByIdResponse" />
   </wsdl:message>
-  <wsdl:message name="GetAccountEventDiscussionNameSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAccountEventDiscussionName" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountEventDiscussionNameSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAccountEventDiscussionNameResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountEventPictureDiscussionNameSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAccountEventPictureDiscussionName" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountEventPictureDiscussionNameSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAccountEventPictureDiscussionNameResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountPictureDiscussionNameSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAccountPictureDiscussionName" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountPictureDiscussionNameSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAccountPictureDiscussionNameResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetPlacePictureDiscussionNameSoapIn">
-    <wsdl:part name="parameters" element="tns:GetPlacePictureDiscussionName" />
-  </wsdl:message>
-  <wsdl:message name="GetPlacePictureDiscussionNameSoapOut">
-    <wsdl:part name="parameters" element="tns:GetPlacePictureDiscussionNameResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountStoryDiscussionNameSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAccountStoryDiscussionName" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountStoryDiscussionNameSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAccountStoryDiscussionNameResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountStoryPictureDiscussionNameSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAccountStoryPictureDiscussionName" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountStoryPictureDiscussionNameSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAccountStoryPictureDiscussionNameResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountTagsDiscussionNameSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAccountTagsDiscussionName" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountTagsDiscussionNameSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAccountTagsDiscussionNameResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetPlaceDiscussionNameSoapIn">
-    <wsdl:part name="parameters" element="tns:GetPlaceDiscussionName" />
-  </wsdl:message>
-  <wsdl:message name="GetPlaceDiscussionNameSoapOut">
-    <wsdl:part name="parameters" element="tns:GetPlaceDiscussionNameResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountFeedItemDiscussionNameSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAccountFeedItemDiscussionName" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountFeedItemDiscussionNameSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAccountFeedItemDiscussionNameResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountBlogPostDiscussionNameSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAccountBlogPostDiscussionName" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountBlogPostDiscussionNameSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAccountBlogPostDiscussionNameResponse" />
-  </wsdl:message>
   <wsdl:message name="SearchDiscussionPostsSoapIn">
     <wsdl:part name="parameters" element="tns:SearchDiscussionPosts" />
   </wsdl:message>
@@ -1133,60 +787,15 @@
     <wsdl:part name="parameters" element="tns:SearchDiscussionPostsByIdCountResponse" />
   </wsdl:message>
   <wsdl:portType name="WebDiscussionServiceSoap">
-    <wsdl:operation name="GetOrCreateAccountTagsDiscussionId">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add or get the current user tag discussion.</wsdl:documentation>
-      <wsdl:input message="tns:GetOrCreateAccountTagsDiscussionIdSoapIn" />
-      <wsdl:output message="tns:GetOrCreateAccountTagsDiscussionIdSoapOut" />
+    <wsdl:operation name="GetOrCreateDiscussionId">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add or get a named discussion.</wsdl:documentation>
+      <wsdl:input message="tns:GetOrCreateDiscussionIdSoapIn" />
+      <wsdl:output message="tns:GetOrCreateDiscussionIdSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetOrCreateAccountPictureDiscussionId">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add or get the account picture comment discussion.</wsdl:documentation>
-      <wsdl:input message="tns:GetOrCreateAccountPictureDiscussionIdSoapIn" />
-      <wsdl:output message="tns:GetOrCreateAccountPictureDiscussionIdSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetOrCreateAccountEventPictureDiscussionId">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add or get the account event picture comment discussion.</wsdl:documentation>
-      <wsdl:input message="tns:GetOrCreateAccountEventPictureDiscussionIdSoapIn" />
-      <wsdl:output message="tns:GetOrCreateAccountEventPictureDiscussionIdSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetOrCreatePlacePictureDiscussionId">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add or get the place picture comment discussion.</wsdl:documentation>
-      <wsdl:input message="tns:GetOrCreatePlacePictureDiscussionIdSoapIn" />
-      <wsdl:output message="tns:GetOrCreatePlacePictureDiscussionIdSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetOrCreateAccountStoryPictureDiscussionId">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add or get the current story picture comment discussion.</wsdl:documentation>
-      <wsdl:input message="tns:GetOrCreateAccountStoryPictureDiscussionIdSoapIn" />
-      <wsdl:output message="tns:GetOrCreateAccountStoryPictureDiscussionIdSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetOrCreateAccountStoryDiscussionId">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add or get the current account story comment discussion.</wsdl:documentation>
-      <wsdl:input message="tns:GetOrCreateAccountStoryDiscussionIdSoapIn" />
-      <wsdl:output message="tns:GetOrCreateAccountStoryDiscussionIdSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetOrCreatePlaceDiscussionId">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add or get the place comments discussion.</wsdl:documentation>
-      <wsdl:input message="tns:GetOrCreatePlaceDiscussionIdSoapIn" />
-      <wsdl:output message="tns:GetOrCreatePlaceDiscussionIdSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetOrCreateAccountEventDiscussionId">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add or get the account event comment discussion.</wsdl:documentation>
-      <wsdl:input message="tns:GetOrCreateAccountEventDiscussionIdSoapIn" />
-      <wsdl:output message="tns:GetOrCreateAccountEventDiscussionIdSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetOrCreateAccountFeedItemDiscussionId">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add or get the feed item discussion.</wsdl:documentation>
-      <wsdl:input message="tns:GetOrCreateAccountFeedItemDiscussionIdSoapIn" />
-      <wsdl:output message="tns:GetOrCreateAccountFeedItemDiscussionIdSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetOrCreateAccountBlogPostDiscussionId">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add or get the blog post discussion.</wsdl:documentation>
-      <wsdl:input message="tns:GetOrCreateAccountBlogPostDiscussionIdSoapIn" />
-      <wsdl:output message="tns:GetOrCreateAccountBlogPostDiscussionIdSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetDiscussionId">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a discussion id.</wsdl:documentation>
-      <wsdl:input message="tns:GetDiscussionIdSoapIn" />
-      <wsdl:output message="tns:GetDiscussionIdSoapOut" />
+    <wsdl:operation name="GetDiscussionRedirectUri">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a personal discussion redirect url.</wsdl:documentation>
+      <wsdl:input message="tns:GetDiscussionRedirectUriSoapIn" />
+      <wsdl:output message="tns:GetDiscussionRedirectUriSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="CreateOrUpdateDiscussion">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add a discussion.</wsdl:documentation>
@@ -1323,56 +932,6 @@
       <wsdl:input message="tns:GetDiscussionThreadByIdSoapIn" />
       <wsdl:output message="tns:GetDiscussionThreadByIdSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetAccountEventDiscussionName">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the built-in name for an account event discussion.</wsdl:documentation>
-      <wsdl:input message="tns:GetAccountEventDiscussionNameSoapIn" />
-      <wsdl:output message="tns:GetAccountEventDiscussionNameSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountEventPictureDiscussionName">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the built-in name for an account event picture discussion.</wsdl:documentation>
-      <wsdl:input message="tns:GetAccountEventPictureDiscussionNameSoapIn" />
-      <wsdl:output message="tns:GetAccountEventPictureDiscussionNameSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountPictureDiscussionName">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the built-in name for an account picture discussion.</wsdl:documentation>
-      <wsdl:input message="tns:GetAccountPictureDiscussionNameSoapIn" />
-      <wsdl:output message="tns:GetAccountPictureDiscussionNameSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetPlacePictureDiscussionName">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the built-in name for a place picture discussion.</wsdl:documentation>
-      <wsdl:input message="tns:GetPlacePictureDiscussionNameSoapIn" />
-      <wsdl:output message="tns:GetPlacePictureDiscussionNameSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountStoryDiscussionName">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the built-in name for a story discussion.</wsdl:documentation>
-      <wsdl:input message="tns:GetAccountStoryDiscussionNameSoapIn" />
-      <wsdl:output message="tns:GetAccountStoryDiscussionNameSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountStoryPictureDiscussionName">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the built-in name for a story picture discussion.</wsdl:documentation>
-      <wsdl:input message="tns:GetAccountStoryPictureDiscussionNameSoapIn" />
-      <wsdl:output message="tns:GetAccountStoryPictureDiscussionNameSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountTagsDiscussionName">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the built-in name for a testimonials discussion.</wsdl:documentation>
-      <wsdl:input message="tns:GetAccountTagsDiscussionNameSoapIn" />
-      <wsdl:output message="tns:GetAccountTagsDiscussionNameSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetPlaceDiscussionName">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the built-in name for a place comments discussion.</wsdl:documentation>
-      <wsdl:input message="tns:GetPlaceDiscussionNameSoapIn" />
-      <wsdl:output message="tns:GetPlaceDiscussionNameSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountFeedItemDiscussionName">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the built-in name for a feed item discussion.</wsdl:documentation>
-      <wsdl:input message="tns:GetAccountFeedItemDiscussionNameSoapIn" />
-      <wsdl:output message="tns:GetAccountFeedItemDiscussionNameSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountBlogPostDiscussionName">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the built-in name for a blog post discussion.</wsdl:documentation>
-      <wsdl:input message="tns:GetAccountBlogPostDiscussionNameSoapIn" />
-      <wsdl:output message="tns:GetAccountBlogPostDiscussionNameSoapOut" />
-    </wsdl:operation>
     <wsdl:operation name="SearchDiscussionPosts">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search discussion posts.</wsdl:documentation>
       <wsdl:input message="tns:SearchDiscussionPostsSoapIn" />
@@ -1396,8 +955,8 @@
   </wsdl:portType>
   <wsdl:binding name="WebDiscussionServiceSoap" type="tns:WebDiscussionServiceSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
-    <wsdl:operation name="GetOrCreateAccountTagsDiscussionId">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetOrCreateAccountTagsDiscussionId" style="document" />
+    <wsdl:operation name="GetOrCreateDiscussionId">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetOrCreateDiscussionId" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1405,89 +964,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetOrCreateAccountPictureDiscussionId">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetOrCreateAccountPictureDiscussionId" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetOrCreateAccountEventPictureDiscussionId">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetOrCreateAccountEventPictureDiscussionId" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetOrCreatePlacePictureDiscussionId">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetOrCreatePlacePictureDiscussionId" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetOrCreateAccountStoryPictureDiscussionId">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetOrCreateAccountStoryPictureDiscussionId" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetOrCreateAccountStoryDiscussionId">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetOrCreateAccountStoryDiscussionId" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetOrCreatePlaceDiscussionId">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetOrCreatePlaceDiscussionId" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetOrCreateAccountEventDiscussionId">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetOrCreateAccountEventDiscussionId" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetOrCreateAccountFeedItemDiscussionId">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetOrCreateAccountFeedItemDiscussionId" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetOrCreateAccountBlogPostDiscussionId">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetOrCreateAccountBlogPostDiscussionId" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetDiscussionId">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetDiscussionId" style="document" />
+    <wsdl:operation name="GetDiscussionRedirectUri">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetDiscussionRedirectUri" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1738,96 +1216,6 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetAccountEventDiscussionName">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEventDiscussionName" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountEventPictureDiscussionName">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEventPictureDiscussionName" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountPictureDiscussionName">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountPictureDiscussionName" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetPlacePictureDiscussionName">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetPlacePictureDiscussionName" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountStoryDiscussionName">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountStoryDiscussionName" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountStoryPictureDiscussionName">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountStoryPictureDiscussionName" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountTagsDiscussionName">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountTagsDiscussionName" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetPlaceDiscussionName">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetPlaceDiscussionName" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountFeedItemDiscussionName">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFeedItemDiscussionName" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountBlogPostDiscussionName">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountBlogPostDiscussionName" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="SearchDiscussionPosts">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/SearchDiscussionPosts" style="document" />
       <wsdl:input>
@@ -1867,8 +1255,8 @@
   </wsdl:binding>
   <wsdl:binding name="WebDiscussionServiceSoap12" type="tns:WebDiscussionServiceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
-    <wsdl:operation name="GetOrCreateAccountTagsDiscussionId">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetOrCreateAccountTagsDiscussionId" style="document" />
+    <wsdl:operation name="GetOrCreateDiscussionId">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetOrCreateDiscussionId" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -1876,89 +1264,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetOrCreateAccountPictureDiscussionId">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetOrCreateAccountPictureDiscussionId" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetOrCreateAccountEventPictureDiscussionId">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetOrCreateAccountEventPictureDiscussionId" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetOrCreatePlacePictureDiscussionId">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetOrCreatePlacePictureDiscussionId" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetOrCreateAccountStoryPictureDiscussionId">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetOrCreateAccountStoryPictureDiscussionId" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetOrCreateAccountStoryDiscussionId">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetOrCreateAccountStoryDiscussionId" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetOrCreatePlaceDiscussionId">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetOrCreatePlaceDiscussionId" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetOrCreateAccountEventDiscussionId">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetOrCreateAccountEventDiscussionId" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetOrCreateAccountFeedItemDiscussionId">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetOrCreateAccountFeedItemDiscussionId" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetOrCreateAccountBlogPostDiscussionId">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetOrCreateAccountBlogPostDiscussionId" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetDiscussionId">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetDiscussionId" style="document" />
+    <wsdl:operation name="GetDiscussionRedirectUri">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetDiscussionRedirectUri" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -2202,96 +1509,6 @@
     </wsdl:operation>
     <wsdl:operation name="GetDiscussionThreadById">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetDiscussionThreadById" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountEventDiscussionName">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEventDiscussionName" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountEventPictureDiscussionName">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEventPictureDiscussionName" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountPictureDiscussionName">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountPictureDiscussionName" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetPlacePictureDiscussionName">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetPlacePictureDiscussionName" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountStoryDiscussionName">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountStoryDiscussionName" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountStoryPictureDiscussionName">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountStoryPictureDiscussionName" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountTagsDiscussionName">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountTagsDiscussionName" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetPlaceDiscussionName">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetPlaceDiscussionName" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountFeedItemDiscussionName">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFeedItemDiscussionName" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountBlogPostDiscussionName">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountBlogPostDiscussionName" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

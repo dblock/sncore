@@ -219,7 +219,7 @@ namespace SnCore.Services
             Collection<AccountStoryPicture>.GetSafeCollection(mInstance.AccountStory.AccountStoryPictures).Remove(mInstance);
             base.Delete(sec);
 
-            ManagedDiscussion.FindAndDelete(Session, mInstance.AccountStory.Account.Id, ManagedDiscussion.AccountStoryPictureDiscussion, mInstance.Id, sec);
+            ManagedDiscussion.FindAndDelete(Session, mInstance.AccountStory.Account.Id, typeof(AccountStoryPicture), mInstance.Id, sec);
 
             // renumber the order of Pictures
             foreach (AccountStoryPicture p in Collection<AccountStoryPicture>.GetSafeCollection(mInstance.AccountStory.AccountStoryPictures))

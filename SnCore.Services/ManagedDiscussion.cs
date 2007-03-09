@@ -11,6 +11,7 @@ using System.Net.Mail;
 using System.IO;
 using SnCore.Tools;
 using SnCore.Tools.Web;
+using System.Reflection;
 
 namespace SnCore.Services
 {
@@ -189,6 +190,48 @@ namespace SnCore.Services
             }
         }
 
+        private string mParentObjectName;
+
+        public string ParentObjectName
+        {
+            get
+            {
+                return mParentObjectName;
+            }
+            set
+            {
+                mParentObjectName = value;
+            }
+        }
+
+        private string mParentObjectUri;
+
+        public string ParentObjectUri
+        {
+            get
+            {
+                return mParentObjectUri;
+            }
+            set
+            {
+                mParentObjectUri = value;
+            }
+        }
+
+        private string mParentObjectType;
+
+        public string ParentObjectType
+        {
+            get
+            {
+                return mParentObjectType;
+            }
+            set
+            {
+                mParentObjectType = value;
+            }
+        }
+
         public TransitDiscussion()
         {
 
@@ -231,17 +274,6 @@ namespace SnCore.Services
 
     public class ManagedDiscussion : ManagedService<Discussion, TransitDiscussion>
     {
-        public const string AccountPictureDiscussion = "Picture Comments";
-        public const string AccountStoryDiscussion = "Story Comments";
-        public const string AccountStoryPictureDiscussion = "Story Picture Comments";
-        public const string AccountTagsDiscussion = "Testimonials";
-        public const string AccountFeedItemDiscussion = "Feed Entry Comments";
-        public const string PlaceDiscussion = "Place Comments";
-        public const string PlacePictureDiscussion = "Place Picture Comments";
-        public const string AccountBlogPostDiscussion = "Blog Post Comments";
-        public const string AccountEventDiscussion = "Event Comments";
-        public const string AccountEventPictureDiscussion = "Event Picture Comments";
-
         public class DiscussionNotFoundException : SoapException
         {
             public DiscussionNotFoundException()
@@ -306,10 +338,12 @@ namespace SnCore.Services
             }
         }
 
-        public static int GetDiscussionThreadCount(ISession session, int accountid, string name, int objectid)
+        public static int GetDiscussionThreadCount(ISession session, int accountid, Type type, int objectid)
         {
+            ManagedDiscussionMapEntry mapentry = ManagedDiscussionMap.Find(type);
+
             Discussion existingtagdiscussion = (Discussion)session.CreateCriteria(typeof(Discussion))
-                .Add(Expression.Eq("Name", name))
+                .Add(Expression.Eq("Name", mapentry.Name))
                 .Add(Expression.Eq("Account.Id", accountid))
                 .Add(Expression.Eq("ObjectId", (objectid == 0) ? null : (object)objectid))
                 .Add(Expression.Eq("Personal", true))
@@ -321,10 +355,12 @@ namespace SnCore.Services
             return GetDiscussionThreadCount(session, existingtagdiscussion.Id);
         }
 
-        public static int GetDiscussionPostCount(ISession session, int accountid, string name, int objectid)
+        public static int GetDiscussionPostCount(ISession session, int accountid, Type type, int objectid)
         {
+            ManagedDiscussionMapEntry mapentry = ManagedDiscussionMap.Find(type);
+
             Discussion existingtagdiscussion = (Discussion)session.CreateCriteria(typeof(Discussion))
-                .Add(Expression.Eq("Name", name))
+                .Add(Expression.Eq("Name", mapentry.Name))
                 .Add(Expression.Eq("Account.Id", accountid))
                 .Add(Expression.Eq("ObjectId", (objectid == 0) ? null : (object)objectid))
                 .Add(Expression.Eq("Personal", true))
@@ -360,11 +396,11 @@ namespace SnCore.Services
         public static bool FindAndDelete(
             ISession session,
             int accountid,
-            string name,
+            Type type,
             int objectid,
             ManagedSecurityContext sec)
         {
-            Discussion discussion = Find(session, accountid, name, objectid, sec);
+            Discussion discussion = Find(session, accountid, type, objectid, sec);
             if (discussion == null)
                 return false;
             ManagedDiscussion m_instance = new ManagedDiscussion(session, discussion);
@@ -375,13 +411,15 @@ namespace SnCore.Services
         public static Discussion Find(
             ISession session,
             int accountid,
-            string name,
+            Type type,
             int objectid,
             ManagedSecurityContext sec)
         {
+            ManagedDiscussionMapEntry mapentry = ManagedDiscussionMap.Find(type);
+
             Discussion instance = (Discussion)
                 session.CreateCriteria(typeof(Discussion))
-                    .Add(Expression.Eq("Name", name))
+                    .Add(Expression.Eq("Name", mapentry.Name))
                     .Add(Expression.Eq("Account.Id", accountid))
                     .Add(Expression.Eq("ObjectId", objectid))
                     .Add(Expression.Eq("Personal", true))
@@ -398,11 +436,11 @@ namespace SnCore.Services
         public static int GetDiscussionId(
             ISession session,
             int accountid,
-            string name,
+            Type type,
             int objectid,
             ManagedSecurityContext sec)
         {
-            Discussion d = Find(session, accountid, name, objectid, sec);
+            Discussion d = Find(session, accountid, type, objectid, sec);
 
             if (d == null)
             {
@@ -414,21 +452,36 @@ namespace SnCore.Services
 
         public static int GetOrCreateDiscussionId(
             ISession session,
-            int accountid,
-            string name,
+            string typename,
             int objectid,
             ManagedSecurityContext sec)
         {
-            Discussion d = Find(session, accountid, name, objectid, sec);
+            ManagedDiscussionMapEntry mapentry = ManagedDiscussionMap.Find(
+                Assembly.GetAssembly(typeof(Account)).GetType(typename));
+            // find the owner's account id
+            int account_id = mapentry.GetAccountId(session, objectid);
+            return GetOrCreateDiscussionId(session, account_id, mapentry.Type, objectid, sec);
+        }
+
+        private static int GetOrCreateDiscussionId(
+            ISession session,
+            int accountid,
+            Type type,
+            int objectid,
+            ManagedSecurityContext sec)
+        {
+            Discussion d = Find(session, accountid, type, objectid, sec);
 
             if (d != null)
             {
                 return d.Id;
             }
 
+            ManagedDiscussionMapEntry mapentry = ManagedDiscussionMap.Find(type);
+
             TransitDiscussion td = new TransitDiscussion();
             td.AccountId = accountid;
-            td.Name = name;
+            td.Name = mapentry.Name;
             td.Personal = true;
             td.Description = string.Empty;
             td.Created = td.Modified = DateTime.UtcNow;
@@ -480,6 +533,19 @@ namespace SnCore.Services
             TransitDiscussion t_instance = base.GetTransitInstance(sec);
             t_instance.PostCount = GetDiscussionPostCount(Session, Id);
             t_instance.ThreadCount = GetDiscussionThreadCount(Session, Id);
+
+            if (t_instance.Personal && t_instance.ObjectId > 0)
+            {
+                ManagedDiscussionMapEntry mapentry;
+
+                if (ManagedDiscussionMap.TryFind(Name, out mapentry))
+                {
+                    t_instance.ParentObjectName = mapentry.GetObjectName(Session, t_instance.ObjectId);
+                    t_instance.ParentObjectType = mapentry.Type.Name;
+                    t_instance.ParentObjectUri = string.Format(mapentry.PublicUriFormat, t_instance.ObjectId);
+                }
+            }
+
             return t_instance;
         }
     }

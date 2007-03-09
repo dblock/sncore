@@ -32,27 +32,9 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfDiscussion))]
     public partial class WebDiscussionService : System.Web.Services.Protocols.SoapHttpClientProtocol {
         
-        private System.Threading.SendOrPostCallback GetOrCreateAccountTagsDiscussionIdOperationCompleted;
+        private System.Threading.SendOrPostCallback GetOrCreateDiscussionIdOperationCompleted;
         
-        private System.Threading.SendOrPostCallback GetOrCreateAccountPictureDiscussionIdOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback GetOrCreateAccountEventPictureDiscussionIdOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback GetOrCreatePlacePictureDiscussionIdOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback GetOrCreateAccountStoryPictureDiscussionIdOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback GetOrCreateAccountStoryDiscussionIdOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback GetOrCreatePlaceDiscussionIdOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback GetOrCreateAccountEventDiscussionIdOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback GetOrCreateAccountFeedItemDiscussionIdOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback GetOrCreateAccountBlogPostDiscussionIdOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback GetDiscussionIdOperationCompleted;
+        private System.Threading.SendOrPostCallback GetDiscussionRedirectUriOperationCompleted;
         
         private System.Threading.SendOrPostCallback CreateOrUpdateDiscussionOperationCompleted;
         
@@ -108,26 +90,6 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
         
         private System.Threading.SendOrPostCallback GetDiscussionThreadByIdOperationCompleted;
         
-        private System.Threading.SendOrPostCallback GetAccountEventDiscussionNameOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback GetAccountEventPictureDiscussionNameOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback GetAccountPictureDiscussionNameOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback GetPlacePictureDiscussionNameOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback GetAccountStoryDiscussionNameOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback GetAccountStoryPictureDiscussionNameOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback GetAccountTagsDiscussionNameOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback GetPlaceDiscussionNameOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback GetAccountFeedItemDiscussionNameOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback GetAccountBlogPostDiscussionNameOperationCompleted;
-        
         private System.Threading.SendOrPostCallback SearchDiscussionPostsOperationCompleted;
         
         private System.Threading.SendOrPostCallback SearchDiscussionPostsCountOperationCompleted;
@@ -175,37 +137,10 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
         }
         
         /// <remarks/>
-        public event GetOrCreateAccountTagsDiscussionIdCompletedEventHandler GetOrCreateAccountTagsDiscussionIdCompleted;
+        public event GetOrCreateDiscussionIdCompletedEventHandler GetOrCreateDiscussionIdCompleted;
         
         /// <remarks/>
-        public event GetOrCreateAccountPictureDiscussionIdCompletedEventHandler GetOrCreateAccountPictureDiscussionIdCompleted;
-        
-        /// <remarks/>
-        public event GetOrCreateAccountEventPictureDiscussionIdCompletedEventHandler GetOrCreateAccountEventPictureDiscussionIdCompleted;
-        
-        /// <remarks/>
-        public event GetOrCreatePlacePictureDiscussionIdCompletedEventHandler GetOrCreatePlacePictureDiscussionIdCompleted;
-        
-        /// <remarks/>
-        public event GetOrCreateAccountStoryPictureDiscussionIdCompletedEventHandler GetOrCreateAccountStoryPictureDiscussionIdCompleted;
-        
-        /// <remarks/>
-        public event GetOrCreateAccountStoryDiscussionIdCompletedEventHandler GetOrCreateAccountStoryDiscussionIdCompleted;
-        
-        /// <remarks/>
-        public event GetOrCreatePlaceDiscussionIdCompletedEventHandler GetOrCreatePlaceDiscussionIdCompleted;
-        
-        /// <remarks/>
-        public event GetOrCreateAccountEventDiscussionIdCompletedEventHandler GetOrCreateAccountEventDiscussionIdCompleted;
-        
-        /// <remarks/>
-        public event GetOrCreateAccountFeedItemDiscussionIdCompletedEventHandler GetOrCreateAccountFeedItemDiscussionIdCompleted;
-        
-        /// <remarks/>
-        public event GetOrCreateAccountBlogPostDiscussionIdCompletedEventHandler GetOrCreateAccountBlogPostDiscussionIdCompleted;
-        
-        /// <remarks/>
-        public event GetDiscussionIdCompletedEventHandler GetDiscussionIdCompleted;
+        public event GetDiscussionRedirectUriCompletedEventHandler GetDiscussionRedirectUriCompleted;
         
         /// <remarks/>
         public event CreateOrUpdateDiscussionCompletedEventHandler CreateOrUpdateDiscussionCompleted;
@@ -289,36 +224,6 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
         public event GetDiscussionThreadByIdCompletedEventHandler GetDiscussionThreadByIdCompleted;
         
         /// <remarks/>
-        public event GetAccountEventDiscussionNameCompletedEventHandler GetAccountEventDiscussionNameCompleted;
-        
-        /// <remarks/>
-        public event GetAccountEventPictureDiscussionNameCompletedEventHandler GetAccountEventPictureDiscussionNameCompleted;
-        
-        /// <remarks/>
-        public event GetAccountPictureDiscussionNameCompletedEventHandler GetAccountPictureDiscussionNameCompleted;
-        
-        /// <remarks/>
-        public event GetPlacePictureDiscussionNameCompletedEventHandler GetPlacePictureDiscussionNameCompleted;
-        
-        /// <remarks/>
-        public event GetAccountStoryDiscussionNameCompletedEventHandler GetAccountStoryDiscussionNameCompleted;
-        
-        /// <remarks/>
-        public event GetAccountStoryPictureDiscussionNameCompletedEventHandler GetAccountStoryPictureDiscussionNameCompleted;
-        
-        /// <remarks/>
-        public event GetAccountTagsDiscussionNameCompletedEventHandler GetAccountTagsDiscussionNameCompleted;
-        
-        /// <remarks/>
-        public event GetPlaceDiscussionNameCompletedEventHandler GetPlaceDiscussionNameCompleted;
-        
-        /// <remarks/>
-        public event GetAccountFeedItemDiscussionNameCompletedEventHandler GetAccountFeedItemDiscussionNameCompleted;
-        
-        /// <remarks/>
-        public event GetAccountBlogPostDiscussionNameCompletedEventHandler GetAccountBlogPostDiscussionNameCompleted;
-        
-        /// <remarks/>
         public event SearchDiscussionPostsCompletedEventHandler SearchDiscussionPostsCompleted;
         
         /// <remarks/>
@@ -331,345 +236,66 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
         public event SearchDiscussionPostsByIdCountCompletedEventHandler SearchDiscussionPostsByIdCountCompleted;
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetOrCreateAccountTagsDiscussionId", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int GetOrCreateAccountTagsDiscussionId(string ticket, int id) {
-            object[] results = this.Invoke("GetOrCreateAccountTagsDiscussionId", new object[] {
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetOrCreateDiscussionId", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetOrCreateDiscussionId(string ticket, string typename, int id) {
+            object[] results = this.Invoke("GetOrCreateDiscussionId", new object[] {
                         ticket,
+                        typename,
                         id});
             return ((int)(results[0]));
         }
         
         /// <remarks/>
-        public void GetOrCreateAccountTagsDiscussionIdAsync(string ticket, int id) {
-            this.GetOrCreateAccountTagsDiscussionIdAsync(ticket, id, null);
+        public void GetOrCreateDiscussionIdAsync(string ticket, string typename, int id) {
+            this.GetOrCreateDiscussionIdAsync(ticket, typename, id, null);
         }
         
         /// <remarks/>
-        public void GetOrCreateAccountTagsDiscussionIdAsync(string ticket, int id, object userState) {
-            if ((this.GetOrCreateAccountTagsDiscussionIdOperationCompleted == null)) {
-                this.GetOrCreateAccountTagsDiscussionIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetOrCreateAccountTagsDiscussionIdOperationCompleted);
+        public void GetOrCreateDiscussionIdAsync(string ticket, string typename, int id, object userState) {
+            if ((this.GetOrCreateDiscussionIdOperationCompleted == null)) {
+                this.GetOrCreateDiscussionIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetOrCreateDiscussionIdOperationCompleted);
             }
-            this.InvokeAsync("GetOrCreateAccountTagsDiscussionId", new object[] {
+            this.InvokeAsync("GetOrCreateDiscussionId", new object[] {
                         ticket,
-                        id}, this.GetOrCreateAccountTagsDiscussionIdOperationCompleted, userState);
+                        typename,
+                        id}, this.GetOrCreateDiscussionIdOperationCompleted, userState);
         }
         
-        private void OnGetOrCreateAccountTagsDiscussionIdOperationCompleted(object arg) {
-            if ((this.GetOrCreateAccountTagsDiscussionIdCompleted != null)) {
+        private void OnGetOrCreateDiscussionIdOperationCompleted(object arg) {
+            if ((this.GetOrCreateDiscussionIdCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetOrCreateAccountTagsDiscussionIdCompleted(this, new GetOrCreateAccountTagsDiscussionIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+                this.GetOrCreateDiscussionIdCompleted(this, new GetOrCreateDiscussionIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetOrCreateAccountPictureDiscussionId", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int GetOrCreateAccountPictureDiscussionId(string ticket, int id) {
-            object[] results = this.Invoke("GetOrCreateAccountPictureDiscussionId", new object[] {
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetDiscussionRedirectUri", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string GetDiscussionRedirectUri(string ticket, int id) {
+            object[] results = this.Invoke("GetDiscussionRedirectUri", new object[] {
                         ticket,
                         id});
-            return ((int)(results[0]));
+            return ((string)(results[0]));
         }
         
         /// <remarks/>
-        public void GetOrCreateAccountPictureDiscussionIdAsync(string ticket, int id) {
-            this.GetOrCreateAccountPictureDiscussionIdAsync(ticket, id, null);
+        public void GetDiscussionRedirectUriAsync(string ticket, int id) {
+            this.GetDiscussionRedirectUriAsync(ticket, id, null);
         }
         
         /// <remarks/>
-        public void GetOrCreateAccountPictureDiscussionIdAsync(string ticket, int id, object userState) {
-            if ((this.GetOrCreateAccountPictureDiscussionIdOperationCompleted == null)) {
-                this.GetOrCreateAccountPictureDiscussionIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetOrCreateAccountPictureDiscussionIdOperationCompleted);
+        public void GetDiscussionRedirectUriAsync(string ticket, int id, object userState) {
+            if ((this.GetDiscussionRedirectUriOperationCompleted == null)) {
+                this.GetDiscussionRedirectUriOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetDiscussionRedirectUriOperationCompleted);
             }
-            this.InvokeAsync("GetOrCreateAccountPictureDiscussionId", new object[] {
+            this.InvokeAsync("GetDiscussionRedirectUri", new object[] {
                         ticket,
-                        id}, this.GetOrCreateAccountPictureDiscussionIdOperationCompleted, userState);
+                        id}, this.GetDiscussionRedirectUriOperationCompleted, userState);
         }
         
-        private void OnGetOrCreateAccountPictureDiscussionIdOperationCompleted(object arg) {
-            if ((this.GetOrCreateAccountPictureDiscussionIdCompleted != null)) {
+        private void OnGetDiscussionRedirectUriOperationCompleted(object arg) {
+            if ((this.GetDiscussionRedirectUriCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetOrCreateAccountPictureDiscussionIdCompleted(this, new GetOrCreateAccountPictureDiscussionIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetOrCreateAccountEventPictureDiscussionId", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int GetOrCreateAccountEventPictureDiscussionId(string ticket, int id) {
-            object[] results = this.Invoke("GetOrCreateAccountEventPictureDiscussionId", new object[] {
-                        ticket,
-                        id});
-            return ((int)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetOrCreateAccountEventPictureDiscussionIdAsync(string ticket, int id) {
-            this.GetOrCreateAccountEventPictureDiscussionIdAsync(ticket, id, null);
-        }
-        
-        /// <remarks/>
-        public void GetOrCreateAccountEventPictureDiscussionIdAsync(string ticket, int id, object userState) {
-            if ((this.GetOrCreateAccountEventPictureDiscussionIdOperationCompleted == null)) {
-                this.GetOrCreateAccountEventPictureDiscussionIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetOrCreateAccountEventPictureDiscussionIdOperationCompleted);
-            }
-            this.InvokeAsync("GetOrCreateAccountEventPictureDiscussionId", new object[] {
-                        ticket,
-                        id}, this.GetOrCreateAccountEventPictureDiscussionIdOperationCompleted, userState);
-        }
-        
-        private void OnGetOrCreateAccountEventPictureDiscussionIdOperationCompleted(object arg) {
-            if ((this.GetOrCreateAccountEventPictureDiscussionIdCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetOrCreateAccountEventPictureDiscussionIdCompleted(this, new GetOrCreateAccountEventPictureDiscussionIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetOrCreatePlacePictureDiscussionId", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int GetOrCreatePlacePictureDiscussionId(string ticket, int id) {
-            object[] results = this.Invoke("GetOrCreatePlacePictureDiscussionId", new object[] {
-                        ticket,
-                        id});
-            return ((int)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetOrCreatePlacePictureDiscussionIdAsync(string ticket, int id) {
-            this.GetOrCreatePlacePictureDiscussionIdAsync(ticket, id, null);
-        }
-        
-        /// <remarks/>
-        public void GetOrCreatePlacePictureDiscussionIdAsync(string ticket, int id, object userState) {
-            if ((this.GetOrCreatePlacePictureDiscussionIdOperationCompleted == null)) {
-                this.GetOrCreatePlacePictureDiscussionIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetOrCreatePlacePictureDiscussionIdOperationCompleted);
-            }
-            this.InvokeAsync("GetOrCreatePlacePictureDiscussionId", new object[] {
-                        ticket,
-                        id}, this.GetOrCreatePlacePictureDiscussionIdOperationCompleted, userState);
-        }
-        
-        private void OnGetOrCreatePlacePictureDiscussionIdOperationCompleted(object arg) {
-            if ((this.GetOrCreatePlacePictureDiscussionIdCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetOrCreatePlacePictureDiscussionIdCompleted(this, new GetOrCreatePlacePictureDiscussionIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetOrCreateAccountStoryPictureDiscussionId", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int GetOrCreateAccountStoryPictureDiscussionId(string ticket, int id) {
-            object[] results = this.Invoke("GetOrCreateAccountStoryPictureDiscussionId", new object[] {
-                        ticket,
-                        id});
-            return ((int)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetOrCreateAccountStoryPictureDiscussionIdAsync(string ticket, int id) {
-            this.GetOrCreateAccountStoryPictureDiscussionIdAsync(ticket, id, null);
-        }
-        
-        /// <remarks/>
-        public void GetOrCreateAccountStoryPictureDiscussionIdAsync(string ticket, int id, object userState) {
-            if ((this.GetOrCreateAccountStoryPictureDiscussionIdOperationCompleted == null)) {
-                this.GetOrCreateAccountStoryPictureDiscussionIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetOrCreateAccountStoryPictureDiscussionIdOperationCompleted);
-            }
-            this.InvokeAsync("GetOrCreateAccountStoryPictureDiscussionId", new object[] {
-                        ticket,
-                        id}, this.GetOrCreateAccountStoryPictureDiscussionIdOperationCompleted, userState);
-        }
-        
-        private void OnGetOrCreateAccountStoryPictureDiscussionIdOperationCompleted(object arg) {
-            if ((this.GetOrCreateAccountStoryPictureDiscussionIdCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetOrCreateAccountStoryPictureDiscussionIdCompleted(this, new GetOrCreateAccountStoryPictureDiscussionIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetOrCreateAccountStoryDiscussionId", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int GetOrCreateAccountStoryDiscussionId(string ticket, int id) {
-            object[] results = this.Invoke("GetOrCreateAccountStoryDiscussionId", new object[] {
-                        ticket,
-                        id});
-            return ((int)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetOrCreateAccountStoryDiscussionIdAsync(string ticket, int id) {
-            this.GetOrCreateAccountStoryDiscussionIdAsync(ticket, id, null);
-        }
-        
-        /// <remarks/>
-        public void GetOrCreateAccountStoryDiscussionIdAsync(string ticket, int id, object userState) {
-            if ((this.GetOrCreateAccountStoryDiscussionIdOperationCompleted == null)) {
-                this.GetOrCreateAccountStoryDiscussionIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetOrCreateAccountStoryDiscussionIdOperationCompleted);
-            }
-            this.InvokeAsync("GetOrCreateAccountStoryDiscussionId", new object[] {
-                        ticket,
-                        id}, this.GetOrCreateAccountStoryDiscussionIdOperationCompleted, userState);
-        }
-        
-        private void OnGetOrCreateAccountStoryDiscussionIdOperationCompleted(object arg) {
-            if ((this.GetOrCreateAccountStoryDiscussionIdCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetOrCreateAccountStoryDiscussionIdCompleted(this, new GetOrCreateAccountStoryDiscussionIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetOrCreatePlaceDiscussionId", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int GetOrCreatePlaceDiscussionId(string ticket, int id) {
-            object[] results = this.Invoke("GetOrCreatePlaceDiscussionId", new object[] {
-                        ticket,
-                        id});
-            return ((int)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetOrCreatePlaceDiscussionIdAsync(string ticket, int id) {
-            this.GetOrCreatePlaceDiscussionIdAsync(ticket, id, null);
-        }
-        
-        /// <remarks/>
-        public void GetOrCreatePlaceDiscussionIdAsync(string ticket, int id, object userState) {
-            if ((this.GetOrCreatePlaceDiscussionIdOperationCompleted == null)) {
-                this.GetOrCreatePlaceDiscussionIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetOrCreatePlaceDiscussionIdOperationCompleted);
-            }
-            this.InvokeAsync("GetOrCreatePlaceDiscussionId", new object[] {
-                        ticket,
-                        id}, this.GetOrCreatePlaceDiscussionIdOperationCompleted, userState);
-        }
-        
-        private void OnGetOrCreatePlaceDiscussionIdOperationCompleted(object arg) {
-            if ((this.GetOrCreatePlaceDiscussionIdCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetOrCreatePlaceDiscussionIdCompleted(this, new GetOrCreatePlaceDiscussionIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetOrCreateAccountEventDiscussionId", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int GetOrCreateAccountEventDiscussionId(string ticket, int id) {
-            object[] results = this.Invoke("GetOrCreateAccountEventDiscussionId", new object[] {
-                        ticket,
-                        id});
-            return ((int)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetOrCreateAccountEventDiscussionIdAsync(string ticket, int id) {
-            this.GetOrCreateAccountEventDiscussionIdAsync(ticket, id, null);
-        }
-        
-        /// <remarks/>
-        public void GetOrCreateAccountEventDiscussionIdAsync(string ticket, int id, object userState) {
-            if ((this.GetOrCreateAccountEventDiscussionIdOperationCompleted == null)) {
-                this.GetOrCreateAccountEventDiscussionIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetOrCreateAccountEventDiscussionIdOperationCompleted);
-            }
-            this.InvokeAsync("GetOrCreateAccountEventDiscussionId", new object[] {
-                        ticket,
-                        id}, this.GetOrCreateAccountEventDiscussionIdOperationCompleted, userState);
-        }
-        
-        private void OnGetOrCreateAccountEventDiscussionIdOperationCompleted(object arg) {
-            if ((this.GetOrCreateAccountEventDiscussionIdCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetOrCreateAccountEventDiscussionIdCompleted(this, new GetOrCreateAccountEventDiscussionIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetOrCreateAccountFeedItemDiscussionId", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int GetOrCreateAccountFeedItemDiscussionId(string ticket, int id) {
-            object[] results = this.Invoke("GetOrCreateAccountFeedItemDiscussionId", new object[] {
-                        ticket,
-                        id});
-            return ((int)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetOrCreateAccountFeedItemDiscussionIdAsync(string ticket, int id) {
-            this.GetOrCreateAccountFeedItemDiscussionIdAsync(ticket, id, null);
-        }
-        
-        /// <remarks/>
-        public void GetOrCreateAccountFeedItemDiscussionIdAsync(string ticket, int id, object userState) {
-            if ((this.GetOrCreateAccountFeedItemDiscussionIdOperationCompleted == null)) {
-                this.GetOrCreateAccountFeedItemDiscussionIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetOrCreateAccountFeedItemDiscussionIdOperationCompleted);
-            }
-            this.InvokeAsync("GetOrCreateAccountFeedItemDiscussionId", new object[] {
-                        ticket,
-                        id}, this.GetOrCreateAccountFeedItemDiscussionIdOperationCompleted, userState);
-        }
-        
-        private void OnGetOrCreateAccountFeedItemDiscussionIdOperationCompleted(object arg) {
-            if ((this.GetOrCreateAccountFeedItemDiscussionIdCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetOrCreateAccountFeedItemDiscussionIdCompleted(this, new GetOrCreateAccountFeedItemDiscussionIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetOrCreateAccountBlogPostDiscussionId", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int GetOrCreateAccountBlogPostDiscussionId(string ticket, int id) {
-            object[] results = this.Invoke("GetOrCreateAccountBlogPostDiscussionId", new object[] {
-                        ticket,
-                        id});
-            return ((int)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetOrCreateAccountBlogPostDiscussionIdAsync(string ticket, int id) {
-            this.GetOrCreateAccountBlogPostDiscussionIdAsync(ticket, id, null);
-        }
-        
-        /// <remarks/>
-        public void GetOrCreateAccountBlogPostDiscussionIdAsync(string ticket, int id, object userState) {
-            if ((this.GetOrCreateAccountBlogPostDiscussionIdOperationCompleted == null)) {
-                this.GetOrCreateAccountBlogPostDiscussionIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetOrCreateAccountBlogPostDiscussionIdOperationCompleted);
-            }
-            this.InvokeAsync("GetOrCreateAccountBlogPostDiscussionId", new object[] {
-                        ticket,
-                        id}, this.GetOrCreateAccountBlogPostDiscussionIdOperationCompleted, userState);
-        }
-        
-        private void OnGetOrCreateAccountBlogPostDiscussionIdOperationCompleted(object arg) {
-            if ((this.GetOrCreateAccountBlogPostDiscussionIdCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetOrCreateAccountBlogPostDiscussionIdCompleted(this, new GetOrCreateAccountBlogPostDiscussionIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetDiscussionId", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int GetDiscussionId(string ticket, int accountid, string name) {
-            object[] results = this.Invoke("GetDiscussionId", new object[] {
-                        ticket,
-                        accountid,
-                        name});
-            return ((int)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetDiscussionIdAsync(string ticket, int accountid, string name) {
-            this.GetDiscussionIdAsync(ticket, accountid, name, null);
-        }
-        
-        /// <remarks/>
-        public void GetDiscussionIdAsync(string ticket, int accountid, string name, object userState) {
-            if ((this.GetDiscussionIdOperationCompleted == null)) {
-                this.GetDiscussionIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetDiscussionIdOperationCompleted);
-            }
-            this.InvokeAsync("GetDiscussionId", new object[] {
-                        ticket,
-                        accountid,
-                        name}, this.GetDiscussionIdOperationCompleted, userState);
-        }
-        
-        private void OnGetDiscussionIdOperationCompleted(object arg) {
-            if ((this.GetDiscussionIdCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetDiscussionIdCompleted(this, new GetDiscussionIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+                this.GetDiscussionRedirectUriCompleted(this, new GetDiscussionRedirectUriCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1514,276 +1140,6 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountEventDiscussionName", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public string GetAccountEventDiscussionName() {
-            object[] results = this.Invoke("GetAccountEventDiscussionName", new object[0]);
-            return ((string)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetAccountEventDiscussionNameAsync() {
-            this.GetAccountEventDiscussionNameAsync(null);
-        }
-        
-        /// <remarks/>
-        public void GetAccountEventDiscussionNameAsync(object userState) {
-            if ((this.GetAccountEventDiscussionNameOperationCompleted == null)) {
-                this.GetAccountEventDiscussionNameOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountEventDiscussionNameOperationCompleted);
-            }
-            this.InvokeAsync("GetAccountEventDiscussionName", new object[0], this.GetAccountEventDiscussionNameOperationCompleted, userState);
-        }
-        
-        private void OnGetAccountEventDiscussionNameOperationCompleted(object arg) {
-            if ((this.GetAccountEventDiscussionNameCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetAccountEventDiscussionNameCompleted(this, new GetAccountEventDiscussionNameCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountEventPictureDiscussionName", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public string GetAccountEventPictureDiscussionName() {
-            object[] results = this.Invoke("GetAccountEventPictureDiscussionName", new object[0]);
-            return ((string)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetAccountEventPictureDiscussionNameAsync() {
-            this.GetAccountEventPictureDiscussionNameAsync(null);
-        }
-        
-        /// <remarks/>
-        public void GetAccountEventPictureDiscussionNameAsync(object userState) {
-            if ((this.GetAccountEventPictureDiscussionNameOperationCompleted == null)) {
-                this.GetAccountEventPictureDiscussionNameOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountEventPictureDiscussionNameOperationCompleted);
-            }
-            this.InvokeAsync("GetAccountEventPictureDiscussionName", new object[0], this.GetAccountEventPictureDiscussionNameOperationCompleted, userState);
-        }
-        
-        private void OnGetAccountEventPictureDiscussionNameOperationCompleted(object arg) {
-            if ((this.GetAccountEventPictureDiscussionNameCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetAccountEventPictureDiscussionNameCompleted(this, new GetAccountEventPictureDiscussionNameCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountPictureDiscussionName", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public string GetAccountPictureDiscussionName() {
-            object[] results = this.Invoke("GetAccountPictureDiscussionName", new object[0]);
-            return ((string)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetAccountPictureDiscussionNameAsync() {
-            this.GetAccountPictureDiscussionNameAsync(null);
-        }
-        
-        /// <remarks/>
-        public void GetAccountPictureDiscussionNameAsync(object userState) {
-            if ((this.GetAccountPictureDiscussionNameOperationCompleted == null)) {
-                this.GetAccountPictureDiscussionNameOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountPictureDiscussionNameOperationCompleted);
-            }
-            this.InvokeAsync("GetAccountPictureDiscussionName", new object[0], this.GetAccountPictureDiscussionNameOperationCompleted, userState);
-        }
-        
-        private void OnGetAccountPictureDiscussionNameOperationCompleted(object arg) {
-            if ((this.GetAccountPictureDiscussionNameCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetAccountPictureDiscussionNameCompleted(this, new GetAccountPictureDiscussionNameCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetPlacePictureDiscussionName", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public string GetPlacePictureDiscussionName() {
-            object[] results = this.Invoke("GetPlacePictureDiscussionName", new object[0]);
-            return ((string)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetPlacePictureDiscussionNameAsync() {
-            this.GetPlacePictureDiscussionNameAsync(null);
-        }
-        
-        /// <remarks/>
-        public void GetPlacePictureDiscussionNameAsync(object userState) {
-            if ((this.GetPlacePictureDiscussionNameOperationCompleted == null)) {
-                this.GetPlacePictureDiscussionNameOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetPlacePictureDiscussionNameOperationCompleted);
-            }
-            this.InvokeAsync("GetPlacePictureDiscussionName", new object[0], this.GetPlacePictureDiscussionNameOperationCompleted, userState);
-        }
-        
-        private void OnGetPlacePictureDiscussionNameOperationCompleted(object arg) {
-            if ((this.GetPlacePictureDiscussionNameCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetPlacePictureDiscussionNameCompleted(this, new GetPlacePictureDiscussionNameCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountStoryDiscussionName", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public string GetAccountStoryDiscussionName() {
-            object[] results = this.Invoke("GetAccountStoryDiscussionName", new object[0]);
-            return ((string)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetAccountStoryDiscussionNameAsync() {
-            this.GetAccountStoryDiscussionNameAsync(null);
-        }
-        
-        /// <remarks/>
-        public void GetAccountStoryDiscussionNameAsync(object userState) {
-            if ((this.GetAccountStoryDiscussionNameOperationCompleted == null)) {
-                this.GetAccountStoryDiscussionNameOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountStoryDiscussionNameOperationCompleted);
-            }
-            this.InvokeAsync("GetAccountStoryDiscussionName", new object[0], this.GetAccountStoryDiscussionNameOperationCompleted, userState);
-        }
-        
-        private void OnGetAccountStoryDiscussionNameOperationCompleted(object arg) {
-            if ((this.GetAccountStoryDiscussionNameCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetAccountStoryDiscussionNameCompleted(this, new GetAccountStoryDiscussionNameCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountStoryPictureDiscussionName", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public string GetAccountStoryPictureDiscussionName() {
-            object[] results = this.Invoke("GetAccountStoryPictureDiscussionName", new object[0]);
-            return ((string)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetAccountStoryPictureDiscussionNameAsync() {
-            this.GetAccountStoryPictureDiscussionNameAsync(null);
-        }
-        
-        /// <remarks/>
-        public void GetAccountStoryPictureDiscussionNameAsync(object userState) {
-            if ((this.GetAccountStoryPictureDiscussionNameOperationCompleted == null)) {
-                this.GetAccountStoryPictureDiscussionNameOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountStoryPictureDiscussionNameOperationCompleted);
-            }
-            this.InvokeAsync("GetAccountStoryPictureDiscussionName", new object[0], this.GetAccountStoryPictureDiscussionNameOperationCompleted, userState);
-        }
-        
-        private void OnGetAccountStoryPictureDiscussionNameOperationCompleted(object arg) {
-            if ((this.GetAccountStoryPictureDiscussionNameCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetAccountStoryPictureDiscussionNameCompleted(this, new GetAccountStoryPictureDiscussionNameCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountTagsDiscussionName", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public string GetAccountTagsDiscussionName() {
-            object[] results = this.Invoke("GetAccountTagsDiscussionName", new object[0]);
-            return ((string)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetAccountTagsDiscussionNameAsync() {
-            this.GetAccountTagsDiscussionNameAsync(null);
-        }
-        
-        /// <remarks/>
-        public void GetAccountTagsDiscussionNameAsync(object userState) {
-            if ((this.GetAccountTagsDiscussionNameOperationCompleted == null)) {
-                this.GetAccountTagsDiscussionNameOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountTagsDiscussionNameOperationCompleted);
-            }
-            this.InvokeAsync("GetAccountTagsDiscussionName", new object[0], this.GetAccountTagsDiscussionNameOperationCompleted, userState);
-        }
-        
-        private void OnGetAccountTagsDiscussionNameOperationCompleted(object arg) {
-            if ((this.GetAccountTagsDiscussionNameCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetAccountTagsDiscussionNameCompleted(this, new GetAccountTagsDiscussionNameCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetPlaceDiscussionName", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public string GetPlaceDiscussionName() {
-            object[] results = this.Invoke("GetPlaceDiscussionName", new object[0]);
-            return ((string)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetPlaceDiscussionNameAsync() {
-            this.GetPlaceDiscussionNameAsync(null);
-        }
-        
-        /// <remarks/>
-        public void GetPlaceDiscussionNameAsync(object userState) {
-            if ((this.GetPlaceDiscussionNameOperationCompleted == null)) {
-                this.GetPlaceDiscussionNameOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetPlaceDiscussionNameOperationCompleted);
-            }
-            this.InvokeAsync("GetPlaceDiscussionName", new object[0], this.GetPlaceDiscussionNameOperationCompleted, userState);
-        }
-        
-        private void OnGetPlaceDiscussionNameOperationCompleted(object arg) {
-            if ((this.GetPlaceDiscussionNameCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetPlaceDiscussionNameCompleted(this, new GetPlaceDiscussionNameCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountFeedItemDiscussionName", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public string GetAccountFeedItemDiscussionName() {
-            object[] results = this.Invoke("GetAccountFeedItemDiscussionName", new object[0]);
-            return ((string)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetAccountFeedItemDiscussionNameAsync() {
-            this.GetAccountFeedItemDiscussionNameAsync(null);
-        }
-        
-        /// <remarks/>
-        public void GetAccountFeedItemDiscussionNameAsync(object userState) {
-            if ((this.GetAccountFeedItemDiscussionNameOperationCompleted == null)) {
-                this.GetAccountFeedItemDiscussionNameOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountFeedItemDiscussionNameOperationCompleted);
-            }
-            this.InvokeAsync("GetAccountFeedItemDiscussionName", new object[0], this.GetAccountFeedItemDiscussionNameOperationCompleted, userState);
-        }
-        
-        private void OnGetAccountFeedItemDiscussionNameOperationCompleted(object arg) {
-            if ((this.GetAccountFeedItemDiscussionNameCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetAccountFeedItemDiscussionNameCompleted(this, new GetAccountFeedItemDiscussionNameCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountBlogPostDiscussionName", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public string GetAccountBlogPostDiscussionName() {
-            object[] results = this.Invoke("GetAccountBlogPostDiscussionName", new object[0]);
-            return ((string)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetAccountBlogPostDiscussionNameAsync() {
-            this.GetAccountBlogPostDiscussionNameAsync(null);
-        }
-        
-        /// <remarks/>
-        public void GetAccountBlogPostDiscussionNameAsync(object userState) {
-            if ((this.GetAccountBlogPostDiscussionNameOperationCompleted == null)) {
-                this.GetAccountBlogPostDiscussionNameOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountBlogPostDiscussionNameOperationCompleted);
-            }
-            this.InvokeAsync("GetAccountBlogPostDiscussionName", new object[0], this.GetAccountBlogPostDiscussionNameOperationCompleted, userState);
-        }
-        
-        private void OnGetAccountBlogPostDiscussionNameOperationCompleted(object arg) {
-            if ((this.GetAccountBlogPostDiscussionNameCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetAccountBlogPostDiscussionNameCompleted(this, new GetAccountBlogPostDiscussionNameCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/SearchDiscussionPosts", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public TransitDiscussionPost[] SearchDiscussionPosts(string ticket, string s, ServiceQueryOptions options) {
             object[] results = this.Invoke("SearchDiscussionPosts", new object[] {
@@ -1960,6 +1316,12 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
         
         private int threadCountField;
         
+        private string parentObjectNameField;
+        
+        private string parentObjectUriField;
+        
+        private string parentObjectTypeField;
+        
         /// <remarks/>
         public string Name {
             get {
@@ -2047,6 +1409,36 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
             }
             set {
                 this.threadCountField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string ParentObjectName {
+            get {
+                return this.parentObjectNameField;
+            }
+            set {
+                this.parentObjectNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string ParentObjectUri {
+            get {
+                return this.parentObjectUriField;
+            }
+            set {
+                this.parentObjectUriField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string ParentObjectType {
+            get {
+                return this.parentObjectTypeField;
+            }
+            set {
+                this.parentObjectTypeField = value;
             }
         }
     }
@@ -2443,17 +1835,17 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    public delegate void GetOrCreateAccountTagsDiscussionIdCompletedEventHandler(object sender, GetOrCreateAccountTagsDiscussionIdCompletedEventArgs e);
+    public delegate void GetOrCreateDiscussionIdCompletedEventHandler(object sender, GetOrCreateDiscussionIdCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetOrCreateAccountTagsDiscussionIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    public partial class GetOrCreateDiscussionIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
         
-        internal GetOrCreateAccountTagsDiscussionIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+        internal GetOrCreateDiscussionIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
@@ -2469,260 +1861,26 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    public delegate void GetOrCreateAccountPictureDiscussionIdCompletedEventHandler(object sender, GetOrCreateAccountPictureDiscussionIdCompletedEventArgs e);
+    public delegate void GetDiscussionRedirectUriCompletedEventHandler(object sender, GetDiscussionRedirectUriCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetOrCreateAccountPictureDiscussionIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    public partial class GetDiscussionRedirectUriCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
         
-        internal GetOrCreateAccountPictureDiscussionIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+        internal GetDiscussionRedirectUriCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
         
         /// <remarks/>
-        public int Result {
+        public string Result {
             get {
                 this.RaiseExceptionIfNecessary();
-                return ((int)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    public delegate void GetOrCreateAccountEventPictureDiscussionIdCompletedEventHandler(object sender, GetOrCreateAccountEventPictureDiscussionIdCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetOrCreateAccountEventPictureDiscussionIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetOrCreateAccountEventPictureDiscussionIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public int Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((int)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    public delegate void GetOrCreatePlacePictureDiscussionIdCompletedEventHandler(object sender, GetOrCreatePlacePictureDiscussionIdCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetOrCreatePlacePictureDiscussionIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetOrCreatePlacePictureDiscussionIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public int Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((int)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    public delegate void GetOrCreateAccountStoryPictureDiscussionIdCompletedEventHandler(object sender, GetOrCreateAccountStoryPictureDiscussionIdCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetOrCreateAccountStoryPictureDiscussionIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetOrCreateAccountStoryPictureDiscussionIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public int Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((int)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    public delegate void GetOrCreateAccountStoryDiscussionIdCompletedEventHandler(object sender, GetOrCreateAccountStoryDiscussionIdCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetOrCreateAccountStoryDiscussionIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetOrCreateAccountStoryDiscussionIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public int Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((int)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    public delegate void GetOrCreatePlaceDiscussionIdCompletedEventHandler(object sender, GetOrCreatePlaceDiscussionIdCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetOrCreatePlaceDiscussionIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetOrCreatePlaceDiscussionIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public int Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((int)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    public delegate void GetOrCreateAccountEventDiscussionIdCompletedEventHandler(object sender, GetOrCreateAccountEventDiscussionIdCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetOrCreateAccountEventDiscussionIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetOrCreateAccountEventDiscussionIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public int Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((int)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    public delegate void GetOrCreateAccountFeedItemDiscussionIdCompletedEventHandler(object sender, GetOrCreateAccountFeedItemDiscussionIdCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetOrCreateAccountFeedItemDiscussionIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetOrCreateAccountFeedItemDiscussionIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public int Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((int)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    public delegate void GetOrCreateAccountBlogPostDiscussionIdCompletedEventHandler(object sender, GetOrCreateAccountBlogPostDiscussionIdCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetOrCreateAccountBlogPostDiscussionIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetOrCreateAccountBlogPostDiscussionIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public int Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((int)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    public delegate void GetDiscussionIdCompletedEventHandler(object sender, GetDiscussionIdCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetDiscussionIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetDiscussionIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public int Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((int)(this.results[0]));
+                return ((string)(this.results[0]));
             }
         }
     }
@@ -3359,266 +2517,6 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((TransitDiscussionThread)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    public delegate void GetAccountEventDiscussionNameCompletedEventHandler(object sender, GetAccountEventDiscussionNameCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetAccountEventDiscussionNameCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetAccountEventDiscussionNameCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public string Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((string)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    public delegate void GetAccountEventPictureDiscussionNameCompletedEventHandler(object sender, GetAccountEventPictureDiscussionNameCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetAccountEventPictureDiscussionNameCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetAccountEventPictureDiscussionNameCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public string Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((string)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    public delegate void GetAccountPictureDiscussionNameCompletedEventHandler(object sender, GetAccountPictureDiscussionNameCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetAccountPictureDiscussionNameCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetAccountPictureDiscussionNameCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public string Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((string)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    public delegate void GetPlacePictureDiscussionNameCompletedEventHandler(object sender, GetPlacePictureDiscussionNameCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetPlacePictureDiscussionNameCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetPlacePictureDiscussionNameCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public string Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((string)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    public delegate void GetAccountStoryDiscussionNameCompletedEventHandler(object sender, GetAccountStoryDiscussionNameCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetAccountStoryDiscussionNameCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetAccountStoryDiscussionNameCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public string Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((string)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    public delegate void GetAccountStoryPictureDiscussionNameCompletedEventHandler(object sender, GetAccountStoryPictureDiscussionNameCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetAccountStoryPictureDiscussionNameCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetAccountStoryPictureDiscussionNameCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public string Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((string)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    public delegate void GetAccountTagsDiscussionNameCompletedEventHandler(object sender, GetAccountTagsDiscussionNameCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetAccountTagsDiscussionNameCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetAccountTagsDiscussionNameCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public string Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((string)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    public delegate void GetPlaceDiscussionNameCompletedEventHandler(object sender, GetPlaceDiscussionNameCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetPlaceDiscussionNameCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetPlaceDiscussionNameCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public string Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((string)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    public delegate void GetAccountFeedItemDiscussionNameCompletedEventHandler(object sender, GetAccountFeedItemDiscussionNameCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetAccountFeedItemDiscussionNameCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetAccountFeedItemDiscussionNameCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public string Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((string)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    public delegate void GetAccountBlogPostDiscussionNameCompletedEventHandler(object sender, GetAccountBlogPostDiscussionNameCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetAccountBlogPostDiscussionNameCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetAccountBlogPostDiscussionNameCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public string Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((string)(this.results[0]));
             }
         }
     }

@@ -279,7 +279,7 @@ namespace SnCore.Services
         public override void Delete(ManagedSecurityContext sec)
         {
             ManagedDiscussion.FindAndDelete(
-                Session, mInstance.Account.Id, ManagedDiscussion.AccountPictureDiscussion, mInstance.Id, sec);
+                Session, mInstance.Account.Id, typeof(AccountPicture), mInstance.Id, sec);
             mInstance.Account.AccountPictures.Remove(mInstance);
             Session.Delete(mInstance);
         }
@@ -294,7 +294,7 @@ namespace SnCore.Services
             t_instance.SetWithinCollection(mInstance, collection);
             t_instance.CommentCount = ManagedDiscussion.GetDiscussionPostCount(
                 Session, mInstance.Account.Id,
-                ManagedDiscussion.AccountPictureDiscussion, mInstance.Id);
+                typeof(AccountPicture), mInstance.Id);
             t_instance.Counter = ManagedStats.FindByUri(Session, "AccountPicture.aspx", mInstance.Id, sec);
             return t_instance;
         }

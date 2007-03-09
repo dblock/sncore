@@ -70,7 +70,6 @@ public partial class DiscussionPostNew : AuthenticatedPage
         if (!IsPostBack)
         {
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Discussions", Request, "DiscussionsView.aspx"));
 
             this.addFile.Attributes["onclick"] = this.files.GetAddFileScriptReference() + "return false;";
 
@@ -80,9 +79,20 @@ public partial class DiscussionPostNew : AuthenticatedPage
             {
                 TransitDiscussion td = SessionManager.DiscussionService.GetDiscussionById(
                     SessionManager.Ticket, DiscussionId);
-                discussionLabelLink.Text = Renderer.Render(td.Name);
-                discussionLabelLink.NavigateUrl = string.Format("DiscussionView.aspx?id={0}", td.Id);
-                sitemapdata.Add(new SiteMapDataAttributeNode(td.Name, Request, string.Format("DiscussionView.aspx?id={0}", td.Id)));
+
+                if (!string.IsNullOrEmpty(td.ParentObjectName))
+                {
+                    sitemapdata.Add(new SiteMapDataAttributeNode(td.ParentObjectName, Request, td.ParentObjectUri));
+                    discussionLabelLink.Text = Renderer.Render(td.ParentObjectName);
+                    discussionLabelLink.NavigateUrl = td.ParentObjectUri;
+                }
+                else
+                {
+                    discussionLabelLink.Text = Renderer.Render(td.Name);
+                    discussionLabelLink.NavigateUrl = string.Format("DiscussionView.aspx?id={0}", td.Id);
+                    sitemapdata.Add(new SiteMapDataAttributeNode("Discussions", Request, "DiscussionsView.aspx"));
+                    sitemapdata.Add(new SiteMapDataAttributeNode(td.Name, Request, string.Format("DiscussionView.aspx?id={0}", td.Id)));
+                }
             }
 
             StringBuilder body = new StringBuilder();

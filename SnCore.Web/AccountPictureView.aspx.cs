@@ -125,8 +125,8 @@ public partial class AccountPictureView : Page
         panelNavigator.Visible = (p.Index >= 0);
 
         discussionComments.ReturnUrl = string.Format("AccountPictureView.aspx?id={0}", PictureId);
-        discussionComments.DiscussionId = SessionManager.DiscussionService.GetOrCreateAccountPictureDiscussionId(
-            SessionManager.Ticket, PictureId);
+        discussionComments.DiscussionId = SessionManager.GetCount<TransitDiscussion, string, int>(
+            typeof(AccountPicture).Name, PictureId, SessionManager.DiscussionService.GetOrCreateDiscussionId);
         discussionComments.DataBind();
     }
 

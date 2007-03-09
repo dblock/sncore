@@ -37,8 +37,8 @@ public partial class AccountStoryView : Page
                 RequestId, SessionManager.StoryService.GetAccountStoryPicturesCount);
             listPictures_OnGetDataSource(sender, e);
 
-            storyComments.DiscussionId = SessionManager.GetCount<TransitDiscussion, int>(
-                RequestId, SessionManager.DiscussionService.GetOrCreateAccountStoryDiscussionId);
+            storyComments.DiscussionId = SessionManager.GetCount<TransitDiscussion, string, int>(
+                typeof(AccountStory).Name, RequestId, SessionManager.DiscussionService.GetOrCreateDiscussionId);
 
             storyComments.DataBind();
 
