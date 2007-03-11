@@ -38,6 +38,7 @@
         private System.Collections.Generic.IList<PlaceAttribute> m_PlaceAttributes;
         private System.Collections.Generic.IList<PlaceQueueItem> m_PlaceQueueItems;
         private Neighborhood m_Neighborhood;
+        private System.Collections.Generic.IList<AccountGroupPlace> m_AccountGroupPlaces;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
@@ -727,6 +728,37 @@
             set
             {
                 m_Neighborhood = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'AccountGroupPlace'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'AccountGroupPlace.Place'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_AccountGroupPlaces' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as slave.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'AccountGroupPlace' table in the data source.
+        ///The property maps to the identity column 'Place_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.Collections.Generic.IList<AccountGroupPlace> AccountGroupPlaces
+        {
+            get
+            {
+                return m_AccountGroupPlaces;
+            }
+            set
+            {
+                m_AccountGroupPlaces = value;
             }
         }
 

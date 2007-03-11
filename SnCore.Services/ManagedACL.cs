@@ -13,7 +13,8 @@ namespace SnCore.Services
         Retreive = 2,
         Update = 4,
         Delete = 8,
-        All = Create | Retreive | Update | Delete
+        All = Create | Retreive | Update | Delete,
+        AllExceptUpdate = Create | Retreive | Delete
     };
 
     public enum DataOperationPermission

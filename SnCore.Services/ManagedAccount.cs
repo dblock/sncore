@@ -548,6 +548,16 @@ namespace SnCore.Services
                     }
                 }
 
+                // leave groups
+                foreach(AccountGroupAccount groupaccount in Collection<AccountGroupAccount>.GetSafeCollection(mInstance.AccountGroupAccounts))
+                {
+                    ManagedAccountGroupAccount m_groupaccount = new ManagedAccountGroupAccount(Session, groupaccount);
+                    m_groupaccount.Delete(sec);
+                }
+
+                // delete all group invitations to me, group requests are cascade-deleted
+                Session.Delete(string.Format("FROM AccountGroupAccountInvitation i WHERE i.Account.Id = {0}", Id));
+
                 // delete friends and friend requests
                 Session.Delete(string.Format("from AccountFriend f where f.Account.Id = {0} or f.Keen.Id = {0}", Id));
                 Session.Delete(string.Format("from AccountFriendRequest f where f.Account.Id = {0} or f.Keen.Id = {0}", Id));

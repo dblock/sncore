@@ -96,6 +96,7 @@ namespace SnCore.Services
         public static int GetOwnerId(AccountStoryPicture instance, int id) { return instance.AccountStory.Account.Id; }
         public static int GetOwnerId(AccountEvent instance, int id) { return instance.Account.Id; }
         public static int GetOwnerId(AccountEventPicture instance, int id) { return instance.AccountEvent.Account.Id; }
+        public static int GetOwnerId(AccountGroupPicture instance, int id) { return instance.Account.Id; }
 
         public static string GetObjectName(AccountPicture instance, int id) { return string.Format("Profile Pictures: {0}", instance.Name); }
         public static string GetObjectName(AccountStory instance, int id) { return instance.Name; }
@@ -107,6 +108,7 @@ namespace SnCore.Services
         public static string GetObjectName(AccountStoryPicture instance, int id) { return string.Format("{0} Pictures: {1}", instance.AccountStory.Name, instance.Name); }
         public static string GetObjectName(AccountEvent instance, int id) { return instance.Name; }
         public static string GetObjectName(AccountEventPicture instance, int id) { return string.Format("{0} Pictures: {1}", instance.AccountEvent.Name, instance.Name); }
+        public static string GetObjectName(AccountGroupPicture instance, int id) { return string.Format("{0} Pictures: {1}", instance.AccountGroup.Name, instance.Name); }
 
         public static ManagedDiscussionMapEntry[] GlobalMap =
         {
@@ -119,7 +121,8 @@ namespace SnCore.Services
             new ManagedDiscussionMapEntry<AccountBlogPost>(GetOwnerId, GetObjectName, "Blog Post Comments", "AccountBlogPostView.aspx?id={0}&#comments"),
             new ManagedDiscussionMapEntry<AccountStoryPicture>(GetOwnerId, GetObjectName, "Story Picture Comments", "AccountStoryPictureView.aspx?id={0}&#comments"),
             new ManagedDiscussionMapEntry<AccountEvent>(GetOwnerId, GetObjectName, "Event Comments", "AccountEventView.aspx?id={0}&#comments"),
-            new ManagedDiscussionMapEntry<AccountEventPicture>(GetOwnerId, GetObjectName, "Event Picture Comments", "AccountEventPictureView.aspx?id={0}&#comments")
+            new ManagedDiscussionMapEntry<AccountEventPicture>(GetOwnerId, GetObjectName, "Event Picture Comments", "AccountEventPictureView.aspx?id={0}&#comments"),
+            new ManagedDiscussionMapEntry<AccountGroupPicture>(GetOwnerId, GetObjectName, "Group Picture Comments", "GroupPictureView.aspx?id={0}&#comments")
         };
 
         public static ManagedDiscussionMapEntry Find(string name)

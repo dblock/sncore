@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" schema="dbo">
+  <class name="AccountGroup, SnCore.Data" table="AccountGroup">
+    <id name="Id" type="Int32" column="AccountGroup_Id" access="field.pascalcase-m-underscore">
+      <generator class="identity" />
+    </id>
+    <bag lazy="true" name="AccountGroupAccounts" inverse="true">
+      <key column="AccountGroup_Id" />
+      <one-to-many class="AccountGroupAccount, SnCore.Data" />
+    </bag>
+    <bag lazy="true" name="AccountGroupPictures" inverse="true">
+      <key column="AccountGroup_Id" />
+      <one-to-many class="AccountGroupPicture, SnCore.Data" />
+    </bag>
+    <bag lazy="true" name="AccountGroupPlaces" inverse="true">
+      <key column="AccountGroup_Id" />
+      <one-to-many class="AccountGroupPlace, SnCore.Data" />
+    </bag>
+    <property name="Created" column="Created" type="DateTime" />
+    <property name="Description" column="Description" type="StringClob" />
+    <property name="IsPrivate" column="IsPrivate" type="Boolean" />
+    <property name="Modified" column="Modified" type="DateTime" />
+    <property name="Name" column="Name" type="String" />
+    <bag lazy="true" name="AccountGroupAccountInvitations" inverse="true">
+      <key column="AccountGroup_Id" />
+      <one-to-many class="AccountGroupAccountInvitation, SnCore.Data" />
+    </bag>
+    <bag lazy="true" name="AccountGroupAccountRequests" inverse="true">
+      <key column="AccountGroup_Id" />
+      <one-to-many class="AccountGroupAccountRequest, SnCore.Data" />
+    </bag>
+  </class>
+</hibernate-mapping>

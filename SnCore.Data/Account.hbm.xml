@@ -162,5 +162,25 @@
       <key column="Account_Id" />
       <one-to-many class="AccountRedirect, SnCore.Data" />
     </bag>
+    <bag lazy="true" name="AccountGroupAccounts" inverse="true">
+      <key column="Account_Id" />
+      <one-to-many class="AccountGroupAccount, SnCore.Data" />
+    </bag>
+    <bag lazy="true" name="AccountGroupPictures" inverse="true">
+      <key column="Account_Id" />
+      <one-to-many class="AccountGroupPicture, SnCore.Data" />
+    </bag>
+    <bag lazy="true" name="AccountGroupAccountInvitations" inverse="true">
+      <key column="Account_Id" />
+      <one-to-many class="AccountGroupAccountInvitation, SnCore.Data" />
+    </bag>
+    <bag lazy="true" name="AccountGroupAccountRequests" inverse="true">
+      <key column="Account_Id" />
+      <one-to-many class="AccountGroupAccountRequest, SnCore.Data" />
+    </bag>
+    <bag lazy="true" name="RequesterAccountGroupAccountInvitations" inverse="true">
+      <key column="Requester_Id" />
+      <one-to-many class="AccountGroupAccountInvitation, SnCore.Data" />
+    </bag>
   </class>
 </hibernate-mapping>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" schema="dbo">
+  <class name="AccountGroupPlace, SnCore.Data" table="AccountGroupPlace">
+    <id name="Id" type="Int32" column="AccountGroupPlace_Id" access="field.pascalcase-m-underscore">
+      <generator class="identity" />
+    </id>
+    <many-to-one name="AccountGroup" column="AccountGroup_Id" class="AccountGroup, SnCore.Data" />
+    <property name="Created" column="Created" type="DateTime" />
+    <many-to-one name="Place" column="Place_Id" class="Place, SnCore.Data" />
+  </class>
+</hibernate-mapping>

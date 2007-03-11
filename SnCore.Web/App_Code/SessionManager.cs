@@ -385,7 +385,6 @@ public class SessionManager
         }
     }
 
-
     public WebMadLibService MadLibService
     {
         get
@@ -393,7 +392,6 @@ public class SessionManager
             return CachedWebService<WebMadLibService>.GetEndPoint(Cache);
         }
     }
-
 
     public WebEventService EventService
     {
@@ -440,6 +438,14 @@ public class SessionManager
         get
         {
             return CachedWebService<WebObjectService>.GetEndPoint(Cache);
+        }
+    }
+
+    public WebGroupService GroupService
+    {
+        get
+        {
+            return CachedWebService<WebGroupService>.GetEndPoint(Cache);
         }
     }
 

@@ -73,6 +73,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\WebGroupService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\WebLicenseService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -166,6 +171,13 @@
     <Compile Include="WebEventService_AccountEventPictureTest.cs" />
     <Compile Include="WebEventService_AccountEventTest.cs" />
     <Compile Include="WebEventService_AccountEventTypeTest.cs" />
+    <Compile Include="WebGroupServiceTest.cs" />
+    <Compile Include="WebGroupService_AccountGroupAccountInvitationTest.cs" />
+    <Compile Include="WebGroupService_AccountGroupAccountRequestTest.cs" />
+    <Compile Include="WebGroupService_AccountGroupAccountTest.cs" />
+    <Compile Include="WebGroupService_AccountGroupPictureTest.cs" />
+    <Compile Include="WebGroupService_AccountGroupPlaceTest.cs" />
+    <Compile Include="WebGroupService_AccountGroupTest.cs" />
     <Compile Include="WebMarketingService_CampaignTest.cs" />
     <Compile Include="WebMarketingServiceTest.cs" />
     <Compile Include="WebMarketingService_CampaignAccountRecepientTest.cs" />
@@ -455,6 +467,17 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebTagWordService_WebTagWordService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://localhost/SnCoreWeb/WebGroupService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WebGroupService\</RelPath>
+      <UpdateFromURL>http://localhost/SnCoreWeb/WebGroupService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebGroupService_WebGroupService</CachedSettingsPropName>
     </WebReferenceUrl>
   </ItemGroup>
   <ItemGroup>
@@ -916,6 +939,32 @@
     <None Include="Web References\WebSyndicationService\TransitAccountFeedItemVideo.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\WebGroupService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\WebGroupService\TransitAccountGroup.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebGroupService\TransitAccountGroupAccount.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebGroupService\TransitAccountGroupAccountInvitation.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebGroupService\TransitAccountGroupAccountRequest.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebGroupService\TransitAccountGroupPicture.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebGroupService\TransitAccountGroupPlace.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebGroupService\WebGroupService.disco" />
+    <None Include="Web References\WebGroupService\WebGroupService.wsdl" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

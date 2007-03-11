@@ -114,6 +114,8 @@
     <Compile Include="ManagedAccountFeedItemMedia.cs" />
     <Compile Include="ManagedAccountFriend.cs" />
     <Compile Include="ManagedAccountFriendRequest.cs" />
+    <Compile Include="ManagedAccountGroupAccountInvitation.cs" />
+    <Compile Include="ManagedAccountGroupAccountRequest.cs" />
     <Compile Include="ManagedAccountInvitation.cs" />
     <Compile Include="ManagedAccountLicense.cs" />
     <Compile Include="ManagedAccountMessage.cs" />
@@ -150,6 +152,10 @@
     <Compile Include="ManagedDiscussionMap.cs" />
     <Compile Include="ManagedFeature.cs" />
     <Compile Include="ManagedFeedType.cs" />
+    <Compile Include="ManagedAccountGroup.cs" />
+    <Compile Include="ManagedAccountGroupAccount.cs" />
+    <Compile Include="ManagedAccountGroupPicture.cs" />
+    <Compile Include="ManagedAccountGroupPlace.cs" />
     <Compile Include="ManagedMadLib.cs" />
     <Compile Include="ManagedMadLibInstance.cs" />
     <Compile Include="ManagedNeighborhood.cs" />

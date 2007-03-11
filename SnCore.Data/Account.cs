@@ -64,6 +64,11 @@
         private System.Collections.Generic.IList<PlaceQueue> m_PlaceQueues;
         private System.Collections.Generic.IList<PlacePicture> m_PlacePictures;
         private System.Collections.Generic.IList<AccountRedirect> m_AccountRedirects;
+        private System.Collections.Generic.IList<AccountGroupAccount> m_AccountGroupAccounts;
+        private System.Collections.Generic.IList<AccountGroupPicture> m_AccountGroupPictures;
+        private System.Collections.Generic.IList<AccountGroupAccountInvitation> m_AccountGroupAccountInvitations;
+        private System.Collections.Generic.IList<AccountGroupAccountRequest> m_AccountGroupAccountRequests;
+        private System.Collections.Generic.IList<AccountGroupAccountInvitation> m_RequesterAccountGroupAccountInvitations;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
@@ -1581,6 +1586,161 @@
             set
             {
                 m_AccountRedirects = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'AccountGroupAccount'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'AccountGroupAccount.Account'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_AccountGroupAccounts' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as slave.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'AccountGroupAccount' table in the data source.
+        ///The property maps to the identity column 'Account_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.Collections.Generic.IList<AccountGroupAccount> AccountGroupAccounts
+        {
+            get
+            {
+                return m_AccountGroupAccounts;
+            }
+            set
+            {
+                m_AccountGroupAccounts = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'AccountGroupPicture'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'AccountGroupPicture.Account'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_AccountGroupPictures' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as slave.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'AccountGroupPicture' table in the data source.
+        ///The property maps to the identity column 'Account_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.Collections.Generic.IList<AccountGroupPicture> AccountGroupPictures
+        {
+            get
+            {
+                return m_AccountGroupPictures;
+            }
+            set
+            {
+                m_AccountGroupPictures = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'AccountGroupAccountInvitation'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'AccountGroupAccountInvitation.Account'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_AccountGroupAccountInvitations' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as slave.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'AccountGroupAccountInvitation' table in the data source.
+        ///The property maps to the identity column 'Account_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.Collections.Generic.IList<AccountGroupAccountInvitation> AccountGroupAccountInvitations
+        {
+            get
+            {
+                return m_AccountGroupAccountInvitations;
+            }
+            set
+            {
+                m_AccountGroupAccountInvitations = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'AccountGroupAccountRequest'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'AccountGroupAccountRequest.Account'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_AccountGroupAccountRequests' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as slave.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'AccountGroupAccountRequest' table in the data source.
+        ///The property maps to the identity column 'Account_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.Collections.Generic.IList<AccountGroupAccountRequest> AccountGroupAccountRequests
+        {
+            get
+            {
+                return m_AccountGroupAccountRequests;
+            }
+            set
+            {
+                m_AccountGroupAccountRequests = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'AccountGroupAccountInvitation'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'AccountGroupAccountInvitation.Requester'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_RequesterAccountGroupAccountInvitations' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as slave.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'AccountGroupAccountInvitation' table in the data source.
+        ///The property maps to the identity column 'Requester_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.Collections.Generic.IList<AccountGroupAccountInvitation> RequesterAccountGroupAccountInvitations
+        {
+            get
+            {
+                return m_RequesterAccountGroupAccountInvitations;
+            }
+            set
+            {
+                m_RequesterAccountGroupAccountInvitations = value;
             }
         }
 

@@ -55,5 +55,9 @@
       <one-to-many class="PlaceQueueItem, SnCore.Data" />
     </bag>
     <many-to-one name="Neighborhood" column="Neighborhood_Id" class="Neighborhood, SnCore.Data" />
+    <bag lazy="true" name="AccountGroupPlaces" inverse="true">
+      <key column="Place_Id" />
+      <one-to-many class="AccountGroupPlace, SnCore.Data" />
+    </bag>
   </class>
 </hibernate-mapping>
