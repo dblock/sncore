@@ -65,5 +65,18 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
         {
 
         }
+
+        [Test]
+        protected void AcceptAccountGroupAccountRequestTest()
+        {
+
+        }
+
+        [Test]
+        protected void RejectAccountGroupAccountRequestTest()
+        {
+
+        }
+
     }
 }

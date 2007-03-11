@@ -230,5 +230,18 @@ namespace SnCore.Services
             m_group.Leave(mInstance.Account.Id, sec);
             base.Delete(sec);
         }
+
+        public override int CreateOrUpdate(TransitAccountGroupAccount t_instance, ManagedSecurityContext sec)
+        {
+            ManagedAccountGroup m_group = new ManagedAccountGroup(Session, t_instance.AccountGroupId);
+            if (m_group.HasAccount(t_instance.AccountId))
+            {
+                throw new SoapException(string.Format(
+                    "You are already a member of \"{0}\".", m_group.Instance.Name),
+                    SoapException.ClientFaultCode);
+            }
+
+            return base.CreateOrUpdate(t_instance, sec);
+        }
     }
 }

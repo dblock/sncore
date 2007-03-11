@@ -65,5 +65,11 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
         {
 
         }
+
+        [Test]
+        protected void GetAccountGroupAccountByAccountGroupIdTest()
+        {
+
+        }
     }
 }

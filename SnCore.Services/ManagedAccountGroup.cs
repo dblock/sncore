@@ -87,6 +87,21 @@ namespace SnCore.Services
             }
         }
 
+        private int mPictureId = 0;
+
+        public int PictureId
+        {
+            get
+            {
+
+                return mPictureId;
+            }
+            set
+            {
+                mPictureId = value;
+            }
+        }
+
         public TransitAccountGroup()
         {
 
@@ -105,6 +120,7 @@ namespace SnCore.Services
             Created = value.Created;
             Modified = value.Modified;
             IsPrivate = value.IsPrivate;
+            PictureId = ManagedAccountGroup.GetRandomAccountGroupPictureId(value);
             base.SetInstance(value);
         }
 
@@ -166,8 +182,8 @@ namespace SnCore.Services
             ACL acl = base.GetACL();
             // everyone can create a group
             acl.Add(new ACLAuthenticatedAllowCreate());
-            // everyone is able to see a public group
-            if (!mInstance.IsPrivate) acl.Add(new ACLEveryoneAllowRetrieve());
+            // everyone is able to see a group (only name/description)
+            acl.Add(new ACLEveryoneAllowRetrieve());
             // members can edit or see the group depending on their permissions
             foreach (AccountGroupAccount account in Collection<AccountGroupAccount>.GetSafeCollection(mInstance.AccountGroupAccounts))
             {
@@ -253,6 +269,22 @@ namespace SnCore.Services
                     Session.Save(invitation);
                 }
             }
+        }
+
+        public bool HasAccount(int accountid)
+        {
+            return (Session.CreateQuery(
+                string.Format("SELECT COUNT(*) FROM AccountGroupAccount instance where " +
+                    "(instance.AccountGroup.Id = {0} and instance.Account.Id = {1})",
+                    Id, accountid)).UniqueResult<int>() > 0);
+        }
+
+        public bool HasAccountRequest(int accountid)
+        {
+            return (Session.CreateQuery(
+                string.Format("SELECT COUNT(*) FROM AccountGroupAccountRequest instance where " +
+                    "(instance.AccountGroup.Id = {0} and instance.Account.Id = {1})",
+                    Id, accountid)).UniqueResult<int>() > 0);
         }
     }
 }

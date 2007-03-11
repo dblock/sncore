@@ -19,6 +19,7 @@
               <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
               <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
               <s:element minOccurs="1" maxOccurs="1" name="IsPrivate" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="PictureId" type="s:int" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
@@ -391,6 +392,22 @@
       <s:element name="DeleteAccountGroupPictureResponse">
         <s:complexType />
       </s:element>
+      <s:element name="GetAccountGroupPictureIfModifiedSinceById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="ifModifiedSince" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountGroupPictureIfModifiedSinceByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountGroupPictureIfModifiedSinceByIdResult" type="tns:TransitAccountGroupPicture" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="CreateOrUpdateAccountGroupPlace">
         <s:complexType>
           <s:sequence>
@@ -751,6 +768,30 @@
       <s:element name="DeleteAccountGroupAccountRequestResponse">
         <s:complexType />
       </s:element>
+      <s:element name="AcceptAccountGroupAccountRequest">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AcceptAccountGroupAccountRequestResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="RejectAccountGroupAccountRequest">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RejectAccountGroupAccountRequestResponse">
+        <s:complexType />
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="CreateOrUpdateAccountGroupSoapIn">
@@ -867,6 +908,12 @@
   <wsdl:message name="DeleteAccountGroupPictureSoapOut">
     <wsdl:part name="parameters" element="tns:DeleteAccountGroupPictureResponse" />
   </wsdl:message>
+  <wsdl:message name="GetAccountGroupPictureIfModifiedSinceByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountGroupPictureIfModifiedSinceById" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountGroupPictureIfModifiedSinceByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountGroupPictureIfModifiedSinceByIdResponse" />
+  </wsdl:message>
   <wsdl:message name="CreateOrUpdateAccountGroupPlaceSoapIn">
     <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountGroupPlace" />
   </wsdl:message>
@@ -981,6 +1028,18 @@
   <wsdl:message name="DeleteAccountGroupAccountRequestSoapOut">
     <wsdl:part name="parameters" element="tns:DeleteAccountGroupAccountRequestResponse" />
   </wsdl:message>
+  <wsdl:message name="AcceptAccountGroupAccountRequestSoapIn">
+    <wsdl:part name="parameters" element="tns:AcceptAccountGroupAccountRequest" />
+  </wsdl:message>
+  <wsdl:message name="AcceptAccountGroupAccountRequestSoapOut">
+    <wsdl:part name="parameters" element="tns:AcceptAccountGroupAccountRequestResponse" />
+  </wsdl:message>
+  <wsdl:message name="RejectAccountGroupAccountRequestSoapIn">
+    <wsdl:part name="parameters" element="tns:RejectAccountGroupAccountRequest" />
+  </wsdl:message>
+  <wsdl:message name="RejectAccountGroupAccountRequestSoapOut">
+    <wsdl:part name="parameters" element="tns:RejectAccountGroupAccountRequestResponse" />
+  </wsdl:message>
   <wsdl:portType name="WebGroupServiceSoap">
     <wsdl:operation name="CreateOrUpdateAccountGroup">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update an account group.</wsdl:documentation>
@@ -1077,6 +1136,11 @@
       <wsdl:input message="tns:DeleteAccountGroupPictureSoapIn" />
       <wsdl:output message="tns:DeleteAccountGroupPictureSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="GetAccountGroupPictureIfModifiedSinceById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get group picture data if modified since.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountGroupPictureIfModifiedSinceByIdSoapIn" />
+      <wsdl:output message="tns:GetAccountGroupPictureIfModifiedSinceByIdSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="CreateOrUpdateAccountGroupPlace">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update an account group place.</wsdl:documentation>
       <wsdl:input message="tns:CreateOrUpdateAccountGroupPlaceSoapIn" />
@@ -1171,6 +1235,16 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete an account group account request.</wsdl:documentation>
       <wsdl:input message="tns:DeleteAccountGroupAccountRequestSoapIn" />
       <wsdl:output message="tns:DeleteAccountGroupAccountRequestSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AcceptAccountGroupAccountRequest">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Accept a membership request.</wsdl:documentation>
+      <wsdl:input message="tns:AcceptAccountGroupAccountRequestSoapIn" />
+      <wsdl:output message="tns:AcceptAccountGroupAccountRequestSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RejectAccountGroupAccountRequest">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Reject a membership request.</wsdl:documentation>
+      <wsdl:input message="tns:RejectAccountGroupAccountRequestSoapIn" />
+      <wsdl:output message="tns:RejectAccountGroupAccountRequestSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WebGroupServiceSoap" type="tns:WebGroupServiceSoap">
@@ -1346,6 +1420,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetAccountGroupPictureIfModifiedSinceById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountGroupPictureIfModifiedSinceById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="CreateOrUpdateAccountGroupPlace">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountGroupPlace" style="document" />
       <wsdl:input>
@@ -1510,6 +1593,24 @@
     </wsdl:operation>
     <wsdl:operation name="DeleteAccountGroupAccountRequest">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountGroupAccountRequest" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AcceptAccountGroupAccountRequest">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/AcceptAccountGroupAccountRequest" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RejectAccountGroupAccountRequest">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/RejectAccountGroupAccountRequest" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1691,6 +1792,15 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetAccountGroupPictureIfModifiedSinceById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountGroupPictureIfModifiedSinceById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="CreateOrUpdateAccountGroupPlace">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountGroupPlace" style="document" />
       <wsdl:input>
@@ -1855,6 +1965,24 @@
     </wsdl:operation>
     <wsdl:operation name="DeleteAccountGroupAccountRequest">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountGroupAccountRequest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AcceptAccountGroupAccountRequest">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/AcceptAccountGroupAccountRequest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RejectAccountGroupAccountRequest">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/RejectAccountGroupAccountRequest" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

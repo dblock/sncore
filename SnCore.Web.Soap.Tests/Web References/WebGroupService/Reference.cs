@@ -74,6 +74,8 @@ namespace SnCore.Web.Soap.Tests.WebGroupService {
         
         private System.Threading.SendOrPostCallback DeleteAccountGroupPictureOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetAccountGroupPictureIfModifiedSinceByIdOperationCompleted;
+        
         private System.Threading.SendOrPostCallback CreateOrUpdateAccountGroupPlaceOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAccountGroupPlaceByIdOperationCompleted;
@@ -111,6 +113,10 @@ namespace SnCore.Web.Soap.Tests.WebGroupService {
         private System.Threading.SendOrPostCallback GetAccountGroupAccountRequestsByAccountIdCountOperationCompleted;
         
         private System.Threading.SendOrPostCallback DeleteAccountGroupAccountRequestOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback AcceptAccountGroupAccountRequestOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback RejectAccountGroupAccountRequestOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -208,6 +214,9 @@ namespace SnCore.Web.Soap.Tests.WebGroupService {
         public event DeleteAccountGroupPictureCompletedEventHandler DeleteAccountGroupPictureCompleted;
         
         /// <remarks/>
+        public event GetAccountGroupPictureIfModifiedSinceByIdCompletedEventHandler GetAccountGroupPictureIfModifiedSinceByIdCompleted;
+        
+        /// <remarks/>
         public event CreateOrUpdateAccountGroupPlaceCompletedEventHandler CreateOrUpdateAccountGroupPlaceCompleted;
         
         /// <remarks/>
@@ -263,6 +272,12 @@ namespace SnCore.Web.Soap.Tests.WebGroupService {
         
         /// <remarks/>
         public event DeleteAccountGroupAccountRequestCompletedEventHandler DeleteAccountGroupAccountRequestCompleted;
+        
+        /// <remarks/>
+        public event AcceptAccountGroupAccountRequestCompletedEventHandler AcceptAccountGroupAccountRequestCompleted;
+        
+        /// <remarks/>
+        public event RejectAccountGroupAccountRequestCompletedEventHandler RejectAccountGroupAccountRequestCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/CreateOrUpdateAccountGroup", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -849,6 +864,39 @@ namespace SnCore.Web.Soap.Tests.WebGroupService {
             if ((this.DeleteAccountGroupPictureCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.DeleteAccountGroupPictureCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountGroupPictureIfModifiedSinceById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountGroupPicture GetAccountGroupPictureIfModifiedSinceById(string ticket, int id, System.DateTime ifModifiedSince) {
+            object[] results = this.Invoke("GetAccountGroupPictureIfModifiedSinceById", new object[] {
+                        ticket,
+                        id,
+                        ifModifiedSince});
+            return ((TransitAccountGroupPicture)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountGroupPictureIfModifiedSinceByIdAsync(string ticket, int id, System.DateTime ifModifiedSince) {
+            this.GetAccountGroupPictureIfModifiedSinceByIdAsync(ticket, id, ifModifiedSince, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountGroupPictureIfModifiedSinceByIdAsync(string ticket, int id, System.DateTime ifModifiedSince, object userState) {
+            if ((this.GetAccountGroupPictureIfModifiedSinceByIdOperationCompleted == null)) {
+                this.GetAccountGroupPictureIfModifiedSinceByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountGroupPictureIfModifiedSinceByIdOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountGroupPictureIfModifiedSinceById", new object[] {
+                        ticket,
+                        id,
+                        ifModifiedSince}, this.GetAccountGroupPictureIfModifiedSinceByIdOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountGroupPictureIfModifiedSinceByIdOperationCompleted(object arg) {
+            if ((this.GetAccountGroupPictureIfModifiedSinceByIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountGroupPictureIfModifiedSinceByIdCompleted(this, new GetAccountGroupPictureIfModifiedSinceByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1450,6 +1498,70 @@ namespace SnCore.Web.Soap.Tests.WebGroupService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/AcceptAccountGroupAccountRequest", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void AcceptAccountGroupAccountRequest(string ticket, int id, string message) {
+            this.Invoke("AcceptAccountGroupAccountRequest", new object[] {
+                        ticket,
+                        id,
+                        message});
+        }
+        
+        /// <remarks/>
+        public void AcceptAccountGroupAccountRequestAsync(string ticket, int id, string message) {
+            this.AcceptAccountGroupAccountRequestAsync(ticket, id, message, null);
+        }
+        
+        /// <remarks/>
+        public void AcceptAccountGroupAccountRequestAsync(string ticket, int id, string message, object userState) {
+            if ((this.AcceptAccountGroupAccountRequestOperationCompleted == null)) {
+                this.AcceptAccountGroupAccountRequestOperationCompleted = new System.Threading.SendOrPostCallback(this.OnAcceptAccountGroupAccountRequestOperationCompleted);
+            }
+            this.InvokeAsync("AcceptAccountGroupAccountRequest", new object[] {
+                        ticket,
+                        id,
+                        message}, this.AcceptAccountGroupAccountRequestOperationCompleted, userState);
+        }
+        
+        private void OnAcceptAccountGroupAccountRequestOperationCompleted(object arg) {
+            if ((this.AcceptAccountGroupAccountRequestCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.AcceptAccountGroupAccountRequestCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/RejectAccountGroupAccountRequest", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void RejectAccountGroupAccountRequest(string ticket, int id, string message) {
+            this.Invoke("RejectAccountGroupAccountRequest", new object[] {
+                        ticket,
+                        id,
+                        message});
+        }
+        
+        /// <remarks/>
+        public void RejectAccountGroupAccountRequestAsync(string ticket, int id, string message) {
+            this.RejectAccountGroupAccountRequestAsync(ticket, id, message, null);
+        }
+        
+        /// <remarks/>
+        public void RejectAccountGroupAccountRequestAsync(string ticket, int id, string message, object userState) {
+            if ((this.RejectAccountGroupAccountRequestOperationCompleted == null)) {
+                this.RejectAccountGroupAccountRequestOperationCompleted = new System.Threading.SendOrPostCallback(this.OnRejectAccountGroupAccountRequestOperationCompleted);
+            }
+            this.InvokeAsync("RejectAccountGroupAccountRequest", new object[] {
+                        ticket,
+                        id,
+                        message}, this.RejectAccountGroupAccountRequestOperationCompleted, userState);
+        }
+        
+        private void OnRejectAccountGroupAccountRequestOperationCompleted(object arg) {
+            if ((this.RejectAccountGroupAccountRequestCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.RejectAccountGroupAccountRequestCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -1485,6 +1597,8 @@ namespace SnCore.Web.Soap.Tests.WebGroupService {
         private System.DateTime modifiedField;
         
         private bool isPrivateField;
+        
+        private int pictureIdField;
         
         /// <remarks/>
         public string Name {
@@ -1533,6 +1647,16 @@ namespace SnCore.Web.Soap.Tests.WebGroupService {
             }
             set {
                 this.isPrivateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int PictureId {
+            get {
+                return this.pictureIdField;
+            }
+            set {
+                this.pictureIdField = value;
             }
         }
     }
@@ -2905,6 +3029,32 @@ namespace SnCore.Web.Soap.Tests.WebGroupService {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetAccountGroupPictureIfModifiedSinceByIdCompletedEventHandler(object sender, GetAccountGroupPictureIfModifiedSinceByIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountGroupPictureIfModifiedSinceByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountGroupPictureIfModifiedSinceByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccountGroupPicture Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountGroupPicture)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
     public delegate void CreateOrUpdateAccountGroupPlaceCompletedEventHandler(object sender, CreateOrUpdateAccountGroupPlaceCompletedEventArgs e);
     
     /// <remarks/>
@@ -3330,6 +3480,14 @@ namespace SnCore.Web.Soap.Tests.WebGroupService {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
     public delegate void DeleteAccountGroupAccountRequestCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void AcceptAccountGroupAccountRequestCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void RejectAccountGroupAccountRequestCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
 }
 
 #pragma warning restore 1591

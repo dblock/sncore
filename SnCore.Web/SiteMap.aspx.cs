@@ -128,6 +128,9 @@ public partial class SiteMap2 : Page
             listAccountEvents.DataSource = GetPagedList(SessionManager.EventService.GetAccountEventsCount(SessionManager.Ticket, aeqo));
             listAccountEvents.DataBind();
 
+            listAccountGroups.DataSource = GetPagedList(SessionManager.GroupService.GetAccountGroupsCount(SessionManager.Ticket));
+            listAccountGroups.DataBind();
+
             listStories.DataSource = GetPagedList(SessionManager.StoryService.GetAllAccountStoriesCount(SessionManager.Ticket));
             listStories.DataBind();
 

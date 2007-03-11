@@ -205,5 +205,72 @@ namespace SnCore.Services
             }
             return acl;
         }
+
+        public override int CreateOrUpdate(TransitAccountGroupAccountRequest t_instance, ManagedSecurityContext sec)
+        {
+            ManagedAccountGroup m_group = new ManagedAccountGroup(Session, t_instance.AccountGroupId);
+            
+            if (m_group.HasAccountRequest(t_instance.AccountId))
+            {
+                throw new SoapException(string.Format(
+                    "You already have a membership request pending to join \"{0}\".", m_group.Instance.Name),
+                    SoapException.ClientFaultCode);
+            }
+
+            if (m_group.HasAccount(t_instance.AccountId))
+            {
+                throw new SoapException(string.Format(
+                    "You are already a member of \"{0}\".", m_group.Instance.Name),
+                    SoapException.ClientFaultCode);
+            }
+
+            int id = base.CreateOrUpdate(t_instance, sec);
+
+            Session.Flush();
+
+            foreach (AccountGroupAccount accountadmin in Collection<AccountGroupAccount>.GetSafeCollection(mInstance.AccountGroup.AccountGroupAccounts))
+            {
+                if (accountadmin.IsAdministrator)
+                {
+                    ManagedAccount recepient = new ManagedAccount(Session, accountadmin.Account.Id);
+                    ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
+                        Session, recepient, string.Format("EmailAccountGroupAccountRequest.aspx?id={0}", id));
+                }
+            }
+
+            return id;
+        }
+
+        public void Reject(ManagedSecurityContext sec, string message)
+        {
+            GetACL().Check(sec, DataOperation.AllExceptUpdate);
+
+            ManagedAccount recepient = new ManagedAccount(Session, mInstance.Account);
+            ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(Session, recepient,
+                string.Format("EmailAccountGroupAccountRequestReject.aspx?id={0}&aid={1}&message={2}", 
+                this.Id, sec.Account.Id, Renderer.UrlEncode(message)));
+
+            Session.Delete(mInstance);
+        }
+
+        public void Accept(ManagedSecurityContext sec, string message)
+        {
+            GetACL().Check(sec, DataOperation.AllExceptUpdate);
+
+            AccountGroupAccount account = new AccountGroupAccount();
+            account.Account = mInstance.Account;
+            account.AccountGroup = mInstance.AccountGroup;
+            account.Created = account.Modified = DateTime.UtcNow;
+            Session.Save(account);
+
+            ManagedAccount recepient = new ManagedAccount(Session, account.Account);
+            ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
+                Session,
+                recepient,
+                string.Format("EmailAccountGroupAccountRequestAccept.aspx?id={0}&aid={1}&message={2}", 
+                this.Id, sec.Account.Id, Renderer.UrlEncode(message)));
+
+            Session.Delete(mInstance);
+        }
     }
 }

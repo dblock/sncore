@@ -83,8 +83,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get public account groups.")]
         public List<TransitAccountGroup> GetPublicAccountGroups(string ticket, ServiceQueryOptions options)
         {
+            ICriterion[] expressions = { Expression.Eq("IsPrivate", false) };
             return WebServiceImpl<TransitAccountGroup, ManagedAccountGroup, AccountGroup>.GetList(
-                ticket, options, "WHERE AccountGroup.IsPrivate = 0");
+                ticket, options, expressions, null);
         }
 
         /// <summary>
@@ -195,6 +196,21 @@ namespace SnCore.WebServices
                 ticket, id);
         }
 
+        /// <summary>
+        /// Retreive an account group account for a specific group.
+        /// <param name="ticket">authentication ticket</param>
+        /// </summary>
+        [WebMethod(Description = "Retreive an account group account for a specific group.")]
+        public TransitAccountGroupAccount GetAccountGroupAccountByAccountGroupId(string ticket, int accountid, int groupid)
+        {
+            ICriterion[] expressions = { 
+                Expression.Eq("AccountGroup.Id", groupid),
+                Expression.Eq("Account.Id", accountid) 
+            };
+            return WebServiceImpl<TransitAccountGroupAccount, ManagedAccountGroupAccount, AccountGroupAccount>.GetByCriterion(
+                ticket, expressions);
+        }
+
         #endregion
 
         #region AccountGroupPicture
@@ -255,6 +271,25 @@ namespace SnCore.WebServices
         {
             WebServiceImpl<TransitAccountGroupPicture, ManagedAccountGroupPicture, AccountGroupPicture>.Delete(
                 ticket, id);
+        }
+
+        /// <summary>
+        /// Get group picture if modified since.
+        /// </summary>
+        /// <param name="id">group picture id</param>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="ifModifiedSince">last update date/time</param>
+        /// <returns>transit picture</returns>
+        [WebMethod(Description = "Get group picture data if modified since.", BufferResponse = true)]
+        public TransitAccountGroupPicture GetAccountGroupPictureIfModifiedSinceById(string ticket, int id, DateTime ifModifiedSince)
+        {
+            TransitAccountGroupPicture t_instance = WebServiceImpl<TransitAccountGroupPicture, ManagedAccountGroupPicture, AccountGroupPicture>.GetById(
+                ticket, id);
+
+            if (t_instance.Modified <= ifModifiedSince)
+                return null;
+
+            return t_instance;
         }
 
         #endregion
@@ -487,6 +522,63 @@ namespace SnCore.WebServices
         {
             WebServiceImpl<TransitAccountGroupAccountRequest, ManagedAccountGroupAccountRequest, AccountGroupAccountRequest>.Delete(
                 ticket, id);
+        }
+
+        /// <summary>
+        /// Accept a membership request.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">request id</param>
+        /// <param name="message">optional message</param>
+        [WebMethod(Description = "Accept a membership request.")]
+        public void AcceptAccountGroupAccountRequest(string ticket, int id, string message)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+
+                try
+                {
+                    ManagedAccountGroupAccountRequest req = new ManagedAccountGroupAccountRequest(session, id);
+                    req.Accept(sec, message);
+                    SnCore.Data.Hibernate.Session.Flush();
+                }
+                catch (NHibernate.ObjectNotFoundException)
+                {
+                    throw new SoapException("This membership request cannot be found. Another administrator may have already accepted it.",
+                        SoapException.ClientFaultCode);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Reject a membership request.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">request id</param>
+        /// <param name="message">optional message, no mail sent when blank</param>
+        [WebMethod(Description = "Reject a membership request.")]
+        public void RejectAccountGroupAccountRequest(string ticket, int id, string message)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+
+                try
+                {
+                    ManagedAccountGroupAccountRequest req = new ManagedAccountGroupAccountRequest(session, id);
+                    req.Reject(sec, message);
+                    SnCore.Data.Hibernate.Session.Flush();
+                }
+                catch (NHibernate.ObjectNotFoundException)
+                {
+                    throw new SoapException("This membership request cannot be found. Another administrator may have already rejected it.",
+                        SoapException.ClientFaultCode);
+                }
+            }
         }
 
         #endregion

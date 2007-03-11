@@ -83,6 +83,17 @@
         </ItemTemplate>
        </asp:Repeater>
       </ul>
+      <li><a href="AccountGroupsView.aspx">Groups</a></li>
+      <ul><li>
+      <asp:DataList RepeatLayout="Flow" RepeatDirection="Horizontal" ID="listAccountGroups" runat="server">
+       <ItemStyle CssClass="sncore_link" />
+       <ItemTemplate>
+        <a href='AccountGroupsViewList.aspx?PageNumber=<%# Eval("PageNumber") %>&PageSize=<%# Eval("PageSize") %>&PageCount=<%# Eval("PageCount") %>'>
+         <%# Eval("Start") %>-<%# (int) Eval("Start") + (int) Eval("Count") - 1 %>
+        </a>
+       </ItemTemplate>
+      </asp:DataList>
+      </li></ul>      
       <li><b>Surveys</b></li>
       <ul>
        <asp:DataList RepeatLayout="Flow" RepeatDirection="Horizontal" ID="listSurveys" runat="server">
@@ -108,6 +119,7 @@
        <li><a href="AccountFeedsRss.aspx">Blogs</a></li>
        <li><a href="AccountStoriesRss.aspx">Stories</a></li>
        <li><a href="AccountEventsRss.aspx">Events</a></li>
+       <li><a href="AccountGroupsRss.aspx">Public Groups</a></li>
        <li><a href="DiscussionTopOfThreadsRss.aspx">Discussion Threads</a></li>
        <li><a href="DiscussionThreadsRss.aspx">Discussion Posts</a></li>
        <li><a href="AccountFeedItemsRss.aspx">Aggregated Blogs</a></li>
