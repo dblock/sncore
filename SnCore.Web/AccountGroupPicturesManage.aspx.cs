@@ -18,7 +18,7 @@ using SnCore.WebServices;
 using SnCore.Tools;
 using SnCore.SiteMap;
 
-public partial class PlacePicturesManage : AuthenticatedPage
+public partial class AccountGroupPicturesManage : AuthenticatedPage
 {
     public void Page_Load()
     {
@@ -27,14 +27,14 @@ public partial class PlacePicturesManage : AuthenticatedPage
 
         if (!IsPostBack)
         {
-            TransitPlace place = SessionManager.PlaceService.GetPlaceById(SessionManager.Ticket, RequestId);
+            TransitAccountGroup group = SessionManager.GroupService.GetAccountGroupById(SessionManager.Ticket, RequestId);
 
             gridManage_OnGetDataSource(this, null);
             gridManage.DataBind();
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));
-            sitemapdata.Add(new SiteMapDataAttributeNode(place.Name, Request, string.Format("PlaceView.aspx?id={0}", place.Id)));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Groups", Request, "AccountGroupsView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode(group.Name, Request, string.Format("AccountGroupView.aspx?id={0}", group.Id)));
             sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request.Url));
             StackSiteMap(sitemapdata);
         }
@@ -51,7 +51,7 @@ public partial class PlacePicturesManage : AuthenticatedPage
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        gridManage.DataSource = SessionManager.PlaceService.GetPlacePictures(
+        gridManage.DataSource = SessionManager.GroupService.GetAccountGroupPictures(
             SessionManager.Ticket, RequestId, null);
     }
 
@@ -72,7 +72,7 @@ public partial class PlacePicturesManage : AuthenticatedPage
                 switch (e.CommandName)
                 {
                     case "Delete":
-                        SessionManager.Delete<TransitPlacePicture>(id, SessionManager.PlaceService.DeletePlacePicture);
+                        SessionManager.Delete<TransitAccountGroupPicture>(id, SessionManager.GroupService.DeleteAccountGroupPicture);
                         ReportInfo("Picture deleted.");
                         gridManage.CurrentPageIndex = 0;
                         gridManage_OnGetDataSource(source, e);
@@ -95,14 +95,14 @@ public partial class PlacePicturesManage : AuthenticatedPage
             {
                 try
                 {
-                    TransitPlacePicture p = new TransitPlacePicture();
+                    TransitAccountGroupPicture p = new TransitAccountGroupPicture();
                     ThumbnailBitmap t = new ThumbnailBitmap(file.InputStream);
                     p.Bitmap = t.Bitmap;
                     p.Name = Path.GetFileName(file.FileName);
                     p.Description = string.Empty;
-                    p.PlaceId = RequestId;
-                    SessionManager.CreateOrUpdate<TransitPlacePicture>(
-                        p, SessionManager.PlaceService.CreateOrUpdatePlacePicture);
+                    p.AccountGroupId = RequestId;
+                    SessionManager.CreateOrUpdate<TransitAccountGroupPicture>(
+                        p, SessionManager.GroupService.CreateOrUpdateAccountGroupPicture);
                 }
                 catch (Exception ex)
                 {
@@ -116,12 +116,11 @@ public partial class PlacePicturesManage : AuthenticatedPage
             gridManage.DataBind();
             exceptions.Throw();
 
-            Redirect(string.Format("PlaceView.aspx?id={0}", RequestId));
+            Redirect(string.Format("AccountGroupView.aspx?id={0}", RequestId));
         }
         catch (Exception ex)
         {
             ReportException(ex);
         }
     }
-
 }

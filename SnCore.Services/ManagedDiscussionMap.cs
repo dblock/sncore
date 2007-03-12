@@ -122,7 +122,7 @@ namespace SnCore.Services
             new ManagedDiscussionMapEntry<AccountStoryPicture>(GetOwnerId, GetObjectName, "Story Picture Comments", "AccountStoryPictureView.aspx?id={0}&#comments"),
             new ManagedDiscussionMapEntry<AccountEvent>(GetOwnerId, GetObjectName, "Event Comments", "AccountEventView.aspx?id={0}&#comments"),
             new ManagedDiscussionMapEntry<AccountEventPicture>(GetOwnerId, GetObjectName, "Event Picture Comments", "AccountEventPictureView.aspx?id={0}&#comments"),
-            new ManagedDiscussionMapEntry<AccountGroupPicture>(GetOwnerId, GetObjectName, "Group Picture Comments", "GroupPictureView.aspx?id={0}&#comments")
+            new ManagedDiscussionMapEntry<AccountGroupPicture>(GetOwnerId, GetObjectName, "Group Picture Comments", "AccountGroupPictureView.aspx?id={0}&#comments")
         };
 
         public static ManagedDiscussionMapEntry Find(string name)

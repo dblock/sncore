@@ -85,19 +85,32 @@ public partial class AccountGroupView : Page
 
             this.Title = Renderer.Render(AccountGroup.Name);
 
-            GetPicturesData(sender, e);
-
             TransitAccountGroupAccount t_account = GetAccountGroupAccount();
+
+            bool fGroupAdmin = ((t_account != null && t_account.IsAdministrator) || SessionManager.IsAdministrator);
+            bool fGroupMember = (t_account != null);
+            bool fGroupMemberOrAdmin = (fGroupMember || SessionManager.IsAdministrator);
 
             // links
             linkRequests.NavigateUrl = string.Format("AccountGroupAccountRequestsManage.aspx?id={0}", AccountGroupId);
-            linkRequests.Visible = AccountGroup.IsPrivate &&
-                ((t_account != null && t_account.IsAdministrator) || SessionManager.IsAdministrator);
-            linkRequest.Visible = (t_account == null);
+            linkRequests.Visible = AccountGroup.IsPrivate && fGroupAdmin;
+            linkPictures.NavigateUrl = string.Format("AccountGroupPicturesManage.aspx?id={0}", AccountGroupId);
+            linkPictures.Visible = fGroupMemberOrAdmin;
+            linkRequest.Visible = ! fGroupMember;
+            linkLeave.Visible = fGroupMember;
+            linkDelete.Visible = fGroupAdmin;
 
             // text
             accountgroupName.Text = Renderer.Render(AccountGroup.Name);
             accountgroupDescription.Text = Renderer.Render(AccountGroup.Description);
+
+            if (AccountGroup.IsPrivate && ! fGroupMemberOrAdmin)
+            {
+                ReportWarning("This is a private group. You must be a member to see it.");
+                return;
+            }
+
+            GetPicturesData(sender, e);
         }
     }
 
@@ -120,15 +133,17 @@ public partial class AccountGroupView : Page
 
     public void linkRequest_Click(object sender, EventArgs e)
     {
+        string requesturi = string.Format("AccountGroupAccountRequestEdit.aspx?gid={0}", AccountGroupId);
+
         if (!SessionManager.IsLoggedIn)
         {
-            RedirectToLogin();
+            RedirectToLogin(requesturi);
             return;
         }
 
-        if (AccountGroup.IsPrivate)
+        if (AccountGroup.IsPrivate && ! SessionManager.IsAdministrator)
         {
-            Redirect(string.Format("AccountGroupAccountRequestEdit.aspx?gid={0}", AccountGroupId));
+            Redirect(requesturi);
         }
         else
         {
@@ -137,7 +152,20 @@ public partial class AccountGroupView : Page
             t_instance.AccountGroupId = AccountGroupId;
             t_instance.IsAdministrator = false;
             SessionManager.GroupService.CreateOrUpdateAccountGroupAccount(SessionManager.Ticket, t_instance);
-            ReportInfo(string.Format("Welcome to \"{0}\"!", Renderer.Render(AccountGroup.Name)));
+            Redirect(Request.Url.PathAndQuery);
         }
+    }
+
+    public void linkLeave_Click(object sender, EventArgs e)
+    {
+        TransitAccountGroupAccount t_account = GetAccountGroupAccount();
+        SessionManager.GroupService.DeleteAccountGroupAccount(SessionManager.Ticket, t_account.Id);
+        Redirect(Request.Url.PathAndQuery);
+    }
+
+    public void linkDelete_Click(object sender, EventArgs e)
+    {
+        SessionManager.Delete<TransitAccountGroup>(AccountGroupId, SessionManager.GroupService.DeleteAccountGroup);
+        Redirect("AccountGroupsView.aspx");
     }
 }

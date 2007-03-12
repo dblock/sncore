@@ -30,7 +30,7 @@ public partial class AccountGroupAccountRequestEdit : AuthenticatedPage
             linkBack.NavigateUrl = ReturnUrl;
             linkAccountGroup.Text = Renderer.Render(group.Name);
             imageAccountGroup.ImageUrl = string.Format("AccountGroupPictureThumbnail.aspx?id={0}", group.PictureId);
-            inputMessage.Text = string.Format("Dear Admin\n\nI would like to join \"{0}\".\n\nThanks!\n", group.Name);
+            inputMessage.Text = string.Format("Hi,\n\nI would like to join \"{0}\".\n\nThanks!\n", group.Name);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Groups", Request, "AccountGroupsView.aspx"));

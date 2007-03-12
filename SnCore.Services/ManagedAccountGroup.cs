@@ -120,7 +120,7 @@ namespace SnCore.Services
             Created = value.Created;
             Modified = value.Modified;
             IsPrivate = value.IsPrivate;
-            PictureId = ManagedAccountGroup.GetRandomAccountGroupPictureId(value);
+            if (! IsPrivate) PictureId = ManagedAccountGroup.GetRandomAccountGroupPictureId(value);
             base.SetInstance(value);
         }
 
@@ -285,6 +285,16 @@ namespace SnCore.Services
                 string.Format("SELECT COUNT(*) FROM AccountGroupAccountRequest instance where " +
                     "(instance.AccountGroup.Id = {0} and instance.Account.Id = {1})",
                     Id, accountid)).UniqueResult<int>() > 0);
+        }
+
+        public override TransitAccountGroup GetTransitInstance(ManagedSecurityContext sec)
+        {
+            TransitAccountGroup t_instance = base.GetTransitInstance(sec);
+            if (t_instance.IsPrivate && (sec.Account == null || ! HasAccount(sec.Account.Id)))
+            {
+                t_instance.PictureId = 0;
+            }
+            return t_instance;
         }
     }
 }

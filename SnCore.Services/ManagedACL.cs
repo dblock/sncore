@@ -266,14 +266,24 @@ namespace SnCore.Services
             return current;
         }
 
-        public void Check(ManagedSecurityContext sec, DataOperation op)
+        public bool TryCheck(ManagedSecurityContext sec, DataOperation op)
         {
             ACLVerdict result = Apply(sec, op);
             switch (result)
             {
                 case ACLVerdict.Denied:
                 case ACLVerdict.None:
-                    throw new ManagedAccount.AccessDeniedException();
+                    return false;
+            }
+
+            return true;
+        }
+
+        public void Check(ManagedSecurityContext sec, DataOperation op)
+        {
+            if (!TryCheck(sec, op))
+            {
+                throw new ManagedAccount.AccessDeniedException();
             }
         }
 

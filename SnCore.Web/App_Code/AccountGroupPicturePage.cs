@@ -20,8 +20,8 @@ public abstract class AccountGroupPicturePage : PicturePage
 
     public override TransitPicture GetPictureWithBitmap(int id, DateTime ifModifiedSince)
     {
-        TransitAccountGroupPicture p = SessionManager.GetInstance<TransitAccountGroupPicture, int, DateTime>(
-            id, ifModifiedSince, SessionManager.GroupService.GetAccountGroupPictureIfModifiedSinceById);
+        TransitAccountGroupPicture p = SessionManager.GroupService.GetAccountGroupPictureIfModifiedSinceById(
+            SessionManager.Ticket, id, ifModifiedSince);
 
         if (p == null)
             return null;
@@ -37,8 +37,8 @@ public abstract class AccountGroupPicturePage : PicturePage
 
     public override TransitPicture GetPictureWithThumbnail(int id, DateTime ifModifiedSince)
     {
-        TransitAccountGroupPicture p = SessionManager.GetInstance<TransitAccountGroupPicture, int, DateTime>(
-            id, ifModifiedSince, SessionManager.GroupService.GetAccountGroupPictureIfModifiedSinceById);
+        TransitAccountGroupPicture p = SessionManager.GroupService.GetAccountGroupPictureIfModifiedSinceById(
+            SessionManager.Ticket, id, ifModifiedSince);
 
         if (p == null)
             return null;
@@ -54,8 +54,8 @@ public abstract class AccountGroupPicturePage : PicturePage
 
     public override TransitPicture GetPictureWithBitmap(int id)
     {
-        TransitAccountGroupPicture p = SessionManager.GetInstance<TransitAccountGroupPicture, int>(
-            id, SessionManager.GroupService.GetAccountGroupPictureById);
+        TransitAccountGroupPicture p = SessionManager.GroupService.GetAccountGroupPictureById(
+            SessionManager.Ticket, id);
 
         if (p == null)
             return null;
@@ -71,8 +71,8 @@ public abstract class AccountGroupPicturePage : PicturePage
 
     public override TransitPicture GetPictureWithThumbnail(int id)
     {
-        TransitAccountGroupPicture p = SessionManager.GetInstance<TransitAccountGroupPicture, int>(
-            id, SessionManager.GroupService.GetAccountGroupPictureById);
+        TransitAccountGroupPicture p = SessionManager.GroupService.GetAccountGroupPictureById(
+            SessionManager.Ticket, id);
 
         if (p == null)
             return null;
@@ -88,8 +88,8 @@ public abstract class AccountGroupPicturePage : PicturePage
 
     public override TransitPicture GetRandomPictureWithThumbnail()
     {
-        SnCore.Services.TransitPicture p = SessionManager.GetInstance<SnCore.Services.TransitPicture, string>(
-            "AccountGroup", SessionManager.ObjectService.GetRandomPictureByType);
+        SnCore.Services.TransitPicture p = SessionManager.ObjectService.GetRandomPictureByType(
+            SessionManager.Ticket, "AccountGroup");
 
         if (p == null)
             return null;

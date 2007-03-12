@@ -289,10 +289,15 @@ public class Page : System.Web.UI.Page
         return Renderer.GetSummary(SessionManager.RenderMarkups(summary));
     }
 
-    public void RedirectToLogin()
+    public void RedirectToLogin(string uri)
     {
         Redirect(string.Format("AccountLogin.aspx?ReturnUrl={0}&AuthenticatedPage=true",
-            Renderer.UrlEncode(Request.Url.PathAndQuery)));
+            Renderer.UrlEncode(uri)));
+    }
+
+    public void RedirectToLogin()
+    {
+        RedirectToLogin(Request.Url.PathAndQuery);
     }
 }
 

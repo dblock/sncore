@@ -115,6 +115,8 @@ public partial class AccountEventPicturesManage : AuthenticatedPage
             gridManage_OnGetDataSource(sender, e);
             gridManage.DataBind();
             exceptions.Throw();
+
+            Redirect(string.Format("AccountEventView.aspx?id={0}", RequestId));
         }
         catch (Exception ex)
         {

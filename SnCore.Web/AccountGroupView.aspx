@@ -59,14 +59,23 @@
          <asp:LinkButton ID="linkRequest" runat="server" Text="&#187; Join this Group" OnClick="linkRequest_Click" />
         </div>
         <div>
+         <asp:LinkButton ID="linkLeave" runat="server" Text="&#187; Leave this Group" OnClick="linkLeave_Click" />
+        </div>
+        <div>
          <SnCore:TellAFriend ID="linkTellAFriend" runat="server" />
         </div>
-        <asp:Panel ID="panelAdmin" runat="server">
-         <div>
-          <asp:HyperLink ID="linkRequests" runat="server" Text="&#187; Membership Requests" 
-           NavigateUrl="AccountGroupAccountRequestsManage.aspx" />
-         </div>
-        </asp:Panel>
+        <div>
+         <asp:HyperLink ID="linkRequests" runat="server" Text="&#187; Membership Requests" 
+          NavigateUrl="AccountGroupAccountRequestsManage.aspx" />
+        </div>
+        <div>
+         <asp:HyperLink ID="linkPictures" runat="server" Text="&#187; Upload a Picture" 
+          NavigateUrl="AccountGroupPicturesManage.aspx" />
+        </div>
+        <div>
+         <asp:LinkButton ID="linkDelete" runat="server" Text="&#187; Delete this Group" OnClick="linkDelete_Click" 
+          OnClientClick="return confirm('Are you sure you want to delete this group?');" />
+        </div>
        </td>
       </tr>
      </table>

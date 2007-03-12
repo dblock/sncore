@@ -212,6 +212,8 @@ namespace SnCore.Services
             ACL acl = base.GetACL();
             // everyone is able to see this membership if the group is public
             if (!mInstance.AccountGroup.IsPrivate) acl.Add(new ACLEveryoneAllowRetrieve());
+            // everyone is able to join the group if the group is public
+            if (!mInstance.AccountGroup.IsPrivate) acl.Add(new ACLAuthenticatedAllowCreate());
             // member can remove and read himself from the group
             acl.Add(new ACLAccount(mInstance.Account, DataOperation.Delete | DataOperation.Retreive));
             // members can edit or see the membership depending on their permissions
