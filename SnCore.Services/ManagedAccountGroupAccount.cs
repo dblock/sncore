@@ -236,11 +236,37 @@ namespace SnCore.Services
         public override int CreateOrUpdate(TransitAccountGroupAccount t_instance, ManagedSecurityContext sec)
         {
             ManagedAccountGroup m_group = new ManagedAccountGroup(Session, t_instance.AccountGroupId);
-            if (m_group.HasAccount(t_instance.AccountId))
+
+            // check whether the user is already a member
+            if (t_instance.Id == 0 && m_group.HasAccount(t_instance.AccountId))
             {
                 throw new SoapException(string.Format(
                     "You are already a member of \"{0}\".", m_group.Instance.Name),
                     SoapException.ClientFaultCode);
+            }
+
+            // ensure that not removing last admin
+            if (t_instance.Id > 0 && ! t_instance.IsAdministrator)
+            {
+                AccountGroupAccount existing_instance = Session.Load<AccountGroupAccount>(t_instance.Id);
+                if (existing_instance.IsAdministrator)
+                {
+                    bool fHasAnotherAdmin = false;
+                    foreach (AccountGroupAccount instance in existing_instance.AccountGroup.AccountGroupAccounts)
+                    {
+                        if (instance.IsAdministrator && instance != existing_instance)
+                        {
+                            fHasAnotherAdmin = true;
+                            break;
+                        }
+                    }
+
+                    if (!fHasAnotherAdmin)
+                    {
+                        throw new SoapException("Cannot demote the last group administrator.",
+                            SoapException.ClientFaultCode);
+                    }
+                }
             }
 
             return base.CreateOrUpdate(t_instance, sec);

@@ -40,5 +40,17 @@ namespace SnCore.Services.Tests
             t_instance.IsAdministrator = true;
             return t_instance;
         }
+
+        [Test]
+        protected void PromoteDemoteTest()
+        {
+
+        }
+
+        [Test]
+        protected void DemoteLastGroupAdministratorTest()
+        {
+            // test that demoting the last group administrator doesn't work
+        }
     }
 }

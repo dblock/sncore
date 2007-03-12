@@ -8,6 +8,7 @@
 <%@ Register TagPrefix="SnCore" TagName="TellAFriend" Src="TellAFriendControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="RedirectView" Src="AccountRedirectViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="BookmarksView" Src="BookmarksViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="AccountsView" Src="AccountGroupAccountsViewControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <asp:Panel CssClass="panel" ID="pnlAccountGroup" runat="server">
   <table cellspacing="0" cellpadding="4" class="sncore_table">
@@ -89,6 +90,7 @@
        </td>
       </tr>
      </table>
+     <SnCore:AccountsView runat="server" ID="accountsView" />
     </td>
    </tr>
   </table>
