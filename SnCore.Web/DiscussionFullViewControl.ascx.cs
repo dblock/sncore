@@ -42,13 +42,13 @@ public partial class DiscussionFullViewControl : Control
 
     public void Page_Load(object sender, EventArgs e)
     {
-            if (!IsPostBack)
+        if (!IsPostBack)
+        {
+            if (DiscussionId > 0)
             {
-                if (DiscussionId > 0)
-                {
-                    GetData(sender, e);
-                }
+                GetData(sender, e);
             }
+        }
     }
 
     public void GetData(object sender, EventArgs e)
@@ -57,29 +57,29 @@ public partial class DiscussionFullViewControl : Control
             SessionManager.Ticket, DiscussionId);
         if (string.IsNullOrEmpty(discussionLabel.Text)) discussionLabel.Text = Renderer.Render(d.Name);
         discussionDescription.Text = Renderer.Render(d.Description);
-        divDescription.Visible = ! string.IsNullOrEmpty(discussionDescription.Text);
+        divDescription.Visible = !string.IsNullOrEmpty(discussionDescription.Text);
         discussionView.DataSource = SessionManager.DiscussionService.GetDiscussionPosts(
             SessionManager.Ticket, DiscussionId, null);
         discussionView.DataBind();
 
-        postNew.NavigateUrl = string.Format("DiscussionPost.aspx?did={0}&ReturnUrl={1}&#edit", 
+        postNew.NavigateUrl = string.Format("DiscussionPost.aspx?did={0}&ReturnUrl={1}&#edit",
             DiscussionId, Renderer.UrlEncode(ReturnUrl));
     }
 
     public void discussionView_ItemCommand(object source, DataGridCommandEventArgs e)
     {
-            switch (e.CommandName)
-            {
-                case "Delete":
-                    {
-                        int id = int.Parse(e.CommandArgument.ToString());
-                        SessionManager.Delete<TransitDiscussionPost>(id, SessionManager.DiscussionService.DeleteDiscussionPost);
-                        discussionView.DataSource = SessionManager.DiscussionService.GetDiscussionPosts(
-                            SessionManager.Ticket, DiscussionId, null);
-                        discussionView.DataBind();
-                        break;
-                    }
-            }
+        switch (e.CommandName)
+        {
+            case "Delete":
+                {
+                    int id = int.Parse(e.CommandArgument.ToString());
+                    SessionManager.Delete<TransitDiscussionPost>(id, SessionManager.DiscussionService.DeleteDiscussionPost);
+                    discussionView.DataSource = SessionManager.DiscussionService.GetDiscussionPosts(
+                        SessionManager.Ticket, DiscussionId, null);
+                    discussionView.DataBind();
+                    break;
+                }
+        }
     }
 
     public int DiscussionId
@@ -122,12 +122,12 @@ public partial class DiscussionFullViewControl : Control
                 bool canedit = bool.Parse(e.Item.Cells[(int)Cells.canedit].Text);
                 bool candelete = bool.Parse(e.Item.Cells[(int)Cells.candelete].Text);
 
-                HtmlAnchor linkEdit = (HtmlAnchor) e.Item.FindControl("linkEdit");
+                HtmlAnchor linkEdit = (HtmlAnchor)e.Item.FindControl("linkEdit");
                 linkEdit.Visible = canedit;
                 linkEdit.HRef = string.Format("DiscussionPost.aspx?did={0}&id={1}&ReturnUrl={2}&#edit",
                     DiscussionId, id, Renderer.UrlEncode(ReturnUrl));
 
-                LinkButton linkDelete = (LinkButton) e.Item.FindControl("linkDelete");
+                LinkButton linkDelete = (LinkButton)e.Item.FindControl("linkDelete");
                 linkDelete.CommandArgument = id.ToString();
                 linkDelete.Attributes.Add("onclick", "return confirm('Are you sure you want to delete this post?');");
                 linkDelete.Visible = candelete;

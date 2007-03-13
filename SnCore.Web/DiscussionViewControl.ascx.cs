@@ -17,6 +17,8 @@ using SnCore.WebServices;
 
 public partial class DiscussionViewControl : Control
 {
+    private string mCssClass = "sncore_table";
+
     public string PostNewText
     {
         get
@@ -65,6 +67,9 @@ public partial class DiscussionViewControl : Control
 
             linkRelRss.NavigateUrl = string.Format("DiscussionRss.aspx?id={0}", DiscussionId);
 
+            gridManage.CssClass = mCssClass;
+            tableSearch.Attributes["class"] = mCssClass;
+
             GetData(sender, e);
         }
     }
@@ -78,6 +83,18 @@ public partial class DiscussionViewControl : Control
         set
         {
             ViewState["DiscussionId"] = value;
+        }
+    }
+
+    public string CssClass
+    {
+        get
+        {
+            return mCssClass;
+        }
+        set
+        {
+            mCssClass = value;
         }
     }
 

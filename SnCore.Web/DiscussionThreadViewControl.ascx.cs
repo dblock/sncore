@@ -41,7 +41,9 @@ public partial class DiscussionThreadViewControl : Control
                 discussionDescription.Text = Renderer.Render(d.Description);
                 linkNew.NavigateUrl = string.Format("DiscussionPost.aspx?did={0}&ReturnUrl={1}",
                     d.Id, Renderer.UrlEncode(ReturnUrl));
-                linkNew.Visible = (d.Personal == false);
+                linkNew.Visible = ! d.Personal;
+                linkAllDiscussions.Visible = !d.Personal;
+                linkNewPosts.Visible = !d.Personal;
             }
 
             GetData(sender, e);

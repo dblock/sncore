@@ -542,7 +542,7 @@ namespace SnCore.Services
                 {
                     t_instance.ParentObjectName = mapentry.GetObjectName(Session, t_instance.ObjectId);
                     t_instance.ParentObjectType = mapentry.Type.Name;
-                    t_instance.ParentObjectUri = string.Format(mapentry.PublicUriFormat, t_instance.ObjectId);
+                    t_instance.ParentObjectUri = string.Format(mapentry.DiscussionUriFormat, t_instance.ObjectId);
                 }
             }
 

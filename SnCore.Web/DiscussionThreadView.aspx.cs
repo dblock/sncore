@@ -32,11 +32,15 @@ public partial class DiscussionThreadView : Page
                 SessionManager.Ticket, t.DiscussionId);
 
             if (td.Personal)
-            {
-                Redirect(SessionManager.DiscussionService.GetDiscussionRedirectUri(
-                    SessionManager.Ticket, td.Id));
+            {              
+                string uri = SessionManager.DiscussionService.GetThreadRedirectUri(
+                    SessionManager.Ticket, td.Id);
 
-                return;
+                if (!string.IsNullOrEmpty(uri))
+                {
+                    Redirect(uri);
+                    return;
+                }
             }
 
             this.Title = Renderer.Render(td.Name);
@@ -46,9 +50,19 @@ public partial class DiscussionThreadView : Page
             discussionMain.DataBind();
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Discussions", Request, "DiscussionsView.aspx"));
-            sitemapdata.Add(new SiteMapDataAttributeNode(td.Name, Request, string.Format("DiscussionView.aspx?id={0}", td.Id)));
-            sitemapdata.Add(new SiteMapDataAttributeNode("Thread", Request.Url));
+
+            if (!string.IsNullOrEmpty(td.ParentObjectName))
+            {
+                sitemapdata.Add(new SiteMapDataAttributeNode(td.ParentObjectName, Request, td.ParentObjectUri));
+                sitemapdata.Add(new SiteMapDataAttributeNode(td.Name, Request, string.Format("{0}#discuss", td.ParentObjectUri)));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Thread", Request.Url));
+            }
+            else
+            {
+                sitemapdata.Add(new SiteMapDataAttributeNode("Discussions", Request, "DiscussionsView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode(td.Name, Request, string.Format("DiscussionView.aspx?id={0}", td.Id)));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Thread", Request.Url));
+            }
             StackSiteMap(sitemapdata);
         }
     }

@@ -22,17 +22,31 @@ namespace SnCore.Services
             }
         }
 
-        private string mPublicUriFormat;
+        private string mThreadUriFormat;
 
-        public string PublicUriFormat
+        public string ThreadUriFormat
         {
             get
             {
-                return mPublicUriFormat;
+                return mThreadUriFormat;
             }
             set
             {
-                mPublicUriFormat = value;
+                mThreadUriFormat = value;
+            }
+        }
+
+        private string mDiscussionUriFormat;
+
+        public string DiscussionUriFormat
+        {
+            get
+            {
+                return mDiscussionUriFormat;
+            }
+            set
+            {
+                mDiscussionUriFormat = value;
             }
         }
 
@@ -43,7 +57,14 @@ namespace SnCore.Services
         public ManagedDiscussionMapEntry(string name, string uriformat)
         {
             mName = name;
-            mPublicUriFormat = uriformat;
+            mThreadUriFormat = mDiscussionUriFormat = uriformat;
+        }
+
+        public ManagedDiscussionMapEntry(string name, string threaduriformat, string discussionuriformat)
+        {
+            mName = name;
+            mThreadUriFormat = threaduriformat;
+            mDiscussionUriFormat = discussionuriformat;
         }
     }
 
@@ -77,7 +98,12 @@ namespace SnCore.Services
         private GetObjectNameDelegate mGetObjectNameDelegate;
 
         public ManagedDiscussionMapEntry(GetOwnerIdDelegate ownerdelegate, GetObjectNameDelegate namedelegate, string name, string uriformat)
-            : base(name, uriformat)
+            : this(ownerdelegate, namedelegate, name, uriformat, uriformat)
+        {
+        }
+
+        public ManagedDiscussionMapEntry(GetOwnerIdDelegate ownerdelegate, GetObjectNameDelegate namedelegate, string name, string threaduriformat, string discussionuriformat)
+            : base(name, threaduriformat, discussionuriformat)
         {
             mGetOwnerIdDelegate = ownerdelegate;
             mGetObjectNameDelegate = namedelegate;
@@ -96,6 +122,16 @@ namespace SnCore.Services
         public static int GetOwnerId(AccountStoryPicture instance, int id) { return instance.AccountStory.Account.Id; }
         public static int GetOwnerId(AccountEvent instance, int id) { return instance.Account.Id; }
         public static int GetOwnerId(AccountEventPicture instance, int id) { return instance.AccountEvent.Account.Id; }
+        
+        public static int GetOwnerId(AccountGroup group, int id) 
+        {
+            foreach (AccountGroupAccount instance in group.AccountGroupAccounts)
+                if (instance.Account.IsAdministrator)
+                    return instance.Account.Id;
+
+            return 0;
+        }
+
         public static int GetOwnerId(AccountGroupPicture instance, int id) { return instance.Account.Id; }
 
         public static string GetObjectName(AccountPicture instance, int id) { return string.Format("Profile Pictures: {0}", instance.Name); }
@@ -109,6 +145,7 @@ namespace SnCore.Services
         public static string GetObjectName(AccountEvent instance, int id) { return instance.Name; }
         public static string GetObjectName(AccountEventPicture instance, int id) { return string.Format("{0} Pictures: {1}", instance.AccountEvent.Name, instance.Name); }
         public static string GetObjectName(AccountGroupPicture instance, int id) { return string.Format("{0} Pictures: {1}", instance.AccountGroup.Name, instance.Name); }
+        public static string GetObjectName(AccountGroup instance, int id) { return instance.Name; }
 
         public static ManagedDiscussionMapEntry[] GlobalMap =
         {
@@ -122,7 +159,8 @@ namespace SnCore.Services
             new ManagedDiscussionMapEntry<AccountStoryPicture>(GetOwnerId, GetObjectName, "Story Picture Comments", "AccountStoryPictureView.aspx?id={0}&#comments"),
             new ManagedDiscussionMapEntry<AccountEvent>(GetOwnerId, GetObjectName, "Event Comments", "AccountEventView.aspx?id={0}&#comments"),
             new ManagedDiscussionMapEntry<AccountEventPicture>(GetOwnerId, GetObjectName, "Event Picture Comments", "AccountEventPictureView.aspx?id={0}&#comments"),
-            new ManagedDiscussionMapEntry<AccountGroupPicture>(GetOwnerId, GetObjectName, "Group Picture Comments", "AccountGroupPictureView.aspx?id={0}&#comments")
+            new ManagedDiscussionMapEntry<AccountGroupPicture>(GetOwnerId, GetObjectName, "Group Picture Comments", "AccountGroupPictureView.aspx?id={0}&#comments"),
+            new ManagedDiscussionMapEntry<AccountGroup>(GetOwnerId, GetObjectName, "Group Discussion", string.Empty, "AccountGroupView.aspx?id={0}")
         };
 
         public static ManagedDiscussionMapEntry Find(string name)

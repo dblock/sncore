@@ -60,7 +60,22 @@ namespace SnCore.WebServices
             TransitDiscussion td = GetDiscussionById(ticket, id);
             if (!td.Personal) throw new Exception(string.Format("Discussion {0} is not Personal", td.Name));
             ManagedDiscussionMapEntry mapentry = ManagedDiscussionMap.Find(td.Name);
-            return string.Format(mapentry.PublicUriFormat, td.ObjectId);
+            return string.Format(mapentry.DiscussionUriFormat, td.ObjectId);
+        }
+
+        /// <summary>
+        /// Get a personal discussion thread redirect url.
+        /// </summary>
+        /// <param name="ticket"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [WebMethod(Description = "Get a personal discussion redirect url.")]
+        public string GetThreadRedirectUri(string ticket, int id)
+        {
+            TransitDiscussion td = GetDiscussionById(ticket, id);
+            if (!td.Personal) throw new Exception(string.Format("Discussion {0} is not Personal", td.Name));
+            ManagedDiscussionMapEntry mapentry = ManagedDiscussionMap.Find(td.Name);
+            return string.Format(mapentry.ThreadUriFormat, td.ObjectId);
         }
 
         #endregion

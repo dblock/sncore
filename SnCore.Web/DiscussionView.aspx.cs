@@ -33,6 +33,18 @@ public partial class DiscussionView : Page
                 return;
             }
 
+            if (td.Personal)
+            {
+                string uri = SessionManager.DiscussionService.GetDiscussionRedirectUri(
+                    SessionManager.Ticket, td.Id);
+
+                if (!string.IsNullOrEmpty(uri))
+                {
+                    Redirect(uri);
+                    return;
+                }
+            }
+
             this.Title = Renderer.Render(td.Name);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();

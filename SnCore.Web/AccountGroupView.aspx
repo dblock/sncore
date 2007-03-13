@@ -10,6 +10,7 @@
 <%@ Register TagPrefix="SnCore" TagName="BookmarksView" Src="BookmarksViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountsView" Src="AccountGroupAccountsViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="PlacesView" Src="AccountGroupPlacesViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="DiscussionView" Src="DiscussionViewControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <asp:Panel CssClass="panel" ID="pnlAccountGroup" runat="server">
   <table cellspacing="0" cellpadding="4" class="sncore_table">
@@ -93,6 +94,8 @@
      </table>
      <SnCore:AccountsView runat="server" ID="accountsView" />
      <SnCore:PlacesView runat="server" ID="placesView" />
+     <a name="discuss"></a>
+     <SnCore:DiscussionView runat="server" ID="discussionView" PostNewText="&#187; Post New" CssClass="sncore_account_table" />
     </td>
    </tr>
   </table>

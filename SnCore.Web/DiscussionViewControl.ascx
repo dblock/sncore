@@ -27,7 +27,7 @@
  ExpandControlID="linkSearch" CollapseControlID="linkSearch" SuppressPostBack="true">
 </ajaxtoolkit:CollapsiblePanelExtender>
 <asp:Panel ID="panelSearch" runat="server" CssClass="sncore_collapsed_div">
- <table class="sncore_table">
+ <table runat="server" id="tableSearch" class="sncore_table">
   <tr>
    <td class="sncore_form_label">
     search:

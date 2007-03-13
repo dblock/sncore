@@ -114,6 +114,9 @@ public partial class AccountGroupView : Page
 
             accountsView.AccountGroupId = AccountGroupId;
             placesView.AccountGroupId = AccountGroupId;
+
+            discussionView.DiscussionId = SessionManager.DiscussionService.GetOrCreateDiscussionId(
+                SessionManager.Ticket, "AccountGroup", RequestId);
         }
     }
 
