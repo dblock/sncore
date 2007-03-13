@@ -42,15 +42,28 @@ namespace SnCore.Services.Tests
         }
 
         [Test]
-        protected void PromoteDemoteTest()
+        public void PromoteDemoteTest()
         {
-
+            TransitAccountGroupAccount t_instance = GetTransitInstance();
+            ManagedAccountGroupAccount m_account = new ManagedAccountGroupAccount(Session);
+            t_instance.IsAdministrator = false                     ;
+            t_instance.Id = m_account.CreateOrUpdate(t_instance, AdminSecurityContext);
+            ManagedAccountGroupAccount m_account_copy1 = new ManagedAccountGroupAccount(Session, t_instance.Id);
+            Assert.IsFalse(m_account_copy1.Instance.IsAdministrator);
+            t_instance.IsAdministrator = true;
+            m_account.CreateOrUpdate(t_instance, AdminSecurityContext);
+            ManagedAccountGroupAccount m_account_copy2 = new ManagedAccountGroupAccount(Session, t_instance.Id);
+            Assert.IsTrue(m_account_copy2.Instance.IsAdministrator);
+            m_account.Delete(AdminSecurityContext);
         }
 
-        [Test]
-        protected void DemoteLastGroupAdministratorTest()
+        [Test, ExpectedException(typeof(Exception))]
+        public void DemoteLastGroupAdministratorTest()
         {
-            // test that demoting the last group administrator doesn't work
+            ManagedAccountGroup m_group = new ManagedAccountGroup(Session, _group.Instance.Id);
+            Assert.AreEqual(1, m_group.Instance.AccountGroupAccounts.Count);
+            ManagedAccountGroupAccount m_account = new ManagedAccountGroupAccount(Session, m_group.Instance.AccountGroupAccounts[0]);
+            m_account.Delete(AdminSecurityContext);
         }
     }
 }

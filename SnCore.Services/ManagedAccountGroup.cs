@@ -271,6 +271,14 @@ namespace SnCore.Services
             }
         }
 
+        public bool HasPlace(int placeid)
+        {
+            return (Session.CreateQuery(
+                string.Format("SELECT COUNT(*) FROM AccountGroupPlace instance where " +
+                    "(instance.AccountGroup.Id = {0} and instance.Place.Id = {1})",
+                    Id, placeid)).UniqueResult<int>() > 0);
+        }
+
         public bool HasAccount(int accountid)
         {
             return (Session.CreateQuery(

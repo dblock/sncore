@@ -264,5 +264,20 @@ namespace SnCore.Services
             }
             return acl;
         }
+
+        public override int CreateOrUpdate(TransitAccountGroupPlace t_instance, ManagedSecurityContext sec)
+        {
+            ManagedAccountGroup m_group = new ManagedAccountGroup(Session, t_instance.AccountGroupId);
+
+            // check whether the user is already a member
+            if (t_instance.Id == 0 && m_group.HasPlace(t_instance.PlaceId))
+            {
+                throw new SoapException(string.Format(
+                    "This place has already been added to \"{0}\".", m_group.Instance.Name),
+                    SoapException.ClientFaultCode);
+            }
+
+            return base.CreateOrUpdate(t_instance, sec);
+        }
     }
 }

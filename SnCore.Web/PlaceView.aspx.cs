@@ -265,6 +265,8 @@ public partial class PlaceView : Page
 
                 redirect.TargetUri = string.Format("PlaceView.aspx?id={0}", place.Id);
                 redirect.AccountId = place.AccountId;
+
+                linkAddToGroup.NavigateUrl = string.Format("AccountGroupPlaceAdd.aspx?id={0}", RequestId);
             }
             else
             {

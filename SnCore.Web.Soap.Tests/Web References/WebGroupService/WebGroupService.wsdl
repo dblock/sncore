@@ -260,6 +260,22 @@
       <s:element name="DeleteAccountGroupAccountResponse">
         <s:complexType />
       </s:element>
+      <s:element name="GetAccountGroupAccountByAccountGroupId">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="accountid" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="groupid" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountGroupAccountByAccountGroupIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountGroupAccountByAccountGroupIdResult" type="tns:TransitAccountGroupAccount" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="CreateOrUpdateAccountGroupPicture">
         <s:complexType>
           <s:sequence>
@@ -878,6 +894,12 @@
   <wsdl:message name="DeleteAccountGroupAccountSoapOut">
     <wsdl:part name="parameters" element="tns:DeleteAccountGroupAccountResponse" />
   </wsdl:message>
+  <wsdl:message name="GetAccountGroupAccountByAccountGroupIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountGroupAccountByAccountGroupId" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountGroupAccountByAccountGroupIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountGroupAccountByAccountGroupIdResponse" />
+  </wsdl:message>
   <wsdl:message name="CreateOrUpdateAccountGroupPictureSoapIn">
     <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountGroupPicture" />
   </wsdl:message>
@@ -1110,6 +1132,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete an account group account.</wsdl:documentation>
       <wsdl:input message="tns:DeleteAccountGroupAccountSoapIn" />
       <wsdl:output message="tns:DeleteAccountGroupAccountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountGroupAccountByAccountGroupId">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Retreive an account group account for a specific group.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountGroupAccountByAccountGroupIdSoapIn" />
+      <wsdl:output message="tns:GetAccountGroupAccountByAccountGroupIdSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="CreateOrUpdateAccountGroupPicture">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update an account group picture.</wsdl:documentation>
@@ -1368,6 +1395,15 @@
     </wsdl:operation>
     <wsdl:operation name="DeleteAccountGroupAccount">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountGroupAccount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountGroupAccountByAccountGroupId">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountGroupAccountByAccountGroupId" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1740,6 +1776,15 @@
     </wsdl:operation>
     <wsdl:operation name="DeleteAccountGroupAccount">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountGroupAccount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountGroupAccountByAccountGroupId">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountGroupAccountByAccountGroupId" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

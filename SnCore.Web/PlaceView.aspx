@@ -106,6 +106,9 @@
             <asp:LinkButton ID="linkAddToQueue" OnClick="linkAddToQueue_Click" runat="server" Text="&#187; Add to Queue" />
            </div>
            <div>
+            <asp:HyperLink ID="linkAddToGroup" NavigateUrl="AccountGroupPlaceAdd.aspx" runat="server" Text="&#187; Add to Group" />
+           </div>
+           <div>
             <SnCore:TellAFriend ID="linkTellAFriend" runat="server" />
            </div>
            <div>

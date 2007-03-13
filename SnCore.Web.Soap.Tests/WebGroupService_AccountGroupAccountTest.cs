@@ -61,15 +61,28 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
         }
 
         [Test]
-        protected void GetAccountGroupAccountsByAccountIdTest()
+        public void GetAccountGroupAccountsByAccountIdTest()
         {
-
+            WebGroupService.TransitAccountGroupAccount t_instance = GetTransitInstance();
+            t_instance.Id = Create(GetAdminTicket(), t_instance);
+            WebGroupService.TransitAccountGroupAccount[] accounts = EndPoint.GetAccountGroupAccountsByAccountId(
+                GetAdminTicket(), _account_id, null);
+            Assert.IsNotNull(accounts);
+            Assert.IsTrue(accounts.Length > 0);
+            Assert.IsTrue(new TransitServiceCollection<WebGroupService.TransitAccountGroupAccount>(accounts).ContainsId(t_instance.Id));
+            Delete(GetAdminTicket(), t_instance.Id);
         }
 
         [Test]
-        protected void GetAccountGroupAccountByAccountGroupIdTest()
+        public void GetAccountGroupAccountByAccountGroupIdTest()
         {
-
+            WebGroupService.TransitAccountGroupAccount t_instance = GetTransitInstance();
+            t_instance.Id = Create(GetAdminTicket(), t_instance);
+            WebGroupService.TransitAccountGroupAccount account = EndPoint.GetAccountGroupAccountByAccountGroupId(
+                GetAdminTicket(), _account_id, _group_id);
+            Assert.IsNotNull(account);
+            Assert.AreEqual(account.Id, t_instance.Id);
+            Delete(GetAdminTicket(), t_instance.Id);
         }
     }
 }

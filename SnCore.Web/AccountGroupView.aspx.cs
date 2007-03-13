@@ -113,6 +113,7 @@ public partial class AccountGroupView : Page
             GetPicturesData(sender, e);
 
             accountsView.AccountGroupId = AccountGroupId;
+            placesView.AccountGroupId = AccountGroupId;
         }
     }
 

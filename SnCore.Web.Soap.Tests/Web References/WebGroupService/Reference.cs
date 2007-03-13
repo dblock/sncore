@@ -64,6 +64,8 @@ namespace SnCore.Web.Soap.Tests.WebGroupService {
         
         private System.Threading.SendOrPostCallback DeleteAccountGroupAccountOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetAccountGroupAccountByAccountGroupIdOperationCompleted;
+        
         private System.Threading.SendOrPostCallback CreateOrUpdateAccountGroupPictureOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAccountGroupPictureByIdOperationCompleted;
@@ -197,6 +199,9 @@ namespace SnCore.Web.Soap.Tests.WebGroupService {
         
         /// <remarks/>
         public event DeleteAccountGroupAccountCompletedEventHandler DeleteAccountGroupAccountCompleted;
+        
+        /// <remarks/>
+        public event GetAccountGroupAccountByAccountGroupIdCompletedEventHandler GetAccountGroupAccountByAccountGroupIdCompleted;
         
         /// <remarks/>
         public event CreateOrUpdateAccountGroupPictureCompletedEventHandler CreateOrUpdateAccountGroupPictureCompleted;
@@ -708,6 +713,39 @@ namespace SnCore.Web.Soap.Tests.WebGroupService {
             if ((this.DeleteAccountGroupAccountCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.DeleteAccountGroupAccountCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountGroupAccountByAccountGroupId", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountGroupAccount GetAccountGroupAccountByAccountGroupId(string ticket, int accountid, int groupid) {
+            object[] results = this.Invoke("GetAccountGroupAccountByAccountGroupId", new object[] {
+                        ticket,
+                        accountid,
+                        groupid});
+            return ((TransitAccountGroupAccount)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountGroupAccountByAccountGroupIdAsync(string ticket, int accountid, int groupid) {
+            this.GetAccountGroupAccountByAccountGroupIdAsync(ticket, accountid, groupid, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountGroupAccountByAccountGroupIdAsync(string ticket, int accountid, int groupid, object userState) {
+            if ((this.GetAccountGroupAccountByAccountGroupIdOperationCompleted == null)) {
+                this.GetAccountGroupAccountByAccountGroupIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountGroupAccountByAccountGroupIdOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountGroupAccountByAccountGroupId", new object[] {
+                        ticket,
+                        accountid,
+                        groupid}, this.GetAccountGroupAccountByAccountGroupIdOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountGroupAccountByAccountGroupIdOperationCompleted(object arg) {
+            if ((this.GetAccountGroupAccountByAccountGroupIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountGroupAccountByAccountGroupIdCompleted(this, new GetAccountGroupAccountByAccountGroupIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -2918,6 +2956,32 @@ namespace SnCore.Web.Soap.Tests.WebGroupService {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
     public delegate void DeleteAccountGroupAccountCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetAccountGroupAccountByAccountGroupIdCompletedEventHandler(object sender, GetAccountGroupAccountByAccountGroupIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountGroupAccountByAccountGroupIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountGroupAccountByAccountGroupIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccountGroupAccount Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountGroupAccount)(this.results[0]));
+            }
+        }
+    }
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]

@@ -12,7 +12,7 @@ using Wilco.Web.UI;
 using SnCore.WebServices;
 using SnCore.Services;
 
-public partial class AccountGroupAccountsViewControl : Control
+public partial class AccountGroupPlacesViewControl : Control
 {
     public int AccountGroupId
     {
@@ -28,34 +28,34 @@ public partial class AccountGroupAccountsViewControl : Control
 
     public void Page_Load(object sender, EventArgs e)
     {
-        friendsList.OnGetDataSource += new EventHandler(friendsList_OnGetDataSource);
+        placesList.OnGetDataSource += new EventHandler(placesList_OnGetDataSource);
 
         if (!IsPostBack)
         {
             GetData(sender, e);
 
-            linkAll.Text = string.Format("&#187; {0} member{1}",
-                friendsList.VirtualItemCount, friendsList.VirtualItemCount == 1 ? string.Empty : "s");
-            linkAll.NavigateUrl = string.Format("AccountGroupAccountsView.aspx?id={0}", AccountGroupId);
+            linkAll.Text = string.Format("&#187; {0} place{1}",
+                placesList.VirtualItemCount, placesList.VirtualItemCount == 1 ? string.Empty : "s");
+            linkAll.NavigateUrl = string.Format("AccountGroupPlacesView.aspx?id={0}", AccountGroupId);
         }
     }
 
     void GetData(object sender, EventArgs e)
     {
-        friendsList.CurrentPageIndex = 0;
-        friendsList.VirtualItemCount = SessionManager.GroupService.GetAccountGroupAccountsCount(
+        placesList.CurrentPageIndex = 0;
+        placesList.VirtualItemCount = SessionManager.GroupService.GetAccountGroupPlacesCount(
             SessionManager.Ticket, AccountGroupId);
-        friendsList_OnGetDataSource(sender, e);
-        friendsList.DataBind();
-        this.Visible = (friendsList.VirtualItemCount > 0);
+        placesList_OnGetDataSource(sender, e);
+        placesList.DataBind();
+        this.Visible = (placesList.VirtualItemCount > 0);
     }
 
-    void friendsList_OnGetDataSource(object sender, EventArgs e)
+    void placesList_OnGetDataSource(object sender, EventArgs e)
     {
         ServiceQueryOptions options = new ServiceQueryOptions();
-        options.PageNumber = friendsList.CurrentPageIndex;
-        options.PageSize = friendsList.PageSize;
-        friendsList.DataSource = SessionManager.GroupService.GetAccountGroupAccounts(
+        options.PageNumber = placesList.CurrentPageIndex;
+        options.PageSize = placesList.PageSize;
+        placesList.DataSource = SessionManager.GroupService.GetAccountGroupPlaces(
             SessionManager.Ticket, AccountGroupId, options);
         panelGrid.Update();
     }
