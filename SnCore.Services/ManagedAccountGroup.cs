@@ -196,9 +196,13 @@ namespace SnCore.Services
 
         public override ACL GetACL(Type type)
         {
-            if (type == typeof(DiscussionThread) || type == typeof(DiscussionPost))
+            if (type == typeof(DiscussionThread) 
+                || type == typeof(DiscussionPost) 
+                || type == typeof(Discussion) )
             {
                 ACL acl = base.GetACL();
+                // everyone can see contents of a public group
+                if (!mInstance.IsPrivate) acl.Add(new ACLEveryoneAllowRetrieve());
                 // members can post articles, admins can edit and delete
                 foreach (AccountGroupAccount account in Collection<AccountGroupAccount>.GetSafeCollection(mInstance.AccountGroupAccounts))
                 {
@@ -206,6 +210,7 @@ namespace SnCore.Services
                         ? DataOperation.All
                         : DataOperation.Create | DataOperation.Retreive));
                 }
+
                 return acl;
             }
             else
