@@ -99,6 +99,7 @@ public partial class AccountGroupView : Page
             linkRequest.Visible = ! fGroupMember;
             linkLeave.Visible = fGroupMember;
             linkDelete.Visible = fGroupAdmin;
+            discussionView.Visible = fGroupMemberOrAdmin;
 
             // text
             accountgroupName.Text = Renderer.Render(AccountGroup.Name);

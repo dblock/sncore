@@ -140,9 +140,20 @@ namespace SnCore.Services
 
         public override ACL GetACL()
         {
-            ACL acl = base.GetACL();
-            acl.Add(new ACLEveryoneAllowRetrieve());
-            acl.Add(new ACLAuthenticatedAllowCreate());
+            ManagedDiscussionMapEntry mapentry = null;
+            ACL acl = null;
+
+            if (mInstance.Discussion.Personal && ManagedDiscussionMap.TryFind(mInstance.Discussion.Name, out mapentry))
+            {
+                acl = mapentry.GetACL(Session, mInstance.Discussion.ObjectId, typeof(DiscussionThread));
+            }
+            else
+            {
+                acl = base.GetACL();
+                acl.Add(new ACLEveryoneAllowRetrieve());
+                acl.Add(new ACLAuthenticatedAllowCreate());
+            }
+
             return acl;
         }
 

@@ -46,7 +46,7 @@ namespace SnCore.Services
         }
     }
 
-    public abstract class ManagedService<DatabaseType, TransitType> : ManagedServiceImpl, IManagedService
+    public class ManagedService<DatabaseType, TransitType> : ManagedServiceImpl, IManagedService
         where DatabaseType : IDbObject, new()
         where TransitType : ITransitService, new()
     {
@@ -199,6 +199,11 @@ namespace SnCore.Services
         }
 
         public virtual ACL GetACL()
+        {
+            return GetACL(typeof(DatabaseType));
+        }
+
+        public virtual ACL GetACL(Type type)
         {
             return ACL.GetAdministrativeACL(Session);
         }

@@ -14,7 +14,8 @@ namespace SnCore.Services
         Update = 4,
         Delete = 8,
         All = Create | Retreive | Update | Delete,
-        AllExceptUpdate = Create | Retreive | Delete
+        AllExceptUpdate = Create | Retreive | Delete,
+        AllExceptDelete = Create | Retreive | Update
     };
 
     public enum DataOperationPermission
@@ -235,6 +236,14 @@ namespace SnCore.Services
         private static ACL s_AdminACL = new ACL();
 
         private List<IACLEntry> mAccessControlList = new List<IACLEntry>();
+
+        public List<IACLEntry> AccessControlList
+        {
+            get
+            {
+                return mAccessControlList;
+            }
+        }
 
         public ACL()
         {

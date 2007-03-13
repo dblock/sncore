@@ -194,6 +194,26 @@ namespace SnCore.Services
             return acl;
         }
 
+        public override ACL GetACL(Type type)
+        {
+            if (type == typeof(DiscussionThread) || type == typeof(DiscussionPost))
+            {
+                ACL acl = base.GetACL();
+                // members can post articles, admins can edit and delete
+                foreach (AccountGroupAccount account in Collection<AccountGroupAccount>.GetSafeCollection(mInstance.AccountGroupAccounts))
+                {
+                    acl.Add(new ACLAccount(account.Account, account.IsAdministrator
+                        ? DataOperation.All
+                        : DataOperation.Create | DataOperation.Retreive));
+                }
+                return acl;
+            }
+            else
+            {
+                return base.GetACL(type);
+            }
+        }
+
         public static int GetRandomAccountGroupPictureId(ISession session, int id)
         {
             try
