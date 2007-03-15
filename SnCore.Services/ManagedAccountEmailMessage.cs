@@ -307,9 +307,9 @@ namespace SnCore.Services
             base.Save(sec);
         }
 
-        public override ACL GetACL()
+        public override ACL GetACL(Type type)
         {
-            ACL acl = base.GetACL();
+            ACL acl = base.GetACL(type);
             // administrators can only send e-mail messages
             return acl;
         }

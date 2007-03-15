@@ -177,30 +177,13 @@ namespace SnCore.Services
             }
         }
 
-        public override ACL GetACL()
-        {
-            ACL acl = base.GetACL();
-            // everyone can create a group
-            acl.Add(new ACLAuthenticatedAllowCreate());
-            // everyone is able to see a group (only name/description)
-            acl.Add(new ACLEveryoneAllowRetrieve());
-            // members can edit or see the group depending on their permissions
-            foreach (AccountGroupAccount account in Collection<AccountGroupAccount>.GetSafeCollection(mInstance.AccountGroupAccounts))
-            {
-                acl.Add(new ACLAccount(account.Account, account.IsAdministrator
-                    ? DataOperation.All
-                    : DataOperation.Retreive | DataOperation.Update));
-            }
-            return acl;
-        }
-
         public override ACL GetACL(Type type)
         {
             if (type == typeof(DiscussionThread) 
                 || type == typeof(DiscussionPost) 
                 || type == typeof(Discussion) )
             {
-                ACL acl = base.GetACL();
+                ACL acl = base.GetACL(type);
                 // everyone can see contents of a public group
                 if (!mInstance.IsPrivate) acl.Add(new ACLEveryoneAllowRetrieve());
                 // members can post articles, admins can edit and delete
@@ -215,7 +198,19 @@ namespace SnCore.Services
             }
             else
             {
-                return base.GetACL(type);
+                ACL acl = base.GetACL(type);
+                // everyone can create a group
+                acl.Add(new ACLAuthenticatedAllowCreate());
+                // everyone is able to see a group (only name/description)
+                acl.Add(new ACLEveryoneAllowRetrieve());
+                // members can edit or see the group depending on their permissions
+                foreach (AccountGroupAccount account in Collection<AccountGroupAccount>.GetSafeCollection(mInstance.AccountGroupAccounts))
+                {
+                    acl.Add(new ACLAccount(account.Account, account.IsAdministrator
+                        ? DataOperation.All
+                        : DataOperation.Retreive));
+                }
+                return acl;
             }
         }
 
@@ -248,15 +243,17 @@ namespace SnCore.Services
 
         public void Leave(int accountid, ManagedSecurityContext sec)
         {
-            GetACL().Check(sec, DataOperation.Update);
+            GetACL().Check(sec, DataOperation.Retreive);
 
             Account adminaccount = null;
             bool fHasAdministrator = false;
+            bool fMember = false;
             foreach (AccountGroupAccount account in Collection<AccountGroupAccount>.GetSafeCollection(mInstance.AccountGroupAccounts))
             {
                 if (account.Account.Id == accountid)
                 {
                     Session.Delete(account);
+                    fMember = true;
                 }
                 else if (account.IsAdministrator)
                 {
@@ -264,6 +261,11 @@ namespace SnCore.Services
                     fHasAdministrator = true;
                     adminaccount = account.Account;
                 }
+            }
+
+            if (!fMember)
+            {
+                throw new Exception("Not a member of the group.");
             }
 
             if (!fHasAdministrator)
@@ -322,6 +324,14 @@ namespace SnCore.Services
         {
             return (Session.CreateQuery(
                 string.Format("SELECT COUNT(*) FROM AccountGroupAccountRequest instance where " +
+                    "(instance.AccountGroup.Id = {0} and instance.Account.Id = {1})",
+                    Id, accountid)).UniqueResult<int>() > 0);
+        }
+
+        public bool HasAccountInvitation(int accountid)
+        {
+            return (Session.CreateQuery(
+                string.Format("SELECT COUNT(*) FROM AccountGroupAccountInvitation instance where " +
                     "(instance.AccountGroup.Id = {0} and instance.Account.Id = {1})",
                     Id, accountid)).UniqueResult<int>() > 0);
         }

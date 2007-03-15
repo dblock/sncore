@@ -11,7 +11,7 @@
  <asp:UpdatePanel ID="panelGrid" runat="server" UpdateMode="Always">
   <ContentTemplate>
    <SnCoreWebControls:PagedList CssClass="sncore_account_table" runat="server" RepeatDirection="Horizontal"
-    ID="listPending" Width="0px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Top"
+    ID="listPending" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Top"
     OnItemCommand="listPending_ItemCommand" ItemStyle-CssClass="sncore_table_tr_td" RepeatColumns="1"
     RepeatRows="2" AllowCustomPaging="true">
     <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
@@ -19,7 +19,7 @@
     <ItemTemplate>
      <table cellpadding="4" cellspacing="0">
       <tr>
-       <td>
+       <td align="center">
         <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
          <img border="0" 
           src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" />
@@ -51,17 +51,17 @@
      </table>
     </ItemTemplate>
    </SnCoreWebControls:PagedList>
-    <table runat="server" cellpadding="4" id="reasonTable" class="sncore_account_table">
-     <tr>
-      <td class="sncore_form_label">
-       optional note:
-      </td>
-      <td class="sncore_form_value">
-       <asp:TextBox CssClass="sncore_form_textbox" TextMode="MultiLine" Rows="5" ID="inputReason"
-        runat="server" />
-      </td>
-     </tr>
-    </table>
+   <table runat="server" cellpadding="4" id="reasonTable" class="sncore_account_table">
+    <tr>
+     <td class="sncore_form_label">
+      optional note:
+     </td>
+     <td class="sncore_form_value">
+      <asp:TextBox CssClass="sncore_form_textbox" TextMode="MultiLine" Rows="5" ID="inputReason"
+       runat="server" />
+     </td>
+    </tr>
+   </table>
   </ContentTemplate>
  </asp:UpdatePanel>
 </asp:Content>

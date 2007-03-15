@@ -58,5 +58,13 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
             t_instance.PlaceId = _place_id;
             return t_instance;
         }
+
+        [Test]
+        protected void CreateOrUpdateAccountGroupPlaceTest()
+        {
+            // make sure only members can add a place to a group
+            // make sure that non-members can't see places from a private group
+        }
+
     }
 }

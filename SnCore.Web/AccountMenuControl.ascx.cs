@@ -30,6 +30,10 @@ public partial class AccountMenuControl : Control
                 linkRequests.InnerText = string.Format("Requests ({0})",
                     SessionManager.SocialService.GetAccountFriendRequestsCount(
                         SessionManager.Ticket, SessionManager.AccountId));
+
+                linkInvitations.InnerText = string.Format("Invitations ({0})",
+                    SessionManager.GroupService.GetAccountGroupAccountInvitationsByAccountIdCount(
+                        SessionManager.Ticket, SessionManager.AccountId));
             }
         }
     }

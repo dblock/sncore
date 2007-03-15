@@ -25,10 +25,10 @@
      <a href="AccountGroupAccountRequestsManage.aspx?id=<% Response.Write(this.AccountGroupAccountRequest.AccountGroupId); %>">&#187; All Requests</a>
     </div>
     <div>
-     <a href="AccountGroupAccountRequestAct.aspx?id=<% Response.Write(this.AccountGroupAccountRequest.Id); %>&action=accept">&#187; Accept</a>
+     <a href="AccountGroupAccountRequestsManage.aspx?id=<% Response.Write(this.AccountGroupAccountRequest.AccountGroupId); %>&rid=<% Response.Write(this.AccountGroupAccountRequest.Id); %>&action=Accept">&#187; Accept</a>
     </div>
     <div>
-     <a href="AccountGroupAccountRequestAct.aspx?id=<% Response.Write(this.AccountGroupAccountRequest.Id); %>&action=reject">&#187; Reject</a>
+     <a href="AccountGroupAccountRequestsManage.aspx?id=<% Response.Write(this.AccountGroupAccountRequest.AccountGroupId); %>&rid=<% Response.Write(this.AccountGroupAccountRequest.Id); %>&action=Reject">&#187; Reject</a>
     </div>
    </td>
   </tr>

@@ -214,9 +214,9 @@ namespace SnCore.Services
             base.Save(sec);
         }
 
-        public override ACL GetACL()
+        public override ACL GetACL(Type type)
         {
-            ACL acl = base.GetACL();
+            ACL acl = base.GetACL(type);
             acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
             // the content group with a Login flag set can be retreived itself, but not items in it
             acl.Add(new ACLEveryoneAllowRetrieve()); 

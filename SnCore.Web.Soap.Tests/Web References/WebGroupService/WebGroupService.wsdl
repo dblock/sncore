@@ -543,6 +543,8 @@
               <s:element minOccurs="1" maxOccurs="1" name="RequesterPictureId" type="s:int" />
               <s:element minOccurs="0" maxOccurs="1" name="RequesterName" type="s:string" />
               <s:element minOccurs="1" maxOccurs="1" name="AccountGroupId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountGroupPictureId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountGroupIsPrivate" type="s:boolean" />
               <s:element minOccurs="0" maxOccurs="1" name="AccountGroupName" type="s:string" />
               <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
               <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
@@ -654,6 +656,30 @@
         </s:complexType>
       </s:element>
       <s:element name="DeleteAccountGroupAccountInvitationResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="AcceptAccountGroupAccountInvitation">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AcceptAccountGroupAccountInvitationResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="RejectAccountGroupAccountInvitation">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RejectAccountGroupAccountInvitationResponse">
         <s:complexType />
       </s:element>
       <s:element name="CreateOrUpdateAccountGroupAccountRequest">
@@ -1008,6 +1034,18 @@
   <wsdl:message name="DeleteAccountGroupAccountInvitationSoapOut">
     <wsdl:part name="parameters" element="tns:DeleteAccountGroupAccountInvitationResponse" />
   </wsdl:message>
+  <wsdl:message name="AcceptAccountGroupAccountInvitationSoapIn">
+    <wsdl:part name="parameters" element="tns:AcceptAccountGroupAccountInvitation" />
+  </wsdl:message>
+  <wsdl:message name="AcceptAccountGroupAccountInvitationSoapOut">
+    <wsdl:part name="parameters" element="tns:AcceptAccountGroupAccountInvitationResponse" />
+  </wsdl:message>
+  <wsdl:message name="RejectAccountGroupAccountInvitationSoapIn">
+    <wsdl:part name="parameters" element="tns:RejectAccountGroupAccountInvitation" />
+  </wsdl:message>
+  <wsdl:message name="RejectAccountGroupAccountInvitationSoapOut">
+    <wsdl:part name="parameters" element="tns:RejectAccountGroupAccountInvitationResponse" />
+  </wsdl:message>
   <wsdl:message name="CreateOrUpdateAccountGroupAccountRequestSoapIn">
     <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountGroupAccountRequest" />
   </wsdl:message>
@@ -1227,6 +1265,16 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete an account group account invitation.</wsdl:documentation>
       <wsdl:input message="tns:DeleteAccountGroupAccountInvitationSoapIn" />
       <wsdl:output message="tns:DeleteAccountGroupAccountInvitationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AcceptAccountGroupAccountInvitation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Accept an invitation.</wsdl:documentation>
+      <wsdl:input message="tns:AcceptAccountGroupAccountInvitationSoapIn" />
+      <wsdl:output message="tns:AcceptAccountGroupAccountInvitationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RejectAccountGroupAccountInvitation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Reject an invitation.</wsdl:documentation>
+      <wsdl:input message="tns:RejectAccountGroupAccountInvitationSoapIn" />
+      <wsdl:output message="tns:RejectAccountGroupAccountInvitationSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="CreateOrUpdateAccountGroupAccountRequest">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update an account group account request.</wsdl:documentation>
@@ -1566,6 +1614,24 @@
     </wsdl:operation>
     <wsdl:operation name="DeleteAccountGroupAccountInvitation">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountGroupAccountInvitation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AcceptAccountGroupAccountInvitation">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/AcceptAccountGroupAccountInvitation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RejectAccountGroupAccountInvitation">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/RejectAccountGroupAccountInvitation" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1947,6 +2013,24 @@
     </wsdl:operation>
     <wsdl:operation name="DeleteAccountGroupAccountInvitation">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountGroupAccountInvitation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AcceptAccountGroupAccountInvitation">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/AcceptAccountGroupAccountInvitation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RejectAccountGroupAccountInvitation">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/RejectAccountGroupAccountInvitation" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

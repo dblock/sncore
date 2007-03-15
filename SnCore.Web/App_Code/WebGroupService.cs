@@ -439,6 +439,63 @@ namespace SnCore.WebServices
                 ticket, id);
         }
 
+        /// <summary>
+        /// Accept an invitation.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">invitation id</param>
+        /// <param name="message">optional message</param>
+        [WebMethod(Description = "Accept an invitation.")]
+        public void AcceptAccountGroupAccountInvitation(string ticket, int id, string message)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+
+                try
+                {
+                    ManagedAccountGroupAccountInvitation req = new ManagedAccountGroupAccountInvitation(session, id);
+                    req.Accept(sec, message);
+                    SnCore.Data.Hibernate.Session.Flush();
+                }
+                catch (NHibernate.ObjectNotFoundException)
+                {
+                    throw new SoapException("This invitation cannot be found. You may have already accepted it.",
+                        SoapException.ClientFaultCode);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Reject an invitation.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">invitation id</param>
+        /// <param name="message">optional message, no mail sent when blank</param>
+        [WebMethod(Description = "Reject an invitation.")]
+        public void RejectAccountGroupAccountInvitation(string ticket, int id, string message)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+
+                try
+                {
+                    ManagedAccountGroupAccountInvitation req = new ManagedAccountGroupAccountInvitation(session, id);
+                    req.Reject(sec, message);
+                    SnCore.Data.Hibernate.Session.Flush();
+                }
+                catch (NHibernate.ObjectNotFoundException)
+                {
+                    throw new SoapException("This invitation cannot be found. You may have already rejected it.",
+                        SoapException.ClientFaultCode);
+                }
+            }
+        }
+
         #endregion
 
         #region AccountGroupAccountRequest

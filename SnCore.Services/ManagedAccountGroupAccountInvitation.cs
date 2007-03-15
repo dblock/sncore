@@ -125,6 +125,34 @@ namespace SnCore.Services
             }
         }
 
+        private int mAccountGroupPictureId;
+
+        public int AccountGroupPictureId
+        {
+            get
+            {
+                return mAccountGroupPictureId;
+            }
+            set
+            {
+                mAccountGroupPictureId = value;
+            }
+        }
+
+        private bool mAccountGroupIsPrivate;
+
+        public bool AccountGroupIsPrivate
+        {
+            get
+            {
+                return mAccountGroupIsPrivate;
+            }
+            set
+            {
+                mAccountGroupIsPrivate = value;
+            }
+        }
+
         private string mAccountGroupName;
 
         public string AccountGroupName
@@ -202,6 +230,8 @@ namespace SnCore.Services
             RequesterPictureId = ManagedAccount.GetRandomAccountPictureId(value.Requester);
             AccountGroupId = value.AccountGroup.Id;
             AccountGroupName = value.AccountGroup.Name;
+            if (! value.AccountGroup.IsPrivate) AccountGroupPictureId = ManagedAccountGroup.GetRandomAccountGroupPictureId(value.AccountGroup);
+            AccountGroupIsPrivate = value.AccountGroup.IsPrivate;
             Message = value.Message;
             Created = value.Created;
             Modified = value.Modified;
@@ -214,7 +244,7 @@ namespace SnCore.Services
 
             if (Id == 0)
             {
-                instance.Account = GetOwner(session, AccountId, sec);
+                instance.Account = session.Load<Account>(AccountId);
                 instance.Requester = GetOwner(session, RequesterId, sec);
                 instance.AccountGroup = session.Load<AccountGroup>(AccountGroupId);
                 instance.Message = Message;
@@ -256,9 +286,9 @@ namespace SnCore.Services
             base.Save(sec);
         }
 
-        public override ACL GetACL()
+        public override ACL GetACL(Type type)
         {
-            ACL acl = base.GetACL();
+            ACL acl = base.GetACL(type);
             // members can create invitations or approve / deny them depending on their permissions
             foreach (AccountGroupAccount account in Collection<AccountGroupAccount>.GetSafeCollection(mInstance.AccountGroup.AccountGroupAccounts))
             {
@@ -266,7 +296,100 @@ namespace SnCore.Services
                     ? DataOperation.All
                     : DataOperation.Create));
             }
+            // the person who the invitation is for can retreive and delete it
+            acl.Add(new ACLAccount(mInstance.Account, DataOperation.AllExceptUpdate));
             return acl;
         }
+
+        public override int CreateOrUpdate(TransitAccountGroupAccountInvitation t_instance, ManagedSecurityContext sec)
+        {
+            ManagedAccountGroup m_group = new ManagedAccountGroup(Session, t_instance.AccountGroupId);
+            ManagedAccount m_account = new ManagedAccount(Session, t_instance.AccountId);
+
+            if (m_group.HasAccountInvitation(t_instance.AccountId) || m_group.HasAccountRequest(t_instance.AccountId))
+            {
+                throw new Exception(string.Format("An invitation for {0} to join \"{1}\" is already pending.",
+                    m_account.Instance.Name, m_group.Instance.Name));
+            }
+
+            if (m_group.HasAccount(t_instance.AccountId))
+            {
+                throw new Exception(string.Format("{0} is already a member of \"{1}\".",
+                    m_account.Name, m_group.Instance.Name));
+            }
+
+            int id = base.CreateOrUpdate(t_instance, sec);
+
+            Session.Flush();
+
+            ManagedAccount recepient = new ManagedAccount(Session, t_instance.AccountId);
+            ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
+                Session, recepient, string.Format("EmailAccountGroupAccountInvitation.aspx?id={0}", id));
+
+            return id;
+        }
+
+        public void Reject(ManagedSecurityContext sec, string message)
+        {
+            GetACL().Check(sec, DataOperation.AllExceptUpdate);
+
+            ManagedAccount recepient = new ManagedAccount(Session, mInstance.Requester);
+            ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(Session, recepient,
+                string.Format("EmailAccountGroupAccountInvitationReject.aspx?id={0}&aid={1}&message={2}",
+                this.Id, sec.Account.Id, Renderer.UrlEncode(message)));
+
+            Session.Delete(mInstance);
+        }
+
+        public void Accept(ManagedSecurityContext sec, string message)
+        {
+            GetACL().Check(sec, DataOperation.AllExceptUpdate);
+
+            ManagedAccountGroup m_group = new ManagedAccountGroup(Session, mInstance.AccountGroup);
+            if (!m_group.HasAccount(mInstance.Requester.Id))
+            {
+                Session.Delete(mInstance);
+
+                throw new Exception(string.Format("Sorry, {0} is no longer member of \"{2}\".",
+                    mInstance.Requester.Name));
+            }
+
+            if (m_group.Instance.IsPrivate)
+            {
+                TransitAccountGroupAccountRequest t_request = new TransitAccountGroupAccountRequest();
+                t_request.AccountGroupId = mInstance.AccountGroup.Id;
+                t_request.AccountId = mInstance.Account.Id;
+                t_request.Message = string.Format("{0} invited {1} to \"{2}\". " +
+                    "The invitation was accepted and needs to be approved by the group administrator.\n{3}",
+                    mInstance.Requester.Name, mInstance.Account.Name, mInstance.AccountGroup.Name, message);                
+                t_request.Submitted = DateTime.UtcNow;
+
+                ManagedAccountGroupAccountRequest m_request = new ManagedAccountGroupAccountRequest(Session);
+                m_request.CreateOrUpdate(t_request, sec);
+            }
+            else
+            {
+                AccountGroupAccount account = new AccountGroupAccount();
+                account.Account = mInstance.Account;
+                account.AccountGroup = mInstance.AccountGroup;
+                account.Created = account.Modified = DateTime.UtcNow;
+                Session.Save(account);
+                Session.Flush();
+
+                ManagedAccount account_recepient = new ManagedAccount(Session, mInstance.Account);
+                ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(Session, account_recepient,
+                    string.Format("EmailAccountGroupAccount.aspx?id={0}", account.Id));
+            }
+
+            ManagedAccount recepient = new ManagedAccount(Session, mInstance.Requester);
+            ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
+                Session,
+                recepient,
+                string.Format("EmailAccountGroupAccountInvitationAccept.aspx?id={0}&aid={1}&message={2}",
+                this.Id, sec.Account.Id, Renderer.UrlEncode(message)));
+
+            Session.Delete(mInstance);
+        }
+
     }
 }

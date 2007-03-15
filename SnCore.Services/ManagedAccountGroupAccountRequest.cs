@@ -186,9 +186,9 @@ namespace SnCore.Services
 
         }
 
-        public override ACL GetACL()
+        public override ACL GetACL(Type type)
         {
-            ACL acl = base.GetACL();
+            ACL acl = base.GetACL(type);
             // everyone is able to request membership in a group 
             // TODO: invitation-only groups
             // if (!mInstance.AccountGroup.IsInviteOnly) 

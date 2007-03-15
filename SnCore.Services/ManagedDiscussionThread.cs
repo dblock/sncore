@@ -138,7 +138,7 @@ namespace SnCore.Services
             base.Save(sec);
         }
 
-        public override ACL GetACL()
+        public override ACL GetACL(Type type)
         {
             ManagedDiscussionMapEntry mapentry = null;
             ACL acl = null;
@@ -149,7 +149,7 @@ namespace SnCore.Services
             }
             else
             {
-                acl = base.GetACL();
+                acl = base.GetACL(type);
                 acl.Add(new ACLEveryoneAllowRetrieve());
                 acl.Add(new ACLAuthenticatedAllowCreate());
             }

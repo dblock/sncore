@@ -100,6 +100,8 @@ public partial class AccountGroupView : Page
             linkLeave.Visible = fGroupMember;
             linkDelete.Visible = fGroupAdmin;
             discussionView.Visible = fGroupMemberOrAdmin;
+            linkInviteFriend.NavigateUrl = string.Format("AccountGroupAccountInvitationEdit.aspx?gid={0}", AccountGroupId);
+            linkInviteFriend.Visible = fGroupMemberOrAdmin;
 
             // text
             accountgroupName.Text = Renderer.Render(AccountGroup.Name);

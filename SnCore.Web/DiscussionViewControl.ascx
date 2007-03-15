@@ -34,15 +34,13 @@
    </td>
    <td class="sncore_form_value">
     <asp:TextBox CssClass="sncore_form_textbox" ID="inputSearch" runat="server" />
-    <asp:RequiredFieldValidator ID="inputSearchRequired" runat="server" ControlToValidate="inputSearch"
-     CssClass="sncore_form_validator" ErrorMessage="search string is required" Display="Dynamic" />
    </td>
   </tr>
   <tr>
    <td>
    </td>
    <td class="sncore_form_value">
-    <SnCoreWebControls:Button ID="search" runat="server" Text="Search!" CausesValidation="true" CssClass="sncore_form_button"
+    <SnCoreWebControls:Button ID="search" runat="server" Text="Search!" CssClass="sncore_form_button"
      OnClick="search_Click" />
    </td>
   </tr>

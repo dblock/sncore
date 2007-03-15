@@ -166,9 +166,9 @@ namespace SnCore.Services
                 string.Format("EmailAccountEmailVerify.aspx?id={0}", mInstance.Id));
         }
 
-        public override ACL GetACL()
+        public override ACL GetACL(Type type)
         {
-            ACL acl = base.GetACL();
+            ACL acl = base.GetACL(type);
             // user himself cannot see the e-mail confirmations, shouldn't be able to retrieve the code
             // acl.Add(new ACLAccount(mInstance.AccountEmail.Account, DataOperation.All));
             return acl;

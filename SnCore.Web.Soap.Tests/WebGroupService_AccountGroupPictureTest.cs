@@ -61,5 +61,12 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
             t_instance.Name = GetNewString();
             return t_instance;
         }
+
+        [Test]
+        protected void CreateOrUpdateAccountGroupPictureTest()
+        {
+            // make sure only members can upload a picture to a group
+            // make sure that non-members can't see pictures from a private group
+        }
     }
 }

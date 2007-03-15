@@ -62,7 +62,11 @@
          <asp:LinkButton ID="linkRequest" runat="server" Text="&#187; Join this Group" OnClick="linkRequest_Click" />
         </div>
         <div>
-         <asp:LinkButton ID="linkLeave" runat="server" Text="&#187; Leave this Group" OnClick="linkLeave_Click" />
+         <asp:LinkButton ID="linkLeave" runat="server" Text="&#187; Leave this Group" OnClick="linkLeave_Click" 
+          OnClientClick="return confirm('Are you sure you want to leave this group?');" />
+        </div>
+        <div>
+         <asp:HyperLink ID="linkInviteFriend" runat="server" Text="&#187; Invite a Friend" NavigateUrl="AccountGroupAccountInvitationEdit.aspx" />
         </div>
         <div>
          <SnCore:TellAFriend ID="linkTellAFriend" runat="server" />

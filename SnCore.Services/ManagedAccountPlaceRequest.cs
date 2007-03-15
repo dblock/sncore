@@ -242,9 +242,9 @@ namespace SnCore.Services
             }
         }
 
-        public override ACL GetACL()
+        public override ACL GetACL(Type type)
         {
-            ACL acl = base.GetACL();
+            ACL acl = base.GetACL(type);
             acl.Add(new ACLAuthenticatedAllowCreateAndDelete());
             acl.Add(new ACLAccount(mInstance.Account, DataOperation.Delete | DataOperation.Retreive));
             return acl;

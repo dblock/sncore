@@ -65,5 +65,38 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
         {
 
         }
+
+        [Test]
+        protected void CreateOrUpdateAccountGroupAccountInvitationMemberTest()
+        {
+            // only members can create invitations
+        }
+
+        [Test]
+        protected void AcceptAccountGroupAccountInvitationTest()
+        {
+
+        }
+
+        [Test]
+        protected void RejectAccountGroupAccountInvitationTest()
+        {
+
+        }
+
+        [Test]
+        protected void PublicGroupInvitationWorkflowTest()
+        {
+            // invite a friend: email sent to friend
+            // accept invitation: a welcome email sent to acceptor, a ack mail sent to requester   
+        }
+
+        [Test]
+        protected void PrivateGroupInvitationWorkflowTest()
+        {
+            // invite a friend: email sent to friend
+            // accept invitation: ack mail sent to requester,
+            // new request, a request email sent to admin
+        }
     }
 }

@@ -21,6 +21,7 @@
  <tr><td width="30" align="center"><img src="images/account/sent.gif" /></td><td width="*"><a href="AccountMessageFoldersManage.aspx?folder=sent">Sent</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/trash.gif" /></td><td width="*"><a href="AccountMessageFoldersManage.aspx?folder=trash">Trash</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/friends.gif" /></td><td width="*"><a runat="server" id="linkRequests" href="AccountFriendRequestsManage.aspx">Requests</a></td></tr>
+ <tr><td width="30" align="center"><img src="images/account/groups.gif" /></td><td width="*"><a runat="server" id="linkInvitations" href="AccountGroupAccountInvitationsManage.aspx">Invitations</a></td></tr>
 </table>
 <table class="sncore_accountmenu_table">
  <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="AccountPreferencesManage.aspx">Preferences</a></td></tr>

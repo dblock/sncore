@@ -102,6 +102,10 @@ namespace SnCore.Web.Soap.Tests.WebGroupService {
         
         private System.Threading.SendOrPostCallback DeleteAccountGroupAccountInvitationOperationCompleted;
         
+        private System.Threading.SendOrPostCallback AcceptAccountGroupAccountInvitationOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback RejectAccountGroupAccountInvitationOperationCompleted;
+        
         private System.Threading.SendOrPostCallback CreateOrUpdateAccountGroupAccountRequestOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAccountGroupAccountRequestByIdOperationCompleted;
@@ -256,6 +260,12 @@ namespace SnCore.Web.Soap.Tests.WebGroupService {
         
         /// <remarks/>
         public event DeleteAccountGroupAccountInvitationCompletedEventHandler DeleteAccountGroupAccountInvitationCompleted;
+        
+        /// <remarks/>
+        public event AcceptAccountGroupAccountInvitationCompletedEventHandler AcceptAccountGroupAccountInvitationCompleted;
+        
+        /// <remarks/>
+        public event RejectAccountGroupAccountInvitationCompletedEventHandler RejectAccountGroupAccountInvitationCompleted;
         
         /// <remarks/>
         public event CreateOrUpdateAccountGroupAccountRequestCompletedEventHandler CreateOrUpdateAccountGroupAccountRequestCompleted;
@@ -1316,6 +1326,70 @@ namespace SnCore.Web.Soap.Tests.WebGroupService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/AcceptAccountGroupAccountInvitation", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void AcceptAccountGroupAccountInvitation(string ticket, int id, string message) {
+            this.Invoke("AcceptAccountGroupAccountInvitation", new object[] {
+                        ticket,
+                        id,
+                        message});
+        }
+        
+        /// <remarks/>
+        public void AcceptAccountGroupAccountInvitationAsync(string ticket, int id, string message) {
+            this.AcceptAccountGroupAccountInvitationAsync(ticket, id, message, null);
+        }
+        
+        /// <remarks/>
+        public void AcceptAccountGroupAccountInvitationAsync(string ticket, int id, string message, object userState) {
+            if ((this.AcceptAccountGroupAccountInvitationOperationCompleted == null)) {
+                this.AcceptAccountGroupAccountInvitationOperationCompleted = new System.Threading.SendOrPostCallback(this.OnAcceptAccountGroupAccountInvitationOperationCompleted);
+            }
+            this.InvokeAsync("AcceptAccountGroupAccountInvitation", new object[] {
+                        ticket,
+                        id,
+                        message}, this.AcceptAccountGroupAccountInvitationOperationCompleted, userState);
+        }
+        
+        private void OnAcceptAccountGroupAccountInvitationOperationCompleted(object arg) {
+            if ((this.AcceptAccountGroupAccountInvitationCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.AcceptAccountGroupAccountInvitationCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/RejectAccountGroupAccountInvitation", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void RejectAccountGroupAccountInvitation(string ticket, int id, string message) {
+            this.Invoke("RejectAccountGroupAccountInvitation", new object[] {
+                        ticket,
+                        id,
+                        message});
+        }
+        
+        /// <remarks/>
+        public void RejectAccountGroupAccountInvitationAsync(string ticket, int id, string message) {
+            this.RejectAccountGroupAccountInvitationAsync(ticket, id, message, null);
+        }
+        
+        /// <remarks/>
+        public void RejectAccountGroupAccountInvitationAsync(string ticket, int id, string message, object userState) {
+            if ((this.RejectAccountGroupAccountInvitationOperationCompleted == null)) {
+                this.RejectAccountGroupAccountInvitationOperationCompleted = new System.Threading.SendOrPostCallback(this.OnRejectAccountGroupAccountInvitationOperationCompleted);
+            }
+            this.InvokeAsync("RejectAccountGroupAccountInvitation", new object[] {
+                        ticket,
+                        id,
+                        message}, this.RejectAccountGroupAccountInvitationOperationCompleted, userState);
+        }
+        
+        private void OnRejectAccountGroupAccountInvitationOperationCompleted(object arg) {
+            if ((this.RejectAccountGroupAccountInvitationCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.RejectAccountGroupAccountInvitationCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/CreateOrUpdateAccountGroupAccountRequest", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public int CreateOrUpdateAccountGroupAccountRequest(string ticket, TransitAccountGroupAccountRequest t_instance) {
             object[] results = this.Invoke("CreateOrUpdateAccountGroupAccountRequest", new object[] {
@@ -1880,6 +1954,10 @@ namespace SnCore.Web.Soap.Tests.WebGroupService {
         
         private int accountGroupIdField;
         
+        private int accountGroupPictureIdField;
+        
+        private bool accountGroupIsPrivateField;
+        
         private string accountGroupNameField;
         
         private System.DateTime createdField;
@@ -1955,6 +2033,26 @@ namespace SnCore.Web.Soap.Tests.WebGroupService {
             }
             set {
                 this.accountGroupIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int AccountGroupPictureId {
+            get {
+                return this.accountGroupPictureIdField;
+            }
+            set {
+                this.accountGroupPictureIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool AccountGroupIsPrivate {
+            get {
+                return this.accountGroupIsPrivateField;
+            }
+            set {
+                this.accountGroupIsPrivateField = value;
             }
         }
         
@@ -3384,6 +3482,14 @@ namespace SnCore.Web.Soap.Tests.WebGroupService {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
     public delegate void DeleteAccountGroupAccountInvitationCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void AcceptAccountGroupAccountInvitationCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void RejectAccountGroupAccountInvitationCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]

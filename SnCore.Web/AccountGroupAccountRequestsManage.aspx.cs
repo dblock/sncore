@@ -53,6 +53,13 @@ public partial class AccountGroupAccountRequestsManage : AuthenticatedPage
             sitemapdata.Add(new SiteMapDataAttributeNode(AccountGroup.Name, Request, string.Format("AccountGroupView.aspx?id={0}", GroupId)));
             sitemapdata.Add(new SiteMapDataAttributeNode("Membership Requests", Request.Url));
             StackSiteMap(sitemapdata);
+
+            string action = Request["action"];
+            if (!string.IsNullOrEmpty(action))
+            {
+                listPending_ItemCommand(sender, new DataListCommandEventArgs(null, null,
+                    new CommandEventArgs(action, GetId("rid"))));
+            }
         }
     }
 

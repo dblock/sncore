@@ -52,11 +52,21 @@ public partial class AccountGroupsManage : AuthenticatedPage
         switch (e.CommandName)
         {
             case "Delete":
-                int id = int.Parse(e.CommandArgument.ToString());
-                SessionManager.Delete<TransitAccountGroup>(id, SessionManager.GroupService.DeleteAccountGroup);
-                ReportInfo("Group deleted.");
-                GetData();
-                break;
+                {
+                    int id = int.Parse(e.CommandArgument.ToString());
+                    SessionManager.Delete<TransitAccountGroup>(id, SessionManager.GroupService.DeleteAccountGroup);
+                    ReportInfo("Group deleted.");
+                    GetData();
+                    break;
+                }
+            case "Leave":
+                {
+                    int id = int.Parse(e.CommandArgument.ToString());
+                    SessionManager.Delete<TransitAccountGroupAccount>(id, SessionManager.GroupService.DeleteAccountGroupAccount);
+                    ReportInfo("Group deleted.");
+                    GetData();
+                    break;
+                }
         }
     }
 }

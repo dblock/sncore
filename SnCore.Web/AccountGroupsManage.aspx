@@ -46,14 +46,21 @@
      </asp:TemplateColumn>
      <asp:TemplateColumn>
       <itemtemplate>
-       <a href="AccountGroupEdit.aspx?id=<%# Eval("AccountGroupId") %>">Edit</a>
+       <asp:HyperLink id="linkEdit" runat="server" Visible='<%# Eval("IsAdministrator") %>' Text="Edit"
+        NavigateUrl='<%# string.Format("AccountGroupEdit.aspx?id={0}", Eval("AccountGroupId")) %>' />
       </itemtemplate>
      </asp:TemplateColumn>
      <asp:TemplateColumn>
       <itemtemplate>
        <asp:LinkButton id="linkDelete" CommandName="Delete" 
         OnClientClick="return confirm('This will delete the group, all membership information and discussion contents.\nThis cannot be undone! Are you sure you want to do this?');"
-        CommandArgument='<%# Eval("AccountGroupId") %>' Text="Delete" runat="server" />
+        CommandArgument='<%# Eval("AccountGroupId") %>' Text="Delete" runat="server" Visible='<%# Eval("IsAdministrator") %>' />
+      </itemtemplate>
+     </asp:TemplateColumn>
+     <asp:TemplateColumn>
+      <itemtemplate>
+       <asp:LinkButton id="linkLeave" CommandName="Leave" OnClientClick="return confirm('Are you sure you want to leave this group?');"
+        CommandArgument='<%# Eval("Id") %>' Text="Leave" runat="server" />
       </itemtemplate>
      </asp:TemplateColumn>
     </Columns>
