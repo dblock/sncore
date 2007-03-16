@@ -263,8 +263,7 @@ namespace SnCore.Services
 
         public override ACL GetACL(Type type)
         {
-            ACL acl = base.GetACL(type);
-            acl.Add(new ACLEveryoneAllowRetrieve());
+            ACL acl = new ManagedPlace(Session, mInstance.Place).GetACL(type);
             return acl;
         }
     }
