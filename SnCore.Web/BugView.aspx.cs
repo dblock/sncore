@@ -51,6 +51,9 @@ public partial class BugView : Page
         linkAccount.Text = Renderer.Render(bug.AccountName);
         linkAccount.NavigateUrl = string.Format("AccountView.aspx?id={0}", bug.AccountId);
         linkAddNew.NavigateUrl = string.Format("BugEdit.aspx?pid={0}", bug.ProjectId);
+        
+        linkEdit.Enabled = SessionManager.IsAdministrator;
+        linkAction.Enabled = SessionManager.IsAdministrator;
 
         switch (bug.Status)
         {
