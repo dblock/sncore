@@ -112,5 +112,34 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
             Assert.IsTrue(new TransitServiceCollection<WebPlaceService.TransitPlace>(t_found).ContainsId(t_instance.Id));
             Delete(GetAdminTicket(), t_instance.Id);
         }
+
+
+        [Test]
+        protected void CreateOrUpdatePlaceWithPropertyValuesTest()
+        {
+            // create a place that has property values (test permissions to create property values)
+        }
+
+        [Test]
+        public void ClearPlaceNeighborhoodTest()
+        {
+            WebPlaceService.TransitPlace t_instance = GetTransitInstance();
+            t_instance.Id = Create(GetAdminTicket(), t_instance);
+            try
+            {
+                WebPlaceService.TransitPlace t_retreived = EndPoint.GetPlaceById(GetAdminTicket(), t_instance.Id);
+                Assert.IsNotNull(t_retreived);
+                Assert.AreEqual(t_retreived.Id, t_instance.Id);
+                // update a neighborhood to blank, make sure it's saved properly
+                t_retreived.Neighborhood = string.Empty;
+                EndPoint.CreateOrUpdatePlace(GetAdminTicket(), t_retreived);
+                WebPlaceService.TransitPlace t_changed = EndPoint.GetPlaceById(GetAdminTicket(), t_instance.Id);
+                Assert.IsTrue(string.IsNullOrEmpty(t_changed.Neighborhood), string.Format("Neighborhood hasn't been cleared on save, is {0}.", t_changed.Neighborhood));
+            }
+            finally
+            {
+                Delete(GetAdminTicket(), t_instance.Id);
+            }
+        }
     }
 }

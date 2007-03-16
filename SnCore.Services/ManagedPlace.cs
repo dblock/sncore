@@ -480,8 +480,12 @@ namespace SnCore.Services
             instance.Email = this.Email;
             instance.Website = this.Website;
             if (Id == 0) instance.Account = GetOwner(session, AccountId, sec);
-            if (!string.IsNullOrEmpty(City)) instance.City = ManagedCity.FindOrCreate(session, City, State, Country);
-            if (!string.IsNullOrEmpty(Neighborhood) && !string.IsNullOrEmpty(City)) instance.Neighborhood = ManagedNeighborhood.FindOrCreate(session, Neighborhood, City, State, Country);
+            instance.City = (!string.IsNullOrEmpty(City)) 
+                ? ManagedCity.FindOrCreate(session, City, State, Country)
+                : instance.City = null;            
+            instance.Neighborhood = (!string.IsNullOrEmpty(Neighborhood) && !string.IsNullOrEmpty(City)) 
+                ? ManagedNeighborhood.FindOrCreate(session, Neighborhood, City, State, Country)
+                : null;
             return instance;
         }
     }
