@@ -46,6 +46,8 @@ namespace SnCore.Services.Tests
             {
                 m_answer.Delete(a.GetSecurityContext());
                 a.Delete(AdminSecurityContext);
+                m_survey.Delete(AdminSecurityContext);
+                Session.Flush();
             }
         }
     }

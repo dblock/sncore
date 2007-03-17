@@ -13,15 +13,15 @@ namespace SnCore.Services.Tests
         [SetUp]
         public override void SetUp()
         {
-            base.SetUp();
             _accountevent.SetUp();
+            base.SetUp();
         }
 
         [TearDown]
         public override void TearDown()
         {
-            _accountevent.TearDown();
             base.TearDown();
+            _accountevent.TearDown();
         }
 
 

@@ -13,17 +13,16 @@ namespace SnCore.Services.Tests
         [SetUp]
         public override void SetUp()
         {
-            base.SetUp();
             _group.SetUp();
+            base.SetUp();
         }
 
         [TearDown]
         public override void TearDown()
         {
-            _group.TearDown();
             base.TearDown();
+            _group.TearDown();
         }
-
 
         public ManagedPlacePropertyTest()
         {

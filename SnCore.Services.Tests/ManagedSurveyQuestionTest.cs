@@ -13,16 +13,17 @@ namespace SnCore.Services.Tests
         [SetUp]
         public override void SetUp()
         {
-            base.SetUp();
             _survey.SetUp();
+            base.SetUp();
         }
 
         [TearDown]
         public override void TearDown()
         {
-            _survey.TearDown();
             base.TearDown();
+            _survey.TearDown();
         }
+
         public ManagedSurveyQuestionTest()
         {
 

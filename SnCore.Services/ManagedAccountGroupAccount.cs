@@ -281,6 +281,10 @@ namespace SnCore.Services
 
             if (t_instance.Id == 0)
             {
+                if (mInstance.AccountGroup.AccountGroupAccounts == null)
+                    mInstance.AccountGroup.AccountGroupAccounts = new List<AccountGroupAccount>();
+                mInstance.AccountGroup.AccountGroupAccounts.Add(mInstance);
+
                 ManagedAccount recepient = new ManagedAccount(Session, mInstance.Account);
                 ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(Session, recepient,
                     string.Format("EmailAccountGroupAccount.aspx?id={0}",

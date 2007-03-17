@@ -17,14 +17,14 @@ namespace SnCore.Services.Tests
 
         public override void SetUp()
         {
-            base.SetUp();
             _account.SetUp();
+            base.SetUp();
         }
 
         public override void TearDown()
         {
-            _account.TearDown();
             base.TearDown();
+            _account.TearDown();
         }
 
         public ManagedScheduleTest()

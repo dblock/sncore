@@ -24,17 +24,17 @@ namespace SnCore.Services.Tests
         [SetUp]
         public override void SetUp()
         {
-            base.SetUp();
             _account.SetUp();
             _tagword.SetUp();
+            base.SetUp();
         }
 
         [TearDown]
         public override void TearDown()
         {
-            _tagword.TearDown();
-            _tagword.TearDown();
             base.TearDown();
+            _tagword.TearDown();
+            _account.TearDown();
         }
 
         public override TransitTagWordAccount GetTransitInstance()

@@ -42,6 +42,7 @@
     <Compile Include="SystemMailMessageServiceTest.cs" />
     <Compile Include="SystemReminderServiceTest.cs" />
     <Compile Include="SystemSyndicationServiceTest.cs" />
+    <Compile Include="SystemTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SnCore.BackEnd\SnCore.BackEnd.csproj">

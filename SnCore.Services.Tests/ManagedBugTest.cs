@@ -23,7 +23,6 @@ namespace SnCore.Services.Tests
         [SetUp]
         public override void SetUp()
         {
-            base.SetUp();
             _project.SetUp();
             _account.SetUp();
             _priority.SetUp();
@@ -31,11 +30,13 @@ namespace SnCore.Services.Tests
             _resolution.SetUp();
             _status.SetUp();
             _type.SetUp();
+            base.SetUp();
         }
 
         [TearDown]
         public override void TearDown()
         {
+            base.TearDown();
             _type.TearDown();
             _status.TearDown();
             _resolution.TearDown();
@@ -43,7 +44,6 @@ namespace SnCore.Services.Tests
             _priority.TearDown();
             _account.TearDown();
             _project.TearDown();
-            base.TearDown();
         }
 
         public override TransitBug GetTransitInstance()

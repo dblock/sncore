@@ -14,17 +14,17 @@ namespace SnCore.Services.Tests
         [SetUp]
         public override void SetUp()
         {
-            base.SetUp();
             _place.SetUp();
             _queue.SetUp();
+            base.SetUp();
         }
 
         [TearDown]
         public override void TearDown()
         {
+            base.TearDown();
             _queue.TearDown();
             _place.TearDown();
-            base.TearDown();
         }
 
         public ManagedPlaceQueueItemTest()

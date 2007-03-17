@@ -35,7 +35,7 @@ namespace SnCore.Services.Tests
 
                 c.CreateOrUpdate(tc, AdminSecurityContext);
                 s.CreateOrUpdate(ts, AdminSecurityContext);
-                
+
                 TransitAccountAddress ta = new TransitAccountAddress();
                 ta.Apt = "123";
                 ta.City = "New York";
@@ -50,15 +50,10 @@ namespace SnCore.Services.Tests
             }
             finally
             {
-                try
-                {
-                    a.Delete(AdminSecurityContext);
-                    s.Delete(AdminSecurityContext);
-                    c.Delete(AdminSecurityContext);
-                }
-                catch
-                {
-                }
+                a.Delete(AdminSecurityContext);
+                s.Delete(AdminSecurityContext);
+                c.Delete(AdminSecurityContext);
+                Session.Flush();
             }
         }
     }

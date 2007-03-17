@@ -12,14 +12,14 @@ namespace SnCore.Services.Tests
 
         public override void SetUp()
         {
-            base.SetUp();
             _accountfeed.SetUp();
+            base.SetUp();
         }
 
         public override void TearDown()
         {
-            _accountfeed.SetUp();
             base.TearDown();
+            _accountfeed.TearDown();
         }
 
         public ManagedAccountFeedItemTest()

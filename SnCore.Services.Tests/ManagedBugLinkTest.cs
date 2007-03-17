@@ -14,17 +14,17 @@ namespace SnCore.Services.Tests
         [SetUp]
         public override void SetUp()
         {
-            base.SetUp();
             _bug1.SetUp();
             _bug2.SetUp();
+            base.SetUp();
         }
 
         [TearDown]
         public override void TearDown()
         {
-            _bug2.TearDown();
-            _bug2.TearDown();
             base.TearDown();
+            _bug2.TearDown();
+            _bug1.TearDown();
         }
 
         public ManagedBugLinkTest()

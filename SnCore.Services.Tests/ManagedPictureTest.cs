@@ -13,15 +13,15 @@ namespace SnCore.Services.Tests
         [SetUp]
         public override void SetUp()
         {
-            base.SetUp();
             _type.SetUp();
+            base.SetUp();
         }
 
         [TearDown]
         public override void TearDown()
         {
-            _type.TearDown();
             base.TearDown();
+            _type.TearDown();
         }
 
         public ManagedPictureTest()

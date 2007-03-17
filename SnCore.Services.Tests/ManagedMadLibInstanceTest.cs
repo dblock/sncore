@@ -15,22 +15,20 @@ namespace SnCore.Services.Tests
         [SetUp]
         public override void SetUp()
         {
-            base.SetUp();
             _account.SetUp();
             _madlib.SetUp();
             _object.SetUp();
+            base.SetUp();
         }
 
         [TearDown]
         public override void TearDown()
         {
+            base.TearDown();
             _object.TearDown();
             _madlib.TearDown();
             _account.TearDown();
-            base.TearDown();
         }
-
-
 
         public ManagedMadLibInstanceTest()
         {

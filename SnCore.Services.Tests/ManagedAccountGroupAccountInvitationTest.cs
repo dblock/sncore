@@ -14,17 +14,17 @@ namespace SnCore.Services.Tests
         [SetUp]
         public override void SetUp()
         {
-            base.SetUp();
             _account.SetUp();
             _group.SetUp();
+            base.SetUp();
         }
 
         [TearDown]
         public override void TearDown()
         {
-            _group.SetUp();
-            _account.TearDown();
             base.TearDown();
+            _group.TearDown();
+            _account.TearDown();
         }
 
         public ManagedAccountGroupAccountInvitationTest()
@@ -39,6 +39,12 @@ namespace SnCore.Services.Tests
             t_instance.AccountId = _account.Instance.Id;
             t_instance.Message = GetNewString();
             return t_instance;
+        }
+
+        [Test, ExpectedException(typeof(Exception))]
+        public override void TestUpdateAndRetrieve()
+        {
+            base.TestUpdateAndRetrieve();
         }
     }
 }

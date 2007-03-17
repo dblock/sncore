@@ -22,6 +22,7 @@ namespace SnCore.Services.Tests
                     TransitType t_instance = GetTransitInstance();
                     _instance.Session = Session;
                     _instance.CreateOrUpdateDbObject(t_instance, GetSecurityContext());
+                    Console.WriteLine("Created {0}: {1}", typeof(DatabaseType).Name, _instance.Id);
                 }
 
                 return _instance;
@@ -37,8 +38,23 @@ namespace SnCore.Services.Tests
         {
             if (_instance != null)
             {
+                Console.WriteLine("Deleting {0}: {1}", typeof(DatabaseType).Name, _instance.Id);
                 _instance.Delete(GetSecurityContext());
+                Session.Flush();
             }
+        }
+
+        public override void TearDown()
+        {
+            if (_instance != null)
+            {
+                Console.WriteLine("Deleting {0}: {1}", typeof(DatabaseType).Name, _instance.Id);
+                _instance.Delete(GetSecurityContext());
+                _instance = default(ManagedType);
+            }
+
+            Session.Flush();
+            base.TearDown();
         }
 
         public abstract TransitType GetTransitInstance();

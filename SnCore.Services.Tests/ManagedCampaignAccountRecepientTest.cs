@@ -14,17 +14,17 @@ namespace SnCore.Services.Tests
         [SetUp]
         public override void SetUp()
         {
-            base.SetUp();
             _account.SetUp();
             _campaign.SetUp();
+            base.SetUp();
         }
 
         [TearDown]
         public override void TearDown()
         {
-            _campaign.SetUp();
-            _account.TearDown();
             base.TearDown();
+            _campaign.TearDown();
+            _account.TearDown();
         }
 
         public ManagedCampaignAccountRecepientTest()

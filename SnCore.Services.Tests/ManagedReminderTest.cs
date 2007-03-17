@@ -13,15 +13,15 @@ namespace SnCore.Services.Tests
         [SetUp]
         public override void SetUp()
         {
-            base.SetUp();
             _dataobject.SetUp();
+            base.SetUp();
         }
 
         [TearDown]
         public override void TearDown()
         {
-            _dataobject.TearDown();
             base.TearDown();
+            _dataobject.TearDown();
         }
 
         public ManagedReminderTest()

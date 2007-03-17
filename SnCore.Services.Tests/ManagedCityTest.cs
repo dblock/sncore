@@ -17,15 +17,15 @@ namespace SnCore.Services.Tests
         [SetUp]
         public override void SetUp()
         {
-            base.SetUp();
             _state.SetUp();
+            base.SetUp();
         }
 
         [TearDown]
         public override void TearDown()
         {
-            _state.TearDown();
             base.TearDown();
+            _state.TearDown();
         }
 
         public ManagedCityTest()

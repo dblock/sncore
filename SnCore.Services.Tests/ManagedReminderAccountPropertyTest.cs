@@ -14,17 +14,17 @@ namespace SnCore.Services.Tests
         [SetUp]
         public override void SetUp()
         {
-            base.SetUp();
             _reminder.SetUp();
             _accountproperty.SetUp();
+            base.SetUp();
         }
 
         [TearDown]
         public override void TearDown()
         {
+            base.TearDown();
             _accountproperty.TearDown();
             _reminder.TearDown();
-            base.TearDown();
         }
 
         public ManagedReminderAccountPropertyTest()

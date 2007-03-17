@@ -28,17 +28,17 @@ namespace SnCore.Services.Tests
         [SetUp]
         public override void SetUp()
         {
-            base.SetUp();
             _account.SetUp();
             _type.SetUp();
+            base.SetUp();
         }
 
         [TearDown]
         public override void TearDown()
         {
+            base.TearDown();
             _type.TearDown();
             _account.TearDown();
-            base.TearDown();
         }
 
         public ManagedAccountFeedTest()

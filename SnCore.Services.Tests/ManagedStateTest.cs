@@ -18,15 +18,15 @@ namespace SnCore.Services.Tests
         [SetUp]
         public override void SetUp()
         {
-            base.SetUp();
             _country.SetUp();
+            base.SetUp();
         }
 
         [TearDown]
         public override void TearDown()
         {
-            _country.TearDown();
             base.TearDown();
+            _country.TearDown();
         }
 
         public override TransitState GetTransitInstance()

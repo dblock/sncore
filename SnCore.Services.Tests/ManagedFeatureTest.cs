@@ -8,23 +8,20 @@ namespace SnCore.Services.Tests
     [TestFixture]
     public class ManagedFeatureTest : ManagedCRUDTest<Feature, TransitFeature, ManagedFeature>
     {
-        private ManagedDataObjectTest _dataobject = new ManagedDataObjectTest();
         private ManagedPlaceTest _place = new ManagedPlaceTest();
 
         [SetUp]
         public override void SetUp()
         {
-            base.SetUp();
-            _dataobject.SetUp();
             _place.SetUp();
+            base.SetUp();
         }
 
         [TearDown]
         public override void TearDown()
         {
-            _place.TearDown();
-            _dataobject.TearDown();
             base.TearDown();
+            _place.TearDown();
         }
 
         public ManagedFeatureTest()
@@ -35,8 +32,8 @@ namespace SnCore.Services.Tests
         public override TransitFeature GetTransitInstance()
         {
             TransitFeature t_instance = new TransitFeature();
-            t_instance.DataObjectName = _dataobject.Instance.Name;
-            t_instance.DataRowId = _dataobject.Instance.Id;
+            t_instance.DataObjectName = typeof(Place).Name;
+            t_instance.DataRowId = _place.Instance.Id;
             return t_instance;
         }
 

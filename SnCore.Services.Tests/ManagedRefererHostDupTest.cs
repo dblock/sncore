@@ -13,15 +13,15 @@ namespace SnCore.Services.Tests
         [SetUp]
         public override void SetUp()
         {
-            base.SetUp();
             _host.SetUp();
+            base.SetUp();
         }
 
         [TearDown]
         public override void TearDown()
         {
-            _host.TearDown();
             base.TearDown();
+            _host.TearDown();
         }
 
         public ManagedRefererHostDupTest()

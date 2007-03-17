@@ -14,17 +14,17 @@ namespace SnCore.Services.Tests
         [SetUp]
         public override void SetUp()
         {
-            base.SetUp();
             _account.SetUp();
             _group.SetUp();
+            base.SetUp();
         }
 
         [TearDown]
         public override void TearDown()
         {
-            _group.SetUp();
-            _account.TearDown();
             base.TearDown();
+            _group.TearDown();
+            _account.TearDown();
         }
 
         public ManagedAccountGroupAccountTest()
@@ -44,9 +44,11 @@ namespace SnCore.Services.Tests
         [Test]
         public void PromoteDemoteTest()
         {
-            TransitAccountGroupAccount t_instance = GetTransitInstance();
+            TransitAccountGroupAccount t_instance = new TransitAccountGroupAccount();
+            t_instance.AccountGroupId = _group.Instance.Id;
+            t_instance.AccountId = _account.Instance.Id;
+            t_instance.IsAdministrator = false;
             ManagedAccountGroupAccount m_account = new ManagedAccountGroupAccount(Session);
-            t_instance.IsAdministrator = false                     ;
             t_instance.Id = m_account.CreateOrUpdate(t_instance, AdminSecurityContext);
             ManagedAccountGroupAccount m_account_copy1 = new ManagedAccountGroupAccount(Session, t_instance.Id);
             Assert.IsFalse(m_account_copy1.Instance.IsAdministrator);
@@ -54,7 +56,8 @@ namespace SnCore.Services.Tests
             m_account.CreateOrUpdate(t_instance, AdminSecurityContext);
             ManagedAccountGroupAccount m_account_copy2 = new ManagedAccountGroupAccount(Session, t_instance.Id);
             Assert.IsTrue(m_account_copy2.Instance.IsAdministrator);
-            m_account.Delete(AdminSecurityContext);
+            m_account_copy2.Delete(AdminSecurityContext);
+            Session.Flush();
         }
 
         [Test, ExpectedException(typeof(Exception))]
