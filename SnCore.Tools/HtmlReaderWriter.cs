@@ -257,6 +257,17 @@ namespace SnCore.Tools.Web.Html
                                             Renderer.UrlEncode(value));
                                     }
 
+                                    if (LastStartElement == "link" 
+                                        && attributename == "rel")
+                                    {
+                                        switch (value.ToLower())
+                                        {
+                                            case "stylesheet":
+                                                value = "stylesheet-stripped";
+                                                break;
+                                        }
+                                    }
+
                                     this.WriteString(value);
                                 }
                             }
