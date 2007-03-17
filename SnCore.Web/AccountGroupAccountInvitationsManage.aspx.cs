@@ -68,7 +68,7 @@ public partial class AccountGroupAccountInvitationsManage : AuthenticatedPage
                         SessionManager.Ticket, id);
                     SessionManager.GroupService.AcceptAccountGroupAccountInvitation(SessionManager.Ticket, id, inputReason.Text);
                     GetData(sender, e);
-                    ReportInfo(t_instance.AccountGroupIsPrivate 
+                    ReportInfo(t_instance.AccountGroupIsPrivate && ! t_instance.RequesterIsAdministrator
                         ? "Since this is a private group, your membership must first be approved by the group administrator. A request has been submitted."
                         : "Invitation accepted.");
                     break;

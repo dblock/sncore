@@ -84,13 +84,5 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
             Assert.AreEqual(account.Id, t_instance.Id);
             Delete(GetAdminTicket(), t_instance.Id);
         }
-
-        [Test]
-        protected void GetAccountGroupDiscussionPrivateTest()
-        {
-            // make sure that anyone can access a discussion of a public group
-            // make sure that only a member of a group can access the group discussion
-            // repeat for threads and posts
-        }
     }
 }

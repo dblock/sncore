@@ -36,5 +36,11 @@ public partial class EmailAccountGroupAccountInvitationAccept : AuthenticatedPag
 
         panelMessage.Visible = ! string.IsNullOrEmpty(Request.QueryString["message"]);
     }
+
+    public bool IsAdministratorApprovalRequired()
+    {
+        return AccountGroupAccountInvitation.AccountGroupIsPrivate && 
+            (! AccountGroupAccountInvitation.RequesterIsAdministrator);
+    }
 }
 

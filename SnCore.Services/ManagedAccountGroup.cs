@@ -320,6 +320,14 @@ namespace SnCore.Services
                     Id, accountid)).UniqueResult<int>() > 0);
         }
 
+        public bool HasAdministratorAccount(int accountid)
+        {
+            return (Session.CreateQuery(
+                string.Format("SELECT COUNT(*) FROM AccountGroupAccount instance where " +
+                    "(instance.AccountGroup.Id = {0} and instance.Account.Id = {1} and instance.IsAdministrator = 1)",
+                    Id, accountid)).UniqueResult<int>() > 0);
+        }
+
         public bool HasAccountRequest(int accountid)
         {
             return (Session.CreateQuery(

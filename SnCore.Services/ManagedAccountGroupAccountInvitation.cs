@@ -81,6 +81,21 @@ namespace SnCore.Services
             }
         }
 
+        private bool mRequesterIsAdministrator = false;
+
+        public bool RequesterIsAdministrator
+        {
+            get
+            {
+
+                return mRequesterIsAdministrator;
+            }
+            set
+            {
+                mRequesterIsAdministrator = value;
+            }
+        }
+
         private int mRequesterPictureId;
 
         public int RequesterPictureId
@@ -226,6 +241,17 @@ namespace SnCore.Services
             AccountName = value.Account.Name;
             AccountPictureId = ManagedAccount.GetRandomAccountPictureId(value.Account);
             RequesterId = value.Requester.Id;
+
+            RequesterIsAdministrator = false;
+            foreach (AccountGroupAccount instance in value.AccountGroup.AccountGroupAccounts)
+            {
+                if (instance.Account == value.Account && instance.IsAdministrator)
+                {
+                    RequesterIsAdministrator = true;
+                    break;
+                }
+            }
+
             RequesterName = value.Requester.Name;
             RequesterPictureId = ManagedAccount.GetRandomAccountPictureId(value.Requester);
             AccountGroupId = value.AccountGroup.Id;
@@ -354,7 +380,7 @@ namespace SnCore.Services
                     mInstance.Requester.Name));
             }
 
-            if (m_group.Instance.IsPrivate)
+            if (m_group.Instance.IsPrivate && ! m_group.HasAdministratorAccount(mInstance.Requester.Id))
             {
                 TransitAccountGroupAccountRequest t_request = new TransitAccountGroupAccountRequest();
                 t_request.AccountGroupId = mInstance.AccountGroup.Id;

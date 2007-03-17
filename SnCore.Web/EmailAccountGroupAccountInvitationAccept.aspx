@@ -22,7 +22,7 @@
       <% Response.Write(Renderer.Render(this.AccountGroupAccountInvitation.AccountGroupName)); %>
      </a>
      !
-      <% if (this.AccountGroupAccountInvitation.AccountGroupIsPrivate) Response.Write("It still needs to be approved by the group administrator for your friend to join the group."); %>
+     <% if (IsAdministratorApprovalRequired()) Response.Write("It still needs to be approved by the group administrator for your friend to join the group."); %>
     </p>
     <asp:Panel ID="panelMessage" runat="server">
      <div style="margin: 10px; padding: 10px; border: solid 1px silver; font-style: italic;">

@@ -245,6 +245,14 @@ namespace SnCore.Services
                     SoapException.ClientFaultCode);
             }
 
+            // ensure that user isn't trying to self promote
+            if (t_instance.Id > 0 && t_instance.IsAdministrator)
+            {
+                // the caller isn't a group admin
+                if (!m_group.HasAdministratorAccount(sec.Account.Id))
+                    throw new ManagedAccount.AccessDeniedException();
+            }
+
             // ensure that not removing last admin
             if (t_instance.Id > 0 && ! t_instance.IsAdministrator)
             {
