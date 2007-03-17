@@ -11,7 +11,7 @@
   runat="server" />
  <asp:ValidationSummary runat="server" ID="manageValidationSummary" CssClass="sncore_form_validator"
   ShowSummary="true" />
- <table class="sncore_table">
+ <table class="sncore_account_table">
   <tr>
    <td class="sncore_form_label">
     name:

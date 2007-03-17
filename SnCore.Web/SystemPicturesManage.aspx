@@ -7,10 +7,13 @@
  <div class="sncore_h2">
   Pictures
  </div>
+ <div class="sncore_createnew">
+  <a href="SystemPictureTypesManage.aspx">&#187; Picture Types</a>
+ </div>
  <table class="sncore_account_table">
   <tr>
    <td style="vertical-align: top;" class="sncore_form_label">
-    add photos:
+    add picture:
    </td>
    <td class="sncore_table_tr_td">
     <asp:DropDownList ID="selectPictureType" CssClass="sncore_form_dropdown" DataTextField="Name"
@@ -39,11 +42,14 @@
      <a href='SystemPictureView.aspx?id=<%# Eval("Id") %>'><img 
       border="0" src='SystemPictureThumbnail.aspx?id=<%# Eval("Id") %>&CacheDuration=0' />
      </a>
+     <div class="sncore_description">
+      <%# base.Render(Eval("Type")) %>
+     </div>
     </itemtemplate>
    </asp:TemplateColumn>
    <asp:TemplateColumn HeaderText="Name" ItemStyle-HorizontalAlign="Left">
     <itemtemplate>
-     <%# base.Render(Eval("Name")) %>
+     <%# base.Render(Eval("Name")) %> 
      <div class="sncore_description">
       <%# base.Render(Eval("Description")) %>
      </div>

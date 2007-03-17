@@ -1,1 +1,6 @@
 1	Account
+2	AccountEvent
+3	Place
+4	AccountGroup
+5	AccountStory
+

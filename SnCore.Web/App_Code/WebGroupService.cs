@@ -61,8 +61,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all account groups.")]
         public List<TransitAccountGroup> GetAccountGroups(string ticket, ServiceQueryOptions options)
         {
+            Order[] orders = { Order.Desc("Created") };
             return WebServiceImpl<TransitAccountGroup, ManagedAccountGroup, AccountGroup>.GetList(
-                ticket, options);
+                ticket, options, null, orders);
         }
 
         /// <summary>
@@ -84,8 +85,9 @@ namespace SnCore.WebServices
         public List<TransitAccountGroup> GetPublicAccountGroups(string ticket, ServiceQueryOptions options)
         {
             ICriterion[] expressions = { Expression.Eq("IsPrivate", false) };
+            Order[] orders = { Order.Desc("Created") };
             return WebServiceImpl<TransitAccountGroup, ManagedAccountGroup, AccountGroup>.GetList(
-                ticket, options, expressions, null);
+                ticket, options, expressions, orders);
         }
 
         /// <summary>
@@ -146,8 +148,9 @@ namespace SnCore.WebServices
         public List<TransitAccountGroupAccount> GetAccountGroupAccounts(string ticket, int groupid, ServiceQueryOptions options)
         {
             ICriterion[] expressions = { Expression.Eq("AccountGroup.Id", groupid) };
+            Order[] orders = { Order.Desc("Created") };
             return WebServiceImpl<TransitAccountGroupAccount, ManagedAccountGroupAccount, AccountGroupAccount>.GetList(
-                ticket, options, expressions, null);
+                ticket, options, expressions, orders);
         }
 
         /// <summary>
@@ -169,8 +172,9 @@ namespace SnCore.WebServices
         public List<TransitAccountGroupAccount> GetAccountGroupAccountsByAccountId(string ticket, int accountid, ServiceQueryOptions options)
         {
             ICriterion[] expressions = { Expression.Eq("Account.Id", accountid) };
+            Order[] orders = { Order.Desc("Created") };
             return WebServiceImpl<TransitAccountGroupAccount, ManagedAccountGroupAccount, AccountGroupAccount>.GetList(
-                ticket, options, expressions, null);
+                ticket, options, expressions, orders);
         }
 
         /// <summary>
@@ -246,8 +250,9 @@ namespace SnCore.WebServices
         public List<TransitAccountGroupPicture> GetAccountGroupPictures(string ticket, int groupid, ServiceQueryOptions options)
         {
             ICriterion[] expressions = { Expression.Eq("AccountGroup.Id", groupid) };
+            Order[] orders = { Order.Desc("Created") };
             return WebServiceImpl<TransitAccountGroupPicture, ManagedAccountGroupPicture, AccountGroupPicture>.GetList(
-                ticket, options, expressions, null);
+                ticket, options, expressions, orders);
         }
 
         /// <summary>
@@ -327,8 +332,9 @@ namespace SnCore.WebServices
         public List<TransitAccountGroupPlace> GetAccountGroupPlaces(string ticket, int groupid, ServiceQueryOptions options)
         {
             ICriterion[] expressions = { Expression.Eq("AccountGroup.Id", groupid) };
+            Order[] orders = { Order.Desc("Created") };
             return WebServiceImpl<TransitAccountGroupPlace, ManagedAccountGroupPlace, AccountGroupPlace>.GetList(
-                ticket, options, expressions, null);
+                ticket, options, expressions, orders);
         }
 
         /// <summary>
