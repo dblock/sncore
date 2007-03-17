@@ -18,19 +18,19 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
         [SetUp]
         public override void SetUp()
         {
-            _group.SetUp();
-            _group_id = _group.Create(GetAdminTicket());
             _place.SetUp();
             _place_id = _place.Create(GetAdminTicket());
+            _group.SetUp();
+            _group_id = _group.Create(GetAdminTicket());
         }
 
         [TearDown]
         public override void TearDown()
         {
-            _place.Delete(GetAdminTicket(), _place_id);
-            _place.TearDown();
             _group.Delete(GetAdminTicket(), _group_id);
             _group.TearDown();
+            _place.Delete(GetAdminTicket(), _place_id);
+            _place.TearDown();
         }
 
         public override object[] GetCountArgs(string ticket)
@@ -60,11 +60,57 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
         }
 
         [Test]
-        protected void CreateOrUpdateAccountGroupPlaceTest()
+        public void CreateOrUpdateAccountGroupPlaceTest()
         {
             // make sure only members can add a place to a group
-            // make sure that non-members can't see places from a private group
+            WebGroupService.TransitAccountGroupPlace t_instance = GetTransitInstance();
+            try
+            {
+                // make sure the user is not a member of the group
+                Assert.IsNull(EndPoint.GetAccountGroupAccountByAccountGroupId(
+                    GetAdminTicket(), GetUserAccount().Id, _group_id));
+                // create the account group place
+                EndPoint.CreateOrUpdateAccountGroupPlace(GetUserTicket(), t_instance);
+                Assert.IsTrue(false, "Expected Access Denied exception.");
+            }
+            catch (SoapException ex)
+            {
+                Console.WriteLine("Exception: {0}", ex.Message);
+                Assert.AreEqual("SnCore.Services.ManagedAccount+AccessDeniedException: Access denied", 
+                    ex.Message.Split("\n".ToCharArray(), 2)[0],
+                    string.Format("Unexpected exception: {0}", ex.Message));
+            }
+            // the user joins the group
+            WebGroupService.TransitAccountGroupAccount t_accountinstance = new WebGroupService.TransitAccountGroupAccount();
+            t_accountinstance.AccountGroupId = _group_id;
+            t_accountinstance.AccountId = GetUserAccount().Id;
+            t_accountinstance.IsAdministrator = false;
+            t_accountinstance.Id = EndPoint.CreateOrUpdateAccountGroupAccount(GetAdminTicket(), t_accountinstance);
+            Assert.AreNotEqual(0, t_accountinstance.Id);
+            // check that the user now can add a place
+            t_instance.Id = EndPoint.CreateOrUpdateAccountGroupPlace(GetUserTicket(), t_instance);
+            Assert.AreNotEqual(0, t_instance.Id);
         }
 
+        [Test]
+        public void GetAccountGroupPlacesTest()
+        {
+            WebGroupService.TransitAccountGroupPlace t_instance = GetTransitInstance();
+            t_instance.Id = Create(GetAdminTicket(), t_instance);
+            try
+            {
+                WebGroupService.TransitAccountGroupPlace[] places = EndPoint.GetAccountGroupPlaces(
+                    GetUserTicket(), _group_id, null);
+                Assert.IsTrue(false, "Expected Access Denied exception.");
+            }
+            catch (SoapException ex)
+            {
+                Console.WriteLine("Exception: {0}", ex.Message);
+                Assert.AreEqual("SnCore.Services.ManagedAccount+AccessDeniedException: Access denied", 
+                    ex.Message.Split("\n".ToCharArray(), 2)[0],
+                    string.Format("Unexpected exception: {0}", ex.Message));
+            }
+            Delete(GetAdminTicket(), t_instance.Id);
+        }
     }
 }

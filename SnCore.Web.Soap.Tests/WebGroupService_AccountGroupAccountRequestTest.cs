@@ -4,6 +4,7 @@ using System.Text;
 using NUnit.Framework;
 using System.Web.Services.Protocols;
 using SnCore.Web.Soap.Tests.WebAccountServiceTests;
+using SnCore.Web.Soap.Tests;
 
 namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
 {
@@ -61,22 +62,57 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
         }
 
         [Test]
-        protected void GetAccountGroupAccountRequestsByAccountIdTest()
+        public void GetAccountGroupAccountRequestsByAccountIdTest()
         {
-
+            WebGroupService.TransitAccountGroupAccountRequest t_request = new WebGroupService.TransitAccountGroupAccountRequest();
+            t_request.AccountGroupId = _group_id;
+            t_request.AccountId = GetUserAccount().Id;
+            t_request.Message = GetNewString();
+            t_request.Id = EndPoint.CreateOrUpdateAccountGroupAccountRequest(GetUserTicket(), t_request);
+            WebGroupService.TransitAccountGroupAccountRequest[] t_instances = EndPoint.GetAccountGroupAccountRequestsByAccountId(
+                GetUserTicket(), GetUserAccount().Id, null);
+            Assert.IsNotNull(t_instances);
+            Assert.IsTrue(t_instances.Length > 0);
+            Assert.IsTrue(new TransitServiceCollection<WebGroupService.TransitAccountGroupAccountRequest>(t_instances)
+                .ContainsId(t_request.Id));
+            Delete(GetAdminTicket(), t_request.Id);
         }
 
         [Test]
-        protected void AcceptAccountGroupAccountRequestTest()
+        public void AcceptAccountGroupAccountRequestTest()
         {
-
+            WebGroupService.TransitAccountGroupAccountRequest t_request = new WebGroupService.TransitAccountGroupAccountRequest();
+            t_request.AccountGroupId = _group_id;
+            t_request.AccountId = GetUserAccount().Id;
+            t_request.Message = GetNewString();
+            t_request.Id = EndPoint.CreateOrUpdateAccountGroupAccountRequest(GetUserTicket(), t_request);
+            Assert.IsNotNull(EndPoint.GetAccountGroupAccountRequestById(GetUserTicket(), t_request.Id));
+            EndPoint.AcceptAccountGroupAccountRequest(GetAdminTicket(), t_request.Id, GetNewString());
+            Assert.IsNull(EndPoint.GetAccountGroupAccountRequestById(GetUserTicket(), t_request.Id));
+            WebGroupService.TransitAccountGroupAccount[] accounts = EndPoint.GetAccountGroupAccounts(
+                GetAdminTicket(), _group_id, null);
+            Assert.IsNotNull(accounts);
+            Assert.IsTrue(accounts.Length > 0);
+            Assert.IsTrue(new TransitServiceCollection<WebGroupService.TransitAccountGroupAccount>(accounts)
+                .ContainsId(GetUserAccount().Id, "AccountId"));            
         }
 
         [Test]
-        protected void RejectAccountGroupAccountRequestTest()
+        public void RejectAccountGroupAccountRequestTest()
         {
-
+            WebGroupService.TransitAccountGroupAccountRequest t_request = new WebGroupService.TransitAccountGroupAccountRequest();
+            t_request.AccountGroupId = _group_id;
+            t_request.AccountId = GetUserAccount().Id;
+            t_request.Message = GetNewString();
+            t_request.Id = EndPoint.CreateOrUpdateAccountGroupAccountRequest(GetUserTicket(), t_request);
+            Assert.IsNotNull(EndPoint.GetAccountGroupAccountRequestById(GetUserTicket(), t_request.Id));
+            EndPoint.RejectAccountGroupAccountRequest(GetAdminTicket(), t_request.Id, GetNewString());
+            Assert.IsNull(EndPoint.GetAccountGroupAccountRequestById(GetUserTicket(), t_request.Id));
+            WebGroupService.TransitAccountGroupAccount[] accounts = EndPoint.GetAccountGroupAccounts(
+                GetAdminTicket(), _group_id, null);
+            Assert.IsNotNull(accounts);
+            Assert.IsFalse(new TransitServiceCollection<WebGroupService.TransitAccountGroupAccount>(accounts)
+                .ContainsId(GetUserAccount().Id, "AccountId"));            
         }
-
     }
 }

@@ -267,11 +267,11 @@ namespace SnCore.Services
             // everyone is able to see this membership if the group is public
             if (!mInstance.AccountGroup.IsPrivate) acl.Add(new ACLEveryoneAllowRetrieve());
             // the user who has uploaded the picture can do anything to it
-            if (mInstance.Account != null) acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
             // members can create or see the pictures depending on their permissions
             foreach (AccountGroupAccount account in Collection<AccountGroupAccount>.GetSafeCollection(mInstance.AccountGroup.AccountGroupAccounts))
             {
-                acl.Add(new ACLAccount(account.Account, account.IsAdministrator
+                // account that uploaded the picture or the admin can do anything with it
+                acl.Add(new ACLAccount(account.Account, account.IsAdministrator || (Id > 0 && mInstance.Account == account.Account)
                     ? DataOperation.All
                     : DataOperation.Retreive | DataOperation.Create));
             }
@@ -288,6 +288,20 @@ namespace SnCore.Services
         {
             base.Check(t_instance, sec);
             if (t_instance.Id == 0) sec.CheckVerifiedEmail();
+        }
+
+        public void MigrateToGroupOwner()
+        {
+            foreach (AccountGroupAccount account in Collection<AccountGroupAccount>.GetSafeCollection(mInstance.AccountGroup.AccountGroupAccounts))
+            {
+                if (account.IsAdministrator)
+                {
+                    MigrateToAccount(account.Account);
+                    return;
+                }
+            }
+
+            throw new Exception("Error migrating picture to group owner. Missing group owner.");
         }
     }
 }

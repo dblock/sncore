@@ -116,10 +116,13 @@ public partial class AccountGroupView : Page
             GetPicturesData(sender, e);
 
             accountsView.AccountGroupId = AccountGroupId;
-            placesView.AccountGroupId = AccountGroupId;
 
-            discussionView.DiscussionId = SessionManager.DiscussionService.GetOrCreateDiscussionId(
-                SessionManager.Ticket, "AccountGroup", RequestId);
+            if (fGroupMemberOrAdmin)
+            {
+                placesView.AccountGroupId = AccountGroupId;
+                discussionView.DiscussionId = SessionManager.DiscussionService.GetOrCreateDiscussionId(
+                    SessionManager.Ticket, "AccountGroup", RequestId);
+            }
         }
     }
 

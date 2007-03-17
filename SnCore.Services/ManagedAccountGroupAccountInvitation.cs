@@ -297,7 +297,7 @@ namespace SnCore.Services
                     : DataOperation.Create));
             }
             // the person who the invitation is for can retreive and delete it
-            acl.Add(new ACLAccount(mInstance.Account, DataOperation.AllExceptUpdate));
+            if (Id > 0) acl.Add(new ACLAccount(mInstance.Account, DataOperation.AllExceptUpdate));
             return acl;
         }
 

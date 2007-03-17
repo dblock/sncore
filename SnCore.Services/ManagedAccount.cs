@@ -555,6 +555,13 @@ namespace SnCore.Services
                     m_groupaccount.Delete(sec);
                 }
 
+                // orphan group pictures
+                foreach (AccountGroupPicture grouppicture in Collection<AccountGroupPicture>.GetSafeCollection(mInstance.AccountGroupPictures))
+                {
+                    ManagedAccountGroupPicture m_grouppicture = new ManagedAccountGroupPicture(Session, grouppicture);
+                    m_grouppicture.MigrateToGroupOwner();
+                }
+
                 // delete all group invitations to me, group requests are cascade-deleted
                 Session.Delete(string.Format("FROM AccountGroupAccountInvitation i WHERE i.Account.Id = {0}", Id));
 

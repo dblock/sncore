@@ -63,10 +63,69 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
         }
 
         [Test]
-        protected void CreateOrUpdateAccountGroupPictureTest()
+        public void CreateOrUpdateAccountGroupPictureTest()
         {
-            // make sure only members can upload a picture to a group
-            // make sure that non-members can't see pictures from a private group
+            // make sure only members can add a picture to a group
+            WebGroupService.TransitAccountGroupPicture t_instance = GetTransitInstance();
+            t_instance.AccountId = GetUserAccount().Id;
+            try
+            {
+                // make sure the user is not a member of the group
+                Assert.IsNull(EndPoint.GetAccountGroupAccountByAccountGroupId(
+                    GetAdminTicket(), GetUserAccount().Id, _group_id));
+                // create the account group picture
+                EndPoint.CreateOrUpdateAccountGroupPicture(GetUserTicket(), t_instance);
+                Assert.IsTrue(false, "Expected Access Denied exception.");
+            }
+            catch (SoapException ex)
+            {
+                Console.WriteLine("Exception: {0}", ex.Message);
+                Assert.AreEqual("SnCore.Services.ManagedAccount+AccessDeniedException: Access denied",
+                    ex.Message.Split("\n".ToCharArray(), 2)[0],
+                    string.Format("Unexpected exception: {0}", ex.Message));
+            }
+            // the user joins the group
+            WebGroupService.TransitAccountGroupAccount t_accountinstance = new WebGroupService.TransitAccountGroupAccount();
+            t_accountinstance.AccountGroupId = _group_id;
+            t_accountinstance.AccountId = GetUserAccount().Id;
+            t_accountinstance.IsAdministrator = false;
+            t_accountinstance.Id = EndPoint.CreateOrUpdateAccountGroupAccount(GetAdminTicket(), t_accountinstance);
+            Assert.AreNotEqual(0, t_accountinstance.Id);
+            // check that the user now can add a picture
+            t_instance.Id = EndPoint.CreateOrUpdateAccountGroupPicture(GetUserTicket(), t_instance);
+            Assert.AreNotEqual(0, t_instance.Id);
+        }
+
+        [Test]
+        public void GetPrivateAccountGroupPicturesTest()
+        {
+            WebGroupService.TransitAccountGroup t_group = new WebGroupService.TransitAccountGroup();
+            t_group.Name = GetNewString();
+            t_group.IsPrivate = true;
+            t_group.Description = GetNewString();
+            t_group.Id = EndPoint.CreateOrUpdateAccountGroup(GetAdminTicket(), t_group);
+            WebGroupService.TransitAccountGroupPicture t_instance = new WebGroupService.TransitAccountGroupPicture();
+            t_instance.AccountGroupId = t_group.Id;
+            t_instance.AccountId = GetAdminAccount().Id;
+            t_instance.Bitmap = GetNewBitmap();
+            t_instance.Description = GetNewString();
+            t_instance.Name = GetNewString();
+            t_instance.Id = Create(GetAdminTicket(), t_instance);
+            try
+            {
+                WebGroupService.TransitAccountGroupPicture[] pictures = EndPoint.GetAccountGroupPictures(
+                    GetUserTicket(), t_group.Id, null);
+                Assert.IsTrue(false, "Expected Access Denied exception.");
+            }
+            catch (SoapException ex)
+            {
+                Console.WriteLine("Exception: {0}", ex.Message);
+                Assert.AreEqual("SnCore.Services.ManagedAccount+AccessDeniedException: Access denied",
+                    ex.Message.Split("\n".ToCharArray(), 2)[0],
+                    string.Format("Unexpected exception: {0}", ex.Message));
+            }
+            Delete(GetAdminTicket(), t_instance.Id);
+            EndPoint.DeleteAccountGroup(GetAdminTicket(), t_group.Id);
         }
     }
 }

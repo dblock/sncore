@@ -253,8 +253,6 @@ namespace SnCore.Services
         public override ACL GetACL(Type type)
         {
             ACL acl = base.GetACL(type);
-            // everyone is able to see this place if the group is public
-            if (!mInstance.AccountGroup.IsPrivate) acl.Add(new ACLEveryoneAllowRetrieve());
             // members can create or see the places depending on their permissions
             foreach (AccountGroupAccount account in Collection<AccountGroupAccount>.GetSafeCollection(mInstance.AccountGroup.AccountGroupAccounts))
             {
