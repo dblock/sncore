@@ -36,7 +36,7 @@
      <asp:TemplateColumn HeaderText="Host">
       <itemtemplate>
        <%# Renderer.GetLink(Renderer.Render(Eval("LastRefererUri")), Renderer.Render(Eval("Host"))) %>
-       <div class="sncore_description">
+       <div id='divLink' class="sncore_description" runat="server" visible='<%# (int) Eval("AccountId") > 0 %>'>
         <%# Renderer.GetLink(string.Format("AccountView.aspx?id={0}", Eval("AccountId")), Renderer.Render(Eval("AccountName"))) %>
        </div>
       </itemtemplate>

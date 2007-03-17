@@ -17,29 +17,29 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             t_instance.Birthday = DateTime.UtcNow.AddYears(-10);
             t_instance.Name = GetNewString();
             t_instance.Password = GetNewString();
-            int id = EndPoint.CreateAccount(string.Empty, email, t_instance);
-            Console.WriteLine("Created account: {0}", id);
-            Assert.IsTrue(id > 0);
+            t_instance.Id = EndPoint.CreateAccount(string.Empty, email, t_instance);
+            Console.WriteLine("Created account: {0}", t_instance.Id);
+            Assert.IsTrue(t_instance.Id > 0);
             // login
             string ticket = EndPoint.Login(email, t_instance.Password);
             Assert.IsFalse(string.IsNullOrEmpty(ticket));
             // retreive
-            WebAccountService.TransitAccount t_instance2 = EndPoint.GetAccountById(ticket, id);
+            WebAccountService.TransitAccount t_instance2 = EndPoint.GetAccountById(ticket, t_instance.Id);
             Console.WriteLine("Retreived account: {0}", t_instance2.Id);
-            Assert.AreEqual(id, t_instance2.Id);
+            Assert.AreEqual(t_instance.Id, t_instance2.Id);
             // update
             t_instance2.Name = GetNewString();
             EndPoint.CreateOrUpdateAccount(ticket, t_instance2);
             // object may be cached, use admin ticket
             string ticket2 = EndPoint.Login("admin@localhost.com", "password");
             // check that the name was updated
-            WebAccountService.TransitAccount t_instance3 = EndPoint.GetAccountById(ticket2, id);
+            WebAccountService.TransitAccount t_instance3 = EndPoint.GetAccountById(ticket2, t_instance.Id);
             Console.WriteLine("Retreived account: {0}", t_instance3.Id);
-            Assert.AreEqual(id, t_instance3.Id);
+            Assert.AreEqual(t_instance.Id, t_instance3.Id);
             Assert.AreEqual(t_instance2.Name, t_instance3.Name);
             // delete
             EndPoint.DeleteAccount(ticket, t_instance.Id, t_instance.Password);
-            Console.WriteLine("Deleted account: {0}", id);
+            Console.WriteLine("Deleted account: {0}", t_instance.Id);
         }
     }    
 }

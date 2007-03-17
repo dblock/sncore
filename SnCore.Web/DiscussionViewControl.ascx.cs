@@ -60,7 +60,7 @@ public partial class DiscussionViewControl : Control
     {
         gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
         PageManager.SetDefaultButton(search, panelSearch.Controls);
-        if (!IsPostBack)
+        if (!IsPostBack && DiscussionId > 0)
         {
             postNew.NavigateUrl = string.Format("DiscussionPost.aspx?did={0}&ReturnUrl={1}&#edit",
                 DiscussionId, Renderer.UrlEncode(Request.Url.PathAndQuery));

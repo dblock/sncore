@@ -42,6 +42,8 @@ namespace SnCore.BackEnd.Tests
             CleanupTestGenerated<ManagedReminder, Reminder>(sec, "Url");
             CleanupTestGenerated<ManagedSurvey, Survey>(sec);
             CleanupTestGenerated<ManagedTagWord, TagWord>(sec, "Word");
+            CleanupTestGenerated<ManagedDiscussion, Discussion>(sec);
+            CleanupTestGenerated<ManagedCounter, Counter>(sec, "Uri");
         }
 
         public void CleanupTestGenerated<ManagedType, DatabaseType>(ManagedSecurityContext sec)

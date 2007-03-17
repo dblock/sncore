@@ -216,9 +216,6 @@ namespace SnCore.Services
 
         public override void Delete(ManagedSecurityContext sec)
         {
-            Collection<AccountStoryPicture>.GetSafeCollection(mInstance.AccountStory.AccountStoryPictures).Remove(mInstance);
-            base.Delete(sec);
-
             ManagedDiscussion.FindAndDelete(Session, mInstance.AccountStory.Account.Id, typeof(AccountStoryPicture), mInstance.Id, sec);
 
             // renumber the order of Pictures
@@ -230,6 +227,9 @@ namespace SnCore.Services
                     Session.Save(p);
                 }
             }
+
+            Collection<AccountStoryPicture>.GetSafeCollection(mInstance.AccountStory.AccountStoryPictures).Remove(mInstance);
+            base.Delete(sec);
         }
 
         public void Move(ManagedSecurityContext sec, int Disp)

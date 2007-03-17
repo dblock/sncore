@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
 using System.Web.Services.Protocols;
+using SnCore.Web.Soap.Tests.WebPlaceServiceTests;
 
 namespace SnCore.Web.Soap.Tests.WebObjectServiceTests
 {
     [TestFixture]
     public class FeatureTest : WebServiceTest<WebObjectService.TransitFeature, WebObjectServiceNoCache>
     {
-        public DataObjectTest _dataobject = new DataObjectTest();
-        public int _dataobject_id = 0;
+        public PlaceTest _place = new PlaceTest();
+        public int _place_id = 0;
 
         [SetUp]
         public override void SetUp()
         {
-            _dataobject.SetUp();
-            _dataobject_id = _dataobject.Create(GetAdminTicket());
+            _place.SetUp();
+            _place_id = _place.Create(GetAdminTicket());
             base.SetUp();
         }
 
@@ -24,8 +25,8 @@ namespace SnCore.Web.Soap.Tests.WebObjectServiceTests
         public override void TearDown()
         {
             base.TearDown();
-            _dataobject.Delete(GetAdminTicket(), _dataobject_id);
-            _dataobject.TearDown();
+            _place.Delete(GetAdminTicket(), _place_id);
+            _place.TearDown();
         }
 
         public FeatureTest()
@@ -37,20 +38,20 @@ namespace SnCore.Web.Soap.Tests.WebObjectServiceTests
         public override WebObjectService.TransitFeature GetTransitInstance()
         {
             WebObjectService.TransitFeature t_instance = new WebObjectService.TransitFeature();
-            t_instance.DataObjectName = (string) _dataobject.GetInstancePropertyById(GetAdminTicket(), _dataobject_id, "Name");
-            t_instance.DataRowId = 1;
+            t_instance.DataObjectName = "Place";
+            t_instance.DataRowId = _place_id;
             return t_instance;
         }
 
         public override object[] GetArgs(string ticket, object options)
         {
-            object[] args = { ticket, (string)_dataobject.GetInstancePropertyById(GetAdminTicket(), _dataobject_id, "Name"), options };
+            object[] args = { ticket, "Place", options };
             return args;
         }
 
         public override object[] GetCountArgs(string ticket)
         {
-            object[] args = { ticket, (string)_dataobject.GetInstancePropertyById(GetAdminTicket(), _dataobject_id, "Name") };
+            object[] args = { ticket, "Place" };
             return args;
         }
 
