@@ -56,7 +56,7 @@ namespace SnCore.Tools.Tests
                 foreach (HtmlGenericControl control in embed)
                 {
                     Console.WriteLine("Type: {0}", HtmlObjectExtractor.GetType(control));
-                    Console.WriteLine(HtmlObjectExtractor.GetHtml(control));
+                    Console.WriteLine(HtmlGenericCollector.GetHtml(control));
                 }
             }
         }

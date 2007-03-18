@@ -13,7 +13,7 @@ using System.Drawing;
 namespace SnCore.Tools.Web.Html
 {
     /// <summary>
-    /// This class extracts all images from an HTML body.
+    /// This class extracts all objects from an HTML body.
     /// </summary>
     public class HtmlObjectExtractor : Sgml.SgmlReader
     {
@@ -182,15 +182,6 @@ namespace SnCore.Tools.Web.Html
             Html.HtmlObjectExtractor ex = new Html.HtmlObjectExtractor(html, basehref);
             while (!ex.EOF) ex.Read();
             return ex.Embeds;
-        }
-
-        public static string GetHtml(HtmlGenericControl control)
-        {
-            StringBuilder s = new StringBuilder();
-            HtmlTextWriter tw = new HtmlTextWriter(new StringWriter(s));
-            control.RenderControl(tw);
-            tw.Flush();
-            return s.ToString();
         }
 
         public static string GetType(HtmlGenericControl control)

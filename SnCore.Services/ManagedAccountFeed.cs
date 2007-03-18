@@ -777,7 +777,7 @@ namespace SnCore.Services
                 List<HtmlGenericControl> embed = HtmlObjectExtractor.Extract(item.Description, basehref);
                 foreach (HtmlGenericControl control in embed)
                 {
-                    string content = HtmlObjectExtractor.GetHtml(control);
+                    string content = HtmlGenericCollector.GetHtml(control);
 
                     AccountFeedItemMedia x_media = null;
 

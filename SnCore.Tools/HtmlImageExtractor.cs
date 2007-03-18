@@ -12,18 +12,9 @@ namespace SnCore.Tools.Web.Html
     /// <summary>
     /// This class extracts all images from an HTML body.
     /// </summary>
-    public class HtmlImageExtractor : Sgml.SgmlReader
+    public class HtmlImageExtractor : HtmlUrlBasedExtractor
     {
-        private Uri mBaseHref = null;
         private List<HtmlImage> mImages = new List<HtmlImage>();
-
-        public Uri BaseHref
-        {
-            get
-            {
-                return mBaseHref;
-            }
-        }
 
         public List<HtmlImage> Images
         {
@@ -37,63 +28,48 @@ namespace SnCore.Tools.Web.Html
             }
         }
 
-        public HtmlImageExtractor(TextReader reader) : this(reader, null)
+        public HtmlImageExtractor(TextReader reader) 
+            : this(reader, null)
         {
 
         }
 
-        public HtmlImageExtractor(TextReader reader, Uri basehref)
-            : base()
-        {
-            mBaseHref = basehref;
-            base.InputStream = reader;
-            base.DocType = "HTML";
-            base.WhitespaceHandling = WhitespaceHandling.All;
-        }
-
-        public HtmlImageExtractor(string content) : this(content, null)
+        public HtmlImageExtractor(string content)
+            : this(new StringReader(content), null)
         {
 
         }
 
         public HtmlImageExtractor(string content, Uri basehref)
-            : base()
+            : this(new StringReader(content), basehref)
         {
-            mBaseHref = basehref;
-            base.InputStream = new StringReader(content);
-            base.DocType = "HTML";
-            base.WhitespaceHandling = WhitespaceHandling.All;
+
         }
 
-        public override bool Read()
+        private static string[] tags = { "img" };
+
+        public HtmlImageExtractor(TextReader reader, Uri basehref)
+            : base(tags, reader, basehref)
         {
-            bool status = base.Read();
-            if (status)
-            {
-                switch (base.NodeType)
-                {
-                    case XmlNodeType.Element:
-                        if (base.Name.ToLower() == "img")
-                        {
-                            HtmlImage image = new HtmlImage();
-                            image.Src = base.GetAttribute("src");
-                            if (BaseHref != null) image.Src = new Uri(BaseHref, image.Src).ToString();
-                            image.Alt = base.GetAttribute("alt");
-                            
-                            int width = 0; 
-                            if (int.TryParse(base.GetAttribute("width"), out width))
-                                image.Width = width;
 
-                            int height = 0;
-                            if (int.TryParse(base.GetAttribute("height"), out height))
-                                image.Height = height;
+        }
 
-                            mImages.Add(image);
-                        }
-                        break;
-                }
-            }
-            return status;
+        protected override void OnTagProcessed(HtmlGenericControl tag)
+        {
+            HtmlImage image = new HtmlImage();
+            image.Src = tag.Attributes["src"];
+            if (BaseHref != null) image.Src = new Uri(BaseHref, image.Src).ToString();
+            image.Alt = tag.Attributes["alt"];
+
+            int width = 0;
+            if (int.TryParse(tag.Attributes["width"], out width))
+                image.Width = width;
+
+            int height = 0;
+            if (int.TryParse(tag.Attributes["height"], out height))
+                image.Height = height;
+
+            mImages.Add(image);
         }
 
         public static List<HtmlImage> Extract(string html)

@@ -14,10 +14,9 @@ using System.Drawing;
 using System.IO;
 using SnCore.Tools.Drawing;
 using SnCore.Tools.Web;
+using SnCore.Tools.Web.Html;
 using SnCore.WebServices;
 using SnCore.Services;
-using Janrain.OpenId;
-using Janrain.OpenId.Consumer;
 using System.Collections.Specialized;
 using Rss;
 using Atom.Core;
@@ -103,46 +102,27 @@ public partial class AccountFeedWizard : AuthenticatedPage
 
     protected void discoverRel(string url, ArrayList feeds)
     {
-        SimpleFetcher fetcher = new SimpleFetcher();
-        FetchResponse response = fetcher.Get(new Uri(inputLinkUrl.Text));
-
-        NameValueCollection[] results = null;
-        try
+        HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+        WebResponse response = request.GetResponse();
+        string content;
+        using (StreamReader sr = new StreamReader(response.GetResponseStream()))
         {
-            results = LinkParser.ParseLinkAttrs(response.data, response.length, response.charset);
-        }
-        catch
-        {
-            return;
+            content = sr.ReadToEnd();
+            sr.Close();
         }
 
-        foreach (NameValueCollection attrs in results)
+        List<HtmlLinkControl> links = HtmlLinkExtractor.Extract(content, new Uri(url));
+        foreach (HtmlLinkControl link in links)
         {
-            string rel = attrs["rel"];
-            if (rel == null)
-                continue;
-
-            string href = attrs["href"];
-            if (href == null)
-                continue;
-
-            string type = attrs["type"];
-            if (type == null)
-                continue;
-
-            string title = attrs["title"];
-            if (title == null)
-                title = "Untitled";
-
-            switch (type)
+            switch (link.Type.ToLower())
             {
                 case "application/rss+xml":
                 case "application/atom+xml":
                     TransitAccountFeed feed = new TransitAccountFeed();
-                    feed.FeedUrl = new Uri(new Uri(inputLinkUrl.Text), href).ToString();
+                    feed.FeedUrl = link.Href;
                     feed.LinkUrl = inputLinkUrl.Text;
                     feed.Description = string.Empty;
-                    feed.Name = title;
+                    feed.Name = link.Title;
                     feeds.Add(feed);
                     break;
             }
@@ -292,7 +272,7 @@ public partial class AccountFeedWizard : AuthenticatedPage
                     Renderer.UrlEncode(link),
                     Renderer.UrlEncode(GetDefaultFeedType().Name),
                     Renderer.UrlEncode(description),
-                    Renderer.UrlEncode(string.Format("AccountFeedWizard.aspx?url={0}", 
+                    Renderer.UrlEncode(string.Format("AccountFeedWizard.aspx?url={0}",
                         Renderer.UrlEncode(string.IsNullOrEmpty(PreviousUrl) ? inputLinkUrl.Text : PreviousUrl)))));
                 break;
         }

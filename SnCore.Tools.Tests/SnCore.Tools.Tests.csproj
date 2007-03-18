@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="CssAbsoluteLinksWriterTest.cs" />
     <Compile Include="HtmlAbsoluteLinksWriterTest.cs" />
+    <Compile Include="HtmlLinkExtractor.cs" />
     <Compile Include="HtmlObjectExtractor.cs" />
     <Compile Include="HtmlImageExtractor.cs" />
     <Compile Include="NGifTest.cs" />

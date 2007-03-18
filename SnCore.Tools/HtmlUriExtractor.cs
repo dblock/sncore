@@ -12,9 +12,8 @@ namespace SnCore.Tools.Web.Html
     /// <summary>
     /// This class extracts all links from an HTML body.
     /// </summary>
-    public class HtmlUriExtractor : Sgml.SgmlReader
+    public class HtmlUriExtractor : HtmlUrlBasedExtractor
     {
-        private Uri mRoot = null;
         private List<Uri> mUris = new List<Uri>();
 
         public List<Uri> Uris
@@ -35,13 +34,7 @@ namespace SnCore.Tools.Web.Html
 
         }
 
-        public HtmlUriExtractor(TextReader reader, Uri root)
-            : base()
-        {
-            base.InputStream = reader;
-            base.DocType = "HTML";
-            base.WhitespaceHandling = WhitespaceHandling.All;
-        }
+        private static string[] tags = { "a", "link" };
 
         public HtmlUriExtractor(string content)
             : this(content, null)
@@ -50,42 +43,36 @@ namespace SnCore.Tools.Web.Html
         }
 
         public HtmlUriExtractor(string content, Uri root)
-            : base()
+            : base(tags, content, root)
         {
-            mRoot = root;
-            base.InputStream = new StringReader(content);
-            base.DocType = "HTML";
-            base.WhitespaceHandling = WhitespaceHandling.All;
+
         }
 
-        public override bool Read()
+        public HtmlUriExtractor(TextReader reader, Uri root)
+            : base(tags, reader, root)
         {
-            bool status = base.Read();
-            if (status)
-            {
-                switch (base.NodeType)
-                {
-                    case XmlNodeType.Element:
-                        if ((base.Name.ToLower() == "a") || (base.Name.ToLower() == "link"))
-                        {
-                            Uri uri = null;
-                            string href = base.GetAttribute("href");
 
-                            if (mRoot != null)
-                            {
-                                if (Uri.TryCreate(mRoot, href, out uri))
-                                    mUris.Add(uri);
-                            }
-                            else
-                            {
-                                if (Uri.TryCreate(href, UriKind.RelativeOrAbsolute, out uri))
-                                    mUris.Add(uri);
-                            }
-                        }
-                        break;
-                }
+        }
+
+        protected override void OnTagProcessed(HtmlGenericControl tag)
+        {
+            string href = tag.Attributes["href"];
+
+            if (string.IsNullOrEmpty(href))
+                return;
+
+            Uri uri = null;
+
+            if (BaseHref != null)
+            {
+                if (Uri.TryCreate(BaseHref, href, out uri))
+                    mUris.Add(uri);
             }
-            return status;
+            else
+            {
+                if (Uri.TryCreate(href, UriKind.RelativeOrAbsolute, out uri))
+                    mUris.Add(uri);
+            }
         }
 
         public static List<Uri> Extract(string html)
