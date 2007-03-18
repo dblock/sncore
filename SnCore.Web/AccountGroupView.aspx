@@ -53,10 +53,9 @@
           group views: <SnCore:CounterView ID="counterAccountGroupViews" runat="server" />
          </div>
         <!-- NOEMAIL-END -->
+       </td>
       </tr>
       <tr>
-       <td valign="top">
-       </td>
        <td class="sncore_table_tr_td" style="text-align: right;">
         <div>
          <asp:LinkButton ID="linkRequest" runat="server" Text="&#187; Join this Group" OnClick="linkRequest_Click" />
