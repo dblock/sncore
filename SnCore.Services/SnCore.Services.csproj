@@ -70,6 +70,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Janrain.OpenId, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Janrain.OpenId\bin\Janrain.OpenId.dll</HintPath>
+    </Reference>
     <Reference Include="NHibernate, Version=1.2.0.2002, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\NHibernate-Bin\NHibernate.dll</HintPath>
@@ -218,10 +222,6 @@
     <ProjectReference Include="..\Atom.Net\Atom.NET.csproj">
       <Project>{8DE2053A-247B-430A-86C3-E52B4725AA60}</Project>
       <Name>Atom.NET</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenId.NET\OpenId.NET.csproj">
-      <Project>{878A1359-86B1-440B-ADE8-84DD20D88BF5}</Project>
-      <Name>OpenId.NET</Name>
     </ProjectReference>
     <ProjectReference Include="..\Rss.Net\RSS.NET.csproj">
       <Project>{C42FC014-7E12-4FAF-9BC9-79BF1529440D}</Project>

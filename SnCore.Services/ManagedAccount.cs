@@ -15,8 +15,8 @@ using System.Web.Configuration;
 using System.Web.Security;
 using System.Reflection;
 using SnCore.Tools.Web;
-using Janrain.OpenId.Store.Net;
 using Janrain.OpenId.Store;
+using Janrain.OpenId.Session;
 using Janrain.OpenId;
 using Janrain.OpenId.Consumer;
 using SnCore.Tools;
@@ -868,29 +868,22 @@ namespace SnCore.Services
 
         public static TransitOpenIdRedirect GetOpenIdRedirect(ISession session, string openidurl, string returnurl)
         {
-            // todo: don't use memory store - won't work in a distributed scenario
-            Consumer c = new Consumer(new MemoryStore(), new SimpleFetcher());
-            AuthRequest r = c.BeginAuth(new Uri(SnCore.Tools.Web.UriBuilder.NormalizeUrl(openidurl)));
+            Consumer c = new Consumer(SimpleSessionState.GetInstance(), MemoryStore.GetInstance());
+            AuthRequest request = c.Begin(new Uri(SnCore.Tools.Web.UriBuilder.NormalizeUrl(openidurl)));
 
-            TransitOpenIdRedirect redirect = new TransitOpenIdRedirect(r.token, c.CreateRedirect(
-                Consumer.Mode.SETUP, r, new Uri(returnurl),
-                ManagedConfiguration.GetValue(session, "SnCore.WebSite.Url", "http://localhost/SnCore")));
+            Uri redirect = request.CreateRedirect(
+                ManagedConfiguration.GetValue(session, "SnCore.WebSite.Url", "http://localhost/SnCore"),
+                new Uri(new Uri(returnurl).GetLeftPart(UriPartial.Path)),
+                AuthRequest.Mode.SETUP);
 
-            return redirect;
+            return new TransitOpenIdRedirect(request.Token, redirect.ToString());
         }
 
         public static Uri VerifyOpenId(string token, NameValueCollection query)
         {
-            Consumer c = new Consumer(new MemoryStore(), new SimpleFetcher());
-
-            object authresponse = null;
-            Consumer.Status s = c.CompleteAuth(token, query, out authresponse);
-            if (s == Consumer.Status.SUCCESS && authresponse != null)
-            {
-                return (Uri)authresponse;
-            }
-
-            throw new AccessDeniedException();
+            Consumer c = new Consumer(SimpleSessionState.GetInstance(), MemoryStore.GetInstance());
+            ConsumerResponse response = c.Complete(query);
+            return response.IdentityUrl;
         }
 
         public static ManagedAccount LoginOpenId(ISession session, string token, NameValueCollection query)
