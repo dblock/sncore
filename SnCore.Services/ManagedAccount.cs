@@ -898,7 +898,9 @@ namespace SnCore.Services
             if (o == null)
             {
                 throw new SoapException(
-                    "Access Denied - no account associated with this OpenId.",
+                    "Access Denied - " +
+                    "your OpenId is valid, but you have to register on this site using an e-mail address first. " +
+                    "You can add an OpenId once you've joined.",
                     SoapException.ClientFaultCode);
             }
 
