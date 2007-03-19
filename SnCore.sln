@@ -161,6 +161,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NGif.NET", "NGif.NET\NGif.N
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICalParser", "ICalParser.Net\ICalParser.csproj", "{03BAF2A6-5C24-4450-94EF-F5F792F783E4}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -475,6 +481,18 @@ Global
 		{157389D0-4DF2-429C-A13C-26D4F10569BD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{157389D0-4DF2-429C-A13C-26D4F10569BD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{157389D0-4DF2-429C-A13C-26D4F10569BD}.Release|Win32.ActiveCfg = Release|Any CPU
+		{03BAF2A6-5C24-4450-94EF-F5F792F783E4}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{03BAF2A6-5C24-4450-94EF-F5F792F783E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03BAF2A6-5C24-4450-94EF-F5F792F783E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03BAF2A6-5C24-4450-94EF-F5F792F783E4}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{03BAF2A6-5C24-4450-94EF-F5F792F783E4}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{03BAF2A6-5C24-4450-94EF-F5F792F783E4}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{03BAF2A6-5C24-4450-94EF-F5F792F783E4}.Release|.NET.ActiveCfg = Release|Any CPU
+		{03BAF2A6-5C24-4450-94EF-F5F792F783E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03BAF2A6-5C24-4450-94EF-F5F792F783E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03BAF2A6-5C24-4450-94EF-F5F792F783E4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{03BAF2A6-5C24-4450-94EF-F5F792F783E4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{03BAF2A6-5C24-4450-94EF-F5F792F783E4}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

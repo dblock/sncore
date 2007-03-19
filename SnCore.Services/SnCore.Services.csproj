@@ -109,6 +109,7 @@
     <Compile Include="ManagedAccountCounter.cs" />
     <Compile Include="ManagedAccountEmailMessage.cs" />
     <Compile Include="ManagedAccountEvent.cs" />
+    <Compile Include="ManagedAccountEventICALEmitter.cs" />
     <Compile Include="ManagedAccountEventPicture.cs" />
     <Compile Include="ManagedAccountEventInstance.cs" />
     <Compile Include="ManagedAccountEventType.cs" />
@@ -222,6 +223,10 @@
     <ProjectReference Include="..\Atom.Net\Atom.NET.csproj">
       <Project>{8DE2053A-247B-430A-86C3-E52B4725AA60}</Project>
       <Name>Atom.NET</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ICalParser.Net\ICalParser.csproj">
+      <Project>{03BAF2A6-5C24-4450-94EF-F5F792F783E4}</Project>
+      <Name>ICalParser</Name>
     </ProjectReference>
     <ProjectReference Include="..\Rss.Net\RSS.NET.csproj">
       <Project>{C42FC014-7E12-4FAF-9BC9-79BF1529440D}</Project>

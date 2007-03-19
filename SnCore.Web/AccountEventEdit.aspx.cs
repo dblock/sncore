@@ -12,6 +12,8 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using System.Net;
+using System.IO;
 
 public partial class AccountEventEdit : AuthenticatedPage
 {
@@ -31,11 +33,12 @@ public partial class AccountEventEdit : AuthenticatedPage
             selectType.DataSource = types;
             selectType.DataBind();
 
-            int id = RequestId;
+            linkBack.NavigateUrl = ReturnUrl;
 
-            if (id > 0)
+            if (RequestId > 0)
             {
-                TransitAccountEvent tav = SessionManager.EventService.GetAccountEventById(SessionManager.Ticket, id, SessionManager.UtcOffset);
+                TransitAccountEvent tav = SessionManager.EventService.GetAccountEventById(
+                    SessionManager.Ticket, RequestId, SessionManager.UtcOffset);
                 inputName.Text = tav.Name;
                 inputWebsite.Text = tav.Website;
                 inputDescription.Text = tav.Description;
@@ -48,6 +51,23 @@ public partial class AccountEventEdit : AuthenticatedPage
                 place.Place = SessionManager.PlaceService.GetPlaceById(SessionManager.Ticket, tav.PlaceId);
                 titleEvent.Text = Renderer.Render(tav.Name);
                 sitemapdata.Add(new SiteMapDataAttributeNode(tav.Name, Request.Url));
+            }
+            else if (!string.IsNullOrEmpty(Request["ical"]))
+            {
+                TransitAccountEventICALEmitter emitter = TransitAccountEventICALEmitter.Parse(
+                    Request["ical"], SessionManager.UtcOffset);
+                inputName.Text = emitter.AccountEvent.Name;
+                inputWebsite.Text = emitter.AccountEvent.Website;
+                inputDescription.Text = emitter.AccountEvent.Description;
+                inputPhone.Text = emitter.AccountEvent.Phone;
+                inputEmail.Text = emitter.AccountEvent.Email;
+                inputCost.Text = emitter.AccountEvent.Cost;
+                inputPublish.Checked = emitter.AccountEvent.Publish;
+                if (!string.IsNullOrEmpty(emitter.AccountEvent.AccountEventType)) selectType.Items.FindByValue(emitter.AccountEvent.AccountEventType).Selected = true;
+                schedule.Schedule = emitter.Schedule;
+                place.Place = emitter.Place;
+                titleEvent.Text = Renderer.Render(emitter.AccountEvent.Name);
+                sitemapdata.Add(new SiteMapDataAttributeNode("New ICal Event", Request.Url));
             }
             else
             {
@@ -122,9 +142,18 @@ public partial class AccountEventEdit : AuthenticatedPage
         tav.PlaceId = place.Place.Id;
         tav.Id = RequestId;
         tav.AccountEventType = selectType.SelectedValue;
-        SessionManager.CreateOrUpdate<TransitAccountEvent>(
+        tav.Id = SessionManager.CreateOrUpdate<TransitAccountEvent>(
             tav, SessionManager.EventService.CreateOrUpdateAccountEvent);
-        Redirect("AccountEventsManage.aspx");
-
+        Redirect(string.Format("AccountEventView.aspx?id={0}", tav.Id));
     }
+
+    public string ReturnUrl
+    {
+        get
+        {
+            object o = Request.QueryString["ReturnUrl"];
+            return (o == null ? "AccountEventsToday.aspx" : o.ToString());
+        }
+    }
+
 }

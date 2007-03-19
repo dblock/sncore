@@ -18,7 +18,7 @@
        <a href="AccountEventsToday.aspx">&#187; Events This Week</a>
        <asp:LinkButton ID="linkShowAll" runat="server" Text="&#187; All Events" OnClick="linkShowAll_Click" />
        <asp:LinkButton ID="linkSearch" runat="server" Text="&#187; Search" OnClick="linkSearch_Click" />
-       <a href="AccountEventEdit.aspx">&#187; Suggest an Event</a>
+       <a href="AccountEventWizard.aspx">&#187; Post an Event</a>
        <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
       </div>
      </td>

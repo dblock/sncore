@@ -19,7 +19,7 @@
          city and/or state.
         </div>
         <div class="sncore_title_paragraph">
-         <a href="AccountEventEdit.aspx">Click here</a> to submit an event. It's free!
+         <a href="AccountEventWizard.aspx">Click here</a> to submit an event. It's free!
         </div>
        </Template>
       </SnCore:Title>
@@ -27,7 +27,7 @@
        <asp:LinkButton ID="linkShowAll" runat="server" Text="&#187; All Events This Week" OnClick="linkShowAll_Click" />
        <a href="AccountEventsView.aspx">&#187; All Events</a>
        <asp:LinkButton ID="linkLocal" OnClick="linkLocal_Click" runat="server" Text="&#187; Local Events" />
-       <a href="AccountEventEdit.aspx">&#187; Suggest an Event</a>
+       <a href="AccountEventWizard.aspx">&#187; Post an Event</a>
        <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
       </div>
      </td>

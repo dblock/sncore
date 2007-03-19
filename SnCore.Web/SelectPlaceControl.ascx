@@ -72,6 +72,7 @@
        </div>
        <SnCoreWebControls:Button ID="buttonLookup" runat="server" Text="Lookup"
         CssClass="sncore_form_button" CausesValidation="false" OnClick="buttonLookup_Click" />
+       <asp:LinkButton ID="linkAdd" runat="server" Text="&#187; add" OnClick="add_Click" CssClass="sncore_link" />
       </td>
      </tr>
     </table>
@@ -117,6 +118,8 @@
      </tr>
      <tr>
       <td class="sncore_form_label">
+       <asp:LinkButton id="linkSearch" runat="server" OnClick="linkSearch_Click" Text="search &#171;" 
+        CssClass="sncore_link" /> 
        name:
       </td>
       <td class="sncore_form_value">

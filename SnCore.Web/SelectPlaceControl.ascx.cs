@@ -87,8 +87,6 @@ public partial class SelectPlaceControl : Control
             inputState.DataSource = states;
             inputState.DataBind();
 
-            SelectLocation(sender, new SelectLocationEventArgs(SessionManager.Account));
-
             if (Place.Id != 0)
             {
                 ArrayList a = new ArrayList();
@@ -100,6 +98,27 @@ public partial class SelectPlaceControl : Control
                 lookupPlace.Enabled = true;
                 addPlace.Enabled = true;
                 IsChosen = true;
+            }
+            else if (!string.IsNullOrEmpty(Place.Name))
+            {
+                lookupPlace.Enabled = true;
+                addPlace.Enabled = false;
+                panelAdd.Visible = true;
+                panelLookup.Visible = false;
+                inputName.Text = Place.Name;
+                inputStreet.Text = Place.Street;
+                inputZip.Text = Place.Zip;
+                inputWebsite.Text = Place.Website;
+                inputCrossStreet.Text = Place.CrossStreet;
+                inputPhone.Text = Place.Phone;
+                inputFax.Text = Place.Fax;
+                inputEmail.Text = Place.Email;
+                SelectLocation(sender, new SelectLocationEventArgs(Place.Country, Place.State, Place.City));
+                IsEditing = true;
+            }
+            else
+            {
+                SelectLocation(sender, new SelectLocationEventArgs(SessionManager.Account));
             }
         }
 
@@ -280,5 +299,18 @@ public partial class SelectPlaceControl : Control
 
         lookupPlace.OnClientClick = changeclick.ToString();
         addPlace.OnClientClick = changeclick.ToString();
+    }
+
+    public void linkSearch_Click(object sender, EventArgs e)
+    {
+        lookupPlace_Click(sender, e);
+        inputLookupName.Text = inputName.Text;
+        buttonLookup_Click(sender, e);
+    }
+
+    public void add_Click(object sender, EventArgs e)
+    {
+        addPlace_Click(sender, e);
+        inputName.Text = inputLookupName.Text;
     }
 }
