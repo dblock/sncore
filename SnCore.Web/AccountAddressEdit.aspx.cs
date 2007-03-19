@@ -64,8 +64,8 @@ public partial class AccountAddressEdit : AuthenticatedPage
 
             if (tw != null)
             {
-                inputCountry.Items.FindByValue(tw.Country).Selected = true;
-                inputState.Items.FindByValue(tw.State).Selected = true;
+                Control.SelectAndOrAddByValue(inputCountry.Items, tw.Country);
+                Control.SelectAndOrAddByValue(inputState.Items, tw.State);
             }
         }
 

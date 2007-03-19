@@ -178,9 +178,9 @@ public partial class SelectDateControl : System.Web.UI.UserControl
             selectdateYear.ClearSelection();
 
             DateTime d = (DateTime) mSelectedDateTime;
-            selectdateMonth.Items.FindByValue(d.Month.ToString()).Selected = true;
-            selectdateDay.Items.FindByValue(d.Day.ToString()).Selected = true;
-            selectdateYear.Items.FindByValue(d.Year.ToString()).Selected = true;
+            Control.SelectAndOrAddByValue(selectdateMonth.Items, d.Month.ToString());
+            Control.SelectAndOrAddByValue(selectdateDay.Items, d.Day.ToString());
+            Control.SelectAndOrAddByValue(selectdateYear.Items, d.Year.ToString());
         }
     }
 

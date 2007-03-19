@@ -196,4 +196,26 @@ public class Control : System.Web.UI.UserControl
             ReportException(ex);
         }
     }
+
+    public static bool SelectAndOrAddByValue(ListItemCollection coll, string value)
+    {
+        return SelectAndOrAddByValue(coll, value, value);
+    }
+
+    public static bool SelectAndOrAddByValue(ListItemCollection coll, string text, string value)
+    {
+        ListItem item = coll.FindByValue(value);
+        if (item != null)
+        {
+            item.Selected = true;
+            return false;
+        }
+        else
+        {
+            item = new ListItem(text, value);
+            coll.Add(item);
+            item.Selected = true;
+            return true;
+        }
+    }
 }

@@ -63,7 +63,8 @@ public partial class AccountEventEdit : AuthenticatedPage
                 inputEmail.Text = emitter.AccountEvent.Email;
                 inputCost.Text = emitter.AccountEvent.Cost;
                 inputPublish.Checked = emitter.AccountEvent.Publish;
-                if (!string.IsNullOrEmpty(emitter.AccountEvent.AccountEventType)) selectType.Items.FindByValue(emitter.AccountEvent.AccountEventType).Selected = true;
+                if (!string.IsNullOrEmpty(emitter.AccountEvent.AccountEventType)) 
+                    selectType.Items.FindByValue(emitter.AccountEvent.AccountEventType).Selected = true;
                 schedule.Schedule = emitter.Schedule;
                 place.Place = emitter.Place;
                 titleEvent.Text = Renderer.Render(emitter.AccountEvent.Name);
