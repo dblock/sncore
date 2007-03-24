@@ -13,6 +13,23 @@ using SnCore.Tools.Web;
 
 namespace SnCore.Services
 {
+    public class RefererHostQueryOptions
+    {
+        private bool mNewOnly = false;
+
+        public bool NewOnly
+        {
+            get
+            {
+                return mNewOnly;
+            }
+            set
+            {
+                mNewOnly = value;
+            }
+        }
+    }
+
     public class TransitRefererHost : TransitService<RefererHost>
     {
         private string mAccountName;

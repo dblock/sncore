@@ -118,10 +118,11 @@ namespace SnCore.WebServices
         /// <param name="ticket">authentication ticket</param>
         /// <returns>transit referer hosts</returns>
         [WebMethod(Description = "Get referer hosts count.", CacheDuration = 60)]
-        public int GetRefererHostsCount(string ticket)
+        public int GetRefererHostsCount(string ticket, RefererHostQueryOptions qopt)
         {
             return WebServiceImpl<TransitRefererHost, ManagedRefererHost, RefererHost>.GetCount(
-                ticket);
+                ticket, (qopt != null && qopt.NewOnly) ? string.Format("WHERE Created > '{0}'", 
+                DateTime.UtcNow.AddDays(-7)) : string.Empty); 
         }
 
         /// <summary>
@@ -129,11 +130,12 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>transit referer hosts</returns>
         [WebMethod(Description = "Get referer hosts.", CacheDuration = 60)]
-        public List<TransitRefererHost> GetRefererHosts(string ticket, ServiceQueryOptions options)
+        public List<TransitRefererHost> GetRefererHosts(string ticket, RefererHostQueryOptions qopt, ServiceQueryOptions options)
         {
+            ICriterion[] expressions = { Expression.Gt("Created", DateTime.UtcNow.AddDays(-7)) };
             Order[] orders = { Order.Desc("Total") };
             return WebServiceImpl<TransitRefererHost, ManagedRefererHost, RefererHost>.GetList(
-                ticket, options, null, orders);
+                ticket, options, (qopt != null && qopt.NewOnly) ? expressions : null, orders);
         }
 
         /// <summary>

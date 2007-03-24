@@ -18,7 +18,7 @@ using SnCore.SiteMap;
 
 public partial class SystemRefererHosts : AuthenticatedPage
 {
-    public void Page_Load()
+    public void Page_Load(object sender, EventArgs e)
     {
         gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
@@ -30,7 +30,7 @@ public partial class SystemRefererHosts : AuthenticatedPage
                 return;
             }
 
-            GetData();
+            GetData(sender, e);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Statistics", Request, "SystemStatsHits.aspx"));
@@ -39,21 +39,30 @@ public partial class SystemRefererHosts : AuthenticatedPage
         }
     }
 
-    private void GetData()
+    private void GetData(object sender, EventArgs e)
     {
+        RefererHostQueryOptions qopt = new RefererHostQueryOptions();
+        qopt.NewOnly = inputNewOnly.Checked;
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.GetCount<TransitRefererHost>(
-            SessionManager.StatsService.GetRefererHostsCount);
+        gridManage.VirtualItemCount = SessionManager.GetCount<TransitRefererHost, RefererHostQueryOptions>(
+            qopt, SessionManager.StatsService.GetRefererHostsCount);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
+        RefererHostQueryOptions qopt = new RefererHostQueryOptions();
+        qopt.NewOnly = inputNewOnly.Checked;
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = gridManage.CurrentPageIndex;
         options.PageSize = gridManage.PageSize;
-        gridManage.DataSource = SessionManager.GetCollection<TransitRefererHost>(
-            options, SessionManager.StatsService.GetRefererHosts);
+        gridManage.DataSource = SessionManager.GetCollection<TransitRefererHost, RefererHostQueryOptions>(
+            qopt, options, SessionManager.StatsService.GetRefererHosts);
+    }
+
+    public void optionsChanged(object sender, EventArgs e)
+    {
+        GetData(sender, e);
     }
 }

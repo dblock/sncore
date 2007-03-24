@@ -15,6 +15,15 @@
     <asp:HyperLink ID="linkRefererHosts" runat="server" Text="&#187; Referer Hosts" Enabled="False" />
     <asp:HyperLink ID="linkRefererQueries" runat="server" Text="&#187; Referer Queries" NavigateUrl="SystemRefererQueries.aspx" />
    </div>
+   <table class="sncore_account_table">
+    <tr>
+     <tr>
+      <td class="sncore_form_value">
+       <asp:CheckBox CssClass="sncore_form_checkbox" ID="inputNewOnly" runat="server"
+        AutoPostBack="True" OnCheckedChanged="optionsChanged" Text="show new only" Checked="false" />
+      </td>
+     </tr>
+   </table>
    <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage" PageSize="15"
     AllowPaging="true" AutoGenerateColumns="false" AllowCustomPaging="true" CssClass="sncore_account_table">
     <ItemStyle CssClass="sncore_table_tr_td" HorizontalAlign="Center" />
