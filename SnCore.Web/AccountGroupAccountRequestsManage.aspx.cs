@@ -102,6 +102,15 @@ public partial class AccountGroupAccountRequestsManage : AuthenticatedPage
                     ReportInfo("Request rejected.");
                     break;
                 }
+            case "Delete":
+                {
+                    int id = int.Parse(e.CommandArgument.ToString());
+                    SessionManager.GroupService.DeleteAccountGroupAccountRequest(SessionManager.Ticket, id);
+                    GetData(sender, e);
+                    ReportInfo("Request deleted.");
+                    break;
+                }
+
         }
     }
 }

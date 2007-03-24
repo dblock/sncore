@@ -45,6 +45,11 @@
            OnClientClick="return confirm('Are you sure you want to reject this request?')"
            CommandName="Reject" CommandArgument='<%# Eval("Id") %>' />
          </div>
+         <div>
+          <asp:LinkButton Text="&#187; Delete Request" ID="linkIgnoreDelete" runat="server" 
+           OnClientClick="return confirm('Are you sure you want to delete this request?\nThere will be no notification sent to the requester.')"
+           CommandName="Delete" CommandArgument='<%# Eval("Id") %>' />
+         </div>
         </div>
        </td>
       </tr>
