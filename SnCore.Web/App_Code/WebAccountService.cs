@@ -432,6 +432,11 @@ namespace SnCore.WebServices
                 friend.Keen = session.Load<Account>(id);
                 friend.Created = DateTime.UtcNow;
                 session.Save(friend);
+                SnCore.Data.Hibernate.Session.Flush();
+
+                ManagedAccount recepient = new ManagedAccount(session, invitation.AccountId);
+                ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(session, recepient,
+                    string.Format("EmailAccountInvitationAccept.aspx?id={0}&aid={1}", invitation.Id, id));
 
                 invitation.Delete(ManagedAccount.GetAdminSecurityContext(session));
 
@@ -452,6 +457,10 @@ namespace SnCore.WebServices
                 {
                     throw new ManagedAccount.AccessDeniedException();
                 }
+
+                ManagedAccount recepient = new ManagedAccount(session, invitation.AccountId);
+                ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(session, recepient,
+                    string.Format("EmailAccountInvitationReject.aspx?id={0}", invitation.Id));
 
                 invitation.Delete(ManagedAccount.GetAdminSecurityContext(session));
                 SnCore.Data.Hibernate.Session.Flush();
