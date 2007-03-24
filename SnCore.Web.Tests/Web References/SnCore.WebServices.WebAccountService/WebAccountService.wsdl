@@ -236,6 +236,20 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetAdminAccount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAdminAccountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAdminAccountResult" type="tns:TransitAccount" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetAccountById">
         <s:complexType>
           <s:sequence>
@@ -387,11 +401,46 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetAccountInvitations">
+      <s:element name="GetAccountInvitationsByAccountId">
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
             <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountInvitationsByAccountIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountInvitationsByAccountIdResult" type="tns:ArrayOfTransitAccountInvitation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitAccountInvitation">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountInvitation" nillable="true" type="tns:TransitAccountInvitation" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountInvitationsCountByAccountId">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountInvitationsCountByAccountIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAccountInvitationsCountByAccountIdResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountInvitations">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
           </s:sequence>
         </s:complexType>
@@ -403,16 +452,10 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:complexType name="ArrayOfTransitAccountInvitation">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountInvitation" nillable="true" type="tns:TransitAccountInvitation" />
-        </s:sequence>
-      </s:complexType>
       <s:element name="GetAccountInvitationsCount">
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -888,6 +931,7 @@
         <s:complexContent mixed="false">
           <s:extension base="tns:TransitAccount">
             <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="NewFriends" type="s:int" />
               <s:element minOccurs="1" maxOccurs="1" name="NewPictures" type="s:int" />
               <s:element minOccurs="1" maxOccurs="1" name="NewDiscussionPosts" type="s:int" />
               <s:element minOccurs="1" maxOccurs="1" name="NewSyndicatedContent" type="s:int" />
@@ -2527,6 +2571,12 @@
   <wsdl:message name="GetAccountSoapOut">
     <wsdl:part name="parameters" element="tns:GetAccountResponse" />
   </wsdl:message>
+  <wsdl:message name="GetAdminAccountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAdminAccount" />
+  </wsdl:message>
+  <wsdl:message name="GetAdminAccountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAdminAccountResponse" />
+  </wsdl:message>
   <wsdl:message name="GetAccountByIdSoapIn">
     <wsdl:part name="parameters" element="tns:GetAccountById" />
   </wsdl:message>
@@ -2580,6 +2630,18 @@
   </wsdl:message>
   <wsdl:message name="CreateOrUpdateAccountInvitationSoapOut">
     <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountInvitationResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountInvitationsByAccountIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountInvitationsByAccountId" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountInvitationsByAccountIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountInvitationsByAccountIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountInvitationsCountByAccountIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountInvitationsCountByAccountId" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountInvitationsCountByAccountIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountInvitationsCountByAccountIdResponse" />
   </wsdl:message>
   <wsdl:message name="GetAccountInvitationsSoapIn">
     <wsdl:part name="parameters" element="tns:GetAccountInvitations" />
@@ -3307,6 +3369,11 @@
       <wsdl:input message="tns:GetAccountSoapIn" />
       <wsdl:output message="tns:GetAccountSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="GetAdminAccount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get an administrative account.</wsdl:documentation>
+      <wsdl:input message="tns:GetAdminAccountSoapIn" />
+      <wsdl:output message="tns:GetAdminAccountSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetAccountById">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account information.</wsdl:documentation>
       <wsdl:input message="tns:GetAccountByIdSoapIn" />
@@ -3352,8 +3419,18 @@
       <wsdl:input message="tns:CreateOrUpdateAccountInvitationSoapIn" />
       <wsdl:output message="tns:CreateOrUpdateAccountInvitationSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetAccountInvitations">
+    <wsdl:operation name="GetAccountInvitationsByAccountId">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account invitations.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountInvitationsByAccountIdSoapIn" />
+      <wsdl:output message="tns:GetAccountInvitationsByAccountIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountInvitationsCountByAccountId">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account invitations count.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountInvitationsCountByAccountIdSoapIn" />
+      <wsdl:output message="tns:GetAccountInvitationsCountByAccountIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountInvitations">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all account invitations.</wsdl:documentation>
       <wsdl:input message="tns:GetAccountInvitationsSoapIn" />
       <wsdl:output message="tns:GetAccountInvitationsSoapOut" />
     </wsdl:operation>
@@ -4022,6 +4099,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetAdminAccount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAdminAccount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetAccountById">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountById" style="document" />
       <wsdl:input>
@@ -4096,6 +4182,24 @@
     </wsdl:operation>
     <wsdl:operation name="CreateOrUpdateAccountInvitation">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountInvitation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountInvitationsByAccountId">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountInvitationsByAccountId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountInvitationsCountByAccountId">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountInvitationsCountByAccountId" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -5213,6 +5317,15 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetAdminAccount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAdminAccount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetAccountById">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountById" style="document" />
       <wsdl:input>
@@ -5287,6 +5400,24 @@
     </wsdl:operation>
     <wsdl:operation name="CreateOrUpdateAccountInvitation">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountInvitation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountInvitationsByAccountId">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountInvitationsByAccountId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountInvitationsCountByAccountId">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountInvitationsCountByAccountId" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

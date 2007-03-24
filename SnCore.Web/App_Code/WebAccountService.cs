@@ -503,7 +503,7 @@ namespace SnCore.WebServices
         /// <param name="id">account id</param>
         /// <returns>transit account invitations</returns>
         [WebMethod(Description = "Get account invitations.")]
-        public List<TransitAccountInvitation> GetAccountInvitations(string ticket, int id, ServiceQueryOptions options)
+        public List<TransitAccountInvitation> GetAccountInvitationsByAccountId(string ticket, int id, ServiceQueryOptions options)
         {
             ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
             Order[] orders = { Order.Desc("Created") };
@@ -517,10 +517,33 @@ namespace SnCore.WebServices
         /// <param name="id">account id</param>
         /// <returns>number of outstanding account invitations</returns>
         [WebMethod(Description = "Get account invitations count.", CacheDuration = 60)]
-        public int GetAccountInvitationsCount(string ticket, int id)
+        public int GetAccountInvitationsCountByAccountId(string ticket, int id)
         {
             return WebServiceImpl<TransitAccountInvitation, ManagedAccountInvitation, AccountInvitation>.GetCount(
                 ticket, string.Format("WHERE AccountInvitation.Account.Id = {0}", id));
+        }
+
+        /// <summary>
+        /// Get all account invitations.
+        /// </summary>
+        /// <returns>transit account invitations</returns>
+        [WebMethod(Description = "Get all account invitations.")]
+        public List<TransitAccountInvitation> GetAccountInvitations(string ticket, ServiceQueryOptions options)
+        {
+            Order[] orders = { Order.Desc("Created") };
+            return WebServiceImpl<TransitAccountInvitation, ManagedAccountInvitation, AccountInvitation>.GetList(
+                ticket, options, null, orders);
+        }
+
+        /// <summary>
+        /// Get all account invitations count.
+        /// </summary>
+        /// <returns>number of outstanding account invitations</returns>
+        [WebMethod(Description = "Get account invitations count.", CacheDuration = 60)]
+        public int GetAccountInvitationsCount(string ticket)
+        {
+            return WebServiceImpl<TransitAccountInvitation, ManagedAccountInvitation, AccountInvitation>.GetCount(
+                ticket);
         }
 
         /// <summary>

@@ -7,7 +7,7 @@ using System.Web.Services.Protocols;
 namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
 {
     [TestFixture]
-    public class AccountInvitationTest : AccountBaseTest<WebAccountService.TransitAccountInvitation>
+    public class AccountInvitationTest : WebServiceTest<WebAccountService.TransitAccountInvitation, WebAccountServiceNoCache>
     {
         [SetUp]
         public override void SetUp()
@@ -30,7 +30,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         public override WebAccountService.TransitAccountInvitation GetTransitInstance()
         {
             WebAccountService.TransitAccountInvitation t_instance = new WebAccountService.TransitAccountInvitation();
-            t_instance.AccountId = _account_id;
+            t_instance.AccountId = GetUserAccount().Id;
             t_instance.Email = GetNewEmailAddress();
             t_instance.Message = GetNewString();
             t_instance.Code = GetNewString(); // only useful when admin
@@ -129,6 +129,28 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
 
             WebAccountService.TransitAccountInvitation t_instance_deleted = EndPoint.GetAccountInvitationById(GetAdminTicket(), t_instance.Id);
             Assert.IsNull(t_instance_deleted, "Invitation hasn't been deleted after it was declined.");
+        }
+
+        [Test]
+        public void GetAccountInvitationsByAccountIdTest()
+        {
+            int count1 = EndPoint.GetAccountInvitationsCountByAccountId(
+                GetUserTicket(), GetUserAccount().Id);
+            Console.WriteLine("Count: {0}", count1);
+            Assert.IsTrue(count1 >= 0);
+            int id = Create(GetUserTicket());
+            int count2 = EndPoint.GetAccountInvitationsCountByAccountId(
+                GetUserTicket(), GetUserAccount().Id);
+            Console.WriteLine("Count: {0}", count2);
+            Assert.AreEqual(count1 + 1, count2);
+            WebAccountService.TransitAccountInvitation[] invitations = EndPoint.GetAccountInvitationsByAccountId(
+                GetUserTicket(), GetUserAccount().Id, null);
+            Console.WriteLine("Invitations: {0}", invitations.Length);
+            Assert.AreEqual(invitations.Length, count2);
+            Delete(GetUserTicket(), id);
+            int count3 = EndPoint.GetAccountInvitationsCountByAccountId(
+                GetUserTicket(), GetUserAccount().Id);
+            Assert.AreEqual(count1, count3);
         }
     }
 }

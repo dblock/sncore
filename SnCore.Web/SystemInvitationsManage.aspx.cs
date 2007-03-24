@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.SiteMap;
 using SnCore.Services;
+using SnCore.WebServices;
 
 public partial class SystemInvitationsManage : AuthenticatedPage
 {
@@ -19,20 +20,31 @@ public partial class SystemInvitationsManage : AuthenticatedPage
 
         if (!IsPostBack)
         {
-            gridManage_OnGetDataSource(this, null);
-            gridManage.DataBind();
-
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Invitations", Request.Url));
             StackSiteMap(sitemapdata);
+
+            GetData(sender, e);
         }
+    }
+
+    void GetData(object sender, EventArgs e)
+    {
+        gridManage.CurrentPageIndex = 0;
+        gridManage.VirtualItemCount = SessionManager.GetCount<TransitAccountInvitation>(
+            SessionManager.AccountService.GetAccountInvitationsCount);
+        gridManage_OnGetDataSource(sender, e);
+        gridManage.DataBind();
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        gridManage.DataSource = SessionManager.AccountService.GetAccountInvitations(
-            SessionManager.Ticket, SessionManager.AccountId, null);
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageNumber = gridManage.CurrentPageIndex;
+        options.PageSize = gridManage.PageSize;
+        gridManage.DataSource = SessionManager.GetCollection<TransitAccountInvitation>(
+            options, SessionManager.AccountService.GetAccountInvitations);
     }
 
     private enum Cells
@@ -54,9 +66,7 @@ public partial class SystemInvitationsManage : AuthenticatedPage
                     case "Delete":
                         SessionManager.Delete<TransitAccountInvitation>(id, SessionManager.AccountService.DeleteAccountInvitation);
                         ReportInfo("Invitation deleted.");
-                        gridManage.CurrentPageIndex = 0;
-                        gridManage_OnGetDataSource(source, e);
-                        gridManage.DataBind();
+                        GetData(source, e);
                         break;
                 }
                 break;

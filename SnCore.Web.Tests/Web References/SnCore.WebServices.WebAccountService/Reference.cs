@@ -75,6 +75,8 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
         
         private System.Threading.SendOrPostCallback GetAccountOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetAdminAccountOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetAccountByIdOperationCompleted;
         
         private System.Threading.SendOrPostCallback CreateOrUpdateAccountOperationCompleted;
@@ -92,6 +94,10 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
         private System.Threading.SendOrPostCallback GetAccountInvitationByEmailOperationCompleted;
         
         private System.Threading.SendOrPostCallback CreateOrUpdateAccountInvitationOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountInvitationsByAccountIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountInvitationsCountByAccountIdOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAccountInvitationsOperationCompleted;
         
@@ -391,6 +397,9 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
         public event GetAccountCompletedEventHandler GetAccountCompleted;
         
         /// <remarks/>
+        public event GetAdminAccountCompletedEventHandler GetAdminAccountCompleted;
+        
+        /// <remarks/>
         public event GetAccountByIdCompletedEventHandler GetAccountByIdCompleted;
         
         /// <remarks/>
@@ -416,6 +425,12 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
         
         /// <remarks/>
         public event CreateOrUpdateAccountInvitationCompletedEventHandler CreateOrUpdateAccountInvitationCompleted;
+        
+        /// <remarks/>
+        public event GetAccountInvitationsByAccountIdCompletedEventHandler GetAccountInvitationsByAccountIdCompleted;
+        
+        /// <remarks/>
+        public event GetAccountInvitationsCountByAccountIdCompletedEventHandler GetAccountInvitationsCountByAccountIdCompleted;
         
         /// <remarks/>
         public event GetAccountInvitationsCompletedEventHandler GetAccountInvitationsCompleted;
@@ -1146,6 +1161,35 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAdminAccount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccount GetAdminAccount(string ticket) {
+            object[] results = this.Invoke("GetAdminAccount", new object[] {
+                        ticket});
+            return ((TransitAccount)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAdminAccountAsync(string ticket) {
+            this.GetAdminAccountAsync(ticket, null);
+        }
+        
+        /// <remarks/>
+        public void GetAdminAccountAsync(string ticket, object userState) {
+            if ((this.GetAdminAccountOperationCompleted == null)) {
+                this.GetAdminAccountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAdminAccountOperationCompleted);
+            }
+            this.InvokeAsync("GetAdminAccount", new object[] {
+                        ticket}, this.GetAdminAccountOperationCompleted, userState);
+        }
+        
+        private void OnGetAdminAccountOperationCompleted(object arg) {
+            if ((this.GetAdminAccountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAdminAccountCompleted(this, new GetAdminAccountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public TransitAccount GetAccountById(string ticket, int id) {
             object[] results = this.Invoke("GetAccountById", new object[] {
@@ -1431,9 +1475,9 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountInvitations", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public TransitAccountInvitation[] GetAccountInvitations(string ticket, int id, ServiceQueryOptions options) {
-            object[] results = this.Invoke("GetAccountInvitations", new object[] {
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountInvitationsByAccountId", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountInvitation[] GetAccountInvitationsByAccountId(string ticket, int id, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetAccountInvitationsByAccountId", new object[] {
                         ticket,
                         id,
                         options});
@@ -1441,18 +1485,80 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
         }
         
         /// <remarks/>
-        public void GetAccountInvitationsAsync(string ticket, int id, ServiceQueryOptions options) {
-            this.GetAccountInvitationsAsync(ticket, id, options, null);
+        public void GetAccountInvitationsByAccountIdAsync(string ticket, int id, ServiceQueryOptions options) {
+            this.GetAccountInvitationsByAccountIdAsync(ticket, id, options, null);
         }
         
         /// <remarks/>
-        public void GetAccountInvitationsAsync(string ticket, int id, ServiceQueryOptions options, object userState) {
+        public void GetAccountInvitationsByAccountIdAsync(string ticket, int id, ServiceQueryOptions options, object userState) {
+            if ((this.GetAccountInvitationsByAccountIdOperationCompleted == null)) {
+                this.GetAccountInvitationsByAccountIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountInvitationsByAccountIdOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountInvitationsByAccountId", new object[] {
+                        ticket,
+                        id,
+                        options}, this.GetAccountInvitationsByAccountIdOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountInvitationsByAccountIdOperationCompleted(object arg) {
+            if ((this.GetAccountInvitationsByAccountIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountInvitationsByAccountIdCompleted(this, new GetAccountInvitationsByAccountIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountInvitationsCountByAccountId", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetAccountInvitationsCountByAccountId(string ticket, int id) {
+            object[] results = this.Invoke("GetAccountInvitationsCountByAccountId", new object[] {
+                        ticket,
+                        id});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountInvitationsCountByAccountIdAsync(string ticket, int id) {
+            this.GetAccountInvitationsCountByAccountIdAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountInvitationsCountByAccountIdAsync(string ticket, int id, object userState) {
+            if ((this.GetAccountInvitationsCountByAccountIdOperationCompleted == null)) {
+                this.GetAccountInvitationsCountByAccountIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountInvitationsCountByAccountIdOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountInvitationsCountByAccountId", new object[] {
+                        ticket,
+                        id}, this.GetAccountInvitationsCountByAccountIdOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountInvitationsCountByAccountIdOperationCompleted(object arg) {
+            if ((this.GetAccountInvitationsCountByAccountIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountInvitationsCountByAccountIdCompleted(this, new GetAccountInvitationsCountByAccountIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountInvitations", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountInvitation[] GetAccountInvitations(string ticket, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetAccountInvitations", new object[] {
+                        ticket,
+                        options});
+            return ((TransitAccountInvitation[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountInvitationsAsync(string ticket, ServiceQueryOptions options) {
+            this.GetAccountInvitationsAsync(ticket, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountInvitationsAsync(string ticket, ServiceQueryOptions options, object userState) {
             if ((this.GetAccountInvitationsOperationCompleted == null)) {
                 this.GetAccountInvitationsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountInvitationsOperationCompleted);
             }
             this.InvokeAsync("GetAccountInvitations", new object[] {
                         ticket,
-                        id,
                         options}, this.GetAccountInvitationsOperationCompleted, userState);
         }
         
@@ -1465,26 +1571,24 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountInvitationsCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int GetAccountInvitationsCount(string ticket, int id) {
+        public int GetAccountInvitationsCount(string ticket) {
             object[] results = this.Invoke("GetAccountInvitationsCount", new object[] {
-                        ticket,
-                        id});
+                        ticket});
             return ((int)(results[0]));
         }
         
         /// <remarks/>
-        public void GetAccountInvitationsCountAsync(string ticket, int id) {
-            this.GetAccountInvitationsCountAsync(ticket, id, null);
+        public void GetAccountInvitationsCountAsync(string ticket) {
+            this.GetAccountInvitationsCountAsync(ticket, null);
         }
         
         /// <remarks/>
-        public void GetAccountInvitationsCountAsync(string ticket, int id, object userState) {
+        public void GetAccountInvitationsCountAsync(string ticket, object userState) {
             if ((this.GetAccountInvitationsCountOperationCompleted == null)) {
                 this.GetAccountInvitationsCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountInvitationsCountOperationCompleted);
             }
             this.InvokeAsync("GetAccountInvitationsCount", new object[] {
-                        ticket,
-                        id}, this.GetAccountInvitationsCountOperationCompleted, userState);
+                        ticket}, this.GetAccountInvitationsCountOperationCompleted, userState);
         }
         
         private void OnGetAccountInvitationsCountOperationCompleted(object arg) {
@@ -7376,11 +7480,23 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
     public partial class TransitAccountActivity : TransitAccount {
         
+        private int newFriendsField;
+        
         private int newPicturesField;
         
         private int newDiscussionPostsField;
         
         private int newSyndicatedContentField;
+        
+        /// <remarks/>
+        public int NewFriends {
+            get {
+                return this.newFriendsField;
+            }
+            set {
+                this.newFriendsField = value;
+            }
+        }
         
         /// <remarks/>
         public int NewPictures {
@@ -7731,6 +7847,32 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetAdminAccountCompletedEventHandler(object sender, GetAdminAccountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAdminAccountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAdminAccountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccount Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccount)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
     public delegate void GetAccountByIdCompletedEventHandler(object sender, GetAccountByIdCompletedEventArgs e);
     
     /// <remarks/>
@@ -7906,6 +8048,58 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
         private object[] results;
         
         internal CreateOrUpdateAccountInvitationCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetAccountInvitationsByAccountIdCompletedEventHandler(object sender, GetAccountInvitationsByAccountIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountInvitationsByAccountIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountInvitationsByAccountIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccountInvitation[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountInvitation[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetAccountInvitationsCountByAccountIdCompletedEventHandler(object sender, GetAccountInvitationsCountByAccountIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountInvitationsCountByAccountIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountInvitationsCountByAccountIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

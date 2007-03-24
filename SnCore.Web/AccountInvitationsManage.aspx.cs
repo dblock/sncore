@@ -46,7 +46,7 @@ public partial class AccountInvitationsManage : AuthenticatedPage
     void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.AccountService.GetAccountInvitationsCount(
+        gridManage.VirtualItemCount = SessionManager.AccountService.GetAccountInvitationsCountByAccountId(
             SessionManager.Ticket, SessionManager.AccountId);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
@@ -57,7 +57,7 @@ public partial class AccountInvitationsManage : AuthenticatedPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = gridManage.CurrentPageIndex;
         options.PageSize = gridManage.PageSize;
-        gridManage.DataSource = SessionManager.AccountService.GetAccountInvitations(
+        gridManage.DataSource = SessionManager.AccountService.GetAccountInvitationsByAccountId(
             SessionManager.Ticket, SessionManager.AccountId, options);
     }
 

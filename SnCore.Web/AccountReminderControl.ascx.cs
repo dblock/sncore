@@ -43,7 +43,7 @@ public partial class AccountReminder : Control
             }
 
             int invitationscount = SessionManager.GetCount<TransitAccountInvitation, int>(
-                SessionManager.AccountId, SessionManager.AccountService.GetAccountInvitationsCount);
+                SessionManager.AccountId, SessionManager.AccountService.GetAccountInvitationsCountByAccountId);
 
             if (invitationscount == 0)
             {
