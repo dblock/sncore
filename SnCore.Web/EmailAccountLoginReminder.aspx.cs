@@ -47,10 +47,8 @@ public partial class EmailAccountLoginReminder : AuthenticatedPage
 
     public void Page_Load(object sender, EventArgs e)
     {
-        if (RequestId > 0)
-        {
-            labelName.Text = Renderer.Render(Account.Name);
-        }
+        Title = string.Format("{0} Misses You",
+            Renderer.Render(SessionManager.GetCachedConfiguration("SnCore.Name", "SnCore")));
     }
 }
 

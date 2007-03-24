@@ -4,16 +4,24 @@
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <div class="sncore_h2">
-  You Are Missed
+  <% Response.Write(Renderer.Render(SessionManager.GetCachedConfiguration("SnCore.Name", "SnCore"))); %>
+  Misses You
  </div>
  <table class="sncore_table">
   <tr>
    <td>
     <p>
-     Dear <b><asp:Label ID="labelName" runat="server" /></b>,
+     Dear 
+     <a href='AccountView.aspx?id=<% Response.Write(Renderer.Render(this.Account.Id)); %>'>
+      <% Response.Write(Renderer.Render(this.Account.Name)); %>
+     </a>,
     </p>
     <p>
-     We noticed that you have not checked your account for a month. Your friends miss you. Please come back!
+     We noticed that you have not checked your account for a very long time. Your friends at
+     <a href='<% Response.Write(Renderer.Render(SessionManager.GetCachedConfiguration("SnCore.WebSite.Url", "http://localhost"))); %>'>
+      <% Response.Write(Renderer.Render(SessionManager.GetCachedConfiguration("SnCore.Name", "SnCore"))); %>
+     </a>
+     miss you. Please come back!
     </p>
     <p>
      If you do not wish to receive this e-mail, please take a minute to <a href="AccountDelete.aspx">delete your account</a>. 
