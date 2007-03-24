@@ -241,17 +241,7 @@ namespace SnCore.Services
             AccountName = value.Account.Name;
             AccountPictureId = ManagedAccount.GetRandomAccountPictureId(value.Account);
             RequesterId = value.Requester.Id;
-
-            RequesterIsAdministrator = false;
-            foreach (AccountGroupAccount instance in value.AccountGroup.AccountGroupAccounts)
-            {
-                if (instance.Account == value.Account && instance.IsAdministrator)
-                {
-                    RequesterIsAdministrator = true;
-                    break;
-                }
-            }
-
+            RequesterIsAdministrator = ManagedAccountGroupAccountInvitation.IsRequesterAdministrator(value);
             RequesterName = value.Requester.Name;
             RequesterPictureId = ManagedAccount.GetRandomAccountPictureId(value.Requester);
             AccountGroupId = value.AccountGroup.Id;
@@ -310,6 +300,19 @@ namespace SnCore.Services
             mInstance.Modified = DateTime.UtcNow;
             if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
             base.Save(sec);
+        }
+
+        public static bool IsRequesterAdministrator(AccountGroupAccountInvitation value)
+        {
+            foreach (AccountGroupAccount instance in value.AccountGroup.AccountGroupAccounts)
+            {
+                if (instance.Account == value.Requester && instance.IsAdministrator)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public override ACL GetACL(Type type)
