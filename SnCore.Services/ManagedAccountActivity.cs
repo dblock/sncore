@@ -107,6 +107,20 @@ namespace SnCore.Services
 
     public class TransitAccountActivity : TransitAccount
     {
+        private int mNewFriends = 0;
+
+        public int NewFriends
+        {
+            get
+            {
+                return mNewFriends;
+            }
+            set
+            {
+                mNewFriends = value;
+            }
+        }
+
         private int mNewPictures = 0;
 
         public int NewPictures
@@ -174,7 +188,7 @@ namespace SnCore.Services
         {
             get
             {
-                return NewPictures + NewDiscussionPosts + NewSyndicatedContent;
+                return NewPictures + NewDiscussionPosts + NewSyndicatedContent + NewFriends;
             }
         }
 
@@ -211,6 +225,11 @@ namespace SnCore.Services
 
             t_instance.NewSyndicatedContent = Session.CreateQuery(string.Format("SELECT COUNT(*) FROM AccountFeed f " +
                 "WHERE f.Account.Id = {0} AND f.Created > '{1}'",
+                mInstance.Id, limit))
+                .UniqueResult<int>();
+
+            t_instance.NewFriends = Session.CreateQuery(string.Format("SELECT COUNT(*) FROM AccountFriend f " +
+                "WHERE (f.Account.Id = {0} OR f.Keen.Id = {0}) AND (f.Created > '{1}')",
                 mInstance.Id, limit))
                 .UniqueResult<int>();
 

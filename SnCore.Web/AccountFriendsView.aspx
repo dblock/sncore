@@ -17,6 +17,7 @@
       <div class="sncore_h2sub">
        <asp:HyperLink ID="linkAccount" runat="server" Text="&#187; Back" />
        <a href="AccountsView.aspx">&#187; All People</a>
+       <a href="AccountFriendsActivityView.aspx">&#187; Friends Activity</a>
        <a href="AccountInvitationsManage.aspx">&#187; Invite a Friend</a>
        <a href="RefererAccountsView.aspx">&#187; Top Traffickers</a>
       </div>

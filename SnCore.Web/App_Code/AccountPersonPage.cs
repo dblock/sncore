@@ -66,6 +66,22 @@ public class AccountPersonPage : Page
         }
     }
 
+    public string GetNewFriends(int count)
+    {
+        if (count == 0)
+        {
+            return string.Empty;
+        }
+        else if (count == 1)
+        {
+            return "1 new friend";
+        }
+        else
+        {
+            return string.Format("{0} new friends", count);
+        }
+    }
+
     public string GetNewSyndicatedContent(int count)
     {
         if (count == 0)

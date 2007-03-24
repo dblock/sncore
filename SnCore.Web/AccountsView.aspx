@@ -159,7 +159,7 @@
       </a>
      </div>
      <div>
-      last activity:
+      last seen:
       <%# base.Adjust(Eval("LastLogin")).ToString("d") %>
      </div>
      <div>
@@ -168,6 +168,11 @@
      </div>
      <div>
       <%# base.Render(Eval("Country")) %>
+     </div>
+     <div>
+      <a href='AccountFriendsView.aspx?id=<%# Eval("Id") %>'>
+       <%# GetNewFriends((int) Eval("NewFriends")) %>
+      </a>
      </div>
      <div>
       <a href='AccountPicturesView.aspx?id=<%# Eval("Id") %>'>

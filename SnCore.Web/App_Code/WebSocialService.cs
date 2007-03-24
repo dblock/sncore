@@ -130,7 +130,7 @@ namespace SnCore.WebServices
         {
             return WebServiceImpl<TransitAccountFriend, ManagedAccountFriend, AccountFriend>.GetCount(
                 ticket, string.Format("WHERE (AccountFriend.Account.Id = {0} OR AccountFriend.Keen.Id = {0}) ",
-                    id));
+                    id));   
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace SnCore.WebServices
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 m_activity = new ManagedAccountActivity(session, id);
             }
-
+             
             List<TransitAccountActivity> result = WebServiceImpl<TransitAccountActivity, ManagedAccountFriend, AccountFriend>.GetList(
                 ticket, options, string.Format("SELECT AccountFriend FROM AccountFriend AccountFriend WHERE (AccountFriend.Account.Id = {0} OR AccountFriend.Keen.Id = {0})", id),
                 m_activity.GetTransformedInstanceFromAccountFriend);

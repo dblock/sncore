@@ -13,6 +13,9 @@
    </div>
   </Template>
  </SnCore:Title>
+ <div class="sncore_h2sub">
+  <a href="AccountFriendsActivityView.aspx">&#187; Friends Activity</a>
+ </div>
  <asp:UpdatePanel ID="panelGrid" runat="server" UpdateMode="Always">
   <ContentTemplate>
    <SnCoreWebControls:PagedList CssClass="sncore_account_table" runat="server" RepeatDirection="Horizontal"
