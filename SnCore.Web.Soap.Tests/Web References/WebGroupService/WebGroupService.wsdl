@@ -148,6 +148,7 @@
               <s:element minOccurs="0" maxOccurs="1" name="AccountName" type="s:string" />
               <s:element minOccurs="1" maxOccurs="1" name="AccountGroupId" type="s:int" />
               <s:element minOccurs="0" maxOccurs="1" name="AccountGroupName" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountGroupPictureId" type="s:int" />
               <s:element minOccurs="1" maxOccurs="1" name="IsAdministrator" type="s:boolean" />
               <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
               <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
@@ -246,6 +247,37 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="GetAccountGroupAccountsByAccountIdCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPublicAccountGroupAccountsByAccountId">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="accountid" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPublicAccountGroupAccountsByAccountIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPublicAccountGroupAccountsByAccountIdResult" type="tns:ArrayOfTransitAccountGroupAccount" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPublicAccountGroupAccountsByAccountIdCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="accountid" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPublicAccountGroupAccountsByAccountIdCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetPublicAccountGroupAccountsByAccountIdCountResult" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -540,6 +572,7 @@
               <s:element minOccurs="1" maxOccurs="1" name="AccountPictureId" type="s:int" />
               <s:element minOccurs="0" maxOccurs="1" name="AccountName" type="s:string" />
               <s:element minOccurs="1" maxOccurs="1" name="RequesterId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="RequesterIsAdministrator" type="s:boolean" />
               <s:element minOccurs="1" maxOccurs="1" name="RequesterPictureId" type="s:int" />
               <s:element minOccurs="0" maxOccurs="1" name="RequesterName" type="s:string" />
               <s:element minOccurs="1" maxOccurs="1" name="AccountGroupId" type="s:int" />
@@ -914,6 +947,18 @@
   <wsdl:message name="GetAccountGroupAccountsByAccountIdCountSoapOut">
     <wsdl:part name="parameters" element="tns:GetAccountGroupAccountsByAccountIdCountResponse" />
   </wsdl:message>
+  <wsdl:message name="GetPublicAccountGroupAccountsByAccountIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPublicAccountGroupAccountsByAccountId" />
+  </wsdl:message>
+  <wsdl:message name="GetPublicAccountGroupAccountsByAccountIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPublicAccountGroupAccountsByAccountIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPublicAccountGroupAccountsByAccountIdCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPublicAccountGroupAccountsByAccountIdCount" />
+  </wsdl:message>
+  <wsdl:message name="GetPublicAccountGroupAccountsByAccountIdCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPublicAccountGroupAccountsByAccountIdCountResponse" />
+  </wsdl:message>
   <wsdl:message name="DeleteAccountGroupAccountSoapIn">
     <wsdl:part name="parameters" element="tns:DeleteAccountGroupAccount" />
   </wsdl:message>
@@ -1165,6 +1210,16 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all account group accounts count for a given account.</wsdl:documentation>
       <wsdl:input message="tns:GetAccountGroupAccountsByAccountIdCountSoapIn" />
       <wsdl:output message="tns:GetAccountGroupAccountsByAccountIdCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPublicAccountGroupAccountsByAccountId">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all public account group accounts for a given account.</wsdl:documentation>
+      <wsdl:input message="tns:GetPublicAccountGroupAccountsByAccountIdSoapIn" />
+      <wsdl:output message="tns:GetPublicAccountGroupAccountsByAccountIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPublicAccountGroupAccountsByAccountIdCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all public account group accounts count for a given account.</wsdl:documentation>
+      <wsdl:input message="tns:GetPublicAccountGroupAccountsByAccountIdCountSoapIn" />
+      <wsdl:output message="tns:GetPublicAccountGroupAccountsByAccountIdCountSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="DeleteAccountGroupAccount">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete an account group account.</wsdl:documentation>
@@ -1434,6 +1489,24 @@
     </wsdl:operation>
     <wsdl:operation name="GetAccountGroupAccountsByAccountIdCount">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountGroupAccountsByAccountIdCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPublicAccountGroupAccountsByAccountId">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetPublicAccountGroupAccountsByAccountId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPublicAccountGroupAccountsByAccountIdCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetPublicAccountGroupAccountsByAccountIdCount" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1833,6 +1906,24 @@
     </wsdl:operation>
     <wsdl:operation name="GetAccountGroupAccountsByAccountIdCount">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountGroupAccountsByAccountIdCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPublicAccountGroupAccountsByAccountId">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetPublicAccountGroupAccountsByAccountId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPublicAccountGroupAccountsByAccountIdCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetPublicAccountGroupAccountsByAccountIdCount" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

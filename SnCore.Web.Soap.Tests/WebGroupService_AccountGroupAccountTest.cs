@@ -63,26 +63,57 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
         [Test]
         public void GetAccountGroupAccountsByAccountIdTest()
         {
+            int count1 = EndPoint.GetAccountGroupAccountsByAccountIdCount(
+                GetAdminTicket(), _account_id);
+            Assert.IsTrue(count1 >= 0);
             WebGroupService.TransitAccountGroupAccount t_instance = GetTransitInstance();
             t_instance.Id = Create(GetAdminTicket(), t_instance);
+            int count2 = EndPoint.GetAccountGroupAccountsByAccountIdCount(
+                GetAdminTicket(), _account_id);
+            Assert.AreEqual(count1 + 1, count2);
             WebGroupService.TransitAccountGroupAccount[] accounts = EndPoint.GetAccountGroupAccountsByAccountId(
                 GetAdminTicket(), _account_id, null);
             Assert.IsNotNull(accounts);
             Assert.IsTrue(accounts.Length > 0);
             Assert.IsTrue(new TransitServiceCollection<WebGroupService.TransitAccountGroupAccount>(accounts).ContainsId(t_instance.Id));
             Delete(GetAdminTicket(), t_instance.Id);
+            int count3 = EndPoint.GetAccountGroupAccountsByAccountIdCount(
+                GetAdminTicket(), _account_id);
+            Assert.AreEqual(count1, count3);
         }
 
         [Test]
         public void GetAccountGroupAccountByAccountGroupIdTest()
         {
             WebGroupService.TransitAccountGroupAccount t_instance = GetTransitInstance();
-            t_instance.Id = Create(GetAdminTicket(), t_instance);
+            t_instance.Id = Create(GetAdminTicket(), t_instance);            
             WebGroupService.TransitAccountGroupAccount account = EndPoint.GetAccountGroupAccountByAccountGroupId(
                 GetAdminTicket(), _account_id, _group_id);
             Assert.IsNotNull(account);
             Assert.AreEqual(account.Id, t_instance.Id);
             Delete(GetAdminTicket(), t_instance.Id);
+        }
+
+        [Test]
+        public void GetPublicAccountGroupAccountsByAccountIdTest()
+        {
+            int count1 = EndPoint.GetPublicAccountGroupAccountsByAccountIdCount(
+                GetAdminTicket(), _account_id);
+            Assert.IsTrue(count1 >= 0);
+            WebGroupService.TransitAccountGroupAccount t_instance = GetTransitInstance();
+            t_instance.Id = Create(GetAdminTicket(), t_instance);
+            int count2 = EndPoint.GetPublicAccountGroupAccountsByAccountIdCount(
+                GetAdminTicket(), _account_id);
+            Assert.AreEqual(count1 + 1, count2);
+            WebGroupService.TransitAccountGroupAccount[] accounts = EndPoint.GetPublicAccountGroupAccountsByAccountId(
+                GetAdminTicket(), _account_id, null);
+            Assert.IsNotNull(accounts);
+            Assert.IsTrue(accounts.Length > 0);
+            Assert.IsTrue(new TransitServiceCollection<WebGroupService.TransitAccountGroupAccount>(accounts).ContainsId(t_instance.Id));
+            Delete(GetAdminTicket(), t_instance.Id);
+            int count3 = EndPoint.GetPublicAccountGroupAccountsByAccountIdCount(
+                GetAdminTicket(), _account_id);
+            Assert.AreEqual(count1, count3);
         }
     }
 }

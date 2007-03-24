@@ -189,6 +189,31 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
+        /// Get all public account group accounts for a given account.
+        /// </summary>
+        /// <returns>list of transit account group accounts for a given account</returns>
+        [WebMethod(Description = "Get all public account group accounts for a given account.")]
+        public List<TransitAccountGroupAccount> GetPublicAccountGroupAccountsByAccountId(string ticket, int accountid, ServiceQueryOptions options)
+        {
+            return WebServiceImpl<TransitAccountGroupAccount, ManagedAccountGroupAccount, AccountGroupAccount>.GetList(
+                ticket, options, string.Format("SELECT AccountGroupAccount FROM AccountGroupAccount AccountGroupAccount " +
+                    "WHERE AccountGroupAccount.Account.Id = {0} AND AccountGroupAccount.AccountGroup.IsPrivate = 0 " +
+                    "ORDER BY AccountGroupAccount.Created DESC", accountid));
+        }
+
+        /// <summary>
+        /// Get all public account group accounts count for a given account.
+        /// </summary>
+        /// <returns>number of account group accounts</returns>
+        [WebMethod(Description = "Get all public account group accounts count for a given account.")]
+        public int GetPublicAccountGroupAccountsByAccountIdCount(string ticket, int accountid)
+        {
+            return WebServiceImpl<TransitAccountGroupAccount, ManagedAccountGroupAccount, AccountGroupAccount>.GetCount(
+                ticket, string.Format("WHERE AccountGroupAccount.Account.Id = {0} AND AccountGroupAccount.AccountGroup.IsPrivate = 0", 
+                accountid));
+        }
+
+        /// <summary>
         /// Delete an account group account.
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>

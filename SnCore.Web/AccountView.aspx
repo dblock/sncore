@@ -14,6 +14,7 @@
 <%@ Register TagPrefix="SnCore" TagName="BlogsView" Src="AccountBlogsViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="PropertyGroupsView" Src="AccountPropertyGroupsViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="PlacesView" Src="AccountPlacesViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="GroupsView" Src="AccountGroupsViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="PlaceFavoritesView" Src="AccountPlaceFavoritesViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="BookmarksView" Src="BookmarksViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AttributesView" Src="AccountAttributesViewControl.ascx" %>
@@ -140,7 +141,6 @@
        </td>
       </tr>
      </table>
-     <SnCore:PlacesView runat="server" ID="placesView" />
      <SnCore:PropertyGroupsView runat="server" ID="propertygroupsView" />
      <SnCore:FriendsView runat="server" ID="friendsView" />
      <SnCore:StoriesView runat="server" ID="storiesView" />
@@ -148,6 +148,8 @@
      <SnCore:BlogsView runat="server" ID="blogsView" />
      <SnCore:FeedsView runat="server" ID="feedsView" />
      <SnCore:WebsitesView runat="server" ID="websitesView" />
+     <SnCore:PlacesView runat="server" ID="placesView" />
+     <SnCore:GroupsView runat="server" ID="groupsView" />
      <SnCore:SurveysView runat="server" ID="surveysView" />
      <a name="Testimonials" />
      <SnCore:DiscussionFullView runat="server" ID="discussionTags" PostNewText="&#187; Leave a Testimonial" />

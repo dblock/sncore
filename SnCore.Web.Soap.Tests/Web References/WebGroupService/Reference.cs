@@ -62,6 +62,10 @@ namespace SnCore.Web.Soap.Tests.WebGroupService {
         
         private System.Threading.SendOrPostCallback GetAccountGroupAccountsByAccountIdCountOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetPublicAccountGroupAccountsByAccountIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetPublicAccountGroupAccountsByAccountIdCountOperationCompleted;
+        
         private System.Threading.SendOrPostCallback DeleteAccountGroupAccountOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAccountGroupAccountByAccountGroupIdOperationCompleted;
@@ -200,6 +204,12 @@ namespace SnCore.Web.Soap.Tests.WebGroupService {
         
         /// <remarks/>
         public event GetAccountGroupAccountsByAccountIdCountCompletedEventHandler GetAccountGroupAccountsByAccountIdCountCompleted;
+        
+        /// <remarks/>
+        public event GetPublicAccountGroupAccountsByAccountIdCompletedEventHandler GetPublicAccountGroupAccountsByAccountIdCompleted;
+        
+        /// <remarks/>
+        public event GetPublicAccountGroupAccountsByAccountIdCountCompletedEventHandler GetPublicAccountGroupAccountsByAccountIdCountCompleted;
         
         /// <remarks/>
         public event DeleteAccountGroupAccountCompletedEventHandler DeleteAccountGroupAccountCompleted;
@@ -693,6 +703,70 @@ namespace SnCore.Web.Soap.Tests.WebGroupService {
             if ((this.GetAccountGroupAccountsByAccountIdCountCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetAccountGroupAccountsByAccountIdCountCompleted(this, new GetAccountGroupAccountsByAccountIdCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetPublicAccountGroupAccountsByAccountId", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountGroupAccount[] GetPublicAccountGroupAccountsByAccountId(string ticket, int accountid, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetPublicAccountGroupAccountsByAccountId", new object[] {
+                        ticket,
+                        accountid,
+                        options});
+            return ((TransitAccountGroupAccount[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetPublicAccountGroupAccountsByAccountIdAsync(string ticket, int accountid, ServiceQueryOptions options) {
+            this.GetPublicAccountGroupAccountsByAccountIdAsync(ticket, accountid, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetPublicAccountGroupAccountsByAccountIdAsync(string ticket, int accountid, ServiceQueryOptions options, object userState) {
+            if ((this.GetPublicAccountGroupAccountsByAccountIdOperationCompleted == null)) {
+                this.GetPublicAccountGroupAccountsByAccountIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetPublicAccountGroupAccountsByAccountIdOperationCompleted);
+            }
+            this.InvokeAsync("GetPublicAccountGroupAccountsByAccountId", new object[] {
+                        ticket,
+                        accountid,
+                        options}, this.GetPublicAccountGroupAccountsByAccountIdOperationCompleted, userState);
+        }
+        
+        private void OnGetPublicAccountGroupAccountsByAccountIdOperationCompleted(object arg) {
+            if ((this.GetPublicAccountGroupAccountsByAccountIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetPublicAccountGroupAccountsByAccountIdCompleted(this, new GetPublicAccountGroupAccountsByAccountIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetPublicAccountGroupAccountsByAccountIdCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetPublicAccountGroupAccountsByAccountIdCount(string ticket, int accountid) {
+            object[] results = this.Invoke("GetPublicAccountGroupAccountsByAccountIdCount", new object[] {
+                        ticket,
+                        accountid});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetPublicAccountGroupAccountsByAccountIdCountAsync(string ticket, int accountid) {
+            this.GetPublicAccountGroupAccountsByAccountIdCountAsync(ticket, accountid, null);
+        }
+        
+        /// <remarks/>
+        public void GetPublicAccountGroupAccountsByAccountIdCountAsync(string ticket, int accountid, object userState) {
+            if ((this.GetPublicAccountGroupAccountsByAccountIdCountOperationCompleted == null)) {
+                this.GetPublicAccountGroupAccountsByAccountIdCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetPublicAccountGroupAccountsByAccountIdCountOperationCompleted);
+            }
+            this.InvokeAsync("GetPublicAccountGroupAccountsByAccountIdCount", new object[] {
+                        ticket,
+                        accountid}, this.GetPublicAccountGroupAccountsByAccountIdCountOperationCompleted, userState);
+        }
+        
+        private void OnGetPublicAccountGroupAccountsByAccountIdCountOperationCompleted(object arg) {
+            if ((this.GetPublicAccountGroupAccountsByAccountIdCountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetPublicAccountGroupAccountsByAccountIdCountCompleted(this, new GetPublicAccountGroupAccountsByAccountIdCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1948,6 +2022,8 @@ namespace SnCore.Web.Soap.Tests.WebGroupService {
         
         private int requesterIdField;
         
+        private bool requesterIsAdministratorField;
+        
         private int requesterPictureIdField;
         
         private string requesterNameField;
@@ -2003,6 +2079,16 @@ namespace SnCore.Web.Soap.Tests.WebGroupService {
             }
             set {
                 this.requesterIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool RequesterIsAdministrator {
+            get {
+                return this.requesterIsAdministratorField;
+            }
+            set {
+                this.requesterIsAdministratorField = value;
             }
         }
         
@@ -2615,6 +2701,8 @@ namespace SnCore.Web.Soap.Tests.WebGroupService {
         
         private string accountGroupNameField;
         
+        private int accountGroupPictureIdField;
+        
         private bool isAdministratorField;
         
         private System.DateTime createdField;
@@ -2668,6 +2756,16 @@ namespace SnCore.Web.Soap.Tests.WebGroupService {
             }
             set {
                 this.accountGroupNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int AccountGroupPictureId {
+            get {
+                return this.accountGroupPictureIdField;
+            }
+            set {
+                this.accountGroupPictureIdField = value;
             }
         }
         
@@ -3038,6 +3136,58 @@ namespace SnCore.Web.Soap.Tests.WebGroupService {
         private object[] results;
         
         internal GetAccountGroupAccountsByAccountIdCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetPublicAccountGroupAccountsByAccountIdCompletedEventHandler(object sender, GetPublicAccountGroupAccountsByAccountIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetPublicAccountGroupAccountsByAccountIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetPublicAccountGroupAccountsByAccountIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccountGroupAccount[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountGroupAccount[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetPublicAccountGroupAccountsByAccountIdCountCompletedEventHandler(object sender, GetPublicAccountGroupAccountsByAccountIdCountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetPublicAccountGroupAccountsByAccountIdCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetPublicAccountGroupAccountsByAccountIdCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

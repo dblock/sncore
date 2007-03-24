@@ -11,13 +11,14 @@
  <li>Discussions framework with threading, highlight and e-mail alerts.
  <li>Places framework with full or member ownership and delegation.
  <li>Complete one-time and recurrent events framework, with Microsoft Outlook feature parity.
+ <li>Rich groups framework, including private and public groups.
  <li>Web-based system management with administrative access with system reminders.
  <li>Fully integrated bug and feature tracking system.
  <li>Rss server feeds, client aggregation and rollup.
  <li>Full text search and tag indexing of rich content.
  <li>Integrated <a href="http://creativecommons.org/" target="_blank">Creative Commons</a> licensing for syndicated content.
  <li>Integrated usage statistics framework, including hourly, daily, weekly, monthly and yearly counters,
-     new and returning visitors, aggregated referer hosts and referer search queries.
+     new and returning visitors, new members charts, aggregated referer hosts and referer search queries.
 </ul>
 
 \section features_technology Technology
@@ -30,20 +31,26 @@
      Tested and deployed with a <a href="http://www.microsoft.com/sql/" target="_blank">SQL Server 2005</a> database back-end.
  <li>Two-level services and Business Layer, exposed through consistent CRUD and BL web services implemented with Web Services Extensions 3.0.
  <li>Bundled <a href="http://www.asp.net" target="_blank">ASP.NET 2.0</a> UI with <a href="http://atlas.asp.net/" target="_blank">Atlas (AJAX)</a>.
+ <li>Virtually complete back-end code coverage with NUnit unit tests.
 </ul>
 
-\section features_credits Credits
+\section features_credits Additional Credits
 
 <ul>
  <li><a href="http://atomnet.sourceforge.net/" target="_blank">Atom.NET</a>
  <li><a href="http://rss-net.sourceforge.net/" target="_blank">RSS.NET</a>
- <li><a href="http://www.openidenabled.com/openid/libraries/csharp" target="_blank">JanRain OpenId.NET</a>
+ <li><a href="http://www.openidenabled.com/openid/libraries/csharp" target="_blank">JanRain OpenId.NET</a>, replaced
+    with <a href="http://code.google.com/p/dotnetopenid/" target="_blank">DotNet OpenID</a> community port.
  <li>Wilco Bauwer's <a href="http://www.wilcob.com/" target="_blank">Wilco.Web</a>
  <li>Chris Lovett's <a href="http://www.gotdotnet.com/Community/UserSamples/Details.aspx?SampleGuid=b90fddce-e60d-43f8-a5c4-c3bd760564bc" target="_blank">SgmlReader</a>
  <li>Carlos Aguilar Mares' <a href="http://www.carlosag.net/Tools/WebChart/Default.aspx" target="_blank">WebChart</a>
  <li><a href="http://www.nunit.org/" target="_blank">NUnit</a>
- <li><a href="http://atlas.asp.net" target="_blank">ASP.NET Atlas</a>
- <li><a href="http://freetextbox.com/">FreeTextBox</a>
+ <li><a href="http://ajax.asp.net/" target="_blank">Microsoft ASP.NET AJAX</a>
+ <li><a href="http://freetextbox.com/" target="_blank">FreeTextBox</a>
+ <li><a href="http://www.codeplex.com/IIRF" target="_blank">Ionics Isapi Rewrite Filter</a>
+ <li><a href="http://www.codeproject.com/dotnet/NGif.asp" target="_blank">NGif</a>
+ <li><a href="http://www.doxygen.org" target="_blank">Doxygen</a>
+ <li><a href="http://sourceforge.net/projects/icalparser/" target="_blank">iCalendar .NET Parser</a>
 </ul>
 
 */

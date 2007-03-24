@@ -94,6 +94,20 @@ namespace SnCore.Services
             }
         }
 
+        private int mAccountGroupPictureId;
+
+        public int AccountGroupPictureId
+        {
+            get
+            {
+                return mAccountGroupPictureId;
+            }
+            set
+            {
+                mAccountGroupPictureId = value;
+            }
+        }
+
         private bool mIsAdministrator = false;
 
         public bool IsAdministrator
@@ -152,6 +166,7 @@ namespace SnCore.Services
             AccountId = value.Account.Id;
             AccountName = value.Account.Name;
             AccountPictureId = ManagedAccount.GetRandomAccountPictureId(value.Account);
+            if (! value.AccountGroup.IsPrivate) AccountGroupPictureId = ManagedAccountGroup.GetRandomAccountGroupPictureId(value.AccountGroup);
             AccountGroupId = value.AccountGroup.Id;
             AccountGroupName = value.AccountGroup.Name;
             IsAdministrator = value.IsAdministrator;
@@ -254,7 +269,7 @@ namespace SnCore.Services
             }
 
             // ensure that not removing last admin
-            if (t_instance.Id > 0 && ! t_instance.IsAdministrator)
+            if (t_instance.Id > 0 && !t_instance.IsAdministrator)
             {
                 AccountGroupAccount existing_instance = Session.Load<AccountGroupAccount>(t_instance.Id);
                 if (existing_instance.IsAdministrator)
