@@ -61,3 +61,6 @@ GO
 UPDATE dbo.AccountFeed SET PublishMedia = Publish WHERE PublishMedia IS NULL
 ALTER TABLE dbo.AccountFeed ALTER COLUMN [PublishMedia] bit NOT NULL
 GO
+-- object id in discussions cannot be null (2007-03-25)
+ALTER TABLE dbo.Discussion ALTER COLUMN [Object_Id] int NOT NULL
+GO
