@@ -2745,7 +2745,7 @@ CREATE TABLE [dbo].[Discussion](
 	[Created] [datetime] NOT NULL,
 	[Modified] [datetime] NOT NULL,
 	[Personal] [bit] NOT NULL CONSTRAINT [DF_Discussion_Private]  DEFAULT ((0)),
-	[Object_Id] [int] NULL,
+	[Object_Id] [int] NOT NULL,
  CONSTRAINT [PK_Discussion] PRIMARY KEY CLUSTERED 
 (
 	[Discussion_Id] ASC
