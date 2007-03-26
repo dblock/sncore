@@ -576,7 +576,7 @@ namespace SnCore.Services
             foreach (PlacePicture pp in pictures)
             {
                 ManagedPlacePicture mpp = new ManagedPlacePicture(Session, pp);
-                mpp.MigrateToAccount(newowner);
+                mpp.MigrateToAccount(newowner, sec);
             }
 
             // migrate review discussion
@@ -586,7 +586,7 @@ namespace SnCore.Services
             if (d != null)
             {
                 ManagedDiscussion md = new ManagedDiscussion(Session, d);
-                md.MigrateToAccount(newowner);
+                md.MigrateToAccount(newowner, sec);
             }
 
             mInstance.Account = newowner;

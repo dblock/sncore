@@ -538,13 +538,34 @@ namespace SnCore.Services
                     mp.MigrateToAccount(newowner, sec);
                 }
 
+                // orphan place pictures
+                foreach (PlacePicture placepicture in Collection<PlacePicture>.GetSafeCollection(mInstance.PlacePictures))
+                {
+                    ManagedPlacePicture mp = new ManagedPlacePicture(Session, placepicture);
+                    mp.MigrateToAccount(placepicture.Place.Account, sec);
+                }
+
+                // orphan account events
+                foreach (AccountEvent accountevent in Collection<AccountEvent>.GetSafeCollection(mInstance.AccountEvents))
+                {
+                    ManagedAccountEvent mp = new ManagedAccountEvent(Session, accountevent);
+                    mp.MigrateToAccount(newowner, sec);
+                }
+
+                // orphan accountevent pictures
+                foreach (AccountEventPicture accounteventpicture in Collection<AccountEventPicture>.GetSafeCollection(mInstance.AccountEventPictures))
+                {
+                    ManagedAccountEventPicture mp = new ManagedAccountEventPicture(Session, accounteventpicture);
+                    mp.MigrateToAccount(accounteventpicture.AccountEvent.Account, sec);
+                }
+
                 // orphan public discussions
                 foreach (Discussion d in Collection<Discussion>.GetSafeCollection(mInstance.Discussions))
                 {
                     if (!d.Personal)
                     {
                         ManagedDiscussion md = new ManagedDiscussion(Session, d);
-                        md.MigrateToAccount(newowner);
+                        md.MigrateToAccount(newowner, sec);
                     }
                 }
 
@@ -559,7 +580,7 @@ namespace SnCore.Services
                 foreach (AccountGroupPicture grouppicture in Collection<AccountGroupPicture>.GetSafeCollection(mInstance.AccountGroupPictures))
                 {
                     ManagedAccountGroupPicture m_grouppicture = new ManagedAccountGroupPicture(Session, grouppicture);
-                    m_grouppicture.MigrateToGroupOwner();
+                    m_grouppicture.MigrateToGroupOwner(sec);
                 }
 
                 // delete all group invitations to me, group requests are cascade-deleted

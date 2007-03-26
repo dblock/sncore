@@ -158,6 +158,34 @@ namespace SnCore.Services
             }
         }
 
+        private int mAccountId;
+
+        public int AccountId
+        {
+            get
+            {
+                return mAccountId;
+            }
+            set
+            {
+                mAccountId = value;
+            }
+        }
+
+        private string mAccountName;
+
+        public string AccountName
+        {
+            get
+            {
+                return mAccountName;
+            }
+            set
+            {
+                mAccountName = value;
+            }
+        }
+
         public TransitAccountEventPicture()
         {
 
@@ -172,6 +200,8 @@ namespace SnCore.Services
             Thumbnail = new ThumbnailBitmap(instance.Picture).Thumbnail;
             Name = instance.Name;
             Description = instance.Description;
+            AccountId = instance.Account.Id;
+            AccountName = instance.Account.Name;
             Created = instance.Created;
             Modified = instance.Modified;
         }
@@ -183,6 +213,7 @@ namespace SnCore.Services
             if (Id == 0)
             {
                 if (AccountEventId > 0) t_instance.AccountEvent = session.Load<AccountEvent>(this.AccountEventId);
+                t_instance.Account = GetOwner(session, AccountId, sec);
             }
 
             t_instance.Name = this.Name;
@@ -247,6 +278,7 @@ namespace SnCore.Services
             ACL acl = base.GetACL(type);
             acl.Add(new ACLEveryoneAllowRetrieve());
             acl.Add(new ACLAuthenticatedAllowCreate());
+            acl.Add(new ACLAccount(mInstance.Account, DataOperation.AllExceptUpdate));
             acl.Add(new ACLAccount(mInstance.AccountEvent.Account, DataOperation.All));
             return acl;
         }
@@ -259,6 +291,22 @@ namespace SnCore.Services
                 sec.CheckVerifiedEmail();
                 GetQuota().Check(mInstance.AccountEvent.AccountEventPictures);
             }
+        }
+
+        public void MigrateToAccount(Account newowner, ManagedSecurityContext sec)
+        {
+            // migrate review discussion
+            Discussion d = ManagedDiscussion.Find(
+                Session, mInstance.AccountEvent.Account.Id, typeof(AccountEventPicture), mInstance.Id, sec);
+
+            if (d != null)
+            {
+                ManagedDiscussion md = new ManagedDiscussion(Session, d);
+                md.MigrateToAccount(newowner, sec);
+            }
+
+            mInstance.Account = newowner;
+            Session.Save(mInstance);
         }
     }
 }

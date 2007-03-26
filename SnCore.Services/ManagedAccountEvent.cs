@@ -1011,5 +1011,33 @@ namespace SnCore.Services
                 GetQuota().Check(mInstance.Account.AccountEvents);
             }
         }
+
+        public void MigrateToAccount(Account newowner, ManagedSecurityContext sec)
+        {
+            // migrate pictures
+            IList<AccountEventPicture> pictures = Session.CreateCriteria(typeof(AccountEventPicture))
+                .Add(Expression.Eq("Account.Id", mInstance.Account.Id))
+                .Add(Expression.Eq("AccountEvent.Id", mInstance.Id))
+                .List<AccountEventPicture>();
+
+            foreach (AccountEventPicture pp in pictures)
+            {
+                ManagedAccountEventPicture mpp = new ManagedAccountEventPicture(Session, pp);
+                mpp.MigrateToAccount(newowner, sec);
+            }
+
+            // migrate review discussion
+            Discussion d = ManagedDiscussion.Find(
+                Session, mInstance.Account.Id, typeof(AccountEvent), mInstance.Id, sec);
+
+            if (d != null)
+            {
+                ManagedDiscussion md = new ManagedDiscussion(Session, d);
+                md.MigrateToAccount(newowner, sec);
+            }
+
+            mInstance.Account = newowner;
+            Session.Save(mInstance);
+        }
     }
 }

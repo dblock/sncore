@@ -493,7 +493,7 @@ namespace SnCore.Services
             return m_d.CreateOrUpdate(td, o_sec);
         }
 
-        public void MigrateToAccount(Account newowner)
+        public void MigrateToAccount(Account newowner, ManagedSecurityContext sec)
         {
             mInstance.Account = newowner;
             Session.Save(mInstance);

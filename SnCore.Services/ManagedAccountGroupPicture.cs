@@ -237,7 +237,7 @@ namespace SnCore.Services
 
         }
        
-        public void MigrateToAccount(Account newowner)
+        public void MigrateToAccount(Account newowner, ManagedSecurityContext sec)
         {
             mInstance.Account = newowner;
             Session.Save(mInstance);
@@ -290,13 +290,13 @@ namespace SnCore.Services
             if (t_instance.Id == 0) sec.CheckVerifiedEmail();
         }
 
-        public void MigrateToGroupOwner()
+        public void MigrateToGroupOwner(ManagedSecurityContext sec)
         {
             foreach (AccountGroupAccount account in Collection<AccountGroupAccount>.GetSafeCollection(mInstance.AccountGroup.AccountGroupAccounts))
             {
                 if (account.IsAdministrator)
                 {
-                    MigrateToAccount(account.Account);
+                    MigrateToAccount(account.Account, sec);
                     return;
                 }
             }

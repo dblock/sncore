@@ -64,3 +64,15 @@ GO
 -- object id in discussions cannot be null (2007-03-25)
 ALTER TABLE dbo.Discussion ALTER COLUMN [Object_Id] int NOT NULL
 GO
+-- add an account identity to account event pictures (2006-11-16)
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountEventPicture]') AND name = N'Account_Id') 
+ALTER TABLE dbo.AccountEventPicture ADD [Account_Id] int NOT NULL DEFAULT 0
+GO
+UPDATE dbo.AccountEventPicture SET [Account_Id] = dbo.AccountEvent.Account_Id 
+FROM dbo.AccountEvent WHERE dbo.AccountEvent.AccountEvent_Id = dbo.AccountEventPicture.AccountEvent_Id
+AND dbo.AccountEventPicture.Account_Id = 0
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountEventPicture_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountEventPicture]'))
+ALTER TABLE [dbo].[AccountEventPicture] WITH CHECK ADD CONSTRAINT [FK_AccountEventPicture_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+GO

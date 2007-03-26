@@ -182,5 +182,9 @@
       <key column="Requester_Id" />
       <one-to-many class="AccountGroupAccountInvitation, SnCore.Data" />
     </bag>
+    <bag lazy="true" name="AccountEventPictures" inverse="true">
+      <key column="Account_Id" />
+      <one-to-many class="AccountEventPicture, SnCore.Data" />
+    </bag>
   </class>
 </hibernate-mapping>

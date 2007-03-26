@@ -285,8 +285,18 @@ namespace SnCore.Services
             }
         }
 
-        public void MigrateToAccount(Account newowner)
+        public void MigrateToAccount(Account newowner, ManagedSecurityContext sec)
         {
+            // migrate review discussion
+            Discussion d = ManagedDiscussion.Find(
+                Session, mInstance.Place.Account.Id, typeof(Place), mInstance.Id, sec);
+
+            if (d != null)
+            {
+                ManagedDiscussion md = new ManagedDiscussion(Session, d);
+                md.MigrateToAccount(newowner, sec);
+            }
+
             mInstance.Account = newowner;
             Session.Save(mInstance);
         }
@@ -328,6 +338,7 @@ namespace SnCore.Services
             acl.Add(new ACLEveryoneAllowRetrieve());
             acl.Add(new ACLAuthenticatedAllowCreate());
             acl.Add(new ACLAccount(mInstance.Place.Account, DataOperation.All));
+            acl.Add(new ACLAccount(mInstance.Account, DataOperation.AllExceptUpdate));
             foreach (AccountPlace relationship in Collection<AccountPlace>.GetSafeCollection(mInstance.Place.AccountPlaces))
             {
                 acl.Add(new ACLAccount(relationship.Account,

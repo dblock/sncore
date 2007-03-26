@@ -69,6 +69,7 @@
         private System.Collections.Generic.IList<AccountGroupAccountInvitation> m_AccountGroupAccountInvitations;
         private System.Collections.Generic.IList<AccountGroupAccountRequest> m_AccountGroupAccountRequests;
         private System.Collections.Generic.IList<AccountGroupAccountInvitation> m_RequesterAccountGroupAccountInvitations;
+        private System.Collections.Generic.IList<AccountEventPicture> m_AccountEventPictures;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
@@ -1741,6 +1742,37 @@
             set
             {
                 m_RequesterAccountGroupAccountInvitations = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'AccountEventPicture'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'AccountEventPicture.Account'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_AccountEventPictures' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as slave.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'AccountEventPicture' table in the data source.
+        ///The property maps to the identity column 'Account_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.Collections.Generic.IList<AccountEventPicture> AccountEventPictures
+        {
+            get
+            {
+                return m_AccountEventPictures;
+            }
+            set
+            {
+                m_AccountEventPictures = value;
             }
         }
 

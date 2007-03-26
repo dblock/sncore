@@ -10,5 +10,6 @@
     <property name="Modified" column="Modified" type="DateTime" />
     <property name="Name" column="Name" type="String" />
     <property name="Picture" column="Picture" type="BinaryBlob" />
+    <many-to-one name="Account" column="Account_Id" class="Account, SnCore.Data" />
   </class>
 </hibernate-mapping>
