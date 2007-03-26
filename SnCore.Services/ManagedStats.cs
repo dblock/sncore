@@ -195,11 +195,18 @@ namespace SnCore.Services
 
             if (request.UrlReferrer != null)
             {
-                HttpRequest q = new HttpRequest(null, RefererUri.ToString(), request.UrlReferrer.Query.TrimStart("?".ToCharArray()));
-                RefererQuery = q.Params["q"];
-                if (string.IsNullOrEmpty(RefererQuery)) RefererQuery = q.Params["s"];
-                if (string.IsNullOrEmpty(RefererQuery)) RefererQuery = q.Params["query"];
-                if (string.IsNullOrEmpty(RefererQuery)) RefererQuery = q.Params["search"];
+                try
+                {
+                    HttpRequest q = new HttpRequest(null, RefererUri.ToString(), request.UrlReferrer.Query.TrimStart("?".ToCharArray()));
+                    RefererQuery = q.Params["q"];
+                    if (string.IsNullOrEmpty(RefererQuery)) RefererQuery = q.Params["s"];
+                    if (string.IsNullOrEmpty(RefererQuery)) RefererQuery = q.Params["query"];
+                    if (string.IsNullOrEmpty(RefererQuery)) RefererQuery = q.Params["search"];
+                }
+                catch
+                {
+                    // HttpRequest may fail on uri-s such as http://www.wikipedia.com/wiki/Talk:List_of_social_networking_websites
+                }
             }
 
             if (!lastseen.HasValue) IncrementNewUser = true;
