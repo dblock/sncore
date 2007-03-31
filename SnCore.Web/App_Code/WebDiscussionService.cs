@@ -509,9 +509,12 @@ namespace SnCore.WebServices
 
             return WebServiceImpl<TransitDiscussionPost, ManagedDiscussionPost, DiscussionPost>.GetList(
                 ticket, options, "SELECT {DiscussionPost.*} FROM DiscussionPost {DiscussionPost}" +
+                    " INNER JOIN DiscussionThread AS dt ON DiscussionPost.DiscussionThread_Id = dt.DiscussionThread_Id" +
+                    " INNER JOIN Discussion AS d ON dt.Discussion_Id = d.Discussion_Id" +
                     " INNER JOIN FREETEXTTABLE(DiscussionPost, ([Subject], [Body]), '" + Renderer.SqlEncode(s) + "', " +
                         maxsearchresults.ToString() + ") AS ft " +
                     " ON DiscussionPost.DiscussionPost_Id = ft.[KEY] " +
+                    " WHERE d.Personal = 0 AND d.Object_Id = 0" +
                     " ORDER BY ft.[RANK] DESC",
                     "DiscussionPost");
         }
