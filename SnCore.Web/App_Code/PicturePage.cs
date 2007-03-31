@@ -10,7 +10,7 @@ using System.Web.UI.HtmlControls;
 using System.IO;
 using SnCore.Tools.Drawing;
 
-public abstract class PicturePage : Page
+public abstract class PicturePage : AsyncPage
 {
     public enum PicturePageType
     {
