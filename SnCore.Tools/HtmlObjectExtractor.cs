@@ -20,6 +20,7 @@ namespace SnCore.Tools.Web.Html
         private Stack<HtmlControl> mObjectControls = new Stack<HtmlControl>();
         private Uri mBaseHref = null;
         private List<HtmlGenericControl> mEmbeds = new List<HtmlGenericControl>();
+        private HtmlGenericControl mCurrent = null;
         private bool mInsideObject = false;
         private string mInsideObjectName = null;
 
@@ -87,6 +88,7 @@ namespace SnCore.Tools.Web.Html
 
                         if (mInsideObject && base.Name.ToLower() == mInsideObjectName)
                         {
+                            mEmbeds.Add(mCurrent);
                             mInsideObject = false;
                             break;
                         }
@@ -158,7 +160,7 @@ namespace SnCore.Tools.Web.Html
 
                         if (fObject)
                         {
-                            mEmbeds.Add(embed);
+                            mCurrent = embed;
                         }
                         else
                         {
