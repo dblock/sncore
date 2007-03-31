@@ -133,7 +133,14 @@ namespace SnCore.WebServices
             List<TransitType> result = new List<TransitType>(list.Count);
             foreach (DataType instance in list)
             {
-                result.Add(functor(session, sec, instance));
+                try
+                {
+                    result.Add(functor(session, sec, instance));
+                }
+                catch (ManagedAccount.AccessDeniedException)
+                {
+                    // ignore
+                }
             }
             return result;
         }

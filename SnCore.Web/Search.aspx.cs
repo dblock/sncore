@@ -64,7 +64,8 @@ public partial class Search : AsyncPage
             bool found = false;
             foreach (SearchViewControl c in mControls)
             {
-                c.LinkButton.Text = string.Format("{0} ({1})", c.LinkButton.Text, c.SearchControl.ResultsCount);
+                c.LinkButton.Text = string.Format("{0} ({1})", c.LinkButton.Text,
+                    c.SearchControl.ResultsCount > 0 ? c.SearchControl.ResultsCount.ToString() : "no results");
                 c.LinkButton.Enabled = (c.SearchControl.ResultsCount > 0);
 
                 if (c.SearchControl.ResultsCount != 0)
@@ -96,7 +97,7 @@ public partial class Search : AsyncPage
 
     protected void search_Click(object sender, EventArgs e)
     {
-            Redirect("Search.aspx?q=" + Renderer.UrlEncode(inputSearch.Text));
+        Redirect("Search.aspx?q=" + Renderer.UrlEncode(inputSearch.Text));
     }
 
     protected void linkAny_Click(object sender, EventArgs e)
@@ -109,7 +110,8 @@ public partial class Search : AsyncPage
                 c.LinkButton.Enabled = (c.SearchControl.ResultsCount > 0);
                 if (c.LinkButton.Text.IndexOf("(") < 0)
                 {
-                    c.LinkButton.Text = string.Format("{0} ({1})", c.LinkButton.Text, c.SearchControl.ResultsCount);
+                    c.LinkButton.Text = string.Format("{0} ({1})", c.LinkButton.Text,
+                        c.SearchControl.ResultsCount > 0 ? c.SearchControl.ResultsCount.ToString() : "no results");
                 }
                 c.SearchControl.DataBind();
                 break;
