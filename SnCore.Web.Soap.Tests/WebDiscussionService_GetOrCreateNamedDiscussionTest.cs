@@ -9,6 +9,7 @@ using SnCore.Web.Soap.Tests.WebPlaceServiceTests;
 using SnCore.Web.Soap.Tests.WebMadLibServiceTests;
 using SnCore.Web.Soap.Tests.WebStoryServiceTests;
 using SnCore.Web.Soap.Tests.WebSyndicationServiceTests;
+using SnCore.Web.Soap.Tests.WebAccountService;
 using System.Web.Services.Protocols;
 
 namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
@@ -23,6 +24,8 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
             WebServiceTest<TransitType, WebServiceType> objecttest)
             where WebServiceType : new()
         {
+            // create a discussion
+
             Console.WriteLine("Type: {0}", typename);
 
             objecttest.SetUp();
@@ -45,6 +48,18 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
 
             Console.WriteLine("Parent name: {0}", t_discussion.ParentObjectName);
 
+            WebAccountService.TransitAccount t_account;
+            string ticket;
+            CreateUserWithVerifiedEmail(out t_account, out ticket);
+
+            // post to a discussion as a regular user
+            WebDiscussionService.TransitDiscussionPost t_post = new WebDiscussionService.TransitDiscussionPost();
+            t_post.DiscussionId = discussion_id;
+            t_post.AccountId = t_account.Id;
+            t_post.Body = GetNewString();
+            t_post.Subject = GetNewString();
+            t_post.Id = EndPoint.CreateOrUpdateDiscussionPost(ticket, t_post);
+
             objecttest.Delete(GetAdminTicket(), objecttest_id);
             objecttest.TearDown();
 
@@ -52,6 +67,8 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
                 GetAdminTicket(), discussion_id);
 
             Assert.IsNull(t_discussion, "Discussion has not been deleted with object.");
+
+            DeleteUser(t_account.Id);
         }
 
         [Test]

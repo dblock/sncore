@@ -1356,6 +1356,12 @@ namespace SnCore.Services
             ACL acl = base.GetACL(type);
             acl.Add(new ACLEveryoneAllowRetrieve());
             acl.Add(new ACLAccount(mInstance, DataOperation.All));
+
+            if (ManagedDiscussion.IsDiscussionType(type))
+            {
+                acl.Add(new ACLAuthenticatedAllowCreate());
+            }
+
             return acl;
         }
 

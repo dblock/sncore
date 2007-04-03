@@ -295,6 +295,12 @@ namespace SnCore.Services
             ACL acl = base.GetACL(type);
             acl.Add(new ACLEveryoneAllowRetrieve());
             acl.Add(new ACLAccount(mInstance.AccountBlog.Account, DataOperation.All));
+
+            if (ManagedDiscussion.IsDiscussionType(type))
+            {
+                acl.Add(new ACLAuthenticatedAllowCreate());
+            }
+
             foreach (AccountBlogAuthor author in Collection<AccountBlogAuthor>.GetSafeCollection(mInstance.AccountBlog.AccountBlogAuthors))
             {
                 int op = (int)DataOperation.None;

@@ -49,7 +49,7 @@ namespace SnCore.Web.Soap.Tests
         protected void DeleteUser(int id)
         {
             WebAccountService.WebAccountService account_endpoint = new WebAccountService.WebAccountService();
-            account_endpoint.DeleteAccount(GetAdminTicket(), id, null); 
+            account_endpoint.DeleteAccount(GetAdminTicket(), id, null);
         }
 
         private void CreateUserAccount()
@@ -127,6 +127,22 @@ namespace SnCore.Web.Soap.Tests
             {
                 throw ex.InnerException;
             }
+        }
+
+        public void CreateUserWithVerifiedEmail(out WebAccountService.TransitAccount t_account, out string ticket)
+        {
+            WebAccountService.WebAccountService endpoint = new WebAccountService.WebAccountService();
+            string email = GetNewEmailAddress();
+            string password = GetNewString();
+            int userid = CreateUser(email, password);
+            ticket = Login(email, password);
+            t_account = endpoint.GetAccountById(ticket, userid);
+            WebAccountService.TransitAccountEmailConfirmation[] confirmations = endpoint.GetAccountEmailConfirmations(
+                GetAdminTicket(), userid, null);
+            Assert.AreEqual(confirmations.Length, 1);
+            string verifiedemail = endpoint.VerifyAccountEmail(password, confirmations[0].Id, confirmations[0].Code);
+            Console.WriteLine("Verified e-mail: {0}", verifiedemail);
+            Assert.AreEqual(verifiedemail, email);
         }
 
         public static string GetNewEmailAddress()

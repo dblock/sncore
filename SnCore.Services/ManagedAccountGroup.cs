@@ -179,9 +179,7 @@ namespace SnCore.Services
 
         public override ACL GetACL(Type type)
         {
-            if (type == typeof(DiscussionThread) 
-                || type == typeof(DiscussionPost) 
-                || type == typeof(Discussion) )
+            if (ManagedDiscussion.IsDiscussionType(type))
             {
                 ACL acl = base.GetACL(type);
                 // members can post articles, admins can edit and delete

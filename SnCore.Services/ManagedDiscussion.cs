@@ -559,5 +559,13 @@ namespace SnCore.Services
 
             return t_instance;
         }
+
+        public static bool IsDiscussionType(Type type)
+        {
+            return 
+                (type == typeof(DiscussionThread) 
+                    || type == typeof(DiscussionPost) 
+                    || type == typeof(Discussion));
+        }
     }
 }
