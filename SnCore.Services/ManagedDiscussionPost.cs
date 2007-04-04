@@ -479,10 +479,45 @@ namespace SnCore.Services
             return acl;
         }
 
+        public const int DefaultHourlyLimit = 10; // TODO: export into configuration settings
+
+        // messages sent by this user to those who aren't this user's friends
+        public static IList<DiscussionPost> GetDiscussionPosts(ISession session, int account_id, DateTime limit)
+        {
+            return session.CreateQuery("FROM DiscussionPost p" +
+                string.Format(" WHERE p.AccountId = {0}", account_id) +
+                string.Format(" AND p.Created >= '{0}'", limit)
+                ).List<DiscussionPost>();
+        }
+
         protected override void Check(TransitDiscussionPost t_instance, ManagedSecurityContext sec)
         {
             base.Check(t_instance, sec);
-            if (t_instance.Id == 0) sec.CheckVerifiedEmail();
+
+            if (t_instance.Id != 0)
+                return;
+            
+            sec.CheckVerifiedEmail();
+
+            int account_id = t_instance.GetOwner(Session, t_instance.AccountId, sec).Id;
+
+            try
+            {
+                // how many posts within the last hour?
+                new ManagedQuota(DefaultHourlyLimit).Check(
+                    GetDiscussionPosts(Session, account_id, DateTime.UtcNow.AddHours(-1)));
+                // how many messages within the last 24 hours?
+                ManagedQuota.GetDefaultEnabledQuota().Check(
+                    GetDiscussionPosts(Session, account_id, DateTime.UtcNow.AddDays(-1)));
+            }
+            catch (ManagedAccount.QuotaExceededException)
+            {
+                ManagedAccount admin = new ManagedAccount(Session, ManagedAccount.GetAdminAccount(Session));
+                ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
+                    Session, admin,
+                    string.Format("EmailAccountQuotaExceeded.aspx?id={0}", account_id));
+                throw;
+            }
         }
     }
 }

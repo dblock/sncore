@@ -120,5 +120,46 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
             Assert.IsTrue(new TransitServiceCollection<WebDiscussionService.TransitDiscussionPost>(posts).ContainsId(t_post.Id));
             Delete(GetAdminTicket(), t_post.Id);
         }
+
+        [Test]
+        public void DiscussionPostQuotaTest()
+        {
+            WebAccountService.TransitAccount t_account = null;
+            string ticket;
+            CreateUserWithVerifiedEmail(out t_account, out ticket);
+
+            List<int> ids = new List<int>();
+            int limit = 10; // ManagedDiscussionPost.DefaultHourlyLimit
+
+            for (int i = 0; i < limit; i++)
+            {
+                WebDiscussionService.TransitDiscussionPost t_post = GetTransitInstance();
+                t_post.Id = EndPoint.CreateOrUpdateDiscussionPost(ticket, t_post);
+                Console.WriteLine("{0}: Post: {1}", i, t_post.Id);
+                ids.Add(t_post.Id);
+            }
+
+            try
+            {
+                WebDiscussionService.TransitDiscussionPost t_post = GetTransitInstance();
+                t_post.Id = EndPoint.CreateOrUpdateDiscussionPost(ticket, t_post);
+                Console.WriteLine("Post: {0}", t_post.Id);
+                Assert.IsTrue(false, "Expected a quota exceeded exception.");
+            }
+            catch (SoapException ex)
+            {
+                Console.WriteLine("Expected exception: {0}", ex.Message);
+                Assert.IsTrue(ex.Message.StartsWith("SnCore.Services.ManagedAccount+QuotaExceededException: Quota exceeded"));
+            }
+
+            // delete all these
+
+            foreach (int id in ids)
+            {
+                EndPoint.DeleteDiscussionPost(GetAdminTicket(), id);
+            }
+
+            DeleteUser(t_account.Id);
+        }
     }
 }

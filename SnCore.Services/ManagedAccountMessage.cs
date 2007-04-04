@@ -386,6 +386,9 @@ namespace SnCore.Services
             if (t_instance.Id != 0)
                 return;
 
+            // verified e-mail required
+            sec.CheckVerifiedEmail();
+
             // is the sender a friend of the receiver?
             int sender_id = t_instance.GetOwner(Session, t_instance.SenderAccountId, sec).Id;
             ManagedAccount sender = new ManagedAccount(Session, sender_id);

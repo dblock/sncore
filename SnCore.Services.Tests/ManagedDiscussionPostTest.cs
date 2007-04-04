@@ -103,5 +103,13 @@ namespace SnCore.Services.Tests
                 account.Delete(GetSecurityContext());
             }
         }
+
+        [Test]
+        public void TestGetDiscussionPosts()
+        {
+            IList<DiscussionPost> posts = ManagedDiscussionPost.GetDiscussionPosts(
+                Session, _account.Instance.Id, DateTime.UtcNow.AddDays(-1));
+            Console.WriteLine("Posts: {0}", posts.Count);
+        }
     }
 }
