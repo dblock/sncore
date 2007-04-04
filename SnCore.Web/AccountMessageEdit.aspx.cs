@@ -114,8 +114,7 @@ public partial class AccountMessageEdit : AuthenticatedPage
         tw.Body = inputBody.Text;
         tw.RecepientAccountId = tw.AccountId = RequestId;
         tw.AccountMessageFolderId = 0;
-        SessionManager.AccountService.SendAccountMessage(SessionManager.Ticket, tw);
+        SessionManager.AccountService.CreateOrUpdateAccountMessage(SessionManager.Ticket, tw);
         Redirect(ReturnUrl);
-
     }
 }

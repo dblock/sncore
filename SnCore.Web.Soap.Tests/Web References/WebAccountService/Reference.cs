@@ -297,8 +297,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         private System.Threading.SendOrPostCallback CreateOrUpdateAccountMessageOperationCompleted;
         
-        private System.Threading.SendOrPostCallback SendAccountMessageOperationCompleted;
-        
         private System.Threading.SendOrPostCallback DeleteAccountMessageOperationCompleted;
         
         private System.Threading.SendOrPostCallback DeleteAccountMessagesByFolderOperationCompleted;
@@ -728,9 +726,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         /// <remarks/>
         public event CreateOrUpdateAccountMessageCompletedEventHandler CreateOrUpdateAccountMessageCompleted;
-        
-        /// <remarks/>
-        public event SendAccountMessageCompletedEventHandler SendAccountMessageCompleted;
         
         /// <remarks/>
         public event DeleteAccountMessageCompletedEventHandler DeleteAccountMessageCompleted;
@@ -4657,37 +4652,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
             if ((this.CreateOrUpdateAccountMessageCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.CreateOrUpdateAccountMessageCompleted(this, new CreateOrUpdateAccountMessageCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/SendAccountMessage", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int SendAccountMessage(string ticket, TransitAccountMessage message) {
-            object[] results = this.Invoke("SendAccountMessage", new object[] {
-                        ticket,
-                        message});
-            return ((int)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void SendAccountMessageAsync(string ticket, TransitAccountMessage message) {
-            this.SendAccountMessageAsync(ticket, message, null);
-        }
-        
-        /// <remarks/>
-        public void SendAccountMessageAsync(string ticket, TransitAccountMessage message, object userState) {
-            if ((this.SendAccountMessageOperationCompleted == null)) {
-                this.SendAccountMessageOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSendAccountMessageOperationCompleted);
-            }
-            this.InvokeAsync("SendAccountMessage", new object[] {
-                        ticket,
-                        message}, this.SendAccountMessageOperationCompleted, userState);
-        }
-        
-        private void OnSendAccountMessageOperationCompleted(object arg) {
-            if ((this.SendAccountMessageCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.SendAccountMessageCompleted(this, new SendAccountMessageCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -10212,32 +10176,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         private object[] results;
         
         internal CreateOrUpdateAccountMessageCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public int Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((int)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    public delegate void SendAccountMessageCompletedEventHandler(object sender, SendAccountMessageCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class SendAccountMessageCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal SendAccountMessageCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

@@ -2206,25 +2206,6 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
-        /// Send someone a message.
-        /// </summary>
-        /// <param name="ticket">authentication ticket</param>
-        /// <param name="message">new message</param>
-        [WebMethod(Description = "Send someone a message.")]
-        public int SendAccountMessage(string ticket, TransitAccountMessage message)
-        {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-                ManagedAccount m_account = new ManagedAccount(session, sec.Account);
-                int id = m_account.SendAccountMessage(message, sec);
-                SnCore.Data.Hibernate.Session.Flush();
-                return id;
-            }
-        }
-
-        /// <summary>
         /// Delete a message.
         /// </summary>
         /// <param name="ticket">authentication ticket</param>

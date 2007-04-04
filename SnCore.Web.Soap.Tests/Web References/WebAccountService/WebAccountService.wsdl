@@ -2315,21 +2315,6 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="SendAccountMessage">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="message" type="tns:TransitAccountMessage" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="SendAccountMessageResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="SendAccountMessageResult" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
       <s:element name="DeleteAccountMessage">
         <s:complexType>
           <s:sequence>
@@ -3237,12 +3222,6 @@
   <wsdl:message name="CreateOrUpdateAccountMessageSoapOut">
     <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountMessageResponse" />
   </wsdl:message>
-  <wsdl:message name="SendAccountMessageSoapIn">
-    <wsdl:part name="parameters" element="tns:SendAccountMessage" />
-  </wsdl:message>
-  <wsdl:message name="SendAccountMessageSoapOut">
-    <wsdl:part name="parameters" element="tns:SendAccountMessageResponse" />
-  </wsdl:message>
   <wsdl:message name="DeleteAccountMessageSoapIn">
     <wsdl:part name="parameters" element="tns:DeleteAccountMessage" />
   </wsdl:message>
@@ -3923,11 +3902,6 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add a message.</wsdl:documentation>
       <wsdl:input message="tns:CreateOrUpdateAccountMessageSoapIn" />
       <wsdl:output message="tns:CreateOrUpdateAccountMessageSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="SendAccountMessage">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Send someone a message.</wsdl:documentation>
-      <wsdl:input message="tns:SendAccountMessageSoapIn" />
-      <wsdl:output message="tns:SendAccountMessageSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="DeleteAccountMessage">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a message.</wsdl:documentation>
@@ -5091,15 +5065,6 @@
     </wsdl:operation>
     <wsdl:operation name="CreateOrUpdateAccountMessage">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountMessage" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="SendAccountMessage">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/SendAccountMessage" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -6309,15 +6274,6 @@
     </wsdl:operation>
     <wsdl:operation name="CreateOrUpdateAccountMessage">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountMessage" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="SendAccountMessage">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/SendAccountMessage" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

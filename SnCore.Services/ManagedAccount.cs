@@ -995,53 +995,6 @@ namespace SnCore.Services
 
         #endregion
 
-        #region Message
-
-        /// <summary>
-        /// Send from this account to message.Account.
-        /// </summary>
-        /// <returns></returns>
-        public int SendAccountMessage(TransitAccountMessage m, ManagedSecurityContext sec)
-        {
-            AccountMessage message = m.GetInstance(Session, sec);
-
-            // check that sending message as self
-            if (message.SenderAccountId != 0 && message.SenderAccountId != Id)
-            {
-                throw new ManagedAccount.AccessDeniedException();
-            }
-
-            message.Unread = true;
-            message.Sent = DateTime.UtcNow;
-            message.SenderAccountId = Id;
-            message.RecepientAccountId = message.Account.Id;
-
-            if (message.Account.AccountMessages == null) message.Account.AccountMessages = new List<AccountMessage>();
-            message.Account.AccountMessages.Add(message);
-            Session.Save(message);
-
-            Session.Flush();
-
-            ManagedAccount recepient = new ManagedAccount(Session, message.Account);
-            ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
-                Session, recepient, string.Format("EmailAccountMessage.aspx?id={0}", message.Id));
-
-            // save a copy in sent items
-            AccountMessage s = m.GetInstance(Session, sec);
-            s.Account = mInstance;
-            s.Sent = message.Sent;
-            s.SenderAccountId = Id;
-            s.RecepientAccountId = message.Account.Id;
-            s.AccountMessageFolder = ManagedAccountMessageFolder.FindRootFolder(Session, Id, "sent");
-            if (mInstance.AccountMessages == null) mInstance.AccountMessages = new List<AccountMessage>();
-            mInstance.AccountMessages.Add(s);
-            Session.Save(s);
-
-            return message.Id;
-        }
-
-        #endregion
-
         #region MessageFolder
 
         public AccountMessageFolder FindRootFolder(string name)

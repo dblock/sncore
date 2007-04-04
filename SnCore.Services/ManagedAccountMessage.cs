@@ -2,6 +2,7 @@ using System;
 using NHibernate;
 using NHibernate.Expression;
 using System.Collections;
+using System.Collections.Generic;
 using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
@@ -226,9 +227,12 @@ namespace SnCore.Services
                 instance.RecepientAccountId = this.RecepientAccountId;
                 // the oner is the recepient
                 instance.Account = session.Load<Account>(RecepientAccountId);
+                instance.Unread = true;
             }
-
-            instance.Unread = this.UnRead;
+            else
+            {
+                instance.Unread = this.UnRead;
+            }
 
             if (AccountMessageFolderId == 0)
             {
@@ -302,8 +306,35 @@ namespace SnCore.Services
 
         protected override void Save(ManagedSecurityContext sec)
         {
-            if (mInstance.Id == 0) mInstance.Sent = DateTime.UtcNow;
+            bool fNew = (mInstance.Id == 0);
+
+            if (mInstance.Id == 0)
+            {
+                mInstance.Sent = DateTime.UtcNow;
+            }
+
             base.Save(sec);
+
+            Session.Flush();
+
+            if (fNew)
+            {
+                ManagedAccount recepient = new ManagedAccount(Session, mInstance.RecepientAccountId);
+                ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
+                    Session, recepient, string.Format("EmailAccountMessage.aspx?id={0}", mInstance.Id));
+
+                // save a copy in Sent items
+                AccountMessage copy = new AccountMessage();
+                copy.Account = Session.Load<Account>(mInstance.SenderAccountId);
+                copy.AccountMessageFolder = ManagedAccountMessageFolder.FindRootFolder(Session, mInstance.SenderAccountId, "sent");
+                copy.Body = mInstance.Body;
+                copy.RecepientAccountId = mInstance.RecepientAccountId;
+                copy.SenderAccountId = mInstance.SenderAccountId;
+                copy.Sent = mInstance.Sent;
+                copy.Subject = mInstance.Subject;
+                copy.Unread = true;
+                Session.Save(copy);
+            }
         }
 
         public void MoveTo(ManagedSecurityContext sec, int folderid)
@@ -329,6 +360,55 @@ namespace SnCore.Services
             acl.Add(new ACLAuthenticatedAllowCreate());
             acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
             return acl;
+        }
+
+        public const int DefaultHourlyLimit = 10; // TODO: export into configuration settings
+
+        // messages sent by this user to those who aren't this user's friends
+        public static IList<AccountMessage> GetAcountMessages(ISession session, int sender_id, DateTime limit)
+        {
+            return session.CreateQuery("FROM AccountMessage m" +
+                string.Format(" WHERE m.SenderAccountId = {0}", sender_id) +
+                " AND m.Account.Id <> m.SenderAccountId" +
+                string.Format(" AND m.Sent >= '{0}'", limit) +
+                " AND NOT EXISTS ( " +
+                "  SELECT f FROM AccountFriend f WHERE" +
+                "  ( f.Account.Id = m.SenderAccountId AND f.Keen.Id = m.RecepientAccountId ) OR" +
+                "  ( f.Account.Id = m.RecepientAccountId AND f.Keen.Id = m.SenderAccountId )" +
+                ")").List<AccountMessage>();
+        }
+
+        protected override void Check(TransitAccountMessage t_instance, ManagedSecurityContext sec)
+        {
+            base.Check(t_instance, sec);
+
+            // existing instance doesn't need to be rechecked
+            if (t_instance.Id != 0)
+                return;
+
+            // is the sender a friend of the receiver?
+            int sender_id = t_instance.GetOwner(Session, t_instance.SenderAccountId, sec).Id;
+            ManagedAccount sender = new ManagedAccount(Session, sender_id);
+            if (sender.HasFriend(t_instance.RecepientAccountId))
+                return;
+
+            try
+            {
+                // how many messages within the last hour?
+                new ManagedQuota(DefaultHourlyLimit).Check(
+                    GetAcountMessages(Session, sender_id, DateTime.UtcNow.AddHours(-1)));
+                // how many messages within the last 24 hours?
+                ManagedQuota.GetDefaultEnabledQuota().Check(
+                    GetAcountMessages(Session, sender_id, DateTime.UtcNow.AddDays(-1)));
+            }
+            catch (ManagedAccount.QuotaExceededException)
+            {
+                ManagedAccount admin = new ManagedAccount(Session, ManagedAccount.GetAdminAccount(Session));
+                ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
+                    Session, admin,
+                    string.Format("EmailAccountQuotaExceeded.aspx?id={0}", sender_id));
+                throw;
+            }
         }
     }
 }

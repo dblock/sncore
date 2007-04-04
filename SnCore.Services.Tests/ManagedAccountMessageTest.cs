@@ -50,5 +50,13 @@ namespace SnCore.Services.Tests
         {
 
         }
+
+        [Test]
+        public void GetAcountMessagesTest()
+        {
+            IList<AccountMessage> messages = ManagedAccountMessage.GetAcountMessages(
+                Session, _account2.Instance.Id, DateTime.UtcNow.AddDays(-1));
+            Console.WriteLine("Messages: {0}", messages.Count);
+        }
     }
 }
