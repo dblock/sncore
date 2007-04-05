@@ -26,7 +26,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         }
 
         [Test]
-        public void TestWithQuota()
+        public void WithQuotaTest()
         {
             string email = GetNewEmailAddress();
             string password = GetNewString();

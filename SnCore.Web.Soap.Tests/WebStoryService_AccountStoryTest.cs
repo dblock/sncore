@@ -43,7 +43,7 @@ namespace SnCore.Web.Soap.Tests.WebStoryServiceTests
         }
 
         [Test]
-        public void TestGetAllStories()
+        public void GetAllStoriesTest()
         {
             int count1 = EndPoint.GetAllAccountStoriesCount(GetAdminTicket());
             int id = Create(GetAdminTicket());
@@ -55,7 +55,7 @@ namespace SnCore.Web.Soap.Tests.WebStoryServiceTests
         }
 
         [Test]
-        public void TestSearchStories()
+        public void SearchStoriesTest()
         {
             WebStoryService.TransitAccountStory t_instance = GetTransitInstance();
             int id = Create(GetAdminTicket(), t_instance);

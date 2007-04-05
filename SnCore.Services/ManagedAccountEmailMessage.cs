@@ -2,6 +2,7 @@ using System;
 using NHibernate;
 using System.Collections;
 using SnCore.Data.Hibernate;
+using System.Net.Mail;
 
 namespace SnCore.Services
 {
@@ -310,8 +311,44 @@ namespace SnCore.Services
         public override ACL GetACL(Type type)
         {
             ACL acl = base.GetACL(type);
-            // administrators can only send e-mail messages
+            acl.Add(new ACLAuthenticatedAllowCreate());
             return acl;
+        }
+
+        public override int CreateOrUpdate(TransitAccountEmailMessage t_instance, ManagedSecurityContext sec)
+        {
+            t_instance.Modified = DateTime.UtcNow;
+            
+            if (t_instance.Id == 0)
+            {
+                t_instance.Created = t_instance.Modified;
+                t_instance.Sent = false;
+                t_instance.SendError = string.Empty;
+            }
+
+            return base.CreateOrUpdate(t_instance, sec);
+        }
+
+        protected override void Check(TransitAccountEmailMessage t_instance, ManagedSecurityContext sec)
+        {
+            if (!sec.IsAdministrator())
+            {
+                ManagedAccount user = new ManagedAccount(Session, t_instance.AccountId);
+                string mailfrom = string.Empty;
+                if (!user.TryGetVerifiedEmailAddress(out mailfrom, sec))
+                    throw new ManagedAccount.NoVerifiedEmailException();
+
+                if (string.IsNullOrEmpty(t_instance.MailFrom))
+                {
+                    t_instance.MailFrom = new MailAddress(mailfrom, user.Name).ToString();;
+                }
+                else if (t_instance.MailFrom != mailfrom)
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+            }
+
+            base.Check(t_instance, sec);
         }
     }
 }

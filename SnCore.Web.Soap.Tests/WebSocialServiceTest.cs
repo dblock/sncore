@@ -25,7 +25,7 @@ namespace SnCore.Web.Soap.Tests.WebSocialServiceTests
     public class EndpointTests
     {
         [Test]
-        public void TestEndpoint()
+        public void EndpointTest()
         {
             WebSocialServiceNoCache endpoint = new WebSocialServiceNoCache();
             Assert.IsFalse(string.IsNullOrEmpty(endpoint.Url));

@@ -25,7 +25,7 @@ namespace SnCore.Web.Soap.Tests.WebEventServiceTests
     public class EndpointTests
     {
         [Test]
-        public void TestEndpoint()
+        public void EndpointTest()
         {
             WebEventServiceNoCache endpoint = new WebEventServiceNoCache();
             Assert.IsFalse(string.IsNullOrEmpty(endpoint.Url));

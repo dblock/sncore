@@ -25,7 +25,7 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
     public class EndpointTests
     {
         [Test]
-        public void TestEndpoint()
+        public void EndpointTest()
         {
             WebGroupServiceNoCache endpoint = new WebGroupServiceNoCache();
             Assert.IsFalse(string.IsNullOrEmpty(endpoint.Url));

@@ -25,7 +25,7 @@ namespace SnCore.Web.Soap.Tests.WebTagWordServiceTests
     public class EndpointTests
     {
         [Test]
-        public void TestEndpoint()
+        public void EndpointTest()
         {
             WebTagWordServiceNoCache endpoint = new WebTagWordServiceNoCache();
             Assert.IsFalse(string.IsNullOrEmpty(endpoint.Url));

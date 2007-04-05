@@ -305,8 +305,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         private System.Threading.SendOrPostCallback MoveAccountMessageToFolderOperationCompleted;
         
-        private System.Threading.SendOrPostCallback SendAccountEmailMessageOperationCompleted;
-        
         private System.Threading.SendOrPostCallback CreateOrUpdateAccountEmailMessageOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAccountEmailMessageByIdOperationCompleted;
@@ -738,9 +736,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         /// <remarks/>
         public event MoveAccountMessageToFolderCompletedEventHandler MoveAccountMessageToFolderCompleted;
-        
-        /// <remarks/>
-        public event SendAccountEmailMessageCompletedEventHandler SendAccountEmailMessageCompleted;
         
         /// <remarks/>
         public event CreateOrUpdateAccountEmailMessageCompletedEventHandler CreateOrUpdateAccountEmailMessageCompleted;
@@ -4778,39 +4773,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
             if ((this.MoveAccountMessageToFolderCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.MoveAccountMessageToFolderCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/SendAccountEmailMessage", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int SendAccountEmailMessage(string ticket, int id, TransitAccountEmailMessage message) {
-            object[] results = this.Invoke("SendAccountEmailMessage", new object[] {
-                        ticket,
-                        id,
-                        message});
-            return ((int)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void SendAccountEmailMessageAsync(string ticket, int id, TransitAccountEmailMessage message) {
-            this.SendAccountEmailMessageAsync(ticket, id, message, null);
-        }
-        
-        /// <remarks/>
-        public void SendAccountEmailMessageAsync(string ticket, int id, TransitAccountEmailMessage message, object userState) {
-            if ((this.SendAccountEmailMessageOperationCompleted == null)) {
-                this.SendAccountEmailMessageOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSendAccountEmailMessageOperationCompleted);
-            }
-            this.InvokeAsync("SendAccountEmailMessage", new object[] {
-                        ticket,
-                        id,
-                        message}, this.SendAccountEmailMessageOperationCompleted, userState);
-        }
-        
-        private void OnSendAccountEmailMessageOperationCompleted(object arg) {
-            if ((this.SendAccountEmailMessageCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.SendAccountEmailMessageCompleted(this, new SendAccountEmailMessageCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -10204,32 +10166,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
     public delegate void MoveAccountMessageToFolderCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    public delegate void SendAccountEmailMessageCompletedEventHandler(object sender, SendAccountEmailMessageCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class SendAccountEmailMessageCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal SendAccountEmailMessageCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public int Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((int)(this.results[0]));
-            }
-        }
-    }
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]

@@ -83,8 +83,8 @@ public partial class TellAFriend : AuthenticatedPage
                 try
                 {
                     message.MailTo = new MailAddress(address.Trim()).ToString();
-                    SessionManager.AccountService.SendAccountEmailMessage(
-                        SessionManager.Ticket, SessionManager.AccountId, message);
+                    SessionManager.AccountService.CreateOrUpdateAccountEmailMessage(
+                        SessionManager.Ticket, message);
                 }
                 catch (Exception ex)
                 {

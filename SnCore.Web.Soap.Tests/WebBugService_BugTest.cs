@@ -74,7 +74,7 @@ namespace SnCore.Web.Soap.Tests.WebBugServiceTests
         }
 
         [Test]
-        public void TestResolve()
+        public void ResolveTest()
         {
             int id = Create(GetAdminTicket());
             string current_resolution = (string) GetInstancePropertyById(GetAdminTicket(), id, "Resolution");
@@ -88,7 +88,7 @@ namespace SnCore.Web.Soap.Tests.WebBugServiceTests
         }
 
         [Test]
-        public void TestClose()
+        public void CloseTest()
         {
             int id = Create(GetAdminTicket());
             string current_status = (string) GetInstancePropertyById(GetAdminTicket(), id, "Status");
@@ -104,7 +104,7 @@ namespace SnCore.Web.Soap.Tests.WebBugServiceTests
         }
 
         [Test]
-        public void TestAsUser()
+        public void AsUserTest()
         {
             string ticket = GetUserTicket();
             int count1 = GetCount(ticket);
@@ -123,7 +123,7 @@ namespace SnCore.Web.Soap.Tests.WebBugServiceTests
         }
 
         [Test, ExpectedException(typeof(SoapException))]
-        public void TestDeleteAsUser()
+        public void DeleteAsUserTest()
         {
             string ticket = GetUserTicket();
             int id = Create(ticket);
@@ -131,7 +131,7 @@ namespace SnCore.Web.Soap.Tests.WebBugServiceTests
         }
 
         [Test]
-        public void TestAddNoteAsUser()
+        public void AddNoteAsUserTest()
         {
             int id = Create(GetAdminTicket());
 

@@ -25,7 +25,7 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationServiceTests
     public class EndpointTests
     {
         [Test]
-        public void TestEndpoint()
+        public void EndpointTest()
         {
             WebSyndicationServiceNoCache endpoint = new WebSyndicationServiceNoCache();
             Assert.IsFalse(string.IsNullOrEmpty(endpoint.Url));

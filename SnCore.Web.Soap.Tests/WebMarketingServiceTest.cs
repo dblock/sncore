@@ -25,7 +25,7 @@ namespace SnCore.Web.Soap.Tests.WebMarketingServiceTests
     public class EndpointTests
     {
         [Test]
-        public void TestEndpoint()
+        public void EndpointTest()
         {
             WebMarketingServiceNoCache endpoint = new WebMarketingServiceNoCache();
             Assert.IsFalse(string.IsNullOrEmpty(endpoint.Url));

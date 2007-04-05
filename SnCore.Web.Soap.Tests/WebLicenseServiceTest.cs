@@ -25,7 +25,7 @@ namespace SnCore.Web.Soap.Tests.WebLicenseServiceTests
     public class EndpointTests
     {
         [Test]
-        public void TestEndpoint()
+        public void EndpointTest()
         {
             WebLicenseServiceNoCache endpoint = new WebLicenseServiceNoCache();
             Assert.IsFalse(string.IsNullOrEmpty(endpoint.Url));

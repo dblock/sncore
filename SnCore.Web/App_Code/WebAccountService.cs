@@ -2272,31 +2272,6 @@ namespace SnCore.WebServices
 
         #region AccountEmailMessage
 
-        [WebMethod(Description = "Send an account e-mail message.")]
-        public int SendAccountEmailMessage(string ticket, int id, TransitAccountEmailMessage message)
-        {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-                AccountEmailMessage m = message.GetInstance(session, sec);
-                ManagedAccount user = new ManagedAccount(session, id);
-                m.Account = user.Instance;
-
-                string mailto = string.Empty;
-                if (! user.TryGetVerifiedEmailAddress(out mailto, sec))
-                    throw new ManagedAccount.NoVerifiedEmailException();
-
-                m.MailFrom = new MailAddress(mailto, user.Name).ToString();
-                m.Sent = false;
-                m.Created = m.Modified = DateTime.UtcNow;
-                session.Save(m);
-
-                SnCore.Data.Hibernate.Session.Flush();
-                return m.Id;
-            }
-        }
-
         /// <summary>
         /// Create or update a AccountEmailMessage.
         /// </summary>

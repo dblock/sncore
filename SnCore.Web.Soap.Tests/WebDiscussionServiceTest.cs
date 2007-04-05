@@ -25,7 +25,7 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
     public class EndpointTests
     {
         [Test]
-        public void TestEndpoint()
+        public void EndpointTest()
         {
             WebDiscussionServiceNoCache endpoint = new WebDiscussionServiceNoCache();
             Assert.IsFalse(string.IsNullOrEmpty(endpoint.Url));

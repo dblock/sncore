@@ -2315,21 +2315,6 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="SendAccountMessage">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="message" type="tns:TransitAccountMessage" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="SendAccountMessageResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="SendAccountMessageResult" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
       <s:element name="DeleteAccountMessage">
         <s:complexType>
           <s:sequence>
@@ -2377,12 +2362,11 @@
       <s:element name="MoveAccountMessageToFolderResponse">
         <s:complexType />
       </s:element>
-      <s:element name="SendAccountEmailMessage">
+      <s:element name="CreateOrUpdateAccountEmailMessage">
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-            <s:element minOccurs="0" maxOccurs="1" name="message" type="tns:TransitAccountEmailMessage" />
+            <s:element minOccurs="0" maxOccurs="1" name="AccountEmailMessage" type="tns:TransitAccountEmailMessage" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -2409,21 +2393,6 @@
           <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
         </s:sequence>
       </s:complexType>
-      <s:element name="SendAccountEmailMessageResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="SendAccountEmailMessageResult" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="CreateOrUpdateAccountEmailMessage">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="AccountEmailMessage" type="tns:TransitAccountEmailMessage" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
       <s:element name="CreateOrUpdateAccountEmailMessageResponse">
         <s:complexType>
           <s:sequence>
@@ -3237,12 +3206,6 @@
   <wsdl:message name="CreateOrUpdateAccountMessageSoapOut">
     <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountMessageResponse" />
   </wsdl:message>
-  <wsdl:message name="SendAccountMessageSoapIn">
-    <wsdl:part name="parameters" element="tns:SendAccountMessage" />
-  </wsdl:message>
-  <wsdl:message name="SendAccountMessageSoapOut">
-    <wsdl:part name="parameters" element="tns:SendAccountMessageResponse" />
-  </wsdl:message>
   <wsdl:message name="DeleteAccountMessageSoapIn">
     <wsdl:part name="parameters" element="tns:DeleteAccountMessage" />
   </wsdl:message>
@@ -3266,12 +3229,6 @@
   </wsdl:message>
   <wsdl:message name="MoveAccountMessageToFolderSoapOut">
     <wsdl:part name="parameters" element="tns:MoveAccountMessageToFolderResponse" />
-  </wsdl:message>
-  <wsdl:message name="SendAccountEmailMessageSoapIn">
-    <wsdl:part name="parameters" element="tns:SendAccountEmailMessage" />
-  </wsdl:message>
-  <wsdl:message name="SendAccountEmailMessageSoapOut">
-    <wsdl:part name="parameters" element="tns:SendAccountEmailMessageResponse" />
   </wsdl:message>
   <wsdl:message name="CreateOrUpdateAccountEmailMessageSoapIn">
     <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountEmailMessage" />
@@ -3924,11 +3881,6 @@
       <wsdl:input message="tns:CreateOrUpdateAccountMessageSoapIn" />
       <wsdl:output message="tns:CreateOrUpdateAccountMessageSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="SendAccountMessage">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Send someone a message.</wsdl:documentation>
-      <wsdl:input message="tns:SendAccountMessageSoapIn" />
-      <wsdl:output message="tns:SendAccountMessageSoapOut" />
-    </wsdl:operation>
     <wsdl:operation name="DeleteAccountMessage">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a message.</wsdl:documentation>
       <wsdl:input message="tns:DeleteAccountMessageSoapIn" />
@@ -3948,11 +3900,6 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Move a message.</wsdl:documentation>
       <wsdl:input message="tns:MoveAccountMessageToFolderSoapIn" />
       <wsdl:output message="tns:MoveAccountMessageToFolderSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="SendAccountEmailMessage">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Send an account e-mail message.</wsdl:documentation>
-      <wsdl:input message="tns:SendAccountEmailMessageSoapIn" />
-      <wsdl:output message="tns:SendAccountEmailMessageSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="CreateOrUpdateAccountEmailMessage">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a AccountEmailMessage.</wsdl:documentation>
@@ -5098,15 +5045,6 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="SendAccountMessage">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/SendAccountMessage" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="DeleteAccountMessage">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountMessage" style="document" />
       <wsdl:input>
@@ -5136,15 +5074,6 @@
     </wsdl:operation>
     <wsdl:operation name="MoveAccountMessageToFolder">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/MoveAccountMessageToFolder" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="SendAccountEmailMessage">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/SendAccountEmailMessage" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -6316,15 +6245,6 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="SendAccountMessage">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/SendAccountMessage" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="DeleteAccountMessage">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountMessage" style="document" />
       <wsdl:input>
@@ -6354,15 +6274,6 @@
     </wsdl:operation>
     <wsdl:operation name="MoveAccountMessageToFolder">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/MoveAccountMessageToFolder" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="SendAccountEmailMessage">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/SendAccountEmailMessage" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

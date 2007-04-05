@@ -25,7 +25,7 @@ namespace SnCore.Web.Soap.Tests.WebBugServiceTests
     public class EndpointTests
     {
         [Test]
-        public void TestEndpoint()
+        public void EndpointTest()
         {
             WebBugServiceNoCache endpoint = new WebBugServiceNoCache();
             Assert.IsFalse(string.IsNullOrEmpty(endpoint.Url));

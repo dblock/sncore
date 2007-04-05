@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Web.Services.Protocols;
 using NUnit.Framework;
 
 namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
@@ -24,7 +25,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         }
 
         [Test]
-        public void TestGetAccount()
+        public void GetAccountTest()
         {
             WebAccountService.TransitAccount t_instance = GetTransitInstance();
             string email = GetNewEmailAddress();
@@ -76,9 +77,41 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         }
 
         [Test]
-        protected void SendAccountEmailMessageTest()
+        public void SendAccountEmailMessageTest()
         {
+            WebAccountService.TransitAccountEmailMessage t_instance = new WebAccountService.TransitAccountEmailMessage();
+            t_instance.AccountId = GetUserAccount().Id;
+            t_instance.Body = GetNewString();
+            t_instance.MailFrom = "user@localhost.com";
+            t_instance.MailTo = GetNewEmailAddress();
+            t_instance.Subject = GetNewString();
+            t_instance.Id = EndPoint.CreateOrUpdateAccountEmailMessage(GetUserTicket(), t_instance);
+            Console.WriteLine("Message: {0}", t_instance.Id);
+            Assert.AreNotEqual(0, t_instance.Id);
+            EndPoint.DeleteAccountEmailMessage(GetAdminTicket(), t_instance.Id);
+        }
 
+        [Test]
+        public void SendAccountEmailMessageInvalidEmailTest()
+        {
+            // alter the message mail from, should not let me send
+            try
+            {
+                WebAccountService.TransitAccountEmailMessage t_instance = new WebAccountService.TransitAccountEmailMessage();
+                t_instance.AccountId = GetUserAccount().Id;
+                t_instance.Body = GetNewString();
+                t_instance.MailFrom = GetNewEmailAddress();
+                t_instance.MailTo = GetNewEmailAddress();
+                t_instance.Subject = GetNewString();
+                t_instance.Id = EndPoint.CreateOrUpdateAccountEmailMessage(GetUserTicket(), t_instance);
+                Console.WriteLine("Message: {0}", t_instance.Id);
+                Assert.IsTrue(false, "Expected an access denied.");
+            }
+            catch (SoapException ex)
+            {
+                Console.WriteLine("Expected exception: {0}", ex.Message);
+                Assert.IsTrue(ex.Message.StartsWith("SnCore.Services.ManagedAccount+AccessDeniedException: Access denied"));
+            }
         }
 
         [Test]

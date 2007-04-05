@@ -71,7 +71,7 @@ namespace SnCore.Web.Soap.Tests.WebSocialServiceTests
         }
 
         [Test]
-        public void TestSentAccountFriendRequests()
+        public void SentAccountFriendRequestsTest()
         {
             string email = GetNewEmailAddress();
             string password = "password";

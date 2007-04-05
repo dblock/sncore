@@ -140,7 +140,7 @@ namespace SnCore.Web.Soap.Tests
             }
         }
 
-        public void TestEndToEnd(string ticket)
+        public void EndToEndTest(string ticket)
         {
             int count1 = GetCount(ticket);
             int id1 = Create(ticket);
@@ -166,9 +166,9 @@ namespace SnCore.Web.Soap.Tests
         }
 
         [Test]
-        public virtual void TestEndToEnd()
+        public virtual void EndToEndTest()
         {
-            TestEndToEnd(GetTestTicket());
+            EndToEndTest(GetTestTicket());
         }
 
         [SetUp]

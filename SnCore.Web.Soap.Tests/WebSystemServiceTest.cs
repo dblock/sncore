@@ -25,7 +25,7 @@ namespace SnCore.Web.Soap.Tests.WebSystemServiceTests
     public class EndpointTests
     {
         [Test]
-        public void TestEndpoint()
+        public void EndpointTest()
         {
             WebSystemService.WebSystemService endpoint = new WebSystemService.WebSystemService();
             Assert.IsFalse(string.IsNullOrEmpty(endpoint.Url));

@@ -54,7 +54,7 @@ namespace SnCore.Web.Soap.Tests.WebStoryServiceTests
         }
 
         [Test]
-        public void TestGetAccountStoryPictureIfModifiedSince()
+        public void GetAccountStoryPictureIfModifiedSinceTest()
         {
             WebStoryService.TransitAccountStoryPicture t_instance = GetTransitInstance();
             t_instance.Id = Create(GetAdminTicket(), t_instance);
@@ -70,7 +70,7 @@ namespace SnCore.Web.Soap.Tests.WebStoryServiceTests
         }
 
         [Test]
-        public void TestMoveAccountStoryPicture()
+        public void MoveAccountStoryPictureTest()
         {
             WebStoryService.TransitAccountStoryPicture t_instance1 = GetTransitInstance();
             t_instance1.Id = Create(GetAdminTicket(), t_instance1);

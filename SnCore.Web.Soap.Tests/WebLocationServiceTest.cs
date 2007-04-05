@@ -25,7 +25,7 @@ namespace SnCore.Web.Soap.Tests.WebLocationServiceTests
     public class EndpointTests
     {
         [Test]
-        public void TestEndpoint()
+        public void EndpointTest()
         {
             WebLocationServiceNoCache endpoint = new WebLocationServiceNoCache();
             Assert.IsFalse(string.IsNullOrEmpty(endpoint.Url));

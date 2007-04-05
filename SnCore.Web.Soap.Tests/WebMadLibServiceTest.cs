@@ -25,7 +25,7 @@ namespace SnCore.Web.Soap.Tests.WebMadLibServiceTests
     public class EndpointTests
     {
         [Test]
-        public void TestEndpoint()
+        public void EndpointTest()
         {
             WebMadLibServiceNoCache endpoint = new WebMadLibServiceNoCache();
             Assert.IsFalse(string.IsNullOrEmpty(endpoint.Url));
