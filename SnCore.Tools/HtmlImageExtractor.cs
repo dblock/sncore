@@ -58,7 +58,10 @@ namespace SnCore.Tools.Web.Html
         {
             HtmlImage image = new HtmlImage();
             image.Src = tag.Attributes["src"];
-            if (BaseHref != null) image.Src = new Uri(BaseHref, image.Src).ToString();
+            if (BaseHref != null)
+            {
+                image.Src = HtmlUriExtractor.TryCreate(BaseHref, image.Src);
+            }
             image.Alt = tag.Attributes["alt"];
 
             int width = 0;

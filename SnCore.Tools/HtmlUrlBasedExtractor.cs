@@ -47,7 +47,7 @@ namespace SnCore.Tools.Web.Html
                 case "href":
                     if (BaseHref != null)
                     {
-                        value = new Uri(BaseHref, value).ToString();
+                        value = HtmlUriExtractor.TryCreate(BaseHref, value);
                     }
                     break;
             }

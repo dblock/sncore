@@ -87,6 +87,11 @@ namespace SnCore.Tools.Web.Html
             return ex.Uris;
         }
 
+        public static string TryCreate(Uri baseuri, string relativeuri)
+        {
+            return TryCreate(baseuri, relativeuri, relativeuri);
+        }
+
         public static string TryCreate(Uri baseuri, string relativeuri, string defaultvalue)
         {
             try

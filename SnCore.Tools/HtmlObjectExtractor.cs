@@ -127,7 +127,10 @@ namespace SnCore.Tools.Web.Html
                             switch (name.ToLower())
                             {
                                 case "src":
-                                    if (BaseHref != null) value = new Uri(BaseHref, value).ToString();
+                                    if (BaseHref != null)
+                                    {
+                                        value = HtmlUriExtractor.TryCreate(BaseHref, value);
+                                    }
                                     break;
                                 case "height":
                                 case "width":

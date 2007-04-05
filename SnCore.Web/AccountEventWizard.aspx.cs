@@ -116,19 +116,19 @@ public partial class AccountEventWizard : AuthenticatedPage
 
         foreach (Uri link in webcallinks)
         {
-            if (link.Scheme.ToLower() == "webcal" || link.GetLeftPart(UriPartial.Path).EndsWith(".ics"))
+            try
             {
-                try
+                if (link.Scheme.ToLower() == "webcal" || link.GetLeftPart(UriPartial.Path).EndsWith(".ics"))
                 {
                     TransitAccountEventICALEmitter emitter = TransitAccountEventICALEmitter.Parse(
                         link.ToString());
                     emitter.AccountEvent.Website = link.ToString();
                     AddUnique(result, emitter.AccountEvent);
                 }
-                catch
-                {
+            }
+            catch
+            {
 
-                }
             }
         }
 
