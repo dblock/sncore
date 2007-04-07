@@ -331,17 +331,27 @@ namespace SnCore.Services
 
         protected override void Check(TransitAccountEmailMessage t_instance, ManagedSecurityContext sec)
         {
-            if (!sec.IsAdministrator())
+            if (!string.IsNullOrEmpty(t_instance.MailFrom) && sec.IsAdministrator())
             {
-                ManagedAccount user = new ManagedAccount(Session, t_instance.AccountId);
+                // administrator can force a MailFrom address to whatever
+                mInstance.MailFrom = t_instance.MailFrom;
+            }
+            else
+            {
+                Account user = t_instance.GetOwner(Session, t_instance.AccountId, sec);
+                ManagedAccount m_user = new ManagedAccount(Session, user);
                 string mailfrom = string.Empty;
-                if (!user.TryGetVerifiedEmailAddress(out mailfrom, sec))
+
+                // a user is required to have a valid e-mail address
+                if (!m_user.TryGetVerifiedEmailAddress(out mailfrom, sec))
                     throw new ManagedAccount.NoVerifiedEmailException();
 
+                // if the user didn't specify the address, user his verified e-mail
                 if (string.IsNullOrEmpty(t_instance.MailFrom))
                 {
-                    t_instance.MailFrom = new MailAddress(mailfrom, user.Name).ToString();;
+                    mInstance.MailFrom = new MailAddress(mailfrom, m_user.Name).ToString();;
                 }
+                // if the user specified a different e-mail address, don't let him send
                 else if (t_instance.MailFrom != mailfrom)
                 {
                     throw new ManagedAccount.AccessDeniedException();
