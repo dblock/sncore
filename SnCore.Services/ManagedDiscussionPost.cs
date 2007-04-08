@@ -491,17 +491,6 @@ namespace SnCore.Services
                 ).List<DiscussionPost>();
         }
 
-        // messages sent by this user that match subject
-        public static IList<DiscussionPost> GetDiscussionPosts(ISession session, int account_id, DateTime limit, string subject, string body)
-        {
-            return session.CreateQuery("FROM DiscussionPost p" +
-                string.Format(" WHERE p.AccountId = {0}", account_id) +
-                string.Format(" AND p.Subject = '{0}'", Renderer.SqlEncode(subject)) +
-                string.Format(" AND p.Body LIKE '{0}'", Renderer.SqlEncode(body)) +
-                string.Format(" AND p.Created >= '{0}'", limit)
-                ).List<DiscussionPost>();
-        }
-
         protected override void Check(TransitDiscussionPost t_instance, ManagedSecurityContext sec)
         {
             base.Check(t_instance, sec);
@@ -529,14 +518,6 @@ namespace SnCore.Services
                     Session, admin,
                     string.Format("EmailAccountQuotaExceeded.aspx?id={0}", account_id));
                 throw;
-            }
-
-            // check for duplicate posts
-            if (GetDiscussionPosts(Session, account_id, DateTime.UtcNow.AddDays(-1),
-                t_instance.Subject, t_instance.Body).Count != 0)
-            {
-                throw new SoapException("Please don't post the same message twice.",
-                    SoapException.ClientFaultCode);
             }
         }
     }

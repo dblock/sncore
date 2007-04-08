@@ -161,25 +161,5 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
 
             DeleteUser(t_account.Id);
         }
-
-        [Test]
-        public void DiscussionPostDupTest()
-        {
-            WebDiscussionService.TransitDiscussionPost t_post = GetTransitInstance();
-            int id = EndPoint.CreateOrUpdateDiscussionPost(GetUserTicket(), t_post);
-            Console.WriteLine("Post: {0}", id);
-            try
-            {
-                int id1 = EndPoint.CreateOrUpdateDiscussionPost(GetUserTicket(), t_post);
-                Console.WriteLine("Post: {0}", id1);
-                Assert.IsTrue(false, "Expected an exception posting the same post twice.");
-            }
-            catch (SoapException ex)
-            {
-                Console.WriteLine("Expected exception: {0}", ex.Message);
-                //Assert.IsTrue(ex.Message.StartsWith("SnCore.Services.ManagedAccount+QuotaExceededException: Quota exceeded"));
-            }
-            Delete(GetUserTicket(), id);
-        }
     }
 }
