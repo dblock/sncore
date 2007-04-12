@@ -49,6 +49,7 @@ namespace SnCore.WebControls
             PrevPageText = pagerStyle.PrevPageText;
             CssClass = pagerStyle.CssClass;
             HorizontalAlign = pagerStyle.HorizontalAlign;
+            PageCounters = pagerStyle.PageButtonCount;
         }
 
         public Pager(PagedDataSource pagedDataSource)
