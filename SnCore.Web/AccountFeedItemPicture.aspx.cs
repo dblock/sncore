@@ -11,6 +11,8 @@ using System.IO;
 using SnCore.Tools.Drawing;
 using SnCore.Services;
 using System.Net;
+using System.Web.Caching;
+using System.Drawing;
 
 public partial class AccountFeedItemPicture : PicturePage
 {
@@ -47,22 +49,37 @@ public partial class AccountFeedItemPicture : PicturePage
             throw new Exception("Invalid url.");
         }
 
+        string key = string.Format("AccountFeedItemPicture:{0}", url.GetHashCode());
+        TransitPicture result = (TransitPicture) Cache[key];
+
+        if (result != null)
+            return result;
+
         // fetch the image to get its size
         WebClient client = new WebClient();
-
         byte[] data = client.DownloadData(url);
+
         if (data == null)
         {
             throw new Exception("Missing file data.");
         }
 
-        TransitPicture result = new TransitPicture();
-        result.Bitmap = data;
+        result = new TransitPicture();
+        result.Bitmap = new ThumbnailBitmap(data, new Size(0, 0)).Bitmap;
         result.Name = url;
-        object created = client.ResponseHeaders["Created"];
-        object modified = client.ResponseHeaders["Modified"];
-        result.Created = (created != null) ? DateTime.Parse(created.ToString()) : DateTime.Now;
-        result.Modified = (modified != null) ? DateTime.Parse(modified.ToString()) : DateTime.Now;
+
+        string created = (string)client.ResponseHeaders["Created"];
+        if (string.IsNullOrEmpty(created)) created = (string)client.ResponseHeaders["Date"];
+        if (string.IsNullOrEmpty(created) || !DateTime.TryParse(created, out result.Created))
+            result.Created = DateTime.Now;
+
+        string modified = (string)client.ResponseHeaders["Modified"];
+        if (string.IsNullOrEmpty(modified) || !DateTime.TryParse(modified, out result.Modified))
+            result.Modified = DateTime.Now;
+
+        Cache.Insert(key, result, null, Cache.NoAbsoluteExpiration,
+            SessionManager.DefaultCacheTimeSpan);
+
         return result;
     }
 
