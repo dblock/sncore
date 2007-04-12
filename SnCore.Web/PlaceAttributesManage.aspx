@@ -11,7 +11,7 @@
   <tr>
    <td class="sncore_table_tr_td" style="text-align: center; vertical-align: top; width: 100px;">
     <a runat="server" id="placeLink" href="PlaceView.aspx">
-     <img border="0" src="images/PlaceThumbnail.gif" runat="server" id="placeImage" />
+     <img border="0" src="PlacePictureThumbnail.aspx" runat="server" id="placeImage" />
     </a>
    </td>
    <td valign="top" width="*">

@@ -14,7 +14,7 @@
  <table class="sncore_account_table">
   <tr>
    <td valign="top" class="sncore_table_tr_td" style="text-align: center;">
-    <asp:Image ID="imageKeen" ImageUrl="images/AccountThumbnail.gif" runat="server" /><br />
+    <asp:Image ID="imageKeen" ImageUrl="AccountPictureThumbnail.aspx" runat="server" /><br />
     <asp:HyperLink ID="linkKeen" runat="server" />
    </td>
    <td>

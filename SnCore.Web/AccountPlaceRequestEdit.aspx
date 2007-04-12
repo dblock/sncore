@@ -19,8 +19,10 @@
   <table class="sncore_account_table">
    <tr>
     <td valign="top" class="sncore_table_tr_td" style="text-align: center;">
-     <asp:Image ID="imagePlace" ImageUrl="images/PlaceThumbnail.gif" runat="server" /><br />
-     <asp:HyperLink ID="linkPlace" runat="server" />
+     <asp:Image ID="imagePlace" ImageUrl="PlacePictureThumbnail.aspx" runat="server" />
+     <div>
+      <asp:HyperLink ID="linkPlace" runat="server" />
+     </div>
     </td>
     <td>
      <table>

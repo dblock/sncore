@@ -8,7 +8,7 @@
    <tr>
     <td class="sncore_table_tr_td" style="text-align: center; vertical-align: top;">
      <a runat="server" id="linkPictures" href="AccountView.aspx">
-      <img alt="" border="0" src="images/AccountThumbnail.gif" runat="server" id="accountImage" />
+      <img alt="" border="0" src="AccountPictureThumbnail.aspx" runat="server" id="accountImage" />
      </a>
     </td>
     <td valign="top" class="sncore_table_tr_td">

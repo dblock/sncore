@@ -14,7 +14,7 @@
   <tr>
    <td align="center" width="150">
     <a runat="server" id="linkAccount" href="AccountView.aspx">
-     <img border="0" src="images/AccountThumbnail.gif" runat="server" id="imageAccount" />
+     <img border="0" src="AccountPictureThumbnail.aspx" runat="server" id="imageAccount" />
      <div>
       <asp:Label ID="labelAccountName" runat="server" />
      </div>

@@ -44,7 +44,7 @@
    <tr>
     <td class="sncore_table_tr_td" style="text-align: center;">
      <a runat="server" ID="linkAccountTo2">
-      <asp:Image BorderStyle="None" ID="imageAccountTo" ImageUrl="images/AccountThumbnail.gif" runat="server" /><br />
+      <asp:Image BorderStyle="None" ID="imageAccountTo" ImageUrl="AccountPictureThumbnail.aspx" runat="server" /><br />
      </a>
      <asp:HyperLink ID="linkAccountTo" runat="server" />
     </td>

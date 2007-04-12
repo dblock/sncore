@@ -20,7 +20,7 @@
      <tr>
       <td class="sncore_table_tr_td" style="text-align: center; vertical-align: top; width: 200px;">
        <asp:Panel ID="placeNoPicture" CssClass="sncore_nopicture_table" runat="server" Visible="false">
-        <img border="0" src="images/PlaceThumbnail.gif" />
+        <img border="0" src="PlacePictureThumbnail.aspx" />
        </asp:Panel>
        <asp:UpdatePanel runat="server" UpdateMode="Conditional" ID="panelPictures">
         <ContentTemplate>

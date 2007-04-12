@@ -9,7 +9,7 @@
    <td runat="server" id="accountcolumn" 
     class="sncore_table_tr_td" style="text-align: center; vertical-align: top; width: 150px;">
     <a runat="server" id="accountLink" href="AccountView.aspx">
-     <img border="0" src="images/AccountThumbnail.gif" runat="server" id="accountImage" />
+     <img border="0" src="AccountPictureThumbnail.aspx" runat="server" id="accountImage" />
      <div>
       <asp:Label ID="accountName" runat="server" />
      </div>

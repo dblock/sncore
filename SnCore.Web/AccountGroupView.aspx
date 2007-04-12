@@ -17,7 +17,7 @@
    <tr>
     <td class="sncore_table_tr_td" style="text-align: center; vertical-align: top; width: 100px;">
      <asp:Panel CssClass="sncore_nopicture_table" ID="accountNoPicture" runat="server" Visible="false">
-      <img border="0" src="images/AccountGroupThumbnail.gif" />
+      <img border="0" src="AccountGroupPictureThumbnail.aspx" />
      </asp:Panel>
      <asp:UpdatePanel runat="server" UpdateMode="Conditional" ID="panelPictures">
       <ContentTemplate>

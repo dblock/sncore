@@ -14,7 +14,7 @@
      <asp:UpdatePanel runat="server" UpdateMode="Conditional" ID="panelPictures">
       <ContentTemplate>
        <asp:Panel ID="panelNoPicture" CssClass="sncore_nopicture_table" runat="server" Visible="false">
-        <img border="0" src="images/AccountEventThumbnail.gif" />
+        <img border="0" src="AccountEventPictureThumbnail.aspx" />
        </asp:Panel>
        <SnCoreWebControls:PagedList runat="server" ID="picturesView" RepeatColumns="1" RepeatRows="5" AllowCustomPaging="true">
         <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="&#187;"
