@@ -229,6 +229,7 @@
     <Compile Include="ManagedReminderAccountPropertyTest.cs" />
     <Compile Include="ManagedReminderEventTest.cs" />
     <Compile Include="ManagedReminderTest.cs" />
+    <Compile Include="ManagedAccountRssWatchTest.cs" />
     <Compile Include="ManagedScheduleInstanceTest.cs" />
     <Compile Include="ManagedScheduleTest.cs" />
     <Compile Include="ManagedSecurityContextTest.cs" />

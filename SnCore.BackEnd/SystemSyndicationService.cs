@@ -11,6 +11,7 @@ using SnCore.Services;
 using NHibernate;
 using NHibernate.Expression;
 using System.Collections;
+using System.Collections.Generic;
 using System.Threading;
 using System.Net.Mail;
 using System.Diagnostics;
@@ -29,6 +30,7 @@ namespace SnCore.BackEndServices
         public override void SetUp()
         {
             AddJob(new SessionJobDelegate(RunSyndication));
+            AddJob(new SessionJobDelegate(RunSubscriptions));
         }
 
         public void RunSyndication(ISession session, ManagedSecurityContext sec)
@@ -60,6 +62,42 @@ namespace SnCore.BackEndServices
 
                 session.Flush();
                 Thread.Sleep(1000 * InterruptInterval);
+            }
+        }
+
+        public void RunSubscriptions(ISession session, ManagedSecurityContext sec)
+        {
+            IEnumerable<AccountRssWatch> rsswatchs = session.CreateQuery(
+                "FROM AccountRssWatch AccountRssWatch " +
+                "WHERE DATEADD(hh, AccountRssWatch.UpdateFrequency, AccountRssWatch.Sent) <= getutcdate()")
+                .Enumerable<AccountRssWatch>();
+
+            IEnumerator<AccountRssWatch> enumerator = rsswatchs.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                ManagedAccountRssWatch m = new ManagedAccountRssWatch(session, enumerator.Current);
+                m.Instance.Sent = DateTime.UtcNow;
+                m.Instance.LastError = string.Empty; 
+                try
+                {
+                    // todo: this multiplies queries, one here, one in AccountRssWatchView.aspx
+                    List<TransitRssItem> items = m.GetSubscriptionUpdates(sec);
+                    if (items.Count > 0)
+                    {
+                        ManagedAccount ma = new ManagedAccount(session, m.Instance.Account);
+                        ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
+                            session, ma, string.Format("AccountRssWatchView.aspx?id={0}", m.Id));
+                    }
+                }
+                catch(Exception ex)
+                {
+                    m.Instance.LastError = ex.Message;
+                }
+                finally
+                {
+                    session.Save(m.Instance);
+                    session.Flush();
+                }
             }
         }
     }

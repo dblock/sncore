@@ -520,5 +520,81 @@ namespace SnCore.WebServices
 
         #endregion
 
+        #region AccountRssWatch
+        /// <summary>
+        /// Create or update an rss watch.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="type">transit rss watch</param>
+        [WebMethod(Description = "Create or update an rss watch.")]
+        public int CreateOrUpdateAccountRssWatch(string ticket, TransitAccountRssWatch rsswatch)
+        {
+            return WebServiceImpl<TransitAccountRssWatch, ManagedAccountRssWatch, AccountRssWatch>.CreateOrUpdate(
+                ticket, rsswatch);
+        }
+
+        /// <summary>
+        /// Get an rss watch.
+        /// </summary>
+        /// <returns>transit rss watch</returns>
+        [WebMethod(Description = "Get an rss watch.")]
+        public TransitAccountRssWatch GetAccountRssWatchById(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountRssWatch, ManagedAccountRssWatch, AccountRssWatch>.GetById(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Get rss watchs count.
+        /// </summary>
+        /// <returns>number of rss watchs</returns>
+        [WebMethod(Description = "Get rss watchs count.", CacheDuration = 60)]
+        public int GetAccountRssWatchsCount(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountRssWatch, ManagedAccountRssWatch, AccountRssWatch>.GetCount(
+                ticket, string.Format("WHERE AccountRssWatch.Account.Id = {0}", id));
+        }
+
+        /// <summary>
+        /// Get rss watchs.
+        /// </summary>
+        /// <returns>list of rss watchs</returns>
+        [WebMethod(Description = "Get rss watchs.", CacheDuration = 60)]
+        public List<TransitAccountRssWatch> GetAccountRssWatchs(string ticket, int id, ServiceQueryOptions options)
+        {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
+            return WebServiceImpl<TransitAccountRssWatch, ManagedAccountRssWatch, AccountRssWatch>.GetList(
+                ticket, options, expressions, null);
+        }
+
+        /// <summary>
+        /// Get rss items.
+        /// </summary>
+        /// <returns>list of rss items</returns>
+        [WebMethod(Description = "Get rss items.", CacheDuration = 60)]
+        public List<TransitRssItem> GetAccountRssWatchItems(string ticket, int id, ServiceQueryOptions options)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                ManagedAccountRssWatch rsswatch = new ManagedAccountRssWatch(session, id);
+                return WebServiceQueryOptions<TransitRssItem>.Apply(options, rsswatch.GetSubscriptionUpdates(sec));
+            }
+        }
+
+        /// <summary>
+        /// Delete an rss watch.
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete an rss watch.")]
+        public void DeleteAccountRssWatch(string ticket, int id)
+        {
+            WebServiceImpl<TransitAccountRssWatch, ManagedAccountRssWatch, AccountRssWatch>.Delete(
+                ticket, id);
+        }
+
+        #endregion
     }
 }

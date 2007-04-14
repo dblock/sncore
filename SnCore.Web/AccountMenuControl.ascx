@@ -25,6 +25,7 @@
 </table>
 <table class="sncore_accountmenu_table">
  <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="AccountPreferencesManage.aspx">Preferences</a></td></tr>
+ <tr><td width="30" align="center"><img src="images/account/subscription.gif" /></td><td width="*"><a href="AccountRssWatchsManage.aspx">Subscriptions</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/photos.gif" /></td><td width="*"><a href="AccountPicturesManage.aspx">Pictures</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/emails.gif" /></td><td width="*"><a href="AccountEmailsManage.aspx">E-Mails</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/websites.gif" /></td><td width="*"><a href="AccountWebsitesManage.aspx">Websites</a></td></tr>

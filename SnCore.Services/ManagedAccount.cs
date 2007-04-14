@@ -1278,6 +1278,12 @@ namespace SnCore.Services
         public static string GetAdminTicket(ISession session)
         {
             Account account = GetAdminAccount(session);
+            return GetUserTicket(session, account.Id);
+        }
+
+        public static string GetUserTicket(ISession session, int id)
+        {
+            Account account = session.Load<Account>(id);
 #if DEBUG
             if (!EncryptTickets)
             {

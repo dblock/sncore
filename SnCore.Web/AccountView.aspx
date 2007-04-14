@@ -88,10 +88,6 @@
          <asp:HyperLink runat="server" ID="linkAddToFriends" Text="&#187; Add to Friends" />
         </div>
         <div>
-         <asp:HyperLink Text="&#187; Discussion Posts" ID="linkDiscussionThreads" NavigateUrl="AccountDiscussionThreadsView.aspx"
-          runat="server" />
-        </div>
-        <div>
          <a href="#Testimonials">Testimonials</a>
          <asp:HyperLink runat="server" ID="linkLeaveTestimonial" Text="&#187; Leave a Testimonial" />
         </div>

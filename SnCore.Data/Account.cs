@@ -70,6 +70,7 @@
         private System.Collections.Generic.IList<AccountGroupAccountRequest> m_AccountGroupAccountRequests;
         private System.Collections.Generic.IList<AccountGroupAccountInvitation> m_RequesterAccountGroupAccountInvitations;
         private System.Collections.Generic.IList<AccountEventPicture> m_AccountEventPictures;
+        private System.Collections.Generic.IList<AccountRssWatch> m_AccountRssWatchs;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
@@ -1773,6 +1774,37 @@
             set
             {
                 m_AccountEventPictures = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'AccountRssWatch'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'AccountRssWatch.Account'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_AccountRssWatchs' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as slave.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'AccountRssWatch' table in the data source.
+        ///The property maps to the identity column 'Account_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.Collections.Generic.IList<AccountRssWatch> AccountRssWatchs
+        {
+            get
+            {
+                return m_AccountRssWatchs;
+            }
+            set
+            {
+                m_AccountRssWatchs = value;
             }
         }
 

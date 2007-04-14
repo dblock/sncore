@@ -186,5 +186,9 @@
       <key column="Account_Id" />
       <one-to-many class="AccountEventPicture, SnCore.Data" />
     </bag>
+    <bag lazy="true" name="AccountRssWatchs" inverse="true">
+      <key column="Account_Id" />
+      <one-to-many class="AccountRssWatch, SnCore.Data" />
+    </bag>
   </class>
 </hibernate-mapping>

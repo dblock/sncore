@@ -184,6 +184,7 @@
     <Compile Include="ManagedReminder.cs" />
     <Compile Include="ManagedReminderAccountProperty.cs" />
     <Compile Include="ManagedReminderEvent.cs" />
+    <Compile Include="ManagedAccountRssWatch.cs" />
     <Compile Include="ManagedSchedule.cs" />
     <Compile Include="ManagedScheduleInstance.cs" />
     <Compile Include="ManagedSecurityContext.cs" />

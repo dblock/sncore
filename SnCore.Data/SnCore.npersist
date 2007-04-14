@@ -58,6 +58,7 @@
     <property name="AccountGroupAccountRequests" table="AccountGroupAccountRequest" id-columns="Account_Id" list="true" item-type="AccountGroupAccountRequest" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
     <property name="RequesterAccountGroupAccountInvitations" table="AccountGroupAccountInvitation" id-columns="Requester_Id" list="true" item-type="AccountGroupAccountInvitation" slave="true" ref="ManyToOne" inverse="Requester" inherits-inverse="true" />
     <property name="AccountEventPictures" table="AccountEventPicture" id-columns="Account_Id" list="true" item-type="AccountEventPicture" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
+    <property name="AccountRssWatchs" table="AccountRssWatch" id-columns="Account_Id" list="true" item-type="AccountRssWatch" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
   </class>
   <class name="AccountAddress" table="AccountAddress">
     <property name="Id" id="true" columns="AccountAddress_Id" type="System.Int32" />
@@ -257,6 +258,59 @@
     <property name="Message" columns="Message" type="System.String" />
     <property name="Rejected" columns="Rejected" type="System.Boolean" />
   </class>
+  <class name="AccountGroup" table="AccountGroup">
+    <property name="Id" id="true" columns="AccountGroup_Id" type="System.Int32" />
+    <property name="AccountGroupAccounts" table="AccountGroupAccount" id-columns="AccountGroup_Id" list="true" item-type="AccountGroupAccount" slave="true" ref="ManyToOne" inverse="AccountGroup" inherits-inverse="true" />
+    <property name="AccountGroupPictures" table="AccountGroupPicture" id-columns="AccountGroup_Id" list="true" item-type="AccountGroupPicture" slave="true" ref="ManyToOne" inverse="AccountGroup" inherits-inverse="true" />
+    <property name="AccountGroupPlaces" table="AccountGroupPlace" id-columns="AccountGroup_Id" list="true" item-type="AccountGroupPlace" slave="true" ref="ManyToOne" inverse="AccountGroup" inherits-inverse="true" />
+    <property name="Created" columns="Created" type="System.DateTime" />
+    <property name="Description" columns="Description" type="System.String" />
+    <property name="IsPrivate" columns="IsPrivate" type="System.Boolean" />
+    <property name="Modified" columns="Modified" type="System.DateTime" />
+    <property name="Name" columns="Name" type="System.String" />
+    <property name="AccountGroupAccountInvitations" table="AccountGroupAccountInvitation" id-columns="AccountGroup_Id" list="true" item-type="AccountGroupAccountInvitation" slave="true" ref="ManyToOne" inverse="AccountGroup" inherits-inverse="true" />
+    <property name="AccountGroupAccountRequests" table="AccountGroupAccountRequest" id-columns="AccountGroup_Id" list="true" item-type="AccountGroupAccountRequest" slave="true" ref="ManyToOne" inverse="AccountGroup" inherits-inverse="true" />
+  </class>
+  <class name="AccountGroupAccount" table="AccountGroupAccount">
+    <property name="Id" id="true" columns="AccountGroupAccount_Id" type="System.Int32" />
+    <property name="Account" columns="Account_Id" ref="OneToMany" inverse="AccountGroupAccounts" type="Account" />
+    <property name="AccountGroup" columns="AccountGroup_Id" ref="OneToMany" inverse="AccountGroupAccounts" type="AccountGroup" />
+    <property name="Created" columns="Created" type="System.DateTime" />
+    <property name="IsAdministrator" columns="IsAdministrator" type="System.Boolean" />
+    <property name="Modified" columns="Modified" type="System.DateTime" />
+  </class>
+  <class name="AccountGroupAccountInvitation" table="AccountGroupAccountInvitation">
+    <property name="Id" id="true" columns="AccountGroupAccountInvitation_Id" type="System.Int32" />
+    <property name="Account" columns="Account_Id" ref="OneToMany" inverse="AccountGroupAccountInvitations" type="Account" />
+    <property name="AccountGroup" columns="AccountGroup_Id" ref="OneToMany" inverse="AccountGroupAccountInvitations" type="AccountGroup" />
+    <property name="Created" columns="Created" type="System.DateTime" />
+    <property name="Message" columns="Message" type="System.String" />
+    <property name="Modified" columns="Modified" type="System.DateTime" />
+    <property name="Requester" columns="Requester_Id" ref="OneToMany" inverse="RequesterAccountGroupAccountInvitations" type="Account" />
+  </class>
+  <class name="AccountGroupAccountRequest" table="AccountGroupAccountRequest">
+    <property name="Id" id="true" columns="AccountGroupAccountRequest_Id" type="System.Int32" />
+    <property name="Account" columns="Account_Id" ref="OneToMany" inverse="AccountGroupAccountRequests" type="Account" />
+    <property name="AccountGroup" columns="AccountGroup_Id" ref="OneToMany" inverse="AccountGroupAccountRequests" type="AccountGroup" />
+    <property name="Message" columns="Message" type="System.String" />
+    <property name="Submitted" columns="Submitted" type="System.DateTime" />
+  </class>
+  <class name="AccountGroupPicture" table="AccountGroupPicture">
+    <property name="Id" id="true" columns="AccountGroupPicture_Id" type="System.Int32" />
+    <property name="Account" columns="Account_Id" ref="OneToMany" inverse="AccountGroupPictures" type="Account" />
+    <property name="AccountGroup" columns="AccountGroup_Id" ref="OneToMany" inverse="AccountGroupPictures" type="AccountGroup" />
+    <property name="Bitmap" columns="Bitmap" type="System.Byte()" />
+    <property name="Created" columns="Created" type="System.DateTime" />
+    <property name="Description" columns="Description" type="System.String" />
+    <property name="Modified" columns="Modified" type="System.DateTime" />
+    <property name="Name" columns="Name" type="System.String" />
+  </class>
+  <class name="AccountGroupPlace" table="AccountGroupPlace">
+    <property name="Id" id="true" columns="AccountGroupPlace_Id" type="System.Int32" />
+    <property name="AccountGroup" columns="AccountGroup_Id" ref="OneToMany" inverse="AccountGroupPlaces" type="AccountGroup" />
+    <property name="Created" columns="Created" type="System.DateTime" />
+    <property name="Place" columns="Place_Id" ref="OneToMany" inverse="AccountGroupPlaces" type="Place" />
+  </class>
   <class name="AccountInvitation" table="AccountInvitation">
     <property name="Id" id="true" columns="AccountInvitation_Id" type="System.Int32" />
     <property name="Account" columns="Account_Id" ref="OneToMany" inverse="AccountInvitations" type="Account" />
@@ -377,6 +431,18 @@
     <property name="Modified" columns="Modified" type="System.DateTime" />
     <property name="SourceUri" columns="SourceUri" type="System.String" />
     <property name="TargetUri" columns="TargetUri" type="System.String" />
+  </class>
+  <class name="AccountRssWatch" table="AccountRssWatch">
+    <property name="Id" id="true" columns="AccountRssWatch_Id" type="System.Int32" />
+    <property name="Account" columns="Account_Id" ref="OneToMany" inverse="AccountRssWatchs" type="Account" />
+    <property name="Created" columns="Created" type="System.DateTime" />
+    <property name="Enabled" columns="Enabled" type="System.Boolean" />
+    <property name="UpdateFrequency" columns="UpdateFrequency" type="System.Int32" />
+    <property name="Modified" columns="Modified" type="System.DateTime" />
+    <property name="Name" columns="Name" type="System.String" />
+    <property name="Sent" columns="Sent" type="System.DateTime" />
+    <property name="Url" columns="Url" type="System.String" />
+    <property name="LastError" columns="LastError" type="System.String" />
   </class>
   <class name="AccountStory" table="AccountStory">
     <property name="Id" id="true" columns="AccountStory_Id" type="System.Int32" />
@@ -540,6 +606,26 @@
     <property name="Modified" columns="Modified" type="System.DateTime" />
     <property name="Total" columns="Total" type="System.Int64" />
     <property name="Uri" columns="Uri" type="System.String" />
+  </class>
+  <class name="CounterAccountDaily" table="CounterAccountDaily">
+    <property name="Id" id="true" columns="CounterAccountDaily_Id" type="System.Int32" />
+    <property name="Timestamp" columns="Timestamp" type="System.DateTime" />
+    <property name="Total" columns="Total" type="System.Int32" />
+  </class>
+  <class name="CounterAccountMonthly" table="CounterAccountMonthly">
+    <property name="Id" id="true" columns="CounterAccountMonthly_Id" type="System.Int32" />
+    <property name="Timestamp" columns="Timestamp" type="System.DateTime" />
+    <property name="Total" columns="Total" type="System.Int32" />
+  </class>
+  <class name="CounterAccountWeekly" table="CounterAccountWeekly">
+    <property name="Id" id="true" columns="CounterAccountWeekly_Id" type="System.Int32" />
+    <property name="Timestamp" columns="Timestamp" type="System.DateTime" />
+    <property name="Total" columns="Total" type="System.Int32" />
+  </class>
+  <class name="CounterAccountYearly" table="CounterAccountYearly">
+    <property name="Id" id="true" columns="CounterAccountYearly_Id" type="System.Int32" />
+    <property name="Timestamp" columns="Timestamp" type="System.DateTime" />
+    <property name="Total" columns="Total" type="System.Int64" />
   </class>
   <class name="CounterDaily" table="CounterDaily">
     <property name="Id" id="true" columns="CounterDaily_Id" type="System.Int32" />
@@ -907,79 +993,6 @@
     <property name="Modified" columns="Modified" type="System.DateTime" />
     <property name="TagWord" columns="TagWord_Id" ref="OneToMany" inverse="TagWordAccounts" type="TagWord" />
   </class>
-  <class name="CounterAccountDaily" table="CounterAccountDaily">
-    <property name="Id" id="true" columns="CounterAccountDaily_Id" type="System.Int32" />
-    <property name="Timestamp" columns="Timestamp" type="System.DateTime" />
-    <property name="Total" columns="Total" type="System.Int32" />
-  </class>
-  <class name="CounterAccountMonthly" table="CounterAccountMonthly">
-    <property name="Id" id="true" columns="CounterAccountMonthly_Id" type="System.Int32" />
-    <property name="Timestamp" columns="Timestamp" type="System.DateTime" />
-    <property name="Total" columns="Total" type="System.Int32" />
-  </class>
-  <class name="CounterAccountWeekly" table="CounterAccountWeekly">
-    <property name="Id" id="true" columns="CounterAccountWeekly_Id" type="System.Int32" />
-    <property name="Timestamp" columns="Timestamp" type="System.DateTime" />
-    <property name="Total" columns="Total" type="System.Int32" />
-  </class>
-  <class name="CounterAccountYearly" table="CounterAccountYearly">
-    <property name="Id" id="true" columns="CounterAccountYearly_Id" type="System.Int32" />
-    <property name="Timestamp" columns="Timestamp" type="System.DateTime" />
-    <property name="Total" columns="Total" type="System.Int64" />
-  </class>
-  <class name="AccountGroup" table="AccountGroup">
-    <property name="Id" id="true" columns="AccountGroup_Id" type="System.Int32" />
-    <property name="AccountGroupAccounts" table="AccountGroupAccount" id-columns="AccountGroup_Id" list="true" item-type="AccountGroupAccount" slave="true" ref="ManyToOne" inverse="AccountGroup" inherits-inverse="true" />
-    <property name="AccountGroupPictures" table="AccountGroupPicture" id-columns="AccountGroup_Id" list="true" item-type="AccountGroupPicture" slave="true" ref="ManyToOne" inverse="AccountGroup" inherits-inverse="true" />
-    <property name="AccountGroupPlaces" table="AccountGroupPlace" id-columns="AccountGroup_Id" list="true" item-type="AccountGroupPlace" slave="true" ref="ManyToOne" inverse="AccountGroup" inherits-inverse="true" />
-    <property name="Created" columns="Created" type="System.DateTime" />
-    <property name="Description" columns="Description" type="System.String" />
-    <property name="IsPrivate" columns="IsPrivate" type="System.Boolean" />
-    <property name="Modified" columns="Modified" type="System.DateTime" />
-    <property name="Name" columns="Name" type="System.String" />
-    <property name="AccountGroupAccountInvitations" table="AccountGroupAccountInvitation" id-columns="AccountGroup_Id" list="true" item-type="AccountGroupAccountInvitation" slave="true" ref="ManyToOne" inverse="AccountGroup" inherits-inverse="true" />
-    <property name="AccountGroupAccountRequests" table="AccountGroupAccountRequest" id-columns="AccountGroup_Id" list="true" item-type="AccountGroupAccountRequest" slave="true" ref="ManyToOne" inverse="AccountGroup" inherits-inverse="true" />
-  </class>
-  <class name="AccountGroupAccount" table="AccountGroupAccount">
-    <property name="Id" id="true" columns="AccountGroupAccount_Id" type="System.Int32" />
-    <property name="Account" columns="Account_Id" ref="OneToMany" inverse="AccountGroupAccounts" type="Account" />
-    <property name="AccountGroup" columns="AccountGroup_Id" ref="OneToMany" inverse="AccountGroupAccounts" type="AccountGroup" />
-    <property name="Created" columns="Created" type="System.DateTime" />
-    <property name="IsAdministrator" columns="IsAdministrator" type="System.Boolean" />
-    <property name="Modified" columns="Modified" type="System.DateTime" />
-  </class>
-  <class name="AccountGroupPicture" table="AccountGroupPicture">
-    <property name="Id" id="true" columns="AccountGroupPicture_Id" type="System.Int32" />
-    <property name="Account" columns="Account_Id" ref="OneToMany" inverse="AccountGroupPictures" type="Account" />
-    <property name="AccountGroup" columns="AccountGroup_Id" ref="OneToMany" inverse="AccountGroupPictures" type="AccountGroup" />
-    <property name="Bitmap" columns="Bitmap" type="System.Byte()" />
-    <property name="Created" columns="Created" type="System.DateTime" />
-    <property name="Description" columns="Description" type="System.String" />
-    <property name="Modified" columns="Modified" type="System.DateTime" />
-    <property name="Name" columns="Name" type="System.String" />
-  </class>
-  <class name="AccountGroupPlace" table="AccountGroupPlace">
-    <property name="Id" id="true" columns="AccountGroupPlace_Id" type="System.Int32" />
-    <property name="AccountGroup" columns="AccountGroup_Id" ref="OneToMany" inverse="AccountGroupPlaces" type="AccountGroup" />
-    <property name="Created" columns="Created" type="System.DateTime" />
-    <property name="Place" columns="Place_Id" ref="OneToMany" inverse="AccountGroupPlaces" type="Place" />
-  </class>
-  <class name="AccountGroupAccountInvitation" table="AccountGroupAccountInvitation">
-    <property name="Id" id="true" columns="AccountGroupAccountInvitation_Id" type="System.Int32" />
-    <property name="Account" columns="Account_Id" ref="OneToMany" inverse="AccountGroupAccountInvitations" type="Account" />
-    <property name="AccountGroup" columns="AccountGroup_Id" ref="OneToMany" inverse="AccountGroupAccountInvitations" type="AccountGroup" />
-    <property name="Created" columns="Created" type="System.DateTime" />
-    <property name="Message" columns="Message" type="System.String" />
-    <property name="Modified" columns="Modified" type="System.DateTime" />
-    <property name="Requester" columns="Requester_Id" ref="OneToMany" inverse="RequesterAccountGroupAccountInvitations" type="Account" />
-  </class>
-  <class name="AccountGroupAccountRequest" table="AccountGroupAccountRequest">
-    <property name="Id" id="true" columns="AccountGroupAccountRequest_Id" type="System.Int32" />
-    <property name="Account" columns="Account_Id" ref="OneToMany" inverse="AccountGroupAccountRequests" type="Account" />
-    <property name="AccountGroup" columns="AccountGroup_Id" ref="OneToMany" inverse="AccountGroupAccountRequests" type="AccountGroup" />
-    <property name="Message" columns="Message" type="System.String" />
-    <property name="Submitted" columns="Submitted" type="System.DateTime" />
-  </class>
   <source name="SnCore" type="MSSqlServer" provider="SqlClient" schema="dbo" catalog="SnCore">
     <connection-string>Data Source=localhost;Initial Catalog=SnCore;Integrated Security=SSPI</connection-string>
     <table name="Account">
@@ -1188,6 +1201,54 @@
       <column name="Message" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
       <column name="Rejected" type="Boolean" prec="1" length="1" scale="0" default="(0)" />
     </table>
+    <table name="AccountGroup">
+      <column name="AccountGroup_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Description" type="String" prec="0" length="16" scale="0" specific-type="NTEXT" />
+      <column name="IsPrivate" type="Boolean" prec="1" length="1" scale="0" />
+      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Name" type="String" prec="128" allow-null="true" length="256" scale="0" />
+    </table>
+    <table name="AccountGroupAccount">
+      <column name="AccountGroupAccount_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountGroupAccount_Account" />
+      <column name="AccountGroup_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="AccountGroup" primary-column="AccountGroup_Id" foreign-key="FK_AccountGroupAccount_Group" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="IsAdministrator" type="Boolean" prec="1" length="1" scale="0" />
+      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
+    </table>
+    <table name="AccountGroupAccountInvitation">
+      <column name="AccountGroupAccountInvitation_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountGroupAccountInvitation_Account" />
+      <column name="AccountGroup_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="AccountGroup" primary-column="AccountGroup_Id" foreign-key="FK_AccountGroupAccountInvitation_AccountGroup" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Message" type="AnsiString" prec="0" allow-null="true" length="16" scale="0" specific-type="TEXT" />
+      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Requester_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountGroupAccountInvitation_RequesterAccount" />
+    </table>
+    <table name="AccountGroupAccountRequest">
+      <column name="AccountGroupAccountRequest_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountGroupAccountRequest_Account" />
+      <column name="AccountGroup_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="AccountGroup" primary-column="AccountGroup_Id" foreign-key="FK_AccountGroupAccountRequest_AccountGroup" />
+      <column name="Message" type="String" prec="0" length="16" scale="0" specific-type="NTEXT" />
+      <column name="Submitted" type="DateTime" prec="23" length="8" scale="3" />
+    </table>
+    <table name="AccountGroupPicture">
+      <column name="AccountGroupPicture_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountGroupPicture_Account" default="((0))" />
+      <column name="AccountGroup_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="AccountGroup" primary-column="AccountGroup_Id" foreign-key="FK_AccountGroupPicture_Group" />
+      <column name="Bitmap" type="Object" prec="0" length="16" scale="0" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Description" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
+      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Name" type="String" prec="64" allow-null="true" length="128" scale="0" />
+    </table>
+    <table name="AccountGroupPlace">
+      <column name="AccountGroupPlace_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="AccountGroup_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="AccountGroup" primary-column="AccountGroup_Id" foreign-key="FK_AccountGroupPlace_Group" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Place_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Place" primary-column="Place_Id" foreign-key="FK_AccountGroupPlace_Place" />
+    </table>
     <table name="AccountInvitation">
       <column name="AccountInvitation_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
       <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountInvitation_Account" />
@@ -1301,6 +1362,18 @@
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
       <column name="SourceUri" type="String" prec="128" length="256" scale="0" />
       <column name="TargetUri" type="String" prec="128" length="256" scale="0" />
+    </table>
+    <table name="AccountRssWatch">
+      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountRssWatch_Account" />
+      <column name="AccountRssWatch_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Enabled" type="Boolean" prec="1" length="1" scale="0" />
+      <column name="LastError" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
+      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Name" type="String" prec="128" length="256" scale="0" />
+      <column name="Sent" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="UpdateFrequency" type="Int32" prec="10" length="4" scale="0" />
+      <column name="Url" type="AnsiString" prec="128" length="128" scale="0" />
     </table>
     <table name="AccountStory">
       <column name="AccountStory_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
@@ -1449,6 +1522,26 @@
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Total" type="Int64" prec="19" length="8" scale="0" />
       <column name="Uri" type="String" prec="256" length="512" scale="0" />
+    </table>
+    <table name="CounterAccountDaily">
+      <column name="CounterAccountDaily_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Timestamp" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Total" type="Int32" prec="10" length="4" scale="0" />
+    </table>
+    <table name="CounterAccountMonthly">
+      <column name="CounterAccountMonthly_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Timestamp" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Total" type="Int32" prec="10" length="4" scale="0" />
+    </table>
+    <table name="CounterAccountWeekly">
+      <column name="CounterAccountWeekly_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Timestamp" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Total" type="Int32" prec="10" length="4" scale="0" />
+    </table>
+    <table name="CounterAccountYearly">
+      <column name="CounterAccountYearly_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Timestamp" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Total" type="Int64" prec="19" length="8" scale="0" />
     </table>
     <table name="CounterDaily">
       <column name="CounterDaily_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
@@ -1775,74 +1868,6 @@
       <column name="TagWord_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="TagWord" primary-column="TagWord_Id" foreign-key="FK_TagWordAccount_TagWord" />
       <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
-    </table>
-    <table name="CounterAccountDaily">
-      <column name="CounterAccountDaily_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
-      <column name="Timestamp" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="Total" type="Int32" prec="10" length="4" scale="0" />
-    </table>
-    <table name="CounterAccountMonthly">
-      <column name="CounterAccountMonthly_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
-      <column name="Timestamp" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="Total" type="Int32" prec="10" length="4" scale="0" />
-    </table>
-    <table name="CounterAccountWeekly">
-      <column name="CounterAccountWeekly_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
-      <column name="Timestamp" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="Total" type="Int32" prec="10" length="4" scale="0" />
-    </table>
-    <table name="CounterAccountYearly">
-      <column name="CounterAccountYearly_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
-      <column name="Timestamp" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="Total" type="Int64" prec="19" length="8" scale="0" />
-    </table>
-    <table name="AccountGroup">
-      <column name="AccountGroup_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
-      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="Description" type="String" prec="0" length="16" scale="0" specific-type="NTEXT" />
-      <column name="IsPrivate" type="Boolean" prec="1" length="1" scale="0" />
-      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="Name" type="String" prec="128" allow-null="true" length="256" scale="0" />
-    </table>
-    <table name="AccountGroupAccount">
-      <column name="AccountGroupAccount_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
-      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountGroupAccount_Account" />
-      <column name="AccountGroup_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="AccountGroup" primary-column="AccountGroup_Id" foreign-key="FK_AccountGroupAccount_Group" />
-      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="IsAdministrator" type="Boolean" prec="1" length="1" scale="0" />
-      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
-    </table>
-    <table name="AccountGroupPicture">
-      <column name="AccountGroupPicture_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
-      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountGroupPicture_Account" default="((0))" />
-      <column name="AccountGroup_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="AccountGroup" primary-column="AccountGroup_Id" foreign-key="FK_AccountGroupPicture_Group" />
-      <column name="Bitmap" type="Object" prec="0" length="16" scale="0" />
-      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="Description" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
-      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="Name" type="String" prec="64" allow-null="true" length="128" scale="0" />
-    </table>
-    <table name="AccountGroupPlace">
-      <column name="AccountGroupPlace_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
-      <column name="AccountGroup_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="AccountGroup" primary-column="AccountGroup_Id" foreign-key="FK_AccountGroupPlace_Group" />
-      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="Place_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Place" primary-column="Place_Id" foreign-key="FK_AccountGroupPlace_Place" />
-    </table>
-    <table name="AccountGroupAccountInvitation">
-      <column name="AccountGroupAccountInvitation_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
-      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountGroupAccountInvitation_Account" />
-      <column name="AccountGroup_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="AccountGroup" primary-column="AccountGroup_Id" foreign-key="FK_AccountGroupAccountInvitation_AccountGroup" />
-      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="Message" type="AnsiString" prec="0" allow-null="true" length="16" scale="0" specific-type="TEXT" />
-      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="Requester_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountGroupAccountInvitation_RequesterAccount" />
-    </table>
-    <table name="AccountGroupAccountRequest">
-      <column name="AccountGroupAccountRequest_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
-      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountGroupAccountRequest_Account" />
-      <column name="AccountGroup_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="AccountGroup" primary-column="AccountGroup_Id" foreign-key="FK_AccountGroupAccountRequest_AccountGroup" />
-      <column name="Message" type="String" prec="0" length="16" scale="0" specific-type="NTEXT" />
-      <column name="Submitted" type="DateTime" prec="23" length="8" scale="3" />
     </table>
   </source>
 </domain>

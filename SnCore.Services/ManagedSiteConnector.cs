@@ -33,11 +33,36 @@ namespace SnCore.Services
             return new Cookie(sSnCoreAuthCookieName, ManagedAccount.GetAdminTicket(session));
         }
 
+        public static Cookie GetUserAuthCookie(ISession session, int user_id)
+        {
+#if DEBUG
+            if (!ContentPage.EnableRemoteContent)
+            {
+                return null;
+            }
+#endif
+            return new Cookie(sSnCoreAuthCookieName, ManagedAccount.GetUserTicket(session, user_id));
+        }
+
         public static string GetContentAsAdmin(ISession session, string relativeuri)
         {
             Uri baseuri = GetBaseUri(session);
             Uri pageuri = new Uri(baseuri, relativeuri);
             return ContentPage.GetContent(pageuri, baseuri, string.Empty, false, GetAdminAuthCookie(session));
+        }
+
+        public static string GetHttpContentAsUser(ISession session, int user_id, string relativeuri)
+        {
+            Uri baseuri = GetBaseUri(session);
+            Uri pageuri = new Uri(baseuri, relativeuri);
+            return ContentPage.GetHttpContent(pageuri, GetUserAuthCookie(session, user_id));
+        }
+
+        public static string GetContentAsUser(ISession session, int user_id, string relativeuri)
+        {
+            Uri baseuri = GetBaseUri(session);
+            Uri pageuri = new Uri(baseuri, relativeuri);
+            return ContentPage.GetContent(pageuri, baseuri, string.Empty, false, GetUserAuthCookie(session, user_id));
         }
 
         public static string GetContentAsUser(ISession session, string relativeuri)
