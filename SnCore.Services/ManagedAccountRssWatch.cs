@@ -21,8 +21,95 @@ using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
+    public class TransitRssChannelItems
+    {
+        private TransitRssChannel mChannel;
+
+        public TransitRssChannel Channel
+        {
+            get
+            {
+                return mChannel;
+            }
+            set
+            {
+                mChannel = value;
+            }
+        }
+
+        private List<TransitRssItem> mItems;
+
+        public List<TransitRssItem> Items
+        {
+            get
+            {
+                return mItems;
+            }
+            set
+            {
+                mItems = value;
+            }
+        }
+
+        public TransitRssChannelItems()
+        {            
+
+        }
+    }
+
+    public class TransitRssChannel
+    {
+        private Uri mLink;
+
+        public Uri Link
+        {
+            get
+            {
+                return mLink;
+            }
+            set
+            {
+                mLink = value;
+            }
+        }
+
+        private string mTitle;
+
+        public string Title
+        {
+            get
+            {
+                return mTitle;
+            }
+            set
+            {
+                mTitle = value;
+            }
+        }
+
+        public TransitRssChannel(RssChannel channel)
+        {
+            mLink = channel.Link;
+            mTitle = channel.Title;
+        }
+    }
+
     public class TransitRssItem
     {
+        private Uri mLink;
+
+        public Uri Link
+        {
+            get
+            {
+                return mLink;
+            }
+            set
+            {
+                mLink = value;
+            }
+        }
+
         private string mTitle;
 
         public string Title
@@ -65,6 +152,25 @@ namespace SnCore.Services
             }
         }
 
+        private string mAuthor;
+
+        public string Author
+        {
+            get
+            {
+                return mAuthor;
+            }
+            set
+            {
+                mAuthor = value;
+            }
+        }
+
+        public static int CompareByTime(TransitRssItem left, TransitRssItem right)
+        {
+            return - left.PubDate.CompareTo(right.PubDate);
+        }
+
         public TransitRssItem()
         {
 
@@ -75,6 +181,8 @@ namespace SnCore.Services
             mDescription = item.Description;
             mTitle = item.Title;
             mPubDate = item.PubDate;
+            mAuthor = item.Author;
+            mLink = item.Link;
         }
     }
 
@@ -304,43 +412,73 @@ namespace SnCore.Services
             if (t_instance.Id == 0) GetQuota().Check(mInstance.Account.AccountRssWatchs);
         }
 
-        private List<RssItem> GetFeedItemsSince(DateTime last)
+        private RssFeed GetFeed()
         {
             Stream s = new MemoryStream(ASCIIEncoding.Default.GetBytes(ManagedSiteConnector.GetHttpContentAsUser(
                 Session, mInstance.Account.Id, mInstance.Url)));
             RssFeed feed = RssFeed.Read(s);
             if (feed.Channels.Count == 0) throw new SoapException(string.Format(
                 "Missing RSS channel in '{0}'.", mInstance.Url), SoapException.ClientFaultCode);
-            List<RssItem> newitems = new List<RssItem>();
+            return feed;
+        }
+
+        private bool HasFeedItemsSince(DateTime last)
+        {
+            RssFeed feed = GetFeed();
             foreach (RssChannel channel in feed.Channels)
             {
                 foreach (RssItem item in channel.Items)
                 {
-                    if (item.PubDate < last)
-                        continue;
-
-                    newitems.Add(item);
+                    if (item.PubDate >= last)
+                    {
+                        return true;
+                    }
                 }
             }
-            return newitems;
+
+            return false;
         }
 
-        private List<TransitRssItem> GetFeedItemsDataSince(DateTime last)
+        private TransitRssChannelItems GetFeedItemsDataSince(DateTime last)
         {
-            List<RssItem> newitems = GetFeedItemsSince(last);
-            List<TransitRssItem> result = new List<TransitRssItem>(newitems.Count);
-            foreach (RssItem newitem in newitems)
+            RssFeed feed = GetFeed();
+
+            TransitRssChannelItems result = new TransitRssChannelItems();
+            result.Items = new List<TransitRssItem>();
+            foreach (RssChannel channel in feed.Channels)
             {
-                result.Add(new TransitRssItem(newitem));
+                result.Channel = new TransitRssChannel(channel);
+                foreach (RssItem item in channel.Items)
+                {
+                    if (item.PubDate.ToUniversalTime() < last)
+                        continue;
+
+                    result.Items.Add(new TransitRssItem(item));
+                }
+
+                result.Items.Sort(TransitRssItem.CompareByTime);
             }
             return result;
         }
 
-        public List<TransitRssItem> GetSubscriptionUpdates(ManagedSecurityContext sec)
+        public TransitRssChannelItems GetSubscriptionUpdates(ManagedSecurityContext sec)
         {
             // updating a subscription will update the sent date
             GetACL().Check(sec, DataOperation.Update);
             return GetFeedItemsDataSince(mInstance.Sent);
+        }
+
+        public int GetSubscriptionUpdatesCount(ManagedSecurityContext sec)
+        {
+            GetACL().Check(sec, DataOperation.Update);
+            return GetFeedItemsDataSince(mInstance.Sent).Items.Count;
+        }
+
+        public bool HasSubscriptionUpdates(ManagedSecurityContext sec)
+        {
+            // updating a subscription will update the sent date
+            GetACL().Check(sec, DataOperation.Update);
+            return HasFeedItemsSince(mInstance.Sent);
         }
     }
 }

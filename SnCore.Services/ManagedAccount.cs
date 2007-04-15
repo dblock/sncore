@@ -1293,6 +1293,11 @@ namespace SnCore.Services
             return FormsAuthentication.GetAuthCookie(account.Id.ToString(), false).Value;
         }
 
+        public static ManagedSecurityContext GetUserSecurityContext(ISession session, int user_id)
+        {
+            return new ManagedSecurityContext(session.Load<Account>(user_id));
+        }
+
         public static ManagedSecurityContext GetAdminSecurityContext(ISession session)
         {
             return new ManagedSecurityContext(GetAdminAccount(session));

@@ -48,28 +48,31 @@ namespace SnCore.Services
         {
             Uri baseuri = GetBaseUri(session);
             Uri pageuri = new Uri(baseuri, relativeuri);
-            return ContentPage.GetContent(pageuri, baseuri, string.Empty, false, GetAdminAuthCookie(session));
+            ContentPageParameters p = new ContentPageParameters();
+            p.AuthCookie = GetAdminAuthCookie(session);
+            p.BaseUri = baseuri;
+            p.HasOnline = false;
+            return ContentPage.GetContent(pageuri, p);
         }
 
         public static string GetHttpContentAsUser(ISession session, int user_id, string relativeuri)
         {
-            Uri baseuri = GetBaseUri(session);
-            Uri pageuri = new Uri(baseuri, relativeuri);
-            return ContentPage.GetHttpContent(pageuri, GetUserAuthCookie(session, user_id));
+            ContentPageParameters p = new ContentPageParameters();
+            p.AuthCookie = GetUserAuthCookie(session, user_id);
+            p.BaseUri = GetBaseUri(session);
+            p.HasOnline = false;
+            Uri pageuri = new Uri(p.BaseUri, relativeuri);
+            return ContentPage.GetHttpContent(pageuri, p);
         }
 
         public static string GetContentAsUser(ISession session, int user_id, string relativeuri)
         {
-            Uri baseuri = GetBaseUri(session);
-            Uri pageuri = new Uri(baseuri, relativeuri);
-            return ContentPage.GetContent(pageuri, baseuri, string.Empty, false, GetUserAuthCookie(session, user_id));
-        }
-
-        public static string GetContentAsUser(ISession session, string relativeuri)
-        {
-            Uri baseuri = GetBaseUri(session);
-            Uri pageuri = new Uri(baseuri, relativeuri);
-            return ContentPage.GetContent(pageuri, baseuri, string.Empty, false, null);
+            ContentPageParameters p = new ContentPageParameters();
+            p.AuthCookie = GetUserAuthCookie(session, user_id);
+            p.BaseUri = GetBaseUri(session);
+            p.HasOnline = false;
+            Uri pageuri = new Uri(p.BaseUri, relativeuri);
+            return ContentPage.GetContent(pageuri, p);
         }
 
         public static string GetAdminEmailAddress(ISession session)

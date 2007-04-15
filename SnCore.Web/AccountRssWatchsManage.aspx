@@ -5,7 +5,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountReminder" Src="AccountReminderControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="AccountContentPlaceHolder" runat="Server">
- <SnCore:Title ID="titleSyndicatedContent" Text="My Subscriptions" runat="server">  
+ <SnCore:Title ID="titleSyndicatedContent" Text="My Subscriptions" runat="server" ExpandedSize="100">  
   <Template>
    <div class="sncore_title_paragraph">
     Manage your content subscriptions via RSS.
@@ -51,7 +51,12 @@
      </asp:TemplateColumn>
      <asp:TemplateColumn>
       <itemtemplate>
-       <a href="AccountRssWatchView.aspx?id=<%# Eval("Id") %>">Preview</a>
+       <a target="_blank" href="AccountRssWatchView.aspx?id=<%# Eval("Id") %>">Preview</a>
+      </itemtemplate>
+     </asp:TemplateColumn>
+     <asp:TemplateColumn>
+      <itemtemplate>
+       <a target="_blank" href="<%# Eval("Url") %>">Rss</a>
       </itemtemplate>
      </asp:TemplateColumn>
      <asp:ButtonColumn ButtonType="LinkButton" CommandName="Delete" Text="Delete" />

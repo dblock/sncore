@@ -68,8 +68,9 @@ namespace SnCore.BackEndServices
         public void RunSubscriptions(ISession session, ManagedSecurityContext sec)
         {
             IEnumerable<AccountRssWatch> rsswatchs = session.CreateQuery(
-                "FROM AccountRssWatch AccountRssWatch " +
-                "WHERE DATEADD(hh, AccountRssWatch.UpdateFrequency, AccountRssWatch.Sent) <= getutcdate()")
+                "FROM AccountRssWatch AccountRssWatch" +
+                " WHERE AccountRssWatch.Enabled = 1" +
+                " AND DATEADD(hh, AccountRssWatch.UpdateFrequency, AccountRssWatch.Sent) <= getutcdate()")
                 .Enumerable<AccountRssWatch>();
 
             IEnumerator<AccountRssWatch> enumerator = rsswatchs.GetEnumerator();
@@ -80,9 +81,7 @@ namespace SnCore.BackEndServices
                 m.Instance.LastError = string.Empty; 
                 try
                 {
-                    // todo: this multiplies queries, one here, one in AccountRssWatchView.aspx
-                    List<TransitRssItem> items = m.GetSubscriptionUpdates(sec);
-                    if (items.Count > 0)
+                    if (m.HasSubscriptionUpdates(sec))
                     {
                         ManagedAccount ma = new ManagedAccount(session, m.Instance.Account);
                         ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(

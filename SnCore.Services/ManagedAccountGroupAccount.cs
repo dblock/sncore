@@ -245,7 +245,18 @@ namespace SnCore.Services
         {
             ManagedAccountGroup m_group = new ManagedAccountGroup(Session, mInstance.AccountGroup);
             m_group.Leave(mInstance.Account.Id, sec);
+            // delete group subscription
+            AccountRssWatch watch = GetGroupRssWatch();
+            if (watch != null) Session.Delete(watch);
             base.Delete(sec);
+        }
+
+        private AccountRssWatch GetGroupRssWatch()
+        {
+            return Session.CreateCriteria(typeof(AccountRssWatch))
+                .Add(Expression.Eq("Account.Id", mInstance.Account.Id))
+                .Add(Expression.Eq("Url", string.Format("AccountGroupRss.aspx?id={0}", mInstance.AccountGroup.Id)))
+                .UniqueResult<AccountRssWatch>();
         }
 
         public override int CreateOrUpdate(TransitAccountGroupAccount t_instance, ManagedSecurityContext sec)
@@ -295,11 +306,22 @@ namespace SnCore.Services
             int id = base.CreateOrUpdate(t_instance, sec);
 
             if (t_instance.Id == 0)
-            {
+            {                
                 if (mInstance.AccountGroup.AccountGroupAccounts == null)
                     mInstance.AccountGroup.AccountGroupAccounts = new List<AccountGroupAccount>();
                 mInstance.AccountGroup.AccountGroupAccounts.Add(mInstance);
 
+                // subscribe the user to a group feed
+                TransitAccountRssWatch t_watch = new TransitAccountRssWatch();
+                t_watch.UpdateFrequency = 24;
+                t_watch.Name = mInstance.AccountGroup.Name;
+                t_watch.Url = string.Format("AccountGroupRss.aspx?id={0}", mInstance.AccountGroup.Id);
+                t_watch.Enabled = true;
+                t_watch.AccountId = mInstance.Account.Id;
+                ManagedAccountRssWatch m_watch = new ManagedAccountRssWatch(Session);
+                m_watch.CreateOrUpdate(t_watch, ManagedAccount.GetUserSecurityContext(Session, mInstance.Account.Id));
+
+                // e-mail the user a welcome message
                 ManagedAccount recepient = new ManagedAccount(Session, mInstance.Account);
                 ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(Session, recepient,
                     string.Format("EmailAccountGroupAccount.aspx?id={0}",

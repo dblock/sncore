@@ -39,6 +39,7 @@ public partial class AccountRssWatchView : Page
             TransitAccountRssWatch f = AccountRssWatch;
             labelTitle.Text = Renderer.Render(f.Name);
             linkEditRssWatch.NavigateUrl = string.Format("AccountRssWatchEdit.aspx?id={0}", f.Id);
+            labelSince.Text = string.Format("since {0}", SessionManager.Adjust(f.Sent).ToShortDateString());
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
@@ -52,12 +53,10 @@ public partial class AccountRssWatchView : Page
 
     void GetData(object sender, EventArgs e)
     {
-        List<TransitRssItem> items = SessionManager.SyndicationService.GetAccountRssWatchItems(
-            SessionManager.Ticket, RequestId, null);
-        gridManage.VirtualItemCount = items.Count;
-        if (items.Count > gridManage.PageSize) 
-            items.RemoveRange(gridManage.PageSize, items.Count - gridManage.PageSize);
-        gridManage.DataSource = items;
+        gridManage.CurrentPageIndex = 0;
+        gridManage.VirtualItemCount = SessionManager.SyndicationService.GetAccountRssWatchItemsCount(
+            SessionManager.Ticket, RequestId);
+        gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
 
@@ -66,7 +65,16 @@ public partial class AccountRssWatchView : Page
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = gridManage.CurrentPageIndex;
         options.PageSize = gridManage.PageSize;
-        gridManage.DataSource = SessionManager.GetCollection<TransitRssItem, int>(
-            RequestId, options, SessionManager.SyndicationService.GetAccountRssWatchItems);
+        
+        TransitRssChannelItems items = SessionManager.SyndicationService.GetAccountRssWatchItems(
+            SessionManager.Ticket, RequestId, options);
+        
+        if (!string.IsNullOrEmpty(items.Channel.Title))
+        {
+            linkChannel.Text = string.Format("&#187; {0}", Renderer.Render(items.Channel.Title));
+            linkChannel.NavigateUrl = items.Channel.Link.ToString();
+        }
+
+        gridManage.DataSource = items.Items;
     }
 }

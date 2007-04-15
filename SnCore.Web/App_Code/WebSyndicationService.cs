@@ -568,18 +568,36 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
-        /// Get rss items.
+        /// Get rss items count.
         /// </summary>
-        /// <returns>list of rss items</returns>
-        [WebMethod(Description = "Get rss items.", CacheDuration = 60)]
-        public List<TransitRssItem> GetAccountRssWatchItems(string ticket, int id, ServiceQueryOptions options)
+        /// <returns>number of rss items</returns>
+        [WebMethod(Description = "Get rss items count.", CacheDuration = 60)]
+        public int GetAccountRssWatchItemsCount(string ticket, int id)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
                 ManagedAccountRssWatch rsswatch = new ManagedAccountRssWatch(session, id);
-                return WebServiceQueryOptions<TransitRssItem>.Apply(options, rsswatch.GetSubscriptionUpdates(sec));
+                return rsswatch.GetSubscriptionUpdatesCount(sec);
+            }
+        }
+
+        /// <summary>
+        /// Get rss items.
+        /// </summary>
+        /// <returns>list of rss items</returns>
+        [WebMethod(Description = "Get rss items.", CacheDuration = 60)]
+        public TransitRssChannelItems GetAccountRssWatchItems(string ticket, int id, ServiceQueryOptions options)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                ManagedAccountRssWatch rsswatch = new ManagedAccountRssWatch(session, id);
+                TransitRssChannelItems result = rsswatch.GetSubscriptionUpdates(sec);
+                result.Items = WebServiceQueryOptions<TransitRssItem>.Apply(options, result.Items);
+                return result;
             }
         }
 

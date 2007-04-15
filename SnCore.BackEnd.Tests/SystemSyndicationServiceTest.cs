@@ -5,6 +5,7 @@ using NUnit.Framework;
 using SnCore.BackEndServices;
 using SnCore.Data.Tests;
 using SnCore.Services;
+using SnCore.Tools.Web;
 
 namespace SnCore.BackEnd.Tests
 {
@@ -16,6 +17,10 @@ namespace SnCore.BackEnd.Tests
         [SetUp]
         public override void SetUp()
         {
+#if DEBUG
+            ManagedAccount.EncryptTickets = false;
+            ContentPage.EnableRemoteContent = false;
+#endif
             service = new SystemSyndicationService();
             base.SetUp();
         }

@@ -16,6 +16,15 @@ using System.Text.RegularExpressions;
 
 namespace SnCore.Tools.Web
 {
+    public class ContentPageParameters
+    {
+        public Cookie AuthCookie;
+        public Nullable<DateTime> IfModifiedSince;
+        public Uri BaseUri;
+        public string Note;
+        public bool HasOnline = true;
+    }
+
     public class ContentPage
     {
 #if DEBUG
@@ -36,9 +45,9 @@ namespace SnCore.Tools.Web
             return body.Substring(title_start, title_end - title_start).Trim();
         }
 
-        public static string GetContent(Uri uri, Uri baseuri)
+        public static string GetContent(Uri uri)
         {
-            return GetContent(uri, baseuri, string.Empty);
+            return GetContent(uri, null);
         }
 
         public static string GetHttpContent(Uri uri)
@@ -46,10 +55,10 @@ namespace SnCore.Tools.Web
             return GetHttpContent(uri, null);
         }
 
-        public static string GetHttpContent(Uri uri, Cookie authcookie)
+        public static string GetHttpContent(Uri uri, ContentPageParameters parameters)
         {
 #if DEBUG
-            if (! EnableRemoteContent)
+            if (!EnableRemoteContent)
             {
                 return string.Format("Content of {0}.", uri);
             }
@@ -57,12 +66,20 @@ namespace SnCore.Tools.Web
 
             string content = string.Empty;
 
-            HttpWebRequest request = (HttpWebRequest) HttpWebRequest.Create(uri);
-            
-            if (authcookie != null)
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(uri);
+
+            if (parameters != null)
             {
-                request.CookieContainer = new CookieContainer();
-                request.CookieContainer.Add(uri, authcookie);
+                if (parameters.AuthCookie != null)
+                {
+                    request.CookieContainer = new CookieContainer();
+                    request.CookieContainer.Add(uri, parameters.AuthCookie);
+                }
+
+                if (parameters.IfModifiedSince.HasValue)
+                {
+                    request.IfModifiedSince = parameters.IfModifiedSince.Value;
+                }
             }
 
             WebResponse response = request.GetResponse();
@@ -86,14 +103,9 @@ namespace SnCore.Tools.Web
             return css.ToString();
         }
 
-        public static string GetContent(Uri uri, Uri baseuri, string note)
+        public static string GetContent(Uri uri, ContentPageParameters parameters)
         {
-            return GetContent(uri, baseuri, note, true, null);
-        }
-
-        public static string GetContent(Uri uri, Uri baseuri, string note, bool hasonline, Cookie authcookie)
-        {
-            string content = GetHttpContent(uri, authcookie);
+            string content = GetHttpContent(uri, parameters);
 
             string[] expressions = 
             { 
@@ -112,23 +124,23 @@ namespace SnCore.Tools.Web
                     RegexOptions.IgnoreCase | RegexOptions.Singleline);
             }
 
-            content = HtmlAbsoluteLinksWriter.Rewrite(content, baseuri);
+            content = HtmlAbsoluteLinksWriter.Rewrite(content, parameters != null ? parameters.BaseUri : null);
 
             StringBuilder scontent = new StringBuilder(content);
 
-            if (hasonline)
+            if (parameters != null && parameters.HasOnline)
             {
                 scontent.Insert(0, string.Format("<p style=\"margin: 10px;\"><a href=\"{0}\">can't see message? click here for online version &#187;&#187;</a></p>\n", uri.ToString()));
             }
 
             // insert additional note
-            if (!string.IsNullOrEmpty(note))
+            if (parameters != null && ! string.IsNullOrEmpty(parameters.Note))
             {
-                scontent.Insert(0, string.Format("<p style=\"margin: 10px;\">{0}</p>\n", Renderer.Render(note)));
+                scontent.Insert(0, string.Format("<p style=\"margin: 10px;\">{0}</p>\n", Renderer.Render(parameters.Note)));
             }
 
             // hack: insert stylesheet
-            scontent.Insert(0, GetCss(baseuri));
+            scontent.Insert(0, GetCss(parameters != null ? parameters.BaseUri : null));
             return scontent.ToString();
         }
     }

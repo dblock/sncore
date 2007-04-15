@@ -23,9 +23,13 @@ public partial class TellAFriend : AuthenticatedPage
     public string GetContent()
     {
         Uri uri = new Uri(Request.Url, Url);
-        string baseuri = SessionManager.GetCachedConfiguration("SnCore.WebSite.Url", "http://localhost/SnCoreWeb");
+        string baseuri = SessionManager.WebsiteUrl;
         if (!baseuri.EndsWith("/")) baseuri = baseuri + "/";
-        return ContentPage.GetContent(uri, new Uri(baseuri), inputNote.Text);
+        ContentPageParameters p = new ContentPageParameters();
+        p.BaseUri = new Uri(baseuri);
+        p.HasOnline = true;
+        p.Note = inputNote.Text;
+        return ContentPage.GetContent(uri, p);
     }
 
     public string Url

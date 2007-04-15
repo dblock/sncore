@@ -71,8 +71,8 @@ public class AsyncPage : Page, IHttpAsyncHandler
     static AsyncPage()
     {
         STPStartInfo si = new STPStartInfo();
-        si.MaxWorkerThreads = 25;
-        si.MinWorkerThreads = 0;
+        si.MaxWorkerThreads = 75;
+        si.MinWorkerThreads = 15;
         si.UseCallerCallContext = true;
         si.UseCallerHttpContext = true;
         _threadPool = new SmartThreadPool(si);

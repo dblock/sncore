@@ -298,8 +298,11 @@ namespace SnCore.Services
             // orhphan group discussion
             int discussion_id = ManagedDiscussion.GetOrCreateDiscussionId(Session, typeof(AccountGroup).Name, Id, sec);
             Discussion discussion = Session.Load<Discussion>(discussion_id);
-            discussion.Account = adminaccount;
-            Session.Save(discussion);
+            if (discussion.Account.Id == accountid)
+            {
+                discussion.Account = adminaccount;
+                Session.Save(discussion);
+            }
         }
 
         public bool HasPlace(int placeid)

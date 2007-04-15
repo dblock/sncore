@@ -6,7 +6,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountReminder" Src="AccountReminderControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountRedirectEdit" Src="AccountRedirectEditControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="AccountContentPlaceHolder" runat="Server">
- <SnCore:Title ID="titleSyndicatedContent" Text="Subscribe" runat="server">  
+ <SnCore:Title ID="titleSyndicatedContent" Text="Subscribe" runat="server" ExpandedSize="100">  
   <Template>
    <div class="sncore_title_paragraph">
     Manage your content subscriptions via RSS.
@@ -25,6 +25,12 @@
     <asp:TextBox ID="inputName" runat="server" CssClass="sncore_form_textbox" />
     <asp:RequiredFieldValidator ID="inputNameValidator" runat="server" ControlToValidate="inputName"
      CssClass="sncore_form_validator" ErrorMessage="subscription name is required" Display="Dynamic" />
+   </td>
+  </tr>
+  <tr>
+   <td>
+   </td>
+   <td>
     <div class="sncore_link_small">
      name this subscription
     </div>
@@ -38,14 +44,23 @@
     <asp:TextBox ID="inputRssWatchUrl" runat="server" CssClass="sncore_form_textbox" />
     <asp:RequiredFieldValidator ID="inputRssWatchUrlValidator" runat="server" ControlToValidate="inputRssWatchUrl"
      CssClass="sncore_form_validator" ErrorMessage="rss url is required" Display="Dynamic" />
+   </td>
+  </tr>
+  <tr>
+   <td>
+   </td>
+   <td>
     <div class="sncore_link_small">
-     the relative RSS feed url on this site, supported types are RDF and RSS
+     any valid relative RSS feed url on this site
+     <br />
+     see <a href="SiteMap.aspx">SiteMap</a> for a list
+     or look for an RSS icon - copy-paste a shortcut
     </div>
    </td>
   </tr>
   <tr>
    <td class="sncore_form_label">
-    update frequency:
+    update:
    </td>
    <td class="sncore_form_value">
     <asp:DropDownList ID="inputUpdateFrequency" runat="server" CssClass="sncore_form_dropdown">
@@ -63,6 +78,9 @@
    <td class="sncore_form_value">
     <asp:CheckBox CssClass="sncore_form_checkbox" ID="inputEnabled" runat="server" Text="enable subscription"
      Checked="true" />
+    <div class="sncore_link_small">
+     notifications are sent to your <a href="AccountEmailsManage.aspx">primary e-mail</a>
+    </div>
    </td>
   </tr>
   <tr>

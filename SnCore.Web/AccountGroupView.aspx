@@ -11,6 +11,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountsView" Src="AccountGroupAccountsViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="PlacesView" Src="AccountGroupPlacesViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="DiscussionView" Src="DiscussionViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <asp:Panel CssClass="panel" ID="pnlAccountGroup" runat="server">
   <table cellspacing="0" cellpadding="4" class="sncore_table">
@@ -54,9 +55,12 @@
          </div>
         <!-- NOEMAIL-END -->
        </td>
+       <td align="right" valign="middle">
+        <SnCore:RssLink ID="linkRelRss" runat="server" NavigateUrl="AccountGroupRss.aspx" />
+       </td>
       </tr>
       <tr>
-       <td class="sncore_table_tr_td" style="text-align: right;">
+       <td colspan="2" class="sncore_table_tr_td" style="text-align: right;">
         <div>
          <asp:LinkButton ID="linkRequest" runat="server" Text="&#187; Join this Group" OnClick="linkRequest_Click" />
         </div>

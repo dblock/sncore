@@ -123,6 +123,8 @@ public partial class AccountGroupView : Page
                 discussionView.DiscussionId = SessionManager.DiscussionService.GetOrCreateDiscussionId(
                     SessionManager.Ticket, "AccountGroup", RequestId);
             }
+
+            linkRelRss.NavigateUrl = string.Format("AccountGroupRss.aspx?id={0}", AccountGroupId);
         }
     }
 

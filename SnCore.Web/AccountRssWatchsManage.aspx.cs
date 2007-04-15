@@ -61,7 +61,7 @@ public partial class AccountRssWatchsManage : AuthenticatedPage
                 {
                     int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
                     SessionManager.Delete<TransitAccountRssWatch>(id, SessionManager.SyndicationService.DeleteAccountRssWatch);
-                    ReportInfo("RssWatch deleted.");
+                    ReportInfo("Subscription deleted.");
                     GetData(sender, e);
                 }
                 break;
