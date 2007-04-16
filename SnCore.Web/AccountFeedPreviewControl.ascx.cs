@@ -116,7 +116,7 @@ public partial class AccountFeedPreviewControl : Control
         {
             Uri feedlinkUri = null;
             Uri.TryCreate(Feed.LinkUrl, UriKind.Absolute, out feedlinkUri);
-            Uri imgrewriteuri = new Uri(SessionManager.WebsiteUrl.TrimEnd("/".ToCharArray()) + "/AccountFeedItemPicture.aspx?Src={url}", UriKind.Absolute);
+            Uri imgrewriteuri = new Uri(SessionManager.WebsiteUri, "AccountFeedItemPicture.aspx?src={url}");
             return Renderer.CleanHtml(description.ToString(), feedlinkUri, imgrewriteuri);
         }
     }

@@ -49,7 +49,7 @@ public partial class AccountRedirectViewControl : Control
             {
                 linkRedirect.Visible = true;
                 linkRedirect.NavigateUrl = t_instance.SourceUri;
-                linkRedirect.Text = string.Format("{0}/{1}", SessionManager.WebsiteUrl, t_instance.SourceUri);
+                linkRedirect.Text = new Uri(SessionManager.WebsiteUri, t_instance.SourceUri).ToString();
             }
             else
             {

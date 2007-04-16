@@ -52,7 +52,8 @@ public partial class AccountDiscussionThreadsRss : Page
     {
         get
         {
-            return WebsiteUrl + string.Format("/AccountDiscussionThreadsView.aspx?id={0}&amp;toplevel={1}", RequestId, TopLevel);
+            return new Uri(SessionManager.WebsiteUri, string.Format("AccountDiscussionThreadsView.aspx?id={0}&amp;toplevel={1}", 
+                RequestId, TopLevel)).ToString();
         }
     }
 

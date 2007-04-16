@@ -48,7 +48,7 @@ public partial class AccountFeedItemView : Page
 
             FeedItemTitle.Text = Renderer.Render(tfi.Title);
 
-            Uri imgrewriteuri = new Uri(SessionManager.WebsiteUrl.TrimEnd("/".ToCharArray()) + "/AccountFeedItemPicture.aspx?Src={url}", UriKind.Absolute);
+            Uri imgrewriteuri = new Uri(SessionManager.WebsiteUri, "AccountFeedItemPicture.aspx?src={url}");
             FeedItemDescription.Text = Renderer.CleanHtml(tfi.Description,
                 Uri.IsWellFormedUriString(tfi.Link, UriKind.Absolute) ? new Uri(tfi.Link) : null,
                 imgrewriteuri);

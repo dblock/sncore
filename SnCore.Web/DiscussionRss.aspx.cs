@@ -41,14 +41,7 @@ public partial class DiscussionRss : Page
     {
         get
         {
-            try
-            {
-                return Renderer.Render(Discussion.Description);
-            }
-            catch (Exception ex)
-            {
-                return Renderer.Render(ex.Message);
-            }
+            return Renderer.Render(Discussion.Description);
         }
     }
 
@@ -56,15 +49,8 @@ public partial class DiscussionRss : Page
     {
         get
         {
-            try
-            {
-                return Renderer.Render(string.Format("{0} {1}",
-                    SessionManager.GetCachedConfiguration("SnCore.Title", "SnCore"), Discussion.Name));
-            }
-            catch (Exception ex)
-            {
-                return Renderer.Render(ex.Message);
-            }
+            return Renderer.Render(string.Format("{0} {1}",
+                SessionManager.GetCachedConfiguration("SnCore.Title", "SnCore"), Discussion.Name));
         }
     }
 
@@ -72,17 +58,10 @@ public partial class DiscussionRss : Page
     {
         get
         {
-            try
-            {
-                return WebsiteUrl + string.Format("/DiscussionView.aspx?id={0}", Discussion.Id);
-            }
-            catch (Exception ex)
-            {
-                return Renderer.Render(ex.Message);
-            }
+            return new Uri(SessionManager.WebsiteUri, string.Format("DiscussionView.aspx?id={0}", 
+                RequestId)).ToString();
         }
     }
-
 
     protected void Page_Load(object sender, EventArgs e)
     {

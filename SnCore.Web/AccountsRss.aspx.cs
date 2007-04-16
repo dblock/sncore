@@ -123,7 +123,7 @@ public partial class AccountsRss : AccountPersonPage
 
             ServiceQueryOptions queryoptions = new ServiceQueryOptions();
             queryoptions.PageNumber = 0;
-            queryoptions.PageSize = 25;
+            queryoptions.PageSize = 10;
 
             rssRepeater.DataSource = SessionManager.GetCollection<TransitAccountActivity, AccountActivityQueryOptions>(
                 options, queryoptions, SessionManager.SocialService.GetAccountActivity);

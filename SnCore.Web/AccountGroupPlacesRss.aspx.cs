@@ -73,7 +73,7 @@ public partial class AccountGroupPlacesRss : Page
 
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = 0;
-            options.PageSize = 25;
+            options.PageSize = 10;
             rssRepeater.DataSource = SessionManager.GroupService.GetAccountGroupPlaces(
                 SessionManager.Ticket, RequestId, options);
             rssRepeater.DataBind();
@@ -90,7 +90,7 @@ public partial class AccountGroupPlacesRss : Page
     {
         get
         {
-            return WebsiteUrl.TrimEnd('/') + "/Default.aspx";
+            return new Uri(SessionManager.WebsiteUri, "Default.aspx").ToString();
         }
     }
 

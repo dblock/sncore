@@ -46,7 +46,7 @@ public class AccountPersonPage : Page
     {
         get
         {
-            return WebsiteUrl.TrimEnd('/') + "/Default.aspx";
+            return new Uri(SessionManager.WebsiteUri, "Default.aspx").ToString();
         }
     }
 

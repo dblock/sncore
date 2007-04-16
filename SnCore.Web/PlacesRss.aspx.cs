@@ -112,7 +112,7 @@ public partial class PlacesRss : Page
 
                 ServiceQueryOptions queryoptions = new ServiceQueryOptions();
                 queryoptions.PageNumber = 0;
-                queryoptions.PageSize = 25;
+                queryoptions.PageSize = 10;
 
                 rssRepeater.DataSource = SessionManager.PlaceService.GetPlaces(
                     SessionManager.Ticket, options, queryoptions);
@@ -138,7 +138,7 @@ public partial class PlacesRss : Page
     {
         get
         {
-            return WebsiteUrl.TrimEnd('/') + "/Default.aspx";
+            return new Uri(SessionManager.WebsiteUri, "Default.aspx").ToString();
         }
     }
 }

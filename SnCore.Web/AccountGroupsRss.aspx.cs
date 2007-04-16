@@ -30,7 +30,7 @@ public partial class AccountGroupsRss : Page
         {
             ServiceQueryOptions queryoptions = new ServiceQueryOptions();
             queryoptions.PageNumber = 0;
-            queryoptions.PageSize = 25;
+            queryoptions.PageSize = 10;
 
             rssRepeater.DataSource = SessionManager.GroupService.GetAccountGroups(
                 SessionManager.Ticket, queryoptions);
@@ -56,7 +56,7 @@ public partial class AccountGroupsRss : Page
     {
         get
         {
-            return WebsiteUrl.TrimEnd('/') + "/Default.aspx";
+            return new Uri(SessionManager.WebsiteUri, "Default.aspx").ToString();
         }
     }
 }

@@ -414,9 +414,9 @@ namespace SnCore.Services
 
         private RssFeed GetFeed()
         {
-            Stream s = new MemoryStream(ASCIIEncoding.Default.GetBytes(ManagedSiteConnector.GetHttpContentAsUser(
-                Session, mInstance.Account.Id, mInstance.Url)));
-            RssFeed feed = RssFeed.Read(s);
+            string content = ManagedSiteConnector.GetHttpContentAsUser(
+                Session, mInstance.Account.Id, mInstance.Url);
+            RssFeed feed = RssFeed.Read(new StringReader(content));
             if (feed.Channels.Count == 0) throw new SoapException(string.Format(
                 "Missing RSS channel in '{0}'.", mInstance.Url), SoapException.ClientFaultCode);
             return feed;

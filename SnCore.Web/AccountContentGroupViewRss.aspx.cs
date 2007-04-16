@@ -38,7 +38,7 @@ public partial class AccountContentGroupRss : Page
     {
         get
         {
-            return WebsiteUrl.TrimEnd('/') + "/Default.aspx";
+            return new Uri(SessionManager.WebsiteUri, "Default.aspx").ToString();
         }
     }
 
@@ -62,7 +62,7 @@ public partial class AccountContentGroupRss : Page
         {
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = 0;
-            options.PageSize = 25;
+            options.PageSize = 10;
             rssRepeater.DataSource = SessionManager.ContentService.GetAccountContents(
                 SessionManager.Ticket, RequestId, options);
             rssRepeater.DataBind();

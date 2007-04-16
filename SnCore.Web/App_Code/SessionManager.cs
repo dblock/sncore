@@ -64,6 +64,14 @@ public class SessionManager
         }
     }
 
+    public Uri WebsiteUri
+    {
+        get
+        {
+            return new Uri(WebsiteUrl.TrimEnd("/".ToCharArray()) + "/");
+        }
+    }
+
     public string WebsiteUrl
     {
         get

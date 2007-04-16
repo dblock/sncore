@@ -34,7 +34,7 @@ public partial class AccountFeedItemImgsRss : AccountPersonPage
 
             ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
             serviceoptions.PageNumber = 0;
-            serviceoptions.PageSize = 25;
+            serviceoptions.PageSize = 10;
 
             rssRepeater.DataSource = SessionManager.GetCollection<TransitAccountFeedItemImg, TransitAccountFeedItemImgQueryOptions>(
                 QueryOptions, serviceoptions, SessionManager.SyndicationService.GetAccountFeedItemImgs);

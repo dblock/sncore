@@ -30,7 +30,7 @@ public partial class AccountFeedsRss : Page
         {
             ServiceQueryOptions queryoptions = new ServiceQueryOptions();
             queryoptions.PageNumber = 0;
-            queryoptions.PageSize = 25;
+            queryoptions.PageSize = 10;
 
             rssRepeater.DataSource = SessionManager.SyndicationService.GetAllAccountFeeds(
                 SessionManager.Ticket, queryoptions);
@@ -56,7 +56,7 @@ public partial class AccountFeedsRss : Page
     {
         get
         {
-            return WebsiteUrl + "AccountFeedsView.aspx";
+            return new Uri(SessionManager.WebsiteUri, "AccountFeedsView.aspx").ToString();
         }
     }
 }

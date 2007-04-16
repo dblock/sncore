@@ -59,7 +59,8 @@ public partial class AccountBlogRss : Page
     {
         get
         {
-            return WebsiteUrl.TrimEnd('/') + string.Format("/AccountBlogView.aspx?id={0}", RequestId);
+            return new Uri(SessionManager.WebsiteUri, string.Format("AccountBlogView.aspx?id={0}", 
+                RequestId)).ToString();
         }
     }
 
@@ -70,7 +71,7 @@ public partial class AccountBlogRss : Page
         {
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = 0;
-            options.PageSize = 25;
+            options.PageSize = 10;
             rssRepeater.DataSource = SessionManager.GetCollection<TransitAccountBlogPost, int>(
                 RequestId, options, SessionManager.BlogService.GetAccountBlogPosts);
             rssRepeater.DataBind();

@@ -30,7 +30,7 @@ public partial class FeaturedPlacesRss : Page
         {
             ServiceQueryOptions queryoptions = new ServiceQueryOptions();
             queryoptions.PageNumber = 0;
-            queryoptions.PageSize = 25;
+            queryoptions.PageSize = 10;
 
             rssRepeater.DataSource = SessionManager.GetCollection<TransitFeature, string>(
                 "Place", queryoptions, SessionManager.ObjectService.GetFeatures);
@@ -57,7 +57,7 @@ public partial class FeaturedPlacesRss : Page
     {
         get
         {
-            return WebsiteUrl.TrimEnd('/') + "/FeaturedPlacesView.aspx";
+            return new Uri(SessionManager.WebsiteUri, "FeaturedPlacesView.aspx").ToString();
         }
     }
 

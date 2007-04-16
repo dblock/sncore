@@ -47,7 +47,7 @@ public partial class SearchAccountFeedItemsControl : SearchControl
     {
         Uri uri = null;
         Uri.TryCreate(link, UriKind.Absolute, out uri);
-        Uri imgrewriteuri = new Uri(SessionManager.WebsiteUrl.TrimEnd("/".ToCharArray()) + "/AccountFeedItemPicture.aspx?Src={url}", UriKind.Absolute);
+        Uri imgrewriteuri = new Uri(SessionManager.WebsiteUri, "AccountFeedItemPicture.aspx?src={url}");
         return Renderer.CleanHtml(summary, uri, imgrewriteuri);
     }
 

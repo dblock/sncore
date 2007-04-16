@@ -31,7 +31,7 @@ public partial class FeaturedAccountsRss : Page
         {
             ServiceQueryOptions queryoptions = new ServiceQueryOptions();
             queryoptions.PageNumber = 0;
-            queryoptions.PageSize = 25;
+            queryoptions.PageSize = 10;
 
             rssRepeater.DataSource = SessionManager.GetCollection<TransitFeature, string>(
                 "Account", queryoptions, SessionManager.ObjectService.GetFeatures);
@@ -58,7 +58,7 @@ public partial class FeaturedAccountsRss : Page
     {
         get
         {
-            return WebsiteUrl.TrimEnd('/') + "/FeaturedAccountsView.aspx";
+            return new Uri(SessionManager.WebsiteUri, "FeaturedAccountsView.aspx").ToString();
         }
     }
 

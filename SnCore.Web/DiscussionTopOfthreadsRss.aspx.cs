@@ -35,7 +35,7 @@ public partial class DiscussionTopOfThreadsRss : Page
     {
         get
         {
-            return WebsiteUrl + "/DiscussionTopOfThreadsView.aspx";
+            return new Uri(SessionManager.WebsiteUri, "DiscussionTopOfThreadsView.aspx").ToString();
         }
     }
 

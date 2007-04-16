@@ -30,8 +30,7 @@ public partial class AccountFeedItemsRss : Page
         {
             ServiceQueryOptions queryoptions = new ServiceQueryOptions();
             queryoptions.PageNumber = 0;
-            queryoptions.PageSize = 25;
-
+            queryoptions.PageSize = 10;
             rssRepeater.DataSource = SessionManager.SyndicationService.GetAllAccountFeedItems(
                 SessionManager.Ticket, queryoptions);
             rssRepeater.DataBind();
@@ -56,7 +55,7 @@ public partial class AccountFeedItemsRss : Page
     {
         get
         {
-            return WebsiteUrl + "AccountFeedItemsView.aspx";
+            return new Uri(SessionManager.WebsiteUri, "AccountFeedItemsView.aspx").ToString();
         }
     }
 
@@ -64,7 +63,7 @@ public partial class AccountFeedItemsRss : Page
     {
         Uri uri = null;
         Uri.TryCreate(link, UriKind.Absolute, out uri);
-        Uri imgrewriteuri = new Uri(SessionManager.WebsiteUrl.TrimEnd("/".ToCharArray()) + "/AccountFeedItemPicture.aspx?Src={url}", UriKind.Absolute);
+        Uri imgrewriteuri = new Uri(SessionManager.WebsiteUri, "AccountFeedItemPicture.aspx?src={url}");
         return Renderer.CleanHtml(summary, uri, imgrewriteuri);
     }
 }

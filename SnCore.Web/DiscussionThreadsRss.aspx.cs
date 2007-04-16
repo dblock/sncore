@@ -35,7 +35,7 @@ public partial class DiscussionThreadsRss : Page
     {
         get
         {
-            return WebsiteUrl + "/DiscussionThreadsView.aspx";
+            return new Uri(SessionManager.WebsiteUri, "DiscussionThreadsView.aspx").ToString();
         }
     }
 

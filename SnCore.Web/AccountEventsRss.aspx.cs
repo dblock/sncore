@@ -102,7 +102,7 @@ public partial class AccountEventsRss : Page
 
             ServiceQueryOptions queryoptions = new ServiceQueryOptions();
             queryoptions.PageNumber = 0;
-            queryoptions.PageSize = 25;
+            queryoptions.PageSize = 10;
 
             rssRepeater.DataSource = SessionManager.EventService.GetAccountEvents(
                 SessionManager.Ticket, SessionManager.UtcOffset, options, queryoptions);
@@ -128,7 +128,7 @@ public partial class AccountEventsRss : Page
     {
         get
         {
-            return WebsiteUrl.TrimEnd('/') + "/Default.aspx";
+            return new Uri(SessionManager.WebsiteUri, "AccountEventsToday.aspx").ToString();
         }
     }
 }
