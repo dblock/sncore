@@ -157,6 +157,7 @@ namespace SnCore.Services
         public override ACL GetACL(Type type)
         {
             ACL acl = base.GetACL(type);
+            acl.Add(new ACLEveryoneAllowRetrieve());
             return acl;
         }
     }
