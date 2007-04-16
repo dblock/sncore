@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using SnCore.SiteMap;
 
 [SiteMapDataAttribute("Search")]
-public partial class Search : AsyncPage
+public partial class Search : Page
 {
     private class SearchViewControl
     {
