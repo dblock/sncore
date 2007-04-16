@@ -88,11 +88,19 @@ public partial class DiscussionRss : Page
     {
         if (!IsPostBack)
         {
+            TransitDiscussion discussion = Discussion;
+            if (discussion == null)
+            {
+                Response.StatusCode = 404;
+                Response.End();
+                return;
+            }
+
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageSize = 50;
             options.PageNumber = 0;
             rssRepeater.DataSource = SessionManager.DiscussionService.GetLatestDiscussionPostsById(
-                SessionManager.Ticket, Discussion.Id, options);
+                SessionManager.Ticket, discussion.Id, options);
             rssRepeater.DataBind();
         }
     }
