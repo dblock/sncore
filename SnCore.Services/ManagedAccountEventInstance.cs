@@ -32,7 +32,7 @@ namespace SnCore.Services
             if (!string.IsNullOrEmpty(Neighborhood))
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.AppendFormat("e.Place.Neighborhood.Name = '{0}'", Renderer.SqlEncode(Neighborhood));
+                b.AppendFormat("AccountEvent.Place.Neighborhood.Name = '{0}'", Renderer.SqlEncode(Neighborhood));
             }
 
             if (!string.IsNullOrEmpty(City))
