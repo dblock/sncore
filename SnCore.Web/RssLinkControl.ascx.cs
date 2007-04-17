@@ -28,11 +28,16 @@ public partial class RssLinkControl : System.Web.UI.UserControl
     {
         get
         {
-            return mLink.Attributes["title"];
+            string result = mLink.Attributes["title"];
+            if (string.IsNullOrEmpty(result)) result = Page.Title;
+            return result;
         }
         set
         {
             linkRss.ToolTip = mLink.Attributes["title"] = value;
+            linkEmail.ToolTip = string.Format("Subscribe to {0}", value);
+            linkEmail.NavigateUrl = string.Format("AccountRssWatchEdit.aspx?url={0}&name={1}&ReturnUrl={2}",
+                Renderer.UrlEncode(NavigateUrl), Renderer.UrlEncode(value), Renderer.UrlEncode(Request.Url.PathAndQuery));
         }
     }
 
@@ -46,7 +51,7 @@ public partial class RssLinkControl : System.Web.UI.UserControl
         {
             linkRss.NavigateUrl = mLink.Href = value;
             linkEmail.NavigateUrl = string.Format("AccountRssWatchEdit.aspx?url={0}&name={1}&ReturnUrl={2}", 
-                Renderer.UrlEncode(value), Renderer.UrlEncode(Page.Title), Renderer.UrlEncode(Request.Url.PathAndQuery));
+                Renderer.UrlEncode(value), Renderer.UrlEncode(Title), Renderer.UrlEncode(Request.Url.PathAndQuery));
         }
     }
 
