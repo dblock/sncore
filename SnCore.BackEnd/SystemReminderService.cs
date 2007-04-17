@@ -285,8 +285,8 @@ namespace SnCore.BackEndServices
             while (enumerator.MoveNext())
             {
                 AccountRssWatch rsswatch = enumerator.Current;
-                rsswatch.Sent = DateTime.UtcNow;
                 rsswatch.LastError = string.Empty;
+                DateTime utcnow = DateTime.UtcNow;
                 try
                 {
                     ManagedAccountRssWatch m_rsswatch = new ManagedAccountRssWatch(session, rsswatch);
@@ -303,6 +303,7 @@ namespace SnCore.BackEndServices
                 }
                 finally
                 {
+                    rsswatch.Sent = utcnow;
                     session.Save(rsswatch);
                     session.Flush();
                 }
