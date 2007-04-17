@@ -76,3 +76,5 @@ IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo
 ALTER TABLE [dbo].[AccountEventPicture] WITH CHECK ADD CONSTRAINT [FK_AccountEventPicture_Account] FOREIGN KEY([Account_Id])
 REFERENCES [dbo].[Account] ([Account_Id])
 GO
+-- update frequency wasn't properly set
+UPDATE dbo.AccountFeed SET UpdateFrequency = 12 WHERE UpdateFrequency = 0

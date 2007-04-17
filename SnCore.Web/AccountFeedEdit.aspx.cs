@@ -145,6 +145,7 @@ public partial class AccountFeedEdit : AuthenticatedPage
         s.Description = inputDescription.Text;
         s.AccountId = SessionManager.Account.Id;
         s.FeedType = inputFeedType.SelectedValue;
+        s.UpdateFrequency = int.Parse(inputUpdateFrequency.SelectedValue);
 
         if (!string.IsNullOrEmpty(inputFeedUrl.Text) && !Uri.IsWellFormedUriString(inputFeedUrl.Text, UriKind.Absolute))
             inputFeedUrl.Text = "http://" + inputFeedUrl.Text;

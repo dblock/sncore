@@ -659,7 +659,7 @@ namespace SnCore.Services
                 }
 
                 foreach (AccountFeedItem item in updated)
-                    Session.SaveOrUpdate(item);
+                    Session.Save(item);
 
                 mInstance.AccountFeedItems = updated;
                 mInstance.LastError = string.Empty;

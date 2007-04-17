@@ -29,8 +29,8 @@ namespace SnCore.BackEndServices
 
         public override void SetUp()
         {
-            AddJob(new SessionJobDelegate(RunSyndication));
             AddJob(new SessionJobDelegate(RunSubscriptions));
+            AddJob(new SessionJobDelegate(RunSyndication));
         }
 
         public void RunSyndication(ISession session, ManagedSecurityContext sec)
@@ -43,7 +43,7 @@ namespace SnCore.BackEndServices
                 "AccountFeed",
                 typeof(AccountFeed));
 
-            IList list = query.List();
+            IList<AccountFeed> list = query.List<AccountFeed>();
 
             foreach (AccountFeed feed in list)
             {
@@ -57,7 +57,7 @@ namespace SnCore.BackEndServices
                 catch (Exception ex)
                 {
                     feed.LastError = ex.Message;
-                    session.SaveOrUpdate(feed);
+                    session.Save(feed);
                 }
 
                 session.Flush();
@@ -70,33 +70,36 @@ namespace SnCore.BackEndServices
             IEnumerable<AccountRssWatch> rsswatchs = session.CreateQuery(
                 "FROM AccountRssWatch AccountRssWatch" +
                 " WHERE AccountRssWatch.Enabled = 1" +
-                " AND DATEADD(hh, AccountRssWatch.UpdateFrequency, AccountRssWatch.Sent) <= getutcdate()")
+                " AND DATEDIFF(hour, AccountRssWatch.Sent, getutcdate()) > AccountRssWatch.UpdateFrequency")
                 .Enumerable<AccountRssWatch>();
 
             IEnumerator<AccountRssWatch> enumerator = rsswatchs.GetEnumerator();
             while (enumerator.MoveNext())
             {
-                ManagedAccountRssWatch m = new ManagedAccountRssWatch(session, enumerator.Current);
-                m.Instance.Sent = DateTime.UtcNow;
-                m.Instance.LastError = string.Empty; 
+                AccountRssWatch rsswatch = enumerator.Current;
+                rsswatch.Sent = DateTime.UtcNow;
+                rsswatch.LastError = string.Empty;
                 try
                 {
-                    if (m.HasSubscriptionUpdates(sec))
+                    ManagedAccountRssWatch m_rsswatch = new ManagedAccountRssWatch(session, rsswatch);
+                    if (m_rsswatch.HasSubscriptionUpdates(sec))
                     {
-                        ManagedAccount ma = new ManagedAccount(session, m.Instance.Account);
+                        ManagedAccount ma = new ManagedAccount(session, rsswatch.Account);
                         ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
-                            session, ma, string.Format("AccountRssWatchView.aspx?id={0}", m.Id));
+                            session, ma, string.Format("AccountRssWatchView.aspx?id={0}", m_rsswatch.Id));
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    m.Instance.LastError = ex.Message;
+                    rsswatch.LastError = ex.Message;
                 }
                 finally
                 {
-                    session.Save(m.Instance);
+                    session.Save(rsswatch);
                     session.Flush();
                 }
+
+                Thread.Sleep(1000 * InterruptInterval);
             }
         }
     }

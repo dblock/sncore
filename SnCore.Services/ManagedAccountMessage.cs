@@ -301,7 +301,7 @@ namespace SnCore.Services
         public void MarkMessageAsRetreiveUnRead(bool value)
         {
             mInstance.Unread = value;
-            Session.SaveOrUpdate(mInstance);
+            Session.Save(mInstance);
         }
 
         protected override void Save(ManagedSecurityContext sec)
