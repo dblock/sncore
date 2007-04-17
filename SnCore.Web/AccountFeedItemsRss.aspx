@@ -22,25 +22,24 @@
        <author><%# base.Render(Eval("AccountName")) %></author>
        <description>
         <![CDATA[
-         <table cellpadding="4">
-          <tr>
-           <td>
-            <a href="<% Response.Write(WebsiteUrl); %>/AccountView.aspx?id=<%# Eval("AccountId") %>">
-             <img border="0" src="<% Response.Write(WebsiteUrl); %>/AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" />
-            </a>
-            <div>
-             <%# base.Render(Eval("AccountName")) %>
-            </div>            
-           </td>
-           <td>
-            <%# base.GetSummary((string) Eval("Description"), (string) Eval("AccountFeedLinkUrl")) %>
-           </td>
-          </tr>
-         </table>
+         <div>
+          <a href="<%# base.Render(Eval("Link")) %>">x-posted</a> 
+          by 
+          <a href="<% Response.Write(WebsiteUrl); %>/AccountView.aspx?id=<%# Eval("AccountId") %>">
+           <%# base.Render(Eval("AccountName")) %>
+          </a>
+          in
+          <a href="<% Response.Write(WebsiteUrl); %>/AccountFeedView.aspx?id=<%# Eval("AccountFeedId") %>">
+           <%# base.Render(Eval("AccountFeedName")) %>
+          </a>
+         </div>
+         <div>
+          <%# base.GetSummary((string) Eval("Description"), (string) Eval("AccountFeedLinkUrl")) %>
+         </div>
         ]]>       
        </description>
        <category />
-       <link><%# Eval("Link") %></link>
+       <link><% Response.Write(WebsiteUrl); %>/AccountFeedItemView.aspx?id=<%# Eval("Id") %></link>
        <guid isPermaLink="false"><% Response.Write(WebsiteUrl); %>/AccountFeedItem/<%# Eval("Id") %></guid>
       </item>
      </ItemTemplate>
