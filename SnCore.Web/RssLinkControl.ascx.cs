@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using SnCore.Tools.Web;
 
 public partial class RssLinkControl : System.Web.UI.UserControl
 {
@@ -44,6 +45,8 @@ public partial class RssLinkControl : System.Web.UI.UserControl
         set
         {
             linkRss.NavigateUrl = mLink.Href = value;
+            linkEmail.NavigateUrl = string.Format("AccountRssWatchEdit.aspx?url={0}&name={1}&ReturnUrl={2}", 
+                Renderer.UrlEncode(value), Renderer.UrlEncode(Page.Title), Renderer.UrlEncode(Request.Url.PathAndQuery));
         }
     }
 
@@ -56,6 +59,7 @@ public partial class RssLinkControl : System.Web.UI.UserControl
         set
         {
             linkRss.Visible = value;
+            linkEmail.Visible = value;
         }
     }
 
@@ -64,6 +68,7 @@ public partial class RssLinkControl : System.Web.UI.UserControl
         if (string.IsNullOrEmpty(mLink.Attributes["title"]))
         {
             linkRss.ToolTip = mLink.Attributes["title"] = Page.Title;
+            linkEmail.ToolTip = string.Format("Subscribe to {0}", Page.Title);
         }
         
         base.OnPreRender(e);

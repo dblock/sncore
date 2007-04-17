@@ -65,6 +65,11 @@ public partial class AccountRssWatchEdit : AuthenticatedPage
 
                 sitemapdata.Add(new SiteMapDataAttributeNode(tf.Name, Request.Url));
             }
+            else
+            {
+                inputName.Text = Request["name"];
+                inputRssWatchUrl.Text = Request["url"];
+            }
 
             StackSiteMap(sitemapdata);
         }
