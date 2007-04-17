@@ -30,11 +30,5 @@ namespace SnCore.BackEnd.Tests
         {
             service.RunSyndication(Session, ManagedAccount.GetAdminSecurityContext(Session));
         }
-
-        [Test]
-        public void TestSubscriptions()
-        {
-            service.RunSubscriptions(Session, ManagedAccount.GetAdminSecurityContext(Session));
-        }
     }
 }

@@ -20,6 +20,7 @@ namespace SnCore.BackEnd.Tests
         {
             service = new SystemReminderService();
 #if DEBUG
+            ManagedAccount.EncryptTickets = false;
             ContentPage.EnableRemoteContent = false;
 #endif
             base.SetUp();
@@ -155,6 +156,13 @@ namespace SnCore.BackEnd.Tests
             Assert.AreEqual(daily, weekly);
             Assert.AreEqual(weekly, monthly);
             Assert.AreEqual(monthly, yearly);
+        }
+
+
+        [Test]
+        public void TestSubscriptions()
+        {
+            service.RunSubscriptions(Session, ManagedAccount.GetAdminSecurityContext(Session));
         }
     }
 }

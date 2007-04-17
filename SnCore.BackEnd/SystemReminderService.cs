@@ -29,6 +29,7 @@ namespace SnCore.BackEndServices
 
         public override void SetUp()
         {
+            AddJob(new SessionJobDelegate(RunSubscriptions));
             AddJob(new SessionJobDelegate(RunCleanupStaleAccounts));
             AddJob(new SessionJobDelegate(RunInvitationReminders));
             AddJob(new SessionJobDelegate(RunSystemReminders));
@@ -266,6 +267,44 @@ namespace SnCore.BackEndServices
                 {
                     reminder.LastRunError = ex.Message;
                     session.Save(reminder);
+                }
+
+                Thread.Sleep(1000 * InterruptInterval);
+            }
+        }
+
+        public void RunSubscriptions(ISession session, ManagedSecurityContext sec)
+        {
+            IEnumerable<AccountRssWatch> rsswatchs = session.CreateQuery(
+                "FROM AccountRssWatch AccountRssWatch" +
+                " WHERE AccountRssWatch.Enabled = 1" +
+                " AND DATEDIFF(hour, AccountRssWatch.Sent, getutcdate()) > AccountRssWatch.UpdateFrequency")
+                .Enumerable<AccountRssWatch>();
+
+            IEnumerator<AccountRssWatch> enumerator = rsswatchs.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                AccountRssWatch rsswatch = enumerator.Current;
+                rsswatch.Sent = DateTime.UtcNow;
+                rsswatch.LastError = string.Empty;
+                try
+                {
+                    ManagedAccountRssWatch m_rsswatch = new ManagedAccountRssWatch(session, rsswatch);
+                    if (m_rsswatch.HasSubscriptionUpdates(sec))
+                    {
+                        ManagedAccount ma = new ManagedAccount(session, rsswatch.Account);
+                        ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
+                            session, ma, string.Format("AccountRssWatchView.aspx?id={0}", m_rsswatch.Id));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    rsswatch.LastError = ex.Message;
+                }
+                finally
+                {
+                    session.Save(rsswatch);
+                    session.Flush();
                 }
 
                 Thread.Sleep(1000 * InterruptInterval);
