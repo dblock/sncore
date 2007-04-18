@@ -1,5 +1,5 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true"
- CodeFile="AccountGroupAccountsView.aspx.cs" Inherits="AccountGroupAccountsView" Title="GroupAccounts" %>
+ CodeFile="AccountGroupAccountsView.aspx.cs" Inherits="AccountGroupAccountsView" Title="Group Members" %>
 <%@ Import Namespace="SnCore.Services" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>

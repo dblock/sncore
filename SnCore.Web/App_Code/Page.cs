@@ -53,7 +53,7 @@ public class Page : System.Web.UI.Page
         {
             if (master is MasterPage)
             {
-                ((MasterPage) master).OnPagePreInit(e);
+                ((MasterPage)master).OnPagePreInit(e);
             }
 
             master = master.Master;
@@ -69,6 +69,11 @@ public class Page : System.Web.UI.Page
             if (Header != null)
             {
                 Header.Controls.Add(MetaDescription);
+            }
+
+            if (IsPostBack && Header != null)
+            {
+                Title = (string)ViewState["Title"];
             }
 
             SiteMapDataAttribute[] attributes = (SiteMapDataAttribute[])this.GetType().GetCustomAttributes(typeof(SiteMapDataAttribute), true);
@@ -96,6 +101,16 @@ public class Page : System.Web.UI.Page
         {
             ReportException(ex);
         }
+    }
+
+    protected override void OnLoadComplete(EventArgs e)
+    {
+        if (!IsPostBack && Page.Header != null)
+        {
+            ViewState["Title"] = Title;
+        }
+
+        base.OnLoadComplete(e);
     }
 
     public SiteMapNode StackSiteMap(SiteMapDataAttribute attribute)
@@ -223,7 +238,7 @@ public class Page : System.Web.UI.Page
     {
         System.Web.UI.MasterPage master = Master;
         object notice = null;
-        
+
         while (notice == null && master != null)
         {
             notice = master.FindControl("noticeMenu");

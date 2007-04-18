@@ -55,7 +55,7 @@ public partial class AccountGroupAccountsView : AccountPersonPage
             TransitAccountGroup ta = SessionManager.GroupService.GetAccountGroupById(
                 SessionManager.Ticket, RequestId);
 
-            labelName.Text = string.Format("{0}'s Members", Render(ta.Name));
+            Title = labelName.Text = string.Format("{0}'s Members", Render(ta.Name));
             linkAccountGroup.Text = string.Format("&#187; Back to {0}", Render(ta.Name));
             linkAccountGroup.NavigateUrl = string.Format("AccountGroupView.aspx?id={0}", ta.Id);
             linkRelRss.NavigateUrl = string.Format("AccountGroupAccountsRss.aspx?id={0}", ta.Id);
