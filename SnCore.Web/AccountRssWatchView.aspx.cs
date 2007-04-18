@@ -37,7 +37,7 @@ public partial class AccountRssWatchView : Page
         if (!IsPostBack)
         {
             TransitAccountRssWatch f = AccountRssWatch;
-            labelTitle.Text = Renderer.Render(f.Name);
+            Title = labelTitle.Text = Renderer.Render(f.Name);
             linkEditRssWatch.NavigateUrl = string.Format("AccountRssWatchEdit.aspx?id={0}", f.Id);
             labelSince.Text = string.Format("since {0}", SessionManager.Adjust(f.Sent).ToShortDateString());
 
