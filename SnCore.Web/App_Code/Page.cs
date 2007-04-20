@@ -16,6 +16,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.Threading;
 using SnCore.SiteMap;
+using SnCore.Services;
 
 public class Page : System.Web.UI.Page
 {
@@ -29,7 +30,7 @@ public class Page : System.Web.UI.Page
             base.OnInit(e);
         }
         catch (Exception ex)
-        {
+        {            
             ReportException(ex);
         }
     }
@@ -250,6 +251,18 @@ public class Page : System.Web.UI.Page
 
     public void ReportException(Exception ex)
     {
+        //
+        // BUGBUG: this doesn't work with a remote SOAP back-end
+        //         the exception becomes a SoapException that needs to be parsed
+        //
+
+        if (ex is ManagedAccount.AccessDeniedException 
+            && !SessionManager.IsLoggedIn)
+        {
+            RedirectToLogin();
+            return;
+        }
+
         RethrowException(ex);
         if (Master == null) throw ex;
         object notice = FindNoticeMenuControl();
