@@ -18,7 +18,8 @@ public partial class SystemStatsHits : AuthenticatedPage
     {
         Hourly,
         Daily,
-        DailyUnique,
+        DailyNew,
+        DailyReturning,
         Weekly,
         Monthly,
         Yearly,
@@ -39,7 +40,7 @@ public partial class SystemStatsHits : AuthenticatedPage
 
         if (!IsPostBack)
         {
-            SetChartType(ChartType.Daily);
+            SetChartType(ChartType.Weekly);
         }
     }
 
@@ -48,8 +49,11 @@ public partial class SystemStatsHits : AuthenticatedPage
         imageStats.Src = string.Format("SystemStatsChart.aspx?type={0}&CacheDuration=300", type);
         switch (type)
         {
-            case ChartType.DailyUnique:
-                labelChartType.Text = "Unique Visitors (Returning/New)";
+            case ChartType.DailyNew:
+                labelChartType.Text = "New Visitors";
+                break;
+            case ChartType.DailyReturning:
+                labelChartType.Text = "Returning Visitors";
                 break;
             case ChartType.AccountDaily:
             case ChartType.AccountMonthly:
@@ -73,12 +77,18 @@ public partial class SystemStatsHits : AuthenticatedPage
         linkAccountYearly.Enabled = (type != ChartType.AccountYearly);
         linkAccountWeekly.Enabled = (type != ChartType.AccountWeekly);
 
-        linkDailyUnique.Enabled = (type != ChartType.DailyUnique);
+        linkDailyNew.Enabled = (type != ChartType.DailyNew);
+        linkDailyReturning.Enabled = (type != ChartType.DailyReturning);
     }
 
-    public void linkDailyUnique_Click(object sender, EventArgs e)
+    public void linkDailyNew_Click(object sender, EventArgs e)
     {
-        SetChartType(ChartType.DailyUnique);
+        SetChartType(ChartType.DailyNew);
+    }
+
+    public void linkDailyReturning_Click(object sender, EventArgs e)
+    {
+        SetChartType(ChartType.DailyReturning);
     }
 
     public void linkYearly_Click(object sender, EventArgs e)

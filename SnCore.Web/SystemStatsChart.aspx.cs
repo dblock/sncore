@@ -36,7 +36,8 @@ public partial class SystemStatsChart2 : PicturePage
     {
         Hourly,
         Daily,
-        DailyUnique,
+        DailyNew,
+        DailyReturning,
         Weekly,
         Monthly,
         Yearly,
@@ -96,9 +97,12 @@ public partial class SystemStatsChart2 : PicturePage
 
         switch (RequestType)
         {
-            case ChartType.DailyUnique:
-                counters.Add(Summary.ReturningDaily);
+            case ChartType.DailyNew:
                 counters.Add(Summary.NewDaily);
+                format = "MMM d";
+                break;
+            case ChartType.DailyReturning:
+                counters.Add(Summary.ReturningDaily);
                 format = "MMM d";
                 break;
             case ChartType.Daily:

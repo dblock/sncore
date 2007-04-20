@@ -14,7 +14,8 @@
     <asp:LinkButton OnClick="linkWeekly_Click" ID="linkWeekly" runat="server" Text="&#187; Weekly" />
     <asp:LinkButton OnClick="linkMonthly_Click" ID="linkMonthly" runat="server" Text="&#187; Monthly" />
     <asp:LinkButton OnClick="linkYearly_Click" ID="linkYearly" runat="server" Text="&#187; Yearly" />
-    <asp:LinkButton OnClick="linkDailyUnique_Click" ID="linkDailyUnique" runat="server" Text="&#187; Unique" />
+    <asp:LinkButton OnClick="linkDailyNew_Click" ID="linkDailyNew" runat="server" Text="&#187; New Daily" />
+    <asp:LinkButton OnClick="linkDailyReturning_Click" ID="linkDailyReturning" runat="server" Text="&#187; Returning Daily" />
     <br />
     <asp:LinkButton OnClick="linkAccountDaily_Click" ID="linkAccountDaily" runat="server" Text="&#187; New Accounts Daily" />
     <asp:LinkButton OnClick="linkAccountWeekly_Click" ID="linkAccountWeekly" runat="server" Text="&#187; Weekly" />
