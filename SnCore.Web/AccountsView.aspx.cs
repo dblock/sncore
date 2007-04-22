@@ -13,6 +13,9 @@ using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.SiteMap;
 using System.Collections.Generic;
+using nStuff.UpdateControls;
+using System.Text;
+using System.Collections.Specialized;
 
 [SiteMapDataAttribute("People")]
 public partial class AccountsView : AccountPersonPage
@@ -41,11 +44,25 @@ public partial class AccountsView : AccountPersonPage
             City = request["city"];
             Name = request["name"];
             Email = request["email"];
-            if (!string.IsNullOrEmpty(request["bloggers"])) 
+            if (!string.IsNullOrEmpty(request["bloggers"]))
                 bool.TryParse(request["bloggers"], out BloggersOnly);
-            if (! string.IsNullOrEmpty(request["pictures"])) 
+            if (!string.IsNullOrEmpty(request["pictures"]))
                 bool.TryParse(request["pictures"], out PicturesOnly);
         }
+
+        public SelectLocationEventArgs(NameValueCollection request)
+        {
+            Country = request["country"];
+            State = request["state"];
+            City = request["city"];
+            Name = request["name"];
+            Email = request["email"];
+            if (!string.IsNullOrEmpty(request["bloggers"]))
+                bool.TryParse(request["bloggers"], out BloggersOnly);
+            if (!string.IsNullOrEmpty(request["pictures"]))
+                bool.TryParse(request["pictures"], out PicturesOnly);
+        }
+
     }
 
     public void Page_Load(object sender, EventArgs e)
@@ -53,6 +70,7 @@ public partial class AccountsView : AccountPersonPage
         SetDefaultButton(search);
 
         gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+        ((SnCoreMasterPage)Master).History.Navigate += new HistoryEventHandler(History_Navigate);
 
         if (!IsPostBack)
         {
@@ -73,6 +91,30 @@ public partial class AccountsView : AccountPersonPage
 
             linkLocal.Visible = SessionManager.IsLoggedIn && !string.IsNullOrEmpty(SessionManager.Account.City);
 
+            if (SessionManager.IsLoggedIn)
+            {
+                linkLocal.Text = string.Format("&#187; All {0} People", Renderer.Render(SessionManager.Account.City));
+                SelectLocation(sender, new SelectLocationEventArgs(Request));
+            }
+
+            GetData();
+        }
+    }
+
+    void History_Navigate(object sender, HistoryEventArgs e)
+    {
+        string s = Encoding.Default.GetString(Convert.FromBase64String(e.EntryName));
+        if (!string.IsNullOrEmpty(s))
+        {
+            NameValueCollection args = Renderer.ParseQueryString(s);
+            SelectLocation(sender, new SelectLocationEventArgs(args));
+            gridManage.CurrentPageIndex = int.Parse(args["page"]);
+            gridManage_OnGetDataSource(sender, e);
+            gridManage.DataBind();
+        }
+        else
+        {
+            SelectLocation(sender, new SelectLocationEventArgs(Request));
             if (SessionManager.IsLoggedIn)
             {
                 linkLocal.Text = string.Format("&#187; All {0} People", Renderer.Render(SessionManager.Account.City));
@@ -120,7 +162,7 @@ public partial class AccountsView : AccountPersonPage
         List<TransitState> states = new List<TransitState>();
         states.Add(new TransitState());
         states.AddRange(SessionManager.GetCollection<TransitState, string>(
-            inputCountry.SelectedValue, (ServiceQueryOptions) null, SessionManager.LocationService.GetStatesByCountryName));
+            inputCountry.SelectedValue, (ServiceQueryOptions)null, SessionManager.LocationService.GetStatesByCountryName));
         inputState.DataSource = states;
         inputState.DataBind();
         panelCountryState.Update();
@@ -145,7 +187,7 @@ public partial class AccountsView : AccountPersonPage
     {
         AccountActivityQueryOptions options = GetQueryOptions();
 
-        string args = string.Format("order={0}&asc={1}&pictures={2}&city={3}&country={4}&state={5}&name={6}&email={7}&bloggers={8}",
+        string args = string.Format("order={0}&asc={1}&pictures={2}&city={3}&country={4}&state={5}&name={6}&email={7}&bloggers={8}&page={9}",
                 options.SortOrder,
                 options.SortAscending,
                 options.PicturesOnly,
@@ -154,10 +196,13 @@ public partial class AccountsView : AccountPersonPage
                 options.State,
                 Renderer.UrlEncode(options.Name),
                 Renderer.UrlEncode(options.Email),
-                options.BloggersOnly);
+                options.BloggersOnly,
+                gridManage.CurrentPageIndex);
 
         linkRelRss.NavigateUrl = string.Format("AccountsRss.aspx?{0}", args);
         linkPermalink.NavigateUrl = string.Format("AccountsView.aspx?{0}", args);
+
+        if (!(e is HistoryEventArgs)) ((SnCoreMasterPage)Master).History.AddEntry(Convert.ToBase64String(Encoding.Default.GetBytes(args)));
 
         ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
         serviceoptions.PageSize = gridManage.PageSize;

@@ -14,6 +14,9 @@ using SnCore.Services;
 using SnCore.WebServices;
 using System.Collections.Generic;
 using SnCore.SiteMap;
+using nStuff.UpdateControls;
+using System.Collections.Specialized;
+using System.Text.RegularExpressions;
 
 public partial class PlacesView : Page
 {
@@ -125,6 +128,8 @@ public partial class PlacesView : Page
         LocationSelector.StateChanged += new EventHandler(LocationSelector_StateChanged);
         LocationSelector.CityChanged += new EventHandler(LocationSelector_CityChanged);
 
+        ((SnCoreMasterPage)Master).History.Navigate += new HistoryEventHandler(History_Navigate);
+
         neighborhoods.OnChange += new EventHandler(neighborhoods_OnChange);
 
         if (!IsPostBack)
@@ -167,6 +172,24 @@ public partial class PlacesView : Page
         }
 
         SetDefaultButton(search);
+    }
+
+    void History_Navigate(object sender, HistoryEventArgs e)
+    {
+        if (!string.IsNullOrEmpty(e.EntryName))
+        {
+            string s = Encoding.Default.GetString(Convert.FromBase64String(e.EntryName));
+            NameValueCollection args = Renderer.ParseQueryString(s);
+
+            LocationSelector.SelectLocation(sender, new LocationWithTypeEventArgs(
+                args["country"], args["state"], args["city"], args["neighborhood"], args["type"]));
+
+            checkboxPicturesOnly.Checked = bool.Parse(args["pictures"]);
+
+            gridManage.CurrentPageIndex = int.Parse(args["page"]);
+            gridManage_OnGetDataSource(sender, e);
+            gridManage.DataBind();
+        }
     }
 
     void GetNeighborhoodsData(object sender, EventArgs e)
@@ -253,7 +276,7 @@ public partial class PlacesView : Page
     {
         TransitPlaceQueryOptions options = GetQueryOptions();
 
-        string args = string.Format("order={0}&asc={1}&city={2}&country={3}&state={4}&name={5}&type={6}&pictures={7}&neighborhood={8}",
+        string args = string.Format("order={0}&asc={1}&city={2}&country={3}&state={4}&name={5}&type={6}&pictures={7}&neighborhood={8}&page={9}",
                 Renderer.UrlEncode(options.SortOrder),
                 Renderer.UrlEncode(options.SortAscending),
                 Renderer.UrlEncode(options.City),
@@ -262,11 +285,14 @@ public partial class PlacesView : Page
                 Renderer.UrlEncode(options.Name),
                 Renderer.UrlEncode(options.Type),
                 Renderer.UrlEncode(options.PicturesOnly),
-                Renderer.UrlEncode(options.Neighborhood));
+                Renderer.UrlEncode(options.Neighborhood),
+                gridManage.CurrentPageIndex);
 
         linkRelRss.NavigateUrl = string.Format("PlacesRss.aspx?{0}", args);
         linkPermalink.NavigateUrl = string.Format("PlacesView.aspx?{0}", args);
- 
+
+        if (! (e is HistoryEventArgs)) ((SnCoreMasterPage)Master).History.AddEntry(Convert.ToBase64String(Encoding.Default.GetBytes(args)));
+
         ServiceQueryOptions serviceoptions = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
         gridManage.DataSource = SessionManager.GetCollection<TransitPlace, TransitPlaceQueryOptions>(
             options, serviceoptions, SessionManager.PlaceService.GetPlaces);

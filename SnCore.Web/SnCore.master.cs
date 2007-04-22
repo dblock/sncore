@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
+using nStuff.UpdateControls;
 
 public partial class SnCoreMasterPage : MasterPage
 {
@@ -82,5 +83,13 @@ public partial class SnCoreMasterPage : MasterPage
     {
         SessionManager.Logout();
         Redirect("Default.aspx");
+    }
+
+    public UpdateHistory History
+    {
+        get
+        {
+            return updateHistory;
+        }
     }
 }

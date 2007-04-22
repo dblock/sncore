@@ -10,6 +10,7 @@ using System.Web.UI.HtmlControls;
 using System.Text;
 using System.Collections.Specialized;
 using System.IO;
+using System.Collections;
 using System.Text.RegularExpressions;
 
 namespace SnCore.Tools.Web
@@ -145,6 +146,25 @@ namespace SnCore.Tools.Web
         {
             if (message == null) return string.Empty;
             return UrlDecode(message.ToString());
+        }
+
+        public static NameValueCollection ParseQueryString(string qstring)
+        {
+            //simplify our task
+            qstring = qstring + "&";
+
+            NameValueCollection outc = new NameValueCollection();
+
+            Regex r = new Regex(@"(?<name>[^=&]+)=(?<value>[^&]+)&", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+            IEnumerator _enum = r.Matches(qstring).GetEnumerator();
+            while (_enum.MoveNext() && _enum.Current != null)
+            {
+                outc.Add(((Match)_enum.Current).Result("${name}"),
+                        ((Match)_enum.Current).Result("${value}"));
+            }
+
+            return outc;
         }
 
         static string HrefHandler(Match ParameterMatch)

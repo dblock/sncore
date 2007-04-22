@@ -105,6 +105,7 @@
       <!-- NOEMAIL-START -->
       <asp:ScriptManager ID="scriptmanager1" EnablePartialRendering="true"
        runat="Server" />
+      <nStuff:UpdateHistory runat="server" ID="updateHistory" />
       <div style="width: 16px;">
        <asp:UpdateProgress DisplayAfter="1000" ID="menuProgress" runat="server">
         <ProgressTemplate>
