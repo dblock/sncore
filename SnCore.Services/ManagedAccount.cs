@@ -334,6 +334,15 @@ namespace SnCore.Services
         public static int MinimumPasswordLength = 4;
         public static int MaxOfAnything = 250;
 
+        public class InvalidUsernamePasswordException : SoapException
+        {
+            public InvalidUsernamePasswordException()
+                : base("Invalid username and/or password", SoapException.ClientFaultCode)
+            {
+
+            }
+        }
+
         public class AccessDeniedException : SoapException
         {
             public AccessDeniedException()
@@ -842,7 +851,7 @@ namespace SnCore.Services
         {
             if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(passwordhash))
             {
-                throw new ManagedAccount.AccessDeniedException();
+                throw new ManagedAccount.InvalidUsernamePasswordException();
             }
 
             // find a verified e-mail associated with an account with the same password
@@ -869,13 +878,13 @@ namespace SnCore.Services
                 }
                 catch (NonUniqueResultException)
                 {
-                    throw new ManagedAccount.AccessDeniedException();
+                    throw new ManagedAccount.InvalidUsernamePasswordException();
                 }
             }
 
             if (e == null || e.Account.Password != passwordhash)
             {
-                throw new ManagedAccount.AccessDeniedException();
+                throw new ManagedAccount.InvalidUsernamePasswordException();
             }
 
             e.Account.LastLogin = DateTime.UtcNow;
