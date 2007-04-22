@@ -4,7 +4,7 @@
 <script type="text/javascript">
   function onAutoScrollControlLoad() 
   {
-    window.location.href = '#<% Response.Write(ScrollLocation); %>';
+    window.scrollTo(0,0);
   }
   
   Sys.Application.add_load(function() { onAutoScrollControlLoad(); }); 

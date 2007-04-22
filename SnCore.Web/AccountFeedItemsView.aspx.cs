@@ -13,6 +13,8 @@ using System.Text;
 using SnCore.WebServices;
 using SnCore.Services;
 using SnCore.SiteMap;
+using nStuff.UpdateControls;
+using System.Collections.Specialized;
 
 [SiteMapDataAttribute("Blogs")]
 public partial class AccountFeedItemsView : Page
@@ -20,6 +22,7 @@ public partial class AccountFeedItemsView : Page
     public void Page_Load(object sender, EventArgs e)
     {
         gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+        ((SnCoreMasterPage)Master).History.Navigate += new HistoryEventHandler(History_Navigate);
         SetDefaultButton(search);
         if (!IsPostBack)
         {
@@ -31,6 +34,25 @@ public partial class AccountFeedItemsView : Page
             panelSearchInternal.Visible = !string.IsNullOrEmpty(inputSearch.Text);
             GetData();
         }
+    }
+
+    void History_Navigate(object sender, HistoryEventArgs e)
+    {
+        string s = Encoding.Default.GetString(Convert.FromBase64String(e.EntryName));
+        if (!string.IsNullOrEmpty(s))
+        {
+            NameValueCollection args = Renderer.ParseQueryString(s);
+            inputSearch.Text = args["q"];
+            gridManage.CurrentPageIndex = int.Parse(args["page"]);
+        }
+        else
+        {
+            inputSearch.Text = Request["q"];
+            gridManage.CurrentPageIndex = 0;
+        }
+
+        gridManage_OnGetDataSource(sender, e);
+        gridManage.DataBind();
     }
 
     private void GetData()
@@ -63,6 +85,11 @@ public partial class AccountFeedItemsView : Page
                 serviceoptions, SessionManager.SyndicationService.GetAllAccountFeedItems)
             : SessionManager.GetCollection<TransitAccountFeedItem, string>(
                 inputSearch.Text, serviceoptions, SessionManager.SyndicationService.SearchAccountFeedItems);
+
+        string args = string.Format("page={0}&q={1}",
+            gridManage.CurrentPageIndex, Renderer.UrlEncode(inputSearch.Text));
+
+        if (!(e is HistoryEventArgs)) ((SnCoreMasterPage)Master).History.AddEntry(Convert.ToBase64String(Encoding.Default.GetBytes(args)));
     }
 
     protected void search_Click(object sender, EventArgs e)

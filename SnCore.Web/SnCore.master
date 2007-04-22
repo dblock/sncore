@@ -12,7 +12,6 @@
 </head>
 <body>
  <!-- NOEMAIL-START -->
- <a name="form"></a>
  <form class="sncore_master_form" id="formMain" runat="server">
  <!-- NOEMAIL-END -->
   <div class="sncore_master_top">

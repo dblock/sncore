@@ -49,5 +49,5 @@
    </SnCoreWebControls:PagedList>
   </ContentTemplate>
  </asp:UpdatePanel>
- <SnCore:AutoScroll runat="server" ID="autoScrollToForm" ScrollLocation="form" />
+ <SnCore:AutoScroll runat="server" ID="autoScrollToForm" />
 </asp:Content>

@@ -13,6 +13,9 @@ using SnCore.Services;
 using SnCore.WebServices;
 using Wilco.Web.UI;
 using SnCore.SiteMap;
+using nStuff.UpdateControls;
+using System.Collections.Specialized;
+using System.Text;
 
 public partial class AccountFeedItemMediasView : AccountPersonPage
 {
@@ -33,6 +36,7 @@ public partial class AccountFeedItemMediasView : AccountPersonPage
     public void Page_Load(object sender, EventArgs e)
     {
         gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+        ((SnCoreMasterPage)Master).History.Navigate += new HistoryEventHandler(History_Navigate);
         if (!IsPostBack)
         {
             linkEdit.Visible = SessionManager.IsAdministrator;
@@ -43,6 +47,23 @@ public partial class AccountFeedItemMediasView : AccountPersonPage
             sitemapdata.Add(new SiteMapDataAttributeNode("Media", Request.Url));
             StackSiteMap(sitemapdata);
         }
+    }
+
+    void History_Navigate(object sender, HistoryEventArgs e)
+    {
+        string s = Encoding.Default.GetString(Convert.FromBase64String(e.EntryName));
+        if (!string.IsNullOrEmpty(s))
+        {
+            NameValueCollection args = Renderer.ParseQueryString(s);
+            gridManage.CurrentPageIndex = int.Parse(args["page"]);
+        }
+        else
+        {
+            gridManage.CurrentPageIndex = 0;
+        }
+
+        gridManage_OnGetDataSource(sender, e);
+        gridManage.DataBind();
     }
 
     private TransitAccountFeedItemMediaQueryOptions mQueryOptions = null;
@@ -92,6 +113,9 @@ public partial class AccountFeedItemMediasView : AccountPersonPage
         serviceoptions.PageNumber = gridManage.CurrentPageIndex;
         gridManage.DataSource = SessionManager.GetCollection<TransitAccountFeedItemMedia, TransitAccountFeedItemMediaQueryOptions>(
             QueryOptions, serviceoptions, SessionManager.SyndicationService.GetAccountFeedItemMedias);
+
+        string args = string.Format("page={0}", gridManage.CurrentPageIndex);
+        if (!(e is HistoryEventArgs)) ((SnCoreMasterPage)Master).History.AddEntry(Convert.ToBase64String(Encoding.Default.GetBytes(args)));
     }
 
     public void gridManage_ItemCommand(object sender, DataListCommandEventArgs e)

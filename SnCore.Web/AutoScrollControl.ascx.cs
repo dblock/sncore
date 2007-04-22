@@ -11,22 +11,5 @@ using System.Web.UI.HtmlControls;
 
 public partial class AutoScrollControl : System.Web.UI.UserControl
 {
-    private string mScrollLocation;
 
-    protected void Page_Load(object sender, EventArgs e)
-    {
-
-    }
-
-    public string ScrollLocation
-    {
-        get
-        {
-            return mScrollLocation;
-        }
-        set
-        {
-            mScrollLocation = value;
-        }
-    }
 }
