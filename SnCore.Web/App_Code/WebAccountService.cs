@@ -1074,46 +1074,57 @@ namespace SnCore.WebServices
 
         protected IList<Account> InternalSearchAccounts(ISession session, string s, ServiceQueryOptions options)
         {
-            int maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
-            IQuery query = session.CreateSQLQuery(
+            // search for an account matching the name exactly
+            IList<Account> accounts = session.CreateCriteria(typeof(Account))
+                .Add(Expression.Eq("Name", Renderer.SqlEncode(s)))
+                .List<Account>();
 
-                    "CREATE TABLE #Results ( Account_Id int, RANK int )\n" +
-                    "CREATE TABLE #Unique_Results ( Account_Id int, RANK int )\n" +
+            // search for everything else
+            if (accounts.Count == 0)
+            {
+                int maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
+                IQuery query = session.CreateSQLQuery(
 
-                    "INSERT #Results\n" +
-                    "SELECT account.Account_Id, ft.[RANK] FROM Account account\n" +
-                    "INNER JOIN FREETEXTTABLE (Account, [Name], '" + Renderer.SqlEncode(s) + "', " +
-                        maxsearchresults.ToString() + ") AS ft ON account.Account_Id = ft.[KEY]\n" +
+                        "CREATE TABLE #Results ( Account_Id int, RANK int )\n" +
+                        "CREATE TABLE #Unique_Results ( Account_Id int, RANK int )\n" +
 
-                    "INSERT #Results\n" +
-                    "SELECT account.Account_Id, ft.[RANK] FROM Account account, AccountSurveyAnswer accountsurveyanswer\n" +
-                    "INNER JOIN FREETEXTTABLE (AccountSurveyAnswer, ([Answer]), '" + Renderer.SqlEncode(s) + "', " +
-                        maxsearchresults.ToString() + ") AS ft ON accountsurveyanswer.AccountSurveyAnswer_Id = ft.[KEY] \n" +
-                    "WHERE accountsurveyanswer.Account_Id = account.Account_Id\n" +
+                        "INSERT #Results\n" +
+                        "SELECT account.Account_Id, ft.[RANK] FROM Account account\n" +
+                        "INNER JOIN FREETEXTTABLE (Account, [Name], '" + Renderer.SqlEncode(s) + "', " +
+                            maxsearchresults.ToString() + ") AS ft ON account.Account_Id = ft.[KEY]\n" +
 
-                    "INSERT #Results\n" +
-                    "SELECT account.Account_Id, ft.[RANK] FROM Account account, AccountPropertyValue accountpropertyvalue\n" +
-                    "INNER JOIN FREETEXTTABLE (AccountPropertyValue, ([Value]), '" + Renderer.SqlEncode(s) + "', " +
-                        maxsearchresults.ToString() + ") AS ft ON accountpropertyvalue.AccountPropertyValue_Id = ft.[KEY] \n" +
-                    "WHERE accountpropertyvalue.Account_Id = account.Account_Id\n" +
+                        //"INSERT #Results\n" +
+                    //"SELECT account.Account_Id, ft.[RANK] FROM Account account, AccountSurveyAnswer accountsurveyanswer\n" +
+                    //"INNER JOIN FREETEXTTABLE (AccountSurveyAnswer, ([Answer]), '" + Renderer.SqlEncode(s) + "', " +
+                    //    maxsearchresults.ToString() + ") AS ft ON accountsurveyanswer.AccountSurveyAnswer_Id = ft.[KEY] \n" +
+                    //"WHERE accountsurveyanswer.Account_Id = account.Account_Id\n" +
 
-                    "INSERT #Unique_Results\n" +
-                    "SELECT DISTINCT Account_Id, SUM(RANK)\n" +
-                    "FROM #Results GROUP BY Account_Id\n" +
-                    "ORDER BY SUM(RANK) DESC\n" +
+                        "INSERT #Results\n" +
+                        "SELECT account.Account_Id, ft.[RANK] FROM Account account, AccountPropertyValue accountpropertyvalue\n" +
+                        "INNER JOIN FREETEXTTABLE (AccountPropertyValue, ([Value]), '" + Renderer.SqlEncode(s) + "', " +
+                            maxsearchresults.ToString() + ") AS ft ON accountpropertyvalue.AccountPropertyValue_Id = ft.[KEY] \n" +
+                        "WHERE accountpropertyvalue.Account_Id = account.Account_Id\n" +
 
-                    "SELECT " + (options != null ? options.GetSqlQueryTop() : string.Empty) +
-                    "{Account.*} FROM {Account}, #Unique_Results\n" +
-                    "WHERE Account.Account_Id = #Unique_Results.Account_Id\n" +
-                    "ORDER BY #Unique_Results.RANK DESC\n" +
+                        "INSERT #Unique_Results\n" +
+                        "SELECT DISTINCT Account_Id, SUM(RANK)\n" +
+                        "FROM #Results GROUP BY Account_Id\n" +
+                        "ORDER BY SUM(RANK) DESC\n" +
 
-                    "DROP TABLE #Results\n" +
-                    "DROP TABLE #Unique_Results\n",
+                        "SELECT " + (options != null ? options.GetSqlQueryTop() : string.Empty) +
+                        "{Account.*} FROM {Account}, #Unique_Results\n" +
+                        "WHERE Account.Account_Id = #Unique_Results.Account_Id\n" +
+                        "ORDER BY #Unique_Results.RANK DESC\n" +
 
-                    "Account",
-                    typeof(Account));
+                        "DROP TABLE #Results\n" +
+                        "DROP TABLE #Unique_Results\n",
 
-            return WebServiceQueryOptions<Account>.Apply(options, query.List<Account>());
+                        "Account",
+                        typeof(Account));
+
+                accounts = query.List<Account>();
+            }
+
+            return WebServiceQueryOptions<Account>.Apply(options, accounts);
         }
 
         /// <summary>

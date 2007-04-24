@@ -691,47 +691,59 @@ namespace SnCore.WebServices
 
         protected IList<Place> InternalSearchPlaces(ISession session, string s, ServiceQueryOptions options)
         {
-            int maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
-            IQuery query = session.CreateSQLQuery(
+            // search for a place matching the name exactly
+            IList<Place> places = session.CreateCriteria(typeof(Place))
+                .Add(Expression.Eq("Name", Renderer.SqlEncode(s)))
+                .List<Place>();
 
-                    "CREATE TABLE #Results ( Place_Id int, RANK int )\n" +
-                    "CREATE TABLE #Unique_Results ( Place_Id int, RANK int )\n" +
+            // search for everything else
+            if (places.Count == 0)
+            {
 
-                    "INSERT #Results\n" +
-                    "SELECT place.Place_Id, ft.[RANK] FROM Place place\n" +
-                    "INNER JOIN FREETEXTTABLE (Place, ([Name], [Street], [Zip], [CrossStreet], [Description], [Phone], [Fax], [Email], [Website]), '" +
-                        Renderer.SqlEncode(s) + "', " +
-                        maxsearchresults.ToString() + ") AS ft ON place.Place_Id = ft.[KEY]\n" +
+                int maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
+                IQuery query = session.CreateSQLQuery(
 
-                    "INSERT #Results\n" +
-                    "SELECT place.Place_Id, ft.[RANK] FROM Place place, PlaceName placename\n" +
-                    "INNER JOIN FREETEXTTABLE (PlaceName, ([Name]), '" + Renderer.SqlEncode(s) + "', " +
-                        maxsearchresults.ToString() + ") AS ft ON placename.PlaceName_Id = ft.[KEY] \n" +
-                    "WHERE placename.Place_Id = place.Place_Id\n" +
+                        "CREATE TABLE #Results ( Place_Id int, RANK int )\n" +
+                        "CREATE TABLE #Unique_Results ( Place_Id int, RANK int )\n" +
 
-                    "INSERT #Results\n" +
-                    "SELECT place.Place_Id, ft.[RANK] FROM Place place, PlacePropertyValue placepropertyvalue\n" +
-                    "INNER JOIN FREETEXTTABLE (PlacePropertyValue, ([Value]), '" + Renderer.SqlEncode(s) + "', " +
-                        maxsearchresults.ToString() + ") AS ft ON placepropertyvalue.PlacePropertyValue_Id = ft.[KEY] \n" +
-                    "WHERE placepropertyvalue.Place_Id = place.Place_Id\n" +
+                        "INSERT #Results\n" +
+                        "SELECT place.Place_Id, ft.[RANK] FROM Place place\n" +
+                        "INNER JOIN FREETEXTTABLE (Place, ([Name], [Street], [Zip], [CrossStreet], [Description], [Phone], [Fax], [Email], [Website]), '" +
+                            Renderer.SqlEncode(s) + "', " +
+                            maxsearchresults.ToString() + ") AS ft ON place.Place_Id = ft.[KEY]\n" +
 
-                    "INSERT #Unique_Results\n" +
-                    "SELECT DISTINCT Place_Id, SUM(RANK)\n" +
-                    "FROM #Results GROUP BY Place_Id\n" +
-                    "ORDER BY SUM(RANK) DESC\n" +
+                        "INSERT #Results\n" +
+                        "SELECT place.Place_Id, ft.[RANK] FROM Place place, PlaceName placename\n" +
+                        "INNER JOIN FREETEXTTABLE (PlaceName, ([Name]), '" + Renderer.SqlEncode(s) + "', " +
+                            maxsearchresults.ToString() + ") AS ft ON placename.PlaceName_Id = ft.[KEY] \n" +
+                        "WHERE placename.Place_Id = place.Place_Id\n" +
 
-                    "SELECT " + (options != null ? options.GetSqlQueryTop() : string.Empty) +
-                    "{Place.*} FROM {Place}, #Unique_Results\n" +
-                    "WHERE Place.Place_Id = #Unique_Results.Place_Id\n" +
-                    "ORDER BY #Unique_Results.RANK DESC\n" +
+                        "INSERT #Results\n" +
+                        "SELECT place.Place_Id, ft.[RANK] FROM Place place, PlacePropertyValue placepropertyvalue\n" +
+                        "INNER JOIN FREETEXTTABLE (PlacePropertyValue, ([Value]), '" + Renderer.SqlEncode(s) + "', " +
+                            maxsearchresults.ToString() + ") AS ft ON placepropertyvalue.PlacePropertyValue_Id = ft.[KEY] \n" +
+                        "WHERE placepropertyvalue.Place_Id = place.Place_Id\n" +
 
-                    "DROP TABLE #Results\n" +
-                    "DROP TABLE #Unique_Results\n",
+                        "INSERT #Unique_Results\n" +
+                        "SELECT DISTINCT Place_Id, SUM(RANK)\n" +
+                        "FROM #Results GROUP BY Place_Id\n" +
+                        "ORDER BY SUM(RANK) DESC\n" +
 
-                    "Place",
-                    typeof(Place));
+                        "SELECT " + (options != null ? options.GetSqlQueryTop() : string.Empty) +
+                        "{Place.*} FROM {Place}, #Unique_Results\n" +
+                        "WHERE Place.Place_Id = #Unique_Results.Place_Id\n" +
+                        "ORDER BY #Unique_Results.RANK DESC\n" +
 
-            return WebServiceQueryOptions<Place>.Apply(options, query.List<Place>());
+                        "DROP TABLE #Results\n" +
+                        "DROP TABLE #Unique_Results\n",
+
+                        "Place",
+                        typeof(Place));
+
+                places = query.List<Place>(); 
+            }
+
+            return WebServiceQueryOptions<Place>.Apply(options, places);
         }
 
         /// <summary>
