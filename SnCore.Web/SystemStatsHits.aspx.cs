@@ -22,6 +22,7 @@ public partial class SystemStatsHits : AuthenticatedPage
         DailyReturning,
         Weekly,
         Monthly,
+        MonthlyUnique,
         Yearly,
         AccountDaily,
         AccountWeekly,
@@ -55,6 +56,9 @@ public partial class SystemStatsHits : AuthenticatedPage
             case ChartType.DailyReturning:
                 labelChartType.Text = "Returning Visitors";
                 break;
+            case ChartType.MonthlyUnique:
+                labelChartType.Text = "Monthly Unique";
+                break;
             case ChartType.AccountDaily:
             case ChartType.AccountMonthly:
             case ChartType.AccountWeekly:
@@ -79,11 +83,18 @@ public partial class SystemStatsHits : AuthenticatedPage
 
         linkDailyNew.Enabled = (type != ChartType.DailyNew);
         linkDailyReturning.Enabled = (type != ChartType.DailyReturning);
+
+        linkMonthlyUnique.Enabled = (type != ChartType.MonthlyUnique);
     }
 
     public void linkDailyNew_Click(object sender, EventArgs e)
     {
         SetChartType(ChartType.DailyNew);
+    }
+
+    public void linkMonthlyUnique_Click(object sender, EventArgs e)
+    {
+        SetChartType(ChartType.MonthlyUnique);
     }
 
     public void linkDailyReturning_Click(object sender, EventArgs e)

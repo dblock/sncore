@@ -993,6 +993,11 @@
     <property name="Modified" columns="Modified" type="System.DateTime" />
     <property name="TagWord" columns="TagWord_Id" ref="OneToMany" inverse="TagWordAccounts" type="TagWord" />
   </class>
+  <class name="CounterUniqueMonthly" table="CounterUniqueMonthly">
+    <property name="Id" id="true" columns="CounterUniqueMonthly_Id" type="System.Int32" />
+    <property name="Timestamp" columns="Timestamp" type="System.DateTime" />
+    <property name="Total" columns="Total" type="System.Int32" />
+  </class>
   <source name="SnCore" type="MSSqlServer" provider="SqlClient" schema="dbo" catalog="SnCore">
     <connection-string>Data Source=localhost;Initial Catalog=SnCore;Integrated Security=SSPI</connection-string>
     <table name="Account">
@@ -1868,6 +1873,11 @@
       <column name="TagWord_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="TagWord" primary-column="TagWord_Id" foreign-key="FK_TagWordAccount_TagWord" />
       <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
+    </table>
+    <table name="CounterUniqueMonthly">
+      <column name="CounterUniqueMonthly_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Timestamp" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Total" type="Int32" prec="10" length="4" scale="0" />
     </table>
   </source>
 </domain>

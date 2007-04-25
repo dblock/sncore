@@ -32,6 +32,7 @@ public class SessionManager
     const string sSnCoreImpersonateCookieName = "SnCore.impersonatecookie";
     const string sSnCoreRememberLogin = "SnCore.rememberlogin";
     const string sSnCoreLastVisit = "SnCore.lastvisit";
+    const string sSnCoreLastMonthVisit = "SnCore.lastmonthvisit";
 
     private EventLog mEventLog = null;
     private Cache mCache = null;
@@ -572,7 +573,8 @@ public class SessionManager
 
     private void Track(HttpRequest request, HttpResponse response)
     {
-        Nullable<DateTime> lastVisit = GetLastVisit(request);
+        // new/returning users daily
+        Nullable<DateTime> lastVisit = GetLastVisit(request, sSnCoreLastVisit);
 
         if ((!lastVisit.HasValue) || (lastVisit.Value.AddDays(1) < DateTime.UtcNow))
         {
@@ -583,7 +585,18 @@ public class SessionManager
             response.Cookies.Add(lastVisitCookie);
         }
 
-        TransitStatsRequest tsr = new TransitStatsRequest(request, lastVisit);
+        // unique users monthly
+        Nullable<DateTime> lastMonthVisit = GetLastVisit(request, sSnCoreLastMonthVisit);
+        if (! lastMonthVisit.HasValue)
+        {
+            // cookie doesn't exist, it has expired within the month
+            HttpCookie lastMonthVisitCookie = new HttpCookie(sSnCoreLastMonthVisit, DateTime.UtcNow.ToString());
+            DateTime nextmonth = DateTime.UtcNow.AddMonths(1);
+            lastMonthVisitCookie.Expires = new DateTime(nextmonth.Year, nextmonth.Month, 1);
+            response.Cookies.Add(lastMonthVisitCookie);
+        }
+
+        TransitStatsRequest tsr = new TransitStatsRequest(request, lastVisit, lastMonthVisit);
 
         lock (s_Requests)
         {
@@ -616,15 +629,15 @@ public class SessionManager
         }
     }
 
-    protected Nullable<DateTime> GetLastVisit(HttpRequest request)
+    protected Nullable<DateTime> GetLastVisit(HttpRequest request, string cookie)
     {
         // track request
         Nullable<DateTime> lastVisit = new Nullable<DateTime>();
-        HttpCookie lastVisitCookie = request.Cookies[sSnCoreLastVisit];
+        HttpCookie lastVisitCookie = request.Cookies[cookie];
         if (lastVisitCookie != null)
         {
             DateTime lvcDt;
-            if (DateTime.TryParse(request.Cookies[sSnCoreLastVisit].Value, out lvcDt))
+            if (DateTime.TryParse(request.Cookies[cookie].Value, out lvcDt))
             {
                 lastVisit = lvcDt;
             }

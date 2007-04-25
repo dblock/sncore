@@ -40,6 +40,7 @@ public partial class SystemStatsChart2 : PicturePage
         DailyReturning,
         Weekly,
         Monthly,
+        MonthlyUnique,
         Yearly,
         AccountDaily,
         AccountWeekly,
@@ -112,6 +113,10 @@ public partial class SystemStatsChart2 : PicturePage
             case ChartType.Hourly:
                 counters.Add(Summary.Hourly);
                 format = "htt";
+                break;
+            case ChartType.MonthlyUnique:
+                counters.Add(Summary.UniqueMonthly);
+                format = "MMM";
                 break;
             case ChartType.Monthly:
                 counters.Add(Summary.Monthly);

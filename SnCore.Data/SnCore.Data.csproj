@@ -296,6 +296,9 @@
     <Compile Include="CounterReturningDaily.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CounterUniqueMonthly.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="CounterWeekly.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -483,6 +486,7 @@
     <EmbeddedResource Include="CounterHourly.hbm.xml" />
     <EmbeddedResource Include="CounterMonthly.hbm.xml" />
     <EmbeddedResource Include="CounterReturningDaily.hbm.xml" />
+    <EmbeddedResource Include="CounterUniqueMonthly.hbm.xml" />
     <EmbeddedResource Include="CounterWeekly.hbm.xml" />
     <EmbeddedResource Include="CounterYearly.hbm.xml" />
     <EmbeddedResource Include="Country.hbm.xml" />

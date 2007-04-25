@@ -96,6 +96,20 @@ namespace SnCore.Services
             }
         }
 
+        private List<TransitSummarizedCounter> mUniqueMonthly = new List<TransitSummarizedCounter>(12);
+
+        public List<TransitSummarizedCounter> UniqueMonthly
+        {
+            get
+            {
+                return mUniqueMonthly;
+            }
+            set
+            {
+                mUniqueMonthly = value;
+            }
+        }
+
         private List<TransitSummarizedCounter> mYearly = new List<TransitSummarizedCounter>(6);
 
         public List<TransitSummarizedCounter> Yearly
@@ -188,7 +202,7 @@ namespace SnCore.Services
 
         }
 
-        public TransitStatsRequest(HttpRequest request, Nullable<DateTime> lastseen)
+        public TransitStatsRequest(HttpRequest request, Nullable<DateTime> lastseen, Nullable<DateTime> lastmonthseen)
         {
             RequestUri = (request.Url != null) ? request.Url.ToString() : string.Empty;
             RefererUri = (request.UrlReferrer != null) ? request.UrlReferrer.ToString() : string.Empty;
@@ -212,7 +226,23 @@ namespace SnCore.Services
             if (!lastseen.HasValue) IncrementNewUser = true;
             else if (lastseen.Value.AddDays(1) < DateTime.UtcNow) IncrementReturningUser = true;
 
+            if (!lastmonthseen.HasValue) IncrementUniqueMonthlyUser = true;
+
             Timestamp = DateTime.UtcNow;
+        }
+
+        private bool mIncrementUniqueMonthlyUser = false;
+
+        public bool IncrementUniqueMonthlyUser
+        {
+            get
+            {
+                return mIncrementUniqueMonthlyUser;
+            }
+            set
+            {
+                mIncrementUniqueMonthlyUser = value;
+            }
         }
 
         private bool mIncrementNewUser = false;
@@ -321,6 +351,7 @@ namespace SnCore.Services
                 IncrementMonthlyCounter();
                 IncrementYearlyCounter();
                 // per-user counter
+                IncrementUniqueMonthlyCounter(request);
                 IncrementReturningDailyCounter(request);
                 // per-uri page counter
                 IncrementRawCounter(request);
@@ -377,16 +408,16 @@ namespace SnCore.Services
             }
 
             host.Updated = DateTime.UtcNow;
-            
+
             //
             // hack: try our best to insert the host record
             //       when an exception happens this session can't be flushed any more
             //
-            if (! string.IsNullOrEmpty(request.RefererUri) && (request.RefererUri.Length < 255)) 
+            if (!string.IsNullOrEmpty(request.RefererUri) && (request.RefererUri.Length < 255))
                 host.LastRefererUri = request.RefererUri;
-            if (! string.IsNullOrEmpty(request.RequestUri) && (request.RequestUri.Length < 255)) 
+            if (!string.IsNullOrEmpty(request.RequestUri) && (request.RequestUri.Length < 255))
                 host.LastRequestUri = request.RequestUri;
-            
+
             host.Total++;
 
             try
@@ -488,6 +519,28 @@ namespace SnCore.Services
             if (cntr == null)
             {
                 cntr = new CounterDaily();
+                cntr.Timestamp = ts;
+                cntr.Total = 0;
+            }
+
+            cntr.Total++;
+            Session.Save(cntr);
+        }
+
+        private void IncrementUniqueMonthlyCounter(TransitStatsRequest request)
+        {
+            if (!request.IncrementUniqueMonthlyUser)
+                return;
+
+            DateTime now = DateTime.UtcNow;
+            DateTime ts = new DateTime(now.Year, now.Month, 1);
+            CounterUniqueMonthly cntr = (CounterUniqueMonthly)Session.CreateCriteria(typeof(CounterUniqueMonthly))
+                .Add(Expression.Eq("Timestamp", ts))
+                .UniqueResult();
+
+            if (cntr == null)
+            {
+                cntr = new CounterUniqueMonthly();
                 cntr.Timestamp = ts;
                 cntr.Total = 0;
             }
@@ -620,7 +673,7 @@ namespace SnCore.Services
                     .UniqueResult<CounterType>();
 
                 TransitSummarizedCounter tsc = null;
-                if (c == null) 
+                if (c == null)
                 {
                     tsc = new TransitSummarizedCounter(ts_current, 0);
                 }
@@ -707,6 +760,16 @@ namespace SnCore.Services
                 );
         }
 
+        public List<TransitSummarizedCounter> GetSummaryUniqueMonthly()
+        {
+            return GetSummary<CounterUniqueMonthly, int>(
+                delegate(DateTime dt) { dt = dt.AddMonths(-12); return new DateTime(dt.Year, dt.Month, 1); },
+                delegate(DateTime dt) { return dt.AddMonths(1); },
+                delegate(CounterUniqueMonthly counter) { return new TimestampCounter<int>(counter.Timestamp, counter.Total); },
+                delegate(TimestampCounter<int> tsc) { return new TransitSummarizedCounter(tsc.Timestamp, tsc.Total); }
+                );
+        }
+
         public List<TransitSummarizedCounter> GetSummaryAccountMonthly()
         {
             return GetSummary<CounterAccountMonthly, int>(
@@ -741,7 +804,7 @@ namespace SnCore.Services
         {
             TransitStatsSummary summary = new TransitStatsSummary();
 
-            summary.TotalHits = (long) Session.CreateQuery("SELECT SUM(c.Total) FROM CounterYearly c").UniqueResult();
+            summary.TotalHits = (long)Session.CreateQuery("SELECT SUM(c.Total) FROM CounterYearly c").UniqueResult();
 
             DateTime now = DateTime.UtcNow;
 
@@ -750,7 +813,8 @@ namespace SnCore.Services
             summary.Weekly.AddRange(GetSummaryWeekly());
             summary.Monthly.AddRange(GetSummaryMonthly());
             summary.Yearly.AddRange(GetSummaryYearly());
-            
+
+            summary.UniqueMonthly.AddRange(GetSummaryUniqueMonthly());
             summary.ReturningDaily.AddRange(GetSummaryReturningDaily());
             summary.NewDaily.AddRange(GetSummaryNewDaily());
 
@@ -764,7 +828,7 @@ namespace SnCore.Services
 
         public static TransitCounter FindByUri(ISession session, string pageviewfilename, int id, ManagedSecurityContext sec)
         {
-            string uri = string.Format("{0}/{1}?id={2}", 
+            string uri = string.Format("{0}/{1}?id={2}",
                 ManagedConfiguration.GetValue(session, "SnCore.WebSite.Url", "http://localhost/SnCore"),
                 pageviewfilename, id);
 
