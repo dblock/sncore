@@ -95,16 +95,19 @@ public partial class SystemStatsChart2 : PicturePage
 
         List<List<TransitSummarizedCounter>> counters = new List<List<TransitSummarizedCounter>>();
         string format;
+        string title = RequestType.ToString();
 
         switch (RequestType)
         {
             case ChartType.DailyNew:
                 counters.Add(Summary.NewDaily);
                 format = "MMM d";
+                title = "New Daily";
                 break;
             case ChartType.DailyReturning:
                 counters.Add(Summary.ReturningDaily);
                 format = "MMM d";
+                title = "Returning Daily";
                 break;
             case ChartType.Daily:
                 counters.Add(Summary.Daily);
@@ -117,6 +120,7 @@ public partial class SystemStatsChart2 : PicturePage
             case ChartType.MonthlyUnique:
                 counters.Add(Summary.UniqueMonthly);
                 format = "MMM";
+                title = "Monthly Unique";
                 break;
             case ChartType.Monthly:
                 counters.Add(Summary.Monthly);
@@ -133,23 +137,29 @@ public partial class SystemStatsChart2 : PicturePage
             case ChartType.AccountDaily:
                 counters.Add(Summary.AccountDaily);
                 format = "MMM d";
+                title = "New Daily";
                 break;
             case ChartType.AccountMonthly:
                 counters.Add(Summary.AccountMonthly);
                 format = "MMM";
+                title = "New Monthly";
                 break;
             case ChartType.AccountWeekly:
                 counters.Add(Summary.AccountWeekly);
                 format = "MMM dd";
+                title = "New Weekly";
                 break;
             case ChartType.AccountYearly:
                 counters.Add(Summary.AccountYearly);
                 format = "yyyy";
+                title = "New Yearly";
                 break;
             default:
                 throw new ArgumentOutOfRangeException("type");
         }
 
+        long total = 0;
+        long count = 0;
         Color fill = Color.FromArgb(0x9F, 0x6, 0x15);
         foreach (List<TransitSummarizedCounter> clist in counters)
         {
@@ -162,14 +172,21 @@ public partial class SystemStatsChart2 : PicturePage
             chart.Fill.LinearGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             chart.MaxColumnWidth = 100;
 
+            count += clist.Count;
+
             foreach (TransitSummarizedCounter counter in clist)
-            {
+            {                
+                total += counter.Total;
                 chart.Data.Add(new ChartPoint(counter.Timestamp.ToString(format), counter.Total));
             }
 
             charts.Add(chart);
             fill = Color.FromArgb(fill.R + 0x30, fill.G + 0x30, fill.B + 0x30);
         }
+
+        engine.Title = new ChartText();
+        double average = count > 0 ? total / count : 0;
+        engine.Title.Text = string.Format("{0} (average: {1})", RequestType, average);
 
         TransitPicture picture = new TransitPicture();
         picture.Id = 0;
