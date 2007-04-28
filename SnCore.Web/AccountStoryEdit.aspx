@@ -48,9 +48,28 @@
   <tr>
    <td>
    </td>
+   <td class="sncore_form_value">
+    <div class="sncore_description">
+     <asp:UpdatePanel id="panelLastSaved" UpdateMode="Always" runat="server">
+      <ContentTemplate>
+       <asp:Label id="labelLastSaved" runat="server" />
+      </ContentTemplate>
+     </asp:UpdatePanel>
+    </div>
+   </td>
+  </tr>
+  <tr>
    <td>
-    <sncorewebcontrols:button id="linkSave" cssclass="sncore_form_button" onclick="save"
-     runat="server" text="Save" />
+   </td>
+   <td>
+    <asp:UpdatePanel id="panelEdit" runat="server">
+     <ContentTemplate>
+      <sncorewebcontrols:button id="linkSave" cssclass="sncore_form_button" onclick="save"
+       runat="server" text="Save" OnClientClick="WebForm_OnSubmit();" />
+      <sncorewebcontrols:button id="linkSaveAndContinue" cssclass="sncore_form_button" onclick="saveAndContinue"
+       runat="server" text="Save and Continue Editing" Width="200" OnClientClick="WebForm_OnSubmit();" />
+     </ContentTemplate>
+    </asp:UpdatePanel>
    </td>
   </tr>
  </table>

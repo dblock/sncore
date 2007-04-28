@@ -42,6 +42,8 @@ public partial class AccountStoryEdit : AuthenticatedPage
 
                 labelTitle.Text = "Edit Story";
                 sitemapdata.Add(new SiteMapDataAttributeNode(ts.Name, Request.Url));
+
+                labelLastSaved.Text = string.Format("Last saved: {0}", Adjust(ts.Modified));
             }
             else
             {
@@ -97,7 +99,7 @@ public partial class AccountStoryEdit : AuthenticatedPage
         }
     }
 
-    public void save(object sender, EventArgs e)
+    private int saveOnly()
     {
         TransitAccountStory s = new TransitAccountStory();
         s.Name = inputName.Text;
@@ -106,6 +108,22 @@ public partial class AccountStoryEdit : AuthenticatedPage
         s.Id = RequestId;
         s.Id = SessionManager.CreateOrUpdate<TransitAccountStory>(
             s, SessionManager.StoryService.CreateOrUpdateAccountStory);
-        Redirect(string.Format("AccountStoryView.aspx?id={0}", s.Id));
+        labelLastSaved.Text = string.Format("Last saved: {0}", Adjust(DateTime.UtcNow));
+        return s.Id;
+    }
+
+    public void saveAndContinue(object sender, EventArgs e)
+    {
+        int id = saveOnly();
+        if (RequestId == 0)
+        {
+            Redirect(string.Format("AccountStoryEdit.aspx?id={0}", id));
+        }
+    }
+
+    public void save(object sender, EventArgs e)
+    {
+        int id = saveOnly();
+        Redirect(string.Format("AccountStoryView.aspx?id={0}", id));
     }
 }

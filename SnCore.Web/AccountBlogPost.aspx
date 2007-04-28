@@ -29,7 +29,10 @@
    </td>
   </tr>
  </table>
- <asp:HyperLink ID="linkBack" Text="&#187; Cancel" CssClass="sncore_cancel" runat="server" />
+ <div class="sncore_cancel">
+  <asp:HyperLink ID="linkBack" Text="&#187; Cancel" runat="server" />
+  <asp:HyperLink ID="linkPreview" Text="&#187; View" Target="_blank" runat="server" />
+ </div>
  <asp:ValidationSummary runat="server" ID="manageValidationSummary" CssClass="sncore_form_validator"
   ShowSummary="true" />
  <table class="sncore_table">
@@ -66,8 +69,27 @@
    <td>
    </td>
    <td class="sncore_form_value">
-    <SnCoreWebControls:Button ID="manageAdd" runat="server" Text="Post" CausesValidation="true"
-     CssClass="sncore_form_button" OnClick="save_Click" OnClientClick="WebForm_OnSubmit();" />
+    <div class="sncore_description">
+     <asp:UpdatePanel id="panelLastSaved" UpdateMode="Always" runat="server">
+      <ContentTemplate>
+       <asp:Label id="labelLastSaved" runat="server" />
+      </ContentTemplate>
+     </asp:UpdatePanel>
+    </div>
+   </td>
+  </tr>
+  <tr>
+   <td>
+   </td>
+   <td>
+    <asp:UpdatePanel id="panelEdit" runat="server">
+     <ContentTemplate>
+      <sncorewebcontrols:button id="linkSave" cssclass="sncore_form_button" onclick="save"
+       runat="server" text="Save" OnClientClick="WebForm_OnSubmit();" />
+      <sncorewebcontrols:button id="linkSaveAndContinue" cssclass="sncore_form_button" onclick="saveAndContinue"
+       runat="server" text="Save and Continue Editing" Width="200" OnClientClick="WebForm_OnSubmit();" />
+     </ContentTemplate>
+    </asp:UpdatePanel>
    </td>
   </tr>
  </table>

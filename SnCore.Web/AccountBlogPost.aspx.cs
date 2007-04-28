@@ -62,29 +62,48 @@ public partial class AccountBlogPostNew : AuthenticatedPage
                 TransitAccountBlogPost post = SessionManager.BlogService.GetAccountBlogPostById(SessionManager.Ticket, RequestId);
                 inputBody.Text = post.Body;
                 inputTitle.Text = post.Title;
+                labelLastSaved.Text = string.Format("Last saved: {0}", Adjust(post.Modified));
                 sitemapdata.Add(new SiteMapDataAttributeNode(post.Title, Request.Url));
+                linkPreview.NavigateUrl = string.Format("AccountBlogPostView.aspx?id={0}", RequestId);
             }
             else
             {
                 sitemapdata.Add(new SiteMapDataAttributeNode("New Post", Request.Url));
+                linkPreview.Visible = false;
             }
 
             StackSiteMap(sitemapdata);
         }
 
-        SetDefaultButton(manageAdd);
+        SetDefaultButton(linkSave);
     }
 
-    public void save_Click(object sender, EventArgs e)
+    private int saveOnly()
     {
         TransitAccountBlogPost tp = new TransitAccountBlogPost();
         tp.Title = inputTitle.Text;
         tp.Body = inputBody.Text;
         tp.AccountBlogId = BlogId;
         tp.Id = RequestId;
-        SessionManager.CreateOrUpdate<TransitAccountBlogPost>(
+        tp.Id = SessionManager.CreateOrUpdate<TransitAccountBlogPost>(
             tp, SessionManager.BlogService.CreateOrUpdateAccountBlogPost);
+        return tp.Id;
+    }
+
+    public void save(object sender, EventArgs e)
+    {
+        saveOnly();
         Redirect(ReturnUrl);
+    }
+
+    public void saveAndContinue(object sender, EventArgs e)
+    {
+        int id = saveOnly();
+        labelLastSaved.Text = string.Format("Last saved: {0}", Adjust(DateTime.UtcNow));
+        if (RequestId == 0)
+        {
+            Redirect(string.Format("AccountBlogPost.aspx?bid={0}&id={1}", BlogId, id));
+        }
     }
 
     protected void files_FilesPosted(object sender, FilesPostedEventArgs e)
