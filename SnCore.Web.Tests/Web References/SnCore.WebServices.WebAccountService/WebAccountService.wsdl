@@ -226,6 +226,7 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="updatelastlogin" type="s:boolean" />
           </s:sequence>
         </s:complexType>
       </s:element>

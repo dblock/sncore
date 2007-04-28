@@ -311,24 +311,26 @@ namespace SnCore.Web.Soap.Tests.WebStatsService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetRefererHostsCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int GetRefererHostsCount(string ticket) {
+        public int GetRefererHostsCount(string ticket, RefererHostQueryOptions qopt) {
             object[] results = this.Invoke("GetRefererHostsCount", new object[] {
-                        ticket});
+                        ticket,
+                        qopt});
             return ((int)(results[0]));
         }
         
         /// <remarks/>
-        public void GetRefererHostsCountAsync(string ticket) {
-            this.GetRefererHostsCountAsync(ticket, null);
+        public void GetRefererHostsCountAsync(string ticket, RefererHostQueryOptions qopt) {
+            this.GetRefererHostsCountAsync(ticket, qopt, null);
         }
         
         /// <remarks/>
-        public void GetRefererHostsCountAsync(string ticket, object userState) {
+        public void GetRefererHostsCountAsync(string ticket, RefererHostQueryOptions qopt, object userState) {
             if ((this.GetRefererHostsCountOperationCompleted == null)) {
                 this.GetRefererHostsCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetRefererHostsCountOperationCompleted);
             }
             this.InvokeAsync("GetRefererHostsCount", new object[] {
-                        ticket}, this.GetRefererHostsCountOperationCompleted, userState);
+                        ticket,
+                        qopt}, this.GetRefererHostsCountOperationCompleted, userState);
         }
         
         private void OnGetRefererHostsCountOperationCompleted(object arg) {
@@ -340,25 +342,27 @@ namespace SnCore.Web.Soap.Tests.WebStatsService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetRefererHosts", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public TransitRefererHost[] GetRefererHosts(string ticket, ServiceQueryOptions options) {
+        public TransitRefererHost[] GetRefererHosts(string ticket, RefererHostQueryOptions qopt, ServiceQueryOptions options) {
             object[] results = this.Invoke("GetRefererHosts", new object[] {
                         ticket,
+                        qopt,
                         options});
             return ((TransitRefererHost[])(results[0]));
         }
         
         /// <remarks/>
-        public void GetRefererHostsAsync(string ticket, ServiceQueryOptions options) {
-            this.GetRefererHostsAsync(ticket, options, null);
+        public void GetRefererHostsAsync(string ticket, RefererHostQueryOptions qopt, ServiceQueryOptions options) {
+            this.GetRefererHostsAsync(ticket, qopt, options, null);
         }
         
         /// <remarks/>
-        public void GetRefererHostsAsync(string ticket, ServiceQueryOptions options, object userState) {
+        public void GetRefererHostsAsync(string ticket, RefererHostQueryOptions qopt, ServiceQueryOptions options, object userState) {
             if ((this.GetRefererHostsOperationCompleted == null)) {
                 this.GetRefererHostsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetRefererHostsOperationCompleted);
             }
             this.InvokeAsync("GetRefererHosts", new object[] {
                         ticket,
+                        qopt,
                         options}, this.GetRefererHostsOperationCompleted, userState);
         }
         
@@ -1160,6 +1164,8 @@ namespace SnCore.Web.Soap.Tests.WebStatsService {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
     public partial class TransitStatsRequest {
         
+        private bool incrementUniqueMonthlyUserField;
+        
         private bool incrementNewUserField;
         
         private bool incrementReturningUserField;
@@ -1171,6 +1177,16 @@ namespace SnCore.Web.Soap.Tests.WebStatsService {
         private string refererUriField;
         
         private string refererQueryField;
+        
+        /// <remarks/>
+        public bool IncrementUniqueMonthlyUser {
+            get {
+                return this.incrementUniqueMonthlyUserField;
+            }
+            set {
+                this.incrementUniqueMonthlyUserField = value;
+            }
+        }
         
         /// <remarks/>
         public bool IncrementNewUser {
@@ -1945,6 +1961,27 @@ namespace SnCore.Web.Soap.Tests.WebStatsService {
     }
     
     /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class RefererHostQueryOptions {
+        
+        private bool newOnlyField;
+        
+        /// <remarks/>
+        public bool NewOnly {
+            get {
+                return this.newOnlyField;
+            }
+            set {
+                this.newOnlyField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitSummarizedCounter))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
     [System.SerializableAttribute()]
@@ -2006,6 +2043,8 @@ namespace SnCore.Web.Soap.Tests.WebStatsService {
         private TransitSummarizedCounter[] weeklyField;
         
         private TransitSummarizedCounter[] monthlyField;
+        
+        private TransitSummarizedCounter[] uniqueMonthlyField;
         
         private TransitSummarizedCounter[] yearlyField;
         
@@ -2076,6 +2115,16 @@ namespace SnCore.Web.Soap.Tests.WebStatsService {
             }
             set {
                 this.monthlyField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public TransitSummarizedCounter[] UniqueMonthly {
+            get {
+                return this.uniqueMonthlyField;
+            }
+            set {
+                this.uniqueMonthlyField = value;
             }
         }
         

@@ -17,23 +17,6 @@ namespace SnCore.Services.Tests
         }
 
         [Test]
-        public void TestCrud()
-        {
-            ManagedConfiguration c = null;
-            try
-            {
-                string name = GetNewString();
-                string value = GetNewString();
-                c = ManagedConfiguration.SetValue(Session, name, value);
-                Assert.AreEqual(value, ManagedConfiguration.GetValue(Session, name));
-            }
-            finally
-            {
-                c.Delete(AdminSecurityContext);
-            }
-        }
-
-        [Test]
         public void TestGetValue()
         {
             string defaultvalue = GetNewString();
@@ -42,11 +25,11 @@ namespace SnCore.Services.Tests
         }
 
         [Test]
-        [ExpectedException(typeof(ManagedConfiguration.InvalidConfigurationException))]
-        public void TestGetValueInvalid()
+        public void TestTryGetConfiguration()
         {
-            ManagedConfiguration.GetValue(Session, GetNewString());
+            Configuration result = null;
+            Assert.IsFalse(ManagedConfiguration.TryGetConfiguration(Session, GetNewString(), out result));
+            Assert.IsNull(result);
         }
-
     }
 }

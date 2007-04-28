@@ -264,7 +264,7 @@ namespace SnCore.WebServices
         /// <param name="ticket">authentication ticket</param>
         /// <returns>transit account</returns>
         [WebMethod(Description = "Get account information.")]
-        public TransitAccount GetAccount(string ticket)
+        public TransitAccount GetAccount(string ticket, bool updatelastlogin)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
@@ -273,7 +273,7 @@ namespace SnCore.WebServices
                     ISession session = SnCore.Data.Hibernate.Session.Current;
                     ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
                     ManagedAccount account = new ManagedAccount(session, sec.Account);
-                    account.UpdateLastLogin();
+                    if (updatelastlogin) account.UpdateLastLogin();
                     return account.GetTransitInstance(sec);
                 }
                 catch (ObjectNotFoundException)

@@ -109,8 +109,16 @@ public partial class AccountGroupView : Page
 
             if (AccountGroup.IsPrivate && ! fGroupMemberOrAdmin)
             {
-                ReportWarning("This is a private group. You must be a member to see it.");
-                return;
+                if (!SessionManager.IsLoggedIn)
+                {
+                    RedirectToLogin();
+                }
+                else
+                {
+                    ReportWarning("This is a private group. You must be a member to see it.");
+                }
+
+                return; 
             }
 
             GetPicturesData(sender, e);

@@ -29,6 +29,7 @@ public partial class TellAFriend : AuthenticatedPage
         p.BaseUri = new Uri(baseuri);
         p.HasOnline = true;
         p.Note = inputNote.Text;
+        p.UserAgent = SessionManager.GetCachedConfiguration("SnCore.Web.UserAgent", "SnCore/1.0");
         return ContentPage.GetContent(uri, p);
     }
 

@@ -41,7 +41,7 @@ namespace SnCore.Services.Tests
             string uri = string.Format("http://localhost/uri/{0}", Guid.NewGuid());
             string query = string.Format("q={0}", Guid.NewGuid());
             HttpRequest request = new HttpRequest(null, uri, query);
-            TransitStatsRequest statsrequest = new TransitStatsRequest(request, null);
+            TransitStatsRequest statsrequest = new TransitStatsRequest(request, null, null);
             stats.Track(statsrequest);
             TransitStatsSummary summary2 = stats.GetSummary();
             Assert.AreEqual(summary1.TotalHits + 1, summary2.TotalHits);

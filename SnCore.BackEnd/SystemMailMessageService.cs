@@ -149,6 +149,7 @@ namespace SnCore.BackEndServices
                 string baseuri = ManagedConfiguration.GetValue(session, "SnCore.WebSite.Url", "http://localhost/SnCore");
                 if (!baseuri.EndsWith("/")) baseuri = baseuri + "/";
                 ContentPageParameters parameters = new ContentPageParameters();
+                parameters.UserAgent = ManagedConfiguration.GetValue(session, "SnCore.Web.UserAgent", "SnCore/1.0");
                 parameters.BaseUri = new Uri(baseuri);
                 string content = ContentPage.GetContent(new Uri(campaign.Url), parameters);
 

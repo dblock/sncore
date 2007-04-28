@@ -113,6 +113,10 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
         
         private System.Threading.SendOrPostCallback GetAccountRssWatchsOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetAccountRssWatchItemsCountOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountRssWatchItemsOperationCompleted;
+        
         private System.Threading.SendOrPostCallback DeleteAccountRssWatchOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
@@ -269,6 +273,12 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
         
         /// <remarks/>
         public event GetAccountRssWatchsCompletedEventHandler GetAccountRssWatchsCompleted;
+        
+        /// <remarks/>
+        public event GetAccountRssWatchItemsCountCompletedEventHandler GetAccountRssWatchItemsCountCompleted;
+        
+        /// <remarks/>
+        public event GetAccountRssWatchItemsCompletedEventHandler GetAccountRssWatchItemsCompleted;
         
         /// <remarks/>
         public event DeleteAccountRssWatchCompletedEventHandler DeleteAccountRssWatchCompleted;
@@ -1484,6 +1494,70 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountRssWatchItemsCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetAccountRssWatchItemsCount(string ticket, int id) {
+            object[] results = this.Invoke("GetAccountRssWatchItemsCount", new object[] {
+                        ticket,
+                        id});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountRssWatchItemsCountAsync(string ticket, int id) {
+            this.GetAccountRssWatchItemsCountAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountRssWatchItemsCountAsync(string ticket, int id, object userState) {
+            if ((this.GetAccountRssWatchItemsCountOperationCompleted == null)) {
+                this.GetAccountRssWatchItemsCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountRssWatchItemsCountOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountRssWatchItemsCount", new object[] {
+                        ticket,
+                        id}, this.GetAccountRssWatchItemsCountOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountRssWatchItemsCountOperationCompleted(object arg) {
+            if ((this.GetAccountRssWatchItemsCountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountRssWatchItemsCountCompleted(this, new GetAccountRssWatchItemsCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountRssWatchItems", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitRssChannelItems GetAccountRssWatchItems(string ticket, int id, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetAccountRssWatchItems", new object[] {
+                        ticket,
+                        id,
+                        options});
+            return ((TransitRssChannelItems)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountRssWatchItemsAsync(string ticket, int id, ServiceQueryOptions options) {
+            this.GetAccountRssWatchItemsAsync(ticket, id, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountRssWatchItemsAsync(string ticket, int id, ServiceQueryOptions options, object userState) {
+            if ((this.GetAccountRssWatchItemsOperationCompleted == null)) {
+                this.GetAccountRssWatchItemsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountRssWatchItemsOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountRssWatchItems", new object[] {
+                        ticket,
+                        id,
+                        options}, this.GetAccountRssWatchItemsOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountRssWatchItemsOperationCompleted(object arg) {
+            if ((this.GetAccountRssWatchItemsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountRssWatchItemsCompleted(this, new GetAccountRssWatchItemsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/DeleteAccountRssWatch", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeleteAccountRssWatch(string ticket, int id) {
             this.Invoke("DeleteAccountRssWatch", new object[] {
@@ -1631,6 +1705,141 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
             }
             set {
                 this.idField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitRssItem {
+        
+        private string linkField;
+        
+        private string titleField;
+        
+        private string descriptionField;
+        
+        private System.DateTime pubDateField;
+        
+        private string authorField;
+        
+        /// <remarks/>
+        public string Link {
+            get {
+                return this.linkField;
+            }
+            set {
+                this.linkField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Title {
+            get {
+                return this.titleField;
+            }
+            set {
+                this.titleField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime PubDate {
+            get {
+                return this.pubDateField;
+            }
+            set {
+                this.pubDateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Author {
+            get {
+                return this.authorField;
+            }
+            set {
+                this.authorField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitRssChannel {
+        
+        private string linkField;
+        
+        private string titleField;
+        
+        /// <remarks/>
+        public string Link {
+            get {
+                return this.linkField;
+            }
+            set {
+                this.linkField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Title {
+            get {
+                return this.titleField;
+            }
+            set {
+                this.titleField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitRssChannelItems {
+        
+        private TransitRssChannel channelField;
+        
+        private TransitRssItem[] itemsField;
+        
+        /// <remarks/>
+        public TransitRssChannel Channel {
+            get {
+                return this.channelField;
+            }
+            set {
+                this.channelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public TransitRssItem[] Items {
+            get {
+                return this.itemsField;
+            }
+            set {
+                this.itemsField = value;
             }
         }
     }
@@ -3642,6 +3851,58 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((TransitAccountRssWatch[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetAccountRssWatchItemsCountCompletedEventHandler(object sender, GetAccountRssWatchItemsCountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountRssWatchItemsCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountRssWatchItemsCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetAccountRssWatchItemsCompletedEventHandler(object sender, GetAccountRssWatchItemsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountRssWatchItemsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountRssWatchItemsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitRssChannelItems Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitRssChannelItems)(this.results[0]));
             }
         }
     }

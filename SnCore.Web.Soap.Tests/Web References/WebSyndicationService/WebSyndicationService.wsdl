@@ -773,6 +773,63 @@
           <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountRssWatch" nillable="true" type="tns:TransitAccountRssWatch" />
         </s:sequence>
       </s:complexType>
+      <s:element name="GetAccountRssWatchItemsCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountRssWatchItemsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAccountRssWatchItemsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountRssWatchItems">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountRssWatchItemsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountRssWatchItemsResult" type="tns:TransitRssChannelItems" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitRssChannelItems">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Channel" type="tns:TransitRssChannel" />
+          <s:element minOccurs="0" maxOccurs="1" name="Items" type="tns:ArrayOfTransitRssItem" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitRssChannel">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Link" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfTransitRssItem">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitRssItem" nillable="true" type="tns:TransitRssItem" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitRssItem">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Link" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="PubDate" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="Author" type="s:string" />
+        </s:sequence>
+      </s:complexType>
       <s:element name="DeleteAccountRssWatch">
         <s:complexType>
           <s:sequence>
@@ -1020,6 +1077,18 @@
   <wsdl:message name="GetAccountRssWatchsSoapOut">
     <wsdl:part name="parameters" element="tns:GetAccountRssWatchsResponse" />
   </wsdl:message>
+  <wsdl:message name="GetAccountRssWatchItemsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountRssWatchItemsCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountRssWatchItemsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountRssWatchItemsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountRssWatchItemsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountRssWatchItems" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountRssWatchItemsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountRssWatchItemsResponse" />
+  </wsdl:message>
   <wsdl:message name="DeleteAccountRssWatchSoapIn">
     <wsdl:part name="parameters" element="tns:DeleteAccountRssWatch" />
   </wsdl:message>
@@ -1221,6 +1290,16 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get rss watchs.</wsdl:documentation>
       <wsdl:input message="tns:GetAccountRssWatchsSoapIn" />
       <wsdl:output message="tns:GetAccountRssWatchsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountRssWatchItemsCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get rss items count.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountRssWatchItemsCountSoapIn" />
+      <wsdl:output message="tns:GetAccountRssWatchItemsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountRssWatchItems">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get rss items.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountRssWatchItemsSoapIn" />
+      <wsdl:output message="tns:GetAccountRssWatchItemsSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="DeleteAccountRssWatch">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete an rss watch.</wsdl:documentation>
@@ -1574,6 +1653,24 @@
     </wsdl:operation>
     <wsdl:operation name="GetAccountRssWatchs">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountRssWatchs" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountRssWatchItemsCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountRssWatchItemsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountRssWatchItems">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountRssWatchItems" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1937,6 +2034,24 @@
     </wsdl:operation>
     <wsdl:operation name="GetAccountRssWatchs">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountRssWatchs" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountRssWatchItemsCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountRssWatchItemsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountRssWatchItems">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountRssWatchItems" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

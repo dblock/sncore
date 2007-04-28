@@ -57,7 +57,7 @@ public partial class AccountLoginControl : Control
                 ticket = SessionManager.AccountService.Login(loginEmailAddress.Text, loginPassword.Text);
                 SessionManager.Login(ticket, loginRememberMe.Checked);
 
-                TransitAccount ta = SessionManager.AccountService.GetAccount(ticket);
+                TransitAccount ta = SessionManager.AccountService.GetAccount(ticket, true);
                 if (ta != null && ta.IsPasswordExpired)
                 {
                     Redirect(string.Format("AccountChangePassword.aspx?ReturnUrl={0}&PasswordHash={1}",

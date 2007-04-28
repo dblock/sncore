@@ -34,7 +34,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             string ticket = EndPoint.Login(email, t_instance.Password);
             int id2 = EndPoint.GetAccountId(ticket);
             Assert.AreEqual(id, id2);
-            WebAccountService.TransitAccount t_instance2 = EndPoint.GetAccount(ticket);
+            WebAccountService.TransitAccount t_instance2 = EndPoint.GetAccount(ticket, true);
             Assert.AreEqual(t_instance2.Id, id);
             Assert.AreEqual(t_instance2.Name, t_instance.Name);
         }

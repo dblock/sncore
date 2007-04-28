@@ -55,7 +55,7 @@ public partial class AccountEventEdit : AuthenticatedPage
             else if (!string.IsNullOrEmpty(Request["ical"]))
             {
                 TransitAccountEventICALEmitter emitter = TransitAccountEventICALEmitter.Parse(
-                    Request["ical"], SessionManager.UtcOffset);
+                    Request["ical"], SessionManager.UtcOffset, SessionManager.GetCachedConfiguration("SnCore.Web.UserAgent", "SnCore/1.0"));
                 inputName.Text = emitter.AccountEvent.Name;
                 inputWebsite.Text = emitter.AccountEvent.Website;
                 inputDescription.Text = emitter.AccountEvent.Description;

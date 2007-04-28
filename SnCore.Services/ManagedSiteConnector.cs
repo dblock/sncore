@@ -49,6 +49,7 @@ namespace SnCore.Services
             Uri baseuri = GetBaseUri(session);
             Uri pageuri = new Uri(baseuri, relativeuri);
             ContentPageParameters p = new ContentPageParameters();
+            p.UserAgent = ManagedConfiguration.GetValue(session, "SnCore.Web.UserAgent", "SnCore/1.0");
             p.AuthCookie = GetAdminAuthCookie(session);
             p.BaseUri = baseuri;
             p.HasOnline = false;
@@ -58,6 +59,7 @@ namespace SnCore.Services
         public static string GetHttpContentAsUser(ISession session, int user_id, string relativeuri)
         {
             ContentPageParameters p = new ContentPageParameters();
+            p.UserAgent = ManagedConfiguration.GetValue(session, "SnCore.Web.UserAgent", "SnCore/1.0");
             p.AuthCookie = GetUserAuthCookie(session, user_id);
             p.BaseUri = GetBaseUri(session);
             p.HasOnline = false;
@@ -68,6 +70,7 @@ namespace SnCore.Services
         public static string GetContentAsUser(ISession session, int user_id, string relativeuri)
         {
             ContentPageParameters p = new ContentPageParameters();
+            p.UserAgent = ManagedConfiguration.GetValue(session, "SnCore.Web.UserAgent", "SnCore/1.0");
             p.AuthCookie = GetUserAuthCookie(session, user_id);
             p.BaseUri = GetBaseUri(session);
             p.HasOnline = false;

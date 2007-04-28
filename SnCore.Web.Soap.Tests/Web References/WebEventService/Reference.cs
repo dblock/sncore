@@ -1539,6 +1539,10 @@ namespace SnCore.Web.Soap.Tests.WebEventService {
         
         private TransitCounter counterField;
         
+        private int accountIdField;
+        
+        private string accountNameField;
+        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
         public byte[] Picture {
@@ -1638,6 +1642,26 @@ namespace SnCore.Web.Soap.Tests.WebEventService {
             }
             set {
                 this.counterField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int AccountId {
+            get {
+                return this.accountIdField;
+            }
+            set {
+                this.accountIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string AccountName {
+            get {
+                return this.accountNameField;
+            }
+            set {
+                this.accountNameField = value;
             }
         }
     }

@@ -4,6 +4,7 @@ using System.Text;
 using Semaview.Shared.ICalParser;
 using System.Net;
 using System.IO;
+using NHibernate;
 
 namespace SnCore.Services
 {
@@ -215,14 +216,15 @@ namespace SnCore.Services
         public void doAttribute(Token key, Token val) { }
         public void emit(string val) { }
 
-        public static TransitAccountEventICALEmitter Parse(string url)
+        public static TransitAccountEventICALEmitter Parse(string url, string useragent)
         {
-            return Parse(url, 0);
+            return Parse(url, 0, useragent);
         }
 
-        public static TransitAccountEventICALEmitter Parse(string url, int utcoffset)
+        public static TransitAccountEventICALEmitter Parse(string url, int utcoffset, string useragent)
         {
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url.Replace("webcal:", "http:"));
+            request.UserAgent = useragent;
             WebResponse response = request.GetResponse();
             StreamReader sr = new StreamReader(response.GetResponseStream());
             TransitAccountEventICALEmitter emitter = new TransitAccountEventICALEmitter();

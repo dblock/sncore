@@ -59,9 +59,9 @@ namespace SnCore.Services
 
     public class TransitRssChannel
     {
-        private Uri mLink;
+        private string mLink;
 
-        public Uri Link
+        public string Link
         {
             get
             {
@@ -87,18 +87,23 @@ namespace SnCore.Services
             }
         }
 
+        public TransitRssChannel()
+        {
+
+        }
+
         public TransitRssChannel(RssChannel channel)
         {
-            mLink = channel.Link;
+            mLink = (channel.Link != null) ? channel.Link.ToString() : string.Empty;
             mTitle = channel.Title;
         }
     }
 
     public class TransitRssItem
     {
-        private Uri mLink;
+        private string mLink;
 
-        public Uri Link
+        public string Link
         {
             get
             {
@@ -182,7 +187,7 @@ namespace SnCore.Services
             mTitle = item.Title;
             mPubDate = item.PubDate;
             mAuthor = item.Author;
-            mLink = item.Link;
+            mLink = (item.Link != null) ? item.Link.ToString() : string.Empty;
         }
     }
 
@@ -394,7 +399,11 @@ namespace SnCore.Services
         protected override void Save(ManagedSecurityContext sec)
         {
             mInstance.Modified = DateTime.UtcNow;
-            if (mInstance.Id == 0) mInstance.Sent = mInstance.Created = mInstance.Modified;
+            if (mInstance.Id == 0)
+            {
+                mInstance.Created = mInstance.Modified;
+                mInstance.Sent = mInstance.Created.AddHours(- mInstance.UpdateFrequency);
+            }
             base.Save(sec);
         }
 

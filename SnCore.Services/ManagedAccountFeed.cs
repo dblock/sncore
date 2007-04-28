@@ -374,7 +374,7 @@ namespace SnCore.Services
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(mInstance.FeedUrl);
             System.Net.ServicePointManager.Expect100Continue = false;
-            request.UserAgent = "SnCore/1.0";
+            request.UserAgent = ManagedConfiguration.GetValue(Session, "SnCore.Web.UserAgent", "SnCore/1.0").ToString();
             request.Timeout = 60 * 1000;
             request.KeepAlive = false;
             request.MaximumAutomaticRedirections = 5;

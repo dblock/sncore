@@ -122,6 +122,7 @@
         <s:complexContent mixed="false">
           <s:extension base="tns:TransitAccount">
             <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="NewFriends" type="s:int" />
               <s:element minOccurs="1" maxOccurs="1" name="NewPictures" type="s:int" />
               <s:element minOccurs="1" maxOccurs="1" name="NewDiscussionPosts" type="s:int" />
               <s:element minOccurs="1" maxOccurs="1" name="NewSyndicatedContent" type="s:int" />

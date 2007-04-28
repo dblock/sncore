@@ -51,7 +51,7 @@ public partial class AccountEventWizard : AuthenticatedPage
     {
         HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
         System.Net.ServicePointManager.Expect100Continue = false;
-        request.UserAgent = "SnCore/1.0";
+        request.UserAgent = SessionManager.GetCachedConfiguration("SnCore.Web.UserAgent", "SnCore/1.0");
         request.Timeout = 60 * 1000;
         request.KeepAlive = false;
         request.MaximumAutomaticRedirections = 5;
@@ -84,6 +84,7 @@ public partial class AccountEventWizard : AuthenticatedPage
     {
         List<TransitAccountEvent> result = new List<TransitAccountEvent>();
         HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+        request.UserAgent = SessionManager.GetCachedConfiguration("SnCore.Web.UserAgent", "SnCore/1.0");
         WebResponse response = request.GetResponse();
         string content;
         using (StreamReader sr = new StreamReader(response.GetResponseStream()))
@@ -101,7 +102,8 @@ public partial class AccountEventWizard : AuthenticatedPage
                 switch (link.Type.ToLower())
                 {
                     case "text/calendar":
-                        TransitAccountEventICALEmitter emitter = TransitAccountEventICALEmitter.Parse(link.Href);
+                        TransitAccountEventICALEmitter emitter = TransitAccountEventICALEmitter.Parse(
+                            link.Href, SessionManager.GetCachedConfiguration("SnCore.Web.UserAgent", "SnCore/1.0"));
                         emitter.AccountEvent.Website = link.Href;
                         AddUnique(result, emitter.AccountEvent);
                         break;
@@ -121,7 +123,7 @@ public partial class AccountEventWizard : AuthenticatedPage
                 if (link.Scheme.ToLower() == "webcal" || link.GetLeftPart(UriPartial.Path).EndsWith(".ics"))
                 {
                     TransitAccountEventICALEmitter emitter = TransitAccountEventICALEmitter.Parse(
-                        link.ToString());
+                        link.ToString(), SessionManager.GetCachedConfiguration("SnCore.Web.UserAgent", "SnCore/1.0"));
                     emitter.AccountEvent.Website = link.ToString();
                     AddUnique(result, emitter.AccountEvent);
                 }

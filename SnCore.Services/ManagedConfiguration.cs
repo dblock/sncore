@@ -91,15 +91,6 @@ namespace SnCore.Services
 
     public class ManagedConfiguration : ManagedService<Configuration, TransitConfiguration>
     {
-        public class InvalidConfigurationException : SoapException
-        {
-            public InvalidConfigurationException()
-                : base("Invalid configuration setting", SoapException.ClientFaultCode)
-            {
-
-            }
-        }
-
         public ManagedConfiguration()
         {
 
@@ -140,84 +131,38 @@ namespace SnCore.Services
             }
         }
 
-        public static ManagedConfiguration GetConfigurationByName(ISession session, string name)
+        public static bool TryGetConfiguration(ISession session, string name, out Configuration configuration)
         {
-            return new ManagedConfiguration(session, GetConfiguration(session, name));
-        }
-
-        public static Configuration GetConfiguration(ISession session, string name)
-        {
-            return GetConfiguration(session, name, true);
-        }
-
-        public static Configuration GetConfiguration(ISession session, string name, bool throwonerror)
-        {
-            Configuration c = (Configuration)session.CreateCriteria(typeof(Configuration))
+            configuration = session.CreateCriteria(typeof(Configuration))
                 .Add(Expression.Eq("OptionName", name))
-                .UniqueResult();
+                .UniqueResult<Configuration>();
 
-            if (c == null && throwonerror)
-            {
-                throw new ManagedConfiguration.InvalidConfigurationException();
-            }
-
-            return c;
-        }
-
-        public static ManagedConfiguration SetValue(ISession session, string name, string value)
-        {
-            Configuration c = null;
-            try
-            {
-                c = GetConfiguration(session, name);
-            }
-            catch (InvalidConfigurationException)
-            {
-                c = new Configuration();
-                c.OptionName = name;
-            }
-
-            c.OptionValue = value;
-            session.Save(c);
-            session.Flush();
-            return new ManagedConfiguration(session, c);
-        }
-
-        public static string GetValue(ISession session, string name)
-        {
-            return GetConfiguration(session, name).OptionValue;
+            return (configuration != null);
         }
 
         public static string GetValue(ISession session, string name, string defaultvalue)
         {
-            try
-            {
-                return GetConfiguration(session, name).OptionValue;
-            }
-            catch (InvalidConfigurationException)
-            {
+            Configuration result = null;
+
+            if (!TryGetConfiguration(session, name, out result))
                 return defaultvalue;
-            }
+            
+            return result.OptionValue;
         }
 
         public static int GetValue(ISession session, string name, int defaultvalue)
         {
-            try
-            {
-                int result = 0;
-                if (int.TryParse(GetConfiguration(session, name).OptionValue, out result))
-                    return result;
-                return defaultvalue;
-            }
-            catch (InvalidConfigurationException)
-            {
-                return defaultvalue;
-            }
-        }
+            Configuration c = null;
 
-        public static int GetConfigurationId(ISession session, string name)
-        {
-            return GetConfiguration(session, name).Id;
+            if (!TryGetConfiguration(session, name, out c))
+                return defaultvalue;
+
+            int result = 0;
+
+            if (!int.TryParse(c.OptionValue, out result))
+                return defaultvalue;
+
+            return result;
         }
 
         public override ACL GetACL(Type type)

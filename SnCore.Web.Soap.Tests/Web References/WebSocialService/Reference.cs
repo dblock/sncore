@@ -1376,11 +1376,23 @@ namespace SnCore.Web.Soap.Tests.WebSocialService {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
     public partial class TransitAccountActivity : TransitAccount {
         
+        private int newFriendsField;
+        
         private int newPicturesField;
         
         private int newDiscussionPostsField;
         
         private int newSyndicatedContentField;
+        
+        /// <remarks/>
+        public int NewFriends {
+            get {
+                return this.newFriendsField;
+            }
+            set {
+                this.newFriendsField = value;
+            }
+        }
         
         /// <remarks/>
         public int NewPictures {

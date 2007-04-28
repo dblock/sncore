@@ -223,12 +223,18 @@ namespace SnCore.Services
                 }
             }
 
-            if (!lastseen.HasValue) IncrementNewUser = true;
-            else if (lastseen.Value.AddDays(1) < DateTime.UtcNow) IncrementReturningUser = true;
-
-            if (!lastmonthseen.HasValue) IncrementUniqueMonthlyUser = true;
-
             Timestamp = DateTime.UtcNow;
+
+            if ((request.Browser != null) && (! request.Browser.Crawler))
+            {
+                if (!lastseen.HasValue)
+                    IncrementNewUser = true;
+                else if (lastseen.Value.AddDays(1) < DateTime.UtcNow)
+                    IncrementReturningUser = true;
+
+                if (!lastmonthseen.HasValue)
+                    IncrementUniqueMonthlyUser = true;
+            }
         }
 
         private bool mIncrementUniqueMonthlyUser = false;

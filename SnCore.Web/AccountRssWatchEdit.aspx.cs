@@ -67,8 +67,8 @@ public partial class AccountRssWatchEdit : AuthenticatedPage
             }
             else
             {
-                inputName.Text = Request["name"];
-                inputRssWatchUrl.Text = Request["url"];
+                inputName.Text = Request.QueryString["name"];
+                inputRssWatchUrl.Text = Request.QueryString["url"];
             }
 
             StackSiteMap(sitemapdata);

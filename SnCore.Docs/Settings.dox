@@ -22,6 +22,7 @@
  <tr><td class="settingLeft">SnCore.PressContentGroup.Id</td><td class="settingRight">additional content group id to link press reports</td></tr>
  <tr><td class="settingLeft">SnCore.MadLibs.Place.Id</td><td class="settingRight">madlib id for places</td></tr>
  <tr><td class="settingLeft">SnCore.Country.Default</td><td class="settingRight">default country, eg. United States</td></tr> 
+ <tr><td class="settingLeft">SnCore.Web.UserAgent</td><td class="settingRight">user-agent for outgoing requests, default is SnCore/1.0</td></tr> 
 </table>
 
 \section settings_appconfig Web.config Settings

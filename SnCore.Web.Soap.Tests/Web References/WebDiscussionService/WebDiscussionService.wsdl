@@ -33,6 +33,21 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetThreadRedirectUri">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetThreadRedirectUriResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetThreadRedirectUriResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="CreateOrUpdateDiscussion">
         <s:complexType>
           <s:sequence>
@@ -600,6 +615,12 @@
   <wsdl:message name="GetDiscussionRedirectUriSoapOut">
     <wsdl:part name="parameters" element="tns:GetDiscussionRedirectUriResponse" />
   </wsdl:message>
+  <wsdl:message name="GetThreadRedirectUriSoapIn">
+    <wsdl:part name="parameters" element="tns:GetThreadRedirectUri" />
+  </wsdl:message>
+  <wsdl:message name="GetThreadRedirectUriSoapOut">
+    <wsdl:part name="parameters" element="tns:GetThreadRedirectUriResponse" />
+  </wsdl:message>
   <wsdl:message name="CreateOrUpdateDiscussionSoapIn">
     <wsdl:part name="parameters" element="tns:CreateOrUpdateDiscussion" />
   </wsdl:message>
@@ -797,6 +818,11 @@
       <wsdl:input message="tns:GetDiscussionRedirectUriSoapIn" />
       <wsdl:output message="tns:GetDiscussionRedirectUriSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="GetThreadRedirectUri">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a personal discussion redirect url.</wsdl:documentation>
+      <wsdl:input message="tns:GetThreadRedirectUriSoapIn" />
+      <wsdl:output message="tns:GetThreadRedirectUriSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="CreateOrUpdateDiscussion">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add a discussion.</wsdl:documentation>
       <wsdl:input message="tns:CreateOrUpdateDiscussionSoapIn" />
@@ -966,6 +992,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetDiscussionRedirectUri">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetDiscussionRedirectUri" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetThreadRedirectUri">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetThreadRedirectUri" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1266,6 +1301,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetDiscussionRedirectUri">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetDiscussionRedirectUri" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetThreadRedirectUri">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetThreadRedirectUri" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

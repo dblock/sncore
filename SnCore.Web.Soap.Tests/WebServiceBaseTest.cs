@@ -84,13 +84,13 @@ namespace SnCore.Web.Soap.Tests
         public WebAccountService.TransitAccount GetUserAccount()
         {
             WebAccountService.WebAccountService endpoint = new WebAccountService.WebAccountService();
-            return endpoint.GetAccount(GetUserTicket());
+            return endpoint.GetAccount(GetUserTicket(), true);
         }
 
         public WebAccountService.TransitAccount GetAdminAccount()
         {
             WebAccountService.WebAccountService endpoint = new WebAccountService.WebAccountService();
-            return endpoint.GetAccount(GetAdminTicket());
+            return endpoint.GetAccount(GetAdminTicket(), true);
         }
 
         public string GetAdminTicket()

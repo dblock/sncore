@@ -24,5 +24,17 @@ namespace SnCore.Web.Soap.Tests.WebStatsServiceTests
             t_instance.Total = 1;
             return t_instance;
         }
+
+        public override object[] GetCountArgs(string ticket)
+        {
+            object[] args = { ticket, null };
+            return args;
+        }
+
+        public override object[] GetArgs(string ticket, object options)
+        {
+            object[] args = { ticket, null, options };
+            return args;
+        }
     }
 }

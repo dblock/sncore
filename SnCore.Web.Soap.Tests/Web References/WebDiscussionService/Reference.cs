@@ -36,6 +36,8 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
         
         private System.Threading.SendOrPostCallback GetDiscussionRedirectUriOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetThreadRedirectUriOperationCompleted;
+        
         private System.Threading.SendOrPostCallback CreateOrUpdateDiscussionOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetDiscussionsOperationCompleted;
@@ -141,6 +143,9 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
         
         /// <remarks/>
         public event GetDiscussionRedirectUriCompletedEventHandler GetDiscussionRedirectUriCompleted;
+        
+        /// <remarks/>
+        public event GetThreadRedirectUriCompletedEventHandler GetThreadRedirectUriCompleted;
         
         /// <remarks/>
         public event CreateOrUpdateDiscussionCompletedEventHandler CreateOrUpdateDiscussionCompleted;
@@ -296,6 +301,37 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
             if ((this.GetDiscussionRedirectUriCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetDiscussionRedirectUriCompleted(this, new GetDiscussionRedirectUriCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetThreadRedirectUri", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string GetThreadRedirectUri(string ticket, int id) {
+            object[] results = this.Invoke("GetThreadRedirectUri", new object[] {
+                        ticket,
+                        id});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetThreadRedirectUriAsync(string ticket, int id) {
+            this.GetThreadRedirectUriAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetThreadRedirectUriAsync(string ticket, int id, object userState) {
+            if ((this.GetThreadRedirectUriOperationCompleted == null)) {
+                this.GetThreadRedirectUriOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetThreadRedirectUriOperationCompleted);
+            }
+            this.InvokeAsync("GetThreadRedirectUri", new object[] {
+                        ticket,
+                        id}, this.GetThreadRedirectUriOperationCompleted, userState);
+        }
+        
+        private void OnGetThreadRedirectUriOperationCompleted(object arg) {
+            if ((this.GetThreadRedirectUriCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetThreadRedirectUriCompleted(this, new GetThreadRedirectUriCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1872,6 +1908,32 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
         private object[] results;
         
         internal GetDiscussionRedirectUriCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void GetThreadRedirectUriCompletedEventHandler(object sender, GetThreadRedirectUriCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetThreadRedirectUriCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetThreadRedirectUriCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

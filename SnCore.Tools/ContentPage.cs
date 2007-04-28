@@ -23,6 +23,7 @@ namespace SnCore.Tools.Web
         public Uri BaseUri;
         public string Note;
         public bool HasOnline = true;
+        public string UserAgent;
     }
 
     public class ContentPage
@@ -80,6 +81,8 @@ namespace SnCore.Tools.Web
                 {
                     request.IfModifiedSince = parameters.IfModifiedSince.Value;
                 }
+
+                request.UserAgent = parameters.UserAgent;
             }
 
             WebResponse response = request.GetResponse();

@@ -1123,24 +1123,26 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public TransitAccount GetAccount(string ticket) {
+        public TransitAccount GetAccount(string ticket, bool updatelastlogin) {
             object[] results = this.Invoke("GetAccount", new object[] {
-                        ticket});
+                        ticket,
+                        updatelastlogin});
             return ((TransitAccount)(results[0]));
         }
         
         /// <remarks/>
-        public void GetAccountAsync(string ticket) {
-            this.GetAccountAsync(ticket, null);
+        public void GetAccountAsync(string ticket, bool updatelastlogin) {
+            this.GetAccountAsync(ticket, updatelastlogin, null);
         }
         
         /// <remarks/>
-        public void GetAccountAsync(string ticket, object userState) {
+        public void GetAccountAsync(string ticket, bool updatelastlogin, object userState) {
             if ((this.GetAccountOperationCompleted == null)) {
                 this.GetAccountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountOperationCompleted);
             }
             this.InvokeAsync("GetAccount", new object[] {
-                        ticket}, this.GetAccountOperationCompleted, userState);
+                        ticket,
+                        updatelastlogin}, this.GetAccountOperationCompleted, userState);
         }
         
         private void OnGetAccountOperationCompleted(object arg) {

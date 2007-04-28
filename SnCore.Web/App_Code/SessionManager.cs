@@ -111,10 +111,15 @@ public class SessionManager
 
         CacheAuthCookie();
 
-        if (track)
-        {
-            Track(request, response);
-        }
+        if (!track || IsSystemRequest())
+            return;
+
+        Track(request, response);
+    }
+
+    private bool IsSystemRequest()
+    {
+        return (Request.UserAgent == GetCachedConfiguration("SnCore.Web.UserAgent", "SnCore/1.0"));
     }
 
     private void CacheAuthCookie()
@@ -184,7 +189,7 @@ public class SessionManager
                         mAccount = (TransitAccount)Cache[string.Format("account:{0}", Ticket)];
                         if (mAccount == null)
                         {
-                            mAccount = AccountService.GetAccount(Ticket);
+                            mAccount = AccountService.GetAccount(Ticket, ! IsSystemRequest());
                             Cache.Insert(string.Format("account:{0}", Ticket),
                                 mAccount, null, DateTime.Now.AddHours(1), TimeSpan.Zero);
                         }
@@ -587,7 +592,7 @@ public class SessionManager
 
         // unique users monthly
         Nullable<DateTime> lastMonthVisit = GetLastVisit(request, sSnCoreLastMonthVisit);
-        if (! lastMonthVisit.HasValue)
+        if (!lastMonthVisit.HasValue)
         {
             // cookie doesn't exist, it has expired within the month
             HttpCookie lastMonthVisitCookie = new HttpCookie(sSnCoreLastMonthVisit, DateTime.UtcNow.ToString());
@@ -615,7 +620,7 @@ public class SessionManager
                 {
                     StatsService.TrackMultipleRequests(s_Requests.ToArray());
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     EventLog.WriteEntry(string.Format("Error tracking multiple requests.\n{0}", ex.Message),
                         EventLogEntryType.Warning);
@@ -735,7 +740,7 @@ public class SessionManager
 
     /// ticket + arg1 + ServiceQueryOptions
     public IList<TransitType> GetCollection<TransitType, ArgType1>(
-        ArgType1 arg1, ServiceQueryOptions options, 
+        ArgType1 arg1, ServiceQueryOptions options,
         WebClientImpl<TransitType>.GetCollectionDelegate<ArgType1> functor)
     {
         return WebClientImpl<TransitType>.GetCollection<ArgType1>(
@@ -744,7 +749,7 @@ public class SessionManager
 
     /// ticket + arg1 + arg2 + ServiceQueryOptions
     public IList<TransitType> GetCollection<TransitType, ArgType1, ArgType2>(
-        ArgType1 arg1, ArgType2 arg2, ServiceQueryOptions options, 
+        ArgType1 arg1, ArgType2 arg2, ServiceQueryOptions options,
         WebClientImpl<TransitType>.GetCollectionDelegate<ArgType1, ArgType2> functor)
     {
         return WebClientImpl<TransitType>.GetCollection<ArgType1, ArgType2>(
@@ -821,7 +826,7 @@ public class SessionManager
 
     /// ticket + arg1 + arg2
     public int GetCount<TransitType, ArgType1, ArgType2>(
-        ArgType1 arg1, ArgType2 arg2, 
+        ArgType1 arg1, ArgType2 arg2,
         WebClientImpl<TransitType>.GetItemDelegateCount<ArgType1, ArgType2> functor)
     {
         return WebClientImpl<TransitType>.GetCount(
@@ -840,7 +845,7 @@ public class SessionManager
     #endregion
 
     #region CreateOrUpdate
-    
+
     public int CreateOrUpdate<TransitType>(
         TransitType t_instance, WebClientImpl<TransitType>.CreateOrUpdateItemDelegate functor)
     {
