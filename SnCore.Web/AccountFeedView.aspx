@@ -7,6 +7,7 @@
 <%@ Register TagPrefix="SnCore" TagName="LicenseView" Src="AccountLicenseViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AutoScroll" Src="AutoScrollControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="RedirectView" Src="AccountRedirectViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <table cellspacing="0" cellpadding="4" class="sncore_table">
@@ -29,6 +30,9 @@
       <SnCore:RedirectView id="redirect" runat="server" />
      </div>
     </div>
+   </td>
+   <td align="right">   
+    <SnCore:RssLink ID="linkRelRss" runat="server" NavigateUrl="AccountFeedRss.aspx" />
     <asp:UpdatePanel runat="server" ID="panelAdminUpdate" UpdateMode="Conditional">
      <ContentTemplate>
       <asp:Panel ID="panelAdmin" runat="server" HorizontalAlign="Right">

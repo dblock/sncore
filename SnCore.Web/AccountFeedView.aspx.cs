@@ -82,6 +82,7 @@ public partial class AccountFeedView : Page
 
             redirect.AccountId = f.AccountId;
             redirect.TargetUri = string.Format("AccountFeedView.aspx?id={0}", f.Id);
+            linkRelRss.NavigateUrl = string.Format("AccountFeedRss.aspx?id={0}", f.Id);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Blogs", Request, "AccountFeedItemsView.aspx"));
