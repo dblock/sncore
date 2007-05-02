@@ -51,7 +51,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
                 EndPoint.CreateOrUpdateAccountWebsite(ticket, website);
                 Assert.IsTrue(false, "Missing exception at quota limit.");
             }
-            catch (SoapException ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("Exception at quota limit: {0}", ex.Message);
             }

@@ -107,10 +107,10 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
                 EndPoint.CreateOrUpdateAccountGroupAccountInvitation(GetUserTicket(), t_instance);
                 Assert.IsTrue(false, "Expected Access Denied exception.");
             }
-            catch (SoapException ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("Exception: {0}", ex.Message);
-                Assert.AreEqual("SnCore.Services.ManagedAccount+AccessDeniedException: Access denied",
+                Assert.AreEqual("System.Web.Services.Protocols.SoapException: Server was unable to process request. ---> SnCore.Services.ManagedAccount+AccessDeniedException: Access denied",
                     ex.Message.Split("\n".ToCharArray(), 2)[0],
                     string.Format("Unexpected exception: {0}", ex.Message));
             }
@@ -145,7 +145,7 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
                 t_instance.Id = EndPoint.CreateOrUpdateAccountGroupAccountInvitation(GetUserTicket(), t_instance);
                 Assert.IsTrue(false, "Expected user is already a member of the group exception.");
             }
-            catch (SoapException ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("Exception: {0}", ex.Message);
                 Assert.IsTrue(ex.Message.Contains("is already a member of"), string.Format("Unexpected exception: {0}", ex.Message));

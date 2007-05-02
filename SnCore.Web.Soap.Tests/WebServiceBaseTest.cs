@@ -71,7 +71,7 @@ namespace SnCore.Web.Soap.Tests
                 {
                     mUserTicket = Login("user@localhost.com", "password");
                 }
-                catch (SoapException)
+                catch (Exception)
                 {
                     CreateUserAccount();
                     mUserTicket = Login("user@localhost.com", "password");

@@ -70,7 +70,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
                 int impossible_id = EndPoint.CreateAccountWithInvitation(t_instance.Id, GetNewString(), t_account);
                 Assert.IsTrue(false, "Invalid code should have thrown an exception.");
             }
-            catch (SoapException)
+            catch (Exception)
             {
 
             }
@@ -80,7 +80,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
                 int impossible_id = EndPoint.CreateAccountWithInvitation(-1, t_instance.Code, t_account);
                 Assert.IsTrue(false, "Invalid id should have thrown an exception.");
             }
-            catch (SoapException)
+            catch (Exception)
             {
 
             }
@@ -110,7 +110,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
                 EndPoint.DeclineInvitation(t_instance.Id, GetNewString());
                 Assert.IsTrue(false, "Invalid code should have thrown an exception.");
             }
-            catch (SoapException)
+            catch (Exception)
             {
 
             }
@@ -120,7 +120,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
                 EndPoint.DeclineInvitation(-1, t_instance.Code);
                 Assert.IsTrue(false, "Invalid id should have thrown an exception.");
             }
-            catch (SoapException)
+            catch (Exception)
             {
 
             }

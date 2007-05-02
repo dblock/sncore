@@ -104,10 +104,10 @@ namespace SnCore.Services
 
     public class ManagedAccountWebsite : ManagedService<AccountWebsite, TransitAccountWebsite>
     {
-        public class InvalidUriException : SoapException
+        public class InvalidUriException : Exception
         {
             public InvalidUriException()
-                : base("Invalid url format.\nPlease make sure it starts with http://.", SoapException.ClientFaultCode)
+                : base("Invalid url format.\nPlease make sure it starts with http://.")
             {
 
             }

@@ -61,7 +61,7 @@ namespace SnCore.Services.Tests
         }
 
         [Test]
-        [ExpectedException(typeof(SoapException))]
+        [ExpectedException(typeof(Exception))]
         public void DeleteAccountEmailInvalid()
         {
             ManagedAccount a = new ManagedAccount(Session);
@@ -87,7 +87,7 @@ namespace SnCore.Services.Tests
         }
 
         [Test]
-        [ExpectedException(typeof(SoapException))]
+        [ExpectedException(typeof(Exception))]
         public void DeleteAccountEmailInvalidConfirmed()
         {
             ManagedAccount a = new ManagedAccount(Session);

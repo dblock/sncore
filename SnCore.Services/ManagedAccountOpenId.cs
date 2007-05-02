@@ -166,9 +166,7 @@ namespace SnCore.Services
 
             if (!canDelete)
             {
-                throw new SoapException(
-                    "You cannot delete the last open id.",
-                    SoapException.ClientFaultCode);
+                throw new Exception("You cannot delete the last open id.");
             }
 
             Collection<AccountOpenId>.GetSafeCollection(mInstance.Account.AccountOpenIds).Remove(mInstance);

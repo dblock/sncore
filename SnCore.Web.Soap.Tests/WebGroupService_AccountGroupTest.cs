@@ -94,10 +94,10 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
                 Console.WriteLine("Post: {0}", t_post1.Id);
                 Assert.IsFalse(true, "Expected an Access Denied exception.");
             }
-            catch (SoapException ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("Exception: {0}", ex.Message);
-                Assert.AreEqual("SnCore.Services.ManagedAccount+AccessDeniedException: Access denied",
+                Assert.AreEqual("System.Web.Services.Protocols.SoapException: Server was unable to process request. ---> SnCore.Services.ManagedAccount+AccessDeniedException: Access denied",
                     ex.Message.Split("\n".ToCharArray(), 2)[0],
                     string.Format("Unexpected exception: {0}", ex.Message));
             }
@@ -118,10 +118,10 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
                 Console.WriteLine("Post: {0}", t_post3.Id);
                 Assert.IsFalse(true, "Expected an Access Denied exception.");
             }
-            catch (SoapException ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("Exception: {0}", ex.Message);
-                Assert.AreEqual("SnCore.Services.ManagedAccount+AccessDeniedException: Access denied",
+                Assert.AreEqual("System.Web.Services.Protocols.SoapException: Server was unable to process request. ---> SnCore.Services.ManagedAccount+AccessDeniedException: Access denied",
                     ex.Message.Split("\n".ToCharArray(), 2)[0],
                     string.Format("Unexpected exception: {0}", ex.Message));
             }
@@ -161,10 +161,10 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
                 EndPoint.CreateOrUpdateAccountGroupAccount(GetUserTicket(), t_account);
                 Assert.IsTrue(false, "Expected Access Denied exception.");
             }
-            catch (SoapException ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("Exception: {0}", ex.Message);
-                Assert.AreEqual("SnCore.Services.ManagedAccount+AccessDeniedException: Access denied",
+                Assert.AreEqual("System.Web.Services.Protocols.SoapException: Server was unable to process request. ---> SnCore.Services.ManagedAccount+AccessDeniedException: Access denied",
                     ex.Message.Split("\n".ToCharArray(), 2)[0],
                     string.Format("Unexpected exception: {0}", ex.Message));
             }

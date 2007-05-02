@@ -27,7 +27,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
                 string oldticket = EndPoint.Login(email, password);
                 Assert.IsTrue(string.IsNullOrEmpty(oldticket));
             }
-            catch (SoapException)
+            catch (Exception)
             {
             }
 
@@ -77,7 +77,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
                 EndPoint.ResetPassword(email, DateTime.UtcNow);
                 Assert.IsTrue(false, "Invalid date of birth should have thrown an exception.");
             }
-            catch (SoapException)
+            catch (Exception)
             {
             }
 
@@ -89,7 +89,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
                 string oldticket = EndPoint.Login(email, password);
                 Assert.IsTrue(string.IsNullOrEmpty(oldticket));
             }
-            catch (SoapException)
+            catch (Exception)
             {
             }
 

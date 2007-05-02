@@ -106,10 +106,10 @@ namespace SnCore.Services
 
     public class ManagedCity : ManagedService<City, TransitCity>
     {
-        public class InvalidCityException : SoapException
+        public class InvalidCityException : Exception
         {
             public InvalidCityException()
-                : base("Invalid city", SoapException.ClientFaultCode)
+                : base("Invalid city")
             {
 
             }

@@ -56,10 +56,10 @@ namespace SnCore.Services
 
     public class ManagedSurvey : ManagedService<Survey, TransitSurvey>
     {
-        public class InvalidSurveyException : SoapException
+        public class InvalidSurveyException : Exception
         {
             public InvalidSurveyException()
-                : base("Invalid survey", SoapException.ClientFaultCode)
+                : base("Invalid survey")
             {
 
             }

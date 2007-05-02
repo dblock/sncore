@@ -336,9 +336,8 @@ namespace SnCore.WebServices
 
                 if (user.IsAdministrator())
                 {
-                    throw new SoapException(
-                        "You cannot delete an administrative account.",
-                        SoapException.ClientFaultCode);
+                    throw new Exception(
+                        "You cannot delete an administrative account.");
                 }
 
                 if (sec.Account.Id != user.Id)
@@ -500,8 +499,7 @@ namespace SnCore.WebServices
                 
                 if (t_instance != null)
                 {
-                    throw new SoapException("Existing invitation pending",
-                        SoapException.ClientFaultCode);
+                    throw new Exception("Existing invitation pending");
                 }
             }
 
@@ -639,8 +637,7 @@ namespace SnCore.WebServices
                 ManagedAccount acct = new ManagedAccount(session, id);
                 if (acct.IsAdministrator())
                 {
-                    throw new SoapException("User is already an administrator.",
-                        SoapException.ClientFaultCode);
+                    throw new Exception("User is already an administrator.");
                 }
 
                 acct.PromoteAdministrator();
@@ -673,14 +670,13 @@ namespace SnCore.WebServices
 
                 if (user.Id == id)
                 {
-                    throw new SoapException("You cannot demote self.", SoapException.ClientFaultCode);
+                    throw new Exception("You cannot demote self.");
                 }
 
                 ManagedAccount acct = new ManagedAccount(session, id);
                 if (!acct.IsAdministrator())
                 {
-                    throw new SoapException("User is not an administrator.",
-                        SoapException.ClientFaultCode);
+                    throw new Exception("User is not an administrator.");
                 }
 
                 acct.DemoteAdministrator();
@@ -1359,9 +1355,8 @@ namespace SnCore.WebServices
 
                 if (ppg == null)
                 {
-                    throw new SoapException(string.Format(
-                        "No property group with the name \"{0}\" found.", groupname),
-                        SoapException.ClientFaultCode);
+                    throw new Exception(string.Format(
+                        "No property group with the name \"{0}\" found.", groupname));
                 }
 
                 AccountProperty pp = (AccountProperty)session.CreateCriteria(typeof(AccountProperty))
@@ -1371,9 +1366,8 @@ namespace SnCore.WebServices
 
                 if (pp == null)
                 {
-                    throw new SoapException(string.Format(
-                        "No property with the name \"{0}\" found.", propertyname),
-                        SoapException.ClientFaultCode);
+                    throw new Exception(string.Format(
+                        "No property with the name \"{0}\" found.", propertyname));
                 }
 
                 AccountPropertyValue ppv = (AccountPropertyValue)session.CreateCriteria(typeof(AccountPropertyValue))
@@ -1383,10 +1377,9 @@ namespace SnCore.WebServices
 
                 if (ppv == null)
                 {
-                    throw new SoapException(string.Format(
+                    throw new Exception(string.Format(
                         "No property value for \"{0}\" of account \"{0}\" of group \"{0}\" found.",
-                        propertyname, accountid, groupname),
-                        SoapException.ClientFaultCode);
+                        propertyname, accountid, groupname));
                 }
 
                 ManagedAccountPropertyValue result = new ManagedAccountPropertyValue(session, ppv);

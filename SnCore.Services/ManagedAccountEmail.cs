@@ -230,9 +230,8 @@ namespace SnCore.Services
 
             if (!canDelete)
             {
-                throw new SoapException(
-                    "You cannot delete the last verified e-mail.",
-                    SoapException.ClientFaultCode);
+                throw new Exception(
+                    "You cannot delete the last verified e-mail.");
             }
 
             Collection<AccountEmail>.GetSafeCollection(mInstance.Account.AccountEmails).Remove(mInstance);

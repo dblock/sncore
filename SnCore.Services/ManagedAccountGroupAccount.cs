@@ -266,9 +266,8 @@ namespace SnCore.Services
             // check whether the user is already a member
             if (t_instance.Id == 0 && m_group.HasAccount(t_instance.AccountId))
             {
-                throw new SoapException(string.Format(
-                    "You are already a member of \"{0}\".", m_group.Instance.Name),
-                    SoapException.ClientFaultCode);
+                throw new Exception(string.Format(
+                    "You are already a member of \"{0}\".", m_group.Instance.Name));
             }
 
             // ensure that user isn't trying to self promote
@@ -297,8 +296,7 @@ namespace SnCore.Services
 
                     if (!fHasAnotherAdmin)
                     {
-                        throw new SoapException("Cannot demote the last group administrator.",
-                            SoapException.ClientFaultCode);
+                        throw new Exception("Cannot demote the last group administrator.");
                     }
                 }
             }

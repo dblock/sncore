@@ -253,7 +253,7 @@ public class Page : System.Web.UI.Page
     {
         //
         // BUGBUG: this doesn't work with a remote SOAP back-end
-        //         the exception becomes a SoapException that needs to be parsed
+        //         the exception becomes a Exception that needs to be parsed
         //
 
         if (ex is ManagedAccount.AccessDeniedException 

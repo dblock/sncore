@@ -138,10 +138,10 @@ namespace SnCore.Services
     {
         private static readonly object s_lock = new object();
 
-        public class InvalidUriException : SoapException
+        public class InvalidUriException : Exception
         {
             public InvalidUriException(string uri)
-                : base(string.Format("Invalid url: {0}. Make sure it is only composed of letters or digits.", uri), SoapException.ClientFaultCode)
+                : base(string.Format("Invalid url: {0}. Make sure it is only composed of letters or digits.", uri))
             {
 
             }

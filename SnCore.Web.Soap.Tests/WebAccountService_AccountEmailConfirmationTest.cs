@@ -38,7 +38,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
                 WebAccountService.TransitAccountEmailConfirmation[] invalid_confirmations = EndPoint.GetAccountEmailConfirmations(ticket, user_id, null);
                 Assert.IsTrue(false, "User shouldn't be able to see e-mail confirmations.");
             }
-            catch (SoapException)
+            catch (Exception)
             {
             }
 

@@ -183,10 +183,10 @@ namespace SnCore.Services
 
     public class ManagedRefererHost : ManagedService<RefererHost, TransitRefererHost>
     {
-        public class InvalidRefererHostException : SoapException
+        public class InvalidRefererHostException : Exception
         {
             public InvalidRefererHostException()
-                : base("Invalid Referer Host", SoapException.ClientFaultCode)
+                : base("Invalid Referer Host")
             {
 
             }

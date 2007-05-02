@@ -205,8 +205,7 @@ namespace SnCore.WebServices
                 }
                 catch (NHibernate.ObjectNotFoundException)
                 {
-                    throw new SoapException("This friend request cannot be found. You may have already accepted it.",
-                        SoapException.ClientFaultCode);
+                    throw new Exception("This friend request cannot be found. You may have already accepted it.");
                 }
             }
         }
@@ -233,8 +232,7 @@ namespace SnCore.WebServices
                 }
                 catch (NHibernate.ObjectNotFoundException)
                 {
-                    throw new SoapException("This friend request cannot be found. You may have already rejected it.",
-                        SoapException.ClientFaultCode);
+                    throw new Exception("This friend request cannot be found. You may have already rejected it.");
                 }
             }
         }

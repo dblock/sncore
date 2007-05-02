@@ -56,10 +56,10 @@ namespace SnCore.Services
 
     public class ManagedCountry : ManagedService<Country, TransitCountry>
     {
-        public class InvalidCountryException : SoapException
+        public class InvalidCountryException : Exception
         {
             public InvalidCountryException()
-                : base("Invalid country", SoapException.ClientFaultCode)
+                : base("Invalid country")
             {
 
             }

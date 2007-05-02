@@ -212,16 +212,14 @@ namespace SnCore.Services
             
             if (m_group.HasAccountRequest(t_instance.AccountId))
             {
-                throw new SoapException(string.Format(
-                    "You already have a membership request pending to join \"{0}\".", m_group.Instance.Name),
-                    SoapException.ClientFaultCode);
+                throw new Exception(string.Format(
+                    "You already have a membership request pending to join \"{0}\".", m_group.Instance.Name));
             }
 
             if (m_group.HasAccount(t_instance.AccountId))
             {
-                throw new SoapException(string.Format(
-                    "You are already a member of \"{0}\".", m_group.Instance.Name),
-                    SoapException.ClientFaultCode);
+                throw new Exception(string.Format(
+                    "You are already a member of \"{0}\".", m_group.Instance.Name));
             }
 
             int id = base.CreateOrUpdate(t_instance, sec);

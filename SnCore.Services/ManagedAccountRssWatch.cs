@@ -426,8 +426,8 @@ namespace SnCore.Services
             string content = ManagedSiteConnector.GetHttpContentAsUser(
                 Session, mInstance.Account.Id, mInstance.Url);
             RssFeed feed = RssFeed.Read(new StringReader(content));
-            if (feed.Channels.Count == 0) throw new SoapException(string.Format(
-                "Missing RSS channel in '{0}'.", mInstance.Url), SoapException.ClientFaultCode);
+            if (feed.Channels.Count == 0) throw new Exception(string.Format(
+                "Missing RSS channel in '{0}'.", mInstance.Url));
             return feed;
         }
 

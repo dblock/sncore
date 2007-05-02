@@ -182,10 +182,10 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
                 Console.WriteLine("Message: {0}", t_message.Id);
                 Assert.IsTrue(false, "Expected a quota exceeded exception.");
             }
-            catch (SoapException ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("Expected exception: {0}", ex.Message);
-                Assert.IsTrue(ex.Message.StartsWith("SnCore.Services.ManagedAccount+QuotaExceededException: Quota exceeded"));
+                Assert.IsTrue(ex.Message.StartsWith("System.Web.Services.Protocols.SoapException: Server was unable to process request. ---> SnCore.Services.ManagedAccount+QuotaExceededException: Quota exceeded"));
             }
 
             // make these two friends
@@ -222,10 +222,10 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
                 Console.WriteLine("Message: {0}", t_message.Id);
                 Assert.IsTrue(false, "Expected a quota exceeded exception.");
             }
-            catch (SoapException ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("Expected exception: {0}", ex.Message);
-                Assert.IsTrue(ex.Message.StartsWith("SnCore.Services.ManagedAccount+QuotaExceededException: Quota exceeded"));
+                Assert.IsTrue(ex.Message.StartsWith("System.Web.Services.Protocols.SoapException: Server was unable to process request. ---> SnCore.Services.ManagedAccount+QuotaExceededException: Quota exceeded"));
             }
 
             // delete all these

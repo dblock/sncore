@@ -274,10 +274,10 @@ namespace SnCore.Services
 
     public class ManagedDiscussion : ManagedService<Discussion, TransitDiscussion>
     {
-        public class DiscussionNotFoundException : SoapException
+        public class DiscussionNotFoundException : Exception
         {
             public DiscussionNotFoundException()
-                : base("Discussion not found", SoapException.ClientFaultCode)
+                : base("Discussion not found")
             {
 
             }

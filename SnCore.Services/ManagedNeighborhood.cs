@@ -104,10 +104,10 @@ namespace SnCore.Services
 
     public class ManagedNeighborhood : ManagedService<Neighborhood, TransitNeighborhood>
     {
-        public class InvalidNeighborhoodException : SoapException
+        public class InvalidNeighborhoodException : Exception
         {
             public InvalidNeighborhoodException()
-                : base("Invalid Neighborhood", SoapException.ClientFaultCode)
+                : base("Invalid Neighborhood")
             {
 
             }

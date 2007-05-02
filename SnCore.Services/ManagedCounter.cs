@@ -126,10 +126,10 @@ namespace SnCore.Services
 
     public class ManagedCounter : ManagedService<Counter, TransitCounter>
     {
-        public class InvalidCounterException : SoapException
+        public class InvalidCounterException : Exception
         {
             public InvalidCounterException()
-                : base("Invalid counter setting", SoapException.ClientFaultCode)
+                : base("Invalid counter setting")
             {
 
             }

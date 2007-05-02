@@ -59,7 +59,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
                 WebAccountService.TransitAccountEmail[] emails2 = EndPoint.GetAccountEmails(ticket2, user_id, null);
                 Assert.IsTrue(false, "Users cannot see each other's e-mails.");
             }
-            catch (SoapException)
+            catch (Exception)
             {
             }
 

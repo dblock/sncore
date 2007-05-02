@@ -493,8 +493,7 @@ namespace SnCore.WebServices
                 }
                 catch (NHibernate.ObjectNotFoundException)
                 {
-                    throw new SoapException("This invitation cannot be found. You may have already accepted it.",
-                        SoapException.ClientFaultCode);
+                    throw new Exception("This invitation cannot be found. You may have already accepted it.");
                 }
             }
         }
@@ -521,8 +520,7 @@ namespace SnCore.WebServices
                 }
                 catch (NHibernate.ObjectNotFoundException)
                 {
-                    throw new SoapException("This invitation cannot be found. You may have already rejected it.",
-                        SoapException.ClientFaultCode);
+                    throw new Exception("This invitation cannot be found. You may have already rejected it.");
                 }
             }
         }
@@ -635,8 +633,7 @@ namespace SnCore.WebServices
                 }
                 catch (NHibernate.ObjectNotFoundException)
                 {
-                    throw new SoapException("This membership request cannot be found. Another administrator may have already accepted it.",
-                        SoapException.ClientFaultCode);
+                    throw new Exception("This membership request cannot be found. Another administrator may have already accepted it.");
                 }
             }
         }
@@ -663,8 +660,7 @@ namespace SnCore.WebServices
                 }
                 catch (NHibernate.ObjectNotFoundException)
                 {
-                    throw new SoapException("This membership request cannot be found. Another administrator may have already rejected it.",
-                        SoapException.ClientFaultCode);
+                    throw new Exception("This membership request cannot be found. Another administrator may have already rejected it.");
                 }
             }
         }

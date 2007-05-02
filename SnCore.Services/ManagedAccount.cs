@@ -334,65 +334,65 @@ namespace SnCore.Services
         public static int MinimumPasswordLength = 4;
         public static int MaxOfAnything = 250;
 
-        public class InvalidUsernamePasswordException : SoapException
+        public class InvalidUsernamePasswordException : Exception
         {
-            public InvalidUsernamePasswordException()
-                : base("Invalid username and/or password", SoapException.ClientFaultCode)
+            public InvalidUsernamePasswordException() 
+                : base("Invalid username and/or password")
             {
 
             }
         }
 
-        public class AccessDeniedException : SoapException
+        public class AccessDeniedException : Exception
         {
-            public AccessDeniedException()
-                : base("Access denied", SoapException.ClientFaultCode)
+            public AccessDeniedException() 
+                : base("Access denied")
             {
 
             }
         }
 
-        public class NoVerifiedEmailException : SoapException
+        public class NoVerifiedEmailException : Exception
         {
             public NoVerifiedEmailException()
-                : base("You don't have any verified e-mail addresses", SoapException.ClientFaultCode)
+                : base("You don't have any verified e-mail addresses")
             {
 
             }
         }
 
 
-        public class AccountNotFoundException : SoapException
+        public class AccountNotFoundException : Exception
         {
             public AccountNotFoundException()
-                : base("Account not found", SoapException.ClientFaultCode)
+                : base("Account not found")
             {
 
             }
         }
 
-        public class PasswordTooShortException : SoapException
+        public class PasswordTooShortException : Exception
         {
             public PasswordTooShortException()
-                : base("Password too short", SoapException.ClientFaultCode)
+                : base("Password too short")
             {
 
             }
         }
 
-        public class AccountExistsException : SoapException
+        public class AccountExistsException : Exception
         {
             public AccountExistsException()
-                : base("Account already exists", SoapException.ClientFaultCode)
+                : base("Account already exists")
             {
 
             }
         }
 
-        public class QuotaExceededException : SoapException
+        public class QuotaExceededException : Exception
         {
             public QuotaExceededException()
-                : base("Quota exceeded", SoapException.ClientFaultCode)
+                : base("Quota exceeded")
             {
 
             }
@@ -927,11 +927,10 @@ namespace SnCore.Services
 
             if (o == null)
             {
-                throw new SoapException(
+                throw new Exception(
                     "Access Denied - " +
                     "your OpenId is valid, but you have to register on this site using an e-mail address first. " +
-                    "You can add an OpenId once you've joined.",
-                    SoapException.ClientFaultCode);
+                    "You can add an OpenId once you've joined.");
             }
 
             o.Account.LastLogin = DateTime.UtcNow;
@@ -1121,9 +1120,8 @@ namespace SnCore.Services
 
             if (friendid == Id)
             {
-                throw new SoapException(
-                    "You cannot add yourself as a friend.",
-                    SoapException.ClientFaultCode);
+                throw new Exception(
+                    "You cannot add yourself as a friend.");
             }
 
             AccountFriendRequest request = new AccountFriendRequest();
@@ -1136,16 +1134,14 @@ namespace SnCore.Services
             // check whether a user is already friends with
             if (HasFriend(friendid))
             {
-                throw new SoapException(string.Format(
-                    "{0} is already your friend.", request.Keen.Name),
-                    SoapException.ClientFaultCode);
+                throw new Exception(string.Format(
+                    "{0} is already your friend.", request.Keen.Name));
             }
 
             if (HasFriendRequest(friendid))
             {
-                throw new SoapException(string.Format(
-                    "You have already asked {0} to be your friend.", request.Keen.Name),
-                    SoapException.ClientFaultCode);
+                throw new Exception(string.Format(
+                    "You have already asked {0} to be your friend.", request.Keen.Name));
             }
 
             Session.Save(request);

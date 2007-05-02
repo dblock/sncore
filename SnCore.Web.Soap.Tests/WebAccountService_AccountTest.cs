@@ -107,10 +107,10 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
                 Console.WriteLine("Message: {0}", t_instance.Id);
                 Assert.IsTrue(false, "Expected an access denied.");
             }
-            catch (SoapException ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("Expected exception: {0}", ex.Message);
-                Assert.IsTrue(ex.Message.StartsWith("SnCore.Services.ManagedAccount+AccessDeniedException: Access denied"));
+                Assert.IsTrue(ex.Message.StartsWith("System.Web.Services.Protocols.SoapException: Server was unable to process request. ---> SnCore.Services.ManagedAccount+AccessDeniedException: Access denied"));
             }
         }
 

@@ -270,9 +270,8 @@ namespace SnCore.Services
             // check whether the user is already a member
             if (t_instance.Id == 0 && m_group.HasPlace(t_instance.PlaceId))
             {
-                throw new SoapException(string.Format(
-                    "This place has already been added to \"{0}\".", m_group.Instance.Name),
-                    SoapException.ClientFaultCode);
+                throw new Exception(string.Format(
+                    "This place has already been added to \"{0}\".", m_group.Instance.Name));
             }
 
             return base.CreateOrUpdate(t_instance, sec);

@@ -42,7 +42,7 @@ namespace SnCore.Services.Tests
             return t_instance;
         }
 
-        [Test, ExpectedException(typeof(SoapException))]
+        [Test, ExpectedException(typeof(Exception))]
         public override void TestUpdateAndRetrieve()
         {
             base.TestUpdateAndRetrieve();

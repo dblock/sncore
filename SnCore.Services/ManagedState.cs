@@ -73,10 +73,10 @@ namespace SnCore.Services
 
     public class ManagedState : ManagedService<State, TransitState>
     {
-        public class InvalidStateException : SoapException
+        public class InvalidStateException : Exception
         {
             public InvalidStateException()
-                : base("Invalid state", SoapException.ClientFaultCode)
+                : base("Invalid state")
             {
 
             }

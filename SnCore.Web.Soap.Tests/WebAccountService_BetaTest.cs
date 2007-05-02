@@ -45,7 +45,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
                 EndPoint.VerifyBetaPassword(GetNewString());
                 Assert.IsTrue(false, "Beta password verified when invalid.");
             }
-            catch (SoapException)
+            catch (Exception)
             {
 
             }
