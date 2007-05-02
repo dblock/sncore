@@ -285,8 +285,18 @@ namespace SnCore.Tools.Web
 
         public static string GetSummary(string summary)
         {
+            return GetSummary(summary, 196, 256);
+        }
+
+        public static string GetSummary(string summary, int min, int max)
+        {
             string result = RemoveHtml(RemoveMarkups(summary));
-            if (result.Length > 256) result = result.Substring(0, 256) + " ...";
+            if (result.Length > max)
+            {
+                result = result.Substring(0, max);
+                int cut = result.LastIndexOf(".");
+                if (cut >= min) result = result.Substring(0, cut + 1);
+            }
             return result;
         }
 

@@ -27,11 +27,16 @@
     <div class="sncore_h2sub">
      <asp:Label ID="labelBlogDescription" runat="server" />
     </div>
+   </td>
+   <td align="right" valign="middle">
+    <p>
+     <SnCore:RssLink ID="linkRelRss" runat="server" NavigateUrl="AccountBlogRss.aspx" />
+    </p>
     <!-- NOEMAIL-START -->
-    <div align="right">
+    <div>
      <SnCore:TellAFriend ID="linkTellAFriend" runat="server" />
     </div>
-    <asp:Panel ID="panelAdmin" runat="server" HorizontalAlign="Right">
+    <asp:Panel ID="panelAdmin" runat="server">
      <div>
       <asp:LinkButton OnClick="feature_Click" runat="server" ID="linkFeature" Text="Feature" />
      </div>
@@ -48,9 +53,6 @@
      </div>
     </asp:Panel>
     <!-- NOEMAIL-END -->
-   </td>   
-   <td align="right" valign="middle">
-    <SnCore:RssLink ID="linkRelRss" runat="server" NavigateUrl="AccountBlogRss.aspx" />
    </td>
   </tr>
  </table>
